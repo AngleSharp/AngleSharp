@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlTimeElement(Document owner, String prefix)
+        public HtmlTimeElement(Document owner, String prefix = null)
             : base(owner, Tags.Time, prefix, NodeFlags.Special)
         {
         }

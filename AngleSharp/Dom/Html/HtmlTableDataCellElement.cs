@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlTableDataCellElement(Document owner, String prefix)
+        public HtmlTableDataCellElement(Document owner, String prefix = null)
             : base(owner, Tags.Td, prefix)
         {
         }

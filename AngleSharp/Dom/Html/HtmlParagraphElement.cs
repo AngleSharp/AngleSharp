@@ -14,7 +14,7 @@
         /// <summary>
         /// Creates a new HTML paragraph element.
         /// </summary>
-        public HtmlParagraphElement(Document owner, String prefix)
+        public HtmlParagraphElement(Document owner, String prefix = null)
             : base(owner, Tags.P, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
         }

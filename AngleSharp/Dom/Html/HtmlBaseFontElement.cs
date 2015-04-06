@@ -11,7 +11,7 @@
     [DomHistorical]
     sealed class HtmlBaseFontElement : HtmlElement
     {
-        public HtmlBaseFontElement(Document owner, String prefix)
+        public HtmlBaseFontElement(Document owner, String prefix = null)
             : base(owner, Tags.BaseFont, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

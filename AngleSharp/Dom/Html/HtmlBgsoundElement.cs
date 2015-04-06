@@ -10,7 +10,7 @@
     [DomHistorical]
     sealed class HtmlBgsoundElement : HtmlElement
     {
-        public HtmlBgsoundElement(Document owner, String prefix)
+        public HtmlBgsoundElement(Document owner, String prefix = null)
             : base(owner, Tags.Bgsound, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }

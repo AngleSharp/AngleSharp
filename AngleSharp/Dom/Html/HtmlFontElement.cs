@@ -11,7 +11,7 @@
     [DomHistorical]
     sealed class HtmlFontElement : HtmlElement
     {
-        public HtmlFontElement(Document owner, String prefix)
+        public HtmlFontElement(Document owner, String prefix = null)
             : base(owner, Tags.Font, prefix, NodeFlags.HtmlFormatting)
         {
         }

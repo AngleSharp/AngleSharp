@@ -8,6 +8,11 @@
     /// </summary>
     sealed class HtmlHeadingElement : HtmlElement, IHtmlHeadingElement
     {
+        public HtmlHeadingElement(Document owner)
+            : this(owner, Tags.H1)
+        {
+        }
+
         public HtmlHeadingElement(Document owner, String name, String prefix = null)
             : base(owner, name, prefix, NodeFlags.Special)
         {

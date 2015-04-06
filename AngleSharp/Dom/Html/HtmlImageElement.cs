@@ -26,7 +26,7 @@
         /// <summary>
         /// Creates a new image element.
         /// </summary>
-        public HtmlImageElement(Document owner, String prefix)
+        public HtmlImageElement(Document owner, String prefix = null)
             : base(owner, Tags.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _src = new BoundLocation(this, AttributeNames.Src);

@@ -27,7 +27,7 @@
         /// <summary>
         /// Creates a new HTML canvas element.
         /// </summary>
-        public HtmlCanvasElement(Document owner, String prefix)
+        public HtmlCanvasElement(Document owner, String prefix = null)
             : base(owner, Tags.Canvas, prefix)
         {
             _mode = ContextMode.None;

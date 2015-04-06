@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlNoNewlineElement : HtmlElement
     {
-        public HtmlNoNewlineElement(Document owner, String prefix)
+        public HtmlNoNewlineElement(Document owner, String prefix = null)
             : base(owner, Tags.NoBr, prefix, NodeFlags.HtmlFormatting)
         {
         }

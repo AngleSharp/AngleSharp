@@ -23,7 +23,7 @@
         /// <summary>
         /// Creates a new HTML video element.
         /// </summary>
-        public HtmlVideoElement(Document owner, String prefix)
+        public HtmlVideoElement(Document owner, String prefix = null)
             : base(owner, Tags.Video, prefix)
         {
             _poster = new BoundLocation(this, AttributeNames.Poster);

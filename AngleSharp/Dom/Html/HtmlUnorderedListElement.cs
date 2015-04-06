@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlUnorderedListElement(Document owner, String prefix)
+        public HtmlUnorderedListElement(Document owner, String prefix = null)
             : base(owner, Tags.Ul, prefix, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
         }

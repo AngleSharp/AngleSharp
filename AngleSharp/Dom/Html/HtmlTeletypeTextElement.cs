@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlTeletypeTextElement : HtmlElement
     {
-        public HtmlTeletypeTextElement(Document owner, String prefix)
+        public HtmlTeletypeTextElement(Document owner, String prefix = null)
             : base(owner, Tags.Tt, prefix, NodeFlags.HtmlFormatting)
         {
         }

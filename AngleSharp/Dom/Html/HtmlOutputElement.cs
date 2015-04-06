@@ -19,7 +19,7 @@
 
         #region ctor
 
-        public HtmlOutputElement(Document owner, String prefix)
+        public HtmlOutputElement(Document owner, String prefix = null)
             : base(owner, Tags.Output, prefix)
         {
         }

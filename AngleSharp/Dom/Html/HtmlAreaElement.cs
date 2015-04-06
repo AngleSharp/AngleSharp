@@ -22,7 +22,7 @@
         /// <summary>
         /// Creates a new area element.
         /// </summary>
-        public HtmlAreaElement(Document owner, String prefix)
+        public HtmlAreaElement(Document owner, String prefix = null)
             : base(owner, Tags.Area, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _location = new BoundLocation(this, AttributeNames.Href);

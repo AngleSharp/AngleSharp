@@ -21,7 +21,7 @@
         /// <summary>
         /// Creates an HTML style element.
         /// </summary>
-        public HtmlStyleElement(Document owner, String prefix)
+        public HtmlStyleElement(Document owner, String prefix = null)
             : base(owner, Tags.Style, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
             RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);

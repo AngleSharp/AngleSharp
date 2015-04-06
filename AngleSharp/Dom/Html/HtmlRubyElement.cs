@@ -8,7 +8,7 @@
     /// </summary>
     sealed class HtmlRubyElement : HtmlElement
     {
-        public HtmlRubyElement(Document owner, String prefix)
+        public HtmlRubyElement(Document owner, String prefix = null)
             : base(owner, Tags.Ruby, prefix)
         {
         }

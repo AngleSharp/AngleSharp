@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlNoScriptElement(Document owner, String prefix)
+        public HtmlNoScriptElement(Document owner, String prefix = null)
             : base(owner, Tags.NoScript, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }

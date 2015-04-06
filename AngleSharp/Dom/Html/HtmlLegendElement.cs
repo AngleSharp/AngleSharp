@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlLegendElement(Document owner, String prefix)
+        public HtmlLegendElement(Document owner, String prefix = null)
             : base(owner, Tags.Legend, prefix)
         {
         }

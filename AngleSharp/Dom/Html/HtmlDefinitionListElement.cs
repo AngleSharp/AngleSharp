@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlDefinitionListElement(Document owner, String prefix)
+        public HtmlDefinitionListElement(Document owner, String prefix = null)
             : base(owner, Tags.Dl, prefix, NodeFlags.Special)
         {
         }

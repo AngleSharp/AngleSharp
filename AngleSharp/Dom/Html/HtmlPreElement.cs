@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlPreElement(Document owner, String prefix)
+        public HtmlPreElement(Document owner, String prefix = null)
             : base(owner, Tags.Pre, prefix, NodeFlags.Special | NodeFlags.LineTolerance)
         {
         }

@@ -13,7 +13,7 @@
         /// <summary>
         /// Creates a new HTML menu element.
         /// </summary>
-        public HtmlMenuElement(Document owner, String prefix)
+        public HtmlMenuElement(Document owner, String prefix = null)
             : base(owner, Tags.Menu, prefix, NodeFlags.Special)
         {
         }

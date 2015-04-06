@@ -13,7 +13,7 @@
     {
         #region ctor
 
-        public HtmlDirectoryElement(Document owner, String prefix)
+        public HtmlDirectoryElement(Document owner, String prefix = null)
             : base (owner, Tags.Dir, prefix, NodeFlags.Special)
         {
         }

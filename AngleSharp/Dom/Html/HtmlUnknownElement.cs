@@ -7,7 +7,7 @@
     /// </summary>
     sealed class HtmlUnknownElement : HtmlElement, IHtmlUnknownElement
     {
-        public HtmlUnknownElement(Document owner, String localName, String prefix)
+        public HtmlUnknownElement(Document owner, String localName, String prefix = null)
             : base(owner, localName, prefix)
         {
         }

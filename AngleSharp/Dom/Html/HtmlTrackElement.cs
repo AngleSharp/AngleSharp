@@ -21,7 +21,7 @@
         /// <summary>
         /// Creates a new HTML track element.
         /// </summary>
-        public HtmlTrackElement(Document owner, String prefix)
+        public HtmlTrackElement(Document owner, String prefix = null)
             : base(owner, Tags.Track, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _src = new BoundLocation(this, AttributeNames.Src);

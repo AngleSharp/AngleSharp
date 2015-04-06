@@ -13,7 +13,7 @@
         /// <summary>
         /// Creates a HTML base element.
         /// </summary>
-        public HtmlBaseElement(Document owner, String prefix)
+        public HtmlBaseElement(Document owner, String prefix = null)
             : base(owner, Tags.Base, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             RegisterAttributeObserver(AttributeNames.Href, UpdateUrl);

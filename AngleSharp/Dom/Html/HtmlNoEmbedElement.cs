@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlNoEmbedElement(Document owner, String prefix)
+        public HtmlNoEmbedElement(Document owner, String prefix = null)
             : base(owner, Tags.NoEmbed, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }

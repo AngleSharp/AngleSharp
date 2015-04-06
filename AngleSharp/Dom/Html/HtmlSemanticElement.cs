@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlSemanticElement(Document owner, String name, String prefix)
+        public HtmlSemanticElement(Document owner, String name, String prefix = null)
             : base(owner, name, prefix, NodeFlags.Special)
         {
         }

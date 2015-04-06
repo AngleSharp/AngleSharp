@@ -10,7 +10,12 @@
     {
         #region ctor
 
-        public HtmlQuoteElement(Document owner, String name, String prefix)
+        public HtmlQuoteElement(Document owner)
+            : this(owner, Tags.Quote)
+        {
+        }
+
+        public HtmlQuoteElement(Document owner, String name, String prefix = null)
             : base(owner, name, prefix, name.Equals(Tags.BlockQuote) ? NodeFlags.Special : NodeFlags.None)
         {
         }

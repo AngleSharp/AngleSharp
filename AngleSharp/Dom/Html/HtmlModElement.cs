@@ -10,7 +10,12 @@
     {
         #region ctor
 
-        public HtmlModElement(Document owner, String name, String prefix)
+        public HtmlModElement(Document owner)
+            : this(owner, Tags.Ins)
+        {
+        }
+
+        public HtmlModElement(Document owner, String name, String prefix = null)
             : base(owner, name, prefix)
         {
         }

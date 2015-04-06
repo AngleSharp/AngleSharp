@@ -10,7 +10,7 @@
     {
         #region ctor
 
-        public HtmlLabelElement(Document owner, String prefix)
+        public HtmlLabelElement(Document owner, String prefix = null)
             : base(owner, Tags.Label, prefix)
         {
         }
