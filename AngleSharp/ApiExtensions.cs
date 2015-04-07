@@ -17,12 +17,12 @@
         #region Generic extensions
 
         /// <summary>
-        /// Creates an element of the given type or returns null, if there is
-        /// no such type.
+        /// Creates an element of the given type or throws an exception, if
+        /// there is no such type.
         /// </summary>
-        /// <typeparam name="TElement">The type of element to create.</typeparam>
+        /// <typeparam name="TElement">The type of the element.</typeparam>
         /// <param name="document">The responsible document.</param>
-        /// <returns>The new element, if available.</returns>
+        /// <returns>The created element.</returns>
         public static TElement CreateElement<TElement>(this IDocument document)
             where TElement : IElement
         {
@@ -58,8 +58,8 @@
                     return element;
                 }
             }
-            
-            return default(TElement);
+
+            throw new ArgumentException("No element could be created for the provided interface.");
         }
 
         /// <summary>
@@ -71,7 +71,15 @@
         /// <returns>The fragment containing the new nodes.</returns>
         static IDocumentFragment CreateFromHtml(this IDocument document, String html)
         {
-            return new DocumentFragment(document.Body as Element, html);
+            if (document == null)
+                throw new ArgumentNullException("document");
+
+            var body = document.Body as Element;
+
+            if (body == null)
+                throw new ArgumentException("The provided document does not have a valid body element.");
+
+            return new DocumentFragment(body, html ?? String.Empty);
         }
 
         /// <summary>
@@ -107,6 +115,9 @@
         public static TElement AppendElement<TElement>(this INode parent, TElement element)
             where TElement : class, IElement
         {
+            if (parent == null)
+                throw new ArgumentNullException("parent");
+
             return parent.AppendChild(element) as TElement;
         }
 
@@ -123,6 +134,9 @@
         public static TElement InsertElement<TElement>(this INode parent, TElement newElement, INode referenceElement)
             where TElement : class, IElement
         {
+            if (parent == null)
+                throw new ArgumentNullException("parent");
+
             return parent.InsertBefore(newElement, referenceElement) as TElement;
         }
 
@@ -137,6 +151,9 @@
         public static TElement RemoveElement<TElement>(this INode parent, TElement element)
             where TElement : class, IElement
         {
+            if (parent == null)
+                throw new ArgumentNullException("parent");
+
             return parent.RemoveChild(element) as TElement;
         }
 
@@ -151,6 +168,11 @@
         public static TElement QuerySelector<TElement>(this IParentNode parent, String selectors)
             where TElement : class, IElement
         {
+            if (parent == null)
+                throw new ArgumentNullException("parent");
+            else if (selectors == null)
+                throw new ArgumentNullException("selectors");
+
             return parent.QuerySelector(selectors) as TElement;
         }
 
@@ -165,6 +187,11 @@
         public static IEnumerable<TElement> QuerySelectorAll<TElement>(this IParentNode parent, String selectors)
             where TElement : IElement
         {
+            if (parent == null)
+                throw new ArgumentNullException("parent");
+            else if (selectors == null)
+                throw new ArgumentNullException("selectors");
+
             return parent.QuerySelectorAll(selectors).OfType<TElement>();
         }
 
