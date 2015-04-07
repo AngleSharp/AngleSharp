@@ -116,6 +116,7 @@
     <Compile Include="Html\ValidityTooShort.cs" />
     <Compile Include="Html\ValidityValueMissing.cs" />
     <Compile Include="Html\WillValidate.cs" />
+    <Compile Include="Library\ContextLoading.cs" />
     <Compile Include="Library\DocumentEncoding.cs" />
     <Compile Include="Library\DOMTable.cs" />
     <Compile Include="Library\FormReset.cs" />
