@@ -1,13 +1,12 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Dom;
-    using AngleSharp.Extensions;
-    using AngleSharp.Network;
-    using AngleSharp.Services;
     using System;
     using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
+    using AngleSharp.Dom;
+    using AngleSharp.Extensions;
+    using AngleSharp.Network;
 
     /// <summary>
     /// A set of extensions for the browsing context.
@@ -26,6 +25,9 @@
         public static IDocument OpenNew(this IBrowsingContext context, String url = null)
         {
             var doc = new Document(context) { DocumentUri = url };
+            doc.AppendChild(doc.CreateElement("html"));
+            doc.DocumentElement.AppendChild(doc.CreateElement("head"));
+            doc.DocumentElement.AppendChild(doc.CreateElement("body"));
             doc.Context.NavigateTo(doc);
             doc.FinishLoading();
             return doc;
