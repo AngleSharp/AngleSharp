@@ -150,7 +150,7 @@
             {
                 var old = _url.Href;
 
-                if (value != _url.Host)
+                if (value != _url.HostName)
                 {
                     _url.HostName = value;
                     RaiseChanged(old, false);
@@ -168,7 +168,7 @@
             {
                 var old = _url.Href;
 
-                if (value != _url.Host)
+                if (value != _url.Href)
                 {
                     _url.Href = value;
                     RaiseChanged(old, false);
@@ -190,7 +190,7 @@
             {
                 var old = _url.Href;
 
-                if (value != _url.Host)
+                if (value != _url.Path)
                 {
                     _url.Path = value;
                     RaiseChanged(old, false);
@@ -208,7 +208,7 @@
             {
                 var old = _url.Href;
 
-                if (value != _url.Host)
+                if (value != _url.Port)
                 {
                     _url.Port = value;
                     RaiseChanged(old, false);
@@ -226,7 +226,7 @@
             {
                 var old = _url.Href;
 
-                if (value != _url.Host)
+                if (value != _url.Scheme)
                 {
                     _url.Scheme = value;
                     RaiseChanged(old, false);
@@ -244,7 +244,7 @@
             {
                 var old = _url.Href;
 
-                if (value != _url.Host)
+                if (value != _url.Query)
                 {
                     _url.Query = value;
                     RaiseChanged(old, false);
