@@ -113,7 +113,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var browsingContext = new SimpleBrowsingContext(configuration, Sandboxes.None);
-            return browsingContext.OpenAsync(new Url(url), cancel);
+            return browsingContext.OpenAsync(Url.Convert(url), cancel);
         }
 
         /// <summary>
