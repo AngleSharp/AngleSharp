@@ -1014,7 +1014,7 @@
             public String Href
             {
                 get { return Location.Href; }
-                set { Location.Href = value; Assign(value); }
+                set { Assign(value); }
             }
 
             public String Protocol
@@ -1083,12 +1083,12 @@
             public void Assign(String url)
             {
                 _parent.SetOwnAttribute(_attributeName, url);
-                _value = url;
+                _location = Location;
             }
 
             public void Replace(String url)
             {
-                Href = url;
+                Assign(url);
             }
 
             public void Reload()
