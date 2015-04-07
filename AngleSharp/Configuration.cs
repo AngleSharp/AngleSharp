@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Events;
-    using AngleSharp.Network;
-    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using AngleSharp.Events;
+    using AngleSharp.Network;
+    using AngleSharp.Services;
 
     /// <summary>
     /// Represents context configuration for the AngleSharp library. Custom
