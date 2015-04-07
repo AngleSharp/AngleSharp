@@ -65,6 +65,12 @@
             if (request == null)
                 throw new ArgumentNullException("request");
 
+            if (context == null)
+            {
+                var config = new Configuration().WithDefaultLoader();
+                context = new SimpleBrowsingContext(config, Sandboxes.None);
+            }
+
             var response = await context.Loader.SendAsync(request, cancel).ConfigureAwait(false);
 
             if (response != null)
