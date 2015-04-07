@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Extensions;
-    using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using AngleSharp.Extensions;
+    using AngleSharp.Network;
 
     /// <summary>
     /// Represents an Url class according to RFC3986. This is the base for all
@@ -16,6 +16,7 @@
 
         static readonly String currentDirectory = ".";
         static readonly String upperDirectory = "..";
+        static readonly Url DefaultBase = new Url(String.Empty, String.Empty, String.Empty);
 
         String _fragment;
         String _query;
@@ -33,19 +34,11 @@
 
         #region ctor
 
-        private Url()
+        private Url(String scheme, String host, String port)
         {
             _relative = false;
-            _scheme = String.Empty;
             _schemeData = String.Empty;
-            _host = String.Empty;
-            _port = String.Empty;
             _path = String.Empty;
-        }
-
-        private Url(String scheme, String host, String port)
-            : this()
-        {
             _scheme = scheme;
             _host = host;
             _port = port;
@@ -56,7 +49,6 @@
         /// </summary>
         /// <param name="address">The address to represent.</param>
         public Url(String address)
-            : this()
         {
             ParseUrl(address);
         }
@@ -70,7 +62,6 @@
         /// The relative address to represent.
         /// </param>
         public Url(Url baseAddress, String relativeAddress)
-            : this()
         {
             ParseUrl(relativeAddress, baseAddress);
         }
@@ -93,13 +84,28 @@
             _schemeData = address._schemeData;;
         }
 
+        #endregion
+
+        #region Creators
+
         /// <summary>
-        /// Creates a new Url using the original string of the given Uri.
+        /// Creates an Url from an absolute url transported in a string.
         /// </summary>
-        /// <param name="address">The address to represent.</param>
-        public Url(Uri address)
-            : this(address.OriginalString)
+        /// <param name="address">The address to use.</param>
+        /// <returns>The new Url.</returns>
+        public static Url Create(String address)
         {
+            return new Url(address);
+        }
+
+        /// <summary>
+        /// Creates an Url from an url transported in an Uri.
+        /// </summary>
+        /// <param name="uri">The url to use.</param>
+        /// <returns>The new Url.</returns>
+        public static Url Convert(Uri uri)
+        {
+            return new Url(uri.OriginalString);
         }
 
         #endregion
@@ -402,15 +408,18 @@
 
         void ParseUrl(String input, Url baseUrl = null)
         {
-            if (baseUrl != null)
-            {
-                _scheme = baseUrl._scheme;
-                _host = baseUrl._host;
-                _path = baseUrl._path;
-                _port = baseUrl._port;
-            }
-
+            Reset(baseUrl ?? DefaultBase);
             _error = ParseScheme(input.Trim()) == false;
+        }
+
+        void Reset(Url baseUrl)
+        {
+            _relative = false;
+            _schemeData = String.Empty;
+            _scheme = baseUrl._scheme;
+            _host = baseUrl._host;
+            _path = baseUrl._path;
+            _port = baseUrl._port;
         }
 
         Boolean ParseScheme(String input, Boolean onlyScheme = false)
