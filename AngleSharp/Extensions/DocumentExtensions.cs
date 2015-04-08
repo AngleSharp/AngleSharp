@@ -1,16 +1,16 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using System;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Html;
     using AngleSharp.Network;
     using AngleSharp.Services;
     using AngleSharp.Services.Media;
-    using System;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Useful methods for document objects.
