@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using AngleSharp.Dom;
 
     /// <summary>
     /// Represents the arguments to load a document.
@@ -19,6 +20,15 @@
             Method = HttpMethod.Get;
             Body = MemoryStream.Null;
             MimeType = null;
+        }
+
+        /// <summary>
+        /// Gets or sets the source of the request, if any.
+        /// </summary>
+        public INode Source
+        {
+            get;
+            set;
         }
 
         /// <summary>

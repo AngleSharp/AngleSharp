@@ -1814,7 +1814,13 @@
             else
             {
                 var url = new Url(e.CurrentLocation);
-                await _context.OpenAsync(url, CancellationToken.None);
+                var request = new DocumentRequest(url)
+                {
+                    Source = this,
+                    Origin = Origin
+                };
+
+                await _context.OpenAsync(request, CancellationToken.None);
             }
         }
 

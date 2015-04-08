@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
+    using AngleSharp.Network;
 
     /// <summary>
     /// Represents the HTML iframe element.
@@ -114,8 +115,13 @@
             if (!String.IsNullOrEmpty(src))
             {
                 var url = this.HyperReference(src);
+                var request = new DocumentRequest(url)
+                {
+                    Source = this,
+                    Origin = Owner.Origin
+                };
                 _cts = new CancellationTokenSource();
-                _docTask = _context.OpenAsync(url, _cts.Token);
+                _docTask = _context.OpenAsync(request, _cts.Token);
             }
         }
 
