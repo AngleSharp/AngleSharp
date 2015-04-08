@@ -28,8 +28,8 @@
             doc.AppendChild(doc.CreateElement("html"));
             doc.DocumentElement.AppendChild(doc.CreateElement("head"));
             doc.DocumentElement.AppendChild(doc.CreateElement("body"));
-            doc.Context.NavigateTo(doc);
             doc.FinishLoading();
+            doc.Context.NavigateTo(doc);
             return doc;
         }
 
