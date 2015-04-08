@@ -101,7 +101,7 @@
             DomEventHandler handler = (s, ev) => completion.TrySetResult(ev);
             node.AddEventListener(eventName, handler);
 
-            try { return await completion.Task; }
+            try { return await completion.Task.ConfigureAwait(false); }
             finally { node.RemoveEventListener(eventName, handler); }
         }
 
