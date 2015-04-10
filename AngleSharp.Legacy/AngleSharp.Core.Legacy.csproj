@@ -2635,6 +2635,9 @@
     <Compile Include="..\AngleSharp\Services\IEventService.cs">
       <Link>Services\IEventService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\IHistoryService.cs">
+      <Link>Services\IHistoryService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\IImageService.cs">
       <Link>Services\IImageService.cs</Link>
     </Compile>
