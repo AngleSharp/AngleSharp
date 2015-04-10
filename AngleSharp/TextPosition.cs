@@ -72,7 +72,7 @@
         /// </returns>
         public override String ToString()
         {
-            return String.Format("Ln {0}, Col {1}", _line, _column);
+            return String.Format("Ln {0}, Col {1}, Pos {2}", _line, _column, _position);
         }
 
         /// <summary>
