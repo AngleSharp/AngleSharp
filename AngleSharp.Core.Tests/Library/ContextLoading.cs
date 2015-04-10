@@ -69,7 +69,7 @@ namespace AngleSharp.Core.Tests.Library
             {
                 var url = "http://anglesharp.azurewebsites.net/PostUrlEncodeNormal";
                 var config = new Configuration().WithDefaultLoader();
-                var context = new SimpleBrowsingContext(config, Dom.Sandboxes.None);
+                var context = new BrowsingContext(config, Dom.Sandboxes.None);
                 Func<Task<IDocument>, IDocument> loadForm = t =>
                 {
                     var document = t.Result;
