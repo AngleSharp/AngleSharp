@@ -439,7 +439,7 @@
             : base(null, "#document", NodeType.Document)
         {
             _async = true;
-            _context = context ?? new SimpleBrowsingContext(Configuration.Default, Sandboxes.None);
+            _context = context ?? BrowsingContext.New();
             _source = source;
             _referrer = String.Empty;
             _contentType = MimeTypes.ApplicationXml;

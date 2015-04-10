@@ -57,7 +57,7 @@
         /// [Optional] The configuration to use.
         /// </param>
         public HtmlParser(String source, IConfiguration configuration = null)
-            : this(new Document(new SimpleBrowsingContext(configuration, Sandboxes.None), new TextSource(source)))
+            : this(new Document(new BrowsingContext(configuration, Sandboxes.None), new TextSource(source)))
         {
         }
 
@@ -70,7 +70,7 @@
         /// [Optional] The configuration to use.
         /// </param>
         public HtmlParser(Stream stream, IConfiguration configuration = null)
-            : this(new Document(new SimpleBrowsingContext(configuration, Sandboxes.None), new TextSource(stream, configuration.DefaultEncoding())))
+            : this(new Document(new BrowsingContext(configuration, Sandboxes.None), new TextSource(stream, configuration.DefaultEncoding())))
         {
         }
 

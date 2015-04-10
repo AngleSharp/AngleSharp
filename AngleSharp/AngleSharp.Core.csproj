@@ -45,7 +45,7 @@
     <Compile Include="Attributes\DomNoInterfaceObjectAttribute.cs" />
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="ContextExtensions.cs" />
+    <Compile Include="BrowsingContextExtensions.cs" />
     <Compile Include="Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs" />
     <Compile Include="Css\MediaFeatures\HoverMediaFeature.cs" />
     <Compile Include="Css\MediaFeatures\PointerMediaFeature.cs" />
@@ -141,7 +141,7 @@
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
     <Compile Include="Foundation\Factory.cs" />
     <Compile Include="Dom\MutationHost.cs" />
-    <Compile Include="Foundation\SimpleBrowsingContext.cs" />
+    <Compile Include="BrowsingContext.cs" />
     <Compile Include="Html\HtmlMarkupFormatter.cs" />
     <Compile Include="IMarkupFormattable.cs" />
     <Compile Include="IMarkupFormatter.cs" />

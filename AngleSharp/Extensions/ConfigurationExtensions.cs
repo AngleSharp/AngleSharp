@@ -348,7 +348,7 @@
             var service = options.GetService<IContextService>();
 
             if (service == null)
-                return new SimpleBrowsingContext(options, security);
+                return new BrowsingContext(options, security);
 
             return service.Create(options, security);
         }

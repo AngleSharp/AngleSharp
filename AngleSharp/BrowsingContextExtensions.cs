@@ -12,7 +12,7 @@
     /// A set of extensions for the browsing context.
     /// </summary>
     [DebuggerStepThrough]
-    public static class ContextExtensions
+    public static class BrowsingContextExtensions
     {
         #region Navigation
 
@@ -68,7 +68,7 @@
             if (context == null)
             {
                 var config = new Configuration().WithDefaultLoader();
-                context = new SimpleBrowsingContext(config, Sandboxes.None);
+                context = new BrowsingContext(config, Sandboxes.None);
             }
 
             var response = await context.Loader.SendAsync(request, cancel).ConfigureAwait(false);
