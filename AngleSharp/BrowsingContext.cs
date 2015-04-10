@@ -22,24 +22,20 @@
         #endregion
 
         #region ctor
-
+        
         internal BrowsingContext(IConfiguration configuration, Sandboxes security)
         {
-            _parent = null;
-            _creator = null;
             _configuration = configuration;
             _security = security;
             _loader = this.CreateLoader();
+            _history = this.CreateHistory();
         }
-
-
+        
         internal BrowsingContext(IBrowsingContext parent, Sandboxes security)
+            : this(parent.Configuration, security)
         {
             _parent = parent;
             _creator = _parent.Active;
-            _configuration = parent.Configuration;
-            _security = security;
-            _loader = this.CreateLoader();
         }
 
         #endregion

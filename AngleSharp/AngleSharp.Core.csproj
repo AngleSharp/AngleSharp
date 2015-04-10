@@ -160,6 +160,7 @@
     <Compile Include="Services\Default\LoaderService.cs" />
     <Compile Include="Services\Default\StylingService.cs" />
     <Compile Include="Services\IClipboardService.cs" />
+    <Compile Include="Services\IHistoryService.cs" />
     <Compile Include="Services\ILoaderService.cs" />
     <Compile Include="Services\INavigatorService.cs" />
     <Compile Include="Services\IScriptingService.cs" />
