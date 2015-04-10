@@ -306,9 +306,9 @@
             var service = options.GetService<IContextService>();
 
             if (service == null)
-                return new BrowsingContext(options, security);
+                return new BrowsingContext(document.Context, security);
 
-            return service.Create(options, name, document, security);
+            return service.Create(document.Context, name, security);
         }
 
         /// <summary>

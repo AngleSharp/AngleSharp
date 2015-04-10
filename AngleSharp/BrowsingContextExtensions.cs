@@ -68,7 +68,7 @@
             if (context == null)
             {
                 var config = new Configuration().WithDefaultLoader();
-                context = new BrowsingContext(config, Sandboxes.None);
+                context = BrowsingContext.New(config);
             }
 
             var response = await context.Loader.SendAsync(request, cancel).ConfigureAwait(false);

@@ -1,14 +1,14 @@
 ﻿namespace AngleSharp
 {
+    using System;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
-    using System;
-    using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// A handy helper to construct various kinds of documents from a given
@@ -26,13 +26,10 @@
         /// </param>
         /// <param name="url">The optional base URL of the document.</param>
         /// <returns>The constructed HTML document.</returns>
-        public static IDocument Html(IConfiguration configuration, String url = null)
+        public static IDocument Html(IConfiguration configuration = null, String url = null)
         {
-            if (configuration == null)
-                configuration = AngleSharp.Configuration.Default;
-
-            var browsingContext = new BrowsingContext(configuration, Sandboxes.None);
-            return browsingContext.OpenNew(url);
+            var context = BrowsingContext.New(configuration);
+            return context.OpenNew(url);
         }
 
         /// <summary>
@@ -48,14 +45,11 @@
         {
             if (sourceCode == null)
                 throw new ArgumentNullException("sourceCode");
-
-            if (configuration == null)
-                configuration = AngleSharp.Configuration.Default;
-
+            
+            var context = BrowsingContext.New(configuration);
             var stream = new TextSource(sourceCode);
-            var browsingContext = new BrowsingContext(configuration, Sandboxes.None);
-            var doc = new Document(browsingContext, stream) { DocumentUri = url };
-            browsingContext.NavigateTo(doc);
+            var doc = new Document(context, stream) { DocumentUri = url };
+            context.NavigateTo(doc);
             return ParserFor(doc).Parse();
         }
 
@@ -108,12 +102,9 @@
         {
             if (url == null)
                 throw new ArgumentNullException("url");
-
-            if (configuration == null)
-                configuration = AngleSharp.Configuration.Default;
-
-            var browsingContext = new BrowsingContext(configuration, Sandboxes.None);
-            return browsingContext.OpenAsync(Url.Convert(url), cancel);
+            
+            var context = BrowsingContext.New(configuration);
+            return context.OpenAsync(Url.Convert(url), cancel);
         }
 
         /// <summary>
@@ -131,14 +122,11 @@
         {
             if (content == null)
                 throw new ArgumentNullException("content");
-
-            if (configuration == null)
-                configuration = AngleSharp.Configuration.Default;
-
-            var stream = new TextSource(content, configuration.DefaultEncoding());
-            var browsingContext = new BrowsingContext(configuration, Sandboxes.None);
-            var doc = new Document(browsingContext, stream) { DocumentUri = url };
-            browsingContext.NavigateTo(doc);
+            
+            var context = BrowsingContext.New(configuration);
+            var stream = new TextSource(content, context.Configuration.DefaultEncoding());
+            var doc = new Document(context, stream) { DocumentUri = url };
+            context.NavigateTo(doc);
             return ParserFor(doc).Parse();
         }
 
@@ -178,14 +166,11 @@
         {
             if (content == null)
                 throw new ArgumentException("content");
-
-            if (configuration == null)
-                configuration = AngleSharp.Configuration.Default;
-
-            var stream = new TextSource(content, configuration.DefaultEncoding());
-            var browsingContext = new BrowsingContext(configuration, Sandboxes.None);
-            var doc = new Document(browsingContext, stream) { DocumentUri = url };
-            browsingContext.NavigateTo(doc);
+            
+            var context = BrowsingContext.New(configuration);
+            var stream = new TextSource(content, context.Configuration.DefaultEncoding());
+            var doc = new Document(context, stream) { DocumentUri = url };
+            context.NavigateTo(doc);
             return await ParserFor(doc).ParseAsync(cancel).ConfigureAwait(false);
         }
 
@@ -193,36 +178,32 @@
         /// Builds a list of nodes according with 8.4 Parsing HTML fragments.
         /// </summary>
         /// <param name="sourceCode">The string to use as source code.</param>
-        /// <param name="context">
+        /// <param name="contextElement">
         /// The optional context element to use.
         /// </param>
         /// <param name="configuration">
         /// Optional custom options to use for the document generation.
         /// </param>
         /// <returns>A list of parsed nodes.</returns>
-        public static INodeList HtmlFragment(String sourceCode, IElement context = null, IConfiguration configuration = null)
+        public static INodeList HtmlFragment(String sourceCode, IElement contextElement = null, IConfiguration configuration = null)
         {
             if (sourceCode == null)
                 throw new ArgumentException("sourceCode");
 
-            if (configuration == null)
-                configuration = new Configuration();
-
-            var browsingContext = new BrowsingContext(configuration, Sandboxes.None);
+            var context = BrowsingContext.New(configuration);
             var stream = new TextSource(sourceCode);
-            var doc = new Document(browsingContext, stream);
-            var node = context as Element;
+            var doc = new Document(context, stream);
             var parser = ParserFor(doc);
 
-            if (node == null)
+            if (contextElement == null)
                 return parser.Parse().ChildNodes;
 
-            var owner = node.Owner;
+            var owner = contextElement.Owner as Document;
 
             if (owner != null && owner.QuirksMode != QuirksMode.Off)
                 doc.QuirksMode = owner.QuirksMode;
 
-            return parser.ParseFragment(node).DocumentElement.ChildNodes;
+            return parser.ParseFragment(contextElement).DocumentElement.ChildNodes;
         }
 
         #endregion

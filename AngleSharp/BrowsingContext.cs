@@ -57,7 +57,7 @@
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
-            return new BrowsingContext(configuration, Sandboxes.None);
+            return configuration.NewContext();
         }
 
         /// <summary>

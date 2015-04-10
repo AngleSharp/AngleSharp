@@ -341,9 +341,9 @@
         /// Creates a new browsing context without any name.
         /// </summary>
         /// <param name="options">The configuration to use.</param>
-        /// <param name="security">The sandboxing flag to use.</param>
+        /// <param name="security">The optional sandboxing flag to use.</param>
         /// <returns>The new context.</returns>
-        public static IBrowsingContext NewContext(this IConfiguration options, Sandboxes security)
+        public static IBrowsingContext NewContext(this IConfiguration options, Sandboxes security = Sandboxes.None)
         {
             var service = options.GetService<IContextService>();
 
