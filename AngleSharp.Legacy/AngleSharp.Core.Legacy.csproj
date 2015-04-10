@@ -89,14 +89,17 @@
     <Compile Include="..\AngleSharp\Attributes\DomPutForwardsAttribute.cs">
       <Link>Attributes\DomPutForwardsAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\BrowsingContext.cs">
+      <Link>BrowsingContext.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\BrowsingContextExtensions.cs">
+      <Link>BrowsingContextExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Configuration.cs">
       <Link>Configuration.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\ConfigurationExtensions.cs">
       <Link>ConfigurationExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\ContextExtensions.cs">
-      <Link>ContextExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\Colors.cs">
       <Link>Css\Colors.cs</Link>
@@ -1797,9 +1800,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Pool.cs">
       <Link>Foundation\Pool.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\SimpleBrowsingContext.cs">
-      <Link>Foundation\SimpleBrowsingContext.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Symbols.cs">
       <Link>Foundation\Symbols.cs</Link>
