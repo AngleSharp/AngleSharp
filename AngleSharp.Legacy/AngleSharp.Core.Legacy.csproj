@@ -1789,8 +1789,8 @@
     <Compile Include="..\AngleSharp\Factories\SvgElementFactory.cs">
       <Link>Factories\SvgElementFactory.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Factory.cs">
-      <Link>Factory.cs</Link>
+    <Compile Include="..\AngleSharp\Foundation\Factory.cs">
+      <Link>Foundation\Factory.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Keywords.cs">
       <Link>Foundation\Keywords.cs</Link>
