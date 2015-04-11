@@ -63,7 +63,9 @@
         /// <param name="document">The new document.</param>
         public void NavigateTo(IDocument document)
         {
-            //_history.PushState(document, document.Title, document.Url);
+            if (_history != null)
+                _history.PushState(document, document.Title, document.Url);
+
             _active = document;
         }
 
@@ -124,7 +126,7 @@
         }
 
         /// <summary>
-        /// Gets the session history of the given browsing context.
+        /// Gets the session history of the given browsing context, if any.
         /// </summary>
         public IHistory SessionHistory
         {

@@ -23,7 +23,7 @@
         /// Registers a new styling engine.
         /// </summary>
         /// <param name="engine">The engine to add.</param>
-        public void Register(IStyleEngine engine)
+        public virtual void Register(IStyleEngine engine)
         {
             _engines.Add(engine);
         }
@@ -32,7 +32,7 @@
         /// Unregisters a new styling engine.
         /// </summary>
         /// <param name="engine">The engine to remove.</param>
-        public void Unregister(IStyleEngine engine)
+        public virtual void Unregister(IStyleEngine engine)
         {
             _engines.Remove(engine);
         }
@@ -42,7 +42,7 @@
         /// </summary>
         /// <param name="mimeType">The type of the engine.</param>
         /// <returns>The engine for the mime-type, if any.</returns>
-        public IStyleEngine GetEngine(String mimeType)
+        public virtual IStyleEngine GetEngine(String mimeType)
         {
             foreach (var engine in _engines)
             {
