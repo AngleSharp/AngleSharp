@@ -22,13 +22,13 @@
         /// <param name="context">The browsing context to use.</param>
         /// <param name="url">The optional base URL of the document.</param>
         /// <returns>The new, yet empty, document.</returns>
-        public static IDocument OpenNew(this IBrowsingContext context, String url = null)
+        public static async Task<IDocument> OpenNewAsync(this IBrowsingContext context, String url = null)
         {
             var doc = new Document(context) { DocumentUri = url };
             doc.AppendChild(doc.CreateElement("html"));
             doc.DocumentElement.AppendChild(doc.CreateElement("head"));
             doc.DocumentElement.AppendChild(doc.CreateElement("body"));
-            doc.FinishLoading();
+            await doc.FinishLoading();
             doc.Context.NavigateTo(doc);
             return doc;
         }
@@ -65,12 +65,6 @@
             if (request == null)
                 throw new ArgumentNullException("request");
 
-            if (context == null)
-            {
-                var config = new Configuration().WithDefaultLoader();
-                context = BrowsingContext.New(config);
-            }
-
             var response = await context.Loader.SendAsync(request, cancel).ConfigureAwait(false);
 
             if (response != null)
@@ -80,7 +74,7 @@
                 return document;
             }
 
-            return context.OpenNew(request.Target.Href);
+            return await context.OpenNewAsync(request.Target.Href).ConfigureAwait(false);
         }
 
         /// <summary>

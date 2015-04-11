@@ -43,6 +43,7 @@
         Int32 _nested;
         Boolean _started;
         Task<IDocument> _parsing;
+        Task _waiting;
 
         #endregion
 
@@ -842,8 +843,9 @@
                     if (tagName == Tags.Head)
                     {
                         CloseCurrentNode();
-                        _document.WaitForReady();
+
                         _currentMode = HtmlTreeMode.AfterHead;
+                        _waiting = _document.WaitForReady();
                         return;
                     }
                     else if (tagName == Tags.Template)
@@ -1651,7 +1653,7 @@
                     }
                     else
                     {
-                        RunScript(CurrentNode as HtmlScriptElement);
+                        _waiting = RunScript(CurrentNode as HtmlScriptElement);
                     }
 
                     return;
@@ -3346,7 +3348,7 @@
                     }
                     else
                     {
-                        RunScript(script);
+                        _waiting = RunScript(script);
                     }
 
                     return;
@@ -3609,6 +3611,9 @@
 
             do
             {
+                if (_waiting != null && _waiting.Status == TaskStatus.Running)
+                    _waiting.Wait();
+
                 token = _tokenizer.Get();
                 Consume(token);
             }
@@ -3630,6 +3635,9 @@
                 if (source.Length - source.Index < 1024)
                     await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
 
+                if (_waiting != null && _waiting.Status == TaskStatus.Running)
+                    await _waiting.ConfigureAwait(false);
+
                 token = _tokenizer.Get();
                 Consume(token);
             }
@@ -3641,7 +3649,7 @@
         /// <summary>
         /// Runs a script given by the current node.
         /// </summary>
-        void RunScript(HtmlScriptElement script)
+        async Task RunScript(HtmlScriptElement script)
         {
             //Disable scripting for HTML fragments (security reasons)
             if (script == null || IsFragmentCase)
@@ -3662,7 +3670,7 @@
             {
                 script = _currentScriptElement;
                 _currentScriptElement = null;
-                _document.WaitForReady();
+                await _document.WaitForReady();
                 _nested++;
                 script.Run();
                 _nested--;
@@ -3726,7 +3734,7 @@
                 CloseCurrentNode();
 
             if (_document.ReadyState == DocumentReadyState.Loading)
-                _document.FinishLoading();
+                _waiting = _document.FinishLoading();
         }
 
         #endregion

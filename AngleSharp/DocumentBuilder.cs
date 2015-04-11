@@ -29,7 +29,7 @@
         public static IDocument Html(IConfiguration configuration = null, String url = null)
         {
             var context = BrowsingContext.New(configuration);
-            return context.OpenNew(url);
+            return context.OpenNewAsync(url).Result;
         }
 
         /// <summary>

@@ -85,12 +85,12 @@
         /// </summary>
         /// <param name="document">The document that hosts the configuration.</param>
         /// <param name="predicate">The condition that has to be met.</param>
-        public static void SpinLoop(this Document document, Func<Boolean> predicate)
+        public static async Task SpinLoop(this Document document, Func<Boolean> predicate)
         {
             var eventLoop = document.Options.GetService<IEventService>();
 
             if (eventLoop != null)
-                eventLoop.Spin(predicate).Wait();
+                await eventLoop.Spin(predicate).ConfigureAwait(false);
             else
                 while (predicate() == false) ;
         }
@@ -251,11 +251,14 @@
         /// (bullet 3)
         /// </summary>
         /// <param name="document">The document to use.</param>
-        public static void WaitForReady(this Document document)
+        public static async Task WaitForReady(this Document document)
         {
             if (document.HasScriptBlockingStyleSheet() || document.IsWaitingForScript())
             {
-                document.SpinLoop(() => document.HasScriptBlockingStyleSheet() == false && document.IsWaitingForScript() == false);
+                Func<Boolean> condition = () => 
+                    document.HasScriptBlockingStyleSheet() == false && 
+                    document.IsWaitingForScript() == false;
+                await document.SpinLoop(condition).ConfigureAwait(false);
             }
         }
 

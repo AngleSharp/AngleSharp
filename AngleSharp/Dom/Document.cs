@@ -1138,7 +1138,7 @@
         void IDocument.Close()
         {
             if (ReadyState == DocumentReadyState.Loading)
-                FinishLoading();
+                FinishLoading().Wait();
         }
 
         /// <summary>
@@ -1584,13 +1584,13 @@
         /// <summary>
         /// Finishes writing to a document.
         /// </summary>
-        internal void FinishLoading()
+        internal async Task FinishLoading()
         {
             ReadyState = DocumentReadyState.Interactive;
 
             while (_loadingScripts.Count > 0)
             {
-                this.WaitForReady();
+                await this.WaitForReady().ConfigureAwait(false);
                 _loadingScripts.Dequeue().Run();
             }
 
