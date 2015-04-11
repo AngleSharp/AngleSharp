@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22728.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Core", "AngleSharp\AngleSharp.Core.csproj", "{91F78C48-287E-41B5-9E49-44D6E1E31290}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleInteraction", "ConsoleInteraction\ConsoleInteraction.csproj", "{7214C939-0434-4880-972A-9E1BC2E6E025}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Playground", "ConsoleInteraction\AngleSharp.Playground.csproj", "{7214C939-0434-4880-972A-9E1BC2E6E025}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Core.Legacy", "AngleSharp.Legacy\AngleSharp.Core.Legacy.csproj", "{24FE559B-6557-4078-9B66-75B300BA1CDB}"
 EndProject
