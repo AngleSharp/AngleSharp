@@ -373,7 +373,11 @@
                 action.Href = action.Href.ReplaceFirst("%%", result);
             }
 
-            _navigationTask = NavigateTo(new DocumentRequest(action) { Origin = Owner.Origin, Source = this });
+            _navigationTask = NavigateTo(new DocumentRequest(action)
+            {
+                Origin = Owner.DocumentUri,
+                Source = this
+            });
         }
 
         /// <summary>
@@ -430,7 +434,11 @@
         /// </summary>
         void GetActionUrl(Url action)
         {
-            _navigationTask = NavigateTo(new DocumentRequest(action) { Origin = Owner.Origin, Source = this });
+            _navigationTask = NavigateTo(new DocumentRequest(action)
+            {
+                Origin = Owner.DocumentUri,
+                Source = this
+            });
         }
 
         /// <summary>
@@ -467,7 +475,7 @@
                 Source = this,
                 Body = result,
                 MimeType = mimeType,
-                Origin = Owner.Origin
+                Origin = Owner.DocumentUri
             });
         }
 

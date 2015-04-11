@@ -118,7 +118,7 @@
                 var request = new DocumentRequest(url)
                 {
                     Source = this,
-                    Origin = Owner.Origin
+                    Origin = Owner.DocumentUri
                 };
                 _cts = new CancellationTokenSource();
                 _docTask = _context.OpenAsync(request, _cts.Token);

@@ -40,6 +40,7 @@
                 Method = HttpMethod.Get
             };
 
+            data.Headers[HeaderNames.Referer] = request.Source.Owner.DocumentUri;
             return _requesters.LoadAsync(data, events, cancel);
         }
     }

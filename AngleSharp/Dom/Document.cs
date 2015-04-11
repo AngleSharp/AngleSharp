@@ -1817,7 +1817,7 @@
                 var request = new DocumentRequest(url)
                 {
                     Source = this,
-                    Origin = Origin
+                    Origin = DocumentUri
                 };
 
                 await _context.OpenAsync(request, CancellationToken.None);
