@@ -52,5 +52,14 @@ namespace AngleSharp.Core.Tests.Library
             var result = new Url(address);
             Assert.IsTrue(result.IsInvalid);
         }
+
+        [Test]
+        public void OriginOfGitHubAddressShouldBeGitHubCom()
+        {
+            var address = "https://github.com/FlorianRappl/AngleSharp";
+            var result = new Url(address);
+            Assert.IsFalse(result.IsInvalid);
+            Assert.AreEqual("https://github.com", result.Origin);
+        }
     }
 }
