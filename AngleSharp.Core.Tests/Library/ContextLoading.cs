@@ -13,7 +13,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ContextLoadEmptyDocumentWithoutUrl()
         {
-            var document = default(IBrowsingContext).OpenNew();
+            var document = BrowsingContext.New().OpenNewAsync().Result;
             Assert.IsNotNull(document);
             Assert.IsNotNull(document.DocumentElement);
             Assert.IsNotNull(document.Body);
@@ -27,7 +27,7 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void ContextLoadEmptyDocumentWithUrl()
         {
-            var document = default(IBrowsingContext).OpenNew(url: "http://localhost:8081");
+            var document = BrowsingContext.New().OpenNewAsync(url: "http://localhost:8081").Result;
             Assert.IsNotNull(document);
             Assert.IsNotNull(document.DocumentElement);
             Assert.IsNotNull(document.Body);
@@ -44,7 +44,8 @@ namespace AngleSharp.Core.Tests.Library
             if (Helper.IsNetworkAvailable())
             {
                 var url = "http://anglesharp.azurewebsites.net/PostUrlEncodeNormal";
-                var task = default(IBrowsingContext).OpenAsync(Url.Create(url), CancellationToken.None).ContinueWith(t =>
+                var config = new Configuration().WithDefaultLoader();
+                var task = BrowsingContext.New(config).OpenAsync(Url.Create(url), CancellationToken.None).ContinueWith(t =>
                 {
                     var document = t.Result;
                     var h1 = document.QuerySelector("h1");
@@ -69,7 +70,7 @@ namespace AngleSharp.Core.Tests.Library
             {
                 var url = "http://anglesharp.azurewebsites.net/PostUrlEncodeNormal";
                 var config = new Configuration().WithDefaultLoader();
-                var context = new BrowsingContext(config, Dom.Sandboxes.None);
+                var context = BrowsingContext.New(config);
                 Func<Task<IDocument>, IDocument> loadForm = t =>
                 {
                     var document = t.Result;
