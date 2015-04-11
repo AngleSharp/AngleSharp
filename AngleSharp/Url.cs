@@ -36,12 +36,12 @@
 
         private Url(String scheme, String host, String port)
         {
-            _relative = false;
             _schemeData = String.Empty;
             _path = String.Empty;
             _scheme = scheme;
             _host = host;
             _port = port;
+            _relative = KnownProtocols.IsRelative(_scheme);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@
         /// <summary>
         /// Gets the origin of the stored url.
         /// </summary>
-        public Url Origin
+        public String Origin
         {
             get
             {
@@ -128,8 +128,20 @@
                 }
                 else if (KnownProtocols.IsOriginable(_scheme))
                 {
-                    var port = String.IsNullOrEmpty(_port) ? PortNumbers.GetDefaultPort(_scheme) : _port;
-                    return new Url(_scheme, _host, port);
+                    var output = Pool.NewStringBuilder();
+
+                    if (!String.IsNullOrEmpty(_host))
+                    {
+                        if (!String.IsNullOrEmpty(_scheme))
+                            output.Append(_scheme).Append(Symbols.Colon);
+
+                        output.Append(Symbols.Solidus).Append(Symbols.Solidus).Append(_host);
+
+                        if (!String.IsNullOrEmpty(_port))
+                            output.Append(Symbols.Colon).Append(_port);
+                    }
+
+                    return output.ToPool();
                 }
 
                 return null;
@@ -414,12 +426,12 @@
 
         void Reset(Url baseUrl)
         {
-            _relative = false;
             _schemeData = String.Empty;
             _scheme = baseUrl._scheme;
             _host = baseUrl._host;
             _path = baseUrl._path;
             _port = baseUrl._port;
+            _relative = KnownProtocols.IsRelative(_scheme);
         }
 
         Boolean ParseScheme(String input, Boolean onlyScheme = false)

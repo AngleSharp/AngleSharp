@@ -67,7 +67,7 @@
         /// </summary>
         public String Origin
         {
-            get { var origin = _url.Origin; return origin != null ? origin.Href : null; }
+            get { return _url.Origin; }
         }
 
         /// <summary>

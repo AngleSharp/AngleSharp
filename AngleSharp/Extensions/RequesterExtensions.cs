@@ -117,7 +117,7 @@
         {
             var url = request.Target;
 
-            if (request.Origin == url.Origin.Href || url.Scheme == KnownProtocols.Data || url.Href == "about:blank")
+            if (request.Origin == url.Origin || url.Scheme == KnownProtocols.Data || url.Href == "about:blank")
             {
                 while (true)
                 {
@@ -138,7 +138,7 @@
                     {
                         url = new Url(result.Headers.GetOrDefault(HeaderNames.Location, url.Href));
 
-                        if (request.Origin == url.Origin.Href)
+                        if (request.Origin == url.Origin)
                         {
                             request = new ResourceRequest(request.Source, url)
                             {
