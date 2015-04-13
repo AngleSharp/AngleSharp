@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
@@ -241,6 +242,38 @@
                 throw new ArgumentNullException("child");
 
             return child.GetAncestors();
+        }
+
+        #endregion
+
+        #region Navigation extensions
+
+        /// <summary>
+        /// Navigates to the hyper reference given by the provided element
+        /// without any possibility for cancellation.
+        /// </summary>
+        /// <typeparam name="TElement">The type of element.</typeparam>
+        /// <param name="element">The element of navigation.</param>
+        /// <returns>The task eventually resulting in the response.</returns>
+        public static Task<IDocument> Navigate<TElement>(this TElement element)
+            where TElement : IUrlUtilities, IElement
+        {
+            return element.Navigate(CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Navigates to the hyper reference given by the provided element.
+        /// </summary>
+        /// <typeparam name="TElement">The type of element.</typeparam>
+        /// <param name="element">The element of navigation.</param>
+        /// <param name="cancel">The token for cancellation.</param>
+        /// <returns>The task eventually resulting in the response.</returns>
+        public static Task<IDocument> Navigate<TElement>(this TElement element, CancellationToken cancel)
+            where TElement : IUrlUtilities, IElement
+        {
+            var address = element.Href;
+            var url = Url.Create(address);
+            return element.Owner.Context.OpenAsync(url, cancel);
         }
 
         #endregion
