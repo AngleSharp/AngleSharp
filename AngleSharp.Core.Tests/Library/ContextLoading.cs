@@ -45,7 +45,7 @@
                 var title = "PostUrlencodeNormal";
                 var url = "http://anglesharp.azurewebsites.net/PostUrlEncodeNormal";
                 var config = new Configuration().WithDefaultLoader();
-                var document = await BrowsingContext.New(config).OpenAsync(Url.Create(url), CancellationToken.None);
+                var document = await BrowsingContext.New(config).OpenAsync(Url.Create(url));
                 var h1 = document.QuerySelector("h1");
 
                 Assert.IsNotNull(document);
@@ -66,7 +66,7 @@
                 var url = "http://anglesharp.azurewebsites.net/PostUrlEncodeNormal";
                 var config = new Configuration().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
-                var document = await context.OpenAsync(Url.Create(url), CancellationToken.None);
+                var document = await context.OpenAsync(Url.Create(url));
 
                 Assert.AreEqual(1, document.Forms.Length);
 
@@ -101,10 +101,10 @@
                 var url = "http://anglesharp.azurewebsites.net/";
                 var config = new Configuration().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
-                var document = await context.OpenAsync(Url.Create(url), CancellationToken.None);
+                var document = await context.OpenAsync(Url.Create(url));
                 var anchors = document.QuerySelectorAll<IHtmlAnchorElement>("ul a");
                 var anchor = anchors.Where(m => m.TextContent == "Header").FirstOrDefault();
-                var result = await context.OpenAsync(Url.Create(anchor.Href), CancellationToken.None);
+                var result = await context.OpenAsync(Url.Create(anchor.Href));
 
                 Assert.IsNotNull(result);
                 Assert.AreEqual(result, context.Active);
