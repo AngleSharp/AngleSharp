@@ -1,17 +1,18 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
     using AngleSharp;
     using AngleSharp.Network;
     using AngleSharp.Network.Default;
     using NUnit.Framework;
-    using System.IO;
-    using System.Threading;
 
     [TestFixture]
     public class HttpRequesterTests
     {
         [Test]
-        public void SimpleHttpGetRequest()
+        public async Task SimpleHttpGetRequest()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -20,7 +21,7 @@
                 request.Address = new Url("http://httpbin.org/robots.txt");
                 request.Method = HttpMethod.Get;
 
-                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
+                using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(200, (int)response.StatusCode);
@@ -34,7 +35,7 @@
         }
 
         [Test]
-        public void StatusCode500OfHttpGetRequest()
+        public async Task StatusCode500OfHttpGetRequest()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -43,7 +44,7 @@
                 request.Address = new Url("http://httpbin.org/status/500");
                 request.Method = HttpMethod.Get;
 
-                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
+                using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(500, (int)response.StatusCode);
@@ -54,7 +55,7 @@
         }
 
         [Test]
-        public void StatusCode400OfHttpGetRequest()
+        public async Task StatusCode400OfHttpGetRequest()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -63,7 +64,7 @@
                 request.Address = new Url("http://httpbin.org/status/400");
                 request.Method = HttpMethod.Get;
 
-                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
+                using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(400, (int)response.StatusCode);
@@ -74,7 +75,7 @@
         }
 
         [Test]
-        public void StatusCode403OfHttpGetRequest()
+        public async Task StatusCode403OfHttpGetRequest()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -83,7 +84,7 @@
                 request.Address = new Url("http://httpbin.org/status/403");
                 request.Method = HttpMethod.Get;
 
-                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
+                using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(403, (int)response.StatusCode);
@@ -94,7 +95,7 @@
         }
 
         [Test]
-        public void StatusCode404OfHttpGetRequest()
+        public async Task StatusCode404OfHttpGetRequest()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -103,7 +104,7 @@
                 request.Address = new Url("http://httpbin.org/status/404");
                 request.Method = HttpMethod.Get;
 
-                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
+                using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(404, (int)response.StatusCode);
@@ -114,7 +115,7 @@
         }
 
         [Test]
-        public void SimpleHttpPostRequest()
+        public async Task SimpleHttpPostRequest()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -124,7 +125,7 @@
                 request.Method = HttpMethod.Post;
                 request.Content = Helper.StreamFromString("Hello world");
 
-                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
+                using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(200, (int)response.StatusCode);
@@ -142,7 +143,7 @@
         }
 
         [Test]
-        public void SimpleHttpPutRequest()
+        public async Task SimpleHttpPutRequest()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -152,7 +153,7 @@
                 request.Method = HttpMethod.Put;
                 request.Content = Helper.StreamFromString("PUT THIS THING BACK");
 
-                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
+                using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(200, (int)response.StatusCode);
@@ -170,7 +171,7 @@
         }
 
         [Test]
-        public void SimpleHttpDeleteRequest()
+        public async Task SimpleHttpDeleteRequest()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -180,7 +181,7 @@
                 request.Method = HttpMethod.Delete;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
-                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
+                using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(200, (int)response.StatusCode);
@@ -191,7 +192,7 @@
         }
 
         [Test]
-        public void MethodNotAllowedOnHttpDelete()
+        public async Task MethodNotAllowedOnHttpDelete()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -201,7 +202,7 @@
                 request.Method = HttpMethod.Delete;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
-                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
+                using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(405, (int)response.StatusCode);
@@ -212,7 +213,7 @@
         }
 
         [Test]
-        public void MethodNotAllowedOnHttpPut()
+        public async Task MethodNotAllowedOnHttpPut()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -222,7 +223,7 @@
                 request.Method = HttpMethod.Put;
                 request.Content = Helper.StreamFromString("Should be ignored");
 
-                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
+                using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(405, (int)response.StatusCode);
@@ -233,7 +234,7 @@
         }
 
         [Test]
-        public void RequestUserAgentString()
+        public async Task RequestUserAgentString()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -243,7 +244,7 @@
                 request.Address = new Url("http://httpbin.org/user-agent");
                 request.Method = HttpMethod.Get;
 
-                using (var response = http.RequestAsync(request, CancellationToken.None).Result)
+                using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
                     Assert.IsNotNull(response);
                     Assert.AreEqual(200, (int)response.StatusCode);
@@ -261,7 +262,7 @@
         }
 
         [Test]
-        public void AsyncHttpGetRequest()
+        public async Task AsyncHttpGetRequest()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -275,7 +276,7 @@
                     Assert.IsNotNull(response);
                     Assert.IsFalse(response.IsCompleted);
 
-                    var result = response.Result;
+                    var result = await response;
 
                     Assert.IsTrue(response.IsCompleted);
                     Assert.IsTrue(result.Content.CanRead);
