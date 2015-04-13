@@ -1,12 +1,11 @@
-﻿using AngleSharp;
-using AngleSharp.Dom;
-using AngleSharp.Html;
-using NUnit.Framework;
-using System.Linq;
-using System;
-
-namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests.Library
 {
+    using System;
+    using System.Linq;
+    using AngleSharp.Dom;
+    using AngleSharp.Html;
+    using NUnit.Framework;
+
     [TestFixture]
     public class LiveCollectionTests
     {

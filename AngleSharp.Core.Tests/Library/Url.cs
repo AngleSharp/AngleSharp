@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests.Library
 {
+    using NUnit.Framework;
+
     [TestFixture]
     public class UrlTests
     {

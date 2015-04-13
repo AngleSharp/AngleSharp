@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AngleSharp.Dom.Html;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests.Library
 {
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using AngleSharp.Dom.Html;
+    using NUnit.Framework;
+
     [TestFixture]
     public class ContextLoadingTests
     {

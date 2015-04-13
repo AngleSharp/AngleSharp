@@ -1,10 +1,9 @@
-﻿using AngleSharp;
-using AngleSharp.Dom;
-using AngleSharp.Dom.Events;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
+    using NUnit.Framework;
+
     [TestFixture]
     public class DOMEventsTests
     {

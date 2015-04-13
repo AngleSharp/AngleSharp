@@ -1,11 +1,11 @@
-﻿using AngleSharp.Dom.Css;
-using AngleSharp.Extensions;
-using AngleSharp.Network;
-using AngleSharp.Services;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
+    using AngleSharp.Network;
+    using AngleSharp.Services;
+    using NUnit.Framework;
+
     [TestFixture]
     public class BasicConfigurationTests
     {

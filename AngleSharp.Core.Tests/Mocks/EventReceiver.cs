@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using AngleSharp.Events;
-
-namespace AngleSharp.Core.Tests.Mocks
+﻿namespace AngleSharp.Core.Tests.Mocks
 {
+    using System;
+    using System.Collections.Generic;
+    using AngleSharp.Events;
+
     class EventReceiver<TReceivingEvent> : IEventAggregator
     {
         readonly List<TReceivingEvent> _received = new List<TReceivingEvent>();

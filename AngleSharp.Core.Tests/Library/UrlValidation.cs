@@ -1,10 +1,10 @@
-using System;
-using AngleSharp.Dom;
-using AngleSharp.Dom.Html;
-using NUnit.Framework;
-
 namespace AngleSharp.Core.Tests.Library
 {
+    using System;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Html;
+    using NUnit.Framework;
+
     /// <summary>
     /// Tests automatically generated from:
     /// https://w3c-test.org/url/a-element.html

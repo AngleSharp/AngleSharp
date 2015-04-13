@@ -1,8 +1,8 @@
-﻿using AngleSharp.Extensions;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Extensions;
+    using NUnit.Framework;
+
     [TestFixture]
     public class CommonExtensionsTests
     {

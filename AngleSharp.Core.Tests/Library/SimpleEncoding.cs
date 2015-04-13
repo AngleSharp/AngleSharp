@@ -1,12 +1,12 @@
-using AngleSharp.Dom;
-using NUnit.Framework;
-using System;
-using System.Globalization;
-using System.IO;
-using System.Text;
-
 namespace AngleSharp.Core.Tests
 {
+    using System;
+    using System.Globalization;
+    using System.IO;
+    using System.Text;
+    using AngleSharp.Dom;
+    using NUnit.Framework;
+
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests (*)
     /// to be more specific: (*)/blob/master/encoding/tests1.dat

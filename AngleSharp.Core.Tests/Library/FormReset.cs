@@ -1,9 +1,9 @@
-﻿using AngleSharp.Dom.Html;
-using NUnit.Framework;
-using System;
-
-namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests.Library
 {
+    using System;
+    using AngleSharp.Dom.Html;
+    using NUnit.Framework;
+
     [TestFixture]
     public class FormReset
     {

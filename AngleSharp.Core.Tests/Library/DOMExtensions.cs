@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using AngleSharp.Dom;
-using AngleSharp.Dom.Html;
-using AngleSharp.Linq;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests.Library
 {
+    using System;
+    using System.Linq;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Html;
+    using AngleSharp.Linq;
+    using NUnit.Framework;
+
     [TestFixture]
     public class DOMExtensionsTests
     {

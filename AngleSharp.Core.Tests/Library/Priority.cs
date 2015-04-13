@@ -1,9 +1,8 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using AngleSharp;
+    using System;
     using AngleSharp.Css;
     using NUnit.Framework;
-    using System;
 
     [TestFixture]
     public class PriorityTests

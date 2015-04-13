@@ -1,12 +1,11 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
+    using System;
     using AngleSharp;
-    using AngleSharp.Dom;
     using AngleSharp.Network;
     using AngleSharp.Scripting;
     using AngleSharp.Services;
     using NUnit.Framework;
-    using System;
 
     [TestFixture]
     public class BasicScriptingTests
