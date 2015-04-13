@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using AngleSharp.Network;
 
     /// <summary>
@@ -25,9 +26,9 @@
         public static async Task<IDocument> OpenNewAsync(this IBrowsingContext context, String url = null)
         {
             var doc = new Document(context) { DocumentUri = url };
-            doc.AppendChild(doc.CreateElement("html"));
-            doc.DocumentElement.AppendChild(doc.CreateElement("head"));
-            doc.DocumentElement.AppendChild(doc.CreateElement("body"));
+            doc.AppendChild(doc.CreateElement(Tags.Html));
+            doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Head));
+            doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Body));
             await doc.FinishLoading();
             doc.Context.NavigateTo(doc);
             return doc;
