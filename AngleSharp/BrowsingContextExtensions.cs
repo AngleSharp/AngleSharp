@@ -99,6 +99,18 @@
             return context.OpenAsync(request, cancel);
         }
 
+        /// <summary>
+        /// Opens a new document loaded from the provided url asynchronously in
+        /// the given context without the ability to cancel it.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <param name="url">The URL to load.</param>
+        /// <returns>The task that creates the document.</returns>
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, Url url)
+        {
+            return context.OpenAsync(url, CancellationToken.None);
+        }
+
         #endregion
     }
 }
