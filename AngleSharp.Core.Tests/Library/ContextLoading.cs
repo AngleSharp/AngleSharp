@@ -111,5 +111,25 @@
                 Assert.AreEqual(url, context.Active.Body.TextContent);
             }
         }
+
+        [Test]
+        public async Task ContextNavigateFromLinkToPage()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var title = "PostUrlencodeNormal";
+                var url = "http://anglesharp.azurewebsites.net/";
+                var config = new Configuration().WithDefaultLoader();
+                var context = BrowsingContext.New(config);
+                var document = await context.OpenAsync(Url.Create(url));
+                var anchors = document.QuerySelectorAll<IHtmlAnchorElement>("ul a");
+                var anchor = anchors.Where(m => m.TextContent == title).FirstOrDefault();
+                var result = await anchor.Navigate();
+
+                Assert.IsNotNull(result);
+                Assert.AreEqual(result, context.Active);
+                Assert.AreEqual(title, context.Active.Title);
+            }
+        }
     }
 }
