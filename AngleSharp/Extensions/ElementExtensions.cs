@@ -82,7 +82,7 @@
         /// <returns>The new resource request with the information.</returns>
         public static ResourceRequest CreateRequestFor(this IElement element, Url url)
         {
-            return new ResourceRequest(element, url) { Origin = element.Owner.Origin };
+            return new ResourceRequest(element, url);
         }
 
         /// <summary>

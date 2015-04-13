@@ -375,7 +375,7 @@
 
             _navigationTask = NavigateTo(new DocumentRequest(action)
             {
-                Origin = Owner.DocumentUri,
+                Referer = Owner.DocumentUri,
                 Source = this
             });
         }
@@ -436,7 +436,7 @@
         {
             _navigationTask = NavigateTo(new DocumentRequest(action)
             {
-                Origin = Owner.DocumentUri,
+                Referer = Owner.DocumentUri,
                 Source = this
             });
         }
@@ -475,7 +475,7 @@
                 Source = this,
                 Body = result,
                 MimeType = mimeType,
-                Origin = Owner.DocumentUri
+                Referer = Owner.DocumentUri
             });
         }
 

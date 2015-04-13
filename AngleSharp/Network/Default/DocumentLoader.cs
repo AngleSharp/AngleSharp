@@ -44,8 +44,8 @@
             if (request.MimeType != null)
                 data.Headers[HeaderNames.ContentType] = request.MimeType;
             
-            if (request.Origin != null)
-                data.Headers[HeaderNames.Referer] = request.Origin;
+            if (request.Referer != null)
+                data.Headers[HeaderNames.Referer] = request.Referer;
 
             return _requesters.LoadAsync(data, events, cancel);
         }

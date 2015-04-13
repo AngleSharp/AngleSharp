@@ -16,7 +16,7 @@
         public DocumentRequest(Url target)
         {
             Target = target;
-            Origin = null;
+            Referer = null;
             Method = HttpMethod.Get;
             Body = MemoryStream.Null;
             MimeType = null;
@@ -41,9 +41,11 @@
         }
 
         /// <summary>
-        /// Gets or sets the origin of the request, if any.
+        /// Gets or sets the referrer of the request, if any. The name is
+        /// intentionally spelled wrong, to emphasize the relationship with the
+        /// HTTP header.
         /// </summary>
-        public String Origin
+        public String Referer
         {
             get;
             set;

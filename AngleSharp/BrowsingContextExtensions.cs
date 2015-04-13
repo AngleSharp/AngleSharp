@@ -93,7 +93,7 @@
             var request = new DocumentRequest(url);
 
             if (context != null && context.Active != null)
-                request.Origin = context.Active.DocumentUri;
+                request.Referer = context.Active.DocumentUri;
 
             return context.OpenAsync(request, cancel);
         }

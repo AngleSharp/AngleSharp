@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Network
 {
-    using AngleSharp.Dom;
     using System;
+    using AngleSharp.Dom;
 
     /// <summary>
     /// Represents the arguments to load a resource.
@@ -17,7 +17,7 @@
         {
             Source = source;
             Target = target;
-            Origin = null;
+            Origin = source.Owner.Origin;
             IsManualRedirectDesired = false;
             IsSameOriginForced = false;
             IsCookieBlocked = false;

@@ -638,7 +638,6 @@
         public String Referrer
         {
             get { return _referrer; }
-            internal protected set { _referrer = value; }
         }
 
         /// <summary>
@@ -1615,8 +1614,9 @@
         internal Task LoadAsync(IResponse response, CancellationToken cancelToken)
         {
             var contentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html);
+            var referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
             var url = response.Address.Href;
-            return LoadAsync(response.Content, contentType, url, cancelToken);
+            return LoadAsync(response.Content, contentType, url, referrer, cancelToken);
         }
 
         /// <summary>
@@ -1625,12 +1625,14 @@
         /// <param name="content">The content to consider.</param>
         /// <param name="contentType">The type of the content.</param>
         /// <param name="url">The address of the content.</param>
+        /// <param name="referrer">The previously visited page.</param>
         /// <param name="cancelToken">Token for cancellation.</param>
         /// <returns>The task that builds the document.</returns>
-        internal async Task LoadAsync(Stream content, String contentType, String url, CancellationToken cancelToken)
+        internal async Task LoadAsync(Stream content, String contentType, String url, String referrer, CancellationToken cancelToken)
         {
             var config = Options;
             _contentType = MimeTypes.Html;
+            _referrer = referrer;
             Open(contentType);
             DocumentUri = url;
             ReadyState = DocumentReadyState.Loading;
@@ -1817,7 +1819,7 @@
                 var request = new DocumentRequest(url)
                 {
                     Source = this,
-                    Origin = DocumentUri
+                    Referer = DocumentUri
                 };
 
                 await _context.OpenAsync(request, CancellationToken.None);
