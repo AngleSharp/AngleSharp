@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AngleSharp.Core.Tests.Library
 {
@@ -27,7 +28,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public void AsUrlEncodedProducesRightAmountOfAmpersands()
+        public async Task AsUrlEncodedProducesRightAmountOfAmpersands()
         {
             var config = new Configuration().Register(new MockRequester());
             var url = "http://localhost/";
@@ -36,13 +37,13 @@ namespace AngleSharp.Core.Tests.Library
 <input name=other type=text value=something /><input type=text value=something /><input name=another type=text value=test />
 </form>", config, url);
             var form = document.Forms.OfType<IHtmlFormElement>().FirstOrDefault();
-            var result = form.Submit().Result;
+            var result = await form.Submit();
             Assert.IsNotNull(result);
             Assert.AreEqual(url + "?other=something&another=test", result.Url);
         }
 
         [Test]
-        public void PostDoNotEncounterNullReferenceExceptionWithoutName()
+        public async Task PostDoNotEncounterNullReferenceExceptionWithoutName()
         {
             var config = new Configuration().Register(new MockRequester());
             var url = "http://localhost/";
@@ -51,13 +52,13 @@ namespace AngleSharp.Core.Tests.Library
 <input type=""button"" />
 </form>", config, url);
             var form = document.Forms.OfType<IHtmlFormElement>().FirstOrDefault();
-            var result = form.Submit().Result;
+            var result = await form.Submit();
             Assert.IsNotNull(result);
             Assert.AreEqual(url, result.Url);
         }
 
         [Test]
-        public void PostUrlencodeNormal()
+        public async Task PostUrlencodeNormal()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -77,14 +78,14 @@ namespace AngleSharp.Core.Tests.Library
                 name.Value = "Test";
                 number.Value = "1";
                 isactive.IsChecked = true;
-                var newDoc = form.Submit().Result;
+                var newDoc = await form.Submit();
                 Assert.IsNotNull(newDoc);
                 Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
         }
 
         [Test]
-        public void PostUrlencodeFile()
+        public async Task PostUrlencodeFile()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -108,14 +109,14 @@ namespace AngleSharp.Core.Tests.Library
                 number.Value = "1";
                 isactive.IsChecked = true;
                 (file.Files as FileList).Add(GenerateFile());
-                var newDoc = form.Submit().Result;
+                var newDoc = await form.Submit();
                 Assert.IsNotNull(newDoc);
                 Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
         }
 
         [Test]
-        public void PostMultipartNormal()
+        public async Task PostMultipartNormal()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -135,14 +136,14 @@ namespace AngleSharp.Core.Tests.Library
                 name.Value = "Test";
                 number.Value = "1";
                 isactive.IsChecked = true;
-                var newDoc = form.Submit().Result;
+                var newDoc = await form.Submit();
                 Assert.IsNotNull(newDoc);
                 Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
         }
 
         [Test]
-        public void PostMultipartFile()
+        public async Task PostMultipartFile()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -166,14 +167,14 @@ namespace AngleSharp.Core.Tests.Library
                 number.Value = "1";
                 isactive.IsChecked = true;
                 (file.Files as FileList).Add(GenerateFile());
-                var newDoc = form.Submit().Result;
+                var newDoc = await form.Submit();
                 Assert.IsNotNull(newDoc);
                 Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
         }
 
         [Test]
-        public void PostMultipartFiles()
+        public async Task PostMultipartFiles()
         {
             if (Helper.IsNetworkAvailable())
             {
@@ -201,7 +202,7 @@ namespace AngleSharp.Core.Tests.Library
                 for (int i = 0; i < 5; i++)
                     (files.Files as FileList).Add(GenerateFile(i));
 
-                var newDoc = form.Submit().Result;
+                var newDoc = await form.Submit();
                 Assert.IsNotNull(newDoc);
                 Assert.AreEqual("okay", newDoc.Body.TextContent);
             }
