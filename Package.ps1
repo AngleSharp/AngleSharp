@@ -16,7 +16,7 @@ Function Update-Version($file) {
     return $ver
 }
 
-Function Publish-Package() {
+Function Publish-Package($ver) {
     $file = "Nuget\AngleSharp.$ver.nupkg"
     nuget pack $spec -OutputDirectory "Nuget"
     nuget push $file
