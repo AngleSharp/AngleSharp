@@ -1,11 +1,11 @@
-﻿using System;
-using System.IO;
-using AngleSharp.Dom;
-using AngleSharp.Dom.Css;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using System;
+    using System.IO;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Css;
+    using NUnit.Framework;
+
     static class TestExtensions
     {
         public static String GetTagName(this INode node)

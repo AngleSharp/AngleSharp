@@ -7,7 +7,7 @@
     [TestFixture]
     public class DOMEventsTests
     {
-        IDocument doc;
+        IDocument document;
 
         [SetUp]
         public void Init()
@@ -22,15 +22,15 @@
 <div id=second>
 </div>
 </body>";
-            doc = DocumentBuilder.Html(source);
+            document = source.ToHtmlDocument();
         }
 
         [Test]
         public void EventsAddHandler()
         {
             var evName = "click";
-            var element = doc.QuerySelector("img");
-            var args = doc.CreateEvent("event");
+            var element = document.QuerySelector("img");
+            var args = document.CreateEvent("event");
             args.Init(evName, true, true);
             var count = 0;
             DomEventHandler listener1 = (s, ev) => count++;
@@ -45,12 +45,12 @@
         public void EventsAwaitedTriggered()
         {
             var evName = "click";
-            var element = doc.QuerySelector("img");
-            var ev = doc.CreateEvent("event");
+            var element = document.QuerySelector("img");
+            var ev = document.CreateEvent("event");
             ev.Init(evName, true, true);
-            var task = doc.AwaitEvent(evName);
+            var task = document.AwaitEvent(evName);
             Assert.IsFalse(task.IsCompleted);
-            doc.Dispatch(ev);
+            document.Dispatch(ev);
             Assert.IsTrue(task.IsCompleted);
             Assert.IsFalse(task.IsFaulted);
             Assert.AreEqual(evName, task.Result.Type);
@@ -60,8 +60,8 @@
         public void EventsRemoveHandler()
         {
             var evName = "click";
-            var element = doc.QuerySelector("img");
-            var args = doc.CreateEvent("event");
+            var element = document.QuerySelector("img");
+            var args = document.CreateEvent("event");
             args.Init(evName, true, true);
             var count = 0;
             DomEventHandler listener1 = (s, ev) => count++;
@@ -77,8 +77,8 @@
         public void EventsCapturingDispatchHandler()
         {
             var evName = "click";
-            var element = doc.QuerySelector("img");
-            var args = doc.CreateEvent("event");
+            var element = document.QuerySelector("img");
+            var args = document.CreateEvent("event");
             var beforeOther = true;
             args.Init(evName, true, true);
             DomEventHandler listener1 = (s, ev) =>
@@ -106,8 +106,8 @@
         public void EventsBubblingDispatchHandler()
         {
             var evName = "click";
-            var element = doc.QuerySelector("img");
-            var args = doc.CreateEvent("event");
+            var element = document.QuerySelector("img");
+            var args = document.CreateEvent("event");
             var beforeOther = true;
             args.Init(evName, true, true);
             DomEventHandler listener1 = (s, ev) =>
@@ -135,8 +135,8 @@
         public void EventsCustomHandlerViaFactory()
         {
             var evName = "myevent";
-            var element = doc.QuerySelector("img");
-            var args = doc.CreateEvent("customevent") as CustomEvent;
+            var element = document.QuerySelector("img");
+            var args = document.CreateEvent("customevent") as CustomEvent;
             Assert.IsNotNull(args);
             var mydetails = new object();
             args.Init(evName, true, true, mydetails);
@@ -157,7 +157,7 @@
         public void EventsCustomHandlerViaConstructor()
         {
             var evName = "myevent";
-            var element = doc.QuerySelector("img");
+            var element = document.QuerySelector("img");
             var args = new CustomEvent();
             var mydetails = new object();
             args.Init(evName, true, true, mydetails);
@@ -195,14 +195,14 @@
         [Test]
         public void EventsDocumentFinished()
         {
-            doc.ReadyStateChanged += (s, ev) =>
+            document.ReadyStateChanged += (s, ev) =>
             {
-                Assert.AreEqual(DocumentReadyState.Complete, doc.ReadyState);
+                Assert.AreEqual(DocumentReadyState.Complete, document.ReadyState);
             };
 
-            doc.Loaded += (s, ev) =>
+            document.Loaded += (s, ev) =>
             {
-                Assert.AreNotEqual(DocumentReadyState.Complete, doc.ReadyState);
+                Assert.AreNotEqual(DocumentReadyState.Complete, document.ReadyState);
             };
         }
     }

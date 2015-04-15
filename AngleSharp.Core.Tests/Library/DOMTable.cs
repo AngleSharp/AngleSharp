@@ -222,7 +222,7 @@
               "  </body>" +
               "</html>";
             var document = Html("");
-            var doc = DocumentBuilder.Html(text);
+            var doc = text.ToHtmlDocument();
             // import <table>
             var table = doc.DocumentElement.GetElementsByTagName("table")[0];
             var mytable = document.Body.AppendChild(document.Import(table, true)) as IHtmlTableElement;

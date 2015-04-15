@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Dom.Io;
     using NUnit.Framework;
@@ -13,6 +14,17 @@
     public class FormSubmitTests
     {
         const String BaseUrl = "http://anglesharp.azurewebsites.net/";
+
+        static IDocument Load(String url)
+        {
+            return DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultLoader());
+        }
+
+        static IDocument LoadWithMock(String content, String url)
+        {
+            var config = new Configuration().Register(new MockRequester());
+            return DocumentBuilder.Html(content, config, url);
+        }
 
         static FileEntry GenerateFile()
         {
@@ -30,12 +42,11 @@
         [Test]
         public async Task AsUrlEncodedProducesRightAmountOfAmpersands()
         {
-            var config = new Configuration().Register(new MockRequester());
             var url = "http://localhost/";
-            var document = DocumentBuilder.Html(@"<form method=get>
+            var document = LoadWithMock(@"<form method=get>
 <input type=button />
 <input name=other type=text value=something /><input type=text value=something /><input name=another type=text value=test />
-</form>", config, url);
+</form>", url);
             var form = document.Forms.OfType<IHtmlFormElement>().FirstOrDefault();
             var result = await form.Submit();
             Assert.IsNotNull(result);
@@ -45,12 +56,11 @@
         [Test]
         public async Task PostDoNotEncounterNullReferenceExceptionWithoutName()
         {
-            var config = new Configuration().Register(new MockRequester());
             var url = "http://localhost/";
-            var document = DocumentBuilder.Html(@"
+            var document = LoadWithMock(@"
 <form method=""post"">
 <input type=""button"" />
-</form>", config, url);
+</form>", url);
             var form = document.Forms.OfType<IHtmlFormElement>().FirstOrDefault();
             var result = await form.Submit();
             Assert.IsNotNull(result);
@@ -63,9 +73,9 @@
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostUrlencodeNormal";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultLoader());
-                Assert.AreEqual(1, html.Forms.Length);
-                var form = html.Forms[0] as HtmlFormElement;
+                var document = Load(url);
+                Assert.AreEqual(1, document.Forms.Length);
+                var form = document.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;
                 var number = form.Elements["Number"] as HtmlInputElement;
                 var isactive = form.Elements["IsActive"] as HtmlInputElement;
@@ -78,9 +88,9 @@
                 name.Value = "Test";
                 number.Value = "1";
                 isactive.IsChecked = true;
-                var newDoc = await form.Submit();
-                Assert.IsNotNull(newDoc);
-                Assert.AreEqual("okay", newDoc.Body.TextContent);
+                var response = await form.Submit();
+                Assert.IsNotNull(response);
+                Assert.AreEqual("okay", response.Body.TextContent);
             }
         }
 
@@ -90,9 +100,9 @@
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostUrlencodeFile";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultLoader());
-                Assert.AreEqual(1, html.Forms.Length);
-                var form = html.Forms[0] as HtmlFormElement;
+                var document = Load(url);
+                Assert.AreEqual(1, document.Forms.Length);
+                var form = document.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;
                 var number = form.Elements["Number"] as HtmlInputElement;
                 var isactive = form.Elements["IsActive"] as HtmlInputElement;
@@ -109,9 +119,9 @@
                 number.Value = "1";
                 isactive.IsChecked = true;
                 (file.Files as FileList).Add(GenerateFile());
-                var newDoc = await form.Submit();
-                Assert.IsNotNull(newDoc);
-                Assert.AreEqual("okay", newDoc.Body.TextContent);
+                var response = await form.Submit();
+                Assert.IsNotNull(response);
+                Assert.AreEqual("okay", response.Body.TextContent);
             }
         }
 
@@ -121,9 +131,9 @@
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostMultipartNormal";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultLoader());
-                Assert.AreEqual(1, html.Forms.Length);
-                var form = html.Forms[0] as HtmlFormElement;
+                var document = Load(url);
+                Assert.AreEqual(1, document.Forms.Length);
+                var form = document.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;
                 var number = form.Elements["Number"] as HtmlInputElement;
                 var isactive = form.Elements["IsActive"] as HtmlInputElement;
@@ -136,9 +146,9 @@
                 name.Value = "Test";
                 number.Value = "1";
                 isactive.IsChecked = true;
-                var newDoc = await form.Submit();
-                Assert.IsNotNull(newDoc);
-                Assert.AreEqual("okay", newDoc.Body.TextContent);
+                var response = await form.Submit();
+                Assert.IsNotNull(response);
+                Assert.AreEqual("okay", response.Body.TextContent);
             }
         }
 
@@ -148,9 +158,9 @@
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostMultipartFile";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultLoader());
-                Assert.AreEqual(1, html.Forms.Length);
-                var form = html.Forms[0] as HtmlFormElement;
+                var document = Load(url);
+                Assert.AreEqual(1, document.Forms.Length);
+                var form = document.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;
                 var number = form.Elements["Number"] as HtmlInputElement;
                 var isactive = form.Elements["IsActive"] as HtmlInputElement;
@@ -167,9 +177,9 @@
                 number.Value = "1";
                 isactive.IsChecked = true;
                 (file.Files as FileList).Add(GenerateFile());
-                var newDoc = await form.Submit();
-                Assert.IsNotNull(newDoc);
-                Assert.AreEqual("okay", newDoc.Body.TextContent);
+                var response = await form.Submit();
+                Assert.IsNotNull(response);
+                Assert.AreEqual("okay", response.Body.TextContent);
             }
         }
 
@@ -179,9 +189,9 @@
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostMultipartFiles";
-                var html = DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultLoader());
-                Assert.AreEqual(1, html.Forms.Length);
-                var form = html.Forms[0] as HtmlFormElement;
+                var document = Load(url);
+                Assert.AreEqual(1, document.Forms.Length);
+                var form = document.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;
                 var number = form.Elements["Number"] as HtmlInputElement;
                 var isactive = form.Elements["IsActive"] as HtmlInputElement;
@@ -202,9 +212,9 @@
                 for (int i = 0; i < 5; i++)
                     (files.Files as FileList).Add(GenerateFile(i));
 
-                var newDoc = await form.Submit();
-                Assert.IsNotNull(newDoc);
-                Assert.AreEqual("okay", newDoc.Body.TextContent);
+                var response = await form.Submit();
+                Assert.IsNotNull(response);
+                Assert.AreEqual("okay", response.Body.TextContent);
             }
         }
     }

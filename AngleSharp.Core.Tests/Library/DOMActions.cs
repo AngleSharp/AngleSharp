@@ -11,10 +11,20 @@
     [TestFixture]
     public class DOMActions
     {
+        static IDocument CreateEmpty(String url)
+        {
+            return BrowsingContext.New().OpenNewAsync(url).Result;
+        }
+
+        static IDocument Create(String source)
+        {
+            return source.ToHtmlDocument();
+        }
+
         [Test]
         public void ChangeImageSourceWithRelativeUrlResultsInUpdatedAbsoluteUrl()
         {
-            var document = DocumentBuilder.Html("", url: "http://localhost");
+            var document = CreateEmpty("http://localhost");
             var img = document.CreateElement<IHtmlImageElement>();
             img.Source = "test.png";
             Assert.AreEqual("http://localhost/test.png", img.Source);
@@ -25,7 +35,7 @@
         [Test]
         public void ChangeImageSourceWithAbsoluteUrlResultsInUpdatedAbsoluteUrl()
         {
-            var document = DocumentBuilder.Html("", url: "http://localhost");
+            var document = CreateEmpty("http://localhost");
             var img = document.CreateElement<IHtmlImageElement>();
             img.Source = "http://www.test.com/test.png";
             Assert.AreEqual("http://www.test.com/test.png", img.Source);
@@ -36,7 +46,7 @@
         [Test]
         public void ChangeVideoSourceResultsInUpdatedAbsoluteUrl()
         {
-            var document = DocumentBuilder.Html("", url: "http://localhost");
+            var document = CreateEmpty("http://localhost");
             var video = document.CreateElement<IHtmlVideoElement>();
             video.Source = "test.mp4";
             Assert.AreEqual("http://localhost/test.mp4", video.Source);
@@ -47,7 +57,7 @@
         [Test]
         public void ChangeVideoPosterResultsInUpdatedAbsoluteUrl()
         {
-            var document = DocumentBuilder.Html("", url: "http://localhost");
+            var document = CreateEmpty("http://localhost");
             var video = document.CreateElement<IHtmlVideoElement>();
             video.Poster = "test.jpg";
             Assert.AreEqual("http://localhost/test.jpg", video.Poster);
@@ -58,7 +68,7 @@
         [Test]
         public void ChangeAudioSourceResultsInUpdatedAbsoluteUrl()
         {
-            var document = DocumentBuilder.Html("", url: "http://localhost");
+            var document = CreateEmpty("http://localhost");
             var audio = document.CreateElement<IHtmlAudioElement>();
             audio.Source = "test.mp3";
             Assert.AreEqual("http://localhost/test.mp3", audio.Source);
@@ -69,7 +79,7 @@
         [Test]
         public void ChangeObjectSourceResultsInUpdatedAbsoluteUrl()
         {
-            var document = DocumentBuilder.Html("", url: "http://localhost");
+            var document = CreateEmpty("http://localhost");
             var obj = document.CreateElement<IHtmlObjectElement>();
             obj.Source = "test.swv";
             Assert.AreEqual("http://localhost/test.swv", obj.Source);
@@ -80,7 +90,7 @@
         [Test]
         public void InputTypeImageShouldNotBePresentInTheFormElementsCollection()
         {
-            var document = DocumentBuilder.Html(@"<form id=""form"">
+            var document = Create(@"<form id=""form"">
 <input type=""image"">
 </form>");
             Assert.AreEqual(0, document.Forms[0].Elements.Length);
@@ -89,7 +99,7 @@
         [Test]
         public void FormElementsShouldIncludeElementsWhoseNameStartsWithANumber()
         {
-            var document = DocumentBuilder.Html(@"<form id=""form"">
+            var document = Create(@"<form id=""form"">
 <input type=""image"">
 </form>");
             var form = document.Forms[0];
@@ -115,7 +125,7 @@
         [Test]
         public void ReplaceSingleNodeWithNothing()
         {
-            var document = DocumentBuilder.Html("<span></span><em></em>");
+            var document = Create("<span></span><em></em>");
             document.QuerySelector("span").Replace();
             Assert.AreEqual("<em></em>", document.Body.InnerHtml);
         }
@@ -123,7 +133,7 @@
         [Test]
         public void PassEmptyArrayToPrependNodes()
         {
-            var document = DocumentBuilder.Html("");
+            var document = String.Empty.ToHtmlDocument();
             Assert.AreEqual(0, document.Body.ChildElementCount);
             document.Body.Prepend();
             Assert.AreEqual(0, document.Body.ChildElementCount);
@@ -132,7 +142,7 @@
         [Test]
         public void PassSingleElementWithPrependNodes()
         {
-            var document = DocumentBuilder.Html("");
+            var document = String.Empty.ToHtmlDocument();
             var newDiv = document.CreateElement<IHtmlDivElement>();
             Assert.AreEqual(0, document.Body.ChildElementCount);
             document.Body.Prepend(newDiv);
@@ -143,7 +153,7 @@
         [Test]
         public void PassTwoElementsWithPrependNodes()
         {
-            var document = DocumentBuilder.Html("");
+            var document = String.Empty.ToHtmlDocument();
             var newDiv = document.CreateElement<IHtmlDivElement>();
             var newAnchor = document.CreateElement<IHtmlAnchorElement>();
             Assert.AreEqual(0, document.Body.ChildElementCount);
@@ -156,7 +166,7 @@
         [Test]
         public void PassTwoElementsWithPrependNodesToNonEmptyElement()
         {
-            var document = DocumentBuilder.Html("<span></span>");
+            var document = Create("<span></span>");
             var newDiv = document.CreateElement<IHtmlDivElement>();
             var newAnchor = document.CreateElement<IHtmlAnchorElement>();
             Assert.AreEqual(1, document.Body.ChildElementCount);
@@ -170,7 +180,7 @@
         [Test]
         public void PassEmptyArrayToAppendNodes()
         {
-            var document = DocumentBuilder.Html("");
+            var document = String.Empty.ToHtmlDocument();
             Assert.AreEqual(0, document.Body.ChildElementCount);
             document.Body.Append();
             Assert.AreEqual(0, document.Body.ChildElementCount);
@@ -179,7 +189,7 @@
         [Test]
         public void PassSingleElementWithAppendNodes()
         {
-            var document = DocumentBuilder.Html("");
+            var document = String.Empty.ToHtmlDocument();
             var newDiv = document.CreateElement<IHtmlDivElement>();
             Assert.AreEqual(0, document.Body.ChildElementCount);
             document.Body.Append(newDiv);
@@ -190,7 +200,7 @@
         [Test]
         public void PassTwoElementsWithAppendNodes()
         {
-            var document = DocumentBuilder.Html("");
+            var document = String.Empty.ToHtmlDocument();
             var newDiv = document.CreateElement<IHtmlDivElement>();
             var newAnchor = document.CreateElement<IHtmlAnchorElement>();
             Assert.AreEqual(0, document.Body.ChildElementCount);
@@ -203,7 +213,7 @@
         [Test]
         public void PassTwoElementsWithAppendNodesToNonEmptyElement()
         {
-            var document = DocumentBuilder.Html("<span></span>");
+            var document = Create("<span></span>");
             var newDiv = document.CreateElement<IHtmlDivElement>();
             var newAnchor = document.CreateElement<IHtmlAnchorElement>();
             Assert.AreEqual(1, document.Body.ChildElementCount);
@@ -217,7 +227,7 @@
         [Test]
         public void ParentReplacementByCloneWithChildrenExpectedToHaveAParent()
         {
-            const string html = @"
+            var document = Create(@"
 <html>
 <body>
     <div class='parent'>
@@ -226,9 +236,8 @@
     </div>
 </body>
 </html>
-";
-            var doc = DocumentBuilder.Html(html);
-            var originalParent = doc.QuerySelector(".parent");
+");
+            var originalParent = document.QuerySelector(".parent");
 
             //clone the parent
             var clonedParent = originalParent.Clone();
@@ -254,7 +263,7 @@
         [Test]
         public void ParentReplacementByCloneWithNoChildren()
         {
-            const string html = @"
+            var document = Create(@"
 <html>
 <body>
     <div class='parent'>
@@ -263,9 +272,8 @@
     </div>
 </body>
 </html>
-";
-            var doc = DocumentBuilder.Html(html);
-            var originalParent = doc.QuerySelector(".parent");
+");
+            var originalParent = document.QuerySelector(".parent");
 
             //clone the parent
             var clonedParent = originalParent.Clone(false);
@@ -288,7 +296,7 @@
         [Test]
         public void IsEqualNodesWithExactlyTheSameNodes()
         {
-            const string html = @"
+            var document = Create(@"
 <html>
 <body>
     <div class='parent'>
@@ -297,11 +305,10 @@
     </div>
 </body>
 </html>
-";
-            var doc = DocumentBuilder.Html(html);
-            var divOne = doc.QuerySelector(".parent");
-            var divTwo = doc.Body.FirstElementChild;
-            var divThree = doc.QuerySelectorAll("div")[0];
+");
+            var divOne = document.QuerySelector(".parent");
+            var divTwo = document.Body.FirstElementChild;
+            var divThree = document.QuerySelectorAll("div")[0];
 
             Assert.AreEqual(divOne, divThree);
             Assert.AreEqual(divTwo, divThree);
@@ -314,7 +321,7 @@
         [Test]
         public void IsEqualNodesWithClonedNode()
         {
-            const string html = @"
+            var document = Create(@"
 <html>
 <body>
     <div class='parent'>
@@ -323,20 +330,19 @@
     </div>
 </body>
 </html>
-";
-            var doc = DocumentBuilder.Html(html);
-            var original = doc.QuerySelector(".parent");
+");
+            var original = document.QuerySelector(".parent");
             var clone = original.Clone();
 
             Assert.AreNotEqual(original, clone);
             Assert.IsTrue(original.Equals(clone));
-            Assert.IsFalse(original.Equals(doc.Body));
+            Assert.IsFalse(original.Equals(document.Body));
         }
 
         [Test]
         public void ContainsWithChildNodes()
         {
-            const string html = @"
+            var document = Create(@"
 <html>
 <body>
     <div class='parent'>
@@ -346,13 +352,12 @@
     </div>
 </body>
 </html>
-";
-            var doc = DocumentBuilder.Html(html);
-            var parent = doc.QuerySelector(".parent");
-            var child = doc.QuerySelector(".child");
-            var grandchild = doc.QuerySelector(".grandchild");
+");
+            var parent = document.QuerySelector(".parent");
+            var child = document.QuerySelector(".child");
+            var grandchild = document.QuerySelector(".grandchild");
 
-            Assert.IsFalse(parent.Contains(doc.Body));
+            Assert.IsFalse(parent.Contains(document.Body));
             Assert.IsTrue(parent.Contains(parent));
             Assert.IsTrue(parent.Contains(child));
             Assert.IsTrue(parent.Contains(grandchild));
@@ -362,15 +367,15 @@
         public void ReturnTextFromBody()
         {
             var test = "Some text";
-            var html = string.Format(@"
+            var html = String.Format(@"
 <html>
 <body>{0}</body></html>", test);
-            var doc = DocumentBuilder.Html(html);
-            Assert.AreEqual(test, doc.Body.TextContent);
-            Assert.AreEqual(test, doc.Body.Text());
-            Assert.AreEqual(test, doc.Body.ChildNodes[0].TextContent);
+            var document = Create(html);
+            Assert.AreEqual(test, document.Body.TextContent);
+            Assert.AreEqual(test, document.Body.Text());
+            Assert.AreEqual(test, document.Body.ChildNodes[0].TextContent);
 
-            var text = doc.Body.ChildNodes[0] as TextNode;
+            var text = document.Body.ChildNodes[0] as TextNode;
             Assert.IsNotNull(text);
             Assert.AreEqual(test, text.Data);
             Assert.AreEqual(test, text.Text);
@@ -382,20 +387,20 @@
             var test1 = "Some text";
             var test2 = "Other text";
             var test3 = "Another test";
-            var test = string.Concat(test1, test2, test3);
+            var test = String.Concat(test1, test2, test3);
             var html = @"
 <html>
 <body></body></html>";
-            var doc = DocumentBuilder.Html(html);
-            var text1 = doc.CreateTextNode(test1);
-            var text2 = doc.CreateTextNode(test2);
-            var text3 = doc.CreateTextNode(test3);
-            doc.Body.Append(text1);
-            doc.Body.Append(text2);
-            doc.Body.Append(text3);
-            Assert.AreEqual(test, doc.Body.TextContent);
-            Assert.AreEqual(test, doc.Body.Text());
-            Assert.AreEqual(test1, doc.Body.ChildNodes[0].TextContent);
+            var document = Create(html);
+            var text1 = document.CreateTextNode(test1);
+            var text2 = document.CreateTextNode(test2);
+            var text3 = document.CreateTextNode(test3);
+            document.Body.Append(text1);
+            document.Body.Append(text2);
+            document.Body.Append(text3);
+            Assert.AreEqual(test, document.Body.TextContent);
+            Assert.AreEqual(test, document.Body.Text());
+            Assert.AreEqual(test1, document.Body.ChildNodes[0].TextContent);
 
             Assert.AreEqual(test1, text1.Data);
             Assert.AreEqual(test, text1.Text);
@@ -408,9 +413,8 @@
         [Test]
         public void GetRowsFromTable()
         {
-            var html = @"<table><tr></tr><tr></tr></table>";
-            var doc = DocumentBuilder.Html(html);
-            var table = doc.QuerySelector("table") as IHtmlTableElement;
+            var document = Create("<table><tr></tr><tr></tr></table>");
+            var table = document.QuerySelector("table") as IHtmlTableElement;
 
             Assert.IsNotNull(table);
             Assert.AreEqual(2, table.Rows.Length);
@@ -422,9 +426,9 @@
         public void GetRowsFromTableWithNesting()
         {
             var html = @"<table id=first><tr></tr><tr><td><table id=second><tr></tr></table></td></tr></table>";
-            var doc = DocumentBuilder.Html(html);
-            var first = doc.QuerySelector("#first") as IHtmlTableElement;
-            var second = doc.QuerySelector("#second") as IHtmlTableElement;
+            var document = Create(html);
+            var first = document.QuerySelector("#first") as IHtmlTableElement;
+            var second = document.QuerySelector("#second") as IHtmlTableElement;
 
             Assert.IsNotNull(first);
             Assert.IsNotNull(second);
@@ -439,7 +443,7 @@
         [Test]
         public void PlainOutputElement()
         {
-            var document = DocumentBuilder.Html("");
+            var document = String.Empty.ToHtmlDocument();
             var output = document.CreateElement<IHtmlOutputElement>();
             Assert.AreEqual("output", output.Type);
             Assert.AreEqual("", output.TextContent);
@@ -450,7 +454,7 @@
         [Test]
         public void OutputElementWithTextContent()
         {
-            var document = DocumentBuilder.Html("");
+            var document = String.Empty.ToHtmlDocument();
             var output = document.CreateElement<IHtmlOutputElement>();
             output.TextContent = "5";
             Assert.AreEqual("output", output.Type);
@@ -462,7 +466,7 @@
         [Test]
         public void OutputElementWithDefaultValueOverridesTextContent()
         {
-            var document = DocumentBuilder.Html("");
+            var document = String.Empty.ToHtmlDocument();
             var output = document.CreateElement<IHtmlOutputElement>();
             output.TextContent = "5";
             output.DefaultValue = "10";
@@ -475,7 +479,7 @@
         [Test]
         public void OutputElementWithCustomValueOverridesDefaultValue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = String.Empty.ToHtmlDocument();
             var output = document.CreateElement<IHtmlOutputElement>();
             output.TextContent = "5";
             output.DefaultValue = "10";
@@ -489,7 +493,7 @@
         [Test]
         public void OutputElementWithCustomValueAndDefaultValue()
         {
-            var document = DocumentBuilder.Html("");
+            var document = String.Empty.ToHtmlDocument();
             var output = document.CreateElement<IHtmlOutputElement>();
             output.TextContent = "5";
             output.DefaultValue = "10";
@@ -504,7 +508,7 @@
         [Test]
         public void OptionWithId()
         {
-            var document = DocumentBuilder.Html(@"<select>
+            var document = Create(@"<select>
   <option id=op1>A</option>
   <option name=op2>B</option>
   <option id=op3 name=op4>C</option>
@@ -518,7 +522,7 @@
         [Test]
         public void OptionWithName()
         {
-            var document = DocumentBuilder.Html(@"<select>
+            var document = Create(@"<select>
   <option id=op1>A</option>
   <option name=op2>B</option>
   <option id=op3 name=op4>C</option>
@@ -532,7 +536,7 @@
         [Test]
         public void OptionWithNameAndId()
         {
-            var document = DocumentBuilder.Html(@"<select>
+            var document = Create(@"<select>
   <option id=op1>A</option>
   <option name=op2>B</option>
   <option id=op3 name=op4>C</option>
@@ -547,7 +551,7 @@
         [Test]
         public void OptionEmptyStringName()
         {
-            var document = DocumentBuilder.Html(@"<select>
+            var document = Create(@"<select>
   <option id=op1>A</option>
   <option name=op2>B</option>
   <option id=op3 name=op4>C</option>
@@ -561,7 +565,7 @@
         [Test]
         public void SelectRemoveOptionShouldWork()
         {
-            var document = DocumentBuilder.Html("");
+            var document = String.Empty.ToHtmlDocument();
             var div = document.CreateElement<IHtmlDivElement>();
             var select = document.CreateElement<IHtmlSelectElement>();
             div.AppendChild(select);
@@ -588,7 +592,7 @@
         [Test]
         public void SelectOptionsRemoveOptionShouldWork()
         {
-            var document = DocumentBuilder.Html("");
+            var document = String.Empty.ToHtmlDocument();
             var div = document.CreateElement<IHtmlDivElement>();
             var select = document.CreateElement<IHtmlSelectElement>();
             div.AppendChild(select);

@@ -39,7 +39,7 @@
         [Test]
         public void MutateFormByChangingValues()
         {
-            var document = DocumentBuilder.Html(documentSource);
+            var document = documentSource.ToHtmlDocument();
             document.QuerySelector<IHtmlInputElement>("#ipt1").Value = "123";
             document.QuerySelector<IHtmlInputElement>("#ipt2").Value = "123";
             document.QuerySelector<IHtmlInputElement>("#rd1").IsChecked = false;
@@ -72,7 +72,7 @@
         [Test]
         public void ResetFormByCallingTheResetMethod()
         {
-            var document = DocumentBuilder.Html(documentSource);
+            var document = documentSource.ToHtmlDocument();
             document.QuerySelector<IHtmlInputElement>("#ipt1").Value = "123";
             document.QuerySelector<IHtmlInputElement>("#ipt2").Value = "123";
             document.QuerySelector<IHtmlInputElement>("#rd1").IsChecked = false;
@@ -111,7 +111,7 @@
         [Test]
         public void ResetFormByClickingButtonInResetStatus()
         {
-            var document = DocumentBuilder.Html(documentSource);
+            var document = documentSource.ToHtmlDocument();
             document.QuerySelector<IHtmlInputElement>("#ipt1").Value = "123";
             document.QuerySelector<IHtmlInputElement>("#ipt2").Value = "123";
             document.QuerySelector<IHtmlInputElement>("#rd1").IsChecked = false;
@@ -150,7 +150,7 @@
         [Test]
         public void ResetFormByClickingResetButton()
         {
-            var document = DocumentBuilder.Html(documentSource);
+            var document = documentSource.ToHtmlDocument();
             document.QuerySelector<IHtmlInputElement>("#ipt1").Value = "123";
             document.QuerySelector<IHtmlInputElement>("#ipt2").Value = "123";
             document.QuerySelector<IHtmlInputElement>("#rd1").IsChecked = false;
