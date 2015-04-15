@@ -14,6 +14,7 @@
     /// A handy helper to construct various kinds of documents from a given
     /// source code, URL or stream.
     /// </summary>
+    [Obsolete("Implement IBrowsingContext or start using BrowsingContext.")]
     public static class DocumentBuilder
     {
         #region HTML Construction

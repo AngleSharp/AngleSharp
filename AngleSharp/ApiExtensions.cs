@@ -6,7 +6,6 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
 
@@ -274,38 +273,6 @@
             var address = element.Href;
             var url = Url.Create(address);
             return element.Owner.Context.OpenAsync(url, cancel);
-        }
-
-        #endregion
-
-        #region Construction helpers
-
-        /// <summary>
-        /// Interprets the string as HTML source code and returns new
-        /// HTMLDocument with the DOM representation.
-        /// </summary>
-        /// <param name="content">The string to use as source code.</param>
-        /// <param name="configuration">
-        /// [Optional] Custom options to use for the document generation.
-        /// </param>
-        /// <returns>The HTML document.</returns>
-        public static IDocument ParseHtml(this String content, IConfiguration configuration = null)
-        {
-            return DocumentBuilder.Html(content, configuration);
-        }
-
-        /// <summary>
-        /// Interprets the string as CSS source code and returns new
-        /// CSSStyleSheet with the CSS-OM representation.
-        /// </summary>
-        /// <param name="content">The string to use as source code.</param>
-        /// <param name="configuration">
-        /// [Optional] Custom options to use for the document generation.
-        /// </param>
-        /// <returns>The CSS stylesheet.</returns>
-        public static ICssStyleSheet ParseCss(this String content, IConfiguration configuration = null)
-        {
-            return DocumentBuilder.Css(content, configuration);
         }
 
         #endregion
