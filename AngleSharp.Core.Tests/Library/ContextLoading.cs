@@ -24,6 +24,21 @@
         }
 
         [Test]
+        public async Task ContextLoadEmptyDocumentFromVirtualResponse()
+        {
+            var document = await BrowsingContext.New().OpenAsync(m => m.Address("http://anglesharp.github.io").Content("<h1>AngleSharp rocks</h1>"));
+            Assert.IsNotNull(document);
+            Assert.IsNotNull(document.DocumentElement);
+            Assert.IsNotNull(document.Body);
+            Assert.IsNotNull(document.Head);
+            Assert.AreEqual("http://anglesharp.github.io/", document.DocumentUri);
+            Assert.AreEqual(2, document.DocumentElement.ChildElementCount);
+            Assert.AreEqual(1, document.Body.ChildElementCount);
+            Assert.AreEqual(0, document.Head.ChildElementCount);
+            Assert.AreEqual("AngleSharp rocks", document.QuerySelector("h1").TextContent);
+        }
+
+        [Test]
         public async Task ContextLoadEmptyDocumentWithUrl()
         {
             var document = await BrowsingContext.New().OpenNewAsync(url: "http://localhost:8081");
