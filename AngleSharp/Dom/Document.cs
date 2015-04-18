@@ -3,18 +3,15 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.IO;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
-    using AngleSharp.Parser.Html;
 
     /// <summary>
     /// Represents a document node.
@@ -607,7 +604,7 @@
         public DocumentReadyState ReadyState
         {
             get { return _ready; }
-            internal set
+            protected set
             {
                 _ready = value;
                 this.FireSimpleEvent(EventNames.ReadyStateChanged);
@@ -655,7 +652,7 @@
         public String DocumentUri
         {
             get { return _location.Href; }
-            internal set
+            protected set
             {
                 _location.Changed -= LocationChanged;
                 _location.Href = value;
@@ -785,34 +782,10 @@
         /// <summary>
         /// Gets or sets the title of the document.
         /// </summary>
-        public virtual String Title
+        public abstract String Title
         {
-            get
-            {
-                var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
-                
-                if (title != null)
-                    return title.TextContent.CollapseAndStrip();
-
-                return String.Empty;
-            }
-            set
-            {
-                var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
-
-                if (title == null)
-                {
-                    var head = Head;
-
-                    if (head == null)
-                        return;
-
-                    title = new HtmlTitleElement(this);
-                    head.AppendChild(title);
-                }
-
-                title.TextContent = value;
-            }
+            get;
+            set;
         }
 
         /// <summary>

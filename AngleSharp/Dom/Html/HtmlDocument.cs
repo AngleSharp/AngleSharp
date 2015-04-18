@@ -23,6 +23,36 @@
             : this(context, new TextSource(String.Empty))
         {
         }
+        
+        public override String Title
+        {
+            get
+            {
+                var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
+
+                if (title != null)
+                    return title.TextContent.CollapseAndStrip();
+
+                return String.Empty;
+            }
+            set
+            {
+                var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
+
+                if (title == null)
+                {
+                    var head = Head;
+
+                    if (head == null)
+                        return;
+
+                    title = new HtmlTitleElement(this);
+                    head.AppendChild(title);
+                }
+
+                title.TextContent = value;
+            }
+        }
 
         /// <summary>
         /// Loads the document in the provided context from the given response.

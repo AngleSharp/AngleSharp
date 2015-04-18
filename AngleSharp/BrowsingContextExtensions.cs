@@ -10,7 +10,6 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Network;
 
     /// <summary>
@@ -27,15 +26,9 @@
         /// <param name="context">The browsing context to use.</param>
         /// <param name="url">The optional base URL of the document.</param>
         /// <returns>The new, yet empty, document.</returns>
-        public static async Task<IDocument> OpenNewAsync(this IBrowsingContext context, String url = null)
+        public static Task<IDocument> OpenNewAsync(this IBrowsingContext context, String url = null)
         {
-            var doc = new HtmlDocument(context) { DocumentUri = url };
-            doc.AppendChild(doc.CreateElement(Tags.Html));
-            doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Head));
-            doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Body));
-            await doc.FinishLoading().ConfigureAwait(false);
-            doc.Context.NavigateTo(doc);
-            return doc;
+            return context.OpenAsync(m => m.Address(url));
         }
 
         /// <summary>
@@ -170,7 +163,7 @@
                 address = Url.Create("http://localhost/");
                 status = HttpStatusCode.OK;
                 headers = new Dictionary<String, String>();
-                content = null;
+                content = MemoryStream.Null;
                 dispose = false;
             }
 
