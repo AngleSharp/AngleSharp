@@ -20,6 +20,11 @@
         {
         }
 
+        public override IElement DocumentElement
+        {
+            get { return RootElement; }
+        }
+
         public ISvgSvgElement RootElement
         {
             get { return this.FindChild<ISvgSvgElement>(); }

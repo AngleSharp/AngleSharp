@@ -24,6 +24,11 @@
         {
         }
         
+        public override IElement DocumentElement
+        {
+            get { return this.FindChild<HtmlHtmlElement>(); }
+        }
+
         public override String Title
         {
             get
@@ -54,6 +59,14 @@
             }
         }
 
+        public override INode Clone(Boolean deep = true)
+        {
+            var node = new HtmlDocument(Context, new TextSource(Source.Text));
+            CopyProperties(this, node, deep);
+            CopyDocumentProperties(this, node, deep);
+            return node;
+        }
+
         /// <summary>
         /// Loads the document in the provided context from the given response.
         /// </summary>
@@ -75,7 +88,6 @@
             document.Referrer = referrer;
             document.DocumentUri = url;
             document.Cookie = cookie;
-            document.Open(contentType);
             document.ReadyState = DocumentReadyState.Loading;
             var parser = new HtmlParser(document);
             var startEvent = new HtmlParseStartEvent(parser);

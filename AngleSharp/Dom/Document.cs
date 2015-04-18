@@ -30,6 +30,8 @@
         readonly IBrowsingContext _context;
         readonly IWindow _view;
         readonly IResourceLoader _loader;
+        readonly Location _location;
+        readonly TextSource _source;
 
         QuirksMode _quirksMode;
         Sandboxes _sandbox;
@@ -39,12 +41,10 @@
         Boolean _salvageable;
         Boolean _firedUnload;
         DocumentReadyState _ready;
-        TextSource _source;
         String _referrer;
         String _contentType;
         String _lastStyleSheetSet;
         String _preferredStyleSheetSet;
-        Location _location;
         IElement _focus;
         HtmlAllCollection _all;
         HtmlCollection<IHtmlAnchorElement> _anchors;
@@ -697,9 +697,9 @@
         /// <summary>
         /// Gets the root element of the document.
         /// </summary>
-        public virtual IElement DocumentElement
+        public abstract IElement DocumentElement
         {
-            get { return this.FindChild<HtmlHtmlElement>(); }
+            get;
         }
 
         /// <summary>
@@ -1033,12 +1033,7 @@
             //Important to fix #45
             ReplaceAll(null, true);
             _loadingScripts.Clear();
-
-            if (_source != null)
-            {
-                _source.Dispose();
-                _source = null;
-            }
+            _source.Dispose();
         }
 
         /// <summary>
@@ -1499,13 +1494,7 @@
         /// cloned, or false to clone only the specified node.
         /// </param>
         /// <returns>The duplicate node.</returns>
-        public override INode Clone(Boolean deep = true)
-        {
-            var node = new HtmlDocument(_context, new TextSource(Source.Text));
-            CopyProperties(this, node, deep);
-            CopyDocumentProperties(this, node, deep);
-            return node;
-        }
+        public override abstract INode Clone(Boolean deep = true);
 
         /// <summary>
         /// Returns an HTML-code representation of the node.
@@ -1778,6 +1767,9 @@
             target._referrer = source._referrer;
             target._location.Href = source._location.Href;
             target._quirksMode = source._quirksMode;
+            target._sandbox = source._sandbox;
+            target._async = source._async;
+            target._contentType = source._contentType;
         }
 
         #endregion
