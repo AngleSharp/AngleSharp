@@ -143,6 +143,7 @@
     <Compile Include="Dom\MutationHost.cs" />
     <Compile Include="BrowsingContext.cs" />
     <Compile Include="Html\HtmlMarkupFormatter.cs" />
+    <Compile Include="Html\PrettyMarkupFormatter.cs" />
     <Compile Include="IMarkupFormattable.cs" />
     <Compile Include="IMarkupFormatter.cs" />
     <Compile Include="Interfaces\Html\IHtmlDataElement.cs" />
