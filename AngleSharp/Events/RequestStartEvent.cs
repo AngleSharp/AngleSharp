@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Events
 {
-    using AngleSharp.Network;
     using System;
+    using AngleSharp.Network;
 
     /// <summary>
     /// The event that is published in case of new request.

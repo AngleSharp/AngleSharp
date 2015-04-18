@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Css;
-    using AngleSharp.Events;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
+    using AngleSharp.Css;
+    using AngleSharp.Events;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// The CSS tokenizer.

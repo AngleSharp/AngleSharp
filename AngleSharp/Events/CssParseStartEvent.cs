@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Events
 {
+    using System;
     using AngleSharp.Dom.Css;
     using AngleSharp.Parser.Css;
-    using System;
 
     /// <summary>
     /// The event that is published in case of starting CSS parsing.

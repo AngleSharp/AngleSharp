@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Events
 {
+    using System;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
-    using System;
 
     /// <summary>
     /// The event that is published in case of an CSS parse error.

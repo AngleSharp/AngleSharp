@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Events
 {
+    using System;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Html;
-    using System;
 
     /// <summary>
     /// The event that is published in case of an HTML parse error.
