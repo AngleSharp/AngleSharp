@@ -29,7 +29,7 @@
             doc.AppendChild(doc.CreateElement(Tags.Html));
             doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Head));
             doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Body));
-            await doc.FinishLoading();
+            await doc.FinishLoading().ConfigureAwait(false);
             doc.Context.NavigateTo(doc);
             return doc;
         }

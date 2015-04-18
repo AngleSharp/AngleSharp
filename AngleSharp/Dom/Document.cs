@@ -1612,7 +1612,7 @@
         /// <param name="cancelToken">Token for cancellation.</param>
         /// <returns>The task that builds the document.</returns>
         internal Task LoadAsync(IResponse response, CancellationToken cancelToken)
-        {
+        {            
             var contentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html);
             var referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
             var url = response.Address.Href;
@@ -1822,7 +1822,7 @@
                     Referer = DocumentUri
                 };
 
-                await _context.OpenAsync(request, CancellationToken.None);
+                await _context.OpenAsync(request, CancellationToken.None).ConfigureAwait(false);
             }
         }
 

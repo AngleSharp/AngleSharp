@@ -660,7 +660,7 @@
 
         async Task DoTimeout(Action<IWindow> callback, Int32 timeout, CancellationToken token)
         {
-            await token.Delay(timeout);
+            await token.Delay(timeout).ConfigureAwait(false);
 
             if (token.IsCancellationRequested)
                 return;
@@ -670,7 +670,7 @@
 
         async Task DoInterval(Action<IWindow> callback, Int32 timeout, CancellationToken token)
         {
-            await token.Delay(timeout);
+            await token.Delay(timeout).ConfigureAwait(false);
 
             if (token.IsCancellationRequested)
                 return;

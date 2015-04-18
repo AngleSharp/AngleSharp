@@ -280,7 +280,7 @@
 
         async Task DetectByteOrderMarkAsync(CancellationToken cancellationToken)
         {
-            var count = await _baseStream.ReadAsync(_buffer, 0, BufferSize);
+            var count = await _baseStream.ReadAsync(_buffer, 0, BufferSize).ConfigureAwait(false);
             var offset = 0;
 
             if (count > 2 && _buffer[0] == 0xef && _buffer[1] == 0xbb && _buffer[2] == 0xbf)

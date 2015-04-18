@@ -258,7 +258,9 @@
             }
 
             var request = this.CreateRequestFor(url);
-            var response = await Owner.Loader.FetchWithCorsAsync(request, CrossOrigin.ToEnum(CorsSetting.None), OriginBehavior.Taint, cancel);
+            var setting = CrossOrigin.ToEnum(CorsSetting.None);
+            var task = Owner.Loader.FetchWithCorsAsync(request, setting, OriginBehavior.Taint, cancel);
+            var response = await task.ConfigureAwait(false);
 
             if (_parserInserted && !IsAsync)
                 _readyToBeExecuted = true;

@@ -3670,7 +3670,7 @@
             {
                 script = _currentScriptElement;
                 _currentScriptElement = null;
-                await _document.WaitForReady();
+                await _document.WaitForReady().ConfigureAwait(false);
                 _nested++;
                 script.Run();
                 _nested--;
