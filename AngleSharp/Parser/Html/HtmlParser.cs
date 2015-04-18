@@ -25,7 +25,7 @@
         #region Fields
 
         readonly HtmlTokenizer _tokenizer;
-        readonly Document _document;
+        readonly HtmlDocument _document;
         readonly List<Element> _openElements;
         readonly List<Element> _formattingElements;
         readonly Stack<HtmlTreeMode> _templateModes;
@@ -58,7 +58,7 @@
         /// [Optional] The configuration to use.
         /// </param>
         public HtmlParser(String source, IConfiguration configuration = null)
-            : this(new Document(BrowsingContext.New(configuration), new TextSource(source)))
+            : this(new HtmlDocument(BrowsingContext.New(configuration), new TextSource(source)))
         {
         }
 
@@ -71,7 +71,7 @@
         /// [Optional] The configuration to use.
         /// </param>
         public HtmlParser(Stream stream, IConfiguration configuration = null)
-            : this(new Document(BrowsingContext.New(configuration), new TextSource(stream, configuration.DefaultEncoding())))
+            : this(new HtmlDocument(BrowsingContext.New(configuration), new TextSource(stream, configuration.DefaultEncoding())))
         {
         }
 
@@ -82,7 +82,7 @@
         /// <param name="document">
         /// The document instance to be constructed.
         /// </param>
-        internal HtmlParser(Document document)
+        internal HtmlParser(HtmlDocument document)
         {
             _tokenizer = new HtmlTokenizer(document.Source, document.Options.Events);
 			_syncGuard = new Object();

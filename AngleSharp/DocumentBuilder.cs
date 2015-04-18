@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
@@ -48,10 +49,7 @@
                 throw new ArgumentNullException("sourceCode");
             
             var context = BrowsingContext.New(configuration);
-            var stream = new TextSource(sourceCode);
-            var doc = new Document(context, stream) { DocumentUri = url };
-            context.NavigateTo(doc);
-            return ParserFor(doc).Parse();
+            return context.OpenAsync(m => m.Content(sourceCode).Address(url)).Result;
         }
 
         /// <summary>
@@ -125,10 +123,7 @@
                 throw new ArgumentNullException("content");
             
             var context = BrowsingContext.New(configuration);
-            var stream = new TextSource(content, context.Configuration.DefaultEncoding());
-            var doc = new Document(context, stream) { DocumentUri = url };
-            context.NavigateTo(doc);
-            return ParserFor(doc).Parse();
+            return context.OpenAsync(m => m.Content(content).Address(url)).Result;
         }
 
         /// <summary>
@@ -163,16 +158,13 @@
         /// </param>
         /// <param name="url">The optional base URL of the document.</param>
         /// <returns>The task to construct the HTML document.</returns>
-        public static async Task<IDocument> HtmlAsync(Stream content, CancellationToken cancel, IConfiguration configuration = null, String url = null)
+        public static Task<IDocument> HtmlAsync(Stream content, CancellationToken cancel, IConfiguration configuration = null, String url = null)
         {
             if (content == null)
                 throw new ArgumentException("content");
             
             var context = BrowsingContext.New(configuration);
-            var stream = new TextSource(content, context.Configuration.DefaultEncoding());
-            var doc = new Document(context, stream) { DocumentUri = url };
-            context.NavigateTo(doc);
-            return await ParserFor(doc).ParseAsync(cancel).ConfigureAwait(false);
+            return context.OpenAsync(m => m.Content(content).Address(url));
         }
 
         /// <summary>
@@ -193,8 +185,8 @@
 
             var context = BrowsingContext.New(configuration);
             var stream = new TextSource(sourceCode);
-            var doc = new Document(context, stream);
-            var parser = ParserFor(doc);
+            var doc = new HtmlDocument(context, stream);
+            var parser = new HtmlParser(doc);
 
             if (contextElement == null)
                 return parser.Parse().ChildNodes;
@@ -246,7 +238,8 @@
 
             var stream = new TextSource(sourceCode);
             var sheet = new CssStyleSheet(configuration, stream) { Href = url };
-            return ParserFor(sheet).Parse();
+            var parser = new CssParser(sheet);
+            return parser.Parse();
         }
 
         /// <summary>
@@ -270,7 +263,8 @@
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
             var sheet = new CssStyleSheet(configuration, source) { Href = url };
-            return ParserFor(sheet).Parse();
+            var parser = new CssParser(sheet);
+            return parser.Parse();
         }
 
         /// <summary>
@@ -315,29 +309,8 @@
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
             var sheet = new CssStyleSheet(configuration, source) { Href = url };
-            return await ParserFor(sheet).ParseAsync(cancel).ConfigureAwait(false);
-        }
-
-        #endregion
-
-        #region Helpers
-
-        /// <summary>
-        /// Creates a new parser with the specified source.
-        /// </summary>
-        /// <param name="document">The document to fill.</param>
-        static HtmlParser ParserFor(Document document)
-        {
-            return new HtmlParser(document);
-        }
-
-        /// <summary>
-        /// Creates a new parser with the specified source.
-        /// </summary>
-        /// <param name="sheet">The document to fill.</param>
-        static CssParser ParserFor(CssStyleSheet sheet)
-        {
-            return new CssParser(sheet);
+            var parser = new CssParser(sheet);
+            return await parser.ParseAsync(cancel).ConfigureAwait(false);
         }
 
         #endregion

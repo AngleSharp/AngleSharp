@@ -124,6 +124,13 @@
         void WriteLine(String content);
 
         /// <summary>
+        /// Loads the document content from the given url.
+        /// </summary>
+        /// <param name="url">The url that hosts the content.</param>
+        [DomName("load")]
+        void Load(String url);
+
+        /// <summary>
         /// Gets the document type.
         /// </summary>
         [DomName("doctype")]
@@ -469,13 +476,6 @@
         /// <returns>True if the document is active and in the focus.</returns>
         [DomName("hasFocus")]
         Boolean HasFocus();
-
-        /// <summary>
-        /// Loads the document content from the given url.
-        /// </summary>
-        /// <param name="url">The url that hosts the HTML content.</param>
-        [DomName("load")]
-        void LoadHtml(String url);
 
         /// <summary>
         /// Executes a command with the provided id and the optional arguments.

@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Xml
 {
+    using System;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
-    using System;
 
     /// <summary>
     /// Represents a document node that contains only XML nodes.
@@ -37,11 +37,6 @@
             CopyProperties(this, node, deep);
             CopyDocumentProperties(this, node, deep);
             return node;
-        }
-
-        public void LoadXml(String url)
-        {
-            Location.Href = url;
         }
     }
 }

@@ -20,6 +20,11 @@
         {
         }
 
+        public ISvgSvgElement RootElement
+        {
+            get { return this.FindChild<ISvgSvgElement>(); }
+        }
+
         public override String Title
         {
             get
@@ -51,16 +56,6 @@
             CopyProperties(this, node, deep);
             CopyDocumentProperties(this, node, deep);
             return node;
-        }
-
-        public void LoadSvg(String url)
-        {
-            Location.Href = url;
-        }
-
-        public ISvgSvgElement RootElement
-        {
-            get { return this.FindChild<ISvgSvgElement>(); }
         }
     }
 }

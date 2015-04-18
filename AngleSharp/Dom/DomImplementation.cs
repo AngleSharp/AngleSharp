@@ -6,6 +6,8 @@
     using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
+    using AngleSharp.Dom.Html;
+
 
     /// <summary>
     /// Provides a number of methods for performing operations that are
@@ -129,8 +131,7 @@
         /// <returns>A new Document object with its document element.</returns>
         public IDocument CreateHtmlDocument(String title)
         {
-            var document = new Document();
-            document.ContentType = MimeTypes.Html;
+            var document = new HtmlDocument();
             document.AppendChild(new DocumentType(document, Tags.Html));
             document.AppendChild(document.CreateElement(Tags.Html));
             document.DocumentElement.AppendChild(document.CreateElement(Tags.Head));

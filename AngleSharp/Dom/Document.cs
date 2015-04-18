@@ -20,7 +20,7 @@
     /// Represents a document node.
     /// </summary>
     [DebuggerStepThrough]
-    class Document : Node, IDocument
+    abstract class Document : Node, IDocument
     {
         #region Fields
 
@@ -646,7 +646,6 @@
         public ILocation Location
         {
             get { return _location; }
-            set { LoadHtml(value.Href); }
         }
 
         /// <summary>
@@ -1132,6 +1131,15 @@
         }
 
         /// <summary>
+        /// Loads the document content from the given url.
+        /// </summary>
+        /// <param name="url">The url that hosts the content.</param>
+        public void Load(String url)
+        {
+            Location.Href = url;
+        }
+
+        /// <summary>
         /// Finishes writing to a document.
         /// </summary>
         void IDocument.Close()
@@ -1180,15 +1188,6 @@
             var result = new List<IElement>();
             ChildNodes.GetElementsByName(name, result);
             return new HtmlElementCollection(result);
-        }
-
-        /// <summary>
-        /// Loads the document content from the given URL.
-        /// </summary>
-        /// <param name="url">The URL that hosts the HTML content.</param>
-        public void LoadHtml(String url)
-        {
-            _location.Href = url;
         }
 
         /// <summary>
@@ -1528,7 +1527,7 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new Document(_context, new TextSource(Source.Text));
+            var node = new HtmlDocument(_context, new TextSource(Source.Text));
             CopyProperties(this, node, deep);
             CopyDocumentProperties(this, node, deep);
             return node;
@@ -1611,34 +1610,20 @@
         /// <param name="response">The response to consider.</param>
         /// <param name="cancelToken">Token for cancellation.</param>
         /// <returns>The task that builds the document.</returns>
-        internal Task LoadAsync(IResponse response, CancellationToken cancelToken)
-        {            
+        internal async Task LoadAsync(IResponse response, CancellationToken cancelToken)
+        {
             var contentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html);
             var referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
             var url = response.Address.Href;
-            return LoadAsync(response.Content, contentType, url, referrer, cancelToken);
-        }
-
-        /// <summary>
-        /// (Re-)loads the document with the given data.
-        /// </summary>
-        /// <param name="content">The content to consider.</param>
-        /// <param name="contentType">The type of the content.</param>
-        /// <param name="url">The address of the content.</param>
-        /// <param name="referrer">The previously visited page.</param>
-        /// <param name="cancelToken">Token for cancellation.</param>
-        /// <returns>The task that builds the document.</returns>
-        internal async Task LoadAsync(Stream content, String contentType, String url, String referrer, CancellationToken cancelToken)
-        {
             var config = Options;
             _contentType = MimeTypes.Html;
             _referrer = referrer;
             Open(contentType);
             DocumentUri = url;
             ReadyState = DocumentReadyState.Loading;
-            _source = new TextSource(content, config.DefaultEncoding());
+            _source = new TextSource(response.Content, config.DefaultEncoding());
             var events = config.Events;
-            var parser = new HtmlParser(this);
+            var parser = new HtmlParser((HtmlDocument)this);
             var evt = new HtmlParseStartEvent(parser);
 
             if (events != null)
@@ -1822,7 +1807,7 @@
                     Referer = DocumentUri
                 };
 
-                await _context.OpenAsync(request, CancellationToken.None).ConfigureAwait(false);
+                await _context.OpenAsync(request, CancellationToken.None);
             }
         }
 

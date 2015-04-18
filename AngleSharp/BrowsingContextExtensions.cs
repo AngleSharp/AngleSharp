@@ -8,6 +8,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
@@ -28,7 +29,7 @@
         /// <returns>The new, yet empty, document.</returns>
         public static async Task<IDocument> OpenNewAsync(this IBrowsingContext context, String url = null)
         {
-            var doc = new Document(context) { DocumentUri = url };
+            var doc = new HtmlDocument(context) { DocumentUri = url };
             doc.AppendChild(doc.CreateElement(Tags.Html));
             doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Head));
             doc.DocumentElement.AppendChild(doc.CreateElement(Tags.Body));
@@ -50,7 +51,7 @@
             if (response == null)
                 throw new ArgumentNullException("response");
 
-            var doc = new Document(context);
+            var doc = new HtmlDocument(context);
             await doc.LoadAsync(response, cancel).ConfigureAwait(false);
             doc.Context.NavigateTo(doc);
             return doc;
@@ -189,7 +190,7 @@
             /// <returns>The current instance.</returns>
             public VirtualResponse Address(String address)
             {
-                return Address(Url.Create(address));
+                return Address(Url.Create(address ?? String.Empty));
             }
 
             /// <summary>
