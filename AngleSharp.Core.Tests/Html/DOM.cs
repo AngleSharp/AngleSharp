@@ -1,26 +1,18 @@
-﻿using System;
-using System.Linq;
-using AngleSharp.Core.Tests.Mocks;
-using AngleSharp.Dom;
-using AngleSharp.Dom.Css;
-using AngleSharp.Dom.Html;
-using AngleSharp.Events;
-using AngleSharp.Html;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using System;
+    using System.Linq;
+    using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Dom.Html;
+    using AngleSharp.Events;
+    using AngleSharp.Html;
+    using NUnit.Framework;
+
     [TestFixture]
     public class DOMTests
     {
-        Document document;
-
-        [TestFixtureSetUp]
-        public void Setup()
-        {
-            document = new Document();
-        }
-
         static IDocument Html(String code)
         {
             return code.ToHtmlDocument();
@@ -96,6 +88,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DOMTokenListWritesBack()
         {
+            var document = new HtmlDocument();
             var testClass = "myclass";
             var div = new HtmlDivElement(document);
             div.ClassName = "";
@@ -106,6 +99,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DOMTokenListCorrectlyInitializedFindsClass()
         {
+            var document = new HtmlDocument();
             var testClass = "myclass";
             var div = new HtmlDivElement(document);
             div.ClassName = testClass + " whatever anotherclass";
@@ -115,6 +109,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DOMTokenListCorrectlyInitializedNoClass()
         {
+            var document = new HtmlDocument();
             var testClass = "myclass1";
             var div = new HtmlDivElement(document);
             div.ClassName = "myclass2 whatever anotherclass";
@@ -124,6 +119,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DOMTokenListToggleWorksTurnOff()
         {
+            var document = new HtmlDocument();
             var testClass = "myclass";
             var otherClasses = "otherClass someOther more";
             var div = new HtmlDivElement(document);
@@ -135,6 +131,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DOMTokenListToggleWorksTurnOn()
         {
+            var document = new HtmlDocument();
             var testClass = "myclass";
             var otherClasses = "otherClass someOther more";
             var div = new HtmlDivElement(document);
@@ -146,6 +143,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DOMStringMapBindingGet()
         {
+            var document = new HtmlDocument();
             var value = "SomeUser";
             var div = new HtmlDivElement(document);
             div.SetAttribute("data-user", value);
@@ -155,6 +153,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DOMStringMapBindingSet()
         {
+            var document = new HtmlDocument();
             var value = "SomeUser";
             var div = new HtmlDivElement(document);
             div.Dataset["user"] = value;
@@ -164,6 +163,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DOMStringMapHasNoAttribute()
         {
+            var document = new HtmlDocument();
             var div = new HtmlDivElement(document);
             Assert.IsTrue(div.Dataset["user"] == null);
         }
@@ -171,6 +171,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DOMStringMapHasAttributesButRequestedMissing()
         {
+            var document = new HtmlDocument();
             var div = new HtmlDivElement(document);
             div.SetAttribute("data-some", "test");
             div.SetAttribute("data-another", "");
@@ -181,6 +182,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DOMStringMapIEnumerableWorking()
         {
+            var document = new HtmlDocument();
             var div = new HtmlDivElement(document);
             div.SetAttribute("data-some", "test");
             div.SetAttribute("data-another", "");
@@ -195,22 +197,22 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void HtmlCustomTitleGeneration()
         {
-            var doc = new Document();
+            var document = new HtmlDocument();
             var title = "My Title";
-            doc.Title = title;
-            Assert.AreEqual("", doc.Title);
-            var html = doc.CreateElement(Tags.Html);
-            var head = doc.CreateElement(Tags.Head);
-            doc.AppendChild(html);
+            document.Title = title;
+            Assert.AreEqual("", document.Title);
+            var html = document.CreateElement(Tags.Html);
+            var head = document.CreateElement(Tags.Head);
+            document.AppendChild(html);
             html.AppendChild(head);
-            doc.Title = title;
-            Assert.AreEqual(title, doc.Title);
+            document.Title = title;
+            Assert.AreEqual(title, document.Title);
         }
 
         [Test]
         public void HtmlHasRightHeadElement()
         {
-            var document = new Document();
+            var document = new HtmlDocument();
             var root = new HtmlHtmlElement(document);
             document.AppendChild(root);
             var head = new HtmlHeadElement(document);
@@ -221,7 +223,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void HtmlHasRightBodyElement()
         {
-            var document = new Document();
+            var document = new HtmlDocument();
             var root = new HtmlHtmlElement(document);
             document.AppendChild(root);
             var body = new HtmlBodyElement(document);
@@ -232,7 +234,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NormalizeRemovesEmptyTextNodes()
         {
-            var document = new Document();
+            var document = new HtmlDocument();
             var div = document.CreateElement("div");
             div.AppendChild(document.CreateElement("a"));
             div.AppendChild(document.CreateTextNode(String.Empty));
@@ -246,7 +248,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NormalizeRemovesEmptyTextNodesNested()
         {
-            var document = new Document();
+            var document = new HtmlDocument();
             var div = document.CreateElement("div");
             var a = document.CreateElement("a");
             a.AppendChild(document.CreateTextNode(""));
@@ -263,7 +265,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NormalizeMergeTextNodes()
         {
-            var document = new Document();
+            var document = new HtmlDocument();
             var div = document.CreateElement("div");
             var a = document.CreateElement("a");
             a.AppendChild(document.CreateTextNode(""));
@@ -443,8 +445,8 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void HtmlAnchorToggleProperties()
         {
-            var doc = new Document();
-            var element = doc.CreateElement<IHtmlAnchorElement>();
+            var document = new HtmlDocument();
+            var element = document.CreateElement<IHtmlAnchorElement>();
 
             Assert.IsTrue(element.IsTranslated);
             Assert.IsFalse(element.IsSpellChecked);
@@ -466,10 +468,10 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void HtmlButtonToggleProperties()
         {
-            var doc = new Document();
-            var form = doc.CreateElement<IHtmlFormElement>();
-            var element = doc.CreateElement<IHtmlButtonElement>();
-            doc.AppendChild(form);
+            var document = new HtmlDocument();
+            var form = document.CreateElement<IHtmlFormElement>();
+            var element = document.CreateElement<IHtmlButtonElement>();
+            document.AppendChild(form);
             form.AppendChild(element);
 
             Assert.IsFalse(element.IsDisabled);
@@ -488,6 +490,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CSSStyleDeclarationBoundOutboundDirectionIndirect()
         {
+            var document = new HtmlDocument();
             var element = document.CreateElement<IHtmlSpanElement>();
             var text = "background-color: red; color: black;";
             element.SetAttribute("style", text);
@@ -498,6 +501,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CSSStyleDeclarationBoundOutboundDirectionDirect()
         {
+            var document = new HtmlDocument();
             var element = document.CreateElement<IHtmlSpanElement>();
             var text = "background-color: red; color: black;";
             element.SetAttribute("style", String.Empty);
@@ -510,6 +514,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CSSStyleDeclarationBoundInboundDirection()
         {
+            var document = new HtmlDocument();
             var element = new HtmlSpanElement(document);
             var text = "background-color: red; color: black;";
             element.Style.CssText = text;

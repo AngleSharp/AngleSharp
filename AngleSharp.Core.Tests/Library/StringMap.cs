@@ -12,7 +12,7 @@
         [SetUp]
         public void CreateMap()
         {
-            var document = new Document();
+            var document = new HtmlDocument();
             a = new HtmlElement(document, "a");
             a.SetAttribute("data-test1", "test");
             a.SetAttribute("data-b", "b");
