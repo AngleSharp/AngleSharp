@@ -1,11 +1,4 @@
-﻿using AngleSharp;
-using AngleSharp.Dom;
-using AngleSharp.Dom.Css;
-using AngleSharp.Dom.Html;
-using AngleSharp.Parser.Css;
-using AngleSharp.Parser.Html;
-using ConsoleInteraction.Assets;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -14,6 +7,13 @@ using System.Net.Http;
 using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
+using AngleSharp;
+using AngleSharp.Dom;
+using AngleSharp.Dom.Css;
+using AngleSharp.Dom.Html;
+using AngleSharp.Parser.Css;
+using AngleSharp.Parser.Html;
+using ConsoleInteraction.Assets;
 
 namespace ConsoleInteraction
 {
