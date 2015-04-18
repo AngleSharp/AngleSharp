@@ -51,10 +51,12 @@
             if (response == null)
                 throw new ArgumentNullException("response");
 
-            var doc = new HtmlDocument(context);
-            await doc.LoadAsync(response, cancel).ConfigureAwait(false);
-            doc.Context.NavigateTo(doc);
-            return doc;
+            if (context == null)
+                context = BrowsingContext.New();
+            
+            var document = await HtmlDocument.LoadAsync(context, response, cancel).ConfigureAwait(false);
+            context.NavigateTo(document);
+            return document;
         }
 
         /// <summary>

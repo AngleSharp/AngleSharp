@@ -598,7 +598,7 @@
         public String ContentType
         {
             get { return _contentType; }
-            internal set { _contentType = value; }
+            protected set { _contentType = value; }
         }
 
         /// <summary>
@@ -638,6 +638,7 @@
         public String Referrer
         {
             get { return _referrer; }
+            protected set { _referrer = value; }
         }
 
         /// <summary>
@@ -1602,35 +1603,6 @@
 
             if (IsToBePrinted)
                 Print();
-        }
-
-        /// <summary>
-        /// (Re-)loads the document with the given response.
-        /// </summary>
-        /// <param name="response">The response to consider.</param>
-        /// <param name="cancelToken">Token for cancellation.</param>
-        /// <returns>The task that builds the document.</returns>
-        internal async Task LoadAsync(IResponse response, CancellationToken cancelToken)
-        {
-            var contentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html);
-            var referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
-            var url = response.Address.Href;
-            var config = Options;
-            _contentType = MimeTypes.Html;
-            _referrer = referrer;
-            Open(contentType);
-            DocumentUri = url;
-            ReadyState = DocumentReadyState.Loading;
-            _source = new TextSource(response.Content, config.DefaultEncoding());
-            var events = config.Events;
-            var parser = new HtmlParser((HtmlDocument)this);
-            var evt = new HtmlParseStartEvent(parser);
-
-            if (events != null)
-                events.Publish(evt);
-
-            var result = await parser.ParseAsync(cancelToken).ConfigureAwait(false);
-            evt.SetResult(result);
         }
 
         /// <summary>
