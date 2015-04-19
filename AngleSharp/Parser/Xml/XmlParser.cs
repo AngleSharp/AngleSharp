@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
+    using System.Threading;
     using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Xml;
@@ -21,14 +22,15 @@
     {
         #region Fields
 
-        XmlTokenizer tokenizer;
-        Boolean started;
-        XmlDocument doc;
-        List<Element> open;
-        XmlTreeMode insert;
-        Task task;
-        Boolean standalone;
-		Object sync;
+        readonly XmlTokenizer _tokenizer;
+        readonly XmlDocument _document;
+        readonly List<Element> _openElements;
+        readonly Object _syncGuard;
+
+        Boolean _started;
+        XmlTreeMode _currentMode;
+        Task<IXmlDocument> _parsing;
+        Boolean _standalone;
 
         #endregion
 
@@ -66,13 +68,13 @@
         /// <param name="document">The document instance to be constructed.</param>
         internal XmlParser(XmlDocument document)
         {
-            tokenizer = new XmlTokenizer(document.Source, document.Options.Events);
-			sync = new Object();
-            started = false;
-            doc = document;
-            standalone = false;
-            open = new List<Element>();
-            insert = XmlTreeMode.Initial;
+            _tokenizer = new XmlTokenizer(document.Source, document.Options.Events);
+			_syncGuard = new Object();
+            _started = false;
+            _document = document;
+            _standalone = false;
+            _openElements = new List<Element>();
+            _currentMode = XmlTreeMode.Initial;
         }
 
         #endregion
@@ -82,9 +84,9 @@
         /// <summary>
         /// Gets the current node.
         /// </summary>
-        internal Node CurrentNode
+        internal Element CurrentNode
         {
-            get { return open.Count > 0 ? (Node)open[open.Count - 1] : (Node)doc; }
+            get { return _openElements.Count > 0 ? _openElements[_openElements.Count - 1] : null; }
         }
 
         /// <summary>
@@ -92,19 +94,15 @@
         /// </summary>
         public IXmlDocument Result
         {
-            get
-            {
-                Parse();
-                return doc;
-            }
+            get { return _document; }
         }
 
         /// <summary>
         /// Gets if the XML is standalone.
         /// </summary>
-        public Boolean Standalone
+        public Boolean IsStandalone
         {
-            get { return standalone; }
+            get { return _standalone; }
         }
 
         /// <summary>
@@ -112,7 +110,7 @@
         /// </summary>
         public Boolean IsAsync
         {
-            get { return task != null; }
+            get { return _parsing != null; }
         }
 
         #endregion
@@ -122,41 +120,50 @@
         /// <summary>
         /// Parses the given source asynchronously and creates the document.
         /// </summary>
-        /// <returns>The task which could be awaited or continued differently.</returns>
-        public Task ParseAsync()
+        /// <returns>
+        /// The task which could be awaited or continued differently.
+        /// </returns>
+        public Task<IXmlDocument> ParseAsync()
         {
-			lock (sync)
-			{
-				if (!started)
-				{
-					started = true;
-					task = Task.Run(() => Kernel());
-				}
-				else if (task == null)
-					throw new InvalidOperationException("The parser has already run synchronously.");
+            return ParseAsync(CancellationToken.None);
+        }
 
-				return task;
-			}
+        /// <summary>
+        /// Parses the given source asynchronously and creates the document.
+        /// </summary>
+        /// <param name="cancelToken">The cancellation token to use.</param>
+        /// <returns>
+        /// The task which could be awaited or continued differently.
+        /// </returns>
+        public Task<IXmlDocument> ParseAsync(CancellationToken cancelToken)
+        {
+            lock (_syncGuard)
+            {
+                if (!_started)
+                {
+                    _started = true;
+                    _parsing = KernelAsync(cancelToken);
+                }
+            }
+
+            return _parsing;
         }
 
         /// <summary>
         /// Parses the given source and creates the document.
         /// </summary>
-        public void Parse()
+        public IXmlDocument Parse()
         {
-			var run = false;
+            lock (_syncGuard)
+            {
+                if (!_started)
+                {
+                    _started = true;
+                    Kernel();
+                }
+            }
 
-			lock (sync)
-			{
-				if (!started)
-				{
-					started = true;
-					run = true;
-				}
-			}
-
-			if (run)
-				Kernel();
+            return _document;
         }
 
         #endregion
@@ -169,7 +176,7 @@
         /// <param name="token">The token to consume.</param>
         void Consume(XmlToken token)
         {
-            switch (insert)
+            switch (_currentMode)
             {
                 case XmlTreeMode.Initial:
                     Initial(token);
@@ -198,7 +205,7 @@
             if (token.Type == XmlTokenType.Declaration)
             {
                 var tok = (XmlDeclarationToken)token;
-                standalone = tok.Standalone;
+                _standalone = tok.Standalone;
 
                 if (!tok.IsEncodingMissing)
                     SetEncoding(tok.Encoding);
@@ -208,7 +215,7 @@
             }
             else
             {
-                insert = XmlTreeMode.Prolog;
+                _currentMode = XmlTreeMode.Prolog;
                 BeforeDoctype(token);
             }
         }
@@ -225,12 +232,12 @@
                 case XmlTokenType.DOCTYPE:
                 {
                     var tok = (XmlDoctypeToken)token;
-                    doc.AppendChild(new DocumentType(doc, tok.Name)
+                    _document.AppendChild(new DocumentType(_document, tok.Name)
                     {
                         SystemIdentifier = tok.SystemIdentifier,
                         PublicIdentifier = tok.PublicIdentifier
                     });
-                    insert = XmlTreeMode.Misc;
+                    _currentMode = XmlTreeMode.Misc;
 
                     break;
                 }
@@ -253,20 +260,20 @@
                 case XmlTokenType.Comment:
                 {
                     var tok = (XmlCommentToken)token;
-                    var com = doc.CreateComment(tok.Data);
+                    var com = _document.CreateComment(tok.Data);
                     CurrentNode.AppendChild(com);
                     break;
                 }
                 case XmlTokenType.ProcessingInstruction:
                 {
                     var tok = (XmlPIToken)token;
-                    var pi = doc.CreateProcessingInstruction(tok.Target, tok.Content);
+                    var pi = _document.CreateProcessingInstruction(tok.Target, tok.Content);
                     CurrentNode.AppendChild(pi);
                     break;
                 }
                 case XmlTokenType.StartTag:
                 {
-                    insert = XmlTreeMode.Body;
+                    _currentMode = XmlTreeMode.Body;
                     InBody(token);
                     break;
                 }
@@ -291,13 +298,13 @@
                 case XmlTokenType.StartTag:
                 {
                     var tok = (XmlTagToken)token;
-                    var tag = new XmlElement(doc, tok.Name);
+                    var tag = new XmlElement(_document, tok.Name);
                     CurrentNode.AppendChild(tag);
 
                     if (!tok.IsSelfClosing)
-                        open.Add(tag);
-                    else if(open.Count == 0)
-                        insert = XmlTreeMode.After;
+                        _openElements.Add(tag);
+                    else if(_openElements.Count == 0)
+                        _currentMode = XmlTreeMode.After;
 
                     for (int i = 0; i < tok.Attributes.Count; i++)
                         tag.SetAttribute(tok.Attributes[i].Key, tok.Attributes[i].Value.Trim());
@@ -311,10 +318,10 @@
                     if (CurrentNode.NodeName != tok.Name)
                         throw XmlError(XmlParseError.TagClosingMismatch);
 
-                    open.RemoveAt(open.Count - 1);
+                    _openElements.RemoveAt(_openElements.Count - 1);
 
-                    if (open.Count == 0)
-                        insert = XmlTreeMode.After;
+                    if (_openElements.Count == 0)
+                        _currentMode = XmlTreeMode.After;
 
                     break;
                 }
@@ -327,7 +334,7 @@
                 case XmlTokenType.Entity:
                 {
                     var tok = (XmlEntityToken)token;
-                    var str = tokenizer.GetEntity(tok);
+                    var str = _tokenizer.GetEntity(tok);
                     CurrentNode.AppendText(str);
                     break;
                 }
@@ -416,14 +423,37 @@
         /// </summary>
         void Kernel()
         {
-            XmlToken token;
+            var token = default(XmlToken);
 
             do
             {
-                token = tokenizer.Get();
+                token = _tokenizer.Get();
                 Consume(token);
             }
             while (token.Type != XmlTokenType.EOF);
+        }
+
+        /// <summary>
+        /// The kernel that is pulling the tokens into the parser.
+        /// </summary>
+        /// <param name="cancelToken">The cancellation token to consider.</param>
+        /// <returns>The task to await.</returns>
+        async Task<IXmlDocument> KernelAsync(CancellationToken cancelToken)
+        {
+            var source = _document.Source;
+            var token = default(XmlToken);
+
+            do
+            {
+                if (source.Length - source.Index < 1024)
+                    await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
+
+                token = _tokenizer.Get();
+                Consume(token);
+            }
+            while (token.Type != XmlTokenType.EOF);
+
+            return _document;
         }
 
         /// <summary>
@@ -440,11 +470,13 @@
                 {
                     try
                     {
-                        doc.Source.CurrentEncoding = encoding;
+                        _document.Source.CurrentEncoding = encoding;
                     }
                     catch (NotSupportedException)
                     {
-                        //Restart();
+                        _currentMode = XmlTreeMode.Initial;
+                        _document.ReplaceAll(null, true);
+                        _openElements.Clear();
                     }
                 }
             }
