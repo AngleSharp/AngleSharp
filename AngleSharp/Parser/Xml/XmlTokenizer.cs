@@ -53,7 +53,7 @@
                 if (!num.IsValidAsCharRef())
                     throw XmlError(XmlParseError.CharacterReferenceInvalidNumber);
 
-                return Char.ConvertFromUtf32(num);
+                return num.ConvertFromUtf32();
             }
             else
             {
