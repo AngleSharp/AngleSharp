@@ -84,9 +84,15 @@
         /// <summary>
         /// Gets the current node.
         /// </summary>
-        internal Element CurrentNode
+        internal Node CurrentNode
         {
-            get { return _openElements.Count > 0 ? _openElements[_openElements.Count - 1] : null; }
+            get
+            {
+                if (_openElements.Count > 0)
+                    return _openElements[_openElements.Count - 1];
+                
+                return _document;
+            }
         }
 
         /// <summary>

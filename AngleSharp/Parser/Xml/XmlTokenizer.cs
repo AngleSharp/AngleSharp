@@ -15,11 +15,11 @@
     {
         #region Constants
 
-        const String CDATA = "[CDATA[";
-        const String PUBLIC = "PUBLIC";
-        const String SYSTEM = "SYSTEM";
-        const String YES = "yes";
-        const String NO = "no";
+        static readonly String CDataOpening = "[CDATA[";
+        static readonly String PublicIdentifier = "PUBLIC";
+        static readonly String SystemIdentifier = "SYSTEM";
+        static readonly String YesIdentifier = "yes";
+        static readonly String NoIdentifier = "no";
 
         #endregion
 
@@ -98,12 +98,12 @@
         /// <returns>The next available token.</returns>
         public XmlToken Get()
         {
+            Advance();
+
             if (IsEnded) 
                 return XmlToken.EOF;
 
-            var token = Data(Current);
-            Advance();
-            return token;
+            return Data(Current);
         }
 
         #endregion
@@ -379,7 +379,7 @@
                 Advance(6);
                 return Doctype(GetNext());
             }
-            else if (ContinuesWith(CDATA, false))
+            else if (ContinuesWith(CDataOpening, false))
             {
                 Advance(6);
                 return CData(GetNext());
@@ -643,9 +643,9 @@
 
             var s = _stringBuffer.ToString();
 
-            if (s.Equals(YES))
+            if (s.Equals(YesIdentifier))
                 decl.Standalone = true;
-            else if (s.Equals(NO))
+            else if (s.Equals(NoIdentifier))
                 decl.Standalone = false;
             else
                 throw XmlError(XmlParseError.XmlDeclarationInvalid);
@@ -743,12 +743,12 @@
             if (c == Symbols.GreaterThan)
                 return doctype;
 
-            if (ContinuesWith(PUBLIC, false))
+            if (ContinuesWith(PublicIdentifier, false))
             {
                 Advance(5);
                 return DoctypePublic(GetNext(), doctype);
             }
-            else if (ContinuesWith(SYSTEM, false))
+            else if (ContinuesWith(SystemIdentifier, false))
             {
                 Advance(5);
                 return DoctypeSystem(GetNext(), doctype);
