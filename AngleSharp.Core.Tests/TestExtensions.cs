@@ -4,6 +4,9 @@
     using System.IO;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
+    using AngleSharp.Parser.Html;
+    using AngleSharp.Parser.Xml;
     using NUnit.Framework;
 
     static class TestExtensions
@@ -21,12 +24,23 @@
 
         public static IDocument ToHtmlDocument(this String sourceCode, IConfiguration configuration = null)
         {
-            return DocumentBuilder.Html(sourceCode, configuration);
+            var parser = new HtmlParser(sourceCode, configuration);
+            parser.Parse();
+            return parser.Result;
+        }
+
+        public static IDocument ToXmlDocument(this String sourceCode, IConfiguration configuration = null)
+        {
+            var xmlParser = new XmlParser(sourceCode, configuration);
+            xmlParser.Parse();
+            return xmlParser.Result;
         }
 
         public static ICssStyleSheet ToCssStylesheet(this String sourceCode, IConfiguration configuration = null)
         {
-            return DocumentBuilder.Css(sourceCode, configuration);
+            var parser = new CssParser(sourceCode, configuration);
+            parser.Parse();
+            return parser.Result;
         }
 
         public static INodeList ToHtmlFragment(this String sourceCode, IElement context = null, IConfiguration configuration = null)
@@ -36,12 +50,16 @@
 
         public static IDocument ToHtmlDocument(this Stream content, IConfiguration configuration = null)
         {
-            return DocumentBuilder.Html(content, configuration);
+            var parser = new HtmlParser(content, configuration);
+            parser.Parse();
+            return parser.Result;
         }
 
         public static ICssStyleSheet ToCssStylesheet(this Stream content, IConfiguration configuration = null)
         {
-            return DocumentBuilder.Css(content, configuration);
+            var parser = new CssParser(content, configuration);
+            parser.Parse();
+            return parser.Result;
         }
     }
 }

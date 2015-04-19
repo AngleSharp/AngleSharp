@@ -1,24 +1,22 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AngleSharp;
-using AngleSharp.Xml;
-
-namespace UnitTests
+﻿namespace AngleSharp.Core.Tests.Xml
 {
-    [TestClass]
+    using System;
+    using NUnit.Framework;
+
+    [TestFixture]
     public class XmlTree
     {
-        [TestMethod]
+        [Test]
         public void XmlValidDocumentWithoutDocType()
         {
-            var xml = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
+            var xml = (@"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
 <!-- Edited by XMLSpy® -->
 <note>
 	<to>Tove</to>
 	<from>Jani</from>
 	<heading>Reminder</heading>
 	<body>Don't forget me this weekend!</body>
-</note>");
+</note>").ToXmlDocument();
 
             Assert.IsNotNull(xml);
             Assert.IsNotNull(xml.DocumentElement);
@@ -31,24 +29,24 @@ namespace UnitTests
             Assert.AreEqual("body", xml.DocumentElement.Children[3].TagName);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(XmlSyntaxException))]
+        [Test]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void XmlInvalidDocumentMismatchedEndTag()
         {
-            var xml = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
+            var xml = (@"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
 <!-- Edited by XMLSpy® -->
 <note>
 	<to>Tove</to>
 	<from>Jani</Ffrom>
 	<heading>Reminder</heading>
 	<body>Don't forget me this weekend!</body>
-</note>");
+</note>").ToXmlDocument();
         }
 
-        [TestMethod]
+        [Test]
         public void XmlValidDocumentFoodMenuInnerHTML()
         {
-            var xml = DocumentBuilder.Xml(Assets.FoodMenu);
+            var xml = Assets.food.ToXmlDocument();
 
             Assert.IsNotNull(xml);
             Assert.IsNotNull(xml.DocumentElement);
@@ -58,11 +56,11 @@ namespace UnitTests
             Assert.AreEqual("food", xml.DocumentElement.Children[0].TagName);
             Assert.AreEqual(4, xml.DocumentElement.Children[0].Children.Length);
             Assert.AreEqual("name", xml.DocumentElement.Children[0].Children[0].TagName);
-            Assert.AreEqual("$5.95", xml.DocumentElement.Children[0].Children[1].InnerHTML);
-            Assert.AreEqual("$7.95", xml.DocumentElement.Children[1].Children[1].InnerHTML);
+            Assert.AreEqual("$5.95", xml.DocumentElement.Children[0].Children[1].InnerHtml);
+            Assert.AreEqual("$7.95", xml.DocumentElement.Children[1].Children[1].InnerHtml);
         }
 
-        [TestMethod]
+        [Test]
         public void XmlValidDocumentHelloWorldWithDtd()
         {
             var xml = @"<?xml version=""1.0"" standalone=""yes""?>
@@ -79,19 +77,19 @@ namespace UnitTests
 
 <foo>Hello World.</foo>";
 
-            var doc = DocumentBuilder.Xml(xml);
+            var doc = xml.ToXmlDocument();
             Assert.IsNotNull(doc);
             Assert.IsNotNull(doc.DocumentElement);
             Assert.AreEqual("foo", doc.Doctype.Name);
             
             Assert.AreEqual("foo", doc.DocumentElement.TagName);
-            Assert.AreEqual("Hello World.", doc.DocumentElement.InnerHTML);
+            Assert.AreEqual("Hello World.", doc.DocumentElement.InnerHtml);
         }
 
-        [TestMethod]
+        [Test]
         public void XmlValidDocumentBooksTree()
         {
-            var xml = DocumentBuilder.Xml(Assets.Books);
+            var xml = Assets.books.ToXmlDocument();
 
             Assert.IsNotNull(xml);
             Assert.IsNotNull(xml.DocumentElement);

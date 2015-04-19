@@ -1,24 +1,22 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AngleSharp;
-using AngleSharp.DOM.Xml;
-using AngleSharp.DOM;
-
-namespace UnitTests.Xml
+﻿namespace AngleSharp.Core.Tests.Xml
 {
+    using AngleSharp.Dom;
+    using NUnit.Framework;
+    using System.Linq;
+
     /// <summary>
     /// Parsing the sample XML files taken from
     /// http://msdn.microsoft.com/en-us/library/bb387026.aspx
     /// Additional (maybe):
     /// http://tantek.com/XHTML/Test/minimal.html
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class XmlSamples
     {
-        [TestMethod]
+        [Test]
         public void XmlTypicalPurchaseOrder()
         {
-            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
+            var document = (@"<?xml version=""1.0""?>
 <PurchaseOrder PurchaseOrderNumber=""99503"" OrderDate=""1999-10-20"">
   <Address Type=""Shipping"">
     <Name>Ellen Adams</Name>
@@ -51,40 +49,35 @@ namespace UnitTests.Xml
       <ShipDate>1999-05-21</ShipDate>
     </Item>
   </Items>
-</PurchaseOrder>");
+</PurchaseOrder>").ToXmlDocument();
 
-            var documentPurchaseOrder1 = document.ChildNodes[0];
+            var documentPurchaseOrder1 = document.ChildNodes[0] as IElement;
             Assert.AreEqual(9, documentPurchaseOrder1.ChildNodes.Length);
-            Assert.AreEqual(2, documentPurchaseOrder1.Attributes.Length);
+            Assert.AreEqual(2, documentPurchaseOrder1.Attributes.Count());
             Assert.AreEqual("PurchaseOrder", documentPurchaseOrder1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1.NodeType);
-            Assert.IsNotNull(documentPurchaseOrder1.Attributes["PurchaseOrderNumber"]);
-            Assert.AreEqual("PurchaseOrderNumber", documentPurchaseOrder1.Attributes["PurchaseOrderNumber"].Name);
-            Assert.AreEqual("99503", documentPurchaseOrder1.Attributes["PurchaseOrderNumber"].Value);
-            Assert.IsNotNull(documentPurchaseOrder1.Attributes["OrderDate"]);
-            Assert.AreEqual("OrderDate", documentPurchaseOrder1.Attributes["OrderDate"].Name);
-            Assert.AreEqual("1999-10-20", documentPurchaseOrder1.Attributes["OrderDate"].Value);
+            Assert.IsNotNull(documentPurchaseOrder1.GetAttribute("PurchaseOrderNumber"));
+            Assert.AreEqual("99503", documentPurchaseOrder1.GetAttribute("PurchaseOrderNumber"));
+            Assert.AreEqual("1999-10-20", documentPurchaseOrder1.GetAttribute("OrderDate"));
 
             var documentPurchaseOrder1Text0 = documentPurchaseOrder1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Text0.NodeType);
             Assert.AreEqual("\n  ", documentPurchaseOrder1Text0.TextContent);
 
-            var documentPurchaseOrder1Address1 = documentPurchaseOrder1.ChildNodes[1];
+            var documentPurchaseOrder1Address1 = documentPurchaseOrder1.ChildNodes[1] as IElement;
             Assert.AreEqual(13, documentPurchaseOrder1Address1.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrder1Address1.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrder1Address1.Attributes.Count());
             Assert.AreEqual("Address", documentPurchaseOrder1Address1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Address1.NodeType);
-            Assert.IsNotNull(documentPurchaseOrder1Address1.Attributes["Type"]);
-            Assert.AreEqual("Type", documentPurchaseOrder1Address1.Attributes["Type"].Name);
-            Assert.AreEqual("Shipping", documentPurchaseOrder1Address1.Attributes["Type"].Value);
+            Assert.AreEqual("Shipping", documentPurchaseOrder1Address1.GetAttribute("Type"));
 
             var documentPurchaseOrder1Address1Text0 = documentPurchaseOrder1Address1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Address1Text0.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrder1Address1Text0.TextContent);
 
-            var documentPurchaseOrder1Address1Name1 = documentPurchaseOrder1Address1.ChildNodes[1];
+            var documentPurchaseOrder1Address1Name1 = documentPurchaseOrder1Address1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Address1Name1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Address1Name1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Address1Name1.Attributes.Count());
             Assert.AreEqual("Name", documentPurchaseOrder1Address1Name1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Address1Name1.NodeType);
 
@@ -96,9 +89,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Address1Text2.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrder1Address1Text2.TextContent);
 
-            var documentPurchaseOrder1Address1Street3 = documentPurchaseOrder1Address1.ChildNodes[3];
+            var documentPurchaseOrder1Address1Street3 = documentPurchaseOrder1Address1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Address1Street3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Address1Street3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Address1Street3.Attributes.Count());
             Assert.AreEqual("Street", documentPurchaseOrder1Address1Street3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Address1Street3.NodeType);
 
@@ -110,9 +103,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Address1Text4.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrder1Address1Text4.TextContent);
 
-            var documentPurchaseOrder1Address1City5 = documentPurchaseOrder1Address1.ChildNodes[5];
+            var documentPurchaseOrder1Address1City5 = documentPurchaseOrder1Address1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Address1City5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Address1City5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Address1City5.Attributes.Count());
             Assert.AreEqual("City", documentPurchaseOrder1Address1City5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Address1City5.NodeType);
 
@@ -124,9 +117,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Address1Text6.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrder1Address1Text6.TextContent);
 
-            var documentPurchaseOrder1Address1State7 = documentPurchaseOrder1Address1.ChildNodes[7];
+            var documentPurchaseOrder1Address1State7 = documentPurchaseOrder1Address1.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Address1State7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Address1State7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Address1State7.Attributes.Count());
             Assert.AreEqual("State", documentPurchaseOrder1Address1State7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Address1State7.NodeType);
 
@@ -138,9 +131,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Address1Text8.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrder1Address1Text8.TextContent);
 
-            var documentPurchaseOrder1Address1Zip9 = documentPurchaseOrder1Address1.ChildNodes[9];
+            var documentPurchaseOrder1Address1Zip9 = documentPurchaseOrder1Address1.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Address1Zip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Address1Zip9.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Address1Zip9.Attributes.Count());
             Assert.AreEqual("Zip", documentPurchaseOrder1Address1Zip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Address1Zip9.NodeType);
 
@@ -152,9 +145,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Address1Text10.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrder1Address1Text10.TextContent);
 
-            var documentPurchaseOrder1Address1Country11 = documentPurchaseOrder1Address1.ChildNodes[11];
+            var documentPurchaseOrder1Address1Country11 = documentPurchaseOrder1Address1.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Address1Country11.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Address1Country11.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Address1Country11.Attributes.Count());
             Assert.AreEqual("Country", documentPurchaseOrder1Address1Country11.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Address1Country11.NodeType);
 
@@ -170,22 +163,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Text2.NodeType);
             Assert.AreEqual("\n  ", documentPurchaseOrder1Text2.TextContent);
 
-            var documentPurchaseOrder1Address3 = documentPurchaseOrder1.ChildNodes[3];
+            var documentPurchaseOrder1Address3 = documentPurchaseOrder1.ChildNodes[3] as IElement;
             Assert.AreEqual(13, documentPurchaseOrder1Address3.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrder1Address3.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrder1Address3.Attributes.Count());
             Assert.AreEqual("Address", documentPurchaseOrder1Address3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Address3.NodeType);
-            Assert.IsNotNull(documentPurchaseOrder1Address3.Attributes["Type"]);
-            Assert.AreEqual("Type", documentPurchaseOrder1Address3.Attributes["Type"].Name);
-            Assert.AreEqual("Billing", documentPurchaseOrder1Address3.Attributes["Type"].Value);
+            Assert.AreEqual("Billing", documentPurchaseOrder1Address3.GetAttribute("Type"));
 
             var documentPurchaseOrder1Address3Text0 = documentPurchaseOrder1Address3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Address3Text0.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrder1Address3Text0.TextContent);
 
-            var documentPurchaseOrder1Address3Name1 = documentPurchaseOrder1Address3.ChildNodes[1];
+            var documentPurchaseOrder1Address3Name1 = documentPurchaseOrder1Address3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Address3Name1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Address3Name1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Address3Name1.Attributes.Count());
             Assert.AreEqual("Name", documentPurchaseOrder1Address3Name1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Address3Name1.NodeType);
 
@@ -197,9 +188,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Address3Text2.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrder1Address3Text2.TextContent);
 
-            var documentPurchaseOrder1Address3Street3 = documentPurchaseOrder1Address3.ChildNodes[3];
+            var documentPurchaseOrder1Address3Street3 = documentPurchaseOrder1Address3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Address3Street3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Address3Street3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Address3Street3.Attributes.Count());
             Assert.AreEqual("Street", documentPurchaseOrder1Address3Street3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Address3Street3.NodeType);
 
@@ -211,9 +202,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Address3Text4.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrder1Address3Text4.TextContent);
 
-            var documentPurchaseOrder1Address3City5 = documentPurchaseOrder1Address3.ChildNodes[5];
+            var documentPurchaseOrder1Address3City5 = documentPurchaseOrder1Address3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Address3City5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Address3City5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Address3City5.Attributes.Count());
             Assert.AreEqual("City", documentPurchaseOrder1Address3City5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Address3City5.NodeType);
 
@@ -225,9 +216,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Address3Text6.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrder1Address3Text6.TextContent);
 
-            var documentPurchaseOrder1Address3State7 = documentPurchaseOrder1Address3.ChildNodes[7];
+            var documentPurchaseOrder1Address3State7 = documentPurchaseOrder1Address3.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Address3State7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Address3State7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Address3State7.Attributes.Count());
             Assert.AreEqual("State", documentPurchaseOrder1Address3State7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Address3State7.NodeType);
 
@@ -239,9 +230,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Address3Text8.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrder1Address3Text8.TextContent);
 
-            var documentPurchaseOrder1Address3Zip9 = documentPurchaseOrder1Address3.ChildNodes[9];
+            var documentPurchaseOrder1Address3Zip9 = documentPurchaseOrder1Address3.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Address3Zip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Address3Zip9.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Address3Zip9.Attributes.Count());
             Assert.AreEqual("Zip", documentPurchaseOrder1Address3Zip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Address3Zip9.NodeType);
 
@@ -253,9 +244,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Address3Text10.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrder1Address3Text10.TextContent);
 
-            var documentPurchaseOrder1Address3Country11 = documentPurchaseOrder1Address3.ChildNodes[11];
+            var documentPurchaseOrder1Address3Country11 = documentPurchaseOrder1Address3.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Address3Country11.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Address3Country11.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Address3Country11.Attributes.Count());
             Assert.AreEqual("Country", documentPurchaseOrder1Address3Country11.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Address3Country11.NodeType);
 
@@ -271,9 +262,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Text4.NodeType);
             Assert.AreEqual("\n  ", documentPurchaseOrder1Text4.TextContent);
 
-            var documentPurchaseOrder1DeliveryNotes5 = documentPurchaseOrder1.ChildNodes[5];
+            var documentPurchaseOrder1DeliveryNotes5 = documentPurchaseOrder1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1DeliveryNotes5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1DeliveryNotes5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1DeliveryNotes5.Attributes.Count());
             Assert.AreEqual("DeliveryNotes", documentPurchaseOrder1DeliveryNotes5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1DeliveryNotes5.NodeType);
 
@@ -285,9 +276,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Text6.NodeType);
             Assert.AreEqual("\n  ", documentPurchaseOrder1Text6.TextContent);
 
-            var documentPurchaseOrder1Items7 = documentPurchaseOrder1.ChildNodes[7];
+            var documentPurchaseOrder1Items7 = documentPurchaseOrder1.ChildNodes[7] as IElement;
             Assert.AreEqual(5, documentPurchaseOrder1Items7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Items7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Items7.Attributes.Count());
             Assert.AreEqual("Items", documentPurchaseOrder1Items7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Items7.NodeType);
 
@@ -295,22 +286,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Items7Text0.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrder1Items7Text0.TextContent);
 
-            var documentPurchaseOrder1Items7Item1 = documentPurchaseOrder1Items7.ChildNodes[1];
+            var documentPurchaseOrder1Items7Item1 = documentPurchaseOrder1Items7.ChildNodes[1] as IElement;
             Assert.AreEqual(9, documentPurchaseOrder1Items7Item1.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrder1Items7Item1.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrder1Items7Item1.Attributes.Count());
             Assert.AreEqual("Item", documentPurchaseOrder1Items7Item1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Items7Item1.NodeType);
-            Assert.IsNotNull(documentPurchaseOrder1Items7Item1.Attributes["PartNumber"]);
-            Assert.AreEqual("PartNumber", documentPurchaseOrder1Items7Item1.Attributes["PartNumber"].Name);
-            Assert.AreEqual("872-AA", documentPurchaseOrder1Items7Item1.Attributes["PartNumber"].Value);
+            Assert.AreEqual("872-AA", documentPurchaseOrder1Items7Item1.GetAttribute("PartNumber"));
 
             var documentPurchaseOrder1Items7Item1Text0 = documentPurchaseOrder1Items7Item1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Items7Item1Text0.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrder1Items7Item1Text0.TextContent);
 
-            var documentPurchaseOrder1Items7Item1ProductName1 = documentPurchaseOrder1Items7Item1.ChildNodes[1];
+            var documentPurchaseOrder1Items7Item1ProductName1 = documentPurchaseOrder1Items7Item1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Items7Item1ProductName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Items7Item1ProductName1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Items7Item1ProductName1.Attributes.Count());
             Assert.AreEqual("ProductName", documentPurchaseOrder1Items7Item1ProductName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Items7Item1ProductName1.NodeType);
 
@@ -322,9 +311,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Items7Item1Text2.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrder1Items7Item1Text2.TextContent);
 
-            var documentPurchaseOrder1Items7Item1Quantity3 = documentPurchaseOrder1Items7Item1.ChildNodes[3];
+            var documentPurchaseOrder1Items7Item1Quantity3 = documentPurchaseOrder1Items7Item1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Items7Item1Quantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Items7Item1Quantity3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Items7Item1Quantity3.Attributes.Count());
             Assert.AreEqual("Quantity", documentPurchaseOrder1Items7Item1Quantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Items7Item1Quantity3.NodeType);
 
@@ -336,9 +325,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Items7Item1Text4.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrder1Items7Item1Text4.TextContent);
 
-            var documentPurchaseOrder1Items7Item1USPrice5 = documentPurchaseOrder1Items7Item1.ChildNodes[5];
+            var documentPurchaseOrder1Items7Item1USPrice5 = documentPurchaseOrder1Items7Item1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Items7Item1USPrice5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Items7Item1USPrice5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Items7Item1USPrice5.Attributes.Count());
             Assert.AreEqual("USPrice", documentPurchaseOrder1Items7Item1USPrice5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Items7Item1USPrice5.NodeType);
 
@@ -350,9 +339,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Items7Item1Text6.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrder1Items7Item1Text6.TextContent);
 
-            var documentPurchaseOrder1Items7Item1Comment7 = documentPurchaseOrder1Items7Item1.ChildNodes[7];
+            var documentPurchaseOrder1Items7Item1Comment7 = documentPurchaseOrder1Items7Item1.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Items7Item1Comment7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Items7Item1Comment7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Items7Item1Comment7.Attributes.Count());
             Assert.AreEqual("Comment", documentPurchaseOrder1Items7Item1Comment7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Items7Item1Comment7.NodeType);
 
@@ -368,22 +357,21 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Items7Text2.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrder1Items7Text2.TextContent);
 
-            var documentPurchaseOrder1Items7Item3 = documentPurchaseOrder1Items7.ChildNodes[3];
+            var documentPurchaseOrder1Items7Item3 = documentPurchaseOrder1Items7.ChildNodes[3] as IElement;
             Assert.AreEqual(9, documentPurchaseOrder1Items7Item3.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrder1Items7Item3.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrder1Items7Item3.Attributes.Count());
             Assert.AreEqual("Item", documentPurchaseOrder1Items7Item3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Items7Item3.NodeType);
-            Assert.IsNotNull(documentPurchaseOrder1Items7Item3.Attributes["PartNumber"]);
-            Assert.AreEqual("PartNumber", documentPurchaseOrder1Items7Item3.Attributes["PartNumber"].Name);
-            Assert.AreEqual("926-AA", documentPurchaseOrder1Items7Item3.Attributes["PartNumber"].Value);
+            Assert.IsNotNull(documentPurchaseOrder1Items7Item3.GetAttribute("PartNumber"));
+            Assert.AreEqual("926-AA", documentPurchaseOrder1Items7Item3.GetAttribute("PartNumber"));
 
             var documentPurchaseOrder1Items7Item3Text0 = documentPurchaseOrder1Items7Item3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Items7Item3Text0.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrder1Items7Item3Text0.TextContent);
 
-            var documentPurchaseOrder1Items7Item3ProductName1 = documentPurchaseOrder1Items7Item3.ChildNodes[1];
+            var documentPurchaseOrder1Items7Item3ProductName1 = documentPurchaseOrder1Items7Item3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Items7Item3ProductName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Items7Item3ProductName1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Items7Item3ProductName1.Attributes.Count());
             Assert.AreEqual("ProductName", documentPurchaseOrder1Items7Item3ProductName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Items7Item3ProductName1.NodeType);
 
@@ -395,9 +383,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Items7Item3Text2.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrder1Items7Item3Text2.TextContent);
 
-            var documentPurchaseOrder1Items7Item3Quantity3 = documentPurchaseOrder1Items7Item3.ChildNodes[3];
+            var documentPurchaseOrder1Items7Item3Quantity3 = documentPurchaseOrder1Items7Item3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Items7Item3Quantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Items7Item3Quantity3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Items7Item3Quantity3.Attributes.Count());
             Assert.AreEqual("Quantity", documentPurchaseOrder1Items7Item3Quantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Items7Item3Quantity3.NodeType);
 
@@ -409,9 +397,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Items7Item3Text4.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrder1Items7Item3Text4.TextContent);
 
-            var documentPurchaseOrder1Items7Item3USPrice5 = documentPurchaseOrder1Items7Item3.ChildNodes[5];
+            var documentPurchaseOrder1Items7Item3USPrice5 = documentPurchaseOrder1Items7Item3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Items7Item3USPrice5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Items7Item3USPrice5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Items7Item3USPrice5.Attributes.Count());
             Assert.AreEqual("USPrice", documentPurchaseOrder1Items7Item3USPrice5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Items7Item3USPrice5.NodeType);
 
@@ -423,9 +411,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrder1Items7Item3Text6.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrder1Items7Item3Text6.TextContent);
 
-            var documentPurchaseOrder1Items7Item3ShipDate7 = documentPurchaseOrder1Items7Item3.ChildNodes[7];
+            var documentPurchaseOrder1Items7Item3ShipDate7 = documentPurchaseOrder1Items7Item3.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentPurchaseOrder1Items7Item3ShipDate7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrder1Items7Item3ShipDate7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrder1Items7Item3ShipDate7.Attributes.Count());
             Assert.AreEqual("ShipDate", documentPurchaseOrder1Items7Item3ShipDate7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrder1Items7Item3ShipDate7.NodeType);
 
@@ -446,10 +434,10 @@ namespace UnitTests.Xml
             Assert.AreEqual("\n", documentPurchaseOrder1Text8.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void XmlTypicalPurchaseOrderInNamespace()
         {
-            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
+            var document = (@"<?xml version=""1.0""?>
 <aw:PurchaseOrder
     aw:PurchaseOrderNumber=""99503""
     aw:OrderDate=""1999-10-20""
@@ -485,47 +473,37 @@ namespace UnitTests.Xml
       <aw:ShipDate>1999-05-21</aw:ShipDate>
     </aw:Item>
   </aw:Items>
-</aw:PurchaseOrder>");
+</aw:PurchaseOrder>").ToXmlDocument();
 
-            var documentawPurchaseOrder0 = document.ChildNodes[0];
+            var documentawPurchaseOrder0 = document.ChildNodes[0] as IElement;
             Assert.AreEqual(9, documentawPurchaseOrder0.ChildNodes.Length);
-            Assert.AreEqual(3, documentawPurchaseOrder0.Attributes.Length);
+            Assert.AreEqual(3, documentawPurchaseOrder0.Attributes.Count());
             Assert.AreEqual("aw:PurchaseOrder", documentawPurchaseOrder0.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrder0.Attributes["aw:PurchaseOrderNumber"]);
-            Assert.AreEqual("aw:PurchaseOrderNumber", documentawPurchaseOrder0.Attributes["aw:PurchaseOrderNumber"].Name);
-            Assert.AreEqual("99503", documentawPurchaseOrder0.Attributes["aw:PurchaseOrderNumber"].Value);
-
-            Assert.IsNotNull(documentawPurchaseOrder0.Attributes["aw:OrderDate"]);
-            Assert.AreEqual("aw:OrderDate", documentawPurchaseOrder0.Attributes["aw:OrderDate"].Name);
-            Assert.AreEqual("1999-10-20", documentawPurchaseOrder0.Attributes["aw:OrderDate"].Value);
-
-            Assert.IsNotNull(documentawPurchaseOrder0.Attributes["xmlns:aw"]);
-            Assert.AreEqual("xmlns:aw", documentawPurchaseOrder0.Attributes["xmlns:aw"].Name);
-            Assert.AreEqual("http://www.adventure-works.com", documentawPurchaseOrder0.Attributes["xmlns:aw"].Value);
+            
+            Assert.AreEqual("99503", documentawPurchaseOrder0.GetAttribute("aw:PurchaseOrderNumber"));
+            Assert.AreEqual("1999-10-20", documentawPurchaseOrder0.GetAttribute("aw:OrderDate"));
+            Assert.AreEqual("http://www.adventure-works.com", documentawPurchaseOrder0.GetAttribute("xmlns:aw"));
 
             var documentawPurchaseOrder0Text0 = documentawPurchaseOrder0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0Text0.NodeType);
             Assert.AreEqual("\n  ", documentawPurchaseOrder0Text0.TextContent);
 
-            var documentawPurchaseOrder0awAddress1 = documentawPurchaseOrder0.ChildNodes[1];
+            var documentawPurchaseOrder0awAddress1 = documentawPurchaseOrder0.ChildNodes[1] as IElement;
             Assert.AreEqual(13, documentawPurchaseOrder0awAddress1.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrder0awAddress1.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrder0awAddress1.Attributes.Count());
             Assert.AreEqual("aw:Address", documentawPurchaseOrder0awAddress1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awAddress1.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrder0awAddress1.Attributes["aw:Type"]);
-            Assert.AreEqual("aw:Type", documentawPurchaseOrder0awAddress1.Attributes["aw:Type"].Name);
-            Assert.AreEqual("Shipping", documentawPurchaseOrder0awAddress1.Attributes["aw:Type"].Value);
+            
+            Assert.AreEqual("Shipping", documentawPurchaseOrder0awAddress1.GetAttribute("aw:Type"));
 
             var documentawPurchaseOrder0awAddress1Text0 = documentawPurchaseOrder0awAddress1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awAddress1Text0.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrder0awAddress1Text0.TextContent);
 
-            var documentawPurchaseOrder0awAddress1awName1 = documentawPurchaseOrder0awAddress1.ChildNodes[1];
+            var documentawPurchaseOrder0awAddress1awName1 = documentawPurchaseOrder0awAddress1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awAddress1awName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awAddress1awName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awAddress1awName1.Attributes.Count());
             Assert.AreEqual("aw:Name", documentawPurchaseOrder0awAddress1awName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awAddress1awName1.NodeType);
 
@@ -537,9 +515,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awAddress1Text2.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrder0awAddress1Text2.TextContent);
 
-            var documentawPurchaseOrder0awAddress1awStreet3 = documentawPurchaseOrder0awAddress1.ChildNodes[3];
+            var documentawPurchaseOrder0awAddress1awStreet3 = documentawPurchaseOrder0awAddress1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awAddress1awStreet3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awAddress1awStreet3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awAddress1awStreet3.Attributes.Count());
             Assert.AreEqual("aw:Street", documentawPurchaseOrder0awAddress1awStreet3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awAddress1awStreet3.NodeType);
 
@@ -551,9 +529,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awAddress1Text4.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrder0awAddress1Text4.TextContent);
 
-            var documentawPurchaseOrder0awAddress1awCity5 = documentawPurchaseOrder0awAddress1.ChildNodes[5];
+            var documentawPurchaseOrder0awAddress1awCity5 = documentawPurchaseOrder0awAddress1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awAddress1awCity5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awAddress1awCity5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awAddress1awCity5.Attributes.Count());
             Assert.AreEqual("aw:City", documentawPurchaseOrder0awAddress1awCity5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awAddress1awCity5.NodeType);
 
@@ -565,9 +543,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awAddress1Text6.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrder0awAddress1Text6.TextContent);
 
-            var documentawPurchaseOrder0awAddress1awState7 = documentawPurchaseOrder0awAddress1.ChildNodes[7];
+            var documentawPurchaseOrder0awAddress1awState7 = documentawPurchaseOrder0awAddress1.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awAddress1awState7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awAddress1awState7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awAddress1awState7.Attributes.Count());
             Assert.AreEqual("aw:State", documentawPurchaseOrder0awAddress1awState7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awAddress1awState7.NodeType);
 
@@ -579,9 +557,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awAddress1Text8.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrder0awAddress1Text8.TextContent);
 
-            var documentawPurchaseOrder0awAddress1awZip9 = documentawPurchaseOrder0awAddress1.ChildNodes[9];
+            var documentawPurchaseOrder0awAddress1awZip9 = documentawPurchaseOrder0awAddress1.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awAddress1awZip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awAddress1awZip9.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awAddress1awZip9.Attributes.Count());
             Assert.AreEqual("aw:Zip", documentawPurchaseOrder0awAddress1awZip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awAddress1awZip9.NodeType);
 
@@ -593,9 +571,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awAddress1Text10.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrder0awAddress1Text10.TextContent);
 
-            var documentawPurchaseOrder0awAddress1awCountry11 = documentawPurchaseOrder0awAddress1.ChildNodes[11];
+            var documentawPurchaseOrder0awAddress1awCountry11 = documentawPurchaseOrder0awAddress1.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awAddress1awCountry11.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awAddress1awCountry11.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awAddress1awCountry11.Attributes.Count());
             Assert.AreEqual("aw:Country", documentawPurchaseOrder0awAddress1awCountry11.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awAddress1awCountry11.NodeType);
 
@@ -611,23 +589,21 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0Text2.NodeType);
             Assert.AreEqual("\n  ", documentawPurchaseOrder0Text2.TextContent);
 
-            var documentawPurchaseOrder0awAddress3 = documentawPurchaseOrder0.ChildNodes[3];
+            var documentawPurchaseOrder0awAddress3 = documentawPurchaseOrder0.ChildNodes[3] as IElement;
             Assert.AreEqual(13, documentawPurchaseOrder0awAddress3.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrder0awAddress3.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrder0awAddress3.Attributes.Count());
             Assert.AreEqual("aw:Address", documentawPurchaseOrder0awAddress3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awAddress3.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrder0awAddress3.Attributes["aw:Type"]);
-            Assert.AreEqual("aw:Type", documentawPurchaseOrder0awAddress3.Attributes["aw:Type"].Name);
-            Assert.AreEqual("Billing", documentawPurchaseOrder0awAddress3.Attributes["aw:Type"].Value);
+            
+            Assert.AreEqual("Billing", documentawPurchaseOrder0awAddress3.GetAttribute("aw:Type"));
 
             var documentawPurchaseOrder0awAddress3Text0 = documentawPurchaseOrder0awAddress3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awAddress3Text0.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrder0awAddress3Text0.TextContent);
 
-            var documentawPurchaseOrder0awAddress3awName1 = documentawPurchaseOrder0awAddress3.ChildNodes[1];
+            var documentawPurchaseOrder0awAddress3awName1 = documentawPurchaseOrder0awAddress3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awAddress3awName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awAddress3awName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awAddress3awName1.Attributes.Count());
             Assert.AreEqual("aw:Name", documentawPurchaseOrder0awAddress3awName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awAddress3awName1.NodeType);
 
@@ -639,9 +615,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awAddress3Text2.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrder0awAddress3Text2.TextContent);
 
-            var documentawPurchaseOrder0awAddress3awStreet3 = documentawPurchaseOrder0awAddress3.ChildNodes[3];
+            var documentawPurchaseOrder0awAddress3awStreet3 = documentawPurchaseOrder0awAddress3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awAddress3awStreet3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awAddress3awStreet3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awAddress3awStreet3.Attributes.Count());
             Assert.AreEqual("aw:Street", documentawPurchaseOrder0awAddress3awStreet3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awAddress3awStreet3.NodeType);
 
@@ -653,9 +629,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awAddress3Text4.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrder0awAddress3Text4.TextContent);
 
-            var documentawPurchaseOrder0awAddress3awCity5 = documentawPurchaseOrder0awAddress3.ChildNodes[5];
+            var documentawPurchaseOrder0awAddress3awCity5 = documentawPurchaseOrder0awAddress3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awAddress3awCity5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awAddress3awCity5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awAddress3awCity5.Attributes.Count());
             Assert.AreEqual("aw:City", documentawPurchaseOrder0awAddress3awCity5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awAddress3awCity5.NodeType);
 
@@ -667,9 +643,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awAddress3Text6.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrder0awAddress3Text6.TextContent);
 
-            var documentawPurchaseOrder0awAddress3awState7 = documentawPurchaseOrder0awAddress3.ChildNodes[7];
+            var documentawPurchaseOrder0awAddress3awState7 = documentawPurchaseOrder0awAddress3.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awAddress3awState7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awAddress3awState7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awAddress3awState7.Attributes.Count());
             Assert.AreEqual("aw:State", documentawPurchaseOrder0awAddress3awState7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awAddress3awState7.NodeType);
 
@@ -681,9 +657,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awAddress3Text8.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrder0awAddress3Text8.TextContent);
 
-            var documentawPurchaseOrder0awAddress3awZip9 = documentawPurchaseOrder0awAddress3.ChildNodes[9];
+            var documentawPurchaseOrder0awAddress3awZip9 = documentawPurchaseOrder0awAddress3.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awAddress3awZip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awAddress3awZip9.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awAddress3awZip9.Attributes.Count());
             Assert.AreEqual("aw:Zip", documentawPurchaseOrder0awAddress3awZip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awAddress3awZip9.NodeType);
 
@@ -695,9 +671,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awAddress3Text10.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrder0awAddress3Text10.TextContent);
 
-            var documentawPurchaseOrder0awAddress3awCountry11 = documentawPurchaseOrder0awAddress3.ChildNodes[11];
+            var documentawPurchaseOrder0awAddress3awCountry11 = documentawPurchaseOrder0awAddress3.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awAddress3awCountry11.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awAddress3awCountry11.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awAddress3awCountry11.Attributes.Count());
             Assert.AreEqual("aw:Country", documentawPurchaseOrder0awAddress3awCountry11.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awAddress3awCountry11.NodeType);
 
@@ -713,9 +689,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0Text4.NodeType);
             Assert.AreEqual("\n  ", documentawPurchaseOrder0Text4.TextContent);
 
-            var documentawPurchaseOrder0awDeliveryNotes5 = documentawPurchaseOrder0.ChildNodes[5];
+            var documentawPurchaseOrder0awDeliveryNotes5 = documentawPurchaseOrder0.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awDeliveryNotes5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awDeliveryNotes5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awDeliveryNotes5.Attributes.Count());
             Assert.AreEqual("aw:DeliveryNotes", documentawPurchaseOrder0awDeliveryNotes5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awDeliveryNotes5.NodeType);
 
@@ -727,9 +703,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0Text6.NodeType);
             Assert.AreEqual("\n  ", documentawPurchaseOrder0Text6.TextContent);
 
-            var documentawPurchaseOrder0awItems7 = documentawPurchaseOrder0.ChildNodes[7];
+            var documentawPurchaseOrder0awItems7 = documentawPurchaseOrder0.ChildNodes[7] as IElement;
             Assert.AreEqual(5, documentawPurchaseOrder0awItems7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awItems7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awItems7.Attributes.Count());
             Assert.AreEqual("aw:Items", documentawPurchaseOrder0awItems7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awItems7.NodeType);
 
@@ -737,23 +713,21 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awItems7Text0.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrder0awItems7Text0.TextContent);
 
-            var documentawPurchaseOrder0awItems7awItem1 = documentawPurchaseOrder0awItems7.ChildNodes[1];
+            var documentawPurchaseOrder0awItems7awItem1 = documentawPurchaseOrder0awItems7.ChildNodes[1] as IElement;
             Assert.AreEqual(9, documentawPurchaseOrder0awItems7awItem1.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrder0awItems7awItem1.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrder0awItems7awItem1.Attributes.Count());
             Assert.AreEqual("aw:Item", documentawPurchaseOrder0awItems7awItem1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awItems7awItem1.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrder0awItems7awItem1.Attributes["aw:PartNumber"]);
-            Assert.AreEqual("aw:PartNumber", documentawPurchaseOrder0awItems7awItem1.Attributes["aw:PartNumber"].Name);
-            Assert.AreEqual("872-AA", documentawPurchaseOrder0awItems7awItem1.Attributes["aw:PartNumber"].Value);
+            
+            Assert.AreEqual("872-AA", documentawPurchaseOrder0awItems7awItem1.GetAttribute("aw:PartNumber"));
 
             var documentawPurchaseOrder0awItems7awItem1Text0 = documentawPurchaseOrder0awItems7awItem1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awItems7awItem1Text0.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrder0awItems7awItem1Text0.TextContent);
 
-            var documentawPurchaseOrder0awItems7awItem1awProductName1 = documentawPurchaseOrder0awItems7awItem1.ChildNodes[1];
+            var documentawPurchaseOrder0awItems7awItem1awProductName1 = documentawPurchaseOrder0awItems7awItem1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awItems7awItem1awProductName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem1awProductName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem1awProductName1.Attributes.Count());
             Assert.AreEqual("aw:ProductName", documentawPurchaseOrder0awItems7awItem1awProductName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awItems7awItem1awProductName1.NodeType);
 
@@ -765,9 +739,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awItems7awItem1Text2.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrder0awItems7awItem1Text2.TextContent);
 
-            var documentawPurchaseOrder0awItems7awItem1awQuantity3 = documentawPurchaseOrder0awItems7awItem1.ChildNodes[3];
+            var documentawPurchaseOrder0awItems7awItem1awQuantity3 = documentawPurchaseOrder0awItems7awItem1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awItems7awItem1awQuantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem1awQuantity3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem1awQuantity3.Attributes.Count());
             Assert.AreEqual("aw:Quantity", documentawPurchaseOrder0awItems7awItem1awQuantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awItems7awItem1awQuantity3.NodeType);
 
@@ -779,9 +753,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awItems7awItem1Text4.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrder0awItems7awItem1Text4.TextContent);
 
-            var documentawPurchaseOrder0awItems7awItem1awUSPrice5 = documentawPurchaseOrder0awItems7awItem1.ChildNodes[5];
+            var documentawPurchaseOrder0awItems7awItem1awUSPrice5 = documentawPurchaseOrder0awItems7awItem1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awItems7awItem1awUSPrice5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem1awUSPrice5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem1awUSPrice5.Attributes.Count());
             Assert.AreEqual("aw:USPrice", documentawPurchaseOrder0awItems7awItem1awUSPrice5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awItems7awItem1awUSPrice5.NodeType);
 
@@ -793,9 +767,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awItems7awItem1Text6.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrder0awItems7awItem1Text6.TextContent);
 
-            var documentawPurchaseOrder0awItems7awItem1awComment7 = documentawPurchaseOrder0awItems7awItem1.ChildNodes[7];
+            var documentawPurchaseOrder0awItems7awItem1awComment7 = documentawPurchaseOrder0awItems7awItem1.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awItems7awItem1awComment7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem1awComment7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem1awComment7.Attributes.Count());
             Assert.AreEqual("aw:Comment", documentawPurchaseOrder0awItems7awItem1awComment7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awItems7awItem1awComment7.NodeType);
 
@@ -811,23 +785,21 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awItems7Text2.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrder0awItems7Text2.TextContent);
 
-            var documentawPurchaseOrder0awItems7awItem3 = documentawPurchaseOrder0awItems7.ChildNodes[3];
+            var documentawPurchaseOrder0awItems7awItem3 = documentawPurchaseOrder0awItems7.ChildNodes[3] as IElement;
             Assert.AreEqual(9, documentawPurchaseOrder0awItems7awItem3.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrder0awItems7awItem3.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrder0awItems7awItem3.Attributes.Count());
             Assert.AreEqual("aw:Item", documentawPurchaseOrder0awItems7awItem3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awItems7awItem3.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrder0awItems7awItem3.Attributes["aw:PartNumber"]);
-            Assert.AreEqual("aw:PartNumber", documentawPurchaseOrder0awItems7awItem3.Attributes["aw:PartNumber"].Name);
-            Assert.AreEqual("926-AA", documentawPurchaseOrder0awItems7awItem3.Attributes["aw:PartNumber"].Value);
+            
+            Assert.AreEqual("926-AA", documentawPurchaseOrder0awItems7awItem3.GetAttribute("aw:PartNumber"));
 
             var documentawPurchaseOrder0awItems7awItem3Text0 = documentawPurchaseOrder0awItems7awItem3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awItems7awItem3Text0.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrder0awItems7awItem3Text0.TextContent);
 
-            var documentawPurchaseOrder0awItems7awItem3awProductName1 = documentawPurchaseOrder0awItems7awItem3.ChildNodes[1];
+            var documentawPurchaseOrder0awItems7awItem3awProductName1 = documentawPurchaseOrder0awItems7awItem3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awItems7awItem3awProductName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem3awProductName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem3awProductName1.Attributes.Count());
             Assert.AreEqual("aw:ProductName", documentawPurchaseOrder0awItems7awItem3awProductName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awItems7awItem3awProductName1.NodeType);
 
@@ -839,9 +811,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awItems7awItem3Text2.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrder0awItems7awItem3Text2.TextContent);
 
-            var documentawPurchaseOrder0awItems7awItem3awQuantity3 = documentawPurchaseOrder0awItems7awItem3.ChildNodes[3];
+            var documentawPurchaseOrder0awItems7awItem3awQuantity3 = documentawPurchaseOrder0awItems7awItem3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awItems7awItem3awQuantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem3awQuantity3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem3awQuantity3.Attributes.Count());
             Assert.AreEqual("aw:Quantity", documentawPurchaseOrder0awItems7awItem3awQuantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awItems7awItem3awQuantity3.NodeType);
 
@@ -853,9 +825,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awItems7awItem3Text4.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrder0awItems7awItem3Text4.TextContent);
 
-            var documentawPurchaseOrder0awItems7awItem3awUSPrice5 = documentawPurchaseOrder0awItems7awItem3.ChildNodes[5];
+            var documentawPurchaseOrder0awItems7awItem3awUSPrice5 = documentawPurchaseOrder0awItems7awItem3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awItems7awItem3awUSPrice5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem3awUSPrice5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem3awUSPrice5.Attributes.Count());
             Assert.AreEqual("aw:USPrice", documentawPurchaseOrder0awItems7awItem3awUSPrice5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awItems7awItem3awUSPrice5.NodeType);
 
@@ -867,9 +839,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrder0awItems7awItem3Text6.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrder0awItems7awItem3Text6.TextContent);
 
-            var documentawPurchaseOrder0awItems7awItem3awShipDate7 = documentawPurchaseOrder0awItems7awItem3.ChildNodes[7];
+            var documentawPurchaseOrder0awItems7awItem3awShipDate7 = documentawPurchaseOrder0awItems7awItem3.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrder0awItems7awItem3awShipDate7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem3awShipDate7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrder0awItems7awItem3awShipDate7.Attributes.Count());
             Assert.AreEqual("aw:ShipDate", documentawPurchaseOrder0awItems7awItem3awShipDate7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrder0awItems7awItem3awShipDate7.NodeType);
 
@@ -890,10 +862,10 @@ namespace UnitTests.Xml
             Assert.AreEqual("\n", documentawPurchaseOrder0Text8.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void XmlMultiplePurchaseOrder()
         {
-            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
+            var document = (@"<?xml version=""1.0""?>
 <PurchaseOrders>
   <PurchaseOrder PurchaseOrderNumber=""99503"" OrderDate=""1999-10-20"">
     <Address Type=""Shipping"">
@@ -984,11 +956,11 @@ namespace UnitTests.Xml
       </Item>
     </Items>
   </PurchaseOrder>
-</PurchaseOrders>");
+</PurchaseOrders>").ToXmlDocument();
 
-            var documentPurchaseOrders0 = document.ChildNodes[0];
+            var documentPurchaseOrders0 = document.ChildNodes[0] as IElement;
             Assert.AreEqual(7, documentPurchaseOrders0.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0.Attributes.Count());
             Assert.AreEqual("PurchaseOrders", documentPurchaseOrders0.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0.NodeType);
 
@@ -996,38 +968,32 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0Text0.NodeType);
             Assert.AreEqual("\n  ", documentPurchaseOrders0Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1 = documentPurchaseOrders0.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder1 = documentPurchaseOrders0.ChildNodes[1] as IElement;
             Assert.AreEqual(9, documentPurchaseOrders0PurchaseOrder1.ChildNodes.Length);
-            Assert.AreEqual(2, documentPurchaseOrders0PurchaseOrder1.Attributes.Length);
+            Assert.AreEqual(2, documentPurchaseOrders0PurchaseOrder1.Attributes.Count());
             Assert.AreEqual("PurchaseOrder", documentPurchaseOrders0PurchaseOrder1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1.NodeType);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder1.Attributes["PurchaseOrderNumber"]);
-            Assert.AreEqual("PurchaseOrderNumber", documentPurchaseOrders0PurchaseOrder1.Attributes["PurchaseOrderNumber"].Name);
-            Assert.AreEqual("99503", documentPurchaseOrders0PurchaseOrder1.Attributes["PurchaseOrderNumber"].Value);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder1.Attributes["OrderDate"]);
-            Assert.AreEqual("OrderDate", documentPurchaseOrders0PurchaseOrder1.Attributes["OrderDate"].Name);
-            Assert.AreEqual("1999-10-20", documentPurchaseOrders0PurchaseOrder1.Attributes["OrderDate"].Value);
+            Assert.AreEqual("99503", documentPurchaseOrders0PurchaseOrder1.GetAttribute("PurchaseOrderNumber"));
+            Assert.AreEqual("1999-10-20", documentPurchaseOrders0PurchaseOrder1.GetAttribute("OrderDate"));
 
             var documentPurchaseOrders0PurchaseOrder1Text0 = documentPurchaseOrders0PurchaseOrder1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Text0.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrders0PurchaseOrder1Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Address1 = documentPurchaseOrders0PurchaseOrder1.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder1Address1 = documentPurchaseOrders0PurchaseOrder1.ChildNodes[1] as IElement;
             Assert.AreEqual(13, documentPurchaseOrders0PurchaseOrder1Address1.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address1.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address1.Attributes.Count());
             Assert.AreEqual("Address", documentPurchaseOrders0PurchaseOrder1Address1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Address1.NodeType);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder1Address1.Attributes["Type"]);
-            Assert.AreEqual("Type", documentPurchaseOrders0PurchaseOrder1Address1.Attributes["Type"].Name);
-            Assert.AreEqual("Shipping", documentPurchaseOrders0PurchaseOrder1Address1.Attributes["Type"].Value);
+            Assert.AreEqual("Shipping", documentPurchaseOrders0PurchaseOrder1Address1.GetAttribute("Type"));
 
             var documentPurchaseOrders0PurchaseOrder1Address1Text0 = documentPurchaseOrders0PurchaseOrder1Address1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Address1Text0.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder1Address1Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Address1Name1 = documentPurchaseOrders0PurchaseOrder1Address1.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder1Address1Name1 = documentPurchaseOrders0PurchaseOrder1Address1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address1Name1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address1Name1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address1Name1.Attributes.Count());
             Assert.AreEqual("Name", documentPurchaseOrders0PurchaseOrder1Address1Name1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Address1Name1.NodeType);
 
@@ -1039,9 +1005,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Address1Text2.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder1Address1Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Address1Street3 = documentPurchaseOrders0PurchaseOrder1Address1.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder1Address1Street3 = documentPurchaseOrders0PurchaseOrder1Address1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address1Street3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address1Street3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address1Street3.Attributes.Count());
             Assert.AreEqual("Street", documentPurchaseOrders0PurchaseOrder1Address1Street3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Address1Street3.NodeType);
 
@@ -1053,9 +1019,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Address1Text4.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder1Address1Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Address1City5 = documentPurchaseOrders0PurchaseOrder1Address1.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder1Address1City5 = documentPurchaseOrders0PurchaseOrder1Address1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address1City5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address1City5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address1City5.Attributes.Count());
             Assert.AreEqual("City", documentPurchaseOrders0PurchaseOrder1Address1City5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Address1City5.NodeType);
 
@@ -1067,9 +1033,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Address1Text6.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder1Address1Text6.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Address1State7 = documentPurchaseOrders0PurchaseOrder1Address1.ChildNodes[7];
+            var documentPurchaseOrders0PurchaseOrder1Address1State7 = documentPurchaseOrders0PurchaseOrder1Address1.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address1State7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address1State7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address1State7.Attributes.Count());
             Assert.AreEqual("State", documentPurchaseOrders0PurchaseOrder1Address1State7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Address1State7.NodeType);
 
@@ -1081,9 +1047,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Address1Text8.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder1Address1Text8.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Address1Zip9 = documentPurchaseOrders0PurchaseOrder1Address1.ChildNodes[9];
+            var documentPurchaseOrders0PurchaseOrder1Address1Zip9 = documentPurchaseOrders0PurchaseOrder1Address1.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address1Zip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address1Zip9.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address1Zip9.Attributes.Count());
             Assert.AreEqual("Zip", documentPurchaseOrders0PurchaseOrder1Address1Zip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Address1Zip9.NodeType);
 
@@ -1095,9 +1061,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Address1Text10.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder1Address1Text10.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Address1Country11 = documentPurchaseOrders0PurchaseOrder1Address1.ChildNodes[11];
+            var documentPurchaseOrders0PurchaseOrder1Address1Country11 = documentPurchaseOrders0PurchaseOrder1Address1.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address1Country11.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address1Country11.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address1Country11.Attributes.Count());
             Assert.AreEqual("Country", documentPurchaseOrders0PurchaseOrder1Address1Country11.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Address1Country11.NodeType);
 
@@ -1113,22 +1079,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Text2.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrders0PurchaseOrder1Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Address3 = documentPurchaseOrders0PurchaseOrder1.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder1Address3 = documentPurchaseOrders0PurchaseOrder1.ChildNodes[3] as IElement;
             Assert.AreEqual(13, documentPurchaseOrders0PurchaseOrder1Address3.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address3.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address3.Attributes.Count());
             Assert.AreEqual("Address", documentPurchaseOrders0PurchaseOrder1Address3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Address3.NodeType);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder1Address3.Attributes["Type"]);
-            Assert.AreEqual("Type", documentPurchaseOrders0PurchaseOrder1Address3.Attributes["Type"].Name);
-            Assert.AreEqual("Billing", documentPurchaseOrders0PurchaseOrder1Address3.Attributes["Type"].Value);
+            Assert.AreEqual("Billing", documentPurchaseOrders0PurchaseOrder1Address3.GetAttribute("Type"));
 
             var documentPurchaseOrders0PurchaseOrder1Address3Text0 = documentPurchaseOrders0PurchaseOrder1Address3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Address3Text0.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder1Address3Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Address3Name1 = documentPurchaseOrders0PurchaseOrder1Address3.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder1Address3Name1 = documentPurchaseOrders0PurchaseOrder1Address3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address3Name1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address3Name1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address3Name1.Attributes.Count());
             Assert.AreEqual("Name", documentPurchaseOrders0PurchaseOrder1Address3Name1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Address3Name1.NodeType);
 
@@ -1140,9 +1104,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Address3Text2.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder1Address3Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Address3Street3 = documentPurchaseOrders0PurchaseOrder1Address3.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder1Address3Street3 = documentPurchaseOrders0PurchaseOrder1Address3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address3Street3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address3Street3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address3Street3.Attributes.Count());
             Assert.AreEqual("Street", documentPurchaseOrders0PurchaseOrder1Address3Street3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Address3Street3.NodeType);
 
@@ -1154,9 +1118,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Address3Text4.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder1Address3Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Address3City5 = documentPurchaseOrders0PurchaseOrder1Address3.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder1Address3City5 = documentPurchaseOrders0PurchaseOrder1Address3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address3City5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address3City5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address3City5.Attributes.Count());
             Assert.AreEqual("City", documentPurchaseOrders0PurchaseOrder1Address3City5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Address3City5.NodeType);
 
@@ -1168,9 +1132,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Address3Text6.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder1Address3Text6.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Address3State7 = documentPurchaseOrders0PurchaseOrder1Address3.ChildNodes[7];
+            var documentPurchaseOrders0PurchaseOrder1Address3State7 = documentPurchaseOrders0PurchaseOrder1Address3.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address3State7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address3State7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address3State7.Attributes.Count());
             Assert.AreEqual("State", documentPurchaseOrders0PurchaseOrder1Address3State7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Address3State7.NodeType);
 
@@ -1182,9 +1146,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Address3Text8.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder1Address3Text8.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Address3Zip9 = documentPurchaseOrders0PurchaseOrder1Address3.ChildNodes[9];
+            var documentPurchaseOrders0PurchaseOrder1Address3Zip9 = documentPurchaseOrders0PurchaseOrder1Address3.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address3Zip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address3Zip9.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address3Zip9.Attributes.Count());
             Assert.AreEqual("Zip", documentPurchaseOrders0PurchaseOrder1Address3Zip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Address3Zip9.NodeType);
 
@@ -1196,9 +1160,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Address3Text10.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder1Address3Text10.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Address3Country11 = documentPurchaseOrders0PurchaseOrder1Address3.ChildNodes[11];
+            var documentPurchaseOrders0PurchaseOrder1Address3Country11 = documentPurchaseOrders0PurchaseOrder1Address3.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Address3Country11.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address3Country11.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Address3Country11.Attributes.Count());
             Assert.AreEqual("Country", documentPurchaseOrders0PurchaseOrder1Address3Country11.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Address3Country11.NodeType);
 
@@ -1214,9 +1178,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Text4.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrders0PurchaseOrder1Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1DeliveryNotes5 = documentPurchaseOrders0PurchaseOrder1.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder1DeliveryNotes5 = documentPurchaseOrders0PurchaseOrder1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1DeliveryNotes5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1DeliveryNotes5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1DeliveryNotes5.Attributes.Count());
             Assert.AreEqual("DeliveryNotes", documentPurchaseOrders0PurchaseOrder1DeliveryNotes5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1DeliveryNotes5.NodeType);
 
@@ -1228,9 +1192,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Text6.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrders0PurchaseOrder1Text6.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Items7 = documentPurchaseOrders0PurchaseOrder1.ChildNodes[7];
+            var documentPurchaseOrders0PurchaseOrder1Items7 = documentPurchaseOrders0PurchaseOrder1.ChildNodes[7] as IElement;
             Assert.AreEqual(5, documentPurchaseOrders0PurchaseOrder1Items7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7.Attributes.Count());
             Assert.AreEqual("Items", documentPurchaseOrders0PurchaseOrder1Items7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Items7.NodeType);
 
@@ -1238,22 +1202,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Items7Text0.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder1Items7Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Items7Item1 = documentPurchaseOrders0PurchaseOrder1Items7.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder1Items7Item1 = documentPurchaseOrders0PurchaseOrder1Items7.ChildNodes[1] as IElement;
             Assert.AreEqual(9, documentPurchaseOrders0PurchaseOrder1Items7Item1.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Items7Item1.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Items7Item1.Attributes.Count());
             Assert.AreEqual("Item", documentPurchaseOrders0PurchaseOrder1Items7Item1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Items7Item1.NodeType);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder1Items7Item1.Attributes["PartNumber"]);
-            Assert.AreEqual("PartNumber", documentPurchaseOrders0PurchaseOrder1Items7Item1.Attributes["PartNumber"].Name);
-            Assert.AreEqual("872-AA", documentPurchaseOrders0PurchaseOrder1Items7Item1.Attributes["PartNumber"].Value);
+            Assert.AreEqual("872-AA", documentPurchaseOrders0PurchaseOrder1Items7Item1.GetAttribute("PartNumber"));
 
             var documentPurchaseOrders0PurchaseOrder1Items7Item1Text0 = documentPurchaseOrders0PurchaseOrder1Items7Item1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Items7Item1Text0.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder1Items7Item1Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Items7Item1ProductName1 = documentPurchaseOrders0PurchaseOrder1Items7Item1.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder1Items7Item1ProductName1 = documentPurchaseOrders0PurchaseOrder1Items7Item1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Items7Item1ProductName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item1ProductName1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item1ProductName1.Attributes.Count());
             Assert.AreEqual("ProductName", documentPurchaseOrders0PurchaseOrder1Items7Item1ProductName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Items7Item1ProductName1.NodeType);
 
@@ -1265,9 +1227,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Items7Item1Text2.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder1Items7Item1Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Items7Item1Quantity3 = documentPurchaseOrders0PurchaseOrder1Items7Item1.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder1Items7Item1Quantity3 = documentPurchaseOrders0PurchaseOrder1Items7Item1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Items7Item1Quantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item1Quantity3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item1Quantity3.Attributes.Count());
             Assert.AreEqual("Quantity", documentPurchaseOrders0PurchaseOrder1Items7Item1Quantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Items7Item1Quantity3.NodeType);
 
@@ -1279,9 +1241,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Items7Item1Text4.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder1Items7Item1Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Items7Item1USPrice5 = documentPurchaseOrders0PurchaseOrder1Items7Item1.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder1Items7Item1USPrice5 = documentPurchaseOrders0PurchaseOrder1Items7Item1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Items7Item1USPrice5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item1USPrice5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item1USPrice5.Attributes.Count());
             Assert.AreEqual("USPrice", documentPurchaseOrders0PurchaseOrder1Items7Item1USPrice5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Items7Item1USPrice5.NodeType);
 
@@ -1293,9 +1255,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Items7Item1Text6.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder1Items7Item1Text6.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Items7Item1Comment7 = documentPurchaseOrders0PurchaseOrder1Items7Item1.ChildNodes[7];
+            var documentPurchaseOrders0PurchaseOrder1Items7Item1Comment7 = documentPurchaseOrders0PurchaseOrder1Items7Item1.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Items7Item1Comment7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item1Comment7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item1Comment7.Attributes.Count());
             Assert.AreEqual("Comment", documentPurchaseOrders0PurchaseOrder1Items7Item1Comment7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Items7Item1Comment7.NodeType);
 
@@ -1312,22 +1274,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Items7Text2.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder1Items7Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Items7Item3 = documentPurchaseOrders0PurchaseOrder1Items7.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder1Items7Item3 = documentPurchaseOrders0PurchaseOrder1Items7.ChildNodes[3] as IElement;
             Assert.AreEqual(9, documentPurchaseOrders0PurchaseOrder1Items7Item3.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Items7Item3.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Items7Item3.Attributes.Count());
             Assert.AreEqual("Item", documentPurchaseOrders0PurchaseOrder1Items7Item3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Items7Item3.NodeType);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder1Items7Item3.Attributes["PartNumber"]);
-            Assert.AreEqual("PartNumber", documentPurchaseOrders0PurchaseOrder1Items7Item3.Attributes["PartNumber"].Name);
-            Assert.AreEqual("926-AA", documentPurchaseOrders0PurchaseOrder1Items7Item3.Attributes["PartNumber"].Value);
+            Assert.AreEqual("926-AA", documentPurchaseOrders0PurchaseOrder1Items7Item3.GetAttribute("PartNumber"));
 
             var documentPurchaseOrders0PurchaseOrder1Items7Item3Text0 = documentPurchaseOrders0PurchaseOrder1Items7Item3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Items7Item3Text0.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder1Items7Item3Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Items7Item3ProductName1 = documentPurchaseOrders0PurchaseOrder1Items7Item3.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder1Items7Item3ProductName1 = documentPurchaseOrders0PurchaseOrder1Items7Item3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Items7Item3ProductName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item3ProductName1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item3ProductName1.Attributes.Count());
             Assert.AreEqual("ProductName", documentPurchaseOrders0PurchaseOrder1Items7Item3ProductName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Items7Item3ProductName1.NodeType);
 
@@ -1339,9 +1299,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Items7Item3Text2.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder1Items7Item3Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Items7Item3Quantity3 = documentPurchaseOrders0PurchaseOrder1Items7Item3.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder1Items7Item3Quantity3 = documentPurchaseOrders0PurchaseOrder1Items7Item3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Items7Item3Quantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item3Quantity3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item3Quantity3.Attributes.Count());
             Assert.AreEqual("Quantity", documentPurchaseOrders0PurchaseOrder1Items7Item3Quantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Items7Item3Quantity3.NodeType);
 
@@ -1354,9 +1314,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Items7Item3Text4.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder1Items7Item3Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Items7Item3USPrice5 = documentPurchaseOrders0PurchaseOrder1Items7Item3.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder1Items7Item3USPrice5 = documentPurchaseOrders0PurchaseOrder1Items7Item3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Items7Item3USPrice5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item3USPrice5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item3USPrice5.Attributes.Count());
             Assert.AreEqual("USPrice", documentPurchaseOrders0PurchaseOrder1Items7Item3USPrice5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Items7Item3USPrice5.NodeType);
 
@@ -1368,9 +1328,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder1Items7Item3Text6.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder1Items7Item3Text6.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder1Items7Item3ShipDate7 = documentPurchaseOrders0PurchaseOrder1Items7Item3.ChildNodes[7];
+            var documentPurchaseOrders0PurchaseOrder1Items7Item3ShipDate7 = documentPurchaseOrders0PurchaseOrder1Items7Item3.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder1Items7Item3ShipDate7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item3ShipDate7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder1Items7Item3ShipDate7.Attributes.Count());
             Assert.AreEqual("ShipDate", documentPurchaseOrders0PurchaseOrder1Items7Item3ShipDate7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder1Items7Item3ShipDate7.NodeType);
 
@@ -1394,38 +1354,32 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0Text2.NodeType);
             Assert.AreEqual("\n  ", documentPurchaseOrders0Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3 = documentPurchaseOrders0.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder3 = documentPurchaseOrders0.ChildNodes[3] as IElement;
             Assert.AreEqual(9, documentPurchaseOrders0PurchaseOrder3.ChildNodes.Length);
-            Assert.AreEqual(2, documentPurchaseOrders0PurchaseOrder3.Attributes.Length);
+            Assert.AreEqual(2, documentPurchaseOrders0PurchaseOrder3.Attributes.Count());
             Assert.AreEqual("PurchaseOrder", documentPurchaseOrders0PurchaseOrder3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3.NodeType);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder3.Attributes["PurchaseOrderNumber"]);
-            Assert.AreEqual("PurchaseOrderNumber", documentPurchaseOrders0PurchaseOrder3.Attributes["PurchaseOrderNumber"].Name);
-            Assert.AreEqual("99505", documentPurchaseOrders0PurchaseOrder3.Attributes["PurchaseOrderNumber"].Value);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder3.Attributes["OrderDate"]);
-            Assert.AreEqual("OrderDate", documentPurchaseOrders0PurchaseOrder3.Attributes["OrderDate"].Name);
-            Assert.AreEqual("1999-10-22", documentPurchaseOrders0PurchaseOrder3.Attributes["OrderDate"].Value);
+            Assert.AreEqual("99505", documentPurchaseOrders0PurchaseOrder3.GetAttribute("PurchaseOrderNumber"));
+            Assert.AreEqual("1999-10-22", documentPurchaseOrders0PurchaseOrder3.GetAttribute("OrderDate"));
 
             var documentPurchaseOrders0PurchaseOrder3Text0 = documentPurchaseOrders0PurchaseOrder3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Text0.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrders0PurchaseOrder3Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Address1 = documentPurchaseOrders0PurchaseOrder3.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder3Address1 = documentPurchaseOrders0PurchaseOrder3.ChildNodes[1] as IElement;
             Assert.AreEqual(13, documentPurchaseOrders0PurchaseOrder3Address1.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address1.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address1.Attributes.Count());
             Assert.AreEqual("Address", documentPurchaseOrders0PurchaseOrder3Address1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Address1.NodeType);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder3Address1.Attributes["Type"]);
-            Assert.AreEqual("Type", documentPurchaseOrders0PurchaseOrder3Address1.Attributes["Type"].Name);
-            Assert.AreEqual("Shipping", documentPurchaseOrders0PurchaseOrder3Address1.Attributes["Type"].Value);
+            Assert.AreEqual("Shipping", documentPurchaseOrders0PurchaseOrder3Address1.GetAttribute("Type"));
 
             var documentPurchaseOrders0PurchaseOrder3Address1Text0 = documentPurchaseOrders0PurchaseOrder3Address1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Address1Text0.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder3Address1Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Address1Name1 = documentPurchaseOrders0PurchaseOrder3Address1.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder3Address1Name1 = documentPurchaseOrders0PurchaseOrder3Address1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address1Name1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address1Name1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address1Name1.Attributes.Count());
             Assert.AreEqual("Name", documentPurchaseOrders0PurchaseOrder3Address1Name1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Address1Name1.NodeType);
 
@@ -1437,9 +1391,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Address1Text2.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder3Address1Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Address1Street3 = documentPurchaseOrders0PurchaseOrder3Address1.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder3Address1Street3 = documentPurchaseOrders0PurchaseOrder3Address1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address1Street3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address1Street3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address1Street3.Attributes.Count());
             Assert.AreEqual("Street", documentPurchaseOrders0PurchaseOrder3Address1Street3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Address1Street3.NodeType);
 
@@ -1451,9 +1405,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Address1Text4.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder3Address1Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Address1City5 = documentPurchaseOrders0PurchaseOrder3Address1.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder3Address1City5 = documentPurchaseOrders0PurchaseOrder3Address1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address1City5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address1City5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address1City5.Attributes.Count());
             Assert.AreEqual("City", documentPurchaseOrders0PurchaseOrder3Address1City5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Address1City5.NodeType);
 
@@ -1465,9 +1419,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Address1Text6.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder3Address1Text6.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Address1State7 = documentPurchaseOrders0PurchaseOrder3Address1.ChildNodes[7];
+            var documentPurchaseOrders0PurchaseOrder3Address1State7 = documentPurchaseOrders0PurchaseOrder3Address1.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address1State7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address1State7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address1State7.Attributes.Count());
             Assert.AreEqual("State", documentPurchaseOrders0PurchaseOrder3Address1State7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Address1State7.NodeType);
 
@@ -1479,9 +1433,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Address1Text8.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder3Address1Text8.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Address1Zip9 = documentPurchaseOrders0PurchaseOrder3Address1.ChildNodes[9];
+            var documentPurchaseOrders0PurchaseOrder3Address1Zip9 = documentPurchaseOrders0PurchaseOrder3Address1.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address1Zip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address1Zip9.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address1Zip9.Attributes.Count());
             Assert.AreEqual("Zip", documentPurchaseOrders0PurchaseOrder3Address1Zip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Address1Zip9.NodeType);
 
@@ -1493,9 +1447,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Address1Text10.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder3Address1Text10.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Address1Country11 = documentPurchaseOrders0PurchaseOrder3Address1.ChildNodes[11];
+            var documentPurchaseOrders0PurchaseOrder3Address1Country11 = documentPurchaseOrders0PurchaseOrder3Address1.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address1Country11.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address1Country11.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address1Country11.Attributes.Count());
             Assert.AreEqual("Country", documentPurchaseOrders0PurchaseOrder3Address1Country11.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Address1Country11.NodeType);
 
@@ -1511,22 +1465,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Text2.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrders0PurchaseOrder3Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Address3 = documentPurchaseOrders0PurchaseOrder3.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder3Address3 = documentPurchaseOrders0PurchaseOrder3.ChildNodes[3] as IElement;
             Assert.AreEqual(13, documentPurchaseOrders0PurchaseOrder3Address3.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address3.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address3.Attributes.Count());
             Assert.AreEqual("Address", documentPurchaseOrders0PurchaseOrder3Address3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Address3.NodeType);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder3Address3.Attributes["Type"]);
-            Assert.AreEqual("Type", documentPurchaseOrders0PurchaseOrder3Address3.Attributes["Type"].Name);
-            Assert.AreEqual("Billing", documentPurchaseOrders0PurchaseOrder3Address3.Attributes["Type"].Value);
+            Assert.AreEqual("Billing", documentPurchaseOrders0PurchaseOrder3Address3.GetAttribute("Type"));
 
             var documentPurchaseOrders0PurchaseOrder3Address3Text0 = documentPurchaseOrders0PurchaseOrder3Address3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Address3Text0.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder3Address3Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Address3Name1 = documentPurchaseOrders0PurchaseOrder3Address3.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder3Address3Name1 = documentPurchaseOrders0PurchaseOrder3Address3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address3Name1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address3Name1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address3Name1.Attributes.Count());
             Assert.AreEqual("Name", documentPurchaseOrders0PurchaseOrder3Address3Name1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Address3Name1.NodeType);
 
@@ -1538,9 +1490,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Address3Text2.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder3Address3Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Address3Street3 = documentPurchaseOrders0PurchaseOrder3Address3.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder3Address3Street3 = documentPurchaseOrders0PurchaseOrder3Address3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address3Street3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address3Street3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address3Street3.Attributes.Count());
             Assert.AreEqual("Street", documentPurchaseOrders0PurchaseOrder3Address3Street3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Address3Street3.NodeType);
 
@@ -1552,9 +1504,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Address3Text4.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder3Address3Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Address3City5 = documentPurchaseOrders0PurchaseOrder3Address3.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder3Address3City5 = documentPurchaseOrders0PurchaseOrder3Address3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address3City5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address3City5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address3City5.Attributes.Count());
             Assert.AreEqual("City", documentPurchaseOrders0PurchaseOrder3Address3City5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Address3City5.NodeType);
 
@@ -1566,9 +1518,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Address3Text6.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder3Address3Text6.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Address3State7 = documentPurchaseOrders0PurchaseOrder3Address3.ChildNodes[7];
+            var documentPurchaseOrders0PurchaseOrder3Address3State7 = documentPurchaseOrders0PurchaseOrder3Address3.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address3State7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address3State7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address3State7.Attributes.Count());
             Assert.AreEqual("State", documentPurchaseOrders0PurchaseOrder3Address3State7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Address3State7.NodeType);
 
@@ -1580,9 +1532,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Address3Text8.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder3Address3Text8.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Address3Zip9 = documentPurchaseOrders0PurchaseOrder3Address3.ChildNodes[9];
+            var documentPurchaseOrders0PurchaseOrder3Address3Zip9 = documentPurchaseOrders0PurchaseOrder3Address3.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address3Zip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address3Zip9.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address3Zip9.Attributes.Count());
             Assert.AreEqual("Zip", documentPurchaseOrders0PurchaseOrder3Address3Zip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Address3Zip9.NodeType);
 
@@ -1594,9 +1546,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Address3Text10.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder3Address3Text10.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Address3Country11 = documentPurchaseOrders0PurchaseOrder3Address3.ChildNodes[11];
+            var documentPurchaseOrders0PurchaseOrder3Address3Country11 = documentPurchaseOrders0PurchaseOrder3Address3.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Address3Country11.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address3Country11.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Address3Country11.Attributes.Count());
             Assert.AreEqual("Country", documentPurchaseOrders0PurchaseOrder3Address3Country11.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Address3Country11.NodeType);
 
@@ -1612,9 +1564,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Text4.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrders0PurchaseOrder3Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3DeliveryNotes5 = documentPurchaseOrders0PurchaseOrder3.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder3DeliveryNotes5 = documentPurchaseOrders0PurchaseOrder3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3DeliveryNotes5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3DeliveryNotes5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3DeliveryNotes5.Attributes.Count());
             Assert.AreEqual("DeliveryNotes", documentPurchaseOrders0PurchaseOrder3DeliveryNotes5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3DeliveryNotes5.NodeType);
 
@@ -1626,9 +1578,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Text6.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrders0PurchaseOrder3Text6.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Items7 = documentPurchaseOrders0PurchaseOrder3.ChildNodes[7];
+            var documentPurchaseOrders0PurchaseOrder3Items7 = documentPurchaseOrders0PurchaseOrder3.ChildNodes[7] as IElement;
             Assert.AreEqual(3, documentPurchaseOrders0PurchaseOrder3Items7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Items7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Items7.Attributes.Count());
             Assert.AreEqual("Items", documentPurchaseOrders0PurchaseOrder3Items7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Items7.NodeType);
 
@@ -1636,22 +1588,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Items7Text0.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder3Items7Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Items7Item1 = documentPurchaseOrders0PurchaseOrder3Items7.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder3Items7Item1 = documentPurchaseOrders0PurchaseOrder3Items7.ChildNodes[1] as IElement;
             Assert.AreEqual(7, documentPurchaseOrders0PurchaseOrder3Items7Item1.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Items7Item1.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Items7Item1.Attributes.Count());
             Assert.AreEqual("Item", documentPurchaseOrders0PurchaseOrder3Items7Item1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Items7Item1.NodeType);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder3Items7Item1.Attributes["PartNumber"]);
-            Assert.AreEqual("PartNumber", documentPurchaseOrders0PurchaseOrder3Items7Item1.Attributes["PartNumber"].Name);
-            Assert.AreEqual("456-NM", documentPurchaseOrders0PurchaseOrder3Items7Item1.Attributes["PartNumber"].Value);
+            Assert.AreEqual("456-NM", documentPurchaseOrders0PurchaseOrder3Items7Item1.GetAttribute("PartNumber"));
 
             var documentPurchaseOrders0PurchaseOrder3Items7Item1Text0 = documentPurchaseOrders0PurchaseOrder3Items7Item1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Items7Item1Text0.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder3Items7Item1Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Items7Item1ProductName1 = documentPurchaseOrders0PurchaseOrder3Items7Item1.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder3Items7Item1ProductName1 = documentPurchaseOrders0PurchaseOrder3Items7Item1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Items7Item1ProductName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Items7Item1ProductName1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Items7Item1ProductName1.Attributes.Count());
             Assert.AreEqual("ProductName", documentPurchaseOrders0PurchaseOrder3Items7Item1ProductName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Items7Item1ProductName1.NodeType);
 
@@ -1663,9 +1613,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Items7Item1Text2.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder3Items7Item1Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Items7Item1Quantity3 = documentPurchaseOrders0PurchaseOrder3Items7Item1.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder3Items7Item1Quantity3 = documentPurchaseOrders0PurchaseOrder3Items7Item1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Items7Item1Quantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Items7Item1Quantity3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Items7Item1Quantity3.Attributes.Count());
             Assert.AreEqual("Quantity", documentPurchaseOrders0PurchaseOrder3Items7Item1Quantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Items7Item1Quantity3.NodeType);
 
@@ -1677,9 +1627,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder3Items7Item1Text4.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder3Items7Item1Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder3Items7Item1USPrice5 = documentPurchaseOrders0PurchaseOrder3Items7Item1.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder3Items7Item1USPrice5 = documentPurchaseOrders0PurchaseOrder3Items7Item1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder3Items7Item1USPrice5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Items7Item1USPrice5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder3Items7Item1USPrice5.Attributes.Count());
             Assert.AreEqual("USPrice", documentPurchaseOrders0PurchaseOrder3Items7Item1USPrice5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder3Items7Item1USPrice5.NodeType);
 
@@ -1703,38 +1653,32 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0Text4.NodeType);
             Assert.AreEqual("\n  ", documentPurchaseOrders0Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5 = documentPurchaseOrders0.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder5 = documentPurchaseOrders0.ChildNodes[5] as IElement;
             Assert.AreEqual(7, documentPurchaseOrders0PurchaseOrder5.ChildNodes.Length);
-            Assert.AreEqual(2, documentPurchaseOrders0PurchaseOrder5.Attributes.Length);
+            Assert.AreEqual(2, documentPurchaseOrders0PurchaseOrder5.Attributes.Count());
             Assert.AreEqual("PurchaseOrder", documentPurchaseOrders0PurchaseOrder5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5.NodeType);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder5.Attributes["PurchaseOrderNumber"]);
-            Assert.AreEqual("PurchaseOrderNumber", documentPurchaseOrders0PurchaseOrder5.Attributes["PurchaseOrderNumber"].Name);
-            Assert.AreEqual("99504", documentPurchaseOrders0PurchaseOrder5.Attributes["PurchaseOrderNumber"].Value);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder5.Attributes["OrderDate"]);
-            Assert.AreEqual("OrderDate", documentPurchaseOrders0PurchaseOrder5.Attributes["OrderDate"].Name);
-            Assert.AreEqual("1999-10-22", documentPurchaseOrders0PurchaseOrder5.Attributes["OrderDate"].Value);
+            Assert.AreEqual("99504", documentPurchaseOrders0PurchaseOrder5.GetAttribute("PurchaseOrderNumber"));
+            Assert.AreEqual("1999-10-22", documentPurchaseOrders0PurchaseOrder5.GetAttribute("OrderDate"));
 
             var documentPurchaseOrders0PurchaseOrder5Text0 = documentPurchaseOrders0PurchaseOrder5.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Text0.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrders0PurchaseOrder5Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Address1 = documentPurchaseOrders0PurchaseOrder5.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder5Address1 = documentPurchaseOrders0PurchaseOrder5.ChildNodes[1] as IElement;
             Assert.AreEqual(13, documentPurchaseOrders0PurchaseOrder5Address1.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address1.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address1.Attributes.Count());
             Assert.AreEqual("Address", documentPurchaseOrders0PurchaseOrder5Address1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Address1.NodeType);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder5Address1.Attributes["Type"]);
-            Assert.AreEqual("Type", documentPurchaseOrders0PurchaseOrder5Address1.Attributes["Type"].Name);
-            Assert.AreEqual("Shipping", documentPurchaseOrders0PurchaseOrder5Address1.Attributes["Type"].Value);
+            Assert.AreEqual("Shipping", documentPurchaseOrders0PurchaseOrder5Address1.GetAttribute("Type"));
 
             var documentPurchaseOrders0PurchaseOrder5Address1Text0 = documentPurchaseOrders0PurchaseOrder5Address1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Address1Text0.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder5Address1Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Address1Name1 = documentPurchaseOrders0PurchaseOrder5Address1.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder5Address1Name1 = documentPurchaseOrders0PurchaseOrder5Address1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address1Name1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address1Name1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address1Name1.Attributes.Count());
             Assert.AreEqual("Name", documentPurchaseOrders0PurchaseOrder5Address1Name1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Address1Name1.NodeType);
 
@@ -1746,9 +1690,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Address1Text2.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder5Address1Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Address1Street3 = documentPurchaseOrders0PurchaseOrder5Address1.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder5Address1Street3 = documentPurchaseOrders0PurchaseOrder5Address1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address1Street3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address1Street3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address1Street3.Attributes.Count());
             Assert.AreEqual("Street", documentPurchaseOrders0PurchaseOrder5Address1Street3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Address1Street3.NodeType);
 
@@ -1760,9 +1704,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Address1Text4.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder5Address1Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Address1City5 = documentPurchaseOrders0PurchaseOrder5Address1.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder5Address1City5 = documentPurchaseOrders0PurchaseOrder5Address1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address1City5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address1City5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address1City5.Attributes.Count());
             Assert.AreEqual("City", documentPurchaseOrders0PurchaseOrder5Address1City5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Address1City5.NodeType);
 
@@ -1774,9 +1718,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Address1Text6.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder5Address1Text6.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Address1State7 = documentPurchaseOrders0PurchaseOrder5Address1.ChildNodes[7];
+            var documentPurchaseOrders0PurchaseOrder5Address1State7 = documentPurchaseOrders0PurchaseOrder5Address1.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address1State7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address1State7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address1State7.Attributes.Count());
             Assert.AreEqual("State", documentPurchaseOrders0PurchaseOrder5Address1State7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Address1State7.NodeType);
 
@@ -1788,9 +1732,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Address1Text8.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder5Address1Text8.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Address1Zip9 = documentPurchaseOrders0PurchaseOrder5Address1.ChildNodes[9];
+            var documentPurchaseOrders0PurchaseOrder5Address1Zip9 = documentPurchaseOrders0PurchaseOrder5Address1.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address1Zip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address1Zip9.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address1Zip9.Attributes.Count());
             Assert.AreEqual("Zip", documentPurchaseOrders0PurchaseOrder5Address1Zip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Address1Zip9.NodeType);
 
@@ -1802,9 +1746,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Address1Text10.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder5Address1Text10.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Address1Country11 = documentPurchaseOrders0PurchaseOrder5Address1.ChildNodes[11];
+            var documentPurchaseOrders0PurchaseOrder5Address1Country11 = documentPurchaseOrders0PurchaseOrder5Address1.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address1Country11.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address1Country11.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address1Country11.Attributes.Count());
             Assert.AreEqual("Country", documentPurchaseOrders0PurchaseOrder5Address1Country11.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Address1Country11.NodeType);
 
@@ -1820,22 +1764,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Text2.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrders0PurchaseOrder5Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Address3 = documentPurchaseOrders0PurchaseOrder5.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder5Address3 = documentPurchaseOrders0PurchaseOrder5.ChildNodes[3] as IElement;
             Assert.AreEqual(13, documentPurchaseOrders0PurchaseOrder5Address3.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address3.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address3.Attributes.Count());
             Assert.AreEqual("Address", documentPurchaseOrders0PurchaseOrder5Address3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Address3.NodeType);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder5Address3.Attributes["Type"]);
-            Assert.AreEqual("Type", documentPurchaseOrders0PurchaseOrder5Address3.Attributes["Type"].Name);
-            Assert.AreEqual("Billing", documentPurchaseOrders0PurchaseOrder5Address3.Attributes["Type"].Value);
+            Assert.AreEqual("Billing", documentPurchaseOrders0PurchaseOrder5Address3.GetAttribute("Type"));
 
             var documentPurchaseOrders0PurchaseOrder5Address3Text0 = documentPurchaseOrders0PurchaseOrder5Address3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Address3Text0.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder5Address3Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Address3Name1 = documentPurchaseOrders0PurchaseOrder5Address3.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder5Address3Name1 = documentPurchaseOrders0PurchaseOrder5Address3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address3Name1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address3Name1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address3Name1.Attributes.Count());
             Assert.AreEqual("Name", documentPurchaseOrders0PurchaseOrder5Address3Name1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Address3Name1.NodeType);
 
@@ -1847,9 +1789,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Address3Text2.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder5Address3Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Address3Street3 = documentPurchaseOrders0PurchaseOrder5Address3.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder5Address3Street3 = documentPurchaseOrders0PurchaseOrder5Address3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address3Street3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address3Street3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address3Street3.Attributes.Count());
             Assert.AreEqual("Street", documentPurchaseOrders0PurchaseOrder5Address3Street3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Address3Street3.NodeType);
 
@@ -1861,9 +1803,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Address3Text4.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder5Address3Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Address3City5 = documentPurchaseOrders0PurchaseOrder5Address3.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder5Address3City5 = documentPurchaseOrders0PurchaseOrder5Address3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address3City5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address3City5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address3City5.Attributes.Count());
             Assert.AreEqual("City", documentPurchaseOrders0PurchaseOrder5Address3City5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Address3City5.NodeType);
 
@@ -1875,9 +1817,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Address3Text6.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder5Address3Text6.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Address3State7 = documentPurchaseOrders0PurchaseOrder5Address3.ChildNodes[7];
+            var documentPurchaseOrders0PurchaseOrder5Address3State7 = documentPurchaseOrders0PurchaseOrder5Address3.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address3State7.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address3State7.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address3State7.Attributes.Count());
             Assert.AreEqual("State", documentPurchaseOrders0PurchaseOrder5Address3State7.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Address3State7.NodeType);
 
@@ -1889,9 +1831,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Address3Text8.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder5Address3Text8.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Address3Zip9 = documentPurchaseOrders0PurchaseOrder5Address3.ChildNodes[9];
+            var documentPurchaseOrders0PurchaseOrder5Address3Zip9 = documentPurchaseOrders0PurchaseOrder5Address3.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address3Zip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address3Zip9.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address3Zip9.Attributes.Count());
             Assert.AreEqual("Zip", documentPurchaseOrders0PurchaseOrder5Address3Zip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Address3Zip9.NodeType);
 
@@ -1903,9 +1845,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Address3Text10.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder5Address3Text10.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Address3Country11 = documentPurchaseOrders0PurchaseOrder5Address3.ChildNodes[11];
+            var documentPurchaseOrders0PurchaseOrder5Address3Country11 = documentPurchaseOrders0PurchaseOrder5Address3.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Address3Country11.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address3Country11.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Address3Country11.Attributes.Count());
             Assert.AreEqual("Country", documentPurchaseOrders0PurchaseOrder5Address3Country11.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Address3Country11.NodeType);
 
@@ -1921,9 +1863,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Text4.NodeType);
             Assert.AreEqual("\n    ", documentPurchaseOrders0PurchaseOrder5Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Items5 = documentPurchaseOrders0PurchaseOrder5.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder5Items5 = documentPurchaseOrders0PurchaseOrder5.ChildNodes[5] as IElement;
             Assert.AreEqual(5, documentPurchaseOrders0PurchaseOrder5Items5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Items5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Items5.Attributes.Count());
             Assert.AreEqual("Items", documentPurchaseOrders0PurchaseOrder5Items5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Items5.NodeType);
 
@@ -1931,22 +1873,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Items5Text0.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder5Items5Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Items5Item1 = documentPurchaseOrders0PurchaseOrder5Items5.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder5Items5Item1 = documentPurchaseOrders0PurchaseOrder5Items5.ChildNodes[1] as IElement;
             Assert.AreEqual(7, documentPurchaseOrders0PurchaseOrder5Items5Item1.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Items5Item1.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Items5Item1.Attributes.Count());
             Assert.AreEqual("Item", documentPurchaseOrders0PurchaseOrder5Items5Item1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Items5Item1.NodeType);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder5Items5Item1.Attributes["PartNumber"]);
-            Assert.AreEqual("PartNumber", documentPurchaseOrders0PurchaseOrder5Items5Item1.Attributes["PartNumber"].Name);
-            Assert.AreEqual("898-AZ", documentPurchaseOrders0PurchaseOrder5Items5Item1.Attributes["PartNumber"].Value);
+            Assert.AreEqual("898-AZ", documentPurchaseOrders0PurchaseOrder5Items5Item1.GetAttribute("PartNumber"));
 
             var documentPurchaseOrders0PurchaseOrder5Items5Item1Text0 = documentPurchaseOrders0PurchaseOrder5Items5Item1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Items5Item1Text0.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder5Items5Item1Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Items5Item1ProductName1 = documentPurchaseOrders0PurchaseOrder5Items5Item1.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder5Items5Item1ProductName1 = documentPurchaseOrders0PurchaseOrder5Items5Item1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Items5Item1ProductName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Items5Item1ProductName1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Items5Item1ProductName1.Attributes.Count());
             Assert.AreEqual("ProductName", documentPurchaseOrders0PurchaseOrder5Items5Item1ProductName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Items5Item1ProductName1.NodeType);
 
@@ -1958,9 +1898,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Items5Item1Text2.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder5Items5Item1Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Items5Item1Quantity3 = documentPurchaseOrders0PurchaseOrder5Items5Item1.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder5Items5Item1Quantity3 = documentPurchaseOrders0PurchaseOrder5Items5Item1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Items5Item1Quantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Items5Item1Quantity3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Items5Item1Quantity3.Attributes.Count());
             Assert.AreEqual("Quantity", documentPurchaseOrders0PurchaseOrder5Items5Item1Quantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Items5Item1Quantity3.NodeType);
 
@@ -1972,9 +1912,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Items5Item1Text4.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder5Items5Item1Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Items5Item1USPrice5 = documentPurchaseOrders0PurchaseOrder5Items5Item1.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder5Items5Item1USPrice5 = documentPurchaseOrders0PurchaseOrder5Items5Item1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Items5Item1USPrice5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Items5Item1USPrice5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Items5Item1USPrice5.Attributes.Count());
             Assert.AreEqual("USPrice", documentPurchaseOrders0PurchaseOrder5Items5Item1USPrice5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Items5Item1USPrice5.NodeType);
 
@@ -1990,22 +1930,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Items5Text2.NodeType);
             Assert.AreEqual("\n      ", documentPurchaseOrders0PurchaseOrder5Items5Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Items5Item3 = documentPurchaseOrders0PurchaseOrder5Items5.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder5Items5Item3 = documentPurchaseOrders0PurchaseOrder5Items5.ChildNodes[3] as IElement;
             Assert.AreEqual(7, documentPurchaseOrders0PurchaseOrder5Items5Item3.ChildNodes.Length);
-            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Items5Item3.Attributes.Length);
+            Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Items5Item3.Attributes.Count());
             Assert.AreEqual("Item", documentPurchaseOrders0PurchaseOrder5Items5Item3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Items5Item3.NodeType);
-            Assert.IsNotNull(documentPurchaseOrders0PurchaseOrder5Items5Item3.Attributes["PartNumber"]);
-            Assert.AreEqual("PartNumber", documentPurchaseOrders0PurchaseOrder5Items5Item3.Attributes["PartNumber"].Name);
-            Assert.AreEqual("898-AM", documentPurchaseOrders0PurchaseOrder5Items5Item3.Attributes["PartNumber"].Value);
+            Assert.AreEqual("898-AM", documentPurchaseOrders0PurchaseOrder5Items5Item3.GetAttribute("PartNumber"));
 
             var documentPurchaseOrders0PurchaseOrder5Items5Item3Text0 = documentPurchaseOrders0PurchaseOrder5Items5Item3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Items5Item3Text0.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder5Items5Item3Text0.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Items5Item3ProductName1 = documentPurchaseOrders0PurchaseOrder5Items5Item3.ChildNodes[1];
+            var documentPurchaseOrders0PurchaseOrder5Items5Item3ProductName1 = documentPurchaseOrders0PurchaseOrder5Items5Item3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Items5Item3ProductName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Items5Item3ProductName1.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Items5Item3ProductName1.Attributes.Count());
             Assert.AreEqual("ProductName", documentPurchaseOrders0PurchaseOrder5Items5Item3ProductName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Items5Item3ProductName1.NodeType);
 
@@ -2017,9 +1955,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Items5Item3Text2.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder5Items5Item3Text2.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Items5Item3Quantity3 = documentPurchaseOrders0PurchaseOrder5Items5Item3.ChildNodes[3];
+            var documentPurchaseOrders0PurchaseOrder5Items5Item3Quantity3 = documentPurchaseOrders0PurchaseOrder5Items5Item3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Items5Item3Quantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Items5Item3Quantity3.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Items5Item3Quantity3.Attributes.Count());
             Assert.AreEqual("Quantity", documentPurchaseOrders0PurchaseOrder5Items5Item3Quantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Items5Item3Quantity3.NodeType);
 
@@ -2031,9 +1969,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentPurchaseOrders0PurchaseOrder5Items5Item3Text4.NodeType);
             Assert.AreEqual("\n        ", documentPurchaseOrders0PurchaseOrder5Items5Item3Text4.TextContent);
 
-            var documentPurchaseOrders0PurchaseOrder5Items5Item3USPrice5 = documentPurchaseOrders0PurchaseOrder5Items5Item3.ChildNodes[5];
+            var documentPurchaseOrders0PurchaseOrder5Items5Item3USPrice5 = documentPurchaseOrders0PurchaseOrder5Items5Item3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentPurchaseOrders0PurchaseOrder5Items5Item3USPrice5.ChildNodes.Length);
-            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Items5Item3USPrice5.Attributes.Length);
+            Assert.AreEqual(0, documentPurchaseOrders0PurchaseOrder5Items5Item3USPrice5.Attributes.Count());
             Assert.AreEqual("USPrice", documentPurchaseOrders0PurchaseOrder5Items5Item3USPrice5.NodeName);
             Assert.AreEqual(NodeType.Element, documentPurchaseOrders0PurchaseOrder5Items5Item3USPrice5.NodeType);
 
@@ -2058,10 +1996,10 @@ namespace UnitTests.Xml
             Assert.AreEqual("\n", documentPurchaseOrders0Text6.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void XmlMultiplePurchaseOrderInNamespace()
         {
-            var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""utf-8""?>
+            var document = (@"<?xml version=""1.0"" encoding=""utf-8""?>
 <aw:PurchaseOrders xmlns:aw=""http://www.adventure-works.com"">
   <aw:PurchaseOrder aw:PurchaseOrderNumber=""99503"" aw:OrderDate=""1999-10-20"">
     <aw:Address aw:Type=""Shipping"">
@@ -2152,57 +2090,45 @@ namespace UnitTests.Xml
       </aw:Item>
     </aw:Items>
   </aw:PurchaseOrder>
-</aw:PurchaseOrders>");
+</aw:PurchaseOrders>").ToXmlDocument();
 
-            var documentawPurchaseOrders0 = document.ChildNodes[0];
+            var documentawPurchaseOrders0 = document.ChildNodes[0] as IElement;
             Assert.AreEqual(7, documentawPurchaseOrders0.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrders0.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrders0.Attributes.Count());
             Assert.AreEqual("aw:PurchaseOrders", documentawPurchaseOrders0.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0.Attributes["xmlns:aw"]);
-            Assert.AreEqual("xmlns:aw", documentawPurchaseOrders0.Attributes["xmlns:aw"].Name);
-            Assert.AreEqual("http://www.adventure-works.com", documentawPurchaseOrders0.Attributes["xmlns:aw"].Value);
+            Assert.AreEqual("http://www.adventure-works.com", documentawPurchaseOrders0.GetAttribute("xmlns:aw"));
 
             var documentawPurchaseOrders0Text0 = documentawPurchaseOrders0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0Text0.NodeType);
             Assert.AreEqual("\n  ", documentawPurchaseOrders0Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1 = documentawPurchaseOrders0.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder1 = documentawPurchaseOrders0.ChildNodes[1] as IElement;
             Assert.AreEqual(9, documentawPurchaseOrders0awPurchaseOrder1.ChildNodes.Length);
-            Assert.AreEqual(2, documentawPurchaseOrders0awPurchaseOrder1.Attributes.Length);
+            Assert.AreEqual(2, documentawPurchaseOrders0awPurchaseOrder1.Attributes.Count());
             Assert.AreEqual("aw:PurchaseOrder", documentawPurchaseOrders0awPurchaseOrder1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder1.Attributes["aw:PurchaseOrderNumber"]);
-            Assert.AreEqual("aw:PurchaseOrderNumber", documentawPurchaseOrders0awPurchaseOrder1.Attributes["aw:PurchaseOrderNumber"].Name);
-            Assert.AreEqual("99503", documentawPurchaseOrders0awPurchaseOrder1.Attributes["aw:PurchaseOrderNumber"].Value);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder1.Attributes["aw:OrderDate"]);
-            Assert.AreEqual("aw:OrderDate", documentawPurchaseOrders0awPurchaseOrder1.Attributes["aw:OrderDate"].Name);
-            Assert.AreEqual("1999-10-20", documentawPurchaseOrders0awPurchaseOrder1.Attributes["aw:OrderDate"].Value);
+            Assert.AreEqual("99503", documentawPurchaseOrders0awPurchaseOrder1.GetAttribute("aw:PurchaseOrderNumber"));
+            Assert.AreEqual("1999-10-20", documentawPurchaseOrders0awPurchaseOrder1.GetAttribute("aw:OrderDate"));
 
             var documentawPurchaseOrders0awPurchaseOrder1Text0 = documentawPurchaseOrders0awPurchaseOrder1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1Text0.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrders0awPurchaseOrder1Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awAddress1 = documentawPurchaseOrders0awPurchaseOrder1.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder1awAddress1 = documentawPurchaseOrders0awPurchaseOrder1.ChildNodes[1] as IElement;
             Assert.AreEqual(13, documentawPurchaseOrders0awPurchaseOrder1awAddress1.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress1.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress1.Attributes.Count());
             Assert.AreEqual("aw:Address", documentawPurchaseOrders0awPurchaseOrder1awAddress1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awAddress1.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder1awAddress1.Attributes["aw:Type"]);
-            Assert.AreEqual("aw:Type", documentawPurchaseOrders0awPurchaseOrder1awAddress1.Attributes["aw:Type"].Name);
-            Assert.AreEqual("Shipping", documentawPurchaseOrders0awPurchaseOrder1awAddress1.Attributes["aw:Type"].Value);
+            Assert.AreEqual("Shipping", documentawPurchaseOrders0awPurchaseOrder1awAddress1.GetAttribute("aw:Type"));
 
             var documentawPurchaseOrders0awPurchaseOrder1awAddress1Text0 = documentawPurchaseOrders0awPurchaseOrder1awAddress1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awAddress1Text0.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder1awAddress1Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awAddress1awName1 = documentawPurchaseOrders0awPurchaseOrder1awAddress1.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder1awAddress1awName1 = documentawPurchaseOrders0awPurchaseOrder1awAddress1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress1awName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress1awName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress1awName1.Attributes.Count());
             Assert.AreEqual("aw:Name", documentawPurchaseOrders0awPurchaseOrder1awAddress1awName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awAddress1awName1.NodeType);
 
@@ -2214,9 +2140,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awAddress1Text2.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder1awAddress1Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awAddress1awStreet3 = documentawPurchaseOrders0awPurchaseOrder1awAddress1.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder1awAddress1awStreet3 = documentawPurchaseOrders0awPurchaseOrder1awAddress1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress1awStreet3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress1awStreet3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress1awStreet3.Attributes.Count());
             Assert.AreEqual("aw:Street", documentawPurchaseOrders0awPurchaseOrder1awAddress1awStreet3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awAddress1awStreet3.NodeType);
 
@@ -2228,9 +2154,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awAddress1Text4.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder1awAddress1Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awAddress1awCity5 = documentawPurchaseOrders0awPurchaseOrder1awAddress1.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder1awAddress1awCity5 = documentawPurchaseOrders0awPurchaseOrder1awAddress1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress1awCity5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress1awCity5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress1awCity5.Attributes.Count());
             Assert.AreEqual("aw:City", documentawPurchaseOrders0awPurchaseOrder1awAddress1awCity5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awAddress1awCity5.NodeType);
 
@@ -2242,9 +2168,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awAddress1Text6.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder1awAddress1Text6.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awAddress1awState7 = documentawPurchaseOrders0awPurchaseOrder1awAddress1.ChildNodes[7];
+            var documentawPurchaseOrders0awPurchaseOrder1awAddress1awState7 = documentawPurchaseOrders0awPurchaseOrder1awAddress1.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress1awState7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress1awState7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress1awState7.Attributes.Count());
             Assert.AreEqual("aw:State", documentawPurchaseOrders0awPurchaseOrder1awAddress1awState7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awAddress1awState7.NodeType);
 
@@ -2256,9 +2182,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awAddress1Text8.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder1awAddress1Text8.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awAddress1awZip9 = documentawPurchaseOrders0awPurchaseOrder1awAddress1.ChildNodes[9];
+            var documentawPurchaseOrders0awPurchaseOrder1awAddress1awZip9 = documentawPurchaseOrders0awPurchaseOrder1awAddress1.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress1awZip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress1awZip9.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress1awZip9.Attributes.Count());
             Assert.AreEqual("aw:Zip", documentawPurchaseOrders0awPurchaseOrder1awAddress1awZip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awAddress1awZip9.NodeType);
 
@@ -2270,9 +2196,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awAddress1Text10.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder1awAddress1Text10.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awAddress1awCountry11 = documentawPurchaseOrders0awPurchaseOrder1awAddress1.ChildNodes[11];
+            var documentawPurchaseOrders0awPurchaseOrder1awAddress1awCountry11 = documentawPurchaseOrders0awPurchaseOrder1awAddress1.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress1awCountry11.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress1awCountry11.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress1awCountry11.Attributes.Count());
             Assert.AreEqual("aw:Country", documentawPurchaseOrders0awPurchaseOrder1awAddress1awCountry11.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awAddress1awCountry11.NodeType);
 
@@ -2288,23 +2214,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1Text2.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrders0awPurchaseOrder1Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awAddress3 = documentawPurchaseOrders0awPurchaseOrder1.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder1awAddress3 = documentawPurchaseOrders0awPurchaseOrder1.ChildNodes[3] as IElement;
             Assert.AreEqual(13, documentawPurchaseOrders0awPurchaseOrder1awAddress3.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress3.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress3.Attributes.Count());
             Assert.AreEqual("aw:Address", documentawPurchaseOrders0awPurchaseOrder1awAddress3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awAddress3.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder1awAddress3.Attributes["aw:Type"]);
-            Assert.AreEqual("aw:Type", documentawPurchaseOrders0awPurchaseOrder1awAddress3.Attributes["aw:Type"].Name);
-            Assert.AreEqual("Billing", documentawPurchaseOrders0awPurchaseOrder1awAddress3.Attributes["aw:Type"].Value);
+            Assert.AreEqual("Billing", documentawPurchaseOrders0awPurchaseOrder1awAddress3.GetAttribute("aw:Type"));
 
             var documentawPurchaseOrders0awPurchaseOrder1awAddress3Text0 = documentawPurchaseOrders0awPurchaseOrder1awAddress3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awAddress3Text0.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder1awAddress3Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awAddress3awName1 = documentawPurchaseOrders0awPurchaseOrder1awAddress3.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder1awAddress3awName1 = documentawPurchaseOrders0awPurchaseOrder1awAddress3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress3awName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress3awName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress3awName1.Attributes.Count());
             Assert.AreEqual("aw:Name", documentawPurchaseOrders0awPurchaseOrder1awAddress3awName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awAddress3awName1.NodeType);
 
@@ -2316,9 +2239,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awAddress3Text2.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder1awAddress3Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awAddress3awStreet3 = documentawPurchaseOrders0awPurchaseOrder1awAddress3.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder1awAddress3awStreet3 = documentawPurchaseOrders0awPurchaseOrder1awAddress3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress3awStreet3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress3awStreet3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress3awStreet3.Attributes.Count());
             Assert.AreEqual("aw:Street", documentawPurchaseOrders0awPurchaseOrder1awAddress3awStreet3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awAddress3awStreet3.NodeType);
 
@@ -2330,9 +2253,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awAddress3Text4.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder1awAddress3Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awAddress3awCity5 = documentawPurchaseOrders0awPurchaseOrder1awAddress3.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder1awAddress3awCity5 = documentawPurchaseOrders0awPurchaseOrder1awAddress3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress3awCity5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress3awCity5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress3awCity5.Attributes.Count());
             Assert.AreEqual("aw:City", documentawPurchaseOrders0awPurchaseOrder1awAddress3awCity5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awAddress3awCity5.NodeType);
 
@@ -2344,9 +2267,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awAddress3Text6.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder1awAddress3Text6.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awAddress3awState7 = documentawPurchaseOrders0awPurchaseOrder1awAddress3.ChildNodes[7];
+            var documentawPurchaseOrders0awPurchaseOrder1awAddress3awState7 = documentawPurchaseOrders0awPurchaseOrder1awAddress3.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress3awState7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress3awState7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress3awState7.Attributes.Count());
             Assert.AreEqual("aw:State", documentawPurchaseOrders0awPurchaseOrder1awAddress3awState7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awAddress3awState7.NodeType);
 
@@ -2358,9 +2281,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awAddress3Text8.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder1awAddress3Text8.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awAddress3awZip9 = documentawPurchaseOrders0awPurchaseOrder1awAddress3.ChildNodes[9];
+            var documentawPurchaseOrders0awPurchaseOrder1awAddress3awZip9 = documentawPurchaseOrders0awPurchaseOrder1awAddress3.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress3awZip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress3awZip9.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress3awZip9.Attributes.Count());
             Assert.AreEqual("aw:Zip", documentawPurchaseOrders0awPurchaseOrder1awAddress3awZip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awAddress3awZip9.NodeType);
 
@@ -2372,9 +2295,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awAddress3Text10.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder1awAddress3Text10.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awAddress3awCountry11 = documentawPurchaseOrders0awPurchaseOrder1awAddress3.ChildNodes[11];
+            var documentawPurchaseOrders0awPurchaseOrder1awAddress3awCountry11 = documentawPurchaseOrders0awPurchaseOrder1awAddress3.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awAddress3awCountry11.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress3awCountry11.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awAddress3awCountry11.Attributes.Count());
             Assert.AreEqual("aw:Country", documentawPurchaseOrders0awPurchaseOrder1awAddress3awCountry11.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awAddress3awCountry11.NodeType);
 
@@ -2390,9 +2313,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1Text4.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrders0awPurchaseOrder1Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awDeliveryNotes5 = documentawPurchaseOrders0awPurchaseOrder1.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder1awDeliveryNotes5 = documentawPurchaseOrders0awPurchaseOrder1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awDeliveryNotes5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awDeliveryNotes5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awDeliveryNotes5.Attributes.Count());
             Assert.AreEqual("aw:DeliveryNotes", documentawPurchaseOrders0awPurchaseOrder1awDeliveryNotes5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awDeliveryNotes5.NodeType);
 
@@ -2404,9 +2327,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1Text6.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrders0awPurchaseOrder1Text6.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awItems7 = documentawPurchaseOrders0awPurchaseOrder1.ChildNodes[7];
+            var documentawPurchaseOrders0awPurchaseOrder1awItems7 = documentawPurchaseOrders0awPurchaseOrder1.ChildNodes[7] as IElement;
             Assert.AreEqual(5, documentawPurchaseOrders0awPurchaseOrder1awItems7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7.Attributes.Count());
             Assert.AreEqual("aw:Items", documentawPurchaseOrders0awPurchaseOrder1awItems7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awItems7.NodeType);
 
@@ -2414,23 +2337,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awItems7Text0.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder1awItems7Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1 = documentawPurchaseOrders0awPurchaseOrder1awItems7.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1 = documentawPurchaseOrders0awPurchaseOrder1awItems7.ChildNodes[1] as IElement;
             Assert.AreEqual(9, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.Attributes.Count());
             Assert.AreEqual("aw:Item", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.Attributes["aw:PartNumber"]);
-            Assert.AreEqual("aw:PartNumber", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.Attributes["aw:PartNumber"].Name);
-            Assert.AreEqual("872-AA", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.Attributes["aw:PartNumber"].Value);
+            Assert.AreEqual("872-AA", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.GetAttribute("aw:PartNumber"));
 
             var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1Text0 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1Text0.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awProductName1 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awProductName1 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awProductName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awProductName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awProductName1.Attributes.Count());
             Assert.AreEqual("aw:ProductName", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awProductName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awProductName1.NodeType);
 
@@ -2442,9 +2362,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1Text2.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awQuantity3 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awQuantity3 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awQuantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awQuantity3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awQuantity3.Attributes.Count());
             Assert.AreEqual("aw:Quantity", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awQuantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awQuantity3.NodeType);
 
@@ -2456,9 +2376,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1Text4.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awUSPrice5 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awUSPrice5 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awUSPrice5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awUSPrice5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awUSPrice5.Attributes.Count());
             Assert.AreEqual("aw:USPrice", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awUSPrice5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awUSPrice5.NodeType);
 
@@ -2470,9 +2390,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1Text6.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1Text6.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awComment7 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.ChildNodes[7];
+            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awComment7 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awComment7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awComment7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awComment7.Attributes.Count());
             Assert.AreEqual("aw:Comment", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awComment7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem1awComment7.NodeType);
 
@@ -2488,23 +2408,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awItems7Text2.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder1awItems7Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3 = documentawPurchaseOrders0awPurchaseOrder1awItems7.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3 = documentawPurchaseOrders0awPurchaseOrder1awItems7.ChildNodes[3] as IElement;
             Assert.AreEqual(9, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.Attributes.Count());
             Assert.AreEqual("aw:Item", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.Attributes["aw:PartNumber"]);
-            Assert.AreEqual("aw:PartNumber", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.Attributes["aw:PartNumber"].Name);
-            Assert.AreEqual("926-AA", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.Attributes["aw:PartNumber"].Value);
+            Assert.AreEqual("926-AA", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.GetAttribute("aw:PartNumber"));
 
             var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3Text0 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3Text0.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awProductName1 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awProductName1 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awProductName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awProductName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awProductName1.Attributes.Count());
             Assert.AreEqual("aw:ProductName", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awProductName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awProductName1.NodeType);
 
@@ -2516,9 +2433,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3Text2.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awQuantity3 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awQuantity3 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awQuantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awQuantity3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awQuantity3.Attributes.Count());
             Assert.AreEqual("aw:Quantity", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awQuantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awQuantity3.NodeType);
 
@@ -2530,9 +2447,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3Text4.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awUSPrice5 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awUSPrice5 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awUSPrice5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awUSPrice5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awUSPrice5.Attributes.Count());
             Assert.AreEqual("aw:USPrice", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awUSPrice5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awUSPrice5.NodeType);
 
@@ -2544,9 +2461,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3Text6.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3Text6.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awShipDate7 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.ChildNodes[7];
+            var documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awShipDate7 = documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awShipDate7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awShipDate7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awShipDate7.Attributes.Count());
             Assert.AreEqual("aw:ShipDate", documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awShipDate7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder1awItems7awItem3awShipDate7.NodeType);
 
@@ -2570,41 +2487,32 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0Text2.NodeType);
             Assert.AreEqual("\n  ", documentawPurchaseOrders0Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3 = documentawPurchaseOrders0.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder3 = documentawPurchaseOrders0.ChildNodes[3] as IElement;
             Assert.AreEqual(9, documentawPurchaseOrders0awPurchaseOrder3.ChildNodes.Length);
-            Assert.AreEqual(2, documentawPurchaseOrders0awPurchaseOrder3.Attributes.Length);
+            Assert.AreEqual(2, documentawPurchaseOrders0awPurchaseOrder3.Attributes.Count());
             Assert.AreEqual("aw:PurchaseOrder", documentawPurchaseOrders0awPurchaseOrder3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder3.Attributes["aw:PurchaseOrderNumber"]);
-            Assert.AreEqual("aw:PurchaseOrderNumber", documentawPurchaseOrders0awPurchaseOrder3.Attributes["aw:PurchaseOrderNumber"].Name);
-            Assert.AreEqual("99505", documentawPurchaseOrders0awPurchaseOrder3.Attributes["aw:PurchaseOrderNumber"].Value);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder3.Attributes["aw:OrderDate"]);
-            Assert.AreEqual("aw:OrderDate", documentawPurchaseOrders0awPurchaseOrder3.Attributes["aw:OrderDate"].Name);
-            Assert.AreEqual("1999-10-22", documentawPurchaseOrders0awPurchaseOrder3.Attributes["aw:OrderDate"].Value);
+            Assert.AreEqual("99505", documentawPurchaseOrders0awPurchaseOrder3.GetAttribute("aw:PurchaseOrderNumber"));
+            Assert.AreEqual("1999-10-22", documentawPurchaseOrders0awPurchaseOrder3.GetAttribute("aw:OrderDate"));
 
             var documentawPurchaseOrders0awPurchaseOrder3Text0 = documentawPurchaseOrders0awPurchaseOrder3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3Text0.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrders0awPurchaseOrder3Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awAddress1 = documentawPurchaseOrders0awPurchaseOrder3.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder3awAddress1 = documentawPurchaseOrders0awPurchaseOrder3.ChildNodes[1] as IElement;
             Assert.AreEqual(13, documentawPurchaseOrders0awPurchaseOrder3awAddress1.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress1.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress1.Attributes.Count());
             Assert.AreEqual("aw:Address", documentawPurchaseOrders0awPurchaseOrder3awAddress1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awAddress1.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder3awAddress1.Attributes["aw:Type"]);
-            Assert.AreEqual("aw:Type", documentawPurchaseOrders0awPurchaseOrder3awAddress1.Attributes["aw:Type"].Name);
-            Assert.AreEqual("Shipping", documentawPurchaseOrders0awPurchaseOrder3awAddress1.Attributes["aw:Type"].Value);
+            Assert.AreEqual("Shipping", documentawPurchaseOrders0awPurchaseOrder3awAddress1.GetAttribute("aw:Type"));
 
             var documentawPurchaseOrders0awPurchaseOrder3awAddress1Text0 = documentawPurchaseOrders0awPurchaseOrder3awAddress1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awAddress1Text0.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder3awAddress1Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awAddress1awName1 = documentawPurchaseOrders0awPurchaseOrder3awAddress1.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder3awAddress1awName1 = documentawPurchaseOrders0awPurchaseOrder3awAddress1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress1awName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress1awName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress1awName1.Attributes.Count());
             Assert.AreEqual("aw:Name", documentawPurchaseOrders0awPurchaseOrder3awAddress1awName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awAddress1awName1.NodeType);
 
@@ -2616,9 +2524,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awAddress1Text2.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder3awAddress1Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awAddress1awStreet3 = documentawPurchaseOrders0awPurchaseOrder3awAddress1.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder3awAddress1awStreet3 = documentawPurchaseOrders0awPurchaseOrder3awAddress1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress1awStreet3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress1awStreet3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress1awStreet3.Attributes.Count());
             Assert.AreEqual("aw:Street", documentawPurchaseOrders0awPurchaseOrder3awAddress1awStreet3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awAddress1awStreet3.NodeType);
 
@@ -2630,9 +2538,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awAddress1Text4.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder3awAddress1Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awAddress1awCity5 = documentawPurchaseOrders0awPurchaseOrder3awAddress1.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder3awAddress1awCity5 = documentawPurchaseOrders0awPurchaseOrder3awAddress1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress1awCity5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress1awCity5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress1awCity5.Attributes.Count());
             Assert.AreEqual("aw:City", documentawPurchaseOrders0awPurchaseOrder3awAddress1awCity5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awAddress1awCity5.NodeType);
 
@@ -2644,9 +2552,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awAddress1Text6.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder3awAddress1Text6.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awAddress1awState7 = documentawPurchaseOrders0awPurchaseOrder3awAddress1.ChildNodes[7];
+            var documentawPurchaseOrders0awPurchaseOrder3awAddress1awState7 = documentawPurchaseOrders0awPurchaseOrder3awAddress1.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress1awState7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress1awState7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress1awState7.Attributes.Count());
             Assert.AreEqual("aw:State", documentawPurchaseOrders0awPurchaseOrder3awAddress1awState7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awAddress1awState7.NodeType);
 
@@ -2658,9 +2566,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awAddress1Text8.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder3awAddress1Text8.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awAddress1awZip9 = documentawPurchaseOrders0awPurchaseOrder3awAddress1.ChildNodes[9];
+            var documentawPurchaseOrders0awPurchaseOrder3awAddress1awZip9 = documentawPurchaseOrders0awPurchaseOrder3awAddress1.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress1awZip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress1awZip9.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress1awZip9.Attributes.Count());
             Assert.AreEqual("aw:Zip", documentawPurchaseOrders0awPurchaseOrder3awAddress1awZip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awAddress1awZip9.NodeType);
 
@@ -2672,9 +2580,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awAddress1Text10.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder3awAddress1Text10.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awAddress1awCountry11 = documentawPurchaseOrders0awPurchaseOrder3awAddress1.ChildNodes[11];
+            var documentawPurchaseOrders0awPurchaseOrder3awAddress1awCountry11 = documentawPurchaseOrders0awPurchaseOrder3awAddress1.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress1awCountry11.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress1awCountry11.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress1awCountry11.Attributes.Count());
             Assert.AreEqual("aw:Country", documentawPurchaseOrders0awPurchaseOrder3awAddress1awCountry11.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awAddress1awCountry11.NodeType);
 
@@ -2690,23 +2598,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3Text2.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrders0awPurchaseOrder3Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awAddress3 = documentawPurchaseOrders0awPurchaseOrder3.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder3awAddress3 = documentawPurchaseOrders0awPurchaseOrder3.ChildNodes[3] as IElement;
             Assert.AreEqual(13, documentawPurchaseOrders0awPurchaseOrder3awAddress3.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress3.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress3.Attributes.Count());
             Assert.AreEqual("aw:Address", documentawPurchaseOrders0awPurchaseOrder3awAddress3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awAddress3.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder3awAddress3.Attributes["aw:Type"]);
-            Assert.AreEqual("aw:Type", documentawPurchaseOrders0awPurchaseOrder3awAddress3.Attributes["aw:Type"].Name);
-            Assert.AreEqual("Billing", documentawPurchaseOrders0awPurchaseOrder3awAddress3.Attributes["aw:Type"].Value);
+            Assert.AreEqual("Billing", documentawPurchaseOrders0awPurchaseOrder3awAddress3.GetAttribute("aw:Type"));
 
             var documentawPurchaseOrders0awPurchaseOrder3awAddress3Text0 = documentawPurchaseOrders0awPurchaseOrder3awAddress3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awAddress3Text0.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder3awAddress3Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awAddress3awName1 = documentawPurchaseOrders0awPurchaseOrder3awAddress3.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder3awAddress3awName1 = documentawPurchaseOrders0awPurchaseOrder3awAddress3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress3awName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress3awName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress3awName1.Attributes.Count());
             Assert.AreEqual("aw:Name", documentawPurchaseOrders0awPurchaseOrder3awAddress3awName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awAddress3awName1.NodeType);
 
@@ -2718,9 +2623,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awAddress3Text2.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder3awAddress3Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awAddress3awStreet3 = documentawPurchaseOrders0awPurchaseOrder3awAddress3.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder3awAddress3awStreet3 = documentawPurchaseOrders0awPurchaseOrder3awAddress3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress3awStreet3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress3awStreet3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress3awStreet3.Attributes.Count());
             Assert.AreEqual("aw:Street", documentawPurchaseOrders0awPurchaseOrder3awAddress3awStreet3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awAddress3awStreet3.NodeType);
 
@@ -2732,9 +2637,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awAddress3Text4.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder3awAddress3Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awAddress3awCity5 = documentawPurchaseOrders0awPurchaseOrder3awAddress3.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder3awAddress3awCity5 = documentawPurchaseOrders0awPurchaseOrder3awAddress3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress3awCity5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress3awCity5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress3awCity5.Attributes.Count());
             Assert.AreEqual("aw:City", documentawPurchaseOrders0awPurchaseOrder3awAddress3awCity5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awAddress3awCity5.NodeType);
 
@@ -2746,9 +2651,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awAddress3Text6.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder3awAddress3Text6.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awAddress3awState7 = documentawPurchaseOrders0awPurchaseOrder3awAddress3.ChildNodes[7];
+            var documentawPurchaseOrders0awPurchaseOrder3awAddress3awState7 = documentawPurchaseOrders0awPurchaseOrder3awAddress3.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress3awState7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress3awState7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress3awState7.Attributes.Count());
             Assert.AreEqual("aw:State", documentawPurchaseOrders0awPurchaseOrder3awAddress3awState7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awAddress3awState7.NodeType);
 
@@ -2760,9 +2665,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awAddress3Text8.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder3awAddress3Text8.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awAddress3awZip9 = documentawPurchaseOrders0awPurchaseOrder3awAddress3.ChildNodes[9];
+            var documentawPurchaseOrders0awPurchaseOrder3awAddress3awZip9 = documentawPurchaseOrders0awPurchaseOrder3awAddress3.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress3awZip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress3awZip9.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress3awZip9.Attributes.Count());
             Assert.AreEqual("aw:Zip", documentawPurchaseOrders0awPurchaseOrder3awAddress3awZip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awAddress3awZip9.NodeType);
 
@@ -2774,9 +2679,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awAddress3Text10.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder3awAddress3Text10.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awAddress3awCountry11 = documentawPurchaseOrders0awPurchaseOrder3awAddress3.ChildNodes[11];
+            var documentawPurchaseOrders0awPurchaseOrder3awAddress3awCountry11 = documentawPurchaseOrders0awPurchaseOrder3awAddress3.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awAddress3awCountry11.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress3awCountry11.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awAddress3awCountry11.Attributes.Count());
             Assert.AreEqual("aw:Country", documentawPurchaseOrders0awPurchaseOrder3awAddress3awCountry11.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awAddress3awCountry11.NodeType);
 
@@ -2792,9 +2697,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3Text4.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrders0awPurchaseOrder3Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awDeliveryNotes5 = documentawPurchaseOrders0awPurchaseOrder3.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder3awDeliveryNotes5 = documentawPurchaseOrders0awPurchaseOrder3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awDeliveryNotes5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awDeliveryNotes5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awDeliveryNotes5.Attributes.Count());
             Assert.AreEqual("aw:DeliveryNotes", documentawPurchaseOrders0awPurchaseOrder3awDeliveryNotes5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awDeliveryNotes5.NodeType);
 
@@ -2806,9 +2711,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3Text6.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrders0awPurchaseOrder3Text6.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awItems7 = documentawPurchaseOrders0awPurchaseOrder3.ChildNodes[7];
+            var documentawPurchaseOrders0awPurchaseOrder3awItems7 = documentawPurchaseOrders0awPurchaseOrder3.ChildNodes[7] as IElement;
             Assert.AreEqual(3, documentawPurchaseOrders0awPurchaseOrder3awItems7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awItems7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awItems7.Attributes.Count());
             Assert.AreEqual("aw:Items", documentawPurchaseOrders0awPurchaseOrder3awItems7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awItems7.NodeType);
 
@@ -2816,23 +2721,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awItems7Text0.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder3awItems7Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1 = documentawPurchaseOrders0awPurchaseOrder3awItems7.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1 = documentawPurchaseOrders0awPurchaseOrder3awItems7.ChildNodes[1] as IElement;
             Assert.AreEqual(7, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.Attributes.Count());
             Assert.AreEqual("aw:Item", documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.Attributes["aw:PartNumber"]);
-            Assert.AreEqual("aw:PartNumber", documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.Attributes["aw:PartNumber"].Name);
-            Assert.AreEqual("456-NM", documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.Attributes["aw:PartNumber"].Value);
+            Assert.AreEqual("456-NM", documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.GetAttribute("aw:PartNumber"));
 
             var documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1Text0 = documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1Text0.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awProductName1 = documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awProductName1 = documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awProductName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awProductName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awProductName1.Attributes.Count());
             Assert.AreEqual("aw:ProductName", documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awProductName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awProductName1.NodeType);
 
@@ -2844,9 +2746,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1Text2.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awQuantity3 = documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awQuantity3 = documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awQuantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awQuantity3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awQuantity3.Attributes.Count());
             Assert.AreEqual("aw:Quantity", documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awQuantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awQuantity3.NodeType);
 
@@ -2858,9 +2760,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1Text4.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awUSPrice5 = documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awUSPrice5 = documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awUSPrice5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awUSPrice5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awUSPrice5.Attributes.Count());
             Assert.AreEqual("aw:USPrice", documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awUSPrice5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder3awItems7awItem1awUSPrice5.NodeType);
 
@@ -2884,41 +2786,32 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0Text4.NodeType);
             Assert.AreEqual("\n  ", documentawPurchaseOrders0Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5 = documentawPurchaseOrders0.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder5 = documentawPurchaseOrders0.ChildNodes[5] as IElement;
             Assert.AreEqual(7, documentawPurchaseOrders0awPurchaseOrder5.ChildNodes.Length);
-            Assert.AreEqual(2, documentawPurchaseOrders0awPurchaseOrder5.Attributes.Length);
+            Assert.AreEqual(2, documentawPurchaseOrders0awPurchaseOrder5.Attributes.Count());
             Assert.AreEqual("aw:PurchaseOrder", documentawPurchaseOrders0awPurchaseOrder5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder5.Attributes["aw:PurchaseOrderNumber"]);
-            Assert.AreEqual("aw:PurchaseOrderNumber", documentawPurchaseOrders0awPurchaseOrder5.Attributes["aw:PurchaseOrderNumber"].Name);
-            Assert.AreEqual("99504", documentawPurchaseOrders0awPurchaseOrder5.Attributes["aw:PurchaseOrderNumber"].Value);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder5.Attributes["aw:OrderDate"]);
-            Assert.AreEqual("aw:OrderDate", documentawPurchaseOrders0awPurchaseOrder5.Attributes["aw:OrderDate"].Name);
-            Assert.AreEqual("1999-10-22", documentawPurchaseOrders0awPurchaseOrder5.Attributes["aw:OrderDate"].Value);
+            Assert.AreEqual("99504", documentawPurchaseOrders0awPurchaseOrder5.GetAttribute("aw:PurchaseOrderNumber"));
+            Assert.AreEqual("1999-10-22", documentawPurchaseOrders0awPurchaseOrder5.GetAttribute("aw:OrderDate"));
 
             var documentawPurchaseOrders0awPurchaseOrder5Text0 = documentawPurchaseOrders0awPurchaseOrder5.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5Text0.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrders0awPurchaseOrder5Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awAddress1 = documentawPurchaseOrders0awPurchaseOrder5.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder5awAddress1 = documentawPurchaseOrders0awPurchaseOrder5.ChildNodes[1] as IElement;
             Assert.AreEqual(13, documentawPurchaseOrders0awPurchaseOrder5awAddress1.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress1.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress1.Attributes.Count());
             Assert.AreEqual("aw:Address", documentawPurchaseOrders0awPurchaseOrder5awAddress1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awAddress1.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder5awAddress1.Attributes["aw:Type"]);
-            Assert.AreEqual("aw:Type", documentawPurchaseOrders0awPurchaseOrder5awAddress1.Attributes["aw:Type"].Name);
-            Assert.AreEqual("Shipping", documentawPurchaseOrders0awPurchaseOrder5awAddress1.Attributes["aw:Type"].Value);
+            Assert.AreEqual("Shipping", documentawPurchaseOrders0awPurchaseOrder5awAddress1.GetAttribute("aw:Type"));
 
             var documentawPurchaseOrders0awPurchaseOrder5awAddress1Text0 = documentawPurchaseOrders0awPurchaseOrder5awAddress1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awAddress1Text0.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder5awAddress1Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awAddress1awName1 = documentawPurchaseOrders0awPurchaseOrder5awAddress1.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder5awAddress1awName1 = documentawPurchaseOrders0awPurchaseOrder5awAddress1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress1awName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress1awName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress1awName1.Attributes.Count());
             Assert.AreEqual("aw:Name", documentawPurchaseOrders0awPurchaseOrder5awAddress1awName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awAddress1awName1.NodeType);
 
@@ -2930,9 +2823,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awAddress1Text2.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder5awAddress1Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awAddress1awStreet3 = documentawPurchaseOrders0awPurchaseOrder5awAddress1.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder5awAddress1awStreet3 = documentawPurchaseOrders0awPurchaseOrder5awAddress1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress1awStreet3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress1awStreet3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress1awStreet3.Attributes.Count());
             Assert.AreEqual("aw:Street", documentawPurchaseOrders0awPurchaseOrder5awAddress1awStreet3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awAddress1awStreet3.NodeType);
 
@@ -2944,9 +2837,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awAddress1Text4.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder5awAddress1Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awAddress1awCity5 = documentawPurchaseOrders0awPurchaseOrder5awAddress1.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder5awAddress1awCity5 = documentawPurchaseOrders0awPurchaseOrder5awAddress1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress1awCity5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress1awCity5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress1awCity5.Attributes.Count());
             Assert.AreEqual("aw:City", documentawPurchaseOrders0awPurchaseOrder5awAddress1awCity5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awAddress1awCity5.NodeType);
 
@@ -2958,9 +2851,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awAddress1Text6.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder5awAddress1Text6.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awAddress1awState7 = documentawPurchaseOrders0awPurchaseOrder5awAddress1.ChildNodes[7];
+            var documentawPurchaseOrders0awPurchaseOrder5awAddress1awState7 = documentawPurchaseOrders0awPurchaseOrder5awAddress1.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress1awState7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress1awState7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress1awState7.Attributes.Count());
             Assert.AreEqual("aw:State", documentawPurchaseOrders0awPurchaseOrder5awAddress1awState7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awAddress1awState7.NodeType);
 
@@ -2972,9 +2865,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awAddress1Text8.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder5awAddress1Text8.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awAddress1awZip9 = documentawPurchaseOrders0awPurchaseOrder5awAddress1.ChildNodes[9];
+            var documentawPurchaseOrders0awPurchaseOrder5awAddress1awZip9 = documentawPurchaseOrders0awPurchaseOrder5awAddress1.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress1awZip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress1awZip9.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress1awZip9.Attributes.Count());
             Assert.AreEqual("aw:Zip", documentawPurchaseOrders0awPurchaseOrder5awAddress1awZip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awAddress1awZip9.NodeType);
 
@@ -2986,9 +2879,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awAddress1Text10.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder5awAddress1Text10.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awAddress1awCountry11 = documentawPurchaseOrders0awPurchaseOrder5awAddress1.ChildNodes[11];
+            var documentawPurchaseOrders0awPurchaseOrder5awAddress1awCountry11 = documentawPurchaseOrders0awPurchaseOrder5awAddress1.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress1awCountry11.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress1awCountry11.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress1awCountry11.Attributes.Count());
             Assert.AreEqual("aw:Country", documentawPurchaseOrders0awPurchaseOrder5awAddress1awCountry11.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awAddress1awCountry11.NodeType);
 
@@ -3004,23 +2897,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5Text2.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrders0awPurchaseOrder5Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awAddress3 = documentawPurchaseOrders0awPurchaseOrder5.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder5awAddress3 = documentawPurchaseOrders0awPurchaseOrder5.ChildNodes[3] as IElement;
             Assert.AreEqual(13, documentawPurchaseOrders0awPurchaseOrder5awAddress3.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress3.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress3.Attributes.Count());
             Assert.AreEqual("aw:Address", documentawPurchaseOrders0awPurchaseOrder5awAddress3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awAddress3.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder5awAddress3.Attributes["aw:Type"]);
-            Assert.AreEqual("aw:Type", documentawPurchaseOrders0awPurchaseOrder5awAddress3.Attributes["aw:Type"].Name);
-            Assert.AreEqual("Billing", documentawPurchaseOrders0awPurchaseOrder5awAddress3.Attributes["aw:Type"].Value);
+            Assert.AreEqual("Billing", documentawPurchaseOrders0awPurchaseOrder5awAddress3.GetAttribute("aw:Type"));
 
             var documentawPurchaseOrders0awPurchaseOrder5awAddress3Text0 = documentawPurchaseOrders0awPurchaseOrder5awAddress3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awAddress3Text0.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder5awAddress3Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awAddress3awName1 = documentawPurchaseOrders0awPurchaseOrder5awAddress3.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder5awAddress3awName1 = documentawPurchaseOrders0awPurchaseOrder5awAddress3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress3awName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress3awName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress3awName1.Attributes.Count());
             Assert.AreEqual("aw:Name", documentawPurchaseOrders0awPurchaseOrder5awAddress3awName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awAddress3awName1.NodeType);
 
@@ -3032,9 +2922,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awAddress3Text2.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder5awAddress3Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awAddress3awStreet3 = documentawPurchaseOrders0awPurchaseOrder5awAddress3.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder5awAddress3awStreet3 = documentawPurchaseOrders0awPurchaseOrder5awAddress3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress3awStreet3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress3awStreet3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress3awStreet3.Attributes.Count());
             Assert.AreEqual("aw:Street", documentawPurchaseOrders0awPurchaseOrder5awAddress3awStreet3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awAddress3awStreet3.NodeType);
 
@@ -3046,9 +2936,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awAddress3Text4.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder5awAddress3Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awAddress3awCity5 = documentawPurchaseOrders0awPurchaseOrder5awAddress3.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder5awAddress3awCity5 = documentawPurchaseOrders0awPurchaseOrder5awAddress3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress3awCity5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress3awCity5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress3awCity5.Attributes.Count());
             Assert.AreEqual("aw:City", documentawPurchaseOrders0awPurchaseOrder5awAddress3awCity5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awAddress3awCity5.NodeType);
 
@@ -3060,9 +2950,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awAddress3Text6.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder5awAddress3Text6.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awAddress3awState7 = documentawPurchaseOrders0awPurchaseOrder5awAddress3.ChildNodes[7];
+            var documentawPurchaseOrders0awPurchaseOrder5awAddress3awState7 = documentawPurchaseOrders0awPurchaseOrder5awAddress3.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress3awState7.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress3awState7.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress3awState7.Attributes.Count());
             Assert.AreEqual("aw:State", documentawPurchaseOrders0awPurchaseOrder5awAddress3awState7.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awAddress3awState7.NodeType);
 
@@ -3074,9 +2964,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awAddress3Text8.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder5awAddress3Text8.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awAddress3awZip9 = documentawPurchaseOrders0awPurchaseOrder5awAddress3.ChildNodes[9];
+            var documentawPurchaseOrders0awPurchaseOrder5awAddress3awZip9 = documentawPurchaseOrders0awPurchaseOrder5awAddress3.ChildNodes[9] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress3awZip9.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress3awZip9.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress3awZip9.Attributes.Count());
             Assert.AreEqual("aw:Zip", documentawPurchaseOrders0awPurchaseOrder5awAddress3awZip9.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awAddress3awZip9.NodeType);
 
@@ -3088,9 +2978,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awAddress3Text10.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder5awAddress3Text10.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awAddress3awCountry11 = documentawPurchaseOrders0awPurchaseOrder5awAddress3.ChildNodes[11];
+            var documentawPurchaseOrders0awPurchaseOrder5awAddress3awCountry11 = documentawPurchaseOrders0awPurchaseOrder5awAddress3.ChildNodes[11] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awAddress3awCountry11.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress3awCountry11.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awAddress3awCountry11.Attributes.Count());
             Assert.AreEqual("aw:Country", documentawPurchaseOrders0awPurchaseOrder5awAddress3awCountry11.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awAddress3awCountry11.NodeType);
 
@@ -3106,9 +2996,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5Text4.NodeType);
             Assert.AreEqual("\n    ", documentawPurchaseOrders0awPurchaseOrder5Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awItems5 = documentawPurchaseOrders0awPurchaseOrder5.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder5awItems5 = documentawPurchaseOrders0awPurchaseOrder5.ChildNodes[5] as IElement;
             Assert.AreEqual(5, documentawPurchaseOrders0awPurchaseOrder5awItems5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awItems5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awItems5.Attributes.Count());
             Assert.AreEqual("aw:Items", documentawPurchaseOrders0awPurchaseOrder5awItems5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awItems5.NodeType);
 
@@ -3116,23 +3006,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awItems5Text0.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder5awItems5Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1 = documentawPurchaseOrders0awPurchaseOrder5awItems5.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1 = documentawPurchaseOrders0awPurchaseOrder5awItems5.ChildNodes[1] as IElement;
             Assert.AreEqual(7, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.Attributes.Count());
             Assert.AreEqual("aw:Item", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.Attributes["aw:PartNumber"]);
-            Assert.AreEqual("aw:PartNumber", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.Attributes["aw:PartNumber"].Name);
-            Assert.AreEqual("898-AZ", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.Attributes["aw:PartNumber"].Value);
+            Assert.AreEqual("898-AZ", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.GetAttribute("aw:PartNumber"));
 
             var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1Text0 = documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1Text0.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awProductName1 = documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awProductName1 = documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awProductName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awProductName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awProductName1.Attributes.Count());
             Assert.AreEqual("aw:ProductName", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awProductName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awProductName1.NodeType);
 
@@ -3144,9 +3031,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1Text2.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awQuantity3 = documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awQuantity3 = documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awQuantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awQuantity3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awQuantity3.Attributes.Count());
             Assert.AreEqual("aw:Quantity", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awQuantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awQuantity3.NodeType);
 
@@ -3158,9 +3045,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1Text4.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awUSPrice5 = documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awUSPrice5 = documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awUSPrice5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awUSPrice5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awUSPrice5.Attributes.Count());
             Assert.AreEqual("aw:USPrice", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awUSPrice5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem1awUSPrice5.NodeType);
 
@@ -3176,23 +3063,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awItems5Text2.NodeType);
             Assert.AreEqual("\n      ", documentawPurchaseOrders0awPurchaseOrder5awItems5Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3 = documentawPurchaseOrders0awPurchaseOrder5awItems5.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3 = documentawPurchaseOrders0awPurchaseOrder5awItems5.ChildNodes[3] as IElement;
             Assert.AreEqual(7, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.ChildNodes.Length);
-            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.Attributes.Length);
+            Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.Attributes.Count());
             Assert.AreEqual("aw:Item", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.NodeType);
-
-            Assert.IsNotNull(documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.Attributes["aw:PartNumber"]);
-            Assert.AreEqual("aw:PartNumber", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.Attributes["aw:PartNumber"].Name);
-            Assert.AreEqual("898-AM", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.Attributes["aw:PartNumber"].Value);
+            Assert.AreEqual("898-AM", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.GetAttribute("aw:PartNumber"));
 
             var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3Text0 = documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3Text0.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3Text0.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awProductName1 = documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.ChildNodes[1];
+            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awProductName1 = documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awProductName1.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awProductName1.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awProductName1.Attributes.Count());
             Assert.AreEqual("aw:ProductName", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awProductName1.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awProductName1.NodeType);
 
@@ -3204,9 +3088,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3Text2.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3Text2.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awQuantity3 = documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.ChildNodes[3];
+            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awQuantity3 = documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awQuantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awQuantity3.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awQuantity3.Attributes.Count());
             Assert.AreEqual("aw:Quantity", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awQuantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awQuantity3.NodeType);
 
@@ -3218,9 +3102,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3Text4.NodeType);
             Assert.AreEqual("\n        ", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3Text4.TextContent);
 
-            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awUSPrice5 = documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.ChildNodes[5];
+            var documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awUSPrice5 = documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awUSPrice5.ChildNodes.Length);
-            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awUSPrice5.Attributes.Length);
+            Assert.AreEqual(0, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awUSPrice5.Attributes.Count());
             Assert.AreEqual("aw:USPrice", documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awUSPrice5.NodeName);
             Assert.AreEqual(NodeType.Element, documentawPurchaseOrders0awPurchaseOrder5awItems5awItem3awUSPrice5.NodeType);
 
@@ -3245,10 +3129,10 @@ namespace UnitTests.Xml
             Assert.AreEqual("\n", documentawPurchaseOrders0Text6.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void XmlTestConfiguration()
         {
-            var document = DocumentBuilder.Xml(@"<?xml version=""1.0""?>
+            var document = (@"<?xml version=""1.0""?>
 <Tests>
   <Test TestId=""0001"" TestType=""CMD"">
     <Name>Convert number to string</Name>
@@ -3286,11 +3170,11 @@ namespace UnitTests.Xml
     <Input>Test Input</Input>
     <Output>10</Output>
   </Test>
-</Tests>");
+</Tests>").ToXmlDocument();
 
-            var documentTests0 = document.ChildNodes[0];
+            var documentTests0 = document.ChildNodes[0] as IElement;
             Assert.AreEqual(13, documentTests0.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0.Attributes.Length);
+            Assert.AreEqual(0, documentTests0.Attributes.Count());
             Assert.AreEqual("Tests", documentTests0.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0.NodeType);
 
@@ -3298,25 +3182,21 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Text0.NodeType);
             Assert.AreEqual("\n  ", documentTests0Text0.TextContent);
 
-            var documentTests0Test1 = documentTests0.ChildNodes[1];
+            var documentTests0Test1 = documentTests0.ChildNodes[1] as IElement;
             Assert.AreEqual(9, documentTests0Test1.ChildNodes.Length);
-            Assert.AreEqual(2, documentTests0Test1.Attributes.Length);
+            Assert.AreEqual(2, documentTests0Test1.Attributes.Count());
             Assert.AreEqual("Test", documentTests0Test1.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test1.NodeType);
-            Assert.IsNotNull(documentTests0Test1.Attributes["TestId"]);
-            Assert.AreEqual("TestId", documentTests0Test1.Attributes["TestId"].Name);
-            Assert.AreEqual("0001", documentTests0Test1.Attributes["TestId"].Value);
-            Assert.IsNotNull(documentTests0Test1.Attributes["TestType"]);
-            Assert.AreEqual("TestType", documentTests0Test1.Attributes["TestType"].Name);
-            Assert.AreEqual("CMD", documentTests0Test1.Attributes["TestType"].Value);
+            Assert.AreEqual("0001", documentTests0Test1.GetAttribute("TestId"));
+            Assert.AreEqual("CMD", documentTests0Test1.GetAttribute("TestType"));
 
             var documentTests0Test1Text0 = documentTests0Test1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentTests0Test1Text0.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test1Text0.TextContent);
 
-            var documentTests0Test1Name1 = documentTests0Test1.ChildNodes[1];
+            var documentTests0Test1Name1 = documentTests0Test1.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentTests0Test1Name1.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test1Name1.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test1Name1.Attributes.Count());
             Assert.AreEqual("Name", documentTests0Test1Name1.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test1Name1.NodeType);
 
@@ -3328,9 +3208,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test1Text2.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test1Text2.TextContent);
 
-            var documentTests0Test1CommandLine3 = documentTests0Test1.ChildNodes[3];
+            var documentTests0Test1CommandLine3 = documentTests0Test1.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentTests0Test1CommandLine3.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test1CommandLine3.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test1CommandLine3.Attributes.Count());
             Assert.AreEqual("CommandLine", documentTests0Test1CommandLine3.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test1CommandLine3.NodeType);
 
@@ -3342,9 +3222,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test1Text4.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test1Text4.TextContent);
 
-            var documentTests0Test1Input5 = documentTests0Test1.ChildNodes[5];
+            var documentTests0Test1Input5 = documentTests0Test1.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentTests0Test1Input5.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test1Input5.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test1Input5.Attributes.Count());
             Assert.AreEqual("Input", documentTests0Test1Input5.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test1Input5.NodeType);
 
@@ -3356,9 +3236,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test1Text6.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test1Text6.TextContent);
 
-            var documentTests0Test1Output7 = documentTests0Test1.ChildNodes[7];
+            var documentTests0Test1Output7 = documentTests0Test1.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentTests0Test1Output7.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test1Output7.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test1Output7.Attributes.Count());
             Assert.AreEqual("Output", documentTests0Test1Output7.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test1Output7.NodeType);
 
@@ -3374,25 +3254,21 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Text2.NodeType);
             Assert.AreEqual("\n  ", documentTests0Text2.TextContent);
 
-            var documentTests0Test3 = documentTests0.ChildNodes[3];
+            var documentTests0Test3 = documentTests0.ChildNodes[3] as IElement;
             Assert.AreEqual(9, documentTests0Test3.ChildNodes.Length);
-            Assert.AreEqual(2, documentTests0Test3.Attributes.Length);
+            Assert.AreEqual(2, documentTests0Test3.Attributes.Count());
             Assert.AreEqual("Test", documentTests0Test3.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test3.NodeType);
-            Assert.IsNotNull(documentTests0Test3.Attributes["TestId"]);
-            Assert.AreEqual("TestId", documentTests0Test3.Attributes["TestId"].Name);
-            Assert.AreEqual("0002", documentTests0Test3.Attributes["TestId"].Value);
-            Assert.IsNotNull(documentTests0Test3.Attributes["TestType"]);
-            Assert.AreEqual("TestType", documentTests0Test3.Attributes["TestType"].Name);
-            Assert.AreEqual("CMD", documentTests0Test3.Attributes["TestType"].Value);
+            Assert.AreEqual("0002", documentTests0Test3.GetAttribute("TestId"));
+            Assert.AreEqual("CMD", documentTests0Test3.GetAttribute("TestType"));
 
             var documentTests0Test3Text0 = documentTests0Test3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentTests0Test3Text0.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test3Text0.TextContent);
 
-            var documentTests0Test3Name1 = documentTests0Test3.ChildNodes[1];
+            var documentTests0Test3Name1 = documentTests0Test3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentTests0Test3Name1.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test3Name1.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test3Name1.Attributes.Count());
             Assert.AreEqual("Name", documentTests0Test3Name1.NodeName);
 
             Assert.AreEqual(NodeType.Element, documentTests0Test3Name1.NodeType);
@@ -3404,9 +3280,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test3Text2.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test3Text2.TextContent);
 
-            var documentTests0Test3CommandLine3 = documentTests0Test3.ChildNodes[3];
+            var documentTests0Test3CommandLine3 = documentTests0Test3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentTests0Test3CommandLine3.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test3CommandLine3.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test3CommandLine3.Attributes.Count());
             Assert.AreEqual("CommandLine", documentTests0Test3CommandLine3.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test3CommandLine3.NodeType);
 
@@ -3418,9 +3294,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test3Text4.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test3Text4.TextContent);
 
-            var documentTests0Test3Input5 = documentTests0Test3.ChildNodes[5];
+            var documentTests0Test3Input5 = documentTests0Test3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentTests0Test3Input5.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test3Input5.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test3Input5.Attributes.Count());
             Assert.AreEqual("Input", documentTests0Test3Input5.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test3Input5.NodeType);
 
@@ -3432,9 +3308,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test3Text6.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test3Text6.TextContent);
 
-            var documentTests0Test3Output7 = documentTests0Test3.ChildNodes[7];
+            var documentTests0Test3Output7 = documentTests0Test3.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentTests0Test3Output7.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test3Output7.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test3Output7.Attributes.Count());
             Assert.AreEqual("Output", documentTests0Test3Output7.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test3Output7.NodeType);
 
@@ -3450,25 +3326,21 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Text4.NodeType);
             Assert.AreEqual("\n  ", documentTests0Text4.TextContent);
 
-            var documentTests0Test5 = documentTests0.ChildNodes[5];
+            var documentTests0Test5 = documentTests0.ChildNodes[5] as IElement;
             Assert.AreEqual(9, documentTests0Test5.ChildNodes.Length);
-            Assert.AreEqual(2, documentTests0Test5.Attributes.Length);
+            Assert.AreEqual(2, documentTests0Test5.Attributes.Count());
             Assert.AreEqual("Test", documentTests0Test5.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test5.NodeType);
-            Assert.IsNotNull(documentTests0Test5.Attributes["TestId"]);
-            Assert.AreEqual("TestId", documentTests0Test5.Attributes["TestId"].Name);
-            Assert.AreEqual("0003", documentTests0Test5.Attributes["TestId"].Value);
-            Assert.IsNotNull(documentTests0Test5.Attributes["TestType"]);
-            Assert.AreEqual("TestType", documentTests0Test5.Attributes["TestType"].Name);
-            Assert.AreEqual("GUI", documentTests0Test5.Attributes["TestType"].Value);
+            Assert.AreEqual("0003", documentTests0Test5.GetAttribute("TestId"));
+            Assert.AreEqual("GUI", documentTests0Test5.GetAttribute("TestType"));
 
             var documentTests0Test5Text0 = documentTests0Test5.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentTests0Test5Text0.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test5Text0.TextContent);
 
-            var documentTests0Test5Name1 = documentTests0Test5.ChildNodes[1];
+            var documentTests0Test5Name1 = documentTests0Test5.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentTests0Test5Name1.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test5Name1.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test5Name1.Attributes.Count());
             Assert.AreEqual("Name", documentTests0Test5Name1.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test5Name1.NodeType);
 
@@ -3480,9 +3352,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test5Text2.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test5Text2.TextContent);
 
-            var documentTests0Test5CommandLine3 = documentTests0Test5.ChildNodes[3];
+            var documentTests0Test5CommandLine3 = documentTests0Test5.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentTests0Test5CommandLine3.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test5CommandLine3.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test5CommandLine3.Attributes.Count());
             Assert.AreEqual("CommandLine", documentTests0Test5CommandLine3.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test5CommandLine3.NodeType);
 
@@ -3494,9 +3366,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test5Text4.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test5Text4.TextContent);
 
-            var documentTests0Test5Input5 = documentTests0Test5.ChildNodes[5];
+            var documentTests0Test5Input5 = documentTests0Test5.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentTests0Test5Input5.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test5Input5.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test5Input5.Attributes.Count());
             Assert.AreEqual("Input", documentTests0Test5Input5.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test5Input5.NodeType);
 
@@ -3508,9 +3380,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test5Text6.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test5Text6.TextContent);
 
-            var documentTests0Test5Output7 = documentTests0Test5.ChildNodes[7];
+            var documentTests0Test5Output7 = documentTests0Test5.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentTests0Test5Output7.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test5Output7.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test5Output7.Attributes.Count());
             Assert.AreEqual("Output", documentTests0Test5Output7.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test5Output7.NodeType);
 
@@ -3526,25 +3398,21 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Text6.NodeType);
             Assert.AreEqual("\n  ", documentTests0Text6.TextContent);
 
-            var documentTests0Test7 = documentTests0.ChildNodes[7];
+            var documentTests0Test7 = documentTests0.ChildNodes[7] as IElement;
             Assert.AreEqual(9, documentTests0Test7.ChildNodes.Length);
-            Assert.AreEqual(2, documentTests0Test7.Attributes.Length);
+            Assert.AreEqual(2, documentTests0Test7.Attributes.Count());
             Assert.AreEqual("Test", documentTests0Test7.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test7.NodeType);
-            Assert.IsNotNull(documentTests0Test7.Attributes["TestId"]);
-            Assert.AreEqual("TestId", documentTests0Test7.Attributes["TestId"].Name);
-            Assert.AreEqual("0004", documentTests0Test7.Attributes["TestId"].Value);
-            Assert.IsNotNull(documentTests0Test7.Attributes["TestType"]);
-            Assert.AreEqual("TestType", documentTests0Test7.Attributes["TestType"].Name);
-            Assert.AreEqual("GUI", documentTests0Test7.Attributes["TestType"].Value);
+            Assert.AreEqual("0004", documentTests0Test7.GetAttribute("TestId"));
+            Assert.AreEqual("GUI", documentTests0Test7.GetAttribute("TestType"));
 
             var documentTests0Test7Text0 = documentTests0Test7.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentTests0Test7Text0.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test7Text0.TextContent);
 
-            var documentTests0Test7Name1 = documentTests0Test7.ChildNodes[1];
+            var documentTests0Test7Name1 = documentTests0Test7.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentTests0Test7Name1.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test7Name1.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test7Name1.Attributes.Count());
             Assert.AreEqual("Name", documentTests0Test7Name1.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test7Name1.NodeType);
 
@@ -3556,9 +3424,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test7Text2.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test7Text2.TextContent);
 
-            var documentTests0Test7CommandLine3 = documentTests0Test7.ChildNodes[3];
+            var documentTests0Test7CommandLine3 = documentTests0Test7.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentTests0Test7CommandLine3.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test7CommandLine3.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test7CommandLine3.Attributes.Count());
             Assert.AreEqual("CommandLine", documentTests0Test7CommandLine3.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test7CommandLine3.NodeType);
 
@@ -3570,9 +3438,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test7Text4.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test7Text4.TextContent);
 
-            var documentTests0Test7Input5 = documentTests0Test7.ChildNodes[5];
+            var documentTests0Test7Input5 = documentTests0Test7.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentTests0Test7Input5.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test7Input5.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test7Input5.Attributes.Count());
             Assert.AreEqual("Input", documentTests0Test7Input5.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test7Input5.NodeType);
 
@@ -3584,9 +3452,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test7Text6.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test7Text6.TextContent);
 
-            var documentTests0Test7Output7 = documentTests0Test7.ChildNodes[7];
+            var documentTests0Test7Output7 = documentTests0Test7.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentTests0Test7Output7.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test7Output7.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test7Output7.Attributes.Count());
             Assert.AreEqual("Output", documentTests0Test7Output7.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test7Output7.NodeType);
 
@@ -3602,25 +3470,21 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Text8.NodeType);
             Assert.AreEqual("\n  ", documentTests0Text8.TextContent);
 
-            var documentTests0Test9 = documentTests0.ChildNodes[9];
+            var documentTests0Test9 = documentTests0.ChildNodes[9] as IElement;
             Assert.AreEqual(9, documentTests0Test9.ChildNodes.Length);
-            Assert.AreEqual(2, documentTests0Test9.Attributes.Length);
+            Assert.AreEqual(2, documentTests0Test9.Attributes.Count());
             Assert.AreEqual("Test", documentTests0Test9.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test9.NodeType);
-            Assert.IsNotNull(documentTests0Test9.Attributes["TestId"]);
-            Assert.AreEqual("TestId", documentTests0Test9.Attributes["TestId"].Name);
-            Assert.AreEqual("0005", documentTests0Test9.Attributes["TestId"].Value);
-            Assert.IsNotNull(documentTests0Test9.Attributes["TestType"]);
-            Assert.AreEqual("TestType", documentTests0Test9.Attributes["TestType"].Name);
-            Assert.AreEqual("GUI", documentTests0Test9.Attributes["TestType"].Value);
+            Assert.AreEqual("0005", documentTests0Test9.GetAttribute("TestId"));
+            Assert.AreEqual("GUI", documentTests0Test9.GetAttribute("TestType"));
 
             var documentTests0Test9Text0 = documentTests0Test9.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentTests0Test9Text0.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test9Text0.TextContent);
 
-            var documentTests0Test9Name1 = documentTests0Test9.ChildNodes[1];
+            var documentTests0Test9Name1 = documentTests0Test9.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentTests0Test9Name1.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test9Name1.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test9Name1.Attributes.Count());
             Assert.AreEqual("Name", documentTests0Test9Name1.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test9Name1.NodeType);
 
@@ -3632,9 +3496,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test9Text2.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test9Text2.TextContent);
 
-            var documentTests0Test9CommandLine3 = documentTests0Test9.ChildNodes[3];
+            var documentTests0Test9CommandLine3 = documentTests0Test9.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentTests0Test9CommandLine3.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test9CommandLine3.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test9CommandLine3.Attributes.Count());
             Assert.AreEqual("CommandLine", documentTests0Test9CommandLine3.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test9CommandLine3.NodeType);
 
@@ -3646,9 +3510,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test9Text4.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test9Text4.TextContent);
 
-            var documentTests0Test9Input5 = documentTests0Test9.ChildNodes[5];
+            var documentTests0Test9Input5 = documentTests0Test9.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentTests0Test9Input5.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test9Input5.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test9Input5.Attributes.Count());
             Assert.AreEqual("Input", documentTests0Test9Input5.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test9Input5.NodeType);
 
@@ -3660,9 +3524,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test9Text6.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test9Text6.TextContent);
 
-            var documentTests0Test9Output7 = documentTests0Test9.ChildNodes[7];
+            var documentTests0Test9Output7 = documentTests0Test9.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentTests0Test9Output7.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test9Output7.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test9Output7.Attributes.Count());
             Assert.AreEqual("Output", documentTests0Test9Output7.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test9Output7.NodeType);
 
@@ -3678,25 +3542,21 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Text10.NodeType);
             Assert.AreEqual("\n  ", documentTests0Text10.TextContent);
 
-            var documentTests0Test11 = documentTests0.ChildNodes[11];
+            var documentTests0Test11 = documentTests0.ChildNodes[11] as IElement;
             Assert.AreEqual(9, documentTests0Test11.ChildNodes.Length);
-            Assert.AreEqual(2, documentTests0Test11.Attributes.Length);
+            Assert.AreEqual(2, documentTests0Test11.Attributes.Count());
             Assert.AreEqual("Test", documentTests0Test11.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test11.NodeType);
-            Assert.IsNotNull(documentTests0Test11.Attributes["TestId"]);
-            Assert.AreEqual("TestId", documentTests0Test11.Attributes["TestId"].Name);
-            Assert.AreEqual("0006", documentTests0Test11.Attributes["TestId"].Value);
-            Assert.IsNotNull(documentTests0Test11.Attributes["TestType"]);
-            Assert.AreEqual("TestType", documentTests0Test11.Attributes["TestType"].Name);
-            Assert.AreEqual("GUI", documentTests0Test11.Attributes["TestType"].Value);
+            Assert.AreEqual("0006", documentTests0Test11.GetAttribute("TestId"));
+            Assert.AreEqual("GUI", documentTests0Test11.GetAttribute("TestType"));
 
             var documentTests0Test11Text0 = documentTests0Test11.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentTests0Test11Text0.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test11Text0.TextContent);
 
-            var documentTests0Test11Name1 = documentTests0Test11.ChildNodes[1];
+            var documentTests0Test11Name1 = documentTests0Test11.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentTests0Test11Name1.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test11Name1.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test11Name1.Attributes.Count());
             Assert.AreEqual("Name", documentTests0Test11Name1.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test11Name1.NodeType);
 
@@ -3708,9 +3568,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test11Text2.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test11Text2.TextContent);
 
-            var documentTests0Test11CommandLine3 = documentTests0Test11.ChildNodes[3];
+            var documentTests0Test11CommandLine3 = documentTests0Test11.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentTests0Test11CommandLine3.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test11CommandLine3.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test11CommandLine3.Attributes.Count());
             Assert.AreEqual("CommandLine", documentTests0Test11CommandLine3.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test11CommandLine3.NodeType);
 
@@ -3722,9 +3582,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test11Text4.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test11Text4.TextContent);
 
-            var documentTests0Test11Input5 = documentTests0Test11.ChildNodes[5];
+            var documentTests0Test11Input5 = documentTests0Test11.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentTests0Test11Input5.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test11Input5.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test11Input5.Attributes.Count());
             Assert.AreEqual("Input", documentTests0Test11Input5.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test11Input5.NodeType);
 
@@ -3736,9 +3596,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentTests0Test11Text6.NodeType);
             Assert.AreEqual("\n    ", documentTests0Test11Text6.TextContent);
 
-            var documentTests0Test11Output7 = documentTests0Test11.ChildNodes[7];
+            var documentTests0Test11Output7 = documentTests0Test11.ChildNodes[7] as IElement;
             Assert.AreEqual(1, documentTests0Test11Output7.ChildNodes.Length);
-            Assert.AreEqual(0, documentTests0Test11Output7.Attributes.Length);
+            Assert.AreEqual(0, documentTests0Test11Output7.Attributes.Count());
             Assert.AreEqual("Output", documentTests0Test11Output7.NodeName);
             Assert.AreEqual(NodeType.Element, documentTests0Test11Output7.NodeType);
 
@@ -3755,10 +3615,10 @@ namespace UnitTests.Xml
             Assert.AreEqual("\n", documentTests0Text12.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void XmlCustomersAndOrders()
         {
-            var document = DocumentBuilder.Xml(@"<?xml version=""1.0"" encoding=""utf-8"" ?>
+            var document = (@"<?xml version=""1.0"" encoding=""utf-8"" ?>
 <xs:schema xmlns:xs=""http://www.w3.org/2001/XMLSchema"">
   <xs:element name='Root'>
     <xs:complexType>
@@ -3831,38 +3691,32 @@ namespace UnitTests.Xml
     </xs:sequence>
     <xs:attribute name='ShippedDate' type='xs:dateTime'/>
   </xs:complexType>
-</xs:schema>");
-            var documentxsschema0 = document.ChildNodes[0];
+</xs:schema>").ToXmlDocument();
+            var documentxsschema0 = document.ChildNodes[0] as IElement;
             Assert.AreEqual(11, documentxsschema0.ChildNodes.Length);
-            Assert.AreEqual(1, documentxsschema0.Attributes.Length);
+            Assert.AreEqual(1, documentxsschema0.Attributes.Count());
             Assert.AreEqual("xs:schema", documentxsschema0.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0.NodeType);
-
-            Assert.IsNotNull(documentxsschema0.Attributes["xmlns:xs"]);
-            Assert.AreEqual("xmlns:xs", documentxsschema0.Attributes["xmlns:xs"].Name);
-            Assert.AreEqual("http://www.w3.org/2001/XMLSchema", documentxsschema0.Attributes["xmlns:xs"].Value);
+            Assert.AreEqual("http://www.w3.org/2001/XMLSchema", documentxsschema0.GetAttribute("xmlns:xs"));
 
             var documentxsschema0Text0 = documentxsschema0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentxsschema0Text0.NodeType);
             Assert.AreEqual("\n  ", documentxsschema0Text0.TextContent);
 
-            var documentxsschema0xselement1 = documentxsschema0.ChildNodes[1];
+            var documentxsschema0xselement1 = documentxsschema0.ChildNodes[1] as IElement;
             Assert.AreEqual(7, documentxsschema0xselement1.ChildNodes.Length);
-            Assert.AreEqual(1, documentxsschema0xselement1.Attributes.Length);
+            Assert.AreEqual(1, documentxsschema0xselement1.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xselement1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xselement1.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xselement1.Attributes["name"].Name);
-            Assert.AreEqual("Root", documentxsschema0xselement1.Attributes["name"].Value);
+            Assert.AreEqual("Root", documentxsschema0xselement1.GetAttribute("name"));
 
             var documentxsschema0xselement1Text0 = documentxsschema0xselement1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1Text0.NodeType);
             Assert.AreEqual("\n    ", documentxsschema0xselement1Text0.TextContent);
 
-            var documentxsschema0xselement1xscomplexType1 = documentxsschema0xselement1.ChildNodes[1];
+            var documentxsschema0xselement1xscomplexType1 = documentxsschema0xselement1.ChildNodes[1] as IElement;
             Assert.AreEqual(3, documentxsschema0xselement1xscomplexType1.ChildNodes.Length);
-            Assert.AreEqual(0, documentxsschema0xselement1xscomplexType1.Attributes.Length);
+            Assert.AreEqual(0, documentxsschema0xselement1xscomplexType1.Attributes.Count());
             Assert.AreEqual("xs:complexType", documentxsschema0xselement1xscomplexType1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xscomplexType1.NodeType);
 
@@ -3870,9 +3724,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xscomplexType1Text0.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xselement1xscomplexType1Text0.TextContent);
 
-            var documentxsschema0xselement1xscomplexType1xssequence1 = documentxsschema0xselement1xscomplexType1.ChildNodes[1];
+            var documentxsschema0xselement1xscomplexType1xssequence1 = documentxsschema0xselement1xscomplexType1.ChildNodes[1] as IElement;
             Assert.AreEqual(5, documentxsschema0xselement1xscomplexType1xssequence1.ChildNodes.Length);
-            Assert.AreEqual(0, documentxsschema0xselement1xscomplexType1xssequence1.Attributes.Length);
+            Assert.AreEqual(0, documentxsschema0xselement1xscomplexType1xssequence1.Attributes.Count());
             Assert.AreEqual("xs:sequence", documentxsschema0xselement1xscomplexType1xssequence1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xscomplexType1xssequence1.NodeType);
 
@@ -3880,23 +3734,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xscomplexType1xssequence1Text0.NodeType);
             Assert.AreEqual("\n        ", documentxsschema0xselement1xscomplexType1xssequence1Text0.TextContent);
 
-            var documentxsschema0xselement1xscomplexType1xssequence1xselement1 = documentxsschema0xselement1xscomplexType1xssequence1.ChildNodes[1];
+            var documentxsschema0xselement1xscomplexType1xssequence1xselement1 = documentxsschema0xselement1xscomplexType1xssequence1.ChildNodes[1] as IElement;
             Assert.AreEqual(3, documentxsschema0xselement1xscomplexType1xssequence1xselement1.ChildNodes.Length);
-            Assert.AreEqual(1, documentxsschema0xselement1xscomplexType1xssequence1xselement1.Attributes.Length);
+            Assert.AreEqual(1, documentxsschema0xselement1xscomplexType1xssequence1xselement1.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xselement1xscomplexType1xssequence1xselement1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xscomplexType1xssequence1xselement1.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xselement1xscomplexType1xssequence1xselement1.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xselement1xscomplexType1xssequence1xselement1.Attributes["name"].Name);
-            Assert.AreEqual("Customers", documentxsschema0xselement1xscomplexType1xssequence1xselement1.Attributes["name"].Value);
+            Assert.AreEqual("Customers", documentxsschema0xselement1xscomplexType1xssequence1xselement1.GetAttribute("name"));
 
             var documentxsschema0xselement1xscomplexType1xssequence1xselement1Text0 = documentxsschema0xselement1xscomplexType1xssequence1xselement1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xscomplexType1xssequence1xselement1Text0.NodeType);
             Assert.AreEqual("\n          ", documentxsschema0xselement1xscomplexType1xssequence1xselement1Text0.TextContent);
 
-            var documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1 = documentxsschema0xselement1xscomplexType1xssequence1xselement1.ChildNodes[1];
+            var documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1 = documentxsschema0xselement1xscomplexType1xssequence1xselement1.ChildNodes[1] as IElement;
             Assert.AreEqual(3, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1.ChildNodes.Length);
-            Assert.AreEqual(0, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1.Attributes.Length);
+            Assert.AreEqual(0, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1.Attributes.Count());
             Assert.AreEqual("xs:complexType", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1.NodeType);
 
@@ -3904,9 +3755,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1Text0.NodeType);
             Assert.AreEqual("\n            ", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1Text0.TextContent);
 
-            var documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1 = documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1.ChildNodes[1];
+            var documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1 = documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1.ChildNodes[1] as IElement;
             Assert.AreEqual(3, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1.ChildNodes.Length);
-            Assert.AreEqual(0, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1.Attributes.Length);
+            Assert.AreEqual(0, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1.Attributes.Count());
             Assert.AreEqual("xs:sequence", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1.NodeType);
 
@@ -3914,27 +3765,15 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1Text0.NodeType);
             Assert.AreEqual("\n              ", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1Text0.TextContent);
 
-            var documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1 = documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1.ChildNodes[1];
+            var documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1 = documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1.ChildNodes[1] as IElement;
             Assert.AreEqual(0, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.ChildNodes.Length);
-            Assert.AreEqual(4, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.Attributes.Length);
+            Assert.AreEqual(4, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.Attributes["name"].Name);
-            Assert.AreEqual("Customer", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.Attributes["type"].Name);
-            Assert.AreEqual("CustomerType", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.Attributes["type"].Value);
-
-            Assert.IsNotNull(documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.Attributes["minOccurs"]);
-            Assert.AreEqual("minOccurs", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.Attributes["minOccurs"].Name);
-            Assert.AreEqual("0", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.Attributes["minOccurs"].Value);
-
-            Assert.IsNotNull(documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.Attributes["maxOccurs"]);
-            Assert.AreEqual("maxOccurs", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.Attributes["maxOccurs"].Name);
-            Assert.AreEqual("unbounded", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.Attributes["maxOccurs"].Value);
+            Assert.AreEqual("Customer", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.GetAttribute("name"));
+            Assert.AreEqual("CustomerType", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.GetAttribute("type"));
+            Assert.AreEqual("0", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.GetAttribute("minOccurs"));
+            Assert.AreEqual("unbounded", documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1xselement1.GetAttribute("maxOccurs"));
 
             var documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1Text2 = documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1.ChildNodes[2];
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xscomplexType1xssequence1xselement1xscomplexType1xssequence1Text2.NodeType);
@@ -3952,23 +3791,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xscomplexType1xssequence1Text2.NodeType);
             Assert.AreEqual("\n        ", documentxsschema0xselement1xscomplexType1xssequence1Text2.TextContent);
 
-            var documentxsschema0xselement1xscomplexType1xssequence1xselement3 = documentxsschema0xselement1xscomplexType1xssequence1.ChildNodes[3];
+            var documentxsschema0xselement1xscomplexType1xssequence1xselement3 = documentxsschema0xselement1xscomplexType1xssequence1.ChildNodes[3] as IElement;
             Assert.AreEqual(3, documentxsschema0xselement1xscomplexType1xssequence1xselement3.ChildNodes.Length);
-            Assert.AreEqual(1, documentxsschema0xselement1xscomplexType1xssequence1xselement3.Attributes.Length);
+            Assert.AreEqual(1, documentxsschema0xselement1xscomplexType1xssequence1xselement3.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xselement1xscomplexType1xssequence1xselement3.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xscomplexType1xssequence1xselement3.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xselement1xscomplexType1xssequence1xselement3.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xselement1xscomplexType1xssequence1xselement3.Attributes["name"].Name);
-            Assert.AreEqual("Orders", documentxsschema0xselement1xscomplexType1xssequence1xselement3.Attributes["name"].Value);
+            Assert.AreEqual("Orders", documentxsschema0xselement1xscomplexType1xssequence1xselement3.GetAttribute("name"));
 
             var documentxsschema0xselement1xscomplexType1xssequence1xselement3Text0 = documentxsschema0xselement1xscomplexType1xssequence1xselement3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xscomplexType1xssequence1xselement3Text0.NodeType);
             Assert.AreEqual("\n          ", documentxsschema0xselement1xscomplexType1xssequence1xselement3Text0.TextContent);
 
-            var documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1 = documentxsschema0xselement1xscomplexType1xssequence1xselement3.ChildNodes[1];
+            var documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1 = documentxsschema0xselement1xscomplexType1xssequence1xselement3.ChildNodes[1] as IElement;
             Assert.AreEqual(3, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1.ChildNodes.Length);
-            Assert.AreEqual(0, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1.Attributes.Length);
+            Assert.AreEqual(0, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1.Attributes.Count());
             Assert.AreEqual("xs:complexType", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1.NodeType);
 
@@ -3976,9 +3812,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1Text0.NodeType);
             Assert.AreEqual("\n            ", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1Text0.TextContent);
 
-            var documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1 = documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1.ChildNodes[1];
+            var documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1 = documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1.ChildNodes[1] as IElement;
             Assert.AreEqual(3, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1.ChildNodes.Length);
-            Assert.AreEqual(0, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1.Attributes.Length);
+            Assert.AreEqual(0, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1.Attributes.Count());
             Assert.AreEqual("xs:sequence", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1.NodeType);
 
@@ -3986,27 +3822,15 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1Text0.NodeType);
             Assert.AreEqual("\n              ", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1Text0.TextContent);
 
-            var documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1 = documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1.ChildNodes[1];
+            var documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1 = documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1.ChildNodes[1] as IElement;
             Assert.AreEqual(0, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.ChildNodes.Length);
-            Assert.AreEqual(4, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.Attributes.Length);
+            Assert.AreEqual(4, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.Attributes["name"].Name);
-            Assert.AreEqual("Order", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.Attributes["type"].Name);
-            Assert.AreEqual("OrderType", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.Attributes["type"].Value);
-
-            Assert.IsNotNull(documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.Attributes["minOccurs"]);
-            Assert.AreEqual("minOccurs", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.Attributes["minOccurs"].Name);
-            Assert.AreEqual("0", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.Attributes["minOccurs"].Value);
-
-            Assert.IsNotNull(documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.Attributes["maxOccurs"]);
-            Assert.AreEqual("maxOccurs", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.Attributes["maxOccurs"].Name);
-            Assert.AreEqual("unbounded", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.Attributes["maxOccurs"].Value);
+            Assert.AreEqual("Order", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.GetAttribute("name"));
+            Assert.AreEqual("OrderType", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.GetAttribute("type"));
+            Assert.AreEqual("0", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.GetAttribute("minOccurs"));
+            Assert.AreEqual("unbounded", documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1xselement1.GetAttribute("maxOccurs"));
 
             var documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1Text2 = documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1.ChildNodes[2];
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xscomplexType1xssequence1xselement3xscomplexType1xssequence1Text2.NodeType);
@@ -4032,43 +3856,34 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1Text2.NodeType);
             Assert.AreEqual("\n    ", documentxsschema0xselement1Text2.TextContent);
 
-            var documentxsschema0xselement1xskey3 = documentxsschema0xselement1.ChildNodes[3];
+            var documentxsschema0xselement1xskey3 = documentxsschema0xselement1.ChildNodes[3] as IElement;
             Assert.AreEqual(5, documentxsschema0xselement1xskey3.ChildNodes.Length);
-            Assert.AreEqual(1, documentxsschema0xselement1xskey3.Attributes.Length);
+            Assert.AreEqual(1, documentxsschema0xselement1xskey3.Attributes.Count());
             Assert.AreEqual("xs:key", documentxsschema0xselement1xskey3.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xskey3.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xselement1xskey3.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xselement1xskey3.Attributes["name"].Name);
-            Assert.AreEqual("CustomerIDKey", documentxsschema0xselement1xskey3.Attributes["name"].Value);
+            Assert.AreEqual("CustomerIDKey", documentxsschema0xselement1xskey3.GetAttribute("name"));
 
             var documentxsschema0xselement1xskey3Text0 = documentxsschema0xselement1xskey3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xskey3Text0.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xselement1xskey3Text0.TextContent);
 
-            var documentxsschema0xselement1xskey3xsselector1 = documentxsschema0xselement1xskey3.ChildNodes[1];
+            var documentxsschema0xselement1xskey3xsselector1 = documentxsschema0xselement1xskey3.ChildNodes[1] as IElement;
             Assert.AreEqual(0, documentxsschema0xselement1xskey3xsselector1.ChildNodes.Length);
-            Assert.AreEqual(1, documentxsschema0xselement1xskey3xsselector1.Attributes.Length);
+            Assert.AreEqual(1, documentxsschema0xselement1xskey3xsselector1.Attributes.Count());
             Assert.AreEqual("xs:selector", documentxsschema0xselement1xskey3xsselector1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xskey3xsselector1.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xselement1xskey3xsselector1.Attributes["xpath"]);
-            Assert.AreEqual("xpath", documentxsschema0xselement1xskey3xsselector1.Attributes["xpath"].Name);
-            Assert.AreEqual("Customers/Customer", documentxsschema0xselement1xskey3xsselector1.Attributes["xpath"].Value);
+            Assert.AreEqual("Customers/Customer", documentxsschema0xselement1xskey3xsselector1.GetAttribute("xpath"));
 
             var documentxsschema0xselement1xskey3Text2 = documentxsschema0xselement1xskey3.ChildNodes[2];
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xskey3Text2.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xselement1xskey3Text2.TextContent);
 
-            var documentxsschema0xselement1xskey3xsfield3 = documentxsschema0xselement1xskey3.ChildNodes[3];
+            var documentxsschema0xselement1xskey3xsfield3 = documentxsschema0xselement1xskey3.ChildNodes[3] as IElement;
             Assert.AreEqual(0, documentxsschema0xselement1xskey3xsfield3.ChildNodes.Length);
-            Assert.AreEqual(1, documentxsschema0xselement1xskey3xsfield3.Attributes.Length);
+            Assert.AreEqual(1, documentxsschema0xselement1xskey3xsfield3.Attributes.Count());
             Assert.AreEqual("xs:field", documentxsschema0xselement1xskey3xsfield3.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xskey3xsfield3.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xselement1xskey3xsfield3.Attributes["xpath"]);
-            Assert.AreEqual("xpath", documentxsschema0xselement1xskey3xsfield3.Attributes["xpath"].Name);
-            Assert.AreEqual("@CustomerID", documentxsschema0xselement1xskey3xsfield3.Attributes["xpath"].Value);
+            Assert.AreEqual("@CustomerID", documentxsschema0xselement1xskey3xsfield3.GetAttribute("xpath"));
 
             var documentxsschema0xselement1xskey3Text4 = documentxsschema0xselement1xskey3.ChildNodes[4];
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xskey3Text4.NodeType);
@@ -4078,47 +3893,35 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1Text4.NodeType);
             Assert.AreEqual("\n    ", documentxsschema0xselement1Text4.TextContent);
 
-            var documentxsschema0xselement1xskeyref5 = documentxsschema0xselement1.ChildNodes[5];
+            var documentxsschema0xselement1xskeyref5 = documentxsschema0xselement1.ChildNodes[5] as IElement;
             Assert.AreEqual(5, documentxsschema0xselement1xskeyref5.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xselement1xskeyref5.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xselement1xskeyref5.Attributes.Count());
             Assert.AreEqual("xs:keyref", documentxsschema0xselement1xskeyref5.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xskeyref5.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xselement1xskeyref5.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xselement1xskeyref5.Attributes["name"].Name);
-            Assert.AreEqual("CustomerIDKeyRef", documentxsschema0xselement1xskeyref5.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xselement1xskeyref5.Attributes["refer"]);
-            Assert.AreEqual("refer", documentxsschema0xselement1xskeyref5.Attributes["refer"].Name);
-            Assert.AreEqual("CustomerIDKey", documentxsschema0xselement1xskeyref5.Attributes["refer"].Value);
+            Assert.AreEqual("CustomerIDKeyRef", documentxsschema0xselement1xskeyref5.GetAttribute("name"));
+            Assert.AreEqual("CustomerIDKey", documentxsschema0xselement1xskeyref5.GetAttribute("refer"));
 
             var documentxsschema0xselement1xskeyref5Text0 = documentxsschema0xselement1xskeyref5.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xskeyref5Text0.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xselement1xskeyref5Text0.TextContent);
 
-            var documentxsschema0xselement1xskeyref5xsselector1 = documentxsschema0xselement1xskeyref5.ChildNodes[1];
+            var documentxsschema0xselement1xskeyref5xsselector1 = documentxsschema0xselement1xskeyref5.ChildNodes[1] as IElement;
             Assert.AreEqual(0, documentxsschema0xselement1xskeyref5xsselector1.ChildNodes.Length);
-            Assert.AreEqual(1, documentxsschema0xselement1xskeyref5xsselector1.Attributes.Length);
+            Assert.AreEqual(1, documentxsschema0xselement1xskeyref5xsselector1.Attributes.Count());
             Assert.AreEqual("xs:selector", documentxsschema0xselement1xskeyref5xsselector1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xskeyref5xsselector1.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xselement1xskeyref5xsselector1.Attributes["xpath"]);
-            Assert.AreEqual("xpath", documentxsschema0xselement1xskeyref5xsselector1.Attributes["xpath"].Name);
-            Assert.AreEqual("Orders/Order", documentxsschema0xselement1xskeyref5xsselector1.Attributes["xpath"].Value);
+            Assert.AreEqual("Orders/Order", documentxsschema0xselement1xskeyref5xsselector1.GetAttribute("xpath"));
 
             var documentxsschema0xselement1xskeyref5Text2 = documentxsschema0xselement1xskeyref5.ChildNodes[2];
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xskeyref5Text2.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xselement1xskeyref5Text2.TextContent);
 
-            var documentxsschema0xselement1xskeyref5xsfield3 = documentxsschema0xselement1xskeyref5.ChildNodes[3];
+            var documentxsschema0xselement1xskeyref5xsfield3 = documentxsschema0xselement1xskeyref5.ChildNodes[3] as IElement;
             Assert.AreEqual(0, documentxsschema0xselement1xskeyref5xsfield3.ChildNodes.Length);
-            Assert.AreEqual(1, documentxsschema0xselement1xskeyref5xsfield3.Attributes.Length);
+            Assert.AreEqual(1, documentxsschema0xselement1xskeyref5xsfield3.Attributes.Count());
             Assert.AreEqual("xs:field", documentxsschema0xselement1xskeyref5xsfield3.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xselement1xskeyref5xsfield3.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xselement1xskeyref5xsfield3.Attributes["xpath"]);
-            Assert.AreEqual("xpath", documentxsschema0xselement1xskeyref5xsfield3.Attributes["xpath"].Name);
-            Assert.AreEqual("CustomerID", documentxsschema0xselement1xskeyref5xsfield3.Attributes["xpath"].Value);
+            Assert.AreEqual("CustomerID", documentxsschema0xselement1xskeyref5xsfield3.GetAttribute("xpath"));
 
             var documentxsschema0xselement1xskeyref5Text4 = documentxsschema0xselement1xskeyref5.ChildNodes[4];
             Assert.AreEqual(NodeType.Text, documentxsschema0xselement1xskeyref5Text4.NodeType);
@@ -4132,23 +3935,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0Text2.NodeType);
             Assert.AreEqual("\n  ", documentxsschema0Text2.TextContent);
 
-            var documentxsschema0xscomplexType3 = documentxsschema0.ChildNodes[3];
+            var documentxsschema0xscomplexType3 = documentxsschema0.ChildNodes[3] as IElement;
             Assert.AreEqual(5, documentxsschema0xscomplexType3.ChildNodes.Length);
-            Assert.AreEqual(1, documentxsschema0xscomplexType3.Attributes.Length);
+            Assert.AreEqual(1, documentxsschema0xscomplexType3.Attributes.Count());
             Assert.AreEqual("xs:complexType", documentxsschema0xscomplexType3.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType3.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType3.Attributes["name"].Name);
-            Assert.AreEqual("CustomerType", documentxsschema0xscomplexType3.Attributes["name"].Value);
+            Assert.AreEqual("CustomerType", documentxsschema0xscomplexType3.GetAttribute("name"));
 
             var documentxsschema0xscomplexType3Text0 = documentxsschema0xscomplexType3.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType3Text0.NodeType);
             Assert.AreEqual("\n    ", documentxsschema0xscomplexType3Text0.TextContent);
 
-            var documentxsschema0xscomplexType3xssequence1 = documentxsschema0xscomplexType3.ChildNodes[1];
+            var documentxsschema0xscomplexType3xssequence1 = documentxsschema0xscomplexType3.ChildNodes[1] as IElement;
             Assert.AreEqual(13, documentxsschema0xscomplexType3xssequence1.ChildNodes.Length);
-            Assert.AreEqual(0, documentxsschema0xscomplexType3xssequence1.Attributes.Length);
+            Assert.AreEqual(0, documentxsschema0xscomplexType3xssequence1.Attributes.Count());
             Assert.AreEqual("xs:sequence", documentxsschema0xscomplexType3xssequence1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType3xssequence1.NodeType);
 
@@ -4156,113 +3956,74 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType3xssequence1Text0.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType3xssequence1Text0.TextContent);
 
-            var documentxsschema0xscomplexType3xssequence1xselement1 = documentxsschema0xscomplexType3xssequence1.ChildNodes[1];
+            var documentxsschema0xscomplexType3xssequence1xselement1 = documentxsschema0xscomplexType3xssequence1.ChildNodes[1] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType3xssequence1xselement1.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType3xssequence1xselement1.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType3xssequence1xselement1.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType3xssequence1xselement1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType3xssequence1xselement1.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xssequence1xselement1.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType3xssequence1xselement1.Attributes["name"].Name);
-            Assert.AreEqual("CompanyName", documentxsschema0xscomplexType3xssequence1xselement1.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xssequence1xselement1.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType3xssequence1xselement1.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType3xssequence1xselement1.Attributes["type"].Value);
+            Assert.AreEqual("CompanyName", documentxsschema0xscomplexType3xssequence1xselement1.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType3xssequence1xselement1.GetAttribute("type"));
 
             var documentxsschema0xscomplexType3xssequence1Text2 = documentxsschema0xscomplexType3xssequence1.ChildNodes[2];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType3xssequence1Text2.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType3xssequence1Text2.TextContent);
 
-            var documentxsschema0xscomplexType3xssequence1xselement3 = documentxsschema0xscomplexType3xssequence1.ChildNodes[3];
+            var documentxsschema0xscomplexType3xssequence1xselement3 = documentxsschema0xscomplexType3xssequence1.ChildNodes[3] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType3xssequence1xselement3.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType3xssequence1xselement3.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType3xssequence1xselement3.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType3xssequence1xselement3.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType3xssequence1xselement3.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xssequence1xselement3.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType3xssequence1xselement3.Attributes["name"].Name);
-            Assert.AreEqual("ContactName", documentxsschema0xscomplexType3xssequence1xselement3.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xssequence1xselement3.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType3xssequence1xselement3.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType3xssequence1xselement3.Attributes["type"].Value);
+            Assert.AreEqual("ContactName", documentxsschema0xscomplexType3xssequence1xselement3.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType3xssequence1xselement3.GetAttribute("type"));
 
             var documentxsschema0xscomplexType3xssequence1Text4 = documentxsschema0xscomplexType3xssequence1.ChildNodes[4];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType3xssequence1Text4.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType3xssequence1Text4.TextContent);
 
-            var documentxsschema0xscomplexType3xssequence1xselement5 = documentxsschema0xscomplexType3xssequence1.ChildNodes[5];
+            var documentxsschema0xscomplexType3xssequence1xselement5 = documentxsschema0xscomplexType3xssequence1.ChildNodes[5] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType3xssequence1xselement5.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType3xssequence1xselement5.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType3xssequence1xselement5.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType3xssequence1xselement5.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType3xssequence1xselement5.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xssequence1xselement5.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType3xssequence1xselement5.Attributes["name"].Name);
-            Assert.AreEqual("ContactTitle", documentxsschema0xscomplexType3xssequence1xselement5.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xssequence1xselement5.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType3xssequence1xselement5.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType3xssequence1xselement5.Attributes["type"].Value);
+            Assert.AreEqual("ContactTitle", documentxsschema0xscomplexType3xssequence1xselement5.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType3xssequence1xselement5.GetAttribute("type"));
 
             var documentxsschema0xscomplexType3xssequence1Text6 = documentxsschema0xscomplexType3xssequence1.ChildNodes[6];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType3xssequence1Text6.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType3xssequence1Text6.TextContent);
 
-            var documentxsschema0xscomplexType3xssequence1xselement7 = documentxsschema0xscomplexType3xssequence1.ChildNodes[7];
+            var documentxsschema0xscomplexType3xssequence1xselement7 = documentxsschema0xscomplexType3xssequence1.ChildNodes[7] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType3xssequence1xselement7.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType3xssequence1xselement7.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType3xssequence1xselement7.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType3xssequence1xselement7.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType3xssequence1xselement7.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xssequence1xselement7.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType3xssequence1xselement7.Attributes["name"].Name);
-            Assert.AreEqual("Phone", documentxsschema0xscomplexType3xssequence1xselement7.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xssequence1xselement7.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType3xssequence1xselement7.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType3xssequence1xselement7.Attributes["type"].Value);
+            Assert.AreEqual("Phone", documentxsschema0xscomplexType3xssequence1xselement7.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType3xssequence1xselement7.GetAttribute("type"));
 
             var documentxsschema0xscomplexType3xssequence1Text8 = documentxsschema0xscomplexType3xssequence1.ChildNodes[8];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType3xssequence1Text8.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType3xssequence1Text8.TextContent);
 
-            var documentxsschema0xscomplexType3xssequence1xselement9 = documentxsschema0xscomplexType3xssequence1.ChildNodes[9];
+            var documentxsschema0xscomplexType3xssequence1xselement9 = documentxsschema0xscomplexType3xssequence1.ChildNodes[9] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType3xssequence1xselement9.ChildNodes.Length);
-            Assert.AreEqual(3, documentxsschema0xscomplexType3xssequence1xselement9.Attributes.Length);
+            Assert.AreEqual(3, documentxsschema0xscomplexType3xssequence1xselement9.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType3xssequence1xselement9.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType3xssequence1xselement9.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xssequence1xselement9.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType3xssequence1xselement9.Attributes["name"].Name);
-            Assert.AreEqual("Fax", documentxsschema0xscomplexType3xssequence1xselement9.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xssequence1xselement9.Attributes["minOccurs"]);
-            Assert.AreEqual("minOccurs", documentxsschema0xscomplexType3xssequence1xselement9.Attributes["minOccurs"].Name);
-            Assert.AreEqual("0", documentxsschema0xscomplexType3xssequence1xselement9.Attributes["minOccurs"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xssequence1xselement9.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType3xssequence1xselement9.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType3xssequence1xselement9.Attributes["type"].Value);
+            Assert.AreEqual("Fax", documentxsschema0xscomplexType3xssequence1xselement9.GetAttribute("name"));
+            Assert.AreEqual("0", documentxsschema0xscomplexType3xssequence1xselement9.GetAttribute("minOccurs"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType3xssequence1xselement9.GetAttribute("type"));
 
             var documentxsschema0xscomplexType3xssequence1Text10 = documentxsschema0xscomplexType3xssequence1.ChildNodes[10];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType3xssequence1Text10.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType3xssequence1Text10.TextContent);
 
-            var documentxsschema0xscomplexType3xssequence1xselement11 = documentxsschema0xscomplexType3xssequence1.ChildNodes[11];
+            var documentxsschema0xscomplexType3xssequence1xselement11 = documentxsschema0xscomplexType3xssequence1.ChildNodes[11] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType3xssequence1xselement11.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType3xssequence1xselement11.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType3xssequence1xselement11.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType3xssequence1xselement11.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType3xssequence1xselement11.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xssequence1xselement11.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType3xssequence1xselement11.Attributes["name"].Name);
-            Assert.AreEqual("FullAddress", documentxsschema0xscomplexType3xssequence1xselement11.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xssequence1xselement11.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType3xssequence1xselement11.Attributes["type"].Name);
-            Assert.AreEqual("AddressType", documentxsschema0xscomplexType3xssequence1xselement11.Attributes["type"].Value);
+            Assert.AreEqual("FullAddress", documentxsschema0xscomplexType3xssequence1xselement11.GetAttribute("name"));
+            Assert.AreEqual("AddressType", documentxsschema0xscomplexType3xssequence1xselement11.GetAttribute("type"));
 
             var documentxsschema0xscomplexType3xssequence1Text12 = documentxsschema0xscomplexType3xssequence1.ChildNodes[12];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType3xssequence1Text12.NodeType);
@@ -4272,19 +4033,13 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType3Text2.NodeType);
             Assert.AreEqual("\n    ", documentxsschema0xscomplexType3Text2.TextContent);
 
-            var documentxsschema0xscomplexType3xsattribute3 = documentxsschema0xscomplexType3.ChildNodes[3];
+            var documentxsschema0xscomplexType3xsattribute3 = documentxsschema0xscomplexType3.ChildNodes[3] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType3xsattribute3.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType3xsattribute3.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType3xsattribute3.Attributes.Count());
             Assert.AreEqual("xs:attribute", documentxsschema0xscomplexType3xsattribute3.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType3xsattribute3.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xsattribute3.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType3xsattribute3.Attributes["name"].Name);
-            Assert.AreEqual("CustomerID", documentxsschema0xscomplexType3xsattribute3.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType3xsattribute3.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType3xsattribute3.Attributes["type"].Name);
-            Assert.AreEqual("xs:token", documentxsschema0xscomplexType3xsattribute3.Attributes["type"].Value);
+            Assert.AreEqual("CustomerID", documentxsschema0xscomplexType3xsattribute3.GetAttribute("name"));
+            Assert.AreEqual("xs:token", documentxsschema0xscomplexType3xsattribute3.GetAttribute("type"));
 
             var documentxsschema0xscomplexType3Text4 = documentxsschema0xscomplexType3.ChildNodes[4];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType3Text4.NodeType);
@@ -4294,23 +4049,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0Text4.NodeType);
             Assert.AreEqual("\n  ", documentxsschema0Text4.TextContent);
 
-            var documentxsschema0xscomplexType5 = documentxsschema0.ChildNodes[5];
+            var documentxsschema0xscomplexType5 = documentxsschema0.ChildNodes[5] as IElement;
             Assert.AreEqual(5, documentxsschema0xscomplexType5.ChildNodes.Length);
-            Assert.AreEqual(1, documentxsschema0xscomplexType5.Attributes.Length);
+            Assert.AreEqual(1, documentxsschema0xscomplexType5.Attributes.Count());
             Assert.AreEqual("xs:complexType", documentxsschema0xscomplexType5.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType5.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType5.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType5.Attributes["name"].Name);
-            Assert.AreEqual("AddressType", documentxsschema0xscomplexType5.Attributes["name"].Value);
+            Assert.AreEqual("AddressType", documentxsschema0xscomplexType5.GetAttribute("name"));
 
             var documentxsschema0xscomplexType5Text0 = documentxsschema0xscomplexType5.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType5Text0.NodeType);
             Assert.AreEqual("\n    ", documentxsschema0xscomplexType5Text0.TextContent);
 
-            var documentxsschema0xscomplexType5xssequence1 = documentxsschema0xscomplexType5.ChildNodes[1];
+            var documentxsschema0xscomplexType5xssequence1 = documentxsschema0xscomplexType5.ChildNodes[1] as IElement;
             Assert.AreEqual(11, documentxsschema0xscomplexType5xssequence1.ChildNodes.Length);
-            Assert.AreEqual(0, documentxsschema0xscomplexType5xssequence1.Attributes.Length);
+            Assert.AreEqual(0, documentxsschema0xscomplexType5xssequence1.Attributes.Count());
             Assert.AreEqual("xs:sequence", documentxsschema0xscomplexType5xssequence1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType5xssequence1.NodeType);
 
@@ -4318,91 +4070,61 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType5xssequence1Text0.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType5xssequence1Text0.TextContent);
 
-            var documentxsschema0xscomplexType5xssequence1xselement1 = documentxsschema0xscomplexType5xssequence1.ChildNodes[1];
+            var documentxsschema0xscomplexType5xssequence1xselement1 = documentxsschema0xscomplexType5xssequence1.ChildNodes[1] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType5xssequence1xselement1.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType5xssequence1xselement1.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType5xssequence1xselement1.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType5xssequence1xselement1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType5xssequence1xselement1.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType5xssequence1xselement1.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType5xssequence1xselement1.Attributes["name"].Name);
-            Assert.AreEqual("Address", documentxsschema0xscomplexType5xssequence1xselement1.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType5xssequence1xselement1.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType5xssequence1xselement1.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType5xssequence1xselement1.Attributes["type"].Value);
+            Assert.AreEqual("Address", documentxsschema0xscomplexType5xssequence1xselement1.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType5xssequence1xselement1.GetAttribute("type"));
 
             var documentxsschema0xscomplexType5xssequence1Text2 = documentxsschema0xscomplexType5xssequence1.ChildNodes[2];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType5xssequence1Text2.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType5xssequence1Text2.TextContent);
 
-            var documentxsschema0xscomplexType5xssequence1xselement3 = documentxsschema0xscomplexType5xssequence1.ChildNodes[3];
+            var documentxsschema0xscomplexType5xssequence1xselement3 = documentxsschema0xscomplexType5xssequence1.ChildNodes[3] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType5xssequence1xselement3.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType5xssequence1xselement3.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType5xssequence1xselement3.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType5xssequence1xselement3.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType5xssequence1xselement3.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType5xssequence1xselement3.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType5xssequence1xselement3.Attributes["name"].Name);
-            Assert.AreEqual("City", documentxsschema0xscomplexType5xssequence1xselement3.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType5xssequence1xselement3.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType5xssequence1xselement3.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType5xssequence1xselement3.Attributes["type"].Value);
+            Assert.AreEqual("City", documentxsschema0xscomplexType5xssequence1xselement3.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType5xssequence1xselement3.GetAttribute("type"));
 
             var documentxsschema0xscomplexType5xssequence1Text4 = documentxsschema0xscomplexType5xssequence1.ChildNodes[4];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType5xssequence1Text4.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType5xssequence1Text4.TextContent);
 
-            var documentxsschema0xscomplexType5xssequence1xselement5 = documentxsschema0xscomplexType5xssequence1.ChildNodes[5];
+            var documentxsschema0xscomplexType5xssequence1xselement5 = documentxsschema0xscomplexType5xssequence1.ChildNodes[5] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType5xssequence1xselement5.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType5xssequence1xselement5.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType5xssequence1xselement5.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType5xssequence1xselement5.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType5xssequence1xselement5.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType5xssequence1xselement5.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType5xssequence1xselement5.Attributes["name"].Name);
-            Assert.AreEqual("Region", documentxsschema0xscomplexType5xssequence1xselement5.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType5xssequence1xselement5.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType5xssequence1xselement5.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType5xssequence1xselement5.Attributes["type"].Value);
+            Assert.AreEqual("Region", documentxsschema0xscomplexType5xssequence1xselement5.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType5xssequence1xselement5.GetAttribute("type"));
 
             var documentxsschema0xscomplexType5xssequence1Text6 = documentxsschema0xscomplexType5xssequence1.ChildNodes[6];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType5xssequence1Text6.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType5xssequence1Text6.TextContent);
 
-            var documentxsschema0xscomplexType5xssequence1xselement7 = documentxsschema0xscomplexType5xssequence1.ChildNodes[7];
+            var documentxsschema0xscomplexType5xssequence1xselement7 = documentxsschema0xscomplexType5xssequence1.ChildNodes[7] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType5xssequence1xselement7.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType5xssequence1xselement7.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType5xssequence1xselement7.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType5xssequence1xselement7.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType5xssequence1xselement7.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType5xssequence1xselement7.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType5xssequence1xselement7.Attributes["name"].Name);
-            Assert.AreEqual("PostalCode", documentxsschema0xscomplexType5xssequence1xselement7.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType5xssequence1xselement7.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType5xssequence1xselement7.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType5xssequence1xselement7.Attributes["type"].Value);
+            Assert.AreEqual("PostalCode", documentxsschema0xscomplexType5xssequence1xselement7.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType5xssequence1xselement7.GetAttribute("type"));
 
             var documentxsschema0xscomplexType5xssequence1Text8 = documentxsschema0xscomplexType5xssequence1.ChildNodes[8];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType5xssequence1Text8.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType5xssequence1Text8.TextContent);
 
-            var documentxsschema0xscomplexType5xssequence1xselement9 = documentxsschema0xscomplexType5xssequence1.ChildNodes[9];
+            var documentxsschema0xscomplexType5xssequence1xselement9 = documentxsschema0xscomplexType5xssequence1.ChildNodes[9] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType5xssequence1xselement9.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType5xssequence1xselement9.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType5xssequence1xselement9.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType5xssequence1xselement9.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType5xssequence1xselement9.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType5xssequence1xselement9.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType5xssequence1xselement9.Attributes["name"].Name);
-            Assert.AreEqual("Country", documentxsschema0xscomplexType5xssequence1xselement9.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType5xssequence1xselement9.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType5xssequence1xselement9.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType5xssequence1xselement9.Attributes["type"].Value);
+            Assert.AreEqual("Country", documentxsschema0xscomplexType5xssequence1xselement9.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType5xssequence1xselement9.GetAttribute("type"));
 
             var documentxsschema0xscomplexType5xssequence1Text10 = documentxsschema0xscomplexType5xssequence1.ChildNodes[10];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType5xssequence1Text10.NodeType);
@@ -4412,19 +4134,13 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType5Text2.NodeType);
             Assert.AreEqual("\n    ", documentxsschema0xscomplexType5Text2.TextContent);
 
-            var documentxsschema0xscomplexType5xsattribute3 = documentxsschema0xscomplexType5.ChildNodes[3];
+            var documentxsschema0xscomplexType5xsattribute3 = documentxsschema0xscomplexType5.ChildNodes[3] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType5xsattribute3.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType5xsattribute3.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType5xsattribute3.Attributes.Count());
             Assert.AreEqual("xs:attribute", documentxsschema0xscomplexType5xsattribute3.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType5xsattribute3.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType5xsattribute3.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType5xsattribute3.Attributes["name"].Name);
-            Assert.AreEqual("CustomerID", documentxsschema0xscomplexType5xsattribute3.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType5xsattribute3.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType5xsattribute3.Attributes["type"].Name);
-            Assert.AreEqual("xs:token", documentxsschema0xscomplexType5xsattribute3.Attributes["type"].Value);
+            Assert.AreEqual("CustomerID", documentxsschema0xscomplexType5xsattribute3.GetAttribute("name"));
+            Assert.AreEqual("xs:token", documentxsschema0xscomplexType5xsattribute3.GetAttribute("type"));
 
             var documentxsschema0xscomplexType5Text4 = documentxsschema0xscomplexType5.ChildNodes[4];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType5Text4.NodeType);
@@ -4434,23 +4150,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0Text6.NodeType);
             Assert.AreEqual("\n  ", documentxsschema0Text6.TextContent);
 
-            var documentxsschema0xscomplexType7 = documentxsschema0.ChildNodes[7];
+            var documentxsschema0xscomplexType7 = documentxsschema0.ChildNodes[7] as IElement;
             Assert.AreEqual(3, documentxsschema0xscomplexType7.ChildNodes.Length);
-            Assert.AreEqual(1, documentxsschema0xscomplexType7.Attributes.Length);
+            Assert.AreEqual(1, documentxsschema0xscomplexType7.Attributes.Count());
             Assert.AreEqual("xs:complexType", documentxsschema0xscomplexType7.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType7.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType7.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType7.Attributes["name"].Name);
-            Assert.AreEqual("OrderType", documentxsschema0xscomplexType7.Attributes["name"].Value);
+            Assert.AreEqual("OrderType", documentxsschema0xscomplexType7.GetAttribute("name"));
 
             var documentxsschema0xscomplexType7Text0 = documentxsschema0xscomplexType7.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType7Text0.NodeType);
             Assert.AreEqual("\n    ", documentxsschema0xscomplexType7Text0.TextContent);
 
-            var documentxsschema0xscomplexType7xssequence1 = documentxsschema0xscomplexType7.ChildNodes[1];
+            var documentxsschema0xscomplexType7xssequence1 = documentxsschema0xscomplexType7.ChildNodes[1] as IElement;
             Assert.AreEqual(11, documentxsschema0xscomplexType7xssequence1.ChildNodes.Length);
-            Assert.AreEqual(0, documentxsschema0xscomplexType7xssequence1.Attributes.Length);
+            Assert.AreEqual(0, documentxsschema0xscomplexType7xssequence1.Attributes.Count());
             Assert.AreEqual("xs:sequence", documentxsschema0xscomplexType7xssequence1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType7xssequence1.NodeType);
 
@@ -4458,91 +4171,61 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType7xssequence1Text0.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType7xssequence1Text0.TextContent);
 
-            var documentxsschema0xscomplexType7xssequence1xselement1 = documentxsschema0xscomplexType7xssequence1.ChildNodes[1];
+            var documentxsschema0xscomplexType7xssequence1xselement1 = documentxsschema0xscomplexType7xssequence1.ChildNodes[1] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType7xssequence1xselement1.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType7xssequence1xselement1.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType7xssequence1xselement1.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType7xssequence1xselement1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType7xssequence1xselement1.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType7xssequence1xselement1.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType7xssequence1xselement1.Attributes["name"].Name);
-            Assert.AreEqual("CustomerID", documentxsschema0xscomplexType7xssequence1xselement1.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType7xssequence1xselement1.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType7xssequence1xselement1.Attributes["type"].Name);
-            Assert.AreEqual("xs:token", documentxsschema0xscomplexType7xssequence1xselement1.Attributes["type"].Value);
+            Assert.AreEqual("CustomerID", documentxsschema0xscomplexType7xssequence1xselement1.GetAttribute("name"));
+            Assert.AreEqual("xs:token", documentxsschema0xscomplexType7xssequence1xselement1.GetAttribute("type"));
 
             var documentxsschema0xscomplexType7xssequence1Text2 = documentxsschema0xscomplexType7xssequence1.ChildNodes[2];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType7xssequence1Text2.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType7xssequence1Text2.TextContent);
 
-            var documentxsschema0xscomplexType7xssequence1xselement3 = documentxsschema0xscomplexType7xssequence1.ChildNodes[3];
+            var documentxsschema0xscomplexType7xssequence1xselement3 = documentxsschema0xscomplexType7xssequence1.ChildNodes[3] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType7xssequence1xselement3.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType7xssequence1xselement3.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType7xssequence1xselement3.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType7xssequence1xselement3.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType7xssequence1xselement3.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType7xssequence1xselement3.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType7xssequence1xselement3.Attributes["name"].Name);
-            Assert.AreEqual("EmployeeID", documentxsschema0xscomplexType7xssequence1xselement3.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType7xssequence1xselement3.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType7xssequence1xselement3.Attributes["type"].Name);
-            Assert.AreEqual("xs:token", documentxsschema0xscomplexType7xssequence1xselement3.Attributes["type"].Value);
+            Assert.AreEqual("EmployeeID", documentxsschema0xscomplexType7xssequence1xselement3.GetAttribute("name"));
+            Assert.AreEqual("xs:token", documentxsschema0xscomplexType7xssequence1xselement3.GetAttribute("type"));
 
             var documentxsschema0xscomplexType7xssequence1Text4 = documentxsschema0xscomplexType7xssequence1.ChildNodes[4];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType7xssequence1Text4.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType7xssequence1Text4.TextContent);
 
-            var documentxsschema0xscomplexType7xssequence1xselement5 = documentxsschema0xscomplexType7xssequence1.ChildNodes[5];
+            var documentxsschema0xscomplexType7xssequence1xselement5 = documentxsschema0xscomplexType7xssequence1.ChildNodes[5] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType7xssequence1xselement5.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType7xssequence1xselement5.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType7xssequence1xselement5.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType7xssequence1xselement5.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType7xssequence1xselement5.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType7xssequence1xselement5.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType7xssequence1xselement5.Attributes["name"].Name);
-            Assert.AreEqual("OrderDate", documentxsschema0xscomplexType7xssequence1xselement5.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType7xssequence1xselement5.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType7xssequence1xselement5.Attributes["type"].Name);
-            Assert.AreEqual("xs:dateTime", documentxsschema0xscomplexType7xssequence1xselement5.Attributes["type"].Value);
+            Assert.AreEqual("OrderDate", documentxsschema0xscomplexType7xssequence1xselement5.GetAttribute("name"));
+            Assert.AreEqual("xs:dateTime", documentxsschema0xscomplexType7xssequence1xselement5.GetAttribute("type"));
 
             var documentxsschema0xscomplexType7xssequence1Text6 = documentxsschema0xscomplexType7xssequence1.ChildNodes[6];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType7xssequence1Text6.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType7xssequence1Text6.TextContent);
 
-            var documentxsschema0xscomplexType7xssequence1xselement7 = documentxsschema0xscomplexType7xssequence1.ChildNodes[7];
+            var documentxsschema0xscomplexType7xssequence1xselement7 = documentxsschema0xscomplexType7xssequence1.ChildNodes[7] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType7xssequence1xselement7.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType7xssequence1xselement7.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType7xssequence1xselement7.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType7xssequence1xselement7.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType7xssequence1xselement7.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType7xssequence1xselement7.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType7xssequence1xselement7.Attributes["name"].Name);
-            Assert.AreEqual("RequiredDate", documentxsschema0xscomplexType7xssequence1xselement7.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType7xssequence1xselement7.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType7xssequence1xselement7.Attributes["type"].Name);
-            Assert.AreEqual("xs:dateTime", documentxsschema0xscomplexType7xssequence1xselement7.Attributes["type"].Value);
+            Assert.AreEqual("RequiredDate", documentxsschema0xscomplexType7xssequence1xselement7.GetAttribute("name"));
+            Assert.AreEqual("xs:dateTime", documentxsschema0xscomplexType7xssequence1xselement7.GetAttribute("type"));
 
             var documentxsschema0xscomplexType7xssequence1Text8 = documentxsschema0xscomplexType7xssequence1.ChildNodes[8];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType7xssequence1Text8.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType7xssequence1Text8.TextContent);
 
-            var documentxsschema0xscomplexType7xssequence1xselement9 = documentxsschema0xscomplexType7xssequence1.ChildNodes[9];
+            var documentxsschema0xscomplexType7xssequence1xselement9 = documentxsschema0xscomplexType7xssequence1.ChildNodes[9] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType7xssequence1xselement9.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType7xssequence1xselement9.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType7xssequence1xselement9.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType7xssequence1xselement9.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType7xssequence1xselement9.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType7xssequence1xselement9.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType7xssequence1xselement9.Attributes["name"].Name);
-            Assert.AreEqual("ShipInfo", documentxsschema0xscomplexType7xssequence1xselement9.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType7xssequence1xselement9.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType7xssequence1xselement9.Attributes["type"].Name);
-            Assert.AreEqual("ShipInfoType", documentxsschema0xscomplexType7xssequence1xselement9.Attributes["type"].Value);
+            Assert.AreEqual("ShipInfo", documentxsschema0xscomplexType7xssequence1xselement9.GetAttribute("name"));
+            Assert.AreEqual("ShipInfoType", documentxsschema0xscomplexType7xssequence1xselement9.GetAttribute("type"));
 
             var documentxsschema0xscomplexType7xssequence1Text10 = documentxsschema0xscomplexType7xssequence1.ChildNodes[10];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType7xssequence1Text10.NodeType);
@@ -4556,23 +4239,20 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0Text8.NodeType);
             Assert.AreEqual("\n  ", documentxsschema0Text8.TextContent);
 
-            var documentxsschema0xscomplexType9 = documentxsschema0.ChildNodes[9];
+            var documentxsschema0xscomplexType9 = documentxsschema0.ChildNodes[9] as IElement;
             Assert.AreEqual(5, documentxsschema0xscomplexType9.ChildNodes.Length);
-            Assert.AreEqual(1, documentxsschema0xscomplexType9.Attributes.Length);
+            Assert.AreEqual(1, documentxsschema0xscomplexType9.Attributes.Count());
             Assert.AreEqual("xs:complexType", documentxsschema0xscomplexType9.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType9.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType9.Attributes["name"].Name);
-            Assert.AreEqual("ShipInfoType", documentxsschema0xscomplexType9.Attributes["name"].Value);
+            Assert.AreEqual("ShipInfoType", documentxsschema0xscomplexType9.GetAttribute("name"));
 
             var documentxsschema0xscomplexType9Text0 = documentxsschema0xscomplexType9.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType9Text0.NodeType);
             Assert.AreEqual("\n    ", documentxsschema0xscomplexType9Text0.TextContent);
 
-            var documentxsschema0xscomplexType9xssequence1 = documentxsschema0xscomplexType9.ChildNodes[1];
+            var documentxsschema0xscomplexType9xssequence1 = documentxsschema0xscomplexType9.ChildNodes[1] as IElement;
             Assert.AreEqual(17, documentxsschema0xscomplexType9xssequence1.ChildNodes.Length);
-            Assert.AreEqual(0, documentxsschema0xscomplexType9xssequence1.Attributes.Length);
+            Assert.AreEqual(0, documentxsschema0xscomplexType9xssequence1.Attributes.Count());
             Assert.AreEqual("xs:sequence", documentxsschema0xscomplexType9xssequence1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType9xssequence1.NodeType);
 
@@ -4580,145 +4260,97 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType9xssequence1Text0.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType9xssequence1Text0.TextContent);
 
-            var documentxsschema0xscomplexType9xssequence1xselement1 = documentxsschema0xscomplexType9xssequence1.ChildNodes[1];
+            var documentxsschema0xscomplexType9xssequence1xselement1 = documentxsschema0xscomplexType9xssequence1.ChildNodes[1] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType9xssequence1xselement1.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement1.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement1.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType9xssequence1xselement1.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType9xssequence1xselement1.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement1.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType9xssequence1xselement1.Attributes["name"].Name);
-            Assert.AreEqual("ShipVia", documentxsschema0xscomplexType9xssequence1xselement1.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement1.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType9xssequence1xselement1.Attributes["type"].Name);
-            Assert.AreEqual("xs:integer", documentxsschema0xscomplexType9xssequence1xselement1.Attributes["type"].Value);
+            Assert.AreEqual("ShipVia", documentxsschema0xscomplexType9xssequence1xselement1.GetAttribute("name"));
+            Assert.AreEqual("xs:integer", documentxsschema0xscomplexType9xssequence1xselement1.GetAttribute("type"));
 
             var documentxsschema0xscomplexType9xssequence1Text2 = documentxsschema0xscomplexType9xssequence1.ChildNodes[2];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType9xssequence1Text2.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType9xssequence1Text2.TextContent);
 
-            var documentxsschema0xscomplexType9xssequence1xselement3 = documentxsschema0xscomplexType9xssequence1.ChildNodes[3];
+            var documentxsschema0xscomplexType9xssequence1xselement3 = documentxsschema0xscomplexType9xssequence1.ChildNodes[3] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType9xssequence1xselement3.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement3.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement3.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType9xssequence1xselement3.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType9xssequence1xselement3.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement3.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType9xssequence1xselement3.Attributes["name"].Name);
-            Assert.AreEqual("Freight", documentxsschema0xscomplexType9xssequence1xselement3.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement3.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType9xssequence1xselement3.Attributes["type"].Name);
-            Assert.AreEqual("xs:decimal", documentxsschema0xscomplexType9xssequence1xselement3.Attributes["type"].Value);
+            Assert.AreEqual("Freight", documentxsschema0xscomplexType9xssequence1xselement3.GetAttribute("name"));
+            Assert.AreEqual("xs:decimal", documentxsschema0xscomplexType9xssequence1xselement3.GetAttribute("type"));
 
             var documentxsschema0xscomplexType9xssequence1Text4 = documentxsschema0xscomplexType9xssequence1.ChildNodes[4];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType9xssequence1Text4.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType9xssequence1Text4.TextContent);
 
-            var documentxsschema0xscomplexType9xssequence1xselement5 = documentxsschema0xscomplexType9xssequence1.ChildNodes[5];
+            var documentxsschema0xscomplexType9xssequence1xselement5 = documentxsschema0xscomplexType9xssequence1.ChildNodes[5] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType9xssequence1xselement5.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement5.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement5.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType9xssequence1xselement5.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType9xssequence1xselement5.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement5.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType9xssequence1xselement5.Attributes["name"].Name);
-            Assert.AreEqual("ShipName", documentxsschema0xscomplexType9xssequence1xselement5.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement5.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType9xssequence1xselement5.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType9xssequence1xselement5.Attributes["type"].Value);
+            Assert.AreEqual("ShipName", documentxsschema0xscomplexType9xssequence1xselement5.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType9xssequence1xselement5.GetAttribute("type"));
 
             var documentxsschema0xscomplexType9xssequence1Text6 = documentxsschema0xscomplexType9xssequence1.ChildNodes[6];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType9xssequence1Text6.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType9xssequence1Text6.TextContent);
 
-            var documentxsschema0xscomplexType9xssequence1xselement7 = documentxsschema0xscomplexType9xssequence1.ChildNodes[7];
+            var documentxsschema0xscomplexType9xssequence1xselement7 = documentxsschema0xscomplexType9xssequence1.ChildNodes[7] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType9xssequence1xselement7.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement7.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement7.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType9xssequence1xselement7.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType9xssequence1xselement7.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement7.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType9xssequence1xselement7.Attributes["name"].Name);
-            Assert.AreEqual("ShipAddress", documentxsschema0xscomplexType9xssequence1xselement7.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement7.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType9xssequence1xselement7.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType9xssequence1xselement7.Attributes["type"].Value);
+            Assert.AreEqual("ShipAddress", documentxsschema0xscomplexType9xssequence1xselement7.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType9xssequence1xselement7.GetAttribute("type"));
 
             var documentxsschema0xscomplexType9xssequence1Text8 = documentxsschema0xscomplexType9xssequence1.ChildNodes[8];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType9xssequence1Text8.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType9xssequence1Text8.TextContent);
 
-            var documentxsschema0xscomplexType9xssequence1xselement9 = documentxsschema0xscomplexType9xssequence1.ChildNodes[9];
+            var documentxsschema0xscomplexType9xssequence1xselement9 = documentxsschema0xscomplexType9xssequence1.ChildNodes[9] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType9xssequence1xselement9.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement9.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement9.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType9xssequence1xselement9.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType9xssequence1xselement9.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement9.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType9xssequence1xselement9.Attributes["name"].Name);
-            Assert.AreEqual("ShipCity", documentxsschema0xscomplexType9xssequence1xselement9.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement9.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType9xssequence1xselement9.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType9xssequence1xselement9.Attributes["type"].Value);
+            Assert.AreEqual("ShipCity", documentxsschema0xscomplexType9xssequence1xselement9.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType9xssequence1xselement9.GetAttribute("type"));
 
             var documentxsschema0xscomplexType9xssequence1Text10 = documentxsschema0xscomplexType9xssequence1.ChildNodes[10];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType9xssequence1Text10.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType9xssequence1Text10.TextContent);
 
-            var documentxsschema0xscomplexType9xssequence1xselement11 = documentxsschema0xscomplexType9xssequence1.ChildNodes[11];
+            var documentxsschema0xscomplexType9xssequence1xselement11 = documentxsschema0xscomplexType9xssequence1.ChildNodes[11] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType9xssequence1xselement11.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement11.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement11.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType9xssequence1xselement11.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType9xssequence1xselement11.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement11.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType9xssequence1xselement11.Attributes["name"].Name);
-            Assert.AreEqual("ShipRegion", documentxsschema0xscomplexType9xssequence1xselement11.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement11.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType9xssequence1xselement11.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType9xssequence1xselement11.Attributes["type"].Value);
+            Assert.AreEqual("ShipRegion", documentxsschema0xscomplexType9xssequence1xselement11.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType9xssequence1xselement11.GetAttribute("type"));
 
             var documentxsschema0xscomplexType9xssequence1Text12 = documentxsschema0xscomplexType9xssequence1.ChildNodes[12];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType9xssequence1Text12.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType9xssequence1Text12.TextContent);
 
-            var documentxsschema0xscomplexType9xssequence1xselement13 = documentxsschema0xscomplexType9xssequence1.ChildNodes[13];
+            var documentxsschema0xscomplexType9xssequence1xselement13 = documentxsschema0xscomplexType9xssequence1.ChildNodes[13] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType9xssequence1xselement13.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement13.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement13.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType9xssequence1xselement13.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType9xssequence1xselement13.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement13.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType9xssequence1xselement13.Attributes["name"].Name);
-            Assert.AreEqual("ShipPostalCode", documentxsschema0xscomplexType9xssequence1xselement13.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement13.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType9xssequence1xselement13.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType9xssequence1xselement13.Attributes["type"].Value);
+            Assert.AreEqual("ShipPostalCode", documentxsschema0xscomplexType9xssequence1xselement13.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType9xssequence1xselement13.GetAttribute("type"));
 
             var documentxsschema0xscomplexType9xssequence1Text14 = documentxsschema0xscomplexType9xssequence1.ChildNodes[14];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType9xssequence1Text14.NodeType);
             Assert.AreEqual("\n      ", documentxsschema0xscomplexType9xssequence1Text14.TextContent);
 
-            var documentxsschema0xscomplexType9xssequence1xselement15 = documentxsschema0xscomplexType9xssequence1.ChildNodes[15];
+            var documentxsschema0xscomplexType9xssequence1xselement15 = documentxsschema0xscomplexType9xssequence1.ChildNodes[15] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType9xssequence1xselement15.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement15.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType9xssequence1xselement15.Attributes.Count());
             Assert.AreEqual("xs:element", documentxsschema0xscomplexType9xssequence1xselement15.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType9xssequence1xselement15.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement15.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType9xssequence1xselement15.Attributes["name"].Name);
-            Assert.AreEqual("ShipCountry", documentxsschema0xscomplexType9xssequence1xselement15.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xssequence1xselement15.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType9xssequence1xselement15.Attributes["type"].Name);
-            Assert.AreEqual("xs:string", documentxsschema0xscomplexType9xssequence1xselement15.Attributes["type"].Value);
+            Assert.AreEqual("ShipCountry", documentxsschema0xscomplexType9xssequence1xselement15.GetAttribute("name"));
+            Assert.AreEqual("xs:string", documentxsschema0xscomplexType9xssequence1xselement15.GetAttribute("type"));
 
             var documentxsschema0xscomplexType9xssequence1Text16 = documentxsschema0xscomplexType9xssequence1.ChildNodes[16];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType9xssequence1Text16.NodeType);
@@ -4728,19 +4360,13 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType9Text2.NodeType);
             Assert.AreEqual("\n    ", documentxsschema0xscomplexType9Text2.TextContent);
 
-            var documentxsschema0xscomplexType9xsattribute3 = documentxsschema0xscomplexType9.ChildNodes[3];
+            var documentxsschema0xscomplexType9xsattribute3 = documentxsschema0xscomplexType9.ChildNodes[3] as IElement;
             Assert.AreEqual(0, documentxsschema0xscomplexType9xsattribute3.ChildNodes.Length);
-            Assert.AreEqual(2, documentxsschema0xscomplexType9xsattribute3.Attributes.Length);
+            Assert.AreEqual(2, documentxsschema0xscomplexType9xsattribute3.Attributes.Count());
             Assert.AreEqual("xs:attribute", documentxsschema0xscomplexType9xsattribute3.NodeName);
             Assert.AreEqual(NodeType.Element, documentxsschema0xscomplexType9xsattribute3.NodeType);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xsattribute3.Attributes["name"]);
-            Assert.AreEqual("name", documentxsschema0xscomplexType9xsattribute3.Attributes["name"].Name);
-            Assert.AreEqual("ShippedDate", documentxsschema0xscomplexType9xsattribute3.Attributes["name"].Value);
-
-            Assert.IsNotNull(documentxsschema0xscomplexType9xsattribute3.Attributes["type"]);
-            Assert.AreEqual("type", documentxsschema0xscomplexType9xsattribute3.Attributes["type"].Name);
-            Assert.AreEqual("xs:dateTime", documentxsschema0xscomplexType9xsattribute3.Attributes["type"].Value);
+            Assert.AreEqual("ShippedDate", documentxsschema0xscomplexType9xsattribute3.GetAttribute("name"));
+            Assert.AreEqual("xs:dateTime", documentxsschema0xscomplexType9xsattribute3.GetAttribute("type"));
 
             var documentxsschema0xscomplexType9Text4 = documentxsschema0xscomplexType9.ChildNodes[4];
             Assert.AreEqual(NodeType.Text, documentxsschema0xscomplexType9Text4.NodeType);
@@ -4751,10 +4377,10 @@ namespace UnitTests.Xml
             Assert.AreEqual("\n", documentxsschema0Text10.TextContent);
         }
 
-        [TestMethod]
+        [Test]
         public void XmlNumericalData()
         {
-            var document = DocumentBuilder.Xml(@"<Root>
+            var document = (@"<Root>
   <TaxRate>7.25</TaxRate>
   <Data>
     <Category>A</Category>
@@ -4791,11 +4417,11 @@ namespace UnitTests.Xml
     <Quantity>8</Quantity>
     <Price>6.99</Price>
   </Data>
-</Root>");
+</Root>").ToXmlDocument();
 
-            var documentRoot0 = document.ChildNodes[0];
+            var documentRoot0 = document.ChildNodes[0] as IElement;
             Assert.AreEqual(17, documentRoot0.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0.Attributes.Count());
             Assert.AreEqual("Root", documentRoot0.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0.NodeType);
 
@@ -4803,9 +4429,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Text0.NodeType);
             Assert.AreEqual("\n  ", documentRoot0Text0.TextContent);
 
-            var documentRoot0TaxRate1 = documentRoot0.ChildNodes[1];
+            var documentRoot0TaxRate1 = documentRoot0.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentRoot0TaxRate1.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0TaxRate1.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0TaxRate1.Attributes.Count());
             Assert.AreEqual("TaxRate", documentRoot0TaxRate1.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0TaxRate1.NodeType);
 
@@ -4817,9 +4443,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Text2.NodeType);
             Assert.AreEqual("\n  ", documentRoot0Text2.TextContent);
 
-            var documentRoot0Data3 = documentRoot0.ChildNodes[3];
+            var documentRoot0Data3 = documentRoot0.ChildNodes[3] as IElement;
             Assert.AreEqual(7, documentRoot0Data3.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data3.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data3.Attributes.Count());
             Assert.AreEqual("Data", documentRoot0Data3.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data3.NodeType);
 
@@ -4827,9 +4453,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data3Text0.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data3Text0.TextContent);
 
-            var documentRoot0Data3Category1 = documentRoot0Data3.ChildNodes[1];
+            var documentRoot0Data3Category1 = documentRoot0Data3.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentRoot0Data3Category1.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data3Category1.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data3Category1.Attributes.Count());
             Assert.AreEqual("Category", documentRoot0Data3Category1.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data3Category1.NodeType);
 
@@ -4841,9 +4467,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data3Text2.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data3Text2.TextContent);
 
-            var documentRoot0Data3Quantity3 = documentRoot0Data3.ChildNodes[3];
+            var documentRoot0Data3Quantity3 = documentRoot0Data3.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentRoot0Data3Quantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data3Quantity3.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data3Quantity3.Attributes.Count());
             Assert.AreEqual("Quantity", documentRoot0Data3Quantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data3Quantity3.NodeType);
 
@@ -4855,9 +4481,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data3Text4.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data3Text4.TextContent);
 
-            var documentRoot0Data3Price5 = documentRoot0Data3.ChildNodes[5];
+            var documentRoot0Data3Price5 = documentRoot0Data3.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentRoot0Data3Price5.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data3Price5.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data3Price5.Attributes.Count());
             Assert.AreEqual("Price", documentRoot0Data3Price5.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data3Price5.NodeType);
 
@@ -4873,9 +4499,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Text4.NodeType);
             Assert.AreEqual("\n  ", documentRoot0Text4.TextContent);
 
-            var documentRoot0Data5 = documentRoot0.ChildNodes[5];
+            var documentRoot0Data5 = documentRoot0.ChildNodes[5] as IElement;
             Assert.AreEqual(7, documentRoot0Data5.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data5.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data5.Attributes.Count());
             Assert.AreEqual("Data", documentRoot0Data5.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data5.NodeType);
 
@@ -4883,9 +4509,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data5Text0.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data5Text0.TextContent);
 
-            var documentRoot0Data5Category1 = documentRoot0Data5.ChildNodes[1];
+            var documentRoot0Data5Category1 = documentRoot0Data5.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentRoot0Data5Category1.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data5Category1.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data5Category1.Attributes.Count());
             Assert.AreEqual("Category", documentRoot0Data5Category1.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data5Category1.NodeType);
 
@@ -4897,9 +4523,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data5Text2.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data5Text2.TextContent);
 
-            var documentRoot0Data5Quantity3 = documentRoot0Data5.ChildNodes[3];
+            var documentRoot0Data5Quantity3 = documentRoot0Data5.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentRoot0Data5Quantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data5Quantity3.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data5Quantity3.Attributes.Count());
             Assert.AreEqual("Quantity", documentRoot0Data5Quantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data5Quantity3.NodeType);
 
@@ -4911,9 +4537,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data5Text4.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data5Text4.TextContent);
 
-            var documentRoot0Data5Price5 = documentRoot0Data5.ChildNodes[5];
+            var documentRoot0Data5Price5 = documentRoot0Data5.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentRoot0Data5Price5.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data5Price5.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data5Price5.Attributes.Count());
             Assert.AreEqual("Price", documentRoot0Data5Price5.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data5Price5.NodeType);
 
@@ -4929,9 +4555,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Text6.NodeType);
             Assert.AreEqual("\n  ", documentRoot0Text6.TextContent);
 
-            var documentRoot0Data7 = documentRoot0.ChildNodes[7];
+            var documentRoot0Data7 = documentRoot0.ChildNodes[7] as IElement;
             Assert.AreEqual(7, documentRoot0Data7.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data7.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data7.Attributes.Count());
             Assert.AreEqual("Data", documentRoot0Data7.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data7.NodeType);
 
@@ -4939,9 +4565,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data7Text0.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data7Text0.TextContent);
 
-            var documentRoot0Data7Category1 = documentRoot0Data7.ChildNodes[1];
+            var documentRoot0Data7Category1 = documentRoot0Data7.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentRoot0Data7Category1.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data7Category1.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data7Category1.Attributes.Count());
             Assert.AreEqual("Category", documentRoot0Data7Category1.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data7Category1.NodeType);
 
@@ -4953,9 +4579,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data7Text2.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data7Text2.TextContent);
 
-            var documentRoot0Data7Quantity3 = documentRoot0Data7.ChildNodes[3];
+            var documentRoot0Data7Quantity3 = documentRoot0Data7.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentRoot0Data7Quantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data7Quantity3.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data7Quantity3.Attributes.Count());
             Assert.AreEqual("Quantity", documentRoot0Data7Quantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data7Quantity3.NodeType);
 
@@ -4967,9 +4593,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data7Text4.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data7Text4.TextContent);
 
-            var documentRoot0Data7Price5 = documentRoot0Data7.ChildNodes[5];
+            var documentRoot0Data7Price5 = documentRoot0Data7.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentRoot0Data7Price5.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data7Price5.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data7Price5.Attributes.Count());
             Assert.AreEqual("Price", documentRoot0Data7Price5.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data7Price5.NodeType);
 
@@ -4985,9 +4611,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Text8.NodeType);
             Assert.AreEqual("\n  ", documentRoot0Text8.TextContent);
 
-            var documentRoot0Data9 = documentRoot0.ChildNodes[9];
+            var documentRoot0Data9 = documentRoot0.ChildNodes[9] as IElement;
             Assert.AreEqual(7, documentRoot0Data9.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data9.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data9.Attributes.Count());
             Assert.AreEqual("Data", documentRoot0Data9.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data9.NodeType);
 
@@ -4995,9 +4621,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data9Text0.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data9Text0.TextContent);
 
-            var documentRoot0Data9Category1 = documentRoot0Data9.ChildNodes[1];
+            var documentRoot0Data9Category1 = documentRoot0Data9.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentRoot0Data9Category1.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data9Category1.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data9Category1.Attributes.Count());
             Assert.AreEqual("Category", documentRoot0Data9Category1.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data9Category1.NodeType);
 
@@ -5009,9 +4635,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data9Text2.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data9Text2.TextContent);
 
-            var documentRoot0Data9Quantity3 = documentRoot0Data9.ChildNodes[3];
+            var documentRoot0Data9Quantity3 = documentRoot0Data9.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentRoot0Data9Quantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data9Quantity3.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data9Quantity3.Attributes.Count());
             Assert.AreEqual("Quantity", documentRoot0Data9Quantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data9Quantity3.NodeType);
 
@@ -5023,9 +4649,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data9Text4.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data9Text4.TextContent);
 
-            var documentRoot0Data9Price5 = documentRoot0Data9.ChildNodes[5];
+            var documentRoot0Data9Price5 = documentRoot0Data9.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentRoot0Data9Price5.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data9Price5.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data9Price5.Attributes.Count());
             Assert.AreEqual("Price", documentRoot0Data9Price5.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data9Price5.NodeType);
 
@@ -5041,9 +4667,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Text10.NodeType);
             Assert.AreEqual("\n  ", documentRoot0Text10.TextContent);
 
-            var documentRoot0Data11 = documentRoot0.ChildNodes[11];
+            var documentRoot0Data11 = documentRoot0.ChildNodes[11] as IElement;
             Assert.AreEqual(7, documentRoot0Data11.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data11.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data11.Attributes.Count());
             Assert.AreEqual("Data", documentRoot0Data11.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data11.NodeType);
 
@@ -5051,9 +4677,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data11Text0.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data11Text0.TextContent);
 
-            var documentRoot0Data11Category1 = documentRoot0Data11.ChildNodes[1];
+            var documentRoot0Data11Category1 = documentRoot0Data11.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentRoot0Data11Category1.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data11Category1.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data11Category1.Attributes.Count());
             Assert.AreEqual("Category", documentRoot0Data11Category1.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data11Category1.NodeType);
 
@@ -5065,9 +4691,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data11Text2.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data11Text2.TextContent);
 
-            var documentRoot0Data11Quantity3 = documentRoot0Data11.ChildNodes[3];
+            var documentRoot0Data11Quantity3 = documentRoot0Data11.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentRoot0Data11Quantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data11Quantity3.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data11Quantity3.Attributes.Count());
             Assert.AreEqual("Quantity", documentRoot0Data11Quantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data11Quantity3.NodeType);
 
@@ -5079,9 +4705,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data11Text4.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data11Text4.TextContent);
 
-            var documentRoot0Data11Price5 = documentRoot0Data11.ChildNodes[5];
+            var documentRoot0Data11Price5 = documentRoot0Data11.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentRoot0Data11Price5.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data11Price5.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data11Price5.Attributes.Count());
             Assert.AreEqual("Price", documentRoot0Data11Price5.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data11Price5.NodeType);
 
@@ -5097,9 +4723,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Text12.NodeType);
             Assert.AreEqual("\n  ", documentRoot0Text12.TextContent);
 
-            var documentRoot0Data13 = documentRoot0.ChildNodes[13];
+            var documentRoot0Data13 = documentRoot0.ChildNodes[13] as IElement;
             Assert.AreEqual(7, documentRoot0Data13.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data13.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data13.Attributes.Count());
             Assert.AreEqual("Data", documentRoot0Data13.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data13.NodeType);
 
@@ -5107,9 +4733,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data13Text0.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data13Text0.TextContent);
 
-            var documentRoot0Data13Category1 = documentRoot0Data13.ChildNodes[1];
+            var documentRoot0Data13Category1 = documentRoot0Data13.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentRoot0Data13Category1.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data13Category1.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data13Category1.Attributes.Count());
             Assert.AreEqual("Category", documentRoot0Data13Category1.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data13Category1.NodeType);
 
@@ -5121,9 +4747,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data13Text2.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data13Text2.TextContent);
 
-            var documentRoot0Data13Quantity3 = documentRoot0Data13.ChildNodes[3];
+            var documentRoot0Data13Quantity3 = documentRoot0Data13.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentRoot0Data13Quantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data13Quantity3.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data13Quantity3.Attributes.Count());
             Assert.AreEqual("Quantity", documentRoot0Data13Quantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data13Quantity3.NodeType);
 
@@ -5135,9 +4761,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data13Text4.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data13Text4.TextContent);
 
-            var documentRoot0Data13Price5 = documentRoot0Data13.ChildNodes[5];
+            var documentRoot0Data13Price5 = documentRoot0Data13.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentRoot0Data13Price5.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data13Price5.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data13Price5.Attributes.Count());
             Assert.AreEqual("Price", documentRoot0Data13Price5.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data13Price5.NodeType);
 
@@ -5153,9 +4779,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Text14.NodeType);
             Assert.AreEqual("\n  ", documentRoot0Text14.TextContent);
 
-            var documentRoot0Data15 = documentRoot0.ChildNodes[15];
+            var documentRoot0Data15 = documentRoot0.ChildNodes[15] as IElement;
             Assert.AreEqual(7, documentRoot0Data15.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data15.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data15.Attributes.Count());
             Assert.AreEqual("Data", documentRoot0Data15.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data15.NodeType);
 
@@ -5163,9 +4789,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data15Text0.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data15Text0.TextContent);
 
-            var documentRoot0Data15Category1 = documentRoot0Data15.ChildNodes[1];
+            var documentRoot0Data15Category1 = documentRoot0Data15.ChildNodes[1] as IElement;
             Assert.AreEqual(1, documentRoot0Data15Category1.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data15Category1.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data15Category1.Attributes.Count());
             Assert.AreEqual("Category", documentRoot0Data15Category1.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data15Category1.NodeType);
 
@@ -5177,9 +4803,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data15Text2.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data15Text2.TextContent);
 
-            var documentRoot0Data15Quantity3 = documentRoot0Data15.ChildNodes[3];
+            var documentRoot0Data15Quantity3 = documentRoot0Data15.ChildNodes[3] as IElement;
             Assert.AreEqual(1, documentRoot0Data15Quantity3.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data15Quantity3.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data15Quantity3.Attributes.Count());
             Assert.AreEqual("Quantity", documentRoot0Data15Quantity3.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data15Quantity3.NodeType);
 
@@ -5191,9 +4817,9 @@ namespace UnitTests.Xml
             Assert.AreEqual(NodeType.Text, documentRoot0Data15Text4.NodeType);
             Assert.AreEqual("\n    ", documentRoot0Data15Text4.TextContent);
 
-            var documentRoot0Data15Price5 = documentRoot0Data15.ChildNodes[5];
+            var documentRoot0Data15Price5 = documentRoot0Data15.ChildNodes[5] as IElement;
             Assert.AreEqual(1, documentRoot0Data15Price5.ChildNodes.Length);
-            Assert.AreEqual(0, documentRoot0Data15Price5.Attributes.Length);
+            Assert.AreEqual(0, documentRoot0Data15Price5.Attributes.Count());
             Assert.AreEqual("Price", documentRoot0Data15Price5.NodeName);
             Assert.AreEqual(NodeType.Element, documentRoot0Data15Price5.NodeType);
 
