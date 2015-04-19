@@ -61,32 +61,6 @@
         }
 
         [Test]
-        public void XmlValidDocumentHelloWorldWithDtd()
-        {
-            var xml = @"<?xml version=""1.0"" standalone=""yes""?>
-
-<!--open the DOCTYPE declaration -
-  the open square bracket indicates an internal DTD-->
-<!DOCTYPE foo [
-
-<!--define the internal DTD-->
-  <!ELEMENT foo (#PCDATA)>
-
-<!--close the DOCTYPE declaration-->
-]>
-
-<foo>Hello World.</foo>";
-
-            var doc = xml.ToXmlDocument();
-            Assert.IsNotNull(doc);
-            Assert.IsNotNull(doc.DocumentElement);
-            Assert.AreEqual("foo", doc.Doctype.Name);
-            
-            Assert.AreEqual("foo", doc.DocumentElement.TagName);
-            Assert.AreEqual("Hello World.", doc.DocumentElement.InnerHtml);
-        }
-
-        [Test]
         public void XmlValidDocumentBooksTree()
         {
             var xml = Assets.books.ToXmlDocument();
