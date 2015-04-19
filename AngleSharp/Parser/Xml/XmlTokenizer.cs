@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Parser.Xml
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using AngleSharp.Events;
     using AngleSharp.Extensions;
@@ -20,6 +21,15 @@
         static readonly String SystemIdentifier = "SYSTEM";
         static readonly String YesIdentifier = "yes";
         static readonly String NoIdentifier = "no";
+
+        static readonly Dictionary<String, String> entities = new Dictionary<String, String>
+        {
+            { "amp", "&" },
+            { "lt", "<" },
+            { "gt", ">" },
+            { "apos", "'" },
+            { "quot", "\"" }
+        };
 
         #endregion
 
@@ -57,38 +67,12 @@
             }
             else
             {
-                //TODO
-                //_dtd.AddEntity(new Entity
-                //{
-                //    NodeName = "amp",
-                //    NodeValue = "&"
-                //});
-                //_dtd.AddEntity(new Entity
-                //{
-                //    NodeName = "lt",
-                //    NodeValue = "<"
-                //});
-                //_dtd.AddEntity(new Entity
-                //{
-                //    NodeName = "gt",
-                //    NodeValue = ">"
-                //});
-                //_dtd.AddEntity(new Entity
-                //{
-                //    NodeName = "apos",
-                //    NodeValue = "'"
-                //});
-                //_dtd.AddEntity(new Entity
-                //{
-                //    NodeName = "quot",
-                //    NodeValue = "\""
-                //});
-                var entity = Entities.GetSymbol(entityToken.Value);
+                var entity = default(String);
 
-                if (entity == null)
-                    throw XmlError(XmlParseError.CharacterReferenceInvalidCode);
+                if (!String.IsNullOrEmpty(entityToken.Value) && entities.TryGetValue(entityToken.Value, out entity))
+                    return entity;
 
-                return entity;
+                throw XmlError(XmlParseError.CharacterReferenceInvalidCode);
             }
         }
 
