@@ -9,6 +9,8 @@
     using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
+    using AngleSharp.Dom.Svg;
+    using AngleSharp.Dom.Xml;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
 
@@ -46,8 +48,8 @@
 
             if (context == null)
                 context = BrowsingContext.New();
-            
-            var document = await HtmlDocument.LoadAsync(context, response, cancel).ConfigureAwait(false);
+
+            var document = await context.LoadDocumentAsync(response, cancel).ConfigureAwait(false);
             context.NavigateTo(document);
             return document;
         }
@@ -138,6 +140,27 @@
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, Url url)
         {
             return context.OpenAsync(url, CancellationToken.None);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static async Task<IDocument> LoadDocumentAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel)
+        {
+            var contentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html);
+
+            if (contentType.Equals(MimeTypes.Xml, StringComparison.OrdinalIgnoreCase) ||
+                contentType.Equals(MimeTypes.ApplicationXml, StringComparison.OrdinalIgnoreCase))
+            {
+                return await XmlDocument.LoadAsync(context, response, cancel).ConfigureAwait(false);
+            }
+            else if (contentType.Equals(MimeTypes.Svg, StringComparison.OrdinalIgnoreCase))
+            {
+                return await SvgDocument.LoadAsync(context, response, cancel);
+            }
+
+            return await HtmlDocument.LoadAsync(context, response, cancel).ConfigureAwait(false);
         }
 
         #endregion

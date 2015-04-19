@@ -76,21 +76,17 @@
         /// <returns>The task that builds the document.</returns>
         internal async static Task<HtmlDocument> LoadAsync(IBrowsingContext context, IResponse response, CancellationToken cancelToken)
         {
-            var contentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html);
-            var referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
-            var cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
-            var url = response.Address.Href;
             var config = context.Configuration;
             var events = config.Events;
             var source = new TextSource(response.Content, config.DefaultEncoding());
             var document = new HtmlDocument(context, source);
-            document.ContentType = MimeTypes.Html;
-            document.Referrer = referrer;
-            document.DocumentUri = url;
-            document.Cookie = cookie;
-            document.ReadyState = DocumentReadyState.Loading;
             var parser = new HtmlParser(document);
             var startEvent = new HtmlParseStartEvent(parser);
+            document.ContentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html);
+            document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
+            document.DocumentUri = response.Address.Href;
+            document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
+            document.ReadyState = DocumentReadyState.Loading;
 
             if (events != null)
                 events.Publish(startEvent);

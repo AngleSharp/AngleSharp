@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Dom.Svg
 {
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
 
@@ -61,6 +63,28 @@
             CopyProperties(this, node, deep);
             CopyDocumentProperties(this, node, deep);
             return node;
+        }
+
+        /// <summary>
+        /// Loads the document in the provided context from the given response.
+        /// </summary>
+        /// <param name="context">The browsing context.</param>
+        /// <param name="response">The response to consider.</param>
+        /// <param name="cancelToken">Token for cancellation.</param>
+        /// <returns>The task that builds the document.</returns>
+        internal async static Task<SvgDocument> LoadAsync(IBrowsingContext context, IResponse response, CancellationToken cancelToken)
+        {
+            var contentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Svg);
+            var source = new TextSource(response.Content, context.Configuration.DefaultEncoding());
+            var document = new SvgDocument(context, source);
+            //var parser = new XmlParser(document);
+            //document.ContentType = contentType;
+            //document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
+            //document.DocumentUri = response.Address.Href;
+            //document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
+            //document.ReadyState = DocumentReadyState.Loading;
+            //await parser.ParseAsync(cancelToken).ConfigureAwait(false);
+            return document;
         }
     }
 }
