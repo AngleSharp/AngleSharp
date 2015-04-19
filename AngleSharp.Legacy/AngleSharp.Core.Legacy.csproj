@@ -2608,6 +2608,51 @@
     <Compile Include="..\AngleSharp\Parser\Html\Tokens\HtmlToken.cs">
       <Link>Parser\Html\Tokens\HtmlToken.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlCDataToken.cs">
+      <Link>Parser\Xml\Tokens\XmlCDataToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlCharacterToken.cs">
+      <Link>Parser\Xml\Tokens\XmlCharacterToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlCommentToken.cs">
+      <Link>Parser\Xml\Tokens\XmlCommentToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlDeclarationToken.cs">
+      <Link>Parser\Xml\Tokens\XmlDeclarationToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlDoctypeToken.cs">
+      <Link>Parser\Xml\Tokens\XmlDoctypeToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlEndOfFileToken.cs">
+      <Link>Parser\Xml\Tokens\XmlEndOfFileToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlEntityToken.cs">
+      <Link>Parser\Xml\Tokens\XmlEntityToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlPIToken.cs">
+      <Link>Parser\Xml\Tokens\XmlPIToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlTagToken.cs">
+      <Link>Parser\Xml\Tokens\XmlTagToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlToken.cs">
+      <Link>Parser\Xml\Tokens\XmlToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\XmlParseError.cs">
+      <Link>Parser\Xml\XmlParseError.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\XmlParser.cs">
+      <Link>Parser\Xml\XmlParser.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\XmlTokenizer.cs">
+      <Link>Parser\Xml\XmlTokenizer.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\XmlTokenType.cs">
+      <Link>Parser\Xml\XmlTokenType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\XmlTreeMode.cs">
+      <Link>Parser\Xml\XmlTreeMode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
