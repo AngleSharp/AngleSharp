@@ -25,7 +25,7 @@
             _name = null;
             _publicIdentifier = null;
             _systemIdentifier = null;
-            _type = XmlTokenType.DOCTYPE;
+            _type = XmlTokenType.Doctype;
         }
 
         #endregion

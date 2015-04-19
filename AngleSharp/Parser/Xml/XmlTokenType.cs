@@ -8,7 +8,7 @@
         /// <summary>
         /// The DOCTYPE token.
         /// </summary>
-        DOCTYPE,
+        Doctype,
         /// <summary>
         /// The XML declaration.
         /// </summary>
@@ -48,6 +48,6 @@
         /// <summary>
         /// The End-Of-File token to mark the end.
         /// </summary>
-        EOF
+        EndOfFile
     }
 }

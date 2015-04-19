@@ -8,7 +8,7 @@
         /// <summary>
         /// The DOCTYPE token.
         /// </summary>
-        DOCTYPE,
+        Doctype,
         /// <summary>
         /// The start tag token to mark open tags.
         /// </summary>
@@ -28,6 +28,6 @@
         /// <summary>
         /// The End-Of-File token to mark the end.
         /// </summary>
-        EOF
+        EndOfFile
     }
 }

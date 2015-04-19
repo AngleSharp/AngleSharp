@@ -42,7 +42,7 @@
         Boolean _scripting;
         Int32 _nested;
         Boolean _started;
-        Task<IDocument> _parsing;
+        Task<IHtmlDocument> _parsing;
         Task _waiting;
 
         #endregion
@@ -169,7 +169,7 @@
         /// <returns>
         /// The task which could be awaited or continued differently.
         /// </returns>
-        public Task<IDocument> ParseAsync()
+        public Task<IHtmlDocument> ParseAsync()
         {
             return ParseAsync(CancellationToken.None);
         }
@@ -181,7 +181,7 @@
         /// <returns>
         /// The task which could be awaited or continued differently.
         /// </returns>
-        public Task<IDocument> ParseAsync(CancellationToken cancelToken)
+        public Task<IHtmlDocument> ParseAsync(CancellationToken cancelToken)
         {
 			lock (_syncGuard)
 			{
@@ -198,7 +198,7 @@
         /// <summary>
         /// Parses the given source and creates the document.
         /// </summary>
-        public IDocument Parse()
+        public IHtmlDocument Parse()
         {
             lock (_syncGuard)
             {
@@ -219,7 +219,7 @@
         /// <returns>
         /// The task which could be awaited or continued differently.
         /// </returns>
-        public Task<IDocument> ParseEmbeddedAsync()
+        public Task<IHtmlDocument> ParseEmbeddedAsync()
         {
             return ParseEmbeddedAsync(CancellationToken.None);
         }
@@ -232,7 +232,7 @@
         /// <returns>
         /// The task which could be awaited or continued differently.
         /// </returns>
-        public Task<IDocument> ParseEmbeddedAsync(CancellationToken cancelToken)
+        public Task<IHtmlDocument> ParseEmbeddedAsync(CancellationToken cancelToken)
         {
             lock (_syncGuard)
             {
@@ -277,7 +277,7 @@
         /// <returns>
         /// The task which could be awaited or continued differently.
         /// </returns>
-        public Task<IDocument> ParseFragmentAsync(IElement context)
+        public Task<IHtmlDocument> ParseFragmentAsync(IElement context)
         {
             return ParseFragmentAsync(context, CancellationToken.None);
         }
@@ -294,7 +294,7 @@
         /// <returns>
         /// The task which could be awaited or continued differently.
         /// </returns>
-        public Task<IDocument> ParseFragmentAsync(IElement context, CancellationToken cancelToken)
+        public Task<IHtmlDocument> ParseFragmentAsync(IElement context, CancellationToken cancelToken)
         {
             lock (_syncGuard)
             {
@@ -576,7 +576,7 @@
         {
             switch (token.Type)
             {
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     var doctype = (HtmlDoctypeToken)token;
 
@@ -658,7 +658,7 @@
                     RaiseErrorOccurred(HtmlParseError.TagCannotEndHere);
                     return;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate);
                     return;
@@ -717,7 +717,7 @@
                     CurrentNode.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate);
                     return;
@@ -751,7 +751,7 @@
                     CurrentNode.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate);
                     return;
@@ -935,7 +935,7 @@
 
                     break;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate);
                     return;
@@ -971,7 +971,7 @@
                     CurrentNode.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate);
                     return;
@@ -1612,12 +1612,12 @@
                     CurrentNode.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate);
                     return;
                 }
-                case HtmlTokenType.EOF:
+                case HtmlTokenType.EndOfFile:
                 {
                     CheckBodyOnClosing();
 
@@ -1658,7 +1658,7 @@
 
                     return;
                 }
-                case HtmlTokenType.EOF:
+                case HtmlTokenType.EndOfFile:
                 {
                     RaiseErrorOccurred(HtmlParseError.EOF);
                     CloseCurrentNode();
@@ -1682,7 +1682,7 @@
                     CurrentNode.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate);
                     return;
@@ -1790,7 +1790,7 @@
 
                     return;
                 }
-                case HtmlTokenType.EOF:
+                case HtmlTokenType.EndOfFile:
                 {
                     InBody(token);
                     return;
@@ -1904,7 +1904,7 @@
                     CurrentNode.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate);
                     return;
@@ -1948,7 +1948,7 @@
 
                     return;
                 }
-                case HtmlTokenType.EOF:
+                case HtmlTokenType.EndOfFile:
                 {
                     InBody(token);
                     return;
@@ -2169,7 +2169,7 @@
                     CurrentNode.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate);
                     return;
@@ -2244,7 +2244,7 @@
 
                     return;
                 }
-                case HtmlTokenType.EOF:
+                case HtmlTokenType.EndOfFile:
                 {
                     InBody(token);
                     return;
@@ -2339,7 +2339,7 @@
 
                     return;
                 }
-                case HtmlTokenType.EOF:
+                case HtmlTokenType.EndOfFile:
                 {
                     if (TagCurrentlyOpen(Tags.Template))
                     {
@@ -2384,7 +2384,7 @@
                     _openElements[0].AddComment(token);
                     return;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate);
                     return;
@@ -2413,7 +2413,7 @@
 
                     break;
                 }
-                case HtmlTokenType.EOF:
+                case HtmlTokenType.EndOfFile:
                 {
                     End();
                     return;
@@ -2448,7 +2448,7 @@
                     CurrentNode.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate);
                     return;
@@ -2490,7 +2490,7 @@
 
                     return;
                 }
-                case HtmlTokenType.EOF:
+                case HtmlTokenType.EndOfFile:
                 {
                     if (CurrentNode != _document.DocumentElement)
                         RaiseErrorOccurred(HtmlParseError.CurrentNodeIsNotRoot);
@@ -2526,7 +2526,7 @@
                     CurrentNode.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate);
                     return;
@@ -2552,7 +2552,7 @@
                     _currentMode = HtmlTreeMode.AfterAfterFrameset;
                     return;
                 }
-                case HtmlTokenType.EOF:
+                case HtmlTokenType.EndOfFile:
                 {
                     End();
                     return;
@@ -2586,7 +2586,7 @@
 
                     break;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     InBody(token);
                     return;
@@ -2599,7 +2599,7 @@
                     InBody(token);
                     return;
                 }
-                case HtmlTokenType.EOF:
+                case HtmlTokenType.EndOfFile:
                 {
                     End();
                     return;
@@ -2635,7 +2635,7 @@
 
                     break;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     InBody(token);
                     return;
@@ -2653,7 +2653,7 @@
 
                     return;
                 }
-                case HtmlTokenType.EOF:
+                case HtmlTokenType.EndOfFile:
                 {
                     End();
                     return;
@@ -3277,7 +3277,7 @@
                     CurrentNode.AddComment(token);
                     return;
                 }
-                case HtmlTokenType.DOCTYPE:
+                case HtmlTokenType.Doctype:
                 {
                     RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate);
                     return;
@@ -3617,7 +3617,7 @@
                 token = _tokenizer.Get();
                 Consume(token);
             }
-            while (token.Type != HtmlTokenType.EOF);
+            while (token.Type != HtmlTokenType.EndOfFile);
         }
 
         /// <summary>
@@ -3625,7 +3625,7 @@
         /// </summary>
         /// <param name="cancelToken">The cancellation token to consider.</param>
         /// <returns>The task to await.</returns>
-        async Task<IDocument> KernelAsync(CancellationToken cancelToken)
+        async Task<IHtmlDocument> KernelAsync(CancellationToken cancelToken)
         {
             var source = _document.Source;
             var token = default(HtmlToken);
@@ -3641,7 +3641,7 @@
                 token = _tokenizer.Get();
                 Consume(token);
             }
-            while (token.Type != HtmlTokenType.EOF);
+            while (token.Type != HtmlTokenType.EndOfFile);
 
             return _document;
         }

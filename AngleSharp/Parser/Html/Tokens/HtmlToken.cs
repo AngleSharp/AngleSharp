@@ -16,7 +16,7 @@
         /// <summary>
         /// Gets the end of file token.
         /// </summary>
-        public static readonly HtmlToken EndOfFile = new HtmlToken(HtmlTokenType.EOF);
+        public static readonly HtmlToken EndOfFile = new HtmlToken(HtmlTokenType.EndOfFile);
 
         /// <summary>
         /// Creates a new HTML character token based on the given characters.
@@ -150,7 +150,7 @@
         /// </summary>
         public Boolean IsEof
         {
-            get { return _type == HtmlTokenType.EOF; }
+            get { return _type == HtmlTokenType.EndOfFile; }
         }
 
         /// <summary>

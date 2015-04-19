@@ -235,7 +235,7 @@
         {
             switch (token.Type)
             {
-                case XmlTokenType.DOCTYPE:
+                case XmlTokenType.Doctype:
                 {
                     var tok = (XmlDoctypeToken)token;
                     _document.AppendChild(new DocumentType(_document, tok.Name)
@@ -356,11 +356,11 @@
                     CurrentNode.AppendText(tok.Data.ToString());
                     break;
                 }
-                case XmlTokenType.EOF:
+                case XmlTokenType.EndOfFile:
                 {
                     throw XmlError(XmlParseError.EOF);
                 }
-                case XmlTokenType.DOCTYPE:
+                case XmlTokenType.Doctype:
                 {
                     throw XmlError(XmlParseError.XmlDoctypeAfterContent);
                 }
@@ -385,7 +385,7 @@
                     InMisc(token);
                     break;
                 }
-                case XmlTokenType.EOF:
+                case XmlTokenType.EndOfFile:
                 {
                     break;
                 }
@@ -436,7 +436,7 @@
                 token = _tokenizer.Get();
                 Consume(token);
             }
-            while (token.Type != XmlTokenType.EOF);
+            while (token.Type != XmlTokenType.EndOfFile);
         }
 
         /// <summary>
@@ -457,7 +457,7 @@
                 token = _tokenizer.Get();
                 Consume(token);
             }
-            while (token.Type != XmlTokenType.EOF);
+            while (token.Type != XmlTokenType.EndOfFile);
 
             return _document;
         }

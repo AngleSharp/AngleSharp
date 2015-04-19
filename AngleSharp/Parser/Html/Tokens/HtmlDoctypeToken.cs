@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="quirksForced">The state of the force-quirks flag.</param>
         public HtmlDoctypeToken(Boolean quirksForced)
-            : base(HtmlTokenType.DOCTYPE)
+            : base(HtmlTokenType.Doctype)
         {
             _publicIdentifier = null;
             _systemIdentifier = null;

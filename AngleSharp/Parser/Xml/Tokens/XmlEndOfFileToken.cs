@@ -12,7 +12,7 @@
         /// </summary>
         public XmlEndOfFileToken()
         {
-            _type = XmlTokenType.EOF;
+            _type = XmlTokenType.EndOfFile;
         }
     }
 }
