@@ -14,7 +14,7 @@ namespace AngleSharp.Core.Tests
             var s = new TextSource("");
             var t = new HtmlTokenizer(s, null);
             var token = t.Get();
-            Assert.AreEqual(HtmlTokenType.EOF, token.Type);
+            Assert.AreEqual(HtmlTokenType.EndOfFile, token.Type);
         }
 
         [Test]
@@ -170,7 +170,7 @@ namespace AngleSharp.Core.Tests
             var s = new TextSource("<!doctype html>");
             var t = new HtmlTokenizer(s, null);
             var token = t.Get();
-            Assert.AreEqual(HtmlTokenType.DOCTYPE, token.Type);
+            Assert.AreEqual(HtmlTokenType.Doctype, token.Type);
         }
         
         [Test]
@@ -219,7 +219,7 @@ namespace AngleSharp.Core.Tests
             var s = new TextSource("<!DOCTYPE root_element SYSTEM \"DTD_location\">");
             var t = new HtmlTokenizer(s, null);
             var e = t.Get();
-            Assert.AreEqual(HtmlTokenType.DOCTYPE, e.Type);
+            Assert.AreEqual(HtmlTokenType.Doctype, e.Type);
             var d = (HtmlDoctypeToken)e;
             Assert.IsFalse(d.IsNameMissing);
             Assert.AreEqual("root_element", d.Name);

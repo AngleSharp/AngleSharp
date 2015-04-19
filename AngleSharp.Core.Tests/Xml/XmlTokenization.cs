@@ -69,7 +69,7 @@
             var s = new TextSource("<!DOCTYPE root_element SYSTEM \"DTD_location\">");
             var t = new XmlTokenizer(s, null);
             var e = t.Get();
-            Assert.AreEqual(XmlTokenType.DOCTYPE, e.Type);
+            Assert.AreEqual(XmlTokenType.Doctype, e.Type);
             var d = (XmlDoctypeToken)e;
             Assert.IsFalse(d.IsNameMissing);
             Assert.AreEqual("root_element", d.Name);
