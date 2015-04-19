@@ -2562,15 +2562,13 @@
         /// <returns>The string with the symbol or null.</returns>
         public static String GetSymbol(String name)
         {
-            if (!String.IsNullOrEmpty(name) && _strongEntities.ContainsKey(name[0]))
-            {
-                var symbols = _strongEntities[name[0]];
+            var symbol = default(String);
+            var symbols = default(Dictionary<String, String>);
 
-                if (symbols.ContainsKey(name))
-                    return symbols[name];
-            }
+            if (!String.IsNullOrEmpty(name) && _strongEntities.TryGetValue(name[0], out symbols))
+                symbols.TryGetValue(name, out symbol);
 
-            return null;
+            return symbol;
         }
 
         /// <summary>
@@ -2580,35 +2578,12 @@
         /// <returns>The string with the symbol or null.</returns>
         public static String GetSymbolWithoutSemicolon(String name)
         {
+            var symbol = default(String);
+
             if (!String.IsNullOrEmpty(name))
-            {
-                if (_weakEntities.ContainsKey(name))
-                    return _weakEntities[name];
-            }
+                _weakEntities.TryGetValue(name, out symbol);
 
-            return null;
-        }
-
-        /// <summary>
-        /// Gets the entity name specified by its symbol (may be ambiguous).
-        /// </summary>
-        /// <param name="symbol">The value of the entity.</param>
-        /// <returns>The string with the entity name or null.</returns>
-        public static String GetEntity(String symbol)
-        {
-            if (!String.IsNullOrEmpty(symbol))
-            {
-                foreach (var symbols in _strongEntities)
-                {
-                    foreach (var pair in symbols.Value)
-                    {
-                        if (pair.Value == symbol)
-                            return pair.Key;
-                    }
-                }
-            }
-
-            return null;
+            return symbol;
         }
 
         /// <summary>
