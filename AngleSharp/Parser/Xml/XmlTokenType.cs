@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AngleSharp.Xml
+﻿namespace AngleSharp.Parser.Xml
 {
     /// <summary>
     /// An enumation of all possible tokens.

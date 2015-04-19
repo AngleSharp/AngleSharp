@@ -1,15 +1,13 @@
-﻿using AngleSharp.DTD;
-using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.Xml
+﻿namespace AngleSharp.Parser.Xml
 {
+    using System;
+
     /// <summary>
     /// The DOCTYPE token.
     /// </summary>
     sealed class XmlDoctypeToken : XmlToken
     {
-        #region Members
+        #region Fields
 
         String _name;
         String _publicIdentifier;

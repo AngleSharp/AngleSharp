@@ -1,10 +1,11 @@
-﻿using AngleSharp.DOM;
-using AngleSharp.DTD;
-using System;
-using System.Diagnostics;
-
-namespace AngleSharp.Xml
+﻿namespace AngleSharp.Parser.Xml
 {
+    using System;
+    using System.Diagnostics;
+    using AngleSharp.Events;
+    using AngleSharp.Extensions;
+    using AngleSharp.Html;
+
     /// <summary>
     /// Performs the tokenization of the source code. Most of
     /// the information is taken from http://www.w3.org/TR/REC-xml/.
@@ -22,67 +23,16 @@ namespace AngleSharp.Xml
 
         #endregion
 
-        #region Members
-
-        DtdContainer _dtd;
-
-        #endregion
-
         #region ctor
 
         /// <summary>
         /// Creates a new tokenizer for XML documents.
         /// </summary>
         /// <param name="source">The source code manager.</param>
-        public XmlTokenizer(SourceManager source)
-            : base(source)
+        /// <param name="events">The event aggregator to use.</param>
+        public XmlTokenizer(TextSource source, IEventAggregator events)
+            : base(source, events)
         {
-            _dtd = new DtdContainer();
-            _dtd.AddEntity(new Entity
-            {
-                NodeName = "amp",
-                NodeValue = "&"
-            });
-            _dtd.AddEntity(new Entity
-            {
-                NodeName = "lt",
-                NodeValue = "<"
-            });
-            _dtd.AddEntity(new Entity
-            {
-                NodeName = "gt",
-                NodeValue = ">"
-            });
-            _dtd.AddEntity(new Entity
-            {
-                NodeName = "apos",
-                NodeValue = "'"
-            });
-            _dtd.AddEntity(new Entity
-            {
-                NodeName = "quot",
-                NodeValue = "\""
-            });
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the underlying stream.
-        /// </summary>
-        public SourceManager Stream
-        {
-            get { return _src; }
-        }
-
-        /// <summary>
-        /// Gets the used DTD.
-        /// </summary>
-        public DtdContainer DTD
-        {
-            get { return _dtd; }
         }
 
         #endregion
@@ -101,18 +51,44 @@ namespace AngleSharp.Xml
                 var num = entityToken.IsHex ? entityToken.Value.FromHex() : entityToken.Value.FromDec();
 
                 if (!num.IsValidAsCharRef())
-                    throw Errors.Xml(ErrorCode.CharacterReferenceInvalidNumber);
+                    throw XmlError(XmlParseError.CharacterReferenceInvalidNumber);
 
                 return Char.ConvertFromUtf32(num);
             }
             else
             {
-                var entity = _dtd.GetEntity(entityToken.Value);
+                //TODO
+                //_dtd.AddEntity(new Entity
+                //{
+                //    NodeName = "amp",
+                //    NodeValue = "&"
+                //});
+                //_dtd.AddEntity(new Entity
+                //{
+                //    NodeName = "lt",
+                //    NodeValue = "<"
+                //});
+                //_dtd.AddEntity(new Entity
+                //{
+                //    NodeName = "gt",
+                //    NodeValue = ">"
+                //});
+                //_dtd.AddEntity(new Entity
+                //{
+                //    NodeName = "apos",
+                //    NodeValue = "'"
+                //});
+                //_dtd.AddEntity(new Entity
+                //{
+                //    NodeName = "quot",
+                //    NodeValue = "\""
+                //});
+                var entity = Entities.GetSymbol(entityToken.Value);
 
                 if (entity == null)
-                    throw Errors.Xml(ErrorCode.CharacterReferenceInvalidCode);
+                    throw XmlError(XmlParseError.CharacterReferenceInvalidCode);
 
-                return entity.NodeValue;
+                return entity;
             }
         }
 
@@ -122,17 +98,23 @@ namespace AngleSharp.Xml
         /// <returns>The next available token.</returns>
         public XmlToken Get()
         {
-            if (_src.IsEnded) 
+            if (IsEnded) 
                 return XmlToken.EOF;
 
-            XmlToken token = Data(_src.Current);
-            _src.Advance();
+            var token = Data(Current);
+            Advance();
             return token;
         }
 
         #endregion
 
         #region General
+
+        static Exception XmlError(XmlParseError code)
+        {
+            //TODO
+            return new InvalidOperationException();
+        }
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#sec-logical-struct.
@@ -142,17 +124,17 @@ namespace AngleSharp.Xml
         {
             switch (c)
             {
-                case Specification.AMPERSAND:
-                    return CharacterReference(_src.Next);
+                case Symbols.Ampersand:
+                    return CharacterReference(GetNext());
 
-                case Specification.LT:
-                    return TagOpen(_src.Next);
+                case Symbols.LessThan:
+                    return TagOpen(GetNext());
 
-                case Specification.EOF:
+                case Symbols.EndOfFile:
                     return XmlToken.EOF;
 
-                case Specification.SBC:
-                    return CheckCharacter(_src.Next);
+                case Symbols.SquareBracketClose:
+                    return CheckCharacter(GetNext());
 
                 default:
                     return XmlToken.Character(c);
@@ -170,16 +152,16 @@ namespace AngleSharp.Xml
         /// <returns>The token if everything is alright.</returns>
         XmlToken CheckCharacter(Char ch)
         {
-            if (ch == Specification.SBC)
+            if (ch == Symbols.SquareBracketClose)
             {
-                if (_src.Next == Specification.GT)
-                    throw Errors.Xml(ErrorCode.XmlInvalidCharData);
+                if (GetNext() == Symbols.GreaterThan)
+                    throw XmlError(XmlParseError.XmlInvalidCharData);
 
-                _src.Back();
+                Back();
             }
 
-            _src.Back();
-            return XmlToken.Character(Specification.SBC);
+            Back();
+            return XmlToken.Character(Symbols.SquareBracketClose);
         }
 
         /// <summary>
@@ -192,17 +174,17 @@ namespace AngleSharp.Xml
 
             while (true)
             {
-                if (c == Specification.EOF)
-                    throw Errors.Xml(ErrorCode.EOF);
+                if (c == Symbols.EndOfFile)
+                    throw XmlError(XmlParseError.EOF);
                 
-                if (c == Specification.SBC && _src.ContinuesWith("]]>"))
+                if (c == Symbols.SquareBracketClose && ContinuesWith("]]>"))
                 {
-                    _src.Advance(2);
+                    Advance(2);
                     break;
                 }
 
                 _stringBuffer.Append(c);
-                c = _src.Next;
+                c = GetNext();
             }
 
             return XmlToken.CData(_stringBuffer.ToString());
@@ -217,19 +199,19 @@ namespace AngleSharp.Xml
         {
             var buffer = Pool.NewStringBuilder();
 
-            if (c == Specification.NUM)
+            if (c == Symbols.Num)
             {
-                c = _src.Next;
+                c = GetNext();
                 var hex = c == 'x' || c == 'X';
 
                 if (hex)
                 {
-                    c = _src.Next;
+                    c = GetNext();
 
                     while (c.IsHex())
                     {
                         buffer.Append(c);
-                        c = _src.Next;
+                        c = GetNext();
                     }
                 }
                 else
@@ -237,11 +219,11 @@ namespace AngleSharp.Xml
                     while (c.IsDigit())
                     {
                         buffer.Append(c);
-                        c = _src.Next;
+                        c = GetNext();
                     }
                 }
 
-                if (buffer.Length > 0 && c == Specification.SC)
+                if (buffer.Length > 0 && c == Symbols.Semicolon)
                     return new XmlEntityToken { Value = buffer.ToPool(), IsNumeric = true, IsHex = hex };
             }
             else if (c.IsXmlNameStart())
@@ -249,16 +231,16 @@ namespace AngleSharp.Xml
                 do
                 {
                     buffer.Append(c);
-                    c = _src.Next;
+                    c = GetNext();
                 }
                 while (c.IsXmlName());
 
-                if (c == Specification.SC)
+                if (c == Symbols.Semicolon)
                     return new XmlEntityToken { Value = buffer.ToPool() };
             }
 
             buffer.ToPool();
-            throw Errors.Xml(ErrorCode.CharacterReferenceNotTerminated);
+            throw XmlError(XmlParseError.CharacterReferenceNotTerminated);
         }
 
         #endregion
@@ -271,33 +253,33 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken TagOpen(Char c)
         {
-            if (c == Specification.EM)
-                return MarkupDeclaration(_src.Next);
+            if (c == Symbols.ExclamationMark)
+                return MarkupDeclaration(GetNext());
 
-            if (c == Specification.QM)
+            if (c == Symbols.QuestionMark)
             {
-                c = _src.Next;
+                c = GetNext();
 
-                if (_src.ContinuesWith(Tags.XML, false))
+                if (ContinuesWith(Tags.Xml, false))
                 {
-                    _src.Advance(2);
-                    return DeclarationStart(_src.Next);
+                    Advance(2);
+                    return DeclarationStart(GetNext());
                 }
 
                 return ProcessingStart(c);
             }
 
-            if (c == Specification.SOLIDUS)
-                return TagEnd(_src.Next);
+            if (c == Symbols.Solidus)
+                return TagEnd(GetNext());
             
             if (c.IsXmlNameStart())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return TagName(_src.Next, XmlToken.OpenTag());
+                return TagName(GetNext(), XmlToken.OpenTag());
             }
 
-            throw Errors.Xml(ErrorCode.XmlInvalidStartTag);
+            throw XmlError(XmlParseError.XmlInvalidStartTag);
         }
 
         /// <summary>
@@ -313,14 +295,14 @@ namespace AngleSharp.Xml
                 do
                 {
                     _stringBuffer.Append(c);
-                    c = _src.Next;
+                    c = GetNext();
                 }
                 while (c.IsXmlName());
 
                 while (c.IsSpaceCharacter())
-                    c = _src.Next;
+                    c = GetNext();
 
-                if (c == Specification.GT)
+                if (c == Symbols.GreaterThan)
                 {
                     var tag = XmlToken.CloseTag();
                     tag.Name = _stringBuffer.ToString();
@@ -328,10 +310,10 @@ namespace AngleSharp.Xml
                 }
             }
             
-            if (c == Specification.EOF)
-                throw Errors.Xml(ErrorCode.EOF);
+            if (c == Symbols.EndOfFile)
+                throw XmlError(XmlParseError.EOF);
 
-            throw Errors.Xml(ErrorCode.XmlInvalidEndTag);
+            throw XmlError(XmlParseError.XmlInvalidEndTag);
         }
 
         /// <summary>
@@ -345,22 +327,22 @@ namespace AngleSharp.Xml
             while (c.IsXmlName())
             {
                 _stringBuffer.Append(c);
-                c = _src.Next;
+                c = GetNext();
             }
 
             tag.Name = _stringBuffer.ToString();
 
-            if (c == Specification.EOF)
-                throw Errors.Xml(ErrorCode.EOF);
+            if (c == Symbols.EndOfFile)
+                throw XmlError(XmlParseError.EOF);
 
-            if (c == Specification.GT)
+            if (c == Symbols.GreaterThan)
                 return tag;
             else if (c.IsSpaceCharacter())
-                return AttributeBeforeName(_src.Next, tag);
-            else if (c == Specification.SOLIDUS)
-                return TagSelfClosing(_src.Next, tag);
+                return AttributeBeforeName(GetNext(), tag);
+            else if (c == Symbols.Solidus)
+                return TagSelfClosing(GetNext(), tag);
 
-            throw Errors.Xml(ErrorCode.XmlInvalidName);
+            throw XmlError(XmlParseError.XmlInvalidName);
         }
 
         /// <summary>
@@ -372,13 +354,13 @@ namespace AngleSharp.Xml
         {
             tag.IsSelfClosing = true;
 
-            if (c == Specification.GT)
+            if (c == Symbols.GreaterThan)
                 return tag;
             
-            if (c == Specification.EOF)
-                throw Errors.Xml(ErrorCode.EOF);
+            if (c == Symbols.EndOfFile)
+                throw XmlError(XmlParseError.EOF);
 
-            throw Errors.Xml(ErrorCode.XmlInvalidName);
+            throw XmlError(XmlParseError.XmlInvalidName);
         }
 
         /// <summary>
@@ -387,23 +369,23 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken MarkupDeclaration(Char c)
         {
-            if (_src.ContinuesWith("--"))
+            if (ContinuesWith("--"))
             {
-                _src.Advance();
-                return CommentStart(_src.Next);
+                Advance();
+                return CommentStart(GetNext());
             }
-            else if (_src.ContinuesWith(Tags.DOCTYPE, false))
+            else if (ContinuesWith(Tags.Doctype, false))
             {
-                _src.Advance(6);
-                return Doctype(_src.Next);
+                Advance(6);
+                return Doctype(GetNext());
             }
-            else if (_src.ContinuesWith(CDATA, false))
+            else if (ContinuesWith(CDATA, false))
             {
-                _src.Advance(6);
-                return CData(_src.Next);
+                Advance(6);
+                return CData(GetNext());
             }
 
-            throw Errors.Xml(ErrorCode.UndefinedMarkupDeclaration);
+            throw XmlError(XmlParseError.UndefinedMarkupDeclaration);
         }
 
         #endregion
@@ -419,20 +401,20 @@ namespace AngleSharp.Xml
             if (!c.IsSpaceCharacter())
             {
                 _stringBuffer.Clear();
-                _stringBuffer.Append(Tags.XML);
+                _stringBuffer.Append(Tags.Xml);
                 return ProcessingTarget(c, XmlToken.Processing());
             }
 
-            do c = _src.Next;
+            do c = GetNext();
             while (c.IsSpaceCharacter());
 
-            if (_src.ContinuesWith(AttributeNames.VERSION, false))
+            if (ContinuesWith(AttributeNames.Version, false))
             {
-                _src.Advance(6);
-                return DeclarationVersionAfterName(_src.Next, XmlToken.Declaration());
+                Advance(6);
+                return DeclarationVersionAfterName(GetNext(), XmlToken.Declaration());
             }
 
-            throw Errors.Xml(ErrorCode.XmlDeclarationInvalid);
+            throw XmlError(XmlParseError.XmlDeclarationInvalid);
         }
 
         /// <summary>
@@ -443,12 +425,12 @@ namespace AngleSharp.Xml
         XmlToken DeclarationVersionAfterName(Char c, XmlDeclarationToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (c == Specification.EQ)
-                return DeclarationVersionBeforeValue(_src.Next, decl);
+            if (c == Symbols.Equality)
+                return DeclarationVersionBeforeValue(GetNext(), decl);
 
-            throw Errors.Xml(ErrorCode.XmlDeclarationInvalid);
+            throw XmlError(XmlParseError.XmlDeclarationInvalid);
         }
 
         /// <summary>
@@ -459,15 +441,15 @@ namespace AngleSharp.Xml
         XmlToken DeclarationVersionBeforeValue(Char c, XmlDeclarationToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (c == Specification.DQ || c == Specification.SQ)
+            if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote)
             {
                 _stringBuffer.Clear();
-                return DeclarationVersionValue(_src.Next, c, decl);
+                return DeclarationVersionValue(GetNext(), c, decl);
             }
 
-            throw Errors.Xml(ErrorCode.XmlDeclarationInvalid);
+            throw XmlError(XmlParseError.XmlDeclarationInvalid);
         }
 
         /// <summary>
@@ -480,15 +462,15 @@ namespace AngleSharp.Xml
         {
             while (c != q)
             {
-                if (c == Specification.EOF)
-                    throw Errors.Xml(ErrorCode.EOF);
+                if (c == Symbols.EndOfFile)
+                    throw XmlError(XmlParseError.EOF);
 
                 _stringBuffer.Append(c);
-                c = _src.Next;
+                c = GetNext();
             }
 
             decl.Version = _stringBuffer.ToString();
-            c = _src.Next;
+            c = GetNext();
 
             if (c.IsSpaceCharacter())
                 return DeclarationAfterVersion(c, decl);
@@ -504,17 +486,17 @@ namespace AngleSharp.Xml
         XmlToken DeclarationAfterVersion(Char c, XmlDeclarationToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (_src.ContinuesWith(AttributeNames.ENCODING, false))
+            if (ContinuesWith(AttributeNames.Encoding, false))
             {
-                _src.Advance(7);
-                return DeclarationEncodingAfterName(_src.Next, decl);
+                Advance(7);
+                return DeclarationEncodingAfterName(GetNext(), decl);
             }
-            else if (_src.ContinuesWith(AttributeNames.STANDALONE, false))
+            else if (ContinuesWith(AttributeNames.Standalone, false))
             {
-                _src.Advance(9);
-                return DeclarationStandaloneAfterName(_src.Next, decl);
+                Advance(9);
+                return DeclarationStandaloneAfterName(GetNext(), decl);
             }
 
             return DeclarationEnd(c, decl);
@@ -528,12 +510,12 @@ namespace AngleSharp.Xml
         XmlToken DeclarationEncodingAfterName(Char c, XmlDeclarationToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (c == Specification.EQ)
-                return DeclarationEncodingBeforeValue(_src.Next, decl);
+            if (c == Symbols.Equality)
+                return DeclarationEncodingBeforeValue(GetNext(), decl);
 
-            throw Errors.Xml(ErrorCode.XmlDeclarationInvalid);
+            throw XmlError(XmlParseError.XmlDeclarationInvalid);
         }
 
         /// <summary>
@@ -544,19 +526,19 @@ namespace AngleSharp.Xml
         XmlToken DeclarationEncodingBeforeValue(Char c, XmlDeclarationToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (c == Specification.DQ || c == Specification.SQ)
+            if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote)
             {
                 var q = c;
                 _stringBuffer.Clear();
-                c = _src.Next;
+                c = GetNext();
 
                 if (c.IsLetter())
                     return DeclarationEncodingValue(c, q, decl);
             }
 
-            throw Errors.Xml(ErrorCode.XmlDeclarationInvalid);
+            throw XmlError(XmlParseError.XmlDeclarationInvalid);
         }
 
         /// <summary>
@@ -569,18 +551,18 @@ namespace AngleSharp.Xml
         {
             do
             {
-                if (c.IsAlphanumericAscii() || c == Specification.DOT || c == Specification.UNDERSCORE || c == Specification.MINUS)
+                if (c.IsAlphanumericAscii() || c == Symbols.Dot || c == Symbols.Underscore || c == Symbols.Minus)
                 {
                     _stringBuffer.Append(c);
-                    c = _src.Next;
+                    c = GetNext();
                 }
                 else
-                    throw Errors.Xml(ErrorCode.XmlDeclarationInvalid);
+                    throw XmlError(XmlParseError.XmlDeclarationInvalid);
             }
             while (c != q);
 
             decl.Encoding = _stringBuffer.ToString();
-            c = _src.Next;
+            c = GetNext();
 
             if(c.IsSpaceCharacter())
                 return DeclarationAfterEncoding(c, decl);
@@ -596,12 +578,12 @@ namespace AngleSharp.Xml
         XmlToken DeclarationAfterEncoding(Char c, XmlDeclarationToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (_src.ContinuesWith(AttributeNames.STANDALONE, false))
+            if (ContinuesWith(AttributeNames.Standalone, false))
             {
-                _src.Advance(9);
-                return DeclarationStandaloneAfterName(_src.Next, decl);
+                Advance(9);
+                return DeclarationStandaloneAfterName(GetNext(), decl);
             }
 
             return DeclarationEnd(c, decl);
@@ -615,12 +597,12 @@ namespace AngleSharp.Xml
         XmlToken DeclarationStandaloneAfterName(Char c, XmlDeclarationToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (c == Specification.EQ)
-                return DeclarationStandaloneBeforeValue(_src.Next, decl);
+            if (c == Symbols.Equality)
+                return DeclarationStandaloneBeforeValue(GetNext(), decl);
 
-            throw Errors.Xml(ErrorCode.XmlDeclarationInvalid);
+            throw XmlError(XmlParseError.XmlDeclarationInvalid);
         }
 
         /// <summary>
@@ -631,15 +613,15 @@ namespace AngleSharp.Xml
         XmlToken DeclarationStandaloneBeforeValue(Char c, XmlDeclarationToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (c == Specification.DQ || c == Specification.SQ)
+            if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote)
             {
                 _stringBuffer.Clear();
-                return DeclarationStandaloneValue(_src.Next, c, decl);
+                return DeclarationStandaloneValue(GetNext(), c, decl);
             }
 
-            throw Errors.Xml(ErrorCode.XmlDeclarationInvalid);
+            throw XmlError(XmlParseError.XmlDeclarationInvalid);
         }
 
         /// <summary>
@@ -652,11 +634,11 @@ namespace AngleSharp.Xml
         {
             while (c != q)
             {
-                if (c == Specification.EOF)
-                    throw Errors.Xml(ErrorCode.EOF);
+                if (c == Symbols.EndOfFile)
+                    throw XmlError(XmlParseError.EOF);
 
                 _stringBuffer.Append(c);
-                c = _src.Next;
+                c = GetNext();
             }
 
             var s = _stringBuffer.ToString();
@@ -666,9 +648,9 @@ namespace AngleSharp.Xml
             else if (s.Equals(NO))
                 decl.Standalone = false;
             else
-                throw Errors.Xml(ErrorCode.XmlDeclarationInvalid);
+                throw XmlError(XmlParseError.XmlDeclarationInvalid);
 
-            return DeclarationEnd(_src.Next, decl);
+            return DeclarationEnd(GetNext(), decl);
         }
 
         /// <summary>
@@ -679,10 +661,10 @@ namespace AngleSharp.Xml
         XmlDeclarationToken DeclarationEnd(Char c, XmlDeclarationToken decl)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (c != Specification.QM || _src.Next != Specification.GT)
-                throw Errors.Xml(ErrorCode.XmlDeclarationInvalid);
+            if (c != Symbols.QuestionMark || GetNext() != Symbols.GreaterThan)
+                throw XmlError(XmlParseError.XmlDeclarationInvalid);
 
             return decl;
         }
@@ -698,9 +680,9 @@ namespace AngleSharp.Xml
         XmlToken Doctype(Char c)
         {
             if (c.IsSpaceCharacter())
-                return DoctypeNameBefore(_src.Next);
+                return DoctypeNameBefore(GetNext());
 
-            throw Errors.Xml(ErrorCode.DoctypeInvalid);
+            throw XmlError(XmlParseError.DoctypeInvalid);
         }
 
         /// <summary>
@@ -710,16 +692,16 @@ namespace AngleSharp.Xml
         XmlToken DoctypeNameBefore(Char c)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
             if (c.IsXmlNameStart())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return DoctypeName(_src.Next, XmlToken.Doctype());
+                return DoctypeName(GetNext(), XmlToken.Doctype());
             }
 
-            throw Errors.Xml(ErrorCode.DoctypeInvalid);
+            throw XmlError(XmlParseError.DoctypeInvalid);
         }
 
         /// <summary>
@@ -733,18 +715,18 @@ namespace AngleSharp.Xml
             while (c.IsXmlName())
             {
                 _stringBuffer.Append(c);
-                c = _src.Next;
+                c = GetNext();
             }
 
             doctype.Name = _stringBuffer.ToString();
             _stringBuffer.Clear();
 
-            if (c == Specification.GT)
+            if (c == Symbols.GreaterThan)
                 return doctype;
             else if(c.IsSpaceCharacter())
-                return DoctypeNameAfter(_src.Next, doctype);
+                return DoctypeNameAfter(GetNext(), doctype);
 
-            throw Errors.Xml(ErrorCode.DoctypeInvalid);
+            throw XmlError(XmlParseError.DoctypeInvalid);
         }
 
         /// <summary>
@@ -756,29 +738,28 @@ namespace AngleSharp.Xml
         XmlToken DoctypeNameAfter(Char c, XmlDoctypeToken doctype)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (c == Specification.GT)
+            if (c == Symbols.GreaterThan)
                 return doctype;
 
-            if (_src.ContinuesWith(PUBLIC, false))
+            if (ContinuesWith(PUBLIC, false))
             {
-                _src.Advance(5);
-                return DoctypePublic(_src.Next, doctype);
+                Advance(5);
+                return DoctypePublic(GetNext(), doctype);
             }
-            else if (_src.ContinuesWith(SYSTEM, false))
+            else if (ContinuesWith(SYSTEM, false))
             {
-                _src.Advance(5);
-                return DoctypeSystem(_src.Next, doctype);
+                Advance(5);
+                return DoctypeSystem(GetNext(), doctype);
             }
-            else if (c == Specification.SBO)
+            else if (c == Symbols.SquareBracketOpen)
             {
-                _src.Advance();
-                ScanInternalSubset(doctype);
-                return DoctypeAfter(_src.Next, doctype);
+                Advance();
+                return DoctypeAfter(GetNext(), doctype);
             }
 
-            throw Errors.Xml(ErrorCode.DoctypeInvalid);
+            throw XmlError(XmlParseError.DoctypeInvalid);
         }
 
         /// <summary>
@@ -792,16 +773,16 @@ namespace AngleSharp.Xml
             if (c.IsSpaceCharacter())
             {
                 while (c.IsSpaceCharacter())
-                    c = _src.Next;
+                    c = GetNext();
 
-                if (c == Specification.DQ || c == Specification.SQ)
+                if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote)
                 {
                     doctype.PublicIdentifier = String.Empty;
-                    return DoctypePublicIdentifierValue(_src.Next, c, doctype);
+                    return DoctypePublicIdentifierValue(GetNext(), c, doctype);
                 }
             }
 
-            throw Errors.Xml(ErrorCode.DoctypeInvalid);
+            throw XmlError(XmlParseError.DoctypeInvalid);
         }
 
         /// <summary>
@@ -816,15 +797,15 @@ namespace AngleSharp.Xml
             while (c != q)
             {
                 if (!c.IsPubidChar())
-                    throw Errors.Xml(ErrorCode.XmlInvalidPubId);
+                    throw XmlError(XmlParseError.XmlInvalidPubId);
 
                 _stringBuffer.Append(c);
-                c = _src.Next;
+                c = GetNext();
             }
 
             doctype.PublicIdentifier = _stringBuffer.ToString();
             _stringBuffer.Clear();
-            return DoctypePublicIdentifierAfter(_src.Next, doctype);
+            return DoctypePublicIdentifierAfter(GetNext(), doctype);
         }
 
         /// <summary>
@@ -835,12 +816,12 @@ namespace AngleSharp.Xml
         /// <returns>The emitted token.</returns>
         XmlToken DoctypePublicIdentifierAfter(Char c, XmlDoctypeToken doctype)
         {
-            if (c == Specification.GT)
+            if (c == Symbols.GreaterThan)
                 return doctype;
             else if (c.IsSpaceCharacter())
-                return DoctypeBetween(_src.Next, doctype);
+                return DoctypeBetween(GetNext(), doctype);
 
-            throw Errors.Xml(ErrorCode.DoctypeInvalid);
+            throw XmlError(XmlParseError.DoctypeInvalid);
         }
 
         /// <summary>
@@ -852,18 +833,18 @@ namespace AngleSharp.Xml
         XmlToken DoctypeBetween(Char c, XmlDoctypeToken doctype)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (c == Specification.GT)
+            if (c == Symbols.GreaterThan)
                 return doctype;
             
-            if (c == Specification.DQ || c == Specification.SQ)
+            if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierValue(_src.Next, c, doctype);
+                return DoctypeSystemIdentifierValue(GetNext(), c, doctype);
             }
 
-            throw Errors.Xml(ErrorCode.DoctypeInvalid);
+            throw XmlError(XmlParseError.DoctypeInvalid);
         }
 
         /// <summary>
@@ -877,16 +858,16 @@ namespace AngleSharp.Xml
             if (c.IsSpaceCharacter())
             {
                 while (c.IsSpaceCharacter())
-                    c = _src.Next;
+                    c = GetNext();
 
-                if (c == Specification.DQ || c == Specification.SQ)
+                if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote)
                 {
                     doctype.SystemIdentifier = String.Empty;
-                    return DoctypeSystemIdentifierValue(_src.Next, c, doctype);
+                    return DoctypeSystemIdentifierValue(GetNext(), c, doctype);
                 }
             }
 
-            throw Errors.Xml(ErrorCode.DoctypeInvalid);
+            throw XmlError(XmlParseError.DoctypeInvalid);
         }
 
         /// <summary>
@@ -900,16 +881,16 @@ namespace AngleSharp.Xml
         {
             while (c != q)
             {
-                if (c == Specification.EOF)
-                    throw Errors.Xml(ErrorCode.EOF);
+                if (c == Symbols.EndOfFile)
+                    throw XmlError(XmlParseError.EOF);
 
                 _stringBuffer.Append(c);
-                c = _src.Next;
+                c = GetNext();
             }
 
             doctype.SystemIdentifier = _stringBuffer.ToString();
             _stringBuffer.Clear();
-            return DoctypeSystemIdentifierAfter(_src.Next, doctype);
+            return DoctypeSystemIdentifierAfter(GetNext(), doctype);
         }
 
         /// <summary>
@@ -921,13 +902,12 @@ namespace AngleSharp.Xml
         XmlToken DoctypeSystemIdentifierAfter(Char c, XmlDoctypeToken doctype)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (c == Specification.SBO)
+            if (c == Symbols.SquareBracketOpen)
             {
-                _src.Advance();
-                ScanInternalSubset(doctype);
-                c = _src.Next;
+                Advance();
+                c = GetNext();
             }
 
             return DoctypeAfter(c, doctype);
@@ -942,12 +922,12 @@ namespace AngleSharp.Xml
         XmlToken DoctypeAfter(Char c, XmlDoctypeToken doctype)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (c == Specification.GT)
+            if (c == Symbols.GreaterThan)
                 return doctype;
 
-            throw Errors.Xml(ErrorCode.DoctypeInvalid);
+            throw XmlError(XmlParseError.DoctypeInvalid);
         }
 
         #endregion
@@ -962,23 +942,23 @@ namespace AngleSharp.Xml
         XmlToken AttributeBeforeName(Char c, XmlTagToken tag)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (c == Specification.SOLIDUS)
-                return TagSelfClosing(_src.Next, tag);
-            else if (c == Specification.GT)
+            if (c == Symbols.Solidus)
+                return TagSelfClosing(GetNext(), tag);
+            else if (c == Symbols.GreaterThan)
                 return tag;
-            else if (c == Specification.EOF)
-                throw Errors.Xml(ErrorCode.EOF);
+            else if (c == Symbols.EndOfFile)
+                throw XmlError(XmlParseError.EOF);
 
             if (c.IsXmlNameStart())
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return AttributeName(_src.Next, tag);
+                return AttributeName(GetNext(), tag);
             }
 
-            throw Errors.Xml(ErrorCode.XmlInvalidAttribute);
+            throw XmlError(XmlParseError.XmlInvalidAttribute);
         }
 
         /// <summary>
@@ -991,26 +971,26 @@ namespace AngleSharp.Xml
             while (c.IsXmlName())
             {
                 _stringBuffer.Append(c);
-                c = _src.Next;
+                c = GetNext();
             }
 
             var name = _stringBuffer.ToString();
 
             if(!String.IsNullOrEmpty(tag.GetAttribute(name)))
-                throw Errors.Xml(ErrorCode.XmlUniqueAttribute);
+                throw XmlError(XmlParseError.XmlUniqueAttribute);
 
             tag.AddAttribute(name);
 
             if (c.IsSpaceCharacter())
             {
-                do c = _src.Next;
+                do c = GetNext();
                 while (c.IsSpaceCharacter());
             }
             
-            if (c == Specification.EQ)
-                return AttributeBeforeValue(_src.Next, tag);
+            if (c == Symbols.Equality)
+                return AttributeBeforeValue(GetNext(), tag);
 
-            throw Errors.Xml(ErrorCode.XmlInvalidAttribute);
+            throw XmlError(XmlParseError.XmlInvalidAttribute);
         }
 
         /// <summary>
@@ -1021,15 +1001,15 @@ namespace AngleSharp.Xml
         XmlToken AttributeBeforeValue(Char c, XmlTagToken tag)
         {
             while (c.IsSpaceCharacter())
-                c = _src.Next;
+                c = GetNext();
 
-            if (c == Specification.DQ || c== Specification.SQ)
+            if (c == Symbols.DoubleQuote || c== Symbols.SingleQuote)
             {
                 _stringBuffer.Clear();
-                return AttributeValue(_src.Next, c, tag);
+                return AttributeValue(GetNext(), c, tag);
             }
 
-            throw Errors.Xml(ErrorCode.XmlInvalidAttribute);
+            throw XmlError(XmlParseError.XmlInvalidAttribute);
         }
 
         /// <summary>
@@ -1042,21 +1022,21 @@ namespace AngleSharp.Xml
         {
             while (c != q)
             {
-                if (c == Specification.EOF)
-                    throw Errors.Xml(ErrorCode.EOF);
+                if (c == Symbols.EndOfFile)
+                    throw XmlError(XmlParseError.EOF);
 
-                if (c == Specification.AMPERSAND)
-                    _stringBuffer.Append(GetEntity(CharacterReference(_src.Next)));
-                else if (c == Specification.LT)
-                    throw Errors.Xml(ErrorCode.XmlLtInAttributeValue);
+                if (c == Symbols.Ampersand)
+                    _stringBuffer.Append(GetEntity(CharacterReference(GetNext())));
+                else if (c == Symbols.LessThan)
+                    throw XmlError(XmlParseError.XmlLtInAttributeValue);
                 else 
                     _stringBuffer.Append(c);
 
-                c = _src.Next;
+                c = GetNext();
             }
 
             tag.SetAttributeValue(_stringBuffer.ToString());
-            return AttributeAfterValue(_src.Next, tag);
+            return AttributeAfterValue(GetNext(), tag);
         }
 
         /// <summary>
@@ -1067,13 +1047,13 @@ namespace AngleSharp.Xml
         XmlToken AttributeAfterValue(Char c, XmlTagToken tag)
         {
             if (c.IsSpaceCharacter())
-                return AttributeBeforeName(_src.Next, tag);
-            else if (c == Specification.SOLIDUS)
-                return TagSelfClosing(_src.Next, tag);
-            else if (c == Specification.GT)
+                return AttributeBeforeName(GetNext(), tag);
+            else if (c == Symbols.Solidus)
+                return TagSelfClosing(GetNext(), tag);
+            else if (c == Symbols.GreaterThan)
                 return tag;
 
-            throw Errors.Xml(ErrorCode.XmlInvalidAttribute);
+            throw XmlError(XmlParseError.XmlInvalidAttribute);
         }
 
         #endregion
@@ -1090,10 +1070,10 @@ namespace AngleSharp.Xml
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return ProcessingTarget(_src.Next, XmlToken.Processing());
+                return ProcessingTarget(GetNext(), XmlToken.Processing());
             }
 
-            throw Errors.Xml(ErrorCode.XmlInvalidPI);
+            throw XmlError(XmlParseError.XmlInvalidPI);
         }
 
         /// <summary>
@@ -1106,26 +1086,26 @@ namespace AngleSharp.Xml
             while (c.IsXmlName())
             {
                 _stringBuffer.Append(c);
-                c = _src.Next;
+                c = GetNext();
             }
 
             pi.Target = _stringBuffer.ToString();
             _stringBuffer.Clear();
 
-            if (String.Compare(pi.Target, Tags.XML, StringComparison.OrdinalIgnoreCase) == 0)
-                throw Errors.Xml(ErrorCode.XmlInvalidPI);
+            if (String.Compare(pi.Target, Tags.Xml, StringComparison.OrdinalIgnoreCase) == 0)
+                throw XmlError(XmlParseError.XmlInvalidPI);
 
-            if (c == Specification.QM)
+            if (c == Symbols.QuestionMark)
             {
-                c = _src.Next;
+                c = GetNext();
 
-                if (c == Specification.GT)
+                if (c == Symbols.GreaterThan)
                     return pi;
             }
             else if (c.IsSpaceCharacter())
-                return ProcessingContent(_src.Next, pi);
+                return ProcessingContent(GetNext(), pi);
 
-            throw Errors.Xml(ErrorCode.XmlInvalidPI);
+            throw XmlError(XmlParseError.XmlInvalidPI);
         }
 
         /// <summary>
@@ -1135,28 +1115,28 @@ namespace AngleSharp.Xml
         /// <param name="pi">The processing instruction token.</param>
         XmlToken ProcessingContent(Char c, XmlPIToken pi)
         {
-            while (c != Specification.EOF)
+            while (c != Symbols.EndOfFile)
             {
-                if (c == Specification.QM)
+                if (c == Symbols.QuestionMark)
                 {
-                    c = _src.Next;
+                    c = GetNext();
 
-                    if (c == Specification.GT)
+                    if (c == Symbols.GreaterThan)
                     {
                         pi.Content = _stringBuffer.ToString();
                         return pi;
                     }
 
-                    _stringBuffer.Append(Specification.QM);
+                    _stringBuffer.Append(Symbols.QuestionMark);
                 }
                 else
                 {
                     _stringBuffer.Append(c);
-                    c = _src.Next;
+                    c = GetNext();
                 }
             }
 
-            throw Errors.Xml(ErrorCode.EOF);
+            throw XmlError(XmlParseError.EOF);
         }
 
         #endregion
@@ -1181,14 +1161,14 @@ namespace AngleSharp.Xml
         {
             while (c.IsXmlChar())
             {
-                if (c == Specification.MINUS)
-                    return CommentDash(_src.Next);
+                if (c == Symbols.Minus)
+                    return CommentDash(GetNext());
 
                 _stringBuffer.Append(c);
-                c = _src.Next;
+                c = GetNext();
             }
 
-            throw Errors.Xml(ErrorCode.XmlInvalidComment);
+            throw XmlError(XmlParseError.XmlInvalidComment);
         }
 
         /// <summary>
@@ -1197,8 +1177,8 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken CommentDash(Char c)
         {
-            if (c == Specification.MINUS)
-                return CommentEnd(_src.Next);
+            if (c == Symbols.Minus)
+                return CommentEnd(GetNext());
             
             return Comment(c);
         }
@@ -1209,27 +1189,10 @@ namespace AngleSharp.Xml
         /// <param name="c">The next input character.</param>
         XmlToken CommentEnd(Char c)
         {
-            if (c == Specification.GT)
+            if (c == Symbols.GreaterThan)
                 return XmlToken.Comment(_stringBuffer.ToString());
 
-            throw Errors.Xml(ErrorCode.XmlInvalidComment);
-        }
-
-        #endregion
-
-        #region Helpers
-
-        /// <summary>
-        /// Scans the internal subset, i.e. the DTD in [] of the current source.
-        /// </summary>
-        /// <param name="doctype">The doctype which contains the subset.</param>
-        void ScanInternalSubset(XmlDoctypeToken doctype)
-        {
-            var dtd = new DtdParser(_dtd, _src);
-            dtd.IsInternal = true;
-            dtd.ErrorOccurred += (s, e) => RaiseErrorOccurred(s, e);
-            dtd.Parse();
-            doctype.InternalSubset = dtd.Result.Text;
+            throw XmlError(XmlParseError.XmlInvalidComment);
         }
 
         #endregion

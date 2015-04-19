@@ -1,13 +1,13 @@
-﻿using System;
-
-namespace AngleSharp.Xml
+﻿namespace AngleSharp.Parser.Xml
 {
+    using System;
+
     /// <summary>
     /// The CData token that contains a sequence of raw characters.
     /// </summary>
     sealed class XmlCDataToken : XmlToken
     {
-        #region Members
+        #region Fields
 
         String _data;
 

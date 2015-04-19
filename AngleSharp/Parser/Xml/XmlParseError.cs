@@ -1,12 +1,38 @@
-﻿namespace AngleSharp
+﻿namespace AngleSharp.Parser.Xml
 {
-    using AngleSharp.Attributes;
-
     /// <summary>
     /// A collection of error codes.
     /// </summary>
-    enum ErrorCode : ushort
+    enum XmlParseError : ushort
     {
+        /// <summary>
+        /// Unexpected end of file detected.
+        /// </summary>
+        EOF = 0x00,
+        /// <summary>
+        /// Undefined markup declaration found.
+        /// </summary>
+        UndefinedMarkupDeclaration = 0x1e,
+        /// <summary>
+        /// Character reference is an invalid number.
+        /// </summary>
+        CharacterReferenceInvalidNumber = 0x38,
+        /// <summary>
+        /// Character reference is an invalid code.
+        /// </summary>
+        CharacterReferenceInvalidCode = 0x39,
+        /// <summary>
+        /// Character reference is not terminated by a semicolon.
+        /// </summary>
+        CharacterReferenceNotTerminated = 0x3a,
+        /// <summary>
+        /// The given doctype tag is invalid.
+        /// </summary>
+        DoctypeInvalid = 0x45,
+        /// <summary>
+        /// The closing tag and the currently open tag do not match.
+        /// </summary>
+        TagClosingMismatch = 0x76,
         /// <summary>
         /// (0x200) Missing root element.
         /// </summary>

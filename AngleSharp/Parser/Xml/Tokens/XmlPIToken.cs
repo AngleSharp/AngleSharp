@@ -1,13 +1,13 @@
-﻿using System;
-
-namespace AngleSharp.Xml
+﻿namespace AngleSharp.Parser.Xml
 {
+    using System;
+
     /// <summary>
     /// The processing instruction token that defines a processing instruction.
     /// </summary>
     sealed class XmlPIToken : XmlToken
     {
-        #region Members
+        #region Fields
 
         String _target;
         String _content;

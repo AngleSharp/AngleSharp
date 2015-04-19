@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AngleSharp.Xml
+﻿namespace AngleSharp.Parser.Xml
 {
+    using System;
+
     /// <summary>
     /// Represents the final token to mark the EOF.
     /// </summary>

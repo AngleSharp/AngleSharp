@@ -1,13 +1,13 @@
-﻿using System;
-
-namespace AngleSharp.Xml
+﻿namespace AngleSharp.Parser.Xml
 {
+    using System;
+
     /// <summary>
     /// The token that is used for comments.
     /// </summary>
     sealed class XmlCommentToken : XmlToken
     {
-        #region Members
+        #region Fields
 
         String _data;
 

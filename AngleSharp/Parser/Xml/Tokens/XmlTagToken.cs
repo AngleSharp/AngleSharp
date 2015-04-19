@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace AngleSharp.Xml
+﻿namespace AngleSharp.Parser.Xml
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Class for StartTagToken and EndTagToken.
     /// </summary>
     sealed class XmlTagToken : XmlToken
     {
-        #region Members
+        #region Fields
 
         Boolean _selfClosing;
         List<KeyValuePair<String, String>> _attributes;

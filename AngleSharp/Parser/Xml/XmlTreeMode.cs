@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Xml
+﻿namespace AngleSharp.Parser.Xml
 {
     /// <summary>
     /// Possible insertation mode values.

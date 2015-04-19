@@ -1,16 +1,15 @@
-﻿using AngleSharp.DOM;
-using AngleSharp.Events;
-using AngleSharp.DOM.Xml;
-using System;
-using System.IO;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Globalization;
-using AngleSharp.DTD;
-
-namespace AngleSharp.Xml
+﻿namespace AngleSharp.Parser.Xml
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.IO;
+    using System.Threading.Tasks;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Xml;
+    using AngleSharp.Extensions;
+
     /// <summary>
     /// For more details: See the W3C Recommendation
     /// http://www.w3.org/TR/REC-xml/
@@ -18,27 +17,18 @@ namespace AngleSharp.Xml
     /// http://www.w3.org/html/wg/drafts/html/master/the-xhtml-syntax.html#xml-parser.
     /// </summary>
     [DebuggerStepThrough]
-    public sealed class XmlParser : IParser
+    public sealed class XmlParser
     {
-        #region Members
+        #region Fields
 
         XmlTokenizer tokenizer;
         Boolean started;
-        XMLDocument doc;
+        XmlDocument doc;
         List<Element> open;
         XmlTreeMode insert;
         Task task;
         Boolean standalone;
 		Object sync;
-
-        #endregion
-
-        #region Events
-
-        /// <summary>
-        /// This event is raised once a parser error occured.
-        /// </summary>
-        public event ParseErrorEventHandler ErrorOccurred;
 
         #endregion
 
@@ -49,8 +39,11 @@ namespace AngleSharp.Xml
         /// based on the given source.
         /// </summary>
         /// <param name="source">The source code as a string.</param>
-        public XmlParser(String source)
-            : this(new XMLDocument(), new SourceManager(source))
+        /// <param name="configuration">
+        /// [Optional] The configuration to use.
+        /// </param>
+        public XmlParser(String source, IConfiguration configuration = null)
+            : this(new XmlDocument(BrowsingContext.New(configuration), new TextSource(source)))
         {
         }
 
@@ -59,50 +52,21 @@ namespace AngleSharp.Xml
         /// based on the given stream.
         /// </summary>
         /// <param name="stream">The stream to use as source.</param>
-        public XmlParser(Stream stream)
-            : this(new XMLDocument(), new SourceManager(stream))
+        /// <param name="configuration">
+        /// [Optional] The configuration to use.
+        /// </param>
+        public XmlParser(Stream stream, IConfiguration configuration = null)
+            : this(new XmlDocument(BrowsingContext.New(configuration), new TextSource(stream, configuration.DefaultEncoding())))
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the XML parser with the specified document
-        /// based on the given source.
+        /// Creates a new instance of the XML parser with the specified document.
         /// </summary>
         /// <param name="document">The document instance to be constructed.</param>
-        /// <param name="source">The source code as a string.</param>
-        public XmlParser(XMLDocument document, String source)
-            : this(document, new SourceManager(source))
+        internal XmlParser(XmlDocument document)
         {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the XML parser with the specified document
-        /// based on the given stream.
-        /// </summary>
-        /// <param name="document">The document instance to be constructed.</param>
-        /// <param name="stream">The stream to use as source.</param>
-        public XmlParser(XMLDocument document, Stream stream)
-            : this(document, new SourceManager(stream))
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the XML parser with the specified document
-        /// based on the given source manager.
-        /// </summary>
-        /// <param name="document">The document instance to be constructed.</param>
-        /// <param name="source">The source to use.</param>
-        internal XmlParser(XMLDocument document, SourceManager source)
-        {
-            tokenizer = new XmlTokenizer(source);
-            tokenizer.DTD.Parent = document;
-
-            tokenizer.ErrorOccurred += (s, ev) =>
-            {
-                if (ErrorOccurred != null)
-                    ErrorOccurred(this, ev);
-            };
-
+            tokenizer = new XmlTokenizer(document.Source, document.Options.Events);
 			sync = new Object();
             started = false;
             doc = document;
@@ -126,7 +90,7 @@ namespace AngleSharp.Xml
         /// <summary>
         /// Gets the (maybe intermediate) result of the parsing process.
         /// </summary>
-        public XMLDocument Result
+        public IXmlDocument Result
         {
             get
             {
@@ -240,7 +204,7 @@ namespace AngleSharp.Xml
                     SetEncoding(tok.Encoding);
 
                 if (!CheckVersion(tok.Version))
-                    throw Errors.Xml(ErrorCode.XmlDeclarationVersionUnsupported);
+                    throw XmlError(XmlParseError.XmlDeclarationVersionUnsupported);
             }
             else
             {
@@ -261,16 +225,12 @@ namespace AngleSharp.Xml
                 case XmlTokenType.DOCTYPE:
                 {
                     var tok = (XmlDoctypeToken)token;
-                    var doctype = new DocumentType();
-                    doctype.SystemId = tok.SystemIdentifier;
-                    doctype.PublicId = tok.PublicIdentifier;
-                    doctype.TypeDefinitions = tokenizer.DTD;
-                    doctype.Name = tok.Name;
-                    doc.AppendChild(doctype);
+                    doc.AppendChild(new DocumentType(doc, tok.Name)
+                    {
+                        SystemIdentifier = tok.SystemIdentifier,
+                        PublicIdentifier = tok.PublicIdentifier
+                    });
                     insert = XmlTreeMode.Misc;
-
-                    if (!tok.IsSystemIdentifierMissing && !standalone)
-                        ScanExternalSubset(doctype.SystemId, doctype.TypeDefinitions);
 
                     break;
                 }
@@ -313,7 +273,7 @@ namespace AngleSharp.Xml
                 default:
                 {
                     if (!token.IsIgnorable)
-                        throw Errors.Xml(ErrorCode.XmlMissingRoot);
+                        throw XmlError(XmlParseError.XmlMissingRoot);
 
                     break;
                 }
@@ -331,7 +291,7 @@ namespace AngleSharp.Xml
                 case XmlTokenType.StartTag:
                 {
                     var tok = (XmlTagToken)token;
-                    var tag = doc.CreateElement(tok.Name);
+                    var tag = new XmlElement(doc, tok.Name);
                     CurrentNode.AppendChild(tag);
 
                     if (!tok.IsSelfClosing)
@@ -349,7 +309,7 @@ namespace AngleSharp.Xml
                     var tok = (XmlTagToken)token;
 
                     if (CurrentNode.NodeName != tok.Name)
-                        throw Errors.Xml(ErrorCode.TagClosingMismatch);
+                        throw XmlError(XmlParseError.TagClosingMismatch);
 
                     open.RemoveAt(open.Count - 1);
 
@@ -380,20 +340,20 @@ namespace AngleSharp.Xml
                 case XmlTokenType.Character:
                 {
                     var tok = (XmlCharacterToken)token;
-                    CurrentNode.AppendText(tok.Data);
+                    CurrentNode.AppendText(tok.Data.ToString());
                     break;
                 }
                 case XmlTokenType.EOF:
                 {
-                    throw Errors.Xml(ErrorCode.EOF);
+                    throw XmlError(XmlParseError.EOF);
                 }
                 case XmlTokenType.DOCTYPE:
                 {
-                    throw Errors.Xml(ErrorCode.XmlDoctypeAfterContent);
+                    throw XmlError(XmlParseError.XmlDoctypeAfterContent);
                 }
                 case XmlTokenType.Declaration:
                 {
-                    throw Errors.Xml(ErrorCode.XmlDeclarationMisplaced);
+                    throw XmlError(XmlParseError.XmlDeclarationMisplaced);
                 }
             }
         }
@@ -414,15 +374,12 @@ namespace AngleSharp.Xml
                 }
                 case XmlTokenType.EOF:
                 {
-                    if(doc.Options.IsValidating && !XmlValidator.Run(doc))
-                        throw Errors.Xml(ErrorCode.XmlValidationFailed);
-
                     break;
                 }
                 default:
                 {
                     if (!token.IsIgnorable)
-                        throw Errors.Xml(ErrorCode.XmlMissingRoot);
+                        throw XmlError(XmlParseError.XmlMissingRoot);
 
                     break;
                 }
@@ -432,6 +389,12 @@ namespace AngleSharp.Xml
         #endregion
 
         #region Helpers
+
+        static Exception XmlError(XmlParseError code)
+        {
+            //TODO
+            return new InvalidOperationException();
+        }
 
         /// <summary>
         /// Checks the given version number.
@@ -466,45 +429,24 @@ namespace AngleSharp.Xml
         /// <summary>
         /// Sets the document's encoding to the given one.
         /// </summary>
-        /// <param name="encoding">The encoding to use.</param>
-        void SetEncoding(String encoding)
+        /// <param name="charSet">The encoding to use.</param>
+        void SetEncoding(String charSet)
         {
-            if (DocumentEncoding.IsSupported(encoding))
+            if (TextEncoding.IsSupported(charSet))
             {
-                var enc = DocumentEncoding.Resolve(encoding);
+                var encoding = TextEncoding.Resolve(charSet);
 
-                if (enc != null)
+                if (encoding != null)
                 {
-                    doc.InputEncoding = enc.WebName;
-                    tokenizer.Stream.Encoding = enc;
+                    try
+                    {
+                        doc.Source.CurrentEncoding = encoding;
+                    }
+                    catch (NotSupportedException)
+                    {
+                        //Restart();
+                    }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Scans the external portion, i.e. the system identifier of the doctype.
-        /// </summary>
-        /// <param name="url">The url to use.</param>
-        /// <param name="typeDefinitions">The type definitions to modify.</param>
-        void ScanExternalSubset(String url, DtdContainer typeDefinitions)
-        {
-            if (Configuration.HasHttpRequester)
-            {
-                if (!Location.IsAbsolute(url))
-                    url = Location.MakeAbsolute(doc.BaseURI, url);
-
-                var http = Configuration.GetHttpRequester();
-                var response = http.Request(new DefaultHttpRequest { Address = new Uri(url) });
-                var stream = new SourceManager(response.Content);
-                var container = new DtdContainer(typeDefinitions)
-                {
-                    Url = url,
-                    Parent = doc
-                };
-
-                var dtd = new DtdParser(container, stream);
-                dtd.IsInternal = false;
-                dtd.Parse();
             }
         }
 

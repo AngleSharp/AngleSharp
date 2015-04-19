@@ -140,6 +140,7 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\RuleExtensions.cs" />
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
+    <Compile Include="Parser\Xml\XmlParseError.cs" />
     <Compile Include="Foundation\Factory.cs" />
     <Compile Include="Dom\MutationHost.cs" />
     <Compile Include="BrowsingContext.cs" />
@@ -923,7 +924,21 @@
     <Compile Include="Parser\Html\Tokens\HtmlDoctypeToken.cs" />
     <Compile Include="Parser\Html\Tokens\HtmlTagToken.cs" />
     <Compile Include="Dom\Window.cs" />
+    <Compile Include="Parser\Xml\Tokens\XmlCDataToken.cs" />
+    <Compile Include="Parser\Xml\Tokens\XmlCharacterToken.cs" />
+    <Compile Include="Parser\Xml\Tokens\XmlCommentToken.cs" />
+    <Compile Include="Parser\Xml\Tokens\XmlDeclarationToken.cs" />
+    <Compile Include="Parser\Xml\Tokens\XmlDoctypeToken.cs" />
+    <Compile Include="Parser\Xml\Tokens\XmlEndOfFileToken.cs" />
+    <Compile Include="Parser\Xml\Tokens\XmlEntityToken.cs" />
+    <Compile Include="Parser\Xml\Tokens\XmlPIToken.cs" />
+    <Compile Include="Parser\Xml\Tokens\XmlTagToken.cs" />
+    <Compile Include="Parser\Xml\Tokens\XmlToken.cs" />
     <Compile Include="Xml\XmlMarkupFormatter.cs" />
+    <Compile Include="Parser\Xml\XmlParser.cs" />
+    <Compile Include="Parser\Xml\XmlTokenizer.cs" />
+    <Compile Include="Parser\Xml\XmlTokenType.cs" />
+    <Compile Include="Parser\Xml\XmlTreeMode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

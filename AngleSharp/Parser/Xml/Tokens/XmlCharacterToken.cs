@@ -1,13 +1,14 @@
-﻿using System;
-
-namespace AngleSharp.Xml
+﻿namespace AngleSharp.Parser.Xml
 {
+    using System;
+    using AngleSharp.Extensions;
+
     /// <summary>
     /// The character token that contains a single character.
     /// </summary>
     sealed class XmlCharacterToken : XmlToken
     {
-        #region Members
+        #region Fields
 
         Char _data;
 
@@ -20,7 +21,7 @@ namespace AngleSharp.Xml
         /// </summary>
         public XmlCharacterToken()
         {
-            _data = Specification.NULL;
+            _data = Symbols.Null;
             _type = XmlTokenType.Character;
         }
 

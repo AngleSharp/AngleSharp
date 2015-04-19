@@ -1,15 +1,15 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace AngleSharp.Xml
+﻿namespace AngleSharp.Parser.Xml
 {
+    using System;
+    using System.Diagnostics;
+
     /// <summary>
     /// The abstract base class of any XML token.
     /// </summary>
     [DebuggerStepThrough]
     abstract class XmlToken
     {
-        #region Members
+        #region Fields
 
         static XmlEndOfFileToken eof;
         protected XmlTokenType _type;
