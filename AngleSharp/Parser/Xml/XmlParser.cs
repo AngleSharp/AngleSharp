@@ -340,7 +340,7 @@
                 case XmlTokenType.Entity:
                 {
                     var tok = (XmlEntityToken)token;
-                    var str = _tokenizer.GetEntity(tok);
+                    var str = tok.GetEntity();
                     CurrentNode.AppendText(str);
                     break;
                 }

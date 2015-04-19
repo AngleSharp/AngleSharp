@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Parser.Xml
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using AngleSharp.Events;
     using AngleSharp.Extensions;
@@ -22,15 +21,6 @@
         static readonly String YesIdentifier = "yes";
         static readonly String NoIdentifier = "no";
 
-        static readonly Dictionary<String, String> entities = new Dictionary<String, String>
-        {
-            { "amp", "&" },
-            { "lt", "<" },
-            { "gt", ">" },
-            { "apos", "'" },
-            { "quot", "\"" }
-        };
-
         #endregion
 
         #region ctor
@@ -50,44 +40,17 @@
         #region Methods
 
         /// <summary>
-        /// Resolves the given entity token.
-        /// </summary>
-        /// <param name="entityToken">The entity token to resolve.</param>
-        /// <returns>The string that is contained in the entity token.</returns>
-        public String GetEntity(XmlEntityToken entityToken)
-        {
-            if (entityToken.IsNumeric)
-            {
-                var num = entityToken.IsHex ? entityToken.Value.FromHex() : entityToken.Value.FromDec();
-
-                if (!num.IsValidAsCharRef())
-                    throw XmlError(XmlParseError.CharacterReferenceInvalidNumber);
-
-                return num.ConvertFromUtf32();
-            }
-            else
-            {
-                var entity = default(String);
-
-                if (!String.IsNullOrEmpty(entityToken.Value) && entities.TryGetValue(entityToken.Value, out entity))
-                    return entity;
-
-                throw XmlError(XmlParseError.CharacterReferenceInvalidCode);
-            }
-        }
-
-        /// <summary>
         /// Gets the next available token.
         /// </summary>
         /// <returns>The next available token.</returns>
         public XmlToken Get()
         {
-            Advance();
+            var current = GetNext();
 
             if (IsEnded) 
                 return XmlToken.EOF;
 
-            return Data(Current);
+            return Data(current);
         }
 
         #endregion
@@ -1010,7 +973,7 @@
                     throw XmlError(XmlParseError.EOF);
 
                 if (c == Symbols.Ampersand)
-                    _stringBuffer.Append(GetEntity(CharacterReference(GetNext())));
+                    _stringBuffer.Append(CharacterReference(GetNext()).GetEntity());
                 else if (c == Symbols.LessThan)
                     throw XmlError(XmlParseError.XmlLtInAttributeValue);
                 else 
