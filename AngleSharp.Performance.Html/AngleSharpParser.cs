@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Performance.Html
 {
+    using System;
     using AngleSharp;
     using AngleSharp.Parser.Html;
-    using System;
 
     class AngleSharpParser : ITestee
     {
-        static readonly IConfiguration configuration = new Configuration().WithoutCss();
+        static readonly IConfiguration configuration = new Configuration();
 
         public String Name
         {

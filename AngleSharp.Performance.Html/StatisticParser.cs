@@ -1,14 +1,14 @@
 ﻿namespace AngleSharp.Performance.Html
 {
-    using AngleSharp;
-    using AngleSharp.Parser.Html;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using AngleSharp;
+    using AngleSharp.Parser.Html;
 
     class StatisticParser : ITestee
     {
-        static readonly IConfiguration configuration = new Configuration().WithoutCss();
+        static readonly IConfiguration configuration = new Configuration();
 
         readonly Dictionary<String, Int32> _bins = new Dictionary<String, Int32>();
 
