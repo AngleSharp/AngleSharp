@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tools\ConsoleForm.cs" />
     <Compile Include="Tools\HtmlSharpConsole.cs" />
     <Compile Include="Tools\MSDNCreator.cs" />
     <Compile Include="Program.cs" />
