@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp
 {
+    using System;
+    using System.Linq;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Network.Default;
     using AngleSharp.Services;
     using AngleSharp.Services.Default;
-    using System;
-    using System.Linq;
 
     /// <summary>
     /// A set of useful extensions for Configuration (or derived) objects.
@@ -35,26 +35,6 @@
                 service.Register(engine);
                 configuration.Register(service);
             }
-
-            return configuration;
-        }
-
-        /// <summary>
-        /// Unregisters the styling services.
-        /// </summary>
-        /// <typeparam name="TConfiguration">Configuration type.</typeparam>
-        /// <param name="configuration">The configuration to modify.</param>
-        /// <returns>The same object, for chaining.</returns>
-        public static TConfiguration WithoutCss<TConfiguration>(this TConfiguration configuration)
-            where TConfiguration : Configuration
-        {
-            if (configuration == null)
-                throw new ArgumentNullException("configuration");
-
-            var services = configuration.GetServices<IStylingService>().ToArray();
-
-            foreach (var service in services)
-                configuration.Unregister(service);
 
             return configuration;
         }

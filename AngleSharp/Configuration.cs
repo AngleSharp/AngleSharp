@@ -46,7 +46,6 @@
             _culture = CultureInfo.CurrentUICulture;
             _services = new List<IService>();
             _requesters = new List<IRequester>();
-            this.WithCss();
         }
 
         #endregion
