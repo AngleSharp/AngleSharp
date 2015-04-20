@@ -13,9 +13,9 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class HtmlTableTests
     {
-        static IDocument Html(String code)
+        static IDocument Html(String code, IConfiguration config = null)
         {
-            return code.ToHtmlDocument();
+            return code.ToHtmlDocument(config);
         }
 
         [Test]
@@ -868,7 +868,8 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithTableRowThatHasStyle()
         {
-            var doc = Html(@"<table><tr style=""display: none;"">");
+            var config = new Configuration().WithCss();
+            var doc = Html(@"<table><tr style=""display: none;"">", config);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -917,7 +918,8 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithTableRowThatHasStyleAndChanged()
         {
-            var doc = Html(@"<table><tr style=""display: none;"">");
+            var config = new Configuration().WithCss();
+            var doc = Html(@"<table><tr style=""display: none;"">", config);
 
             var html = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, html.ChildNodes.Length);
@@ -960,7 +962,8 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithTableRowThatHasNoStyleAndChanged()
         {
-            var doc = Html(@"<table><tr>");
+            var config = new Configuration().WithCss();
+            var doc = Html(@"<table><tr>", config);
 
             var html = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, html.ChildNodes.Length);

@@ -490,7 +490,8 @@
         [Test]
         public void CSSStyleDeclarationBoundOutboundDirectionIndirect()
         {
-            var document = new HtmlDocument();
+            var context = BrowsingContext.New(new Configuration().WithCss());
+            var document = new HtmlDocument(context);
             var element = document.CreateElement<IHtmlSpanElement>();
             var text = "background-color: red; color: black;";
             element.SetAttribute("style", text);
@@ -501,7 +502,8 @@
         [Test]
         public void CSSStyleDeclarationBoundOutboundDirectionDirect()
         {
-            var document = new HtmlDocument();
+            var context = BrowsingContext.New(new Configuration().WithCss());
+            var document = new HtmlDocument(context);
             var element = document.CreateElement<IHtmlSpanElement>();
             var text = "background-color: red; color: black;";
             element.SetAttribute("style", String.Empty);
@@ -514,7 +516,8 @@
         [Test]
         public void CSSStyleDeclarationBoundInboundDirection()
         {
-            var document = new HtmlDocument();
+            var context = BrowsingContext.New(new Configuration().WithCss());
+            var document = new HtmlDocument(context);
             var element = new HtmlSpanElement(document);
             var text = "background-color: red; color: black;";
             element.Style.CssText = text;

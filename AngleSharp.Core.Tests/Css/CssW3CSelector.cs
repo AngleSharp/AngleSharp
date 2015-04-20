@@ -2440,14 +2440,15 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         [Test]
         public void NegatedAttributeExistenceSelector()
         {
-	        var source = @"<style>@namespace a url(http://www.example.org/a);</style>
+            var config = new Configuration().WithCss();
+            var source = @"<style>@namespace a url(http://www.example.org/a);</style>
 <div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <q xmlns=""http://www.example.org/a"" test=""1"">
   <r>This text should be in green characters</r>
 </q>
 <s xmlns=""http://www.example.org/a"">This text should be in green characters</s>
 </div>";
-	        var doc = source.ToHtmlDocument();
+	        var doc = source.ToHtmlDocument(config);
 	        
 	        var selector1 = doc.QuerySelectorAll("a|*");
 	        Assert.AreEqual(2, selector1.Length);
@@ -2461,7 +2462,8 @@ text. Dummy text. Dummy text. Dummy text.</p>";
         [Test]
         public void NegatedAttributeValueSelector()
         {
-	        var source = @"<style>@namespace a url(http://www.example.org/a);</style>
+            var config = new Configuration().WithCss();
+            var source = @"<style>@namespace a url(http://www.example.org/a);</style>
 <div xmlns=""http://www.w3.org/1999/xhtml"" class=""stub"">
 <q xmlns=""http://www.example.org/a"" test=""1"">
   <r test=""11"">This text should be</r>
@@ -2470,7 +2472,7 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 <s xmlns=""http://www.example.org/a"">This text should be in green characters</s>
 <p>This text should be in green characters</p>
 </div>";
-	        var doc = source.ToHtmlDocument();
+	        var doc = source.ToHtmlDocument(config);
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2497,7 +2499,8 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 <p class=""tit foo1 tut"">This text should be in green characters</p>
 <u xmlns=""http://www.example.org/b"" test=""tit foo2 tut"">This text should be in green characters</u>
 </div>";
-	        var doc = source.ToHtmlDocument();
+            var config = new Configuration().WithCss();
+            var doc = source.ToHtmlDocument(config);
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -2528,7 +2531,8 @@ text. Dummy text. Dummy text. Dummy text.</p>";
 <p class=""en-uk"">This text should be in green characters</p>
 <u xmlns=""http://www.example.org/b"" test=""foo2-bar-lol"">This text should be in green characters</u>
 </div>";
-	        var doc = source.ToHtmlDocument();
+            var config = new Configuration().WithCss();
+            var doc = source.ToHtmlDocument(config);
 	        
 	        var selector1 = doc.QuerySelectorAll("div.stub p");
 	        Assert.AreEqual(1, selector1.Length);
@@ -3901,9 +3905,10 @@ This div should have three addresses above it.</div>";
         [Test]
         public void TypeElementSelectorWithDeclaredNamespace()
         {
-	        var source = @"<style>@namespace test url(http://www.example.org/a);</style>
+            var config = new Configuration().WithCss();
+            var source = @"<style>@namespace test url(http://www.example.org/a);</style>
 <testa xmlns=""http://www.example.org/a"">This paragraph should have a green background</testa>";
-	        var doc = source.ToHtmlDocument();
+	        var doc = source.ToHtmlDocument(config);
 	        
 	        var selector1 = doc.QuerySelectorAll("testa");
 	        Assert.AreEqual(1, selector1.Length);
@@ -3951,13 +3956,14 @@ This div should have three addresses above it.</div>";
         [Test]
         public void UniversalSelectorWithDeclaredNamespaceA()
         {
-	        var source = @"<style>@namespace a url(http://www.example.org/a);@namespace b url(http://www.example.org/b);</style>
+            var config = new Configuration().WithCss();
+            var source = @"<style>@namespace a url(http://www.example.org/a);@namespace b url(http://www.example.org/b);</style>
 <p xmlns=""http://www.w3.org/1999/xhtml"">This line should be unstyled.</p>
 <p xmlns=""http://www.example.org/b"">This line should have a green background.</p>
 <q xmlns=""http://www.example.org/b"">This line should have a green background.</q>
 <p xmlns=""http://www.example.org/a"">This line should be unstyleed.</p>
 <p xmlns=""http://www.example.org/b"">This line should have a green background.</p>";
-	        var doc = source.ToHtmlDocument();
+	        var doc = source.ToHtmlDocument(config);
 	        
 	        var selector1 = doc.QuerySelectorAll("p,q");
 	        Assert.AreEqual(5, selector1.Length);
@@ -3971,13 +3977,14 @@ This div should have three addresses above it.</div>";
         [Test]
         public void UniversalSelectorWithDeclaredNamespaceB()
         {
-	        var source = @"<style>@namespace a url(http://www.example.org/a);@namespace b url(http://www.example.org/b);</style>
+            var config = new Configuration().WithCss();
+            var source = @"<style>@namespace a url(http://www.example.org/a);@namespace b url(http://www.example.org/b);</style>
 <p xmlns=""http://www.w3.org/1999/xhtml"">This line should be unstyled.</p>
 <p xmlns=""http://www.example.org/b"" test=""test"">This line should have a green background.</p>
 <q xmlns=""http://www.example.org/b"" test=""test"">This line should have a green background.</q>
 <p xmlns=""http://www.example.org/a"">This line should be unstyled.</p>
 <p xmlns=""http://www.example.org/b"" test=""test"">This line should have a green background.</p>";
-	        var doc = source.ToHtmlDocument();
+	        var doc = source.ToHtmlDocument(config);
 	        
 	        var selector1 = doc.QuerySelectorAll("p,q");
 	        Assert.AreEqual(5, selector1.Length);

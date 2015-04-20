@@ -12,7 +12,7 @@
         [Test]
         public void HasStyleEngine()
         {
-            var config = new Configuration();
+            var config = new Configuration().WithCss();
             var service = config.GetService<IStylingService>();
             Assert.IsNotNull(service);
             var engine = service.GetEngine(MimeTypes.Css);

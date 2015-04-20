@@ -26,7 +26,8 @@ namespace AngleSharp.Core.Tests
 </body>
 </html>";
 
-            var doc = source.ToHtmlDocument();
+            var config = new Configuration().WithCss();
+            var doc = source.ToHtmlDocument(config);
             Assert.AreEqual(1, doc.StyleSheets.Length);
             var css = doc.StyleSheets[0] as CssStyleSheet;
             Assert.AreEqual(1, css.Rules.Length);

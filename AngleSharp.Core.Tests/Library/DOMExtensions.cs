@@ -12,7 +12,8 @@
     {
         static IDocument Html(String code)
         {
-            return code.ToHtmlDocument();
+            var config = new Configuration().WithCss();
+            return code.ToHtmlDocument(config);
         }
 
         [Test]

@@ -1,11 +1,10 @@
-﻿using AngleSharp;
-using AngleSharp.Core.Tests.Mocks;
-using AngleSharp.Dom;
-using NUnit.Framework;
-using System.Globalization;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using System.Globalization;
+    using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom;
+    using NUnit.Framework;
+
     [TestFixture]
     public class SlickspeedTests
     {
@@ -15,7 +14,6 @@ namespace AngleSharp.Core.Tests.Css
         public void Setup()
         {
             var config = new Configuration { Culture = new CultureInfo("en-US") }
-                .WithoutCss()
                 .Register(new EnableScripting());
             document = Assets.w3c_selectors.ToHtmlDocument(config);
         }
