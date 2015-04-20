@@ -17,13 +17,14 @@
 
         static IDocument Load(String url)
         {
-            return DocumentBuilder.Html(new Uri(url), new Configuration().WithDefaultLoader());
+            var config = new Configuration().WithDefaultLoader();
+            return BrowsingContext.New(config).OpenAsync(Url.Create(url)).Result;
         }
 
         static IDocument LoadWithMock(String content, String url)
         {
             var config = new Configuration().Register(new MockRequester());
-            return DocumentBuilder.Html(content, config, url);
+            return BrowsingContext.New(config).OpenAsync(m => m.Content(content).Address(url)).Result;
         }
 
         static FileEntry GenerateFile()

@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Network;
-    using AngleSharp.Network.Default;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
+    using AngleSharp.Network;
+    using AngleSharp.Network.Default;
 
     public class MockRequester : IRequester
     {
@@ -22,6 +22,7 @@
 
         public async Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
         {
+            await Task.Delay(0);
             return Request(request);
         }
 
