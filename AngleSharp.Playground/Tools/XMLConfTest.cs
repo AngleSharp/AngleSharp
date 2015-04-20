@@ -1,17 +1,16 @@
-﻿using AngleSharp;
-using AngleSharp.Dom;
-using AngleSharp.Dom.Html;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-
-namespace ConsoleInteraction
+﻿namespace AngleSharp.Playground.Tools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Html;
+
     /// <summary>
     /// Creates tests based on the official tests
     /// specified at the W3C XML group:
@@ -21,9 +20,9 @@ namespace ConsoleInteraction
     /// </summary>
     class XMLConfTest
     {
-        #region Members
+        #region Fields
 
-        Dictionary<Mode, List<Entry>> tests;
+        readonly Dictionary<Mode, List<Entry>> tests;
 
         #endregion
 

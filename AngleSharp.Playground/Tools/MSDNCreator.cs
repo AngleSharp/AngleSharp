@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ConsoleInteraction
+﻿namespace AngleSharp.Playground.Tools
 {
     /// <summary>
     /// Creates tests based on the official tests

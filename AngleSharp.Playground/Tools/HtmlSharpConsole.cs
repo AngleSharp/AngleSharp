@@ -1,16 +1,16 @@
-﻿using AngleSharp.Dom;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace ConsoleInteraction
+﻿namespace AngleSharp.Playground.Tools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using AngleSharp.Dom;
+
     class HtmlSharpConsole
     {
+        readonly Stack<INode> previous;
         INode current;
         String[] methods;
         String[] properties;
-        Stack<INode> previous;
 
         public HtmlSharpConsole(INode current)
         {
@@ -36,12 +36,17 @@ namespace ConsoleInteraction
             {
                 Console.Write(current.NodeName);
                 Console.Write(" >> ");
+
                 var input = Console.ReadLine().Trim();
 
                 if (input.Equals("exit"))
+                {
                     break;
+                }
                 else if (String.IsNullOrEmpty(input))
+                {
                     continue;
+                }
                 else if (input.Equals("cls"))
                 {
                     Console.Clear();
@@ -196,15 +201,15 @@ namespace ConsoleInteraction
 
         private Object GetArg(String arg)
         {
-            int integer;
-            double floating;
+            var integer = 0;
+            var number = 0.0;
 
-            if (int.TryParse(arg, out integer))
+            if (Int32.TryParse(arg, out integer))
                 return integer;
-            else if (double.TryParse(arg, out floating))
-                return floating;
+            else if (Double.TryParse(arg, out number))
+                return number;
 
-            return new object();
+            return new Object();
         }
     }
 }

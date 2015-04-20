@@ -1,18 +1,18 @@
-﻿using AngleSharp;
-using AngleSharp.Dom;
-using AngleSharp.Dom.Css;
-using AngleSharp.Dom.Html;
-using AngleSharp.Parser.Css;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Net.Http;
-using System.Text;
-using System.Text.RegularExpressions;
-
-namespace ConsoleInteraction
+﻿namespace AngleSharp.Playground.Tools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Net.Http;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using AngleSharp;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Dom.Html;
+    using AngleSharp.Parser.Css;
+
     /// <summary>
     /// Creates tests based on the official tests
     /// specified at the W3C page:
@@ -31,8 +31,8 @@ namespace ConsoleInteraction
             var client = new HttpClient();
             var result = client.GetAsync(url).Result;
             var source = result.Content.ReadAsStreamAsync().Result;
-            var doc = DocumentBuilder.Html(source, url: url);
-            var links = doc.QuerySelectorAll("body > ul > li > a");
+            var document = DocumentBuilder.Html(source, url: url);
+            var links = document.QuerySelectorAll("body > ul > li > a");
             var methods = new List<String>();
 
             foreach (IHtmlAnchorElement link in links)
@@ -46,14 +46,14 @@ namespace ConsoleInteraction
             var result = client.GetAsync(url).Result;
             var source = result.Content.ReadAsStreamAsync().Result;
 
-            IDocument html = null;
+            var document = default(IDocument);
             
-            try { html = DocumentBuilder.Html(source); }
+            try { document = DocumentBuilder.Html(source); }
             catch { Console.WriteLine("error!!!"); return; }
 
-            var title = Sanatize(html.GetElementsByTagName("title")[0].TextContent);
-            var content = html.GetElementsByTagName("content")[0].InnerHtml.Trim().Replace("\"", "\"\"");
-            var css = html.GetElementsByTagName("css")[0].TextContent;
+            var title = Sanatize(document.GetElementsByTagName("title")[0].TextContent);
+            var content = document.GetElementsByTagName("content")[0].InnerHtml.Trim().Replace("\"", "\"\"");
+            var css = document.GetElementsByTagName("css")[0].TextContent;
             var sheet = CssParser.ParseStyleSheet(css);
             var selectors = new StringBuilder();
             var i = 1;
