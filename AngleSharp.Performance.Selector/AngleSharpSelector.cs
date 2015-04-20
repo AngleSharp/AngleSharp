@@ -1,19 +1,19 @@
 ﻿namespace AngleSharp.Performance.Selector
 {
+    using System;
     using AngleSharp;
     using AngleSharp.Dom;
     using AngleSharp.Parser.Html;
-    using System;
 
     class AngleSharpSelector : ITestee
     {
-        static readonly IConfiguration configuration = new Configuration().WithoutCss();
+        static readonly IConfiguration configuration = new Configuration();
 
         IDocument document;
 
         public AngleSharpSelector(String source)
         {
-            document = DocumentBuilder.Html(source, configuration);
+            document = new HtmlParser(source, configuration).Parse();
         }
 
         public String Name
