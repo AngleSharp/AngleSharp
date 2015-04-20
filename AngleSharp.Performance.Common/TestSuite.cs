@@ -115,8 +115,8 @@
 
             foreach (var parser in _parsers)
             {
-                var total = _results.Where(m => m.Parser == parser).Sum(m => m.Shortest.Milliseconds);
-                Console.Write(((total / _repeats)  + "ms").Center(widthPerColumn));
+                var total = _results.Where(m => m.Parser == parser).Sum(m => m.Shortest.TotalMilliseconds);
+                Console.Write((Math.Truncate(total / _repeats)  + "ms").Center(widthPerColumn));
             }
 
             Console.WriteLine();
