@@ -1,10 +1,9 @@
 ﻿namespace AngleSharp
 {
-    using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using AngleSharp.Events;
-    using AngleSharp.Network;
     using AngleSharp.Services;
 
     /// <summary>
@@ -18,11 +17,9 @@
     {
         #region Fields
 
-        readonly List<IService> _services;
-        readonly List<IRequester> _requesters;
-
-        IEventAggregator _events;
-        CultureInfo _culture;
+        readonly IEnumerable<IService> _services;
+        readonly IEventAggregator _events;
+        readonly CultureInfo _culture;
 
         /// <summary>
         /// A fixed configuration that cannot be changed.
@@ -39,13 +36,16 @@
         #region ctor
 
         /// <summary>
-        /// Creates a new default configuration.
+        /// Creates a new immutable configuration.
         /// </summary>
-        public Configuration()
+        /// <param name="services">The services to expose.</param>
+        /// <param name="events">The event aggregator.</param>
+        /// <param name="culture">The current culture.</param>
+        public Configuration(IEnumerable<IService> services = null, IEventAggregator events = null, CultureInfo culture = null)
         {
-            _culture = CultureInfo.CurrentUICulture;
-            _services = new List<IService>();
-            _requesters = new List<IRequester>();
+            _services = services ?? Enumerable.Empty<IService>();
+            _culture = culture ?? CultureInfo.CurrentUICulture;
+            _events = events;
         }
 
         #endregion
@@ -53,9 +53,8 @@
         #region Default
 
         /// <summary>
-        /// Gets the default configuration to use. The default
-        /// configuration can be overriden by placing some
-        /// configuration in the DependencyResolver.
+        /// Gets the default configuration to use. The default configuration
+        /// can be overriden by calling the SetDefault method.
         /// </summary>
         internal static IConfiguration Default
         {
@@ -64,14 +63,12 @@
 
         /// <summary>
         /// Sets the default configuration to use, when the configuration
-        /// is omitted.
+        /// is omitted. Providing a null-pointer will reset the default
+        /// configuration.
         /// </summary>
         /// <param name="configuration">The configuration to set.</param>
         public static void SetDefault(IConfiguration configuration)
         {
-            if (configuration == null)
-                throw new ArgumentNullException("configuration");
-
             customConfiguration = configuration;
         }
 
@@ -88,91 +85,19 @@
         }
 
         /// <summary>
-        /// Gets an enumeration over the available requesters.
-        /// </summary>
-        public IEnumerable<IRequester> Requesters
-        {
-            get { return _requesters; }
-        }
-
-        /// <summary>
-        /// Gets or sets the culture to use.
-        /// Default is the system (UI) culture.
+        /// Gets the culture to use. Default is the system (UI) culture.
         /// </summary>
         public CultureInfo Culture
         {
-            get { return _culture ?? CultureInfo.CurrentUICulture; }
-            set { _culture = value; }
+            get { return _culture; }
         }
 
         /// <summary>
-        /// Gets or sets the event aggregator to use. By default
-        /// no aggregator is used.
+        /// Gets the event aggregator to use. By default no aggregator is used.
         /// </summary>
         public IEventAggregator Events
         {
             get { return _events; }
-            set { _events = value; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Adds the provided service.
-        /// </summary>
-        /// <param name="service">The service to register.</param>
-        /// <returns>The current instance for chaining.</returns>
-        public Configuration Register(IService service)
-        {
-            if (service == null)
-                throw new ArgumentNullException("service");
-
-            _services.Add(service);
-            return this;
-        }
-
-        /// <summary>
-        /// Adds the given requester.
-        /// </summary>
-        /// <param name="requester">The requester to register.</param>
-        /// <returns>The current instance for chaining.</returns>
-        public Configuration Register(IRequester requester)
-        {
-            if (requester == null)
-                throw new ArgumentNullException("requester");
-
-            _requesters.Add(requester);
-            return this;
-        }
-
-        /// <summary>
-        /// Removes the given service.
-        /// </summary>
-        /// <param name="service">The service to unregister.</param>
-        /// <returns>The current instance for chaining.</returns>
-        public Configuration Unregister(IService service)
-        {
-            if (service == null)
-                throw new ArgumentNullException("service");
-
-            _services.Remove(service);
-            return this;
-        }
-
-        /// <summary>
-        /// Removes the given requester.
-        /// </summary>
-        /// <param name="requester">The requester to unregister.</param>
-        /// <returns>The current instance for chaining.</returns>
-        public Configuration Unregister(IRequester requester)
-        {
-            if (requester == null)
-                throw new ArgumentNullException("requester");
-
-            _requesters.Remove(requester);
-            return this;
         }
 
         #endregion
