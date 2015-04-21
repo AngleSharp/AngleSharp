@@ -1,10 +1,10 @@
-using System;
-using AngleSharp.Core.Tests.Mocks;
-using AngleSharp.Dom;
-using NUnit.Framework;
-
 namespace AngleSharp.Core.Tests
 {
+    using System;
+    using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom;
+    using NUnit.Framework;
+
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
     /// tree-construction/tests5.dat
@@ -20,7 +20,7 @@ namespace AngleSharp.Core.Tests
         static IDocument HtmlWithScripting(String code)
         {
             var scripting = new EnableScripting();
-            var config = new Configuration().Register(scripting);
+            var config = Configuration.Default.With(scripting);
             return code.ToHtmlDocument(config);
         }
 

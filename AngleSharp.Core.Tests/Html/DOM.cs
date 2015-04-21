@@ -22,8 +22,7 @@
         public void ClosingSpanTagShouldNotResultInAnError()
         {
             var events = new EventReceiver<HtmlParseErrorEvent>();
-            var config = new Configuration();
-            config.Events = events;
+            var config = new Configuration(events: events);
             var source = @"<!DOCTYPE html><html><head></head><body><span>test</span></body></html>";
             var document = source.ToHtmlDocument(config);
             Assert.AreEqual(0, events.Received.Count);

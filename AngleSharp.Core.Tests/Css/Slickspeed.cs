@@ -13,8 +13,7 @@
         [TestFixtureSetUp]
         public void Setup()
         {
-            var config = new Configuration { Culture = new CultureInfo("en-US") }
-                .Register(new EnableScripting());
+            var config = Configuration.Default.SetCulture("en-US").With(new EnableScripting());
             document = Assets.w3c_selectors.ToHtmlDocument(config);
         }
 

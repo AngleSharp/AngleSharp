@@ -2826,8 +2826,7 @@ namespace AngleSharp.Core.Tests
         public void ScriptNoScriptWithClosedCommentThatContainsAnotherClosedNoScriptElement()
         {
             var source = "<!doctype html><noscript><!--<noscript></noscript>--></noscript>";
-            var config = new Configuration();
-            config.Register(new EnableScripting());
+            var config = Configuration.Default.With(new EnableScripting());
             var parser = new HtmlParser(source, config); 
             var doc = parser.Parse();
       
@@ -2873,8 +2872,7 @@ namespace AngleSharp.Core.Tests
         public void ScriptNoScriptWithCommentStartAndTextInsideBeforeClosing()
         {
             var source = "<!doctype html><noscript><!--</noscript>X<noscript>--></noscript>";
-            var config = new Configuration();
-            config.Register(new EnableScripting());
+            var config = Configuration.Default.With(new EnableScripting());
             var parser = new HtmlParser(source, config);
             var doc = parser.Parse();
       
@@ -2930,8 +2928,7 @@ namespace AngleSharp.Core.Tests
         public void ScriptNoScriptAfterDoctypeWithIFrameContentAndTextAfter()
         {
             var source = "<!doctype html><noscript><iframe></noscript>X";
-            var config = new Configuration();
-            config.Register(new EnableScripting());
+            var config = Configuration.Default.With(new EnableScripting());
             var parser = new HtmlParser(source, config);
             var doc = parser.Parse();
       

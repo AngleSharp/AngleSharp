@@ -18,7 +18,7 @@ namespace AngleSharp.Core.Tests
     {
         static IDocument NewDocument(String source)
         {
-            var configuration = new Configuration { Culture = new CultureInfo("en-US") };
+            var configuration = Configuration.Default.SetCulture("en-US");
             var content = Encoding.UTF8.GetBytes(source);
             var stream = new MemoryStream(content);
             return stream.ToHtmlDocument(configuration);

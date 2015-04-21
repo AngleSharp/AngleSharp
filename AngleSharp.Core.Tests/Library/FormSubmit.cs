@@ -23,7 +23,7 @@
 
         static IDocument LoadWithMock(String content, String url)
         {
-            var config = new Configuration().Register(new MockRequester());
+            var config = Configuration.Default.WithDefaultLoader(requesters: new[] { new MockRequester() });
             return BrowsingContext.New(config).OpenAsync(m => m.Content(content).Address(url)).Result;
         }
 

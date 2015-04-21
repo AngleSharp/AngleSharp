@@ -16,9 +16,8 @@
         [SetUp]
         public void CreateConfig()
         {
-            configuration = new Configuration();
             scripting = new TestScriptEngine();
-            configuration.Register(new TestScriptService(scripting));
+            configuration = Configuration.Default.With(new TestScriptService(scripting));
         }
 
         [TearDown]
