@@ -15,6 +15,22 @@
         #region Methods
 
         /// <summary>
+        /// Returns the concatenation of the provided enumerable with the
+        /// specified element.
+        /// </summary>
+        /// <typeparam name="T">The type of the enumeration.</typeparam>
+        /// <param name="items">The items to lead.</param>
+        /// <param name="element">The item to concat.</param>
+        /// <returns>The new enumerable.</returns>
+        public static IEnumerable<T> Concat<T>(this IEnumerable<T> items, T element)
+        {
+            foreach (var item in items)
+                yield return item;
+
+            yield return element;
+        }
+
+        /// <summary>
         /// Gets the descendents from the provided parent that fulfill the
         /// specified predicate, if any.
         /// </summary>
