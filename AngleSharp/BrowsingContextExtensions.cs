@@ -142,6 +142,21 @@
             return context.OpenAsync(url, CancellationToken.None);
         }
 
+        /// <summary>
+        /// Opens a new document loaded from the provided address
+        /// asynchronously in the given context.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <param name="address">The address to load.</param>
+        /// <returns>The task that creates the document.</returns>
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, String address)
+        {
+            if (address == null)
+                throw new ArgumentNullException("address");
+
+            return context.OpenAsync(Url.Create(address), CancellationToken.None);
+        }
+
         #endregion
 
         #region Helpers
