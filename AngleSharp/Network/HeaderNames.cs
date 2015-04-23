@@ -5,7 +5,7 @@
     /// <summary>
     /// The collection of (known / used) header names.
     /// </summary>
-    static class HeaderNames
+    public static class HeaderNames
     {
         #region General-Headers
 
