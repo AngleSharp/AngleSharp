@@ -29,6 +29,9 @@
             if (elements == null)
                 throw new ArgumentNullException("elements");
 
+            if (attributeName == null)
+                throw new ArgumentNullException("attributeName");
+
             foreach (var element in elements)
                 element.SetAttribute(attributeName, attributeValue);
 
@@ -50,6 +53,9 @@
         {
             if (elements == null)
                 throw new ArgumentNullException("elements");
+
+            if (attributes == null)
+                throw new ArgumentNullException("attributes");
 
             foreach (var element in elements)
             {
@@ -113,6 +119,9 @@
             if (elements == null)
                 throw new ArgumentNullException("elements");
 
+            if (propertyName == null)
+                throw new ArgumentNullException("propertyName");
+
             foreach (var element in elements.OfType<IHtmlElement>())
                 element.Style.SetProperty(propertyName, propertyValue);
 
@@ -134,6 +143,9 @@
         {
             if (elements == null)
                 throw new ArgumentNullException("elements");
+
+            if (properties == null)
+                throw new ArgumentNullException("properties");
 
             foreach (var element in elements.OfType<IHtmlElement>())
             {
@@ -212,6 +224,9 @@
             if (elements == null)
                 throw new ArgumentNullException("elements");
 
+            if (className == null)
+                throw new ArgumentNullException("className");
+
             var classes = className.SplitSpaces();
 
             foreach (var element in elements)
@@ -234,6 +249,9 @@
             if (elements == null)
                 throw new ArgumentNullException("elements");
 
+            if (className == null)
+                throw new ArgumentNullException("className");
+
             var classes = className.SplitSpaces();
 
             foreach (var element in elements)
@@ -255,6 +273,9 @@
         {
             if (elements == null)
                 throw new ArgumentNullException("elements");
+
+            if (className == null)
+                throw new ArgumentNullException("className");
 
             var classes = className.SplitSpaces();
 
@@ -282,6 +303,9 @@
         {
             if (elements == null)
                 throw new ArgumentNullException("elements");
+
+            if (className == null)
+                throw new ArgumentNullException("className");
 
             var found = false;
             var classes = className.SplitSpaces();
@@ -317,6 +341,9 @@
         public static T Before<T>(this T elements, String html)
             where T : IEnumerable<IElement>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             foreach (var element in elements)
             {
                 var parent = element.ParentElement;
@@ -342,6 +369,9 @@
         public static T After<T>(this T elements, String html)
             where T : IEnumerable<IElement>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             foreach (var element in elements)
             {
                 var parent = element.ParentElement;
@@ -367,6 +397,9 @@
         public static T Append<T>(this T elements, String html)
             where T : IEnumerable<IElement>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             foreach (var element in elements)
             {
                 var fragment = element.CreateFragment(html);
@@ -387,6 +420,9 @@
         public static T Prepend<T>(this T elements, String html)
             where T : IEnumerable<IElement>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             foreach (var element in elements)
             {
                 var fragment = element.CreateFragment(html);
@@ -407,6 +443,9 @@
         public static T Wrap<T>(this T elements, String html)
             where T : IEnumerable<IElement>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             foreach (var element in elements)
             {
                 var fragment = element.CreateFragment(html);
@@ -433,6 +472,9 @@
         public static T WrapInner<T>(this T elements, String html)
             where T : IEnumerable<IElement>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             foreach (var element in elements)
             {
                 var fragment = element.CreateFragment(html);
@@ -459,6 +501,9 @@
         public static T WrapAll<T>(this T elements, String html)
             where T : IEnumerable<IElement>
         {
+            if (elements == null)
+                throw new ArgumentNullException("elements");
+
             var element = elements.FirstOrDefault();
 
             if (element != null)
@@ -483,7 +528,7 @@
 
         static IDocumentFragment CreateFragment(this IElement context, String html)
         {
-            return new DocumentFragment(context as Element, html);
+            return new DocumentFragment(context as Element, html ?? String.Empty);
         }
 
         static IElement GetInnerMostElement(this IDocumentFragment fragment)
