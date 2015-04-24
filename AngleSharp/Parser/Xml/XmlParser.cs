@@ -23,13 +23,13 @@
         #region Fields
 
         readonly XmlTokenizer _tokenizer;
-        readonly XmlDocument _document;
+        readonly Document _document;
         readonly List<Element> _openElements;
         readonly Object _syncGuard;
 
         Boolean _started;
         XmlTreeMode _currentMode;
-        Task<IXmlDocument> _parsing;
+        Task<IDocument> _parsing;
         Boolean _standalone;
 
         #endregion
@@ -66,7 +66,7 @@
         /// Creates a new instance of the XML parser with the specified document.
         /// </summary>
         /// <param name="document">The document instance to be constructed.</param>
-        internal XmlParser(XmlDocument document)
+        internal XmlParser(Document document)
         {
             _tokenizer = new XmlTokenizer(document.Source, document.Options.Events);
 			_syncGuard = new Object();
@@ -98,7 +98,7 @@
         /// <summary>
         /// Gets the (maybe intermediate) result of the parsing process.
         /// </summary>
-        public IXmlDocument Result
+        public IDocument Result
         {
             get { return _document; }
         }
@@ -129,7 +129,7 @@
         /// <returns>
         /// The task which could be awaited or continued differently.
         /// </returns>
-        public Task<IXmlDocument> ParseAsync()
+        public Task<IDocument> ParseAsync()
         {
             return ParseAsync(CancellationToken.None);
         }
@@ -141,7 +141,7 @@
         /// <returns>
         /// The task which could be awaited or continued differently.
         /// </returns>
-        public Task<IXmlDocument> ParseAsync(CancellationToken cancelToken)
+        public Task<IDocument> ParseAsync(CancellationToken cancelToken)
         {
             lock (_syncGuard)
             {
@@ -158,7 +158,7 @@
         /// <summary>
         /// Parses the given source and creates the document.
         /// </summary>
-        public IXmlDocument Parse()
+        public IDocument Parse()
         {
             lock (_syncGuard)
             {
@@ -444,7 +444,7 @@
         /// </summary>
         /// <param name="cancelToken">The cancellation token to consider.</param>
         /// <returns>The task to await.</returns>
-        async Task<IXmlDocument> KernelAsync(CancellationToken cancelToken)
+        async Task<IDocument> KernelAsync(CancellationToken cancelToken)
         {
             var source = _document.Source;
             var token = default(XmlToken);

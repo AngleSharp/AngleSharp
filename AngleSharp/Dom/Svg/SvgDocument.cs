@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
+    using AngleSharp.Parser.Xml;
 
     /// <summary>
     /// Represents a document node that contains only SVG nodes.
@@ -77,13 +78,13 @@
             var contentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Svg);
             var source = new TextSource(response.Content, context.Configuration.DefaultEncoding());
             var document = new SvgDocument(context, source);
-            //var parser = new XmlParser(document);
-            //document.ContentType = contentType;
-            //document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
-            //document.DocumentUri = response.Address.Href;
-            //document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
-            //document.ReadyState = DocumentReadyState.Loading;
-            //await parser.ParseAsync(cancelToken).ConfigureAwait(false);
+            var parser = new XmlParser(document);
+            document.ContentType = contentType;
+            document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
+            document.DocumentUri = response.Address.Href;
+            document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
+            document.ReadyState = DocumentReadyState.Loading;
+            await parser.ParseAsync(cancelToken).ConfigureAwait(false);
             return document;
         }
     }
