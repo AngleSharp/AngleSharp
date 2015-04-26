@@ -3,6 +3,7 @@
     using System;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
 
@@ -233,7 +234,7 @@
 
         public virtual void DoClick()
         {
-            //TODO Perform click on the element.
+            IsClickedCancelled();
         }
 
         public virtual void DoFocus()
@@ -323,6 +324,11 @@
         #endregion
 
         #region Helpers
+
+        protected Boolean IsClickedCancelled()
+        {
+            return this.Fire<MouseEvent>(m => m.Init(EventNames.Click, true, true, Owner.DefaultView, 0, 0, 0, 0, 0, false, false, false, false, MouseButton.Primary, this));
+        }
 
         static String Combine(String prefix, String localName)
         {

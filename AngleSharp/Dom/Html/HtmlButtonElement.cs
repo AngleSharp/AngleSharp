@@ -125,7 +125,9 @@
 
         public override void DoClick()
         {
-            base.DoClick();
+            if (IsClickedCancelled())
+                return;
+
             var type = Type;
             var form = Form;
 
