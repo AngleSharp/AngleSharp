@@ -957,6 +957,9 @@
                     case Symbols.SquareBracketClose:
                     case Symbols.ReverseSolidus:
                         break;
+                    case '。':
+                        chars[count++] = (Byte)Symbols.Dot;
+                        break;
                     case Symbols.Dot:
                         chars[count++] = (Byte)hostName[i];
                         break;
