@@ -3908,7 +3908,7 @@ org");
 			Assert.AreEqual("http://example.com/", anchor.Href);
 		}
 
-        //TODO [Test]
+        [Test]
         public void DocumentUrlTest244()
 		{
 			var document = Html("<base id=base>");
