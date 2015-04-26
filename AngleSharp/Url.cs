@@ -957,15 +957,6 @@
                     case Symbols.SquareBracketClose:
                     case Symbols.ReverseSolidus:
                         break;
-                    case '。':
-                        chars[count++] = (Byte)Symbols.Dot;
-                        break;
-                    case 'Ｇ':
-                        chars[count++] = (Byte)'g';
-                        break;
-                    case 'ｏ':
-                        chars[count++] = (Byte)'o';
-                        break;
                     case Symbols.Dot:
                         chars[count++] = (Byte)hostName[i];
                         break;
@@ -983,7 +974,13 @@
 
                         break;
                     default:
-                        if (hostName[i].IsAlphanumericAscii() == false)
+                        var chr = Symbols.Null;
+
+                        if (Symbols.Punycode.TryGetValue(hostName[i], out chr))
+                        {
+                            chars[count++] = (Byte)chr;
+                        }
+                        else if (hostName[i].IsAlphanumericAscii() == false)
                         {
                             var l = i + 1 < n && Char.IsSurrogatePair(hostName, i) ? 2 : 1;
 

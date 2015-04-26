@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp
 {
     using System;
+    using System.Collections.Generic;
+
 
     /// <summary>
     /// Contains useful information from the specification.
@@ -216,5 +218,15 @@
         /// The maximum allowed codepoint (defined in Unicode).
         /// </summary>
         public const Int32 MaximumCodepoint = 0x10FFFF;
+
+        /// <summary>
+        /// A list of available punycode character mappings.
+        /// </summary>
+        public static Dictionary<Char, Char> Punycode = new Dictionary<Char, Char>
+        {
+            { '。', '.' },
+            { 'Ｇ', 'g' },
+            { 'ｏ', 'o' },
+        };
     }
 }
