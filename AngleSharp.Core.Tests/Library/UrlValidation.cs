@@ -3944,8 +3944,8 @@ org");
 			Assert.AreEqual("http://www.foo.bar.com/", anchor.Href);
 		}
 
-        //TODO [Test]
-        public void DocumentUrlTest248()
+        [Test]
+        public void DocumentUrlShouldTransformAlternativeGAndOLetters()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
