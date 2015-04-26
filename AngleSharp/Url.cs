@@ -960,6 +960,12 @@
                     case '。':
                         chars[count++] = (Byte)Symbols.Dot;
                         break;
+                    case 'Ｇ':
+                        chars[count++] = (Byte)'g';
+                        break;
+                    case 'ｏ':
+                        chars[count++] = (Byte)'o';
+                        break;
                     case Symbols.Dot:
                         chars[count++] = (Byte)hostName[i];
                         break;
