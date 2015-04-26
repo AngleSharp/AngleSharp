@@ -3980,8 +3980,8 @@ org");
 			Assert.AreEqual("http://xn--6qqa088eba/", anchor.Href);
 		}
 
-        //TODO [Test]
-        public void DocumentUrlTest257()
+        [Test]
+        public void DocumentUrlShouldCorrectlyTransformPercentEncodedHostname()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -3990,12 +3990,12 @@ org");
 			var anchor = document.CreateElement<IHtmlAnchorElement>();
 			anchor.SetAttribute("href", @"http://%30%78%63%30%2e%30%32%35%30.01");
 			Assert.AreEqual("http:", anchor.Protocol);
-			Assert.AreEqual("192.168.0.1", anchor.HostName);
+			Assert.AreEqual("0xc0.0250.01", anchor.HostName);
 			Assert.AreEqual("", anchor.Port);
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://192.168.0.1/", anchor.Href);
+			Assert.AreEqual("http://0xc0.0250.01/", anchor.Href);
 		}
 
         [Test]
