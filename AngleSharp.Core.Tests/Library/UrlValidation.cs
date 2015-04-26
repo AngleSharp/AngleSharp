@@ -3999,7 +3999,7 @@ org");
 		}
 
         [Test]
-        public void DocumentUrlTest258()
+        public void DocumentUrlShouldTransformPercentUrl()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -4035,7 +4035,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest264()
+		public void DocumentUrlShouldHandleUnicodeInPassword()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
