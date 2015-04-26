@@ -225,8 +225,15 @@
         public static Dictionary<Char, Char> Punycode = new Dictionary<Char, Char>
         {
             { '。', '.' },
+            { '．', '.' },
             { 'Ｇ', 'g' },
             { 'ｏ', 'o' },
+            { 'ｃ', 'c' },
+            { 'Ｘ', 'x' },
+            { '０', '0' },
+            { '１', '1' },
+            { '２', '2' },
+            { '５', '5' },
         };
     }
 }
