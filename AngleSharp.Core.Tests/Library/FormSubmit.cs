@@ -30,14 +30,14 @@
         static FileEntry GenerateFile()
         {
             var body = new MemoryStream(new Byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 });
-            return FileEntry.FromFile("Filename.txt", body);
+            return new FileEntry("Filename.txt", body);
         }
 
         static FileEntry GenerateFile(Int32 index)
         {
             var content = Enumerable.Range(0, index * 5 + 10).Select(m => (Byte)m).ToArray();
             var body = new MemoryStream(content);
-            return FileEntry.FromFile(String.Format("Filename{0}.txt", index + 1), body);
+            return new FileEntry(String.Format("Filename{0}.txt", index + 1), body);
         }
 
         [Test]
