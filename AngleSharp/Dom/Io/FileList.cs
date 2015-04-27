@@ -8,11 +8,11 @@
     /// Represents a container for file entries captured by the file
     /// upload field.
     /// </summary>
-    sealed class FileList : IEnumerable<FileEntry>, ICollection<FileEntry>, IFileList
+    sealed class FileList : IEnumerable<IFile>, IFileList
     {
         #region Fields
 
-        readonly List<FileEntry> _entries;
+        readonly List<IFile> _entries;
 
         #endregion
 
@@ -20,7 +20,7 @@
 
         internal FileList()
         {
-            _entries = new List<FileEntry>();
+            _entries = new List<IFile>();
         }
 
         #endregion
@@ -69,7 +69,7 @@
         /// Gets the enumerator to iterate over all the stored file entries.
         /// </summary>
         /// <returns>The list's enumerator.</returns>
-        public IEnumerator<FileEntry> GetEnumerator()
+        public IEnumerator<IFile> GetEnumerator()
         {
             return _entries.GetEnumerator();
         }
@@ -83,7 +83,7 @@
         /// Adds another file entry to the list.
         /// </summary>
         /// <param name="item">The item to add.</param>
-        public void Add(FileEntry item)
+        public void Add(IFile item)
         {
             _entries.Add(item);
         }
@@ -101,7 +101,7 @@
         /// </summary>
         /// <param name="item">The item to look for.</param>
         /// <returns>True if the item is already in the list of files.</returns>
-        public Boolean Contains(FileEntry item)
+        public Boolean Contains(IFile item)
         {
             return _entries.Contains(item);
         }
@@ -111,7 +111,7 @@
         /// </summary>
         /// <param name="array">The array to copy to.</param>
         /// <param name="arrayIndex">The start index in the array.</param>
-        public void CopyTo(FileEntry[] array, Int32 arrayIndex)
+        public void CopyTo(IFile[] array, Int32 arrayIndex)
         {
             _entries.CopyTo(array, arrayIndex);
         }
@@ -121,7 +121,7 @@
         /// </summary>
         /// <param name="item">The item to remove.</param>
         /// <returns>True if the item could be removed, otherwise false.</returns>
-        public Boolean Remove(FileEntry item)
+        public Boolean Remove(IFile item)
         {
             return _entries.Remove(item);
         }

@@ -9,7 +9,7 @@
     /// http://dev.w3.org/2006/webapi/FileAPI/#dfn-filelist
     /// </summary>
     [DomName("FileList")]
-    public interface IFileList
+    public interface IFileList : IEnumerable<IFile>
     {
         /// <summary>
         /// Gets the file at the specified index.
@@ -25,5 +25,20 @@
         /// </summary>
         [DomName("length")]
         Int32 Length { get; }
+
+        /// <summary>
+        /// Adds a file to the list.
+        /// </summary>
+        /// <param name="file">The file to add.</param>
+        void Add(IFile file);
+
+        /// <summary>
+        /// Removes a file from the list.
+        /// </summary>
+        /// <param name="file">The file to remove.</param>
+        /// <returns>
+        /// True if the file was part of the list, otherwise false.
+        /// </returns>
+        Boolean Remove(IFile file);
     }
 }

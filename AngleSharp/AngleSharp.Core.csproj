@@ -682,7 +682,6 @@
     <Compile Include="Dom\Constants\AdjacentPosition.cs" />
     <Compile Include="Factories\HtmlElementFactory.cs" />
     <Compile Include="Factories\MathElementFactory.cs" />
-    <Compile Include="Dom\Io\FileEntry.cs" />
     <Compile Include="Factories\SvgElementFactory.cs" />
     <Compile Include="Parser\Html\HtmlParserExtensions.cs" />
     <Compile Include="ApiExtensions.cs" />

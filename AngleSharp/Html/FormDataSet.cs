@@ -159,7 +159,7 @@
             _entries.Add(new TextDataSetEntry(name, value, type));
         }
 
-        public void Append(String name, FileEntry value, String type)
+        public void Append(String name, IFile value, String type)
         {
             if (String.Compare(type, InputTypeNames.File, StringComparison.OrdinalIgnoreCase) == 0)
             {
@@ -347,9 +347,9 @@
 
         sealed class FileDataSetEntry : FormDataSetEntry
         {
-            readonly FileEntry _value;
+            readonly IFile _value;
 
-            public FileDataSetEntry(String name, FileEntry value, String type)
+            public FileDataSetEntry(String name, IFile value, String type)
                 : base(name, type)
             {
                 _value = value;
@@ -374,7 +374,7 @@
             /// <summary>
             /// Gets the entry's value.
             /// </summary>
-            public FileEntry Value
+            public IFile Value
             {
                 get { return _value; }
             }
@@ -383,31 +383,8 @@
             {
                 if (_value == null || _value.Body == null)
                     return false;
-
-                var b = encoding.GetBytes(boundary);
-                var content = _value.Body;
-                var l = content.Length;
-
-                for (int i = 0, n = l - b.Length; i < n; i++)
-                {
-                    if (content[i] == b[0])
-                    {
-                        var found = true;
-
-                        for (int j = 1; j < l; j++)
-                        {
-                            if (content[i + j] != b[j])
-                            {
-                                found = false;
-                                break;
-                            }
-                        }
-
-                        if (found)
-                            return true;
-                    }
-                }
-
+                
+                //TODO boundary check required?
                 return false;
             }
 
@@ -421,7 +398,7 @@
                     stream.WriteLine("content-transfer-encoding: binary");
                     stream.WriteLine();
                     stream.Flush();
-                    stream.BaseStream.Write(_value.Body, 0, _value.Body.Length);
+                    _value.Body.CopyTo(stream.BaseStream);
                     stream.WriteLine();
                 }
             }

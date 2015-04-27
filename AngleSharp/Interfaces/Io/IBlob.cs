@@ -2,13 +2,15 @@
 {
     using AngleSharp.Attributes;
     using System;
+    using System.IO;
+
 
     /// <summary>
     /// Represents a binary large object.
     /// http://dev.w3.org/2006/webapi/FileAPI/#dfn-Blob
     /// </summary>
     [DomName("Blob")]
-    public interface IBlob
+    public interface IBlob : IDisposable
     {
         /// <summary>
         /// Gets the length of the blob.
@@ -27,6 +29,11 @@
         /// </summary>
         [DomName("isClosed")]
         Boolean IsClosed { get; }
+
+        /// <summary>
+        /// Gets the stream to the file.
+        /// </summary>
+        Stream Body { get; }
 
         /// <summary>
         /// Slices a subset of the blob into a another blob.
