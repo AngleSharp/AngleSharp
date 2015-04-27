@@ -1591,9 +1591,6 @@
     <Compile Include="..\AngleSharp\Dom\Html\ValidityState.cs">
       <Link>Dom\Html\ValidityState.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\Io\FileEntry.cs">
-      <Link>Dom\Io\FileEntry.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Dom\Io\FileList.cs">
       <Link>Dom\Io\FileList.cs</Link>
     </Compile>
