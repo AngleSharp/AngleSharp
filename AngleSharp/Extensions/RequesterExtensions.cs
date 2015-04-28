@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Net;
+    using System.Threading;
+    using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Events;
     using AngleSharp.Network;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Useful extensions for IRequester objects.
@@ -129,12 +130,12 @@
 
                     var result = await loader.LoadAsync(data, cancel).ConfigureAwait(false);
 
-                    if (result.StatusCode == System.Net.HttpStatusCode.Redirect ||
-                        result.StatusCode == System.Net.HttpStatusCode.RedirectKeepVerb ||
-                        result.StatusCode == System.Net.HttpStatusCode.RedirectMethod ||
-                        result.StatusCode == System.Net.HttpStatusCode.TemporaryRedirect ||
-                        result.StatusCode == System.Net.HttpStatusCode.MovedPermanently ||
-                        result.StatusCode == System.Net.HttpStatusCode.MultipleChoices)
+                    if (result.StatusCode == HttpStatusCode.Redirect ||
+                        result.StatusCode == HttpStatusCode.RedirectKeepVerb ||
+                        result.StatusCode == HttpStatusCode.RedirectMethod ||
+                        result.StatusCode == HttpStatusCode.TemporaryRedirect ||
+                        result.StatusCode == HttpStatusCode.MovedPermanently ||
+                        result.StatusCode == HttpStatusCode.MultipleChoices)
                     {
                         url = new Url(result.Headers.GetOrDefault(HeaderNames.Location, url.Href));
 
@@ -170,7 +171,7 @@
                 var result = await loader.FetchAsync(request, cancel).ConfigureAwait(false);
 
                 //TODO If CORS cross-origin request is success
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                if (result.StatusCode == HttpStatusCode.OK)
                     return result;
             }
 
