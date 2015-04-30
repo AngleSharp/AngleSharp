@@ -20,9 +20,9 @@
         /// <summary>
         /// Creates a new XML declaration token.
         /// </summary>
-        public XmlDeclarationToken()
+        public XmlDeclarationToken(TextPosition position)
+            : base(XmlTokenType.Declaration, position)
         {
-            _type = XmlTokenType.Declaration;
             _version = String.Empty;
             _encoding = null;
             _standalone = false;

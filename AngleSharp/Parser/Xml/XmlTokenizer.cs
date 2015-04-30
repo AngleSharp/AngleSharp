@@ -48,7 +48,7 @@
             var current = GetNext();
 
             if (IsEnded) 
-                return XmlToken.EOF;
+                return NewEofToken();
 
             return Data(current);
         }
@@ -72,13 +72,13 @@
                     return TagOpen(GetNext());
 
                 case Symbols.EndOfFile:
-                    return XmlToken.EOF;
+                    return NewEofToken();
 
                 case Symbols.SquareBracketClose:
                     return CheckCharacter(GetNext());
 
                 default:
-                    return XmlToken.Character(c);
+                    return NewCharacterToken(c);
             }
         }
 
@@ -102,7 +102,7 @@
             }
 
             Back();
-            return XmlToken.Character(Symbols.SquareBracketClose);
+            return NewCharacterToken(Symbols.SquareBracketClose);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@
                 c = GetNext();
             }
 
-            return XmlToken.CData(_stringBuffer.ToString());
+            return NewCDataToken(_stringBuffer.ToString());
         }
 
         /// <summary>
@@ -165,7 +165,7 @@
                 }
 
                 if (buffer.Length > 0 && c == Symbols.Semicolon)
-                    return new XmlEntityToken { Value = buffer.ToPool(), IsNumeric = true, IsHex = hex };
+                    return NewEntityToken(buffer.ToPool(), true, hex);
             }
             else if (c.IsXmlNameStart())
             {
@@ -177,7 +177,7 @@
                 while (c.IsXmlName());
 
                 if (c == Symbols.Semicolon)
-                    return new XmlEntityToken { Value = buffer.ToPool() };
+                    return NewEntityToken(buffer.ToPool());
             }
 
             buffer.ToPool();
@@ -217,7 +217,7 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return TagName(GetNext(), XmlToken.OpenTag());
+                return TagName(GetNext(), NewOpenTagToken());
             }
 
             throw XmlParseError.XmlInvalidStartTag.At(GetCurrentPosition());
@@ -245,7 +245,7 @@
 
                 if (c == Symbols.GreaterThan)
                 {
-                    var tag = XmlToken.CloseTag();
+                    var tag = NewCloseTagToken();
                     tag.Name = _stringBuffer.ToString();
                     return tag;
                 }
@@ -343,7 +343,7 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(Tags.Xml);
-                return ProcessingTarget(c, XmlToken.Processing());
+                return ProcessingTarget(c, NewProcessingToken());
             }
 
             do c = GetNext();
@@ -352,7 +352,7 @@
             if (ContinuesWith(AttributeNames.Version, false))
             {
                 Advance(6);
-                return DeclarationVersionAfterName(GetNext(), XmlToken.Declaration());
+                return DeclarationVersionAfterName(GetNext(), NewDeclarationToken());
             }
 
             throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
@@ -639,7 +639,7 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return DoctypeName(GetNext(), XmlToken.Doctype());
+                return DoctypeName(GetNext(), NewDoctypeToken());
             }
 
             throw XmlParseError.DoctypeInvalid.At(GetCurrentPosition());
@@ -1011,7 +1011,7 @@
             {
                 _stringBuffer.Clear();
                 _stringBuffer.Append(c);
-                return ProcessingTarget(GetNext(), XmlToken.Processing());
+                return ProcessingTarget(GetNext(), NewProcessingToken());
             }
 
             throw XmlParseError.XmlInvalidPI.At(GetCurrentPosition());
@@ -1131,9 +1131,63 @@
         XmlToken CommentEnd(Char c)
         {
             if (c == Symbols.GreaterThan)
-                return XmlToken.Comment(_stringBuffer.ToString());
+                return NewCommentToken(_stringBuffer.ToString());
 
             throw XmlParseError.XmlInvalidComment.At(GetCurrentPosition());
+        }
+
+        #endregion
+
+        #region Tokens
+
+        XmlEndOfFileToken NewEofToken()
+        {
+            return new XmlEndOfFileToken(GetCurrentPosition());
+        }
+
+        XmlCharacterToken NewCharacterToken(Char c)
+        {
+            return new XmlCharacterToken(GetCurrentPosition(), c);
+        }
+
+        XmlCommentToken NewCommentToken(String s)
+        {
+            return new XmlCommentToken(GetCurrentPosition(), s);
+        }
+
+        XmlPIToken NewProcessingToken()
+        {
+            return new XmlPIToken(GetCurrentPosition());
+        }
+
+        XmlDoctypeToken NewDoctypeToken()
+        {
+            return new XmlDoctypeToken(GetCurrentPosition());
+        }
+
+        XmlDeclarationToken NewDeclarationToken()
+        {
+            return new XmlDeclarationToken(GetCurrentPosition());
+        }
+
+        XmlTagToken NewOpenTagToken()
+        {
+            return new XmlTagToken(XmlTokenType.StartTag, GetCurrentPosition());
+        }
+
+        XmlTagToken NewCloseTagToken()
+        {
+            return new XmlTagToken(XmlTokenType.EndTag, GetCurrentPosition());
+        }
+
+        XmlCDataToken NewCDataToken(String s)
+        {
+            return new XmlCDataToken(GetCurrentPosition(), s);
+        }
+
+        XmlEntityToken NewEntityToken(String value, Boolean numeric = false, Boolean hex = false)
+        {
+            return new XmlEntityToken(GetCurrentPosition(), value, numeric, hex);
         }
 
         #endregion

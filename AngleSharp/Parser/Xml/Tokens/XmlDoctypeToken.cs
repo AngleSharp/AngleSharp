@@ -20,12 +20,12 @@
         /// <summary>
         /// Creates a new DOCTYPE token.
         /// </summary>
-        public XmlDoctypeToken()
+        public XmlDoctypeToken(TextPosition position)
+            : base(XmlTokenType.Doctype, position)
         {
             _name = null;
             _publicIdentifier = null;
             _systemIdentifier = null;
-            _type = XmlTokenType.Doctype;
         }
 
         #endregion

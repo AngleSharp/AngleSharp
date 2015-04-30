@@ -7,23 +7,16 @@
     /// </summary>
     sealed class XmlPIToken : XmlToken
     {
-        #region Fields
-
-        String _target;
-        String _content;
-
-        #endregion
-
         #region ctor
 
         /// <summary>
         /// Creates a new processing instruction token.
         /// </summary>
-        public XmlPIToken()
+        public XmlPIToken(TextPosition position)
+            : base(XmlTokenType.ProcessingInstruction, position)
         {
-            _target = String.Empty;
-            _content = String.Empty;
-            _type = XmlTokenType.ProcessingInstruction;
+            Target = String.Empty;
+            Content = String.Empty;
         }
 
         #endregion
@@ -35,8 +28,8 @@
         /// </summary>
         public String Target 
         {
-            get { return _target; }
-            set { _target = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -44,8 +37,8 @@
         /// </summary>
         public String Content
         {
-            get { return _content; }
-            set { _content = value; }
+            get;
+            set;
         }
 
         #endregion

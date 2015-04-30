@@ -9,10 +9,8 @@
     sealed class XmlTagToken : XmlToken
     {
         #region Fields
-
-        Boolean _selfClosing;
-        List<KeyValuePair<String, String>> _attributes;
-        String _name;
+        
+        readonly List<KeyValuePair<String, String>> _attributes;
 
         #endregion
 
@@ -21,9 +19,10 @@
         /// <summary>
         /// Sets the default values.
         /// </summary>
-        public XmlTagToken()
+        public XmlTagToken(XmlTokenType type, TextPosition position)
+            : base(type, position)
         {
-            _name = String.Empty;
+            Name = String.Empty;
             _attributes = new List<KeyValuePair<String, String>>();
         }
 
@@ -36,8 +35,8 @@
         /// </summary>
         public Boolean IsSelfClosing
         {
-            get { return _selfClosing; }
-            set { _selfClosing = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -45,8 +44,8 @@
         /// </summary>
         public String Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -99,8 +98,10 @@
         public String GetAttribute(String name)
         {
             for (var i = 0; i != Attributes.Count; i++)
+            {
                 if (Attributes[i].Key == name)
                     return Attributes[i].Value;
+            }
 
             return String.Empty;
         }

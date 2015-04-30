@@ -9,12 +9,6 @@
     /// </summary>
     sealed class XmlEntityToken : XmlToken
     {
-        #region Fields
-
-        String _value;
-
-        #endregion
-
         #region Entities
 
         static readonly Dictionary<String, String> entities = new Dictionary<String, String>
@@ -33,9 +27,12 @@
         /// <summary>
         /// Creates a new entity token.
         /// </summary>
-        public XmlEntityToken()
+        public XmlEntityToken(TextPosition position, String value, Boolean numeric = false, Boolean hex = false)
+            : base(XmlTokenType.Entity, position)
         {
-            _type = XmlTokenType.Entity;
+            IsNumeric = numeric;
+            IsHex = hex;
+            Value = value;
         }
 
         #endregion
@@ -45,19 +42,19 @@
         public Boolean IsNumeric
         {
             get;
-            set;
+            private set;
         }
 
         public Boolean IsHex
         {
             get;
-            set;
+            private set;
         }
 
         public String Value
         {
-            get { return _value; }
-            set { _value = value; }
+            get;
+            private set;
         }
 
         #endregion

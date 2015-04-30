@@ -9,7 +9,7 @@
     {
         #region Fields
 
-        String _data;
+        readonly String _data;
 
         #endregion
 
@@ -18,19 +18,17 @@
         /// <summary>
         /// Creates a new CData token.
         /// </summary>
-        public XmlCDataToken()
+        public XmlCDataToken(TextPosition position)
+            : this(position, String.Empty)
         {
-            _data = String.Empty;
-            _type = XmlTokenType.CData;
         }
 
         /// <summary>
         /// Creates a new CData token with the supplied data.
         /// </summary>
-        /// <param name="data">The data to set.</param>
-        public XmlCDataToken(String data)
+        public XmlCDataToken(TextPosition position, String data)
+            : base(XmlTokenType.CData, position)
         {
-            _type = XmlTokenType.CData;
             _data = data;
         }
 
@@ -44,7 +42,6 @@
         public String Data 
         {
             get { return _data; }
-            set { _data = value; }
         }
 
         #endregion

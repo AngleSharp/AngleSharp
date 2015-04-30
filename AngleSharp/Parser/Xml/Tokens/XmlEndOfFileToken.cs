@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.Parser.Xml
 {
-    using System;
-
     /// <summary>
     /// Represents the final token to mark the EOF.
     /// </summary>
@@ -10,9 +8,9 @@
         /// <summary>
         /// Creates a new EOF token.
         /// </summary>
-        public XmlEndOfFileToken()
+        public XmlEndOfFileToken(TextPosition position)
+            : base(XmlTokenType.EndOfFile, position)
         {
-            _type = XmlTokenType.EndOfFile;
         }
     }
 }
