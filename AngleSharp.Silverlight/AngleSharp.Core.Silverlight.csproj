@@ -2653,6 +2653,9 @@
     <Compile Include="..\AngleSharp\Parser\Xml\XmlParseError.cs">
       <Link>Parser\Xml\XmlParseError.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\XmlParseException.cs">
+      <Link>Parser\Xml\XmlParseException.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Parser\Xml\XmlParser.cs">
       <Link>Parser\Xml\XmlParser.cs</Link>
     </Compile>
