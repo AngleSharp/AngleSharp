@@ -12,7 +12,7 @@
             var s = new TextSource("");
             var t = new XmlTokenizer(s, null);
             var e = t.Get();
-            Assert.AreEqual(XmlToken.EOF, e);
+            Assert.IsInstanceOf<XmlEndOfFileToken>(e);
         }
 
         [Test]
