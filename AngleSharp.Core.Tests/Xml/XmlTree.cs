@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Xml
 {
-    using System;
+    using AngleSharp.Parser.Xml;
     using NUnit.Framework;
 
     [TestFixture]
@@ -30,7 +30,7 @@
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(XmlParseException))]
         public void XmlInvalidDocumentMismatchedEndTag()
         {
             var xml = (@"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
