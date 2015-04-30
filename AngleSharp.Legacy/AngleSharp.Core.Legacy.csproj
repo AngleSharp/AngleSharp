@@ -2641,6 +2641,9 @@
     <Compile Include="..\AngleSharp\Parser\Xml\XmlParser.cs">
       <Link>Parser\Xml\XmlParser.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\XmlParserExtensions.cs">
+      <Link>Parser\Xml\XmlParserExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Parser\Xml\XmlTokenizer.cs">
       <Link>Parser\Xml\XmlTokenizer.cs</Link>
     </Compile>
