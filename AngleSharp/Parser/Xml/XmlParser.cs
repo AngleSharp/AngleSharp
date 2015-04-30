@@ -217,7 +217,7 @@
                     SetEncoding(tok.Encoding);
 
                 if (!CheckVersion(tok.Version))
-                    throw XmlParseError.XmlDeclarationVersionUnsupported.Throw();
+                    throw XmlParseError.XmlDeclarationVersionUnsupported.At(token.Position);
             }
             else
             {
@@ -286,7 +286,7 @@
                 default:
                 {
                     if (!token.IsIgnorable)
-                        throw XmlParseError.XmlMissingRoot.Throw();
+                        throw XmlParseError.XmlMissingRoot.At(token.Position);
 
                     break;
                 }
@@ -322,7 +322,7 @@
                     var tok = (XmlTagToken)token;
 
                     if (CurrentNode.NodeName != tok.Name)
-                        throw XmlParseError.TagClosingMismatch.Throw();
+                        throw XmlParseError.TagClosingMismatch.At(token.Position);
 
                     _openElements.RemoveAt(_openElements.Count - 1);
 
@@ -358,15 +358,15 @@
                 }
                 case XmlTokenType.EndOfFile:
                 {
-                    throw XmlParseError.EOF.Throw();
+                    throw XmlParseError.EOF.At(token.Position);
                 }
                 case XmlTokenType.Doctype:
                 {
-                    throw XmlParseError.XmlDoctypeAfterContent.Throw();
+                    throw XmlParseError.XmlDoctypeAfterContent.At(token.Position);
                 }
                 case XmlTokenType.Declaration:
                 {
-                    throw XmlParseError.XmlDeclarationMisplaced.Throw();
+                    throw XmlParseError.XmlDeclarationMisplaced.At(token.Position);
                 }
             }
         }
@@ -392,7 +392,7 @@
                 default:
                 {
                     if (!token.IsIgnorable)
-                        throw XmlParseError.XmlMissingRoot.Throw();
+                        throw XmlParseError.XmlMissingRoot.At(token.Position);
 
                     break;
                 }

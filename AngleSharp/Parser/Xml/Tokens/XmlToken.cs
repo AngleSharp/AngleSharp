@@ -122,6 +122,15 @@
             get { return false; }
         }
 
+        /// <summary>
+        /// Gets the position of the token.
+        /// </summary>
+        public TextPosition Position
+        {
+            get;
+            internal set;
+        }
+
         #endregion
     }
 }
