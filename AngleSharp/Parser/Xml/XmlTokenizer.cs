@@ -57,12 +57,6 @@
 
         #region General
 
-        static Exception XmlError(XmlParseError code)
-        {
-            //TODO
-            return new InvalidOperationException();
-        }
-
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#sec-logical-struct.
         /// </summary>
@@ -102,7 +96,7 @@
             if (ch == Symbols.SquareBracketClose)
             {
                 if (GetNext() == Symbols.GreaterThan)
-                    throw XmlError(XmlParseError.XmlInvalidCharData);
+                    throw XmlParseError.XmlInvalidCharData.Throw();
 
                 Back();
             }
@@ -122,7 +116,7 @@
             while (true)
             {
                 if (c == Symbols.EndOfFile)
-                    throw XmlError(XmlParseError.EOF);
+                    throw XmlParseError.EOF.Throw();
                 
                 if (c == Symbols.SquareBracketClose && ContinuesWith("]]>"))
                 {
@@ -187,7 +181,7 @@
             }
 
             buffer.ToPool();
-            throw XmlError(XmlParseError.CharacterReferenceNotTerminated);
+            throw XmlParseError.CharacterReferenceNotTerminated.Throw();
         }
 
         #endregion
@@ -226,7 +220,7 @@
                 return TagName(GetNext(), XmlToken.OpenTag());
             }
 
-            throw XmlError(XmlParseError.XmlInvalidStartTag);
+            throw XmlParseError.XmlInvalidStartTag.Throw();
         }
 
         /// <summary>
@@ -258,9 +252,9 @@
             }
             
             if (c == Symbols.EndOfFile)
-                throw XmlError(XmlParseError.EOF);
+                throw XmlParseError.EOF.Throw();
 
-            throw XmlError(XmlParseError.XmlInvalidEndTag);
+            throw XmlParseError.XmlInvalidEndTag.Throw();
         }
 
         /// <summary>
@@ -280,7 +274,7 @@
             tag.Name = _stringBuffer.ToString();
 
             if (c == Symbols.EndOfFile)
-                throw XmlError(XmlParseError.EOF);
+                throw XmlParseError.EOF.Throw();
 
             if (c == Symbols.GreaterThan)
                 return tag;
@@ -289,7 +283,7 @@
             else if (c == Symbols.Solidus)
                 return TagSelfClosing(GetNext(), tag);
 
-            throw XmlError(XmlParseError.XmlInvalidName);
+            throw XmlParseError.XmlInvalidName.Throw();
         }
 
         /// <summary>
@@ -305,9 +299,9 @@
                 return tag;
             
             if (c == Symbols.EndOfFile)
-                throw XmlError(XmlParseError.EOF);
+                throw XmlParseError.EOF.Throw();
 
-            throw XmlError(XmlParseError.XmlInvalidName);
+            throw XmlParseError.XmlInvalidName.Throw();
         }
 
         /// <summary>
@@ -332,7 +326,7 @@
                 return CData(GetNext());
             }
 
-            throw XmlError(XmlParseError.UndefinedMarkupDeclaration);
+            throw XmlParseError.UndefinedMarkupDeclaration.Throw();
         }
 
         #endregion
@@ -361,7 +355,7 @@
                 return DeclarationVersionAfterName(GetNext(), XmlToken.Declaration());
             }
 
-            throw XmlError(XmlParseError.XmlDeclarationInvalid);
+            throw XmlParseError.XmlDeclarationInvalid.Throw();
         }
 
         /// <summary>
@@ -377,7 +371,7 @@
             if (c == Symbols.Equality)
                 return DeclarationVersionBeforeValue(GetNext(), decl);
 
-            throw XmlError(XmlParseError.XmlDeclarationInvalid);
+            throw XmlParseError.XmlDeclarationInvalid.Throw();
         }
 
         /// <summary>
@@ -396,7 +390,7 @@
                 return DeclarationVersionValue(GetNext(), c, decl);
             }
 
-            throw XmlError(XmlParseError.XmlDeclarationInvalid);
+            throw XmlParseError.XmlDeclarationInvalid.Throw();
         }
 
         /// <summary>
@@ -410,7 +404,7 @@
             while (c != q)
             {
                 if (c == Symbols.EndOfFile)
-                    throw XmlError(XmlParseError.EOF);
+                    throw XmlParseError.EOF.Throw();
 
                 _stringBuffer.Append(c);
                 c = GetNext();
@@ -462,7 +456,7 @@
             if (c == Symbols.Equality)
                 return DeclarationEncodingBeforeValue(GetNext(), decl);
 
-            throw XmlError(XmlParseError.XmlDeclarationInvalid);
+            throw XmlParseError.XmlDeclarationInvalid.Throw();
         }
 
         /// <summary>
@@ -485,7 +479,7 @@
                     return DeclarationEncodingValue(c, q, decl);
             }
 
-            throw XmlError(XmlParseError.XmlDeclarationInvalid);
+            throw XmlParseError.XmlDeclarationInvalid.Throw();
         }
 
         /// <summary>
@@ -504,7 +498,7 @@
                     c = GetNext();
                 }
                 else
-                    throw XmlError(XmlParseError.XmlDeclarationInvalid);
+                    throw XmlParseError.XmlDeclarationInvalid.Throw();
             }
             while (c != q);
 
@@ -549,7 +543,7 @@
             if (c == Symbols.Equality)
                 return DeclarationStandaloneBeforeValue(GetNext(), decl);
 
-            throw XmlError(XmlParseError.XmlDeclarationInvalid);
+            throw XmlParseError.XmlDeclarationInvalid.Throw();
         }
 
         /// <summary>
@@ -568,7 +562,7 @@
                 return DeclarationStandaloneValue(GetNext(), c, decl);
             }
 
-            throw XmlError(XmlParseError.XmlDeclarationInvalid);
+            throw XmlParseError.XmlDeclarationInvalid.Throw();
         }
 
         /// <summary>
@@ -582,7 +576,7 @@
             while (c != q)
             {
                 if (c == Symbols.EndOfFile)
-                    throw XmlError(XmlParseError.EOF);
+                    throw XmlParseError.EOF.Throw();
 
                 _stringBuffer.Append(c);
                 c = GetNext();
@@ -595,7 +589,7 @@
             else if (s.Equals(NoIdentifier))
                 decl.Standalone = false;
             else
-                throw XmlError(XmlParseError.XmlDeclarationInvalid);
+                throw XmlParseError.XmlDeclarationInvalid.Throw();
 
             return DeclarationEnd(GetNext(), decl);
         }
@@ -611,7 +605,7 @@
                 c = GetNext();
 
             if (c != Symbols.QuestionMark || GetNext() != Symbols.GreaterThan)
-                throw XmlError(XmlParseError.XmlDeclarationInvalid);
+                throw XmlParseError.XmlDeclarationInvalid.Throw();
 
             return decl;
         }
@@ -629,7 +623,7 @@
             if (c.IsSpaceCharacter())
                 return DoctypeNameBefore(GetNext());
 
-            throw XmlError(XmlParseError.DoctypeInvalid);
+            throw XmlParseError.DoctypeInvalid.Throw();
         }
 
         /// <summary>
@@ -648,7 +642,7 @@
                 return DoctypeName(GetNext(), XmlToken.Doctype());
             }
 
-            throw XmlError(XmlParseError.DoctypeInvalid);
+            throw XmlParseError.DoctypeInvalid.Throw();
         }
 
         /// <summary>
@@ -673,7 +667,7 @@
             else if(c.IsSpaceCharacter())
                 return DoctypeNameAfter(GetNext(), doctype);
 
-            throw XmlError(XmlParseError.DoctypeInvalid);
+            throw XmlParseError.DoctypeInvalid.Throw();
         }
 
         /// <summary>
@@ -706,7 +700,7 @@
                 return DoctypeAfter(GetNext(), doctype);
             }
 
-            throw XmlError(XmlParseError.DoctypeInvalid);
+            throw XmlParseError.DoctypeInvalid.Throw();
         }
 
         /// <summary>
@@ -729,7 +723,7 @@
                 }
             }
 
-            throw XmlError(XmlParseError.DoctypeInvalid);
+            throw XmlParseError.DoctypeInvalid.Throw();
         }
 
         /// <summary>
@@ -744,7 +738,7 @@
             while (c != q)
             {
                 if (!c.IsPubidChar())
-                    throw XmlError(XmlParseError.XmlInvalidPubId);
+                    throw XmlParseError.XmlInvalidPubId.Throw();
 
                 _stringBuffer.Append(c);
                 c = GetNext();
@@ -768,7 +762,7 @@
             else if (c.IsSpaceCharacter())
                 return DoctypeBetween(GetNext(), doctype);
 
-            throw XmlError(XmlParseError.DoctypeInvalid);
+            throw XmlParseError.DoctypeInvalid.Throw();
         }
 
         /// <summary>
@@ -791,7 +785,7 @@
                 return DoctypeSystemIdentifierValue(GetNext(), c, doctype);
             }
 
-            throw XmlError(XmlParseError.DoctypeInvalid);
+            throw XmlParseError.DoctypeInvalid.Throw();
         }
 
         /// <summary>
@@ -814,7 +808,7 @@
                 }
             }
 
-            throw XmlError(XmlParseError.DoctypeInvalid);
+            throw XmlParseError.DoctypeInvalid.Throw();
         }
 
         /// <summary>
@@ -829,7 +823,7 @@
             while (c != q)
             {
                 if (c == Symbols.EndOfFile)
-                    throw XmlError(XmlParseError.EOF);
+                    throw XmlParseError.EOF.Throw();
 
                 _stringBuffer.Append(c);
                 c = GetNext();
@@ -874,7 +868,7 @@
             if (c == Symbols.GreaterThan)
                 return doctype;
 
-            throw XmlError(XmlParseError.DoctypeInvalid);
+            throw XmlParseError.DoctypeInvalid.Throw();
         }
 
         #endregion
@@ -896,7 +890,7 @@
             else if (c == Symbols.GreaterThan)
                 return tag;
             else if (c == Symbols.EndOfFile)
-                throw XmlError(XmlParseError.EOF);
+                throw XmlParseError.EOF.Throw();
 
             if (c.IsXmlNameStart())
             {
@@ -905,7 +899,7 @@
                 return AttributeName(GetNext(), tag);
             }
 
-            throw XmlError(XmlParseError.XmlInvalidAttribute);
+            throw XmlParseError.XmlInvalidAttribute.Throw();
         }
 
         /// <summary>
@@ -924,7 +918,7 @@
             var name = _stringBuffer.ToString();
 
             if(!String.IsNullOrEmpty(tag.GetAttribute(name)))
-                throw XmlError(XmlParseError.XmlUniqueAttribute);
+                throw XmlParseError.XmlUniqueAttribute.Throw();
 
             tag.AddAttribute(name);
 
@@ -937,7 +931,7 @@
             if (c == Symbols.Equality)
                 return AttributeBeforeValue(GetNext(), tag);
 
-            throw XmlError(XmlParseError.XmlInvalidAttribute);
+            throw XmlParseError.XmlInvalidAttribute.Throw();
         }
 
         /// <summary>
@@ -956,7 +950,7 @@
                 return AttributeValue(GetNext(), c, tag);
             }
 
-            throw XmlError(XmlParseError.XmlInvalidAttribute);
+            throw XmlParseError.XmlInvalidAttribute.Throw();
         }
 
         /// <summary>
@@ -970,12 +964,12 @@
             while (c != q)
             {
                 if (c == Symbols.EndOfFile)
-                    throw XmlError(XmlParseError.EOF);
+                    throw XmlParseError.EOF.Throw();
 
                 if (c == Symbols.Ampersand)
                     _stringBuffer.Append(CharacterReference(GetNext()).GetEntity());
                 else if (c == Symbols.LessThan)
-                    throw XmlError(XmlParseError.XmlLtInAttributeValue);
+                    throw XmlParseError.XmlLtInAttributeValue.Throw();
                 else 
                     _stringBuffer.Append(c);
 
@@ -1000,7 +994,7 @@
             else if (c == Symbols.GreaterThan)
                 return tag;
 
-            throw XmlError(XmlParseError.XmlInvalidAttribute);
+            throw XmlParseError.XmlInvalidAttribute.Throw();
         }
 
         #endregion
@@ -1020,7 +1014,7 @@
                 return ProcessingTarget(GetNext(), XmlToken.Processing());
             }
 
-            throw XmlError(XmlParseError.XmlInvalidPI);
+            throw XmlParseError.XmlInvalidPI.Throw();
         }
 
         /// <summary>
@@ -1040,7 +1034,7 @@
             _stringBuffer.Clear();
 
             if (String.Compare(pi.Target, Tags.Xml, StringComparison.OrdinalIgnoreCase) == 0)
-                throw XmlError(XmlParseError.XmlInvalidPI);
+                throw XmlParseError.XmlInvalidPI.Throw();
 
             if (c == Symbols.QuestionMark)
             {
@@ -1052,7 +1046,7 @@
             else if (c.IsSpaceCharacter())
                 return ProcessingContent(GetNext(), pi);
 
-            throw XmlError(XmlParseError.XmlInvalidPI);
+            throw XmlParseError.XmlInvalidPI.Throw();
         }
 
         /// <summary>
@@ -1083,7 +1077,7 @@
                 }
             }
 
-            throw XmlError(XmlParseError.EOF);
+            throw XmlParseError.EOF.Throw();
         }
 
         #endregion
@@ -1115,7 +1109,7 @@
                 c = GetNext();
             }
 
-            throw XmlError(XmlParseError.XmlInvalidComment);
+            throw XmlParseError.XmlInvalidComment.Throw();
         }
 
         /// <summary>
@@ -1139,7 +1133,7 @@
             if (c == Symbols.GreaterThan)
                 return XmlToken.Comment(_stringBuffer.ToString());
 
-            throw XmlError(XmlParseError.XmlInvalidComment);
+            throw XmlParseError.XmlInvalidComment.Throw();
         }
 
         #endregion

@@ -75,7 +75,7 @@
                 var num = IsHex ? Value.FromHex() : Value.FromDec();
 
                 if (!num.IsValidAsCharRef())
-                    throw XmlError(XmlParseError.CharacterReferenceInvalidNumber);
+                    throw XmlParseError.CharacterReferenceInvalidNumber.Throw();
 
                 return num.ConvertFromUtf32();
             }
@@ -86,14 +86,8 @@
                 if (!String.IsNullOrEmpty(Value) && entities.TryGetValue(Value, out entity))
                     return entity;
 
-                throw XmlError(XmlParseError.CharacterReferenceInvalidCode);
+                throw XmlParseError.CharacterReferenceInvalidCode.Throw();
             }
-        }
-
-        static Exception XmlError(XmlParseError code)
-        {
-            //TODO
-            return new InvalidOperationException();
         }
 
         #endregion

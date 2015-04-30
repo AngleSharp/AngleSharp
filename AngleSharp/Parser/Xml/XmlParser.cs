@@ -217,7 +217,7 @@
                     SetEncoding(tok.Encoding);
 
                 if (!CheckVersion(tok.Version))
-                    throw XmlError(XmlParseError.XmlDeclarationVersionUnsupported);
+                    throw XmlParseError.XmlDeclarationVersionUnsupported.Throw();
             }
             else
             {
@@ -286,7 +286,7 @@
                 default:
                 {
                     if (!token.IsIgnorable)
-                        throw XmlError(XmlParseError.XmlMissingRoot);
+                        throw XmlParseError.XmlMissingRoot.Throw();
 
                     break;
                 }
@@ -322,7 +322,7 @@
                     var tok = (XmlTagToken)token;
 
                     if (CurrentNode.NodeName != tok.Name)
-                        throw XmlError(XmlParseError.TagClosingMismatch);
+                        throw XmlParseError.TagClosingMismatch.Throw();
 
                     _openElements.RemoveAt(_openElements.Count - 1);
 
@@ -358,15 +358,15 @@
                 }
                 case XmlTokenType.EndOfFile:
                 {
-                    throw XmlError(XmlParseError.EOF);
+                    throw XmlParseError.EOF.Throw();
                 }
                 case XmlTokenType.Doctype:
                 {
-                    throw XmlError(XmlParseError.XmlDoctypeAfterContent);
+                    throw XmlParseError.XmlDoctypeAfterContent.Throw();
                 }
                 case XmlTokenType.Declaration:
                 {
-                    throw XmlError(XmlParseError.XmlDeclarationMisplaced);
+                    throw XmlParseError.XmlDeclarationMisplaced.Throw();
                 }
             }
         }
@@ -392,7 +392,7 @@
                 default:
                 {
                     if (!token.IsIgnorable)
-                        throw XmlError(XmlParseError.XmlMissingRoot);
+                        throw XmlParseError.XmlMissingRoot.Throw();
 
                     break;
                 }
@@ -402,12 +402,6 @@
         #endregion
 
         #region Helpers
-
-        static Exception XmlError(XmlParseError code)
-        {
-            //TODO
-            return new InvalidOperationException();
-        }
 
         /// <summary>
         /// Checks the given version number.
