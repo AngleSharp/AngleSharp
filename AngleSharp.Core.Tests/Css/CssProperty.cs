@@ -1332,5 +1332,14 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssColorProperty>(color);
             Assert.AreEqual(color, colorAgain);
         }
+
+        [Test]
+        public void CssUnknownPropertyPreservesCase()
+        {
+            var snippet = "my-Property: something";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("my-Property", property.Name);
+            Assert.IsInstanceOf<CssUnknownProperty>(property);
+        }
     }
 }
