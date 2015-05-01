@@ -1,10 +1,5 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Css;
-    using AngleSharp.Dom;
-    using AngleSharp.Dom.Collections;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -12,6 +7,11 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using AngleSharp.Css;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Collections;
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// The CSS parser.
@@ -780,16 +780,16 @@
                 case CssTokenType.Delim:// e.g. "#"
                     return GetValueFromDelim(token.Data[0], tokens);
                 case CssTokenType.Ident: // e.g. "auto"
-                    value.AddValue(token.ToIdentifier());
+                    value.Add(token.ToIdentifier());
                     return tokens.MoveNext();
                 case CssTokenType.String:// e.g. "'i am a string'"
-                    value.AddValue(new CssString(token.Data));
+                    value.Add(new CssString(token.Data));
                     return tokens.MoveNext();
                 case CssTokenType.Url:// e.g. "url('this is a valid URL')"
-                    value.AddValue(new CssUrl(token.Data));
+                    value.Add(new CssUrl(token.Data));
                     return tokens.MoveNext();
                 case CssTokenType.Number: // e.g. "173"
-                    value.AddValue(((CssNumberToken)token).ToNumber());
+                    value.Add(((CssNumberToken)token).ToNumber());
                     return tokens.MoveNext();
                 case CssTokenType.Function: // e.g. "rgba(...)"
                     return GetValueFunction(tokens);
@@ -820,7 +820,7 @@
                 return false;
             }
 
-            value.AddValue(val);
+            value.Add(val);
             return nxt;
         }
 
@@ -831,7 +831,7 @@
 
             if (delimiter == Symbols.Solidus)
             {
-                value.AddValue(CssValue.Delimiter);
+                value.Add(CssValue.Delimiter);
                 return tokens.MoveNext();
             }
 
@@ -849,7 +849,7 @@
         Boolean GetValueFunction(IEnumerator<CssToken> tokens)
         {
             var name = tokens.Current.Data;
-            value.AddFunction(name);
+            value.OpenFunction(name);
 
             if (!tokens.MoveNext())
                 return false;
@@ -892,7 +892,7 @@
             var color = GetColorFromHexValue(buffer.ToPool());
 
             if (color != null)
-                value.AddValue(color.Value);
+                value.Add(color.Value);
 
             return alive;
         }

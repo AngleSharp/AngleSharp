@@ -1,10 +1,9 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Css;
-    using AngleSharp.Dom.Css;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using AngleSharp.Dom.Css;
 
     /// <summary>
     /// The class that is responsible for book-keeping information
@@ -17,8 +16,6 @@
 
         readonly Stack<FunctionBuffer> _functions;
         readonly List<ICssValue> _values;
-
-        Boolean _error;
 
         #endregion
 
@@ -43,8 +40,8 @@
         /// </summary>
         public Boolean IsFaulted
         {
-            get { return _error; }
-            set { _error = value; }
+            get;
+            set;
         }
 
         #endregion
@@ -55,7 +52,7 @@
         /// Adds a function to the current value with the given name.
         /// </summary>
         /// <param name="name">The name of the function.</param>
-        public void AddFunction(String name)
+        public void OpenFunction(String name)
         {
             var function = new FunctionBuffer(name);
             function.StartIndex = _values.Count;
@@ -67,7 +64,7 @@
         /// </summary>
         /// <param name="value">The value to add.</param>
         /// <returns>The status.</returns>
-        public void AddValue(CssValue value)
+        public void Add(ICssValue value)
         {
             _values.Add(value);
         }
@@ -78,7 +75,7 @@
         public void CloseFunction()
         {
             NextArgument();
-            AddValue(_functions.Pop().ToValue());
+            Add(_functions.Pop().ToValue());
         }
 
         /// <summary>
@@ -113,7 +110,7 @@
         /// </summary>
         public void Reset()
         {
-            _error = false;
+            IsFaulted = false;
             _functions.Clear();
             _values.Clear();
         }
@@ -124,7 +121,7 @@
         /// <returns>The instance of a value.</returns>
         public ICssValue ToValue()
         {
-            if (!_error)
+            if (IsFaulted == false)
             {
                 while (_functions.Count > 0)
                     CloseFunction();
@@ -222,14 +219,5 @@
         }
 
         #endregion
-
-        /// <summary>
-        /// TODO: Temporary method that will be removed when CSSValue is removed.
-        /// </summary>
-        /// <param name="obj"></param>
-        internal void AddValue(ICssValue obj)
-        {
-            _values.Add(obj);
-        }
     }
 }
