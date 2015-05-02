@@ -2530,9 +2530,6 @@
     <Compile Include="..\AngleSharp\Parser\Css\CssValueBuilder.cs">
       <Link>Parser\Css\CssValueBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssDelimToken.cs">
-      <Link>Parser\Css\Tokens\CssDelimToken.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssKeywordToken.cs">
       <Link>Parser\Css\Tokens\CssKeywordToken.cs</Link>
     </Compile>
@@ -2541,9 +2538,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssRangeToken.cs">
       <Link>Parser\Css\Tokens\CssRangeToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssSpecialCharacter.cs">
-      <Link>Parser\Css\Tokens\CssSpecialCharacter.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssStringToken.cs">
       <Link>Parser\Css\Tokens\CssStringToken.cs</Link>
