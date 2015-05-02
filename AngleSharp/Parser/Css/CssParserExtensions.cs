@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Dom.Css;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using AngleSharp.Dom.Css;
 
     /// <summary>
     /// Extensions to be used exclusively by the parser or the tokenizer.
@@ -256,6 +256,22 @@
                 }
             }
             while (cont && tokens.MoveNext());
+        }
+
+        /// <summary>
+        /// Converts the data to an identifier value. Uses inherit for inherit.
+        /// </summary>
+        /// <returns>The created value.</returns>
+        public static ICssValue ToIdentifier(this CssToken token)
+        {
+            var data = token.Data;
+
+            if (data.Equals(Keywords.Inherit, StringComparison.OrdinalIgnoreCase))
+                return CssValue.Inherit;
+            else if (data.Equals(Keywords.Initial, StringComparison.OrdinalIgnoreCase))
+                return CssValue.Initial;
+
+            return new CssIdentifier(data);
         }
 
         /// <summary>

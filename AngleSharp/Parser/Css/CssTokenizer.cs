@@ -131,7 +131,7 @@
                     if (current == Symbols.Equality)
                         return CssMatchToken.Suffix;
 
-                    return CssToken.Delim(GetPrevious());
+                    return Delimiter(GetPrevious());
 
                 case Symbols.SingleQuote:
                     return StringSQ();
@@ -148,7 +148,7 @@
                     if (current == Symbols.Equality)
                         return CssMatchToken.Substring;
 
-                    return CssToken.Delim(GetPrevious());
+                    return Delimiter(GetPrevious());
 
                 case Symbols.Plus:
                 {
@@ -165,7 +165,7 @@
                     else
                         Back();
                         
-                    return CssToken.Delim(current);
+                    return Delimiter(current);
                 }
 
                 case Symbols.Comma:
@@ -178,7 +178,7 @@
                     if (c.IsDigit())
                         return NumberStart(GetPrevious());
                         
-                    return CssToken.Delim(GetPrevious());
+                    return Delimiter(GetPrevious());
                 }
 
                 case Symbols.Minus:
@@ -209,7 +209,7 @@
                     else
                         Back();
                         
-                    return CssToken.Delim(current);
+                    return Delimiter(current);
                 }
 
                 case Symbols.Solidus:
@@ -218,7 +218,7 @@
                     if (current == Symbols.Asterisk)
                         return Comment();
                         
-                    return CssToken.Delim(GetPrevious());
+                    return Delimiter(GetPrevious());
 
                 case Symbols.ReverseSolidus:
                     current = GetNext();
@@ -226,7 +226,7 @@
                     if (current.IsLineBreak() || current == Symbols.EndOfFile)
                     {
                         RaiseErrorOccurred(current == Symbols.EndOfFile ? CssParseError.EOF : CssParseError.LineBreakUnexpected);
-                        return CssToken.Delim(GetPrevious());
+                        return Delimiter(GetPrevious());
                     }
 
                     return IdentStart(GetPrevious());
@@ -262,7 +262,7 @@
                         current = GetPrevious();
                     }
 
-                    return CssToken.Delim(GetPrevious());
+                    return Delimiter(GetPrevious());
 
                 case Symbols.At:
                     return AtKeywordStart();
@@ -279,7 +279,7 @@
                     if (current == Symbols.Equality)
                         return CssMatchToken.Prefix;
 
-                    return CssToken.Delim(GetPrevious());
+                    return Delimiter(GetPrevious());
 
                 case Symbols.CurlyBracketOpen:
                     return CssBracketToken.OpenCurly;
@@ -323,7 +323,7 @@
                     else if (current == Symbols.Pipe)
                         return CssColumnToken.Instance;
 
-                    return CssToken.Delim(GetPrevious());
+                    return Delimiter(GetPrevious());
 
                 case Symbols.Tilde:
                     current = GetNext();
@@ -331,7 +331,7 @@
                     if (current == Symbols.Equality)
                         return CssMatchToken.Include;
 
-                    return CssToken.Delim(GetPrevious());
+                    return Delimiter(GetPrevious());
 
                 case Symbols.EndOfFile:
                     return null;
@@ -342,13 +342,13 @@
                     if (current == Symbols.Equality)
                         return CssMatchToken.Not;
 
-                    return CssToken.Delim(GetPrevious());
+                    return Delimiter(GetPrevious());
 
                 default:
                     if (current.IsNameStart())
                         return IdentStart(current);
 
-                    return CssToken.Delim(current);
+                    return Delimiter(current);
             }
         }
 
@@ -462,12 +462,12 @@
             {
                 RaiseErrorOccurred(CssParseError.InvalidCharacter);
                 Back();
-                return CssToken.Delim(Symbols.Num);
+                return Delimiter(Symbols.Num);
             }
             else
             {
                 Back();
-                return CssToken.Delim(Symbols.Num);
+                return Delimiter(Symbols.Num);
             }
         }
 
@@ -545,7 +545,7 @@
                 }
 
                 Back(2);
-                return CssToken.Delim(Symbols.At);
+                return Delimiter(Symbols.At);
             }
             else if (current.IsNameStart())
             {
@@ -561,7 +561,7 @@
             else
             {
                 Back();
-                return CssToken.Delim(Symbols.At);
+                return Delimiter(Symbols.At);
             }
         }
 
@@ -607,7 +607,7 @@
                 }
 
                 Back();
-                return CssToken.Delim(Symbols.Minus);
+                return Delimiter(Symbols.Minus);
             }
             else if (current.IsNameStart())
             {
@@ -1171,6 +1171,11 @@
         #endregion
 
         #region Helpers
+
+        CssToken Delimiter(Char c)
+        {
+            return new CssDelimToken(c);
+        }
 
         String FlushBuffer()
         {
