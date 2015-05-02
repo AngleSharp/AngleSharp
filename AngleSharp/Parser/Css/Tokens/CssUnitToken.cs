@@ -23,7 +23,7 @@
         /// <param name="value">The value.</param>
         /// <param name="dimension">The unit (dimension).</param>
         /// <param name="position">The token's position.</param>
-        CssUnitToken(CssTokenType type, String value, String dimension, TextPosition position)
+        public CssUnitToken(CssTokenType type, String value, String dimension, TextPosition position)
             : base(type, value, position)
         {
             _unit = dimension;
@@ -47,33 +47,6 @@
         public String Unit
         {
             get { return _unit; }
-        }
-
-        #endregion
-
-        #region Static Constructors
-
-        /// <summary>
-        /// Creates a new percentage unit token.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="position">The token's position.</param>
-        /// <returns>The created token.</returns>
-        public static CssUnitToken Percentage(String value, TextPosition position)
-        {
-            return new CssUnitToken(CssTokenType.Percentage, value, "%", position);
-        }
-
-        /// <summary>
-        /// Creates a new dimension unit token.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="dimension">The unit (dimension).</param>
-        /// <param name="position">The token's position.</param>
-        /// <returns>The created token.</returns>
-        public static CssUnitToken Dimension(String value, String dimension, TextPosition position)
-        {
-            return new CssUnitToken(CssTokenType.Dimension, value, dimension, position);
         }
 
         #endregion

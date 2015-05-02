@@ -584,7 +584,7 @@
                 else
                 {
                     Back();
-                    return NewKeyword(FlushBuffer());
+                    return NewAtKeyword(FlushBuffer());
                 }
 
                 current = GetNext();
@@ -1174,12 +1174,12 @@
 
         CssToken NewNot()
         {
-            return CssMatchToken.Not(GetCurrentPosition());
+            return new CssMatchToken(CssTokenType.NotMatch, "!=", GetCurrentPosition());
         }
 
         CssToken NewInclude()
         {
-            return CssMatchToken.Include(GetCurrentPosition());
+            return new CssMatchToken(CssTokenType.IncludeMatch, "~=", GetCurrentPosition());
         }
 
         CssToken NewColumn()
@@ -1189,117 +1189,117 @@
 
         CssToken NewDash()
         {
-            return CssMatchToken.Dash(GetCurrentPosition());
+            return new CssMatchToken(CssTokenType.DashMatch, "|=", GetCurrentPosition());
         }
 
         CssToken NewCloseCurly()
         {
-            return CssBracketToken.CloseCurly(GetCurrentPosition());
+            return new CssBracketToken(CssTokenType.CurlyBracketClose, "}", GetCurrentPosition());
         }
 
         CssToken NewOpenCurly()
         {
-            return CssBracketToken.OpenCurly(GetCurrentPosition());
+            return new CssBracketToken(CssTokenType.CurlyBracketOpen, "{", GetCurrentPosition());
         }
 
         CssToken NewPrefix()
         {
-            return CssMatchToken.Prefix(GetCurrentPosition());
+            return new CssMatchToken(CssTokenType.PrefixMatch, "^=", GetCurrentPosition());
         }
 
         CssToken NewCloseSquare()
         {
-            return CssBracketToken.CloseSquare(GetCurrentPosition());
+            return new CssBracketToken(CssTokenType.SquareBracketClose, "]", GetCurrentPosition());
         }
 
         CssToken NewOpenSquare()
         {
-            return CssBracketToken.OpenSquare(GetCurrentPosition());
+            return new CssBracketToken(CssTokenType.SquareBracketOpen, "[", GetCurrentPosition());
         }
 
         CssToken NewOpenComment()
         {
-            return CssCommentToken.Open(GetCurrentPosition());
+            return new CssCommentToken(CssTokenType.Cdo, "<!--", GetCurrentPosition());
         }
 
         CssToken NewSemicolon()
         {
-            return CssSpecialCharacter.Semicolon(GetCurrentPosition());
+            return new CssSpecialCharacter(Symbols.Semicolon, CssTokenType.Semicolon, GetCurrentPosition());
         }
 
         CssToken NewColon()
         {
-            return CssSpecialCharacter.Colon(GetCurrentPosition());
+            return new CssSpecialCharacter(Symbols.Colon, CssTokenType.Colon, GetCurrentPosition());
         }
 
         CssToken NewCloseComment()
         {
-            return CssCommentToken.Close(GetCurrentPosition());
+            return new CssCommentToken(CssTokenType.Cdc, "-->", GetCurrentPosition());
         }
 
         CssToken NewComma()
         {
-            return CssSpecialCharacter.Comma(GetCurrentPosition());
+            return new CssSpecialCharacter(Symbols.Comma, CssTokenType.Comma, GetCurrentPosition());
         }
 
         CssToken NewSubstring()
         {
-            return CssMatchToken.Substring(GetCurrentPosition());
+            return new CssMatchToken(CssTokenType.SubstringMatch, "*=", GetCurrentPosition());
         }
 
         CssToken NewCloseRound()
         {
-            return CssBracketToken.CloseRound(GetCurrentPosition());
+            return new CssBracketToken(CssTokenType.RoundBracketClose, ")", GetCurrentPosition());
         }
 
         CssToken NewOpenRound()
         {
-            return CssBracketToken.OpenRound(GetCurrentPosition());
+            return new CssBracketToken(CssTokenType.RoundBracketOpen, "(", GetCurrentPosition());
         }
 
         CssToken NewSuffix()
         {
-            return CssMatchToken.Suffix(GetCurrentPosition());
+            return new CssMatchToken(CssTokenType.SuffixMatch, "$=", GetCurrentPosition());
         }
 
         CssToken NewString(String value, Boolean bad = false)
         {
-            return CssStringToken.Plain(GetCurrentPosition(), value, bad);
+            return new CssStringToken(CssTokenType.String, value, bad, GetCurrentPosition());
         }
 
         CssToken NewHash(String value)
         {
-            return CssKeywordToken.Hash(value, GetCurrentPosition());
+            return new CssKeywordToken(CssTokenType.Hash, value, GetCurrentPosition());
         }
 
-        CssToken NewKeyword(String value)
+        CssToken NewAtKeyword(String value)
         {
-            return CssKeywordToken.At(value, GetCurrentPosition());
+            return new CssKeywordToken(CssTokenType.AtKeyword, value, GetCurrentPosition());
         }
 
         CssToken NewIdent(String value)
         {
-            return CssKeywordToken.Ident(value, GetCurrentPosition());
+            return new CssKeywordToken(CssTokenType.Ident, value, GetCurrentPosition());
         }
 
         CssToken NewFunction(String value)
         {
-            return CssKeywordToken.Function(value, GetCurrentPosition());
+            return new CssKeywordToken(CssTokenType.Function, value, GetCurrentPosition());
         }
 
         CssToken NewPercentage(String value)
         {
-            return CssUnitToken.Percentage(value, GetCurrentPosition());
+            return new CssUnitToken(CssTokenType.Percentage, value, "%", GetCurrentPosition());
         }
 
         CssToken NewDimension(String value, String unit)
         {
-            return CssUnitToken.Dimension(value, unit, GetCurrentPosition());
+            return new CssUnitToken(CssTokenType.Dimension, value, unit, GetCurrentPosition());
         }
 
         CssToken NewUrl(CssTokenType type, String data, Boolean bad = false)
         {
-            return CssStringToken.Url(GetCurrentPosition(), type, data, bad);
+            return new CssStringToken(type, data, bad, GetCurrentPosition());
         }
 
         CssToken NewRange(String start, String end)
@@ -1309,7 +1309,7 @@
 
         CssToken NewWhitespace()
         {
-            return CssSpecialCharacter.Whitespace(GetCurrentPosition());
+            return new CssSpecialCharacter(Symbols.Space, CssTokenType.Whitespace, GetCurrentPosition());
         }
 
         CssToken NewNumber(String number)
