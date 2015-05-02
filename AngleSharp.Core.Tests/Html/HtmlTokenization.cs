@@ -129,7 +129,7 @@ namespace AngleSharp.Core.Tests
             var src = "I'm &notin; I tell you";
             var s = new TextSource(src);
             var t = new HtmlTokenizer(s, null);
-            HtmlToken token;
+            var token = default(HtmlToken);
 
             do
             {
@@ -138,7 +138,7 @@ namespace AngleSharp.Core.Tests
                 if (token.Type == HtmlTokenType.Character)
                     str += token.Data;
             }
-            while (token != HtmlToken.EndOfFile);
+            while (token.Type != HtmlTokenType.EndOfFile);
 
             Assert.AreEqual("I'm ∉ I tell you", str);
         }
@@ -150,7 +150,7 @@ namespace AngleSharp.Core.Tests
             var src = "I'm &notit; I tell you";
             var s = new TextSource(src);
             var t = new HtmlTokenizer(s, null);
-            HtmlToken token;
+            var token = default(HtmlToken);
 
             do
             {
@@ -159,7 +159,7 @@ namespace AngleSharp.Core.Tests
                 if (token.Type == HtmlTokenType.Character)
                     str += token.Data;
             }
-            while (token != HtmlToken.EndOfFile);
+            while (token.Type != HtmlTokenType.EndOfFile);
 
             Assert.AreEqual("I'm ¬it; I tell you", str);
         }
@@ -198,8 +198,8 @@ namespace AngleSharp.Core.Tests
             StringBuilder sb = new StringBuilder();
             var s = new TextSource("<![CDATA[hi mum how <!-- are you doing />]]>");
             var t = new HtmlTokenizer(s, null);
+            var token = default(HtmlToken);
             t.IsAcceptingCharacterData = true;
-            HtmlToken token;
 
             do
             {
@@ -208,7 +208,7 @@ namespace AngleSharp.Core.Tests
                 if (token.Type == HtmlTokenType.Character)
                     sb.Append(token.Data);
             }
-            while (token != HtmlToken.EndOfFile);
+            while (token.Type != HtmlTokenType.EndOfFile);
 
             Assert.AreEqual("hi mum how <!-- are you doing />", sb.ToString());
         }
