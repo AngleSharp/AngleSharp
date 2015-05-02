@@ -7,7 +7,7 @@
     /// The base class token for the CSS parser.
     /// </summary>
     [DebuggerStepThrough]
-    abstract class CssToken
+    class CssToken
     {
         #region Fields
 

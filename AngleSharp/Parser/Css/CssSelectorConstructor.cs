@@ -337,7 +337,7 @@
                 state = State.AttributeValue;
                 OnAttributeEnd(token);
             }
-            else if (token is CssMatchToken || token.Type == CssTokenType.Delim)
+            else if (token.IsMatchToken() || token.Type == CssTokenType.Delim)
             {
                 state = State.AttributeValue;
                 attrOp = token.ToValue();

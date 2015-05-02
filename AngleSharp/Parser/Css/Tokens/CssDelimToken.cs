@@ -5,7 +5,7 @@
     /// <summary>
     /// The delimiter token that contains a series of characters.
     /// </summary>
-    sealed class CssDelimToken : CssCharacterToken
+    sealed class CssDelimToken : CssToken
     {
         #region ctor
 
@@ -15,7 +15,7 @@
         /// <param name="data">The character.</param>
         /// <param name="position">The token's position.</param>
         public CssDelimToken(Char data, TextPosition position)
-            : base(CssTokenType.Delim, data, position)
+            : base(CssTokenType.Delim, data.ToString(), position)
         {
         }
 

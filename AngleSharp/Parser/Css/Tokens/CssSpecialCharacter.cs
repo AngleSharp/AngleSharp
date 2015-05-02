@@ -5,7 +5,7 @@
     /// <summary>
     /// The special character token that contains a special character such as a colon.
     /// </summary>
-    sealed class CssSpecialCharacter : CssCharacterToken
+    sealed class CssSpecialCharacter : CssToken
     {
         #region ctor
 
@@ -16,7 +16,7 @@
         /// <param name="type">The actual token type.</param>
         /// <param name="position">The token's position.</param>
         public CssSpecialCharacter(Char c, CssTokenType type, TextPosition position)
-            : base(type, c, position)
+            : base(type, c.ToString(), position)
         {
         }
 

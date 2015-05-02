@@ -1174,52 +1174,52 @@
 
         CssToken NewNot()
         {
-            return new CssMatchToken(CssTokenType.NotMatch, "!=", GetCurrentPosition());
+            return new CssToken(CssTokenType.NotMatch, "!=", GetCurrentPosition());
         }
 
         CssToken NewInclude()
         {
-            return new CssMatchToken(CssTokenType.IncludeMatch, "~=", GetCurrentPosition());
+            return new CssToken(CssTokenType.IncludeMatch, "~=", GetCurrentPosition());
         }
 
         CssToken NewColumn()
         {
-            return new CssColumnToken(GetCurrentPosition());
+            return new CssToken(CssTokenType.Column, "||", GetCurrentPosition());
         }
 
         CssToken NewDash()
         {
-            return new CssMatchToken(CssTokenType.DashMatch, "|=", GetCurrentPosition());
+            return new CssToken(CssTokenType.DashMatch, "|=", GetCurrentPosition());
         }
 
         CssToken NewCloseCurly()
         {
-            return new CssBracketToken(CssTokenType.CurlyBracketClose, "}", GetCurrentPosition());
+            return new CssToken(CssTokenType.CurlyBracketClose, "}", GetCurrentPosition());
         }
 
         CssToken NewOpenCurly()
         {
-            return new CssBracketToken(CssTokenType.CurlyBracketOpen, "{", GetCurrentPosition());
+            return new CssToken(CssTokenType.CurlyBracketOpen, "{", GetCurrentPosition());
         }
 
         CssToken NewPrefix()
         {
-            return new CssMatchToken(CssTokenType.PrefixMatch, "^=", GetCurrentPosition());
+            return new CssToken(CssTokenType.PrefixMatch, "^=", GetCurrentPosition());
         }
 
         CssToken NewCloseSquare()
         {
-            return new CssBracketToken(CssTokenType.SquareBracketClose, "]", GetCurrentPosition());
+            return new CssToken(CssTokenType.SquareBracketClose, "]", GetCurrentPosition());
         }
 
         CssToken NewOpenSquare()
         {
-            return new CssBracketToken(CssTokenType.SquareBracketOpen, "[", GetCurrentPosition());
+            return new CssToken(CssTokenType.SquareBracketOpen, "[", GetCurrentPosition());
         }
 
         CssToken NewOpenComment()
         {
-            return new CssCommentToken(CssTokenType.Cdo, "<!--", GetCurrentPosition());
+            return new CssToken(CssTokenType.Cdo, "<!--", GetCurrentPosition());
         }
 
         CssToken NewSemicolon()
@@ -1234,7 +1234,7 @@
 
         CssToken NewCloseComment()
         {
-            return new CssCommentToken(CssTokenType.Cdc, "-->", GetCurrentPosition());
+            return new CssToken(CssTokenType.Cdc, "-->", GetCurrentPosition());
         }
 
         CssToken NewComma()
@@ -1244,22 +1244,22 @@
 
         CssToken NewSubstring()
         {
-            return new CssMatchToken(CssTokenType.SubstringMatch, "*=", GetCurrentPosition());
+            return new CssToken(CssTokenType.SubstringMatch, "*=", GetCurrentPosition());
         }
 
         CssToken NewCloseRound()
         {
-            return new CssBracketToken(CssTokenType.RoundBracketClose, ")", GetCurrentPosition());
+            return new CssToken(CssTokenType.RoundBracketClose, ")", GetCurrentPosition());
         }
 
         CssToken NewOpenRound()
         {
-            return new CssBracketToken(CssTokenType.RoundBracketOpen, "(", GetCurrentPosition());
+            return new CssToken(CssTokenType.RoundBracketOpen, "(", GetCurrentPosition());
         }
 
         CssToken NewSuffix()
         {
-            return new CssMatchToken(CssTokenType.SuffixMatch, "$=", GetCurrentPosition());
+            return new CssToken(CssTokenType.SuffixMatch, "$=", GetCurrentPosition());
         }
 
         CssToken NewString(String value, Boolean bad = false)
