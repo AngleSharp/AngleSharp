@@ -23,6 +23,12 @@
 
         #endregion
 
+        #region Fields
+
+        TextPosition _position;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -63,6 +69,8 @@
         /// <param name="c">The next input character.</param>
         XmlToken Data(Char c)
         {
+            _position = GetCurrentPosition();
+
             switch (c)
             {
                 case Symbols.Ampersand:
@@ -1147,47 +1155,47 @@
 
         XmlCharacterToken NewCharacterToken(Char c)
         {
-            return new XmlCharacterToken(GetCurrentPosition(), c);
+            return new XmlCharacterToken(_position, c);
         }
 
         XmlCommentToken NewCommentToken(String s)
         {
-            return new XmlCommentToken(GetCurrentPosition(), s);
+            return new XmlCommentToken(_position, s);
         }
 
         XmlPIToken NewProcessingToken()
         {
-            return new XmlPIToken(GetCurrentPosition());
+            return new XmlPIToken(_position);
         }
 
         XmlDoctypeToken NewDoctypeToken()
         {
-            return new XmlDoctypeToken(GetCurrentPosition());
+            return new XmlDoctypeToken(_position);
         }
 
         XmlDeclarationToken NewDeclarationToken()
         {
-            return new XmlDeclarationToken(GetCurrentPosition());
+            return new XmlDeclarationToken(_position);
         }
 
         XmlTagToken NewOpenTagToken()
         {
-            return new XmlTagToken(XmlTokenType.StartTag, GetCurrentPosition());
+            return new XmlTagToken(XmlTokenType.StartTag, _position);
         }
 
         XmlTagToken NewCloseTagToken()
         {
-            return new XmlTagToken(XmlTokenType.EndTag, GetCurrentPosition());
+            return new XmlTagToken(XmlTokenType.EndTag, _position);
         }
 
         XmlCDataToken NewCDataToken(String s)
         {
-            return new XmlCDataToken(GetCurrentPosition(), s);
+            return new XmlCDataToken(_position, s);
         }
 
         XmlEntityToken NewEntityToken(String value, Boolean numeric = false, Boolean hex = false)
         {
-            return new XmlEntityToken(GetCurrentPosition(), value, numeric, hex);
+            return new XmlEntityToken(_position, value, numeric, hex);
         }
 
         #endregion
