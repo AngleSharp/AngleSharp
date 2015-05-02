@@ -14,6 +14,7 @@
         #region Fields
 
         readonly HtmlTokenType _type;
+        readonly TextPosition _position;
         String _name;
 
         #endregion
@@ -85,6 +86,14 @@
         public String Data
         {
             get { return _name; }
+        }
+
+        /// <summary>
+        /// Gets the position of the token.
+        /// </summary>
+        public TextPosition Position
+        {
+            get { return _position; }
         }
 
         /// <summary>

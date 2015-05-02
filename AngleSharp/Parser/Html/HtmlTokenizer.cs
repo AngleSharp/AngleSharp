@@ -67,14 +67,23 @@
         /// Fires an error occurred event.
         /// </summary>
         /// <param name="code">The associated error code.</param>
-        public void RaiseErrorOccurred(HtmlParseError code)
+        /// <param name="position">The position of the error.</param>
+        public void RaiseErrorOccurred(HtmlParseError code, TextPosition position)
         {
             if (_events != null)
             {
-                var position = GetCurrentPosition();
                 var errorEvent = new HtmlParseErrorEvent(code, position);
                 _events.Publish(errorEvent);
             }
+        }
+
+        /// <summary>
+        /// Fires an error occurred event at the current position.
+        /// </summary>
+        /// <param name="code">The associated error code.</param>
+        public void RaiseErrorOccurred(HtmlParseError code)
+        {
+            RaiseErrorOccurred(code, GetCurrentPosition());
         }
 
         /// <summary>
