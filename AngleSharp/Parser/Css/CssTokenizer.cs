@@ -95,6 +95,15 @@
             }
         }
 
+        /// <summary>
+        /// Fires an error occurred event at the current position.
+        /// </summary>
+        /// <param name="code">The associated error code.</param>
+        public void RaiseErrorOccurred(CssParseError code)
+        {
+            RaiseErrorOccurred(code, GetCurrentPosition());
+        }
+
         #endregion
 
         #region States
@@ -227,12 +236,12 @@
 
                     if (current.IsLineBreak())
                     {
-                        RaiseErrorOccurred(CssParseError.LineBreakUnexpected, GetCurrentPosition());
+                        RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                         return NewDelimiter(GetPrevious());
                     }
                     else if (current == Symbols.EndOfFile)
                     {
-                        RaiseErrorOccurred(CssParseError.EOF, GetCurrentPosition());
+                        RaiseErrorOccurred(CssParseError.EOF);
                         return NewDelimiter(GetPrevious());
                     }
 
@@ -377,7 +386,7 @@
 
                     case Symbols.FormFeed:
                     case Symbols.LineFeed:
-                        RaiseErrorOccurred(CssParseError.LineBreakUnexpected, GetCurrentPosition());
+                        RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                         Back();
                         return NewString(FlushBuffer(), true);
 
@@ -394,7 +403,7 @@
                         }
                         else
                         {
-                            RaiseErrorOccurred(CssParseError.EOF, GetCurrentPosition());
+                            RaiseErrorOccurred(CssParseError.EOF);
                             Back();
                             return NewString(FlushBuffer(), true);
                         }
@@ -425,7 +434,7 @@
 
                     case Symbols.FormFeed:
                     case Symbols.LineFeed:
-                        RaiseErrorOccurred(CssParseError.LineBreakUnexpected, GetCurrentPosition());
+                        RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                         Back();
                         return NewString(FlushBuffer(), true);
 
@@ -438,7 +447,7 @@
                             _stringBuffer.Append(ConsumeEscape(current));
                         else
                         {
-                            RaiseErrorOccurred(CssParseError.EOF, GetCurrentPosition());
+                            RaiseErrorOccurred(CssParseError.EOF);
                             Back();
                             return NewString(FlushBuffer(), true);
                         }
@@ -472,7 +481,7 @@
             }
             else if (current == Symbols.ReverseSolidus)
             {
-                RaiseErrorOccurred(CssParseError.InvalidCharacter, GetCurrentPosition());
+                RaiseErrorOccurred(CssParseError.InvalidCharacter);
                 Back();
                 return NewDelimiter(Symbols.Num);
             }
@@ -503,7 +512,7 @@
                 }
                 else if (current == Symbols.ReverseSolidus)
                 {
-                    RaiseErrorOccurred(CssParseError.InvalidCharacter, GetCurrentPosition());
+                    RaiseErrorOccurred(CssParseError.InvalidCharacter);
                     Back();
                     return NewHash(FlushBuffer());
                 }
@@ -533,7 +542,7 @@
                 }
                 else if (current == Symbols.EndOfFile)
                 {
-                    RaiseErrorOccurred(CssParseError.EOF, GetCurrentPosition());
+                    RaiseErrorOccurred(CssParseError.EOF);
                     return Data(current);
                 }
             }
@@ -921,7 +930,7 @@
             switch (current)
             {
                 case Symbols.EndOfFile:
-                    RaiseErrorOccurred(CssParseError.EOF, GetCurrentPosition());
+                    RaiseErrorOccurred(CssParseError.EOF);
                     return NewUrl(type, String.Empty, true);
 
                 case Symbols.DoubleQuote:
@@ -949,7 +958,7 @@
 
                 if (current.IsLineBreak())
                 {
-                    RaiseErrorOccurred(CssParseError.LineBreakUnexpected, GetCurrentPosition());
+                    RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                     return UrlBad(type);
                 }
                 else if (Symbols.EndOfFile == current)
@@ -967,7 +976,7 @@
                     if (current == Symbols.EndOfFile)
                     {
                         Back(2);
-                        RaiseErrorOccurred(CssParseError.EOF, GetCurrentPosition());
+                        RaiseErrorOccurred(CssParseError.EOF);
                         return NewUrl(type, FlushBuffer(), true);
                     }
                     else if (current.IsLineBreak())
@@ -991,7 +1000,7 @@
 
                 if (current.IsLineBreak())
                 {
-                    RaiseErrorOccurred(CssParseError.LineBreakUnexpected, GetCurrentPosition());
+                    RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                     return UrlBad(type);
                 }
                 else if (Symbols.EndOfFile == current)
@@ -1009,7 +1018,7 @@
                     if (current == Symbols.EndOfFile)
                     {
                         Back(2);
-                        RaiseErrorOccurred(CssParseError.EOF, GetCurrentPosition());
+                        RaiseErrorOccurred(CssParseError.EOF);
                         return NewUrl(type, FlushBuffer(), true);
                     }
                     else if (current.IsLineBreak())
@@ -1039,7 +1048,7 @@
                 }
                 else if (current == Symbols.DoubleQuote || current == Symbols.SingleQuote || current == Symbols.RoundBracketOpen || current.IsNonPrintable())
                 {
-                    RaiseErrorOccurred(CssParseError.InvalidCharacter, GetCurrentPosition());
+                    RaiseErrorOccurred(CssParseError.InvalidCharacter);
                     return UrlBad(type);
                 }
                 else if (current == Symbols.ReverseSolidus)
@@ -1051,7 +1060,7 @@
                     }
                     else
                     {
-                        RaiseErrorOccurred(CssParseError.InvalidCharacter, GetCurrentPosition());
+                        RaiseErrorOccurred(CssParseError.InvalidCharacter);
                         return UrlBad(type);
                     }
                 }
@@ -1077,7 +1086,7 @@
                 }
                 else if (!current.IsSpaceCharacter())
                 {
-                    RaiseErrorOccurred(CssParseError.InvalidCharacter, GetCurrentPosition());
+                    RaiseErrorOccurred(CssParseError.InvalidCharacter);
                     Back();
                     return UrlBad(type);
                 }
@@ -1095,7 +1104,7 @@
 
                 if (current == Symbols.EndOfFile)
                 {
-                    RaiseErrorOccurred(CssParseError.EOF, GetCurrentPosition());
+                    RaiseErrorOccurred(CssParseError.EOF);
                     return NewUrl(type, FlushBuffer(), true);
                 }
                 else if (current == Symbols.RoundBracketClose)
@@ -1182,7 +1191,7 @@
 
         #endregion
 
-        #region Token Creators
+        #region Tokens
 
         CssToken NewNot()
         {
