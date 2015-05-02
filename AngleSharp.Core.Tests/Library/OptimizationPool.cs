@@ -68,7 +68,7 @@
         public void RecycleSelectorConstructorBuild()
         {
             var sc1 = Pool.NewSelectorConstructor();
-            sc1.Apply(CssKeywordToken.Ident("div"));
+            sc1.Apply(CssKeywordToken.Ident("div", new TextPosition()));
             Assert.AreNotEqual(SimpleSelector.All, sc1.ToPool());
             var sc2 = Pool.NewSelectorConstructor();
             Assert.AreEqual(SimpleSelector.All, sc2.ToPool());
