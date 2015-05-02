@@ -2530,26 +2530,11 @@
     <Compile Include="..\AngleSharp\Parser\Css\CssValueBuilder.cs">
       <Link>Parser\Css\CssValueBuilder.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssBracketToken.cs">
-      <Link>Parser\Css\Tokens\CssBracketToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssCharacterToken.cs">
-      <Link>Parser\Css\Tokens\CssCharacterToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssColumnToken.cs">
-      <Link>Parser\Css\Tokens\CssColumnToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssCommentToken.cs">
-      <Link>Parser\Css\Tokens\CssCommentToken.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssDelimToken.cs">
       <Link>Parser\Css\Tokens\CssDelimToken.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssKeywordToken.cs">
       <Link>Parser\Css\Tokens\CssKeywordToken.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssMatchToken.cs">
-      <Link>Parser\Css\Tokens\CssMatchToken.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssNumberToken.cs">
       <Link>Parser\Css\Tokens\CssNumberToken.cs</Link>
