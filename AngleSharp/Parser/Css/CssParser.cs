@@ -414,7 +414,7 @@
 
                     if (rule == null)
                     {
-                        RaiseErrorOccurred(CssParseError.UnknownAtRule);
+                        RaiseErrorOccurred(CssParseError.UnknownAtRule, token);
                         tokens.SkipUnknownRule();
                     }
 
@@ -422,7 +422,7 @@
                 }
                 case CssTokenType.CurlyBracketOpen:
                 {
-                    RaiseErrorOccurred(CssParseError.InvalidBlockStart);
+                    RaiseErrorOccurred(CssParseError.InvalidBlockStart, token);
                     tokens.SkipUnknownRule();
                     return null;
                 }
@@ -432,7 +432,7 @@
                 case CssTokenType.RoundBracketClose:
                 case CssTokenType.SquareBracketClose:
                 {
-                    RaiseErrorOccurred(CssParseError.InvalidToken);
+                    RaiseErrorOccurred(CssParseError.InvalidToken, token);
                     tokens.SkipUnknownRule();
                     return null;
                 }
@@ -463,6 +463,7 @@
         {
             tokenizer.IgnoreWhitespace = false;
             selector.Reset();
+            var start = tokens.Current;
 
             do
             {
@@ -476,7 +477,7 @@
             while (tokens.MoveNext());
 
             if (selector.IsValid == false)
-                RaiseErrorOccurred(CssParseError.InvalidSelector);
+                RaiseErrorOccurred(CssParseError.InvalidSelector, start);
 
             tokenizer.IgnoreWhitespace = true;
             return selector.Result;
@@ -498,11 +499,11 @@
 
                 if (!tokens.MoveNext())
                 {
-                    RaiseErrorOccurred(CssParseError.ColonMissing);
+                    RaiseErrorOccurred(CssParseError.ColonMissing, token);
                 }
                 else if (tokens.Current.Type != CssTokenType.Colon)
                 {
-                    RaiseErrorOccurred(CssParseError.ColonMissing);
+                    RaiseErrorOccurred(CssParseError.ColonMissing, tokens.Current);
                     tokens.JumpToEndOfDeclaration();
                 }
                 else if (tokens.MoveNext())
@@ -511,7 +512,7 @@
 
                     if (property == null)
                     {
-                        RaiseErrorOccurred(CssParseError.UnknownDeclarationName);
+                        RaiseErrorOccurred(CssParseError.UnknownDeclarationName, tokens.Current);
                         property = new CssUnknownProperty(propertyName, style);
                     }
 
@@ -528,11 +529,11 @@
                 }
                 else
                 {
-                    RaiseErrorOccurred(CssParseError.ValueMissing);
+                    RaiseErrorOccurred(CssParseError.ValueMissing, tokens.Current);
                 }
             }
             else
-                RaiseErrorOccurred(CssParseError.IdentExpected);
+                RaiseErrorOccurred(CssParseError.IdentExpected, tokens.Current);
 
             return null;
         }
@@ -802,7 +803,7 @@
                 case CssTokenType.CurlyBracketClose:
                     break;
                 default: // everything else is unexpected
-                    RaiseErrorOccurred(CssParseError.InputUnexpected);
+                    RaiseErrorOccurred(CssParseError.InputUnexpected, token);
                     value.IsFaulted = true;
                     break;
             }
@@ -1490,9 +1491,10 @@
         /// Fires an error occurred event.
         /// </summary>
         /// <param name="code">The associated error code.</param>
-        void RaiseErrorOccurred(CssParseError code)
+        /// <param name="token">The associated token.</param>
+        void RaiseErrorOccurred(CssParseError code, CssToken token)
         {
-            tokenizer.RaiseErrorOccurred(code);
+            tokenizer.RaiseErrorOccurred(code, token.Position);
         }
 
         #endregion
