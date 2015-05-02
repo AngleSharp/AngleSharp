@@ -1224,12 +1224,12 @@
 
         CssToken NewSemicolon()
         {
-            return new CssSpecialCharacter(Symbols.Semicolon, CssTokenType.Semicolon, GetCurrentPosition());
+            return new CssToken(CssTokenType.Semicolon, ";", GetCurrentPosition());
         }
 
         CssToken NewColon()
         {
-            return new CssSpecialCharacter(Symbols.Colon, CssTokenType.Colon, GetCurrentPosition());
+            return new CssToken(CssTokenType.Colon, ":", GetCurrentPosition());
         }
 
         CssToken NewCloseComment()
@@ -1239,7 +1239,7 @@
 
         CssToken NewComma()
         {
-            return new CssSpecialCharacter(Symbols.Comma, CssTokenType.Comma, GetCurrentPosition());
+            return new CssToken(CssTokenType.Comma, ",", GetCurrentPosition());
         }
 
         CssToken NewSubstring()
@@ -1309,7 +1309,7 @@
 
         CssToken NewWhitespace()
         {
-            return new CssSpecialCharacter(Symbols.Space, CssTokenType.Whitespace, GetCurrentPosition());
+            return new CssToken(CssTokenType.Whitespace, " ", GetCurrentPosition());
         }
 
         CssToken NewNumber(String number)
@@ -1319,7 +1319,7 @@
 
         CssToken NewDelimiter(Char c)
         {
-            return new CssDelimToken(c, GetCurrentPosition());
+            return new CssToken(CssTokenType.Delim, c, GetCurrentPosition());
         }
 
         #endregion
