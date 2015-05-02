@@ -44,26 +44,6 @@
         #region Creators
 
         /// <summary>
-        /// Creates a new opening HtmlTagToken.
-        /// </summary>
-        /// <returns>The new HTML tag token.</returns>
-        [DebuggerStepThrough]
-        public static HtmlTagToken Open()
-        {
-            return new HtmlTagToken(HtmlTokenType.StartTag);
-        }
-
-        /// <summary>
-        /// Creates a new closing HtmlTagToken.
-        /// </summary>
-        /// <returns>The new HTML tag token.</returns>
-        [DebuggerStepThrough]
-        public static HtmlTagToken Close()
-        {
-            return new HtmlTagToken(HtmlTokenType.EndTag);
-        }
-
-        /// <summary>
         /// Creates a new opening HtmlTagToken for the given name.
         /// </summary>
         /// <param name="name">The name of the tag.</param>

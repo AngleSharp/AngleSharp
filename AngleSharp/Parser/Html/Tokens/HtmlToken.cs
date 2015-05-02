@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Parser.Html
 {
-    using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using System;
     using System.Diagnostics;
+    using AngleSharp.Extensions;
+    using AngleSharp.Html;
 
     /// <summary>
     /// The abstract base class of any HTML token.
@@ -11,48 +11,6 @@
     [DebuggerStepThrough]
     class HtmlToken
     {
-        #region Factory
-
-        /// <summary>
-        /// Gets the end of file token.
-        /// </summary>
-        public static readonly HtmlToken EndOfFile = new HtmlToken(HtmlTokenType.EndOfFile);
-
-        /// <summary>
-        /// Creates a new HTML character token based on the given characters.
-        /// </summary>
-        /// <param name="characters">The characters to contain.</param>
-        /// <returns>The generated token.</returns>
-        [DebuggerStepThrough]
-        public static HtmlToken Character(String characters)
-        {
-            return new HtmlToken(HtmlTokenType.Character, characters);
-        }
-
-        /// <summary>
-        /// Creates a new HTML comment token based on the given string.
-        /// </summary>
-        /// <param name="comment">The comment to contain.</param>
-        /// <returns>The generated token.</returns>
-        [DebuggerStepThrough]
-        public static HtmlToken Comment(String comment)
-        {
-            return new HtmlToken(HtmlTokenType.Comment, comment);
-        }
-
-        /// <summary>
-        /// Creates a new HTML doctype token.
-        /// </summary>
-        /// <param name="quirksmode">Determines if quirksmode will be forced.</param>
-        /// <returns>The generated token.</returns>
-        [DebuggerStepThrough]
-        public static HtmlDoctypeToken Doctype(Boolean quirksmode)
-        {
-            return new HtmlDoctypeToken(quirksmode);
-        }
-
-        #endregion
-
         #region Fields
 
         readonly HtmlTokenType _type;
