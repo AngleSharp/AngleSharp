@@ -13,20 +13,30 @@
 
         readonly CssTokenType _type;
         readonly String _data;
+        readonly TextPosition _position;
 
         #endregion
 
         #region ctor
 
-        public CssToken(CssTokenType type, String data)
+        public CssToken(CssTokenType type, String data, TextPosition position)
         {
             _type = type;
             _data = data;
+            _position = position;
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the position of the token.
+        /// </summary>
+        public TextPosition Position
+        {
+            get { return _position; }
+        }
 
         /// <summary>
         /// Gets the type of the token.

@@ -7,32 +7,16 @@
     /// </summary>
     sealed class CssSpecialCharacter : CssCharacterToken
     {
-        #region Static instances
-
-        static readonly CssSpecialCharacter colon;
-        static readonly CssSpecialCharacter comma;
-        static readonly CssSpecialCharacter semicolon;
-        static readonly CssSpecialCharacter whitespace;
-
-        #endregion
-
         #region ctor
-
-        static CssSpecialCharacter()
-        {
-            colon = new CssSpecialCharacter(Symbols.Colon, CssTokenType.Colon);
-            comma = new CssSpecialCharacter(Symbols.Comma, CssTokenType.Comma);
-            semicolon = new CssSpecialCharacter(Symbols.Semicolon, CssTokenType.Semicolon);
-            whitespace = new CssSpecialCharacter(Symbols.Space, CssTokenType.Whitespace);
-        }
 
         /// <summary>
         /// Creates a new special character token.
         /// </summary>
         /// <param name="c">The character to contain.</param>
         /// <param name="type">The actual token type.</param>
-        CssSpecialCharacter(Char c, CssTokenType type)
-            : base(type, c)
+        /// <param name="position">The token's position.</param>
+        CssSpecialCharacter(Char c, CssTokenType type, TextPosition position)
+            : base(type, c, position)
         {
         }
 
@@ -41,35 +25,35 @@
         #region Properties
 
         /// <summary>
-        /// Gets a colon token.
+        /// Creates a colon token.
         /// </summary>
-        public static CssSpecialCharacter Colon
+        public static CssSpecialCharacter Colon(TextPosition position)
         {
-            get { return colon; }
+            return new CssSpecialCharacter(Symbols.Colon, CssTokenType.Colon, position);
         }
 
         /// <summary>
-        /// Gets a new comma token.
+        /// Creates a new comma token.
         /// </summary>
-        public static CssSpecialCharacter Comma
+        public static CssSpecialCharacter Comma(TextPosition position)
         {
-            get { return comma; }
+            return new CssSpecialCharacter(Symbols.Comma, CssTokenType.Comma, position);
         }
 
         /// <summary>
-        /// Gets a new comma token.
+        /// Creates a new comma token.
         /// </summary>
-        public static CssSpecialCharacter Semicolon
+        public static CssSpecialCharacter Semicolon(TextPosition position)
         {
-            get { return semicolon; }
+            return new CssSpecialCharacter(Symbols.Semicolon, CssTokenType.Semicolon, position);
         }
 
         /// <summary>
-        /// Gets a new comma token.
+        /// Creates a new comma token.
         /// </summary>
-        public static CssSpecialCharacter Whitespace
+        public static CssSpecialCharacter Whitespace(TextPosition position)
         {
-            get { return whitespace; }
+            return new CssSpecialCharacter(Symbols.Space, CssTokenType.Whitespace, position);
         }
 
         #endregion

@@ -14,8 +14,9 @@
         /// </summary>
         /// <param name="type">The type of token.</param>
         /// <param name="data">The character.</param>
-        public CssCharacterToken(CssTokenType type, Char data)
-            : base(type, data.ToString())
+        /// <param name="position">The token's position.</param>
+        public CssCharacterToken(CssTokenType type, Char data, TextPosition position)
+            : base(type, data.ToString(), position)
         {
         }
 

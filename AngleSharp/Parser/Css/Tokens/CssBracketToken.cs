@@ -7,34 +7,13 @@
     /// </summary>
     sealed class CssBracketToken : CssToken
     {
-        #region Static instances
-
-        readonly static CssBracketToken roundOpen;
-        readonly static CssBracketToken roundClose;
-        readonly static CssBracketToken curlyOpen;
-        readonly static CssBracketToken curlyClose;
-        readonly static CssBracketToken squareOpen;
-        readonly static CssBracketToken squareClose;
-
-        #endregion
-
         #region ctor
-
-        static CssBracketToken()
-        {
-            roundOpen = new CssBracketToken(CssTokenType.RoundBracketOpen, "(");
-            roundClose = new CssBracketToken(CssTokenType.RoundBracketClose, ")");
-            curlyOpen = new CssBracketToken(CssTokenType.CurlyBracketOpen, "{");
-            curlyClose = new CssBracketToken(CssTokenType.CurlyBracketClose, "}");
-            squareOpen = new CssBracketToken(CssTokenType.SquareBracketOpen, "[");
-            squareClose = new CssBracketToken(CssTokenType.SquareBracketClose, "]");
-        }
 
         /// <summary>
         /// Creates a new CSS bracket token.
         /// </summary>
-        CssBracketToken(CssTokenType type, String bracket)
-            : base(type, bracket)
+        CssBracketToken(CssTokenType type, String bracket, TextPosition position)
+            : base(type, bracket, position)
         {
         }
 
@@ -43,51 +22,51 @@
         #region Properties
 
         /// <summary>
-        /// Gets a curly bracket open token.
+        /// Creates a curly bracket open token.
         /// </summary>
-        public static CssBracketToken OpenRound
+        public static CssBracketToken OpenRound(TextPosition position)
         {
-            get { return roundOpen; }
+            return new CssBracketToken(CssTokenType.RoundBracketOpen, "(", position);
         }
 
         /// <summary>
-        /// Gets a curly bracket close token.
+        /// Creates a curly bracket close token.
         /// </summary>
-        public static CssBracketToken CloseRound
+        public static CssBracketToken CloseRound(TextPosition position)
         {
-            get { return roundClose; }
+            return new CssBracketToken(CssTokenType.RoundBracketClose, ")", position);
         }
 
         /// <summary>
-        /// Gets a curly bracket open token.
+        /// Creates a curly bracket open token.
         /// </summary>
-        public static CssBracketToken OpenCurly
+        public static CssBracketToken OpenCurly(TextPosition position)
         {
-            get { return curlyOpen; }
+            return new CssBracketToken(CssTokenType.CurlyBracketOpen, "{", position);
         }
 
         /// <summary>
-        /// Gets a curly bracket close token.
+        /// Creates a curly bracket close token.
         /// </summary>
-        public static CssBracketToken CloseCurly
+        public static CssBracketToken CloseCurly(TextPosition position)
         {
-            get { return curlyClose; }
+            return new CssBracketToken(CssTokenType.CurlyBracketClose, "}", position);
         }
 
         /// <summary>
-        /// Gets a square bracket open token.
+        /// Creates a square bracket open token.
         /// </summary>
-        public static CssBracketToken OpenSquare
+        public static CssBracketToken OpenSquare(TextPosition position)
         {
-            get { return squareOpen; }
+            return new CssBracketToken(CssTokenType.SquareBracketOpen, "[", position);
         }
 
         /// <summary>
-        /// Gets a square bracket close token.
+        /// Creates a square bracket close token.
         /// </summary>
-        public static CssBracketToken CloseSquare
+        public static CssBracketToken CloseSquare(TextPosition position)
         {
-            get { return squareClose; }
+            return new CssBracketToken(CssTokenType.SquareBracketClose, "]", position);
         }
 
         #endregion

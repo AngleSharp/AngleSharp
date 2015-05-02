@@ -7,34 +7,13 @@
     /// </summary>
     sealed class CssMatchToken : CssToken
     {
-        #region Static instances
-
-        readonly static CssMatchToken include;
-        readonly static CssMatchToken dash;
-        readonly static CssToken prefix;
-        readonly static CssToken substring;
-        readonly static CssToken suffix;
-        readonly static CssToken not;
-
-        #endregion
-
         #region ctor
-
-        static CssMatchToken()
-        {
-            include = new CssMatchToken(CssTokenType.IncludeMatch, "~=");
-            dash = new CssMatchToken(CssTokenType.DashMatch, "|=");
-            prefix = new CssMatchToken(CssTokenType.PrefixMatch, "^=");
-            substring = new CssMatchToken(CssTokenType.SubstringMatch, "*=");
-            suffix = new CssMatchToken(CssTokenType.SuffixMatch, "$=");
-            not = new CssMatchToken(CssTokenType.NotMatch, "!=");
-        }
 
         /// <summary>
         /// Creates a new CSS match token.
         /// </summary>
-        CssMatchToken(CssTokenType type, String data)
-            : base(type, data)
+        CssMatchToken(CssTokenType type, String data, TextPosition position)
+            : base(type, data, position)
         {
         }
 
@@ -43,51 +22,51 @@
         #region Properties
 
         /// <summary>
-        /// Gets a new CSS include-match token.
+        /// Creates a new CSS include-match token.
         /// </summary>
-        public static CssMatchToken Include
+        public static CssMatchToken Include(TextPosition position)
         {
-            get { return include; }
+            return new CssMatchToken(CssTokenType.IncludeMatch, "~=", position);
         }
 
         /// <summary>
-        /// Gets a new CSS dash-match token.
+        /// Creates a new CSS dash-match token.
         /// </summary>
-        public static CssMatchToken Dash
+        public static CssMatchToken Dash(TextPosition position)
         {
-            get { return dash; }
+            return new CssMatchToken(CssTokenType.DashMatch, "|=", position);
         }
 
         /// <summary>
-        /// Gets a new CSS prefix-match token.
+        /// Creates a new CSS prefix-match token.
         /// </summary>
-        public static CssToken Prefix
+        public static CssToken Prefix(TextPosition position)
         {
-            get { return prefix; }
+            return new CssMatchToken(CssTokenType.PrefixMatch, "^=", position);
         }
 
         /// <summary>
-        /// Gets a new CSS substring-match token.
+        /// Creates a new CSS substring-match token.
         /// </summary>
-        public static CssToken Substring
+        public static CssToken Substring(TextPosition position)
         {
-            get { return substring; }
+            return new CssMatchToken(CssTokenType.SubstringMatch, "*=", position);
         }
 
         /// <summary>
-        /// Gets a new CSS suffix-match token.
+        /// Creates a new CSS suffix-match token.
         /// </summary>
-        public static CssToken Suffix
+        public static CssToken Suffix(TextPosition position)
         {
-            get { return suffix; }
+            return new CssMatchToken(CssTokenType.SuffixMatch, "$=", position);
         }
 
         /// <summary>
-        /// Gets a new CSS not-match token.
+        /// Creates a new CSS not-match token.
         /// </summary>
-        public static CssToken Not
+        public static CssToken Not(TextPosition position)
         {
-            get { return not; }
+            return new CssMatchToken(CssTokenType.NotMatch, "!=", position);
         }
 
         #endregion

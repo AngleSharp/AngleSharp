@@ -14,8 +14,9 @@
         /// </summary>
         /// <param name="type">The exact type.</param>
         /// <param name="data">The data to use.</param>
-        CssKeywordToken(CssTokenType type, String data)
-            : base(type, data)
+        /// <param name="position">The token's position.</param>
+        CssKeywordToken(CssTokenType type, String data, TextPosition position)
+            : base(type, data, position)
         {
         }
 
@@ -27,40 +28,44 @@
         /// Creates a new CSS keyword token for a function.
         /// </summary>
         /// <param name="name">The name of the function.</param>
+        /// <param name="position">The token's position.</param>
         /// <returns>The created token.</returns>
-        public static CssKeywordToken Function(String name)
+        public static CssKeywordToken Function(String name, TextPosition position)
         {
-            return new CssKeywordToken(CssTokenType.Function, name);
+            return new CssKeywordToken(CssTokenType.Function, name, position);
         }
 
         /// <summary>
         /// Creates a new CSS keyword token for an identifier.
         /// </summary>
         /// <param name="identifier">The name of the identifier.</param>
+        /// <param name="position">The token's position.</param>
         /// <returns>The created token.</returns>
-        public static CssKeywordToken Ident(String identifier)
+        public static CssKeywordToken Ident(String identifier, TextPosition position)
         {
-            return new CssKeywordToken(CssTokenType.Ident, identifier);
+            return new CssKeywordToken(CssTokenType.Ident, identifier, position);
         }
 
         /// <summary>
         /// Creates a new CSS keyword token for an at-keyword.
         /// </summary>
         /// <param name="name">The name of the @-rule.</param>
+        /// <param name="position">The token's position.</param>
         /// <returns>The created token.</returns>
-        public static CssKeywordToken At(String name)
+        public static CssKeywordToken At(String name, TextPosition position)
         {
-            return new CssKeywordToken(CssTokenType.AtKeyword, name);
+            return new CssKeywordToken(CssTokenType.AtKeyword, name, position);
         }
 
         /// <summary>
         /// Creates a new CSS keyword token for a hash token.
         /// </summary>
         /// <param name="characters">The contained characters.</param>
+        /// <param name="position">The token's position.</param>
         /// <returns>The created token.</returns>
-        public static CssKeywordToken Hash(String characters)
+        public static CssKeywordToken Hash(String characters, TextPosition position)
         {
-            return new CssKeywordToken(CssTokenType.Hash, characters);
+            return new CssKeywordToken(CssTokenType.Hash, characters, position);
         }
 
         #endregion

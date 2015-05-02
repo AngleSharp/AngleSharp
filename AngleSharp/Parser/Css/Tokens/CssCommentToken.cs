@@ -7,26 +7,13 @@
     /// </summary>
     sealed class CssCommentToken : CssToken
     {
-        #region Static instances
-
-        readonly static CssCommentToken open;
-        readonly static CssCommentToken close;
-
-        #endregion
-
         #region ctor
-
-        static CssCommentToken()
-        {
-            open = new CssCommentToken(CssTokenType.Cdo, "<!--");
-            close = new CssCommentToken(CssTokenType.Cdc, "-->");
-        }
 
         /// <summary>
         /// Creates a new comment.
         /// </summary>
-        CssCommentToken(CssTokenType type, String data)
-            : base(type, data)
+        CssCommentToken(CssTokenType type, String data, TextPosition position)
+            : base(type, data, position)
         {
         }
 
@@ -35,19 +22,19 @@
         #region Properties
 
         /// <summary>
-        /// Gets a new CSS open comment token.
+        /// Creates a new CSS open comment token.
         /// </summary>
-        public static CssCommentToken Open
+        public static CssCommentToken Open(TextPosition position)
         {
-            get { return open; }
+            return new CssCommentToken(CssTokenType.Cdo, "<!--", position);
         }
 
         /// <summary>
-        /// Gets a new CSS close comment token.
+        /// Creates a new CSS close comment token.
         /// </summary>
-        public static CssCommentToken Close
+        public static CssCommentToken Close(TextPosition position)
         {
-            get { return close; }
+            return new CssCommentToken(CssTokenType.Cdc, "-->", position);
         }
 
         #endregion

@@ -13,8 +13,9 @@
         /// Creates a new delimiter token with the given character.
         /// </summary>
         /// <param name="data">The character.</param>
-        public CssDelimToken(Char data)
-            : base(CssTokenType.Delim, data)
+        /// <param name="position">The token's position.</param>
+        public CssDelimToken(Char data, TextPosition position)
+            : base(CssTokenType.Delim, data, position)
         {
         }
 
