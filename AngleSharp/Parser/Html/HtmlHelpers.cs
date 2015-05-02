@@ -12,6 +12,7 @@
     /// <summary>
     /// Useful helpers for the HTML parser.
     /// </summary>
+    [DebuggerStepThrough]
     static class HtmlHelpers
     {
         /// <summary>
@@ -19,7 +20,7 @@
         /// </summary>
         /// <param name="tagName">The tag name to examine</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsTableElement(this String tagName)
         {
             return (tagName == Tags.Tr || tagName == Tags.Table || tagName.IsTableSectionElement());
@@ -30,7 +31,6 @@
         /// </summary>
         /// <param name="tagName">The tag name to examine</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsTableSectionElement(this String tagName)
         {
@@ -42,7 +42,6 @@
         /// </summary>
         /// <param name="tagName">The tag name to examine</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsTableCellElement(this String tagName)
         {
@@ -55,7 +54,6 @@
         /// <param name="tagName">The tag name to examine</param>
         /// <param name="includeRow">True if the tr element should also be tested.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsGeneralTableElement(this String tagName, Boolean includeRow = false)
         {
@@ -68,7 +66,6 @@
         /// <param name="tagName">The tag name to examine</param>
         /// <param name="includeRow">True if the tr element should also be tested.</param>
         /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsSpecialTableElement(this String tagName, Boolean includeRow = false)
         {
