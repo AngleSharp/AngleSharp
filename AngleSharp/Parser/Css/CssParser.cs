@@ -1,10 +1,5 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Css;
-    using AngleSharp.Dom;
-    using AngleSharp.Dom.Collections;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -12,6 +7,11 @@
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using AngleSharp.Css;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Collections;
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// The CSS parser.
