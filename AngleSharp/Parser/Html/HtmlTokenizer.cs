@@ -20,6 +20,7 @@
         String _lastStartTag;
         HtmlParseMode _state;
         HtmlToken _buffered;
+        TextPosition _position;
 
         #endregion
 
@@ -101,6 +102,7 @@
             }
 
             var current = GetNext();
+            _position = GetCurrentPosition();
 
             if (IsEnded) 
                 return NewEof();
@@ -459,12 +461,12 @@
         /// </summary>
         HtmlToken CData()
         {
+            var c = GetNext();
             _stringBuffer.Clear();
+            _position = GetCurrentPosition();
 
             while (true)
             {
-                var c = GetNext();
-
                 if (c == Symbols.EndOfFile)
                 {
                     Back();
@@ -477,6 +479,7 @@
                 }
 
                 _stringBuffer.Append(c);
+                c = GetNext();
             }
 
             return NewCharacter(_stringBuffer.ToString());
@@ -2488,32 +2491,32 @@
 
         HtmlToken NewCharacter(String value)
         {
-            return new HtmlToken(HtmlTokenType.Character, GetCurrentPosition(), value);
+            return new HtmlToken(HtmlTokenType.Character, _position, value);
         }
 
         HtmlToken NewComment(String value)
         {
-            return new HtmlToken(HtmlTokenType.Comment, GetCurrentPosition(), value);
+            return new HtmlToken(HtmlTokenType.Comment, _position, value);
         }
 
         HtmlToken NewEof()
         {
-            return new HtmlToken(HtmlTokenType.EndOfFile, GetCurrentPosition());
+            return new HtmlToken(HtmlTokenType.EndOfFile, _position);
         }
 
         HtmlDoctypeToken NewDoctype(Boolean quirksForced)
         {
-            return new HtmlDoctypeToken(quirksForced, GetCurrentPosition());
+            return new HtmlDoctypeToken(quirksForced, _position);
         }
 
         HtmlTagToken NewTagOpen()
         {
-            return new HtmlTagToken(HtmlTokenType.StartTag, GetCurrentPosition());
+            return new HtmlTagToken(HtmlTokenType.StartTag, _position);
         }
 
         HtmlTagToken NewTagClose()
         {
-            return new HtmlTagToken(HtmlTokenType.EndTag, GetCurrentPosition());
+            return new HtmlTagToken(HtmlTokenType.EndTag, _position);
         }
 
         #endregion
@@ -2535,7 +2538,7 @@
                             if (attributes[j].Key == attributes[i].Key)
                             {
                                 attributes.RemoveAt(i);
-                                RaiseErrorOccurred(HtmlParseError.AttributeDuplicateOmitted);
+                                RaiseErrorOccurred(HtmlParseError.AttributeDuplicateOmitted, tag.Position);
                                 break;
                             }
                         }
@@ -2545,10 +2548,10 @@
                     break;
                 case HtmlTokenType.EndTag:
                     if (tag.IsSelfClosing)
-                        RaiseErrorOccurred(HtmlParseError.EndTagCannotBeSelfClosed);
+                        RaiseErrorOccurred(HtmlParseError.EndTagCannotBeSelfClosed, tag.Position);
 
                     if (attributes.Count != 0)
-                        RaiseErrorOccurred(HtmlParseError.EndTagCannotHaveAttributes);
+                        RaiseErrorOccurred(HtmlParseError.EndTagCannotHaveAttributes, tag.Position);
 
                     break;
             }
