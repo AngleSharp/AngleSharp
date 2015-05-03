@@ -21,14 +21,15 @@
 
         #region ctor
 
-        public HtmlToken(HtmlTokenType type)
-            : this(type, null)
+        public HtmlToken(HtmlTokenType type, TextPosition position)
+            : this(type, position, null)
         {
         }
 
-        public HtmlToken(HtmlTokenType type, String name)
+        public HtmlToken(HtmlTokenType type, TextPosition position, String name)
         {
             _type = type;
+            _position = position;
             _name = name;
         }
 
@@ -73,14 +74,6 @@
         }
 
         /// <summary>
-        /// Gets the state of the name.
-        /// </summary>
-        public Boolean IsNameMissing
-        {
-            get { return _name == null; }
-        }
-
-        /// <summary>
         /// Gets the data of the comment or character token.
         /// </summary>
         public String Data
@@ -110,14 +103,6 @@
         public Boolean IsSvg
         {
             get { return IsStartTag(Tags.Svg); }
-        }
-
-        /// <summary>
-        /// Gets if the token is an end-of-file token.
-        /// </summary>
-        public Boolean IsEof
-        {
-            get { return _type == HtmlTokenType.EndOfFile; }
         }
 
         /// <summary>

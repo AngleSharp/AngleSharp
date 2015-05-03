@@ -2488,32 +2488,32 @@
 
         HtmlToken NewCharacter(String value)
         {
-            return new HtmlToken(HtmlTokenType.Character, value);
+            return new HtmlToken(HtmlTokenType.Character, GetCurrentPosition(), value);
         }
 
         HtmlToken NewComment(String value)
         {
-            return new HtmlToken(HtmlTokenType.Comment, value);
+            return new HtmlToken(HtmlTokenType.Comment, GetCurrentPosition(), value);
         }
 
         HtmlToken NewEof()
         {
-            return new HtmlToken(HtmlTokenType.EndOfFile);
+            return new HtmlToken(HtmlTokenType.EndOfFile, GetCurrentPosition());
         }
 
         HtmlDoctypeToken NewDoctype(Boolean quirksForced)
         {
-            return new HtmlDoctypeToken(quirksForced);
+            return new HtmlDoctypeToken(quirksForced, GetCurrentPosition());
         }
 
         HtmlTagToken NewTagOpen()
         {
-            return new HtmlTagToken(HtmlTokenType.StartTag);
+            return new HtmlTagToken(HtmlTokenType.StartTag, GetCurrentPosition());
         }
 
         HtmlTagToken NewTagClose()
         {
-            return new HtmlTagToken(HtmlTokenType.EndTag);
+            return new HtmlTagToken(HtmlTokenType.EndTag, GetCurrentPosition());
         }
 
         #endregion

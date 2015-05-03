@@ -21,8 +21,9 @@
         /// Creates a new DOCTYPE token with the quirks mode set initially.
         /// </summary>
         /// <param name="quirksForced">The state of the force-quirks flag.</param>
-        public HtmlDoctypeToken(Boolean quirksForced)
-            : base(HtmlTokenType.Doctype)
+        /// <param name="position">The token's position.</param>
+        public HtmlDoctypeToken(Boolean quirksForced, TextPosition position)
+            : base(HtmlTokenType.Doctype, position)
         {
             _publicIdentifier = null;
             _systemIdentifier = null;
