@@ -457,7 +457,7 @@
         {
             var node = AdjustedCurrentNode;
 
-            if (node == null || token.IsEof || node.Flags.HasFlag(NodeFlags.HtmlMember) || 
+            if (node == null || token.Type == HtmlTokenType.EndOfFile || node.Flags.HasFlag(NodeFlags.HtmlMember) || 
                 (node.Flags.HasFlag(NodeFlags.HtmlTip) && token.IsHtmlCompatible) ||
                 (node.Flags.HasFlag(NodeFlags.MathTip) && token.IsMathCompatible) || 
                 (node.Flags.HasFlag(NodeFlags.MathMember) && token.IsSvg && node.LocalName == Tags.AnnotationXml))
@@ -2705,7 +2705,7 @@
         /// <summary>
         /// Closes the table if the section is in table scope.
         /// </summary>
-        /// <param name="tag">The tag to insert which triggers the closing of the table.</param>
+        /// <param name="tag">The tag to insert (closes table).</param>
         void InTableBodyCloseTable(HtmlTagToken tag)
         {
             if (IsInTableScope<HtmlTableSectionElement>())
@@ -2722,6 +2722,7 @@
         /// <summary>
         /// Acts if a option end tag had been seen in the InSelect state.
         /// </summary>
+        /// <param name="token">The actual tag token.</param>
         void InSelectEndTagOption(HtmlToken token)
         {
             if (CurrentNode is HtmlOptionElement)
@@ -2733,6 +2734,7 @@
         /// <summary>
         /// Acts if a optgroup end tag had been seen in the InSelect state.
         /// </summary>
+        /// <param name="token">The actual tag token.</param>
         void InSelectEndTagOptgroup(HtmlToken token)
         {
             if (_openElements.Count > 1 && _openElements[_openElements.Count - 1] is HtmlOptionElement && _openElements[_openElements.Count - 2] is HtmlOptionsGroupElement)
@@ -2747,6 +2749,7 @@
         /// <summary>
         /// Act as if an colgroup end tag has been found in the InColumnGroup state.
         /// </summary>
+        /// <param name="token">The actual tag token.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         Boolean InColumnGroupEndTagColgroup(HtmlToken token)
         {
@@ -2766,7 +2769,7 @@
         /// <summary>
         /// Act as if a body start tag has been found in the AfterHead state.
         /// </summary>
-        /// <param name="token"></param>
+        /// <param name="token">The actual tag token.</param>
         void AfterHeadStartTagBody(HtmlTagToken token)
         {
             AddElement(new HtmlBodyElement(_document), token);
@@ -2799,7 +2802,7 @@
         }
 
         /// <summary>
-        /// Acts if a li start tag in the InBody state has been found.
+        /// Acts if a li tag in the InBody state has been found.
         /// </summary>
         /// <param name="tag">The actual tag given.</param>
         void InBodyStartTagListItem(HtmlTagToken tag)
@@ -2829,7 +2832,7 @@
         }
 
         /// <summary>
-        /// Acts if a dd or dt start tag in the InBody state has been found.
+        /// Acts if a dd or dt tag in the InBody state has been found.
         /// </summary>
         /// <param name="tag">The actual tag given.</param>
         void InBodyStartTagDefinitionItem(HtmlTagToken tag)
@@ -2859,9 +2862,9 @@
         }
 
         /// <summary>
-        /// Acts if a button or similar end tag had been seen in the InBody state.
+        /// Acts if a block (button) end tag had been seen in the InBody state.
         /// </summary>
-        /// <param name="tagName">The name of the block element.</param>
+        /// <param name="tag">The actual tag given.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         Boolean InBodyEndTagBlock(HtmlTagToken tag)
         {
@@ -3058,7 +3061,7 @@
         }
 
         /// <summary>
-        /// Act as if an anything else end tag has been found in the InBody state.
+        /// Act as if an anything else tag has been found in the InBody state.
         /// </summary>
         /// <param name="tag">The actual tag found.</param>
         void InBodyEndTagAnythingElse(HtmlTagToken tag)
@@ -3094,6 +3097,7 @@
         /// <summary>
         /// Act as if an body end tag has been found in the InBody state.
         /// </summary>
+        /// <param name="token">The actual tag token.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         Boolean InBodyEndTagBody(HtmlToken token)
         {
@@ -3125,6 +3129,7 @@
         /// <summary>
         /// Act as if an p end tag has been found in the InBody state.
         /// </summary>
+        /// <param name="token">The actual tag token.</param>
         /// <returns>True if the token was found, otherwise false.</returns>
         Boolean InBodyEndTagParagraph(HtmlToken token)
         {
@@ -3151,6 +3156,7 @@
         /// <summary>
         /// Act as if an table end tag has been found in the InTable state.
         /// </summary>
+        /// <param name="token">The actual tag token.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         Boolean InTableEndTagTable(HtmlToken token)
         {
@@ -3171,6 +3177,7 @@
         /// <summary>
         /// Act as if an tr end tag has been found in the InRow state.
         /// </summary>
+        /// <param name="token">The actual tag token.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         Boolean InRowEndTagTablerow(HtmlToken token)
         {
@@ -3202,6 +3209,7 @@
         /// <summary>
         /// Act as if an caption end tag has been found in the InCaption state.
         /// </summary>
+        /// <param name="token">The actual tag token.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         Boolean InCaptionEndTagCaption(HtmlToken token)
         {
@@ -3228,6 +3236,7 @@
         /// <summary>
         /// Act as if an td or th end tag has been found in the InCell state.
         /// </summary>
+        /// <param name="token">The actual tag token.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         Boolean InCellEndTagCell(HtmlToken token)
         {
