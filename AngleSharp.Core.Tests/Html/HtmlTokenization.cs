@@ -221,7 +221,7 @@ namespace AngleSharp.Core.Tests
             var e = t.Get();
             Assert.AreEqual(HtmlTokenType.Doctype, e.Type);
             var d = (HtmlDoctypeToken)e;
-            Assert.IsFalse(d.IsNameMissing);
+            Assert.IsNotNull(d.Name);
             Assert.AreEqual("root_element", d.Name);
             Assert.IsFalse(d.IsSystemIdentifierMissing);
             Assert.AreEqual("DTD_location", d.SystemIdentifier);
