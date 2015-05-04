@@ -75,7 +75,7 @@
         public void CloseFunction()
         {
             NextArgument();
-            Add(_functions.Pop().ToValue());
+            AddValue(_functions.Pop().ToValue());
         }
 
         /// <summary>

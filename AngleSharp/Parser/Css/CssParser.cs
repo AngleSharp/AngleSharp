@@ -781,16 +781,16 @@
                 case CssTokenType.Delim:// e.g. "#"
                     return GetValueFromDelim(token.Data[0], tokens);
                 case CssTokenType.Ident: // e.g. "auto"
-                    value.Add(token.ToIdentifier());
+                    value.AddValue(token.ToIdentifier());
                     return tokens.MoveNext();
                 case CssTokenType.String:// e.g. "'i am a string'"
-                    value.Add(new CssString(token.Data));
+                    value.AddValue(new CssString(token.Data));
                     return tokens.MoveNext();
                 case CssTokenType.Url:// e.g. "url('this is a valid URL')"
-                    value.Add(new CssUrl(token.Data));
+                    value.AddValue(new CssUrl(token.Data));
                     return tokens.MoveNext();
                 case CssTokenType.Number: // e.g. "173"
-                    value.Add(((CssNumberToken)token).ToNumber());
+                    value.AddValue(((CssNumberToken)token).ToNumber());
                     return tokens.MoveNext();
                 case CssTokenType.Function: // e.g. "rgba(...)"
                     return GetValueFunction(tokens);
@@ -821,7 +821,7 @@
                 return false;
             }
 
-            value.Add(val);
+            value.AddValue(val);
             return nxt;
         }
 
@@ -832,7 +832,7 @@
 
             if (delimiter == Symbols.Solidus)
             {
-                value.Add(CssValue.Delimiter);
+                value.AddValue(CssValue.Delimiter);
                 return tokens.MoveNext();
             }
 
@@ -893,7 +893,7 @@
             var color = GetColorFromHexValue(buffer.ToPool());
 
             if (color != null)
-                value.Add(color.Value);
+                value.AddValue(color.Value);
 
             return alive;
         }
