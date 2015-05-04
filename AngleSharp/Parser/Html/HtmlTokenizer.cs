@@ -104,40 +104,42 @@
             var current = GetNext();
             _position = GetCurrentPosition();
 
-            if (current == Symbols.EndOfFile) 
-                return NewEof();
-
-            switch (_state)
+            if (current != Symbols.EndOfFile)
             {
-                case HtmlParseMode.PCData:
-                    token = Data(current);
-                    break;
+                switch (_state)
+                {
+                    case HtmlParseMode.PCData:
+                        token = Data(current);
+                        break;
 
-                case HtmlParseMode.RCData:
-                    token = RCData(current);
-                    break;
+                    case HtmlParseMode.RCData:
+                        token = RCData(current);
+                        break;
 
-                case HtmlParseMode.Plaintext:
-                    token = Plaintext(current);
-                    break;
+                    case HtmlParseMode.Plaintext:
+                        token = Plaintext(current);
+                        break;
 
-                case HtmlParseMode.Rawtext:
-                    token = Rawtext(current);
-                    break;
+                    case HtmlParseMode.Rawtext:
+                        token = Rawtext(current);
+                        break;
 
-                case HtmlParseMode.Script:
-                    token = ScriptData(current);
-                    break;
+                    case HtmlParseMode.Script:
+                        token = ScriptData(current);
+                        break;
+                }
+
+                if (_textBuffer.Length > 0)
+                {
+                    _buffered = token;
+                    token = NewCharacter(_textBuffer.ToString());
+                    _textBuffer.Clear();
+                }
+
+                return token;
             }
 
-            if (_textBuffer.Length > 0)
-            {
-                _buffered = token;
-                token = NewCharacter(_textBuffer.ToString());
-                _textBuffer.Clear();
-            }
-
-            return token;
+            return NewEof();
         }
 
         #endregion
