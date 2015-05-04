@@ -468,7 +468,7 @@
         /// See 8.2.4.68 CDATA section state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        HtmlToken CData(Char c)
+        HtmlToken CharacterData(Char c)
         {
             while (true)
             {
@@ -689,7 +689,7 @@
                 Back();
                 RaiseErrorOccurred(HtmlParseError.EOF);
                 _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
-                return NewEof();
+                return NewCharacter();
             }
             else
             {
@@ -786,7 +786,7 @@
             else if (_acceptsCharacterData && ContinuesWith("[CDATA[", ignoreCase: false))
             {
                 Advance(6);
-                return CData(GetNext());
+                return CharacterData(GetNext());
             }
             else
             {
