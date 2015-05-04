@@ -132,8 +132,7 @@
                 if (_textBuffer.Length > 0)
                 {
                     _buffered = token;
-                    token = NewCharacter(_textBuffer.ToString());
-                    _textBuffer.Clear();
+                    token = NewCharacter();
                 }
 
                 return token;
@@ -464,8 +463,6 @@
         HtmlToken CData()
         {
             var c = GetNext();
-            _stringBuffer.Clear();
-            _position = GetCurrentPosition();
 
             while (true)
             {
@@ -480,11 +477,11 @@
                     break;
                 }
 
-                _stringBuffer.Append(c);
+                _textBuffer.Append(c);
                 c = GetNext();
             }
 
-            return NewCharacter(_stringBuffer.ToString());
+            return NewCharacter();
         }
 
         /// <summary>
@@ -2491,9 +2488,11 @@
 
         #region Tokens
 
-        HtmlToken NewCharacter(String value)
+        HtmlToken NewCharacter()
         {
-            return new HtmlToken(HtmlTokenType.Character, _position, value);
+            var content = _textBuffer.ToString();
+            _textBuffer.Clear();
+            return new HtmlToken(HtmlTokenType.Character, _position, content);
         }
 
         HtmlToken NewComment(String value)
