@@ -823,7 +823,7 @@
                 }
 
                 _state = HtmlParseMode.PCData;
-                return NewComment(_stringBuffer.ToString());
+                return NewComment();
             }
         }
 
@@ -856,7 +856,7 @@
                     return Comment();
             }
 
-            return NewComment(_stringBuffer.ToString());
+            return NewComment();
         }
 
         /// <summary>
@@ -887,7 +887,7 @@
                     return Comment();
             }
 
-            return NewComment(_stringBuffer.ToString());
+            return NewComment();
         }
 
         /// <summary>
@@ -922,7 +922,7 @@
                         continue;
                 }
 
-                return NewComment(_stringBuffer.ToString());
+                return NewComment();
             }
         }
 
@@ -940,7 +940,7 @@
                 case Symbols.EndOfFile:
                     RaiseErrorOccurred(HtmlParseError.EOF);
                     Back();
-                    return NewComment(_stringBuffer.ToString());
+                    return NewComment();
                 case Symbols.Null:
                     RaiseErrorOccurred(HtmlParseError.Null);
                     c = Symbols.Replacement;
@@ -986,7 +986,7 @@
                         return null;
                 }
 
-                return NewComment(_stringBuffer.ToString());
+                return NewComment();
             }
         }
 
@@ -1018,7 +1018,7 @@
                     return null;
             }
 
-            return NewComment(_stringBuffer.ToString());
+            return NewComment();
         }
 
         #endregion
@@ -2495,9 +2495,11 @@
             return new HtmlToken(HtmlTokenType.Character, _position, content);
         }
 
-        HtmlToken NewComment(String value)
+        HtmlToken NewComment()
         {
-            return new HtmlToken(HtmlTokenType.Comment, _position, value);
+            var content = _stringBuffer.ToString();
+            _stringBuffer.Clear();
+            return new HtmlToken(HtmlTokenType.Comment, _position, content);
         }
 
         HtmlToken NewEof()
