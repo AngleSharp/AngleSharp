@@ -460,9 +460,11 @@
                     Advance(2);
                     break;
                 }
-
-                _textBuffer.Append(c);
-                c = GetNext();
+                else
+                {
+                    _textBuffer.Append(c);
+                    c = GetNext();
+                }
             }
 
             return NewCharacter();
@@ -2196,9 +2198,11 @@
                 _textBuffer.Append(Symbols.LessThan).Append(c);
                 return ScriptDataStartDoubleEscape();
             }
-
-            _textBuffer.Append(Symbols.LessThan);
-            return ScriptDataEscaped(c);
+            else
+            {
+                _textBuffer.Append(Symbols.LessThan);
+                return ScriptDataEscaped(c);
+            }
         }
 
         /// <summary>
@@ -2213,9 +2217,11 @@
                 _stringBuffer.Clear().Append(c);
                 return ScriptDataEscapedNameTag(tag);
             }
-
-            _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
-            return ScriptDataEscaped(c);
+            else
+            {
+                _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                return ScriptDataEscaped(c);
+            }
         }
 
         /// <summary>
