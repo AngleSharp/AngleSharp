@@ -633,11 +633,13 @@
                 RaiseErrorOccurred(HtmlParseError.BogusComment);
                 return BogusComment(c);
             }
-
-            _state = HtmlParseMode.PCData;
-            RaiseErrorOccurred(HtmlParseError.AmbiguousOpenTag);
-            _textBuffer.Append(Symbols.LessThan);
-            return DataText(c);
+            else
+            {
+                _state = HtmlParseMode.PCData;
+                RaiseErrorOccurred(HtmlParseError.AmbiguousOpenTag);
+                _textBuffer.Append(Symbols.LessThan);
+                return DataText(c);
+            }
         }
 
         /// <summary>
@@ -648,15 +650,13 @@
         {
             if (c.IsLowercaseAscii())
             {
-                var tag = NewTagClose();
                 _stringBuffer.Clear().Append(c);
-                return TagName(tag);
+                return TagName(NewTagClose());
             }
             else if (c.IsUppercaseAscii())
             {
-                var tag = NewTagClose();
                 _stringBuffer.Clear().Append(Char.ToLower(c));
-                return TagName(tag);
+                return TagName(NewTagClose());
             }
             else if (c == Symbols.GreaterThan)
             {
@@ -895,8 +895,7 @@
                         break;
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
-                        c = Symbols.Replacement;
-                        _stringBuffer.Append(c);
+                        _stringBuffer.Append(Symbols.Replacement);
                         continue;
                     default:
                         _stringBuffer.Append(c);
@@ -1020,9 +1019,11 @@
                 Back();
                 return NewDoctype(true);
             }
-
-            RaiseErrorOccurred(HtmlParseError.DoctypeUnexpected);
-            return DoctypeNameBefore(c);
+            else
+            {
+                RaiseErrorOccurred(HtmlParseError.DoctypeUnexpected);
+                return DoctypeNameBefore(c);
+            }
         }
 
         /// <summary>
