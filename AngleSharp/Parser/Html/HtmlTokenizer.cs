@@ -230,6 +230,11 @@
         /// <param name="c">The next input character.</param>
         HtmlToken RCData(Char c)
         {
+            return c == Symbols.LessThan ? RCDataLt(GetNext()) : RCDataText(c);
+        }
+        
+        HtmlToken RCDataText(Char c)
+        {
             while (true)
             {
                 switch (c)
@@ -244,26 +249,14 @@
                         break;
 
                     case Symbols.LessThan:
-                        // See 8.2.4.11 RCDATA less-than sign state
-                        c = GetNext();
-
-                        if (c == Symbols.Solidus)
-                        {
-                            _stringBuffer.Clear();
-                            return RCDataEndTag(GetNext());
-                        }
-
-                        _textBuffer.Append(Symbols.LessThan);
-                        continue;
+                    case Symbols.EndOfFile:
+                        Back();
+                        return NewCharacter();
 
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
                         _textBuffer.Append(Symbols.Replacement);
                         break;
-
-                    case Symbols.EndOfFile:
-                        Back();
-                        return NewCharacter();
 
                     default:
                         _textBuffer.Append(c);
@@ -271,6 +264,24 @@
                 }
 
                 c = GetNext();
+            }
+        }
+
+        /// <summary>
+        /// See 8.2.4.11 RCDATA less-than sign state
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        HtmlToken RCDataLt(Char c)
+        {
+            if (c == Symbols.Solidus)
+            {
+                _stringBuffer.Clear();
+                return RCDataEndTag(GetNext());
+            }
+            else
+            {
+                _textBuffer.Append(Symbols.LessThan);
+                return RCDataText(c);
             }
         }
 
@@ -283,18 +294,18 @@
             if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear().Append(Char.ToLower(c));
+                return RCDataNameEndTag(NewTagClose());
             }
             else if (c.IsLowercaseAscii())
             {
                 _stringBuffer.Clear().Append(c);
+                return RCDataNameEndTag(NewTagClose());
             }
             else
             {
                 _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
-                return RCData(c);
+                return RCDataText(c);
             }
-
-            return RCDataNameEndTag(NewTagClose());
         }
 
         /// <summary>
@@ -323,7 +334,7 @@
                 else
                 {
                     _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
-                    return RCData(c);
+                    return RCDataText(c);
                 }
             }
         }
