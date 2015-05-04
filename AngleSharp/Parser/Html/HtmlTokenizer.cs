@@ -151,6 +151,11 @@
         /// <param name="c">The next input character.</param>
         HtmlToken Data(Char c)
         {
+            return c == Symbols.LessThan ? TagOpen(GetNext()) : DataText(c);
+        }
+
+        HtmlToken DataText(Char c)
+        {
             while (true)
             {
                 switch (c)
@@ -160,19 +165,19 @@
 
                         if (value == null)
                             _textBuffer.Append(Symbols.Ampersand);
+                        else
+                            _textBuffer.Append(value);
 
-                        _textBuffer.Append(value);
                         break;
 
                     case Symbols.LessThan:
-                        return TagOpen(GetNext());
+                    case Symbols.EndOfFile:
+                        Back();
+                        return NewCharacter();
 
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
-                        return Data(GetNext());
-
-                    case Symbols.EndOfFile:
-                        return NewEof();
+                        break;
 
                     default:
                         _textBuffer.Append(c);
@@ -652,7 +657,7 @@
             _state = HtmlParseMode.PCData;
             RaiseErrorOccurred(HtmlParseError.AmbiguousOpenTag);
             _textBuffer.Append(Symbols.LessThan);
-            return Data(c);
+            return DataText(c);
         }
 
         /// <summary>
