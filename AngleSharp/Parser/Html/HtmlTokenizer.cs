@@ -192,7 +192,7 @@
                         break;
 
                     case Symbols.LessThan:
-                        return TagOpen();
+                        return TagOpen(GetNext());
 
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
@@ -240,7 +240,7 @@
                         if (c == Symbols.Solidus)
                         {
                             _stringBuffer.Clear();
-                            return RCDataEndTag();
+                            return RCDataEndTag(GetNext());
                         }
 
                         _textBuffer.Append(Symbols.LessThan);
@@ -266,11 +266,10 @@
         /// <summary>
         /// See 8.2.4.12 RCDATA end tag open state
         /// </summary>
+        /// <param name="c">The next input character.</param>
         /// <returns>The emitted token.</returns>
-        HtmlToken RCDataEndTag()
+        HtmlToken RCDataEndTag(Char c)
         {
-            var c = GetNext();
-
             if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear().Append(Char.ToLower(c));
@@ -347,7 +346,7 @@
                 switch (c)
                 {
                     case Symbols.LessThan:
-                        return RawtextLT();
+                        return RawtextLT(GetNext());
 
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
@@ -369,14 +368,13 @@
         /// <summary>
         /// See 8.2.4.14 RAWTEXT less-than sign state
         /// </summary>
-        HtmlToken RawtextLT()
+        /// <param name="c">The next input character.</param>
+        HtmlToken RawtextLT(Char c)
         {
-            var c = GetNext();
-
             if (c == Symbols.Solidus)
             {
                 _stringBuffer.Clear();
-                return RawtextEndTag();
+                return RawtextEndTag(GetNext());
             }
             else
             {
@@ -388,10 +386,9 @@
         /// <summary>
         /// See 8.2.4.15 RAWTEXT end tag open state
         /// </summary>
-        HtmlToken RawtextEndTag()
+        /// <param name="c">The next input character.</param>
+        HtmlToken RawtextEndTag(Char c)
         {
-            var c = GetNext();
-
             if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear().Append(Char.ToLower(c));
@@ -460,10 +457,9 @@
         /// <summary>
         /// See 8.2.4.68 CDATA section state
         /// </summary>
-        HtmlToken CData()
+        /// <param name="c">The next input character.</param>
+        HtmlToken CData(Char c)
         {
-            var c = GetNext();
-
             while (true)
             {
                 if (c == Symbols.EndOfFile)
@@ -619,10 +615,9 @@
         /// <summary>
         /// See 8.2.4.8 Tag open state
         /// </summary>
-        HtmlToken TagOpen()
+        /// <param name="c">The next input character.</param>
+        HtmlToken TagOpen(Char c)
         {
-            var c = GetNext();
-
             if (c == Symbols.Solidus)
             {
                 return TagEnd(GetNext());
@@ -641,7 +636,7 @@
             }
             else if (c == Symbols.ExclamationMark)
             {
-                return MarkupDeclaration();
+                return MarkupDeclaration(GetNext());
             }
             else if (c == Symbols.QuestionMark)
             {
@@ -765,24 +760,23 @@
         /// <summary>
         /// See 8.2.4.45 Markup declaration open state
         /// </summary>
-        HtmlToken MarkupDeclaration()
+        /// <param name="c">The next input character.</param>
+        HtmlToken MarkupDeclaration(Char c)
         {
-            var c = GetNext();
-
             if (ContinuesWith("--"))
             {
                 Advance();
-                return CommentStart();
+                return CommentStart(GetNext());
             }
             else if (ContinuesWith(Tags.Doctype))
             {
                 Advance(6);
-                return Doctype();
+                return Doctype(GetNext());
             }
             else if (_acceptsCharacterData && ContinuesWith("[CDATA[", ignoreCase: false))
             {
                 Advance(6);
-                return CData();
+                return CData(GetNext());
             }
             else
             {
@@ -830,15 +824,15 @@
         /// <summary>
         /// See 8.2.4.46 Comment start state
         /// </summary>
-        HtmlToken CommentStart()
+        /// <param name="c">The next input character.</param>
+        HtmlToken CommentStart(Char c)
         {
-            var c = GetNext();
             _stringBuffer.Clear();
 
             switch (c)
             {
                 case Symbols.Minus:
-                    return CommentDashStart();
+                    return CommentDashStart(GetNext());
                 case Symbols.Null:
                     RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
@@ -862,10 +856,9 @@
         /// <summary>
         /// See 8.2.4.47 Comment start dash state
         /// </summary>
-        HtmlToken CommentDashStart()
+        /// <param name="c">The next input character.</param>
+        HtmlToken CommentDashStart(Char c)
         {
-            var c = GetNext();
-
             switch (c)
             {
                 case Symbols.Minus:
@@ -902,7 +895,7 @@
                 switch (c)
                 {
                     case Symbols.Minus:
-                        var result = CommentDashEnd();
+                        var result = CommentDashEnd(GetNext());
 
                         if (result != null)
                             return result;
@@ -929,10 +922,9 @@
         /// <summary>
         /// See 8.2.4.49 Comment end dash state
         /// </summary>
-        HtmlToken CommentDashEnd()
+        /// <param name="c">The next input character.</param>
+        HtmlToken CommentDashEnd(Char c)
         {
-            var c = GetNext();
-
             switch (c)
             {
                 case Symbols.Minus:
@@ -971,7 +963,7 @@
                         return null;
                     case Symbols.ExclamationMark:
                         RaiseErrorOccurred(HtmlParseError.CommentEndedWithEM);
-                        return CommentBangEnd();
+                        return CommentBangEnd(GetNext());
                     case Symbols.Minus:
                         RaiseErrorOccurred(HtmlParseError.CommentEndedWithDash);
                         _stringBuffer.Append(Symbols.Minus);
@@ -993,15 +985,14 @@
         /// <summary>
         /// See 8.2.4.51 Comment end bang state
         /// </summary>
-        HtmlToken CommentBangEnd()
+        /// <param name="c">The next input character.</param>
+        HtmlToken CommentBangEnd(Char c)
         {
-            var c = GetNext();
-
             switch (c)
             {
                 case Symbols.Minus:
                     _stringBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(Symbols.ExclamationMark);
-                    return CommentDashEnd();
+                    return CommentDashEnd(GetNext());
                 case Symbols.GreaterThan:
                     _state = HtmlParseMode.PCData;
                     break;
@@ -1028,10 +1019,9 @@
         /// <summary>
         /// See 8.2.4.52 DOCTYPE state
         /// </summary>
-        HtmlToken Doctype()
+        /// <param name="c">The next input character.</param>
+        HtmlToken Doctype(Char c)
         {
-            var c = GetNext();
-
             if (c.IsSpaceCharacter())
             {
                 return DoctypeNameBefore(GetNext());
