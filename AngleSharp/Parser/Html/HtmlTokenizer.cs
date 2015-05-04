@@ -160,6 +160,11 @@
             {
                 switch (c)
                 {
+                    case Symbols.LessThan:
+                    case Symbols.EndOfFile:
+                        Back();
+                        return NewCharacter();
+
                     case Symbols.Ampersand:
                         var value = CharacterReference(GetNext());
 
@@ -169,11 +174,6 @@
                             _textBuffer.Append(value);
 
                         break;
-
-                    case Symbols.LessThan:
-                    case Symbols.EndOfFile:
-                        Back();
-                        return NewCharacter();
 
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
@@ -278,7 +278,6 @@
         /// See 8.2.4.12 RCDATA end tag open state
         /// </summary>
         /// <param name="c">The next input character.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken RCDataEndTag(Char c)
         {
             if (c.IsUppercaseAscii())
@@ -302,7 +301,6 @@
         /// See 8.2.4.13 RCDATA end tag name state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken RCDataNameEndTag(HtmlTagToken tag)
         {
             while (true)
@@ -352,21 +350,24 @@
         /// <param name="c">The next input character.</param>
         HtmlToken Rawtext(Char c)
         {
+            return c == Symbols.LessThan ? RawtextLT(GetNext()) : RawtextText(c);
+        }
+
+        HtmlToken RawtextText(Char c)
+        {
             while (true)
             {
                 switch (c)
                 {
                     case Symbols.LessThan:
-                        return RawtextLT(GetNext());
+                    case Symbols.EndOfFile:
+                        Back();
+                        return NewCharacter();
 
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
                         _textBuffer.Append(Symbols.Replacement);
                         break;
-
-                    case Symbols.EndOfFile:
-                        Back();
-                        return NewCharacter();
 
                     default:
                         _textBuffer.Append(c);
@@ -391,7 +392,7 @@
             else
             {
                 _textBuffer.Append(Symbols.LessThan);
-                return Rawtext(c);
+                return RawtextText(c);
             }
         }
 
@@ -414,7 +415,7 @@
             else
             {
                 _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
-                return Rawtext(c);
+                return RawtextText(c);
             }
         }
 
@@ -422,7 +423,6 @@
         /// See 8.2.4.16 RAWTEXT end tag name state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken RawtextNameEndTag(HtmlTagToken tag)
         {
             while (true)
@@ -457,7 +457,7 @@
                 else
                 {
                     _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
-                    return Rawtext(c);
+                    return RawtextText(c);
                 }
             }
         }
@@ -704,7 +704,6 @@
         /// See 8.2.4.10 Tag name state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken TagName(HtmlTagToken tag)
         {
             while (true)
@@ -751,7 +750,6 @@
         /// See 8.2.4.43 Self-closing start tag state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken TagSelfClosing(HtmlTagToken tag)
         {
             switch (GetNext())
@@ -1097,7 +1095,6 @@
         /// See 8.2.4.54 DOCTYPE name state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeName(HtmlDoctypeToken doctype)
         {
             while (true)
@@ -1146,7 +1143,6 @@
         /// See 8.2.4.55 After DOCTYPE name state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeNameAfter(HtmlDoctypeToken doctype)
         {
             var c = SkipSpaces();
@@ -1185,7 +1181,6 @@
         /// See 8.2.4.56 After DOCTYPE public keyword state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublic(HtmlDoctypeToken doctype)
         {
             var c = GetNext();
@@ -1232,7 +1227,6 @@
         /// See 8.2.4.57 Before DOCTYPE public identifier state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublicIdentifierBefore(HtmlDoctypeToken doctype)
         {
             var c = SkipSpaces();
@@ -1275,7 +1269,6 @@
         /// See 8.2.4.58 DOCTYPE public identifier (double-quoted) state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublicIdentifierDoubleQuoted(HtmlDoctypeToken doctype)
         {
             while (true)
@@ -1322,7 +1315,6 @@
         /// See 8.2.4.59 DOCTYPE public identifier (single-quoted) state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublicIdentifierSingleQuoted(HtmlDoctypeToken doctype)
         {
             while (true)
@@ -1369,7 +1361,6 @@
         /// See 8.2.4.60 After DOCTYPE public identifier state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken DoctypePublicIdentifierAfter(HtmlDoctypeToken doctype)
         {
             var c = GetNext();
@@ -1415,7 +1406,6 @@
         /// See 8.2.4.61 Between DOCTYPE public and system identifiers state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeBetween(HtmlDoctypeToken doctype)
         {
             var c = SkipSpaces();
@@ -1454,7 +1444,6 @@
         /// See 8.2.4.62 After DOCTYPE system keyword state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystem(HtmlDoctypeToken doctype)
         {
             var c = GetNext();
@@ -1502,7 +1491,6 @@
         /// See 8.2.4.63 Before DOCTYPE system identifier state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystemIdentifierBefore(HtmlDoctypeToken doctype)
         {
             var c = SkipSpaces();
@@ -1545,7 +1533,6 @@
         /// See 8.2.4.64 DOCTYPE system identifier (double-quoted) state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystemIdentifierDoubleQuoted(HtmlDoctypeToken doctype)
         {
             while (true)
@@ -1592,7 +1579,6 @@
         /// See 8.2.4.65 DOCTYPE system identifier (single-quoted) state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystemIdentifierSingleQuoted(HtmlDoctypeToken doctype)
         {
             while (true)
@@ -1634,7 +1620,6 @@
         /// See 8.2.4.66 After DOCTYPE system identifier state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken DoctypeSystemIdentifierAfter(HtmlDoctypeToken doctype)
         {
             var c = SkipSpaces();
@@ -1661,7 +1646,6 @@
         /// See 8.2.4.67 Bogus DOCTYPE state
         /// </summary>
         /// <param name="doctype">The current doctype token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken BogusDoctype(HtmlDoctypeToken doctype)
         {
             while (true)
@@ -1690,7 +1674,6 @@
         /// See 8.2.4.34 Before attribute name state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken AttributeBeforeName(HtmlTagToken tag)
         {
             var c = SkipSpaces();
@@ -1735,7 +1718,6 @@
         /// See 8.2.4.35 Attribute name state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken AttributeName(HtmlTagToken tag)
         {
             while (true)
@@ -1791,7 +1773,6 @@
         /// See 8.2.4.36 After attribute name state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken AttributeAfterName(HtmlTagToken tag)
         {
             var c = SkipSpaces();
@@ -1840,7 +1821,6 @@
         /// See 8.2.4.37 Before attribute value state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken AttributeBeforeValue(HtmlTagToken tag)
         {
             var c = SkipSpaces();
@@ -1892,7 +1872,6 @@
         /// See 8.2.4.38 Attribute value (double-quoted) state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken AttributeDoubleQuotedValue(HtmlTagToken tag)
         {
             while (true)
@@ -1933,7 +1912,6 @@
         /// See 8.2.4.39 Attribute value (single-quoted) state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken AttributeSingleQuotedValue(HtmlTagToken tag)
         {
             while (true)
@@ -1975,7 +1953,6 @@
         /// </summary>
         /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken AttributeUnquotedValue(Char c, HtmlTagToken tag)
         {
             while (true)
@@ -2026,7 +2003,6 @@
         /// See 8.2.4.42 After attribute value (quoted) state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken AttributeAfterValue(HtmlTagToken tag)
         {
             var c = GetNext();
@@ -2125,7 +2101,6 @@
         /// See 8.2.4.19 Script data end tag name state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        /// <returns>The emitted token.</returns>
         HtmlToken ScriptDataNameEndTag(HtmlTagToken tag)
         {
             while (true)
