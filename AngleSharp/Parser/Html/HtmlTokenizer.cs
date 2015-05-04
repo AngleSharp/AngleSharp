@@ -306,23 +306,11 @@
             while (true)
             {
                 var c = GetNext();
-                var name = _stringBuffer.ToString();
-                var appropriateTag = name == _lastStartTag;
+                var token = CreateIfAppropriate(c, tag, StringComparison.Ordinal);
 
-                if (appropriateTag && c.IsSpaceCharacter())
+                if (token != null)
                 {
-                    tag.Name = name;
-                    return AttributeBeforeName(tag);
-                }
-                else if (appropriateTag && c == Symbols.Solidus)
-                {
-                    tag.Name = name;
-                    return TagSelfClosing(tag);
-                }
-                else if (appropriateTag && c == Symbols.GreaterThan)
-                {
-                    tag.Name = name;
-                    return EmitTag(tag);
+                    return token;
                 }
                 else if (c.IsUppercaseAscii())
                 {
@@ -428,23 +416,11 @@
             while (true)
             {
                 var c = GetNext();
-                var name = _stringBuffer.ToString();
-                var appropriateTag = name == _lastStartTag;
+                var token = CreateIfAppropriate(c, tag, StringComparison.Ordinal);
 
-                if (appropriateTag && c.IsSpaceCharacter())
+                if (token != null)
                 {
-                    tag.Name = name;
-                    return AttributeBeforeName(tag);
-                }
-                else if (appropriateTag && c == Symbols.Solidus)
-                {
-                    tag.Name = name;
-                    return TagSelfClosing(tag);
-                }
-                else if (appropriateTag && c == Symbols.GreaterThan)
-                {
-                    tag.Name = name;
-                    return EmitTag(tag);
+                    return token;
                 }
                 else if (c.IsUppercaseAscii())
                 {
@@ -2106,27 +2082,10 @@
             while (true)
             {
                 var c = GetNext();
-                var name = _stringBuffer.ToString().ToLowerInvariant();
-                var appropriateEndTag = name == _lastStartTag;
+                var token = CreateIfAppropriate(c, tag, StringComparison.OrdinalIgnoreCase);
 
-                if (appropriateEndTag)
-                {
-                    if (c.IsSpaceCharacter())
-                    {
-                        tag.Name = name;
-                        return AttributeBeforeName(tag);
-                    }
-                    else if (c == Symbols.Solidus)
-                    {
-                        tag.Name = name;
-                        return TagSelfClosing(tag);
-                    }
-                    else if (c == Symbols.GreaterThan)
-                    {
-                        tag.Name = name;
-                        return EmitTag(tag);
-                    }
-                }
+                if (token != null)
+                    return token;
                 
                 if (!c.IsLetter())
                 {
@@ -2268,27 +2227,10 @@
             while (true)
             {
                 var c = GetNext();
-                var name = _stringBuffer.ToString().ToLowerInvariant();
-                var appropriateEndTag = name == _lastStartTag;
+                var token = CreateIfAppropriate(c, tag, StringComparison.OrdinalIgnoreCase);
 
-                if (appropriateEndTag)
-                {
-                    if (c.IsSpaceCharacter())
-                    {
-                        tag.Name = name;
-                        return AttributeBeforeName(tag);
-                    }
-                    else if (c == Symbols.Solidus)
-                    {
-                        tag.Name = name;
-                        return TagSelfClosing(tag);
-                    }
-                    else if (c == Symbols.GreaterThan)
-                    {
-                        tag.Name = name;
-                        return EmitTag(tag);
-                    }
-                }
+                if (token != null)
+                    return token;
 
                 if (!c.IsLetter())
                 {
@@ -2503,6 +2445,39 @@
         #endregion
 
         #region Helpers
+
+        HtmlToken CreateIfAppropriate(Char c, HtmlTagToken tag, StringComparison comparison)
+        {
+            var isspace = c.IsSpaceCharacter();
+            var isclosed = c == Symbols.GreaterThan;
+            var isslash = c == Symbols.Solidus;
+
+            if (isspace || isclosed || isslash)
+            {
+                var name = _stringBuffer.ToString();
+
+                if (name.Equals(_lastStartTag, comparison))
+                {
+                    if (isspace)
+                    {
+                        tag.Name = _lastStartTag;
+                        return AttributeBeforeName(tag);
+                    }
+                    else if (isslash)
+                    {
+                        tag.Name = _lastStartTag;
+                        return TagSelfClosing(tag);
+                    }
+                    else if (isclosed)
+                    {
+                        tag.Name = _lastStartTag;
+                        return EmitTag(tag);
+                    }
+                }
+            }
+
+            return null;
+        }
 
         HtmlToken EmitTag(HtmlTagToken tag)
         {
