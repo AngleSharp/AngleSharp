@@ -143,34 +143,7 @@
 
         #endregion
 
-        #region General
-
-        /// <summary>
-        /// See 8.2.4.7 PLAINTEXT state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken Plaintext(Char c)
-        {
-            while (true)
-            {
-                switch (c)
-                {
-                    case Symbols.Null:
-                        RaiseErrorOccurred(HtmlParseError.Null);
-                        _textBuffer.Append(Symbols.Replacement);
-                        break;
-
-                    case Symbols.EndOfFile:
-                        return NewEof();
-
-                    default:
-                        _textBuffer.Append(c);
-                        break;
-                }
-
-                c = GetNext();
-            }
-        }
+        #region Data
 
         /// <summary>
         /// See 8.2.4.1 Data state
@@ -200,6 +173,38 @@
 
                     case Symbols.EndOfFile:
                         return NewEof();
+
+                    default:
+                        _textBuffer.Append(c);
+                        break;
+                }
+
+                c = GetNext();
+            }
+        }
+
+        #endregion
+
+        #region Plaintext
+
+        /// <summary>
+        /// See 8.2.4.7 PLAINTEXT state
+        /// </summary>
+        /// <param name="c">The next input character.</param>
+        HtmlToken Plaintext(Char c)
+        {
+            while (true)
+            {
+                switch (c)
+                {
+                    case Symbols.Null:
+                        RaiseErrorOccurred(HtmlParseError.Null);
+                        _textBuffer.Append(Symbols.Replacement);
+                        break;
+
+                    case Symbols.EndOfFile:
+                        Back();
+                        return NewCharacter();
 
                     default:
                         _textBuffer.Append(c);
