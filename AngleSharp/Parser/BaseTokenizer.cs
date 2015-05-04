@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Parser
 {
-    using AngleSharp.Events;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Text;
+    using AngleSharp.Events;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Common methods and variables of all tokenizers.
@@ -91,14 +91,6 @@
         public Int32 Position
         {
             get { return _source.Index; }
-        }
-
-        /// <summary>
-        /// Gets the status of reading the source code, are we beyond the stream?
-        /// </summary>
-        public Boolean IsEnded
-        {
-            get { return _current == Symbols.EndOfFile; }
         }
 
         /// <summary>
@@ -201,7 +193,7 @@
         /// </summary>
         protected void Advance()
         {
-            if (!IsEnded)
+            if (_current != Symbols.EndOfFile)
                 AdvanceUnsafe();
         }
 
@@ -211,7 +203,7 @@
         /// <param name="n">The number of characters to advance.</param>
         protected void Advance(Int32 n)
         {
-            while (n-- > 0 && !IsEnded)
+            while (n-- > 0 && _current != Symbols.EndOfFile)
                 AdvanceUnsafe();
         }
 

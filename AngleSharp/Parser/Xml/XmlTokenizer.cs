@@ -53,7 +53,7 @@
         {
             var current = GetNext();
 
-            if (IsEnded) 
+            if (current == Symbols.EndOfFile) 
                 return NewEof();
 
             return Data(current);

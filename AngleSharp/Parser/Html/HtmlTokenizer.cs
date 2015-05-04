@@ -104,7 +104,7 @@
             var current = GetNext();
             _position = GetCurrentPosition();
 
-            if (IsEnded) 
+            if (current == Symbols.EndOfFile) 
                 return NewEof();
 
             switch (_state)
@@ -589,7 +589,7 @@
                         last = value;
                     }
                 }
-                while (!IsEnded && index < 31);
+                while (chr != Symbols.EndOfFile && index < 31);
 
                 Back(consumed);
                 chr = Current;
