@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Parser.Html
 {
-    using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using System;
     using System.Diagnostics;
+    using AngleSharp.Extensions;
+    using AngleSharp.Html;
 
     /// <summary>
     /// The abstract base class of any HTML token.
@@ -11,65 +11,25 @@
     [DebuggerStepThrough]
     class HtmlToken
     {
-        #region Factory
-
-        /// <summary>
-        /// Gets the end of file token.
-        /// </summary>
-        public static readonly HtmlToken EndOfFile = new HtmlToken(HtmlTokenType.EndOfFile);
-
-        /// <summary>
-        /// Creates a new HTML character token based on the given characters.
-        /// </summary>
-        /// <param name="characters">The characters to contain.</param>
-        /// <returns>The generated token.</returns>
-        [DebuggerStepThrough]
-        public static HtmlToken Character(String characters)
-        {
-            return new HtmlToken(HtmlTokenType.Character, characters);
-        }
-
-        /// <summary>
-        /// Creates a new HTML comment token based on the given string.
-        /// </summary>
-        /// <param name="comment">The comment to contain.</param>
-        /// <returns>The generated token.</returns>
-        [DebuggerStepThrough]
-        public static HtmlToken Comment(String comment)
-        {
-            return new HtmlToken(HtmlTokenType.Comment, comment);
-        }
-
-        /// <summary>
-        /// Creates a new HTML doctype token.
-        /// </summary>
-        /// <param name="quirksmode">Determines if quirksmode will be forced.</param>
-        /// <returns>The generated token.</returns>
-        [DebuggerStepThrough]
-        public static HtmlDoctypeToken Doctype(Boolean quirksmode)
-        {
-            return new HtmlDoctypeToken(quirksmode);
-        }
-
-        #endregion
-
         #region Fields
 
         readonly HtmlTokenType _type;
+        readonly TextPosition _position;
         String _name;
 
         #endregion
 
         #region ctor
 
-        public HtmlToken(HtmlTokenType type)
-            : this(type, null)
+        public HtmlToken(HtmlTokenType type, TextPosition position)
+            : this(type, position, null)
         {
         }
 
-        public HtmlToken(HtmlTokenType type, String name)
+        public HtmlToken(HtmlTokenType type, TextPosition position, String name)
         {
             _type = type;
+            _position = position;
             _name = name;
         }
 
@@ -114,19 +74,19 @@
         }
 
         /// <summary>
-        /// Gets the state of the name.
-        /// </summary>
-        public Boolean IsNameMissing
-        {
-            get { return _name == null; }
-        }
-
-        /// <summary>
         /// Gets the data of the comment or character token.
         /// </summary>
         public String Data
         {
             get { return _name; }
+        }
+
+        /// <summary>
+        /// Gets the position of the token.
+        /// </summary>
+        public TextPosition Position
+        {
+            get { return _position; }
         }
 
         /// <summary>
@@ -143,14 +103,6 @@
         public Boolean IsSvg
         {
             get { return IsStartTag(Tags.Svg); }
-        }
-
-        /// <summary>
-        /// Gets if the token is an end-of-file token.
-        /// </summary>
-        public Boolean IsEof
-        {
-            get { return _type == HtmlTokenType.EndOfFile; }
         }
 
         /// <summary>

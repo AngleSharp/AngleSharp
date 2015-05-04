@@ -819,14 +819,9 @@
     <Compile Include="Dom\Constants\DocumentReadyState.cs" />
     <Compile Include="Parser\Css\CssTokenType.cs" />
     <Compile Include="Parser\Css\CssSelectorConstructor.cs" />
-    <Compile Include="Parser\Css\Tokens\CssBracketToken.cs" />
-    <Compile Include="Parser\Css\Tokens\CssColumnToken.cs" />
-    <Compile Include="Parser\Css\Tokens\CssCommentToken.cs" />
     <Compile Include="Parser\Css\Tokens\CssKeywordToken.cs" />
-    <Compile Include="Parser\Css\Tokens\CssMatchToken.cs" />
     <Compile Include="Parser\Css\Tokens\CssNumberToken.cs" />
     <Compile Include="Parser\Css\Tokens\CssRangeToken.cs" />
-    <Compile Include="Parser\Css\Tokens\CssSpecialCharacter.cs" />
     <Compile Include="Parser\Css\Tokens\CssStringToken.cs" />
     <Compile Include="Parser\Css\Tokens\CssUnitToken.cs" />
     <Compile Include="Parser\Html\HtmlTokenType.cs" />
@@ -918,8 +913,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Foundation\Symbols.cs" />
     <Compile Include="Parser\Html\HtmlTokenizer.cs" />
-    <Compile Include="Parser\Css\Tokens\CssCharacterToken.cs" />
-    <Compile Include="Parser\Css\Tokens\CssDelimToken.cs" />
     <Compile Include="Parser\Css\Tokens\CssToken.cs" />
     <Compile Include="Parser\Html\Tokens\HtmlToken.cs" />
     <Compile Include="Parser\Html\Tokens\HtmlDoctypeToken.cs" />

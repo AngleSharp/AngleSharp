@@ -11,6 +11,11 @@
     {
         #region Fields
 
+        /// <summary>
+        /// An empty position (0, 0, 0).
+        /// </summary>
+        public static readonly TextPosition Empty = new TextPosition();
+
         readonly UInt16 _line;
         readonly UInt16 _column;
         readonly Int32 _position;

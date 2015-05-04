@@ -133,7 +133,7 @@
         /// <returns>A new text position.</returns>
         public TextPosition GetCurrentPosition()
         {
-            return new TextPosition(Line, Column, Position);
+            return new TextPosition(_row, _column, Position);
         }
 
         /// <summary>

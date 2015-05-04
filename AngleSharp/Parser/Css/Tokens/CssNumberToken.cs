@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Dom.Css;
     using System;
     using System.Globalization;
+    using AngleSharp.Dom.Css;
 
     /// <summary>
     /// Represents a CSS number token.
@@ -21,8 +21,9 @@
         /// Creates a new CSS number token.
         /// </summary>
         /// <param name="number">The number to contain.</param>
-        public CssNumberToken(String number)
-            : base(CssTokenType.Number, number)
+        /// <param name="position">The token's position.</param>
+        public CssNumberToken(String number, TextPosition position)
+            : base(CssTokenType.Number, number, position)
         {
         }
 

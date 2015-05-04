@@ -14,53 +14,10 @@
         /// </summary>
         /// <param name="type">The exact type.</param>
         /// <param name="data">The data to use.</param>
-        CssKeywordToken(CssTokenType type, String data)
-            : base(type, data)
+        /// <param name="position">The token's position.</param>
+        public CssKeywordToken(CssTokenType type, String data, TextPosition position)
+            : base(type, data, position)
         {
-        }
-
-        #endregion
-
-        #region Static constructors
-
-        /// <summary>
-        /// Creates a new CSS keyword token for a function.
-        /// </summary>
-        /// <param name="name">The name of the function.</param>
-        /// <returns>The created token.</returns>
-        public static CssKeywordToken Function(String name)
-        {
-            return new CssKeywordToken(CssTokenType.Function, name);
-        }
-
-        /// <summary>
-        /// Creates a new CSS keyword token for an identifier.
-        /// </summary>
-        /// <param name="identifier">The name of the identifier.</param>
-        /// <returns>The created token.</returns>
-        public static CssKeywordToken Ident(String identifier)
-        {
-            return new CssKeywordToken(CssTokenType.Ident, identifier);
-        }
-
-        /// <summary>
-        /// Creates a new CSS keyword token for an at-keyword.
-        /// </summary>
-        /// <param name="name">The name of the @-rule.</param>
-        /// <returns>The created token.</returns>
-        public static CssKeywordToken At(String name)
-        {
-            return new CssKeywordToken(CssTokenType.AtKeyword, name);
-        }
-
-        /// <summary>
-        /// Creates a new CSS keyword token for a hash token.
-        /// </summary>
-        /// <param name="characters">The contained characters.</param>
-        /// <returns>The created token.</returns>
-        public static CssKeywordToken Hash(String characters)
-        {
-            return new CssKeywordToken(CssTokenType.Hash, characters);
         }
 
         #endregion

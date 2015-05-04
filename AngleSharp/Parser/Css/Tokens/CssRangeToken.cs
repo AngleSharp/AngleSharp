@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Represents the CSS range token.
@@ -23,8 +23,9 @@
         /// </summary>
         /// <param name="start">The (hex-)string where to begin.</param>
         /// <param name="end">The (hex-)string where to end.</param>
-        public CssRangeToken(String start, String end)
-            : base(CssTokenType.Range, String.Empty)
+        /// <param name="position">The token's position.</param>
+        public CssRangeToken(String start, String end, TextPosition position)
+            : base(CssTokenType.Range, String.Empty, position)
         {
             var index = Int32.Parse(start, NumberStyles.HexNumber);
 

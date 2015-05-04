@@ -64,7 +64,7 @@
         /// </summary>
         /// <param name="value">The value to add.</param>
         /// <returns>The status.</returns>
-        public void Add(ICssValue value)
+        public void AddValue(ICssValue value)
         {
             _values.Add(value);
         }

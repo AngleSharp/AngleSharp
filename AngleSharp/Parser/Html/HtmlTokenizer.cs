@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Parser.Html
 {
-    using AngleSharp.Events;
-    using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using AngleSharp.Events;
+    using AngleSharp.Extensions;
+    using AngleSharp.Html;
 
     /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
@@ -20,6 +20,7 @@
         String _lastStartTag;
         HtmlParseMode _state;
         HtmlToken _buffered;
+        TextPosition _position;
 
         #endregion
 
@@ -67,14 +68,23 @@
         /// Fires an error occurred event.
         /// </summary>
         /// <param name="code">The associated error code.</param>
-        public void RaiseErrorOccurred(HtmlParseError code)
+        /// <param name="position">The position of the error.</param>
+        public void RaiseErrorOccurred(HtmlParseError code, TextPosition position)
         {
             if (_events != null)
             {
-                var position = GetCurrentPosition();
                 var errorEvent = new HtmlParseErrorEvent(code, position);
                 _events.Publish(errorEvent);
             }
+        }
+
+        /// <summary>
+        /// Fires an error occurred event at the current position.
+        /// </summary>
+        /// <param name="code">The associated error code.</param>
+        public void RaiseErrorOccurred(HtmlParseError code)
+        {
+            RaiseErrorOccurred(code, GetCurrentPosition());
         }
 
         /// <summary>
@@ -92,9 +102,10 @@
             }
 
             var current = GetNext();
+            _position = GetCurrentPosition();
 
             if (IsEnded) 
-                return HtmlToken.EndOfFile;
+                return NewEof();
 
             switch (_state)
             {
@@ -122,7 +133,7 @@
             if (_textBuffer.Length > 0)
             {
                 _buffered = token;
-                token = HtmlToken.Character(_textBuffer.ToString());
+                token = NewCharacter(_textBuffer.ToString());
                 _textBuffer.Clear();
             }
 
@@ -149,7 +160,7 @@
                         break;
 
                     case Symbols.EndOfFile:
-                        return HtmlToken.EndOfFile;
+                        return NewEof();
 
                     default:
                         _textBuffer.Append(c);
@@ -187,7 +198,7 @@
                         return Data(GetNext());
 
                     case Symbols.EndOfFile:
-                        return HtmlToken.EndOfFile;
+                        return NewEof();
 
                     default:
                         _textBuffer.Append(c);
@@ -240,7 +251,7 @@
                         break;
 
                     case Symbols.EndOfFile:
-                        return HtmlToken.EndOfFile;
+                        return NewEof();
 
                     default:
                         _textBuffer.Append(c);
@@ -273,7 +284,7 @@
                 return RCData(c);
             }
 
-            return RCDataNameEndTag(HtmlTagToken.Close());
+            return RCDataNameEndTag(NewTagClose());
         }
 
         /// <summary>
@@ -343,7 +354,7 @@
                         break;
 
                     case Symbols.EndOfFile:
-                        return HtmlToken.EndOfFile;
+                        return NewEof();
 
                     default:
                         _textBuffer.Append(c);
@@ -383,12 +394,12 @@
             if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Clear().Append(Char.ToLower(c));
-                return RawtextNameEndTag(HtmlTagToken.Close());
+                return RawtextNameEndTag(NewTagClose());
             }
             else if (c.IsLowercaseAscii())
             {
                 _stringBuffer.Clear().Append(c);
-                return RawtextNameEndTag(HtmlTagToken.Close());
+                return RawtextNameEndTag(NewTagClose());
             }
             else
             {
@@ -450,12 +461,12 @@
         /// </summary>
         HtmlToken CData()
         {
+            var c = GetNext();
             _stringBuffer.Clear();
+            _position = GetCurrentPosition();
 
             while (true)
             {
-                var c = GetNext();
-
                 if (c == Symbols.EndOfFile)
                 {
                     Back();
@@ -468,9 +479,10 @@
                 }
 
                 _stringBuffer.Append(c);
+                c = GetNext();
             }
 
-            return HtmlToken.Character(_stringBuffer.ToString());
+            return NewCharacter(_stringBuffer.ToString());
         }
 
         /// <summary>
@@ -618,13 +630,13 @@
             }
             else if (c.IsLowercaseAscii())
             {
-                var tag = HtmlTagToken.Open();
+                var tag = NewTagOpen();
                 _stringBuffer.Clear().Append(c);
                 return TagName(tag);
             }
             else if (c.IsUppercaseAscii())
             {
-                var tag = HtmlTagToken.Open();
+                var tag = NewTagOpen();
                 _stringBuffer.Clear().Append(Char.ToLower(c));
                 return TagName(tag);
             }
@@ -652,13 +664,13 @@
         {
             if (c.IsLowercaseAscii())
             {
-                var tag = HtmlTagToken.Close();
+                var tag = NewTagClose();
                 _stringBuffer.Clear().Append(c);
                 return TagName(tag);
             }
             else if (c.IsUppercaseAscii())
             {
-                var tag = HtmlTagToken.Close();
+                var tag = NewTagClose();
                 _stringBuffer.Clear().Append(Char.ToLower(c));
                 return TagName(tag);
             }
@@ -673,7 +685,7 @@
                 Back();
                 RaiseErrorOccurred(HtmlParseError.EOF);
                 _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
-                return HtmlToken.EndOfFile;
+                return NewEof();
             }
             else
             {
@@ -716,7 +728,7 @@
                 else if (c == Symbols.EndOfFile)
                 {
                     RaiseErrorOccurred(HtmlParseError.EOF);
-                    return HtmlToken.EndOfFile;
+                    return NewEof();
                 }
                 else if (c.IsUppercaseAscii())
                 {
@@ -743,7 +755,7 @@
                     return EmitTag(tag);
                 case Symbols.EndOfFile:
                     RaiseErrorOccurred(HtmlParseError.EOF);
-                    return HtmlToken.EndOfFile;
+                    return NewEof();
                 default:
                     RaiseErrorOccurred(HtmlParseError.ClosingSlashMisplaced);
                     Back();
@@ -812,7 +824,7 @@
                 }
 
                 _state = HtmlParseMode.PCData;
-                return EmitComment();
+                return NewComment(_stringBuffer.ToString());
             }
         }
 
@@ -845,7 +857,7 @@
                     return Comment();
             }
 
-            return EmitComment();
+            return NewComment(_stringBuffer.ToString());
         }
 
         /// <summary>
@@ -876,7 +888,7 @@
                     return Comment();
             }
 
-            return EmitComment();
+            return NewComment(_stringBuffer.ToString());
         }
 
         /// <summary>
@@ -911,7 +923,7 @@
                         continue;
                 }
 
-                return EmitComment();
+                return NewComment(_stringBuffer.ToString());
             }
         }
 
@@ -929,7 +941,7 @@
                 case Symbols.EndOfFile:
                     RaiseErrorOccurred(HtmlParseError.EOF);
                     Back();
-                    return EmitComment();
+                    return NewComment(_stringBuffer.ToString());
                 case Symbols.Null:
                     RaiseErrorOccurred(HtmlParseError.Null);
                     c = Symbols.Replacement;
@@ -975,7 +987,7 @@
                         return null;
                 }
 
-                return EmitComment();
+                return NewComment(_stringBuffer.ToString());
             }
         }
 
@@ -1007,7 +1019,7 @@
                     return null;
             }
 
-            return EmitComment();
+            return NewComment(_stringBuffer.ToString());
         }
 
         #endregion
@@ -1029,8 +1041,7 @@
             {
                 RaiseErrorOccurred(HtmlParseError.EOF);
                 Back();
-                var doctype = HtmlToken.Doctype(true);
-                return Emit(doctype);
+                return NewDoctype(true);
             }
 
             RaiseErrorOccurred(HtmlParseError.DoctypeUnexpected);
@@ -1048,34 +1059,34 @@
 
             if (c.IsUppercaseAscii())
             {
-                var doctype = HtmlToken.Doctype(false);
+                var doctype = NewDoctype(false);
                 _stringBuffer.Clear().Append(Char.ToLower(c));
                 return DoctypeName(doctype);
             }
             else if (c == Symbols.Null)
             {
-                var doctype = HtmlToken.Doctype(false);
+                var doctype = NewDoctype(false);
                 RaiseErrorOccurred(HtmlParseError.Null);
                 _stringBuffer.Clear().Append(Symbols.Replacement);
                 return DoctypeName(doctype);
             }
             else if (c == Symbols.GreaterThan)
             {
-                var doctype = HtmlToken.Doctype(true);
+                var doctype = NewDoctype(true);
                 _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
-                return Emit(doctype);
+                return doctype;
             }
             else if (c == Symbols.EndOfFile)
             {
-                var doctype = HtmlToken.Doctype(true);
+                var doctype = NewDoctype(true);
                 RaiseErrorOccurred(HtmlParseError.EOF);
                 Back();
-                return Emit(doctype);
+                return doctype;
             }
             else
             {
-                var doctype = HtmlToken.Doctype(false);
+                var doctype = NewDoctype(false);
                 _stringBuffer.Clear().Append(c);
                 return DoctypeName(doctype);
             }
@@ -1127,7 +1138,7 @@
                 }
             }
 
-            return Emit(doctype);
+            return doctype;
         }
 
         /// <summary>
@@ -1166,7 +1177,7 @@
                 return BogusDoctype(doctype);
             }
 
-            return Emit(doctype);
+            return doctype;
         }
 
         /// <summary>
@@ -1213,7 +1224,7 @@
                 return BogusDoctype(doctype);
             }
 
-            return Emit(doctype);
+            return doctype;
         }
 
         /// <summary>
@@ -1256,7 +1267,7 @@
                 return BogusDoctype(doctype);
             }
 
-            return Emit(doctype);
+            return doctype;
         }
 
         /// <summary>
@@ -1303,7 +1314,7 @@
                 }
             }
 
-            return Emit(doctype);
+            return doctype;
         }
 
         /// <summary>
@@ -1350,7 +1361,7 @@
                 }
             }
 
-            return Emit(doctype);
+            return doctype;
         }
 
         /// <summary>
@@ -1396,7 +1407,7 @@
                 return BogusDoctype(doctype);
             }
 
-            return Emit(doctype);
+            return doctype;
         }
 
         /// <summary>
@@ -1435,7 +1446,7 @@
                 return BogusDoctype(doctype);
             }
 
-            return Emit(doctype);
+            return doctype;
         }
 
         /// <summary>
@@ -1483,7 +1494,7 @@
                 return BogusDoctype(doctype);
             }
 
-            return Emit(doctype);
+            return doctype;
         }
 
         /// <summary>
@@ -1526,7 +1537,7 @@
                 return BogusDoctype(doctype);
             }
 
-            return Emit(doctype);
+            return doctype;
         }
 
         /// <summary>
@@ -1573,7 +1584,7 @@
                 }
             }
 
-            return Emit(doctype);
+            return doctype;
         }
 
         /// <summary>
@@ -1614,7 +1625,7 @@
                         continue;
                 }
 
-                return Emit(doctype);
+                return doctype;
             }
         }
 
@@ -1642,7 +1653,7 @@
                     return BogusDoctype(doctype);
             }
 
-            return Emit(doctype);
+            return doctype;
         }
 
         /// <summary>
@@ -1666,7 +1677,7 @@
                         continue;
                 }
 
-                return Emit(doctype);
+                return doctype;
             }
         }
 
@@ -1710,7 +1721,7 @@
             }
             else if (c == Symbols.EndOfFile)
             {
-                return HtmlToken.EndOfFile;
+                return NewEof();
             }
             else
             {
@@ -1752,7 +1763,7 @@
                 }
                 else if (c == Symbols.EndOfFile)
                 {
-                    return HtmlToken.EndOfFile;
+                    return NewEof();
                 }
                 else if (c == Symbols.Null)
                 {
@@ -1815,7 +1826,7 @@
             }
             else if (c == Symbols.EndOfFile)
             {
-                return HtmlToken.EndOfFile;
+                return NewEof();
             }
             else
             {
@@ -1867,7 +1878,7 @@
             }
             else if (c == Symbols.EndOfFile)
             {
-                return HtmlToken.EndOfFile;
+                return NewEof();
             }
             else
             {
@@ -1908,7 +1919,7 @@
                 }
                 else if (c == Symbols.EndOfFile)
                 {
-                    return HtmlToken.EndOfFile;
+                    return NewEof();
                 }
                 else
                 {
@@ -1949,7 +1960,7 @@
                 }
                 else if (c == Symbols.EndOfFile)
                 {
-                    return HtmlToken.EndOfFile;
+                    return NewEof();
                 }
                 else
                 {
@@ -1999,7 +2010,7 @@
                 }
                 else if (c == Symbols.EndOfFile)
                 {
-                    return HtmlToken.EndOfFile;
+                    return NewEof();
                 }
                 else
                 {
@@ -2026,7 +2037,7 @@
             else if (c == Symbols.GreaterThan)
                 return EmitTag(tag);
             else if (c == Symbols.EndOfFile)
-                return HtmlToken.EndOfFile;
+                return NewEof();
 
             RaiseErrorOccurred(HtmlParseError.AttributeNameExpected);
             Back();
@@ -2058,7 +2069,7 @@
 
                             if (c.IsLetter())
                             {
-                                var tag = HtmlTagToken.Close();
+                                var tag = NewTagClose();
                                 _stringBuffer.Clear().Append(c);
                                 return ScriptDataNameEndTag(tag);
                             }
@@ -2097,7 +2108,7 @@
                         break;
 
                     case Symbols.EndOfFile:
-                        return HtmlToken.EndOfFile;
+                        return NewEof();
 
                     default:
                         _textBuffer.Append(c);
@@ -2177,7 +2188,7 @@
                                 _textBuffer.Append(Symbols.Replacement);
                                 break;
                             case Symbols.EndOfFile:
-                                return HtmlToken.EndOfFile;
+                                return NewEof();
                             default:
                                 _textBuffer.Append(c);
                                 break;
@@ -2191,7 +2202,7 @@
                         _textBuffer.Append(Symbols.Replacement);
                         break;
                     case Symbols.EndOfFile:
-                        return HtmlToken.EndOfFile;
+                        return NewEof();
                     default:
                         return ScriptData(c);
                 }
@@ -2224,7 +2235,7 @@
                         _textBuffer.Append(Symbols.Replacement);
                         return ScriptDataEscaped(GetNext());
                     case Symbols.EndOfFile:
-                        return HtmlToken.EndOfFile;
+                        return NewEof();
                     default:
                         _textBuffer.Append(c);
                         return ScriptDataEscaped(GetNext());
@@ -2263,7 +2274,7 @@
 
             if (c.IsLetter())
             {
-                var tag = HtmlTagToken.Close();
+                var tag = NewTagClose();
                 _stringBuffer.Clear().Append(c);
                 return ScriptDataEscapedNameTag(tag);
             }
@@ -2373,7 +2384,7 @@
                                 break;
                             case Symbols.EndOfFile:
                                 RaiseErrorOccurred(HtmlParseError.EOF);
-                                return HtmlToken.EndOfFile;
+                                return NewEof();
                         }
                         break;
                     case Symbols.LessThan:
@@ -2385,7 +2396,7 @@
                         break;
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(HtmlParseError.EOF);
-                        return HtmlToken.EndOfFile;
+                        return NewEof();
                 }
 
                 _textBuffer.Append(c);
@@ -2419,7 +2430,7 @@
                         return ScriptDataEscapedDouble(GetNext());
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(HtmlParseError.EOF);
-                        return HtmlToken.EndOfFile;
+                        return NewEof();
                     default:
                         _textBuffer.Append(c);
                         return ScriptDataEscapedDouble(GetNext());
@@ -2476,51 +2487,76 @@
 
         #endregion
 
+        #region Tokens
+
+        HtmlToken NewCharacter(String value)
+        {
+            return new HtmlToken(HtmlTokenType.Character, _position, value);
+        }
+
+        HtmlToken NewComment(String value)
+        {
+            return new HtmlToken(HtmlTokenType.Comment, _position, value);
+        }
+
+        HtmlToken NewEof()
+        {
+            return new HtmlToken(HtmlTokenType.EndOfFile, _position);
+        }
+
+        HtmlDoctypeToken NewDoctype(Boolean quirksForced)
+        {
+            return new HtmlDoctypeToken(quirksForced, _position);
+        }
+
+        HtmlTagToken NewTagOpen()
+        {
+            return new HtmlTagToken(HtmlTokenType.StartTag, _position);
+        }
+
+        HtmlTagToken NewTagClose()
+        {
+            return new HtmlTagToken(HtmlTokenType.EndTag, _position);
+        }
+
+        #endregion
+
         #region Helpers
-
-        HtmlToken Emit(HtmlToken token)
-        {
-            return token;
-        }
-
-        HtmlToken EmitComment()
-        {
-            var comment = HtmlToken.Comment(_stringBuffer.ToString());
-            return Emit(comment);
-        }
 
         HtmlToken EmitTag(HtmlTagToken tag)
         {
-            _state = HtmlParseMode.PCData;
             var attributes = tag.Attributes;
+            _state = HtmlParseMode.PCData;
 
-            if (tag.Type == HtmlTokenType.StartTag)
+            switch (tag.Type)
             {
-                for (var i = attributes.Count - 1; i > 0; i--)
-                {
-                    for (var j = i - 1; j >= 0; j--)
+                case HtmlTokenType.StartTag:
+                    for (var i = attributes.Count - 1; i > 0; i--)
                     {
-                        if (attributes[j].Key == attributes[i].Key)
+                        for (var j = i - 1; j >= 0; j--)
                         {
-                            attributes.RemoveAt(i);
-                            RaiseErrorOccurred(HtmlParseError.AttributeDuplicateOmitted);
-                            break;
+                            if (attributes[j].Key == attributes[i].Key)
+                            {
+                                attributes.RemoveAt(i);
+                                RaiseErrorOccurred(HtmlParseError.AttributeDuplicateOmitted, tag.Position);
+                                break;
+                            }
                         }
                     }
-                }
 
-                _lastStartTag = tag.Name;
+                    _lastStartTag = tag.Name;
+                    break;
+                case HtmlTokenType.EndTag:
+                    if (tag.IsSelfClosing)
+                        RaiseErrorOccurred(HtmlParseError.EndTagCannotBeSelfClosed, tag.Position);
+
+                    if (attributes.Count != 0)
+                        RaiseErrorOccurred(HtmlParseError.EndTagCannotHaveAttributes, tag.Position);
+
+                    break;
             }
-            else
-            {
-                if (tag.IsSelfClosing)
-                    RaiseErrorOccurred(HtmlParseError.EndTagCannotBeSelfClosed);
 
-                if (attributes.Count != 0)
-                    RaiseErrorOccurred(HtmlParseError.EndTagCannotHaveAttributes);
-            }
-
-            return Emit(tag);
+            return tag;
         }
 
         #endregion

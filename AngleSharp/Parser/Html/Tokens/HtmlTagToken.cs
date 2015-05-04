@@ -23,8 +23,9 @@
         /// Sets the default values.
         /// </summary>
         /// <param name="type">The type of the tag token.</param>
-        public HtmlTagToken(HtmlTokenType type)
-            : this(type, String.Empty)
+        /// <param name="position">The token's position.</param>
+        public HtmlTagToken(HtmlTokenType type, TextPosition position)
+            : this(type, position, String.Empty)
         {
         }
 
@@ -32,9 +33,10 @@
         /// Creates a new HTML TagToken with the defined name.
         /// </summary>
         /// <param name="type">The type of the tag token.</param>
+        /// <param name="position">The token's position.</param>
         /// <param name="name">The name of the tag.</param>
-        public HtmlTagToken(HtmlTokenType type, String name)
-            : base(type, name)
+        public HtmlTagToken(HtmlTokenType type, TextPosition position, String name)
+            : base(type, position, name)
         {
             _attributes = new List<KeyValuePair<String, String>>();
         }
@@ -44,26 +46,6 @@
         #region Creators
 
         /// <summary>
-        /// Creates a new opening HtmlTagToken.
-        /// </summary>
-        /// <returns>The new HTML tag token.</returns>
-        [DebuggerStepThrough]
-        public static HtmlTagToken Open()
-        {
-            return new HtmlTagToken(HtmlTokenType.StartTag);
-        }
-
-        /// <summary>
-        /// Creates a new closing HtmlTagToken.
-        /// </summary>
-        /// <returns>The new HTML tag token.</returns>
-        [DebuggerStepThrough]
-        public static HtmlTagToken Close()
-        {
-            return new HtmlTagToken(HtmlTokenType.EndTag);
-        }
-
-        /// <summary>
         /// Creates a new opening HtmlTagToken for the given name.
         /// </summary>
         /// <param name="name">The name of the tag.</param>
@@ -71,7 +53,7 @@
         [DebuggerStepThrough]
         public static HtmlTagToken Open(String name)
         {
-            return new HtmlTagToken(HtmlTokenType.StartTag, name);
+            return new HtmlTagToken(HtmlTokenType.StartTag, TextPosition.Empty, name);
         }
 
         /// <summary>
@@ -82,7 +64,7 @@
         [DebuggerStepThrough]
         public static HtmlTagToken Close(String name)
         {
-            return new HtmlTagToken(HtmlTokenType.EndTag, name);
+            return new HtmlTagToken(HtmlTokenType.EndTag, TextPosition.Empty, name);
         }
 
         #endregion

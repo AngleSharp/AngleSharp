@@ -132,6 +132,10 @@
         /// <summary>
         /// The special character whitespace ( ).
         /// </summary>
-        Whitespace
+        Whitespace,
+        /// <summary>
+        /// The end-of-file marker.
+        /// </summary>
+        Eof
     }
 }
