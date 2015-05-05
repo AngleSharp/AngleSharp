@@ -19,7 +19,6 @@
         Boolean _acceptsCharacterData;
         String _lastStartTag;
         HtmlParseMode _state;
-        HtmlToken _buffered;
         TextPosition _position;
 
         #endregion
@@ -93,14 +92,6 @@
         /// <returns>The next available token.</returns>
         public HtmlToken Get()
         {
-            var token = _buffered;
-
-            if (token != null)
-            {
-                _buffered = null;
-                return token;
-            }
-
             var current = GetNext();
             _position = GetCurrentPosition();
 
@@ -109,33 +100,16 @@
                 switch (_state)
                 {
                     case HtmlParseMode.PCData:
-                        token = Data(current);
-                        break;
-
+                        return Data(current);
                     case HtmlParseMode.RCData:
-                        token = RCData(current);
-                        break;
-
+                        return RCData(current);
                     case HtmlParseMode.Plaintext:
-                        token = Plaintext(current);
-                        break;
-
+                        return Plaintext(current);
                     case HtmlParseMode.Rawtext:
-                        token = Rawtext(current);
-                        break;
-
+                        return Rawtext(current);
                     case HtmlParseMode.Script:
-                        token = ScriptData(current);
-                        break;
+                        return ScriptData(current);
                 }
-
-                if (_textBuffer.Length > 0)
-                {
-                    _buffered = token;
-                    token = NewCharacter();
-                }
-
-                return token;
             }
 
             return NewEof();
@@ -2253,7 +2227,7 @@
             if (c.IsLetter())
             {
                 _stringBuffer.Clear().Append(c);
-                return ScriptDataEscapedNameTag(NewTagClose());
+                return ScriptDataEscapedNameEndTag(NewTagClose());
             }
             else
             {
@@ -2266,17 +2240,19 @@
         /// See 8.2.4.27 Script data escaped end tag name state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        HtmlToken ScriptDataEscapedNameTag(HtmlTagToken tag)
+        HtmlToken ScriptDataEscapedNameEndTag(HtmlTagToken tag)
         {
             while (true)
             {
                 var c = GetNext();
-                var token = CreateIfAppropriate(c, tag, StringComparison.OrdinalIgnoreCase);
 
-                if (token != null)
-                    return token;
-
-                if (!c.IsLetter())
+                if ((c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()) && 
+                    _stringBuffer.ToString().Equals(Tags.Script, StringComparison.OrdinalIgnoreCase))
+                {
+                    Back(_stringBuffer.Length + 3);
+                    return NewCharacter();
+                }
+                else if (!c.IsLetter())
                 {
                     _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
                     return ScriptDataEscaped(c);
