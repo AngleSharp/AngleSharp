@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -30,6 +31,11 @@
         public static Type GetTypeInfo(this Type type)
         {
             return type;
+        }
+
+        public static StringBuilder Insert(this StringBuilder sb, Int32 index, Char c)
+        {
+            return sb.Insert(index, c.ToString());
         }
 
         public static FieldInfo GetDeclaredField(this Type type, String name)
