@@ -35,6 +35,7 @@
         {
             _state = HtmlParseMode.PCData;
             _acceptsCharacterData = false;
+            _lastStartTag = String.Empty;
         }
 
         #endregion
@@ -283,7 +284,7 @@
         {
             while (true)
             {
-                var token = CreateIfAppropriate(c, NewTagClose());
+                var token = CreateIfAppropriate(c);
 
                 if (token != null)
                 {
@@ -393,7 +394,7 @@
         {
             while (true)
             {
-                var token = CreateIfAppropriate(c, NewTagClose());
+                var token = CreateIfAppropriate(c);
 
                 if (token != null)
                 {
@@ -2504,35 +2505,33 @@
 
         #region Helpers
 
-        HtmlToken CreateIfAppropriate(Char c, HtmlTagToken tag)
+        HtmlToken CreateIfAppropriate(Char c)
         {
             var isspace = c.IsSpaceCharacter();
             var isclosed = c == Symbols.GreaterThan;
             var isslash = c == Symbols.Solidus;
+            var hasLength = _stringBuffer.Length == _lastStartTag.Length;
 
-            if (isspace || isclosed || isslash)
+            if (hasLength && (isspace || isclosed || isslash) && 
+                _stringBuffer.ToString().Equals(_lastStartTag, StringComparison.Ordinal))
             {
-                var name = _stringBuffer.ToString();
+                var tag = NewTagClose();
+                _stringBuffer.Clear();
 
-                if (name.Equals(_lastStartTag, StringComparison.Ordinal))
+                if (isspace)
                 {
-                    _stringBuffer.Clear();
-
-                    if (isspace)
-                    {
-                        tag.Name = _lastStartTag;
-                        return AttributeBeforeName(tag);
-                    }
-                    else if (isslash)
-                    {
-                        tag.Name = _lastStartTag;
-                        return TagSelfClosing(tag);
-                    }
-                    else if (isclosed)
-                    {
-                        tag.Name = _lastStartTag;
-                        return EmitTag(tag);
-                    }
+                    tag.Name = _lastStartTag;
+                    return AttributeBeforeName(tag);
+                }
+                else if (isslash)
+                {
+                    tag.Name = _lastStartTag;
+                    return TagSelfClosing(tag);
+                }
+                else if (isclosed)
+                {
+                    tag.Name = _lastStartTag;
+                    return EmitTag(tag);
                 }
             }
 
