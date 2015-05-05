@@ -3,11 +3,52 @@
 AngleSharp
 ==========
 
-AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. In the future XML might be included, however, since .NET offers a variety of capable XML parsers there is a discussion about redundancy. An important aspect of AngleSharp is that CSS can also be parsed. The parser is built upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code. Also current features such as `querySelector` or `querySelectorAll` work for tree traversal.
+AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. XML without validation is also supported by the library. An important aspect of AngleSharp is that CSS can also be parsed. The parser is built upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code. Also current features such as `querySelector` or `querySelectorAll` work for tree traversal.
 
-The advantage over similar libraries like the HtmlAgilityPack is that e.g. CSS (including selectors) is already built-in. Also the parser uses the HTML 5.1 specification, which defines error handling and element correction. While the HtmlAgilityPack focuses on giving .NET users a nice and easy way to handle HTML documents, this library focuses on giving web developers working with C# all possibilities as they would have in a browser using JavaScript. Hence the DOM is built in a more reliable, standard-conform and faster way than with the other solutions.
+The advantage over similar libraries like the HtmlAgilityPack is that e.g. CSS (including selectors) is already built-in. Also the parser uses the HTML 5.1 specification, which defines error handling and element correction. The AngleSharp library focuses on standards complience, interactivity and extensibility. It is therefore giving web developers, who are working with C#, all possibilities as they know from using the DOM in any modern browser.
 
 The performance of AngleSharp is quite close to the performance of browsers. Even very large pages can be processed within milliseconds. AngleSharp tries to minimize memory allocations and reuses elements internally to avoid unnecessary object creation.
+
+Supported platforms
+-------------------
+
+AngleSharp has been created as a PCL (profile 259) that supports a wide range of platforms. The list includes, but is not limited to:
+
+* .NET Framework 4.5
+* Silverlight 5
+* Windows 8 
+* Windows Phone 8.1 / Windows Phone Silverlight
+* Xamarin.Android
+* Xamarin.iOS
+
+Additionally the NuGet package also comes with support for the following platforms:
+
+* Silverlight 5
+* .NET 4.0
+
+Please note, however, that those platforms have requirements (Microsoft.Bcl.Async), which are not needed by the platforms targeted from the original PCL version.
+
+Simple demo
+-----------
+
+The simple example will use the website of Wikipedia for data retrieval.
+
+```cs
+// Setup the configuration to support document loading
+var config = new Configuration().WithDefaultLoader();
+// Load the names of all The Big Bang Theory episodes from Wikipedia
+var address = "http://en.wikipedia.org/wiki/List_of_The_Big_Bang_Theory_episodes";
+// Asynchronously get the document
+var document = await BrowsingContext.New().OpenAsync(Url.Create(address));
+// This CSS selector gets the desired content
+var cellSelector = "tr.vevent td:nth-child(3)";
+// Perform the query to get all cells with the content
+var cells = document.QuerySelectorAll(cellSelector);
+// We are only interested in the text - select it with LINQ
+var titles = cells.Select(m => m.TextContent);
+```
+
+Every collection in AngleSharp supports LINQ statements. AngleSharp also provides many useful extension methods for element collections that cannot be found in the official DOM.
 
 Documentation
 -------------
@@ -39,12 +80,10 @@ The API is close to the DOM4 specification, however, the naming has been adjuste
 
 This is a long-term project which will eventually result in a state of the art parser for the most important angle bracket based hyper-texts (and related description languages like CSS).
 
-**Update** With version v0.8.0 further refactorings have been applied. The namespace `AngleSharp.DOM` (and sub-namespaces) has been modified. The new name `AngleSharp.Dom` fits much better into the .NET naming scheme.
-
-**Update** With version v0.6.0 the new API has been published. This API seems to be much cleaner and more extensible than the previous one. It also separates the implementation from the specification, which is important for working with the API, as new changes are less likely to break existing code (API usage). Most API changes have also been included to mainly reflect DOM4, with some (obsolete) parts being removed.
-
 Change log
 ----------
+
+A more detailed change log can be found in the wiki.
 
 **0.8.0**
 - New CSS value model integrated
@@ -118,7 +157,7 @@ The roadmap presents a draft on what is about to be implemented, and when. The p
 
 The time estimates are speculative, which means that the project could be totally off those predictions. Finding talented (and motivated) collaborators would certainly speed up the project.
 
-(April 2015) **0.9.0**
+(July 2015) **0.9.0**
 - (Simple?) XPath query support
 - Interface for rendering defined
 - CSS layout box
@@ -130,7 +169,7 @@ The time estimates are speculative, which means that the project could be totall
 - ShadowDOM 
 - AngleSharp.Scripting with generated JS bindings
 
-(September 2015) **1.0.0**
+(October 2015) **1.0.0**
 - Final release of the first version
 - MathML and SVG finalized (for HTML)
 - HTML5 parser at 100% with complete DOM
