@@ -595,15 +595,13 @@
             }
             else if (c.IsLowercaseAscii())
             {
-                var tag = NewTagOpen();
                 _stringBuffer.Append(c);
-                return TagName(tag);
+                return TagName(NewTagOpen());
             }
             else if (c.IsUppercaseAscii())
             {
-                var tag = NewTagOpen();
                 _stringBuffer.Append(Char.ToLower(c));
-                return TagName(tag);
+                return TagName(NewTagOpen());
             }
             else if (c == Symbols.ExclamationMark)
             {
@@ -669,7 +667,13 @@
             {
                 var c = GetNext();
 
-                if (c.IsSpaceCharacter())
+                if (c == Symbols.GreaterThan)
+                {
+                    tag.Name = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
+                    return EmitTag(tag);
+                }
+                else if (c.IsSpaceCharacter())
                 {
                     tag.Name = _stringBuffer.ToString();
                     _stringBuffer.Clear();
@@ -680,12 +684,6 @@
                     tag.Name = _stringBuffer.ToString();
                     _stringBuffer.Clear();
                     return TagSelfClosing(tag);
-                }
-                else if (c == Symbols.GreaterThan)
-                {
-                    tag.Name = _stringBuffer.ToString();
-                    _stringBuffer.Clear();
-                    return EmitTag(tag);
                 }
                 else if (c == Symbols.Null)
                 {
