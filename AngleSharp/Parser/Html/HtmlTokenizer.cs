@@ -249,7 +249,24 @@
         {
             if (c == Symbols.Solidus)
             {
-                return RCDataEndTag(GetNext());
+                // See 8.2.4.12 RCDATA end tag open state
+                c = GetNext();
+
+                if (c.IsUppercaseAscii())
+                {
+                    _stringBuffer.Append(Char.ToLower(c));
+                    return RCDataNameEndTag(GetNext());
+                }
+                else if (c.IsLowercaseAscii())
+                {
+                    _stringBuffer.Append(c);
+                    return RCDataNameEndTag(GetNext());
+                }
+                else
+                {
+                    _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                    return RCDataText(c);
+                }
             }
             else
             {
@@ -259,38 +276,14 @@
         }
 
         /// <summary>
-        /// See 8.2.4.12 RCDATA end tag open state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken RCDataEndTag(Char c)
-        {
-            if (c.IsUppercaseAscii())
-            {
-                _stringBuffer.Append(Char.ToLower(c));
-                return RCDataNameEndTag(NewTagClose());
-            }
-            else if (c.IsLowercaseAscii())
-            {
-                _stringBuffer.Append(c);
-                return RCDataNameEndTag(NewTagClose());
-            }
-            else
-            {
-                _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
-                return RCDataText(c);
-            }
-        }
-
-        /// <summary>
         /// See 8.2.4.13 RCDATA end tag name state
         /// </summary>
-        /// <param name="tag">The current tag token.</param>
-        HtmlToken RCDataNameEndTag(HtmlTagToken tag)
+        /// <param name="c">The next input character.</param>
+        HtmlToken RCDataNameEndTag(Char c)
         {
             while (true)
             {
-                var c = GetNext();
-                var token = CreateIfAppropriate(c, tag, StringComparison.Ordinal);
+                var token = CreateIfAppropriate(c, NewTagClose());
 
                 if (token != null)
                 {
@@ -310,6 +303,8 @@
                     _stringBuffer.Clear();
                     return RCDataText(c);
                 }
+
+                c = GetNext();
             }
         }
 
@@ -377,12 +372,12 @@
             if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Append(Char.ToLower(c));
-                return RawtextNameEndTag(NewTagClose());
+                return RawtextNameEndTag(GetNext());
             }
             else if (c.IsLowercaseAscii())
             {
                 _stringBuffer.Append(c);
-                return RawtextNameEndTag(NewTagClose());
+                return RawtextNameEndTag(GetNext());
             }
             else
             {
@@ -394,13 +389,12 @@
         /// <summary>
         /// See 8.2.4.16 RAWTEXT end tag name state
         /// </summary>
-        /// <param name="tag">The current tag token.</param>
-        HtmlToken RawtextNameEndTag(HtmlTagToken tag)
+        /// <param name="c">The next input character.</param>
+        HtmlToken RawtextNameEndTag(Char c)
         {
             while (true)
             {
-                var c = GetNext();
-                var token = CreateIfAppropriate(c, tag, StringComparison.Ordinal);
+                var token = CreateIfAppropriate(c, NewTagClose());
 
                 if (token != null)
                 {
@@ -420,6 +414,8 @@
                     _stringBuffer.Clear();
                     return RawtextText(c);
                 }
+
+                c = GetNext();
             }
         }
 
@@ -812,7 +808,7 @@
                 case Symbols.Null:
                     RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
-                    return Comment();
+                    return Comment(GetNext());
                 case Symbols.GreaterThan:
                     _state = HtmlParseMode.PCData;
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
@@ -823,7 +819,7 @@
                     break;
                 default:
                     _stringBuffer.Append(c);
-                    return Comment();
+                    return Comment(GetNext());
             }
 
             return NewComment();
@@ -838,11 +834,11 @@
             switch (c)
             {
                 case Symbols.Minus:
-                    return CommentEnd();
+                    return CommentEnd(GetNext());
                 case Symbols.Null:
                     RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Minus).Append(Symbols.Replacement);
-                    return Comment();
+                    return Comment(GetNext());
                 case Symbols.GreaterThan:
                     _state = HtmlParseMode.PCData;
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
@@ -853,7 +849,7 @@
                     break;
                 default:
                     _stringBuffer.Append(Symbols.Minus).Append(c);
-                    return Comment();
+                    return Comment(GetNext());
             }
 
             return NewComment();
@@ -862,12 +858,11 @@
         /// <summary>
         /// See 8.2.4.48 Comment state
         /// </summary>
-        HtmlToken Comment()
+        /// <param name="c">The next input character.</param>
+        HtmlToken Comment(Char c)
         {
             while (true)
             {
-                var c = GetNext();
-
                 switch (c)
                 {
                     case Symbols.Minus:
@@ -876,21 +871,21 @@
                         if (result != null)
                             return result;
 
-                        continue;
+                        break;
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(HtmlParseError.EOF);
                         Back();
-                        break;
+                        return NewComment();
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
                         _stringBuffer.Append(Symbols.Replacement);
-                        continue;
+                        break;
                     default:
                         _stringBuffer.Append(c);
-                        continue;
+                        break;
                 }
 
-                return NewComment();
+                c = GetNext();
             }
         }
 
@@ -903,7 +898,7 @@
             switch (c)
             {
                 case Symbols.Minus:
-                    return CommentEnd();
+                    return CommentEnd(GetNext());
                 case Symbols.EndOfFile:
                     RaiseErrorOccurred(HtmlParseError.EOF);
                     Back();
@@ -921,17 +916,16 @@
         /// <summary>
         /// See 8.2.4.50 Comment end state
         /// </summary>
-        HtmlToken CommentEnd()
+        /// <param name="c">The next input character.</param>
+        HtmlToken CommentEnd(Char c)
         {
             while (true)
             {
-                var c = GetNext();
-
                 switch (c)
                 {
                     case Symbols.GreaterThan:
                         _state = HtmlParseMode.PCData;
-                        break;
+                        return NewComment();
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
                         _stringBuffer.Append(Symbols.Minus).Append(Symbols.Replacement);
@@ -942,18 +936,18 @@
                     case Symbols.Minus:
                         RaiseErrorOccurred(HtmlParseError.CommentEndedWithDash);
                         _stringBuffer.Append(Symbols.Minus);
-                        continue;
+                        break;
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(HtmlParseError.EOF);
                         Back();
-                        break;
+                        return NewComment();
                     default:
                         RaiseErrorOccurred(HtmlParseError.CommentEndedUnexpected);
                         _stringBuffer.Append(Symbols.Minus).Append(Symbols.Minus).Append(c);
                         return null;
                 }
 
-                return NewComment();
+                c = GetNext();
             }
         }
 
@@ -2513,7 +2507,7 @@
 
         #region Helpers
 
-        HtmlToken CreateIfAppropriate(Char c, HtmlTagToken tag, StringComparison comparison)
+        HtmlToken CreateIfAppropriate(Char c, HtmlTagToken tag)
         {
             var isspace = c.IsSpaceCharacter();
             var isclosed = c == Symbols.GreaterThan;
@@ -2523,7 +2517,7 @@
             {
                 var name = _stringBuffer.ToString();
 
-                if (name.Equals(_lastStartTag, comparison))
+                if (name.Equals(_lastStartTag, StringComparison.Ordinal))
                 {
                     _stringBuffer.Clear();
 
