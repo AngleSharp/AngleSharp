@@ -2066,6 +2066,7 @@
         /// See 8.2.4.19 Script data end tag name state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
+        /// <param name="offset">The tag name's offset.</param>
         HtmlToken ScriptDataNameEndTag(HtmlTagToken tag, Int32 offset)
         {
             var length = _lastStartTag.Length;
@@ -2272,6 +2273,7 @@
         /// See 8.2.4.27 Script data escaped end tag name state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
+        /// <param name="offset">The tag name's offset.</param>
         HtmlToken ScriptDataEscapedNameEndTag(HtmlTagToken tag, Int32 offset)
         {
             var length = Tags.Script.Length;
@@ -2300,6 +2302,7 @@
         /// <summary>
         /// See 8.2.4.28 Script data double escape start state
         /// </summary>
+        /// <param name="offset">The tag name's offset.</param>
         HtmlToken ScriptDataStartDoubleEscape(Int32 offset)
         {
             var length = Tags.Script.Length;
@@ -2437,6 +2440,7 @@
         /// <summary>
         /// See 8.2.4.33 Script data double escape end state
         /// </summary>
+        /// <param name="offset">The tag name's offset.</param>
         HtmlToken ScriptDataEndDoubleEscape(Int32 offset)
         {
             var length = Tags.Script.Length;
