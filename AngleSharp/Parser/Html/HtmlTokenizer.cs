@@ -2013,11 +2013,6 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptData(Char c)
         {
-            return c == Symbols.LessThan ? ScriptDataLt(GetNext()) : ScriptDataText(c);
-        }
-
-        HtmlToken ScriptDataText(Char c)
-        {
             while (true)
             {
                 switch (c)
@@ -2028,6 +2023,8 @@
                         break;
 
                     case Symbols.LessThan:
+                        return ScriptDataLt(GetNext());
+
                     case Symbols.EndOfFile:
                         Back();
                         return NewCharacter();
@@ -2048,29 +2045,32 @@
         HtmlToken ScriptDataLt(Char c)
         {
             if (c == Symbols.Solidus)
-                return ScriptDataEndTag(GetNext());
+            {
+                // See 8.2.4.18 Script data end tag open state
+                c = GetNext();
+
+                if (c.IsLetter())
+                {
+                    var tag = NewTagClose();
+                    _stringBuffer.Append(c);
+                    return ScriptDataNameEndTag(tag);
+                }
+                else
+                {
+                    _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                    return ScriptData(c);
+                }
+            }
 
             _textBuffer.Append(Symbols.LessThan);
-            return c == Symbols.ExclamationMark ? ScriptDataEscapeLt(GetNext()) : ScriptDataText(c);
-        }
 
-        /// <summary>
-        /// See 8.2.4.18 Script data end tag open state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEndTag(Char c)
-        {
-            if (c.IsLetter())
-            {
-                var tag = NewTagClose();
-                _stringBuffer.Append(c);
-                return ScriptDataNameEndTag(tag);
-            }
-            else
-            {
-                _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
-                return ScriptDataText(c);
-            }
+            if (c != Symbols.ExclamationMark)
+                return ScriptData(c);
+
+            c = GetNext();
+            // See 8.2.4.20 Script data escape start state
+            _textBuffer.Append(Symbols.ExclamationMark);
+            return c == Symbols.Minus ? ScriptDataEscapeDashLt(GetNext()) : ScriptData(c);
         }
 
         /// <summary>
@@ -2082,30 +2082,52 @@
             while (true)
             {
                 var c = GetNext();
-                var token = CreateIfAppropriate(c, tag, StringComparison.OrdinalIgnoreCase);
+                var isspace = c.IsSpaceCharacter();
+                var isclosed = c == Symbols.GreaterThan;
+                var isslash = c == Symbols.Solidus;
 
-                if (token != null)
-                    return token;
+                if (isspace || isclosed || isslash)
+                {
+                    var name = _stringBuffer.ToString();
+
+                    if (name.Equals(_lastStartTag, StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (_textBuffer.Length > 0)
+                        {
+                            Back(3 + _stringBuffer.Length);
+                            _stringBuffer.Clear();
+                            return NewCharacter();
+                        }
+
+                        _stringBuffer.Clear();
+
+                        if (isspace)
+                        {
+                            tag.Name = _lastStartTag;
+                            return AttributeBeforeName(tag);
+                        }
+                        else if (isslash)
+                        {
+                            tag.Name = _lastStartTag;
+                            return TagSelfClosing(tag);
+                        }
+                        else if (isclosed)
+                        {
+                            tag.Name = _lastStartTag;
+                            return EmitTag(tag);
+                        }
+                    }
+                }
                 
                 if (!c.IsLetter())
                 {
                     _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
                     _stringBuffer.Clear();
-                    return ScriptDataText(c);
+                    return ScriptData(c);
                 }
 
                 _stringBuffer.Append(c);
             }
-        }
-
-        /// <summary>
-        /// See 8.2.4.20 Script data escape start state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapeLt(Char c)
-        {
-            _textBuffer.Append(Symbols.ExclamationMark);
-            return c == Symbols.Minus ? ScriptDataEscapeDashLt(GetNext()) : ScriptDataText(c);
         }
 
         /// <summary>
@@ -2122,7 +2144,7 @@
                 return ScriptDataEscapedDashDash();
             }
 
-            return ScriptDataText(c);
+            return ScriptData(c);
         }
 
         /// <summary>
@@ -2148,7 +2170,7 @@
                         Back();
                         return NewCharacter();
                     default:
-                        return ScriptDataText(c);
+                        return ScriptData(c);
                 }
 
                 c = GetNext();
@@ -2201,7 +2223,7 @@
                         return ScriptDataEscapedLT(GetNext());
                     case Symbols.GreaterThan:
                         _textBuffer.Append(Symbols.GreaterThan);
-                        return ScriptDataText(GetNext());
+                        return ScriptData(GetNext());
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
                         _textBuffer.Append(Symbols.Replacement);
@@ -2389,7 +2411,7 @@
                         return ScriptDataEscapedDoubleLT(GetNext());
                     case Symbols.GreaterThan:
                         _textBuffer.Append(Symbols.GreaterThan);
-                        return ScriptDataText(GetNext());
+                        return ScriptData(GetNext());
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
                         _textBuffer.Append(Symbols.Replacement);
