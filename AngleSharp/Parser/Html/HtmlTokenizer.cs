@@ -1672,14 +1672,14 @@
                 _stringBuffer.Append(c);
                 return AttributeName(tag);
             }
-            else if (c == Symbols.EndOfFile)
-            {
-                return NewEof();
-            }
-            else
+            else if (c != Symbols.EndOfFile)
             {
                 _stringBuffer.Append(c);
                 return AttributeName(tag);
+            }
+            else
+            {
+                return NewEof();
             }
         }
 
@@ -1693,19 +1693,7 @@
             {
                 var c = GetNext();
 
-                if (c.IsSpaceCharacter())
-                {
-                    tag.AddAttribute(_stringBuffer.ToString());
-                    _stringBuffer.Clear();
-                    return AttributeAfterName(tag);
-                }
-                else if (c == Symbols.Solidus)
-                {
-                    tag.AddAttribute(_stringBuffer.ToString());
-                    _stringBuffer.Clear();
-                    return TagSelfClosing(tag);
-                }
-                else if (c == Symbols.Equality)
+                if (c == Symbols.Equality)
                 {
                     tag.AddAttribute(_stringBuffer.ToString());
                     _stringBuffer.Clear();
@@ -1717,14 +1705,17 @@
                     _stringBuffer.Clear();
                     return EmitTag(tag);
                 }
-                else if (c == Symbols.EndOfFile)
+                else if (c.IsSpaceCharacter())
                 {
-                    return NewEof();
+                    tag.AddAttribute(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
+                    return AttributeAfterName(tag);
                 }
-                else if (c == Symbols.Null)
+                else if (c == Symbols.Solidus)
                 {
-                    RaiseErrorOccurred(HtmlParseError.Null);
-                    _stringBuffer.Append(Symbols.Replacement);
+                    tag.AddAttribute(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
+                    return TagSelfClosing(tag);
                 }
                 else if (c.IsUppercaseAscii())
                 {
@@ -1735,9 +1726,18 @@
                     RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
                     _stringBuffer.Append(c);
                 }
-                else
+                else if(c == Symbols.Null)
+                {
+                    RaiseErrorOccurred(HtmlParseError.Null);
+                    _stringBuffer.Append(Symbols.Replacement);
+                }
+                else if (c != Symbols.EndOfFile)
                 {
                     _stringBuffer.Append(c);
+                }
+                else
+                {
+                    return NewEof();
                 }
             }
         }
@@ -1750,27 +1750,21 @@
         {
             var c = SkipSpaces();
 
-            if (c == Symbols.Solidus)
+            if (c == Symbols.GreaterThan)
             {
-                return TagSelfClosing(tag);
+                return EmitTag(tag);
             }
             else if (c == Symbols.Equality)
             {
                 return AttributeBeforeValue(tag);
             }
-            else if (c == Symbols.GreaterThan)
+            else if (c == Symbols.Solidus)
             {
-                return EmitTag(tag);
+                return TagSelfClosing(tag);
             }
             else if (c.IsUppercaseAscii())
             {
                 _stringBuffer.Append(Char.ToLower(c));
-                return AttributeName(tag);
-            }
-            else if (c == Symbols.Null)
-            {
-                RaiseErrorOccurred(HtmlParseError.Null);
-                _stringBuffer.Append(Symbols.Replacement);
                 return AttributeName(tag);
             }
             else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan)
@@ -1779,14 +1773,20 @@
                 _stringBuffer.Append(c);
                 return AttributeName(tag);
             }
-            else if (c == Symbols.EndOfFile)
+            else if (c == Symbols.Null)
             {
-                return NewEof();
+                RaiseErrorOccurred(HtmlParseError.Null);
+                _stringBuffer.Append(Symbols.Replacement);
+                return AttributeName(tag);
             }
-            else
+            else if (c != Symbols.EndOfFile)
             {
                 _stringBuffer.Append(c);
                 return AttributeName(tag);
+            }
+            else
+            {
+                return NewEof();
             }
         }
 
@@ -1802,19 +1802,13 @@
             {
                 return AttributeDoubleQuotedValue(tag);
             }
-            else if (c == Symbols.Ampersand)
-            {
-                return AttributeUnquotedValue(c, tag);
-            }
             else if (c == Symbols.SingleQuote)
             {
                 return AttributeSingleQuotedValue(tag);
             }
-            else if (c == Symbols.Null)
+            else if (c == Symbols.Ampersand)
             {
-                RaiseErrorOccurred(HtmlParseError.Null);
-                _stringBuffer.Append(Symbols.Replacement);
-                return AttributeUnquotedValue(GetNext(), tag);
+                return AttributeUnquotedValue(c, tag);
             }
             else if (c == Symbols.GreaterThan)
             {
@@ -1827,14 +1821,20 @@
                 _stringBuffer.Append(c);
                 return AttributeUnquotedValue(GetNext(), tag);
             }
-            else if (c == Symbols.EndOfFile)
+            else if (c == Symbols.Null)
             {
-                return NewEof();
+                RaiseErrorOccurred(HtmlParseError.Null);
+                _stringBuffer.Append(Symbols.Replacement);
+                return AttributeUnquotedValue(GetNext(), tag);
             }
-            else
+            else if (c != Symbols.EndOfFile)
             {
                 _stringBuffer.Append(c);
                 return AttributeUnquotedValue(GetNext(), tag);
+            }
+            else
+            {
+                return NewEof();
             }
         }
 
@@ -1868,13 +1868,13 @@
                     RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
                 }
-                else if (c == Symbols.EndOfFile)
+                else if (c != Symbols.EndOfFile)
                 {
-                    return NewEof();
+                    _stringBuffer.Append(c);
                 }
                 else
                 {
-                    _stringBuffer.Append(c);
+                    return NewEof();
                 }
             }
         }
@@ -1909,13 +1909,13 @@
                     RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
                 }
-                else if (c == Symbols.EndOfFile)
+                else if (c != Symbols.EndOfFile)
                 {
-                    return NewEof();
+                    _stringBuffer.Append(c);
                 }
                 else
                 {
-                    _stringBuffer.Append(c);
+                    return NewEof();
                 }
             }
         }
@@ -1929,7 +1929,13 @@
         {
             while (true)
             {
-                if (c.IsSpaceCharacter())
+                if (c == Symbols.GreaterThan)
+                {
+                    tag.SetAttributeValue(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
+                    return EmitTag(tag);
+                }
+                else if (c.IsSpaceCharacter())
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
                     _stringBuffer.Clear();
@@ -1944,12 +1950,6 @@
                     else
                         _stringBuffer.Append(value);
                 }
-                else if (c == Symbols.GreaterThan)
-                {
-                    tag.SetAttributeValue(_stringBuffer.ToString());
-                    _stringBuffer.Clear();
-                    return EmitTag(tag);
-                }
                 else if (c == Symbols.Null)
                 {
                     RaiseErrorOccurred(HtmlParseError.Null);
@@ -1960,13 +1960,13 @@
                     RaiseErrorOccurred(HtmlParseError.AttributeValueInvalid);
                     _stringBuffer.Append(c);
                 }
-                else if (c == Symbols.EndOfFile)
+                else if (c != Symbols.EndOfFile)
                 {
-                    return NewEof();
+                    _stringBuffer.Append(c);
                 }
                 else
                 {
-                    _stringBuffer.Append(c);
+                    return NewEof();
                 }
 
                 c = GetNext();
@@ -1981,12 +1981,12 @@
         {
             var c = GetNext();
 
-            if (c.IsSpaceCharacter())
+            if (c == Symbols.GreaterThan)
+                return EmitTag(tag);
+            else if (c.IsSpaceCharacter())
                 return AttributeBeforeName(tag);
             else if (c == Symbols.Solidus)
                 return TagSelfClosing(tag);
-            else if (c == Symbols.GreaterThan)
-                return EmitTag(tag);
             else if (c == Symbols.EndOfFile)
                 return NewEof();
 
