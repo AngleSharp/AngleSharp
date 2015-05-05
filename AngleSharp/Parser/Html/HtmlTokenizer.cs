@@ -308,6 +308,7 @@
                 else
                 {
                     _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
                     return RCDataText(c);
                 }
             }
@@ -418,6 +419,7 @@
                 else
                 {
                     _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
                     return RawtextText(c);
                 }
             }
@@ -676,16 +678,19 @@
                 if (c.IsSpaceCharacter())
                 {
                     tag.Name = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
                     return AttributeBeforeName(tag);
                 }
                 else if (c == Symbols.Solidus)
                 {
                     tag.Name = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
                     return TagSelfClosing(tag);
                 }
                 else if (c == Symbols.GreaterThan)
                 {
                     tag.Name = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
                     return EmitTag(tag);
                 }
                 else if (c == Symbols.Null)
@@ -1075,6 +1080,7 @@
                 {
                     _state = HtmlParseMode.PCData;
                     doctype.Name = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
                     break;
                 }
                 else if (c.IsUppercaseAscii())
@@ -1092,6 +1098,7 @@
                     Back();
                     doctype.IsQuirksForced = true;
                     doctype.Name = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
                     break;
                 }
                 else
@@ -1256,6 +1263,7 @@
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
                     break;
                 }
                 else if (c == Symbols.EndOfFile)
@@ -1264,6 +1272,7 @@
                     Back();
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
                     break;
                 }
                 else
@@ -1302,6 +1311,7 @@
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
                     break;
                 }
                 else if (c == Symbols.EndOfFile)
@@ -1309,6 +1319,7 @@
                     RaiseErrorOccurred(HtmlParseError.EOF);
                     doctype.IsQuirksForced = true;
                     doctype.PublicIdentifier = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
                     Back();
                     break;
                 }
@@ -1433,6 +1444,7 @@
             {
                 RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                 doctype.SystemIdentifier = _stringBuffer.ToString();
+                _stringBuffer.Clear();
                 doctype.IsQuirksForced = true;
             }
             else if (c == Symbols.EndOfFile)
@@ -1475,12 +1487,14 @@
                 RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                 doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = _stringBuffer.ToString();
+                _stringBuffer.Clear();
             }
             else if (c == Symbols.EndOfFile)
             {
                 RaiseErrorOccurred(HtmlParseError.EOF);
                 doctype.IsQuirksForced = true;
                 doctype.SystemIdentifier = _stringBuffer.ToString();
+                _stringBuffer.Clear();
                 Back();
             }
             else
@@ -1520,6 +1534,7 @@
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                     doctype.IsQuirksForced = true;
                     doctype.SystemIdentifier = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
                     break;
                 }
                 else if (c == Symbols.EndOfFile)
@@ -1527,6 +1542,7 @@
                     RaiseErrorOccurred(HtmlParseError.EOF);
                     doctype.IsQuirksForced = true;
                     doctype.SystemIdentifier = _stringBuffer.ToString();
+                    _stringBuffer.Clear();
                     Back();
                     break;
                 }
@@ -1564,11 +1580,13 @@
                         RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
                         doctype.IsQuirksForced = true;
                         doctype.SystemIdentifier = _stringBuffer.ToString();
+                        _stringBuffer.Clear();
                         break;
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(HtmlParseError.EOF);
                         doctype.IsQuirksForced = true;
                         doctype.SystemIdentifier = _stringBuffer.ToString();
+                        _stringBuffer.Clear();
                         Back();
                         break;
                     default:
@@ -1691,21 +1709,25 @@
                 if (c.IsSpaceCharacter())
                 {
                     tag.AddAttribute(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
                     return AttributeAfterName(tag);
                 }
                 else if (c == Symbols.Solidus)
                 {
                     tag.AddAttribute(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
                     return TagSelfClosing(tag);
                 }
                 else if (c == Symbols.Equality)
                 {
                     tag.AddAttribute(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
                     return AttributeBeforeValue(tag);
                 }
                 else if (c == Symbols.GreaterThan)
                 {
                     tag.AddAttribute(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
                     return EmitTag(tag);
                 }
                 else if (c == Symbols.EndOfFile)
@@ -1845,6 +1867,7 @@
                 if (c == Symbols.DoubleQuote)
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
                     return AttributeAfterValue(tag);
                 }
                 else if (c == Symbols.Ampersand)
@@ -1885,6 +1908,7 @@
                 if (c == Symbols.SingleQuote)
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
                     return AttributeAfterValue(tag);
                 }
                 else if (c == Symbols.Ampersand)
@@ -1924,6 +1948,7 @@
                 if (c.IsSpaceCharacter())
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
                     return AttributeBeforeName(tag);
                 }
                 else if (c == Symbols.Ampersand)
@@ -1938,6 +1963,7 @@
                 else if (c == Symbols.GreaterThan)
                 {
                     tag.SetAttributeValue(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
                     return EmitTag(tag);
                 }
                 else if (c == Symbols.Null)
@@ -2072,6 +2098,7 @@
                 if (!c.IsLetter())
                 {
                     _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
                     return ScriptDataText(c);
                 }
 
@@ -2250,11 +2277,13 @@
                     _stringBuffer.ToString().Equals(Tags.Script, StringComparison.OrdinalIgnoreCase))
                 {
                     Back(_stringBuffer.Length + 3);
+                    _stringBuffer.Clear();
                     return NewCharacter();
                 }
                 else if (!c.IsLetter())
                 {
                     _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
+                    _stringBuffer.Clear();
                     return ScriptDataEscaped(c);
                 }
 
@@ -2275,6 +2304,7 @@
                 {
                     _textBuffer.Append(c);
                     var isscript = _stringBuffer.ToString().Equals(Tags.Script, StringComparison.OrdinalIgnoreCase);
+                    _stringBuffer.Clear();
                     return isscript ? ScriptDataEscapedDouble(GetNext()) : ScriptDataEscaped(GetNext());
                 }
                 else if (c.IsLetter())
@@ -2284,6 +2314,7 @@
                 }
                 else
                 {
+                    _stringBuffer.Clear();
                     return ScriptDataEscaped(c);
                 }
             }
@@ -2411,6 +2442,7 @@
                 {
                     _textBuffer.Append(c);
                     var isscript = _stringBuffer.ToString().Equals(Tags.Script, StringComparison.OrdinalIgnoreCase);
+                    _stringBuffer.Clear();
                     return isscript ? ScriptDataEscaped(GetNext()) : ScriptDataEscapedDouble(GetNext());
                 }
                 else if (c.IsLetter())
@@ -2420,6 +2452,7 @@
                 }
                 else
                 {
+                    _stringBuffer.Clear();
                     return ScriptDataEscapedDouble(c);
                 }
             }
@@ -2479,6 +2512,8 @@
 
                 if (name.Equals(_lastStartTag, comparison))
                 {
+                    _stringBuffer.Clear();
+
                     if (isspace)
                     {
                         tag.Name = _lastStartTag;
