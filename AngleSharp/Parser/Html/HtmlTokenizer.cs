@@ -143,9 +143,9 @@
                         var value = CharacterReference(GetNext());
 
                         if (value == null)
-                            _textBuffer.Append(Symbols.Ampersand);
+                            _stringBuffer.Append(Symbols.Ampersand);
                         else
-                            _textBuffer.Append(value);
+                            _stringBuffer.Append(value);
 
                         break;
 
@@ -154,7 +154,7 @@
                         break;
 
                     default:
-                        _textBuffer.Append(c);
+                        _stringBuffer.Append(c);
                         break;
                 }
 
@@ -178,7 +178,7 @@
                 {
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
-                        _textBuffer.Append(Symbols.Replacement);
+                        _stringBuffer.Append(Symbols.Replacement);
                         break;
 
                     case Symbols.EndOfFile:
@@ -186,7 +186,7 @@
                         return NewCharacter();
 
                     default:
-                        _textBuffer.Append(c);
+                        _stringBuffer.Append(c);
                         break;
                 }
 
@@ -217,9 +217,9 @@
                         var value = CharacterReference(GetNext());
 
                         if (value == null)
-                            _textBuffer.Append(Symbols.Ampersand);
+                            _stringBuffer.Append(Symbols.Ampersand);
 
-                        _textBuffer.Append(value);
+                        _stringBuffer.Append(value);
                         break;
 
                     case Symbols.LessThan:
@@ -229,11 +229,11 @@
 
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
-                        _textBuffer.Append(Symbols.Replacement);
+                        _stringBuffer.Append(Symbols.Replacement);
                         break;
 
                     default:
-                        _textBuffer.Append(c);
+                        _stringBuffer.Append(c);
                         break;
                 }
 
@@ -264,13 +264,13 @@
                 }
                 else
                 {
-                    _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                    _stringBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
                     return RCDataText(c);
                 }
             }
             else
             {
-                _textBuffer.Append(Symbols.LessThan);
+                _stringBuffer.Append(Symbols.LessThan);
                 return RCDataText(c);
             }
         }
@@ -299,8 +299,7 @@
                 }
                 else
                 {
-                    _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
-                    _stringBuffer.Clear();
+                    _stringBuffer.Insert(0, Symbols.LessThan).Insert(1, Symbols.Solidus);
                     return RCDataText(c);
                 }
 
@@ -334,11 +333,11 @@
 
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
-                        _textBuffer.Append(Symbols.Replacement);
+                        _stringBuffer.Append(Symbols.Replacement);
                         break;
 
                     default:
-                        _textBuffer.Append(c);
+                        _stringBuffer.Append(c);
                         break;
                 }
 
@@ -358,7 +357,7 @@
             }
             else
             {
-                _textBuffer.Append(Symbols.LessThan);
+                _stringBuffer.Append(Symbols.LessThan);
                 return RawtextText(c);
             }
         }
@@ -381,7 +380,7 @@
             }
             else
             {
-                _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                _stringBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
                 return RawtextText(c);
             }
         }
@@ -410,8 +409,7 @@
                 }
                 else
                 {
-                    _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
-                    _stringBuffer.Clear();
+                    _stringBuffer.Insert(0, Symbols.LessThan).Insert(1, Symbols.Solidus);
                     return RawtextText(c);
                 }
 
@@ -443,7 +441,7 @@
                 }
                 else
                 {
-                    _textBuffer.Append(c);
+                    _stringBuffer.Append(c);
                     c = GetNext();
                 }
             }
@@ -616,7 +614,7 @@
             {
                 _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(HtmlParseError.AmbiguousOpenTag);
-                _textBuffer.Append(Symbols.LessThan);
+                _stringBuffer.Append(Symbols.LessThan);
                 return DataText(c);
             }
         }
@@ -647,7 +645,7 @@
             {
                 Back();
                 RaiseErrorOccurred(HtmlParseError.EOF);
-                _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                _stringBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
                 return NewCharacter();
             }
             else
@@ -2011,7 +2009,7 @@
                 {
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
-                        _textBuffer.Append(Symbols.Replacement);
+                        _stringBuffer.Append(Symbols.Replacement);
                         break;
 
                     case Symbols.LessThan:
@@ -2022,7 +2020,7 @@
                         return NewCharacter();
 
                     default:
-                        _textBuffer.Append(c);
+                        _stringBuffer.Append(c);
                         break;
                 }
 
@@ -2036,58 +2034,59 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataLt(Char c)
         {
+            _stringBuffer.Append(Symbols.LessThan);
+
             if (c == Symbols.Solidus)
             {
                 // See 8.2.4.18 Script data end tag open state
                 c = GetNext();
+                var offset = _stringBuffer.Append(Symbols.Solidus).Length;
 
                 if (c.IsLetter())
                 {
-                    var tag = NewTagClose();
                     _stringBuffer.Append(c);
-                    return ScriptDataNameEndTag(tag);
-                }
-                else
-                {
-                    _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
-                    return ScriptData(c);
+                    return ScriptDataNameEndTag(NewTagClose(), offset);
                 }
             }
+            else if (c == Symbols.ExclamationMark)
+            {
+                // See 8.2.4.20 Script data escape start state
+                _stringBuffer.Append(Symbols.ExclamationMark);
+                c = GetNext();
 
-            _textBuffer.Append(Symbols.LessThan);
+                if (c == Symbols.Minus)
+                    return ScriptDataEscapeDashLt(GetNext());
+            }
 
-            if (c != Symbols.ExclamationMark)
-                return ScriptData(c);
-
-            c = GetNext();
-            // See 8.2.4.20 Script data escape start state
-            _textBuffer.Append(Symbols.ExclamationMark);
-            return c == Symbols.Minus ? ScriptDataEscapeDashLt(GetNext()) : ScriptData(c);
+            return ScriptData(c);
         }
 
         /// <summary>
         /// See 8.2.4.19 Script data end tag name state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        HtmlToken ScriptDataNameEndTag(HtmlTagToken tag)
+        HtmlToken ScriptDataNameEndTag(HtmlTagToken tag, Int32 offset)
         {
+            var length = _lastStartTag.Length;
+
             while (true)
             {
                 var c = GetNext();
                 var isspace = c.IsSpaceCharacter();
                 var isclosed = c == Symbols.GreaterThan;
                 var isslash = c == Symbols.Solidus;
+                var hasLength = _stringBuffer.Length - offset == length;
 
-                if (isspace || isclosed || isslash)
+                if (hasLength && (isspace || isclosed || isslash))
                 {
-                    var name = _stringBuffer.ToString();
+                    var name = _stringBuffer.ToString(offset, length);
 
                     if (name.Equals(_lastStartTag, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (_textBuffer.Length > 0)
+                        if (offset > 2)
                         {
-                            Back(3 + _stringBuffer.Length);
-                            _stringBuffer.Clear();
+                            Back(3 + length);
+                            _stringBuffer.Remove(offset - 2, length + 2);
                             return NewCharacter();
                         }
 
@@ -2113,8 +2112,6 @@
                 
                 if (!c.IsLetter())
                 {
-                    _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
-                    _stringBuffer.Clear();
                     return ScriptData(c);
                 }
 
@@ -2128,11 +2125,11 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapeDashLt(Char c)
         {
-            _textBuffer.Append(Symbols.Minus);
+            _stringBuffer.Append(Symbols.Minus);
 
             if (c == Symbols.Minus)
             {
-                _textBuffer.Append(Symbols.Minus);
+                _stringBuffer.Append(Symbols.Minus);
                 return ScriptDataEscapedDashDash();
             }
 
@@ -2150,13 +2147,13 @@
                 switch (c)
                 {
                     case Symbols.Minus:
-                        _textBuffer.Append(Symbols.Minus);
+                        _stringBuffer.Append(Symbols.Minus);
                         return ScriptDataEscapedDash(GetNext());
                     case Symbols.LessThan:
                         return ScriptDataEscapedLT(GetNext());
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
-                        _textBuffer.Append(Symbols.Replacement);
+                        _stringBuffer.Append(Symbols.Replacement);
                         break;
                     case Symbols.EndOfFile:
                         Back();
@@ -2178,19 +2175,19 @@
             switch (c)
             {
                 case Symbols.Minus:
-                    _textBuffer.Append(Symbols.Minus);
+                    _stringBuffer.Append(Symbols.Minus);
                     return ScriptDataEscapedDashDash();
                 case Symbols.LessThan:
                     return ScriptDataEscapedLT(GetNext());
                 case Symbols.Null:
                     RaiseErrorOccurred(HtmlParseError.Null);
-                    _textBuffer.Append(Symbols.Replacement);
+                    _stringBuffer.Append(Symbols.Replacement);
                     break;
                 case Symbols.EndOfFile:
                     Back();
                     return NewCharacter();
                 default:
-                    _textBuffer.Append(c);
+                    _stringBuffer.Append(c);
                     break;
             }
 
@@ -2209,21 +2206,21 @@
                 switch (c)
                 {
                     case Symbols.Minus:
-                        _textBuffer.Append(Symbols.Minus);
+                        _stringBuffer.Append(Symbols.Minus);
                         break;
                     case Symbols.LessThan:
                         return ScriptDataEscapedLT(GetNext());
                     case Symbols.GreaterThan:
-                        _textBuffer.Append(Symbols.GreaterThan);
+                        _stringBuffer.Append(Symbols.GreaterThan);
                         return ScriptData(GetNext());
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
-                        _textBuffer.Append(Symbols.Replacement);
+                        _stringBuffer.Append(Symbols.Replacement);
                         return ScriptDataEscaped(GetNext());
                     case Symbols.EndOfFile:
                         return NewCharacter();
                     default:
-                        _textBuffer.Append(c);
+                        _stringBuffer.Append(c);
                         return ScriptDataEscaped(GetNext());
                 }
             }
@@ -2240,13 +2237,13 @@
 
             if (c.IsLetter())
             {
+                var offset = _stringBuffer.Append(Symbols.LessThan).Length;
                 _stringBuffer.Append(c);
-                _textBuffer.Append(Symbols.LessThan).Append(c);
-                return ScriptDataStartDoubleEscape();
+                return ScriptDataStartDoubleEscape(offset);
             }
             else
             {
-                _textBuffer.Append(Symbols.LessThan);
+                _stringBuffer.Append(Symbols.LessThan);
                 return ScriptDataEscaped(c);
             }
         }
@@ -2257,14 +2254,15 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptDataEscapedEndTag(Char c)
         {
+            var offset = _stringBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Length;
+
             if (c.IsLetter())
             {
                 _stringBuffer.Append(c);
-                return ScriptDataEscapedNameEndTag(NewTagClose());
+                return ScriptDataEscapedNameEndTag(NewTagClose(), offset);
             }
             else
             {
-                _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
                 return ScriptDataEscaped(c);
             }
         }
@@ -2273,23 +2271,24 @@
         /// See 8.2.4.27 Script data escaped end tag name state
         /// </summary>
         /// <param name="tag">The current tag token.</param>
-        HtmlToken ScriptDataEscapedNameEndTag(HtmlTagToken tag)
+        HtmlToken ScriptDataEscapedNameEndTag(HtmlTagToken tag, Int32 offset)
         {
+            var length = Tags.Script.Length;
+
             while (true)
             {
                 var c = GetNext();
+                var hasLength = _stringBuffer.Length - offset == length;
 
-                if ((c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()) && 
-                    _stringBuffer.ToString().Equals(Tags.Script, StringComparison.OrdinalIgnoreCase))
+                if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()) && 
+                    _stringBuffer.ToString(offset, length).Equals(Tags.Script, StringComparison.OrdinalIgnoreCase))
                 {
-                    Back(_stringBuffer.Length + 3);
-                    _stringBuffer.Clear();
+                    Back(length + 3);
+                    _stringBuffer.Remove(offset - 2, length + 2);
                     return NewCharacter();
                 }
                 else if (!c.IsLetter())
                 {
-                    _textBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Append(_stringBuffer.ToString());
-                    _stringBuffer.Clear();
                     return ScriptDataEscaped(c);
                 }
 
@@ -2300,27 +2299,27 @@
         /// <summary>
         /// See 8.2.4.28 Script data double escape start state
         /// </summary>
-        HtmlToken ScriptDataStartDoubleEscape()
+        HtmlToken ScriptDataStartDoubleEscape(Int32 offset)
         {
+            var length = Tags.Script.Length;
+
             while (true)
             {
                 var c = GetNext();
+                var hasLength = _stringBuffer.Length - offset == length;
 
-                if (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter())
+                if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                 {
-                    _textBuffer.Append(c);
-                    var isscript = _stringBuffer.ToString().Equals(Tags.Script, StringComparison.OrdinalIgnoreCase);
-                    _stringBuffer.Clear();
+                    var isscript = _stringBuffer.ToString(offset, length).Equals(Tags.Script, StringComparison.OrdinalIgnoreCase);
+                    _stringBuffer.Append(c);
                     return isscript ? ScriptDataEscapedDouble(GetNext()) : ScriptDataEscaped(GetNext());
                 }
                 else if (c.IsLetter())
                 {
                     _stringBuffer.Append(c);
-                    _textBuffer.Append(c);
                 }
                 else
                 {
-                    _stringBuffer.Clear();
                     return ScriptDataEscaped(c);
                 }
             }
@@ -2337,14 +2336,14 @@
                 switch (c)
                 {
                     case Symbols.Minus:
-                        _textBuffer.Append(Symbols.Minus);
+                        _stringBuffer.Append(Symbols.Minus);
                         return ScriptDataEscapedDoubleDash(GetNext());
                     case Symbols.LessThan:
-                        _textBuffer.Append(Symbols.LessThan);
+                        _stringBuffer.Append(Symbols.LessThan);
                         return ScriptDataEscapedDoubleLT(GetNext());
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
-                        _textBuffer.Append(Symbols.Replacement);
+                        _stringBuffer.Append(Symbols.Replacement);
                         break;
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(HtmlParseError.EOF);
@@ -2352,7 +2351,7 @@
                         return NewCharacter();
                 }
 
-                _textBuffer.Append(c);
+                _stringBuffer.Append(c);
                 c = GetNext();
             }
         }
@@ -2366,10 +2365,10 @@
             switch (c)
             {
                 case Symbols.Minus:
-                    _textBuffer.Append(Symbols.Minus);
+                    _stringBuffer.Append(Symbols.Minus);
                     return ScriptDataEscapedDoubleDashDash();
                 case Symbols.LessThan:
-                    _textBuffer.Append(Symbols.LessThan);
+                    _stringBuffer.Append(Symbols.LessThan);
                     return ScriptDataEscapedDoubleLT(GetNext());
                 case Symbols.Null:
                     RaiseErrorOccurred(HtmlParseError.Null);
@@ -2396,24 +2395,24 @@
                 switch (c)
                 {
                     case Symbols.Minus:
-                        _textBuffer.Append(Symbols.Minus);
+                        _stringBuffer.Append(Symbols.Minus);
                         break;
                     case Symbols.LessThan:
-                        _textBuffer.Append(Symbols.LessThan);
+                        _stringBuffer.Append(Symbols.LessThan);
                         return ScriptDataEscapedDoubleLT(GetNext());
                     case Symbols.GreaterThan:
-                        _textBuffer.Append(Symbols.GreaterThan);
+                        _stringBuffer.Append(Symbols.GreaterThan);
                         return ScriptData(GetNext());
                     case Symbols.Null:
                         RaiseErrorOccurred(HtmlParseError.Null);
-                        _textBuffer.Append(Symbols.Replacement);
+                        _stringBuffer.Append(Symbols.Replacement);
                         return ScriptDataEscapedDouble(GetNext());
                     case Symbols.EndOfFile:
                         RaiseErrorOccurred(HtmlParseError.EOF);
                         Back();
                         return NewCharacter();
                     default:
-                        _textBuffer.Append(c);
+                        _stringBuffer.Append(c);
                         return ScriptDataEscapedDouble(GetNext());
                 }
             }
@@ -2427,8 +2426,8 @@
         {
             if (c == Symbols.Solidus)
             {
-                _textBuffer.Append(Symbols.Solidus);
-                return ScriptDataEndDoubleEscape();
+                var offset = _stringBuffer.Append(Symbols.Solidus).Length;
+                return ScriptDataEndDoubleEscape(offset);
             }
 
             return ScriptDataEscapedDouble(c);
@@ -2437,27 +2436,27 @@
         /// <summary>
         /// See 8.2.4.33 Script data double escape end state
         /// </summary>
-        HtmlToken ScriptDataEndDoubleEscape()
+        HtmlToken ScriptDataEndDoubleEscape(Int32 offset)
         {
+            var length = Tags.Script.Length;
+
             while (true)
             {
                 var c = GetNext();
+                var hasLength = _stringBuffer.Length - offset == length;
 
-                if (c.IsSpaceCharacter() || c == Symbols.Solidus || c == Symbols.GreaterThan)
+                if (hasLength && (c.IsSpaceCharacter() || c == Symbols.Solidus || c == Symbols.GreaterThan))
                 {
-                    _textBuffer.Append(c);
-                    var isscript = _stringBuffer.ToString().Equals(Tags.Script, StringComparison.OrdinalIgnoreCase);
-                    _stringBuffer.Clear();
+                    var isscript = _stringBuffer.ToString(offset, length).Equals(Tags.Script, StringComparison.OrdinalIgnoreCase);
+                    _stringBuffer.Append(c);
                     return isscript ? ScriptDataEscaped(GetNext()) : ScriptDataEscapedDouble(GetNext());
                 }
                 else if (c.IsLetter())
                 {
                     _stringBuffer.Append(c);
-                    _textBuffer.Append(c);
                 }
                 else
                 {
-                    _stringBuffer.Clear();
                     return ScriptDataEscapedDouble(c);
                 }
             }
@@ -2469,8 +2468,8 @@
 
         HtmlToken NewCharacter()
         {
-            var content = _textBuffer.ToString();
-            _textBuffer.Clear();
+            var content = _stringBuffer.ToString();
+            _stringBuffer.Clear();
             return new HtmlToken(HtmlTokenType.Character, _position, content);
         }
 
