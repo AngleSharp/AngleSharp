@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Html
 {
-    using AngleSharp.Dom;
     using System;
+    using AngleSharp.Dom;
 
     /// <summary>
     /// Represents the standard HTML5 markup formatter.
@@ -66,7 +66,7 @@
             temp.Append(element.LocalName);
 
             foreach (var attribute in element.Attributes)
-                temp.Append(" ").Append(Stringify(attribute));
+                temp.Append(" ").Append(Instance.Attribute(attribute));
 
             temp.Append(Symbols.GreaterThan);
             return temp.ToPool();
@@ -80,11 +80,7 @@
             return selfClosing ? String.Empty : String.Concat("</", tag, ">");
         }
 
-        #endregion
-
-        #region Helpers
-
-        static String Stringify(IAttr attr)
+        String IMarkupFormatter.Attribute(IAttr attr)
         {
             var namespaceUri = attr.NamespaceUri;
             var localName = attr.LocalName;
@@ -117,6 +113,10 @@
 
             return temp.Append(Symbols.DoubleQuote).ToPool();
         }
+
+        #endregion
+
+        #region Helpers
 
         static String GetIds(String publicId, String systemId)
         {

@@ -104,6 +104,11 @@
                 NewLineAfter(element.NextSibling ?? element.Parent));
         }
 
+        String IMarkupFormatter.Attribute(IAttr attribute)
+        {
+            return HtmlMarkupFormatter.Instance.Attribute(attribute);
+        }
+
         #endregion
 
         #region Helpers

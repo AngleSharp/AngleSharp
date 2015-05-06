@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Xml
 {
     using System;
-    using System.Collections.Generic;
     using AngleSharp.Dom;
 
     /// <summary>
@@ -56,7 +55,7 @@
             temp.Append(element.LocalName);
 
             foreach (var attribute in element.Attributes)
-                temp.Append(" ").Append(Stringify(attribute));
+                temp.Append(" ").Append(Instance.Attribute(attribute));
 
             if (selfClosing)
                 temp.Append(" /");
@@ -89,11 +88,7 @@
             return temp.ToPool();
         }
 
-        #endregion
-
-        #region Helpers
-
-        static String Stringify(IAttr attribute)
+        String IMarkupFormatter.Attribute(IAttr attribute)
         {
             var value = attribute.Value;
             var temp = Pool.NewStringBuilder();
