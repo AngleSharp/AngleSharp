@@ -32,9 +32,9 @@
             if (configuration == null)
                 configuration = Configuration.Default;
 
-            var encoding = configuration.GetService<IEncodingService>();
+            var service = configuration.GetService<IEncodingService>();
             var locale = configuration.GetLanguage();
-            return encoding != null ? encoding.Suggest(locale) : Encoding.UTF8;
+            return service != null ? service.Suggest(locale) : Encoding.UTF8;
         }
 
         #endregion
