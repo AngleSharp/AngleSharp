@@ -49,19 +49,19 @@
         /// <returns>The suggested encoding.</returns>
         public Encoding Suggest(String locale)
         {
-            var encoding = TextEncoding.Windows1252;
-
             if (!String.IsNullOrEmpty(locale) && locale.Length > 1)
             {
+                var encoding = default(Encoding);
+
                 if (suggestions.TryGetValue(locale.Substring(0, 2), out encoding))
                     return encoding;
                 else if (locale.Equals("zh-cn", StringComparison.OrdinalIgnoreCase))
-                    encoding = TextEncoding.Gb18030;
+                    return TextEncoding.Gb18030;
                 else if (locale.Equals("zh-tw", StringComparison.OrdinalIgnoreCase))
-                    encoding = TextEncoding.Big5;
+                    return TextEncoding.Big5;
             }
 
-            return encoding;
+            return TextEncoding.Windows1252;
         }
     }
 }
