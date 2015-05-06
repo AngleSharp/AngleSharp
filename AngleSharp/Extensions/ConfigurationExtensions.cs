@@ -1,16 +1,15 @@
 ﻿namespace AngleSharp.Extensions
 {
-    using AngleSharp.Css;
-    using AngleSharp.Dom;
-    using AngleSharp.Events;
-    using AngleSharp.Network;
-    using AngleSharp.Scripting;
-    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
     using System.Text;
+    using AngleSharp.Css;
+    using AngleSharp.Dom;
+    using AngleSharp.Network;
+    using AngleSharp.Scripting;
+    using AngleSharp.Services;
 
     /// <summary>
     /// Represents a helper to construct objects with externally defined
@@ -33,7 +32,9 @@
             if (configuration == null)
                 configuration = Configuration.Default;
 
-            return TextEncoding.Suggest(configuration.GetLanguage());
+            var encoding = configuration.GetService<IEncodingService>();
+            var locale = configuration.GetLanguage();
+            return encoding != null ? encoding.Suggest(locale) : Encoding.UTF8;
         }
 
         #endregion
