@@ -13,12 +13,12 @@
         [DomName("CSS_INHERIT")]
         Inherit = 0,
         /// <summary>
-        /// The value is a primitive value and an instance of the CSSPrimitiveValue.
+        /// The value is a primitive value.
         /// </summary>
         [DomName("CSS_PRIMITIVE_VALUE")]
         Primitive = 1,
         /// <summary>
-        /// The value is a CSSValue list and an instance of the CSSValueList.
+        /// The value is a list of values.
         /// </summary>
         [DomName("CSS_VALUE_LIST")]
         List = 2,
