@@ -354,34 +354,28 @@
         {
             if (c == Symbols.Solidus)
             {
-                return RawtextEndTag(GetNext());
+                // See 8.2.4.15 RAWTEXT end tag open state
+                c = GetNext();
+
+                if (c.IsUppercaseAscii())
+                {
+                    _stringBuffer.Append(Char.ToLower(c));
+                    return RawtextNameEndTag(GetNext());
+                }
+                else if (c.IsLowercaseAscii())
+                {
+                    _stringBuffer.Append(c);
+                    return RawtextNameEndTag(GetNext());
+                }
+                else
+                {
+                    _stringBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
+                    return RawtextText(c);
+                }
             }
             else
             {
                 _stringBuffer.Append(Symbols.LessThan);
-                return RawtextText(c);
-            }
-        }
-
-        /// <summary>
-        /// See 8.2.4.15 RAWTEXT end tag open state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken RawtextEndTag(Char c)
-        {
-            if (c.IsUppercaseAscii())
-            {
-                _stringBuffer.Append(Char.ToLower(c));
-                return RawtextNameEndTag(GetNext());
-            }
-            else if (c.IsLowercaseAscii())
-            {
-                _stringBuffer.Append(c);
-                return RawtextNameEndTag(GetNext());
-            }
-            else
-            {
-                _stringBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus);
                 return RawtextText(c);
             }
         }
@@ -606,17 +600,17 @@
             {
                 return MarkupDeclaration(GetNext());
             }
-            else if (c == Symbols.QuestionMark)
-            {
-                RaiseErrorOccurred(HtmlParseError.BogusComment);
-                return BogusComment(c);
-            }
-            else
+            else if (c != Symbols.QuestionMark)
             {
                 _state = HtmlParseMode.PCData;
                 RaiseErrorOccurred(HtmlParseError.AmbiguousOpenTag);
                 _stringBuffer.Append(Symbols.LessThan);
                 return DataText(c);
+            }
+            else
+            {
+                RaiseErrorOccurred(HtmlParseError.BogusComment);
+                return BogusComment(c);
             }
         }
 
@@ -684,23 +678,23 @@
                     _stringBuffer.Clear();
                     return TagSelfClosing(tag);
                 }
+                else if (c.IsUppercaseAscii())
+                {
+                    _stringBuffer.Append(Char.ToLower(c));
+                }
                 else if (c == Symbols.Null)
                 {
                     RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
                 }
-                else if (c == Symbols.EndOfFile)
+                else if (c != Symbols.EndOfFile)
                 {
-                    RaiseErrorOccurred(HtmlParseError.EOF);
-                    return NewEof();
-                }
-                else if (c.IsUppercaseAscii())
-                {
-                    _stringBuffer.Append(Char.ToLower(c));
+                    _stringBuffer.Append(c);
                 }
                 else
                 {
-                    _stringBuffer.Append(c);
+                    RaiseErrorOccurred(HtmlParseError.EOF);
+                    return NewEof();
                 }
             }
         }
