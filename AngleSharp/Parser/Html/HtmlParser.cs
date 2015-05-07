@@ -2102,7 +2102,7 @@
 
                     if (tagName.IsTableCellElement() || tagName.IsGeneralTableElement(true))
                     {
-                        if (IsInTableScope(Tags.Td) || IsInTableScope(Tags.Th))
+                        if (IsInTableScope<HtmlTableCellElement>())
                         {
                             InCellEndTagCell(token);
                             Home(token);
@@ -2125,10 +2125,6 @@
                     {
                         InCellEndTagCell(token);
                     }
-                    else if (tagName.IsSpecialTableElement())
-                    {
-                        RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
-                    }
                     else if (tagName.IsTableElement())
                     {
                         if (IsInTableScope(tagName))
@@ -2137,11 +2133,17 @@
                             Home(token);
                         }
                         else
+                        {
                             RaiseErrorOccurred(HtmlParseError.TableNotInScope, token);
+                        }
+                    }
+                    else if (!tagName.IsSpecialTableElement())
+                    {
+                        InBody(token);
                     }
                     else
                     {
-                        InBody(token);
+                        RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
                     }
 
                     return;
@@ -2570,11 +2572,6 @@
         {
             switch (token.Type)
             {
-                case HtmlTokenType.Comment:
-                {
-                    _document.AddComment(token);
-                    return;
-                }
                 case HtmlTokenType.Character:
                 {
                     var str = token.TrimStart();
@@ -2585,6 +2582,16 @@
                         return;
 
                     break;
+                }
+                case HtmlTokenType.EndOfFile:
+                {
+                    End();
+                    return;
+                }
+                case HtmlTokenType.Comment:
+                {
+                    _document.AddComment(token);
+                    return;
                 }
                 case HtmlTokenType.Doctype:
                 {
@@ -2597,11 +2604,6 @@
                         break;
 
                     InBody(token);
-                    return;
-                }
-                case HtmlTokenType.EndOfFile:
-                {
-                    End();
                     return;
                 }
             }
