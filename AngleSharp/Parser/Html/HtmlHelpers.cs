@@ -57,7 +57,8 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsGeneralTableElement(this String tagName, Boolean includeRow = false)
         {
-            return (tagName == Tags.Tr && includeRow) || tagName.IsTableSectionElement() || tagName == Tags.Caption || tagName == Tags.Col || tagName == Tags.Colgroup;
+            return (includeRow && tagName == Tags.Tr) || tagName.IsTableSectionElement() || 
+                tagName == Tags.Caption || tagName == Tags.Col || tagName == Tags.Colgroup;
         }
 
         /// <summary>
@@ -69,8 +70,8 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsSpecialTableElement(this String tagName, Boolean includeRow = false)
         {
-            return (tagName == Tags.Tr && includeRow) || tagName.IsTableCellElement() || tagName == Tags.Body || tagName == Tags.Html || 
-                tagName == Tags.Caption || tagName == Tags.Col || tagName == Tags.Colgroup;
+            return (includeRow && tagName == Tags.Tr) || tagName.IsTableCellElement() || tagName == Tags.Body || 
+                tagName == Tags.Caption || tagName == Tags.Col || tagName == Tags.Colgroup || tagName == Tags.Html;
         }
     }
 }
