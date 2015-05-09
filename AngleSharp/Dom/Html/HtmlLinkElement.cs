@@ -1,13 +1,13 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
     using AngleSharp.Css;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML link element.
@@ -249,12 +249,12 @@
 
         async Task LoadAsync(Url url, CancellationToken cancel)
         {
-            var request = this.CreateRequestFor(url);
-            var response = await Owner.Loader.FetchAsync(request, cancel).ConfigureAwait(false);
+            var config = Owner.Options;
+            var engine = config.GetStyleEngine(Type ?? MimeTypes.Css);
 
-            if (response != null)
+            if (engine != null)
             {
-                var config = Owner.Options;
+                var request = this.CreateRequestFor(url);
                 var options = new StyleOptions
                 {
                     Element = this,
@@ -263,8 +263,9 @@
                     IsAlternate = RelationList.Contains(Keywords.Alternate),
                     Configuration = config
                 };
-                _sheet = config.ParseStyling(response, options, Type);
-                response.Dispose();
+
+                using (var response = await Owner.Loader.FetchAsync(request, cancel).ConfigureAwait(false))
+                    _sheet = engine.Parse(response, options);
             }
         }
 

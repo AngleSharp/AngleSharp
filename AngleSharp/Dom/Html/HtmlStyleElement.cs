@@ -1,9 +1,11 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using System;
+    using AngleSharp.Network;
+
 
     /// <summary>
     /// Represents the HTML style element.
@@ -115,21 +117,21 @@
 
         IStyleSheet CreateSheet()
         {
-            if (Owner.Options.IsStyling())
-            {
-                var config = Owner.Options;
-                var options = new StyleOptions
-                {
-                    Element = this,
-                    IsDisabled = IsDisabled,
-                    Title = Title,
-                    IsAlternate = false,
-                    Configuration = config
-                };
-                return config.ParseStyling(TextContent, options, Type);
-            }
+            var config = Owner.Options;
+            var engine = config.GetStyleEngine(Type ?? MimeTypes.Css);
 
-            return null;
+            if (engine == null)
+                return null;
+
+            var options = new StyleOptions
+            {
+                Element = this,
+                IsDisabled = IsDisabled,
+                Title = Title,
+                IsAlternate = false,
+                Configuration = config
+            };
+            return engine.Parse(TextContent, options);
         }
 
         #endregion

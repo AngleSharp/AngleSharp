@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Scripting;
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents an HTML script element.
@@ -155,8 +155,10 @@
             }
             else if (!CancelledBeforeScriptExecute())
             {
+                var engine = Owner.Options.GetScriptEngine(ScriptLanguage);
+
                 using (var result = _loadingTask.Result)
-                    Owner.Options.RunScript(result, CreateOptions(), ScriptLanguage);
+                    engine.Evaluate(result, CreateOptions());
 
                 AfterScriptExecute();
 
@@ -177,6 +179,10 @@
                 return;
 
             var options = Owner.Options;
+            var engine = options.GetScriptEngine(ScriptLanguage);
+
+            if (engine == null)
+                return;
 
             _wasParserInserted = _parserInserted;
             _parserInserted = false;
@@ -186,9 +192,6 @@
             if (String.IsNullOrEmpty(Source) && String.IsNullOrEmpty(Text))
                 return;
 
-            if (options.GetScriptEngine(ScriptLanguage) == null)
-                return;
-
             if (_wasParserInserted)
             {
                 _parserInserted = true;
@@ -196,9 +199,6 @@
             }
 
             _started = true;
-
-            if (Owner.Options.IsScripting() == false)
-                return;
 
             var eventAttr = GetOwnAttribute(AttributeNames.Event);
             var forAttr = GetOwnAttribute(AttributeNames.For);
@@ -235,7 +235,7 @@
             }
             else
             {
-                options.RunScript(Text, CreateOptions(), ScriptLanguage);
+                engine.Evaluate(Text, CreateOptions());
             }
         }
 

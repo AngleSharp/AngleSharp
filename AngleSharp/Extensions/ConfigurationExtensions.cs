@@ -7,7 +7,6 @@
     using System.Text;
     using AngleSharp.Css;
     using AngleSharp.Dom;
-    using AngleSharp.Network;
     using AngleSharp.Scripting;
     using AngleSharp.Services;
 
@@ -215,57 +214,6 @@
 
             return null;
         }
-        
-        /// <summary>
-        /// Parses the given source code by using the supplied type name
-        /// (otherwise it is text/css) and returns the created stylesheet.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="source">
-        /// The source code describing the style sheet.
-        /// </param>
-        /// <param name="options">
-        /// The options with the parameters for evaluating the style.
-        /// </param>
-        /// <param name="type">
-        /// The optional mime-type of the source code.
-        /// </param>
-        /// <returns>A freshly created stylesheet, if any.</returns>
-        public static IStyleSheet ParseStyling(this IConfiguration configuration, String source, StyleOptions options, String type = null)
-        {
-            var engine = configuration.GetStyleEngine(type ?? MimeTypes.Css);
-
-            if (engine != null)
-                return engine.Parse(source, options);
-
-            return null;
-        }
-
-        /// <summary>
-        /// Parses the given source code by using the supplied type name
-        /// (otherwise it is text/css) and returns the created stylesheet.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="response">
-        /// The response with the stream representing the source of the
-        /// stylesheet.
-        /// </param>
-        /// <param name="options">
-        /// The options with the parameters for evaluating the style.
-        /// </param>
-        /// <param name="type">
-        /// The optional mime-type of the source code.
-        /// </param>
-        /// <returns>A freshly created stylesheet, if any.</returns>
-        public static IStyleSheet ParseStyling(this IConfiguration configuration, IResponse response, StyleOptions options, String type = null)
-        {
-            var engine = configuration.GetStyleEngine(type ?? MimeTypes.Css);
-
-            if (engine != null)
-                return engine.Parse(response, options);
-
-            return null;
-        }
 
         #endregion
 
@@ -292,46 +240,6 @@
                 return service.GetEngine(type);
 
             return null;
-        }
-
-        /// <summary>
-        /// Parses the given source code by using the supplied type name
-        /// (otherwise it is text/css) and returns the created stylesheet.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="source">The source code of the style sheet.</param>
-        /// <param name="options">The options for running the script.</param>
-        /// <param name="type">
-        /// The optional mime-type of the source code.
-        /// </param>
-        public static void RunScript(this IConfiguration configuration, String source, ScriptOptions options, String type = null)
-        {
-            var engine = configuration.GetScriptEngine(type ?? MimeTypes.DefaultJavaScript);
-
-            if (engine != null)
-                engine.Evaluate(source, options);
-        }
-
-        /// <summary>
-        /// Parses the given source code by using the supplied type name
-        /// (otherwise it is text/css) and returns the created stylesheet.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="response">
-        /// The response with the stream representing the source of the script.
-        /// </param>
-        /// <param name="options">
-        /// The options for running the script.
-        /// </param>
-        /// <param name="type">
-        /// The optional mime-type of the source code.
-        /// </param>
-        public static void RunScript(this IConfiguration configuration, IResponse response, ScriptOptions options, String type = null)
-        {
-            var engine = configuration.GetScriptEngine(type ?? MimeTypes.DefaultJavaScript);
-
-            if (engine != null)
-                engine.Evaluate(response, options);
         }
 
         #endregion
