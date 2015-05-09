@@ -62,7 +62,12 @@
         /// <param name="action">The action that should be invoked.</param>
         public static void QueueTask(this Document document, Action action)
         {
-            document.QueueTask(new Task(action));
+            var eventLoop = document.Options.GetService<IEventService>();
+
+            if (eventLoop != null)
+                eventLoop.Enqueue(new Task(action));
+            else
+                action();
         }
 
         /// <summary>
