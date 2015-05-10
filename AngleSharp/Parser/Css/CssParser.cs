@@ -516,14 +516,12 @@
                         property = new CssUnknownProperty(propertyName, style);
                     }
 
-                    var value = InValue(tokens);
+                    var val = InValue(tokens);
 
-                    if (value != null && property.TrySetValue(value))
+                    if (val != null && property.TrySetValue(val))
                         style.SetProperty(property);
 
-                    if (IsImportant(tokens))
-                        property.IsImportant = true;
-
+                    property.IsImportant = value.IsImportant;
                     tokens.JumpToEndOfDeclaration();
                     return property;
                 }
@@ -536,17 +534,6 @@
                 RaiseErrorOccurred(CssParseError.IdentExpected, tokens.Current);
 
             return null;
-        }
-
-        /// <summary>
-        /// In the important part of a declaration.
-        /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>True if the declaration is important, otherwise false.</returns>
-        Boolean IsImportant(IEnumerator<CssToken> tokens)
-        {
-            var token = tokens.Current;
-            return token.Type == CssTokenType.Ident && token.Data == Keywords.Important;
         }
 
         #endregion
@@ -739,12 +726,21 @@
                 tokenizer.IgnoreWhitespace = false;
                 tokens.MoveNext();
 
-                while (GetSingleValue(tokens) && tokens.Current.Type != CssTokenType.RoundBracketClose) ;
+                do
+                {
+                    token = tokens.Current;
+
+                    if (token.Type == CssTokenType.RoundBracketClose && value.IsReady)
+                        break;
+
+                    value.Apply(token);
+                }
+                while (tokens.MoveNext());
 
                 tokenizer.IgnoreWhitespace = true;
             }
 
-            return Tuple.Create(feature, value.ToValue());
+            return Tuple.Create(feature, value.Result);
         }
 
         #endregion
@@ -760,157 +756,21 @@
         {
             tokenizer.IgnoreWhitespace = false;
             value.Reset();
-
-            while (GetSingleValue(tokens)) ;
-
-            tokenizer.IgnoreWhitespace = true;
-            return value.ToValue();
-        }
-
-        Boolean GetSingleValue(IEnumerator<CssToken> tokens)
-        {
-            var token = tokens.Current;
-
-            switch (token.Type)
-            {
-                case CssTokenType.Dimension: // e.g. "3px"
-                case CssTokenType.Percentage: // e.g. "5%"
-                    return TakeValue(((CssUnitToken)token).ToUnit(), tokens);
-                case CssTokenType.Hash:// e.g. "#ABCDEF"
-                    return TakeValue(GetColorFromHexValue(token.Data), tokens);
-                case CssTokenType.Delim:// e.g. "#"
-                    return GetValueFromDelim(token.Data[0], tokens);
-                case CssTokenType.Ident: // e.g. "auto"
-                    value.AddValue(token.ToIdentifier());
-                    return tokens.MoveNext();
-                case CssTokenType.String:// e.g. "'i am a string'"
-                    value.AddValue(new CssString(token.Data));
-                    return tokens.MoveNext();
-                case CssTokenType.Url:// e.g. "url('this is a valid URL')"
-                    value.AddValue(new CssUrl(token.Data));
-                    return tokens.MoveNext();
-                case CssTokenType.Number: // e.g. "173"
-                    value.AddValue(((CssNumberToken)token).ToNumber());
-                    return tokens.MoveNext();
-                case CssTokenType.Function: // e.g. "rgba(...)"
-                    return GetValueFunction(tokens);
-                case CssTokenType.Comma: // e.g. ","
-                    value.NextArgument();
-                    return tokens.MoveNext();
-                case CssTokenType.Whitespace: // e.g. " "
-                    return tokens.MoveNext();
-                case CssTokenType.Semicolon: // e.g. ";", "}"
-                case CssTokenType.CurlyBracketClose:
-                    break;
-                default: // everything else is unexpected
-                    RaiseErrorOccurred(CssParseError.InputUnexpected, token);
-                    value.IsFaulted = true;
-                    break;
-            }
-
-            return false;
-        }
-
-        Boolean TakeValue(ICssValue val, IEnumerator<CssToken> tokens)
-        {
-            var nxt = tokens.MoveNext();
-
-            if (val == null)
-            {
-                value.IsFaulted = true;
-                return false;
-            }
-
-            value.AddValue(val);
-            return nxt;
-        }
-
-        Boolean GetValueFromDelim(Char delimiter, IEnumerator<CssToken> tokens)
-        {
-            if (delimiter == Symbols.Num && tokens.MoveNext())
-                return GetColorFromHexValue(tokens);
-
-            if (delimiter == Symbols.Solidus)
-            {
-                value.AddValue(CssValue.Delimiter);
-                return tokens.MoveNext();
-            }
-
-            if (delimiter != Symbols.ExclamationMark || !tokens.MoveNext() || !IsImportant(tokens))
-                value.IsFaulted = true;
-
-            return false;
-        }
-
-        /// <summary>
-        /// Gathers a value from a CSS function.
-        /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The computed function.</returns>
-        Boolean GetValueFunction(IEnumerator<CssToken> tokens)
-        {
-            var name = tokens.Current.Data;
-            value.OpenFunction(name);
-
-            if (!tokens.MoveNext())
-                return false;
-
-            while (GetSingleValue(tokens))
-            {
-                if (tokens.Current.Type == CssTokenType.RoundBracketClose)
-                    break;
-            }
-
-            value.CloseFunction();
-            return tokens.MoveNext();
-        }
-
-        /// <summary>
-        /// Called if a # sign has been found.
-        /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The generated value.</returns>
-        Boolean GetColorFromHexValue(IEnumerator<CssToken> tokens)
-        {
-            var buffer = Pool.NewStringBuilder();
-            var alive = true;
+            var start = tokens.Current;
 
             do
             {
                 var token = tokens.Current;
 
-                if (token.Type != CssTokenType.Number && token.Type != CssTokenType.Dimension && token.Type != CssTokenType.Ident)
+                if (token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.CurlyBracketClose)
                     break;
 
-                var rest = token.ToValue();
+                value.Apply(token);
+            }
+            while (tokens.MoveNext());
 
-                if (buffer.Length + rest.Length > 6)
-                    break;
-
-                buffer.Append(rest);
-            } while (alive = tokens.MoveNext());
-
-            var color = GetColorFromHexValue(buffer.ToPool());
-
-            if (color != null)
-                value.AddValue(color.Value);
-
-            return alive;
-        }
-
-        /// <summary>
-        /// Called in a value - a hash (probably hex) value has been found.
-        /// </summary>
-        /// <param name="hexColor">The value of the token.</param>
-        /// <returns>The generated value.</returns>
-        static Color? GetColorFromHexValue(String hexColor)
-        {
-            Color colorValue;
-
-            if (Color.TryFromHex(hexColor, out colorValue))
-                return colorValue;
-
-            return null;
+            tokenizer.IgnoreWhitespace = true;
+            return value.Result;
         }
 
         #endregion
@@ -986,20 +846,23 @@
 
             value.Reset();
 
-            while (GetSingleValue(tokens))
+            do
             {
-                if (tokens.Current.Type == CssTokenType.RoundBracketClose)
-                    break;
-            }
+                var token = tokens.Current;
 
-            var result = value.ToValue();
+                if (token.Type == CssTokenType.RoundBracketClose && value.IsReady)
+                    break;
+
+                value.Apply(token);
+            }
+            while (tokens.MoveNext());
+
+            var result = value.Result;
 
             if (result == null)
                 return null;
 
-            if (property.IsImportant = IsImportant(tokens))
-                tokens.MoveNext();
-
+            property.IsImportant = value.IsImportant;
             return new CssSupportsRule.DeclarationCondition(property, result);
         }
 

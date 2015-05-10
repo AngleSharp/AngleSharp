@@ -13,9 +13,10 @@
     sealed class CssValueBuilder
     {
         #region Fields
-
-        readonly Stack<FunctionBuffer> _functions;
-        readonly List<ICssValue> _values;
+        
+        readonly List<CssToken> _values;
+        Boolean _valid;
+        Boolean _important;
 
         #endregion
 
@@ -26,8 +27,7 @@
         /// </summary>
         public CssValueBuilder()
         {
-            _functions = new Stack<FunctionBuffer>();
-            _values = new List<ICssValue>();
+            _values = new List<CssToken>();
             Reset();
         }
 
@@ -36,12 +36,35 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets if the current value contains syntax errors.
+        /// Gets if the value is finished at the moment.
         /// </summary>
-        public Boolean IsFaulted
+        public Boolean IsReady
         {
-            get;
-            set;
+            get { return true; }
+        }
+
+        /// <summary>
+        /// Gets the currently available result.
+        /// </summary>
+        public ICssValue Result
+        {
+            get { return null; }
+        }
+
+        /// <summary>
+        /// Gets if the value is actually valid.
+        /// </summary>
+        public Boolean IsValid
+        {
+            get { return _valid; }
+        }
+
+        /// <summary>
+        /// Gets if the value specified the !important flag.
+        /// </summary>
+        public Boolean IsImportant
+        {
+            get { return _important; }
         }
 
         #endregion
@@ -49,60 +72,30 @@
         #region Methods
 
         /// <summary>
-        /// Adds a function to the current value with the given name.
+        /// Applies the token to the currently build value.
         /// </summary>
-        /// <param name="name">The name of the function.</param>
-        public void OpenFunction(String name)
+        /// <param name="token">The current token to apply.</param>
+        public void Apply(CssToken token)
         {
-            var function = new FunctionBuffer(name);
-            function.StartIndex = _values.Count;
-            _functions.Push(function);
-        }
-
-        /// <summary>
-        /// Adds the new value to the current value (or replaces it).
-        /// </summary>
-        /// <param name="value">The value to add.</param>
-        /// <returns>The status.</returns>
-        public void AddValue(ICssValue value)
-        {
-            _values.Add(value);
-        }
-
-        /// <summary>
-        /// Closes the current function.
-        /// </summary>
-        public void CloseFunction()
-        {
-            NextArgument();
-            AddValue(_functions.Pop().ToValue());
-        }
-
-        /// <summary>
-        /// Inserts a delimiter / into the current value.
-        /// </summary>
-        public void InsertDelimiter()
-        {
-            _values.Add(CssValue.Delimiter);
-        }
-
-        /// <summary>
-        /// Closes the current argument and appends another.
-        /// </summary>
-        public void NextArgument()
-        {
-            if (_functions.Count > 0)
+            switch (token.Type)
             {
-                var function = _functions.Peek();
-                var value = Create(function.StartIndex);
-                _values.RemoveRange(function.StartIndex, _values.Count - function.StartIndex);
-                function.Arguments.Add(value);
-                function.StartIndex = _values.Count;
+                case CssTokenType.Function: // e.g. "rgba(...)"
+                case CssTokenType.Dimension: // e.g. "3px"
+                case CssTokenType.Percentage: // e.g. "5%"
+                case CssTokenType.Hash:// e.g. "#ABCDEF"
+                case CssTokenType.Delim:// e.g. "#"
+                case CssTokenType.Ident: // e.g. "auto"
+                case CssTokenType.String:// e.g. "'i am a string'"
+                case CssTokenType.Url:// e.g. "url('this is a valid URL')"
+                case CssTokenType.Number: // e.g. "173"
+                case CssTokenType.Comma: // e.g. ","
+                case CssTokenType.Whitespace: // e.g. " "
+                    _values.Add(token);
+                    break;
+                default: // everything else is unexpected
+                    _valid = false;
+                    break;
             }
-            else if (_values.Count == 0 || _values[_values.Count - 1] == CssValue.Separator)
-                IsFaulted = true;
-            else
-                _values.Add(CssValue.Separator);
         }
 
         /// <summary>
@@ -110,112 +103,23 @@
         /// </summary>
         public void Reset()
         {
-            IsFaulted = false;
-            _functions.Clear();
+            _valid = true;
+            _important = false;
             _values.Clear();
-        }
-
-        /// <summary>
-        /// Converts the current stage to a CSSValue.
-        /// </summary>
-        /// <returns>The instance of a value.</returns>
-        public ICssValue ToValue()
-        {
-            if (IsFaulted == false)
-            {
-                while (_functions.Count > 0)
-                    CloseFunction();
-
-                return Create();
-            }
-
-            return null;
         }
 
         #endregion
 
         #region Helpers
-
+        
         /// <summary>
-        /// Creates a value from the given index.
+        /// Checks if the provided token is the important identifier.
         /// </summary>
-        /// <param name="start">The inclusive start index.</param>
-        /// <returns>The created value (primitive or list).</returns>
-        ICssValue Create(Int32 start = 0)
+        /// <param name="token">The current token.</param>
+        /// <returns>True if token is an important ident, else false.</returns>
+        static Boolean CheckImportant(CssToken token)
         {
-            return Create(start, _values.Count);
-        }
-
-        /// <summary>
-        /// Creates a value from the given span.
-        /// </summary>
-        /// <param name="start">The inclusive start index.</param>
-        /// <param name="end">The exclusive end index.</param>
-        /// <returns>The created value (primitive or list).</returns>
-        ICssValue Create(Int32 start, Int32 end)
-        {
-            if (end - start != 1)
-            {
-                var list = new CssValueList();
-
-                for (var i = start; i < end; i++)
-                    list.Add(_values[i]);
-
-                return list;
-            }
-
-            return _values[start];
-        }
-
-        #endregion
-
-        #region Function Buffer
-
-        /// <summary>
-        /// A buffer for functions.
-        /// </summary>
-        sealed class FunctionBuffer
-        {
-            #region Fields
-
-            readonly String _name;
-            readonly List<ICssValue> _arguments;
-
-            #endregion
-
-            #region ctor
-
-            public FunctionBuffer(String name)
-            {
-                _arguments = new List<ICssValue>();
-                _name = name;
-            }
-
-            #endregion
-
-            #region Properties
-
-            public Int32 StartIndex
-            {
-                get;
-                set;
-            }
-
-            public List<ICssValue> Arguments
-            {
-                get { return _arguments; }
-            }
-
-            #endregion
-
-            #region Methods
-
-            public ICssValue ToValue()
-            {
-                return new CssFunction(_name, _arguments);
-            }
-
-            #endregion
+            return token.Type == CssTokenType.Ident && token.Data == Keywords.Important;
         }
 
         #endregion
