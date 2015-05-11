@@ -143,7 +143,8 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBreakBeforeProperty>(property);
             var concrete = (CssBreakBeforeProperty)property;
-            Assert.AreEqual(CssValue.Initial, concrete.Value);
+            Assert.IsNotNull(concrete);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
         }
 
         [Test]
@@ -156,7 +157,8 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBreakInsideProperty>(property);
             var concrete = (CssBreakInsideProperty)property;
-            Assert.AreEqual(CssValue.Initial, concrete.Value);
+            Assert.IsNotNull(concrete);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
         }
 
         [Test]
@@ -250,7 +252,8 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClearProperty>(property);
             var concrete = (CssClearProperty)property;
-            Assert.AreEqual(CssValue.Inherit, concrete.Value);
+            Assert.IsNotNull(concrete);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
         }
 
         [Test]
@@ -263,7 +266,8 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClearProperty>(property);
             var concrete = (CssClearProperty)property;
-            Assert.AreEqual(CssValue.Initial, concrete.Value);
+            Assert.IsNotNull(concrete);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
         }
 
         [Test]

@@ -122,7 +122,8 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssWidthProperty>(property);
             var concrete = (CssWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.AreEqual(CssValue.Initial, concrete.Value);
+            Assert.IsNotNull(concrete);
+            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
         }
 
         [Test]

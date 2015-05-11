@@ -83,7 +83,7 @@ namespace AngleSharp.Core.Tests.Css
             var ratio = new AspectRatioMediaFeature(FeatureNames.AspectRatio);
             var check = ratio.TrySetValue(new CssValueList(new List<ICssValue>(new ICssValue[] {
                 new Number(1f, Number.Unit.Integer),
-                CssValue.Delimiter,
+                null, //CssValue.Delimiter,
                 new Number(1f, Number.Unit.Integer)
             })));
             var valid = ratio.Validate(new RenderDevice(100, 100));

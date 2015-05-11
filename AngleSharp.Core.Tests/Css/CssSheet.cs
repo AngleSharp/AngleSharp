@@ -338,47 +338,57 @@ h1 { color: blue }");
         public void CssCreateValueListConformal()
         {
             var valueString = "24px 12px 6px";
-            var list = CssParser.ParseValueList(valueString);
-            Assert.AreEqual(3, list.Length);
-            Assert.AreEqual(list[0].CssText, "24px");
-            Assert.AreEqual(list[1].CssText, "12px");
-            Assert.AreEqual(list[2].CssText, "6px");
+            var list = CssParser.ParseValue(valueString) as CssValue;
+            Assert.AreEqual(CssValueType.List, list.Type);
+            Assert.AreEqual(5, list.Count);
+            Assert.AreEqual(list[0].Data, "24px");
+            Assert.AreEqual(list[1].Data, " ");
+            Assert.AreEqual(list[2].Data, "12px");
+            Assert.AreEqual(list[3].Data, " ");
+            Assert.AreEqual(list[4].Data, "6px");
         }
 
         [Test]
         public void CssCreateValueListNonConformal()
         {
             var valueString = "  24px  12px 6px  13px ";
-            var list = CssParser.ParseValueList(valueString);
-            Assert.AreEqual(4, list.Length);
-            Assert.AreEqual(list[0].CssText, "24px");
-            Assert.AreEqual(list[1].CssText, "12px");
-            Assert.AreEqual(list[2].CssText, "6px");
-            Assert.AreEqual(list[3].CssText, "13px");
+            var list = CssParser.ParseValue(valueString) as CssValue;
+            Assert.AreEqual(CssValueType.List, list.Type);
+            Assert.AreEqual(7, list.Count);
+            Assert.AreEqual(list[0].Data, "24px");
+            Assert.AreEqual(list[1].Data, " ");
+            Assert.AreEqual(list[2].Data, "12px");
+            Assert.AreEqual(list[3].Data, " ");
+            Assert.AreEqual(list[4].Data, "6px");
+            Assert.AreEqual(list[5].Data, " ");
+            Assert.AreEqual(list[6].Data, "13px");
         }
 
         [Test]
         public void CssCreateValueListEmpty()
         {
             var valueString = "";
-            var list = CssParser.ParseValueList(valueString);
-            Assert.AreEqual(0, list.Length);
+            var list = CssParser.ParseValue(valueString) as CssValue;
+            Assert.AreEqual(CssValueType.Custom, list.Type);
+            Assert.AreEqual(0, list.Count);
         }
 
         [Test]
         public void CssCreateValueListSpaces()
         {
             var valueString = "  ";
-            var list = CssParser.ParseValueList(valueString);
-            Assert.AreEqual(0, list.Length);
+            var list = CssParser.ParseValue(valueString) as CssValue;
+            Assert.AreEqual(CssValueType.Custom, list.Type);
+            Assert.AreEqual(0, list.Count);
         }
 
         [Test]
         public void CssCreateValueListIllegal()
         {
             var valueString = " , ";
-            var list = CssParser.ParseValueList(valueString);
-            Assert.AreEqual(0, list.Length);
+            var list = CssParser.ParseValue(valueString) as CssValue;
+            Assert.AreEqual(CssValueType.Primitive, list.Type);
+            Assert.AreEqual(1, list.Count);
         }
 
         [Test]
