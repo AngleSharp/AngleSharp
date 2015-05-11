@@ -1156,12 +1156,6 @@
     <Compile Include="..\AngleSharp\Dom\Css\Values\CssFunction.cs">
       <Link>Dom\Css\Values\CssFunction.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\Css\Values\CssIdentifier.cs">
-      <Link>Dom\Css\Values\CssIdentifier.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Dom\Css\Values\CssString.cs">
-      <Link>Dom\Css\Values\CssString.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Values\CssValue.cs">
       <Link>Dom\Css\Values\CssValue.cs</Link>
     </Compile>
