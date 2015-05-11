@@ -117,6 +117,7 @@
 
             switch (current)
             {
+                case Symbols.FormFeed:
                 case Symbols.LineFeed:
                 case Symbols.CarriageReturn:
                 case Symbols.Tab:
