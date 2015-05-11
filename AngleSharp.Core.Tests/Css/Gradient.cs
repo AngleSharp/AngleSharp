@@ -20,8 +20,6 @@
             Assert.AreEqual("linear-gradient", function.Name);
             Assert.AreEqual(3, function.Arguments.Count);
             Assert.IsInstanceOf<Angle>(function.Arguments[0]);
-            Assert.IsInstanceOf<CssIdentifier>(function.Arguments[1]);
-            Assert.IsInstanceOf<CssIdentifier>(function.Arguments[2]);
         }
 
         [Test]

@@ -170,29 +170,6 @@ namespace AngleSharp.Core.Tests.Css
         }
 
         [Test]
-        public void CssTextAlignLegalJustifyChangedToLeftAndThenIllegal()
-        {
-            var snippet = "text-align:justify";
-            var property = CssParser.ParseDeclaration(snippet);
-            Assert.AreEqual("text-align", property.Name);
-            Assert.IsTrue(property.HasValue);
-            Assert.IsFalse(property.IsImportant);
-            Assert.IsInstanceOf<CssTextAlignProperty>(property);
-            var concrete = (CssTextAlignProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
-            Assert.AreEqual("justify", value.CssText);
-            Assert.IsInstanceOf<CssIdentifier>(value);
-            concrete.TrySetValue(new CssIdentifier("left"));
-            value = concrete.Value;
-            Assert.AreEqual("left", value.CssText);
-            Assert.IsInstanceOf<CssIdentifier>(value);
-            concrete.TrySetValue(new CssIdentifier("whatever"));
-            Assert.AreEqual(value, concrete.Value);
-        }
-
-        [Test]
         public void CssTextIndentLegalLength()
         {
             var snippet = "text-indent:3em";

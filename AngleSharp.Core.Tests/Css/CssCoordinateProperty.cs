@@ -74,7 +74,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             var value = concrete.Value;
             Assert.AreEqual("auto", value.CssText);
-            Assert.IsInstanceOf<CssIdentifier>(value);
         }
 
         [Test]
