@@ -4,6 +4,8 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using AngleSharp.Parser.Css;
+
 
     /// <summary>
     /// A bunch of useful extension methods.
@@ -147,9 +149,14 @@
             return values;
         }
 
-        public static CssUrl ToUri(this ICssValue value)
+        public static String ToUri(this ICssValue value)
         {
-            return value as CssUrl;
+            var cv = value as CssValue;
+
+            if (cv != null && cv.Count == 1 && cv[0].Type == CssTokenType.Url)
+                return cv[0].Data;
+
+            return null;
         }
 
         public static Length? ToBorderSlice(this ICssValue value)

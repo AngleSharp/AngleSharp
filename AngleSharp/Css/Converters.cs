@@ -66,7 +66,7 @@
         /// Represents an URL object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/uri
         /// </summary>
-        public static readonly IValueConverter<CssUrl> UrlConverter = new ClassValueConverter<CssUrl>(ValueExtensions.ToUri);
+        public static readonly IValueConverter<String> UrlConverter = new ClassValueConverter<String>(ValueExtensions.ToUri);
 
         /// <summary>
         /// Represents a string object.
@@ -474,7 +474,7 @@
         /// Represents an image source object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/image
         /// </summary>
-        public static readonly IValueConverter<IImageSource> ImageSourceConverter = UrlConverter.To(m => (IImageSource)m).Or(
+        public static readonly IValueConverter<IImageSource> ImageSourceConverter = UrlConverter.To(m => ImageSource.From(m)).Or(
             GradientConverter);
 
         /// <summary>
@@ -993,6 +993,21 @@
         static IValueConverter<T> WithArgs<T1, T2, T3, T4, T>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth, Func<Tuple<T1, T2, T3, T4>, T> converter)
         {
             return new ArgumentsValueConverter<T1, T2, T3, T4>(first, second, third, fourth).To(converter);
+        }
+
+        #endregion
+
+        #region Temporary Classes
+
+        /// <summary>
+        /// Temporary helper class, which will be removed.
+        /// </summary>
+        class ImageSource
+        {
+            public static IImageSource From(String url)
+            {
+                return null;
+            }
         }
 
         #endregion

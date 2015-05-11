@@ -67,7 +67,7 @@
 
         #region Helpers
 
-        static ContentMode TransformUrl(CssUrl url)
+        static ContentMode TransformUrl(String url)
         {
             return new UrlContentMode(url);
         }
@@ -219,9 +219,9 @@
         /// </summary>
         sealed class UrlContentMode : ContentMode
         {
-            readonly Url _url;
+            readonly String _url;
 
-            public UrlContentMode(Url url)
+            public UrlContentMode(String url)
             {
                 _url = url;
             }

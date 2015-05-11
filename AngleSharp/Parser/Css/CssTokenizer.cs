@@ -940,7 +940,7 @@
                 case Symbols.SingleQuote:
                     return UrlSQ(type);
 
-                case ')':
+                case Symbols.RoundBracketClose:
                     return NewUrl(type, String.Empty, false);
 
                 default:
