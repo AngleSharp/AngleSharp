@@ -17,6 +17,7 @@
         readonly List<CssToken> _values;
         Boolean _valid;
         Boolean _important;
+        Int32 _open;
 
         #endregion
 
@@ -40,7 +41,7 @@
         /// </summary>
         public Boolean IsReady
         {
-            get { return true; }
+            get { return _open == 0; }
         }
 
         /// <summary>
@@ -56,7 +57,7 @@
         /// </summary>
         public Boolean IsValid
         {
-            get { return _valid; }
+            get { return _valid && IsReady; }
         }
 
         /// <summary>
@@ -79,19 +80,33 @@
         {
             switch (token.Type)
             {
+                case CssTokenType.RoundBracketOpen:
                 case CssTokenType.Function: // e.g. "rgba(...)"
+                    _open++;
+                    Add(token);
+                    break;
+
+                case CssTokenType.Ident: // e.g. "auto"
+                    _important = CheckImportant(token);
+                    break;
+
+                case CssTokenType.RoundBracketClose:
+                    _open--;
+                    Add(token);
+                    break;
+
                 case CssTokenType.Dimension: // e.g. "3px"
                 case CssTokenType.Percentage: // e.g. "5%"
                 case CssTokenType.Hash:// e.g. "#ABCDEF"
                 case CssTokenType.Delim:// e.g. "#"
-                case CssTokenType.Ident: // e.g. "auto"
                 case CssTokenType.String:// e.g. "'i am a string'"
                 case CssTokenType.Url:// e.g. "url('this is a valid URL')"
                 case CssTokenType.Number: // e.g. "173"
                 case CssTokenType.Comma: // e.g. ","
                 case CssTokenType.Whitespace: // e.g. " "
-                    _values.Add(token);
+                    Add(token);
                     break;
+
                 default: // everything else is unexpected
                     _valid = false;
                     break;
@@ -103,6 +118,7 @@
         /// </summary>
         public void Reset()
         {
+            _open = 0;
             _valid = true;
             _important = false;
             _values.Clear();
@@ -112,14 +128,29 @@
 
         #region Helpers
         
-        /// <summary>
-        /// Checks if the provided token is the important identifier.
-        /// </summary>
-        /// <param name="token">The current token.</param>
-        /// <returns>True if token is an important ident, else false.</returns>
-        static Boolean CheckImportant(CssToken token)
+        Boolean CheckImportant(CssToken token)
         {
-            return token.Type == CssTokenType.Ident && token.Data == Keywords.Important;
+            if (_values.Count != 0 && token.Data == Keywords.Important)
+            {
+                var previous = _values[_values.Count - 1];
+
+                if (previous.Type == CssTokenType.Delim && previous.Data[0] == Symbols.ExclamationMark)
+                {
+                    _values.RemoveAt(_values.Count - 1);
+                    return true;
+                }
+            }
+            
+            Add(token);
+            return _important;
+        }
+
+        void Add(CssToken token)
+        {
+            if (_important)
+                _valid = false;
+            else if (_valid)
+                _values.Add(token);
         }
 
         #endregion
