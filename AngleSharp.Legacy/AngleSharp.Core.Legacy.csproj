@@ -1147,9 +1147,6 @@
     <Compile Include="..\AngleSharp\Dom\Css\Values\CssString.cs">
       <Link>Dom\Css\Values\CssString.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\Css\Values\CssUrl.cs">
-      <Link>Dom\Css\Values\CssUrl.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Values\CssValue.cs">
       <Link>Dom\Css\Values\CssValue.cs</Link>
     </Compile>
