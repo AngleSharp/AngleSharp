@@ -240,10 +240,10 @@
 
         public static String ToCssString(this ICssValue value)
         {
-            var primitive = value as CssString;
+            var cv = value as CssValue;
 
-            if (primitive != null)
-                return primitive.Value;
+            if (cv != null && cv.Count == 1 && cv[0].Type == CssTokenType.String)
+                return cv[0].Data;
 
             return null;
         }

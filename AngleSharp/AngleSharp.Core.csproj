@@ -469,7 +469,6 @@
     <Compile Include="Extensions\StyleExtensions.cs" />
     <Compile Include="TextSource.cs" />
     <Compile Include="Dom\Css\Values\CssIdentifier.cs" />
-    <Compile Include="Dom\Css\Values\CssString.cs" />
     <Compile Include="IConfiguration.cs" />
     <Compile Include="Dom\Css\CssStyleEngine.cs" />
     <Compile Include="Services\IAudioService.cs" />
