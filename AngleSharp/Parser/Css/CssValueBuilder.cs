@@ -49,7 +49,21 @@
         /// </summary>
         public ICssValue Result
         {
-            get { return null; }
+            get
+            {
+                if (IsValid == false)
+                    return null;
+
+                for (int i = _values.Count - 1; i >= 0; i--)
+                {
+                    if (_values[i].Type == CssTokenType.Whitespace)
+                        _values.RemoveAt(i);
+                    else
+                        break;
+                }
+
+                return new CssValue(_values);
+            }
         }
 
         /// <summary>
@@ -95,6 +109,11 @@
                     Add(token);
                     break;
 
+                case CssTokenType.Whitespace: // e.g. " "
+                    if (_values.Count != 0)
+                        Add(token);
+                    break;
+
                 case CssTokenType.Dimension: // e.g. "3px"
                 case CssTokenType.Percentage: // e.g. "5%"
                 case CssTokenType.Hash:// e.g. "#ABCDEF"
@@ -103,7 +122,6 @@
                 case CssTokenType.Url:// e.g. "url('this is a valid URL')"
                 case CssTokenType.Number: // e.g. "173"
                 case CssTokenType.Comma: // e.g. ","
-                case CssTokenType.Whitespace: // e.g. " "
                     Add(token);
                     break;
 

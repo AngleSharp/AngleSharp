@@ -1222,43 +1222,6 @@
         }
 
         /// <summary>
-        /// Takes a string and transforms it into a list of CSS values.
-        /// </summary>
-        /// <param name="source">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        /// <returns>The CSSValueList object.</returns>
-        internal static CssValueList ParseValueList(String source, IConfiguration configuration = null)
-        {
-            var parser = new CssParser(source, configuration);
-            var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            var value = tokens.MoveNext() ? parser.InValue(tokens) : null;
-            var values = value as CssValueList;
-
-            if (values == null)
-            {
-                values = new CssValueList();
-
-                if (value != null)
-                    values.Add(value);
-            }
-
-            for (var i = 0; i < values.Length; i++)
-            {
-                if (values[i] == CssValue.Separator)
-                {
-                    for (var j = values.Length - 1; j >= i; j--)
-                        values.RemoveAt(j);
-
-                    break;
-                }
-            }
-
-            return values;
-        }
-
-        /// <summary>
         /// Takes a valid media string and parses the medium information.
         /// </summary>
         /// <param name="source">The string to parse.</param>

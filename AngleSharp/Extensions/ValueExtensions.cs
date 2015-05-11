@@ -118,8 +118,8 @@
 
                 for (int j = i; j < values.Length; j++)
                 {
-                    if (values[j] == CssValue.Separator)
-                        break;
+                    //if (values[j] == CssValue.Separator)
+                    //    break;
 
                     entry.Add(values[j]);
                     i++;
@@ -140,7 +140,7 @@
 
             for (int i = 1; i < list.Count; i++)
             {
-                values.Add(CssValue.Separator);
+                //values.Add(CssValue.Separator);
                 values.Add(list[i].Reduce());
             }
 

@@ -1,40 +1,19 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using AngleSharp.Parser.Css;
 
     /// <summary>
     /// Represents a CSS value.
-	/// </summary>
+    /// </summary>
     sealed class CssValue : ICssValue
     {
         #region Fields
 
         readonly CssValueType _type;
-        readonly String _text;
-
-        #endregion
-
-        #region Special Values
-
-        /// <summary>
-        /// Gets the instance for an inherited value.
-        /// </summary>
-        public static readonly CssValue Inherit = new CssValue(Keywords.Inherit, CssValueType.Inherit);
-
-        /// <summary>
-        /// Gets the instance for an initial value.
-        /// </summary>
-        public static readonly CssValue Initial = new CssValue(Keywords.Initial, CssValueType.Initial);
-
-        /// <summary>
-        /// Gets the instance for a slash delimiter value.
-        /// </summary>
-        internal static readonly CssValue Delimiter = new CssValue("/");
-
-        /// <summary>
-        /// Gets the instance for a comma separator value.
-        /// </summary>
-        internal static readonly CssValue Separator = new CssValue(",");
+        readonly List<CssToken> _tokens;
 
         #endregion
 
@@ -43,26 +22,44 @@
         /// <summary>
         /// Creates a new CSS value.
         /// </summary>
-        /// <param name="text">The text that represents the value.</param>
-        /// <param name="type">The type of of the value.</param>
-        CssValue(String text, CssValueType type)
+        /// <param name="tokens">The tokens to use.</param>
+        public CssValue(IEnumerable<CssToken> tokens)
         {
-            _text = text;
-            _type = type;
-        }
+            _tokens = new List<CssToken>(tokens);
 
-        /// <summary>
-        /// Creates a new custom CSS value.
-        /// </summary>
-        /// <param name="text">The text that represents the value.</param>
-        internal CssValue(String text)
-            : this(text, CssValueType.Custom)
-        {
+            if (_tokens.Count == 1 && _tokens[0].Data.Equals(Keywords.Initial, StringComparison.OrdinalIgnoreCase))
+                _type = CssValueType.Initial;
+            else if (_tokens.Count == 1 && _tokens[0].Data.Equals(Keywords.Inherit, StringComparison.OrdinalIgnoreCase))
+                _type = CssValueType.Inherit;
+            else if (_tokens.Any(m => m.Type == CssTokenType.Whitespace))
+                _type = CssValueType.List;
+            else if (_tokens.Count != 0)
+                _type = CssValueType.Primitive;
+            else
+                _type = CssValueType.Custom;
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the token at the provided index.
+        /// </summary>
+        /// <param name="index">The index of the token.</param>
+        /// <returns>The token at the index.</returns>
+        public CssToken this[Int32 index]
+        {
+            get { return _tokens[index]; }
+        }
+
+        /// <summary>
+        /// Gets the number of tokens for the current value.
+        /// </summary>
+        public Int32 Count
+        {
+            get { return _tokens.Count; }
+        }
 
         /// <summary>
         /// Gets a code defining the type of the value as defined above.
@@ -77,7 +74,7 @@
         /// </summary>
         public String CssText
         {
-            get { return _text; }
+            get { return String.Join(String.Empty, _tokens.Select(m => m.Data)); }
         }
 
         #endregion

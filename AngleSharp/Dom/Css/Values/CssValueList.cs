@@ -79,9 +79,9 @@
 
                     for (int i = 1; i < _items.Count; i++)
                     {
-                        if (_items[i] == CssValue.Separator)
-                            builder.Append(',');
-                        else
+                        //if (_items[i] == CssValue.Separator)
+                        //    builder.Append(',');
+                        //else
                             builder.Append(' ').Append(_items[i].CssText);
                     }
                 }

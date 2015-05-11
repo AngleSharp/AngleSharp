@@ -92,7 +92,7 @@
         /// </summary>
         internal ICssValue Value
         {
-            get { return _value ?? CssValue.Initial; }
+            get { return _value; }// ?? CssValue.Initial
         }
 
         #endregion
@@ -104,7 +104,7 @@
         /// </summary>
         public Boolean IsInherited
         {
-            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || _value == CssValue.Inherit; }
+            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || _value.Type == CssValueType.Inherit; }
         }
 
         /// <summary>
@@ -120,7 +120,7 @@
         /// </summary>
         public Boolean IsInitial
         {
-            get { return _value == null || _value == CssValue.Initial; }
+            get { return _value == null || _value.Type == CssValueType.Initial; }
         }
 
         /// <summary>
@@ -164,7 +164,7 @@
         /// <returns>True if the value is valid, otherwise false.</returns>
         internal Boolean TrySetValue(ICssValue value)
         {
-            if (value == CssValue.Inherit || value == CssValue.Initial || value == null)
+            if (value == null || value.Type == CssValueType.Inherit || value.Type == CssValueType.Initial)
             {
                 Reset();
                 _value = value;

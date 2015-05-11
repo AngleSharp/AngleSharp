@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Boolean> delimiter = new StructValueConverter<Boolean>(m => m == CssValue.Delimiter ? (Boolean?)true : null);
+        static readonly IValueConverter<Boolean> delimiter = new StructValueConverter<Boolean>(m => m != null ? (Boolean?)true : null);//== CssValue.Delimiter
 
         #endregion
 

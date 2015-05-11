@@ -273,34 +273,5 @@
                 type == CssTokenType.SuffixMatch ||
                 type == CssTokenType.NotMatch;
         }
-
-        /// <summary>
-        /// Converts the data to an identifier value. Uses inherit for inherit.
-        /// </summary>
-        /// <returns>The created value.</returns>
-        public static ICssValue ToIdentifier(this CssToken token)
-        {
-            var data = token.Data;
-
-            if (data.Equals(Keywords.Inherit, StringComparison.OrdinalIgnoreCase))
-                return CssValue.Inherit;
-            else if (data.Equals(Keywords.Initial, StringComparison.OrdinalIgnoreCase))
-                return CssValue.Initial;
-
-            return new CssIdentifier(data);
-        }
-
-        /// <summary>
-        /// Converts the given unit to a value. Uses number for 0.
-        /// </summary>
-        /// <param name="token">The token to consider.</param>
-        /// <returns>The created value.</returns>
-        public static ICssValue ToUnit(this CssUnitToken token)
-        {
-            if (token.Type == CssTokenType.Percentage)
-                return new Percent(token.Value);
-
-            return Factory.Units.Create(token.Value, token.Unit.ToLowerInvariant());
-        }
     }
 }
