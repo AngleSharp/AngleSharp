@@ -1248,33 +1248,6 @@
         }
 
         /// <summary>
-        /// Takes a comma separated string and transforms it into a list of CSS
-        /// values.
-        /// </summary>
-        /// <param name="source">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        /// <returns>The CSSValueList object.</returns>
-        internal static List<CssValueList> ParseMultipleValues(String source, IConfiguration configuration = null)
-        {
-            var parser = new CssParser(source, configuration);
-            var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            var value = tokens.MoveNext() ? parser.InValue(tokens) : new CssValueList();
-            var values = value as CssValueList;
-
-            if (values == null)
-            {
-                values = new CssValueList();
-
-                if (value != null)
-                    values.Add(value);
-            }
-
-            return values.ToList();
-        }
-
-        /// <summary>
         /// Takes a string and transforms it into a CSS keyframe rule.
         /// </summary>
         /// <param name="rule">The string to parse.</param>

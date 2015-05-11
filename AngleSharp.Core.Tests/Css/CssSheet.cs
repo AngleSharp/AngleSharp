@@ -395,62 +395,38 @@ h1 { color: blue }");
         public void CssCreateMultipleValues()
         {
             var valueString = "Arial, Verdana, Helvetica, Sans-Serif";
-            var list = CssParser.ParseMultipleValues(valueString);
-            Assert.AreEqual(4, list.Count);
-            Assert.AreEqual("arial", list[0].CssText);
-            Assert.AreEqual("verdana", list[1].CssText);
-            Assert.AreEqual("helvetica", list[2].CssText);
-            Assert.AreEqual("sans-serif", list[3].CssText);
+            var list = CssParser.ParseValue(valueString) as CssValue;
+            Assert.AreEqual(10, list.Count);
+            Assert.AreEqual("Arial", list[0].Data);
+            Assert.AreEqual("Verdana", list[3].Data);
+            Assert.AreEqual("Helvetica", list[6].Data);
+            Assert.AreEqual("Sans-Serif", list[9].Data);
         }
 
         [Test]
         public void CssCreateMultipleValueLists()
         {
             var valueString = "Arial 10pt bold, Verdana 12pt italic";
-            var list = CssParser.ParseMultipleValues(valueString);
-            Assert.AreEqual(2, list.Count);
-            Assert.AreEqual("arial 10pt bold", list[0].CssText);
-            Assert.AreEqual("verdana 12pt italic", list[1].CssText);
-            Assert.AreEqual(CssValueType.List, list[0].Type);
-            Assert.AreEqual(CssValueType.List, list[1].Type);
-            Assert.AreEqual(3, ((CssValueList)list[0]).Length);
-            Assert.AreEqual(3, ((CssValueList)list[1]).Length);
+            var list = CssParser.ParseValue(valueString) as CssValue;
+            Assert.AreEqual(12, list.Count);
+            Assert.AreEqual("Arial", list[0].Data);
+            Assert.AreEqual("Verdana", list[7].Data);
+            Assert.AreEqual("10pt", list[2].Data);
+            Assert.AreEqual("12pt", list[9].Data);
+            Assert.AreEqual("bold", list[4].Data);
+            Assert.AreEqual("italic", list[11].Data);
         }
 
         [Test]
         public void CssCreateMultipleValuesNonConformal()
         {
             var valueString = "  Arial  ,  Verdana  ,Helvetica,Sans-Serif   ";
-            var list = CssParser.ParseMultipleValues(valueString);
-            Assert.AreEqual(4, list.Count);
-            Assert.AreEqual("arial", list[0].CssText);
-            Assert.AreEqual("verdana", list[1].CssText);
-            Assert.AreEqual("helvetica", list[2].CssText);
-            Assert.AreEqual("sans-serif", list[3].CssText);
-        }
-
-        [Test]
-        public void CssCreateMultipleValuesEmpty()
-        {
-            var valueString = "";
-            var list = CssParser.ParseMultipleValues(valueString);
-            Assert.AreEqual(0, list.Count);
-        }
-
-        [Test]
-        public void CssCreateMultipleValuesSpaces()
-        {
-            var valueString = "  ";
-            var list = CssParser.ParseMultipleValues(valueString);
-            Assert.AreEqual(0, list.Count);
-        }
-
-        [Test]
-        public void CssCreateMultipleValuesIllegal()
-        {
-            var valueString = " , ";
-            var list = CssParser.ParseMultipleValues(valueString);
-            Assert.AreEqual(0, list.Count);
+            var list = CssParser.ParseValue(valueString) as CssValue;
+            Assert.AreEqual(10, list.Count);
+            Assert.AreEqual("Arial", list[0].Data);
+            Assert.AreEqual("Verdana", list[4].Data);
+            Assert.AreEqual("Helvetica", list[7].Data);
+            Assert.AreEqual("Sans-Serif", list[9].Data);
         }
 
         [Test]
