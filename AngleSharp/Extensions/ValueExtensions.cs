@@ -15,17 +15,17 @@
     {
         #region Transformers
 
-        public static Boolean Is(this ICssValue value, String identifier)
+        public static Boolean Is(this ICssValue value, String expected)
         {
-            var primitive = value as CssIdentifier;
-            return primitive != null && primitive.Value.Equals(identifier, StringComparison.OrdinalIgnoreCase);
+            var identifier = value.ToIdentifier();
+            return identifier != null && identifier.Equals(expected, StringComparison.OrdinalIgnoreCase);
         }
 
         public static Boolean TryGetValue<T>(this Dictionary<String, T> obj, ICssValue value, out T mode)
         {
-            var primitive = value as CssIdentifier;
+            var identifier = value.ToIdentifier();
             mode = default(T);
-            return primitive != null && obj.TryGetValue(primitive.Value, out mode);
+            return identifier != null && obj.TryGetValue(identifier, out mode);
         }
 
         public static String GetIdentifier<T>(this Dictionary<String, T> obj, T value)
@@ -250,10 +250,10 @@
 
         public static String ToIdentifier(this ICssValue value)
         {
-            var primitive = value as CssIdentifier;
+            var cv = value as CssValue;
 
-            if (primitive != null)
-                return primitive.Value;
+            if (cv != null && cv.Count == 1 && cv[0].Type == CssTokenType.Ident)
+                return cv[0].Data.ToLowerInvariant();
 
             return null;
         }
