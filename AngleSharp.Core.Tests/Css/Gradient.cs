@@ -14,27 +14,17 @@
         public void InLinearGradient()
         {
             var source = "linear-gradient(135deg, red, blue)";
-            var value = CssParser.ParseValue(source);
-            Assert.IsInstanceOf<CssFunction>(value);
-            var function = (CssFunction)value;
-            Assert.AreEqual("linear-gradient", function.Name);
-            Assert.AreEqual(3, function.Arguments.Count);
-            Assert.IsInstanceOf<Angle>(function.Arguments[0]);
+            var value = CssParser.ParseValue(source) as CssValue;
+            Assert.AreEqual(9, value.Count);
+            Assert.AreEqual("linear-gradient", value[0].Data);
         }
 
         [Test]
         public void InRadialGradient()
         {
             var source = "radial-gradient(ellipse farthest-corner at 45px 45px , #00FFFF, rgba(0, 0, 255, 0) 50%, #0000FF 95%)";
-            var value = CssParser.ParseValue(source);
-            Assert.IsInstanceOf<CssFunction>(value);
-            var function = (CssFunction)value;
-            Assert.AreEqual("radial-gradient", function.Name);
-            Assert.AreEqual(4, function.Arguments.Count);
-            Assert.IsInstanceOf<CssValueList>(function.Arguments[0]);
-            Assert.IsInstanceOf<Color>(function.Arguments[1]);
-            Assert.IsInstanceOf<CssValueList>(function.Arguments[2]);
-            Assert.IsInstanceOf<CssValueList>(function.Arguments[3]);
+            var value = CssParser.ParseValue(source) as CssValue;
+            Assert.AreEqual("radial-gradient", value[0].Data);
         }
 
         [Test]
