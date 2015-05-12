@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using AngleSharp.Parser.Css;
@@ -8,7 +9,7 @@
     /// <summary>
     /// Represents a CSS value.
     /// </summary>
-    sealed class CssValue : ICssValue
+    sealed class CssValue : ICssValue, IEnumerable<CssToken>
     {
         #region Fields
 
@@ -75,6 +76,20 @@
         public String CssText
         {
             get { return String.Join(String.Empty, _tokens.Select(m => m.Data)); }
+        }
+
+        #endregion
+
+        #region IEnumerable
+
+        public IEnumerator<CssToken> GetEnumerator()
+        {
+            return _tokens.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         #endregion

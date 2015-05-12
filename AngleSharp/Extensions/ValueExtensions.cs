@@ -1,11 +1,10 @@
 ﻿namespace AngleSharp.Extensions
 {
-    using AngleSharp.Dom.Css;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using AngleSharp.Dom.Css;
     using AngleSharp.Parser.Css;
-
 
     /// <summary>
     /// A bunch of useful extension methods.

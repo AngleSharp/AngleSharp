@@ -1,8 +1,10 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using AngleSharp.Dom.Css;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
 
     sealed class FunctionValueConverter<T> : IValueConverter<T>
     {
@@ -17,18 +19,23 @@
 
         public Boolean TryConvert(ICssValue value, Action<T> setResult)
         {
-            var f = value as CssFunction;
+            var f = value as CssValue;
 
-            if (f == null || !f.Name.Equals(_name, StringComparison.OrdinalIgnoreCase))
+            if (f == null || f.Count < 2 || f[0].Type != CssTokenType.Function || f[0].Data.Equals(_name, StringComparison.OrdinalIgnoreCase) == false || f[f.Count - 1].Type != CssTokenType.RoundBracketClose)
                 return false;
 
-            return _arguments.TryConvert(Transform(f.Arguments), setResult);
+            var parameters = new CssValue(f.Skip(1).Take(f.Count - 2));
+            return _arguments.TryConvert(parameters, setResult);
         }
 
         public Boolean Validate(ICssValue value)
         {
-            var f = value as CssFunction;
-            return f != null && f.Name.Equals(_name, StringComparison.OrdinalIgnoreCase) && _arguments.Validate(Transform(f.Arguments));
+            var f = value as CssValue;
+            return f != null && f.Count >= 2 && 
+                f[0].Type == CssTokenType.Function && 
+                f[0].Data.Equals(_name, StringComparison.OrdinalIgnoreCase) && 
+                f[f.Count - 1].Type == CssTokenType.RoundBracketClose &&
+                _arguments.Validate(new CssValue(f.Skip(1).Take(f.Count - 2)));
         }
 
         static ICssValue Transform(List<ICssValue> arguments)
