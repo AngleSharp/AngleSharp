@@ -170,8 +170,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0.1em", concrete.Value.CssText);
             Assert.IsInstanceOf<Length>(concrete.Value);
-            var length = (Length)concrete.Value;
-            Assert.AreEqual(new Length(0.1f, Length.Unit.Em), length);
         }
 
         [Test]

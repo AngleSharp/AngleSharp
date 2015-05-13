@@ -137,8 +137,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (Length)concrete.Value;
-            Assert.AreEqual(new Length(25f, Length.Unit.Px), value);
         }
 
         [Test]
@@ -153,8 +151,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (Length)concrete.Value;
-            Assert.AreEqual(new Length(0.7f, Length.Unit.Em), value);
         }
 
         [Test]
@@ -169,8 +165,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (Length)concrete.Value;
-            Assert.AreEqual(new Length(1.5f, Length.Unit.Mm), value);
         }
 
         [Test]
@@ -185,8 +179,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (Percent)concrete.Value;
-            Assert.AreEqual(new Percent(50f), value);
         }
 
         [Test]
@@ -201,8 +193,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (Number)concrete.Value;
-            Assert.AreEqual(Number.Zero, value);
         }
 
         [Test]
@@ -217,8 +207,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (Number)concrete.Value;
-            Assert.AreEqual(Number.Zero, value);
         }
 
         [Test]
@@ -233,8 +221,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (Percent)concrete.Value;
-            Assert.AreEqual(new Percent(20.5f), value);
         }
 
         [Test]
@@ -248,8 +234,6 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssWidthProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
-            var value = (Length)concrete.Value;
-            Assert.AreEqual(new Length(3f, Length.Unit.In), value);
         }
 
         [Test]
@@ -290,8 +274,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (Length)concrete.Value;
-            Assert.AreEqual(new Length(1.2f, Length.Unit.Rem), value);
         }
 
         [Test]
@@ -306,8 +288,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (Length)concrete.Value;
-            Assert.AreEqual(new Length(0.5f, Length.Unit.Cm), value);
         }
 
         [Test]
@@ -322,8 +302,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (Percent)concrete.Value;
-            Assert.AreEqual(new Percent(0.5f), value);
         }
 
         [Test]
@@ -338,8 +316,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (Number)concrete.Value;
-            Assert.AreEqual(Number.Zero, value);
         }
 
         [Test]
@@ -368,8 +344,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = (Number)concrete.Value;
-            Assert.AreEqual(Number.Zero, value);
         }
 
         [Test]
