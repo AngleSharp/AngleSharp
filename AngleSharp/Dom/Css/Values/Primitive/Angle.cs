@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents an angle value.
     /// </summary>
-    public struct Angle : IEquatable<Angle>, IComparable<Angle>, IFormattable, ICssValue
+    public struct Angle : IEquatable<Angle>, IComparable<Angle>, IFormattable
     {
         #region Basic angles
 
@@ -261,20 +261,6 @@
         public String ToString(String format, IFormatProvider formatProvider)
         {
             return String.Concat(_value.ToString(format, formatProvider), UnitString);
-        }
-
-        #endregion
-
-        #region CSS Value
-
-        CssValueType ICssValue.Type
-        {
-            get { return CssValueType.Primitive; }
-        }
-
-        String ICssValue.CssText
-        {
-            get { return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString); }
         }
 
         #endregion

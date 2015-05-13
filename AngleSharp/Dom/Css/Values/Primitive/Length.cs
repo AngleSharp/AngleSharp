@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents an absolute length value.
     /// </summary>
-    public struct Length : IEquatable<Length>, IComparable<Length>, IFormattable, ICssValue
+    public struct Length : IEquatable<Length>, IComparable<Length>, IFormattable
     {
         #region Basic lengths
 
@@ -369,26 +369,6 @@
         public String ToString(String format, IFormatProvider formatProvider)
         {
             return String.Concat(_value.ToString(format, formatProvider), UnitString);
-        }
-
-        #endregion
-
-        #region CSS Value
-
-        CssValueType ICssValue.Type
-        {
-            get { return CssValueType.Primitive; }
-        }
-
-        String ICssValue.CssText
-        {
-            get
-            {
-                if (_value == 0f)
-                    return _value.ToString(CultureInfo.InvariantCulture);
-
-                return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString);
-            }
         }
 
         #endregion

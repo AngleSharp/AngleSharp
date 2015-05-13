@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a float value.
     /// </summary>
-    public struct Number : IEquatable<Number>, IComparable<Number>, IFormattable, ICssValue
+    public struct Number : IEquatable<Number>, IComparable<Number>, IFormattable
     {
         #region Basic numbers
 
@@ -248,20 +248,6 @@
         public String ToString(String format, IFormatProvider formatProvider)
         {
             return _value.ToString(format, formatProvider);
-        }
-
-        #endregion
-
-        #region CSS Value
-
-        CssValueType ICssValue.Type
-        {
-            get { return CssValueType.Primitive; }
-        }
-
-        String ICssValue.CssText
-        {
-            get { return _value.ToString(CultureInfo.InvariantCulture); }
         }
 
         #endregion

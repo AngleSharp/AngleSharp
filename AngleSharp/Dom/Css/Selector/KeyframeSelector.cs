@@ -44,7 +44,7 @@
                 var stops = new String[_stops.Count];
 
                 for (int i = 0; i < stops.Length; i++)
-                    stops[i] = ((ICssValue)_stops[i]).CssText;
+                    stops[i] = _stops[i].ToString();
 
                 return String.Join(", ", stops);
             }

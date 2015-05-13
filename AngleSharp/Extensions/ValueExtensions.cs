@@ -192,19 +192,12 @@
 
         public static Length? ToDistance(this ICssValue value)
         {
-            var percent = value as Percent?;
+            var percent = value.ToPercent();
 
-            if (percent == null)
-            {
-                var number = value as Number?;
-
-                if (number.HasValue && number.Value == Number.Zero)
-                    return Length.Zero;
-            }
-            else
+            if (percent.HasValue)
                 return new Length(percent.Value.Value, Length.Unit.Percent);
 
-            return value as Length?;
+            return value.ToLength();
         }
 
         public static Length ToLength(this FontSize fontSize)
@@ -234,7 +227,12 @@
 
         public static Percent? ToPercent(this ICssValue value)
         {
-            return value as Percent?;
+            var val = value as CssValue;
+
+            if (val != null && val.Count == 1 && val[0].Type == CssTokenType.Percentage)
+                return new Percent(((CssUnitToken)val[0]).Value);
+
+            return null;
         }
 
         public static String ToCssString(this ICssValue value)
@@ -269,20 +267,20 @@
 
         public static Single? ToSingle(this ICssValue value)
         {
-            var primitive = value as Number?;
+            var val = value as CssValue;
 
-            if (primitive != null)
-                return primitive.Value.Value;
+            if (val != null && val.Count == 1 && val[0].Type == CssTokenType.Number)
+                return ((CssNumberToken)val[0]).Value;
 
             return null;
         }
 
         public static Int32? ToInteger(this ICssValue value)
         {
-            var primitive = value as Number?;
+            var val = value as CssValue;
 
-            if (primitive != null && primitive.Value.IsInteger)
-                return (Int32)primitive.Value.Value;
+            if (val != null && val.Count == 1 && val[0].Type == CssTokenType.Number && ((CssNumberToken)val[0]).IsInteger)
+                return (Int32)((CssNumberToken)val[0]).Value;
 
             return null;
         }
@@ -299,37 +297,139 @@
 
         public static Angle? ToAngle(this ICssValue value)
         {
-            return value as Angle?;
+            var val = value as CssValue;
+
+            if (val != null && val.Count == 1 && val[0].Type == CssTokenType.Dimension)
+            {
+                var unit = (CssUnitToken)val[0];
+
+                switch (unit.Unit)
+                {
+                    case "deg":
+                        return new Angle(unit.Value, Angle.Unit.Deg);
+                    case "grad":
+                        return new Angle(unit.Value, Angle.Unit.Grad);
+                    case "turn":
+                        return new Angle(unit.Value, Angle.Unit.Turn);
+                    case "rad":
+                        return new Angle(unit.Value, Angle.Unit.Rad);
+                }
+            }
+
+            return null;
         }
 
         public static Frequency? ToFrequency(this ICssValue value)
         {
-            return value as Frequency?;
+            var val = value as CssValue;
+
+            if (val != null && val.Count == 1 && val[0].Type == CssTokenType.Dimension)
+            {
+                var unit = (CssUnitToken)val[0];
+
+                switch (unit.Unit)
+                {
+                    case "hz":
+                        return new Frequency(unit.Value, Frequency.Unit.Hz);
+                    case "khz":
+                        return new Frequency(unit.Value, Frequency.Unit.Khz);
+                }
+            }
+
+            return null;
         }
 
         public static Length? ToLength(this ICssValue value)
         {
-            var length = value as Length?;
+            var val = value as CssValue;
 
-            if (length == null)
+            if (val != null && val.Count == 1)
             {
-                var number = value as Number?;
+                if (val[0].Type == CssTokenType.Dimension)
+                {
+                    var unit = (CssUnitToken)val[0];
 
-                if (number.HasValue && number.Value == Number.Zero)
+                    switch (unit.Unit)
+                    {
+                        case "ch":
+                            return new Length(unit.Value, Length.Unit.Ch);
+                        case "cm":
+                            return new Length(unit.Value, Length.Unit.Cm);
+                        case "em":
+                            return new Length(unit.Value, Length.Unit.Em);
+                        case "ex":
+                            return new Length(unit.Value, Length.Unit.Ex);
+                        case "in":
+                            return new Length(unit.Value, Length.Unit.In);
+                        case "mm":
+                            return new Length(unit.Value, Length.Unit.Mm);
+                        case "pc":
+                            return new Length(unit.Value, Length.Unit.Pc);
+                        case "pt":
+                            return new Length(unit.Value, Length.Unit.Pt);
+                        case "px":
+                            return new Length(unit.Value, Length.Unit.Px);
+                        case "rem":
+                            return new Length(unit.Value, Length.Unit.Rem);
+                        case "vh":
+                            return new Length(unit.Value, Length.Unit.Vh);
+                        case "vmax":
+                            return new Length(unit.Value, Length.Unit.Vmax);
+                        case "vmin":
+                            return new Length(unit.Value, Length.Unit.Vmin);
+                        case "vw":
+                            return new Length(unit.Value, Length.Unit.Vw);
+                    }
+                }
+                else if (val[0].Type == CssTokenType.Number && ((CssNumberToken)val[0]).Value == 0f)
+                {
                     return Length.Zero;
+                }
             }
 
-            return length;
+            return null;
         }
 
         public static Resolution? ToResolution(this ICssValue value)
         {
-            return value as Resolution?;
+            var val = value as CssValue;
+
+            if (val != null && val.Count == 1 && val[0].Type == CssTokenType.Dimension)
+            {
+                var unit = (CssUnitToken)val[0];
+
+                switch (unit.Unit)
+                {
+                    case "dpcm":
+                        return new Resolution(unit.Value, Resolution.Unit.Dpcm);
+                    case "dpi":
+                        return new Resolution(unit.Value, Resolution.Unit.Dpi);
+                    case "dppx":
+                        return new Resolution(unit.Value, Resolution.Unit.Dppx);
+                }
+            }
+
+            return null;
         }
 
         public static Time? ToTime(this ICssValue value)
         {
-            return value as Time?;
+            var val = value as CssValue;
+
+            if (val != null && val.Count == 1 && val[0].Type == CssTokenType.Dimension)
+            {
+                var unit = (CssUnitToken)val[0];
+
+                switch (unit.Unit)
+                {
+                    case "s":
+                        return new Time(unit.Value, Time.Unit.Ms);
+                    case "ms":
+                        return new Time(unit.Value, Time.Unit.Ms);
+                }
+            }
+
+            return null;
         }
 
         public static Length? ToImageBorderWidth(this ICssValue value)
@@ -363,17 +463,23 @@
 
         public static Color? ToColor(this ICssValue value)
         {
-            var primitive = value as Color?;
+            var val = value as CssValue;
 
-            if (primitive == null)
+            if (val != null && val.Count > 0)
             {
                 var colorName = value.ToIdentifier();
 
                 if (colorName != null)
                     return Color.FromName(colorName);
+
+                var colorCode = val.CssText;
+                var color = Color.Black;
+
+                if (colorCode[0] == Symbols.Num && Color.TryFromHex(colorCode.Substring(1), out color))
+                    return color;
             }
 
-            return primitive;
+            return null;
         }
 
         #endregion

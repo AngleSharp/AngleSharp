@@ -208,7 +208,6 @@
     <Compile Include="Dom\Events\UiEvent.cs" />
     <Compile Include="Dom\Events\WheelEvent.cs" />
     <Compile Include="Dom\EventTarget.cs" />
-    <Compile Include="Factories\CssUnitFactory.cs" />
     <Compile Include="Foundation\Keywords.cs" />
     <Compile Include="Css\PropertyFlags.cs" />
     <Compile Include="Css\Units.cs" />

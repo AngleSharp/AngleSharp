@@ -10,7 +10,7 @@
     /// Represents a color value.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1, CharSet = CharSet.Unicode)]
-    public struct Color : IEquatable<Color>, IComparable<Color>, IFormattable, ICssValue
+    public struct Color : IEquatable<Color>, IComparable<Color>, IFormattable
     {
         #region Basic colors
 
@@ -473,23 +473,6 @@
         public String ToString(String format, IFormatProvider formatProvider)
         {
             return String.Concat("#", alpha.ToString("X2", formatProvider), red.ToString("X2", formatProvider), green.ToString("X2", formatProvider), blue.ToString("X2", formatProvider));
-        }
-
-        #endregion
-
-        #region CSS Value
-
-        CssValueType ICssValue.Type
-        {
-            get { return CssValueType.Primitive; }
-        }
-
-        String ICssValue.CssText
-        {
-            get
-            {
-                return FunctionNames.Build(FunctionNames.Rgba, red.ToString(), green.ToString(), blue.ToString(), Alpha.ToString("0.##", CultureInfo.InvariantCulture)); ;
-            }
         }
 
         #endregion

@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a resolution value.
     /// </summary>
-    public struct Resolution : IEquatable<Resolution>, IComparable<Resolution>, IFormattable, ICssValue
+    public struct Resolution : IEquatable<Resolution>, IComparable<Resolution>, IFormattable
     {
         #region Fields
 
@@ -199,20 +199,6 @@
         public String ToString(String format, IFormatProvider formatProvider)
         {
             return String.Concat(_value.ToString(format, formatProvider), UnitString);
-        }
-
-        #endregion
-
-        #region CSS Value
-
-        CssValueType ICssValue.Type
-        {
-            get { return CssValueType.Primitive; }
-        }
-
-        String ICssValue.CssText
-        {
-            get { return String.Concat(_value.ToString(CultureInfo.InvariantCulture), UnitString); }
         }
 
         #endregion

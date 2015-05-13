@@ -28,11 +28,6 @@
         public static readonly EventFactory Events = new EventFactory();
 
         /// <summary>
-        /// The CSS unit value factory.
-        /// </summary>
-        public static readonly CssUnitFactory Units = new CssUnitFactory();
-
-        /// <summary>
         /// The CSS property factory.
         /// </summary>
         public static readonly CssPropertyFactory Properties = new CssPropertyFactory();

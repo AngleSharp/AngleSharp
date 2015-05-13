@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a percentage value.
     /// </summary>
-    public struct Percent : IEquatable<Percent>, IComparable<Percent>, IFormattable, ICssValue
+    public struct Percent : IEquatable<Percent>, IComparable<Percent>, IFormattable
     {
         #region Basic values
 
@@ -197,20 +197,6 @@
         public String ToString(String format, IFormatProvider formatProvider)
         {
             return NormalizedValue.ToString(format, formatProvider);
-        }
-
-        #endregion
-
-        #region CSS Value
-
-        CssValueType ICssValue.Type
-        {
-            get { return CssValueType.Primitive; }
-        }
-
-        String ICssValue.CssText
-        {
-            get { return String.Concat(_value.ToString(CultureInfo.InvariantCulture), Units.Percent); }
         }
 
         #endregion
