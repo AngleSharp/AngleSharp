@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Css
 {
-    using AngleSharp.Dom.Css;
     using System;
+    using AngleSharp.Css.Values;
+
 
     /// <summary>
     /// A computed style related to a render device.

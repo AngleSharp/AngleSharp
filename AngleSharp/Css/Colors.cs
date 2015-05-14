@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Css
 {
-    using AngleSharp.Dom.Css;
     using System;
     using System.Collections.Generic;
+    using AngleSharp.Css.Values;
 
     /// <summary>
     /// This class contains information about colors like their

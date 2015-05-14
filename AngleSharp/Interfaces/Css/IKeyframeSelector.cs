@@ -2,7 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-
+    using AngleSharp.Css.Values;
+    
     /// <summary>
     /// Represents a CSS key text.
     /// </summary>

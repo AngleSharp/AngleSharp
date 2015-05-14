@@ -2,7 +2,7 @@
 {
     using System;
     using System.Globalization;
-    using AngleSharp.Dom.Css;
+    using AngleSharp.Css.Values;
 
     /// <summary>
     /// Represents a CSS number token.

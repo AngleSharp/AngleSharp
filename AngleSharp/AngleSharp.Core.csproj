@@ -453,7 +453,7 @@
     <Compile Include="Attributes\DomHistoricalAttribute.cs" />
     <Compile Include="Dom\Xml\XmlDocument.cs" />
     <Compile Include="Dom\Xml\XmlElement.cs" />
-    <Compile Include="Dom\Css\Values\Primitive\Angle.cs" />
+    <Compile Include="Css\Values\Angle.cs" />
     <Compile Include="Css\FeatureNames.cs" />
     <Compile Include="Css\Priority.cs" />
     <Compile Include="Css\Values\Shape.cs" />
@@ -664,12 +664,12 @@
     <Compile Include="Dom\Constants\CorsSetting.cs" />
     <Compile Include="Network\PortNumbers.cs" />
     <Compile Include="Network\KnownProtocols.cs" />
-    <Compile Include="Dom\Css\Values\Primitive\Frequency.cs" />
-    <Compile Include="Dom\Css\Values\Primitive\Number.cs" />
-    <Compile Include="Dom\Css\Values\Primitive\Percent.cs" />
-    <Compile Include="Dom\Css\Values\Primitive\Time.cs" />
-    <Compile Include="Dom\Css\Values\Primitive\Resolution.cs" />
-    <Compile Include="Dom\Css\Values\Primitive\Length.cs" />
+    <Compile Include="Css\Values\Frequency.cs" />
+    <Compile Include="Css\Values\Number.cs" />
+    <Compile Include="Css\Values\Percent.cs" />
+    <Compile Include="Css\Values\Time.cs" />
+    <Compile Include="Css\Values\Resolution.cs" />
+    <Compile Include="Css\Values\Length.cs" />
     <Compile Include="Extensions\NodeExtensions.cs" />
     <Compile Include="Extensions\ValueExtensions.cs" />
     <Compile Include="Network\OriginBehavior.cs" />
@@ -824,7 +824,7 @@
     <Compile Include="Parser\Html\HtmlTokenType.cs" />
     <Compile Include="Extensions\CharExtensions.cs" />
     <Compile Include="Parser\Html\HtmlForeignExtensions.cs" />
-    <Compile Include="Dom\Css\Values\Primitive\Color.cs" />
+    <Compile Include="Css\Values\Color.cs" />
     <Compile Include="Parser\Html\HtmlTreeMode.cs" />
     <Compile Include="TextEncoding.cs" />
     <Compile Include="Dom\Collections\HtmlCollection.cs" />

@@ -1,8 +1,7 @@
-﻿namespace AngleSharp.Dom.Css
+﻿namespace AngleSharp.Css.Values
 {
-    using AngleSharp.Css;
     using System;
-    using System.Globalization;
+    using AngleSharp.Css;
 
     /// <summary>
     /// Represents a resolution value.

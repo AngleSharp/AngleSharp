@@ -1,7 +1,6 @@
-﻿namespace AngleSharp.Dom.Css
+﻿namespace AngleSharp.Css.Values
 {
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents a float value.

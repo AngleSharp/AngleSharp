@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using AngleSharp.Css.Values;
     using AngleSharp.Dom.Css;
 
     /// <summary>

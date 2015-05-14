@@ -1,8 +1,6 @@
-﻿namespace AngleSharp.Dom.Css
+﻿namespace AngleSharp.Css.Values
 {
-    using AngleSharp.Css;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents a percentage value.

@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
-    using AngleSharp.Dom.Css;
     using System;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Dom.Css;
 
     sealed class HeightMediaFeature : MediaFeature
     {

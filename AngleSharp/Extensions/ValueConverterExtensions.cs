@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.Extensions
 {
-    using AngleSharp.Css;
-    using AngleSharp.Css.ValueConverters;
-    using AngleSharp.Dom.Css;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-
+    using AngleSharp.Css;
+    using AngleSharp.Css.ValueConverters;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Dom.Css;
+    
     /// <summary>
     /// Essential extensions for using the value converters.
     /// </summary>
