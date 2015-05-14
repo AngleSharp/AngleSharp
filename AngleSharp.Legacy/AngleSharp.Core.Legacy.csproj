@@ -265,11 +265,20 @@
     <Compile Include="..\AngleSharp\Css\ValueConverters\UnorderedOptionsConverter.cs">
       <Link>Css\ValueConverters\UnorderedOptionsConverter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\Values\Angle.cs">
+      <Link>Css\Values\Angle.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Values\Color.cs">
+      <Link>Css\Values\Color.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Values\Counter.cs">
       <Link>Css\Values\Counter.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\Values\CubicBezierTimingFunction.cs">
       <Link>Css\Values\CubicBezierTimingFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Values\Frequency.cs">
+      <Link>Css\Values\Frequency.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\Values\GradientStop.cs">
       <Link>Css\Values\GradientStop.cs</Link>
@@ -286,11 +295,20 @@
     <Compile Include="..\AngleSharp\Css\Values\ITransform.cs">
       <Link>Css\Values\ITransform.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\Values\Length.cs">
+      <Link>Css\Values\Length.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Values\LinearGradient.cs">
       <Link>Css\Values\LinearGradient.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\Values\MatrixTransform.cs">
       <Link>Css\Values\MatrixTransform.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Values\Number.cs">
+      <Link>Css\Values\Number.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Values\Percent.cs">
+      <Link>Css\Values\Percent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\Values\PerspectiveTransform.cs">
       <Link>Css\Values\PerspectiveTransform.cs</Link>
@@ -300,6 +318,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Css\Values\RadialGradient.cs">
       <Link>Css\Values\RadialGradient.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Values\Resolution.cs">
+      <Link>Css\Values\Resolution.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\Values\RotateTransform.cs">
       <Link>Css\Values\RotateTransform.cs</Link>
@@ -318,6 +339,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Css\Values\StepsTimingFunction.cs">
       <Link>Css\Values\StepsTimingFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Values\Time.cs">
+      <Link>Css\Values\Time.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\Values\TranslateTransform.cs">
       <Link>Css\Values\TranslateTransform.cs</Link>
@@ -1143,30 +1167,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Values\CssValueList.cs">
       <Link>Dom\Css\Values\CssValueList.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Angle.cs">
-      <Link>Dom\Css\Values\Primitive\Angle.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Color.cs">
-      <Link>Dom\Css\Values\Primitive\Color.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Frequency.cs">
-      <Link>Dom\Css\Values\Primitive\Frequency.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Length.cs">
-      <Link>Dom\Css\Values\Primitive\Length.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Number.cs">
-      <Link>Dom\Css\Values\Primitive\Number.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Percent.cs">
-      <Link>Dom\Css\Values\Primitive\Percent.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Resolution.cs">
-      <Link>Dom\Css\Values\Primitive\Resolution.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Dom\Css\Values\Primitive\Time.cs">
-      <Link>Dom\Css\Values\Primitive\Time.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Document.cs">
       <Link>Dom\Document.cs</Link>
