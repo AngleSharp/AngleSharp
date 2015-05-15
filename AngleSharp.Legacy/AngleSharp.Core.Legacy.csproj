@@ -1165,9 +1165,6 @@
     <Compile Include="..\AngleSharp\Dom\Css\Selector\SimpleSelector.cs">
       <Link>Dom\Css\Selector\SimpleSelector.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\Css\Values\CssValueList.cs">
-      <Link>Dom\Css\Values\CssValueList.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Dom\Document.cs">
       <Link>Dom\Document.cs</Link>
     </Compile>
