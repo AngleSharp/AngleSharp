@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -14,10 +14,10 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Tuple<ICssValue, ICssValue>> Converter = 
+        static readonly IValueConverter<Tuple<CssValue, CssValue>> Converter = 
             Converters.WithOrder(
-                Converters.LengthOrPercentConverter.Periodic().Atomic().Val().Required(),
-                Converters.LengthOrPercentConverter.Periodic().Atomic().Val().StartsWithDelimiter().Option());
+                Converters.LengthOrPercentConverter.Periodic().Val().Required(),
+                Converters.LengthOrPercentConverter.Periodic().Val().StartsWithDelimiter().Option());
 
         #endregion
 
@@ -32,7 +32,7 @@
 
         #region Methods
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             return Converter.TryConvert(value, m =>
             {
@@ -62,38 +62,39 @@
 
         #region Helper
 
-        static ICssValue Extract(Tuple<ICssValue, ICssValue> src, Int32 index)
+        static CssValue Extract(Tuple<CssValue, CssValue> src, Int32 index)
         {
-            var hv = src.Item1;
-            var vv = src.Item2;
-            var h = hv as CssValueList;
-            var v = vv as CssValueList;
+            //var hv = src.Item1;
+            //var vv = src.Item2;
+            //var h = hv as CssValueList;
+            //var v = vv as CssValueList;
 
-            if (h != null)
-                hv = Find(h, index);
+            //if (h != null)
+            //    hv = Find(h, index);
 
-            if (vv == null)
-                return hv;
+            //if (vv == null)
+            //    return hv;
 
-            var value = new CssValueList();
-            value.Add(hv);
+            //var value = new CssValueList();
+            //value.Add(hv);
 
-            if (v != null)
-                vv = Find(v, index);
+            //if (v != null)
+            //    vv = Find(v, index);
 
-            value.Add(vv);
-            return value;
+            //value.Add(vv);
+            //return value;
+            return null;
         }
 
-        static ICssValue Find(CssValueList list, Int32 index)
-        {
-            if (index < list.Length)
-                return list[index];
-            else if (index == 3 && 1 < list.Length)
-                return list[1];
+        //static ICssValue Find(CssValue list, Int32 index)
+        //{
+        //    if (index < list.Count)
+        //        return list[index];
+        //    else if (index == 3 && 1 < list.Length)
+        //        return list[1];
             
-            return list[0];
-        }
+        //    return list[0];
+        //}
 
         #endregion
     }

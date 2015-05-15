@@ -40,7 +40,7 @@
             return Converter.Convert(Value);
         }
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             return Converter.Validate(value);
         }

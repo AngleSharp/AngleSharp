@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using AngleSharp.Css.Values;
     using AngleSharp.Dom.Css;
     using AngleSharp.Parser.Css;
@@ -15,13 +16,13 @@
     {
         #region Transformers
 
-        public static Boolean Is(this ICssValue value, String expected)
+        public static Boolean Is(this IEnumerable<CssToken> value, String expected)
         {
             var identifier = value.ToIdentifier();
             return identifier != null && identifier.Equals(expected, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static Boolean TryGetValue<T>(this Dictionary<String, T> obj, ICssValue value, out T mode)
+        public static Boolean TryGetValue<T>(this Dictionary<String, T> obj, IEnumerable<CssToken> value, out T mode)
         {
             var identifier = value.ToIdentifier();
             mode = default(T);
@@ -39,127 +40,15 @@
             return null;
         }
 
-        public static CssValueList Copy(this CssValueList original)
+        public static String ToUri(this IEnumerable<CssToken> value)
         {
-            var list = new CssValueList();
-
-            for (int i = 0; i < original.Length; i++)
-                list.Add(original[i]);
-
-            return list;
-        }
-
-        public static CssValueList CopyExcept(this CssValueList original, Int32 index)
-        {
-            var list = new CssValueList();
-
-            for (int i = 0; i < original.Length; i++)
-            {
-                if (i != index)
-                    list.Add(original[i]);
-            }
-
-            return list;
-        }
-
-        public static CssValueList CopyToList(this ICssValue value)
-        {
-            var original = value as CssValueList;
-
-            if (original == null)
-                return new CssValueList(value);
-
-            var newList = new CssValueList();
-
-            foreach (var item in original)
-                newList.Add(item);
-
-            return newList;
-        }
-
-        public static IEnumerable<ICssValue> AsEnumeration(this ICssValue value)
-        {
-            var list = value as CssValueList;
-
-            if (list != null)
-                return list;
-
-            return new ICssValue[1] { value };
-        }
-
-        public static ICssValue Reduce(this CssValueList list)
-        {
-            if (list.Length == 0)
-                return null;
-            else if (list.Length == 1)
-                return list[0];
-
-            return list;
-        }
-
-        public static CssValueList Subset(this CssValueList values, Int32 start = 0, Int32 end = -1)
-        {
-            if (end == -1)
-                end = values.Length;
-
-            var list = new List<ICssValue>();
-
-            for (var i = start; i < end; i++)
-                list.Add(values[i]);
-
-            return new CssValueList(list);
-        }
-
-        public static List<CssValueList> ToList(this CssValueList values)
-        {
-            var list = new List<CssValueList>();
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                var entry = new CssValueList();
-
-                for (int j = i; j < values.Length; j++)
-                {
-                    //if (values[j] == CssValue.Separator)
-                    //    break;
-
-                    entry.Add(values[j]);
-                    i++;
-                }
-
-                list.Add(entry);
-            }
-
-            return list;
-        }
-
-        public static CssValueList ToSeparatedList(this List<CssValueList> list)
-        {
-            var values = new CssValueList();
-
-            if (list.Count > 0)
-                values.Add(list[0].Reduce());
-
-            for (int i = 1; i < list.Count; i++)
-            {
-                //values.Add(CssValue.Separator);
-                values.Add(list[i].Reduce());
-            }
-
-            return values;
-        }
-
-        public static String ToUri(this ICssValue value)
-        {
-            var cv = value as CssValue;
-
-            if (cv != null && cv.Count == 1 && cv[0].Type == CssTokenType.Url)
-                return cv[0].Data;
+            if (value.Count() == 1 && value.First().Type == CssTokenType.Url)
+                return value.First().Data;
 
             return null;
         }
 
-        public static Length? ToBorderSlice(this ICssValue value)
+        public static Length? ToBorderSlice(this IEnumerable<CssToken> value)
         {
             var percent = value.ToPercent();
 
@@ -174,7 +63,7 @@
             return null;
         }
 
-        public static Length? ToLineHeight(this ICssValue value)
+        public static Length? ToLineHeight(this IEnumerable<CssToken> value)
         {
             var distance = value.ToDistance();
 
@@ -191,7 +80,7 @@
             return null;
         }
 
-        public static Length? ToDistance(this ICssValue value)
+        public static Length? ToDistance(this IEnumerable<CssToken> value)
         {
             var percent = value.ToPercent();
 
@@ -226,37 +115,31 @@
             }
         }
 
-        public static Percent? ToPercent(this ICssValue value)
+        public static Percent? ToPercent(this IEnumerable<CssToken> value)
         {
-            var val = value as CssValue;
-
-            if (val != null && val.Count == 1 && val[0].Type == CssTokenType.Percentage)
-                return new Percent(((CssUnitToken)val[0]).Value);
+            if (value.Count() == 1 && value.First().Type == CssTokenType.Percentage)
+                return new Percent(((CssUnitToken)value.First()).Value);
 
             return null;
         }
 
-        public static String ToCssString(this ICssValue value)
+        public static String ToCssString(this IEnumerable<CssToken> value)
         {
-            var cv = value as CssValue;
-
-            if (cv != null && cv.Count == 1 && cv[0].Type == CssTokenType.String)
-                return cv[0].Data;
+            if (value.Count() == 1 && value.First().Type == CssTokenType.String)
+                return value.First().Data;
 
             return null;
         }
 
-        public static String ToIdentifier(this ICssValue value)
+        public static String ToIdentifier(this IEnumerable<CssToken> value)
         {
-            var cv = value as CssValue;
-
-            if (cv != null && cv.Count == 1 && cv[0].Type == CssTokenType.Ident)
-                return cv[0].Data.ToLowerInvariant();
+            if (value.Count() == 1 && value.First().Type == CssTokenType.Ident)
+                return value.First().Data.ToLowerInvariant();
 
             return null;
         }
 
-        public static String ToAnimatableIdentifier(this ICssValue value)
+        public static String ToAnimatableIdentifier(this IEnumerable<CssToken> value)
         {
             var identifier = value.ToIdentifier();
 
@@ -266,27 +149,23 @@
             return null;
         }
 
-        public static Single? ToSingle(this ICssValue value)
+        public static Single? ToSingle(this IEnumerable<CssToken> value)
         {
-            var val = value as CssValue;
-
-            if (val != null && val.Count == 1 && val[0].Type == CssTokenType.Number)
-                return ((CssNumberToken)val[0]).Value;
+            if (value.Count() == 1 && value.First().Type == CssTokenType.Number)
+                return ((CssNumberToken)value.First()).Value;
 
             return null;
         }
 
-        public static Int32? ToInteger(this ICssValue value)
+        public static Int32? ToInteger(this IEnumerable<CssToken> value)
         {
-            var val = value as CssValue;
-
-            if (val != null && val.Count == 1 && val[0].Type == CssTokenType.Number && ((CssNumberToken)val[0]).IsInteger)
-                return (Int32)((CssNumberToken)val[0]).Value;
+            if (value.Count() == 1 && value.First().Type == CssTokenType.Number && ((CssNumberToken)value.First()).IsInteger)
+                return (Int32)((CssNumberToken)value.First()).Value;
 
             return null;
         }
 
-        public static Byte? ToByte(this ICssValue value)
+        public static Byte? ToByte(this IEnumerable<CssToken> value)
         {
             var val = value.ToInteger();
 
@@ -296,13 +175,11 @@
             return null;
         }
 
-        public static Angle? ToAngle(this ICssValue value)
+        public static Angle? ToAngle(this IEnumerable<CssToken> value)
         {
-            var val = value as CssValue;
-
-            if (val != null && val.Count == 1 && val[0].Type == CssTokenType.Dimension)
+            if (value.Count() == 1 && value.First().Type == CssTokenType.Dimension)
             {
-                var unit = (CssUnitToken)val[0];
+                var unit = (CssUnitToken)value.First();
 
                 switch (unit.Unit)
                 {
@@ -320,13 +197,11 @@
             return null;
         }
 
-        public static Frequency? ToFrequency(this ICssValue value)
+        public static Frequency? ToFrequency(this IEnumerable<CssToken> value)
         {
-            var val = value as CssValue;
-
-            if (val != null && val.Count == 1 && val[0].Type == CssTokenType.Dimension)
+            if (value.Count() == 1 && value.First().Type == CssTokenType.Dimension)
             {
-                var unit = (CssUnitToken)val[0];
+                var unit = (CssUnitToken)value.First();
 
                 switch (unit.Unit)
                 {
@@ -340,15 +215,15 @@
             return null;
         }
 
-        public static Length? ToLength(this ICssValue value)
+        public static Length? ToLength(this IEnumerable<CssToken> value)
         {
-            var val = value as CssValue;
-
-            if (val != null && val.Count == 1)
+            if (value.Count() == 1)
             {
-                if (val[0].Type == CssTokenType.Dimension)
+                var val = value.First();
+
+                if (val.Type == CssTokenType.Dimension)
                 {
-                    var unit = (CssUnitToken)val[0];
+                    var unit = (CssUnitToken)val;
 
                     switch (unit.Unit)
                     {
@@ -382,7 +257,7 @@
                             return new Length(unit.Value, Length.Unit.Vw);
                     }
                 }
-                else if (val[0].Type == CssTokenType.Number && ((CssNumberToken)val[0]).Value == 0f)
+                else if (val.Type == CssTokenType.Number && ((CssNumberToken)val).Value == 0f)
                 {
                     return Length.Zero;
                 }
@@ -391,13 +266,11 @@
             return null;
         }
 
-        public static Resolution? ToResolution(this ICssValue value)
+        public static Resolution? ToResolution(this IEnumerable<CssToken> value)
         {
-            var val = value as CssValue;
-
-            if (val != null && val.Count == 1 && val[0].Type == CssTokenType.Dimension)
+            if (value.Count() == 1 && value.First().Type == CssTokenType.Dimension)
             {
-                var unit = (CssUnitToken)val[0];
+                var unit = (CssUnitToken)value.First();
 
                 switch (unit.Unit)
                 {
@@ -413,13 +286,11 @@
             return null;
         }
 
-        public static Time? ToTime(this ICssValue value)
+        public static Time? ToTime(this IEnumerable<CssToken> value)
         {
-            var val = value as CssValue;
-
-            if (val != null && val.Count == 1 && val[0].Type == CssTokenType.Dimension)
+            if (value.Count() == 1 && value.First().Type == CssTokenType.Dimension)
             {
-                var unit = (CssUnitToken)val[0];
+                var unit = (CssUnitToken)value.First();
 
                 switch (unit.Unit)
                 {
@@ -433,7 +304,7 @@
             return null;
         }
 
-        public static Length? ToImageBorderWidth(this ICssValue value)
+        public static Length? ToImageBorderWidth(this IEnumerable<CssToken> value)
         {
             if (value.Is(Keywords.Auto))
                 return new Length(100f, Length.Unit.Percent);
@@ -446,7 +317,7 @@
             return value.ToDistance();
         }
 
-        public static Length? ToBorderWidth(this ICssValue value)
+        public static Length? ToBorderWidth(this IEnumerable<CssToken> value)
         {
             var length = value.ToLength();
 
@@ -462,7 +333,7 @@
             return length;
         }
 
-        public static Color? ToColor(this ICssValue value)
+        public static Color? ToColor(this IEnumerable<CssToken> value)
         {
             var val = value as CssValue;
 

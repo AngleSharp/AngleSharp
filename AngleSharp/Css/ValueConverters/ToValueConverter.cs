@@ -1,9 +1,11 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using AngleSharp.Dom.Css;
     using System;
+    using System.Collections.Generic;
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
 
-    sealed class ToValueConverter<T> : IValueConverter<ICssValue>
+    sealed class ToValueConverter<T> : IValueConverter<CssValue>
     {
         readonly IValueConverter<T> _converter;
 
@@ -12,18 +14,18 @@
             _converter = converter;
         }
 
-        public Boolean TryConvert(ICssValue value, Action<ICssValue> setResult)
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<CssValue> setResult)
         {
             if (Validate(value))
             {
-                setResult(value);
+                setResult(new CssValue(value));
                 return true;
             }
 
             return false;
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
             return _converter.Validate(value);
         }
@@ -50,12 +52,12 @@
             _next = next;
         }
 
-        public Boolean TryConvert(ICssValue value, Action<U> setResult)
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<U> setResult)
         {
             return _converter.TryConvert(value, item => setResult(_next(item)));
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
             return _converter.Validate(value);
         }

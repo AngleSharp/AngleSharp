@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
 
     sealed class DictionaryValueConverter<T> : IValueConverter<T>
     {
@@ -14,7 +14,7 @@
             _values = values;
         }
 
-        public Boolean TryConvert(ICssValue value, Action<T> setResult)
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
         {
             var temp = default(T);
 
@@ -25,7 +25,7 @@
             return true;
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
             var mode = default(T);
             return _values.TryGetValue(value, out mode);

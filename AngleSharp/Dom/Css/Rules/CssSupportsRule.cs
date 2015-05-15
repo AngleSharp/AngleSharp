@@ -194,9 +194,9 @@
         public sealed class DeclarationCondition : ICondition
         {
             readonly CssProperty _property;
-            readonly ICssValue _value;
+            readonly CssValue _value;
 
-            public DeclarationCondition(CssProperty property, ICssValue value)
+            public DeclarationCondition(CssProperty property, CssValue value)
             {
                 _property = property;
                 _value = value;

@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using System;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
-    using System;
 
     /// <summary>
     /// More information available at:
@@ -38,7 +38,7 @@
             return Converter.Convert(Value);
         }
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             return Converter.Validate(value);
         }

@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using System;
     using AngleSharp.Css;
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
-    using System;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -46,7 +46,7 @@
             return cursors.Item2;
         }
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             return Converter.Validate(value);
         }

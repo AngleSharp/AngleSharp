@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using System;
+    using System.Linq;
     using AngleSharp.Css;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using System;
-    using System.Linq;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -54,7 +54,7 @@
             return Tuple.Create("", "");
         }
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             return Converter.Validate(value);
         }

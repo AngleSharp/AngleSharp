@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using AngleSharp.Dom.Css;
     using System;
+    using System.Collections.Generic;
+    using AngleSharp.Parser.Css;
 
     sealed class ArgumentsValueConverter<T> : IValueConverter<T[]>
     {
@@ -14,37 +15,37 @@
             _arguments = arguments;
         }
 
-        public Boolean TryConvert(ICssValue value, Action<T[]> setResult)
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T[]> setResult)
         {
-            var items = value as CssValueList;
+            //var items = value as CssValueList;
 
-            if (items == null || items.Length != _arguments)
-                return false;
+            //if (items == null || items.Length != _arguments)
+            //    return false;
 
-            var array = new T[_arguments];
+            //var array = new T[_arguments];
 
-            for (int i = 0; i < _arguments; i++)
-            {
-                if (!_converter.TryConvert(items[i], m => array[i] = m))
-                    return false;
-            }
+            //for (int i = 0; i < _arguments; i++)
+            //{
+            //    if (!_converter.TryConvert(items[i], m => array[i] = m))
+            //        return false;
+            //}
 
-            setResult(array);
+            //setResult(array);
             return true;
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
-            var items = value as CssValueList;
+            //var items = value as CssValueList;
 
-            if (items == null || items.Length != _arguments)
-                return false;
+            //if (items == null || items.Length != _arguments)
+            //    return false;
 
-            for (int i = 0; i < _arguments; i++)
-            {
-                if (!_converter.Validate(items[i]))
-                    return false;
-            }
+            //for (int i = 0; i < _arguments; i++)
+            //{
+            //    if (!_converter.Validate(items[i]))
+            //        return false;
+            //}
 
             return true;
         }
@@ -71,31 +72,32 @@
             _second = second;
         }
 
-        public Boolean TryConvert(ICssValue value, Action<Tuple<T1, T2>> setResult)
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2>> setResult)
         {
-            var items = value as CssValueList;
+            //var items = value as CssValueList;
 
-            if (items == null || items.Length > 2)
-                return false;
+            //if (items == null || items.Length > 2)
+            //    return false;
 
-            var t1 = default(T1);
-            var t2 = default(T2);
+            //var t1 = default(T1);
+            //var t2 = default(T2);
 
-            if (!_first.TryConvert(items[0], t => t1 = t) || !_second.TryConvert(items[1], t => t2 = t))
-                return false;
+            //if (!_first.TryConvert(items[0], t => t1 = t) || !_second.TryConvert(items[1], t => t2 = t))
+            //    return false;
 
-            setResult(Tuple.Create(t1, t2));
+            //setResult(Tuple.Create(t1, t2));
             return true;
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
-            var items = value as CssValueList;
+            //var items = value as CssValueList;
 
-            if (items == null)
-                return false;
+            //if (items == null)
+            //    return false;
 
-            return items.Length <= 2 && _first.Validate(items[0]) && _second.Validate(items[1]);
+            //return items.Length <= 2 && _first.Validate(items[0]) && _second.Validate(items[1]);
+            return true;
         }
 
         public Int32 MinArgs
@@ -122,32 +124,33 @@
             _third = third;
         }
 
-        public Boolean TryConvert(ICssValue value, Action<Tuple<T1, T2, T3>> setResult)
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3>> setResult)
         {
-            var items = value as CssValueList;
+            //var items = value as CssValueList;
 
-            if (items == null || items.Length > 3)
-                return false;
+            //if (items == null || items.Length > 3)
+            //    return false;
 
-            var t1 = default(T1);
-            var t2 = default(T2);
-            var t3 = default(T3);
+            //var t1 = default(T1);
+            //var t2 = default(T2);
+            //var t3 = default(T3);
 
-            if (!_first.TryConvert(items[0], t => t1 = t) || !_second.TryConvert(items[1], t => t2 = t) || !_third.TryConvert(items[2], t => t3 = t))
-                return false;
+            //if (!_first.TryConvert(items[0], t => t1 = t) || !_second.TryConvert(items[1], t => t2 = t) || !_third.TryConvert(items[2], t => t3 = t))
+            //    return false;
 
-            setResult(Tuple.Create(t1, t2, t3));
+            //setResult(Tuple.Create(t1, t2, t3));
             return true;
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
-            var items = value as CssValueList;
+            //var items = value as CssValueList;
 
-            if (items == null)
-                return false;
+            //if (items == null)
+            //    return false;
 
-            return items.Length <= 3 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]);
+            //return items.Length <= 3 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]);
+            return true;
         }
 
         public Int32 MinArgs
@@ -176,34 +179,35 @@
             _fourth = fourth;
         }
 
-        public Boolean TryConvert(ICssValue value, Action<Tuple<T1, T2, T3, T4>> setResult)
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3, T4>> setResult)
         {
-            var items = value as CssValueList;
+            //var items = value as CssValueList;
 
-            if (items == null || items.Length > 4)
-                return false;
+            //if (items == null || items.Length > 4)
+            //    return false;
 
-            var t1 = default(T1);
-            var t2 = default(T2);
-            var t3 = default(T3);
-            var t4 = default(T4);
+            //var t1 = default(T1);
+            //var t2 = default(T2);
+            //var t3 = default(T3);
+            //var t4 = default(T4);
 
-            if (!_first.TryConvert(items[0], t => t1 = t) || !_second.TryConvert(items[1], t => t2 = t) ||
-                !_third.TryConvert(items[2], t => t3 = t) || !_fourth.TryConvert(items[3], t => t4 = t))
-                return false;
+            //if (!_first.TryConvert(items[0], t => t1 = t) || !_second.TryConvert(items[1], t => t2 = t) ||
+            //    !_third.TryConvert(items[2], t => t3 = t) || !_fourth.TryConvert(items[3], t => t4 = t))
+            //    return false;
 
-            setResult(Tuple.Create(t1, t2, t3, t4));
+            //setResult(Tuple.Create(t1, t2, t3, t4));
             return true;
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
-            var items = value as CssValueList;
+            //var items = value as CssValueList;
 
-            if (items == null)
-                return false;
+            //if (items == null)
+            //    return false;
 
-            return items.Length <= 4 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]) && _fourth.Validate(items[3]);
+            //return items.Length <= 4 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]) && _fourth.Validate(items[3]);
+            return true;
         }
 
         public Int32 MinArgs

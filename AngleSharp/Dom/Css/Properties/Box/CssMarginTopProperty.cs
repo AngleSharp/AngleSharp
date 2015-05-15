@@ -35,7 +35,7 @@
             return Converters.AutoLengthOrPercentConverter.Convert(Value);
         }
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             return Converters.AutoLengthOrPercentConverter.Validate(value);
         }

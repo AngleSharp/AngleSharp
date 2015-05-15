@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using AngleSharp.Css;
 
     /// <summary>
     /// Base class for all shorthand properties
@@ -50,23 +50,6 @@
         protected TProperty Get<TProperty>()
         {
             return _properties.OfType<TProperty>().FirstOrDefault();
-        }
-
-        protected static Boolean ExpandPeriodic(CssValueList list)
-        {
-            if (list.Length == 0 || list.Length > 4)
-                return false;
-
-            if (list.Length == 1)
-                list.Add(list[0]);
-
-            if (list.Length == 2)
-                list.Add(list[0]);
-
-            if (list.Length == 3)
-                list.Add(list[1]);
-
-            return true;
         }
 
         protected static String SerializePeriodic(CssProperty t, CssProperty r, CssProperty b, CssProperty l)

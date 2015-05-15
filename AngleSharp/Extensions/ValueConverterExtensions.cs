@@ -22,72 +22,72 @@
 
         #region Methods
 
-        public static T Convert<T>(this IValueConverter<T> converter, ICssValue value)
+        public static T Convert<T>(this IValueConverter<T> converter, CssValue value)
         {
             var result = default(T);
             converter.TryConvert(value, m => result = m);
             return result;
         }
 
-        public static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValueList list, Action<T> setResult)
+        public static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValue list, Action<T> setResult)
         {
             return converter.VaryStart(list, (c, v) => c.TryConvert(v, setResult));
         }
 
-        public static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValueList list)
+        public static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValue list)
         {
             return converter.VaryStart(list, (c, v) => c.Validate(v));
         }
 
-        static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValueList list, Func<IValueConverter<T>, ICssValue, Boolean> validate)
+        static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValue list, Func<IValueConverter<T>, CssValue, Boolean> validate)
         {
             var min = Math.Max(converter.MinArgs, 1);
             var max = converter.MaxArgs;
-            var n = Math.Min(max, list.Length);
+            var n = Math.Min(max, list.Count);
 
             for (int count = n; count >= min; count--)
             {
-                var subset = count > 1 ? list.Subset(0, count) : list[0];
+                //var subset = count > 1 ? list.Subset(0, count) : list[0];
 
-                if (validate(converter, subset))
-                {
-                    list.RemoveRange(0, count);
-                    return true;
-                }
+                //if (validate(converter, subset))
+                //{
+                //    list.RemoveRange(0, count);
+                //    return true;
+                //}
             }
 
             return validate(converter, null);
         }
 
-        public static Boolean VaryAll<T>(this IValueConverter<T> converter, CssValueList list, Action<T> setResult)
+        public static Boolean VaryAll<T>(this IValueConverter<T> converter, CssValue list, Action<T> setResult)
         {
             return converter.VaryAll(list, (c, v) => c.TryConvert(v, setResult));
         }
 
-        public static Boolean VaryAll<T>(this IValueConverter<T> converter, CssValueList list)
+        public static Boolean VaryAll<T>(this IValueConverter<T> converter, CssValue list)
         {
             return converter.VaryAll(list, (c, v) => c.Validate(v));
         }
 
-        static Boolean VaryAll<T>(this IValueConverter<T> converter, CssValueList list, Func<IValueConverter<T>, ICssValue, Boolean> validate)
+        static Boolean VaryAll<T>(this IValueConverter<T> converter, CssValue list, Func<IValueConverter<T>, CssValue, Boolean> validate)
         {
             var min = Math.Max(converter.MinArgs, 1);
             var max = converter.MaxArgs;
 
-            for (int i = 0; i < list.Length; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                var n = Math.Min(Math.Min(max, list.Length) + i, list.Length);
+                var n = Math.Min(Math.Min(max, list.Count) + i, list.Count);
 
                 for (int j = n; j >= i + min; j--)
                 {
                     var count = j - i;
-                    var subset = count > 1 ? list.Subset(i, j) : list[i];
+                    //var subset = count > 1 ? list.Subset(i, j) : list[i];
 
-                    if (validate(converter, subset))
-                    {
-                        list.RemoveRange(i, count);
-                        return true;
-                    }
+                    //if (validate(converter, subset))
+                    //{
+                    //    list.RemoveRange(i, count);
+                    //    return true;
+                    //}
                 }
             }
 
@@ -114,11 +114,6 @@
             return new ToValueConverter<T, U>(converter, result);
         }
 
-        public static IValueConverter<T> Atomic<T>(this IValueConverter<T> converter)
-        {
-            return new AtomicValueConverter<T>(converter);
-        }
-
         public static IValueConverter<Tuple<T, T, T, T>> Periodic<T>(this IValueConverter<T> converter)
         {
             return converter.To(m => Tuple.Create(m, m, m, m)).Or(
@@ -137,7 +132,7 @@
             return new RequiredValueConverter<T>(converter);
         }
 
-        public static IValueConverter<ICssValue> Val<T>(this IValueConverter<T> converter)
+        public static IValueConverter<CssValue> Val<T>(this IValueConverter<T> converter)
         {
             return new ToValueConverter<T>(converter);
         }
@@ -147,9 +142,9 @@
             return new OptionValueConverter<T>(converter, defaultValue);
         }
 
-        public static IValueConverter<ICssValue> Option(this IValueConverter<ICssValue> converter)
+        public static IValueConverter<CssValue> Option(this IValueConverter<CssValue> converter)
         {
-            return new OptionValueConverter<ICssValue>(converter, null);
+            return new OptionValueConverter<CssValue>(converter, null);
         }
 
         public static IValueConverter<T> Or<T>(this IValueConverter<T> primary, IValueConverter<T> secondary)

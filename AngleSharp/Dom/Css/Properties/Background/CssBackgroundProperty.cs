@@ -5,8 +5,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using BgLayer = System.Tuple<ICssValue, System.Tuple<ICssValue, ICssValue>, ICssValue, ICssValue, ICssValue, ICssValue>;
-    using FinalBgLayer = System.Tuple<ICssValue, System.Tuple<ICssValue, ICssValue>, ICssValue, ICssValue, ICssValue, ICssValue, ICssValue>;
+    using BgLayer = System.Tuple<CssValue, System.Tuple<CssValue, CssValue>, CssValue, CssValue, CssValue, CssValue>;
+    using FinalBgLayer = System.Tuple<CssValue, System.Tuple<CssValue, CssValue>, CssValue, CssValue, CssValue, CssValue, CssValue>;
 
     /// <summary>
     /// More information available at:
@@ -52,7 +52,7 @@
 
         #region Methods
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             //[ <bg-layer> , ]* <final-bg-layer> where: 
             //  <bg-layer> = 
@@ -73,20 +73,21 @@
             });
         }
 
-        static ICssValue Transform(Tuple<BgLayer[], FinalBgLayer> data, Func<BgLayer, ICssValue> selector)
+        static CssValue Transform(Tuple<BgLayer[], FinalBgLayer> data, Func<BgLayer, CssValue> selector)
         {
             var final = new BgLayer(data.Item2.Item1, data.Item2.Item2, data.Item2.Item3, data.Item2.Item4, data.Item2.Item5, data.Item2.Item6);
 
             if (data.Item1.Length == 0)
                 return selector(final);
 
-            var list = new CssValueList();
+            //var list = new CssValueList();
 
-            foreach (var item in data.Item1)
-                list.Add(selector(item));
+            //foreach (var item in data.Item1)
+            //    list.Add(selector(item));
 
-            list.Add(selector(final));
-            return list;
+            //list.Add(selector(final));
+            //return list;
+            return null;
         }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)

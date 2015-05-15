@@ -972,7 +972,7 @@
 
         static IValueConverter<T> WithArg<T>(IValueConverter<T> converter)
         {
-            return converter.Atomic();
+            return converter;
         }
 
         static IValueConverter<T> WithArgs<T1, T>(IValueConverter<T1> converter, Int32 arguments, Func<T1[], T> transform)

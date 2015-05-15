@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using System;
+    using AngleSharp.Css;
 
     /// <summary>
     /// More information available at:
@@ -24,7 +24,7 @@
             return null;
         }
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             return true;
         }

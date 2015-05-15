@@ -5,7 +5,6 @@
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
 
-
     /// <summary>
     /// More information available at:
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-size
@@ -48,7 +47,7 @@
             return Converter.Convert(Value);
         }
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             return Converter.Validate(value);
         }

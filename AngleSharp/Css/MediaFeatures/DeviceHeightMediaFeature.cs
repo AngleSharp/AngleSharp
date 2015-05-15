@@ -30,7 +30,7 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return Converters.LengthConverter.TryConvert(value, m => _length = m);
+            return Converters.LengthConverter.TryConvert((CssValue)value, m => _length = m);
         }
 
         public override Boolean Validate(RenderDevice device)

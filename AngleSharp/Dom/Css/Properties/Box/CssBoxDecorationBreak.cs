@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using System;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
-    using System;
 
     /// <summary>
     /// More infos can be found on the W3C homepage or
@@ -35,7 +35,7 @@
             return Converters.BoxDecorationConverter.Convert(Value);
         }
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             return Converters.BoxDecorationConverter.Validate(value);
         }

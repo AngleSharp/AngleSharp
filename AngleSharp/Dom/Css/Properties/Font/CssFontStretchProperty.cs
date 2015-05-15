@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using System;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
-    using System;
 
     /// <summary>
     /// Information:
@@ -32,7 +32,7 @@
             return Converters.FontStretchConverter.Convert(Value);
         }
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             return Converters.FontStretchConverter.Validate(value);
         }

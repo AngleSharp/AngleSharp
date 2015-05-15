@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available at:
@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Tuple<ICssValue, Tuple<ICssValue, ICssValue, ICssValue>, ICssValue>> Converter = 
+        static readonly IValueConverter<Tuple<CssValue, Tuple<CssValue, CssValue, CssValue>, CssValue>> Converter = 
             Converters.WithAny(
                 Converters.OptionalImageSourceConverter.Val().Option(),
                 Converters.WithOrder(
@@ -36,7 +36,7 @@
 
         #region Methods
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             return Converter.TryConvert(value, m =>
             {

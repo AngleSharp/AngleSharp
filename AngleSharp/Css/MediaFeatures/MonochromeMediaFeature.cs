@@ -30,7 +30,7 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return Converters.PositiveIntegerConverter.TryConvert(value, m => _index = m);
+            return Converters.PositiveIntegerConverter.TryConvert((CssValue)value, m => _index = m);
         }
 
         public override Boolean Validate(RenderDevice device)

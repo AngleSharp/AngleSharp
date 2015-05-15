@@ -17,7 +17,7 @@
             _arguments = arguments;
         }
 
-        public Boolean TryConvert(ICssValue value, Action<T> setResult)
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
         {
             var f = value as CssValue;
 
@@ -28,7 +28,7 @@
             return _arguments.TryConvert(parameters, setResult);
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
             var f = value as CssValue;
             return f != null && f.Count >= 2 && 
@@ -36,11 +36,6 @@
                 f[0].Data.Equals(_name, StringComparison.OrdinalIgnoreCase) && 
                 f[f.Count - 1].Type == CssTokenType.RoundBracketClose &&
                 _arguments.Validate(new CssValue(f.Skip(1).Take(f.Count - 2)));
-        }
-
-        static ICssValue Transform(List<ICssValue> arguments)
-        {
-            return new CssValueList(arguments);
         }
 
         public Int32 MinArgs

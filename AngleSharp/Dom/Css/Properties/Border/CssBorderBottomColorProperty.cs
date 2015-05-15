@@ -32,7 +32,7 @@
             return Converters.CurrentColorConverter.Convert(Value);
         }
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             return Converters.CurrentColorConverter.Validate(value);
         }

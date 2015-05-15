@@ -1,19 +1,20 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using AngleSharp.Dom.Css;
     using System;
+    using System.Collections.Generic;
+    using AngleSharp.Parser.Css;
 
     sealed class StructValueConverter<T> : IValueConverter<T>
         where T : struct
     {
-        readonly Func<ICssValue, T?> _converter;
+        readonly Func<IEnumerable<CssToken>, T?> _converter;
 
-        public StructValueConverter(Func<ICssValue, T?> converter)
+        public StructValueConverter(Func<IEnumerable<CssToken>, T?> converter)
         {
             _converter = converter;
         }
 
-        public Boolean TryConvert(ICssValue value, Action<T> setResult)
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
         {
             var result = _converter(value);
 
@@ -24,7 +25,7 @@
             return true;
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
             return _converter(value).HasValue;
         }

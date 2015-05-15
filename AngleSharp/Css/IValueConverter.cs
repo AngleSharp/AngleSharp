@@ -1,11 +1,12 @@
 ﻿namespace AngleSharp.Css
 {
-    using AngleSharp.Dom.Css;
     using System;
+    using System.Collections.Generic;
+    using AngleSharp.Parser.Css;
 
     interface IValueConverter
     {
-        Boolean Validate(ICssValue value);
+        Boolean Validate(IEnumerable<CssToken> value);
 
         Int32 MinArgs { get; }
 
@@ -14,6 +15,6 @@
 
     interface IValueConverter<T> : IValueConverter
     {
-        Boolean TryConvert(ICssValue value, Action<T> setResult);
+        Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult);
     }
 }

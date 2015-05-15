@@ -1,8 +1,9 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Extensions;
     using System;
+    using System.Collections.Generic;
+    using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
 
     sealed class IdentifierValueConverter<T> : IValueConverter<T>
     {
@@ -15,7 +16,7 @@
             _result = result;
         }
 
-        public Boolean TryConvert(ICssValue value, Action<T> setResult)
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
         {
             if (!value.Is(_identifier))
                 return false;
@@ -24,7 +25,7 @@
             return true;
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
             return value.Is(_identifier);
         }

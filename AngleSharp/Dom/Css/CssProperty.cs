@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using System;
+    using AngleSharp.Css;
 
     /// <summary>
     /// Fore more information about CSS properties see:
@@ -16,7 +16,7 @@
         readonly CssStyleDeclaration _rule;
 
         Boolean _important;
-        ICssValue _value;
+        CssValue _value;
 
         #endregion
 
@@ -90,7 +90,7 @@
         /// <summary>
         /// Gets the value of the property.
         /// </summary>
-        internal ICssValue Value
+        internal CssValue Value
         {
             get { return _value; }// ?? CssValue.Initial
         }
@@ -162,7 +162,7 @@
         /// </summary>
         /// <param name="value">The value that should be set.</param>
         /// <returns>True if the value is valid, otherwise false.</returns>
-        internal Boolean TrySetValue(ICssValue value)
+        internal Boolean TrySetValue(CssValue value)
         {
             if (value == null || value.Type == CssValueType.Inherit || value.Type == CssValueType.Initial)
             {
@@ -210,7 +210,7 @@
         /// </summary>
         /// <param name="value">The value to be checked.</param>
         /// <returns>True if the value is valid, otherwise false.</returns>
-        protected abstract Boolean IsValid(ICssValue value);
+        protected abstract Boolean IsValid(CssValue value);
 
         #endregion
 

@@ -1,9 +1,8 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Extensions;
     using System;
-    using System.Linq;
+    using System.Collections.Generic;
+    using AngleSharp.Parser.Css;
 
     sealed class ListValueConverter<T> : IValueConverter<T[]>
     {
@@ -14,30 +13,30 @@
             _converter = converter;
         }
 
-        public Boolean TryConvert(ICssValue value, Action<T[]> setResult)
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T[]> setResult)
         {
-            var items = (value as CssValueList ?? new CssValueList(value)).ToList();
-            var targets = new T[items.Count];
+            //var items = (value as CssValueList ?? new CssValueList(value)).ToList();
+            //var targets = new T[items.Count];
 
-            for (var i = 0; i < items.Count; i++)
-            {
-                if (!_converter.TryConvert(items[i].Reduce(), nv => targets[i] = nv))
-                    return false;
-            }
+            //for (var i = 0; i < items.Count; i++)
+            //{
+            //    if (!_converter.TryConvert(items[i].Reduce(), nv => targets[i] = nv))
+            //        return false;
+            //}
 
-            setResult(targets);
+            //setResult(targets);
             return true;
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
-            var items = (value as CssValueList ?? new CssValueList(value)).ToList();
+            //var items = (value as CssValueList ?? new CssValueList(value)).ToList();
 
-            foreach (var item in items)
-            {
-                if (!_converter.Validate(item.Reduce()))
-                    return false;
-            }
+            //foreach (var item in items)
+            //{
+            //    if (!_converter.Validate(item.Reduce()))
+            //        return false;
+            //}
 
             return true;
         }

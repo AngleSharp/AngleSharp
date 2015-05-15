@@ -32,7 +32,7 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return Converter.TryConvert(value, m => _color = m);
+            return Converter.TryConvert((CssValue)value, m => _color = m);
         }
 
         public override Boolean Validate(RenderDevice device)

@@ -47,7 +47,7 @@
         /// <summary>
         /// Gets the currently available result.
         /// </summary>
-        public ICssValue Result
+        public CssValue Result
         {
             get
             {

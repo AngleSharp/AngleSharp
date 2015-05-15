@@ -46,7 +46,7 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return Converter.TryConvert(value, m => _interlace = m);
+            return Converter.TryConvert((CssValue)value, m => _interlace = m);
         }
 
         public override Boolean Validate(RenderDevice device)

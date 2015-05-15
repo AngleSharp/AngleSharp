@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using AngleSharp.Dom.Css;
     using System;
+    using System.Collections.Generic;
+    using AngleSharp.Parser.Css;
 
     sealed class AtomicValueConverter<T> : IValueConverter<T>
     {
@@ -12,14 +13,14 @@
             _converter = converter;
         }
 
-        public Boolean TryConvert(ICssValue value, Action<T> setResult)
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
         {
-            return _converter.TryConvert(Reduce(value), setResult);
+            return _converter.TryConvert(value, setResult);
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
-            return _converter.Validate(Reduce(value));
+            return _converter.Validate(value);
         }
 
         public Int32 MinArgs
@@ -30,16 +31,6 @@
         public Int32 MaxArgs
         {
             get { return _converter.MaxArgs; }
-        }
-
-        static ICssValue Reduce(ICssValue value)
-        {
-            var values = value as CssValueList;
-
-            if (values != null && values.Length == 1)
-                return values[0];
-
-            return value;
         }
     }
 }

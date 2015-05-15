@@ -29,7 +29,7 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return Converters.RatioConverter.TryConvert(value, m => _ratio = m);
+            return Converters.RatioConverter.TryConvert((CssValue)value, m => _ratio = m);
         }
 
         public override Boolean Validate(RenderDevice device)

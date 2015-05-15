@@ -718,7 +718,6 @@
     <Compile Include="Dom\Css\Rules\CssSupportsRule.cs" />
     <Compile Include="Dom\Css\Selector\Selectors.cs" />
     <Compile Include="Dom\Css\CssValue.cs" />
-    <Compile Include="Dom\Css\Values\CssValueList.cs" />
     <Compile Include="Dom\Constants\DirectionMode.cs" />
     <Compile Include="Dom\Constants\Alignment.cs" />
     <Compile Include="Dom\Constants\HorizontalAlignment.cs" />

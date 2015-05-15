@@ -706,7 +706,7 @@
             return medium;
         }
 
-        Tuple<String, ICssValue> GetConstraint(IEnumerator<CssToken> tokens)
+        Tuple<String, CssValue> GetConstraint(IEnumerator<CssToken> tokens)
         {
             var token = tokens.Current;
 
@@ -752,7 +752,7 @@
         /// </summary>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The computed value.</returns>
-        ICssValue InValue(IEnumerator<CssToken> tokens)
+        CssValue InValue(IEnumerator<CssToken> tokens)
         {
             tokenizer.IgnoreWhitespace = false;
             value.Reset();
@@ -1054,6 +1054,10 @@
             return new CssParser(stylesheet, configuration ?? Configuration.Default).Parse();
         }
 
+        #endregion
+
+        #region Internal static methods
+
         /// <summary>
         /// Takes a string and transforms it into a CSS value.
         /// </summary>
@@ -1062,7 +1066,7 @@
         /// Optional: The configuration to use for construction.
         /// </param>
         /// <returns>The CSSValue object.</returns>
-        public static ICssValue ParseValue(String valueText, IConfiguration configuration = null)
+        internal static CssValue ParseValue(String valueText, IConfiguration configuration = null)
         {
             var parser = new CssParser(valueText, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
@@ -1077,10 +1081,6 @@
 
             return value;
         }
-
-        #endregion
-
-        #region Internal static methods
 
         /// <summary>
         /// Takes a string and transforms it into a CSS rule.

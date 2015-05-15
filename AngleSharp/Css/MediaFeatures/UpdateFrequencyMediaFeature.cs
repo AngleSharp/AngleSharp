@@ -42,7 +42,7 @@
 
         protected override Boolean TrySetCustom(ICssValue value)
         {
-            return Converter.TryConvert(value, m => _frequency = m);
+            return Converter.TryConvert((CssValue)value, m => _frequency = m);
         }
 
         public override Boolean Validate(RenderDevice device)

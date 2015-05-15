@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available:
@@ -24,7 +24,7 @@
             { Keywords.StatusBar, SystemFont.StatusBar }
         }).ToConverter();
 
-        internal static readonly IValueConverter<Tuple<Tuple<ICssValue, ICssValue, ICssValue, ICssValue>, Tuple<ICssValue, ICssValue>, ICssValue>> Converter = 
+        internal static readonly IValueConverter<Tuple<Tuple<CssValue, CssValue, CssValue, CssValue>, Tuple<CssValue, CssValue>, CssValue>> Converter = 
             Converters.WithOrder(
                 Converters.WithAny(
                     Converters.FontStyleConverter.Val().Option(),
@@ -49,7 +49,7 @@
 
         #region Methods
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             //[ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]? <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ] | caption | icon | menu | message-box | small-caption | status-bar
 

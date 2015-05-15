@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using AngleSharp.Dom.Css;
     using System;
+    using System.Collections.Generic;
+    using AngleSharp.Parser.Css;
 
     sealed class RequiredValueConverter<T> : IValueConverter<T>
     {
@@ -12,12 +13,12 @@
             _converter = converter;
         }
 
-        public Boolean TryConvert(ICssValue value, Action<T> setResult)
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
         {
             return value != null && _converter.TryConvert(value, setResult);
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
             return value != null && _converter.Validate(value);
         }

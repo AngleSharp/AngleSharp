@@ -28,7 +28,7 @@
             return null;
         }
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             return true;
         }

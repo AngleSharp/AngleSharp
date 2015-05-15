@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using AngleSharp.Css.Values;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Extensions;
     using System;
+    using System.Collections.Generic;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Parser.Css;
 
     sealed class GradientConverter<T> : IValueConverter<Tuple<T, GradientStop[]>>
     {
@@ -16,86 +16,87 @@
             _arguments = arguments;
         }
 
-        public static GradientStop[] ToGradientStops(CssValueList values, Int32 offset)
+        //public static GradientStop[] ToGradientStops(CssValueList values, Int32 offset)
+        //{
+        //    var stops = new GradientStop[values.Length - offset];
+
+        //    if (stops.Length < 2)
+        //        return null;
+
+        //    for (int i = offset, k = 0; i < values.Length; i++, k++)
+        //    {
+        //        var location = Length.Missing;
+
+        //        if (k == 0)
+        //            location = Length.Zero;
+        //        else if (k == stops.Length - 1)
+        //            location = Length.Full;
+
+        //        var stop = ToGradientStop(values[i], location);
+
+        //        if (stop == null)
+        //            return null;
+
+        //        stops[k] = stop.Value;
+        //    }
+
+        //    return stops;
+        //}
+
+        //public static GradientStop? ToGradientStop(ICssValue value, Length? location)
+        //{
+        //    var values = value as CssValue;
+        //    var color = Color.Transparent;
+
+        //    if (values != null)
+        //    {
+        //        if (values.Length != 2)
+        //            return null;
+
+        //        location = values[1].ToDistance();
+        //        value = values[0];
+        //    }
+
+        //    if (!Converters.ColorConverter.TryConvert(value, m => color = m) || location == null)
+        //        return null;
+
+        //    return new GradientStop(color, location.Value);
+        //}
+
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T, GradientStop[]>> setResult)
         {
-            var stops = new GradientStop[values.Length - offset];
+            //var values = value as CssValue;
 
-            if (stops.Length < 2)
-                return null;
+            //if (values == null || values.Count < MinArgs)
+            //    return false;
 
-            for (int i = offset, k = 0; i < values.Length; i++, k++)
-            {
-                var location = Length.Missing;
+            //var offset = 0;
+            //var core = default(T);
 
-                if (k == 0)
-                    location = Length.Zero;
-                else if (k == stops.Length - 1)
-                    location = Length.Full;
+            //if (_arguments.TryConvert(values[0], m => core = m))
+            //    offset = 1;
+            //else
+            //    core = _default;
 
-                var stop = ToGradientStop(values[i], location);
+            //var stops = ToGradientStops(values, offset);
 
-                if (stop == null)
-                    return null;
+            //if (stops == null)
+            //    return false;
 
-                stops[k] = stop.Value;
-            }
-
-            return stops;
-        }
-
-        public static GradientStop? ToGradientStop(ICssValue value, Length? location)
-        {
-            var values = value as CssValueList;
-            var color = Color.Transparent;
-
-            if (values != null)
-            {
-                if (values.Length != 2)
-                    return null;
-
-                location = values[1].ToDistance();
-                value = values[0];
-            }
-
-            if (!Converters.ColorConverter.TryConvert(value, m => color = m) || location == null)
-                return null;
-
-            return new GradientStop(color, location.Value);
-        }
-
-        public Boolean TryConvert(ICssValue value, Action<Tuple<T, GradientStop[]>> setResult)
-        {
-            var values = value as CssValueList;
-
-            if (values == null || values.Length < MinArgs)
-                return false;
-
-            var offset = 0;
-            var core = default(T);
-
-            if (_arguments.TryConvert(values[0], m => core = m))
-                offset = 1;
-            else
-                core = _default;
-
-            var stops = ToGradientStops(values, offset);
-
-            if (stops == null)
-                return false;
-
-            setResult(Tuple.Create(core, stops));
+            //setResult(Tuple.Create(core, stops));
             return true;
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
-            var values = value as CssValueList;
+            //var values = value as CssValueList;
 
-            if (values == null || values.Length < MinArgs)
-                return false;
+            //if (values == null || values.Length < MinArgs)
+            //    return false;
 
-            var offset = _arguments.Validate(values[0]) ? 1 : 0;
-            return ToGradientStops(values, offset) != null;
+            //var offset = _arguments.Validate(values[0]) ? 1 : 0;
+            //return ToGradientStops(values, offset) != null;
+            return true;
         }
 
         public Int32 MinArgs

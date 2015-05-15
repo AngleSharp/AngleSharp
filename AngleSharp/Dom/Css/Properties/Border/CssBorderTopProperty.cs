@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using AngleSharp.Css;
 
     /// <summary>
     /// More information available at:
@@ -22,7 +22,7 @@
 
         #region Methods
 
-        protected override Boolean IsValid(ICssValue value)
+        protected override Boolean IsValid(CssValue value)
         {
             return CssBorderProperty.Converter.TryConvert(value, m =>
             {

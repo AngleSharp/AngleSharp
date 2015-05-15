@@ -1,9 +1,8 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Extensions;
     using System;
-    using System.Linq;
+    using System.Collections.Generic;
+    using AngleSharp.Parser.Css;
 
     sealed class OneOrMoreValueConverter<T> : IValueConverter<T[]>
     {
@@ -18,37 +17,37 @@
             _maximum = maximum;
         }
 
-        public Boolean TryConvert(ICssValue value, Action<T[]> setResult)
+        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T[]> setResult)
         {
-            var items = value.AsEnumeration().ToArray();
+            //var items = value.AsEnumeration().ToArray();
 
-            if (items.Length < _minimum || items.Length > _maximum)
-                return false;
+            //if (items.Length < _minimum || items.Length > _maximum)
+            //    return false;
 
-            var targets = new T[items.Length];
+            //var targets = new T[items.Length];
 
-            for (var i = 0; i < items.Length; i++)
-            {
-                if (!_converter.TryConvert(items[i], nv => targets[i] = nv))
-                    return false;
-            }
+            //for (var i = 0; i < items.Length; i++)
+            //{
+            //    if (!_converter.TryConvert(items[i], nv => targets[i] = nv))
+            //        return false;
+            //}
 
-            setResult(targets);
+            //setResult(targets);
             return true;
         }
 
-        public Boolean Validate(ICssValue value)
+        public Boolean Validate(IEnumerable<CssToken> value)
         {
-            var items = value.AsEnumeration().ToArray();
+            //var items = value.AsEnumeration().ToArray();
 
-            if (items.Length < _minimum || items.Length > _maximum)
-                return false;
+            //if (items.Length < _minimum || items.Length > _maximum)
+            //    return false;
 
-            for (var i = 0; i < items.Length; i++)
-            {
-                if (!_converter.Validate(items[i]))
-                    return false;
-            }
+            //for (var i = 0; i < items.Length; i++)
+            //{
+            //    if (!_converter.Validate(items[i]))
+            //        return false;
+            //}
 
             return true;
         }
