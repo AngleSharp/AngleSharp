@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using AngleSharp.Parser.Css;
 
     sealed class RequiredValueConverter<T> : IValueConverter<T>
@@ -15,12 +16,12 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
         {
-            return value != null && _converter.TryConvert(value, setResult);
+            return value.Any() && _converter.TryConvert(value, setResult);
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            return value != null && _converter.Validate(value);
+            return value.Any() && _converter.Validate(value);
         }
     }
 }

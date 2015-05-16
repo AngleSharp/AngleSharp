@@ -18,11 +18,13 @@
         {
             var result = _converter(value);
 
-            if (!result.HasValue)
-                return false;
+            if (result.HasValue)
+            {
+                setResult(result.Value);
+                return true;
+            }
 
-            setResult(result.Value);
-            return true;
+            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)

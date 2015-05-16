@@ -18,11 +18,13 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
         {
-            if (!value.Is(_identifier))
-                return false;
+            if (value.Is(_identifier))
+            {
+                setResult(_result);
+                return true;
+            }
 
-            setResult(_result);
-            return true;
+            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)

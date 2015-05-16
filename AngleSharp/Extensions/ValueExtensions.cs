@@ -31,8 +31,10 @@
 
         public static String ToUri(this IEnumerable<CssToken> value)
         {
-            if (value.Count() == 1 && value.First().Type == CssTokenType.Url)
-                return value.First().Data;
+            var element = value.SingleOrDefault();
+
+            if (element != null && element.Type == CssTokenType.Url)
+                return element.Data;
 
             return null;
         }
@@ -106,24 +108,30 @@
 
         public static Percent? ToPercent(this IEnumerable<CssToken> value)
         {
-            if (value.Count() == 1 && value.First().Type == CssTokenType.Percentage)
-                return new Percent(((CssUnitToken)value.First()).Value);
+            var element = value.SingleOrDefault();
+
+            if (element != null && element.Type == CssTokenType.Percentage)
+                return new Percent(((CssUnitToken)element).Value);
 
             return null;
         }
 
         public static String ToCssString(this IEnumerable<CssToken> value)
         {
-            if (value.Count() == 1 && value.First().Type == CssTokenType.String)
-                return value.First().Data;
+            var element = value.SingleOrDefault();
+
+            if (element != null && element.Type == CssTokenType.String)
+                return element.Data;
 
             return null;
         }
 
         public static String ToIdentifier(this IEnumerable<CssToken> value)
         {
-            if (value.Count() == 1 && value.First().Type == CssTokenType.Ident)
-                return value.First().Data.ToLowerInvariant();
+            var element = value.SingleOrDefault();
+
+            if (element != null && element.Type == CssTokenType.Ident)
+                return element.Data.ToLowerInvariant();
 
             return null;
         }
@@ -132,7 +140,9 @@
         {
             var identifier = value.ToIdentifier();
 
-            if (identifier != null && (identifier.Equals(Keywords.All, StringComparison.OrdinalIgnoreCase) || Factory.Properties.IsAnimatable(identifier)))
+            if (identifier != null && 
+                (identifier.Equals(Keywords.All, StringComparison.OrdinalIgnoreCase) || 
+                 Factory.Properties.IsAnimatable(identifier)))
                 return identifier;
 
             return null;
@@ -140,16 +150,20 @@
 
         public static Single? ToSingle(this IEnumerable<CssToken> value)
         {
-            if (value.Count() == 1 && value.First().Type == CssTokenType.Number)
-                return ((CssNumberToken)value.First()).Value;
+            var element = value.SingleOrDefault();
+
+            if (element != null && element.Type == CssTokenType.Number)
+                return ((CssNumberToken)element).Value;
 
             return null;
         }
 
         public static Int32? ToInteger(this IEnumerable<CssToken> value)
         {
-            if (value.Count() == 1 && value.First().Type == CssTokenType.Number && ((CssNumberToken)value.First()).IsInteger)
-                return (Int32)((CssNumberToken)value.First()).Value;
+            var element = value.SingleOrDefault();
+
+            if (element != null && element.Type == CssTokenType.Number && ((CssNumberToken)element).IsInteger)
+                return ((CssNumberToken)element).IntegerValue;
 
             return null;
         }
@@ -166,9 +180,11 @@
 
         public static Angle? ToAngle(this IEnumerable<CssToken> value)
         {
-            if (value.Count() == 1 && value.First().Type == CssTokenType.Dimension)
+            var element = value.SingleOrDefault();
+
+            if (element != null && element.Type == CssTokenType.Dimension)
             {
-                var unit = (CssUnitToken)value.First();
+                var unit = (CssUnitToken)element;
 
                 switch (unit.Unit)
                 {
@@ -188,9 +204,11 @@
 
         public static Frequency? ToFrequency(this IEnumerable<CssToken> value)
         {
-            if (value.Count() == 1 && value.First().Type == CssTokenType.Dimension)
+            var element = value.SingleOrDefault();
+
+            if (element != null && element.Type == CssTokenType.Dimension)
             {
-                var unit = (CssUnitToken)value.First();
+                var unit = (CssUnitToken)element;
 
                 switch (unit.Unit)
                 {
@@ -206,13 +224,13 @@
 
         public static Length? ToLength(this IEnumerable<CssToken> value)
         {
-            if (value.Count() == 1)
-            {
-                var val = value.First();
+            var element = value.SingleOrDefault();
 
-                if (val.Type == CssTokenType.Dimension)
+            if (element != null)
+            {
+                if (element.Type == CssTokenType.Dimension)
                 {
-                    var unit = (CssUnitToken)val;
+                    var unit = (CssUnitToken)element;
 
                     switch (unit.Unit)
                     {
@@ -246,7 +264,7 @@
                             return new Length(unit.Value, Length.Unit.Vw);
                     }
                 }
-                else if (val.Type == CssTokenType.Number && ((CssNumberToken)val).Value == 0f)
+                else if (element.Type == CssTokenType.Number && ((CssNumberToken)element).Value == 0f)
                 {
                     return Length.Zero;
                 }
@@ -257,9 +275,11 @@
 
         public static Resolution? ToResolution(this IEnumerable<CssToken> value)
         {
-            if (value.Count() == 1 && value.First().Type == CssTokenType.Dimension)
+            var element = value.SingleOrDefault();
+
+            if (element != null && element.Type == CssTokenType.Dimension)
             {
-                var unit = (CssUnitToken)value.First();
+                var unit = (CssUnitToken)element;
 
                 switch (unit.Unit)
                 {
@@ -277,9 +297,11 @@
 
         public static Time? ToTime(this IEnumerable<CssToken> value)
         {
-            if (value.Count() == 1 && value.First().Type == CssTokenType.Dimension)
+            var element = value.SingleOrDefault();
+
+            if (element != null && element.Type == CssTokenType.Dimension)
             {
-                var unit = (CssUnitToken)value.First();
+                var unit = (CssUnitToken)element;
 
                 switch (unit.Unit)
                 {
@@ -322,23 +344,24 @@
             return length;
         }
 
+        public static String ToText(this IEnumerable<CssToken> value)
+        {
+            return String.Join(String.Empty, value.Select(m => m.Data));
+        }
+
         public static Color? ToColor(this IEnumerable<CssToken> value)
         {
-            var val = value as CssValue;
+            var colorName = value.ToIdentifier();
 
-            if (val != null && val.Count > 0)
-            {
-                var colorName = value.ToIdentifier();
+            if (colorName != null)
+                return Color.FromName(colorName);
 
-                if (colorName != null)
-                    return Color.FromName(colorName);
+            var colorCode = value.ToText();
+            var color = Color.Black;
 
-                var colorCode = val.CssText;
-                var color = Color.Black;
-
-                if (colorCode[0] == Symbols.Num && Color.TryFromHex(colorCode.Substring(1), out color))
-                    return color;
-            }
+            if (colorCode[0] == Symbols.Num && (colorCode.Length == 4 || colorCode.Length == 7) && 
+                Color.TryFromHex(colorCode.Substring(1), out color))
+                return color;
 
             return null;
         }

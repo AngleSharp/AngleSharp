@@ -18,11 +18,13 @@
         {
             var temp = default(T);
 
-            if (!_values.TryGetValue(value, out temp))
-                return false;
+            if (_values.TryGetValue(value, out temp))
+            {
+                setResult(temp);
+                return true;
+            }
 
-            setResult(temp);
-            return true;
+            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)

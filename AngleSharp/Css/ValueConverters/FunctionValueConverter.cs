@@ -19,23 +19,24 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
         {
-            var f = value as CssValue;
+            if (value.Count() >= 2 && IsFunction(value.First()) && value.Last().Type == CssTokenType.RoundBracketClose)
+            {
+                return _arguments.TryConvert(value.Skip(1).Take(value.Count() - 2), setResult);
+            }
 
-            if (f == null || f.Count < 2 || f[0].Type != CssTokenType.Function || f[0].Data.Equals(_name, StringComparison.OrdinalIgnoreCase) == false || f[f.Count - 1].Type != CssTokenType.RoundBracketClose)
-                return false;
-
-            var parameters = new CssValue(f.Skip(1).Take(f.Count - 2));
-            return _arguments.TryConvert(parameters, setResult);
+            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            var f = value as CssValue;
-            return f != null && f.Count >= 2 && 
-                f[0].Type == CssTokenType.Function && 
-                f[0].Data.Equals(_name, StringComparison.OrdinalIgnoreCase) && 
-                f[f.Count - 1].Type == CssTokenType.RoundBracketClose &&
-                _arguments.Validate(new CssValue(f.Skip(1).Take(f.Count - 2)));
+            return value.Count() >= 2 && IsFunction(value.First()) && 
+                value.Last().Type == CssTokenType.RoundBracketClose &&
+                _arguments.Validate(value.Skip(1).Take(value.Count() - 2));
+        }
+
+        Boolean IsFunction(CssToken value)
+        {
+            return value.Type == CssTokenType.Function && value.Data.Equals(_name, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

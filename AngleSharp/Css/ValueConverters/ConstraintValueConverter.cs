@@ -17,19 +17,21 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
         {
-            var t = default(T);
+            var tmp = default(T);
 
-            if (!_primary.TryConvert(value, m => t = m) || !_constraint(t))
-                return false;
+            if (_primary.TryConvert(value, m => tmp = m) && _constraint(tmp))
+            {
+                setResult(tmp);
+                return true;
+            }
 
-            setResult(t);
-            return true;
+            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            var t = default(T);
-            return _primary.TryConvert(value, m => t = m) && _constraint(t);
+            var tmp = default(T);
+            return _primary.TryConvert(value, m => tmp = m) && _constraint(tmp);
         }
     }
 }

@@ -4,6 +4,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
 
     /// <summary>
@@ -75,7 +76,7 @@
         /// </summary>
         public String CssText
         {
-            get { return String.Join(String.Empty, _tokens.Select(m => m.Data)); }
+            get { return _tokens.ToText(); }
         }
 
         #endregion
