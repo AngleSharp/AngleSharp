@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using AngleSharp.Css;
     using AngleSharp.Css.ValueConverters;
     using AngleSharp.Css.Values;
@@ -17,28 +18,28 @@
     {
         #region Methods
 
-        public static T Convert<T>(this IValueConverter<T> converter, CssValue value)
+        public static T Convert<T>(this IValueConverter<T> converter, IEnumerable<CssToken> value)
         {
             var result = default(T);
             converter.TryConvert(value, m => result = m);
             return result;
         }
 
-        public static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValue list, Action<T> setResult)
+        public static Boolean VaryStart<T>(this IValueConverter<T> converter, IEnumerable<CssToken> list, Action<T> setResult)
         {
             return converter.VaryStart(list, (c, v) => c.TryConvert(v, setResult));
         }
 
-        public static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValue list)
+        public static Boolean VaryStart<T>(this IValueConverter<T> converter, IEnumerable<CssToken> list)
         {
             return converter.VaryStart(list, (c, v) => c.Validate(v));
         }
 
-        static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValue list, Func<IValueConverter<T>, CssValue, Boolean> validate)
+        static Boolean VaryStart<T>(this IValueConverter<T> converter, IEnumerable<CssToken> list, Func<IValueConverter<T>, IEnumerable<CssToken>, Boolean> validate)
         {
             var min = 1;
             var max = Int32.MaxValue;
-            var n = Math.Min(max, list.Count);
+            var n = Math.Min(max, list.Count());
 
             for (int count = n; count >= min; count--)
             {
@@ -54,24 +55,24 @@
             return validate(converter, null);
         }
 
-        public static Boolean VaryAll<T>(this IValueConverter<T> converter, CssValue list, Action<T> setResult)
+        public static Boolean VaryAll<T>(this IValueConverter<T> converter, IEnumerable<CssToken> list, Action<T> setResult)
         {
             return converter.VaryAll(list, (c, v) => c.TryConvert(v, setResult));
         }
 
-        public static Boolean VaryAll<T>(this IValueConverter<T> converter, CssValue list)
+        public static Boolean VaryAll<T>(this IValueConverter<T> converter, IEnumerable<CssToken> list)
         {
             return converter.VaryAll(list, (c, v) => c.Validate(v));
         }
 
-        static Boolean VaryAll<T>(this IValueConverter<T> converter, CssValue list, Func<IValueConverter<T>, CssValue, Boolean> validate)
+        static Boolean VaryAll<T>(this IValueConverter<T> converter, IEnumerable<CssToken> list, Func<IValueConverter<T>, IEnumerable<CssToken>, Boolean> validate)
         {
             var min = 1;
             var max = Int32.MaxValue;
 
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < list.Count(); i++)
             {
-                var n = Math.Min(Math.Min(max, list.Count) + i, list.Count);
+                var n = Math.Min(Math.Min(max, list.Count()) + i, list.Count());
 
                 for (int j = n; j >= i + min; j--)
                 {
