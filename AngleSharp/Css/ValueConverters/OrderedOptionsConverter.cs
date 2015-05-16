@@ -13,16 +13,6 @@
             _converter = converter;
         }
 
-        public Int32 MaxArgs
-        {
-            get { return UInt16.MaxValue; }
-        }
-
-        public Int32 MinArgs
-        {
-            get { return _converter.MinArgs; }
-        }
-
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<T[]> setResult)
         {
             //var values = value as CssValueList;
@@ -84,16 +74,6 @@
             _second = second;
         }
 
-        public Int32 MaxArgs
-        {
-            get { return _first.MaxArgs + _second.MaxArgs; }
-        }
-
-        public Int32 MinArgs
-        {
-            get { return _first.MinArgs + _second.MinArgs; }
-        }
-
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2>> setResult)
         {
             //var values = value as CssValueList;
@@ -151,16 +131,6 @@
             _first = first;
             _second = second;
             _third = third;
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _first.MaxArgs + _second.MaxArgs + _third.MaxArgs; }
-        }
-
-        public Int32 MinArgs
-        {
-            get { return _first.MinArgs + _second.MinArgs + _third.MinArgs; }
         }
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3>> setResult)

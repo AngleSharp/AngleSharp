@@ -51,15 +51,5 @@
 
             return true;
         }
-
-        public Int32 MinArgs
-        {
-            get { return _minimum; }
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _maximum; }
-        }
     }
 }

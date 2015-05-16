@@ -17,16 +17,6 @@
             _second = second;
         }
 
-        public Int32 MaxArgs
-        {
-            get { return _first.MaxArgs + _second.MaxArgs; }
-        }
-
-        public Int32 MinArgs
-        {
-            get { return _first.MinArgs + _second.MinArgs; }
-        }
-
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2>> setResult)
         {
             //var values = value as CssValueList;
@@ -83,16 +73,6 @@
             _first = first;
             _second = second;
             _third = third;
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _first.MaxArgs + _second.MaxArgs + _third.MaxArgs; }
-        }
-
-        public Int32 MinArgs
-        {
-            get { return _first.MinArgs + _second.MinArgs + _third.MinArgs; }
         }
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3>> setResult)
@@ -156,16 +136,6 @@
             _second = second;
             _third = third;
             _fourth = fourth;
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _first.MaxArgs + _second.MaxArgs + _third.MaxArgs + _fourth.MaxArgs; }
-        }
-
-        public Int32 MinArgs
-        {
-            get { return _first.MinArgs + _second.MinArgs + _third.MinArgs + _fourth.MinArgs; }
         }
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3, T4>> setResult)
@@ -234,16 +204,6 @@
             _third = third;
             _fourth = fourth;
             _fifth = fifth;
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _first.MaxArgs + _second.MaxArgs + _third.MaxArgs + _fourth.MaxArgs + _fifth.MaxArgs; }
-        }
-
-        public Int32 MinArgs
-        {
-            get { return _first.MinArgs + _second.MinArgs + _third.MinArgs + _fourth.MinArgs + _fifth.MinArgs; }
         }
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3, T4, T5>> setResult)
@@ -316,16 +276,6 @@
             _fourth = fourth;
             _fifth = fifth;
             _sixth = sixth;
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _first.MaxArgs + _second.MaxArgs + _third.MaxArgs + _fourth.MaxArgs + _fifth.MaxArgs + _sixth.MaxArgs; }
-        }
-
-        public Int32 MinArgs
-        {
-            get { return _first.MinArgs + _second.MinArgs + _third.MinArgs + _fourth.MinArgs + _fifth.MinArgs + _sixth.MinArgs; }
         }
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3, T4, T5, T6>> setResult)
@@ -403,16 +353,6 @@
             _fifth = fifth;
             _sixth = sixth;
             _seventh = seventh;
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _first.MaxArgs + _second.MaxArgs + _third.MaxArgs + _fourth.MaxArgs + _fifth.MaxArgs + _sixth.MaxArgs + _seventh.MaxArgs; }
-        }
-
-        public Int32 MinArgs
-        {
-            get { return _first.MinArgs + _second.MinArgs + _third.MinArgs + _fourth.MinArgs + _fifth.MinArgs + _sixth.MinArgs + _seventh.MinArgs; }
         }
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3, T4, T5, T6, T7>> setResult)
@@ -494,16 +434,6 @@
             _sixth = sixth;
             _seventh = seventh;
             _eighth = eighth;
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _first.MaxArgs + _second.MaxArgs + _third.MaxArgs + _fourth.MaxArgs + _fifth.MaxArgs + _sixth.MaxArgs + _seventh.MaxArgs + _eighth.MaxArgs; }
-        }
-
-        public Int32 MinArgs
-        {
-            get { return _first.MinArgs + _second.MinArgs + _third.MinArgs + _fourth.MinArgs + _fifth.MinArgs + _sixth.MinArgs + _seventh.MinArgs + _eighth.MinArgs; }
         }
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8>>> setResult)

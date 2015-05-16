@@ -37,15 +37,5 @@
                 f[f.Count - 1].Type == CssTokenType.RoundBracketClose &&
                 _arguments.Validate(new CssValue(f.Skip(1).Take(f.Count - 2)));
         }
-
-        public Int32 MinArgs
-        {
-            get { return 1; }
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return 1; }
-        }
     }
 }

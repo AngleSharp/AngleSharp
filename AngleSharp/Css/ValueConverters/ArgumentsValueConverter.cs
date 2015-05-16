@@ -49,16 +49,6 @@
 
             return true;
         }
-
-        public Int32 MinArgs
-        {
-            get { return _converter.MinArgs * _arguments; }
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _converter.MaxArgs * _arguments; }
-        }
     }
 
     sealed class ArgumentsValueConverter<T1, T2> : IValueConverter<Tuple<T1, T2>>
@@ -98,16 +88,6 @@
 
             //return items.Length <= 2 && _first.Validate(items[0]) && _second.Validate(items[1]);
             return true;
-        }
-
-        public Int32 MinArgs
-        {
-            get { return _first.MinArgs + _second.MinArgs; }
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _first.MaxArgs + _second.MaxArgs; }
         }
     }
 
@@ -151,16 +131,6 @@
 
             //return items.Length <= 3 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]);
             return true;
-        }
-
-        public Int32 MinArgs
-        {
-            get { return _first.MinArgs + _second.MinArgs + _third.MinArgs; }
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _first.MaxArgs + _second.MaxArgs + _third.MaxArgs; }
         }
     }
 
@@ -208,16 +178,6 @@
 
             //return items.Length <= 4 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]) && _fourth.Validate(items[3]);
             return true;
-        }
-
-        public Int32 MinArgs
-        {
-            get { return _first.MinArgs + _second.MinArgs + _third.MinArgs + _fourth.MinArgs; }
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _first.MaxArgs + _second.MaxArgs + _third.MaxArgs + _fourth.MaxArgs; }
         }
     }
 }

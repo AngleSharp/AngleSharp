@@ -41,8 +41,8 @@
 
         static Boolean VaryStart<T>(this IValueConverter<T> converter, CssValue list, Func<IValueConverter<T>, CssValue, Boolean> validate)
         {
-            var min = Math.Max(converter.MinArgs, 1);
-            var max = converter.MaxArgs;
+            var min = 1;
+            var max = Int32.MaxValue;
             var n = Math.Min(max, list.Count);
 
             for (int count = n; count >= min; count--)
@@ -71,8 +71,8 @@
 
         static Boolean VaryAll<T>(this IValueConverter<T> converter, CssValue list, Func<IValueConverter<T>, CssValue, Boolean> validate)
         {
-            var min = Math.Max(converter.MinArgs, 1);
-            var max = converter.MaxArgs;
+            var min = 1;
+            var max = Int32.MaxValue;
 
             for (int i = 0; i < list.Count; i++)
             {

@@ -31,15 +31,5 @@
             var t = default(T);
             return _primary.TryConvert(value, m => t = m) && _constraint(t);
         }
-
-        public Int32 MinArgs
-        {
-            get { return _primary.MinArgs; }
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _primary.MaxArgs; }
-        }
     }
 }

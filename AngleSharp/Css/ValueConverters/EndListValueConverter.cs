@@ -72,15 +72,5 @@
             //return values.Length == 0 || _listConverter.Validate(values);
             return true;
         }
-
-        public Int32 MinArgs
-        {
-            get { return _endConverter.MinArgs; }
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return _listConverter.MaxArgs + _endConverter.MaxArgs; }
-        }
     }
 }

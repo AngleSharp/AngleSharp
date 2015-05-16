@@ -98,15 +98,5 @@
             //return ToGradientStops(values, offset) != null;
             return true;
         }
-
-        public Int32 MinArgs
-        {
-            get { return 2; }
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return UInt16.MaxValue; }
-        }
     }
 }

@@ -29,15 +29,5 @@
         {
             return _converter(value).HasValue;
         }
-
-        public Int32 MinArgs
-        {
-            get { return 1; }
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return 1; }
-        }
     }
 }

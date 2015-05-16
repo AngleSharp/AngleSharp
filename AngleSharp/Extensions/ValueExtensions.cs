@@ -29,17 +29,6 @@
             return identifier != null && obj.TryGetValue(identifier, out mode);
         }
 
-        public static String GetIdentifier<T>(this Dictionary<String, T> obj, T value)
-        {
-            foreach (var pair in obj)
-            {
-                if (pair.Value.Equals(value))
-                    return pair.Key;
-            }
-
-            return null;
-        }
-
         public static String ToUri(this IEnumerable<CssToken> value)
         {
             if (value.Count() == 1 && value.First().Type == CssTokenType.Url)

@@ -40,15 +40,5 @@
 
             return true;
         }
-
-        public Int32 MinArgs
-        {
-            get { return _converter.MinArgs; }
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return UInt16.MaxValue; }
-        }
     }
 }

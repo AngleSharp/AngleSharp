@@ -30,15 +30,5 @@
             var mode = default(T);
             return _values.TryGetValue(value, out mode);
         }
-
-        public Int32 MinArgs
-        {
-            get { return 1; }
-        }
-
-        public Int32 MaxArgs
-        {
-            get { return 1; }
-        }
     }
 }
