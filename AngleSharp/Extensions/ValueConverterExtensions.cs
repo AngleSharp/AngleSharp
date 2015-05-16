@@ -25,69 +25,57 @@
             return result;
         }
 
-        public static Boolean VaryStart<T>(this IValueConverter<T> converter, IEnumerable<CssToken> list, Action<T> setResult)
+        public static Boolean VaryStart<T>(this IValueConverter<T> converter, List<CssToken> list, Action<T> setResult)
         {
             return converter.VaryStart(list, (c, v) => c.TryConvert(v, setResult));
         }
 
-        public static Boolean VaryStart<T>(this IValueConverter<T> converter, IEnumerable<CssToken> list)
+        public static Boolean VaryStart<T>(this IValueConverter<T> converter, List<CssToken> list)
         {
             return converter.VaryStart(list, (c, v) => c.Validate(v));
         }
 
-        static Boolean VaryStart<T>(this IValueConverter<T> converter, IEnumerable<CssToken> list, Func<IValueConverter<T>, IEnumerable<CssToken>, Boolean> validate)
+        static Boolean VaryStart<T>(this IValueConverter<T> converter, List<CssToken> list, Func<IValueConverter<T>, IEnumerable<CssToken>, Boolean> validate)
         {
-            var min = 1;
-            var max = Int32.MaxValue;
-            var n = Math.Min(max, list.Count());
-
-            for (int count = n; count >= min; count--)
+            for (int count = list.Count; count > 0; count--)
             {
-                //var subset = count > 1 ? list.Subset(0, count) : list[0];
-
-                //if (validate(converter, subset))
-                //{
-                //    list.RemoveRange(0, count);
-                //    return true;
-                //}
+                if (validate(converter, list.Take(count)))
+                {
+                    list.RemoveRange(0, count);
+                    return true;
+                }
             }
 
-            return validate(converter, null);
+            return validate(converter, Enumerable.Empty<CssToken>());
         }
 
-        public static Boolean VaryAll<T>(this IValueConverter<T> converter, IEnumerable<CssToken> list, Action<T> setResult)
+        public static Boolean VaryAll<T>(this IValueConverter<T> converter, List<CssToken> list, Action<T> setResult)
         {
             return converter.VaryAll(list, (c, v) => c.TryConvert(v, setResult));
         }
 
-        public static Boolean VaryAll<T>(this IValueConverter<T> converter, IEnumerable<CssToken> list)
+        public static Boolean VaryAll<T>(this IValueConverter<T> converter, List<CssToken> list)
         {
             return converter.VaryAll(list, (c, v) => c.Validate(v));
         }
 
-        static Boolean VaryAll<T>(this IValueConverter<T> converter, IEnumerable<CssToken> list, Func<IValueConverter<T>, IEnumerable<CssToken>, Boolean> validate)
+        static Boolean VaryAll<T>(this IValueConverter<T> converter, List<CssToken> list, Func<IValueConverter<T>, IEnumerable<CssToken>, Boolean> validate)
         {
-            var min = 1;
-            var max = Int32.MaxValue;
-
-            for (int i = 0; i < list.Count(); i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                var n = Math.Min(Math.Min(max, list.Count()) + i, list.Count());
-
-                for (int j = n; j >= i + min; j--)
+                for (int j = list.Count; j > i; j--)
                 {
                     var count = j - i;
-                    //var subset = count > 1 ? list.Subset(i, j) : list[i];
 
-                    //if (validate(converter, subset))
-                    //{
-                    //    list.RemoveRange(i, count);
-                    //    return true;
-                    //}
+                    if (validate(converter, list.Skip(i).Take(count)))
+                    {
+                        list.RemoveRange(i, count);
+                        return true;
+                    }
                 }
             }
 
-            return validate(converter, null);
+            return validate(converter, Enumerable.Empty<CssToken>());
         }
 
         public static IValueConverter<T[]> Many<T>(this IValueConverter<T> converter, Int32 min = 1, Int32 max = UInt16.MaxValue)
@@ -150,18 +138,20 @@
 
         public static IValueConverter<T> Or<T>(this IValueConverter<T> primary, String keyword, T value)
         {
-            return new OrValueConverter<T>(primary, new IdentifierValueConverter<T>(keyword, value));
+            var identifier = new IdentifierValueConverter<T>(keyword, value);
+            return new OrValueConverter<T>(primary, identifier);
         }
 
         public static IValueConverter<Nullable<T>> ToNullable<T>(this IValueConverter<T> primary)
             where T : struct
         {
-            return primary.To(m => new T?(m));
+            return primary.To(m => new Nullable<T>(m));
         }
 
         public static IValueConverter<T> OrDefault<T>(this IValueConverter<T> primary)
         {
-            return primary.Or(new IdentifierValueConverter<T>(Keywords.Auto, default(T)));
+            var identifier = new IdentifierValueConverter<T>(Keywords.Auto, default(T));
+            return primary.Or(identifier);
         }
 
         public static IValueConverter<Nullable<T>> OrNullDefault<T>(this IValueConverter<T> primary)
@@ -177,8 +167,7 @@
 
         public static IValueConverter<T> StartsWithKeyword<T>(this IValueConverter<T> converter, String keyword)
         {
-            return new OrderedOptionsConverter<Boolean, T>(
-                new IdentifierValueConverter<Boolean>(keyword, true).Required(), converter.Required()).To(m => m.Item2);
+            return new StartsWithValueConverter<T>(m => m.Type == CssTokenType.Ident && m.Data.Equals(keyword, StringComparison.OrdinalIgnoreCase), converter);
         }
 
         public static IValueConverter<T> StartsWithDelimiter<T>(this IValueConverter<T> converter)
