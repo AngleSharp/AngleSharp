@@ -56,6 +56,7 @@
     <Compile Include="Css\RenderDevice.cs" />
     <Compile Include="Css\RenderStyle.cs" />
     <Compile Include="Css\Converters.cs" />
+    <Compile Include="Css\ValueConverters\StartsWithValueConverter.cs" />
     <Compile Include="Css\ValueConverters\GradientConverter.cs" />
     <Compile Include="Css\ValueConverters\OrderedOptionsConverter.cs" />
     <Compile Include="Css\ValueConverters\UnorderedOptionsConverter.cs" />

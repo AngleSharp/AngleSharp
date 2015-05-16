@@ -7,6 +7,7 @@
     using AngleSharp.Css.ValueConverters;
     using AngleSharp.Css.Values;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
     
     /// <summary>
     /// Essential extensions for using the value converters.
@@ -14,12 +15,6 @@
     [DebuggerStepThrough]
     static class ValueConverterExtensions
     {
-        #region Fields
-
-        static readonly IValueConverter<Boolean> delimiter = new StructValueConverter<Boolean>(m => m != null ? (Boolean?)true : null);//== CssValue.Delimiter
-
-        #endregion
-
         #region Methods
 
         public static T Convert<T>(this IValueConverter<T> converter, CssValue value)
@@ -187,7 +182,7 @@
 
         public static IValueConverter<T> StartsWithDelimiter<T>(this IValueConverter<T> converter)
         {
-            return new OrderedOptionsConverter<Boolean, T>(delimiter.Required(), converter.Required()).To(m => m.Item2);
+            return new StartsWithValueConverter<T>(m => m.Type == CssTokenType.Delim && m.Data == "/", converter);
         }
 
         public static IValueConverter<Color> WithCurrentColor(this IValueConverter<Color> converter)
