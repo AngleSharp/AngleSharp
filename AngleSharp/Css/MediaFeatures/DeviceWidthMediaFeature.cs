@@ -23,14 +23,14 @@
 
         #region Methods
 
-        protected override Boolean TrySetDefault()
+        internal override Boolean TrySetDefault()
         {
             return true;
         }
 
-        protected override Boolean TrySetCustom(ICssValue value)
+        internal override Boolean TrySetCustom(CssValue value)
         {
-            return Converters.LengthConverter.TryConvert((CssValue)value, m => _length = m);
+            return Converters.LengthConverter.TryConvert(value, m => _length = m);
         }
 
         public override Boolean Validate(RenderDevice device)

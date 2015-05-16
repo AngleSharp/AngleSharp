@@ -38,15 +38,15 @@
 
         #region Methods
 
-        protected override Boolean TrySetDefault()
+        internal override Boolean TrySetDefault()
         {
             _interlace = false;
             return true;
         }
 
-        protected override Boolean TrySetCustom(ICssValue value)
+        internal override Boolean TrySetCustom(CssValue value)
         {
-            return Converter.TryConvert((CssValue)value, m => _interlace = m);
+            return Converter.TryConvert(value, m => _interlace = m);
         }
 
         public override Boolean Validate(RenderDevice device)

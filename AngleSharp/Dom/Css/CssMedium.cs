@@ -158,7 +158,7 @@
         /// </summary>
         /// <param name="name">The name of the feature.</param>
         /// <param name="value">The value of the feature, if any.</param>
-        internal Boolean AddConstraint(String name, ICssValue value = null)
+        internal Boolean AddConstraint(String name, CssValue value = null)
         {
             var feature = Factory.MediaFeatures.Create(name);
 

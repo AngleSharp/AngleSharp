@@ -22,14 +22,14 @@
 
         #region Methods
 
-        protected override Boolean TrySetDefault()
+        internal override Boolean TrySetDefault()
         {
             return false;
         }
 
-        protected override Boolean TrySetCustom(ICssValue value)
+        internal override Boolean TrySetCustom(CssValue value)
         {
-            return Converters.RatioConverter.TryConvert((CssValue)value, m => _ratio = m);
+            return Converters.RatioConverter.TryConvert(value, m => _ratio = m);
         }
 
         public override Boolean Validate(RenderDevice device)

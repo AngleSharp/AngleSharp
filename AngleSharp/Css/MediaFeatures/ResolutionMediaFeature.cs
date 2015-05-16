@@ -23,15 +23,15 @@
 
         #region Methods
 
-        protected override Boolean TrySetDefault()
+        internal override Boolean TrySetDefault()
         {
             _res = new Resolution(72f, Resolution.Unit.Dpi);
             return true;
         }
 
-        protected override Boolean TrySetCustom(ICssValue value)
+        internal override Boolean TrySetCustom(CssValue value)
         {
-            return Converters.ResolutionConverter.TryConvert((CssValue)value, m => _res = m);
+            return Converters.ResolutionConverter.TryConvert(value, m => _res = m);
         }
 
         public override Boolean Validate(RenderDevice device)

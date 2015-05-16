@@ -34,15 +34,15 @@
 
         #region Methods
 
-        protected override Boolean TrySetDefault()
+        internal override Boolean TrySetDefault()
         {
             _hover = HoverAbility.Hover;
             return true;
         }
 
-        protected override Boolean TrySetCustom(ICssValue value)
+        internal override Boolean TrySetCustom(CssValue value)
         {
-            return Converter.TryConvert((CssValue)value, m => _hover = m);
+            return Converter.TryConvert(value, m => _hover = m);
         }
 
         public override Boolean Validate(RenderDevice device)

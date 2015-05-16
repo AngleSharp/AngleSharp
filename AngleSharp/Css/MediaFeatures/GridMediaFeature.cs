@@ -24,15 +24,15 @@
 
         #region Methods
 
-        protected override Boolean TrySetDefault()
+        internal override Boolean TrySetDefault()
         {
             _grid = false;
             return true;
         }
 
-        protected override Boolean TrySetCustom(ICssValue value)
+        internal override Boolean TrySetCustom(CssValue value)
         {
-            return Converter.TryConvert((CssValue)value, m => _grid = m == 1);
+            return Converter.TryConvert(value, m => _grid = m == 1);
         }
 
         public override Boolean Validate(RenderDevice device)

@@ -34,15 +34,15 @@
 
         #region Methods
 
-        protected override Boolean TrySetDefault()
+        internal override Boolean TrySetDefault()
         {
             _state = ScriptingState.None;
             return true;
         }
 
-        protected override Boolean TrySetCustom(ICssValue value)
+        internal override Boolean TrySetCustom(CssValue value)
         {
-            return Converter.TryConvert((CssValue)value, m => _state = m);
+            return Converter.TryConvert(value, m => _state = m);
         }
 
         public override Boolean Validate(RenderDevice device)

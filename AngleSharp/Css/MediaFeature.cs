@@ -14,7 +14,7 @@
         readonly Boolean _min;
         readonly Boolean _max;
         readonly String _name;
-        ICssValue _value;
+        CssValue _value;
 
         #endregion
 
@@ -83,21 +83,21 @@
         /// Tries to set the default value.
         /// </summary>
         /// <returns>True if the default value is acceptable, otherwise false.</returns>
-        protected abstract Boolean TrySetDefault();
+        internal abstract Boolean TrySetDefault();
 
         /// <summary>
         /// Tries to set the given value.
         /// </summary>
         /// <param name="value">The value that should be used.</param>
         /// <returns>True if the given value is valid, otherwise false.</returns>
-        protected abstract Boolean TrySetCustom(ICssValue value);
+        internal abstract Boolean TrySetCustom(CssValue value);
 
         /// <summary>
         /// Tries to set the given value.
         /// </summary>
         /// <param name="value">The value that should be used.</param>
         /// <returns>True if the given value is accepted, otherwise false.</returns>
-        internal Boolean TrySetValue(ICssValue value)
+        internal Boolean TrySetValue(CssValue value)
         {
             var result = false;
 
