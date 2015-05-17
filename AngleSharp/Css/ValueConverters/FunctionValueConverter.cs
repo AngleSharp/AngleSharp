@@ -19,19 +19,36 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
         {
-            if (value.Count() >= 2 && IsFunction(value.First()) && value.Last().Type == CssTokenType.RoundBracketClose)
-            {
-                return _arguments.TryConvert(value.Skip(1).Take(value.Count() - 2), setResult);
-            }
-
-            return false;
+            var args = ExtractArguments(value);
+            return args != null && _arguments.TryConvert(args, setResult);
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            return value.Count() >= 2 && IsFunction(value.First()) && 
-                value.Last().Type == CssTokenType.RoundBracketClose &&
-                _arguments.Validate(value.Skip(1).Take(value.Count() - 2));
+            var args = ExtractArguments(value);
+            return args != null && _arguments.Validate(args);
+        }
+
+        List<CssToken> ExtractArguments(IEnumerable<CssToken> value)
+        {
+            var iter = value.GetEnumerator();
+
+            if (iter.MoveNext() && IsFunction(iter.Current))
+            {
+                var tokens = new List<CssToken>();
+
+                while (iter.MoveNext())
+                {
+                    tokens.Add(iter.Current);
+                }
+
+                if (tokens.Count > 0 && tokens[tokens.Count - 1].Type == CssTokenType.RoundBracketClose)
+                {
+                    return tokens;
+                }
+            }
+
+            return null;
         }
 
         Boolean IsFunction(CssToken value)
