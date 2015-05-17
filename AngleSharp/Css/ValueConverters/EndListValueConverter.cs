@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
 
     sealed class EndListValueConverter<T, U> : IValueConverter<Tuple<T[], U>>
@@ -17,60 +18,52 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T[], U>> setResult)
         {
-            //var values = value as CssValueList;
-            //var end = default(ICssValue);
+            var v1 = default(T[]);
+            var v2 = default(U);
+            var items = value.ToList();
+            var end = items[items.Count - 1];
+            items.RemoveAt(items.Count - 1);
+            
+            if (_endConverter.TryConvert(end, m => v2 = m))
+            {
+                if (items.Count == 0)
+                {
+                    v1 = new T[0];
+                }
+                else if (_listConverter.TryConvert(Merge(items), m => v1 = m) == false)
+                {
+                    return false;
+                }
 
-            //if (values != null)
-            //{
-            //    var items = values.ToList();
-            //    end = items[items.Count - 1].Reduce();
-            //    items.RemoveAt(items.Count - 1);
-            //    values = items.ToSeparatedList();
-            //}
-            //else
-            //{
-            //    values = new CssValueList();
-            //    end = value;
-            //}
+                setResult(Tuple.Create(v1, v2));
+                return true;
+            }
 
-            //T[] v1 = default(T[]);
-            //U v2 = default(U);
-
-            //if (!_endConverter.TryConvert(end, m => v2 = m))
-            //    return false;
-
-            //if (values.Length != 0 && !_listConverter.TryConvert(values, m => v1 = m))
-            //    return false;
-            //else if (values.Length == 0)
-            //    v1 = new T[0];
-
-            //setResult(Tuple.Create(v1, v2));
-            return true;
+            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            //var values = value as CssValueList;
-            //var end = default(ICssValue);
+            var items = value.ToList();
+            var end = items[items.Count - 1];
+            items.RemoveAt(items.Count - 1);
+            return _endConverter.Validate(end) && (items.Count == 0 || _listConverter.Validate(Merge(items)));
+        }
 
-            //if (values != null)
-            //{
-            //    var items = values.ToList();
-            //    end = items[items.Count - 1].Reduce();
-            //    items.RemoveAt(items.Count - 1);
-            //    values = items.ToSeparatedList();
-            //}
-            //else
-            //{
-            //    values = new CssValueList();
-            //    end = value;
-            //}
+        static IEnumerable<CssToken> Merge(List<List<CssToken>> items)
+        {
+            var first = true;
 
-            //if (!_endConverter.Validate(end))
-            //    return false;
+            foreach (var item in items)
+            {
+                if (first)
+                    first = false;
+                else
+                    yield return new CssToken(CssTokenType.Comma, ",", TextPosition.Empty);
 
-            //return values.Length == 0 || _listConverter.Validate(values);
-            return true;
+                foreach (var value in item)
+                    yield return value;
+            }
         }
     }
 }

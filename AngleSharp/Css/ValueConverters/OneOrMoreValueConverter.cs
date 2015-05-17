@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
 
     sealed class OneOrMoreValueConverter<T> : IValueConverter<T[]>
@@ -19,37 +20,41 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<T[]> setResult)
         {
-            //var items = value.AsEnumeration().ToArray();
+            var items = value.ToItems();
 
-            //if (items.Length < _minimum || items.Length > _maximum)
-            //    return false;
+            if (items.Count >= _minimum || items.Count <= _maximum)
+            {
+                var targets = new T[items.Count];
 
-            //var targets = new T[items.Length];
+                for (var i = 0; i != items.Count; i++)
+                {
+                    if (!_converter.TryConvert(items[i], nv => targets[i] = nv))
+                        return false;
+                }
 
-            //for (var i = 0; i < items.Length; i++)
-            //{
-            //    if (!_converter.TryConvert(items[i], nv => targets[i] = nv))
-            //        return false;
-            //}
+                setResult(targets);
+                return true;
+            }
 
-            //setResult(targets);
-            return true;
+            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            //var items = value.AsEnumeration().ToArray();
+            var items = value.ToItems();
 
-            //if (items.Length < _minimum || items.Length > _maximum)
-            //    return false;
+            if (items.Count >= _minimum || items.Count <= _maximum)
+            {
+                foreach (var item in items)
+                {
+                    if (!_converter.Validate(item))
+                        return false;
+                }
 
-            //for (var i = 0; i < items.Length; i++)
-            //{
-            //    if (!_converter.Validate(items[i]))
-            //        return false;
-            //}
+                return true;
+            }
 
-            return true;
+            return false;
         }
     }
 }

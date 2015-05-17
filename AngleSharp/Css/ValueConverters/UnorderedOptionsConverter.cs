@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
+    using System;
+    using System.Collections.Generic;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
-    using System;
     using AngleSharp.Parser.Css;
-    using System.Collections.Generic;
 
     sealed class UnorderedOptionsConverter<T1, T2> : IValueConverter<Tuple<T1, T2>>
     {
