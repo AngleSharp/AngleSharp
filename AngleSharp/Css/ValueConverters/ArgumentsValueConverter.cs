@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
 
     sealed class ArgumentsValueConverter<T> : IValueConverter<T[]>
@@ -17,37 +18,45 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<T[]> setResult)
         {
-            //var items = value as CssValueList;
+            var items = value.ToList();
 
-            //if (items == null || items.Length != _arguments)
-            //    return false;
+            if (items.Count == _arguments)
+            {
+                var array = new T[_arguments];
 
-            //var array = new T[_arguments];
+                for (int i = 0; i < _arguments; i++)
+                {
+                    if (!_converter.TryConvert(items[i], m => array[i] = m))
+                    {
+                        return false;
+                    }
+                }
 
-            //for (int i = 0; i < _arguments; i++)
-            //{
-            //    if (!_converter.TryConvert(items[i], m => array[i] = m))
-            //        return false;
-            //}
+                setResult(array);
+                return true;
+            }
 
-            //setResult(array);
-            return true;
+            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            //var items = value as CssValueList;
+            var items = value.ToList();
 
-            //if (items == null || items.Length != _arguments)
-            //    return false;
+            if (items.Count == _arguments)
+            {
+                for (int i = 0; i < _arguments; i++)
+                {
+                    if (!_converter.Validate(items[i]))
+                    {
+                        return false;
+                    }
+                }
 
-            //for (int i = 0; i < _arguments; i++)
-            //{
-            //    if (!_converter.Validate(items[i]))
-            //        return false;
-            //}
+                return true;
+            }
 
-            return true;
+            return false;
         }
     }
 
@@ -64,30 +73,27 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2>> setResult)
         {
-            //var items = value as CssValueList;
+            var items = value.ToList();
 
-            //if (items == null || items.Length > 2)
-            //    return false;
+            if (items.Count == 2)
+            {
+                var t1 = default(T1);
+                var t2 = default(T2);
 
-            //var t1 = default(T1);
-            //var t2 = default(T2);
+                if (_first.TryConvert(items[0], t => t1 = t) && _second.TryConvert(items[1], t => t2 = t))
+                {
+                    setResult(Tuple.Create(t1, t2));
+                    return true;
+                }
+            }
 
-            //if (!_first.TryConvert(items[0], t => t1 = t) || !_second.TryConvert(items[1], t => t2 = t))
-            //    return false;
-
-            //setResult(Tuple.Create(t1, t2));
-            return true;
+            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            //var items = value as CssValueList;
-
-            //if (items == null)
-            //    return false;
-
-            //return items.Length <= 2 && _first.Validate(items[0]) && _second.Validate(items[1]);
-            return true;
+            var items = value.ToList();
+            return items.Count == 2 && _first.Validate(items[0]) && _second.Validate(items[1]);
         }
     }
 
@@ -106,31 +112,28 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3>> setResult)
         {
-            //var items = value as CssValueList;
+            var items = value.ToList();
 
-            //if (items == null || items.Length > 3)
-            //    return false;
+            if (items.Count == 3)
+            {
+                var t1 = default(T1);
+                var t2 = default(T2);
+                var t3 = default(T3);
 
-            //var t1 = default(T1);
-            //var t2 = default(T2);
-            //var t3 = default(T3);
+                if (_first.TryConvert(items[0], t => t1 = t) && _second.TryConvert(items[1], t => t2 = t) && _third.TryConvert(items[2], t => t3 = t))
+                {
+                    setResult(Tuple.Create(t1, t2, t3));
+                    return true;
+                }
+            }
 
-            //if (!_first.TryConvert(items[0], t => t1 = t) || !_second.TryConvert(items[1], t => t2 = t) || !_third.TryConvert(items[2], t => t3 = t))
-            //    return false;
-
-            //setResult(Tuple.Create(t1, t2, t3));
-            return true;
+            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            //var items = value as CssValueList;
-
-            //if (items == null)
-            //    return false;
-
-            //return items.Length <= 3 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]);
-            return true;
+            var items = value.ToList();
+            return items.Count == 3 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]);
         }
     }
 
@@ -151,33 +154,29 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3, T4>> setResult)
         {
-            //var items = value as CssValueList;
+            var items = value.ToList();
 
-            //if (items == null || items.Length > 4)
-            //    return false;
+            if (items.Count == 4)
+            {
+                var t1 = default(T1);
+                var t2 = default(T2);
+                var t3 = default(T3);
+                var t4 = default(T4);
 
-            //var t1 = default(T1);
-            //var t2 = default(T2);
-            //var t3 = default(T3);
-            //var t4 = default(T4);
+                if (_first.TryConvert(items[0], t => t1 = t) && _second.TryConvert(items[1], t => t2 = t) && _third.TryConvert(items[2], t => t3 = t) && _fourth.TryConvert(items[3], t => t4 = t))
+                {
+                    setResult(Tuple.Create(t1, t2, t3, t4));
+                    return true;
+                }
+            }
 
-            //if (!_first.TryConvert(items[0], t => t1 = t) || !_second.TryConvert(items[1], t => t2 = t) ||
-            //    !_third.TryConvert(items[2], t => t3 = t) || !_fourth.TryConvert(items[3], t => t4 = t))
-            //    return false;
-
-            //setResult(Tuple.Create(t1, t2, t3, t4));
-            return true;
+            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            //var items = value as CssValueList;
-
-            //if (items == null)
-            //    return false;
-
-            //return items.Length <= 4 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]) && _fourth.Validate(items[3]);
-            return true;
+            var items = value.ToList();
+            return items.Count == 4 && _first.Validate(items[0]) && _second.Validate(items[1]) && _third.Validate(items[2]) && _fourth.Validate(items[3]);
         }
     }
 }
