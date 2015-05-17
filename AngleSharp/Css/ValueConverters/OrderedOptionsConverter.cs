@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
 
     sealed class OrderedOptionsConverter<T> : IValueConverter<T[]>
@@ -15,49 +17,32 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<T[]> setResult)
         {
-            //var values = value as CssValueList;
+            var list = new List<CssToken>(value);
+            var items = new List<T>();
 
-            //if (values != null)
-            //    values = values.Copy();
-            //else if (value != null)
-            //    values = new CssValueList(value);
-            //else
-            //    values = new CssValueList();
+            while (list.Count != 0)
+            {
+                if (_converter.VaryStart(list, m => items.Add(m)) == false)
+                {
+                    return false;
+                }
+            }
 
-            //if (values.Length < MinArgs)
-            //    return false;
-
-            //var items = new List<T>();
-
-            //while (values.Length != 0)
-            //{
-            //    if (!_converter.VaryStart(values, m => items.Add(m)))
-            //        return false;
-            //}
-
-            //setResult(items.ToArray());
+            setResult(items.ToArray());
             return true;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            //var values = value as CssValueList;
+            var list = new List<CssToken>(value);
 
-            //if (values != null)
-            //    values = values.Copy();
-            //else if (value != null)
-            //    values = new CssValueList(value);
-            //else
-            //    values = new CssValueList();
-
-            //if (values.Length < MinArgs)
-            //    return false;
-
-            //while (values.Length != 0)
-            //{
-            //    if (!_converter.VaryStart(values))
-            //        return false;
-            //}
+            while (list.Count != 0)
+            {
+                if (_converter.VaryStart(list) == false)
+                {
+                    return false;
+                }
+            }
 
             return true;
         }
@@ -76,47 +61,23 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2>> setResult)
         {
-            //var values = value as CssValueList;
+            var list = new List<CssToken>(value);
+            var t1 = default(T1);
+            var t2 = default(T2);
 
-            //if (values != null)
-            //    values = values.Copy();
-            //else if (value != null)
-            //    values = new CssValueList(value);
-            //else
-            //    values = new CssValueList();
+            if (_first.VaryStart(list, m => t1 = m) && _second.VaryStart(list, m => t2 = m) && list.Count == 0)
+            {
+                setResult(Tuple.Create(t1, t2));
+                return true;
+            }
 
-            //if (values.Length < MinArgs && values.Length > MaxArgs)
-            //    return false;
-
-            //var t1 = default(T1);
-            //var t2 = default(T2);
-
-            //if (!_first.VaryStart(values, m => t1 = m) ||
-            //    !_second.VaryStart(values, m => t2 = m) ||
-            //    values.Length != 0)
-            //    return false;
-
-            //setResult(Tuple.Create(t1, t2));
-            return true;
+            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            //var values = value as CssValueList;
-
-            //if (values != null)
-            //    values = values.Copy();
-            //else if (value != null)
-            //    values = new CssValueList(value);
-            //else
-            //    values = new CssValueList();
-
-            //if (values.Length < MinArgs && values.Length > MaxArgs)
-            //    return false;
-
-            //return _first.VaryStart(values) && _second.VaryStart(values) &&
-            //       values.Length == 0;
-            return true;
+            var list = new List<CssToken>(value);
+            return _first.VaryStart(list) && _second.VaryStart(list) && list.Count == 0;
         }
     }
 
@@ -135,49 +96,24 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3>> setResult)
         {
-            //var values = value as CssValueList;
+            var list = new List<CssToken>(value);
+            var t1 = default(T1);
+            var t2 = default(T2);
+            var t3 = default(T3);
 
-            //if (values != null)
-            //    values = values.Copy();
-            //else if (value != null)
-            //    values = new CssValueList(value);
-            //else
-            //    values = new CssValueList();
+            if (_first.VaryStart(list, m => t1 = m) && _second.VaryStart(list, m => t2 = m) && _third.VaryStart(list, m => t3 = m) && list.Count == 0)
+            {
+                setResult(Tuple.Create(t1, t2, t3));
+                return true;
+            }
 
-            //if (values.Length < MinArgs && values.Length > MaxArgs)
-            //    return false;
-
-            //var t1 = default(T1);
-            //var t2 = default(T2);
-            //var t3 = default(T3);
-
-            //if (!_first.VaryStart(values, m => t1 = m) ||
-            //    !_second.VaryStart(values, m => t2 = m) ||
-            //    !_third.VaryStart(values, m => t3 = m) ||
-            //    values.Length != 0)
-            //    return false;
-
-            //setResult(Tuple.Create(t1, t2, t3));
-            return true;
+            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            //var values = value as CssValueList;
-
-            //if (values != null)
-            //    values = values.Copy();
-            //else if (value != null)
-            //    values = new CssValueList(value);
-            //else
-            //    values = new CssValueList();
-
-            //if (values.Length < MinArgs && values.Length > MaxArgs)
-            //    return false;
-
-            //return _first.VaryStart(values) && _second.VaryStart(values) &&
-            //       _third.VaryStart(values) && values.Length == 0;
-            return true;
+            var list = new List<CssToken>(value);
+            return _first.VaryStart(list) && _second.VaryStart(list) && _third.VaryStart(list) && list.Count == 0;
         }
     }
 }
