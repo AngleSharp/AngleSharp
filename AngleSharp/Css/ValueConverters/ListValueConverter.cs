@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
 
     sealed class ListValueConverter<T> : IValueConverter<T[]>
@@ -15,28 +16,32 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<T[]> setResult)
         {
-            //var items = (value as CssValueList ?? new CssValueList(value)).ToList();
-            //var targets = new T[items.Count];
+            var items = value.ToList();
+            var targets = new T[items.Count];
 
-            //for (var i = 0; i < items.Count; i++)
-            //{
-            //    if (!_converter.TryConvert(items[i].Reduce(), nv => targets[i] = nv))
-            //        return false;
-            //}
+            for (var i = 0; i < items.Count; i++)
+            {
+                if (!_converter.TryConvert(items[i], nv => targets[i] = nv))
+                {
+                    return false;
+                }
+            }
 
-            //setResult(targets);
+            setResult(targets);
             return true;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            //var items = (value as CssValueList ?? new CssValueList(value)).ToList();
+            var items = value.ToList();
 
-            //foreach (var item in items)
-            //{
-            //    if (!_converter.Validate(item.Reduce()))
-            //        return false;
-            //}
+            foreach (var item in items)
+            {
+                if (!_converter.Validate(item))
+                {
+                    return false;
+                }
+            }
 
             return true;
         }

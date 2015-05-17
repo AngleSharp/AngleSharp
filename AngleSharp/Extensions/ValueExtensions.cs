@@ -344,6 +344,36 @@
             return length;
         }
 
+        public static List<List<CssToken>> ToList(this IEnumerable<CssToken> value)
+        {
+            var list = new List<List<CssToken>>();
+            var current = new List<CssToken>();
+            var nested = 0;
+            list.Add(current);
+
+            foreach (var token in value)
+            {
+                if (nested == 0 && token.Type == CssTokenType.Comma)
+                {
+                    current = new List<CssToken>();
+                    list.Add(current);
+                    continue;
+                }
+                else if (token.Type == CssTokenType.Function || token.Type == CssTokenType.RoundBracketOpen)
+                {
+                    nested++;
+                }
+                else if (token.Type == CssTokenType.RoundBracketClose)
+                {
+                    nested--;
+                }
+
+                current.Add(token);
+            }
+
+            return list;
+        }
+
         public static String ToText(this IEnumerable<CssToken> value)
         {
             return String.Join(String.Empty, value.Select(m => m.Data));
