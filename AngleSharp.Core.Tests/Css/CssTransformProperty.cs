@@ -163,8 +163,7 @@
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CssValueList)concrete.Value;
-            Assert.AreEqual("15% 25%", value.CssText);
+            Assert.AreEqual("15% 25%", concrete.Value.CssText);
         }
 
         [Test]
@@ -179,8 +178,7 @@
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CssValueList)concrete.Value;
-            Assert.AreEqual("left center", value.CssText);
+            Assert.AreEqual("left center", concrete.Value.CssText);
         }
 
         [Test]
@@ -195,8 +193,7 @@
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CssValueList)concrete.Value;
-            Assert.AreEqual("right bottom", value.CssText);
+            Assert.AreEqual("right bottom", concrete.Value.CssText);
         }
 
         [Test]
@@ -211,8 +208,7 @@
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsTrue(concrete.HasValue);
-            var value = (CssValueList)concrete.Value;
-            Assert.AreEqual("top center", value.CssText);
+            Assert.AreEqual("top center", concrete.Value.CssText);
         }
 
         [Test]

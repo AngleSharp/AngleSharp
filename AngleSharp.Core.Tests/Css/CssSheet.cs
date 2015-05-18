@@ -538,10 +538,7 @@ h1 { color: blue }");
             Assert.AreEqual("font-family", prop.Name);
             Assert.IsFalse(prop.IsImportant);
             Assert.AreEqual(CssValueType.List, prop.Value.Type);
-
-            var value = prop.Value as CssValueList;
-            Assert.AreEqual(7, value.Length);
-            Assert.AreEqual("\"Helvetica Neue\", helvetica, arial, sans-serif", value.CssText);
+            Assert.AreEqual("\"Helvetica Neue\", Helvetica, Arial, Sans-Serif", prop.Value.CssText);
         }
 
         [Test]

@@ -1,4 +1,4 @@
-﻿using AngleSharp.Dom.Css;
+﻿using AngleSharp.Css.Values;
 using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests

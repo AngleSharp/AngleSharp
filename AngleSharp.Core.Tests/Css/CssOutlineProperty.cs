@@ -1,5 +1,6 @@
 ﻿using AngleSharp;
 using AngleSharp.Css;
+using AngleSharp.Css.Values;
 using AngleSharp.Dom.Css;
 using AngleSharp.Parser.Css;
 using NUnit.Framework;
