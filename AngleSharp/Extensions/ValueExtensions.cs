@@ -16,6 +16,25 @@
     {
         #region Transformers
 
+        public static CssToken OnlyOrDefault(this IEnumerable<CssToken> value)
+        {
+            var result = default(CssToken);
+
+            foreach (var item in value)
+            {
+                if (result == null)
+                {
+                    result = item;
+                    continue;
+                }
+
+                result = default(CssToken);
+                break;
+            }
+
+            return result;
+        }
+
         public static Boolean Is(this IEnumerable<CssToken> value, String expected)
         {
             var identifier = value.ToIdentifier();
@@ -31,7 +50,7 @@
 
         public static String ToUri(this IEnumerable<CssToken> value)
         {
-            var element = value.SingleOrDefault();
+            var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Url)
                 return element.Data;
@@ -108,7 +127,7 @@
 
         public static Percent? ToPercent(this IEnumerable<CssToken> value)
         {
-            var element = value.SingleOrDefault();
+            var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Percentage)
                 return new Percent(((CssUnitToken)element).Value);
@@ -118,7 +137,7 @@
 
         public static String ToCssString(this IEnumerable<CssToken> value)
         {
-            var element = value.SingleOrDefault();
+            var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.String)
                 return element.Data;
@@ -128,7 +147,7 @@
 
         public static String ToIdentifier(this IEnumerable<CssToken> value)
         {
-            var element = value.SingleOrDefault();
+            var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Ident)
                 return element.Data.ToLowerInvariant();
@@ -150,7 +169,7 @@
 
         public static Single? ToSingle(this IEnumerable<CssToken> value)
         {
-            var element = value.SingleOrDefault();
+            var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Number)
                 return ((CssNumberToken)element).Value;
@@ -160,7 +179,7 @@
 
         public static Int32? ToInteger(this IEnumerable<CssToken> value)
         {
-            var element = value.SingleOrDefault();
+            var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Number && ((CssNumberToken)element).IsInteger)
                 return ((CssNumberToken)element).IntegerValue;
@@ -180,7 +199,7 @@
 
         public static Angle? ToAngle(this IEnumerable<CssToken> value)
         {
-            var element = value.SingleOrDefault();
+            var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Dimension)
             {
@@ -204,7 +223,7 @@
 
         public static Frequency? ToFrequency(this IEnumerable<CssToken> value)
         {
-            var element = value.SingleOrDefault();
+            var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Dimension)
             {
@@ -224,7 +243,7 @@
 
         public static Length? ToLength(this IEnumerable<CssToken> value)
         {
-            var element = value.SingleOrDefault();
+            var element = value.OnlyOrDefault();
 
             if (element != null)
             {
@@ -275,7 +294,7 @@
 
         public static Resolution? ToResolution(this IEnumerable<CssToken> value)
         {
-            var element = value.SingleOrDefault();
+            var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Dimension)
             {
@@ -297,7 +316,7 @@
 
         public static Time? ToTime(this IEnumerable<CssToken> value)
         {
-            var element = value.SingleOrDefault();
+            var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Dimension)
             {
