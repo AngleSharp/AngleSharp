@@ -17,6 +17,8 @@
         readonly CssValueType _type;
         readonly List<CssToken> _tokens;
 
+        public static CssValue Initial = new CssValue(new []{ new CssKeywordToken(CssTokenType.Ident, "initial", TextPosition.Empty) });
+
         #endregion
 
         #region ctor

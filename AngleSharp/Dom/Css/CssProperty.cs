@@ -92,7 +92,7 @@
         /// </summary>
         internal CssValue Value
         {
-            get { return _value; }// ?? CssValue.Initial
+            get { return _value ?? CssValue.Initial; }
         }
 
         #endregion
@@ -104,7 +104,7 @@
         /// </summary>
         public Boolean IsInherited
         {
-            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || _value.Type == CssValueType.Inherit; }
+            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || Value.Type == CssValueType.Inherit; }
         }
 
         /// <summary>
