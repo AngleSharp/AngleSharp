@@ -377,9 +377,8 @@ h1 { color: blue }");
         public void CssCreateValueListSpaces()
         {
             var valueString = "  ";
-            var list = CssParser.ParseValue(valueString) as CssValue;
-            Assert.AreEqual(CssValueType.Custom, list.Type);
-            Assert.AreEqual(0, list.Count);
+            var value = CssParser.ParseValue(valueString);
+            Assert.IsNull(value);
         }
 
         [Test]
