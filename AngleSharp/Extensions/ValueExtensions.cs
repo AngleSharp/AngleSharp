@@ -410,7 +410,7 @@
 
         public static String ToText(this IEnumerable<CssToken> value)
         {
-            return String.Join(String.Empty, value.Select(m => m.Data));
+            return String.Join(String.Empty, value.Select(m => m.ToValue()));
         }
 
         public static Color? ToColor(this IEnumerable<CssToken> value)
