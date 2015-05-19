@@ -397,6 +397,14 @@
             return list;
         }
 
+        public static void Trim(this List<CssToken> value)
+        {
+            while (value.Count > 0 && value[value.Count - 1].Type == CssTokenType.Whitespace)
+            {
+                value.RemoveAt(value.Count - 1);
+            }
+        }
+
         public static List<List<CssToken>> ToList(this IEnumerable<CssToken> value)
         {
             var list = new List<List<CssToken>>();
@@ -430,13 +438,7 @@
 
             for (var i = 0; i < list.Count; i++)
             {
-                var items = list[i];
-
-                while (items.Count > 0 && items[items.Count - 1].Type == CssTokenType.Whitespace)
-                {
-                    items.RemoveAt(items.Count - 1);
-                }
-
+                list[i].Trim();
             }
 
             return list;

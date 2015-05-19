@@ -50,6 +50,7 @@
             if (position != null)
             {
                 value.RemoveAt(value.Count - 1);
+                value.Trim();
             }
             else
             {
