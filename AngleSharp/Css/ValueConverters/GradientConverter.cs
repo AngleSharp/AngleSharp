@@ -45,21 +45,24 @@
         public static GradientStop? ToGradientStop(List<CssToken> value, Length? location)
         {
             var color = Color.Transparent;
-            var position = value.Skip(value.Count - 1).ToDistance();
+            var items = value.ToItems();
+            var position = default(Length?);
 
-            if (position != null)
+            if (items.Count != 0)
             {
-                value.RemoveAt(value.Count - 1);
-                value.Trim();
-            }
-            else
-            {
-                position = location;
-            }
+                if ((position = items[items.Count - 1].ToDistance()) != null)
+                {
+                    items.RemoveAt(items.Count - 1);
+                }
+                else
+                {
+                    position = location;
+                }
 
-            if (Converters.ColorConverter.TryConvert(value, m => color = m))
-            {
-                return new GradientStop(color, location.Value);
+                if (items.Count == 0 || (items.Count == 1 && Converters.ColorConverter.TryConvert(items[0], m => color = m)))
+                {
+                    return new GradientStop(color, location.Value);
+                }
             }
 
             return null;
