@@ -44,6 +44,7 @@
 
                 if (tokens.Count > 0 && tokens[tokens.Count - 1].Type == CssTokenType.RoundBracketClose)
                 {
+                    tokens.RemoveAt(tokens.Count - 1);
                     return tokens;
                 }
             }
