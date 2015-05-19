@@ -420,8 +420,23 @@
                 {
                     nested--;
                 }
+                else if (token.Type == CssTokenType.Whitespace && current.Count == 0)
+                {
+                    continue;
+                }
 
                 current.Add(token);
+            }
+
+            for (var i = 0; i < list.Count; i++)
+            {
+                var items = list[i];
+
+                while (items.Count > 0 && items[items.Count - 1].Type == CssTokenType.Whitespace)
+                {
+                    items.RemoveAt(items.Count - 1);
+                }
+
             }
 
             return list;
