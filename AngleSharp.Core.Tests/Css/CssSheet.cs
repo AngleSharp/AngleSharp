@@ -341,11 +341,11 @@ h1 { color: blue }");
             var list = CssParser.ParseValue(valueString) as CssValue;
             Assert.AreEqual(CssValueType.List, list.Type);
             Assert.AreEqual(5, list.Count);
-            Assert.AreEqual(list[0].Data, "24px");
-            Assert.AreEqual(list[1].Data, " ");
-            Assert.AreEqual(list[2].Data, "12px");
-            Assert.AreEqual(list[3].Data, " ");
-            Assert.AreEqual(list[4].Data, "6px");
+            Assert.AreEqual(list[0].ToValue(), "24px");
+            Assert.AreEqual(list[1].ToValue(), " ");
+            Assert.AreEqual(list[2].ToValue(), "12px");
+            Assert.AreEqual(list[3].ToValue(), " ");
+            Assert.AreEqual(list[4].ToValue(), "6px");
         }
 
         [Test]
@@ -355,22 +355,21 @@ h1 { color: blue }");
             var list = CssParser.ParseValue(valueString) as CssValue;
             Assert.AreEqual(CssValueType.List, list.Type);
             Assert.AreEqual(7, list.Count);
-            Assert.AreEqual(list[0].Data, "24px");
-            Assert.AreEqual(list[1].Data, " ");
-            Assert.AreEqual(list[2].Data, "12px");
-            Assert.AreEqual(list[3].Data, " ");
-            Assert.AreEqual(list[4].Data, "6px");
-            Assert.AreEqual(list[5].Data, " ");
-            Assert.AreEqual(list[6].Data, "13px");
+            Assert.AreEqual(list[0].ToValue(), "24px");
+            Assert.AreEqual(list[1].ToValue(), " ");
+            Assert.AreEqual(list[2].ToValue(), "12px");
+            Assert.AreEqual(list[3].ToValue(), " ");
+            Assert.AreEqual(list[4].ToValue(), "6px");
+            Assert.AreEqual(list[5].ToValue(), " ");
+            Assert.AreEqual(list[6].ToValue(), "13px");
         }
 
         [Test]
         public void CssCreateValueListEmpty()
         {
             var valueString = "";
-            var list = CssParser.ParseValue(valueString) as CssValue;
-            Assert.AreEqual(CssValueType.Custom, list.Type);
-            Assert.AreEqual(0, list.Count);
+            var value = CssParser.ParseValue(valueString);
+            Assert.IsNull(value);
         }
 
         [Test]
@@ -408,12 +407,12 @@ h1 { color: blue }");
             var valueString = "Arial 10pt bold, Verdana 12pt italic";
             var list = CssParser.ParseValue(valueString) as CssValue;
             Assert.AreEqual(12, list.Count);
-            Assert.AreEqual("Arial", list[0].Data);
-            Assert.AreEqual("Verdana", list[7].Data);
-            Assert.AreEqual("10pt", list[2].Data);
-            Assert.AreEqual("12pt", list[9].Data);
-            Assert.AreEqual("bold", list[4].Data);
-            Assert.AreEqual("italic", list[11].Data);
+            Assert.AreEqual("Arial", list[0].ToValue());
+            Assert.AreEqual("Verdana", list[7].ToValue());
+            Assert.AreEqual("10pt", list[2].ToValue());
+            Assert.AreEqual("12pt", list[9].ToValue());
+            Assert.AreEqual("bold", list[4].ToValue());
+            Assert.AreEqual("italic", list[11].ToValue());
         }
 
         [Test]
@@ -422,10 +421,10 @@ h1 { color: blue }");
             var valueString = "  Arial  ,  Verdana  ,Helvetica,Sans-Serif   ";
             var list = CssParser.ParseValue(valueString) as CssValue;
             Assert.AreEqual(10, list.Count);
-            Assert.AreEqual("Arial", list[0].Data);
-            Assert.AreEqual("Verdana", list[4].Data);
-            Assert.AreEqual("Helvetica", list[7].Data);
-            Assert.AreEqual("Sans-Serif", list[9].Data);
+            Assert.AreEqual("Arial", list[0].ToValue());
+            Assert.AreEqual("Verdana", list[4].ToValue());
+            Assert.AreEqual("Helvetica", list[7].ToValue());
+            Assert.AreEqual("Sans-Serif", list[9].ToValue());
         }
 
         [Test]
