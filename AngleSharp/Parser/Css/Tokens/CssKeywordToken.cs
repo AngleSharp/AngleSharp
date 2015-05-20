@@ -36,6 +36,8 @@
                     return "#" + Data;
                 case CssTokenType.AtKeyword:
                     return "@" + Data;
+                case CssTokenType.Function:
+                    return Data + "(";
                 default:
                     return Data;
             }
