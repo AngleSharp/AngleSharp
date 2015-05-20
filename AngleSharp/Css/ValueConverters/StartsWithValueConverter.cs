@@ -17,15 +17,17 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
         {
-            return _converter.TryConvert(Transform(value), setResult);
+            var rest = Transform(value);
+            return rest != null && _converter.TryConvert(rest, setResult);
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            return _converter.Validate(Transform(value));
+            var rest = Transform(value);
+            return rest != null && _converter.Validate(rest);
         }
 
-        IEnumerable<CssToken> Transform(IEnumerable<CssToken> values)
+        List<CssToken> Transform(IEnumerable<CssToken> values)
         {
             var enumerator = values.GetEnumerator();
 
@@ -37,9 +39,20 @@
 
             if (_condition(enumerator.Current))
             {
+                var list = new List<CssToken>();
+
                 while (enumerator.MoveNext())
-                    yield return enumerator.Current;
+                {
+                    if (enumerator.Current.Type == CssTokenType.Whitespace && list.Count == 0)
+                        continue;
+
+                    list.Add(enumerator.Current);
+                }
+
+                return list;
             }
+
+            return null;
         }
     }
 }
