@@ -39,9 +39,10 @@
         {
             for (int count = list.Count; count > 0; count--)
             {
-                if (validate(converter, list.Take(count)))
+                if (list[count - 1].Type != CssTokenType.Whitespace && validate(converter, list.Take(count)))
                 {
                     list.RemoveRange(0, count);
+                    list.Trim();
                     return true;
                 }
             }
@@ -63,13 +64,17 @@
         {
             for (int i = 0; i < list.Count; i++)
             {
+                if (list[i].Type == CssTokenType.Whitespace)
+                    continue;
+
                 for (int j = list.Count; j > i; j--)
                 {
                     var count = j - i;
 
-                    if (validate(converter, list.Skip(i).Take(count)))
+                    if (list[j - 1].Type != CssTokenType.Whitespace && validate(converter, list.Skip(i).Take(count)))
                     {
                         list.RemoveRange(i, count);
+                        list.Trim();
                         return true;
                     }
                 }

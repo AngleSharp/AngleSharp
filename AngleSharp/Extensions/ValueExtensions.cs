@@ -399,10 +399,21 @@
 
         public static void Trim(this List<CssToken> value)
         {
-            while (value.Count > 0 && value[value.Count - 1].Type == CssTokenType.Whitespace)
+            var begin = 0;
+            var end = value.Count - 1;
+
+            while (begin < end)
             {
-                value.RemoveAt(value.Count - 1);
+                if (value[begin].Type == CssTokenType.Whitespace)
+                    begin++;
+                else if (value[end].Type == CssTokenType.Whitespace)
+                    end--;
+                else
+                    break;
             }
+
+            value.RemoveRange(++end, value.Count - end);
+            value.RemoveRange(0, begin);
         }
 
         public static List<List<CssToken>> ToList(this IEnumerable<CssToken> value)
