@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Css
 {
+    using System;
     using AngleSharp.Css.ValueConverters;
     using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
-    using System;
 
     /// <summary>
     /// A set of already constructed CSS value converters.
@@ -155,11 +155,11 @@
                    Toggle(Keywords.Left, Keywords.Right).To(m => new Point(m ? Length.Zero : Length.Full, Length.Half))).Or(
                    Toggle(Keywords.Top, Keywords.Bottom).To(m => new Point(Length.Half, m ? Length.Zero : Length.Full))).Or(
                    Keywords.Center, Point.Center).Or(
-                   WithArgs(h, v, m => new Point(m.Item1, m.Item2))).Or(
-                   WithArgs(v, h, m => new Point(m.Item2, m.Item1))).Or(
-                   WithArgs(hi, vi, LengthOrPercentConverter, m => new Point(m.Item1, m.Item2.Add(m.Item3)))).Or(
-                   WithArgs(hi, LengthOrPercentConverter, vi, m => new Point(m.Item1.Add(m.Item2), m.Item3))).Or(
-                   WithArgs(hi, LengthOrPercentConverter, vi, LengthOrPercentConverter, m => new Point(m.Item1.Add(m.Item2), m.Item3.Add(m.Item4))));
+                   WithOrder(h, v).To(m => new Point(m.Item1, m.Item2))).Or(
+                   WithOrder(v, h).To(m => new Point(m.Item2, m.Item1))).Or(
+                   WithOrder(hi, vi, LengthOrPercentConverter).To(m => new Point(m.Item1, m.Item2.Add(m.Item3)))).Or(
+                   WithOrder(hi, LengthOrPercentConverter, vi).To(m => new Point(m.Item1.Add(m.Item2), m.Item3))).Or(
+                   WithOrder(hi, LengthOrPercentConverter, vi, LengthOrPercentConverter).To(m => new Point(m.Item1.Add(m.Item2), m.Item3.Add(m.Item4))));
         });
 
         /// <summary>
@@ -817,6 +817,23 @@
         public static IValueConverter<Tuple<T1, T2, T3>> WithOrder<T1, T2, T3>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third)
         {
             return new OrderedOptionsConverter<T1, T2, T3>(first, second, third);
+        }
+
+        /// <summary>
+        /// Uses the four converters in their order to convert provided values.
+        /// </summary>
+        /// <typeparam name="T1">The type of the first converter.</typeparam>
+        /// <typeparam name="T2">The type of the second converter.</typeparam>
+        /// <typeparam name="T3">The type of the third converter.</typeparam>
+        /// <typeparam name="T4">The type of the fourth converter.</typeparam>
+        /// <param name="first">The first converter to be applied.</param>
+        /// <param name="second">The second converter to be applied.</param>
+        /// <param name="third">The third converter to be applied.</param>
+        /// <param name="fourth">The fourth converter to be applied.</param>
+        /// <returns>The new converter.</returns>
+        public static IValueConverter<Tuple<T1, T2, T3, T4>> WithOrder<T1, T2, T3, T4>(IValueConverter<T1> first, IValueConverter<T2> second, IValueConverter<T3> third, IValueConverter<T4> fourth)
+        {
+            return new OrderedOptionsConverter<T1, T2, T3, T4>(first, second, third, fourth);
         }
 
         #endregion
