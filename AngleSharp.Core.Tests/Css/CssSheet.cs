@@ -30,7 +30,7 @@ h1 {
         public void CssSheetSerializeListStyleNone()
         {
             var cssSrc = ".T1 {list-style:NONE}";
-            var expected = ".T1 { list-style: none; }";
+            var expected = ".T1 { list-style: NONE; }";
             var stylesheet = CssParser.ParseStyleSheet(cssSrc);
             var cssText = stylesheet.CssText;
             Assert.AreEqual(expected, cssText);
@@ -50,7 +50,7 @@ h1 {
         public void CssSheetSerializeBorder1pxSolidWithColor()
         {
             var cssSrc = "#rule1 { border: 1px solid #BBCCEB; border-top: none }";
-            var expected = "#rule1 { border-top: none; border-right: 1px solid rgba(187, 204, 235, 1); border-bottom: 1px solid rgba(187, 204, 235, 1); border-left: 1px solid rgba(187, 204, 235, 1); }";
+            var expected = "#rule1 { border-top: none; border-right: 1px solid #BBCCEB; border-bottom: 1px solid #BBCCEB; border-left: 1px solid #BBCCEB; }";
             var stylesheet = CssParser.ParseStyleSheet(cssSrc);
             var cssText = stylesheet.CssText;
             Assert.AreEqual(expected, cssText);
@@ -536,7 +536,7 @@ h1 { color: blue }");
             Assert.AreEqual("font-family", prop.Name);
             Assert.IsFalse(prop.IsImportant);
             Assert.AreEqual(CssValueType.List, prop.Value.Type);
-            Assert.AreEqual("\"Helvetica Neue\", Helvetica, Arial, Sans-Serif", prop.Value.CssText);
+            Assert.AreEqual("\"Helvetica Neue\", Helvetica, Arial, sans-serif", prop.Value.CssText);
         }
 
         [Test]
