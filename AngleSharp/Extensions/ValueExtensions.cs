@@ -465,14 +465,19 @@
             var colorName = value.ToIdentifier();
 
             if (colorName != null)
-                return Color.FromName(colorName);
+            {
+                return Color.FromName(colorName); 
+            }
 
             var colorCode = value.ToText();
             var color = Color.Black;
 
-            if (colorCode[0] == Symbols.Num && (colorCode.Length == 4 || colorCode.Length == 7) && 
+            if (String.IsNullOrEmpty(colorCode) == false && colorCode[0] == Symbols.Num &&
+                (colorCode.Length == 4 || colorCode.Length == 7) &&
                 Color.TryFromHex(colorCode.Substring(1), out color))
+            {
                 return color;
+            }
 
             return null;
         }
