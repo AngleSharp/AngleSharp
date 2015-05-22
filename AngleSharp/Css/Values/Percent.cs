@@ -118,16 +118,6 @@
         #region Methods
 
         /// <summary>
-        /// Converts the length to a number of pixels, if possible. If the
-        /// current unit is relative, then an exception will be thrown.
-        /// </summary>
-        /// <returns>The number of pixels represented by the current length.</returns>
-        public Single ToPixel()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Checks if the given percent value is equal to the current one.
         /// </summary>
         /// <param name="other">The other percent value.</param>
@@ -183,7 +173,7 @@
         /// <returns>The string.</returns>
         public override String ToString()
         {
-            return NormalizedValue.ToString();
+            return _value.ToString() + "%";
         }
 
         /// <summary>
@@ -194,7 +184,7 @@
         /// <returns>The unit string.</returns>
         public String ToString(String format, IFormatProvider formatProvider)
         {
-            return NormalizedValue.ToString(format, formatProvider);
+            return _value.ToString(format, formatProvider) + "%";
         }
 
         #endregion
