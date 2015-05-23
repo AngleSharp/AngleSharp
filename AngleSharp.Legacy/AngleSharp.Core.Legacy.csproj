@@ -2512,6 +2512,9 @@
     <Compile Include="..\AngleSharp\Parser\Css\CssValueBuilder.cs">
       <Link>Parser\Css\CssValueBuilder.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssFunctionToken.cs">
+      <Link>Parser\Css\Tokens\CssFunctionToken.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssKeywordToken.cs">
       <Link>Parser\Css\Tokens\CssKeywordToken.cs</Link>
     </Compile>
