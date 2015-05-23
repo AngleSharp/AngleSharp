@@ -15,7 +15,7 @@
         {
             var source = "linear-gradient(135deg, red, blue)";
             var value = CssParser.ParseValue(source) as CssValue;
-            Assert.AreEqual(9, value.Count);
+            Assert.AreEqual(1, value.Count);
             Assert.AreEqual("linear-gradient", value[0].Data);
         }
 
