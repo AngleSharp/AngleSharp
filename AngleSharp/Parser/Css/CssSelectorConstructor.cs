@@ -442,12 +442,17 @@
             }
             else if (token.Type == CssTokenType.Function)
             {
+                var arguments = token as CssFunctionToken;
                 function = GetPseudoFunction(token);
 
-                if (function != null)
+                if (function != null && arguments != null)
                 {
                     ready = false;
                     state = State.PseudoClassFunction;
+
+                    foreach (var arg in arguments)
+                        Apply(arg);
+
                     return;
                 }
             }

@@ -686,11 +686,7 @@
                     }
 
                     return NewFunction(FlushBuffer());
-
                 }
-                //false could be replaced with a transform whitespace flag, which is set to true if in SVG transform mode.
-                //else if (false && Specification.IsSpaceCharacter(current))
-                //    InstantSwitch(TransformFunctionWhitespace);
                 else
                 {
                     Back();
@@ -1306,7 +1302,23 @@
 
         CssToken NewFunction(String value)
         {
-            return new CssKeywordToken(CssTokenType.Function, value, _position);
+            var function = new CssFunctionToken(value, _position);
+
+            while (true)
+            {
+                var chr = GetNext();
+                var token = Data(chr);
+
+                if (token.Type == CssTokenType.Eof)
+                    break;
+
+                function.With(token);
+
+                if (token.Type == CssTokenType.RoundBracketClose)
+                    break;
+            }            
+
+            return function;
         }
 
         CssToken NewPercentage(String value)

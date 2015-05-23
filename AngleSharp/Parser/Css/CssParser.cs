@@ -17,7 +17,7 @@
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public sealed class CssParser
     {
         #region Fields

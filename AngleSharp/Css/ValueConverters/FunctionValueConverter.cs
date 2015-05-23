@@ -2,8 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
 
     sealed class FunctionValueConverter<T> : IValueConverter<T>
@@ -19,42 +18,14 @@
 
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
         {
-            var args = ExtractArguments(value);
-            return args != null && _arguments.TryConvert(args, setResult);
+            var function = value.OnlyOrDefault() as CssFunctionToken;
+            return function != null && _arguments.TryConvert(function.ArgumentTokens, setResult);
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
-            var args = ExtractArguments(value);
-            return args != null && _arguments.Validate(args);
-        }
-
-        List<CssToken> ExtractArguments(IEnumerable<CssToken> value)
-        {
-            var iter = value.GetEnumerator();
-
-            if (iter.MoveNext() && IsFunction(iter.Current))
-            {
-                var tokens = new List<CssToken>();
-
-                while (iter.MoveNext())
-                {
-                    tokens.Add(iter.Current);
-                }
-
-                if (tokens.Count > 0 && tokens[tokens.Count - 1].Type == CssTokenType.RoundBracketClose)
-                {
-                    tokens.RemoveAt(tokens.Count - 1);
-                    return tokens;
-                }
-            }
-
-            return null;
-        }
-
-        Boolean IsFunction(CssToken value)
-        {
-            return value.Type == CssTokenType.Function && value.Data.Equals(_name, StringComparison.OrdinalIgnoreCase);
+            var function = value.OnlyOrDefault() as CssFunctionToken;
+            return function != null && _arguments.Validate(function.ArgumentTokens);
         }
     }
 }

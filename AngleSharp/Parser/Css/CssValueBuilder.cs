@@ -95,8 +95,11 @@
             switch (token.Type)
             {
                 case CssTokenType.RoundBracketOpen:
-                case CssTokenType.Function: // e.g. "rgba(...)"
                     _open++;
+                    Add(token);
+                    break;
+
+                case CssTokenType.Function: // e.g. "rgba(...)"
                     Add(token);
                     break;
 
