@@ -518,7 +518,9 @@
 
                     var val = InValue(tokens);
 
-                    if (val != null && property.TrySetValue(val))
+                    if (val == null)
+                        RaiseErrorOccurred(CssParseError.ValueMissing, token);
+                    else if (property.TrySetValue(val))
                         style.SetProperty(property);
 
                     property.IsImportant = value.IsImportant;
@@ -527,7 +529,9 @@
                 }
             }
             else
+            {
                 RaiseErrorOccurred(CssParseError.IdentExpected, tokens.Current);
+            }
 
             return null;
         }
@@ -765,10 +769,6 @@
                     value.Apply(token);
                 }
                 while (tokens.MoveNext());
-            }
-            else
-            {
-                RaiseErrorOccurred(CssParseError.ValueMissing, tokens.Current);
             }
 
             tokenizer.IgnoreWhitespace = true;
