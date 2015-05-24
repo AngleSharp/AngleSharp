@@ -164,10 +164,9 @@
         void Add(CssToken token)
         {
             if (_values.Count != 0 && _buffer != null)
-            {
                 _values.Add(_buffer);
-                _buffer = null;
-            }
+
+            _buffer = null;
 
             if (_important)
                 _valid = false;
