@@ -23,7 +23,6 @@
         static readonly Dictionary<String, Func<FunctionState>> pseudoClassFunctions = new Dictionary<String, Func<FunctionState>>(StringComparer.OrdinalIgnoreCase);
 
 		State state;
-        FunctionState function;
         ISelector temp;
 		ListSelector group;
 		ComplexSelector complex;
@@ -196,9 +195,6 @@
                 case State.PseudoClass:
 					OnPseudoClass(token);
                     break;
-                case State.PseudoClassFunction:
-					OnPseudoClassFunction(token);
-                    break;
                 case State.PseudoElement:
 					OnPseudoElement(token);
                     break;
@@ -226,7 +222,6 @@
             valid = true;
             IsNested = false;
             ready = true;
-            function = null;
 			return this;
 		}
 
@@ -442,17 +437,11 @@
             }
             else if (token.Type == CssTokenType.Function)
             {
-                var arguments = token as CssFunctionToken;
-                function = GetPseudoFunction(token);
+                var sel = GetPseudoFunction(token as CssFunctionToken);
 
-                if (function != null && arguments != null)
+                if (sel != null)
                 {
-                    ready = false;
-                    state = State.PseudoClassFunction;
-
-                    foreach (var arg in arguments)
-                        Apply(arg);
-
+                    Insert(sel);
                     return;
                 }
             }
@@ -511,30 +500,6 @@
                 Insert(SimpleSelector.Class(token.Data));
             else
                 valid = false;
-		}
-
-		/// <summary>
-		/// Invoked once a pseudo class has been found in the token enumerator.
-		/// </summary>
-        /// <param name="token">The token.</param>
-		void OnPseudoClassFunction(CssToken token)
-		{
-            if (function.Finished(token))
-            {
-                var sel = function.Produce();
-
-                if (IsNested && function is NotFunctionState)
-                    sel = null;
-
-                state = State.Data;
-                ready = true;
-                function = null;
-
-                if (sel != null)
-                    Insert(sel);
-                else
-                    valid = false;
-            }
 		}
 
 		#endregion
@@ -718,12 +683,29 @@
         /// Invoked once a colon with an identifier has been found in the token enumerator.
         /// </summary>
         /// <returns>The created function state.</returns>
-        FunctionState GetPseudoFunction(CssToken token)
+        ISelector GetPseudoFunction(CssFunctionToken arguments)
         {
             Func<FunctionState> creator;
 
-            if (pseudoClassFunctions.TryGetValue(token.Data, out creator))
-                return creator();
+            if (pseudoClassFunctions.TryGetValue(arguments.Data, out creator))
+            {
+                var function = creator();
+                ready = false;
+
+                foreach (var token in arguments)
+                {
+                    if (function.Finished(token))
+                    {
+                        var sel = function.Produce();
+
+                        if (IsNested && function is NotFunctionState)
+                            sel = null;
+
+                        ready = true;
+                        return sel;
+                    }
+                }
+            }
 
             return null;
         }
@@ -744,8 +726,6 @@
 			AttributeEnd,
 			Class,
 			PseudoClass,
-			PseudoClassFunction,
-			PseudoClassFunctionEnd,
 			PseudoElement
 		}
 
