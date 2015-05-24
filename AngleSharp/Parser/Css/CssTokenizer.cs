@@ -1316,7 +1316,7 @@
 
                 if (token.Type == CssTokenType.RoundBracketClose)
                     break;
-            }            
+            }
 
             return function;
         }

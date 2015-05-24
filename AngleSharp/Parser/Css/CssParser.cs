@@ -17,7 +17,7 @@
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     public sealed class CssParser
     {
         #region Fields
@@ -506,13 +506,13 @@
                     RaiseErrorOccurred(CssParseError.ColonMissing, tokens.Current);
                     tokens.JumpToEndOfDeclaration();
                 }
-                else if (tokens.MoveNext())
+                else
                 {
                     var property = style.CreateProperty(propertyName);
 
                     if (property == null)
                     {
-                        RaiseErrorOccurred(CssParseError.UnknownDeclarationName, tokens.Current);
+                        RaiseErrorOccurred(CssParseError.UnknownDeclarationName, token);
                         property = new CssUnknownProperty(propertyName, style);
                     }
 
@@ -524,10 +524,6 @@
                     property.IsImportant = value.IsImportant;
                     tokens.JumpToEndOfDeclaration();
                     return property;
-                }
-                else
-                {
-                    RaiseErrorOccurred(CssParseError.ValueMissing, tokens.Current);
                 }
             }
             else
@@ -756,18 +752,24 @@
         {
             tokenizer.IgnoreWhitespace = false;
             value.Reset();
-            var start = tokens.Current;
 
-            do
+            if (tokens.MoveNext())
             {
-                var token = tokens.Current;
+                do
+                {
+                    var token = tokens.Current;
 
-                if (token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.CurlyBracketClose)
-                    break;
+                    if (token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.CurlyBracketClose)
+                        break;
 
-                value.Apply(token);
+                    value.Apply(token);
+                }
+                while (tokens.MoveNext());
             }
-            while (tokens.MoveNext());
+            else
+            {
+                RaiseErrorOccurred(CssParseError.ValueMissing, tokens.Current);
+            }
 
             tokenizer.IgnoreWhitespace = true;
             return value.Result;
@@ -1070,10 +1072,6 @@
         {
             var parser = new CssParser(valueText, configuration ?? Configuration.Default);
             var tokens = parser.tokenizer.Tokens.GetEnumerator();
-
-            if (!tokens.MoveNext())
-                return null;
-
             var value = parser.InValue(tokens);
 
             if (tokens.MoveNext())

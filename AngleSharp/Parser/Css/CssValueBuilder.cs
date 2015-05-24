@@ -41,7 +41,7 @@
         /// </summary>
         public Boolean IsReady
         {
-            get { return _open == 0; }
+            get { return _open == 0 && _values.Count > 0; }
         }
 
         /// <summary>
