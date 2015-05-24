@@ -22,7 +22,7 @@
         {
             var items = value.ToItems();
 
-            if (items.Count >= _minimum || items.Count <= _maximum)
+            if (items.Count >= _minimum && items.Count <= _maximum)
             {
                 var targets = new T[items.Count];
 
@@ -43,7 +43,7 @@
         {
             var items = value.ToItems();
 
-            if (items.Count >= _minimum || items.Count <= _maximum)
+            if (items.Count >= _minimum && items.Count <= _maximum)
             {
                 foreach (var item in items)
                 {
