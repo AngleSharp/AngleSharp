@@ -382,7 +382,7 @@
 
                     continue;
                 }
-                else if (token.Type == CssTokenType.Function || token.Type == CssTokenType.RoundBracketOpen)
+                else if (token.Type == CssTokenType.RoundBracketOpen)
                 {
                     nested++;
                 }
@@ -414,6 +414,19 @@
 
             value.RemoveRange(++end, value.Count - end);
             value.RemoveRange(0, begin);
+        }
+
+        public static List<List<CssToken>> ToArgs(this IEnumerable<CssToken> value, Int32 size)
+        {
+            var args = value.ToList();
+
+            if (args.Count > size)
+                return null;
+
+            while (args.Count < size)
+                args.Add(new List<CssToken>());
+
+            return args;
         }
 
         public static List<List<CssToken>> ToList(this IEnumerable<CssToken> value)
