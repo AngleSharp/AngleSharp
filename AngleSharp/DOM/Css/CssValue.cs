@@ -53,10 +53,10 @@
                 if (type == CssValueType.Custom)
                     type = CssValueType.Primitive;
 
-                if (open > 0 && tokens[i].Type == CssTokenType.RoundBracketClose)
+                if (tokens[i].Type == CssTokenType.RoundBracketClose)
                     open--;
 
-                if (tokens[i].Type == CssTokenType.Function || tokens[i].Type == CssTokenType.RoundBracketOpen)
+                if (tokens[i].Type == CssTokenType.RoundBracketOpen)
                     open++;
 
                 if (open > 0)
