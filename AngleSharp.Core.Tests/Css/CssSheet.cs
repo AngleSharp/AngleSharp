@@ -385,7 +385,7 @@ h1 { color: blue }");
         {
             var valueString = " , ";
             var list = CssParser.ParseValue(valueString) as CssValue;
-            Assert.AreEqual(CssValueType.Primitive, list.Type);
+            Assert.AreEqual(CssValueType.List, list.Type);
             Assert.AreEqual(1, list.Count);
         }
 

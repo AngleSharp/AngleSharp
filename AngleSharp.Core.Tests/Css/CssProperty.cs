@@ -253,7 +253,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssClearProperty>(property);
             var concrete = (CssClearProperty)property;
             Assert.IsNotNull(concrete);
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
+            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
         }
 
         [Test]
