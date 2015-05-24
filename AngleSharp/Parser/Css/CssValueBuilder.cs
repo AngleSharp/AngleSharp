@@ -15,6 +15,7 @@
         #region Fields
         
         readonly List<CssToken> _values;
+        CssToken _buffer;
         Boolean _valid;
         Boolean _important;
         Int32 _open;
@@ -53,14 +54,6 @@
             {
                 if (IsValid == false)
                     return null;
-
-                for (int i = _values.Count - 1; i >= 0; i--)
-                {
-                    if (_values[i].Type == CssTokenType.Whitespace)
-                        _values.RemoveAt(i);
-                    else
-                        break;
-                }
 
                 return new CssValue(_values);
             }
@@ -113,8 +106,7 @@
                     break;
 
                 case CssTokenType.Whitespace: // e.g. " "
-                    if (_values.Count != 0)
-                        Add(token);
+                    _buffer = token;
                     break;
 
                 case CssTokenType.Dimension: // e.g. "3px"
@@ -141,6 +133,7 @@
         {
             _open = 0;
             _valid = true;
+            _buffer = null;
             _important = false;
             _values.Clear();
         }
@@ -157,7 +150,9 @@
 
                 if (previous.Type == CssTokenType.Delim && previous.Data[0] == Symbols.ExclamationMark)
                 {
-                    _values.RemoveAt(_values.Count - 1);
+                    do _values.RemoveAt(_values.Count - 1);
+                    while (_values.Count > 0 && _values[_values.Count - 1].Type == CssTokenType.Whitespace);
+
                     return true;
                 }
             }
@@ -168,6 +163,12 @@
 
         void Add(CssToken token)
         {
+            if (_values.Count != 0 && _buffer != null)
+            {
+                _values.Add(_buffer);
+                _buffer = null;
+            }
+
             if (_important)
                 _valid = false;
             else if (_valid)
