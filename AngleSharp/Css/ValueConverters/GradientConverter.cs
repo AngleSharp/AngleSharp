@@ -51,18 +51,12 @@
             if (items.Count != 0)
             {
                 if ((position = items[items.Count - 1].ToDistance()) != null)
-                {
                     items.RemoveAt(items.Count - 1);
-                }
                 else
-                {
                     position = location;
-                }
 
                 if (items.Count == 0 || (items.Count == 1 && Converters.ColorConverter.TryConvert(items[0], m => color = m)))
-                {
                     return new GradientStop(color, location.Value);
-                }
             }
 
             return null;

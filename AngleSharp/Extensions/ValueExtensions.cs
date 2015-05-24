@@ -372,7 +372,10 @@
 
             foreach (var token in value)
             {
-                if (nested == 0 && token.Type == CssTokenType.Whitespace)
+                var whitespace = token.Type == CssTokenType.Whitespace;
+                var newitem = token.Type == CssTokenType.String || token.Type == CssTokenType.Url || token.Type == CssTokenType.Function;
+
+                if (nested == 0 && (whitespace || newitem))
                 {
                     if (current.Count != 0)
                     {
@@ -380,7 +383,8 @@
                         list.Add(current);
                     }
 
-                    continue;
+                    if (whitespace)
+                        continue;
                 }
                 else if (token.Type == CssTokenType.RoundBracketOpen)
                 {
