@@ -431,7 +431,7 @@
                     list.Add(current);
                     continue;
                 }
-                else if (token.Type == CssTokenType.Function || token.Type == CssTokenType.RoundBracketOpen)
+                else if (token.Type == CssTokenType.RoundBracketOpen)
                 {
                     nested++;
                 }
