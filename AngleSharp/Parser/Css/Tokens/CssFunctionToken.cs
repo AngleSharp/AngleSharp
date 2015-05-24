@@ -41,12 +41,19 @@
         {
             get
             {
-                if (_arguments.Count > 0 && _arguments[_arguments.Count - 1].Type == CssTokenType.RoundBracketClose)
-                {
-                    return _arguments.Take(_arguments.Count - 1);
-                }
+                var begin = 0;
+                var final = _arguments.Count - 1;
 
-                return _arguments;
+                while (begin < _arguments.Count && _arguments[begin].Type == CssTokenType.Whitespace)
+                    begin++;
+
+                if (final >= begin && _arguments[final].Type == CssTokenType.RoundBracketClose)
+                    final--;
+
+                while (final >= begin && _arguments[final].Type == CssTokenType.Whitespace)
+                    final--;
+
+                return _arguments.Skip(begin).Take(1 + final - begin);
             }
         }
 
