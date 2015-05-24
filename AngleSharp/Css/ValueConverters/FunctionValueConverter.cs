@@ -19,13 +19,18 @@
         public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
         {
             var function = value.OnlyOrDefault() as CssFunctionToken;
-            return function != null && _arguments.TryConvert(function.ArgumentTokens, setResult);
+            return Check(function) && _arguments.TryConvert(function.ArgumentTokens, setResult);
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
         {
             var function = value.OnlyOrDefault() as CssFunctionToken;
-            return function != null && _arguments.Validate(function.ArgumentTokens);
+            return Check(function) && _arguments.Validate(function.ArgumentTokens);
+        }
+
+        Boolean Check(CssFunctionToken function)
+        {
+            return function != null && function.Data.Equals(_name, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
