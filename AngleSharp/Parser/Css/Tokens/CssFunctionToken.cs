@@ -46,9 +46,6 @@
                 if (final >= 0 && _arguments[final].Type == CssTokenType.RoundBracketClose)
                     final--;
 
-                while (final >= 0 && _arguments[final].Type == CssTokenType.Whitespace)
-                    final--;
-
                 return _arguments.Take(1 + final);
             }
         }
@@ -65,7 +62,8 @@
         {
             if (token.Type == CssTokenType.Whitespace && _arguments.Count == 0)
                 return;
-            else if (token.Type == CssTokenType.Comma && _arguments.Count > 0 && _arguments[_arguments.Count - 1].Type == CssTokenType.Whitespace)
+            else if ((token.Type == CssTokenType.RoundBracketClose || token.Type == CssTokenType.Comma) 
+                && _arguments.Count > 0 && _arguments[_arguments.Count - 1].Type == CssTokenType.Whitespace)
                 _arguments.RemoveAt(_arguments.Count - 1);
 
             _arguments.Add(token);
