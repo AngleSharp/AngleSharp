@@ -22,7 +22,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("Gill Sans Extrabold, sans-serif", concrete.Value.CssText);
+            Assert.AreEqual("Gill Sans Extrabold, sans-serif", concrete.Value.CssText);
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("Courier, \"Lucida Console\", monospace", concrete.Value.CssText);
+            Assert.AreEqual("Courier, \"Lucida Console\", monospace", concrete.Value.CssText);
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("\"Goudy Bookletter 1911\", sans-serif", concrete.Value.CssText);
+            Assert.AreEqual("\"Goudy Bookletter 1911\", sans-serif", concrete.Value.CssText);
         }
 
         [Test]
@@ -610,7 +610,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("0.3px", concrete.Value.CssText);
+            Assert.AreEqual("0.3px", concrete.Value.CssText);
         }
 
         [Test]
@@ -744,7 +744,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("bold italic large Palatino, serif", concrete.Value.CssText);
+            Assert.AreEqual("bold italic large Palatino, serif", concrete.Value.CssText);
         }
 
         [Test]
@@ -774,7 +774,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("condensed oblique 12pt \"Helvetica Neue\", serif", concrete.Value.CssText);
+            Assert.AreEqual("condensed oblique 12pt \"Helvetica Neue\", serif", concrete.Value.CssText);
         }
 
         [Test]

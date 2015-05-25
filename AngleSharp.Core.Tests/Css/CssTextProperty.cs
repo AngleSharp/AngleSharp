@@ -37,7 +37,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("0.3rem", concrete.Value.CssText);
+            Assert.AreEqual("0.3rem", concrete.Value.CssText);
         }
 
         [Test]

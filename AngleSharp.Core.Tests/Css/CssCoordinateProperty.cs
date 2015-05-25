@@ -73,7 +73,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssHeightProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            //var value = concrete.Value;
+            var value = concrete.Value;
             //Assert.AreEqual("auto", value.CssText);
         }
 

@@ -453,7 +453,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("3px 3px red, -1em 0 0.4em olive", concrete.Value.CssText);
+            Assert.AreEqual("3px 3px red, -1em 0 0.4em olive", concrete.Value.CssText);
         }
 
         [Test]
@@ -513,7 +513,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("inset 0 0 1em gold, 0 0 1em red", concrete.Value.CssText);
+            Assert.AreEqual("inset 0 0 1em gold, 0 0 1em red", concrete.Value.CssText);
         }
 
         [Test]
@@ -587,7 +587,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("rect(2px, 3em, 1in, 0)", concrete.Value.CssText);
+            Assert.AreEqual("rect(2px, 3em, 1in, 0cm)", concrete.Value.CssText);
         }
 
         [Test]
@@ -602,7 +602,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("rect(2px 3em 1in 0)", concrete.Value.CssText);
+            Assert.AreEqual("rect(2px 3em 1in 0cm)", concrete.Value.CssText);
         }
 
         [Test]
@@ -617,7 +617,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("rect(0, 0, 0, 0)", concrete.Value.CssText);
+            Assert.AreEqual("rect(0, 0, 0, 0)", concrete.Value.CssText);
         }
 
         [Test]
@@ -807,7 +807,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("rgb(121, 181, 201)", concrete.Value.CssText);
+            Assert.AreEqual("rgb(121, 181, 201)", concrete.Value.CssText);
         }
 
         [Test]
@@ -822,7 +822,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("rgba(255, 255, 201, 0.7)", concrete.Value.CssText);
+            Assert.AreEqual("rgba(255, 255, 201, 0.7)", concrete.Value.CssText);
         }
 
         [Test]

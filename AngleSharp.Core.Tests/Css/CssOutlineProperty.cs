@@ -81,7 +81,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("hsl(320, 80%, 50%)", concrete.Value.CssText);
+            Assert.AreEqual("hsl(320, 80%, 50%)", concrete.Value.CssText);
         }
 
         [Test]
