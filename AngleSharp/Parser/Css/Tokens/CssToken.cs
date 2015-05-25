@@ -15,6 +15,8 @@
         readonly String _data;
         readonly TextPosition _position;
 
+        public static readonly CssToken Whitespace = new CssToken(CssTokenType.Whitespace, " ", TextPosition.Empty);
+
         #endregion
 
         #region ctor

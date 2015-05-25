@@ -165,6 +165,8 @@
         {
             if (_values.Count != 0 && _buffer != null && token.Type != CssTokenType.Comma)
                 _values.Add(_buffer);
+            else if (_values.Count != 0 && token.Type != CssTokenType.Comma && _values[_values.Count - 1].Type == CssTokenType.Comma)
+                _values.Add(CssToken.Whitespace);
 
             _buffer = null;
 
