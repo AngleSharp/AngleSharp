@@ -1311,7 +1311,7 @@
 
                 if (token.Type == CssTokenType.Eof)
                     break;
-
+                
                 function.With(token);
 
                 if (token.Type == CssTokenType.RoundBracketClose)

@@ -41,19 +41,15 @@
         {
             get
             {
-                var begin = 0;
                 var final = _arguments.Count - 1;
 
-                while (begin < _arguments.Count && _arguments[begin].Type == CssTokenType.Whitespace)
-                    begin++;
-
-                if (final >= begin && _arguments[final].Type == CssTokenType.RoundBracketClose)
+                if (final >= 0 && _arguments[final].Type == CssTokenType.RoundBracketClose)
                     final--;
 
-                while (final >= begin && _arguments[final].Type == CssTokenType.Whitespace)
+                while (final >= 0 && _arguments[final].Type == CssTokenType.Whitespace)
                     final--;
 
-                return _arguments.Skip(begin).Take(1 + final - begin);
+                return _arguments.Take(1 + final);
             }
         }
 
@@ -67,6 +63,11 @@
         /// <param name="token">The token to use.</param>
         public void With(CssToken token)
         {
+            if (token.Type == CssTokenType.Whitespace && _arguments.Count == 0)
+                return;
+            else if (token.Type == CssTokenType.Comma && _arguments.Count > 0 && _arguments[_arguments.Count - 1].Type == CssTokenType.Whitespace)
+                _arguments.RemoveAt(_arguments.Count - 1);
+
             _arguments.Add(token);
         }
 
