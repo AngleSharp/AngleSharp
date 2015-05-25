@@ -763,7 +763,9 @@
                 {
                     var token = tokens.Current;
 
-                    if (token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.CurlyBracketClose)
+                    if (token.Type == CssTokenType.Semicolon || 
+                        token.Type == CssTokenType.CurlyBracketClose || 
+                        (token.Type == CssTokenType.RoundBracketClose && value.IsReady))
                         break;
 
                     value.Apply(token);
@@ -843,23 +845,10 @@
             if (property == null)
                 property = new CssUnknownProperty(name, style);
 
-            if (!tokens.MoveNext() || tokens.Current.Type != CssTokenType.Colon || !tokens.MoveNext())
+            if (!tokens.MoveNext() || tokens.Current.Type != CssTokenType.Colon)
                 return null;
 
-            value.Reset();
-
-            do
-            {
-                var token = tokens.Current;
-
-                if (token.Type == CssTokenType.RoundBracketClose && value.IsReady)
-                    break;
-
-                value.Apply(token);
-            }
-            while (tokens.MoveNext());
-
-            var result = value.Result;
+            var result = InValue(tokens);
 
             if (result == null)
                 return null;
