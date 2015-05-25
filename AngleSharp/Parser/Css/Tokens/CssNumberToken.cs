@@ -75,5 +75,18 @@
         }
 
         #endregion
+
+        #region String representation
+
+        /// <summary>
+        /// Gets a string which represents the original value.
+        /// </summary>
+        /// <returns>The original value.</returns>
+        public override String ToValue()
+        {
+            return Data[0] == '.' ? "0" + Data : Data;
+        }
+
+        #endregion
     }
 }
