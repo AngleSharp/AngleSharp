@@ -49,7 +49,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("linear-gradient(to top, red, yellow)", concrete.Value.CssText);
+            Assert.AreEqual("linear-gradient(to top, red, yellow)", concrete.Value.CssText);
         }
 
         [Test]

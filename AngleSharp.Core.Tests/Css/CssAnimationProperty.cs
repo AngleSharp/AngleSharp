@@ -227,7 +227,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("2, 0, infinite", concrete.Value.CssText);
+            Assert.AreEqual("2, 0, infinite", concrete.Value.CssText);
         }
 
         [Test]
