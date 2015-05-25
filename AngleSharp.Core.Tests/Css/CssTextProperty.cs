@@ -99,7 +99,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
-            //Assert.AreEqual("rgba(255, 255, 255, 0.5) 0 3px 3px", value.CssText);
+            Assert.AreEqual("rgba(255, 255, 255, 0.5) 0px 3px 3px", value.CssText);
         }
 
         [Test]
@@ -150,7 +150,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
-            //Assert.AreEqual("2px 4px 3px rgba(0, 0, 0, 0.3)", value.CssText);
+            Assert.AreEqual("2px 4px 3px rgba(0, 0, 0, 0.3)", value.CssText);
         }
 
         [Test]

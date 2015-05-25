@@ -420,11 +420,11 @@ h1 { color: blue }");
         {
             var valueString = "  Arial  ,  Verdana  ,Helvetica,Sans-Serif   ";
             var list = CssParser.ParseValue(valueString) as CssValue;
-            Assert.AreEqual(8, list.Count);
+            Assert.AreEqual(10, list.Count);
             Assert.AreEqual("Arial", list[0].ToValue());
             Assert.AreEqual("Verdana", list[3].ToValue());
-            Assert.AreEqual("Helvetica", list[5].ToValue());
-            Assert.AreEqual("Sans-Serif", list[7].ToValue());
+            Assert.AreEqual("Helvetica", list[6].ToValue());
+            Assert.AreEqual("Sans-Serif", list[9].ToValue());
         }
 
         [Test]

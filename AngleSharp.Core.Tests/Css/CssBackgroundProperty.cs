@@ -79,7 +79,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("fixed, local, scroll, scroll", concrete.Value.CssText);
+            Assert.AreEqual("fixed, local, scroll, scroll", concrete.Value.CssText);
         }
 
         [Test]
@@ -734,7 +734,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("contain, 100px, auto, 20%", concrete.Value.CssText);
+            Assert.AreEqual("contain, 100px, auto, 20%", concrete.Value.CssText);
         }
 
         [Test]

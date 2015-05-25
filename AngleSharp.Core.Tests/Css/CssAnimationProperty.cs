@@ -330,7 +330,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("step-start, cubic-bezier(0, 1, 1, 1)", concrete.Value.CssText);
+            Assert.AreEqual("step-start, cubic-bezier(0, 1, 1, 1)", concrete.Value.CssText);
         }
 
         [Test]
@@ -627,7 +627,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("my-animation 0s 10 ease, other-animation 5 linear, yet-another 0s 1s 10 step-start", concrete.Value.CssText);
+            Assert.AreEqual("my-animation 0s 10 ease, other-animation 5 linear, yet-another 0s 1s 10 step-start", concrete.Value.CssText);
         }
     }
 }

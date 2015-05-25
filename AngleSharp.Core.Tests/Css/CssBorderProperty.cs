@@ -185,7 +185,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("red rgb(0, 0, 0)", concrete.Value.CssText);
+            Assert.AreEqual("red rgb(0, 0, 0)", concrete.Value.CssText);
         }
 
         [Test]
@@ -724,7 +724,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("1px outset currentcolor", concrete.Value.CssText);
+            Assert.AreEqual("1px outset currentColor", concrete.Value.CssText);
             //Assert.AreEqual(new Length(1f, Length.Unit.Px), concrete.Width);
             //Assert.AreEqual(Color.Transparent, concrete.Color);
             //Assert.AreEqual(LineStyle.Outset, concrete.Style);
