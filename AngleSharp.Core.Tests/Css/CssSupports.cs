@@ -193,7 +193,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(1, parser.Result.Rules.Length);
             Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
             var supports = parser.Result.Rules[0] as CssSupportsRule;
-            //Assert.AreEqual("(box-shadow: 0 0 2px black) or (-moz-box-shadow: 0 0 2px black) or (-webkit-box-shadow: 0 0 2px black) or (-o-box-shadow: 0 0 2px black)", supports.ConditionText);
+            Assert.AreEqual("(box-shadow: 0 0 2px black) or (-moz-box-shadow: 0 0 2px black) or (-webkit-box-shadow: 0 0 2px black) or (-o-box-shadow: 0 0 2px black)", supports.ConditionText);
             Assert.IsTrue(supports.IsSupported);
         }
 

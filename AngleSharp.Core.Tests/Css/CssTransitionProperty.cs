@@ -49,7 +49,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("width, height", concrete.Value.CssText);
+            Assert.AreEqual("width, height", concrete.Value.CssText);
         }
 
         [Test]
@@ -151,7 +151,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("step-start, step-end", concrete.Value.CssText);
+            Assert.AreEqual("step-start, step-end", concrete.Value.CssText);
         }
 
         [Test]
@@ -181,7 +181,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("cubic-bezier(0, 1, 0.5, 1)", concrete.Value.CssText);
+            Assert.AreEqual("cubic-bezier(0, 1, 0.5, 1)", concrete.Value.CssText);
         }
 
         [Test]
@@ -196,7 +196,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("steps(10, start)", concrete.Value.CssText);
+            Assert.AreEqual("steps(10, start)", concrete.Value.CssText);
         }
 
         [Test]
@@ -211,7 +211,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("steps(25, end)", concrete.Value.CssText);
+            Assert.AreEqual("steps(25, end)", concrete.Value.CssText);
         }
 
         [Test]
@@ -271,7 +271,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
+            Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
         }
 
         [Test]
@@ -301,7 +301,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
+            Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
         }
 
         [Test]
@@ -316,7 +316,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
+            Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
         }
 
         [Test]
@@ -331,7 +331,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("steps(25), linear, cubic-bezier(0.25, 1, 0.5, 1)", concrete.Value.CssText);
+            Assert.AreEqual("steps(25), linear, cubic-bezier(0.25, 1, 0.5, 1)", concrete.Value.CssText);
         }
 
         [Test]
@@ -346,7 +346,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("width, height", concrete.Value.CssText);
+            Assert.AreEqual("width, height", concrete.Value.CssText);
         }
 
         [Test]
@@ -391,7 +391,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("all 1s ease, height steps(5) 50ms", concrete.Value.CssText);
+            Assert.AreEqual("all 1s ease, height steps(5) 50ms", concrete.Value.CssText);
         }
 
         [Test]
