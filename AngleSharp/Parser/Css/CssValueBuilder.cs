@@ -163,7 +163,7 @@
 
         void Add(CssToken token)
         {
-            if (_values.Count != 0 && _buffer != null)
+            if (_values.Count != 0 && _buffer != null && token.Type != CssTokenType.Comma)
                 _values.Add(_buffer);
 
             _buffer = null;

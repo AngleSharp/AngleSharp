@@ -34,7 +34,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("1s, 2s, 3s, 4s", concrete.Value.CssText);
+            Assert.AreEqual("1s, 2s, 3s, 4s", concrete.Value.CssText);
         }
 
         [Test]
@@ -78,7 +78,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("0s, 0s, 1s, 20ms", concrete.Value.CssText);
+            Assert.AreEqual("0s, 0s, 1s, 20ms", concrete.Value.CssText);
         }
 
         [Test]
@@ -152,7 +152,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("my-animation, other-animation", concrete.Value.CssText);
+            Assert.AreEqual("my-animation, other-animation", concrete.Value.CssText);
         }
 
         [Test]
