@@ -148,7 +148,7 @@
             {
                 var previous = _values[_values.Count - 1];
 
-                if (previous.Type == CssTokenType.Delim && previous.Data[0] == Symbols.ExclamationMark)
+                if (IsExclamationMark(previous))
                 {
                     do _values.RemoveAt(_values.Count - 1);
                     while (_values.Count > 0 && _values[_values.Count - 1].Type == CssTokenType.Whitespace);
@@ -165,7 +165,9 @@
         {
             if (_values.Count != 0 && _buffer != null && token.Type != CssTokenType.Comma)
                 _values.Add(_buffer);
-            else if (_values.Count != 0 && token.Type != CssTokenType.Comma && _values[_values.Count - 1].Type == CssTokenType.Comma)
+            else if (_values.Count != 0 && token.Type != CssTokenType.Comma && IsCommaOrSlash(_values[_values.Count - 1]))
+                _values.Add(CssToken.Whitespace);
+            else if (_values.Count != 0 && IsSlash(token))
                 _values.Add(CssToken.Whitespace);
 
             _buffer = null;
@@ -174,6 +176,21 @@
                 _valid = false;
             else if (_valid)
                 _values.Add(token);
+        }
+
+        static Boolean IsExclamationMark(CssToken token)
+        {
+            return token.Type == CssTokenType.Delim && token.Data[0] == Symbols.ExclamationMark;
+        }
+
+        static Boolean IsCommaOrSlash(CssToken token)
+        {
+            return token.Type == CssTokenType.Comma || IsSlash(token);
+        }
+
+        static Boolean IsSlash(CssToken token)
+        {
+            return token.Type == CssTokenType.Delim && token.Data[0] == Symbols.Solidus;
         }
 
         #endregion
