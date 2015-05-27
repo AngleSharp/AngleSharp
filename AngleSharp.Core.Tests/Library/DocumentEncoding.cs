@@ -6,6 +6,8 @@
     using AngleSharp;
     using AngleSharp.Dom.Html;
     using NUnit.Framework;
+    using System.Threading.Tasks;
+    using System.Net.Http;
 
     [TestFixture]
     public class DocumentEncodingTests
@@ -159,6 +161,25 @@
             var doc = source.ToHtmlDocument();
             var text = "Apri un blog è gratis";
             Assert.AreEqual(text, doc.QuerySelectorAll(".label")[3].TextContent);
+        }
+
+        [Test]
+        public async Task LoadFromStringAndLoadFromUrlShouldResultInSameDom()
+        {
+            var config = new Configuration().WithDefaultLoader();
+            var url = "http://imama.shop.by/kolyaski/detskaya_kolyaska_tutis_zippy_2_v_1_cvet_12_shokoladnyy223222222/";
+            var client = new HttpClient();
+            var message = new HttpRequestMessage(HttpMethod.Get, url);
+            var response = await client.SendAsync(message);
+            var html = await response.Content.ReadAsStringAsync();
+
+            var documentStr = await BrowsingContext.New(config).OpenAsync(m => m.Content(html));
+            var titleStr = documentStr.Title;
+
+            var documentUri = await BrowsingContext.New(config).OpenAsync(url);
+            var titleUri = documentUri.Title;
+
+            Assert.AreEqual(titleUri, titleStr);
         }
     }
 }
