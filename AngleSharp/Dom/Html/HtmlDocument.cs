@@ -72,13 +72,13 @@
         /// </summary>
         /// <param name="context">The browsing context.</param>
         /// <param name="response">The response to consider.</param>
+        /// <param name="source">The source to use.</param>
         /// <param name="cancelToken">Token for cancellation.</param>
         /// <returns>The task that builds the document.</returns>
-        internal async static Task<HtmlDocument> LoadAsync(IBrowsingContext context, IResponse response, CancellationToken cancelToken)
+        internal async static Task<HtmlDocument> LoadAsync(IBrowsingContext context, IResponse response, TextSource source, CancellationToken cancelToken)
         {
             var config = context.Configuration;
             var events = config.Events;
-            var source = new TextSource(response.Content, config.DefaultEncoding());
             var document = new HtmlDocument(context, source);
             var parser = new HtmlParser(document);
             var startEvent = new HtmlParseStartEvent(parser);
