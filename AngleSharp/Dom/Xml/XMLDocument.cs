@@ -47,12 +47,12 @@
         /// </summary>
         /// <param name="context">The browsing context.</param>
         /// <param name="response">The response to consider.</param>
+        /// <param name="source">The source to use.</param>
         /// <param name="cancelToken">Token for cancellation.</param>
         /// <returns>The task that builds the document.</returns>
-        internal async static Task<XmlDocument> LoadAsync(IBrowsingContext context, IResponse response, CancellationToken cancelToken)
+        internal async static Task<XmlDocument> LoadAsync(IBrowsingContext context, IResponse response, TextSource source, CancellationToken cancelToken)
         {
             var contentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Xml);
-            var source = new TextSource(response.Content, context.Configuration.DefaultEncoding());
             var document = new XmlDocument(context, source);
             var parser = new XmlParser(document);
             document.ContentType = contentType;

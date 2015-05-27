@@ -49,7 +49,8 @@
             if (context == null)
                 context = BrowsingContext.New();
 
-            var document = await context.LoadDocumentAsync(response, cancel).ConfigureAwait(false);
+            var source = new TextSource(response.Content, context.Configuration.DefaultEncoding());
+            var document = await context.LoadDocumentAsync(response, source, cancel).ConfigureAwait(false);
             context.NavigateTo(document);
             return document;
         }
@@ -108,14 +109,22 @@
         /// <param name="request">Callback with the response to setup.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel)
+        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel)
         {
             if (request == null)
                 throw new ArgumentNullException("request");
 
-            var response = new VirtualResponse();
-            request(response);
-            return context.OpenAsync(response, cancel);
+            if (context == null)
+                context = BrowsingContext.New();
+
+            using (var response = new VirtualResponse())
+            {
+                request(response);
+                var source = response.CreateSourceFor(context.Configuration);
+                var document = await context.LoadDocumentAsync(response, source, cancel).ConfigureAwait(false);
+                context.NavigateTo(document);
+                return document;
+            }
         }
 
         /// <summary>
@@ -161,21 +170,26 @@
 
         #region Helpers
 
-        static async Task<IDocument> LoadDocumentAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel)
+        static async Task<IDocument> LoadDocumentAsync(this IBrowsingContext context, IResponse response, TextSource source, CancellationToken cancel)
         {
             var contentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html);
+
+            if (contentType.IndexOf(';') > 0)
+            {
+                contentType = contentType.Substring(0, contentType.IndexOf(';')).Trim();
+            }
 
             if (contentType.Equals(MimeTypes.Xml, StringComparison.OrdinalIgnoreCase) ||
                 contentType.Equals(MimeTypes.ApplicationXml, StringComparison.OrdinalIgnoreCase))
             {
-                return await XmlDocument.LoadAsync(context, response, cancel).ConfigureAwait(false);
+                return await XmlDocument.LoadAsync(context, response, source, cancel).ConfigureAwait(false);
             }
             else if (contentType.Equals(MimeTypes.Svg, StringComparison.OrdinalIgnoreCase))
             {
-                return await SvgDocument.LoadAsync(context, response, cancel);
+                return await SvgDocument.LoadAsync(context, response, source, cancel);
             }
 
-            return await HtmlDocument.LoadAsync(context, response, cancel).ConfigureAwait(false);
+            return await HtmlDocument.LoadAsync(context, response, source, cancel).ConfigureAwait(false);
         }
 
         #endregion
@@ -190,6 +204,7 @@
             Url address;
             HttpStatusCode status;
             Dictionary<String, String> headers;
+            TextSource source;
             Stream content;
             Boolean dispose;
 
@@ -202,6 +217,7 @@
                 status = HttpStatusCode.OK;
                 headers = new Dictionary<String, String>();
                 content = MemoryStream.Null;
+                source = null;
                 dispose = false;
             }
 
@@ -294,9 +310,9 @@
             /// <returns>The current instance.</returns>
             public VirtualResponse Content(String text)
             {
-                var raw = TextEncoding.Utf8.GetBytes(text);
-                var content = new MemoryStream(raw);
-                return Content(content, shouldDispose: true);
+                Release();
+                source = new TextSource(text);
+                return this;
             }
 
             /// <summary>
@@ -307,6 +323,7 @@
             /// <returns>The current instance.</returns>
             public VirtualResponse Content(Stream stream, Boolean shouldDispose = false)
             {
+                Release();
                 content = stream;
                 dispose = shouldDispose;
                 return this;
@@ -332,10 +349,31 @@
                 get { return status; }
             }
 
-            void IDisposable.Dispose()
+            void Release()
             {
                 if (content != null && dispose)
                     content.Dispose();
+                else if (source != null)
+                    source.Dispose();
+
+                dispose = false;
+                source = null;
+                content = null;
+            }
+
+            void IDisposable.Dispose()
+            {
+                Release();
+            }
+
+            internal TextSource CreateSourceFor(IConfiguration configuration)
+            {
+                if (source != null)
+                    return source;
+                else if (content != null)
+                    return new TextSource(content, configuration.DefaultEncoding());
+
+                return new TextSource(String.Empty);
             }
         }
 
