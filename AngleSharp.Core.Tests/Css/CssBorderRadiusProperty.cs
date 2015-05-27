@@ -247,7 +247,7 @@ namespace AngleSharp.Core.Tests.Css
             //Assert.AreEqual(new Length(5f, Length.Unit.Em), concrete.VerticalBottomRight);
             //Assert.AreEqual(new Length(1f, Length.Unit.Em), concrete.HorizontalBottomLeft);
             //Assert.AreEqual(new Length(5f, Length.Unit.Em), concrete.VerticalBottomLeft);
-            Assert.AreEqual("1em / 5em", concrete.Value.CssText);
+            Assert.AreEqual("1em/5em", concrete.Value.CssText);
         }
 
         [Test]
@@ -270,7 +270,7 @@ namespace AngleSharp.Core.Tests.Css
             //Assert.AreEqual(new Length(2f, Length.Unit.Px), concrete.VerticalBottomRight);
             //Assert.AreEqual(new Length(3f, Length.Unit.Px), concrete.HorizontalBottomLeft);
             //Assert.AreEqual(new Length(4f, Length.Unit.Px), concrete.VerticalBottomLeft);
-            Assert.AreEqual("4px 3px 6px / 2px 4px", concrete.Value.CssText);
+            Assert.AreEqual("4px 3px 6px/2px 4px", concrete.Value.CssText);
         }
 
         [Test]
@@ -285,7 +285,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("4px 3px 6px 1em / 2px 4px 0 20%", concrete.Value.CssText);
+            Assert.AreEqual("4px 3px 6px 1em/2px 4px 0 20%", concrete.Value.CssText);
         }
 
         [Test]

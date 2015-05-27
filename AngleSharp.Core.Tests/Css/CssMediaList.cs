@@ -271,7 +271,7 @@ h1 { color: green }";
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
-            Assert.AreEqual("(aspect-ratio: 16 / 9)", media.Media.MediaText);
+            Assert.AreEqual("(aspect-ratio: 16/9)", media.Media.MediaText);
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
             Assert.AreEqual(1, media.Rules.Length);
