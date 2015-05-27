@@ -126,8 +126,10 @@
 
             if (height != null && height.HasValue)
             {
-                values.Add("/");
-                values.Add(height.SerializeValue());
+                var recent = values.Count - 1;
+                var value = String.Concat(values[recent], "/", height.SerializeValue());
+                values.RemoveAt(recent);
+                values.Add(value);
             }
 
             values.Add(families.SerializeValue());

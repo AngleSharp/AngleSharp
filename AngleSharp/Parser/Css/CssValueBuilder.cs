@@ -106,7 +106,8 @@
                     break;
 
                 case CssTokenType.Whitespace: // e.g. " "
-                    _buffer = token;
+                    if (_values.Count > 0 && IsSlash(_values[_values.Count - 1]) == false)
+                        _buffer = token;
                     break;
 
                 case CssTokenType.Dimension: // e.g. "3px"
@@ -163,11 +164,9 @@
 
         void Add(CssToken token)
         {
-            if (_values.Count != 0 && _buffer != null && token.Type != CssTokenType.Comma)
+            if (_buffer != null && !IsCommaOrSlash(token))
                 _values.Add(_buffer);
-            else if (_values.Count != 0 && token.Type != CssTokenType.Comma && IsCommaOrSlash(_values[_values.Count - 1]))
-                _values.Add(CssToken.Whitespace);
-            else if (_values.Count != 0 && IsSlash(token))
+            else if (_values.Count != 0 && !IsComma(token) && IsComma(_values[_values.Count - 1]))
                 _values.Add(CssToken.Whitespace);
 
             _buffer = null;
@@ -178,14 +177,19 @@
                 _values.Add(token);
         }
 
+        static Boolean IsCommaOrSlash(CssToken token)
+        {
+            return IsComma(token) || IsSlash(token);
+        }
+
+        static Boolean IsComma(CssToken token)
+        {
+            return token.Type == CssTokenType.Comma;
+        }
+
         static Boolean IsExclamationMark(CssToken token)
         {
             return token.Type == CssTokenType.Delim && token.Data[0] == Symbols.ExclamationMark;
-        }
-
-        static Boolean IsCommaOrSlash(CssToken token)
-        {
-            return token.Type == CssTokenType.Comma || IsSlash(token);
         }
 
         static Boolean IsSlash(CssToken token)
