@@ -2494,6 +2494,9 @@
     <Compile Include="..\AngleSharp\Parser\Css\CssParseError.cs">
       <Link>Parser\Css\CssParseError.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\CssParseMode.cs">
+      <Link>Parser\Css\CssParseMode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\CssParser.cs">
       <Link>Parser\Css\CssParser.cs</Link>
     </Compile>
