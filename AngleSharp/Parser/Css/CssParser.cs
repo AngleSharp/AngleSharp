@@ -70,11 +70,7 @@
             selector = new CssSelectorConstructor();
             value = new CssValueBuilder();
             sync = new Object();
-            tokenizer = new CssTokenizer(stylesheet.Source, stylesheet.Options.Events)
-            {
-                IgnoreComments = true,
-                IgnoreWhitespace = true
-            };
+            tokenizer = new CssTokenizer(stylesheet.Source, stylesheet.Options.Events);
             started = false;
             sheet = stylesheet;
         }
@@ -364,7 +360,7 @@
             var prelude = Pool.NewStringBuilder();
             var round = 0;
             var square = 0;
-            parser.tokenizer.IgnoreWhitespace = false;
+            parser.tokenizer.State = CssParseMode.Text;
 
             while (tokens.MoveNext())
             {
@@ -385,7 +381,7 @@
             }
 
             rule.Prelude = prelude.ToPool().Trim();
-            parser.tokenizer.IgnoreWhitespace = true;
+            parser.tokenizer.State = CssParseMode.Data;
 
             if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
                 parser.FillRules(rule, tokens);
@@ -461,7 +457,7 @@
         /// <returns>The generated selector.</returns>
         ISelector InSelector(IEnumerator<CssToken> tokens)
         {
-            tokenizer.IgnoreWhitespace = false;
+            tokenizer.State = CssParseMode.Selector;
             selector.Reset();
             var start = tokens.Current;
 
@@ -479,7 +475,7 @@
             if (selector.IsValid == false)
                 RaiseErrorOccurred(CssParseError.InvalidSelector, start);
 
-            tokenizer.IgnoreWhitespace = true;
+            tokenizer.State = CssParseMode.Data;
             return selector.Result;
         }
 
@@ -723,7 +719,7 @@
 
             if (token.Type == CssTokenType.Colon)
             {
-                tokenizer.IgnoreWhitespace = false;
+                tokenizer.State = CssParseMode.Value;
                 tokens.MoveNext();
 
                 do
@@ -737,7 +733,7 @@
                 }
                 while (tokens.MoveNext());
 
-                tokenizer.IgnoreWhitespace = true;
+                tokenizer.State = CssParseMode.Data;
             }
 
             return Tuple.Create(feature, value.Result);
@@ -754,7 +750,7 @@
         /// <returns>The computed value.</returns>
         CssValue InValue(IEnumerator<CssToken> tokens)
         {
-            tokenizer.IgnoreWhitespace = false;
+            tokenizer.State = CssParseMode.Value;
             value.Reset();
 
             if (tokens.MoveNext())
@@ -773,7 +769,7 @@
                 while (tokens.MoveNext());
             }
 
-            tokenizer.IgnoreWhitespace = true;
+            tokenizer.State = CssParseMode.Data;
             return value.Result;
         }
 
@@ -998,7 +994,7 @@
         {
             var source = new TextSource(selectorText);
             var tokenizer = new CssTokenizer(source, null);
-            tokenizer.IgnoreComments = true;
+            tokenizer.State = CssParseMode.Selector;
             var tokens = tokenizer.Tokens;
             var creator = Pool.NewSelectorConstructor();
 

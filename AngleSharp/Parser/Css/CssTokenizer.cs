@@ -18,7 +18,7 @@
 		#region Fields
 
 		Boolean _ignoreWs;
-		Boolean _ignoreCs;
+        CssParseMode _state;
         TextPosition _position;
 
         #endregion
@@ -33,29 +33,49 @@
         public CssTokenizer(TextSource source, IEventAggregator events)
             : base(source, events)
         {
+            _state = CssParseMode.Data;
+            _ignoreWs = true;
         }
 
         #endregion
 
         #region Properties
 
-		/// <summary>
-		/// Gets or sets if whitespace tokens should be ignored.
-		/// </summary>
-		public Boolean IgnoreWhitespace
-		{
-			get { return _ignoreWs; }
-			set { _ignoreWs = value; }
-		}
+        /// <summary>
+        /// Gets or sets the current parse mode.
+        /// </summary>
+        public CssParseMode State
+        {
+            get { return _state; }
+            set { _state = value; }
+        }
 
-		/// <summary>
-		/// Gets or sets if HTML comment tokens should be ignored.
-		/// </summary>
-		public Boolean IgnoreComments
-		{
-			get { return _ignoreCs; }
-			set { _ignoreCs = value; }
-		}
+        /// <summary>
+        /// Gets the next available token.
+        /// </summary>
+        /// <returns>The next available token.</returns>
+        public CssToken Get()
+        {
+            var current = GetNext();
+            _position = GetCurrentPosition();
+
+            if (current != Symbols.EndOfFile)
+            {
+                switch (_state)
+                {
+                    case CssParseMode.Data:
+                        return Data(current);
+                    case CssParseMode.Text:
+                        return Text(current);
+                    case CssParseMode.Selector:
+                        return Selector(current);
+                    case CssParseMode.Value:
+                        return Value(current);
+                }
+            }
+
+            return NewEof();
+        }
 
         /// <summary>
         /// Gets the token enumerable.
@@ -66,8 +86,7 @@
             {
                 while (true)
                 {
-                    var chr = GetNext();
-                    var token = Data(chr);
+                    var token = Get();
 
                     if (token.Type == CssTokenType.Eof)
                         yield break;
@@ -211,10 +230,6 @@
                         else if (c1 == Symbols.Minus && c2 == Symbols.GreaterThan)
                         {
                             Advance(2);
-
-                            if (_ignoreCs)
-                                return Data(GetNext());
-
                             return NewCloseComment();
                         }
                     }
@@ -265,13 +280,8 @@
                         {
                             current = GetNext();
 
-							if (current == Symbols.Minus)
-							{
-								if (_ignoreCs)
-									return Data(GetNext());
-
-								return NewOpenComment();
-							}
+                            if (current == Symbols.Minus)
+                                return NewOpenComment();
 
                             current = GetPrevious();
                         }
@@ -368,6 +378,30 @@
 
                     return NewDelimiter(current);
             }
+        }
+
+        CssToken Value(Char current)
+        {
+            _ignoreWs = false;
+            var token = Data(current);
+            _ignoreWs = true;
+            return token;
+        }
+
+        CssToken Selector(Char current)
+        {
+            _ignoreWs = false;
+            var token = Data(current);
+            _ignoreWs = true;
+            return token;
+        }
+
+        CssToken Text(Char current)
+        {
+            _ignoreWs = false;
+            var token = Data(current);
+            _ignoreWs = true;
+            return token;
         }
 
         /// <summary>

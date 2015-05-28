@@ -139,6 +139,7 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\RuleExtensions.cs" />
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
+    <Compile Include="Parser\Css\CssParseMode.cs" />
     <Compile Include="Parser\Css\Tokens\CssFunctionToken.cs" />
     <Compile Include="Parser\Xml\XmlParseError.cs" />
     <Compile Include="Foundation\Factory.cs" />
