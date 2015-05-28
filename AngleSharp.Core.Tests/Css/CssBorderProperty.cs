@@ -110,7 +110,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("rgba(0, 255, 0, 1)", concrete.Value.CssText);
+            Assert.AreEqual("rgb(0, 255, 0)", concrete.Value.CssText);
         }
 
         [Test]

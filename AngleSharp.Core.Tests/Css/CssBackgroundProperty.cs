@@ -213,7 +213,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("rgba(187, 255, 0, 1)", concrete.Value.CssText);
+            Assert.AreEqual("rgb(187, 255, 0)", concrete.Value.CssText);
         }
 
         [Test]
@@ -719,7 +719,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("contain, cover", concrete.Value.CssText);
+            Assert.AreEqual("contain, cover", concrete.Value.CssText);
         }
 
         [Test]
@@ -779,7 +779,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("url(\"topbanner.png\") rgba(0, 0, 221, 1) repeat-y fixed", concrete.Value.CssText);
+            Assert.AreEqual("url(\"topbanner.png\") rgb(0, 0, 221) repeat-y fixed", concrete.Value.CssText);
         }
 
         [Test]

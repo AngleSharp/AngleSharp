@@ -434,8 +434,6 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            //var color = (Color)value;
-            //Assert.AreEqual(new Color(0, 0, 0), color);
         }
 
         [Test]
@@ -445,8 +443,6 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            //var color = (Color)value;
-            //Assert.AreEqual(new Color(255, 0, 0), color);
         }
 
         [Test]
@@ -456,8 +452,6 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            //var color = (Color)value;
-            //Assert.AreEqual(new Color(0, 119, 204), color);
         }
 
         [Test]
@@ -467,8 +461,6 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            //var color = (Color)value;
-            //Assert.AreEqual(new Color(0, 0, 255), color);
         }
 
         [Test]
@@ -478,8 +470,6 @@ h1 { color: blue }");
             var value = CssParser.ParseValue(valueString);
             Assert.IsNotNull(value);
             Assert.AreEqual(CssValueType.Primitive, value.Type);
-            //var color = (Color)value;
-            //Assert.AreEqual(new Color(255, 0, 0), color);
         }
 
         [Test]

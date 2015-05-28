@@ -1,7 +1,7 @@
-﻿using System;
-using NUnit.Framework;
-using AngleSharp.Dom.Css;
+﻿using AngleSharp.Dom.Css;
 using AngleSharp.Parser.Css;
+using NUnit.Framework;
+using System;
 using System.Linq;
 
 namespace AngleSharp.Core.Tests.Css

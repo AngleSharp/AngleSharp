@@ -1,6 +1,4 @@
-﻿using AngleSharp;
-using AngleSharp.Css;
-using AngleSharp.Dom.Css;
+﻿using AngleSharp.Dom.Css;
 using AngleSharp.Parser.Css;
 using NUnit.Framework;
 
@@ -118,7 +116,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
-            //Assert.AreEqual("0 3px 0 rgba(178, 169, 143, 1), 0 14px 10px rgba(0, 0, 0, 0.15), 0 24px 2px rgba(0, 0, 0, 0.1), 0 34px 30px rgba(0, 0, 0, 0.1)", value.CssText);
+            Assert.AreEqual("0px 3px 0px rgb(178, 169, 143), 0px 14px 10px rgba(0, 0, 0, 0.15), 0px 24px 2px rgba(0, 0, 0, 0.1), 0px 34px 30px rgba(0, 0, 0, 0.1)", value.CssText);
         }
 
         [Test]
@@ -134,7 +132,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
-            //Assert.AreEqual("4px 3px 0 rgba(255, 255, 255, 1), 9px 8px 0 rgba(0, 0, 0, 0.15)", value.CssText);
+            Assert.AreEqual("4px 3px 0px rgb(255, 255, 255), 9px 8px 0px rgba(0, 0, 0, 0.15)", value.CssText);
         }
 
         [Test]
@@ -286,7 +284,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextDecorationColorProperty>(property);
             var concrete = (CssTextDecorationColorProperty)property;
             Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
-            //Assert.AreEqual("rgba(255, 0, 0, 1)", concrete.Value.CssText);
+            Assert.AreEqual("rgb(255, 0, 0)", concrete.Value.CssText);
         }
 
         [Test]
