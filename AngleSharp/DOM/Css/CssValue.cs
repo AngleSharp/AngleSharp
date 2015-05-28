@@ -16,14 +16,18 @@
         readonly CssValueType _type;
         readonly List<CssToken> _tokens;
 
-        public static CssValue Initial = new CssValue(new []
-        { 
-            new CssKeywordToken(CssTokenType.Ident, "initial", TextPosition.Empty) 
-        });
+        public static CssValue Initial = CssValue.FromString(Keywords.Initial, CssValueType.Initial);
 
         #endregion
 
         #region ctor
+
+        private CssValue(CssToken token, CssValueType type)
+        {
+            _tokens = new List<CssToken>();
+            _tokens.Add(token);
+            _type = type;
+        }
 
         /// <summary>
         /// Creates a new CSS value.
@@ -35,39 +39,16 @@
             _type = FindType(_tokens);
         }
 
-        static CssValueType FindType(List<CssToken> tokens)
+        /// <summary>
+        /// Creates a new CSS value with the given text and type.
+        /// </summary>
+        /// <param name="text">The text to convert.</param>
+        /// <param name="type">The type to use.</param>
+        /// <returns>The new value.</returns>
+        public static CssValue FromString(String text, CssValueType type)
         {
-            var type = CssValueType.Custom;
-            var open = 0;
-
-            if (tokens.Count == 1)
-            {
-                if (tokens[0].Data.Equals(Keywords.Initial, StringComparison.OrdinalIgnoreCase))
-                    return CssValueType.Initial;
-                else if (tokens[0].Data.Equals(Keywords.Inherit, StringComparison.OrdinalIgnoreCase))
-                    return CssValueType.Inherit;
-            }
-
-            for (int i = 0; i < tokens.Count; i++)
-            {
-                if (type == CssValueType.Custom)
-                    type = CssValueType.Primitive;
-
-                if (tokens[i].Type == CssTokenType.RoundBracketClose)
-                    open--;
-
-                if (tokens[i].Type == CssTokenType.RoundBracketOpen)
-                    open++;
-
-                if (open > 0)
-                    continue;
-
-                if (tokens[i].Type == CssTokenType.Whitespace || tokens[i].Type == CssTokenType.Comma ||
-                    (tokens[i].Type == CssTokenType.Delim && tokens[i].Data == "/"))
-                    type = CssValueType.List;
-            }
-
-            return type;
+            var token = new CssToken(CssTokenType.Ident, text, TextPosition.Empty);
+            return new CssValue(token, type);
         }
 
         #endregion
@@ -106,6 +87,45 @@
         public String CssText
         {
             get { return _tokens.ToText(); }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static CssValueType FindType(List<CssToken> tokens)
+        {
+            var type = CssValueType.Custom;
+            var open = 0;
+
+            if (tokens.Count == 1)
+            {
+                if (tokens[0].Data.Equals(Keywords.Initial, StringComparison.OrdinalIgnoreCase))
+                    return CssValueType.Initial;
+                else if (tokens[0].Data.Equals(Keywords.Inherit, StringComparison.OrdinalIgnoreCase))
+                    return CssValueType.Inherit;
+            }
+
+            for (int i = 0; i < tokens.Count; i++)
+            {
+                if (type == CssValueType.Custom)
+                    type = CssValueType.Primitive;
+
+                if (tokens[i].Type == CssTokenType.RoundBracketClose)
+                    open--;
+
+                if (tokens[i].Type == CssTokenType.RoundBracketOpen)
+                    open++;
+
+                if (open > 0)
+                    continue;
+
+                if (tokens[i].Type == CssTokenType.Whitespace || tokens[i].Type == CssTokenType.Comma ||
+                    (tokens[i].Type == CssTokenType.Delim && tokens[i].Data == "/"))
+                    type = CssValueType.List;
+            }
+
+            return type;
         }
 
         #endregion
