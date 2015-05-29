@@ -479,22 +479,12 @@
 
         public static Color? ToColor(this IEnumerable<CssToken> value)
         {
-            var colorName = value.ToIdentifier();
+            var element = value.OnlyOrDefault();
 
-            if (colorName != null)
-            {
-                return Color.FromName(colorName); 
-            }
-
-            var colorCode = value.ToText();
-            var color = Color.Black;
-
-            if (String.IsNullOrEmpty(colorCode) == false && colorCode[0] == Symbols.Num &&
-                (colorCode.Length == 4 || colorCode.Length == 7) &&
-                Color.TryFromHex(colorCode.Substring(1), out color))
-            {
-                return color;
-            }
+            if (element != null && element.Type == CssTokenType.Ident)
+                return Color.FromName(element.Data);
+            else if (element != null && element.Type == CssTokenType.Color && ((CssStringToken)element).IsBad == false)
+                return Color.FromHex(element.Data);
 
             return null;
         }

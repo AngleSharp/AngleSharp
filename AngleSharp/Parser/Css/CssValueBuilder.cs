@@ -112,7 +112,7 @@
 
                 case CssTokenType.Dimension: // e.g. "3px"
                 case CssTokenType.Percentage: // e.g. "5%"
-                case CssTokenType.Hash:// e.g. "#ABCDEF"
+                case CssTokenType.Color:// e.g. "#ABCDEF"
                 case CssTokenType.Delim:// e.g. "#"
                 case CssTokenType.String:// e.g. "'i am a string'"
                 case CssTokenType.Url:// e.g. "url('this is a valid URL')"

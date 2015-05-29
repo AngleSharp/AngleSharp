@@ -17,7 +17,6 @@
 	{
 		#region Fields
 
-		Boolean _ignoreWs;
         CssParseMode _state;
         TextPosition _position;
 
@@ -34,7 +33,6 @@
             : base(source, events)
         {
             _state = CssParseMode.Data;
-            _ignoreWs = true;
         }
 
         #endregion
@@ -141,14 +139,8 @@
                 case Symbols.CarriageReturn:
                 case Symbols.Tab:
                 case Symbols.Space:
-                    do { current = GetNext(); }
-                    while (current.IsSpaceCharacter());
-
-					if (_ignoreWs)
-						return Data(current);
-
-                    Back();
-                    return NewWhitespace();
+                    current = SkipSpaces();
+                    return Data(current);
 
                 case Symbols.DoubleQuote:
                     return StringDQ();
@@ -380,28 +372,87 @@
             }
         }
 
+        /// <summary>
+        /// Gets tokens for constructing a CSS value.
+        /// </summary>
         CssToken Value(Char current)
         {
-            _ignoreWs = false;
-            var token = Data(current);
-            _ignoreWs = true;
-            return token;
+            switch (current)
+            {
+                case Symbols.FormFeed:
+                case Symbols.LineFeed:
+                case Symbols.CarriageReturn:
+                case Symbols.Tab:
+                case Symbols.Space:
+                    SkipSpaces();
+                    Back();
+                    return NewWhitespace();
+
+                case Symbols.Num:
+                    return ColorLiteral();
+
+                default:
+                    return Data(current);
+            }
         }
 
+        /// <summary>
+        /// Gets tokens for constructing a CSS selector.
+        /// </summary>
         CssToken Selector(Char current)
         {
-            _ignoreWs = false;
-            var token = Data(current);
-            _ignoreWs = true;
-            return token;
+            switch (current)
+            {
+                case Symbols.FormFeed:
+                case Symbols.LineFeed:
+                case Symbols.CarriageReturn:
+                case Symbols.Tab:
+                case Symbols.Space:
+                    SkipSpaces();
+                    Back();
+                    return NewWhitespace();
+
+                default:
+                    return Data(current);
+            }
         }
 
+        /// <summary>
+        /// Gets raw text under the condition that it finished at the first
+        /// semicolon or once a scope (curly bracket) is opened.
+        /// </summary>
         CssToken Text(Char current)
         {
-            _ignoreWs = false;
-            var token = Data(current);
-            _ignoreWs = true;
-            return token;
+            var round = 0;
+            var square = 0;
+
+            while (current != Symbols.EndOfFile)
+            {
+                if (round <= 0 && square <= 0 && (current == Symbols.Semicolon || current == Symbols.CurlyBracketOpen))
+                    break;
+
+                switch (current)
+                {
+                    case Symbols.RoundBracketOpen:
+                        round++;
+                        break;
+                    case Symbols.RoundBracketClose:
+                        round--;
+                        break;
+                    case Symbols.SquareBracketOpen:
+                        square++;
+                        break;
+                    case Symbols.SquareBracketClose:
+                        square--;
+                        break;
+                }
+
+                _stringBuffer.Append(current);
+                current = GetNext();
+            }
+
+            Back();
+            return NewIdent(FlushBuffer());
         }
 
         /// <summary>
@@ -494,6 +545,23 @@
                         break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Color literal state.
+        /// </summary>
+        CssToken ColorLiteral()
+        {
+            var current = GetNext();
+
+            while (current.IsHex())
+            {
+                _stringBuffer.Append(current);
+                current = GetNext();
+            }
+
+            Back();
+            return NewColor(FlushBuffer());
         }
 
         /// <summary>
@@ -1340,8 +1408,7 @@
 
             while (true)
             {
-                var chr = GetNext();
-                var token = Data(chr);
+                var token = Get();
 
                 if (token.Type == CssTokenType.Eof)
                     break;
@@ -1388,6 +1455,11 @@
         CssToken NewDelimiter(Char c)
         {
             return new CssToken(CssTokenType.Delim, c, _position);
+        }
+
+        CssToken NewColor(String text)
+        {
+            return new CssStringToken(CssTokenType.Color, text, text.Length != 3 && text.Length != 6, _position);
         }
 
         CssToken NewEof()

@@ -357,34 +357,19 @@
         static CssUnknownRule CreateUnknownRule(CssParser parser, IEnumerator<CssToken> tokens)
         {
             var rule = new CssUnknownRule(tokens.Current.Data);
-            var prelude = Pool.NewStringBuilder();
-            var round = 0;
-            var square = 0;
             parser.tokenizer.State = CssParseMode.Text;
 
-            while (tokens.MoveNext())
+            if (tokens.MoveNext() && tokens.Current.Type == CssTokenType.Ident)
             {
-                var token = tokens.Current;
-
-                if (round <= 0 && square <= 0 && (token.Type == CssTokenType.Semicolon || token.Type == CssTokenType.CurlyBracketOpen))
-                    break;
-                else if (token.Type == CssTokenType.RoundBracketOpen)
-                    round++;
-                else if (token.Type == CssTokenType.RoundBracketClose)
-                    round--;
-                else if (token.Type == CssTokenType.SquareBracketOpen)
-                    square++;
-                else if (token.Type == CssTokenType.SquareBracketClose)
-                    square--;
-
-                prelude.Append(token.ToValue());
+                rule.Prelude = tokens.Current.Data.Trim();
             }
 
-            rule.Prelude = prelude.ToPool().Trim();
             parser.tokenizer.State = CssParseMode.Data;
 
-            if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
+            if (tokens.MoveNext() && tokens.Current.Type == CssTokenType.CurlyBracketOpen)
+            {
                 parser.FillRules(rule, tokens);
+            }
 
             return rule;
         }

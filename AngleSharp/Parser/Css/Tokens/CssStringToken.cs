@@ -51,10 +51,15 @@
         /// <returns>The original value.</returns>
         public override String ToValue()
         {
-            if (Type == CssTokenType.Url)
-                return Data.CssUrl();
-
-            return Data.CssString();
+            switch (Type)
+            {
+                case CssTokenType.Url:
+                    return Data.CssUrl();
+                case CssTokenType.Color:
+                    return "#" + Data;
+                default:
+                    return Data.CssString();
+            }
         }
 
         #endregion

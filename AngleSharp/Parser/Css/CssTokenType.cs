@@ -14,6 +14,10 @@
         /// </summary>
         Url,
         /// <summary>
+        /// A color token.
+        /// </summary>
+        Color,
+        /// <summary>
         /// A URL-PREFIX token.
         /// </summary>
         UrlPrefix,
@@ -136,6 +140,6 @@
         /// <summary>
         /// The end-of-file marker.
         /// </summary>
-        Eof
+        Eof,
     }
 }
