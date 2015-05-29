@@ -57,16 +57,26 @@
         /// <summary>
         /// Uses the provided token as an argument token.
         /// </summary>
-        /// <param name="token">The token to use.</param>
         public void With(CssToken token)
         {
-            if (token.Type == CssTokenType.Whitespace && _arguments.Count == 0)
-                return;
-            else if ((token.Type == CssTokenType.RoundBracketClose || token.Type == CssTokenType.Comma)
-                && _arguments.Count > 0 && _arguments[_arguments.Count - 1].Type == CssTokenType.Whitespace)
+            if (_arguments.Count > 0)
+            {
+                if (token.Type == CssTokenType.Comma && _arguments[_arguments.Count - 1].Type == CssTokenType.Whitespace)
+                    _arguments.RemoveAt(_arguments.Count - 1);
+                else if (token.Type != CssTokenType.Whitespace && _arguments[_arguments.Count - 1].Type == CssTokenType.Comma)
+                    _arguments.Add(CssToken.Whitespace);
+            }
+
+            _arguments.Add(token);
+        }
+
+        /// <summary>
+        /// Uses the provided token as a closing token.
+        /// </summary>
+        public void Close(CssToken token)
+        {
+            if (_arguments.Count > 0 && _arguments[_arguments.Count - 1].Type == CssTokenType.Whitespace)
                 _arguments.RemoveAt(_arguments.Count - 1);
-            else if (_arguments.Count > 0 && token.Type != CssTokenType.Whitespace && _arguments[_arguments.Count - 1].Type == CssTokenType.Comma)
-                _arguments.Add(CssToken.Whitespace);
 
             _arguments.Add(token);
         }

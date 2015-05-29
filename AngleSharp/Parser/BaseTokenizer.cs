@@ -162,6 +162,15 @@
             return c;
         }
 
+        /// <summary>
+        /// Advances to the character before the first non-space character.
+        /// </summary>
+        protected void SkipMostSpaces()
+        {
+            SkipSpaces();
+            Back();
+        }
+
         #endregion
 
         #region Source Management

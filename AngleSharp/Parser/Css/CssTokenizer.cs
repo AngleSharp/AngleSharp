@@ -384,8 +384,7 @@
                 case Symbols.CarriageReturn:
                 case Symbols.Tab:
                 case Symbols.Space:
-                    SkipSpaces();
-                    Back();
+                    SkipMostSpaces();
                     return NewWhitespace();
 
                 case Symbols.Num:
@@ -408,8 +407,7 @@
                 case Symbols.CarriageReturn:
                 case Symbols.Tab:
                 case Symbols.Space:
-                    SkipSpaces();
-                    Back();
+                    SkipMostSpaces();
                     return NewWhitespace();
 
                 default:
@@ -1404,19 +1402,20 @@
 
         CssToken NewFunction(String value)
         {
+            SkipMostSpaces();
             var function = new CssFunctionToken(value, _position);
+            var token = Get();
 
-            while (true)
+            while (token.Type != CssTokenType.Eof)
             {
-                var token = Get();
-
-                if (token.Type == CssTokenType.Eof)
-                    break;
-                
-                function.With(token);
-
                 if (token.Type == CssTokenType.RoundBracketClose)
+                {
+                    function.Close(token);
                     break;
+                }
+
+                function.With(token);
+                token = Get();
             }
 
             return function;
