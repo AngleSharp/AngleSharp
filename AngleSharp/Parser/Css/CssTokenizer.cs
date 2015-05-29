@@ -767,25 +767,16 @@
                 }
                 else if (current == Symbols.RoundBracketOpen)
                 {
-                    var fn = _stringBuffer.ToString().ToLowerInvariant();
+                    var fn = FlushBuffer();
+                    var type = TypeFromName(fn);
 
-                    if (fn == FunctionNames.Url)
+                    switch (type)
                     {
-                        _stringBuffer.Clear();
-                        return UrlStart(CssTokenType.Url);
+                        case CssTokenType.Function:
+                            return NewFunction(fn);
+                        default:
+                            return UrlStart(type);
                     }
-                    else if (fn == FunctionNames.Domain)
-                    {
-                        _stringBuffer.Clear();
-                        return UrlStart(CssTokenType.Domain);
-                    }
-                    else if (fn == FunctionNames.Url_Prefix)
-                    {
-                        _stringBuffer.Clear();
-                        return UrlStart(CssTokenType.UrlPrefix);
-                    }
-
-                    return NewFunction(FlushBuffer());
                 }
                 else
                 {
@@ -1584,6 +1575,18 @@
                 return false;
 
             return true;
+        }
+
+        static CssTokenType TypeFromName(String function)
+        {
+            if (function.Equals(FunctionNames.Url, StringComparison.OrdinalIgnoreCase))
+                return CssTokenType.Url;
+            else if (function.Equals(FunctionNames.Domain, StringComparison.OrdinalIgnoreCase))
+                return CssTokenType.Domain;
+            else if (function.Equals(FunctionNames.Url_Prefix, StringComparison.OrdinalIgnoreCase))
+                return CssTokenType.UrlPrefix;
+
+            return CssTokenType.Function;
         }
 
         #endregion
