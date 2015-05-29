@@ -563,15 +563,10 @@
                 case CssTokenType.Function:
                     if (String.Compare(token.Data, FunctionNames.Regexp, StringComparison.OrdinalIgnoreCase) == 0)
                     {
-                        if (!tokens.MoveNext())
-                            break;
+                        var str = ((CssFunctionToken)token).ToCssString();
 
-                        token = tokens.Current;
-
-                        if (token.Type == CssTokenType.String)
-                            return Tuple.Create(CssDocumentRule.DocumentFunction.RegExp, ((CssStringToken)token).Data);
-
-                        tokens.JumpToClosedArguments();
+                        if (str != null)
+                            return Tuple.Create(CssDocumentRule.DocumentFunction.RegExp, str);
                     }
                     break;
             }
