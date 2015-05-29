@@ -552,13 +552,13 @@
             switch (token.Type)
             {
                 case CssTokenType.Url:
-                    return Tuple.Create(CssDocumentRule.DocumentFunction.Url, ((CssStringToken)token).Data);
+                    return Tuple.Create(CssDocumentRule.DocumentFunction.Url, token.Data);
 
                 case CssTokenType.UrlPrefix:
-                    return Tuple.Create(CssDocumentRule.DocumentFunction.UrlPrefix, ((CssStringToken)token).Data);
+                    return Tuple.Create(CssDocumentRule.DocumentFunction.UrlPrefix, token.Data);
 
                 case CssTokenType.Domain:
-                    return Tuple.Create(CssDocumentRule.DocumentFunction.Domain, ((CssStringToken)token).Data);
+                    return Tuple.Create(CssDocumentRule.DocumentFunction.Domain, token.Data);
 
                 case CssTokenType.Function:
                     if (String.Compare(token.Data, FunctionNames.Regexp, StringComparison.OrdinalIgnoreCase) == 0)
