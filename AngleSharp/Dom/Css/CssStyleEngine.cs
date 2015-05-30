@@ -109,7 +109,7 @@
 
         static IStyleSheet SetupDefault()
         {
-            return CssParser.ParseStyleSheet(@"
+            var parser = new CssParser(@"
 html, address,
 blockquote,
 body, dd, div,
@@ -188,6 +188,7 @@ BDO[DIR='rtl']  { direction: rtl; unicode-bidi: bidi-override }
   h4, h5, h6    { page-break-after: avoid }
   ul, ol, dl    { page-break-before: avoid }
 }");
+            return parser.Parse();
         }
 
         #endregion
