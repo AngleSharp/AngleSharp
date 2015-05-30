@@ -11,10 +11,16 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class CssSheetTests
     {
+        static ICssStyleSheet ParseStyleSheet(String source)
+        {
+            var parser = new CssParser(source);
+            return parser.Parse();
+        }
+
         [Test]
         public void CssSheetOnEofDuringRuleWithoutSemicolon()
         {
-            var sheet = CssParser.ParseStyleSheet(@"
+            var sheet = ParseStyleSheet(@"
 h1 {
  color: red;
  font-weight: bold");
@@ -31,7 +37,7 @@ h1 {
         {
             var cssSrc = ".T1 {list-style:NONE}";
             var expected = ".T1 { list-style: NONE; }";
-            var stylesheet = CssParser.ParseStyleSheet(cssSrc);
+            var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.CssText;
             Assert.AreEqual(expected, cssText);
         }
@@ -41,7 +47,7 @@ h1 {
         {
             var cssSrc = ".T2 { border:1px  outset }";
             var expected = ".T2 { border: 1px outset; }";
-            var stylesheet = CssParser.ParseStyleSheet(cssSrc);
+            var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.CssText;
             Assert.AreEqual(expected, cssText);
         }
@@ -51,7 +57,7 @@ h1 {
         {
             var cssSrc = "#rule1 { border: 1px solid #BBCCEB; border-top: none }";
             var expected = "#rule1 { border-top: none; border-right: 1px solid #BBCCEB; border-bottom: 1px solid #BBCCEB; border-left: 1px solid #BBCCEB; }";
-            var stylesheet = CssParser.ParseStyleSheet(cssSrc);
+            var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.CssText;
             Assert.AreEqual(expected, cssText);
         }
@@ -61,7 +67,7 @@ h1 {
         {
             var cssSrc = "#rule2 { background:url(/_static/img/bx_tile.gif) top left repeat-x; }";
             var expected = "#rule2 { background: url(\"/_static/img/bx_tile.gif\") top left repeat-x; }";
-            var stylesheet = CssParser.ParseStyleSheet(cssSrc);
+            var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.CssText;
             Assert.AreEqual(expected, cssText);
         }
@@ -70,7 +76,7 @@ h1 {
         public void CssSheetSimpleStyleRuleStringification()
         {
             var css = @"html { font-family: sans-serif; }";
-            var stylesheet = CssParser.ParseStyleSheet(css);
+            var stylesheet = ParseStyleSheet(css);
             Assert.AreEqual(1, stylesheet.Rules.Length);
             var rule = stylesheet.Rules[0];
             Assert.IsInstanceOf<CssStyleRule>(rule);
@@ -80,7 +86,7 @@ h1 {
         [Test]
         public void CssSheetCloseStringsEndOfLine()
         {
-            var sheet = CssParser.ParseStyleSheet(@"p {
+            var sheet = ParseStyleSheet(@"p {
         color: green;
         font-family: 'Courier New Times
         color: red;
@@ -98,7 +104,7 @@ h1 {
         [Test]
         public void CssSheetOnEofDuringRuleWithinString()
         {
-            var sheet = CssParser.ParseStyleSheet(@"
+            var sheet = ParseStyleSheet(@"
 #something {
  content: 'hi there");
             Assert.AreEqual(1, sheet.Rules.Length);
@@ -111,7 +117,7 @@ h1 {
         [Test]
         public void CssSheetOnEofDuringAtMediaRuleWithinString()
         {
-            var sheet = CssParser.ParseStyleSheet(@"  @media screen {
+            var sheet = ParseStyleSheet(@"  @media screen {
     p:before { content: 'Hello");
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
@@ -127,7 +133,7 @@ h1 {
         [Test]
         public void CssSheetIgnoreUnknownProperty()
         {
-            var sheet = CssParser.ParseStyleSheet(@"h1 { color: red; rotation: 70minutes }");
+            var sheet = ParseStyleSheet(@"h1 { color: red; rotation: 70minutes }");
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
@@ -140,28 +146,28 @@ h1 {
         [Test]
         public void CssSheetInvalidStatementRulesetUnexpectedAtKeyword()
         {
-            var sheet = CssParser.ParseStyleSheet(@"p @here {color: red}");
+            var sheet = ParseStyleSheet(@"p @here {color: red}");
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [Test]
         public void CssSheetInvalidStatementAtRuleUnexpectedAtKeyword()
         {
-            var sheet = CssParser.ParseStyleSheet(@"@foo @bar;");
+            var sheet = ParseStyleSheet(@"@foo @bar;");
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [Test]
         public void CssSheetInvalidStatementRulesetUnexpectedRightBrace()
         {
-            var sheet = CssParser.ParseStyleSheet(@"}} {{ - }}");
+            var sheet = ParseStyleSheet(@"}} {{ - }}");
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [Test]
         public void CssSheetInvalidStatementRulesetUnexpectedRightBraceWithValidQualifiedRule()
         {
-            var sheet = CssParser.ParseStyleSheet(@"}} {{ - }}
+            var sheet = ParseStyleSheet(@"}} {{ - }}
 #hi { color: green; }");
             Assert.AreEqual(1, sheet.Rules.Length);
             var style = sheet.Rules[0] as ICssStyleRule;
@@ -174,14 +180,14 @@ h1 {
         [Test]
         public void CssSheetInvalidStatementRulesetUnexpectedRightParenthesis()
         {
-            var sheet = CssParser.ParseStyleSheet(@") ( {} ) p {color: red }");
+            var sheet = ParseStyleSheet(@") ( {} ) p {color: red }");
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [Test]
         public void CssSheetInvalidStatementRulesetUnexpectedRightParenthesisWithValidQualifiedRule()
         {
-            var sheet = CssParser.ParseStyleSheet(@") {} p {color: green }");
+            var sheet = ParseStyleSheet(@") {} p {color: green }");
             Assert.AreEqual(1, sheet.Rules.Length);
             var style = sheet.Rules[0] as ICssStyleRule;
             Assert.NotNull(style);
@@ -193,7 +199,7 @@ h1 {
         [Test]
         public void CssSheetIgnoreUnknownAtRule()
         {
-            var sheet = CssParser.ParseStyleSheet(@"@three-dee {
+            var sheet = ParseStyleSheet(@"@three-dee {
   @background-lighting {
     azimuth: 30deg;
     elevation: 190deg;
@@ -213,7 +219,7 @@ h1 { color: blue }");
         [Test]
         public void CssSheetKeepValidValueFloat()
         {
-            var sheet = CssParser.ParseStyleSheet(@"img { float: left }");
+            var sheet = ParseStyleSheet(@"img { float: left }");
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
@@ -226,7 +232,7 @@ h1 { color: blue }");
         [Test]
         public void CssSheetIgnoreInvalidValueFloat()
         {
-            var sheet = CssParser.ParseStyleSheet(@"img { float: left here }");
+            var sheet = ParseStyleSheet(@"img { float: left here }");
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
@@ -237,7 +243,7 @@ h1 { color: blue }");
         [Test]
         public void CssSheetIgnoreInvalidValueBackground()
         {
-            var sheet = CssParser.ParseStyleSheet(@"img { background: ""red"" }");
+            var sheet = ParseStyleSheet(@"img { background: ""red"" }");
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
@@ -248,7 +254,7 @@ h1 { color: blue }");
         [Test]
         public void CssSheetIgnoreInvalidValueBorderWidth()
         {
-            var sheet = CssParser.ParseStyleSheet(@"img { border-width: 3 }");
+            var sheet = ParseStyleSheet(@"img { border-width: 3 }");
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var img = sheet.Rules[0] as ICssStyleRule;
@@ -259,7 +265,7 @@ h1 { color: blue }");
         [Test]
         public void CssSheetWellformedDeclaration()
         {
-            var sheet = CssParser.ParseStyleSheet(@"p { color:green; }");
+            var sheet = ParseStyleSheet(@"p { color:green; }");
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
@@ -272,7 +278,7 @@ h1 { color: blue }");
         [Test]
         public void CssSheetMalformedDeclarationMissingColon()
         {
-            var sheet = CssParser.ParseStyleSheet(@"p { color:green; color }");
+            var sheet = ParseStyleSheet(@"p { color:green; color }");
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
@@ -285,7 +291,7 @@ h1 { color: blue }");
         [Test]
         public void CssSheetMalformedDeclarationMissingColonWithRecovery()
         {
-            var sheet = CssParser.ParseStyleSheet(@"p { color:red;   color; color:green }");
+            var sheet = ParseStyleSheet(@"p { color:red;   color; color:green }");
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
@@ -298,7 +304,7 @@ h1 { color: blue }");
         [Test]
         public void CssSheetMalformedDeclarationMissingValue()
         {
-            var sheet = CssParser.ParseStyleSheet(@"p { color:green; color: }");
+            var sheet = ParseStyleSheet(@"p { color:green; color: }");
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
@@ -311,7 +317,7 @@ h1 { color: blue }");
         [Test]
         public void CssSheetMalformedDeclarationUnexpectedTokens()
         {
-            var sheet = CssParser.ParseStyleSheet(@"p { color:green; color{;color:maroon} }");
+            var sheet = ParseStyleSheet(@"p { color:green; color{;color:maroon} }");
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
@@ -324,7 +330,7 @@ h1 { color: blue }");
         [Test]
         public void CssSheetMalformedDeclarationUnexpectedTokensWithRecovery()
         {
-            var sheet = CssParser.ParseStyleSheet(@"p { color:red;   color{;color:maroon}; color:green }");
+            var sheet = ParseStyleSheet(@"p { color:red;   color{;color:maroon}; color:green }");
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var p = sheet.Rules[0] as ICssStyleRule;
@@ -710,7 +716,7 @@ h1 { color: blue }");
         [Test]
         public void CssSheetWithDataUrlAsBackgroundImage()
         {
-            var sheet = CssParser.ParseStyleSheet(".App_Header_ .logo { background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC\"); background-size: 71px 28px; background-position: 0 19px; width: 71px; }");
+            var sheet = ParseStyleSheet(".App_Header_ .logo { background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC\"); background-size: 71px 28px; background-position: 0 19px; width: 71px; }");
             Assert.IsNotNull(sheet);
             Assert.AreEqual(1, sheet.Rules.Length);
             var rule = sheet.Rules[0] as CssStyleRule;

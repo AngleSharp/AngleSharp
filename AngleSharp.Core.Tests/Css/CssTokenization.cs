@@ -12,16 +12,8 @@ namespace AngleSharp.Core.Tests
         public void CssParserIdentifier()
         {
             var teststring = "h1 { background: blue; }";
-            var parser = new CssTokenizer(new TextSource(teststring), null);
-            var list = parser.Tokens;
-            CssToken token = null;
-
-            foreach (var item in list)
-            {
-                token = item;
-                break;
-            }
-
+            var tokenizer = new CssTokenizer(new TextSource(teststring), null);
+            var token = tokenizer.Get();
             Assert.AreEqual(CssTokenType.Ident, token.Type);
         }
 
@@ -29,16 +21,8 @@ namespace AngleSharp.Core.Tests
         public void CssParserAtRule()
         {
             var teststring = "@media { background: blue; }";
-            var parser = new CssTokenizer(new TextSource(teststring), null);
-            var list = parser.Tokens;
-            CssToken token = null;
-
-            foreach (var item in list)
-            {
-                token = item;
-                break;
-            }
-
+            var tokenizer = new CssTokenizer(new TextSource(teststring), null);
+            var token = tokenizer.Get();
             Assert.AreEqual(CssTokenType.AtKeyword, token.Type);
         }
 
@@ -47,16 +31,8 @@ namespace AngleSharp.Core.Tests
         {
             var url = "http://someurl";
             var teststring = "url(" + url + ")";
-            var parser = new CssTokenizer(new TextSource(teststring), null);
-            var list = parser.Tokens;
-            CssStringToken token = null;
-
-            foreach (var item in list)
-            {
-                token = item as CssStringToken;
-                break;
-            }
-
+            var tokenizer = new CssTokenizer(new TextSource(teststring), null);
+            var token = tokenizer.Get();
             Assert.AreEqual(url, token.Data);
         }
 
@@ -65,16 +41,8 @@ namespace AngleSharp.Core.Tests
         {
             var url = "http://someurl";
             var teststring = "url(\"" + url + "\")";
-            var parser = new CssTokenizer(new TextSource(teststring), null);
-            var list = parser.Tokens;
-            CssStringToken token = null;
-
-            foreach (var item in list)
-            {
-                token = item as CssStringToken;
-                break;
-            }
-
+            var tokenizer = new CssTokenizer(new TextSource(teststring), null);
+            var token = tokenizer.Get();
             Assert.AreEqual(url, token.Data);
         }
 
@@ -83,16 +51,8 @@ namespace AngleSharp.Core.Tests
         {
             var url = "http://someurl";
             var teststring = "url('" + url + "')";
-            var parser = new CssTokenizer(new TextSource(teststring), null);
-            var list = parser.Tokens;
-            CssStringToken token = null;
-
-            foreach (var item in list)
-            {
-                token = item as CssStringToken;
-                break;
-            }
-
+            var tokenizer = new CssTokenizer(new TextSource(teststring), null);
+            var token = tokenizer.Get();
             Assert.AreEqual(url, token.Data);
         }
     }

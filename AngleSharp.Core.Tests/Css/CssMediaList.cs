@@ -8,13 +8,19 @@ namespace AngleSharp.Core.Tests.Css
     [TestFixture]
     public class CssMediaListTests
     {
+        static ICssStyleSheet ParseStyleSheet(String source)
+        {
+            var parser = new CssParser(source);
+            return parser.Parse();
+        }
+
         [Test]
         public void SimpleScreenMediaList()
         {
             var source = @"@media screen {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
@@ -30,7 +36,7 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@media @screen {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
@@ -38,7 +44,7 @@ namespace AngleSharp.Core.Tests.Css
         public void MediaListInterrupted()
         {
             var source = @"@media screen; h1 { color: green }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<ICssStyleRule>(sheet.Rules[0]);
             var h1 = (ICssStyleRule)sheet.Rules[0];
@@ -53,7 +59,7 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@media screen,tv {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
@@ -69,7 +75,7 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@media              screen ,          tv {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
@@ -85,7 +91,7 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@media only screen,tv {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
@@ -101,7 +107,7 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@media not screen,tv {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
@@ -117,7 +123,7 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@media (min-width:30px) {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
@@ -133,7 +139,7 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@media only (width: 640px) {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
@@ -149,7 +155,7 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@media not (device-width: 640px) {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
@@ -165,7 +171,7 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@media all (max-width:30px) {
     h1 { color: red }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
@@ -175,7 +181,7 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@media {
     h1 { color: red }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
@@ -185,7 +191,7 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@media not {
     h1 { color: red }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
@@ -195,7 +201,7 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@media only {
     h1 { color: red }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
@@ -206,7 +212,7 @@ namespace AngleSharp.Core.Tests.Css
     h1 { color: red }
 }";
 
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
@@ -217,7 +223,7 @@ namespace AngleSharp.Core.Tests.Css
     h1 { color: red }
 }
 h1 { color: green }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<ICssStyleRule>(sheet.Rules[0]);
             var style = (ICssStyleRule)sheet.Rules[0];
@@ -231,7 +237,7 @@ h1 { color: green }";
             var source = @"@media (max-width:30px) (min-width:10px) {
     h1 { color: red }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
@@ -241,7 +247,7 @@ h1 { color: green }";
             var source = @"@media tv screen {
     h1 { color: red }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(0, sheet.Rules.Length);
         }
 
@@ -251,7 +257,7 @@ h1 { color: green }";
             var source = @"@media all and (max-width:30px) {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
@@ -267,7 +273,7 @@ h1 { color: green }";
             var source = @"@media (aspect-ratio: 16/9) {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
@@ -283,7 +289,7 @@ h1 { color: green }";
             var source = @"@media print and (max-width:30px) and (min-device-width:100px) {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
@@ -299,7 +305,7 @@ h1 { color: green }";
             var source = @"@media all and (min-width:0) and (min-device-width:100px), screen {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
@@ -315,7 +321,7 @@ h1 { color: green }";
             var source = @"@media (resolution:72dpi) {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
@@ -331,7 +337,7 @@ h1 { color: green }";
             var source = @"@media (min-resolution:72dpi) and (max-resolution:140dpi) {
     h1 { color: green }
 }";
-            var sheet = CssParser.ParseStyleSheet(source);
+            var sheet = ParseStyleSheet(source);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssMediaRule>(sheet.Rules[0]);
             var media = (CssMediaRule)sheet.Rules[0];
