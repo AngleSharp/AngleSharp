@@ -40,7 +40,7 @@
             get { return _selector.Text; }
             set
             {
-                var selector = CssParser.ParseKeyText(value);
+                var selector = CssParser.ParseKeyframeSelector(value);
 
                 if (selector == null)
                     throw new DomException(DomError.Syntax);

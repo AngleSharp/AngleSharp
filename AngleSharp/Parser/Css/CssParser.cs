@@ -12,6 +12,7 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
+    using AngleSharp.Css.Values;
 
     /// <summary>
     /// The CSS parser.
@@ -22,14 +23,14 @@
     {
         #region Fields
 
-        readonly CssSelectorConstructor selector;
-        readonly CssValueBuilder value;
-        readonly CssTokenizer tokenizer;
-        readonly Object sync;
-        readonly CssStyleSheet sheet;
+        readonly CssSelectorConstructor _selector;
+        readonly CssValueBuilder _value;
+        readonly CssTokenizer _tokenizer;
+        readonly Object _syncGuard;
+        readonly CssStyleSheet _sheet;
 
-        Boolean started;
-        Task<ICssStyleSheet> task;
+        Boolean _started;
+        Task<ICssStyleSheet> _task;
 
         #endregion
 
@@ -67,12 +68,12 @@
         internal CssParser(CssStyleSheet stylesheet)
         {
             var owner = stylesheet.OwnerNode as Element;
-            selector = new CssSelectorConstructor();
-            value = new CssValueBuilder();
-            sync = new Object();
-            tokenizer = new CssTokenizer(stylesheet.Source, stylesheet.Options.Events);
-            started = false;
-            sheet = stylesheet;
+            _selector = new CssSelectorConstructor();
+            _value = new CssValueBuilder();
+            _syncGuard = new Object();
+            _tokenizer = new CssTokenizer(stylesheet.Source, stylesheet.Options.Events);
+            _started = false;
+            _sheet = stylesheet;
         }
 
         #endregion
@@ -84,7 +85,7 @@
         /// </summary>
         public Boolean IsAsync
         {
-            get { return task != null; }
+            get { return _task != null; }
         }
 
         /// <summary>
@@ -95,7 +96,7 @@
             get
             {
                 Parse();
-                return sheet;
+                return _sheet;
             }
         }
 
@@ -123,16 +124,16 @@
         /// </returns>
         public Task<ICssStyleSheet> ParseAsync(CancellationToken cancelToken)
         {
-            lock (sync)
+            lock (_syncGuard)
             {
-                if (!started)
+                if (!_started)
                 {
-                    started = true;
-                    task = KernelAsync(cancelToken);
+                    _started = true;
+                    _task = KernelAsync(cancelToken);
                 }
             }
 
-            return task;
+            return _task;
         }
 
         /// <summary>
@@ -140,13 +141,13 @@
         /// </summary>
         public ICssStyleSheet Parse()
         {
-            if (!started)
+            if (!_started)
             {
-                started = true;
+                _started = true;
                 Kernel();
             }
 
-            return sheet;
+            return _sheet;
         }
 
         #endregion
@@ -159,15 +160,16 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created media rule.</returns>
-        internal static CssMediaRule CreateMediaRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssMediaRule CreateMediaRule(CssParser parser)
         {
-            var list = tokens.MoveNext() ? parser.InMediaList(tokens) : new MediaList();
+            var token = parser._tokenizer.Get();
+            var list = parser.InMediaList(ref token);
             var rule = new CssMediaRule(list);
 
-            if (tokens.Current.Type != CssTokenType.CurlyBracketOpen)
+            if (token.Type != CssTokenType.CurlyBracketOpen)
                 return null;
 
-            parser.FillRules(rule, tokens);
+            parser.FillRules(rule);
             return rule;
         }
 
@@ -177,15 +179,14 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created page rule.</returns>
-        internal static CssPageRule CreatePageRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssPageRule CreatePageRule(CssParser parser)
         {
             var rule = new CssPageRule();
+            var token = parser._tokenizer.Get();
+            rule.Selector = parser.InSelector(ref token);
 
-            if (tokens.MoveNext())
-                rule.Selector = parser.InSelector(tokens);
-
-            if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
-                parser.FillDeclarations(rule.Style, tokens);
+            if (token.Type == CssTokenType.CurlyBracketOpen)
+                parser.FillDeclarations(rule.Style);
 
             return rule;
         }
@@ -196,12 +197,13 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created font-face rule.</returns>
-        internal static CssFontFaceRule CreateFontFaceRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssFontFaceRule CreateFontFaceRule(CssParser parser)
         {
             var rule = new CssFontFaceRule();
+            var token = parser._tokenizer.Get();
 
-            if (tokens.MoveNext() && tokens.Current.Type == CssTokenType.CurlyBracketOpen)
-                parser.FillDeclarations(rule.Style, tokens);
+            if (token.Type == CssTokenType.CurlyBracketOpen)
+                parser.FillDeclarations(rule.Style);
 
             return rule;
         }
@@ -212,15 +214,20 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created supports rule.</returns>
-        internal static CssSupportsRule CreateSupportsRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssSupportsRule CreateSupportsRule(CssParser parser)
         {
             var rule = new CssSupportsRule();
+            var token = parser._tokenizer.Get();
+            rule.Condition = parser.InCondition(ref token);
 
-            if (tokens.MoveNext())
-                rule.Condition = parser.InCondition(tokens);
+            if (rule.Condition == null)
+            {
+                while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketOpen))
+                    token = parser._tokenizer.Get();
+            }
 
-            if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
-                parser.FillRules(rule, tokens);
+            if (token.Type == CssTokenType.CurlyBracketOpen)
+                parser.FillRules(rule);
 
             return rule;
         }
@@ -231,15 +238,13 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated document rule.</returns>
-        internal static CssDocumentRule CreateDocumentRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssDocumentRule CreateDocumentRule(CssParser parser)
         {
-            var rule = new CssDocumentRule();
+            var token = parser._tokenizer.Get();
+            var rule = parser.InDocumentFunctions(ref token);
 
-            if (tokens.MoveNext())
-                rule.Conditions.AddRange(parser.InDocumentFunctions(tokens));
-
-            if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
-                parser.FillRules(rule, tokens);
+            if (token.Type == CssTokenType.CurlyBracketOpen)
+                parser.FillRules(rule);
 
             return rule;
         }
@@ -250,15 +255,13 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated keyframes rule.</returns>
-        internal static CssKeyframesRule CreateKeyframesRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssKeyframesRule CreateKeyframesRule(CssParser parser)
         {
-            var rule = new CssKeyframesRule();
+            var token = parser._tokenizer.Get();
+            var rule = parser.InKeyframesName(ref token);
 
-            if (tokens.MoveNext())
-                rule.Name = tokens.InKeyframesName();
-
-            if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
-                parser.FillRules(rule, tokens);
+            if (token.Type == CssTokenType.CurlyBracketOpen)
+                parser.FillKeyframeRules(rule);
 
             return rule;
         }
@@ -269,28 +272,21 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated namespace rule.</returns>
-        internal static CssNamespaceRule CreateNamespaceRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssNamespaceRule CreateNamespaceRule(CssParser parser)
         {
             var rule = new CssNamespaceRule();
+            var token = parser._tokenizer.Get();
 
-            if (tokens.MoveNext())
+            if (token.Type == CssTokenType.Ident)
             {
-                var token = tokens.Current;
-
-                if (token.Type == CssTokenType.Ident)
-                {
-                    rule.Prefix = token.Data;
-
-                    if (tokens.MoveNext())
-                        token = tokens.Current;
-                }
-
-                if (token.Type == CssTokenType.Url)
-                    rule.NamespaceUri = token.Data;
-
-                tokens.JumpToNextSemicolon();
+                rule.Prefix = token.Data;
+                token = parser._tokenizer.Get();
             }
 
+            if (token.Type == CssTokenType.Url)
+                rule.NamespaceUri = token.Data;
+
+            parser._tokenizer.JumpToNextSemicolon();
             return rule;
         }
 
@@ -300,23 +296,15 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The generated rule.</returns>
-        internal static CssCharsetRule CreateCharsetRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssCharsetRule CreateCharsetRule(CssParser parser)
         {
             var rule = new CssCharsetRule();
+            var token = parser._tokenizer.Get();
 
-            if (tokens.MoveNext())
-            {
-                var token = tokens.Current;
+            if (token.Type == CssTokenType.String)
+                rule.CharacterSet = ((CssStringToken)token).Data;
 
-                if (token.Type == CssTokenType.String)
-                {
-                    rule.CharacterSet = ((CssStringToken)token).Data;
-                    tokens.MoveNext();
-                }
-
-                tokens.JumpToNextSemicolon();
-            }
-
+            parser._tokenizer.JumpToNextSemicolon();
             return rule;
         }
 
@@ -326,52 +314,20 @@
         /// <param name="parser">The parser to create the rule.</param>
         /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created rule.</returns>
-        internal static CssImportRule CreateImportRule(CssParser parser, IEnumerator<CssToken> tokens)
+        internal static CssImportRule CreateImportRule(CssParser parser)
         {
             var import = new CssImportRule();
+            var token = parser._tokenizer.Get();
 
-            if (tokens.MoveNext())
+            if (token.Is(CssTokenType.String, CssTokenType.Url))
             {
-                var token = tokens.Current;
-
-                if (token.Type == CssTokenType.String || token.Type == CssTokenType.Url)
-                {
-                    import.Href = ((CssStringToken)token).Data;
-
-                    if (tokens.MoveNext())
-                        import.Media = parser.InMediaList(tokens);
-                }
-
-                tokens.JumpToNextSemicolon();
+                import.Href = token.Data;
+                token = parser._tokenizer.Get();
+                import.Media = parser.InMediaList(ref token);
             }
 
+            parser._tokenizer.JumpToNextSemicolon();
             return import;
-        }
-
-        /// <summary>
-        /// An unidentified @-rule has been found.
-        /// </summary>
-        /// <param name="parser">The parser to create the rule.</param>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The created rule.</returns>
-        static CssUnknownRule CreateUnknownRule(CssParser parser, IEnumerator<CssToken> tokens)
-        {
-            var rule = new CssUnknownRule(tokens.Current.Data);
-            parser.tokenizer.State = CssParseMode.Text;
-
-            if (tokens.MoveNext() && tokens.Current.Type == CssTokenType.Ident)
-            {
-                rule.Prelude = tokens.Current.Data.Trim();
-            }
-
-            parser.tokenizer.State = CssParseMode.Data;
-
-            if (tokens.MoveNext() && tokens.Current.Type == CssTokenType.CurlyBracketOpen)
-            {
-                parser.FillRules(rule, tokens);
-            }
-
-            return rule;
         }
 
         #endregion
@@ -381,22 +337,20 @@
         /// <summary>
         /// Creates a rule with the enumeration of tokens.
         /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
+        /// <param name="token">The current tokens.</param>
         /// <returns>The generated CSS rule.</returns>
-        CssRule CreateRule(IEnumerator<CssToken> tokens)
+        CssRule CreateRule(CssToken token)
         {
-            var token = tokens.Current;
-
             switch (token.Type)
             {
                 case CssTokenType.AtKeyword:
                 {
-                    var rule = this.CreateAtRule(token.Data, tokens);
+                    var rule = this.CreateAtRule(token.Data);
 
                     if (rule == null)
                     {
                         RaiseErrorOccurred(CssParseError.UnknownAtRule, token);
-                        tokens.SkipUnknownRule();
+                        _tokenizer.SkipUnknownRule();
                     }
 
                     return rule;
@@ -404,7 +358,7 @@
                 case CssTokenType.CurlyBracketOpen:
                 {
                     RaiseErrorOccurred(CssParseError.InvalidBlockStart, token);
-                    tokens.SkipUnknownRule();
+                    _tokenizer.SkipUnknownRule();
                     return null;
                 }
                 case CssTokenType.String:
@@ -414,19 +368,15 @@
                 case CssTokenType.SquareBracketClose:
                 {
                     RaiseErrorOccurred(CssParseError.InvalidToken, token);
-                    tokens.SkipUnknownRule();
+                    _tokenizer.SkipUnknownRule();
                     return null;
                 }
                 default:
                 {
                     var rule = new CssStyleRule();
-                    rule.Selector = InSelector(tokens);
-                    FillDeclarations(rule.Style, tokens);
-
-                    if (rule.Selector == null)
-                        return null;
-
-                    return rule;
+                    rule.Selector = InSelector(ref token);
+                    FillDeclarations(rule.Style);
+                    return rule.Selector != null ? rule : null;
                 }
             }
         }
@@ -438,58 +388,43 @@
         /// <summary>
         /// State that is called once we are in a CSS selector.
         /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The generated selector.</returns>
-        ISelector InSelector(IEnumerator<CssToken> tokens)
+        ISelector InSelector(ref CssToken token)
         {
-            tokenizer.State = CssParseMode.Selector;
-            selector.Reset();
-            var start = tokens.Current;
+            _tokenizer.State = CssParseMode.Selector;
+            _selector.Reset();
+            var start = token;
 
-            do
+            while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketOpen, CssTokenType.CurlyBracketClose))
             {
-                var token = tokens.Current;
-
-                if (token.Type == CssTokenType.CurlyBracketOpen || token.Type == CssTokenType.CurlyBracketClose)
-                    break;
-
-                selector.Apply(token);
+                _selector.Apply(token);
+                token = _tokenizer.Get();
             }
-            while (tokens.MoveNext());
 
-            if (selector.IsValid == false)
+            if (_selector.IsValid == false)
                 RaiseErrorOccurred(CssParseError.InvalidSelector, start);
 
-            tokenizer.State = CssParseMode.Data;
-            return selector.Result;
+            _tokenizer.State = CssParseMode.Data;
+            return _selector.Result;
         }
 
         /// <summary>
         /// Called before the property name has been detected.
         /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <param name="style">The style to populate.</param>
-        /// <returns>The created property.</returns>
-        CssProperty Declaration(IEnumerator<CssToken> tokens, CssStyleDeclaration style)
+        CssProperty InDeclaration(CssStyleDeclaration style, ref CssToken token)
         {
-            var token = tokens.Current;
-
             if (token.Type == CssTokenType.Ident)
             {
+                var property = default(CssProperty);
                 var propertyName = token.Data;
+                token = _tokenizer.Get();
 
-                if (!tokens.MoveNext())
+                if (token.Type != CssTokenType.Colon)
                 {
                     RaiseErrorOccurred(CssParseError.ColonMissing, token);
                 }
-                else if (tokens.Current.Type != CssTokenType.Colon)
-                {
-                    RaiseErrorOccurred(CssParseError.ColonMissing, tokens.Current);
-                    tokens.JumpToEndOfDeclaration();
-                }
                 else
                 {
-                    var property = style.CreateProperty(propertyName);
+                    property = style.CreateProperty(propertyName);
 
                     if (property == null)
                     {
@@ -497,21 +432,23 @@
                         property = new CssUnknownProperty(propertyName, style);
                     }
 
-                    var val = InValue(tokens);
+                    var val = InValue(ref token);
 
                     if (val == null)
                         RaiseErrorOccurred(CssParseError.ValueMissing, token);
                     else if (property.TrySetValue(val))
                         style.SetProperty(property);
 
-                    property.IsImportant = value.IsImportant;
-                    tokens.JumpToEndOfDeclaration();
-                    return property;
+                    property.IsImportant = _value.IsImportant;
                 }
+
+                _tokenizer.JumpToEndOfDeclaration();
+                token = _tokenizer.Get();
+                return property;
             }
             else
             {
-                RaiseErrorOccurred(CssParseError.IdentExpected, tokens.Current);
+                RaiseErrorOccurred(CssParseError.IdentExpected, token);
             }
 
             return null;
@@ -524,31 +461,30 @@
         /// <summary>
         /// Called when the document functions have to been found.
         /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The iteration over all found document functions.</returns>
-        IEnumerable<Tuple<CssDocumentRule.DocumentFunction, String>> InDocumentFunctions(IEnumerator<CssToken> tokens)
+        CssDocumentRule InDocumentFunctions(ref CssToken token)
         {
+            var rule = new CssDocumentRule();
+
             do
             {
-                var function = InDocumentFunction(tokens);
+                var function = InDocumentFunction(token);
 
-                if (function != null)
-                    yield return function;
+                if (function == null)
+                    break;
+                
+                rule.Conditions.Add(function);
+                token = _tokenizer.Get();
             }
-            while (tokens.MoveNext() && tokens.Current.Type == CssTokenType.Comma);
+            while (token.Type == CssTokenType.Comma);
+
+            return rule;
         }
 
         /// <summary>
         /// Called before a document function has been found.
         /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>
-        /// A single document function or null if none has been found.
-        /// </returns>
-        Tuple<CssDocumentRule.DocumentFunction, String> InDocumentFunction(IEnumerator<CssToken> tokens)
+        Tuple<CssDocumentRule.DocumentFunction, String> InDocumentFunction(CssToken token)
         {
-            var token = tokens.Current;
-
             switch (token.Type)
             {
                 case CssTokenType.Url:
@@ -579,20 +515,71 @@
         #region Keyframes
 
         /// <summary>
-        /// Before the curly bracket of an @keyframes rule has been seen.
+        /// Before the name of an @keyframes rule has been detected.
         /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The generated keyframe data.</returns>
-        CssKeyframeRule CreateKeyframeRule(IEnumerator<CssToken> tokens)
+        CssKeyframesRule InKeyframesName(ref CssToken token)
         {
-            var rule = new CssKeyframeRule();
-            rule.Key = tokens.InKeyframeText();
-            FillDeclarations(rule.Style, tokens);
+            var rule = new CssKeyframesRule();
 
-            if (rule.Key == null)
-                return null;
+            if (token.Type == CssTokenType.Ident)
+            {
+                rule.Name = token.Data;
+                token = _tokenizer.Get();
+            }
 
             return rule;
+        }
+
+        /// <summary>
+        /// Before the curly bracket of an @keyframes rule has been seen.
+        /// </summary>
+        CssKeyframeRule CreateKeyframeRule(CssToken token)
+        {
+            var rule = new CssKeyframeRule();
+            rule.Key = InKeyframeSelector(ref token);
+
+            if (rule.Key == null)
+            {
+                _tokenizer.JumpToEndOfDeclaration();
+                return null;
+            }
+
+            FillDeclarations(rule.Style);
+            return rule;
+        }
+
+        /// <summary>
+        /// Called in the text for a frame in the @keyframes rule.
+        /// </summary>
+        KeyframeSelector InKeyframeSelector(ref CssToken token)
+        {
+            var keys = new List<Percent>();
+
+            while (token.Type != CssTokenType.Eof)
+            {
+                if (keys.Count > 0)
+                {
+                    if (token.Type == CssTokenType.CurlyBracketOpen)
+                        break;
+                    else if (token.Type != CssTokenType.Comma)
+                        return null;
+
+                    token = _tokenizer.Get();
+                }
+
+                if (token.Type == CssTokenType.Percentage)
+                    keys.Add(new Percent(((CssUnitToken)token).Value));
+                else if (token.Type == CssTokenType.Ident && token.Data.Equals(Keywords.From))
+                    keys.Add(Percent.Zero);
+                else if (token.Type == CssTokenType.Ident && token.Data.Equals(Keywords.To))
+                    keys.Add(Percent.Hundred);
+                else
+                    return null;
+
+                token = _tokenizer.Get();
+            }
+
+            return new KeyframeSelector(keys);
         }
 
         #endregion
@@ -602,35 +589,41 @@
         /// <summary>
         /// Before any medium has been found for the @media or @import rule.
         /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The generated medialist.</returns>
-        MediaList InMediaList(IEnumerator<CssToken> tokens)
+        MediaList InMediaList(ref CssToken token)
         {
             var list = new MediaList();
 
-            do
+            while (token.Type != CssTokenType.Eof)
             {
-                var medium = InMediaValue(tokens);
+                var medium = InMediaValue(ref token);
 
                 if (medium == null)
                     break;
 
                 list.Add(medium);
-            }
-            while (tokens.Current.Type == CssTokenType.Comma && tokens.MoveNext());
 
-            if (tokens.Current.Type != CssTokenType.CurlyBracketOpen)
+                if (token.Type != CssTokenType.Comma)
+                    break;
+
+                token = _tokenizer.Get();
+            }
+
+            if (token.Type != CssTokenType.CurlyBracketOpen)
             {
-                if (tokens.Current.Type == CssTokenType.RoundBracketClose)
-                    tokens.MoveNext();
+                if (token.Type == CssTokenType.RoundBracketClose)
+                    token = _tokenizer.Get();
 
-                if (tokens.Current.Type == CssTokenType.CurlyBracketOpen)
-                    tokens.MoveNext();
+                if (token.Type == CssTokenType.CurlyBracketOpen)
+                    token = _tokenizer.Get();
 
-                tokens.JumpToEndOfDeclaration();
+                _tokenizer.JumpToEndOfDeclaration();
+                token = _tokenizer.Get();
             }
-            else if (list.Length == 0 && tokens.MoveNext())
-                tokens.JumpToEndOfDeclaration();
+            else if (list.Length == 0)
+            {
+                _tokenizer.JumpToEndOfDeclaration();
+                token = _tokenizer.Get();
+            }
 
             return list;
         }
@@ -638,85 +631,91 @@
         /// <summary>
         /// Scans the current medium for the @media or @import rule.
         /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The medium.</returns>
-        CssMedium InMediaValue(IEnumerator<CssToken> tokens)
+        CssMedium InMediaValue(ref CssToken token)
         {
-            var medium = tokens.GetMedium();
-            var token = tokens.Current;
+            var medium = new CssMedium();
+
+            if (token.Type == CssTokenType.Ident)
+            {
+                var identifier = token.Data;
+
+                if (identifier.Equals(Keywords.Not, StringComparison.OrdinalIgnoreCase))
+                {
+                    medium.IsInverse = true;
+                    token = _tokenizer.Get();
+                }
+                else if (identifier.Equals(Keywords.Only, StringComparison.OrdinalIgnoreCase))
+                {
+                    medium.IsExclusive = true;
+                    token = _tokenizer.Get();
+                }
+            }
 
             if (token.Type == CssTokenType.Ident)
             {
                 medium.Type = token.Data;
+                token = _tokenizer.Get();
 
-                if (!tokens.MoveNext())
+                if (token.Type != CssTokenType.Ident || String.Compare(token.Data, Keywords.And, StringComparison.OrdinalIgnoreCase) != 0)
                     return medium;
-                
-                token = tokens.Current;
 
-                if (token.Type != CssTokenType.Ident || String.Compare(token.Data, Keywords.And, StringComparison.OrdinalIgnoreCase) != 0 || !tokens.MoveNext())
-                    return medium;
+                token = _tokenizer.Get();
             }
 
             do
             {
-                if (tokens.Current.Type != CssTokenType.RoundBracketOpen)
+                if (token.Type != CssTokenType.RoundBracketOpen)
                     return null;
-                else if (!tokens.MoveNext())
-                    return medium;
 
-                var pair = GetConstraint(tokens);
+                token = _tokenizer.Get();
 
-                if (pair == null || tokens.Current.Type != CssTokenType.RoundBracketClose || !medium.AddConstraint(pair.Item1, pair.Item2))
+                if (TrySetConstraint(medium, ref token) == false || token.Type != CssTokenType.RoundBracketClose)
                     return null;
-                else if (!tokens.MoveNext())
-                    return medium;
 
-                token = tokens.Current;
+                token = _tokenizer.Get();
 
                 if (token.Type != CssTokenType.Ident || String.Compare(token.Data, Keywords.And, StringComparison.OrdinalIgnoreCase) != 0)
                     break;
+
+                token = _tokenizer.Get();
             }
-            while (tokens.MoveNext()) ;
+            while (token.Type != CssTokenType.Eof);
 
             return medium;
         }
 
-        Tuple<String, CssValue> GetConstraint(IEnumerator<CssToken> tokens)
+        Boolean TrySetConstraint(CssMedium medium, ref CssToken token)
         {
-            var token = tokens.Current;
-
             if (token.Type != CssTokenType.Ident)
             {
-                tokens.JumpToClosedArguments();
-                return null;
+                _tokenizer.JumpToClosedArguments();
+                token = _tokenizer.Get();
+                return false;
             }
 
-            value.Reset();
+            _value.Reset();
             var feature = token.Data;
-            tokens.MoveNext();
-            token = tokens.Current;
+            token = _tokenizer.Get();
 
             if (token.Type == CssTokenType.Colon)
             {
-                tokenizer.State = CssParseMode.Value;
-                tokens.MoveNext();
+                _tokenizer.State = CssParseMode.Value;
+                token = _tokenizer.Get();
 
-                do
+                while (token.Type != CssTokenType.RoundBracketClose || _value.IsReady == false)
                 {
-                    token = tokens.Current;
+                    if (token.Type == CssTokenType.Eof)
+                        return false;
 
-                    if (token.Type == CssTokenType.RoundBracketClose && value.IsReady)
-                        break;
-
-                    value.Apply(token);
+                    _value.Apply(token);
+                    token = _tokenizer.Get();
                 }
-                while (tokens.MoveNext());
 
-                tokenizer.State = CssParseMode.Data;
+                _tokenizer.State = CssParseMode.Data;
+                medium.AddConstraint(feature, _value.Result);
             }
 
-            return Tuple.Create(feature, value.Result);
+            return true;
         }
 
         #endregion
@@ -726,31 +725,24 @@
         /// <summary>
         /// Called before any token in the value regime had been seen.
         /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The computed value.</returns>
-        CssValue InValue(IEnumerator<CssToken> tokens)
+        CssValue InValue(ref CssToken token)
         {
-            tokenizer.State = CssParseMode.Value;
-            value.Reset();
+            _tokenizer.State = CssParseMode.Value;
+            _value.Reset();
+            token = _tokenizer.Get();
 
-            if (tokens.MoveNext())
+            while (token.Type != CssTokenType.Eof)
             {
-                do
-                {
-                    var token = tokens.Current;
+                if (token.Is(CssTokenType.Semicolon, CssTokenType.CurlyBracketClose) ||
+                   (token.Type == CssTokenType.RoundBracketClose && _value.IsReady))
+                    break;
 
-                    if (token.Type == CssTokenType.Semicolon || 
-                        token.Type == CssTokenType.CurlyBracketClose || 
-                        (token.Type == CssTokenType.RoundBracketClose && value.IsReady))
-                        break;
-
-                    value.Apply(token);
-                }
-                while (tokens.MoveNext());
+                _value.Apply(token);
+                token = _tokenizer.Get();
             }
 
-            tokenizer.State = CssParseMode.Data;
-            return value.Result;
+            _tokenizer.State = CssParseMode.Data;
+            return _value.Result;
         }
 
         #endregion
@@ -760,50 +752,50 @@
         /// <summary>
         /// Called before any token in the value regime had been seen.
         /// </summary>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The computed value.</returns>
-        CssSupportsRule.ICondition InCondition(IEnumerator<CssToken> tokens)
+        CssSupportsRule.ICondition InCondition(ref CssToken token)
         {
-            var condition = ExtractConditions(tokens);
+            var condition = ExtractCondition(ref token);
 
-            if (condition == null)
-                while (tokens.Current.Type != CssTokenType.CurlyBracketOpen && tokens.MoveNext()) ;
-
-            return condition;
-        }
-
-        CssSupportsRule.ICondition ExtractConditions(IEnumerator<CssToken> tokens)
-        {
-            var condition = ExtractCondition(tokens);
-
-            if (condition == null)
-                return null;
-
-            if (tokens.Current.Data.Equals(Keywords.And, StringComparison.OrdinalIgnoreCase))
-                return new CssSupportsRule.AndCondition(Conditions(tokens, condition, Keywords.And));
-            else if (tokens.Current.Data.Equals(Keywords.Or, StringComparison.OrdinalIgnoreCase))
-                return new CssSupportsRule.OrCondition(Conditions(tokens, condition, Keywords.Or));
-
-            return condition;
-        }
-
-        CssSupportsRule.ICondition ExtractCondition(IEnumerator<CssToken> tokens)
-        {
-            if (tokens.Current.Type == CssTokenType.RoundBracketOpen && tokens.MoveNext())
+            if (condition != null)
             {
-                var condition = ExtractConditions(tokens);
+                token = _tokenizer.Get();
+
+                if (token.Data.Equals(Keywords.And, StringComparison.OrdinalIgnoreCase))
+                {
+                    token = _tokenizer.Get();
+                    var conditions = Conditions(condition, Keywords.And, ref token);
+                    return new CssSupportsRule.AndCondition(conditions);
+                }
+                else if (token.Data.Equals(Keywords.Or, StringComparison.OrdinalIgnoreCase))
+                {
+                    token = _tokenizer.Get();
+                    var conditions = Conditions(condition, Keywords.Or, ref token);
+                    return new CssSupportsRule.OrCondition(conditions);
+                }
+            }
+
+            return condition;
+        }
+
+        CssSupportsRule.ICondition ExtractCondition(ref CssToken token)
+        {
+            if (token.Type == CssTokenType.RoundBracketOpen)
+            {
+                token = _tokenizer.Get();
+                var condition = InCondition(ref token);
 
                 if (condition != null)
                     condition = new CssSupportsRule.GroupCondition(condition);
-                else if (tokens.Current.Type == CssTokenType.Ident)
-                    condition = DeclCondition(tokens);
+                else if (token.Type == CssTokenType.Ident)
+                    condition = DeclCondition(ref token);
 
-                if (tokens.Current.Type == CssTokenType.RoundBracketClose && tokens.MoveNext())
+                if (token.Type == CssTokenType.RoundBracketClose)
                     return condition;
             }
-            else if (tokens.Current.Data.Equals(Keywords.Not, StringComparison.OrdinalIgnoreCase) && tokens.MoveNext())
+            else if (token.Data.Equals(Keywords.Not, StringComparison.OrdinalIgnoreCase))
             {
-                var condition = ExtractCondition(tokens);
+                token = _tokenizer.Get();
+                var condition = ExtractCondition(ref token);
 
                 if (condition != null)
                     return new CssSupportsRule.NotCondition(condition);
@@ -812,43 +804,53 @@
             return null;
         }
 
-        CssSupportsRule.ICondition DeclCondition(IEnumerator<CssToken> tokens)
+        CssSupportsRule.ICondition DeclCondition(ref CssToken token)
         {
-            var name = tokens.Current.Data;
+            var name = token.Data;
             var style = new CssStyleDeclaration();
             var property = Factory.Properties.Create(name, style);
 
             if (property == null)
                 property = new CssUnknownProperty(name, style);
 
-            if (!tokens.MoveNext() || tokens.Current.Type != CssTokenType.Colon)
-                return null;
+            token = _tokenizer.Get();
 
-            var result = InValue(tokens);
+            if (token.Type == CssTokenType.Colon)
+            {
+                var result = InValue(ref token);
 
-            if (result == null)
-                return null;
+                if (result != null)
+                {
+                    property.IsImportant = _value.IsImportant;
+                    return new CssSupportsRule.DeclarationCondition(property, result);
+                }
+            }
 
-            property.IsImportant = value.IsImportant;
-            return new CssSupportsRule.DeclarationCondition(property, result);
+            return null;
         }
 
-        IEnumerable<CssSupportsRule.ICondition> Conditions(IEnumerator<CssToken> tokens, CssSupportsRule.ICondition start, String connector)
+        List<CssSupportsRule.ICondition> Conditions(CssSupportsRule.ICondition condition, String connector, ref CssToken token)
         {
-            yield return start;
+            var list = new List<CssSupportsRule.ICondition>();
+            list.Add(condition);
 
-            while (tokens.MoveNext())
+            while (token.Type != CssTokenType.Eof)
             {
-                var condition = ExtractCondition(tokens);
+                condition = ExtractCondition(ref token);
 
                 if (condition == null)
                     break;
 
-                yield return condition;
+                list.Add(condition);
+                token = _tokenizer.Get();
 
-                if (!tokens.Current.Data.Equals(connector, StringComparison.OrdinalIgnoreCase))
+                if (!token.Data.Equals(connector, StringComparison.OrdinalIgnoreCase))
                     break;
+
+                token = _tokenizer.Get();
             }
+
+            return list;
         }
 
         #endregion
@@ -860,17 +862,14 @@
         /// </summary>
         void Kernel()
         {
-            var tokens = tokenizer.Tokens.GetEnumerator();
+            var token = _tokenizer.Get();
 
-            while (tokens.MoveNext())
+            do
             {
-                var rule = CreateRule(tokens);
-
-                if (rule == null)
-                    continue;
-
-                sheet.Rules.Add(rule, sheet, null);
+                Consume(token);
+                token = _tokenizer.Get();
             }
+            while (token.Type != CssTokenType.Eof);
         }
 
         /// <summary>
@@ -878,86 +877,87 @@
         /// </summary>
         async Task<ICssStyleSheet> KernelAsync(CancellationToken cancelToken)
         {
-            var source = sheet.Source;
-            var tokens = tokenizer.Tokens.GetEnumerator();
+            var source = _sheet.Source;
+            await source.Prefetch(64000, cancelToken).ConfigureAwait(false);
+            var token = _tokenizer.Get();
 
-            while (true)
+            do
             {
-                if (source.Length - source.Index < 1024)
-                    await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
-
-                if (!tokens.MoveNext())
-                    break;
-
-                var rule = CreateRule(tokens);
-
-                if (rule == null)
-                    continue;
-
-                sheet.Rules.Add(rule, sheet, null);
+                Consume(token);
+                token = _tokenizer.Get();
             }
+            while (token.Type != CssTokenType.Eof);
 
-            return sheet;
+            return _sheet;
+        }
+
+        /// <summary>
+        /// Consumes the token by appending a created rule to the sheet.
+        /// </summary>
+        void Consume(CssToken token)
+        {
+            var rule = CreateRule(token);
+
+            if (rule != null)
+                _sheet.Rules.Add(rule, _sheet, null);
+        }
+
+        /// <summary>
+        /// Consumes the token by appending a created rule to the sheet.
+        /// </summary>
+        void Consume(CssToken token, CssGroupingRule parent)
+        {
+            var rule = CreateRule(token);
+
+            if (rule != null)
+                parent.Rules.Add(rule, _sheet, parent);
         }
 
         /// <summary>
         /// Fills the given parent rule with rules given by the tokens.
         /// </summary>
-        /// <param name="parentRule">The parent rule to fill.</param>
-        /// <param name="tokens">The stream of tokens.</param>
-        void FillRules(CssGroupingRule parentRule, IEnumerator<CssToken> tokens)
+        void FillRules(CssGroupingRule rule)
         {
-            while (tokens.MoveNext())
+            var token = _tokenizer.Get();
+
+            while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
             {
-                if (tokens.Current.Type == CssTokenType.CurlyBracketClose)
-                    break;
-
-                var rule = CreateRule(tokens);
-
-                if (rule == null)
-                    continue;
-
-                parentRule.Rules.Add(rule, sheet, parentRule);
+                Consume(token, rule);
+                token = _tokenizer.Get();
             }
         }
 
         /// <summary>
         /// Fills the given keyframe rule with rules given by the tokens.
         /// </summary>
-        /// <param name="parentRule">The parent rule to fill.</param>
-        /// <param name="tokens">The stream of tokens.</param>
-        void FillRules(CssKeyframesRule parentRule, IEnumerator<CssToken> tokens)
+        void FillKeyframeRules(CssKeyframesRule parentRule)
         {
-            while (tokens.MoveNext())
+            var token = _tokenizer.Get();
+
+            while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
             {
-                if (tokens.Current.Type == CssTokenType.CurlyBracketClose)
-                    break;
+                var rule = CreateKeyframeRule(token);
 
-                var rule = CreateKeyframeRule(tokens);
+                if (rule != null)
+                    parentRule.Rules.Add(rule, _sheet, parentRule);
 
-                if (rule == null)
-                    continue;
-
-                parentRule.Rules.Add(rule, sheet, parentRule);
+                token = _tokenizer.Get();
             }
         }
 
         /// <summary>
         /// Fills the given parent style with declarations given by the tokens.
         /// </summary>
-        /// <param name="style">The style to declare.</param>
-        /// <param name="tokens">The stream of tokens.</param>
-        void FillDeclarations(CssStyleDeclaration style, IEnumerator<CssToken> tokens)
+        void FillDeclarations(CssStyleDeclaration style)
         {
-            while (tokens.MoveNext())
+            var token = _tokenizer.Get();
+
+            while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
             {
-                if (tokens.Current.Type == CssTokenType.CurlyBracketClose)
-                    break;
+                InDeclaration(style, ref token);
 
-                Declaration(tokens, style);
-
-                if (tokens.Current.Type == CssTokenType.CurlyBracketClose)
-                    break;
+                if (token.Type == CssTokenType.Semicolon)
+                    token = _tokenizer.Get();
             }
         }
 
@@ -975,11 +975,14 @@
             var source = new TextSource(selectorText);
             var tokenizer = new CssTokenizer(source, null);
             tokenizer.State = CssParseMode.Selector;
-            var tokens = tokenizer.Tokens;
             var creator = Pool.NewSelectorConstructor();
+            var token = tokenizer.Get();
 
-            foreach (var token in tokens)
+            while (token.Type != CssTokenType.Eof)
+            {
                 creator.Apply(token);
+                token = tokenizer.Get();
+            }
 
             return creator.ToPool();
         }
@@ -992,33 +995,12 @@
         /// Optional: The configuration to use for construction.
         /// </param>
         /// <returns>The Selector object.</returns>
-        public static IKeyframeSelector ParseKeyText(String keyText, IConfiguration configuration = null)
+        public static IKeyframeSelector ParseKeyframeSelector(String keyText, IConfiguration configuration = null)
         {
             var parser = new CssParser(keyText, configuration ?? Configuration.Default);
-            var tokens = parser.tokenizer.Tokens.GetEnumerator();
-
-            if (!tokens.MoveNext())
-                return null;
-
-            var selector = tokens.InKeyframeText();
-
-            if (tokens.MoveNext())
-                selector = null;
-
-            return selector;
-        }
-
-        /// <summary>
-        /// Takes a string and transforms it into a CSS stylesheet.
-        /// </summary>
-        /// <param name="stylesheet">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        /// <returns>The CSSStyleSheet object.</returns>
-        public static ICssStyleSheet ParseStyleSheet(String stylesheet, IConfiguration configuration = null)
-        {
-            return new CssParser(stylesheet, configuration ?? Configuration.Default).Parse();
+            var token = parser._tokenizer.Get();
+            var selector = parser.InKeyframeSelector(ref token);
+            return token.Type == CssTokenType.Eof ? selector : null;
         }
 
         #endregion
@@ -1036,13 +1018,9 @@
         internal static CssValue ParseValue(String valueText, IConfiguration configuration = null)
         {
             var parser = new CssParser(valueText, configuration ?? Configuration.Default);
-            var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            var value = parser.InValue(tokens);
-
-            if (tokens.MoveNext())
-                value = null;
-
-            return value;
+            var token = default(CssToken);
+            var value = parser.InValue(ref token);
+            return token.Type == CssTokenType.Eof ? value : null;
         }
 
         /// <summary>
@@ -1056,17 +1034,8 @@
         internal static CssRule ParseRule(String ruleText, IConfiguration configuration = null)
         {
             var parser = new CssParser(ruleText, configuration ?? Configuration.Default);
-            var tokens = parser.tokenizer.Tokens.GetEnumerator();
-
-            if (!tokens.MoveNext())
-                return null;
-
-            var rule = parser.CreateRule(tokens);
-
-            if (tokens.MoveNext())
-                rule = null;
-
-            return rule;
+            var token = parser._tokenizer.Get();
+            return parser.CreateRule(token);
         }
 
         /// <summary>
@@ -1079,9 +1048,9 @@
         /// <returns>The CSSStyleDeclaration object.</returns>
         internal static CssStyleDeclaration ParseDeclarations(String declarations, IConfiguration configuration = null)
         {
-            var decl = new CssStyleDeclaration();
-            AppendDeclarations(decl, declarations, configuration);
-            return decl;
+            var style = new CssStyleDeclaration();
+            AppendDeclarations(style, declarations, configuration);
+            return style;
         }
 
         /// <summary>
@@ -1096,17 +1065,14 @@
         internal static CssProperty ParseDeclaration(String declarationText, IConfiguration configuration = null)
         {
             var parser = new CssParser(declarationText, configuration ?? Configuration.Default);
-            var tokens = parser.tokenizer.Tokens.GetEnumerator();
+            var style = new CssStyleDeclaration();
+            var token = parser._tokenizer.Get();
+            var declaration = parser.InDeclaration(style, ref token);
 
-            if (!tokens.MoveNext())
-                return null;
+            if (token.Type == CssTokenType.Semicolon)
+                token = parser._tokenizer.Get();
 
-            var declaration = parser.Declaration(tokens, new CssStyleDeclaration());
-
-            if (tokens.MoveNext())
-                declaration = null;
-
-            return declaration;
+            return token.Type == CssTokenType.Eof ? declaration : null;
         }
 
         /// <summary>
@@ -1117,27 +1083,24 @@
         /// Optional: The configuration to use for construction.
         /// </param>
         /// <returns>The stream of media.</returns>
-        internal static IEnumerable<CssMedium> ParseMediaList(String mediaText, IConfiguration configuration = null)
+        internal static List<CssMedium> ParseMediaList(String mediaText, IConfiguration configuration = null)
         {
             var parser = new CssParser(mediaText, configuration);
-            var tokens = parser.tokenizer.Tokens.GetEnumerator();
+            var list = new List<CssMedium>();
+            var token = parser._tokenizer.Get();
 
-            if (tokens.MoveNext())
+            while (token.Type != CssTokenType.Eof)
             {
-                do
-                {
-                    var medium = parser.InMediaValue(tokens);
+                var medium = parser.InMediaValue(ref token);
 
-                    if (medium == null)
-                        break;
+                if (medium == null || token.IsNot(CssTokenType.Comma, CssTokenType.Eof))
+                    throw new DomException(DomError.Syntax);
 
-                    yield return medium;
-                }
-                while (tokens.MoveNext());
+                list.Add(medium);
+                token = parser._tokenizer.Get();
             }
 
-            if (tokens.MoveNext())
-                throw new DomException(DomError.Syntax);
+            return list;
         }
 
         /// <summary>
@@ -1151,17 +1114,9 @@
         internal static CssSupportsRule.ICondition ParseCondition(String conditionText, IConfiguration configuration = null)
         {
             var parser = new CssParser(conditionText, configuration ?? Configuration.Default);
-            var tokens = parser.tokenizer.Tokens.GetEnumerator();
-
-            if (!tokens.MoveNext())
-                return null;
-
-            var condition = parser.InCondition(tokens);
-
-            if (tokens.MoveNext())
-                condition = null;
-
-            return condition;
+            var token = parser._tokenizer.Get();
+            var condition = parser.InCondition(ref token);
+            return token.Type == CssTokenType.Eof ? condition : null;
         }
 
         /// <summary>
@@ -1173,15 +1128,12 @@
         /// Optional: The configuration to use for construction.
         /// </param>
         /// <returns>The iterator over the function-argument tuples.</returns>
-        internal static IEnumerable<Tuple<CssDocumentRule.DocumentFunction, String>> ParseDocumentRules(String source, IConfiguration configuration = null)
+        internal static List<Tuple<CssDocumentRule.DocumentFunction, String>> ParseDocumentRules(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration);
-            var tokens = parser.tokenizer.Tokens.GetEnumerator();
-
-            if (!tokens.MoveNext())
-                return Enumerable.Empty<Tuple<CssDocumentRule.DocumentFunction, String>>();
-
-            return parser.InDocumentFunctions(tokens);
+            var token = parser._tokenizer.Get();
+            var document = parser.InDocumentFunctions(ref token);
+            return document.Conditions;
         }
 
         /// <summary>
@@ -1195,19 +1147,13 @@
         internal static CssMedium ParseMedium(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration);
-            var tokens = parser.tokenizer.Tokens.GetEnumerator();
+            var token = parser._tokenizer.Get();
+            var medium = parser.InMediaValue(ref token);
 
-            if (tokens.MoveNext())
-            {
-                var medium = parser.InMediaValue(tokens);
+            if (token.Type != CssTokenType.Eof)
+                throw new DomException(DomError.Syntax);
 
-                if (tokens.MoveNext())
-                    throw new DomException(DomError.Syntax);
-
-                return medium;
-            }
-
-            return null;
+            return medium;
         }
 
         /// <summary>
@@ -1221,12 +1167,8 @@
         internal static CssKeyframeRule ParseKeyframeRule(String rule, IConfiguration configuration = null)
         {
             var parser = new CssParser(rule, configuration);
-            var tokens = parser.tokenizer.Tokens.GetEnumerator();
-
-            if (!tokens.MoveNext())
-                return new CssKeyframeRule();
-
-            return parser.CreateKeyframeRule(tokens);
+            var token = parser._tokenizer.Get();
+            return parser.CreateKeyframeRule(token);
         }
 
         /// <summary>
@@ -1241,8 +1183,7 @@
         internal static void AppendDeclarations(CssStyleDeclaration list, String declarations, IConfiguration configuration = null)
         {
             var parser = new CssParser(declarations, configuration ?? Configuration.Default);
-            var tokens = parser.tokenizer.Tokens.GetEnumerator();
-            parser.FillDeclarations(list, tokens);
+            parser.FillDeclarations(list);
         }
 
         #endregion
@@ -1256,7 +1197,7 @@
         /// <param name="token">The associated token.</param>
         void RaiseErrorOccurred(CssParseError code, CssToken token)
         {
-            tokenizer.RaiseErrorOccurred(code, token.Position);
+            _tokenizer.RaiseErrorOccurred(code, token.Position);
         }
 
         #endregion

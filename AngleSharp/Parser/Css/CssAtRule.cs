@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Css;
-    using AngleSharp.Dom.Css;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using AngleSharp.Css;
+    using AngleSharp.Dom.Css;
 
     /// <summary>
     /// Collects all possible @-rules for easy access.
@@ -12,7 +12,7 @@
     [DebuggerStepThrough]
     static class CssAtRule
     {
-        delegate CssRule Creator(CssParser parser, IEnumerator<CssToken> tokens);
+        delegate CssRule Creator(CssParser parser);
 
         static readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>();
 
@@ -34,14 +34,13 @@
         /// </summary>
         /// <param name="parser">The currently active parser.</param>
         /// <param name="name">The name of the @-rule.</param>
-        /// <param name="tokens">The stream of tokens.</param>
         /// <returns>The created rule or null, if no rule could be created.</returns>
-        public static CssRule CreateAtRule(this CssParser parser, String name, IEnumerator<CssToken> tokens)
+        public static CssRule CreateAtRule(this CssParser parser, String name)
         {
             Creator creator;
 
             if (creators.TryGetValue(name, out creator))
-                return creator(parser, tokens);
+                return creator(parser);
 
             return null;
         }
