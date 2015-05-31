@@ -333,8 +333,6 @@
         /// <summary>
         /// Creates a rule with the enumeration of tokens.
         /// </summary>
-        /// <param name="token">The current tokens.</param>
-        /// <returns>The generated CSS rule.</returns>
         CssRule CreateRule(CssToken token)
         {
             switch (token.Type)
@@ -361,10 +359,7 @@
                 }
                 default:
                 {
-                    var rule = new CssStyleRule();
-                    rule.Selector = InSelector(ref token);
-                    FillDeclarations(rule.Style);
-                    return rule.Selector != null ? rule : null;
+                    return CreateStyleRule(token);
                 }
             }
         }
@@ -372,6 +367,17 @@
         #endregion
 
         #region Style
+
+        /// <summary>
+        /// Creates a new style rule.
+        /// </summary>
+        CssStyleRule CreateStyleRule(CssToken token)
+        {
+            var rule = new CssStyleRule();
+            rule.Selector = InSelector(ref token);
+            FillDeclarations(rule.Style);
+            return rule.Selector != null ? rule : null;
+        }
 
         /// <summary>
         /// State that is called once we are in a CSS selector.
