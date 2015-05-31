@@ -56,7 +56,7 @@
                 case CssTokenType.Url:
                     return Data.CssUrl();
                 case CssTokenType.Color:
-                    return "#" + Data;
+                    return Data.CssColor();
                 default:
                     return Data.CssString();
             }

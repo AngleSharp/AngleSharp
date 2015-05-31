@@ -2,6 +2,7 @@
 {
     using AngleSharp.Attributes;
     using AngleSharp.Css;
+    using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
@@ -749,6 +750,29 @@
         public static String CssUrl(this String value)
         {
             return String.Concat(FunctionNames.Url, "(", value.CssString(), ")");
+        }
+
+        /// <summary>
+        /// Serializes the string to a CSS color.
+        /// </summary>
+        /// <param name="value">The value to serialize.</param>
+        /// <returns>The CSS color representation.</returns>
+        public static String CssColor(this String value)
+        {
+            Color color;
+
+            if (Color.TryFromHex(value, out color))
+            {
+                var arguments = String.Join(", ", new []
+                {
+                    color.R.ToString(),
+                    color.G.ToString(),
+                    color.B.ToString()
+                });
+                return String.Concat(FunctionNames.Rgb, "(", arguments, ")");
+            }
+
+            return value;
         }
 
         /// <summary>
