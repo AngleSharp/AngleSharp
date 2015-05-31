@@ -131,11 +131,7 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@supports display: flex { }";
             var parser = new CssParser(source);
             parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
-            Assert.AreEqual(String.Empty, supports.ConditionText);
-            Assert.IsTrue(supports.IsSupported);
+            Assert.AreEqual(0, parser.Result.Rules.Length);
         }
 
         [Test]
