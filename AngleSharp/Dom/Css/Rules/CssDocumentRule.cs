@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using System;
+    using System.Collections.Generic;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Contains the rules specified by a
@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        readonly List<Tuple<DocumentFunction, String>> _conditions;
+        readonly List<IFunction> _conditions;
 
         #endregion
 
@@ -23,7 +23,7 @@
         internal CssDocumentRule()
             : base(CssRuleType.Document)
         {
-            _conditions = new List<Tuple<DocumentFunction, String>>();
+            _conditions = new List<IFunction>();
         }
 
         #endregion
@@ -42,8 +42,8 @@
                 for (int i = 0; i < entries.Length; i++)
 			    {
                     var condition = _conditions[i];
-                    var name = GetFunctionName(condition.Item1);
-                    var value = condition.Item2.CssString();
+                    var name = condition.Name;
+                    var value = condition.Data.CssString();
                     entries[i] = String.Concat(name, "(", value, ")");
 			    }
 
@@ -54,7 +54,7 @@
                 var conditions = CssParser.ParseDocumentRules(value);
 
                 if (conditions == null)
-                    return;
+                    throw new DomException(DomError.Syntax);
 
                 _conditions.Clear();
                 _conditions.AddRange(conditions);
@@ -68,7 +68,7 @@
         /// <summary>
         /// Gets the list with the conditions.
         /// </summary>
-        internal List<Tuple<DocumentFunction, String>> Conditions
+        public List<IFunction> Conditions
         {
             get { return _conditions; }
         }
@@ -100,46 +100,101 @@
 
         #endregion
 
-        #region Enum
+        #region Condition Functions
 
-        static String GetFunctionName(DocumentFunction function)
+        public interface IFunction
         {
-            switch (function)
-            {
-                case DocumentFunction.Url:
-                    return FunctionNames.Url;
-                case DocumentFunction.UrlPrefix:
-                    return FunctionNames.Url_Prefix;
-                case DocumentFunction.Domain:
-                    return FunctionNames.Domain;
-                case DocumentFunction.RegExp:
-                    return FunctionNames.Regexp;
-            }
+            String Name { get; }
 
-            return String.Empty;
+            String Data { get; }
         }
 
         /// <summary>
-        /// An enumeration over possible functions.
+        /// Take as url function.
         /// </summary>
-        public enum DocumentFunction
+        public class UrlFunction : IFunction
         {
-            /// <summary>
-            /// Take as url function.
-            /// </summary>
-            Url,
-            /// <summary>
-            /// Take as a url prefix function.
-            /// </summary>
-            UrlPrefix,
-            /// <summary>
-            /// Take as domain.
-            /// </summary>
-            Domain,
-            /// <summary>
-            /// Use regular expression function.
-            /// </summary>
-            RegExp
+            public UrlFunction(String url)
+            {
+                Data = url;
+            }
+
+            public String Name
+            {
+                get { return FunctionNames.Url; }
+            }
+
+            public String Data
+            {
+                get;
+                private set;
+            }
+        }
+
+        /// <summary>
+        /// Take as a url prefix function.
+        /// </summary>
+        public class UrlPrefixFunction : IFunction
+        {
+            public UrlPrefixFunction(String url)
+            {
+                Data = url;
+            }
+
+            public String Name
+            {
+                get { return FunctionNames.Url_Prefix; }
+            }
+
+            public String Data
+            {
+                get;
+                private set;
+            }
+        }
+
+        /// <summary>
+        /// Take as domain.
+        /// </summary>
+        public class DomainFunction : IFunction
+        {
+            public DomainFunction(String url)
+            {
+                Data = url;
+            }
+
+            public String Name
+            {
+                get { return FunctionNames.Domain; }
+            }
+
+            public String Data
+            {
+                get;
+                private set;
+            }
+        }
+
+        /// <summary>
+        /// Use regular expression function.
+        /// </summary>
+        public class RegexpFunction : IFunction
+        {
+            public RegexpFunction(String url)
+            {
+                Data = url;
+            }
+
+            public String Name
+            {
+                get { return FunctionNames.Regexp; }
+            }
+
+            public String Data
+            {
+                get;
+                private set;
+            }
         }
 
         #endregion

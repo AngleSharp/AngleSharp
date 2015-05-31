@@ -18,7 +18,7 @@
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     public sealed class CssParser
     {
         #region Fields
@@ -238,7 +238,8 @@
         internal static CssDocumentRule CreateDocumentRule(CssParser parser)
         {
             var token = parser._tokenizer.Get();
-            var rule = parser.InDocumentFunctions(ref token);
+            var rule = new CssDocumentRule();
+            rule.Conditions.AddRange(parser.InDocumentFunctions(ref token));
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
                 return parser.SkipDeclarations<CssDocumentRule>(token);
@@ -448,9 +449,9 @@
         /// <summary>
         /// Called when the document functions have to been found.
         /// </summary>
-        CssDocumentRule InDocumentFunctions(ref CssToken token)
+        List<CssDocumentRule.IFunction> InDocumentFunctions(ref CssToken token)
         {
-            var rule = new CssDocumentRule();
+            var list = new List<CssDocumentRule.IFunction>();
 
             do
             {
@@ -459,29 +460,29 @@
                 if (function == null)
                     break;
                 
-                rule.Conditions.Add(function);
+                list.Add(function);
                 token = _tokenizer.Get();
             }
             while (token.Type == CssTokenType.Comma);
 
-            return rule;
+            return list;
         }
 
         /// <summary>
         /// Called before a document function has been found.
         /// </summary>
-        Tuple<CssDocumentRule.DocumentFunction, String> InDocumentFunction(CssToken token)
+        CssDocumentRule.IFunction InDocumentFunction(CssToken token)
         {
             switch (token.Type)
             {
                 case CssTokenType.Url:
-                    return Tuple.Create(CssDocumentRule.DocumentFunction.Url, token.Data);
+                    return new CssDocumentRule.UrlFunction(token.Data);
 
                 case CssTokenType.UrlPrefix:
-                    return Tuple.Create(CssDocumentRule.DocumentFunction.UrlPrefix, token.Data);
+                    return new CssDocumentRule.UrlPrefixFunction(token.Data);
 
                 case CssTokenType.Domain:
-                    return Tuple.Create(CssDocumentRule.DocumentFunction.Domain, token.Data);
+                    return new CssDocumentRule.DomainFunction(token.Data);
 
                 case CssTokenType.Function:
                     if (String.Compare(token.Data, FunctionNames.Regexp, StringComparison.OrdinalIgnoreCase) == 0)
@@ -489,7 +490,7 @@
                         var str = ((CssFunctionToken)token).ToCssString();
 
                         if (str != null)
-                            return Tuple.Create(CssDocumentRule.DocumentFunction.RegExp, str);
+                            return new CssDocumentRule.RegexpFunction(str);
                     }
                     break;
             }
@@ -1025,8 +1026,9 @@
         internal static CssRule ParseRule(String ruleText, IConfiguration configuration = null)
         {
             var parser = new CssParser(ruleText, configuration ?? Configuration.Default);
+            var rule = parser.CreateRule(parser._tokenizer.Get());
             var token = parser._tokenizer.Get();
-            return parser.CreateRule(token);
+            return token.Type == CssTokenType.Eof ? rule : null;
         }
 
         /// <summary>
@@ -1119,12 +1121,12 @@
         /// Optional: The configuration to use for construction.
         /// </param>
         /// <returns>The iterator over the function-argument tuples.</returns>
-        internal static List<Tuple<CssDocumentRule.DocumentFunction, String>> ParseDocumentRules(String source, IConfiguration configuration = null)
+        internal static List<CssDocumentRule.IFunction> ParseDocumentRules(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration);
             var token = parser._tokenizer.Get();
-            var document = parser.InDocumentFunctions(ref token);
-            return document.Conditions;
+            var conditions = parser.InDocumentFunctions(ref token);
+            return token.Type == CssTokenType.Eof ? conditions : null;
         }
 
         /// <summary>
@@ -1150,16 +1152,17 @@
         /// <summary>
         /// Takes a string and transforms it into a CSS keyframe rule.
         /// </summary>
-        /// <param name="rule">The string to parse.</param>
+        /// <param name="ruleText">The string to parse.</param>
         /// <param name="configuration">
         /// Optional: The configuration to use for construction.
         /// </param>
         /// <returns>The CSSKeyframeRule object.</returns>
-        internal static CssKeyframeRule ParseKeyframeRule(String rule, IConfiguration configuration = null)
+        internal static CssKeyframeRule ParseKeyframeRule(String ruleText, IConfiguration configuration = null)
         {
-            var parser = new CssParser(rule, configuration);
+            var parser = new CssParser(ruleText, configuration);
+            var rule = parser.CreateKeyframeRule(parser._tokenizer.Get());
             var token = parser._tokenizer.Get();
-            return parser.CreateKeyframeRule(token);
+            return token.Type == CssTokenType.Eof ? rule : null;
         }
 
         /// <summary>
