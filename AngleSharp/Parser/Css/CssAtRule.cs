@@ -18,15 +18,15 @@
 
         static CssAtRule()
         {
-            creators.Add(RuleNames.Charset, CssParser.CreateCharsetRule);
-            creators.Add(RuleNames.Page, CssParser.CreatePageRule);
-            creators.Add(RuleNames.Import, CssParser.CreateImportRule);
-            creators.Add(RuleNames.FontFace, CssParser.CreateFontFaceRule);
-            creators.Add(RuleNames.Media, CssParser.CreateMediaRule);
-            creators.Add(RuleNames.Namespace, CssParser.CreateNamespaceRule);
-            creators.Add(RuleNames.Supports, CssParser.CreateSupportsRule);
-            creators.Add(RuleNames.Keyframes, CssParser.CreateKeyframesRule);
-            creators.Add(RuleNames.Document, CssParser.CreateDocumentRule);
+            creators.Add(RuleNames.Charset, (parser) => parser.CreateCharsetRule());
+            creators.Add(RuleNames.Page, (parser) => parser.CreatePageRule());
+            creators.Add(RuleNames.Import, (parser) => parser.CreateImportRule());
+            creators.Add(RuleNames.FontFace, (parser) => parser.CreateFontFaceRule());
+            creators.Add(RuleNames.Media, (parser) => parser.CreateMediaRule());
+            creators.Add(RuleNames.Namespace, (parser) => parser.CreateNamespaceRule());
+            creators.Add(RuleNames.Supports, (parser) => parser.CreateSupportsRule());
+            creators.Add(RuleNames.Keyframes, (parser) => parser.CreateKeyframesRule());
+            creators.Add(RuleNames.Document, (parser) => parser.CreateDocumentRule());
         }
 
         /// <summary>

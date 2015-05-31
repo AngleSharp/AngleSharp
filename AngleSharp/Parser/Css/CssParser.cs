@@ -152,177 +152,150 @@
 
         #endregion
 
-        #region Create Rules
+        #region Create At-Rules
 
         /// <summary>
         /// Called before a medialist has been created.
         /// </summary>
-        /// <param name="parser">The parser to create the rule.</param>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The created media rule.</returns>
-        internal static CssMediaRule CreateMediaRule(CssParser parser)
+        internal CssMediaRule CreateMediaRule()
         {
-            var token = parser._tokenizer.Get();
-            var list = parser.InMediaList(ref token);
+            var token = _tokenizer.Get();
+            var list = InMediaList(ref token);
             var rule = new CssMediaRule(list);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
-                return parser.SkipDeclarations<CssMediaRule>(token);
+                return SkipDeclarations<CssMediaRule>(token);
             
-            parser.FillRules(rule);
+            FillRules(rule);
             return rule;
         }
 
         /// <summary>
         /// Called before a page selector has been found.
         /// </summary>
-        /// <param name="parser">The parser to create the rule.</param>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The created page rule.</returns>
-        internal static CssPageRule CreatePageRule(CssParser parser)
+        internal CssPageRule CreatePageRule()
         {
-            var token = parser._tokenizer.Get();
+            var token = _tokenizer.Get();
             var rule = new CssPageRule();
-            rule.Selector = parser.InSelector(ref token);
+            rule.Selector = InSelector(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
-                return parser.SkipDeclarations<CssPageRule>(token);
+                return SkipDeclarations<CssPageRule>(token);
             
-            parser.FillDeclarations(rule.Style);
+            FillDeclarations(rule.Style);
             return rule;
         }
 
         /// <summary>
         /// Called before the body of the font-face rule.
         /// </summary>
-        /// <param name="parser">The parser to create the rule.</param>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The created font-face rule.</returns>
-        internal static CssFontFaceRule CreateFontFaceRule(CssParser parser)
+        internal CssFontFaceRule CreateFontFaceRule()
         {
-            var token = parser._tokenizer.Get();
+            var token = _tokenizer.Get();
             var rule = new CssFontFaceRule();
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
-                return parser.SkipDeclarations<CssFontFaceRule>(token);
+                return SkipDeclarations<CssFontFaceRule>(token);
             
-            parser.FillDeclarations(rule.Style);
+            FillDeclarations(rule.Style);
             return rule;
         }
 
         /// <summary>
         /// Called before a supports condition has been found.
         /// </summary>
-        /// <param name="parser">The parser to create the rule.</param>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The created supports rule.</returns>
-        internal static CssSupportsRule CreateSupportsRule(CssParser parser)
+        internal CssSupportsRule CreateSupportsRule()
         {
-            var token = parser._tokenizer.Get();
+            var token = _tokenizer.Get();
             var rule = new CssSupportsRule();
-            rule.Condition = parser.InCondition(ref token);
+            rule.Condition = InCondition(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
-                return parser.SkipDeclarations<CssSupportsRule>(token);
+                return SkipDeclarations<CssSupportsRule>(token);
 
-            parser.FillRules(rule);
+            FillRules(rule);
             return rule;
         }
 
         /// <summary>
         /// Called before a document function has been found.
         /// </summary>
-        /// <param name="parser">The parser to create the rule.</param>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The generated document rule.</returns>
-        internal static CssDocumentRule CreateDocumentRule(CssParser parser)
+        internal CssDocumentRule CreateDocumentRule()
         {
-            var token = parser._tokenizer.Get();
+            var token = _tokenizer.Get();
             var rule = new CssDocumentRule();
-            rule.Conditions.AddRange(parser.InDocumentFunctions(ref token));
+            rule.Conditions.AddRange(InDocumentFunctions(ref token));
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
-                return parser.SkipDeclarations<CssDocumentRule>(token);
+                return SkipDeclarations<CssDocumentRule>(token);
 
-            parser.FillRules(rule);
+            FillRules(rule);
             return rule;
         }
 
         /// <summary>
         /// Called before a keyframes identifier has been found.
         /// </summary>
-        /// <param name="parser">The parser to create the rule.</param>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The generated keyframes rule.</returns>
-        internal static CssKeyframesRule CreateKeyframesRule(CssParser parser)
+        internal CssKeyframesRule CreateKeyframesRule()
         {
-            var token = parser._tokenizer.Get();
+            var token = _tokenizer.Get();
             var rule = new CssKeyframesRule();
-            rule.Name = parser.InRuleName(ref token);
+            rule.Name = InRuleName(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
-                return parser.SkipDeclarations<CssKeyframesRule>(token);
+                return SkipDeclarations<CssKeyframesRule>(token);
 
-            parser.FillKeyframeRules(rule);
+            FillKeyframeRules(rule);
             return rule;
         }
 
         /// <summary>
         /// Called before a prefix has been found for the namespace rule.
         /// </summary>
-        /// <param name="parser">The parser to create the rule.</param>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The generated namespace rule.</returns>
-        internal static CssNamespaceRule CreateNamespaceRule(CssParser parser)
+        internal CssNamespaceRule CreateNamespaceRule()
         {
-            var token = parser._tokenizer.Get();
+            var token = _tokenizer.Get();
             var rule = new CssNamespaceRule();
-            rule.Prefix = parser.InRuleName(ref token);
+            rule.Prefix = InRuleName(ref token);
 
             if (token.Type == CssTokenType.Url)
                 rule.NamespaceUri = token.Data;
 
-            parser._tokenizer.JumpToNextSemicolon();
+            _tokenizer.JumpToNextSemicolon();
             return rule;
         }
 
         /// <summary>
         /// Before a charset string has been found.
         /// </summary>
-        /// <param name="parser">The parser to create the rule.</param>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The generated rule.</returns>
-        internal static CssCharsetRule CreateCharsetRule(CssParser parser)
+        internal CssCharsetRule CreateCharsetRule()
         {
-            var token = parser._tokenizer.Get();
+            var token = _tokenizer.Get();
             var rule = new CssCharsetRule();
 
             if (token.Type == CssTokenType.String)
                 rule.CharacterSet = token.Data;
 
-            parser._tokenizer.JumpToNextSemicolon();
+            _tokenizer.JumpToNextSemicolon();
             return rule;
         }
 
         /// <summary>
         /// Before an URL has been found for the import rule.
         /// </summary>
-        /// <param name="parser">The parser to create the rule.</param>
-        /// <param name="tokens">The stream of tokens.</param>
-        /// <returns>The created rule.</returns>
-        internal static CssImportRule CreateImportRule(CssParser parser)
+        internal CssImportRule CreateImportRule()
         {
-            var token = parser._tokenizer.Get();
+            var token = _tokenizer.Get();
             var rule = new CssImportRule();
 
             if (token.Is(CssTokenType.String, CssTokenType.Url))
             {
                 rule.Href = token.Data;
-                token = parser._tokenizer.Get();
-                rule.Media = parser.InMediaList(ref token);
+                token = _tokenizer.Get();
+                rule.Media = InMediaList(ref token);
             }
 
-            parser._tokenizer.JumpToNextSemicolon();
+            _tokenizer.JumpToNextSemicolon();
             return rule;
         }
 
