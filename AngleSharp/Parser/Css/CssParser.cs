@@ -18,7 +18,7 @@
     /// The CSS parser.
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for more details.
     /// </summary>
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public sealed class CssParser
     {
         #region Fields
@@ -167,8 +167,8 @@
             var rule = new CssMediaRule(list);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
-                return null;
-
+                return parser.SkipDeclarations<CssMediaRule>(token);
+            
             parser.FillRules(rule);
             return rule;
         }
@@ -181,13 +181,14 @@
         /// <returns>The created page rule.</returns>
         internal static CssPageRule CreatePageRule(CssParser parser)
         {
-            var rule = new CssPageRule();
             var token = parser._tokenizer.Get();
+            var rule = new CssPageRule();
             rule.Selector = parser.InSelector(ref token);
 
-            if (token.Type == CssTokenType.CurlyBracketOpen)
-                parser.FillDeclarations(rule.Style);
-
+            if (token.Type != CssTokenType.CurlyBracketOpen)
+                return parser.SkipDeclarations<CssPageRule>(token);
+            
+            parser.FillDeclarations(rule.Style);
             return rule;
         }
 
@@ -199,12 +200,13 @@
         /// <returns>The created font-face rule.</returns>
         internal static CssFontFaceRule CreateFontFaceRule(CssParser parser)
         {
-            var rule = new CssFontFaceRule();
             var token = parser._tokenizer.Get();
+            var rule = new CssFontFaceRule();
 
-            if (token.Type == CssTokenType.CurlyBracketOpen)
-                parser.FillDeclarations(rule.Style);
-
+            if (token.Type != CssTokenType.CurlyBracketOpen)
+                return parser.SkipDeclarations<CssFontFaceRule>(token);
+            
+            parser.FillDeclarations(rule.Style);
             return rule;
         }
 
@@ -216,19 +218,14 @@
         /// <returns>The created supports rule.</returns>
         internal static CssSupportsRule CreateSupportsRule(CssParser parser)
         {
-            var rule = new CssSupportsRule();
             var token = parser._tokenizer.Get();
+            var rule = new CssSupportsRule();
             rule.Condition = parser.InCondition(ref token);
 
-            if (rule.Condition == null)
-            {
-                while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketOpen))
-                    token = parser._tokenizer.Get();
-            }
+            if (token.Type != CssTokenType.CurlyBracketOpen)
+                return parser.SkipDeclarations<CssSupportsRule>(token);
 
-            if (token.Type == CssTokenType.CurlyBracketOpen)
-                parser.FillRules(rule);
-
+            parser.FillRules(rule);
             return rule;
         }
 
@@ -243,9 +240,10 @@
             var token = parser._tokenizer.Get();
             var rule = parser.InDocumentFunctions(ref token);
 
-            if (token.Type == CssTokenType.CurlyBracketOpen)
-                parser.FillRules(rule);
+            if (token.Type != CssTokenType.CurlyBracketOpen)
+                return parser.SkipDeclarations<CssDocumentRule>(token);
 
+            parser.FillRules(rule);
             return rule;
         }
 
@@ -258,11 +256,13 @@
         internal static CssKeyframesRule CreateKeyframesRule(CssParser parser)
         {
             var token = parser._tokenizer.Get();
-            var rule = parser.InKeyframesName(ref token);
+            var rule = new CssKeyframesRule();
+            rule.Name = parser.InRuleName(ref token);
 
-            if (token.Type == CssTokenType.CurlyBracketOpen)
-                parser.FillKeyframeRules(rule);
+            if (token.Type != CssTokenType.CurlyBracketOpen)
+                return parser.SkipDeclarations<CssKeyframesRule>(token);
 
+            parser.FillKeyframeRules(rule);
             return rule;
         }
 
@@ -274,14 +274,9 @@
         /// <returns>The generated namespace rule.</returns>
         internal static CssNamespaceRule CreateNamespaceRule(CssParser parser)
         {
-            var rule = new CssNamespaceRule();
             var token = parser._tokenizer.Get();
-
-            if (token.Type == CssTokenType.Ident)
-            {
-                rule.Prefix = token.Data;
-                token = parser._tokenizer.Get();
-            }
+            var rule = new CssNamespaceRule();
+            rule.Prefix = parser.InRuleName(ref token);
 
             if (token.Type == CssTokenType.Url)
                 rule.NamespaceUri = token.Data;
@@ -298,11 +293,11 @@
         /// <returns>The generated rule.</returns>
         internal static CssCharsetRule CreateCharsetRule(CssParser parser)
         {
-            var rule = new CssCharsetRule();
             var token = parser._tokenizer.Get();
+            var rule = new CssCharsetRule();
 
             if (token.Type == CssTokenType.String)
-                rule.CharacterSet = ((CssStringToken)token).Data;
+                rule.CharacterSet = token.Data;
 
             parser._tokenizer.JumpToNextSemicolon();
             return rule;
@@ -316,18 +311,18 @@
         /// <returns>The created rule.</returns>
         internal static CssImportRule CreateImportRule(CssParser parser)
         {
-            var import = new CssImportRule();
             var token = parser._tokenizer.Get();
+            var rule = new CssImportRule();
 
             if (token.Is(CssTokenType.String, CssTokenType.Url))
             {
-                import.Href = token.Data;
+                rule.Href = token.Data;
                 token = parser._tokenizer.Get();
-                import.Media = parser.InMediaList(ref token);
+                rule.Media = parser.InMediaList(ref token);
             }
 
             parser._tokenizer.JumpToNextSemicolon();
-            return import;
+            return rule;
         }
 
         #endregion
@@ -345,15 +340,7 @@
             {
                 case CssTokenType.AtKeyword:
                 {
-                    var rule = this.CreateAtRule(token.Data);
-
-                    if (rule == null)
-                    {
-                        RaiseErrorOccurred(CssParseError.UnknownAtRule, token);
-                        _tokenizer.SkipUnknownRule();
-                    }
-
-                    return rule;
+                    return this.CreateAtRule(token.Data);
                 }
                 case CssTokenType.CurlyBracketOpen:
                 {
@@ -513,22 +500,6 @@
         #endregion
 
         #region Keyframes
-
-        /// <summary>
-        /// Before the name of an @keyframes rule has been detected.
-        /// </summary>
-        CssKeyframesRule InKeyframesName(ref CssToken token)
-        {
-            var rule = new CssKeyframesRule();
-
-            if (token.Type == CssTokenType.Ident)
-            {
-                rule.Name = token.Data;
-                token = _tokenizer.Get();
-            }
-
-            return rule;
-        }
 
         /// <summary>
         /// Before the curly bracket of an @keyframes rule has been seen.
@@ -723,6 +694,22 @@
         #region Value
 
         /// <summary>
+        /// Before the name of a rule has been detected.
+        /// </summary>
+        String InRuleName(ref CssToken token)
+        {
+            var name = String.Empty;
+
+            if (token.Type == CssTokenType.Ident)
+            {
+                name = token.Data;
+                token = _tokenizer.Get();
+            }
+
+            return name;
+        }
+
+        /// <summary>
         /// Called before any token in the value regime had been seen.
         /// </summary>
         CssValue InValue(ref CssToken token)
@@ -758,8 +745,6 @@
 
             if (condition != null)
             {
-                token = _tokenizer.Get();
-
                 if (token.Data.Equals(Keywords.And, StringComparison.OrdinalIgnoreCase))
                 {
                     token = _tokenizer.Get();
@@ -779,10 +764,12 @@
 
         CssSupportsRule.ICondition ExtractCondition(ref CssToken token)
         {
+            var condition = default(CssSupportsRule.ICondition);
+
             if (token.Type == CssTokenType.RoundBracketOpen)
             {
                 token = _tokenizer.Get();
-                var condition = InCondition(ref token);
+                condition = InCondition(ref token);
 
                 if (condition != null)
                     condition = new CssSupportsRule.GroupCondition(condition);
@@ -790,18 +777,18 @@
                     condition = DeclCondition(ref token);
 
                 if (token.Type == CssTokenType.RoundBracketClose)
-                    return condition;
+                    token = _tokenizer.Get();
             }
             else if (token.Data.Equals(Keywords.Not, StringComparison.OrdinalIgnoreCase))
             {
                 token = _tokenizer.Get();
-                var condition = ExtractCondition(ref token);
+                condition = ExtractCondition(ref token);
 
                 if (condition != null)
-                    return new CssSupportsRule.NotCondition(condition);
+                    condition = new CssSupportsRule.NotCondition(condition);
             }
 
-            return null;
+            return condition;
         }
 
         CssSupportsRule.ICondition DeclCondition(ref CssToken token)
@@ -818,12 +805,10 @@
             if (token.Type == CssTokenType.Colon)
             {
                 var result = InValue(ref token);
+                property.IsImportant = _value.IsImportant;
 
                 if (result != null)
-                {
-                    property.IsImportant = _value.IsImportant;
                     return new CssSupportsRule.DeclarationCondition(property, result);
-                }
             }
 
             return null;
@@ -842,7 +827,6 @@
                     break;
 
                 list.Add(condition);
-                token = _tokenizer.Get();
 
                 if (!token.Data.Equals(connector, StringComparison.OrdinalIgnoreCase))
                     break;
@@ -856,6 +840,13 @@
         #endregion
 
         #region Helpers
+
+        T SkipDeclarations<T>(CssToken token)
+        {
+            RaiseErrorOccurred(CssParseError.UnknownAtRule, token);
+            _tokenizer.SkipUnknownRule();
+            return default(T);
+        }
 
         /// <summary>
         /// The kernel that is pulling the tokens into the parser.
