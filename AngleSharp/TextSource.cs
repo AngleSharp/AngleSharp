@@ -220,7 +220,7 @@
         /// Reads the next character from the buffer or underlying stream
         /// asynchronously, if any.
         /// </summary>
-        /// <param name="cancellationToken">The cancellation token</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The task resulting in the next character.</returns>
         public async Task<Char> ReadCharacterAsync(CancellationToken cancellationToken)
         {
@@ -237,7 +237,7 @@
         /// underlying stream asynchronously.
         /// </summary>
         /// <param name="characters">The number of characters to read.</param>
-        /// <param name="cancellationToken">The cancellation token</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The string with the next characters.</returns>
         public async Task<String> ReadCharactersAsync(Int32 characters, CancellationToken cancellationToken)
         {
@@ -256,9 +256,26 @@
             return _content.ToString(start, characters);
         }
 
+        /// <summary>
+        /// Prefetches the number of bytes by expanding the internal buffer.
+        /// </summary>
+        /// <param name="length">The number of bytes to prefetch.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The awaitable task.</returns>
         public Task Prefetch(Int32 length, CancellationToken cancellationToken)
         {
             return ExpandBufferAsync(length, cancellationToken);
+        }
+
+        /// <summary>
+        /// Prefetches the whole stream by expanding the internal buffer.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The awaitable task.</returns>
+        public async Task PrefetchAll(CancellationToken cancellationToken)
+        {
+            while (!_finished && !cancellationToken.IsCancellationRequested)
+                await ExpandBufferAsync(BufferSize, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>

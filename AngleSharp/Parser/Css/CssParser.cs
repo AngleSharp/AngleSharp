@@ -841,17 +841,8 @@
         /// </summary>
         async Task<ICssStyleSheet> KernelAsync(CancellationToken cancelToken)
         {
-            var source = _sheet.Source;
-            await source.Prefetch(64000, cancelToken).ConfigureAwait(false);
-            var token = _tokenizer.Get();
-
-            do
-            {
-                Consume(token);
-                token = _tokenizer.Get();
-            }
-            while (token.Type != CssTokenType.Eof);
-
+            await _sheet.Source.PrefetchAll(cancelToken).ConfigureAwait(false);
+            Kernel();
             return _sheet;
         }
 
