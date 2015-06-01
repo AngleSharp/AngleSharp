@@ -4,17 +4,15 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using AngleSharp.Css;
+    using AngleSharp.Css.Conditions;
+    using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
-    using AngleSharp.Css.DocumentFunctions;
-    using AngleSharp.Css.Values;
-    using AngleSharp.Css.Conditions;
 
     /// <summary>
     /// The CSS parser.
@@ -157,12 +155,22 @@
         #region Create At-Rules
 
         /// <summary>
+        /// Called when an unknown @rule has been found.
+        /// </summary>
+        internal CssRule CreateUnkownRule(CssToken token)
+        {
+            RaiseErrorOccurred(CssParseError.UnknownAtRule, token);
+            _tokenizer.SkipUnknownRule();
+            return null;
+        }
+
+        /// <summary>
         /// Called before a medialist has been created.
         /// </summary>
         internal CssMediaRule CreateMediaRule()
         {
             var token = _tokenizer.Get();
-            var list = InMediaList(ref token);
+            var list = ReadMediaList(ref token);
             var rule = new CssMediaRule(list);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
@@ -179,7 +187,7 @@
         {
             var token = _tokenizer.Get();
             var rule = new CssPageRule();
-            rule.Selector = InSelector(ref token);
+            rule.Selector = ReadSelector(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
                 return SkipDeclarations<CssPageRule>(token);
@@ -210,7 +218,7 @@
         {
             var token = _tokenizer.Get();
             var rule = new CssSupportsRule();
-            rule.Condition = InCondition(ref token);
+            rule.Condition = ReadCondition(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
                 return SkipDeclarations<CssSupportsRule>(token);
@@ -226,7 +234,7 @@
         {
             var token = _tokenizer.Get();
             var rule = new CssDocumentRule();
-            rule.Conditions.AddRange(InDocumentFunctions(ref token));
+            rule.Conditions.AddRange(ReadDocumentFunctions(ref token));
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
                 return SkipDeclarations<CssDocumentRule>(token);
@@ -242,7 +250,7 @@
         {
             var token = _tokenizer.Get();
             var rule = new CssKeyframesRule();
-            rule.Name = InRuleName(ref token);
+            rule.Name = ReadRuleName(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
                 return SkipDeclarations<CssKeyframesRule>(token);
@@ -258,7 +266,7 @@
         {
             var token = _tokenizer.Get();
             var rule = new CssNamespaceRule();
-            rule.Prefix = InRuleName(ref token);
+            rule.Prefix = ReadRuleName(ref token);
 
             if (token.Type == CssTokenType.Url)
                 rule.NamespaceUri = token.Data;
@@ -294,7 +302,7 @@
             {
                 rule.Href = token.Data;
                 token = _tokenizer.Get();
-                rule.Media = InMediaList(ref token);
+                rule.Media = ReadMediaList(ref token);
             }
 
             _tokenizer.JumpToNextSemicolon();
@@ -314,7 +322,7 @@
             {
                 case CssTokenType.AtKeyword:
                 {
-                    return this.CreateAtRule(token.Data);
+                    return this.CreateAtRule(token);
                 }
                 case CssTokenType.CurlyBracketOpen:
                 {
@@ -349,7 +357,7 @@
         CssStyleRule CreateStyleRule(CssToken token)
         {
             var rule = new CssStyleRule();
-            rule.Selector = InSelector(ref token);
+            rule.Selector = ReadSelector(ref token);
             FillDeclarations(rule.Style);
             return rule.Selector != null ? rule : null;
         }
@@ -357,7 +365,7 @@
         /// <summary>
         /// State that is called once we are in a CSS selector.
         /// </summary>
-        ISelector InSelector(ref CssToken token)
+        ISelector ReadSelector(ref CssToken token)
         {
             _tokenizer.State = CssParseMode.Selector;
             _selector.Reset();
@@ -379,7 +387,7 @@
         /// <summary>
         /// Called before the property name has been detected.
         /// </summary>
-        CssProperty InDeclaration(CssStyleDeclaration style, ref CssToken token)
+        CssProperty ReadDeclaration(CssStyleDeclaration style, ref CssToken token)
         {
             if (token.Type == CssTokenType.Ident)
             {
@@ -401,7 +409,7 @@
                         property = new CssUnknownProperty(propertyName, style);
                     }
 
-                    var val = InValue(ref token);
+                    var val = ReadValue(ref token);
 
                     if (val == null)
                         RaiseErrorOccurred(CssParseError.ValueMissing, token);
@@ -430,13 +438,13 @@
         /// <summary>
         /// Called when the document functions have to been found.
         /// </summary>
-        List<IDocumentFunction> InDocumentFunctions(ref CssToken token)
+        List<IDocumentFunction> ReadDocumentFunctions(ref CssToken token)
         {
             var list = new List<IDocumentFunction>();
 
             do
             {
-                var function = InDocumentFunction(token);
+                var function = token.ToDocumentFunction();
 
                 if (function == null)
                     break;
@@ -449,36 +457,6 @@
             return list;
         }
 
-        /// <summary>
-        /// Called before a document function has been found.
-        /// </summary>
-        IDocumentFunction InDocumentFunction(CssToken token)
-        {
-            switch (token.Type)
-            {
-                case CssTokenType.Url:
-                    return new UrlFunction(token.Data);
-
-                case CssTokenType.UrlPrefix:
-                    return new UrlPrefixFunction(token.Data);
-
-                case CssTokenType.Domain:
-                    return new DomainFunction(token.Data);
-
-                case CssTokenType.Function:
-                    if (String.Compare(token.Data, FunctionNames.Regexp, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        var str = ((CssFunctionToken)token).ToCssString();
-
-                        if (str != null)
-                            return new RegexpFunction(str);
-                    }
-                    break;
-            }
-
-            return null;
-        }
-
         #endregion
 
         #region Keyframes
@@ -489,7 +467,7 @@
         CssKeyframeRule CreateKeyframeRule(CssToken token)
         {
             var rule = new CssKeyframeRule();
-            rule.Key = InKeyframeSelector(ref token);
+            rule.Key = ReadKeyframeSelector(ref token);
 
             if (rule.Key == null)
             {
@@ -504,7 +482,7 @@
         /// <summary>
         /// Called in the text for a frame in the @keyframes rule.
         /// </summary>
-        KeyframeSelector InKeyframeSelector(ref CssToken token)
+        KeyframeSelector ReadKeyframeSelector(ref CssToken token)
         {
             var keys = new List<Percent>();
 
@@ -542,13 +520,13 @@
         /// <summary>
         /// Before any medium has been found for the @media or @import rule.
         /// </summary>
-        MediaList InMediaList(ref CssToken token)
+        MediaList ReadMediaList(ref CssToken token)
         {
             var list = new MediaList();
 
             while (token.Type != CssTokenType.Eof)
             {
-                var medium = InMediaValue(ref token);
+                var medium = ReadMediaValue(ref token);
 
                 if (medium == null)
                     break;
@@ -584,7 +562,7 @@
         /// <summary>
         /// Scans the current medium for the @media or @import rule.
         /// </summary>
-        CssMedium InMediaValue(ref CssToken token)
+        CssMedium ReadMediaValue(ref CssToken token)
         {
             var medium = new CssMedium();
 
@@ -637,6 +615,9 @@
             return medium;
         }
 
+        /// <summary>
+        /// Tries to read and set media constraints for the provided medium.
+        /// </summary>
         Boolean TrySetConstraint(CssMedium medium, ref CssToken token)
         {
             if (token.Type != CssTokenType.Ident)
@@ -678,7 +659,7 @@
         /// <summary>
         /// Before the name of a rule has been detected.
         /// </summary>
-        String InRuleName(ref CssToken token)
+        String ReadRuleName(ref CssToken token)
         {
             var name = String.Empty;
 
@@ -694,7 +675,7 @@
         /// <summary>
         /// Called before any token in the value regime had been seen.
         /// </summary>
-        CssValue InValue(ref CssToken token)
+        CssValue ReadValue(ref CssToken token)
         {
             _tokenizer.State = CssParseMode.Value;
             _value.Reset();
@@ -721,7 +702,7 @@
         /// <summary>
         /// Called before any token in the value regime had been seen.
         /// </summary>
-        ICondition InCondition(ref CssToken token)
+        ICondition ReadCondition(ref CssToken token)
         {
             var condition = ExtractCondition(ref token);
 
@@ -730,13 +711,13 @@
                 if (token.Data.Equals(Keywords.And, StringComparison.OrdinalIgnoreCase))
                 {
                     token = _tokenizer.Get();
-                    var conditions = Conditions(condition, Keywords.And, ref token);
+                    var conditions = MultipleConditions(condition, Keywords.And, ref token);
                     return new AndCondition(conditions);
                 }
                 else if (token.Data.Equals(Keywords.Or, StringComparison.OrdinalIgnoreCase))
                 {
                     token = _tokenizer.Get();
-                    var conditions = Conditions(condition, Keywords.Or, ref token);
+                    var conditions = MultipleConditions(condition, Keywords.Or, ref token);
                     return new OrCondition(conditions);
                 }
             }
@@ -751,12 +732,12 @@
             if (token.Type == CssTokenType.RoundBracketOpen)
             {
                 token = _tokenizer.Get();
-                condition = InCondition(ref token);
+                condition = ReadCondition(ref token);
 
                 if (condition != null)
                     condition = new GroupCondition(condition);
                 else if (token.Type == CssTokenType.Ident)
-                    condition = DeclCondition(ref token);
+                    condition = DeclarationCondition(ref token);
 
                 if (token.Type == CssTokenType.RoundBracketClose)
                     token = _tokenizer.Get();
@@ -773,7 +754,7 @@
             return condition;
         }
 
-        ICondition DeclCondition(ref CssToken token)
+        ICondition DeclarationCondition(ref CssToken token)
         {
             var name = token.Data;
             var style = new CssStyleDeclaration();
@@ -786,7 +767,7 @@
 
             if (token.Type == CssTokenType.Colon)
             {
-                var result = InValue(ref token);
+                var result = ReadValue(ref token);
                 property.IsImportant = _value.IsImportant;
 
                 if (result != null)
@@ -796,7 +777,7 @@
             return null;
         }
 
-        List<ICondition> Conditions(ICondition condition, String connector, ref CssToken token)
+        List<ICondition> MultipleConditions(ICondition condition, String connector, ref CssToken token)
         {
             var list = new List<ICondition>();
             list.Add(condition);
@@ -823,9 +804,19 @@
 
         #region Helpers
 
+        /// <summary>
+        /// Fires an error occurred event.
+        /// </summary>
+        /// <param name="code">The associated error code.</param>
+        /// <param name="token">The associated token.</param>
+        void RaiseErrorOccurred(CssParseError code, CssToken token)
+        {
+            _tokenizer.RaiseErrorOccurred(code, token.Position);
+        }
+
         T SkipDeclarations<T>(CssToken token)
         {
-            RaiseErrorOccurred(CssParseError.UnknownAtRule, token);
+            RaiseErrorOccurred(CssParseError.InvalidToken, token);
             _tokenizer.SkipUnknownRule();
             return default(T);
         }
@@ -927,7 +918,7 @@
 
             while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
             {
-                InDeclaration(style, ref token);
+                ReadDeclaration(style, ref token);
 
                 if (token.Type == CssTokenType.Semicolon)
                     token = _tokenizer.Get();
@@ -972,7 +963,7 @@
         {
             var parser = new CssParser(keyText, configuration ?? Configuration.Default);
             var token = parser._tokenizer.Get();
-            var selector = parser.InKeyframeSelector(ref token);
+            var selector = parser.ReadKeyframeSelector(ref token);
             return token.Type == CssTokenType.Eof ? selector : null;
         }
 
@@ -992,7 +983,7 @@
         {
             var parser = new CssParser(valueText, configuration ?? Configuration.Default);
             var token = default(CssToken);
-            var value = parser.InValue(ref token);
+            var value = parser.ReadValue(ref token);
             return token.Type == CssTokenType.Eof ? value : null;
         }
 
@@ -1041,7 +1032,7 @@
             var parser = new CssParser(declarationText, configuration ?? Configuration.Default);
             var style = new CssStyleDeclaration();
             var token = parser._tokenizer.Get();
-            var declaration = parser.InDeclaration(style, ref token);
+            var declaration = parser.ReadDeclaration(style, ref token);
 
             if (token.Type == CssTokenType.Semicolon)
                 token = parser._tokenizer.Get();
@@ -1065,7 +1056,7 @@
 
             while (token.Type != CssTokenType.Eof)
             {
-                var medium = parser.InMediaValue(ref token);
+                var medium = parser.ReadMediaValue(ref token);
 
                 if (medium == null || token.IsNot(CssTokenType.Comma, CssTokenType.Eof))
                     throw new DomException(DomError.Syntax);
@@ -1089,7 +1080,7 @@
         {
             var parser = new CssParser(conditionText, configuration ?? Configuration.Default);
             var token = parser._tokenizer.Get();
-            var condition = parser.InCondition(ref token);
+            var condition = parser.ReadCondition(ref token);
             return token.Type == CssTokenType.Eof ? condition : null;
         }
 
@@ -1106,7 +1097,7 @@
         {
             var parser = new CssParser(source, configuration);
             var token = parser._tokenizer.Get();
-            var conditions = parser.InDocumentFunctions(ref token);
+            var conditions = parser.ReadDocumentFunctions(ref token);
             return token.Type == CssTokenType.Eof ? conditions : null;
         }
 
@@ -1122,7 +1113,7 @@
         {
             var parser = new CssParser(source, configuration);
             var token = parser._tokenizer.Get();
-            var medium = parser.InMediaValue(ref token);
+            var medium = parser.ReadMediaValue(ref token);
 
             if (token.Type != CssTokenType.Eof)
                 throw new DomException(DomError.Syntax);
@@ -1159,20 +1150,6 @@
         {
             var parser = new CssParser(declarations, configuration ?? Configuration.Default);
             parser.FillDeclarations(list);
-        }
-
-        #endregion
-
-        #region Event-Helpers
-
-        /// <summary>
-        /// Fires an error occurred event.
-        /// </summary>
-        /// <param name="code">The associated error code.</param>
-        /// <param name="token">The associated token.</param>
-        void RaiseErrorOccurred(CssParseError code, CssToken token)
-        {
-            _tokenizer.RaiseErrorOccurred(code, token.Position);
         }
 
         #endregion

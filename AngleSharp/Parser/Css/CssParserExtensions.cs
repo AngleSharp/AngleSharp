@@ -5,6 +5,9 @@
     using System.Diagnostics;
     using AngleSharp.Css.Values;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
+    using AngleSharp.Css;
+    using AngleSharp.Css.DocumentFunctions;
 
     /// <summary>
     /// Extensions to be used exclusively by the parser or the tokenizer.
@@ -54,6 +57,36 @@
                 type == CssTokenType.SubstringMatch ||
                 type == CssTokenType.SuffixMatch ||
                 type == CssTokenType.NotMatch;
+        }
+
+        /// <summary>
+        /// Called before a document function has been found.
+        /// </summary>
+        public static IDocumentFunction ToDocumentFunction(this CssToken token)
+        {
+            switch (token.Type)
+            {
+                case CssTokenType.Url:
+                    return new UrlFunction(token.Data);
+
+                case CssTokenType.UrlPrefix:
+                    return new UrlPrefixFunction(token.Data);
+
+                case CssTokenType.Domain:
+                    return new DomainFunction(token.Data);
+
+                case CssTokenType.Function:
+                    if (String.Compare(token.Data, FunctionNames.Regexp, StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        var str = ((CssFunctionToken)token).ToCssString();
+
+                        if (str != null)
+                            return new RegexpFunction(str);
+                    }
+                    break;
+            }
+
+            return null;
         }
     }
 }

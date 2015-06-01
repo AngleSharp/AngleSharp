@@ -33,16 +33,16 @@
         /// Parses an @-rule with the given name, if there is any.
         /// </summary>
         /// <param name="parser">The currently active parser.</param>
-        /// <param name="name">The name of the @-rule.</param>
+        /// <param name="token">The name of the @-rule.</param>
         /// <returns>The created rule or null, if no rule could be created.</returns>
-        public static CssRule CreateAtRule(this CssParser parser, String name)
+        public static CssRule CreateAtRule(this CssParser parser, CssToken token)
         {
             Creator creator;
 
-            if (creators.TryGetValue(name, out creator))
+            if (creators.TryGetValue(token.Data, out creator))
                 return creator(parser);
 
-            return null;
+            return parser.CreateUnkownRule(token);
         }
     }
 }
