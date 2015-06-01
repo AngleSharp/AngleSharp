@@ -12,6 +12,7 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
+    using AngleSharp.Css.DocumentFunctions;
     using AngleSharp.Css.Values;
 
     /// <summary>
@@ -428,9 +429,9 @@
         /// <summary>
         /// Called when the document functions have to been found.
         /// </summary>
-        List<CssDocumentRule.IFunction> InDocumentFunctions(ref CssToken token)
+        List<IDocumentFunction> InDocumentFunctions(ref CssToken token)
         {
-            var list = new List<CssDocumentRule.IFunction>();
+            var list = new List<IDocumentFunction>();
 
             do
             {
@@ -450,18 +451,18 @@
         /// <summary>
         /// Called before a document function has been found.
         /// </summary>
-        CssDocumentRule.IFunction InDocumentFunction(CssToken token)
+        IDocumentFunction InDocumentFunction(CssToken token)
         {
             switch (token.Type)
             {
                 case CssTokenType.Url:
-                    return new CssDocumentRule.UrlFunction(token.Data);
+                    return new UrlFunction(token.Data);
 
                 case CssTokenType.UrlPrefix:
-                    return new CssDocumentRule.UrlPrefixFunction(token.Data);
+                    return new UrlPrefixFunction(token.Data);
 
                 case CssTokenType.Domain:
-                    return new CssDocumentRule.DomainFunction(token.Data);
+                    return new DomainFunction(token.Data);
 
                 case CssTokenType.Function:
                     if (String.Compare(token.Data, FunctionNames.Regexp, StringComparison.OrdinalIgnoreCase) == 0)
@@ -469,7 +470,7 @@
                         var str = ((CssFunctionToken)token).ToCssString();
 
                         if (str != null)
-                            return new CssDocumentRule.RegexpFunction(str);
+                            return new RegexpFunction(str);
                     }
                     break;
             }
@@ -1100,7 +1101,7 @@
         /// Optional: The configuration to use for construction.
         /// </param>
         /// <returns>The iterator over the function-argument tuples.</returns>
-        internal static List<CssDocumentRule.IFunction> ParseDocumentRules(String source, IConfiguration configuration = null)
+        internal static List<IDocumentFunction> ParseDocumentRules(String source, IConfiguration configuration = null)
         {
             var parser = new CssParser(source, configuration);
             var token = parser._tokenizer.Get();

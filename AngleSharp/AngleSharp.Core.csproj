@@ -46,6 +46,11 @@
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="BrowsingContextExtensions.cs" />
+    <Compile Include="Css\DocumentFunctions\DomainFunction.cs" />
+    <Compile Include="Css\DocumentFunctions\RegexpFunction.cs" />
+    <Compile Include="Css\DocumentFunctions\UrlFunction.cs" />
+    <Compile Include="Css\DocumentFunctions\UrlPrefixFunction.cs" />
+    <Compile Include="Css\IDocumentFunction.cs" />
     <Compile Include="Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs" />
     <Compile Include="Css\MediaFeatures\HoverMediaFeature.cs" />
     <Compile Include="Css\MediaFeatures\PointerMediaFeature.cs" />

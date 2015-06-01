@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        readonly List<IFunction> _conditions;
+        readonly List<IDocumentFunction> _conditions;
 
         #endregion
 
@@ -23,7 +23,7 @@
         internal CssDocumentRule()
             : base(CssRuleType.Document)
         {
-            _conditions = new List<IFunction>();
+            _conditions = new List<IDocumentFunction>();
         }
 
         #endregion
@@ -68,7 +68,7 @@
         /// <summary>
         /// Gets the list with the conditions.
         /// </summary>
-        public List<IFunction> Conditions
+        public List<IDocumentFunction> Conditions
         {
             get { return _conditions; }
         }
@@ -96,105 +96,6 @@
         protected override String ToCss()
         {
             return String.Concat("@document ", ConditionText, " ", Rules.ToCssBlock());
-        }
-
-        #endregion
-
-        #region Condition Functions
-
-        public interface IFunction
-        {
-            String Name { get; }
-
-            String Data { get; }
-        }
-
-        /// <summary>
-        /// Take as url function.
-        /// </summary>
-        public class UrlFunction : IFunction
-        {
-            public UrlFunction(String url)
-            {
-                Data = url;
-            }
-
-            public String Name
-            {
-                get { return FunctionNames.Url; }
-            }
-
-            public String Data
-            {
-                get;
-                private set;
-            }
-        }
-
-        /// <summary>
-        /// Take as a url prefix function.
-        /// </summary>
-        public class UrlPrefixFunction : IFunction
-        {
-            public UrlPrefixFunction(String url)
-            {
-                Data = url;
-            }
-
-            public String Name
-            {
-                get { return FunctionNames.Url_Prefix; }
-            }
-
-            public String Data
-            {
-                get;
-                private set;
-            }
-        }
-
-        /// <summary>
-        /// Take as domain.
-        /// </summary>
-        public class DomainFunction : IFunction
-        {
-            public DomainFunction(String url)
-            {
-                Data = url;
-            }
-
-            public String Name
-            {
-                get { return FunctionNames.Domain; }
-            }
-
-            public String Data
-            {
-                get;
-                private set;
-            }
-        }
-
-        /// <summary>
-        /// Use regular expression function.
-        /// </summary>
-        public class RegexpFunction : IFunction
-        {
-            public RegexpFunction(String url)
-            {
-                Data = url;
-            }
-
-            public String Name
-            {
-                get { return FunctionNames.Regexp; }
-            }
-
-            public String Data
-            {
-                get;
-                private set;
-            }
         }
 
         #endregion
