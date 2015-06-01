@@ -61,5 +61,15 @@
             Assert.IsFalse(result.IsInvalid);
             Assert.AreEqual("https://github.com", result.Origin);
         }
+
+        [Test]
+        public void UrlWithSpecialCharacterDash()
+        {
+            var address = "http://example-domain.com/image.jpg";
+            var result = new Url(address);
+            Assert.IsFalse(result.IsInvalid);
+            Assert.AreEqual(address, result.Href);
+            Assert.AreEqual("example-domain.com", result.HostName);
+        }
     }
 }
