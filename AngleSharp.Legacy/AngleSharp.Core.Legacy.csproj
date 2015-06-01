@@ -107,11 +107,26 @@
     <Compile Include="..\AngleSharp\Css\Converters.cs">
       <Link>Css\Converters.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\DocumentFunctions\DomainFunction.cs">
+      <Link>Css\DocumentFunctions\DomainFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\DocumentFunctions\RegexpFunction.cs">
+      <Link>Css\DocumentFunctions\RegexpFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\DocumentFunctions\UrlFunction.cs">
+      <Link>Css\DocumentFunctions\UrlFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\DocumentFunctions\UrlPrefixFunction.cs">
+      <Link>Css\DocumentFunctions\UrlPrefixFunction.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\FeatureNames.cs">
       <Link>Css\FeatureNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\FunctionNames.cs">
       <Link>Css\FunctionNames.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\IDocumentFunction.cs">
+      <Link>Css\IDocumentFunction.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\IStyleEngine.cs">
       <Link>Css\IStyleEngine.cs</Link>
