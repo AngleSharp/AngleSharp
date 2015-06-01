@@ -14,6 +14,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Css.DocumentFunctions;
     using AngleSharp.Css.Values;
+    using AngleSharp.Css.Conditions;
 
     /// <summary>
     /// The CSS parser.
@@ -720,7 +721,7 @@
         /// <summary>
         /// Called before any token in the value regime had been seen.
         /// </summary>
-        CssSupportsRule.ICondition InCondition(ref CssToken token)
+        ICondition InCondition(ref CssToken token)
         {
             var condition = ExtractCondition(ref token);
 
@@ -730,22 +731,22 @@
                 {
                     token = _tokenizer.Get();
                     var conditions = Conditions(condition, Keywords.And, ref token);
-                    return new CssSupportsRule.AndCondition(conditions);
+                    return new AndCondition(conditions);
                 }
                 else if (token.Data.Equals(Keywords.Or, StringComparison.OrdinalIgnoreCase))
                 {
                     token = _tokenizer.Get();
                     var conditions = Conditions(condition, Keywords.Or, ref token);
-                    return new CssSupportsRule.OrCondition(conditions);
+                    return new OrCondition(conditions);
                 }
             }
 
             return condition;
         }
 
-        CssSupportsRule.ICondition ExtractCondition(ref CssToken token)
+        ICondition ExtractCondition(ref CssToken token)
         {
-            var condition = default(CssSupportsRule.ICondition);
+            var condition = default(ICondition);
 
             if (token.Type == CssTokenType.RoundBracketOpen)
             {
@@ -753,7 +754,7 @@
                 condition = InCondition(ref token);
 
                 if (condition != null)
-                    condition = new CssSupportsRule.GroupCondition(condition);
+                    condition = new GroupCondition(condition);
                 else if (token.Type == CssTokenType.Ident)
                     condition = DeclCondition(ref token);
 
@@ -766,13 +767,13 @@
                 condition = ExtractCondition(ref token);
 
                 if (condition != null)
-                    condition = new CssSupportsRule.NotCondition(condition);
+                    condition = new NotCondition(condition);
             }
 
             return condition;
         }
 
-        CssSupportsRule.ICondition DeclCondition(ref CssToken token)
+        ICondition DeclCondition(ref CssToken token)
         {
             var name = token.Data;
             var style = new CssStyleDeclaration();
@@ -789,15 +790,15 @@
                 property.IsImportant = _value.IsImportant;
 
                 if (result != null)
-                    return new CssSupportsRule.DeclarationCondition(property, result);
+                    return new DeclarationCondition(property, result);
             }
 
             return null;
         }
 
-        List<CssSupportsRule.ICondition> Conditions(CssSupportsRule.ICondition condition, String connector, ref CssToken token)
+        List<ICondition> Conditions(ICondition condition, String connector, ref CssToken token)
         {
-            var list = new List<CssSupportsRule.ICondition>();
+            var list = new List<ICondition>();
             list.Add(condition);
 
             while (token.Type != CssTokenType.Eof)
@@ -1084,7 +1085,7 @@
         /// Optional: The configuration to use for construction.
         /// </param>
         /// <returns>The parsed condition.</returns>
-        internal static CssSupportsRule.ICondition ParseCondition(String conditionText, IConfiguration configuration = null)
+        internal static ICondition ParseCondition(String conditionText, IConfiguration configuration = null)
         {
             var parser = new CssParser(conditionText, configuration ?? Configuration.Default);
             var token = parser._tokenizer.Get();
