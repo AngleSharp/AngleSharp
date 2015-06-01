@@ -121,6 +121,24 @@
     <Compile Include="..\AngleSharp\Css\Colors.cs">
       <Link>Css\Colors.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\Conditions\AndCondition.cs">
+      <Link>Css\Conditions\AndCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Conditions\DeclarationCondition.cs">
+      <Link>Css\Conditions\DeclarationCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Conditions\EmptyCondition.cs">
+      <Link>Css\Conditions\EmptyCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Conditions\GroupCondition.cs">
+      <Link>Css\Conditions\GroupCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Conditions\NotCondition.cs">
+      <Link>Css\Conditions\NotCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\Conditions\OrCondition.cs">
+      <Link>Css\Conditions\OrCondition.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Converters.cs">
       <Link>Css\Converters.cs</Link>
     </Compile>
@@ -141,6 +159,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Css\FunctionNames.cs">
       <Link>Css\FunctionNames.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ICondition.cs">
+      <Link>Css\ICondition.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\IDocumentFunction.cs">
       <Link>Css\IDocumentFunction.cs</Link>
