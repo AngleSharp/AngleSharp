@@ -50,7 +50,7 @@
         /// <param name="address">The address to represent.</param>
         public Url(String address)
         {
-            ParseUrl(address);
+            _error = ParseUrl(address);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@
         /// </param>
         public Url(Url baseAddress, String relativeAddress)
         {
-            ParseUrl(relativeAddress, baseAddress);
+            _error = ParseUrl(relativeAddress, baseAddress);
         }
 
         /// <summary>
@@ -238,7 +238,7 @@
         public String Href
         {
             get { return Serialize(); }
-            set { ParseUrl(value ?? String.Empty); }
+            set { _error = ParseUrl(value ?? String.Empty); }
         }
 
         /// <summary>
@@ -418,10 +418,10 @@
 
         #region Parsing
 
-        void ParseUrl(String input, Url baseUrl = null)
+        Boolean ParseUrl(String input, Url baseUrl = null)
         {
             Reset(baseUrl ?? DefaultBase);
-            _error = ParseScheme(input.Trim()) == false;
+            return ParseScheme(input.Trim()) == false;
         }
 
         void Reset(Url baseUrl)
@@ -445,7 +445,9 @@
                     var c = input[index];
 
                     if (c.IsAlphanumericAscii() || c == Symbols.Plus || c == Symbols.Minus || c == Symbols.Dot)
+                    {
                         index++;
+                    }
                     else if (c == Symbols.Colon)
                     {
                         var originalScheme = _scheme;
@@ -984,7 +986,7 @@
                         {
                             var l = i + 1 < n && Char.IsSurrogatePair(hostName, i) ? 2 : 1;
 
-                            if (l == 1 && Char.IsLetterOrDigit(hostName[i]) == false)
+                            if (l == 1 && hostName[i] != Symbols.Minus && Char.IsLetterOrDigit(hostName[i]) == false)
                                 break;
 
                             var bytes = TextEncoding.Utf8.GetBytes(hostName.Substring(i, l));
