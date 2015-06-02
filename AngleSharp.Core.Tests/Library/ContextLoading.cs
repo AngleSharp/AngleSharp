@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using AngleSharp.Dom.Html;
     using NUnit.Framework;
+    using AngleSharp.Core.Tests.Mocks;
 
     [TestFixture]
     public class ContextLoadingTests
@@ -145,6 +146,18 @@
                 Assert.AreEqual(result, context.Active);
                 Assert.AreEqual(title, context.Active.Title);
             }
+        }
+
+        [Test]
+        public async Task ContextLoadExternalResources()
+        {
+            var delayRequester = new DelayRequester(100);
+            var config = new Configuration().WithDefaultLoader(m => m.IsResourceLoadingEnabled = true, new[] { delayRequester });
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
+            Assert.AreEqual(1, document.Requests.Count());
+            await Task.WhenAll(document.Requests);
+            Assert.AreEqual(0, document.Requests.Count());
         }
     }
 }
