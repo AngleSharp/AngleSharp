@@ -16,7 +16,7 @@
         CssValueType Type { get; }
 
         /// <summary>
-        /// Gets or sets a string representation of the current value.
+        /// Gets a string representation of the current value.
         /// </summary>
         [DomName("cssText")]
         String CssText { get; }
