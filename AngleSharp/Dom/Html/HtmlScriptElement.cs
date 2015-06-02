@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using System;
-    using System.Threading;
     using System.Threading.Tasks;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
@@ -11,7 +10,7 @@
     /// <summary>
     /// Represents an HTML script element.
     /// </summary>
-    sealed class HtmlScriptElement : HtmlElement, IHtmlScriptElement, IDisposable
+    sealed class HtmlScriptElement : HtmlElement, IHtmlScriptElement
     {
         #region Fields
 
@@ -20,8 +19,7 @@
         Boolean _wasParserInserted;
         Boolean _forceAsync;
         Boolean _readyToBeExecuted;
-        CancellationTokenSource _cts;
-        Task<IResponse> _loadingTask;
+        Task<IResponse> _current;
 
         #endregion
 
@@ -146,10 +144,10 @@
         /// </summary>
         internal void Run()
         {
-            if (_loadingTask == null)
+            if (_current == null)
                 return;
 
-            if (_loadingTask.Exception != null || _loadingTask.IsFaulted)
+            if (_current.Exception != null || _current.IsFaulted)
             {
                 Error();
             }
@@ -157,7 +155,7 @@
             {
                 var engine = Owner.Options.GetScriptEngine(ScriptLanguage);
 
-                using (var result = _loadingTask.Result)
+                using (var result = _current.Result)
                     engine.Evaluate(result, CreateOptions());
 
                 AfterScriptExecute();
@@ -225,9 +223,7 @@
                     return;
                 }
 
-                var url = this.HyperReference(src);
-                _cts = new CancellationTokenSource();
-                _loadingTask = PrepareAsync(url, _cts.Token);
+                InvokeLoadingScript(this.HyperReference(src));
             }
             else if (_parserInserted && Owner.HasScriptBlockingStyleSheet())
             {
@@ -239,7 +235,7 @@
             }
         }
 
-        async Task<IResponse> PrepareAsync(Url url, CancellationToken cancel)
+        void InvokeLoadingScript(Url url)
         {
             if (_parserInserted && !IsAsync)
             {
@@ -259,13 +255,8 @@
 
             var request = this.CreateRequestFor(url);
             var setting = CrossOrigin.ToEnum(CorsSetting.None);
-            var task = Owner.Loader.FetchWithCorsAsync(request, setting, OriginBehavior.Taint, cancel);
-            var response = await task.ConfigureAwait(false);
-
-            if (_parserInserted && !IsAsync)
-                _readyToBeExecuted = true;
-
-            return response;
+            _current = Owner.Tasks.Add(cancel => Owner.Loader.FetchWithCorsAsync(request, setting, OriginBehavior.Taint, cancel));
+            _current.ContinueWith(m => _readyToBeExecuted = (_parserInserted && !IsAsync) || _readyToBeExecuted);
         }
 
         void Load()
@@ -297,19 +288,6 @@
                 Element = this,
                 Encoding = TextEncoding.Resolve(CharacterSet)
             };
-        }
-
-        #endregion
-
-        #region Methods
-
-        public void Dispose()
-        {
-            if (_cts != null)
-                _cts.Cancel();
-
-            _cts = null;
-            _loadingTask = null;
         }
 
         #endregion

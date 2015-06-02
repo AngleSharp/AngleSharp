@@ -1,23 +1,20 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
+    using System.Threading.Tasks;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Network;
     using AngleSharp.Services.Media;
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the image element.
     /// </summary>
-    sealed class HtmlImageElement : HtmlElement, IHtmlImageElement, IDisposable
+    sealed class HtmlImageElement : HtmlElement, IHtmlImageElement
     {
         #region Fields
 
         readonly BoundLocation _src;
-        CancellationTokenSource _cts;
-        Task<IImageInfo> _imageTask;
+        Task<IImageInfo> _current;
 
         #endregion
 
@@ -123,7 +120,7 @@
         /// </summary>
         public Int32 OriginalWidth
         {
-            get { return _imageTask != null ? (_imageTask.IsCompleted && _imageTask.Result != null ? _imageTask.Result.Width : 0) : 0; }
+            get { return _current != null ? (_current.IsCompleted && _current.Result != null ? _current.Result.Width : 0) : 0; }
         }
 
         /// <summary>
@@ -131,7 +128,7 @@
         /// </summary>
         public Int32 OriginalHeight
         {
-            get { return _imageTask != null ? (_imageTask.IsCompleted && _imageTask.Result != null ? _imageTask.Result.Height : 0) : 0; }
+            get { return _current != null ? (_current.IsCompleted && _current.Result != null ? _current.Result.Height : 0) : 0; }
         }
 
         /// <summary>
@@ -139,7 +136,7 @@
         /// </summary>
         public Boolean IsCompleted
         {
-            get { return _imageTask == null || _imageTask.IsCompleted; }
+            get { return _current == null || _current.IsCompleted; }
         }
 
         /// <summary>
@@ -157,36 +154,19 @@
 
         #region Methods
 
-        public void Dispose()
-        {
-            if (_cts != null)
-                _cts.Cancel();
-
-            _cts = null;
-            _imageTask = null;
-        }
-
         void UpdateSource(String value)
         {
-            if (_cts != null)
-                _cts.Cancel();
+            Owner.Tasks.Cancel(_current);
 
             if (!String.IsNullOrEmpty(value))
             {
                 var url = new Url(ActualSource);
+                var request = this.CreateRequestFor(url);
                 //TODO Implement with srcset etc. --> see:
                 //http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#update-the-image-data
-                _cts = new CancellationTokenSource();
-                _imageTask = LoadAsync(url, _cts.Token);
+                _current = Owner.LoadResource<IImageInfo>(request);
+                _current.ContinueWith(m => this.FireSimpleEvent(EventNames.Load));
             }
-        }
-
-        async Task<IImageInfo> LoadAsync(Url url, CancellationToken cancel)
-        {
-            var request = this.CreateRequestFor(url);
-            var image = await Owner.LoadResource<IImageInfo>(request, cancel).ConfigureAwait(false);
-            this.FireSimpleEvent(EventNames.Load);
-            return image;
         }
 
         #endregion

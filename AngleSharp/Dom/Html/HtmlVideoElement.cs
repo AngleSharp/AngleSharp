@@ -62,7 +62,7 @@
         /// </summary>
         public Int32 OriginalWidth
         {
-            get { return _resourceTask != null ? (_resourceTask.IsCompleted && _resourceTask.Result != null ? _resourceTask.Result.Width : 0) : 0; }
+            get { return _current != null ? (_current.IsCompleted && _current.Result != null ? _current.Result.Width : 0) : 0; }
         }
 
         /// <summary>
@@ -70,7 +70,7 @@
         /// </summary>
         public Int32 OriginalHeight
         {
-            get { return _resourceTask != null ? (_resourceTask.IsCompleted && _resourceTask.Result != null ? _resourceTask.Result.Height : 0) : 0; }
+            get { return _current != null ? (_current.IsCompleted && _current.Result != null ? _current.Result.Height : 0) : 0; }
         }
 
         /// <summary>

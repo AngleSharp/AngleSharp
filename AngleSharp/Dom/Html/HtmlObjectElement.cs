@@ -1,23 +1,20 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using System;
+    using System.Threading.Tasks;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Network;
     using AngleSharp.Services.Media;
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML object element.
     /// </summary>
-    sealed class HtmlObjectElement : HtmlFormControlElement, IHtmlObjectElement, IDisposable
+    sealed class HtmlObjectElement : HtmlFormControlElement, IHtmlObjectElement
     {
         #region Fields
 
         readonly BoundLocation _data;
-        Task<IObjectInfo> _resourceTask;
-        CancellationTokenSource _cts;
+        Task<IObjectInfo> _current;
 
         #endregion
 
@@ -98,7 +95,7 @@
         /// </summary>
         public Int32 OriginalWidth
         {
-            get { return _resourceTask != null ? (_resourceTask.IsCompleted && _resourceTask.Result != null ? _resourceTask.Result.Width : 0) : 0; }
+            get { return _current != null ? (_current.IsCompleted && _current.Result != null ? _current.Result.Width : 0) : 0; }
         }
 
         /// <summary>
@@ -106,7 +103,7 @@
         /// </summary>
         public Int32 OriginalHeight
         {
-            get { return _resourceTask != null ? (_resourceTask.IsCompleted && _resourceTask.Result != null ? _resourceTask.Result.Height : 0) : 0; }
+            get { return _current != null ? (_current.IsCompleted && _current.Result != null ? _current.Result.Height : 0) : 0; }
         }
 
         /// <summary>
@@ -131,15 +128,6 @@
 
         #region Methods
 
-        public void Dispose()
-        {
-            if (_cts != null)
-                _cts.Cancel();
-
-            _cts = null;
-            _resourceTask = null;
-        }
-
         protected override Boolean CanBeValidated()
         {
             return false;
@@ -147,23 +135,15 @@
 
         void UpdateSource(String value)
         {
-            if (_cts != null)
-                _cts.Cancel();
+            Owner.Tasks.Cancel(_current);
 
             if (!String.IsNullOrEmpty(value))
             {
                 var url = new Url(Source);
-                _cts = new CancellationTokenSource();
-                _resourceTask = LoadAsync(url, _cts.Token);
+                var request = this.CreateRequestFor(url);
+                _current = Owner.LoadResource<IObjectInfo>(request);
+                _current.ContinueWith(m => this.FireSimpleEvent(EventNames.Load));
             }
-        }
-
-        async Task<IObjectInfo> LoadAsync(Url url, CancellationToken cancel)
-        {
-            var request = this.CreateRequestFor(url);
-            var resource = await Owner.LoadResource<IObjectInfo>(request, cancel).ConfigureAwait(false);
-            this.FireSimpleEvent(EventNames.Load);
-            return resource;
         }
 
         #endregion

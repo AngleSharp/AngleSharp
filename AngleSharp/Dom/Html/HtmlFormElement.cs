@@ -1,28 +1,26 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using AngleSharp.Dom.Collections;
-    using AngleSharp.Extensions;
-    using AngleSharp.Html;
-    using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
+    using AngleSharp.Dom.Collections;
+    using AngleSharp.Extensions;
+    using AngleSharp.Html;
+    using AngleSharp.Network;
 
     /// <summary>
     /// Represents the form element.
     /// </summary>
-    sealed class HtmlFormElement : HtmlElement, IHtmlFormElement, IDisposable
+    sealed class HtmlFormElement : HtmlElement, IHtmlFormElement
     {
         #region Fields
 
         static readonly String UsAscii = "us-ascii";
 
         HtmlFormControlsCollection _elements;
-        Task<IDocument> _navigationTask;
-        CancellationTokenSource _cts;
+        Task<IDocument> _current;
 
         #endregion
 
@@ -34,7 +32,6 @@
         public HtmlFormElement(Document owner, String prefix = null)
             : base(owner, Tags.Form, prefix, NodeFlags.Special)
         {
-            _cts = new CancellationTokenSource();
         }
 
         #endregion
@@ -174,22 +171,13 @@
 
         #region Methods
 
-        public void Dispose()
-        {
-            if (_cts != null)
-                _cts.Cancel();
-
-            _cts = null;
-            _navigationTask = null;
-        }
-
         /// <summary>
         /// Submits the form element from the form element itself.
         /// </summary>
         public Task<IDocument> Submit()
         {
             SubmitForm(this, true);
-            return _navigationTask;
+            return _current;
         }
 
         /// <summary>
@@ -373,7 +361,7 @@
                 action.Href = action.Href.ReplaceFirst("%%", result);
             }
 
-            _navigationTask = NavigateTo(new DocumentRequest(action)
+            _current = NavigateTo(new DocumentRequest(action)
             {
                 Referer = Owner.DocumentUri,
                 Source = this
@@ -434,7 +422,7 @@
         /// </summary>
         void GetActionUrl(Url action)
         {
-            _navigationTask = NavigateTo(new DocumentRequest(action)
+            _current = NavigateTo(new DocumentRequest(action)
             {
                 Referer = Owner.DocumentUri,
                 Source = this
@@ -469,7 +457,7 @@
                 mimeType = MimeTypes.Plain;
             }
 
-            _navigationTask = NavigateTo(new DocumentRequest(action)
+            _current = NavigateTo(new DocumentRequest(action)
             {
                 Method = HttpMethod.Post,
                 Source = this,
@@ -487,14 +475,8 @@
         /// <param name="request">The request to issue.</param>
         Task<IDocument> NavigateTo(DocumentRequest request)
         {
-            if (_navigationTask != null)
-            {
-                _cts.Cancel();
-                _navigationTask = null;
-                _cts = new CancellationTokenSource();
-            }
-
-            return Owner.Context.OpenAsync(request, _cts.Token);
+            Owner.Tasks.Cancel(_current);
+            return Owner.Tasks.Add(cancel => Owner.Context.OpenAsync(request, cancel));
         }
 
         /// <summary>

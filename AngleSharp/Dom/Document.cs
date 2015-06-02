@@ -32,6 +32,7 @@
         readonly IResourceLoader _loader;
         readonly Location _location;
         readonly TextSource _source;
+        readonly CancellableTasks _tasks;
 
         QuirksMode _quirksMode;
         Sandboxes _sandbox;
@@ -435,6 +436,7 @@
         internal Document(IBrowsingContext context, TextSource source)
             : base(null, "#document", NodeType.Document)
         {
+            _tasks = new CancellableTasks();
             _async = true;
             _context = context ?? BrowsingContext.New();
             _source = source;
@@ -931,6 +933,14 @@
         #region Internal properties
 
         /// <summary>
+        /// Gets the document's outstanding tasks.
+        /// </summary>
+        internal CancellableTasks Tasks
+        {
+            get { return _tasks; }
+        }
+
+        /// <summary>
         /// Gets the document's associated ranges.
         /// </summary>
         internal IEnumerable<Range> Ranges
@@ -1032,6 +1042,7 @@
         {
             //Important to fix #45
             ReplaceAll(null, true);
+            _tasks.Dispose();
             _loadingScripts.Clear();
             _source.Dispose();
         }

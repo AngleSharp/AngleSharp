@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using System;
-    using System.Threading;
     using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
@@ -12,14 +11,13 @@
     /// <summary>
     /// Represents the HTML iframe element.
     /// </summary>
-    sealed class HtmlIFrameElement : HtmlFrameElementBase, IHtmlInlineFrameElement, IDisposable
+    sealed class HtmlIFrameElement : HtmlFrameElementBase, IHtmlInlineFrameElement
     {
         #region Fields
 
         readonly IBrowsingContext _context;
-        CancellationTokenSource _cts;
         SettableTokenList _sandbox;
-        Task _docTask;
+        Task _current;
         
         #endregion
 
@@ -98,19 +96,9 @@
 
         #region Methods
 
-        public void Dispose()
-        {
-            if (_cts != null)
-                _cts.Cancel();
-
-            _docTask = null;
-            _cts = null;
-        }
-
         void UpdateSource(String src)
         {
-            if (_cts != null)
-                _cts.Cancel();
+            Owner.Tasks.Cancel(_current);
 
             if (!String.IsNullOrEmpty(src))
             {
@@ -120,8 +108,8 @@
                     Source = this,
                     Referer = Owner.DocumentUri
                 };
-                _cts = new CancellationTokenSource();
-                _docTask = _context.OpenAsync(request, _cts.Token);
+                _current = Owner.Tasks.Add(cancel => _context.OpenAsync(request, cancel));
+                _current.ContinueWith(m => this.FireSimpleEvent(EventNames.Load));
             }
         }
 

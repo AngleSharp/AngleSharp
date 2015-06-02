@@ -377,29 +377,30 @@
         /// </summary>
         /// <param name="document">The document to use.</param>
         /// <param name="request">The issued request.</param>
-        /// <param name="cancel">
-        /// Token to trigger in case of cancellation.
-        /// </param>
         /// <returns>A task that will end with an image info or null.</returns>
-        public static async Task<TResource> LoadResource<TResource>(this Document document, ResourceRequest request, CancellationToken cancel)
+        public static Task<TResource> LoadResource<TResource>(this Document document, ResourceRequest request)
             where TResource : IResourceInfo
         {
             var loader = document.Loader;
-            var response = await loader.FetchAsync(request, cancel).ConfigureAwait(false);
 
-            if (response != null)
+            return document.Tasks.Add(async (cancel) =>
             {
-                var options = document.Options;
-                var resourceServices = options.GetServices<IResourceService<TResource>>();
+                var response = await loader.FetchAsync(request, cancel).ConfigureAwait(false);
 
-                foreach (var resourceService in resourceServices)
+                if (response != null)
                 {
-                    if (resourceService.SupportsType(response.Headers[HeaderNames.ContentType]))
-                        return await resourceService.CreateAsync(response, cancel).ConfigureAwait(false);
-                }
-            }
+                    var options = document.Options;
+                    var resourceServices = options.GetServices<IResourceService<TResource>>();
 
-            return default(TResource);
+                    foreach (var resourceService in resourceServices)
+                    {
+                        if (resourceService.SupportsType(response.Headers[HeaderNames.ContentType]))
+                            return await resourceService.CreateAsync(response, cancel).ConfigureAwait(false);
+                    }
+                }
+
+                return default(TResource);
+            });
         }
     }
 }

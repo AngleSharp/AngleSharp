@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using System;
-    using System.Threading;
     using System.Threading.Tasks;
     using AngleSharp.Css;
     using AngleSharp.Dom.Collections;
@@ -12,16 +11,14 @@
     /// <summary>
     /// Represents the HTML link element.
     /// </summary>
-    sealed class HtmlLinkElement : HtmlElement, IHtmlLinkElement, IDisposable
+    sealed class HtmlLinkElement : HtmlElement, IHtmlLinkElement
     {
         #region Fields
 
         IStyleSheet _sheet;
-        Url _buffer;
         TokenList _relList;
         SettableTokenList _sizes;
-        Task _loadingTask;
-        CancellationTokenSource _cts;
+        Task<IResponse> _current;
 
         #endregion
 
@@ -214,58 +211,43 @@
 
         #endregion
 
-        #region Methods
-
-        public void Dispose()
-        {
-            if (_cts != null)
-                _cts.Cancel();
-
-            _cts = null;
-            _loadingTask = null;
-        }
-
-        #endregion
-
         #region Helpers
 
         void TargetChanged()
         {
-            if (Owner.Options.IsStyling())
-            {
-                if (_cts != null)
-                    _cts.Cancel();
+            var owner = Owner;
 
+            if (owner.Options.IsStyling())
+            {
                 var url = Url;
 
-                if (url != null && (_buffer == null || !url.Equals(_buffer)))
+                if (url != null && (_current == null || !url.Equals(_current.Result.Address)))
                 {
-                    _buffer = url;
-                    _cts = new CancellationTokenSource();
-                    _loadingTask = LoadAsync(url, _cts.Token);
+                    var config = owner.Options;
+                    var engine = config.GetStyleEngine(Type ?? MimeTypes.Css);
+
+                    owner.Tasks.Cancel(_current);
+
+                    if (engine != null)
+                    {
+                        var request = this.CreateRequestFor(url);
+                        var options = new StyleOptions
+                        {
+                            Element = this,
+                            Title = Title,
+                            IsDisabled = IsDisabled,
+                            IsAlternate = RelationList.Contains(Keywords.Alternate),
+                            Configuration = config
+                        };
+
+                        _current = owner.Tasks.Add(cancel => owner.Loader.FetchAsync(request, cancel));
+                        _current.ContinueWith(m =>
+                        {
+                            using (var response = m.Result)
+                                _sheet = engine.Parse(response, options);
+                        });
+                    }
                 }
-            }
-        }
-
-        async Task LoadAsync(Url url, CancellationToken cancel)
-        {
-            var config = Owner.Options;
-            var engine = config.GetStyleEngine(Type ?? MimeTypes.Css);
-
-            if (engine != null)
-            {
-                var request = this.CreateRequestFor(url);
-                var options = new StyleOptions
-                {
-                    Element = this,
-                    Title = Title,
-                    IsDisabled = IsDisabled,
-                    IsAlternate = RelationList.Contains(Keywords.Alternate),
-                    Configuration = config
-                };
-
-                using (var response = await Owner.Loader.FetchAsync(request, cancel).ConfigureAwait(false))
-                    _sheet = engine.Parse(response, options);
             }
         }
 

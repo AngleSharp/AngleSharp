@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using System;
-    using System.Threading;
     using System.Threading.Tasks;
     using AngleSharp.Dom.Media;
     using AngleSharp.Extensions;
@@ -12,16 +11,15 @@
     /// <summary>
     /// Represents the abstract base for HTML media (audio / video) elements.
     /// </summary>
-    abstract class HTMLMediaElement<TResource> : HtmlElement, IHtmlMediaElement, IDisposable
+    abstract class HTMLMediaElement<TResource> : HtmlElement, IHtmlMediaElement
         where TResource : IMediaInfo
     {
         #region Fields
 
         readonly BoundLocation _src;
         protected MediaNetworkState _network;
-        protected Task<TResource> _resourceTask;
+        protected Task<TResource> _current;
 
-        CancellationTokenSource _cts;
         ITextTrackList _texts;
 
         #endregion
@@ -343,7 +341,7 @@
 
         public IMediaController Controller
         {
-            get { return _resourceTask != null && _resourceTask.IsCompleted && _resourceTask.Result != null ? _resourceTask.Result.Controller : null; }
+            get { return _current != null && _current.IsCompleted && _current.Result != null ? _current.Result.Controller : null; }
         }
 
         public Double DefaultPlaybackRate
@@ -413,15 +411,6 @@
 
         #region Methods
 
-        public void Dispose()
-        {
-            if (_cts != null)
-                _cts.Cancel();
-
-            _cts = null;
-            _resourceTask = null;
-        }
-
         /// <summary>
         /// Loads the media specified for this element.
         /// </summary>
@@ -429,10 +418,7 @@
         {
             //TODO More complex check if something is already loading (what is loading, cancel?, ...)
             //see: https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-load
-            if (_resourceTask != null)
-                return;
-            else if (_cts != null)
-                _cts.Cancel();
+            Owner.Tasks.Cancel(_current);
             
             var src = CurrentSource;
 
@@ -440,22 +426,17 @@
             {
                 _network = MediaNetworkState.Idle;
                 var url = new Url(src);
-                _cts = new CancellationTokenSource();
+                var request = this.CreateRequestFor(url);
                 _network = MediaNetworkState.Loading;
-                _resourceTask = LoadAsync(url, _cts.Token);
+                _current = Owner.LoadResource<TResource>(request);
+                _current.ContinueWith(m =>
+                {
+                    if (m.Result == null)
+                        _network = MediaNetworkState.NoSource;
+
+                    this.FireSimpleEvent(EventNames.Load);
+                });
             }
-        }
-
-        async Task<TResource> LoadAsync(Url url, CancellationToken cancel)
-        {
-            var request = this.CreateRequestFor(url);
-            var media = await Owner.LoadResource<TResource>(request, cancel).ConfigureAwait(false);
-
-            if (media == null)
-                _network = MediaNetworkState.NoSource;
-
-            this.FireSimpleEvent(EventNames.Load);
-            return media;
         }
 
         /// <summary>
