@@ -465,6 +465,14 @@
         #region Properties
 
         /// <summary>
+        /// Gets the currently outstanding requests.
+        /// </summary>
+        public IEnumerable<Task> Requests
+        {
+            get { return _tasks; }
+        }
+
+        /// <summary>
         /// Gets or sets if the whole document is editable.
         /// </summary>
         public String DesignMode

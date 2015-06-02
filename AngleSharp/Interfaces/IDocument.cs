@@ -1,9 +1,11 @@
 ﻿namespace AngleSharp.Dom
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
-    using System;
 
     /// <summary>
     /// The Document interface serves as an entry point to the web page's
@@ -547,5 +549,10 @@
         /// Gets the browsing context to use.
         /// </summary>
         IBrowsingContext Context { get; }
+
+        /// <summary>
+        /// Gets the currently outstanding requests.
+        /// </summary>
+        IEnumerable<Task> Requests { get; }
     }
 }
