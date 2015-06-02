@@ -48,8 +48,8 @@
                     if (_tasks[i].Item1 == task)
                     {
                         var tuple = _tasks[i];
-                        tuple.Item2.Cancel();
                         _tasks.Remove(tuple);
+                        tuple.Item2.Cancel();
                         break;
                     }
                 }
@@ -68,7 +68,13 @@
 
         public IEnumerator<Task> GetEnumerator()
         {
-            return _tasks.Select(m => m.Item1).GetEnumerator();
+            for (int i = 0; i < _tasks.Count; i++)
+            {
+                var tuple = _tasks[i];
+
+                if (tuple.Item1.Status != TaskStatus.RanToCompletion)
+                    yield return tuple.Item1;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
