@@ -1810,6 +1810,9 @@
     <Compile Include="..\AngleSharp\Factories\SvgElementFactory.cs">
       <Link>Factories\SvgElementFactory.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\CancellableTasks.cs">
+      <Link>Foundation\CancellableTasks.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Factory.cs">
       <Link>Foundation\Factory.cs</Link>
     </Compile>
