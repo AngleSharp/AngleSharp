@@ -159,5 +159,15 @@
             await Task.WhenAll(document.Requests);
             Assert.AreEqual(0, document.Requests.Count());
         }
+
+        [Test]
+        public async Task ContextNoLoadExternalResources()
+        {
+            var delayRequester = new DelayRequester(100);
+            var config = new Configuration().WithDefaultLoader(requesters: new[] { delayRequester });
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
+            Assert.AreEqual(0, document.Requests.Count());
+        }
     }
 }
