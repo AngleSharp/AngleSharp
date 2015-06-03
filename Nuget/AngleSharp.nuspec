@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AngleSharp</id>
-    <version>0.8.3</version>
+    <version>0.8.4</version>
     <authors>Florian Rappl</authors>
     <owners>Florian Rappl</owners>
     <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
@@ -14,11 +14,15 @@
     <copyright>Copyright 2015, Florian Rappl.</copyright>
     <tags>html html5 css css3 dom dom4 parser engine hypertext markup language query selector attributes linq angle bracket web internet text</tags>
     <dependencies>
+        <group targetFramework="portable-windows8+net45+windowsphone8+wpa">
+        </group>
+        <group targetFramework="net45">
+        </group>
         <group targetFramework="net40">
-            <dependency id="Microsoft.Bcl.Async" />
+            <dependency id="Microsoft.Bcl.Async" version="1.1.168" />
         </group>
         <group targetFramework="sl50">
-            <dependency id="Microsoft.Bcl.Async" />
+            <dependency id="Microsoft.Bcl.Async" version="1.1.168" />
         </group>
     </dependencies>
   </metadata>
