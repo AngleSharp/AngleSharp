@@ -12,5 +12,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: InternalsVisibleToAttribute("AngleSharp.Core.Tests")]
-[assembly: AssemblyVersion("0.8.3.*")]
-[assembly: AssemblyFileVersion("0.8.3")]
+[assembly: AssemblyVersion("0.8.4.*")]
+[assembly: AssemblyFileVersion("0.8.4")]
