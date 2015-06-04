@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Text;
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
 
     /// <summary>
     /// Provides a pool of used / recycled resources.
@@ -17,6 +17,7 @@
 
 		static readonly Stack<StringBuilder> _builder;
         static readonly Stack<CssSelectorConstructor> _selector;
+        static readonly Stack<CssValueBuilder> _value;
         static readonly Object _lock;
 
         #endregion
@@ -27,6 +28,7 @@
         {
             _builder = new Stack<StringBuilder>();
 			_selector = new Stack<CssSelectorConstructor>();
+            _value = new Stack<CssValueBuilder>();
             _lock = new Object();
         }
 
@@ -50,7 +52,8 @@
         }
 
 		/// <summary>
-		/// Either creates a fresh selector constructor or gets a (cleaned) used one.
+		/// Either creates a fresh selector constructor or gets a (cleaned)
+        /// used one.
 		/// </summary>
 		/// <returns>A selector constructor to use.</returns>
 		public static CssSelectorConstructor NewSelectorConstructor()
@@ -65,11 +68,26 @@
 		}
 
         /// <summary>
+        /// Either creates a fresh value builder or gets a (cleaned) used one.
+        /// </summary>
+        /// <returns>A value builder to use.</returns>
+        public static CssValueBuilder NewValueBuilder()
+        {
+            lock (_lock)
+            {
+                if (_value.Count == 0)
+                    return new CssValueBuilder();
+
+                return _value.Pop().Reset();
+            }
+        }
+
+        /// <summary>
         /// Returns the given stringbuilder to the pool and gets the current
         /// string content.
         /// </summary>
         /// <param name="sb">The stringbuilder to recycle.</param>
-        /// <returns>The string that is contained in the stringbuilder.</returns>
+        /// <returns>The string that is created in the stringbuilder.</returns>
         public static String ToPool(this StringBuilder sb)
         {
             var result = sb.ToString();
@@ -87,7 +105,7 @@
         /// constructed selector.
 		/// </summary>
         /// <param name="ctor">The constructor to recycle.</param>
-        /// <returns>The Selector that is contained in the constructor.</returns>
+        /// <returns>The Selector that is created in the constructor.</returns>
 		public static ISelector ToPool(this CssSelectorConstructor ctor)
         {
             var result = ctor.Result;
@@ -99,6 +117,24 @@
 
             return result;
 		}
+
+        /// <summary>
+        /// Returns the given value builder to the pool and gets the
+        /// constructed value.
+        /// </summary>
+        /// <param name="vb">The builder to recycle.</param>
+        /// <returns>The value that is contained in the builder.</returns>
+        public static CssValue ToPool(this CssValueBuilder vb)
+        {
+            var result = vb.Result;
+
+            lock (_lock)
+            {
+                _value.Push(vb);
+            }
+
+            return result;
+        }
 
         #endregion
     }
