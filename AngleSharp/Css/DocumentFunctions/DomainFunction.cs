@@ -5,7 +5,7 @@
     /// <summary>
     /// Take as domain.
     /// </summary>
-    public class DomainFunction : IDocumentFunction
+    sealed class DomainFunction : IDocumentFunction
     {
         public DomainFunction(String url)
         {

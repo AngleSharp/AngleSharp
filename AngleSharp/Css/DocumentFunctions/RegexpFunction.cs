@@ -5,7 +5,7 @@
     /// <summary>
     /// Use regular expression function.
     /// </summary>
-    public class RegexpFunction : IDocumentFunction
+    sealed class RegexpFunction : IDocumentFunction
     {
         public RegexpFunction(String url)
         {
