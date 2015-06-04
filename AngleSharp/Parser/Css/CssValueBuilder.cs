@@ -130,13 +130,14 @@
         /// <summary>
         /// Resets the builder for reprocessing.
         /// </summary>
-        public void Reset()
+        public CssValueBuilder Reset()
         {
             _open = 0;
             _valid = true;
             _buffer = null;
             _important = false;
             _values.Clear();
+            return this;
         }
 
         #endregion
