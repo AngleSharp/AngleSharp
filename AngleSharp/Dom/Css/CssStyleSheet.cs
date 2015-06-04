@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using System;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
-    using System;
 
     /// <summary>
     /// Represents a CSS Stylesheet.
@@ -70,14 +70,6 @@
         /// <summary>
         /// Gets a CSSRuleList of the CSS rules in the style sheet.
         /// </summary>
-        internal CssRuleList Rules
-        {
-            get { return _rules; }
-        }
-
-        /// <summary>
-        /// Gets a CSSRuleList of the CSS rules in the style sheet.
-        /// </summary>
         ICssRuleList ICssStyleSheet.Rules
         {
             get { return _rules; }
@@ -90,14 +82,6 @@
         {
             get { return _ownerRule; }
             internal set { _ownerRule = value; }
-        }
-
-        /// <summary>
-        /// Gets the text stream source.
-        /// </summary>
-        internal TextSource Source
-        {
-            get { return _source; }
         }
 
         /// <summary>
@@ -153,7 +137,33 @@
 
         #endregion
 
+        #region Internal Methods
+
+        internal void AddRule(CssRule rule)
+        {
+            if (rule != null)
+                _rules.Add(rule, this, null);
+        }
+
+        #endregion
+
         #region Internal Properties
+
+        /// <summary>
+        /// Gets a CSSRuleList of the CSS rules in the style sheet.
+        /// </summary>
+        internal CssRuleList Rules
+        {
+            get { return _rules; }
+        }
+
+        /// <summary>
+        /// Gets the text stream source.
+        /// </summary>
+        internal TextSource Source
+        {
+            get { return _source; }
+        }
 
         internal IConfiguration Options
         {

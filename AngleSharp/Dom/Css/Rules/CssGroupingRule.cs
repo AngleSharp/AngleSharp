@@ -1,8 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
-    using AngleSharp.Parser.Css;
     using System;
+    using AngleSharp.Parser.Css;
 
     /// <summary>
     /// Represents the CSSGroupingRule interface.
@@ -46,6 +45,12 @@
         #endregion
 
         #region Internal Methods
+
+        internal void AddRule(CssRule rule)
+        {
+            if (rule != null)
+                _rules.Add(rule, Owner, this);
+        }
 
         protected override void ReplaceWith(ICssRule rule)
         {
