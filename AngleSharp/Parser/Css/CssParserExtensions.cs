@@ -8,6 +8,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Css;
     using AngleSharp.Css.DocumentFunctions;
+    using AngleSharp.Dom.Collections;
 
     /// <summary>
     /// Extensions to be used exclusively by the parser or the tokenizer.
