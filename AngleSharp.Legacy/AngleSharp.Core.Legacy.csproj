@@ -2546,6 +2546,9 @@
     <Compile Include="..\AngleSharp\Parser\Css\CssParserExtensions.cs">
       <Link>Parser\Css\CssParserExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\CssParseState.cs">
+      <Link>Parser\Css\CssParseState.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\CssSelectorConstructor.cs">
       <Link>Parser\Css\CssSelectorConstructor.cs</Link>
     </Compile>
@@ -2557,6 +2560,39 @@
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\CssValueBuilder.cs">
       <Link>Parser\Css\CssValueBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\States\CssCharsetState.cs">
+      <Link>Parser\Css\States\CssCharsetState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\States\CssDocumentState.cs">
+      <Link>Parser\Css\States\CssDocumentState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\States\CssFontFaceState.cs">
+      <Link>Parser\Css\States\CssFontFaceState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\States\CssImportState.cs">
+      <Link>Parser\Css\States\CssImportState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\States\CssKeyframesState.cs">
+      <Link>Parser\Css\States\CssKeyframesState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\States\CssMediaState.cs">
+      <Link>Parser\Css\States\CssMediaState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\States\CssNamespaceState.cs">
+      <Link>Parser\Css\States\CssNamespaceState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\States\CssPageState.cs">
+      <Link>Parser\Css\States\CssPageState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\States\CssStyleState.cs">
+      <Link>Parser\Css\States\CssStyleState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\States\CssSupportsState.cs">
+      <Link>Parser\Css\States\CssSupportsState.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\States\CssUnknownState.cs">
+      <Link>Parser\Css\States\CssUnknownState.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssFunctionToken.cs">
       <Link>Parser\Css\Tokens\CssFunctionToken.cs</Link>
