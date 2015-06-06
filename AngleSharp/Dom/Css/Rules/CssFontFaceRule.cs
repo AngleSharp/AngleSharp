@@ -1,61 +1,52 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using System;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
-    using System;
-    using System.Collections.Generic;
+    using AngleSharp.Parser.Css;
 
     /// <summary>
     /// Represents the @font-face rule.
     /// </summary>
-	sealed class CssFontFaceRule : CssRule, ICssFontFaceRule, IPropertyCreator
+	sealed class CssFontFaceRule : CssRule, ICssFontFaceRule
     {
         #region Fields
 
-        static Dictionary<String, Func<CssStyleDeclaration, CssProperty>> _creators = new Dictionary<String, Func<CssStyleDeclaration, CssProperty>>(StringComparer.OrdinalIgnoreCase);
-        readonly CssStyleDeclaration _style;
+        readonly CssProperty[] _declarations;
 
         #endregion
 
         #region ctor
-
-        static CssFontFaceRule()
-        {
-            _creators.Add(PropertyNames.FontFamily, style => new CssFontFamilyProperty(style));
-            _creators.Add(PropertyNames.FontStyle, style => new CssFontStyleProperty(style));
-            _creators.Add(PropertyNames.FontVariant, style => new CssFontVariantProperty(style));
-            _creators.Add(PropertyNames.FontWeight, style => new CssFontWeightProperty(style));
-            _creators.Add(PropertyNames.FontStretch, style => new CssFontStretchProperty(style));
-            //_creators.Add(PropertyNames.FontFeatureSettings, style => new CSSFontFeatureSettingsProperty(style));
-            _creators.Add(PropertyNames.UnicodeRange, style => new CssUnicodeRangeProperty(style));
-            _creators.Add(PropertyNames.Src, style => new CssSrcProperty(style));
-        }
 
         /// <summary>
         /// Creates a new @font-face rule.
         /// </summary>
         internal CssFontFaceRule()
             : base(CssRuleType.FontFace)
-        {
-            _style = new CssStyleDeclaration(this);
+        { 
+            _declarations = new CssProperty[]
+            {
+                new CssFontFamilyProperty(null),
+                new CssSrcProperty(null),
+                new CssFontStyleProperty(null),
+                new CssFontWeightProperty(null),
+                new CssFontStretchProperty(null),
+                new CssUnicodeRangeProperty(null),
+                new CssFontVariantProperty(null)
+            };
         }
 
         #endregion
 
         #region Properties
 
-        public CssStyleDeclaration Style
-        {
-            get { return _style; }
-        }
-
         /// <summary>
         /// Gets or sets the font-family.
         /// </summary>
         String ICssFontFaceRule.Family
         {
-            get { return _style.GetPropertyValue(PropertyNames.FontFamily); }
-            set { _style.SetProperty(PropertyNames.FontFamily, value); }
+            get { return GetValue(PropertyNames.FontFamily); }
+            set { SetValue(PropertyNames.FontFamily, value); }
         }
 
         /// <summary>
@@ -63,8 +54,8 @@
         /// </summary>
         String ICssFontFaceRule.Source
         {
-            get { return _style.GetPropertyValue(PropertyNames.Src); }
-            set { _style.SetProperty(PropertyNames.Src, value); }
+            get { return GetValue(PropertyNames.Src); }
+            set { SetValue(PropertyNames.Src, value); }
         }
 
         /// <summary>
@@ -72,8 +63,8 @@
         /// </summary>
         String ICssFontFaceRule.Style
         {
-            get { return _style.GetPropertyValue(PropertyNames.FontStyle); }
-            set { _style.SetProperty(PropertyNames.FontStyle, value); }
+            get { return GetValue(PropertyNames.FontStyle); }
+            set { SetValue(PropertyNames.FontStyle, value); }
         }
 
         /// <summary>
@@ -81,8 +72,8 @@
         /// </summary>
         String ICssFontFaceRule.Weight
         {
-            get { return _style.GetPropertyValue(PropertyNames.FontWeight); }
-            set { _style.SetProperty(PropertyNames.FontWeight, value); }
+            get { return GetValue(PropertyNames.FontWeight); }
+            set { SetValue(PropertyNames.FontWeight, value); }
         }
 
         /// <summary>
@@ -90,8 +81,8 @@
         /// </summary>
         String ICssFontFaceRule.Stretch
         {
-            get { return _style.GetPropertyValue(PropertyNames.FontStretch); }
-            set { _style.SetProperty(PropertyNames.FontStretch, value); }
+            get { return GetValue(PropertyNames.FontStretch); }
+            set { SetValue(PropertyNames.FontStretch, value); }
         }
 
         /// <summary>
@@ -99,8 +90,8 @@
         /// </summary>
         String ICssFontFaceRule.Range
         {
-            get { return _style.GetPropertyValue(PropertyNames.UnicodeRange); }
-            set { _style.SetProperty(PropertyNames.UnicodeRange, value); }
+            get { return GetValue(PropertyNames.UnicodeRange); }
+            set { SetValue(PropertyNames.UnicodeRange, value); }
         }
 
         /// <summary>
@@ -108,8 +99,8 @@
         /// </summary>
         String ICssFontFaceRule.Variant
         {
-            get { return _style.GetPropertyValue(PropertyNames.FontVariant); }
-            set { _style.SetProperty(PropertyNames.FontVariant, value); }
+            get { return GetValue(PropertyNames.FontVariant); }
+            set { SetValue(PropertyNames.FontVariant, value); }
         }
 
         /// <summary>
@@ -117,19 +108,34 @@
         /// </summary>
         String ICssFontFaceRule.Features
         {
-            get { return _style.GetPropertyValue(PropertyNames.FontFeatureSettings); }
-            set { _style.SetProperty(PropertyNames.FontFeatureSettings, value); }
+            get { return String.Empty; }
+            set { }
         }
 
         #endregion
 
         #region Internal methods
 
+        internal void SetProperty(CssProperty property)
+        {
+            for (int i = 0; i < _declarations.Length; i++)
+            {
+                if (_declarations[i].Name == property.Name)
+                {
+                    _declarations[i] = property;
+                    break;
+                }
+            }
+        }
+
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = (CssFontFaceRule)rule;
-            _style.Clear();
-            _style.SetDeclarations(newRule._style);
+
+            for (int i = 0; i < _declarations.Length; i++)
+            {
+                _declarations[i] = newRule._declarations[i];
+            }
         }
 
         #endregion
@@ -142,21 +148,35 @@
         /// <returns>A string that contains the code.</returns>
         protected override String ToCss()
         {
-            return String.Concat("@font-face ", _style.ToCssBlock());
+            return String.Concat("@font-face ", _declarations.ToCssBlock());
         }
 
         #endregion
 
-        #region Property Creator
+        #region Helpers
 
-        CssProperty IPropertyCreator.Create(String name, CssStyleDeclaration style)
+        String GetValue(String propertyName)
         {
-            Func<CssStyleDeclaration, CssProperty> creator;
+            foreach (var declaration in _declarations)
+            {
+                if (declaration.HasValue && declaration.Name == propertyName)
+                    return declaration.Value.CssText;
+            }
 
-            if (_creators.TryGetValue(name, out creator))
-                return creator(style);
+            return String.Empty;
+        }
 
-            return null;
+        void SetValue(String propertyName, String valueText)
+        {
+            foreach (var declaration in _declarations)
+            {
+                if (declaration.Name == propertyName)
+                {
+                    var value = CssParser.ParseValue(valueText);
+                    declaration.TrySetValue(value);
+                    break;
+                }
+            }
         }
 
         #endregion
