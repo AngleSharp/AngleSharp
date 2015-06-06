@@ -34,7 +34,10 @@
 
             while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
             {
-                CreateDeclaration(style, ref token);
+                var property = CreateDeclaration(style, ref token);
+
+                if (property != null && property.HasValue)
+                    style.SetProperty(property);
             }
         }
 
@@ -55,7 +58,7 @@
                 }
                 else
                 {
-                    property = style.CreateProperty(propertyName);
+                    property = Factory.Properties.Create(propertyName, style);
 
                     if (property == null)
                     {
@@ -69,9 +72,7 @@
                     if (val == null)
                         RaiseErrorOccurred(CssParseError.ValueMissing, token);
                     else if (property.TrySetValue(val))
-                        style.SetProperty(property);
-
-                    property.IsImportant = important;
+                        property.IsImportant = important;
                 }
 
                 _tokenizer.JumpToEndOfDeclaration();
