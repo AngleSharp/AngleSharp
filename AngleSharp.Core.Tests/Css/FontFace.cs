@@ -22,8 +22,15 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsNotNull(sheet);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssFontFaceRule>(sheet.Rules[0]);
-            var fontface = (CssFontFaceRule)sheet.Rules[0];
-            Assert.AreEqual(3, fontface.Style.Length);
+            var fontface = (ICssFontFaceRule)sheet.Rules[0];
+            Assert.AreEqual("\"Open Sans\"", fontface.Family);
+            Assert.AreEqual("", fontface.Features);
+            Assert.AreEqual("", fontface.Range);
+            Assert.AreNotEqual("", fontface.Source);
+            Assert.AreEqual("", fontface.Stretch);
+            Assert.AreEqual("normal", fontface.Style);
+            Assert.AreEqual("", fontface.Variant);
+            Assert.AreEqual("", fontface.Weight);
         }
 
         [Test]
@@ -34,8 +41,15 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsNotNull(sheet);
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<CssFontFaceRule>(sheet.Rules[0]);
-            var fontface = (CssFontFaceRule)sheet.Rules[0];
-            Assert.AreEqual(2, fontface.Style.Length);
+            var fontface = (ICssFontFaceRule)sheet.Rules[0];
+            Assert.AreEqual("\"Open Sans\"", fontface.Family);
+            Assert.AreEqual("", fontface.Features);
+            Assert.AreEqual("", fontface.Range);
+            Assert.AreEqual("", fontface.Source);
+            Assert.AreEqual("", fontface.Stretch);
+            Assert.AreEqual("normal", fontface.Style);
+            Assert.AreEqual("", fontface.Variant);
+            Assert.AreEqual("", fontface.Weight);
         }
     }
 }
