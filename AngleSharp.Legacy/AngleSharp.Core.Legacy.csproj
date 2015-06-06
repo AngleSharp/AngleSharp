@@ -2003,9 +2003,6 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\IMediaList.cs">
       <Link>Interfaces\Css\IMediaList.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\IPropertyCreator.cs">
-      <Link>Interfaces\Css\IPropertyCreator.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ISelector.cs">
       <Link>Interfaces\Css\ISelector.cs</Link>
     </Compile>
