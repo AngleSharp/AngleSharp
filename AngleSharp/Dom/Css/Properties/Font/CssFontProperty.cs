@@ -77,22 +77,16 @@
                 case SystemFont.Caption:
                 case SystemFont.Icon:
                 case SystemFont.MessageBox:
-                    SetFont("Arial", "16px");
+                    //SetFont("Arial", "16px");
                     break;
                 case SystemFont.StatusBar:
                 case SystemFont.Menu:
-                    SetFont("Segoe UI", "12px");
+                    //SetFont("Segoe UI", "12px");
                     break;
                 case SystemFont.SmallCaption:
-                    SetFont("Segoe UI", "15px");
+                    //SetFont("Segoe UI", "15px");
                     break;
             }
-        }
-
-        void SetFont(String family, String size)
-        {
-            var value = String.Concat(size, " ", family.CssString());
-            Rule.SetPropertyValue(Name, value);
         }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)

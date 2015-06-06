@@ -13,7 +13,6 @@
 
         readonly PropertyFlags _flags;
         readonly String _name;
-        readonly CssStyleDeclaration _rule;
 
         Boolean _important;
         CssValue _value;
@@ -30,7 +29,6 @@
         /// <param name="flags">The property flags, if any.</param>
         internal CssProperty(String name, CssStyleDeclaration rule, PropertyFlags flags = PropertyFlags.None)
         {
-            _rule = rule;
             _name = name;
             _flags = flags;
         }
@@ -38,14 +36,6 @@
         #endregion
 
         #region Internal Properties
-
-        /// <summary>
-        /// Gets or sets the assigned rule.
-        /// </summary>
-        internal CssStyleDeclaration Rule
-        {
-            get { return _rule; }
-        }
 
         /// <summary>
         /// Gets if the property has a value.
