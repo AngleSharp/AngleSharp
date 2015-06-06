@@ -12,8 +12,8 @@
     {
         #region ctor
 
-        internal CssLeftProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Left, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
+        internal CssLeftProperty()
+            : base(PropertyNames.Left, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
         }
 

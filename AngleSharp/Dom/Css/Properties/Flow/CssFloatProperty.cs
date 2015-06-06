@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssFloatProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Float, rule)
+        internal CssFloatProperty()
+            : base(PropertyNames.Float)
         {
         }
 

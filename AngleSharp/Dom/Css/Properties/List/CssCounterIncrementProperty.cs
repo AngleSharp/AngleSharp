@@ -24,8 +24,8 @@
 
         #region ctor
 
-        internal CssCounterIncrementProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.CounterIncrement, rule)
+        internal CssCounterIncrementProperty()
+            : base(PropertyNames.CounterIncrement)
         {
         }
 

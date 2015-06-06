@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssBorderRightColorProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BorderRightColor, rule)
+        internal CssBorderRightColorProperty()
+            : base(PropertyNames.BorderRightColor)
         { 
         }
 

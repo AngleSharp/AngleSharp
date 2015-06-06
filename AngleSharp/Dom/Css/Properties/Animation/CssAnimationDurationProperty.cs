@@ -21,8 +21,8 @@
 
         #region ctor
 
-        internal CssAnimationDurationProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.AnimationDuration, rule)
+        internal CssAnimationDurationProperty()
+            : base(PropertyNames.AnimationDuration)
         {
         }
 

@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssFontVariantProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.FontVariant, rule, PropertyFlags.Inherited)
+        internal CssFontVariantProperty()
+            : base(PropertyNames.FontVariant, PropertyFlags.Inherited)
         {
         }
 

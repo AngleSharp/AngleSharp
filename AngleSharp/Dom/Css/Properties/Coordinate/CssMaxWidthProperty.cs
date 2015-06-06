@@ -14,8 +14,8 @@
     {
         #region ctor
 
-        internal CssMaxWidthProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.MaxWidth, rule, PropertyFlags.Animatable)
+        internal CssMaxWidthProperty()
+            : base(PropertyNames.MaxWidth, PropertyFlags.Animatable)
         {
         }
 

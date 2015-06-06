@@ -15,8 +15,8 @@
     {
         #region ctor
 
-        internal CssBackfaceVisibilityProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BackfaceVisibility, rule)
+        internal CssBackfaceVisibilityProperty()
+            : base(PropertyNames.BackfaceVisibility)
         {
         }
 

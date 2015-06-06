@@ -12,8 +12,8 @@
     {
         #region ctor
 
-        internal CssWidthProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Width, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
+        internal CssWidthProperty()
+            : base(PropertyNames.Width, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
         }
 

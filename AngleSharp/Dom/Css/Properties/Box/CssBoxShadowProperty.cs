@@ -14,8 +14,8 @@
     {
         #region ctor
 
-        internal CssBoxShadowProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BoxShadow, rule, PropertyFlags.Animatable)
+        internal CssBoxShadowProperty()
+            : base(PropertyNames.BoxShadow, PropertyFlags.Animatable)
         {
         }
 

@@ -22,8 +22,8 @@
 
         #region ctor
 
-        internal CssFontFamilyProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.FontFamily, rule, PropertyFlags.Inherited)
+        internal CssFontFamilyProperty()
+            : base(PropertyNames.FontFamily, PropertyFlags.Inherited)
         {
         }
 

@@ -24,8 +24,8 @@
 
         #region ctor
 
-        internal CssCounterResetProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.CounterReset, rule)
+        internal CssCounterResetProperty()
+            : base(PropertyNames.CounterReset)
         {
         }
 

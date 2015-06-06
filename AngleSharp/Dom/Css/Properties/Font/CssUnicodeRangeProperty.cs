@@ -9,8 +9,8 @@
     /// </summary>
     sealed class CssUnicodeRangeProperty : CssProperty
     {
-        public CssUnicodeRangeProperty(CssStyleDeclaration style)
-            : base(PropertyNames.UnicodeRange, style)
+        public CssUnicodeRangeProperty()
+            : base(PropertyNames.UnicodeRange)
         {
         }
 

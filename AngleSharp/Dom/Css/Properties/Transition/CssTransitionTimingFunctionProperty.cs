@@ -21,8 +21,8 @@
 
         #region ctor
 
-        internal CssTransitionTimingFunctionProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.TransitionTimingFunction, rule)
+        internal CssTransitionTimingFunctionProperty()
+            : base(PropertyNames.TransitionTimingFunction)
         {
         }
 

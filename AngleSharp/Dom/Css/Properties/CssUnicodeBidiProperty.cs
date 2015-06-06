@@ -12,8 +12,8 @@
     {
         #region ctor
 
-        internal CssUnicodeBidiProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.UnicodeBidi, rule)
+        internal CssUnicodeBidiProperty()
+            : base(PropertyNames.UnicodeBidi)
         {
         }
 

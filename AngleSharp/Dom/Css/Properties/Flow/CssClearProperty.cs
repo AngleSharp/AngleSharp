@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssClearProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Clear, rule)
+        internal CssClearProperty()
+            : base(PropertyNames.Clear)
         {
         }
 

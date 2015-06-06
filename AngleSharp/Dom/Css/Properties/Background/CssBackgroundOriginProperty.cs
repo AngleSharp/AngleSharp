@@ -20,8 +20,8 @@
 
         #region ctor
 
-        internal CssBackgroundOriginProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BackgroundOrigin, rule)
+        internal CssBackgroundOriginProperty()
+            : base(PropertyNames.BackgroundOrigin)
         {
         }
 

@@ -15,8 +15,8 @@
     {
         #region ctor
 
-        internal CssWordSpacingProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.WordSpacing, rule, PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable)
+        internal CssWordSpacingProperty()
+            : base(PropertyNames.WordSpacing, PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
         }
 

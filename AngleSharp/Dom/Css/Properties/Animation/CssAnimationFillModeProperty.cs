@@ -20,8 +20,8 @@
 
         #region ctor
 
-        internal CssAnimationFillModeProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.AnimationFillMode, rule)
+        internal CssAnimationFillModeProperty()
+            : base(PropertyNames.AnimationFillMode)
         {
         }
 

@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssListStyleImageProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.ListStyleImage, rule, PropertyFlags.Inherited)
+        internal CssListStyleImageProperty()
+            : base(PropertyNames.ListStyleImage, PropertyFlags.Inherited)
         {
         }
 

@@ -63,7 +63,7 @@
                     if (property == null)
                     {
                         RaiseErrorOccurred(CssParseError.UnknownDeclarationName, token);
-                        property = new CssUnknownProperty(propertyName, style);
+                        property = new CssUnknownProperty(propertyName);
                     }
 
                     var important = false;

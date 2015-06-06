@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssDirectionProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Direction, rule, PropertyFlags.Inherited)
+        internal CssDirectionProperty()
+            : base(PropertyNames.Direction, PropertyFlags.Inherited)
         {
         }
 

@@ -20,8 +20,8 @@
 
         #region ctor
 
-        internal CssBorderSpacingProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BorderSpacing, rule, PropertyFlags.Inherited)
+        internal CssBorderSpacingProperty()
+            : base(PropertyNames.BorderSpacing, PropertyFlags.Inherited)
         {
         }
 

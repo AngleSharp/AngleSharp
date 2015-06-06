@@ -12,8 +12,8 @@
     {
         #region ctor
 
-        internal CssTopProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Top, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
+        internal CssTopProperty()
+            : base(PropertyNames.Top, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
         }
 

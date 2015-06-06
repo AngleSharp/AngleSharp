@@ -16,8 +16,8 @@
     {
         #region ctor
 
-        internal CssMarginRightProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.MarginRight, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
+        internal CssMarginRightProperty()
+            : base(PropertyNames.MarginRight, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
         }
 

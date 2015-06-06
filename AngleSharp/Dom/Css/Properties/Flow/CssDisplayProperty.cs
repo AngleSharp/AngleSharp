@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssDisplayProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Display, rule)
+        internal CssDisplayProperty()
+            : base(PropertyNames.Display)
         {
         }
 

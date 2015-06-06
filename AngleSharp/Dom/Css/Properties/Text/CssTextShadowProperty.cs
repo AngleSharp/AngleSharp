@@ -14,8 +14,8 @@
     {
         #region ctor
 
-        internal CssTextShadowProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.TextShadow, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
+        internal CssTextShadowProperty()
+            : base(PropertyNames.TextShadow, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
         }
 

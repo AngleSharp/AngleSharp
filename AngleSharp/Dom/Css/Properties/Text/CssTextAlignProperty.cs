@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssTextAlignProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.TextAlign, rule, PropertyFlags.Inherited)
+        internal CssTextAlignProperty()
+            : base(PropertyNames.TextAlign, PropertyFlags.Inherited)
         {
         }
 

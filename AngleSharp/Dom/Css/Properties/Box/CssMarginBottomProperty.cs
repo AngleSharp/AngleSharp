@@ -16,8 +16,8 @@
     {
         #region ctor
 
-        internal CssMarginBottomProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.MarginBottom, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
+        internal CssMarginBottomProperty()
+            : base(PropertyNames.MarginBottom, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
         }
 

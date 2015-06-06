@@ -16,8 +16,8 @@
     {
         #region ctor
 
-        internal CssBoxDecorationBreak(CssStyleDeclaration rule)
-            : base(PropertyNames.BoxDecorationBreak, rule)
+        internal CssBoxDecorationBreak()
+            : base(PropertyNames.BoxDecorationBreak)
         {
         }
 

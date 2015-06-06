@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssListStylePositionProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.ListStylePosition, rule, PropertyFlags.Inherited)
+        internal CssListStylePositionProperty()
+            : base(PropertyNames.ListStylePosition, PropertyFlags.Inherited)
         {
         }
 

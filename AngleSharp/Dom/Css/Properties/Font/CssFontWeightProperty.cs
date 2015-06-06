@@ -27,8 +27,8 @@
 
         #region ctor
         
-        internal CssFontWeightProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.FontWeight, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
+        internal CssFontWeightProperty()
+            : base(PropertyNames.FontWeight, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
         }
 

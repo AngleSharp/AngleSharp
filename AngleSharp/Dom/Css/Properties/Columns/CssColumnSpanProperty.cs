@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssColumnSpanProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.ColumnSpan, rule)
+        internal CssColumnSpanProperty()
+            : base(PropertyNames.ColumnSpan)
         {
         }
 

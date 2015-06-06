@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssBorderRightWidthProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BorderRightWidth, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
+        internal CssBorderRightWidthProperty()
+            : base(PropertyNames.BorderRightWidth, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
         }
 

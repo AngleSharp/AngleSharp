@@ -22,8 +22,8 @@
 
         #region ctor
 
-        internal CssTransformProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Transform, rule, PropertyFlags.Animatable)
+        internal CssTransformProperty()
+            : base(PropertyNames.Transform, PropertyFlags.Animatable)
         {
         }
 

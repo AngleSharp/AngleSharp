@@ -18,8 +18,8 @@
     {
         #region ctor
 
-        internal CssTableLayoutProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.TableLayout, rule)
+        internal CssTableLayoutProperty()
+            : base(PropertyNames.TableLayout)
         {
         }
 

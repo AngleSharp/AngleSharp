@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssWhiteSpaceProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.WhiteSpace, rule, PropertyFlags.Inherited)
+        internal CssWhiteSpaceProperty()
+            : base(PropertyNames.WhiteSpace, PropertyFlags.Inherited)
         {
         }
 

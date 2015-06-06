@@ -9,8 +9,8 @@
     {
         #region ctor
 
-        internal CssUnknownProperty(String name, CssStyleDeclaration rule)
-            : base(name, rule)
+        internal CssUnknownProperty(String name)
+            : base(name)
         {
         }
 

@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssBorderTopColorProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BorderTopColor, rule)
+        internal CssBorderTopColorProperty()
+            : base(PropertyNames.BorderTopColor)
         { 
         }
 

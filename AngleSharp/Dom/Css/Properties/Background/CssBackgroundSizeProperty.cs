@@ -28,8 +28,8 @@
 
         #region ctor
 
-        internal CssBackgroundSizeProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BackgroundSize, rule, PropertyFlags.Animatable)
+        internal CssBackgroundSizeProperty()
+            : base(PropertyNames.BackgroundSize, PropertyFlags.Animatable)
         {
         }
 

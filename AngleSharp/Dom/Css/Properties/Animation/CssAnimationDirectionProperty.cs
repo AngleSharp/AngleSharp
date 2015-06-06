@@ -20,8 +20,8 @@
 
         #region ctor
 
-        internal CssAnimationDirectionProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.AnimationDirection, rule)
+        internal CssAnimationDirectionProperty()
+            : base(PropertyNames.AnimationDirection)
         {
         }
 

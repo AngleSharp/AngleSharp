@@ -21,8 +21,8 @@
     {
         #region ctor
 
-        internal CssLetterSpacingProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.LetterSpacing, rule, PropertyFlags.Inherited | PropertyFlags.Unitless)
+        internal CssLetterSpacingProperty()
+            : base(PropertyNames.LetterSpacing, PropertyFlags.Inherited | PropertyFlags.Unitless)
         {
         }
 

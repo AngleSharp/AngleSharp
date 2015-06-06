@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssOutlineStyleProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.OutlineStyle, rule)
+        internal CssOutlineStyleProperty()
+            : base(PropertyNames.OutlineStyle)
         {
         }
 

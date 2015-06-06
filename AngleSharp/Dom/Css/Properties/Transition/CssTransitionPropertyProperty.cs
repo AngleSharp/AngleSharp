@@ -20,8 +20,8 @@
 
         #region ctor
 
-        internal CssTransitionPropertyProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.TransitionProperty, rule)
+        internal CssTransitionPropertyProperty()
+            : base(PropertyNames.TransitionProperty)
         {
         }
 

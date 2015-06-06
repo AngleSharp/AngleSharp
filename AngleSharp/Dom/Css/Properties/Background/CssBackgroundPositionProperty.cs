@@ -21,8 +21,8 @@
 
         #region ctor
 
-        internal CssBackgroundPositionProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BackgroundPosition, rule, PropertyFlags.Animatable)
+        internal CssBackgroundPositionProperty()
+            : base(PropertyNames.BackgroundPosition, PropertyFlags.Animatable)
         {
         }
 

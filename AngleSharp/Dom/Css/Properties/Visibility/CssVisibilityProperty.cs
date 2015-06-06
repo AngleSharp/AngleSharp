@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssVisibilityProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Visibility, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
+        internal CssVisibilityProperty()
+            : base(PropertyNames.Visibility, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
         }
 

@@ -27,8 +27,8 @@
 
         #region ctor
 
-        internal CssBorderImageSliceProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BorderImageSlice, rule)
+        internal CssBorderImageSliceProperty()
+            : base(PropertyNames.BorderImageSlice)
         {
         }
 

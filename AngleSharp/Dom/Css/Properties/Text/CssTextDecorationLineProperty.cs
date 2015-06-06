@@ -24,8 +24,8 @@
 
         #region ctor
 
-        internal CssTextDecorationLineProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.TextDecorationLine, rule)
+        internal CssTextDecorationLineProperty()
+            : base(PropertyNames.TextDecorationLine)
         {
         }
 

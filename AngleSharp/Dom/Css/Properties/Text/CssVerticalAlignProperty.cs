@@ -16,8 +16,8 @@
     {
         #region ctor
 
-        internal CssVerticalAlignProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.VerticalAlign, rule, PropertyFlags.Animatable)
+        internal CssVerticalAlignProperty()
+            : base(PropertyNames.VerticalAlign, PropertyFlags.Animatable)
         {
         }
 

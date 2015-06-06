@@ -14,8 +14,8 @@
     {
         #region ctor
 
-        internal CssTextDecorationColorProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.TextDecorationColor, rule, PropertyFlags.Animatable)
+        internal CssTextDecorationColorProperty()
+            : base(PropertyNames.TextDecorationColor, PropertyFlags.Animatable)
         {
         }
 

@@ -14,8 +14,8 @@
     {
         #region ctor
 
-        internal CssWidowsProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Widows, rule, PropertyFlags.Inherited)
+        internal CssWidowsProperty()
+            : base(PropertyNames.Widows, PropertyFlags.Inherited)
         {
         }
 

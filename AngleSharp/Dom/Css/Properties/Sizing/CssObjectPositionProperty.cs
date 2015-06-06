@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssObjectPositionProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.ObjectPosition, rule, PropertyFlags.Animatable)
+        internal CssObjectPositionProperty()
+            : base(PropertyNames.ObjectPosition, PropertyFlags.Animatable)
         {
         }
 

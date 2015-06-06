@@ -22,8 +22,8 @@
 
         #region ctor
 
-        internal CssTransformStyleProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.TransformStyle, rule)
+        internal CssTransformStyleProperty()
+            : base(PropertyNames.TransformStyle)
         {
         }
 

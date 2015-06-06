@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssBreakAfterProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BreakAfter, rule)
+        internal CssBreakAfterProperty()
+            : base(PropertyNames.BreakAfter)
         {
         }
 

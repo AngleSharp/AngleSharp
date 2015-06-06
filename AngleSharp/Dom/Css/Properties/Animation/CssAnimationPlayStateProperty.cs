@@ -20,8 +20,8 @@
 
         #region ctor
 
-        internal CssAnimationPlayStateProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.AnimationPlayState, rule)
+        internal CssAnimationPlayStateProperty()
+            : base(PropertyNames.AnimationPlayState)
         {
         }
 

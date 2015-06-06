@@ -88,7 +88,7 @@
             var property = Factory.Properties.Create(name, style);
 
             if (property == null)
-                property = new CssUnknownProperty(name, style);
+                property = new CssUnknownProperty(name);
 
             token = _tokenizer.Get();
 

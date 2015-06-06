@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssTextTransformProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.TextTransform, rule, PropertyFlags.Inherited)
+        internal CssTextTransformProperty()
+            : base(PropertyNames.TextTransform, PropertyFlags.Inherited)
         {
         }
 

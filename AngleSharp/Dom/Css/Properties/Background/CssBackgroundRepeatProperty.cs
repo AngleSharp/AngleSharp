@@ -29,8 +29,8 @@
 
         #region ctor
 
-        internal CssBackgroundRepeatProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BackgroundRepeat, rule)
+        internal CssBackgroundRepeatProperty()
+            : base(PropertyNames.BackgroundRepeat)
         {
         }
 

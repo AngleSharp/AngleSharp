@@ -15,8 +15,8 @@
     {
         #region ctor
 
-        internal CssOutlineColorProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.OutlineColor, rule, PropertyFlags.Animatable)
+        internal CssOutlineColorProperty()
+            : base(PropertyNames.OutlineColor, PropertyFlags.Animatable)
         {
         }
 

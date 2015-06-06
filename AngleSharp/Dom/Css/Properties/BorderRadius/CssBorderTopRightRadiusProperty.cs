@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssBorderTopRightRadiusProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BorderTopRightRadius, rule, PropertyFlags.Animatable)
+        internal CssBorderTopRightRadiusProperty()
+            : base(PropertyNames.BorderTopRightRadius, PropertyFlags.Animatable)
         {
         }
 

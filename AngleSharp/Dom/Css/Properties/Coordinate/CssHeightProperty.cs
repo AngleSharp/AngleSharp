@@ -12,8 +12,8 @@
     {
         #region ctor
 
-        internal CssHeightProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Height, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
+        internal CssHeightProperty()
+            : base(PropertyNames.Height, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
         }
 

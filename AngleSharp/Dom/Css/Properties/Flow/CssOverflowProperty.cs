@@ -12,8 +12,8 @@
     {
         #region ctor
 
-        internal CssOverflowProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Overflow, rule)
+        internal CssOverflowProperty()
+            : base(PropertyNames.Overflow)
         {
         }
 

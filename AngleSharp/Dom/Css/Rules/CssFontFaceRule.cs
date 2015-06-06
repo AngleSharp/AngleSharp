@@ -26,13 +26,13 @@
         { 
             _declarations = new CssProperty[]
             {
-                new CssFontFamilyProperty(null),
-                new CssSrcProperty(null),
-                new CssFontStyleProperty(null),
-                new CssFontWeightProperty(null),
-                new CssFontStretchProperty(null),
-                new CssUnicodeRangeProperty(null),
-                new CssFontVariantProperty(null)
+                new CssFontFamilyProperty(),
+                new CssSrcProperty(),
+                new CssFontStyleProperty(),
+                new CssFontWeightProperty(),
+                new CssFontStretchProperty(),
+                new CssUnicodeRangeProperty(),
+                new CssFontVariantProperty()
             };
         }
 

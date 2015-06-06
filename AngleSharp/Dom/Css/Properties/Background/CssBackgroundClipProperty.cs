@@ -20,8 +20,8 @@
 
         #region ctor
 
-        internal CssBackgroundClipProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BackgroundClip, rule)
+        internal CssBackgroundClipProperty()
+            : base(PropertyNames.BackgroundClip)
         {
         }
 

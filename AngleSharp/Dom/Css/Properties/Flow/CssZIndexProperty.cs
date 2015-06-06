@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssZIndexProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.ZIndex, rule, PropertyFlags.Animatable)
+        internal CssZIndexProperty()
+            : base(PropertyNames.ZIndex, PropertyFlags.Animatable)
         {
         }
 

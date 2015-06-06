@@ -15,8 +15,8 @@
     {
         #region ctor
 
-        internal CssPaddingLeftProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.PaddingLeft, rule, PropertyFlags.Unitless | PropertyFlags.Animatable)
+        internal CssPaddingLeftProperty()
+            : base(PropertyNames.PaddingLeft, PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
         }
 

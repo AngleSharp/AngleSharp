@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssOpacityProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Opacity, rule, PropertyFlags.Animatable)
+        internal CssOpacityProperty()
+            : base(PropertyNames.Opacity, PropertyFlags.Animatable)
         {
         }
 

@@ -20,8 +20,8 @@
 
         #region ctor
 
-        internal CssPageBreakInsideProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.PageBreakInside, rule)
+        internal CssPageBreakInsideProperty()
+            : base(PropertyNames.PageBreakInside)
         {
         }
 

@@ -14,8 +14,8 @@
     {
         #region ctor
 
-        internal CssBackgroundImageProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BackgroundImage, rule)
+        internal CssBackgroundImageProperty()
+            : base(PropertyNames.BackgroundImage)
         {
         }
 

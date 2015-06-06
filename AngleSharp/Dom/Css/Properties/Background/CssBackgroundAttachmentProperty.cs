@@ -20,8 +20,8 @@
 
         #region ctor
 
-        internal CssBackgroundAttachmentProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BackgroundAttachment, rule)
+        internal CssBackgroundAttachmentProperty()
+            : base(PropertyNames.BackgroundAttachment)
         {
         }
 

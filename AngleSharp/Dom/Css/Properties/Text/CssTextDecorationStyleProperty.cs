@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssTextDecorationStyleProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.TextDecorationStyle, rule)
+        internal CssTextDecorationStyleProperty()
+            : base(PropertyNames.TextDecorationStyle)
         {
         }
 

@@ -26,8 +26,8 @@
 
         #region ctor
 
-        internal CssQuotesProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Quotes, rule, PropertyFlags.Inherited)
+        internal CssQuotesProperty()
+            : base(PropertyNames.Quotes, PropertyFlags.Inherited)
         {
         }
 

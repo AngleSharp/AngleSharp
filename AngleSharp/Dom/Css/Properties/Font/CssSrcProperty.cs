@@ -9,8 +9,8 @@
     /// </summary>
     sealed class CssSrcProperty : CssProperty
     {
-        public CssSrcProperty(CssStyleDeclaration style)
-            : base(PropertyNames.Src, style)
+        public CssSrcProperty()
+            : base(PropertyNames.Src)
         {
         }
 

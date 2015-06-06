@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssColumnCountProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.ColumnCount, rule, PropertyFlags.Animatable)
+        internal CssColumnCountProperty()
+            : base(PropertyNames.ColumnCount, PropertyFlags.Animatable)
         {
         }
 

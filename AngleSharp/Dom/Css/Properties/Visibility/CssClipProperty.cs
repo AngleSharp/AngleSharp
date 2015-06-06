@@ -14,8 +14,8 @@
     {
         #region ctor
 
-        internal CssClipProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Clip, rule, PropertyFlags.Animatable)
+        internal CssClipProperty()
+            : base(PropertyNames.Clip, PropertyFlags.Animatable)
         {
         }
 

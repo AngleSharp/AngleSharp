@@ -14,8 +14,8 @@
     {
         #region ctor
 
-        internal CssOrphansProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Orphans, rule, PropertyFlags.Inherited)
+        internal CssOrphansProperty()
+            : base(PropertyNames.Orphans, PropertyFlags.Inherited)
         {
         }
 

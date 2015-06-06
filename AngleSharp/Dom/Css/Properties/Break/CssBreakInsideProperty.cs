@@ -15,8 +15,8 @@
     {
         #region ctor
 
-        internal CssBreakInsideProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BreakInside, rule)
+        internal CssBreakInsideProperty()
+            : base(PropertyNames.BreakInside)
         {
         }
 

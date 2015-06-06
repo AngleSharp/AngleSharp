@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssFontSizeProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.FontSize, rule, PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable)
+        internal CssFontSizeProperty()
+            : base(PropertyNames.FontSize, PropertyFlags.Inherited | PropertyFlags.Unitless | PropertyFlags.Animatable)
         {
         }
 

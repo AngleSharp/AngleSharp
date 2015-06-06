@@ -12,8 +12,8 @@
     {
         #region ctor
 
-        internal CssBorderBottomStyleProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BorderBottomStyle, rule)
+        internal CssBorderBottomStyleProperty()
+            : base(PropertyNames.BorderBottomStyle)
         { 
         }
 

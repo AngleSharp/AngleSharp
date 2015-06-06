@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssPositionProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Position, rule)
+        internal CssPositionProperty()
+            : base(PropertyNames.Position)
         {
         }
 

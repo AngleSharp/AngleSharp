@@ -36,8 +36,8 @@
 
         #region ctor
 
-        internal CssContentProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Content, rule)
+        internal CssContentProperty()
+            : base(PropertyNames.Content)
         {
         }
 

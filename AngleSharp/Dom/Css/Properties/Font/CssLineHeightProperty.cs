@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssLineHeightProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.LineHeight, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
+        internal CssLineHeightProperty()
+            : base(PropertyNames.LineHeight, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
         }
 

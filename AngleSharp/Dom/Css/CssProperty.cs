@@ -25,9 +25,8 @@
         /// Creates a new CSS property.
         /// </summary>
         /// <param name="name">The name of the property</param>
-        /// <param name="rule">The parent style declaration.</param>
         /// <param name="flags">The property flags, if any.</param>
-        internal CssProperty(String name, CssStyleDeclaration rule, PropertyFlags flags = PropertyFlags.None)
+        internal CssProperty(String name, PropertyFlags flags = PropertyFlags.None)
         {
             _name = name;
             _flags = flags;

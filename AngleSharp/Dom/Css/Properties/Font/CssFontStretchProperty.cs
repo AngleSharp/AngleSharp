@@ -13,8 +13,8 @@
     {
         #region ctor
 
-        internal CssFontStretchProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.FontStretch, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
+        internal CssFontStretchProperty()
+            : base(PropertyNames.FontStretch, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
         }
 

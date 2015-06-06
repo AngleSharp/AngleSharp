@@ -23,8 +23,8 @@
 
         #region ctor
 
-        internal CssPerspectiveProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Perspective, rule, PropertyFlags.Animatable)
+        internal CssPerspectiveProperty()
+            : base(PropertyNames.Perspective, PropertyFlags.Animatable)
         {
         }
 

@@ -14,8 +14,8 @@
     {
         #region ctor
 
-        internal CssColumnGapProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.ColumnGap, rule, PropertyFlags.Animatable)
+        internal CssColumnGapProperty()
+            : base(PropertyNames.ColumnGap, PropertyFlags.Animatable)
         {
         }
 

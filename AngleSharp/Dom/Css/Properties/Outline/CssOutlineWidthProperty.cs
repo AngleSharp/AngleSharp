@@ -16,8 +16,8 @@
     {
         #region ctor
 
-        internal CssOutlineWidthProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.OutlineWidth, rule, PropertyFlags.Animatable)
+        internal CssOutlineWidthProperty()
+            : base(PropertyNames.OutlineWidth, PropertyFlags.Animatable)
         {
         }
 

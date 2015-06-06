@@ -21,8 +21,8 @@
 
         #region ctor
 
-        internal CssTransitionDelayProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.TransitionDelay, rule)
+        internal CssTransitionDelayProperty()
+            : base(PropertyNames.TransitionDelay)
         {
         }
 

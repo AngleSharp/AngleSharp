@@ -14,8 +14,8 @@
     {
         #region ctor
 
-        internal CssCaptionSideProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.CaptionSide, rule)
+        internal CssCaptionSideProperty()
+            : base(PropertyNames.CaptionSide)
         {
         }
 

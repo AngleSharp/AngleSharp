@@ -12,8 +12,8 @@
     {
         #region ctor
 
-        internal CssBorderImageSourceProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BorderImageSource, rule)
+        internal CssBorderImageSourceProperty()
+            : base(PropertyNames.BorderImageSource)
         {
         }
 

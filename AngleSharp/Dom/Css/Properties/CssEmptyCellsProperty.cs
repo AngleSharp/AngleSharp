@@ -15,8 +15,8 @@
     {
         #region ctor
 
-        internal CssEmptyCellsProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.EmptyCells, rule, PropertyFlags.Inherited)
+        internal CssEmptyCellsProperty()
+            : base(PropertyNames.EmptyCells, PropertyFlags.Inherited)
         {
         }
 

@@ -12,8 +12,8 @@
     {
         #region ctor
 
-        internal CssObjectFitProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.ObjectFit, rule)
+        internal CssObjectFitProperty()
+            : base(PropertyNames.ObjectFit)
         {
         }
 

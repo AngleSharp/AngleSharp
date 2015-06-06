@@ -14,8 +14,8 @@
     {
         #region ctor
 
-        internal CssColumnRuleColorProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.ColumnRuleColor, rule, PropertyFlags.Animatable)
+        internal CssColumnRuleColorProperty()
+            : base(PropertyNames.ColumnRuleColor, PropertyFlags.Animatable)
         {
         }
 

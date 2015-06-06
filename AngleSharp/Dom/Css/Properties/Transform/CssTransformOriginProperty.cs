@@ -33,8 +33,8 @@
 
         #region ctor
 
-        internal CssTransformOriginProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.TransformOrigin, rule, PropertyFlags.Animatable)
+        internal CssTransformOriginProperty()
+            : base(PropertyNames.TransformOrigin, PropertyFlags.Animatable)
         {
         }
 

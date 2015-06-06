@@ -20,8 +20,8 @@
 
         #region ctor
 
-        internal CssAnimationIterationCountProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.AnimationIterationCount, rule)
+        internal CssAnimationIterationCountProperty()
+            : base(PropertyNames.AnimationIterationCount)
         {
         }
 
