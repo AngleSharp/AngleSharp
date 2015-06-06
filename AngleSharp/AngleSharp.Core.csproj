@@ -529,7 +529,6 @@
     <Compile Include="Interfaces\Css\ICssSupportsRule.cs" />
     <Compile Include="Interfaces\Css\ICssValue.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
-    <Compile Include="Interfaces\Css\IPropertyCreator.cs" />
     <Compile Include="Dom\Events\CompositionEvent.cs" />
     <Compile Include="Dom\Events\InputEvent.cs" />
     <Compile Include="Dom\Events\MessageEvent.cs" />

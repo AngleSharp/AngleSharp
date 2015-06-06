@@ -10,14 +10,13 @@
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
-    sealed class CssStyleDeclaration : ICssStyleDeclaration, IPropertyCreator
+    sealed class CssStyleDeclaration : ICssStyleDeclaration
     {
         #region Fields
 
         readonly List<CssProperty> _declarations;
         readonly Boolean _readOnly;
         readonly CssRule _parent;
-        readonly IPropertyCreator _creator;
 
         #endregion
 
@@ -33,7 +32,6 @@
         {
             _readOnly = readOnly;
             _parent = parent;
-            _creator = parent as IPropertyCreator ?? this;
             _declarations = new List<CssProperty>();
         }
 
@@ -2487,14 +2485,13 @@
         #region Internal Methods
 
         /// <summary>
-        /// Creates the given property, if it does not already exist.
-        /// Otherwise returns the existing declaration.
+        /// Either gets the available property or creates a new one.
         /// </summary>
-        /// <param name="name">The name of the property to retrieve or create.</param>
-        /// <returns>The created / existing property.</returns>
-        internal CssProperty CreateProperty(String name)
+        /// <param name="propertyName">The name of the property.</param>
+        /// <returns>The existing or created property.</returns>
+        internal CssProperty CreateProperty(String propertyName)
         {
-            return GetProperty(name) ?? _creator.Create(name, this);
+            return GetProperty(propertyName) ?? Factory.Properties.Create(propertyName, this);
         }
 
         /// <summary>
@@ -2618,11 +2615,6 @@
         #endregion
 
         #region Interface implementation
-
-        CssProperty IPropertyCreator.Create(String name, CssStyleDeclaration style)
-        {
-            return Factory.Properties.Create(name, this);
-        }
 
         /// <summary>
         /// Returns an ienumerator that enumerates over all entries.
