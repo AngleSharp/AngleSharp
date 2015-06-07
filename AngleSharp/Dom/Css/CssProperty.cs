@@ -90,6 +90,14 @@
         #region Properties
 
         /// <summary>
+        /// Gets the serialized value of the property.
+        /// </summary>
+        String ICssProperty.Value
+        {
+            get { return SerializeValue(); }
+        }
+
+        /// <summary>
         /// Gets if the property is inherited.
         /// </summary>
         public Boolean IsInherited

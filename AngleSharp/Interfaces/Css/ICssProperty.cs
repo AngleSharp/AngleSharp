@@ -17,6 +17,12 @@
         String Name { get; }
 
         /// <summary>
+        /// Gets the value of the property.
+        /// </summary>
+        [DomName("value")]
+        String Value { get; }
+
+        /// <summary>
         /// Gets if the !important flag has been set.
         /// </summary>
         [DomName("important")]
