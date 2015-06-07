@@ -1,8 +1,8 @@
-﻿namespace AngleSharp.Scripting
+﻿namespace AngleSharp.Services.Scripting
 {
+    using System.Text;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
-    using System.Text;
 
     /// <summary>
     /// Transport object for running scripts.

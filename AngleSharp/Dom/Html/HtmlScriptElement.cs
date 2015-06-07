@@ -5,7 +5,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
-    using AngleSharp.Scripting;
+    using AngleSharp.Services.Scripting;
 
     /// <summary>
     /// Represents an HTML script element.

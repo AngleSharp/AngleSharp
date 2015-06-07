@@ -1,7 +1,7 @@
-﻿namespace AngleSharp.Scripting
+﻿namespace AngleSharp.Services.Scripting
 {
-    using AngleSharp.Network;
     using System;
+    using AngleSharp.Network;
 
     /// <summary>
     /// Defines the API of an available engine for running scripts provided in

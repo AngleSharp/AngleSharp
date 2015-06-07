@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Services
 {
-    using AngleSharp.Scripting;
+    using AngleSharp.Services.Scripting;
     using System;
 
     /// <summary>

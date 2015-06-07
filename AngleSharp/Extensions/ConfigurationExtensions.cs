@@ -7,8 +7,8 @@
     using System.Text;
     using AngleSharp.Css;
     using AngleSharp.Dom;
-    using AngleSharp.Scripting;
     using AngleSharp.Services;
+    using AngleSharp.Services.Scripting;
 
     /// <summary>
     /// Represents a helper to construct objects with externally defined
