@@ -2702,12 +2702,6 @@
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Scripting\IScriptEngine.cs">
-      <Link>Scripting\IScriptEngine.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Scripting\ScriptOptions.cs">
-      <Link>Scripting\ScriptOptions.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Services\Default\LoaderService.cs">
       <Link>Services\Default\LoaderService.cs</Link>
     </Compile>
@@ -2794,6 +2788,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Services\Media\IVideoInfo.cs">
       <Link>Services\Media\IVideoInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Scripting\IScriptEngine.cs">
+      <Link>Services\Scripting\IScriptEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Scripting\ScriptOptions.cs">
+      <Link>Services\Scripting\ScriptOptions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\TextEncoding.cs">
       <Link>TextEncoding.cs</Link>
