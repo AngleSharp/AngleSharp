@@ -148,10 +148,17 @@
 
         #region Helpers
 
-        static CssTokenizer CreateTokenizer(String source, IConfiguration configuration)
+        /// <summary>
+        /// Creates the tokenizer for the given source code.
+        /// </summary>
+        /// <param name="sourceCode">The code to analyze.</param>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <returns>The fresh tokenizer for the code.</returns>
+        static CssTokenizer CreateTokenizer(String sourceCode, IConfiguration configuration)
         {
             var events = configuration != null ? configuration.Events : null;
-            return new CssTokenizer(new TextSource(source), events);
+            var source = new TextSource(sourceCode);
+            return new CssTokenizer(source, events);
         }
 
         /// <summary>
