@@ -61,7 +61,7 @@
             return SerializePeriodic(top, right, bottom, left);
         }
 
-        protected static String SerializePeriodic(ICssValue top, ICssValue right, ICssValue bottom, ICssValue left)
+        protected static String SerializePeriodic(CssValue top, CssValue right, CssValue bottom, CssValue left)
         {
             return SerializePeriodic(top.CssText, right.CssText, bottom.CssText, left.CssText);
         }

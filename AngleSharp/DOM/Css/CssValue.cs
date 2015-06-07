@@ -9,24 +9,22 @@
     /// <summary>
     /// Represents a CSS value.
     /// </summary>
-    sealed class CssValue : ICssValue, IEnumerable<CssToken>
+    sealed class CssValue : IEnumerable<CssToken>
     {
         #region Fields
 
-        readonly CssValueType _type;
         readonly List<CssToken> _tokens;
 
-        public static CssValue Initial = CssValue.FromString(Keywords.Initial, CssValueType.Initial);
+        public static CssValue Initial = CssValue.FromString(Keywords.Initial);
 
         #endregion
 
         #region ctor
 
-        private CssValue(CssToken token, CssValueType type)
+        private CssValue(CssToken token)
         {
             _tokens = new List<CssToken>();
             _tokens.Add(token);
-            _type = type;
         }
 
         /// <summary>
@@ -36,19 +34,17 @@
         public CssValue(IEnumerable<CssToken> tokens)
         {
             _tokens = new List<CssToken>(tokens);
-            _type = FindType(_tokens);
         }
 
         /// <summary>
         /// Creates a new CSS value with the given text and type.
         /// </summary>
         /// <param name="text">The text to convert.</param>
-        /// <param name="type">The type to use.</param>
         /// <returns>The new value.</returns>
-        public static CssValue FromString(String text, CssValueType type)
+        public static CssValue FromString(String text)
         {
             var token = new CssToken(CssTokenType.Ident, text, TextPosition.Empty);
-            return new CssValue(token, type);
+            return new CssValue(token);
         }
 
         #endregion
@@ -74,58 +70,11 @@
         }
 
         /// <summary>
-        /// Gets a code defining the type of the value as defined above.
-		/// </summary>
-        public CssValueType Type
-        {
-            get { return _type; }
-        }
-
-        /// <summary>
         /// Gets or sets a string representation of the current value.
         /// </summary>
         public String CssText
         {
             get { return _tokens.ToText(); }
-        }
-
-        #endregion
-
-        #region Helpers
-
-        static CssValueType FindType(List<CssToken> tokens)
-        {
-            var type = CssValueType.Custom;
-            var open = 0;
-
-            if (tokens.Count == 1)
-            {
-                if (tokens[0].Data.Equals(Keywords.Initial, StringComparison.OrdinalIgnoreCase))
-                    return CssValueType.Initial;
-                else if (tokens[0].Data.Equals(Keywords.Inherit, StringComparison.OrdinalIgnoreCase))
-                    return CssValueType.Inherit;
-            }
-
-            for (int i = 0; i < tokens.Count; i++)
-            {
-                if (type == CssValueType.Custom)
-                    type = CssValueType.Primitive;
-
-                if (tokens[i].Type == CssTokenType.RoundBracketClose)
-                    open--;
-
-                if (tokens[i].Type == CssTokenType.RoundBracketOpen)
-                    open++;
-
-                if (open > 0)
-                    continue;
-
-                if (tokens[i].Type == CssTokenType.Whitespace || tokens[i].Type == CssTokenType.Comma ||
-                    (tokens[i].Type == CssTokenType.Delim && tokens[i].Data == "/"))
-                    type = CssValueType.List;
-            }
-
-            return type;
         }
 
         #endregion

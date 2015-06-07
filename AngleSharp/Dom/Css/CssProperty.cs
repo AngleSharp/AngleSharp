@@ -2,6 +2,7 @@
 {
     using System;
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Fore more information about CSS properties see:
@@ -93,7 +94,7 @@
         /// </summary>
         public Boolean IsInherited
         {
-            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || Value.Type == CssValueType.Inherit; }
+            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || (_value != null && _value.Is(Keywords.Inherit)); }
         }
 
         /// <summary>
@@ -109,7 +110,7 @@
         /// </summary>
         public Boolean IsInitial
         {
-            get { return _value == null || _value.Type == CssValueType.Initial; }
+            get { return _value == null || _value.Is(Keywords.Initial); }
         }
 
         /// <summary>
@@ -118,11 +119,6 @@
         public String Name
         {
             get { return _name; }
-        }
-
-        ICssValue ICssProperty.Value
-        {
-            get { return Value; }
         }
 
         /// <summary>
@@ -153,7 +149,7 @@
         /// <returns>True if the value is valid, otherwise false.</returns>
         internal Boolean TrySetValue(CssValue value)
         {
-            if (value == null || value.Type == CssValueType.Inherit || value.Type == CssValueType.Initial)
+            if (value == null || value.Is(Keywords.Inherit) || value.Is(Keywords.Initial))
             {
                 Reset();
                 _value = value;
@@ -208,7 +204,7 @@
         /// <summary>
         /// Serializes the current value of the CSS property.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The string representation of the value.</returns>
         internal virtual String SerializeValue()
         {
             return Value.CssText;

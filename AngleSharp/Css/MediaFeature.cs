@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Css
 {
-    using AngleSharp.Dom.Css;
     using System;
+    using AngleSharp.Dom.Css;
 
     /// <summary>
     /// Represents a feature expression within
@@ -58,9 +58,9 @@
         /// <summary>
         /// Gets the value of the feature, if any.
         /// </summary>
-        public ICssValue Value
+        public String Value
         {
-            get { return _value; }
+            get { return _value != null ? _value.CssText : String.Empty; }
         }
 
         /// <summary>

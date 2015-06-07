@@ -527,7 +527,6 @@
     <Compile Include="Interfaces\Css\ICssStyleRule.cs" />
     <Compile Include="Interfaces\Css\ICssStyleSheet.cs" />
     <Compile Include="Interfaces\Css\ICssSupportsRule.cs" />
-    <Compile Include="Interfaces\Css\ICssValue.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
     <Compile Include="Dom\Events\CompositionEvent.cs" />
     <Compile Include="Dom\Events\InputEvent.cs" />
@@ -833,7 +832,6 @@
     <Compile Include="Html\Tags.cs" />
     <Compile Include="Parser\Html\HtmlParseMode.cs" />
     <Compile Include="Dom\Constants\CssRuleType.cs" />
-    <Compile Include="Dom\Css\CssValueType.cs" />
     <Compile Include="Html\Entities.cs" />
     <Compile Include="Dom\Constants\DocumentPositions.cs" />
     <Compile Include="Dom\Constants\NodeType.cs" />
