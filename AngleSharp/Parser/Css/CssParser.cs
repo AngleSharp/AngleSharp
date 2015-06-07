@@ -323,7 +323,7 @@
             var tokenizer = CreateTokenizer(mediaText, configuration);
             var token = tokenizer.Get();
             var state = new CssUnknownState(tokenizer);
-            var list = state.CreateMediaList(ref token);
+            var list = state.CreateMedia(ref token);
             return token.Type == CssTokenType.Eof ? list : null;
         }
 

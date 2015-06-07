@@ -24,7 +24,7 @@
             return CreateValue(ref token, out important);
         }
 
-        public List<CssMedium> CreateMediaList(ref CssToken token)
+        public List<CssMedium> CreateMedia(ref CssToken token)
         {
             var list = new List<CssMedium>();
 
