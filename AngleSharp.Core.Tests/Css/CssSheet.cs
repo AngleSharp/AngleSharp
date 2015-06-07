@@ -56,7 +56,7 @@ h1 {
         public void CssSheetSerializeBorder1pxSolidWithColor()
         {
             var cssSrc = "#rule1 { border: 1px solid #BBCCEB; border-top: none }";
-            var expected = "#rule1 { border-top: none; border-right: 1px solid rgb(187, 204, 235); border-bottom: 1px solid rgb(187, 204, 235); border-left: 1px solid rgb(187, 204, 235); }";
+            var expected = "#rule1 { border-right: 1px solid rgb(187, 204, 235); border-bottom: 1px solid rgb(187, 204, 235); border-left: 1px solid rgb(187, 204, 235); border-top: none; }";
             var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.CssText;
             Assert.AreEqual(expected, cssText);
