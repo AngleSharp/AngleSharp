@@ -16,7 +16,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageSourceProperty>(property);
             var concrete = (CssBorderImageSourceProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("none", concrete.Value.CssText);
@@ -31,7 +30,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageSourceProperty>(property);
             var concrete = (CssBorderImageSourceProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("url(\"image.jpg\")", concrete.Value.CssText);
@@ -46,7 +44,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageSourceProperty>(property);
             var concrete = (CssBorderImageSourceProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("linear-gradient(to top, red, yellow)", concrete.Value.CssText);
@@ -61,7 +58,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageOutsetProperty>(property);
             var concrete = (CssBorderImageOutsetProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0", concrete.Value.CssText);
@@ -76,7 +72,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageOutsetProperty>(property);
             var concrete = (CssBorderImageOutsetProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10px 25%", concrete.Value.CssText);
@@ -91,7 +86,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageOutsetProperty>(property);
             var concrete = (CssBorderImageOutsetProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10px 25% 0", concrete.Value.CssText);
@@ -106,7 +100,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageOutsetProperty>(property);
             var concrete = (CssBorderImageOutsetProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10px 25% 0 10%", concrete.Value.CssText);
@@ -121,7 +114,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageOutsetProperty>(property);
             var concrete = (CssBorderImageOutsetProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -135,7 +127,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageWidthProperty>(property);
             var concrete = (CssBorderImageWidthProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0", concrete.Value.CssText);
@@ -150,7 +141,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageWidthProperty>(property);
             var concrete = (CssBorderImageWidthProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("auto", concrete.Value.CssText);
@@ -165,7 +155,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageWidthProperty>(property);
             var concrete = (CssBorderImageWidthProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("5", concrete.Value.CssText);
@@ -180,7 +169,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageWidthProperty>(property);
             var concrete = (CssBorderImageWidthProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10px 25%", concrete.Value.CssText);
@@ -195,7 +183,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageWidthProperty>(property);
             var concrete = (CssBorderImageWidthProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10px 25% 0", concrete.Value.CssText);
@@ -210,7 +197,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageWidthProperty>(property);
             var concrete = (CssBorderImageWidthProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10px 25% auto 10%", concrete.Value.CssText);
@@ -225,7 +211,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageWidthProperty>(property);
             var concrete = (CssBorderImageWidthProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -239,7 +224,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageRepeatProperty>(property);
             var concrete = (CssBorderImageRepeatProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual("stretch", concrete.Value.CssText);
@@ -254,7 +238,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageRepeatProperty>(property);
             var concrete = (CssBorderImageRepeatProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("repeat", concrete.Value.CssText);
@@ -269,7 +252,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageRepeatProperty>(property);
             var concrete = (CssBorderImageRepeatProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("round", concrete.Value.CssText);
@@ -284,7 +266,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageRepeatProperty>(property);
             var concrete = (CssBorderImageRepeatProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("stretch round", concrete.Value.CssText);
@@ -299,7 +280,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageRepeatProperty>(property);
             var concrete = (CssBorderImageRepeatProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -313,7 +293,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
             var concrete = (CssBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("3", concrete.Value.CssText);
@@ -328,7 +307,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
             var concrete = (CssBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10%", concrete.Value.CssText);
@@ -343,7 +321,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
             var concrete = (CssBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual(true, concrete.IsFilled);
@@ -362,7 +339,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
             var concrete = (CssBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10% fill", concrete.Value.CssText);
@@ -377,7 +353,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
             var concrete = (CssBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10% 30 fill", concrete.Value.CssText);
@@ -392,7 +367,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
             var concrete = (CssBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10% 30 fill 0 0", concrete.Value.CssText);
@@ -407,7 +381,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
             var concrete = (CssBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -421,7 +394,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageSliceProperty>(property);
             var concrete = (CssBorderImageSliceProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -435,7 +407,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageProperty>(property);
             var concrete = (CssBorderImageProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("none", concrete.Value.CssText);
@@ -450,7 +421,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageProperty>(property);
             var concrete = (CssBorderImageProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("url(\"image.png\") 50 50", concrete.Value.CssText);
@@ -465,7 +435,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageProperty>(property);
             var concrete = (CssBorderImageProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("url(\"image.png\") 30 30 repeat", concrete.Value.CssText);
@@ -480,7 +449,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageProperty>(property);
             var concrete = (CssBorderImageProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual("url(\"image.png\") stretch", concrete.Value.CssText);
@@ -495,7 +463,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageProperty>(property);
             var concrete = (CssBorderImageProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("url(\"image.png\") 30 30/15px 15px", concrete.Value.CssText);
@@ -510,7 +477,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageProperty>(property);
             var concrete = (CssBorderImageProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("url(\"image.png\") 30 30 0 10/15px 0 15px 2em", concrete.Value.CssText);
@@ -525,7 +491,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderImageProperty>(property);
             var concrete = (CssBorderImageProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("url(\"image.png\") 30 30/15px 15px/5% 2% 0 10%", concrete.Value.CssText);

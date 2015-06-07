@@ -17,7 +17,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBreakAfterProperty>(property);
             var concrete = (CssBreakAfterProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("avoid", value.CssText);
@@ -33,7 +32,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPageBreakAfterProperty>(property);
             var concrete = (CssPageBreakAfterProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("avoid", value.CssText);
@@ -49,7 +47,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBreakAfterProperty>(property);
             var concrete = (CssBreakAfterProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             //Assert.AreEqual("page", value.CssText);
@@ -65,7 +62,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPageBreakAfterProperty>(property);
             var concrete = (CssPageBreakAfterProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
         }
 
@@ -79,7 +75,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBreakAfterProperty>(property);
             var concrete = (CssBreakAfterProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("avoid-column", value.CssText);
@@ -95,7 +90,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBreakBeforeProperty>(property);
             var concrete = (CssBreakBeforeProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             //Assert.AreEqual("auto", value.CssText);
@@ -111,7 +105,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPageBreakBeforeProperty>(property);
             var concrete = (CssPageBreakBeforeProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             //Assert.AreEqual("auto", value.CssText);
@@ -127,7 +120,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPageBreakBeforeProperty>(property);
             var concrete = (CssPageBreakBeforeProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("left", value.CssText);
@@ -144,7 +136,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssBreakBeforeProperty>(property);
             var concrete = (CssBreakBeforeProperty)property;
             Assert.IsNotNull(concrete);
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
         }
 
         [Test]
@@ -158,7 +149,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssBreakInsideProperty>(property);
             var concrete = (CssBreakInsideProperty)property;
             Assert.IsNotNull(concrete);
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
         }
 
         [Test]
@@ -171,7 +161,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBreakInsideProperty>(property);
             var concrete = (CssBreakInsideProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             //Assert.AreEqual("avoid-region", value.CssText);
@@ -187,7 +176,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPageBreakInsideProperty>(property);
             var concrete = (CssPageBreakInsideProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("avoid", value.CssText);
@@ -203,7 +191,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPageBreakInsideProperty>(property);
             var concrete = (CssPageBreakInsideProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             //Assert.AreEqual("auto", value.CssText);
@@ -219,7 +206,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClearProperty>(property);
             var concrete = (CssClearProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("left", value.CssText);
@@ -235,7 +221,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClearProperty>(property);
             var concrete = (CssClearProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("both", value.CssText);
@@ -253,7 +238,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssClearProperty>(property);
             var concrete = (CssClearProperty)property;
             Assert.IsNotNull(concrete);
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
         }
 
         [Test]
@@ -267,7 +251,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssClearProperty>(property);
             var concrete = (CssClearProperty)property;
             Assert.IsNotNull(concrete);
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
         }
 
         [Test]
@@ -280,7 +263,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPositionProperty>(property);
             var concrete = (CssPositionProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("absolute", value.CssText);
@@ -296,7 +278,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssDisplayProperty>(property);
             var concrete = (CssDisplayProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("block", value.CssText);
@@ -312,7 +293,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssVisibilityProperty>(property);
             var concrete = (CssVisibilityProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("collapse", value.CssText);
@@ -328,7 +308,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssVisibilityProperty>(property);
             var concrete = (CssVisibilityProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             //Assert.AreEqual("hidden", value.CssText);
@@ -344,7 +323,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOverflowProperty>(property);
             var concrete = (CssOverflowProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             Assert.AreEqual("auto", value.CssText);
@@ -360,7 +338,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTableLayoutProperty>(property);
             var concrete = (CssTableLayoutProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             var value = concrete.Value;
             //Assert.AreEqual("fixed", value.CssText);
@@ -375,7 +352,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
             var concrete = (CssBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("5px 4px", concrete.Value.CssText);
@@ -390,7 +366,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
             var concrete = (CssBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("inset 5px 4px", concrete.Value.CssText);
@@ -405,7 +380,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
             var concrete = (CssBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual("none", concrete.Value.CssText);
@@ -420,7 +394,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
             var concrete = (CssBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("60px -16px teal", concrete.Value.CssText);
@@ -435,7 +408,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
             var concrete = (CssBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("10px 5px 5px black", concrete.Value.CssText);
@@ -450,7 +422,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
             var concrete = (CssBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("3px 3px red, -1em 0 0.4em olive", concrete.Value.CssText);
@@ -465,7 +436,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
             var concrete = (CssBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("inset 5em 1em gold", concrete.Value.CssText);
@@ -480,7 +450,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
             var concrete = (CssBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0 0 1em gold", concrete.Value.CssText);
@@ -495,7 +464,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
             var concrete = (CssBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("inset 0 0 1em gold", concrete.Value.CssText);
@@ -510,7 +478,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
             var concrete = (CssBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("inset 0 0 1em gold, 0 0 1em red", concrete.Value.CssText);
@@ -525,7 +492,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
             var concrete = (CssBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("5px 4px rgb(0, 0, 0)", concrete.Value.CssText);
@@ -540,7 +506,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
             var concrete = (CssBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("5px 4px 2px rgb(0, 0, 0)", concrete.Value.CssText);
@@ -555,7 +520,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
             var concrete = (CssBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual("initial", concrete.Value.CssText);
@@ -570,7 +534,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
             var concrete = (CssBoxShadowProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -584,7 +547,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClipProperty>(property);
             var concrete = (CssClipProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("rect(2px, 3em, 1in, 0cm)", concrete.Value.CssText);
@@ -599,7 +561,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClipProperty>(property);
             var concrete = (CssClipProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("rect(2px 3em 1in 0cm)", concrete.Value.CssText);
@@ -614,7 +575,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClipProperty>(property);
             var concrete = (CssClipProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("rect(0, 0, 0, 0)", concrete.Value.CssText);
@@ -629,7 +589,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClipProperty>(property);
             var concrete = (CssClipProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -643,7 +602,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClipProperty>(property);
             var concrete = (CssClipProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -657,7 +615,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClipProperty>(property);
             var concrete = (CssClipProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -671,7 +628,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
             var concrete = (CssCursorProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual("default", concrete.Value.CssText);
@@ -686,7 +642,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
             var concrete = (CssCursorProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("auto", concrete.Value.CssText);
@@ -701,7 +656,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
             var concrete = (CssCursorProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("zoom-out", concrete.Value.CssText);
@@ -716,7 +670,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
             var concrete = (CssCursorProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -730,7 +683,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
             var concrete = (CssCursorProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual("url(\"foo.png\"), default", concrete.Value.CssText);
@@ -745,7 +697,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
             var concrete = (CssCursorProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual("url(\"foo.png\") 0 5, auto", concrete.Value.CssText);
@@ -760,7 +711,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
             var concrete = (CssCursorProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -774,7 +724,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
             var concrete = (CssCursorProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual("url(\"foo.png\"), url(\"master.png\"), url(\"more.png\"), wait", concrete.Value.CssText);
@@ -789,7 +738,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssColorProperty>(property);
             var concrete = (CssColorProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("rgb(18, 52, 86)", concrete.Value.CssText);
@@ -804,7 +752,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssColorProperty>(property);
             var concrete = (CssColorProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("rgb(121, 181, 201)", concrete.Value.CssText);
@@ -819,7 +766,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssColorProperty>(property);
             var concrete = (CssColorProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("rgba(255, 255, 201, 0.7)", concrete.Value.CssText);
@@ -834,7 +780,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssColorProperty>(property);
             var concrete = (CssColorProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("red", concrete.Value.CssText);
@@ -849,7 +794,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssColorProperty>(property);
             var concrete = (CssColorProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual("blue", concrete.Value.CssText);
@@ -864,7 +808,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssColorProperty>(property);
             var concrete = (CssColorProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -878,7 +821,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOrphansProperty>(property);
             var concrete = (CssOrphansProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("0", concrete.Value.CssText);
@@ -893,7 +835,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOrphansProperty>(property);
             var concrete = (CssOrphansProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("2", concrete.Value.CssText);
@@ -908,7 +849,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOrphansProperty>(property);
             var concrete = (CssOrphansProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -922,7 +862,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOrphansProperty>(property);
             var concrete = (CssOrphansProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -936,7 +875,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxDecorationBreak>(property);
             var concrete = (CssBoxDecorationBreak)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -950,7 +888,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxDecorationBreak>(property);
             var concrete = (CssBoxDecorationBreak)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("slice", concrete.Value.CssText);
@@ -965,7 +902,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxDecorationBreak>(property);
             var concrete = (CssBoxDecorationBreak)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual("clone", concrete.Value.CssText);
@@ -980,7 +916,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssBoxDecorationBreak>(property);
             var concrete = (CssBoxDecorationBreak)property;
-            Assert.AreEqual(CssValueType.Inherit, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("inherit", concrete.Value.CssText);
@@ -995,7 +930,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssContentProperty>(property);
             var concrete = (CssContentProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("normal", concrete.Value.CssText);
@@ -1010,7 +944,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssContentProperty>(property);
             var concrete = (CssContentProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual("none", concrete.Value.CssText);
@@ -1025,7 +958,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssContentProperty>(property);
             var concrete = (CssContentProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("\"hi\"", concrete.Value.CssText);
@@ -1040,7 +972,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssContentProperty>(property);
             var concrete = (CssContentProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("no-open-quote no-close-quote", concrete.Value.CssText);
@@ -1055,7 +986,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssContentProperty>(property);
             var concrete = (CssContentProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("url(\"test.html\")", concrete.Value.CssText);
@@ -1070,7 +1000,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssContentProperty>(property);
             var concrete = (CssContentProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("\"how\" \"are\" \"you\"", concrete.Value.CssText);
@@ -1085,7 +1014,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
             var concrete = (CssQuotesProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -1099,7 +1027,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
             var concrete = (CssQuotesProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("\"\\\"\" \"\\\"\"", concrete.Value.CssText);
@@ -1114,7 +1041,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
             var concrete = (CssQuotesProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -1128,7 +1054,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
             var concrete = (CssQuotesProperty)property;
-            Assert.AreEqual(CssValueType.List, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("\"\\\"\" \"\\\"\" \"`\" \"´\"", concrete.Value.CssText);
@@ -1143,7 +1068,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
             var concrete = (CssQuotesProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -1157,7 +1081,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
             var concrete = (CssQuotesProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("none", concrete.Value.CssText);
@@ -1172,7 +1095,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
             var concrete = (CssQuotesProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -1186,7 +1108,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
             var concrete = (CssQuotesProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
@@ -1200,7 +1121,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssWidowsProperty>(property);
             var concrete = (CssWidowsProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual(0, concrete.Count);
@@ -1216,7 +1136,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssWidowsProperty>(property);
             var concrete = (CssWidowsProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual(3, concrete.Count);
@@ -1232,7 +1151,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssWidowsProperty>(property);
             var concrete = (CssWidowsProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsTrue(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
             //Assert.AreEqual(2, concrete.Count);
@@ -1247,7 +1165,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssUnicodeBidiProperty>(property);
             var concrete = (CssUnicodeBidiProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual(UnicodeMode.Embed, concrete.State);
@@ -1263,7 +1180,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssUnicodeBidiProperty>(property);
             var concrete = (CssUnicodeBidiProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual(UnicodeMode.Isolate, concrete.State);
@@ -1279,7 +1195,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssUnicodeBidiProperty>(property);
             var concrete = (CssUnicodeBidiProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual(UnicodeMode.BidiOverride, concrete.State);
@@ -1295,7 +1210,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssUnicodeBidiProperty>(property);
             var concrete = (CssUnicodeBidiProperty)property;
-            Assert.AreEqual(CssValueType.Primitive, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             //Assert.AreEqual(UnicodeMode.Plaintext, concrete.State);
@@ -1311,7 +1225,6 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssUnicodeBidiProperty>(property);
             var concrete = (CssUnicodeBidiProperty)property;
-            Assert.AreEqual(CssValueType.Initial, concrete.Value.Type);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
             //Assert.AreEqual(UnicodeMode.Normal, concrete.State);
