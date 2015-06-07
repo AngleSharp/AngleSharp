@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Parser.Css.States
 {
+    using System.Collections.Generic;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
-    using System.Collections.Generic;
 
     sealed class CssUnknownState : CssParseState
     {
@@ -21,7 +21,7 @@
         public CssValue CreateValue(ref CssToken token)
         {
             var important = false;
-            return ReadValue(ref token, out important);
+            return CreateValue(ref token, out important);
         }
 
         public List<CssMedium> CreateMediaList(ref CssToken token)

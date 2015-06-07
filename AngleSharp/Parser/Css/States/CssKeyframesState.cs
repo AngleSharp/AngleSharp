@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Parser.Css.States
 {
+    using System.Collections.Generic;
     using AngleSharp.Css.Values;
     using AngleSharp.Dom.Css;
-    using System.Collections.Generic;
 
     sealed class CssKeyframesState : CssParseState
     {
@@ -15,7 +15,7 @@
         {
             var token = _tokenizer.Get();
             var rule = new CssKeyframesRule();
-            rule.Name = ReadRuleName(ref token);
+            rule.Name = GetRuleName(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
                 return SkipDeclarations(token);

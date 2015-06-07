@@ -12,7 +12,7 @@
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var list = ReadMediaList(ref token);
+            var list = CreateMediaList(ref token);
             var rule = new CssMediaRule(list);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)

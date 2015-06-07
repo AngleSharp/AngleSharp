@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Parser.Css.States
 {
+    using System;
+    using System.Collections.Generic;
     using AngleSharp.Css;
     using AngleSharp.Css.Conditions;
     using AngleSharp.Dom.Css;
-    using System;
-    using System.Collections.Generic;
 
     sealed class CssSupportsState : CssParseState
     {
@@ -94,7 +94,7 @@
             if (token.Type == CssTokenType.Colon)
             {
                 var important = false;
-                var result = ReadValue(ref token, out important);
+                var result = CreateValue(ref token, out important);
                 property.IsImportant = important;
 
                 if (result != null)

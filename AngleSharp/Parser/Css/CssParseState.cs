@@ -67,7 +67,7 @@
                     }
 
                     var important = false;
-                    var val = ReadValue(ref token, out important);
+                    var val = CreateValue(ref token, out important);
 
                     if (val == null)
                         RaiseErrorOccurred(CssParseError.ValueMissing, token);
@@ -180,7 +180,7 @@
         /// <summary>
         /// State that is called once we are in a CSS selector.
         /// </summary>
-        protected ISelector ReadSelector(ref CssToken token)
+        protected ISelector CreateSelector(ref CssToken token)
         {
             var selector = Pool.NewSelectorConstructor();
             _tokenizer.State = CssParseMode.Selector;
@@ -202,7 +202,7 @@
         /// <summary>
         /// Called before any token in the value regime had been seen.
         /// </summary>
-        protected CssValue ReadValue(ref CssToken token, out Boolean important)
+        protected CssValue CreateValue(ref CssToken token, out Boolean important)
         {
             var value = Pool.NewValueBuilder();
             _tokenizer.State = CssParseMode.Value;
@@ -226,7 +226,7 @@
         /// <summary>
         /// Before the name of a rule has been detected.
         /// </summary>
-        protected String ReadRuleName(ref CssToken token)
+        protected String GetRuleName(ref CssToken token)
         {
             var name = String.Empty;
 
@@ -242,7 +242,7 @@
         /// <summary>
         /// Before any medium has been found for the @media or @import rule.
         /// </summary>
-        protected MediaList ReadMediaList(ref CssToken token)
+        protected MediaList CreateMediaList(ref CssToken token)
         {
             var list = new MediaList();
 

@@ -12,7 +12,7 @@
         public override CssRule Create(CssToken current)
         {
             var rule = new CssStyleRule();
-            rule.Selector = ReadSelector(ref current);
+            rule.Selector = CreateSelector(ref current);
             FillDeclarations(rule.Style);
             return rule.Selector != null ? rule : null;
         }

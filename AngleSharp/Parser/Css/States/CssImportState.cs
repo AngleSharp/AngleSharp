@@ -18,7 +18,7 @@
             {
                 rule.Href = token.Data;
                 token = _tokenizer.Get();
-                rule.Media = ReadMediaList(ref token);
+                rule.Media = CreateMediaList(ref token);
             }
 
             _tokenizer.JumpToNextSemicolon();

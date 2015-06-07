@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Parser.Css.States
 {
+    using System.Collections.Generic;
     using AngleSharp.Css;
     using AngleSharp.Dom.Css;
-    using System.Collections.Generic;
 
     sealed class CssDocumentState : CssParseState
     {

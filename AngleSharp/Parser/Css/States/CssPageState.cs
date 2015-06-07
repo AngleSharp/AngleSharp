@@ -13,7 +13,7 @@
         {
             var token = _tokenizer.Get();
             var rule = new CssPageRule();
-            rule.Selector = ReadSelector(ref token);
+            rule.Selector = CreateSelector(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
                 return SkipDeclarations(token);

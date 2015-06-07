@@ -13,7 +13,7 @@
         {
             var token = _tokenizer.Get();
             var rule = new CssNamespaceRule();
-            rule.Prefix = ReadRuleName(ref token);
+            rule.Prefix = GetRuleName(ref token);
 
             if (token.Type == CssTokenType.Url)
                 rule.NamespaceUri = token.Data;
