@@ -3,8 +3,8 @@
     using System;
     using AngleSharp;
     using AngleSharp.Network;
-    using AngleSharp.Scripting;
     using AngleSharp.Services;
+    using AngleSharp.Services.Scripting;
     using NUnit.Framework;
 
     [TestFixture]
