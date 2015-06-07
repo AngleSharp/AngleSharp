@@ -21,8 +21,8 @@
 
         #region ctor
 
-        internal CssBorderColorProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BorderColor, rule, PropertyFlags.Hashless | PropertyFlags.Animatable)
+        internal CssBorderColorProperty()
+            : base(PropertyNames.BorderColor, PropertyFlags.Hashless | PropertyFlags.Animatable)
         {
         }
 

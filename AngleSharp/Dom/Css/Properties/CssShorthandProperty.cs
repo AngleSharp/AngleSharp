@@ -18,7 +18,7 @@
 
         #region ctor
 
-        public CssShorthandProperty(String name, CssStyleDeclaration rule, PropertyFlags flags = PropertyFlags.None)
+        public CssShorthandProperty(String name, PropertyFlags flags = PropertyFlags.None)
             : base(name, flags | PropertyFlags.Shorthand)
         {
             _properties = Factory.Properties.CreateLonghandsFor(name).ToArray();

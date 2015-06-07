@@ -24,8 +24,8 @@
 
         #region ctor
 
-        internal CssListStyleProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.ListStyle, rule, PropertyFlags.Inherited)
+        internal CssListStyleProperty()
+            : base(PropertyNames.ListStyle, PropertyFlags.Inherited)
         {
         }
 

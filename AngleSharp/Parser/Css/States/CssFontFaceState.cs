@@ -23,12 +23,11 @@
 
         void FillFontFaceDeclarations(CssFontFaceRule rule)
         {
-            var style = new CssStyleDeclaration();
             var token = _tokenizer.Get();
 
             while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
             {
-                var property = CreateDeclaration(style, ref token);
+                var property = CreateDeclaration(ref token);
 
                 if (property != null && property.HasValue)
                     rule.SetProperty(property);

@@ -23,8 +23,8 @@
 
         #region ctor
 
-        internal CssBorderRadiusProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BorderRadius, rule, PropertyFlags.Animatable)
+        internal CssBorderRadiusProperty()
+            : base(PropertyNames.BorderRadius, PropertyFlags.Animatable)
         {
         }
 

@@ -25,8 +25,8 @@
 
         #region ctor
 
-        internal CssTransitionProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Transition, rule)
+        internal CssTransitionProperty()
+            : base(PropertyNames.Transition)
         {
         }
 

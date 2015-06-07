@@ -21,8 +21,8 @@
 
         #region ctor
 
-        internal CssBorderWidthProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.BorderWidth, rule, PropertyFlags.Animatable)
+        internal CssBorderWidthProperty()
+            : base(PropertyNames.BorderWidth, PropertyFlags.Animatable)
         {
         }
 

@@ -43,8 +43,8 @@
 
         #region ctor
 
-        internal CssBackgroundProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Background, rule, PropertyFlags.Animatable)
+        internal CssBackgroundProperty()
+            : base(PropertyNames.Background, PropertyFlags.Animatable)
         {
         }
 

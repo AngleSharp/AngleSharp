@@ -23,8 +23,8 @@
 
         #region ctor
 
-        internal CssColumnsProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Columns, rule, PropertyFlags.Animatable)
+        internal CssColumnsProperty()
+            : base(PropertyNames.Columns, PropertyFlags.Animatable)
         {
         }
 

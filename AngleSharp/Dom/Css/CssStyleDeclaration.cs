@@ -105,7 +105,7 @@
                             if (important > 0 && important != currentLonghands.Count)
                                 continue;
 
-                            var rule = Factory.Properties.CreateShorthand(shorthand, this);
+                            var rule = Factory.Properties.CreateShorthand(shorthand);
                             var value = rule.SerializeValue(currentLonghands);
 
                             if (String.IsNullOrEmpty(value))
@@ -2409,7 +2409,7 @@
                     properties.Add(property);
                 }
 
-                var shortHand = Factory.Properties.CreateShorthand(propertyName, this);
+                var shortHand = Factory.Properties.CreateShorthand(propertyName);
                 return shortHand.SerializeValue(properties);
             }
             else
@@ -2499,7 +2499,7 @@
         /// <returns>The existing or created property.</returns>
         internal CssProperty CreateProperty(String propertyName)
         {
-            return GetProperty(propertyName) ?? Factory.Properties.Create(propertyName, this);
+            return GetProperty(propertyName) ?? Factory.Properties.Create(propertyName);
         }
 
         /// <summary>

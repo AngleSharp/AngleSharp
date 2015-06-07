@@ -34,7 +34,7 @@
 
             while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
             {
-                var property = CreateDeclaration(style, ref token);
+                var property = CreateDeclaration(ref token);
 
                 if (property != null && property.HasValue)
                     style.SetProperty(property);
@@ -44,7 +44,7 @@
         /// <summary>
         /// Called before the property name has been detected.
         /// </summary>
-        public CssProperty CreateDeclaration(CssStyleDeclaration style, ref CssToken token)
+        public CssProperty CreateDeclaration(ref CssToken token)
         {
             if (token.Type == CssTokenType.Ident)
             {
@@ -58,7 +58,7 @@
                 }
                 else
                 {
-                    property = Factory.Properties.Create(propertyName, style);
+                    property = Factory.Properties.Create(propertyName);
 
                     if (property == null)
                     {

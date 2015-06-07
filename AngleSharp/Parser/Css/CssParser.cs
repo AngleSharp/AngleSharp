@@ -297,10 +297,9 @@
         internal static CssProperty ParseDeclaration(String declarationText, IConfiguration configuration = null)
         {
             var tokenizer = CreateTokenizer(declarationText, configuration);
-            var style = new CssStyleDeclaration();
             var token = tokenizer.Get();
             var state = new CssUnknownState(tokenizer);
-            var declaration = state.CreateDeclaration(style, ref token);
+            var declaration = state.CreateDeclaration(ref token);
             return token.Type == CssTokenType.Eof ? declaration : null;
         }
 

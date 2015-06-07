@@ -21,8 +21,8 @@
 
         #region ctor
 
-        internal CssMarginProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Margin, rule)
+        internal CssMarginProperty()
+            : base(PropertyNames.Margin)
         {
         }
 

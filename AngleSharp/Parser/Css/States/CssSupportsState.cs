@@ -84,8 +84,7 @@
         ICondition DeclarationCondition(ref CssToken token)
         {
             var name = token.Data;
-            var style = new CssStyleDeclaration();
-            var property = Factory.Properties.Create(name, style);
+            var property = Factory.Properties.Create(name);
 
             if (property == null)
                 property = new CssUnknownProperty(name);

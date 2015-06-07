@@ -24,8 +24,8 @@
 
         #region ctor
 
-        internal CssBorderProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Border, rule, PropertyFlags.Animatable)
+        internal CssBorderProperty()
+            : base(PropertyNames.Border, PropertyFlags.Animatable)
         {
         }
 

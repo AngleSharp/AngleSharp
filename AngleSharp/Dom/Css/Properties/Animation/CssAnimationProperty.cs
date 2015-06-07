@@ -29,8 +29,8 @@
 
         #region ctor
 
-        internal CssAnimationProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Animation, rule)
+        internal CssAnimationProperty()
+            : base(PropertyNames.Animation)
         {
         }
 

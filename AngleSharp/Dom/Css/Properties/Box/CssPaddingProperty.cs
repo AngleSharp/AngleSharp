@@ -21,8 +21,8 @@
 
         #region ctor
 
-        internal CssPaddingProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Padding, rule)
+        internal CssPaddingProperty()
+            : base(PropertyNames.Padding)
         {
         }
 

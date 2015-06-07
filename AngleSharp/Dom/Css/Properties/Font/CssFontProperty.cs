@@ -40,8 +40,8 @@
 
         #region ctor
 
-        internal CssFontProperty(CssStyleDeclaration rule)
-            : base(PropertyNames.Font, rule, PropertyFlags.Inherited | PropertyFlags.Animatable)
+        internal CssFontProperty()
+            : base(PropertyNames.Font, PropertyFlags.Inherited | PropertyFlags.Animatable)
         {
         }
 
