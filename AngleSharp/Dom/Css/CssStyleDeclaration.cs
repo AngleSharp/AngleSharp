@@ -2396,23 +2396,31 @@
         {
             if (Factory.Properties.IsShorthand(propertyName))
             {
-                var declarations = Factory.Properties.GetLonghands(propertyName);
+                var propertyNames = Factory.Properties.GetLonghands(propertyName);
+                var properties = new List<CssProperty>();
 
-                foreach (var declaration in declarations)
+                foreach (var declaration in propertyNames)
                 {
-                    if (GetProperty(declaration) == null)
+                    var property = GetProperty(declaration);
+
+                    if (property == null)
                         return String.Empty;
+
+                    properties.Add(property);
                 }
 
-                return Factory.Properties.CreateShorthand(propertyName, this).SerializeValue();
+                var shortHand = Factory.Properties.CreateShorthand(propertyName, this);
+                return shortHand.SerializeValue(properties);
             }
+            else
+            {
+                var property = GetProperty(propertyName);
 
-            var property = GetProperty(propertyName);
+                if (property != null)
+                    return property.SerializeValue();
 
-            if (property != null)
-                return property.SerializeValue();
-
-            return String.Empty;
+                return String.Empty;
+            }
         }
 
         public void SetPropertyValue(String propertyName, String propertyValue)
@@ -2594,8 +2602,20 @@
 
         void SetLonghand(CssProperty property)
         {
-            if (!_declarations.Contains(property))
-                _declarations.Add(property);
+            for (int i = 0; i < _declarations.Count; i++)
+            {
+                if (_declarations[i].Name == property.Name)
+                {
+                    _declarations.RemoveAt(i);
+                    break;
+                }
+                else if (_declarations[i] == property)
+                {
+                    return;
+                }
+            }
+
+            _declarations.Add(property);
         }
 
         void SetShorthand(CssShorthandProperty shorthand)

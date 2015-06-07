@@ -21,7 +21,7 @@
         public CssShorthandProperty(String name, CssStyleDeclaration rule, PropertyFlags flags = PropertyFlags.None)
             : base(name, flags | PropertyFlags.Shorthand)
         {
-            _properties = Factory.Properties.CreateLonghandsFor(name, rule).ToArray();
+            _properties = Factory.Properties.CreateLonghandsFor(name).ToArray();
         }
 
         #endregion
