@@ -583,7 +583,11 @@
                     if (!doctype.IsValid)
                         RaiseErrorOccurred(HtmlParseError.DoctypeInvalid, token);
 
-                    AddDoctype(doctype);
+                    _document.AddNode(new DocumentType(_document, doctype.Name ?? String.Empty)
+                    {
+                        SystemIdentifier = doctype.SystemIdentifier,
+                        PublicIdentifier = doctype.PublicIdentifier
+                    });
 
                     if (doctype.IsFullQuirks)
                         _document.QuirksMode = QuirksMode.On;
@@ -3071,7 +3075,7 @@
             var index = _openElements.Count - 1;
             var node = CurrentNode;
 
-            do
+            while (node != null)
             {
                 if (node.LocalName == tag.Name)
                 {
@@ -3093,7 +3097,6 @@
 
                 node = _openElements[--index];
             }
-            while (true);
         }
 
         /// <summary>
@@ -3600,9 +3603,7 @@
 
                 if (node.LocalName == tagName)
                     return true;
-                else if (node.Flags.HasFlag(NodeFlags.HtmlSelectScoped))
-                    continue;
-                else
+                else if (!node.Flags.HasFlag(NodeFlags.HtmlSelectScoped))
                     return false;
             }
 
@@ -3753,19 +3754,6 @@
         #region Appending Nodes
 
         /// <summary>
-        /// Appends the doctype token to the document.
-        /// </summary>
-        /// <param name="token">The doctypen token.</param>
-        void AddDoctype(HtmlDoctypeToken token)
-        {
-            _document.AddNode(new DocumentType(_document, token.Name ?? String.Empty)
-            {
-                SystemIdentifier = token.SystemIdentifier,
-                PublicIdentifier = token.PublicIdentifier
-            });
-        }
-
-        /// <summary>
         /// Adds the root element (html) to the document.
         /// </summary>
         /// <param name="tag">The token which started this process.</param>
@@ -3817,23 +3805,6 @@
         Element AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
             var element = Factory.HtmlElements.Create(_document, tag.Name);
-            SetupElement(element, tag, acknowledgeSelfClosing);
-            AddElement(element);
-            return element;
-        }
-
-        /// <summary>
-        /// Appends a node to the current node and
-        /// modifies the node by appending all attributes and
-        /// acknowledging the self-closing flag if set.
-        /// </summary>
-        /// <typeparam name="TElement">The type of element to create.</typeparam>
-        /// <param name="tag">The associated tag token.</param>
-        /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
-        TElement AddElement<TElement>(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
-            where TElement : Element, new()
-        {
-            var element = new TElement { Owner = _document };
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);
             return element;
