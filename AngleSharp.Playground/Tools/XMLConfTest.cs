@@ -104,7 +104,7 @@
 
             using (var fs = File.OpenRead(path))
             {
-                var document = DocumentBuilder.Html(fs);
+                var document = BrowsingContext.New().OpenAsync(m => m.Content(fs)).Result;
                 return GenerateFromHtml(document);
             }
         }

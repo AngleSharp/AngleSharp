@@ -4,11 +4,9 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
-    using System.Net.Http;
     using System.Text;
     using System.Text.RegularExpressions;
     using AngleSharp;
-    using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Html;
     using AngleSharp.Parser.Css;
@@ -28,33 +26,25 @@
         public static void CreateCssSelectorTests()
         {
             var url = "http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/index.html";
-            var client = new HttpClient();
-            var result = client.GetAsync(url).Result;
-            var source = result.Content.ReadAsStreamAsync().Result;
-            var document = DocumentBuilder.Html(source, url: url);
+            var config = new Configuration().WithDefaultLoader();
+            var context = BrowsingContext.New(config);
+            var document = context.OpenAsync(url).Result;
             var links = document.QuerySelectorAll("body > ul > li > a");
             var methods = new List<String>();
 
             foreach (IHtmlAnchorElement link in links)
-                CreateCssSelectorTest(link.Href, methods);
+                CreateCssSelectorTest(context, link.Href, methods);
         }
 
-        static void CreateCssSelectorTest(String url, List<String> methods)
+        static void CreateCssSelectorTest(IBrowsingContext context, String url, List<String> methods)
         {
             Console.Write("Loading " + url + " ... ");
-            var client = new HttpClient();
-            var result = client.GetAsync(url).Result;
-            var source = result.Content.ReadAsStreamAsync().Result;
-
-            var document = default(IDocument);
-            
-            try { document = DocumentBuilder.Html(source); }
-            catch { Console.WriteLine("error!!!"); return; }
-
+            var document = context.OpenAsync(url).Result;
             var title = Sanatize(document.GetElementsByTagName("title")[0].TextContent);
             var content = document.GetElementsByTagName("content")[0].InnerHtml.Trim().Replace("\"", "\"\"");
-            var css = document.GetElementsByTagName("css")[0].TextContent;
-            var sheet = CssParser.ParseStyleSheet(css);
+            var styling = document.GetElementsByTagName("css")[0].TextContent;
+            var parser = new CssParser(styling);
+            var sheet = parser.Parse();
             var selectors = new StringBuilder();
             var i = 1;
 

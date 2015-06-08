@@ -9,7 +9,6 @@
     class ConsoleForm
     {
         IHtmlFormElement _form;
-        private string p;
 
         public ConsoleForm(IDocument document)
             : this(document.Forms.FirstOrDefault() ?? document.CreateElement<IHtmlFormElement>())
