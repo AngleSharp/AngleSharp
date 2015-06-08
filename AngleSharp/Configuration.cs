@@ -56,7 +56,7 @@
         /// Gets the default configuration to use. The default configuration
         /// can be overriden by calling the SetDefault method.
         /// </summary>
-        internal static IConfiguration Default
+        public static IConfiguration Default
         {
             get { return customConfiguration ?? defaultConfiguration; }
         }
