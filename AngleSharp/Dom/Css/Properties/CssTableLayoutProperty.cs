@@ -27,6 +27,11 @@
 
         #region Properties
 
+        internal override IValueConverter Converter
+        {
+            get { return Converters.TableLayoutConverter; }
+        }
+
         #endregion
 
         #region Methods

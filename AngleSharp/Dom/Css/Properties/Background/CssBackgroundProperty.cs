@@ -37,7 +37,7 @@
             Converters.BoxModelConverter.Val().Option(),
             Converters.CurrentColorConverter.Val().Option());
 
-        static readonly IValueConverter<Tuple<BgLayer[], FinalBgLayer>> Converter = NormalLayerConverter.FromList().RequiresEnd(FinalLayerConverter);
+        static readonly IValueConverter<Tuple<BgLayer[], FinalBgLayer>> StyleConverter = NormalLayerConverter.FromList().RequiresEnd(FinalLayerConverter);
 
         #endregion
 
@@ -46,6 +46,15 @@
         internal CssBackgroundProperty()
             : base(PropertyNames.Background, PropertyFlags.Animatable)
         {
+        }
+
+        #endregion
+
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return StyleConverter; }
         }
 
         #endregion
@@ -60,7 +69,7 @@
             //  <final-bg-layer> = 
             //      <bg-image> || <position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box> || <background-color>
 
-            return Converter.TryConvert(value, m =>
+            return StyleConverter.TryConvert(value, m =>
             {
                 Get<CssBackgroundImageProperty>().TrySetValue(Transform(m, n => n.Item1));
                 Get<CssBackgroundPositionProperty>().TrySetValue(Transform(m, n => n.Item2.Item1));

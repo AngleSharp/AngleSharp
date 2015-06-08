@@ -20,6 +20,15 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return Converters.TextDecorationStyleConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Object GetDefault(IElement element)

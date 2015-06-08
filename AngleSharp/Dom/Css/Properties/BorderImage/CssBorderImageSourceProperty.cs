@@ -19,6 +19,15 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return Converters.OptionalImageSourceConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Object GetDefault(IElement element)

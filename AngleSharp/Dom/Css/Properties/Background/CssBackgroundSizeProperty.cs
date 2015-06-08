@@ -21,7 +21,7 @@
                 Keywords.Contain, new BackgroundSize { IsContained = true }).Or(
                 Converters.WithOrder(Converters.AutoLengthOrPercentConverter.Required(), Converters.AutoLengthOrPercentConverter.Required()).To(
                     pt => new BackgroundSize { Width = pt.Item1 ?? Length.Full, Height = pt.Item2 ?? Length.Full }));
-        internal static readonly IValueConverter<BackgroundSize[]> Converter = 
+        internal static readonly IValueConverter<BackgroundSize[]> ListConverter = 
             SingleConverter.FromList();
 
         #endregion
@@ -35,6 +35,15 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return ListConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Object GetDefault(IElement element)
@@ -44,12 +53,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return ListConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.Validate(value);
+            return ListConverter.Validate(value);
         }
 
         #endregion

@@ -85,6 +85,14 @@
             get { return _value ?? CssValue.Initial; }
         }
 
+        /// <summary>
+        /// Gets the used value converter.
+        /// </summary>
+        internal abstract IValueConverter Converter
+        {
+            get;
+        }
+
         #endregion
 
         #region Properties
@@ -215,7 +223,7 @@
         /// <returns>The string representation of the value.</returns>
         internal virtual String SerializeValue()
         {
-            return Value.CssText;
+            return Value.ToText();
         }
 
         /// <summary>

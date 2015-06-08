@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<String[]> Converter =
+        static readonly IValueConverter<String[]> PropConverter =
             Converters.AnimatableConverter.FromList().Or(Keywords.None, new String[0]);
         
         #endregion
@@ -27,6 +27,15 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return PropConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Object GetDefault(IElement element)
@@ -36,12 +45,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return PropConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.Validate(value);
+            return PropConverter.Validate(value);
         }
 
         #endregion

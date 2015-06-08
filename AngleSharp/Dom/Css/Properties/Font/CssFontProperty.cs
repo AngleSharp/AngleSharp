@@ -24,17 +24,17 @@
             { Keywords.StatusBar, SystemFont.StatusBar }
         }).ToConverter();
 
-        internal static readonly IValueConverter<Tuple<Tuple<CssValue, CssValue, CssValue, CssValue>, Tuple<CssValue, CssValue>, CssValue>> Converter = 
+        internal static readonly IValueConverter<Tuple<Tuple<CssValue, CssValue, CssValue, CssValue>, Tuple<CssValue, CssValue>, CssValue>> StyleConverter = 
             Converters.WithOrder(
                 Converters.WithAny(
                     Converters.FontStyleConverter.Val().Option(),
                     Converters.FontVariantConverter.Val().Option(),
-                    CssFontWeightProperty.Converter.Val().Option(),
+                    CssFontWeightProperty.StyleConverter.Val().Option(),
                     Converters.FontStretchConverter.Val().Option()),
                 Converters.WithOrder(
                     Converters.FontSizeConverter.Val().Required(),
                     Converters.LineHeightConverter.Val().StartsWithDelimiter().Option()),
-                CssFontFamilyProperty.Converter.Val().Required());
+                CssFontFamilyProperty.StyleConverter.Val().Required());
 
         #endregion
 
@@ -47,13 +47,22 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return StyleConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CssValue value)
         {
             //[ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]? <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ] | caption | icon | menu | message-box | small-caption | status-bar
 
-            return Converter.TryConvert(value, m =>
+            return StyleConverter.TryConvert(value, m =>
             {
                 Get<CssFontStyleProperty>().TrySetValue(m.Item1.Item1);
                 Get<CssFontVariantProperty>().TrySetValue(m.Item1.Item2);

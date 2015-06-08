@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Point> Converter = 
+        static readonly IValueConverter<Point> PerspectiveConverter = 
             Converters.LengthOrPercentConverter.To(m => new Point(m, m)).Or(
                 Keywords.Left, new Point(Length.Zero, Length.Half)).Or(
                 Keywords.Center, new Point(Length.Half, Length.Half)).Or(
@@ -40,6 +40,15 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return PerspectiveConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Object GetDefault(IElement element)
@@ -49,12 +58,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return PerspectiveConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.Validate(value);
+            return PerspectiveConverter.Validate(value);
         }
 
         #endregion

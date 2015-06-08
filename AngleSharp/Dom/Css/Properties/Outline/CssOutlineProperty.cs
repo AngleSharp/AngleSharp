@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Tuple<CssValue, CssValue, CssValue>> Converter = 
+        static readonly IValueConverter<Tuple<CssValue, CssValue, CssValue>> StyleConverter = 
             Converters.WithAny(
                 Converters.LineWidthConverter.Val().Option(),
                 Converters.LineStyleConverter.Val().Option(),
@@ -31,11 +31,20 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return StyleConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.TryConvert(value, m =>
+            return StyleConverter.TryConvert(value, m =>
             {
                 Get<CssOutlineWidthProperty>().TrySetValue(m.Item1);
                 Get<CssOutlineStyleProperty>().TrySetValue(m.Item2);

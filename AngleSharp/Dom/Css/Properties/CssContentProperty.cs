@@ -23,7 +23,7 @@
             { Keywords.NoCloseQuote, new NoCloseQuoteContentMode() }
         };
         static readonly ContentMode[] Default = new[] { new NormalContentMode() };
-        static readonly IValueConverter<ContentMode[]> Converter = 
+        static readonly IValueConverter<ContentMode[]> ContentConverter = 
             Converters.Assign(Keywords.Normal, Default).Or(Keywords.None, new ContentMode[0]).Or(
                 ContentModes.ToConverter().Or(
                 Converters.UrlConverter.To(TransformUrl)).Or(
@@ -43,6 +43,15 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return ContentConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Object GetDefault(IElement element)
@@ -53,14 +62,14 @@
 
         protected override Object Compute(IElement element)
         {
-            var values = Converter.Convert(Value);
+            var values = ContentConverter.Convert(Value);
             var parts = values.Select(m => m.Stringify(element));
             return String.Join(String.Empty, parts);
         }
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.Validate(value);
+            return ContentConverter.Validate(value);
         }
 
         #endregion

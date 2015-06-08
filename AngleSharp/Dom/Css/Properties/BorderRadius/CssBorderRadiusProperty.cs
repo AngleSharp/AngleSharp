@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Tuple<CssValue, CssValue>> Converter = 
+        static readonly IValueConverter<Tuple<CssValue, CssValue>> RadiusConverter = 
             Converters.WithOrder(
                 Converters.LengthOrPercentConverter.Periodic().Val().Required(),
                 Converters.LengthOrPercentConverter.Periodic().Val().StartsWithDelimiter().Option());
@@ -30,11 +30,20 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return RadiusConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.TryConvert(value, m =>
+            return RadiusConverter.TryConvert(value, m =>
             {
                 Get<CssBorderTopLeftRadiusProperty>().TrySetValue(Extract(m, 0));
                 Get<CssBorderTopRightRadiusProperty>().TrySetValue(Extract(m, 1));

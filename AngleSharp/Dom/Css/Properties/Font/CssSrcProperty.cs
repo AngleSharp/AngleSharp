@@ -9,10 +9,23 @@
     /// </summary>
     sealed class CssSrcProperty : CssProperty
     {
+        #region ctor
+
         public CssSrcProperty()
             : base(PropertyNames.Src)
         {
         }
+
+        #endregion
+
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return Converters.Any; }
+        }
+
+        #endregion
 
         protected override Object GetDefault(IElement element)
         {

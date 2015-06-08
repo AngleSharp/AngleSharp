@@ -18,7 +18,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Tuple<String, String>[]> Converter = 
+        static readonly IValueConverter<Tuple<String, String>[]> StyleConverter = 
             Converters.StringConverter.Many().Constraint(m => m.Length % 2 == 0).
                 To(TransformArray).Or(Keywords.None, new Tuple<String, String>[0]);
 
@@ -33,6 +33,15 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return StyleConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Object GetDefault(IElement element)
@@ -42,7 +51,7 @@
 
         protected override Object Compute(IElement element)
         {
-            var pairs = Converter.Convert(Value);
+            var pairs = StyleConverter.Convert(Value);
 
             if (element is IHtmlQuoteElement && pairs.Length > 0)
             {
@@ -56,7 +65,7 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.Validate(value);
+            return StyleConverter.Validate(value);
         }
 
         #endregion

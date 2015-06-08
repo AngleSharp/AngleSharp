@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Boolean> Converter = 
+        static readonly IValueConverter<Boolean> StyleConverter = 
             Converters.Toggle(Keywords.Flat, Keywords.Preserve3d);
 
         #endregion
@@ -29,6 +29,15 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return StyleConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Object GetDefault(IElement element)
@@ -38,12 +47,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return StyleConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.Validate(value);
+            return StyleConverter.Validate(value);
         }
 
         #endregion

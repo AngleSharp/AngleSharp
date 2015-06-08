@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Length[]> Converter = 
+        static readonly IValueConverter<Length[]> SpacingConverter = 
             Converters.LengthConverter.Many(1, 2);
 
         #endregion
@@ -27,6 +27,15 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return SpacingConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Object GetDefault(IElement element)
@@ -36,12 +45,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return SpacingConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.Validate(value);
+            return SpacingConverter.Validate(value);
         }
 
         #endregion

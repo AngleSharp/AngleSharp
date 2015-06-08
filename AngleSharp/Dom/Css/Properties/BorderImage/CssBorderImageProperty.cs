@@ -14,14 +14,14 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Tuple<CssValue, Tuple<CssValue, CssValue, CssValue>, CssValue>> Converter = 
+        static readonly IValueConverter<Tuple<CssValue, Tuple<CssValue, CssValue, CssValue>, CssValue>> ImageConverter = 
             Converters.WithAny(
                 Converters.OptionalImageSourceConverter.Val().Option(),
                 Converters.WithOrder(
-                    CssBorderImageSliceProperty.Converter.Val().Option(),
-                    CssBorderImageWidthProperty.Converter.Val().StartsWithDelimiter().Option(),
-                    CssBorderImageOutsetProperty.Converter.Val().StartsWithDelimiter().Option()),
-                CssBorderImageRepeatProperty.Converter.Val().Option());
+                    CssBorderImageSliceProperty.StyleConverter.Val().Option(),
+                    CssBorderImageWidthProperty.StyleConverter.Val().StartsWithDelimiter().Option(),
+                    CssBorderImageOutsetProperty.StyleConverter.Val().StartsWithDelimiter().Option()),
+                CssBorderImageRepeatProperty.StyleConverter.Val().Option());
 
         #endregion
 
@@ -34,11 +34,20 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return ImageConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.TryConvert(value, m =>
+            return ImageConverter.TryConvert(value, m =>
             {
                 Get<CssBorderImageSourceProperty>().TrySetValue(m.Item1);
                 Get<CssBorderImageSliceProperty>().TrySetValue(m.Item2.Item1);

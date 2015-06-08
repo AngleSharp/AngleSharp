@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<BreakMode> Converter = 
+        static readonly IValueConverter<BreakMode> BreakConverter = 
             Converters.Assign(Keywords.Auto, BreakMode.Auto).Or(Keywords.Avoid, BreakMode.Avoid);
 
         #endregion
@@ -27,6 +27,15 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return BreakConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Object GetDefault(IElement element)
@@ -36,12 +45,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return BreakConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.Validate(value);
+            return BreakConverter.Validate(value);
         }
 
         #endregion

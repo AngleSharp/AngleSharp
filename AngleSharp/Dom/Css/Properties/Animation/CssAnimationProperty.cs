@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<CssValue, CssValue, CssValue, CssValue, CssValue, CssValue, CssValue, Tuple<CssValue>>[]> Converter = 
+        internal static readonly IValueConverter<Tuple<CssValue, CssValue, CssValue, CssValue, CssValue, CssValue, CssValue, Tuple<CssValue>>[]> ListConverter = 
             Converters.WithAny(
                 Converters.TimeConverter.Val().Option(),
                 Converters.TransitionConverter.Val().Option(),
@@ -36,11 +36,20 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return ListConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.TryConvert(value, t =>
+            return ListConverter.TryConvert(value, t =>
             {
                 Get<CssAnimationDurationProperty>().TrySetValue(Transform(t.Select(m => m.Item1)));
                 Get<CssAnimationTimingFunctionProperty>().TrySetValue(Transform(t.Select(m => m.Item2)));

@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<KeyValuePair<String, Int32>[]> Converter = 
+        static readonly IValueConverter<KeyValuePair<String, Int32>[]> CounterConverter = 
             Converters.WithOrder(
                 Converters.WithOrder(
                     Converters.IdentifierConverter.Required(),
@@ -31,6 +31,15 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return CounterConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Object GetDefault(IElement element)
@@ -40,7 +49,7 @@
 
         protected override Object Compute(IElement element)
         {
-            var pairs = Converter.Convert(Value);
+            var pairs = CounterConverter.Convert(Value);
 
             if (pairs.Length == 0)
                 return null;
@@ -50,7 +59,7 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.Validate(value);
+            return CounterConverter.Validate(value);
         }
 
         #endregion

@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Tuple<CssValue, CssValue>> Converter = 
+        static readonly IValueConverter<Tuple<CssValue, CssValue>> StyleConverter = 
             Converters.WithAny(
                 Converters.AutoLengthConverter.Val().Option(),
                 Converters.OptionalIntegerConverter.Val().Option());
@@ -30,11 +30,20 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return StyleConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.TryConvert(value, m =>
+            return StyleConverter.TryConvert(value, m =>
             {
                 Get<CssColumnWidthProperty>().TrySetValue(m.Item1);
                 Get<CssColumnCountProperty>().TrySetValue(m.Item2);

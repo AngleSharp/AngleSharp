@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<String[]> Converter = 
+        internal static readonly IValueConverter<String[]> StyleConverter = 
             Map.DefaultFontFamilies.ToConverter().Or(
                 Converters.StringConverter).Or(
                 Converters.IdentifierConverter.Many().To(names => String.Join(" ", names))).FromList();
@@ -29,6 +29,15 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return StyleConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Object GetDefault(IElement element)
@@ -38,13 +47,13 @@
 
         protected override Object Compute(IElement element)
         {
-            var values = Converter.Convert(Value);
+            var values = StyleConverter.Convert(Value);
             return values[0];
         }
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.Validate(value);
+            return StyleConverter.Validate(value);
         }
 
         #endregion

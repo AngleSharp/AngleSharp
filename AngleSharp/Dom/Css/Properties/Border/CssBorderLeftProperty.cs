@@ -20,11 +20,20 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return CssBorderProperty.StyleConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Boolean IsValid(CssValue value)
         {
-            return CssBorderProperty.Converter.TryConvert(value, m =>
+            return CssBorderProperty.StyleConverter.TryConvert(value, m =>
             {
                 Get<CssBorderLeftWidthProperty>().TrySetValue(m.Item1);
                 Get<CssBorderLeftStyleProperty>().TrySetValue(m.Item2);

@@ -18,7 +18,7 @@
     {
         #region Fields
 
-        static IValueConverter<Tuple<Point, Length>> Converter = 
+        static IValueConverter<Tuple<Point, Length>> StyleConverter = 
             Converters.WithOrder(
                 Converters.LengthOrPercentConverter.To(m => new Point(m, m)).Or(Keywords.Center, Point.Center).Or(Converters.WithAny(
                     Converters.LengthOrPercentConverter.Or(Keywords.Left, Length.Zero).Or(Keywords.Right, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half),
@@ -40,6 +40,15 @@
 
         #endregion
 
+        #region Properties
+
+        internal override IValueConverter Converter
+        {
+            get { return StyleConverter; }
+        }
+
+        #endregion
+
         #region Methods
 
         protected override Object GetDefault(IElement element)
@@ -49,12 +58,12 @@
 
         protected override Object Compute(IElement element)
         {
-            return Converter.Convert(Value);
+            return StyleConverter.Convert(Value);
         }
 
         protected override Boolean IsValid(CssValue value)
         {
-            return Converter.Validate(value);
+            return StyleConverter.Validate(value);
         }
 
         #endregion
