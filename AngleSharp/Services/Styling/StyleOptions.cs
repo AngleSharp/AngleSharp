@@ -1,7 +1,7 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.Services.Styling
 {
-    using AngleSharp.Dom;
     using System;
+    using AngleSharp.Dom;
 
     /// <summary>
     /// Transport object for evaluating stylesheets.

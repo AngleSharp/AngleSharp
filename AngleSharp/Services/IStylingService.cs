@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Services
 {
-    using AngleSharp.Css;
     using System;
+    using AngleSharp.Services.Styling;
 
     /// <summary>
     /// Defines the methods to access available style engines.

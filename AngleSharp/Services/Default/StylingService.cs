@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Services.Default
 {
-    using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
+    using AngleSharp.Services.Styling;
 
     /// <summary>
     /// Provides the basic set of functionality for retrieving style engines.

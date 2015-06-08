@@ -2,11 +2,11 @@
 {
     using System;
     using System.Threading.Tasks;
-    using AngleSharp.Css;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Services.Styling;
 
     /// <summary>
     /// Represents the HTML link element.

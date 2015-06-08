@@ -502,10 +502,10 @@
     <Compile Include="Services\IResourceService.cs" />
     <Compile Include="Services\Scripting\IScriptEngine.cs" />
     <Compile Include="Services\IService.cs" />
-    <Compile Include="Css\IStyleEngine.cs" />
+    <Compile Include="Services\Styling\IStyleEngine.cs" />
     <Compile Include="Services\IVideoService.cs" />
     <Compile Include="Services\Scripting\ScriptOptions.cs" />
-    <Compile Include="Css\StyleOptions.cs" />
+    <Compile Include="Services\Styling\StyleOptions.cs" />
     <Compile Include="Interfaces\Css\ICssCharsetRule.cs" />
     <Compile Include="Interfaces\Css\ICssConditionRule.cs" />
     <Compile Include="Interfaces\Css\ICssCounterStyleRule.cs" />

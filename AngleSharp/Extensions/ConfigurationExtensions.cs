@@ -5,10 +5,10 @@
     using System.Diagnostics;
     using System.Globalization;
     using System.Text;
-    using AngleSharp.Css;
     using AngleSharp.Dom;
     using AngleSharp.Services;
     using AngleSharp.Services.Scripting;
+    using AngleSharp.Services.Styling;
 
     /// <summary>
     /// Represents a helper to construct objects with externally defined

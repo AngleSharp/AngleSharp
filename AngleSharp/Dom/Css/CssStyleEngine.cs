@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
+    using System;
     using AngleSharp.Events;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
-    using System;
+    using AngleSharp.Services.Styling;
 
     /// <summary>
     /// The CSS style engine for creating CSSStyleSheet instances.
