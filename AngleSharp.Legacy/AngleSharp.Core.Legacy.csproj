@@ -153,9 +153,6 @@
     <Compile Include="..\AngleSharp\Css\IDocumentFunction.cs">
       <Link>Css\IDocumentFunction.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\IStyleEngine.cs">
-      <Link>Css\IStyleEngine.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Css\IValueConverter.cs">
       <Link>Css\IValueConverter.cs</Link>
     </Compile>
@@ -239,9 +236,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Css\RuleNames.cs">
       <Link>Css\RuleNames.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\StyleOptions.cs">
-      <Link>Css\StyleOptions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\TransformMatrix.cs">
       <Link>Css\TransformMatrix.cs</Link>
@@ -2788,6 +2782,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Services\Scripting\ScriptOptions.cs">
       <Link>Services\Scripting\ScriptOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Styling\IStyleEngine.cs">
+      <Link>Services\Styling\IStyleEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Styling\StyleOptions.cs">
+      <Link>Services\Styling\StyleOptions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\TextEncoding.cs">
       <Link>TextEncoding.cs</Link>
