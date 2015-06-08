@@ -45,7 +45,16 @@
 
         public static INodeList ToHtmlFragment(this String sourceCode, IElement context = null, IConfiguration configuration = null)
         {
-            return DocumentBuilder.HtmlFragment(sourceCode, context, configuration);
+            var parser = new HtmlParser(sourceCode, configuration);
+
+            if (context != null)
+            {
+                return parser.ParseFragment(context).DocumentElement.ChildNodes;
+            }
+            else
+            {
+                return parser.Parse().ChildNodes;
+            }
         }
 
         public static IDocument ToHtmlDocument(this Stream content, IConfiguration configuration = null)
