@@ -43,11 +43,6 @@
             return Keywords.All;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return PropConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return PropConverter.Validate(value);

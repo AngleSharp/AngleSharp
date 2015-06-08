@@ -41,11 +41,6 @@
             return false;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.TableLayoutConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.TableLayoutConverter.Validate(value);

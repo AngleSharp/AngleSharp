@@ -47,11 +47,6 @@
             return Default;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return ListConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return ListConverter.Validate(value);

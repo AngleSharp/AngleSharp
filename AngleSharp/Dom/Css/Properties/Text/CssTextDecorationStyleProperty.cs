@@ -36,11 +36,6 @@
             return TextDecorationStyle.Solid;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.TextDecorationStyleConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.TextDecorationStyleConverter.Validate(value);

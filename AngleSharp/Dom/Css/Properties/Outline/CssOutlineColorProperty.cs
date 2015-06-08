@@ -38,11 +38,6 @@
             return Color.Transparent;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.InvertedColorConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.InvertedColorConverter.Validate(value);

@@ -36,11 +36,6 @@
             return Floating.None;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.FloatingConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.FloatingConverter.Validate(value);

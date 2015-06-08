@@ -38,11 +38,6 @@
             return true;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.EmptyCellsConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.EmptyCellsConverter.Validate(value);

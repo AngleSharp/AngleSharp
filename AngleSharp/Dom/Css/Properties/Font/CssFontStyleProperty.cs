@@ -36,11 +36,6 @@
             return FontStyle.Normal;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.FontStyleConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.FontStyleConverter.Validate(value);

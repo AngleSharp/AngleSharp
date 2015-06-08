@@ -37,11 +37,6 @@
             return 2;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.PositiveIntegerConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.PositiveIntegerConverter.Validate(value);

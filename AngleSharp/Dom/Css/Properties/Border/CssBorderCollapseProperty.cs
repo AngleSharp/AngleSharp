@@ -35,11 +35,6 @@
             return true;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.BorderCollapseConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.BorderCollapseConverter.Validate(value);

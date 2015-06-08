@@ -36,11 +36,6 @@
             return ClearMode.None;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.ClearModeConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.ClearModeConverter.Validate(value);

@@ -60,15 +60,14 @@
             return String.Join(String.Empty, parts);
         }
 
-        protected override Object Compute(IElement element)
-        {
-            var values = ContentConverter.Convert(Value);
-            var parts = values.Select(m => m.Stringify(element));
-            return String.Join(String.Empty, parts);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
+            // Way of converting for an IElement element
+            /*
+                var values = ContentConverter.Convert(Value);
+                var parts = values.Select(m => m.Stringify(element));
+                return String.Join(String.Empty, parts);
+            */
             return ContentConverter.Validate(value);
         }
 

@@ -36,11 +36,6 @@
             return Whitespace.Normal;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.WhitespaceConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.WhitespaceConverter.Validate(value);

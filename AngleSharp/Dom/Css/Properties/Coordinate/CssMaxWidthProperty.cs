@@ -37,11 +37,6 @@
             return null;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.OptionalLengthOrPercentConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.OptionalLengthOrPercentConverter.Validate(value);

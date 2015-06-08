@@ -47,18 +47,17 @@
             return null;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            var pairs = CounterConverter.Convert(Value);
-
-            if (pairs.Length == 0)
-                return null;
-
-            return pairs[0];
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
+            // Former way of computing for IElement element:
+            /*
+                var pairs = CounterConverter.Convert(Value);
+
+                if (pairs.Length == 0)
+                    return null;
+
+                return pairs[0];
+            */
             return CounterConverter.Validate(value);
         }
 

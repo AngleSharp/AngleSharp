@@ -36,11 +36,6 @@
             return Length.Zero;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.BorderRadiusConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.BorderRadiusConverter.Validate(value);

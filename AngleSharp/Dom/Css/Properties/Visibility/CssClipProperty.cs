@@ -37,11 +37,6 @@
             return null;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.ShapeConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.ShapeConverter.Validate(value);

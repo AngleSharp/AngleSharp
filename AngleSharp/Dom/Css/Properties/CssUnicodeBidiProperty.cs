@@ -35,11 +35,6 @@
             return UnicodeMode.Normal;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.UnicodeModeConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.UnicodeModeConverter.Validate(value);

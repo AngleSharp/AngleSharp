@@ -36,11 +36,6 @@
             return false;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.ColumnSpanConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.ColumnSpanConverter.Validate(value);

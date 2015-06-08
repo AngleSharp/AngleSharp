@@ -37,11 +37,6 @@
             return new Length(1f, Length.Unit.Em);
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.LengthOrNormalConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.LengthOrNormalConverter.Validate(value);

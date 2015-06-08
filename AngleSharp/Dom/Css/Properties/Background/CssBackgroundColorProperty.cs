@@ -37,11 +37,6 @@
             return Color.Transparent;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.CurrentColorConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.CurrentColorConverter.Validate(value);

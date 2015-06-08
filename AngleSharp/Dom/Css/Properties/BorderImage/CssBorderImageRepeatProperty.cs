@@ -42,11 +42,6 @@
             return BorderRepeat.Stretch;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return StyleConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return StyleConverter.Validate(value);

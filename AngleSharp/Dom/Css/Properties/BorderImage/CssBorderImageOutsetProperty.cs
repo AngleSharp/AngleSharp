@@ -43,11 +43,6 @@
             return Tuple.Create(Length.Zero, Length.Zero, Length.Zero, Length.Zero);
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return StyleConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return StyleConverter.Validate(value);

@@ -35,11 +35,6 @@
             return LineStyle.None;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.LineStyleConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.LineStyleConverter.Validate(value);

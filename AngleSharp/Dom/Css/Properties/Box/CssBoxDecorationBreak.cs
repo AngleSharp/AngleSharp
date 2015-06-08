@@ -39,11 +39,6 @@
             return false;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.BoxDecorationConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.BoxDecorationConverter.Validate(value);

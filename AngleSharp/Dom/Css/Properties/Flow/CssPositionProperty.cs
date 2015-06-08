@@ -36,11 +36,6 @@
             return PositionMode.Static;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.PositionModeConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.PositionModeConverter.Validate(value);

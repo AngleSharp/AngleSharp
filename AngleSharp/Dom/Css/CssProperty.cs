@@ -200,13 +200,6 @@
         protected abstract Object GetDefault(IElement element);
 
         /// <summary>
-        /// Computes the value for the given element.
-        /// </summary>
-        /// <param name="element">The element to use.</param>
-        /// <returns>The value for the given element.</returns>
-        protected abstract Object Compute(IElement element);
-
-        /// <summary>
         /// Notified once the value changed.
         /// </summary>
         /// <param name="value">The value to be checked.</param>

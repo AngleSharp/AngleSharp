@@ -49,22 +49,21 @@
             return Tuple.Create("«", "»");
         }
 
-        protected override Object Compute(IElement element)
-        {
-            var pairs = StyleConverter.Convert(Value);
-
-            if (element is IHtmlQuoteElement && pairs.Length > 0)
-            {
-                var nesting = element.GetAncestors().OfType<IHtmlQuoteElement>().Count();
-                var index = Math.Min(pairs.Length - 1, nesting);
-                return pairs[index];
-            }
-
-            return Tuple.Create("", "");
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
+            // Style of computing quotes for an IElement element:
+            /*
+                var pairs = StyleConverter.Convert(Value);
+
+                if (element is IHtmlQuoteElement && pairs.Length > 0)
+                {
+                    var nesting = element.GetAncestors().OfType<IHtmlQuoteElement>().Count();
+                    var index = Math.Min(pairs.Length - 1, nesting);
+                    return pairs[index];
+                }
+
+                return Tuple.Create("", "");
+            */
             return StyleConverter.Validate(value);
         }
 

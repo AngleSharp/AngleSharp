@@ -43,11 +43,6 @@
             return Length.Zero;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return SpacingConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return SpacingConverter.Validate(value);

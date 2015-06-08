@@ -36,11 +36,6 @@
             return new Length(120f, Length.Unit.Percent);
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.LineHeightConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.LineHeightConverter.Validate(value);

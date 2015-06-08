@@ -56,11 +56,6 @@
             return Point.Center;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return PerspectiveConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return PerspectiveConverter.Validate(value);

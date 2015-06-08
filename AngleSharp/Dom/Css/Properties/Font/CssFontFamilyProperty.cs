@@ -45,12 +45,6 @@
             return "Times New Roman";
         }
 
-        protected override Object Compute(IElement element)
-        {
-            var values = StyleConverter.Convert(Value);
-            return values[0];
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return StyleConverter.Validate(value);

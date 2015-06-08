@@ -49,12 +49,6 @@
             return SystemCursor.Auto;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            var cursors = CursorConverter.Convert(Value);
-            return cursors.Item2;
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return CursorConverter.Validate(value);

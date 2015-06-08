@@ -50,11 +50,6 @@
             return new FontWeight { IsRelative = false, Value = 400 };
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return StyleConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return StyleConverter.Validate(value);

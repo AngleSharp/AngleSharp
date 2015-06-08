@@ -36,11 +36,6 @@
             return ListPosition.Outside;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.ListPositionConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.ListPositionConverter.Validate(value);

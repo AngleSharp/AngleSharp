@@ -36,11 +36,6 @@
             return DirectionMode.Ltr;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.DirectionModeConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.DirectionModeConverter.Validate(value);

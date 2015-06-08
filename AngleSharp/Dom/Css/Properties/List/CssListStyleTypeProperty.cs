@@ -36,11 +36,6 @@
             return ListStyle.Disc;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.ListStyleConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.ListStyleConverter.Validate(value);

@@ -36,11 +36,6 @@
             return TextTransform.None;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.TextTransformConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.TextTransformConverter.Validate(value);

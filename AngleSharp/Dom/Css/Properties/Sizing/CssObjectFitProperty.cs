@@ -35,11 +35,6 @@
             return ObjectFitting.Fill;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.ObjectFittingConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.ObjectFittingConverter.Validate(value);

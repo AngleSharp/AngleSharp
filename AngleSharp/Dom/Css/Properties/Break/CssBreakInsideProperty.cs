@@ -38,11 +38,6 @@
             return BreakMode.Auto;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.BreakInsideModeConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.BreakInsideModeConverter.Validate(value);

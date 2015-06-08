@@ -39,11 +39,6 @@
             return Length.Medium;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.LineWidthConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.LineWidthConverter.Validate(value);

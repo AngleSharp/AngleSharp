@@ -42,11 +42,6 @@
             return null;
         }
 
-        protected sealed override Object Compute(IElement element)
-        {
-            return null;
-        }
-
         protected TProperty Get<TProperty>()
         {
             return _properties.OfType<TProperty>().FirstOrDefault();

@@ -36,11 +36,6 @@
             return HorizontalAlignment.Left;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.HorizontalAlignmentConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.HorizontalAlignmentConverter.Validate(value);

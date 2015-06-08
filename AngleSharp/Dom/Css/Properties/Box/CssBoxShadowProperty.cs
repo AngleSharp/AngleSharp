@@ -37,11 +37,6 @@
             return new Shadow[0];
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.MultipleShadowConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.MultipleShadowConverter.Validate(value);

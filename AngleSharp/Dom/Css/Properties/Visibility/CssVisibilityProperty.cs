@@ -36,11 +36,6 @@
             return Visibility.Visible;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.VisibilityConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.VisibilityConverter.Validate(value);

@@ -39,11 +39,6 @@
             return VerticalAlignment.Baseline;
         }
 
-        protected override Object Compute(IElement element)
-        {
-            return Converters.VerticalAlignmentConverter.Convert(Value);
-        }
-
         protected override Boolean IsValid(CssValue value)
         {
             return Converters.LengthOrPercentConverter.Validate(value) || 
