@@ -754,6 +754,11 @@
         #region Misc
 
         /// <summary>
+        /// Represents a converter for anything. Just copies the tokens.
+        /// </summary>
+        public static IValueConverter Any = new ClassValueConverter<CssValue>(m => new CssValue(m));
+
+        /// <summary>
         /// Creates a new converter by assigning the given identifier to a fixed result.
         /// </summary>
         /// <typeparam name="T">The type of the result.</typeparam>
