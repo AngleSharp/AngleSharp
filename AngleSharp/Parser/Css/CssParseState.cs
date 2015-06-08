@@ -83,9 +83,10 @@
 
                 return property;
             }
-            else
+            else if (token.Type != CssTokenType.Eof)
             {
                 RaiseErrorOccurred(CssParseError.IdentExpected, token);
+                token = _tokenizer.Get();
             }
 
             return null;
