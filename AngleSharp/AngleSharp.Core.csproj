@@ -63,6 +63,7 @@
     <Compile Include="Css\MediaFeatures\PointerMediaFeature.cs" />
     <Compile Include="Css\MediaFeatures\ScriptingMediaFeature.cs" />
     <Compile Include="Css\MediaFeatures\UpdateFrequencyMediaFeature.cs" />
+    <Compile Include="Css\IPropertyValue.cs" />
     <Compile Include="Css\PseudoClassNames.cs" />
     <Compile Include="Css\PseudoElementNames.cs" />
     <Compile Include="Css\RenderDevice.cs" />
