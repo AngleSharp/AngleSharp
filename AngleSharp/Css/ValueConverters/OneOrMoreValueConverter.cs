@@ -18,27 +18,6 @@
             _maximum = maximum;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T[]> setResult)
-        {
-            var items = value.ToItems();
-
-            if (items.Count >= _minimum && items.Count <= _maximum)
-            {
-                var targets = new T[items.Count];
-
-                for (var i = 0; i != items.Count; i++)
-                {
-                    if (!_converter.TryConvert(items[i], nv => targets[i] = nv))
-                        return false;
-                }
-
-                setResult(targets);
-                return true;
-            }
-
-            return false;
-        }
-
         public Boolean Validate(IEnumerable<CssToken> value)
         {
             var items = value.ToItems();

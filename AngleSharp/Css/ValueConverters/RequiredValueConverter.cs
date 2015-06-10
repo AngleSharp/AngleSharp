@@ -14,11 +14,6 @@
             _converter = converter;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
-        {
-            return value.Any() && _converter.TryConvert(value, setResult);
-        }
-
         public Boolean Validate(IEnumerable<CssToken> value)
         {
             return value.Any() && _converter.Validate(value);

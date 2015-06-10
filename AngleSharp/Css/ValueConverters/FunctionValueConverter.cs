@@ -16,12 +16,6 @@
             _arguments = arguments;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
-        {
-            var function = value.OnlyOrDefault() as CssFunctionToken;
-            return Check(function) && _arguments.TryConvert(function.ArgumentTokens, setResult);
-        }
-
         public Boolean Validate(IEnumerable<CssToken> value)
         {
             var function = value.OnlyOrDefault() as CssFunctionToken;

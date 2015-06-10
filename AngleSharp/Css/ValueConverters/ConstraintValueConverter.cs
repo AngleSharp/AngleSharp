@@ -15,23 +15,11 @@
             _constraint = constraint;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
-        {
-            var tmp = default(T);
-
-            if (_primary.TryConvert(value, m => tmp = m) && _constraint(tmp))
-            {
-                setResult(tmp);
-                return true;
-            }
-
-            return false;
-        }
-
         public Boolean Validate(IEnumerable<CssToken> value)
         {
+            //TODO Use Convert instead of Validate
             var tmp = default(T);
-            return _primary.TryConvert(value, m => tmp = m) && _constraint(tmp);
+            return _primary.Validate(value) && _constraint(tmp);
         }
     }
 }

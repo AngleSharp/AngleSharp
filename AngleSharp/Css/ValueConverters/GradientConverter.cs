@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
@@ -55,34 +54,12 @@
                 else
                     position = location;
 
-                if (items.Count == 0 || (items.Count == 1 && Converters.ColorConverter.TryConvert(items[0], m => color = m)))
+                //TODO Use Convert instead of Validate
+                if (items.Count == 0 || (items.Count == 1 && Converters.ColorConverter.Validate(items[0])))
                     return new GradientStop(color, location.Value);
             }
 
             return null;
-        }
-
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T, GradientStop[]>> setResult)
-        {
-            var args = value.ToList();
-            var offset = 1;
-            var core = default(T);
-
-            if (_arguments.TryConvert(args[0], m => core = m) == false)
-            {
-                offset = 0;
-                core = _default;
-            }
-
-            var stops = ToGradientStops(args, offset);
-
-            if (stops != null)
-            {
-                setResult(Tuple.Create(core, stops));
-                return true;
-            }
-
-            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)

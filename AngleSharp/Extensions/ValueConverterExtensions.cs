@@ -18,21 +18,14 @@
     {
         #region Methods
 
-        public static T Convert<T>(this IValueConverter<T> converter, IEnumerable<CssToken> value)
-        {
-            var result = default(T);
-            converter.TryConvert(value, m => result = m);
-            return result;
-        }
-
-        public static Boolean VaryStart<T>(this IValueConverter<T> converter, List<CssToken> list, Action<T> setResult)
-        {
-            return converter.VaryStart(list, (c, v) => c.TryConvert(v, setResult));
-        }
-
         public static Boolean VaryStart<T>(this IValueConverter<T> converter, List<CssToken> list)
         {
             return converter.VaryStart(list, (c, v) => c.Validate(v));
+        }
+
+        public static Boolean HasDefault(this IValueConverter converter)
+        {
+            return true;
         }
 
         static Boolean VaryStart<T>(this IValueConverter<T> converter, List<CssToken> list, Func<IValueConverter<T>, IEnumerable<CssToken>, Boolean> validate)
@@ -48,11 +41,6 @@
             }
 
             return validate(converter, Enumerable.Empty<CssToken>());
-        }
-
-        public static Boolean VaryAll<T>(this IValueConverter<T> converter, List<CssToken> list, Action<T> setResult)
-        {
-            return converter.VaryAll(list, (c, v) => c.TryConvert(v, setResult));
         }
 
         public static Boolean VaryAll<T>(this IValueConverter<T> converter, List<CssToken> list)

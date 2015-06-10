@@ -15,11 +15,6 @@
             _next = next;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
-        {
-            return _previous.TryConvert(value, setResult) || _next.TryConvert(value, setResult);
-        }
-
         public Boolean Validate(IEnumerable<CssToken> value)
         {
             return _previous.Validate(value) || _next.Validate(value);

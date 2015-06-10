@@ -17,21 +17,6 @@
             _second = second;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2>> setResult)
-        {
-            var list = new List<CssToken>(value);
-            var t1 = default(T1);
-            var t2 = default(T2);
-
-            if (_first.VaryAll(list, m => t1 = m) && _second.VaryAll(list, m => t2 = m) && list.Count == 0)
-            {
-                setResult(Tuple.Create(t1, t2));
-                return true;
-            }
-
-            return false;
-        }
-
         public Boolean Validate(IEnumerable<CssToken> value)
         {
             var list = new List<CssToken>(value);
@@ -50,22 +35,6 @@
             _first = first;
             _second = second;
             _third = third;
-        }
-
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3>> setResult)
-        {
-            var list = new List<CssToken>(value);
-            var t1 = default(T1);
-            var t2 = default(T2);
-            var t3 = default(T3);
-
-            if (_first.VaryAll(list, m => t1 = m) && _second.VaryAll(list, m => t2 = m) && _third.VaryAll(list, m => t3 = m) && list.Count == 0)
-            {
-                setResult(Tuple.Create(t1, t2, t3));
-                return true;
-            }
-
-            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
@@ -88,24 +57,6 @@
             _second = second;
             _third = third;
             _fourth = fourth;
-        }
-
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3, T4>> setResult)
-        {
-            var list = new List<CssToken>(value);
-            var t1 = default(T1);
-            var t2 = default(T2);
-            var t3 = default(T3);
-            var t4 = default(T4);
-
-            if (_first.VaryAll(list, m => t1 = m) && _second.VaryAll(list, m => t2 = m) && 
-                _third.VaryAll(list, m => t3 = m) && _fourth.VaryAll(list, m => t4 = m) && list.Count == 0)
-            {
-                setResult(Tuple.Create(t1, t2, t3, t4));
-                return true;
-            }
-
-            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
@@ -131,26 +82,6 @@
             _third = third;
             _fourth = fourth;
             _fifth = fifth;
-        }
-
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3, T4, T5>> setResult)
-        {
-            var list = new List<CssToken>(value);
-            var t1 = default(T1);
-            var t2 = default(T2);
-            var t3 = default(T3);
-            var t4 = default(T4);
-            var t5 = default(T5);
-
-            if (_first.VaryAll(list, m => t1 = m) && _second.VaryAll(list, m => t2 = m) &&
-                _third.VaryAll(list, m => t3 = m) && _fourth.VaryAll(list, m => t4 = m) && 
-                _fifth.VaryAll(list, m => t5 = m) && list.Count == 0)
-            {
-                setResult(Tuple.Create(t1, t2, t3, t4, t5));
-                return true;
-            }
-
-            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
@@ -179,27 +110,6 @@
             _fourth = fourth;
             _fifth = fifth;
             _sixth = sixth;
-        }
-
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3, T4, T5, T6>> setResult)
-        {
-            var list = new List<CssToken>(value);
-            var t1 = default(T1);
-            var t2 = default(T2);
-            var t3 = default(T3);
-            var t4 = default(T4);
-            var t5 = default(T5);
-            var t6 = default(T6);
-
-            if (_first.VaryAll(list, m => t1 = m) && _second.VaryAll(list, m => t2 = m) &&
-                _third.VaryAll(list, m => t3 = m) && _fourth.VaryAll(list, m => t4 = m) &&
-                _fifth.VaryAll(list, m => t5 = m) && _sixth.VaryAll(list, m => t6 = m) && list.Count == 0)
-            {
-                setResult(Tuple.Create(t1, t2, t3, t4, t5, t6));
-                return true;
-            }
-
-            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
@@ -233,29 +143,6 @@
             _seventh = seventh;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3, T4, T5, T6, T7>> setResult)
-        {
-            var list = new List<CssToken>(value);
-            var t1 = default(T1);
-            var t2 = default(T2);
-            var t3 = default(T3);
-            var t4 = default(T4);
-            var t5 = default(T5);
-            var t6 = default(T6);
-            var t7 = default(T7);
-
-            if (_first.VaryAll(list, m => t1 = m) && _second.VaryAll(list, m => t2 = m) &&
-                _third.VaryAll(list, m => t3 = m) && _fourth.VaryAll(list, m => t4 = m) &&
-                _fifth.VaryAll(list, m => t5 = m) && _sixth.VaryAll(list, m => t6 = m) && 
-                _seventh.VaryAll(list, m => t7 = m) && list.Count == 0)
-            {
-                setResult(Tuple.Create(t1, t2, t3, t4, t5, t6, t7));
-                return true;
-            }
-
-            return false;
-        }
-
         public Boolean Validate(IEnumerable<CssToken> value)
         {
             var list = new List<CssToken>(value);
@@ -287,30 +174,6 @@
             _sixth = sixth;
             _seventh = seventh;
             _eighth = eighth;
-        }
-
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3, T4, T5, T6, T7, Tuple<T8>>> setResult)
-        {
-            var list = new List<CssToken>(value);
-            var t1 = default(T1);
-            var t2 = default(T2);
-            var t3 = default(T3);
-            var t4 = default(T4);
-            var t5 = default(T5);
-            var t6 = default(T6);
-            var t7 = default(T7);
-            var t8 = default(T8);
-
-            if (_first.VaryAll(list, m => t1 = m) && _second.VaryAll(list, m => t2 = m) &&
-                _third.VaryAll(list, m => t3 = m) && _fourth.VaryAll(list, m => t4 = m) &&
-                _fifth.VaryAll(list, m => t5 = m) && _sixth.VaryAll(list, m => t6 = m) &&
-                _seventh.VaryAll(list, m => t7 = m) && _eighth.VaryAll(list, m => t8 = m) && list.Count == 0)
-            {
-                setResult(Tuple.Create(t1, t2, t3, t4, t5, t6, t7, t8));
-                return true;
-            }
-
-            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)

@@ -16,17 +16,6 @@
             _defaultValue = defaultValue;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
-        {
-            if (value.Any() == false)
-            {
-                setResult(_defaultValue);
-                return true;
-            }
-
-            return _converter.TryConvert(value, setResult);
-        }
-
         public Boolean Validate(IEnumerable<CssToken> value)
         {
             return value.Any() == false || _converter.Validate(value);

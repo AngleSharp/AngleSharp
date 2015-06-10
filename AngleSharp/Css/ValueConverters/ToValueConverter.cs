@@ -14,17 +14,6 @@
             _converter = converter;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<CssValue> setResult)
-        {
-            if (Validate(value))
-            {
-                setResult(new CssValue(value));
-                return true;
-            }
-
-            return false;
-        }
-
         public Boolean Validate(IEnumerable<CssToken> value)
         {
             return _converter.Validate(value);
@@ -40,11 +29,6 @@
         {
             _converter = converter;
             _next = next;
-        }
-
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<U> setResult)
-        {
-            return _converter.TryConvert(value, item => setResult(_next(item)));
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)

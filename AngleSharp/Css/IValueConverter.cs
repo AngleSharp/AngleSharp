@@ -11,6 +11,5 @@
 
     interface IValueConverter<T> : IValueConverter
     {
-        Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult);
     }
 }

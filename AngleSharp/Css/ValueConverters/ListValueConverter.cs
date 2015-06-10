@@ -14,23 +14,6 @@
             _converter = converter;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T[]> setResult)
-        {
-            var items = value.ToList();
-            var targets = new T[items.Count];
-
-            for (var i = 0; i < items.Count; i++)
-            {
-                if (!_converter.TryConvert(items[i], nv => targets[i] = nv))
-                {
-                    return false;
-                }
-            }
-
-            setResult(targets);
-            return true;
-        }
-
         public Boolean Validate(IEnumerable<CssToken> value)
         {
             var items = value.ToList();

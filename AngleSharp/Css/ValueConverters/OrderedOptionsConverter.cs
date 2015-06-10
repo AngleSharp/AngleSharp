@@ -15,23 +15,6 @@
             _converter = converter;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T[]> setResult)
-        {
-            var list = new List<CssToken>(value);
-            var items = new List<T>();
-
-            while (list.Count != 0)
-            {
-                if (_converter.VaryStart(list, m => items.Add(m)) == false)
-                {
-                    return false;
-                }
-            }
-
-            setResult(items.ToArray());
-            return true;
-        }
-
         public Boolean Validate(IEnumerable<CssToken> value)
         {
             var list = new List<CssToken>(value);
@@ -59,21 +42,6 @@
             _second = second;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2>> setResult)
-        {
-            var list = new List<CssToken>(value);
-            var t1 = default(T1);
-            var t2 = default(T2);
-
-            if (_first.VaryStart(list, m => t1 = m) && _second.VaryStart(list, m => t2 = m) && list.Count == 0)
-            {
-                setResult(Tuple.Create(t1, t2));
-                return true;
-            }
-
-            return false;
-        }
-
         public Boolean Validate(IEnumerable<CssToken> value)
         {
             var list = new List<CssToken>(value);
@@ -92,22 +60,6 @@
             _first = first;
             _second = second;
             _third = third;
-        }
-
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3>> setResult)
-        {
-            var list = new List<CssToken>(value);
-            var t1 = default(T1);
-            var t2 = default(T2);
-            var t3 = default(T3);
-
-            if (_first.VaryStart(list, m => t1 = m) && _second.VaryStart(list, m => t2 = m) && _third.VaryStart(list, m => t3 = m) && list.Count == 0)
-            {
-                setResult(Tuple.Create(t1, t2, t3));
-                return true;
-            }
-
-            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)
@@ -130,24 +82,6 @@
             _second = second;
             _third = third;
             _fourth = fourth;
-        }
-
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T1, T2, T3, T4>> setResult)
-        {
-            var list = new List<CssToken>(value);
-            var t1 = default(T1);
-            var t2 = default(T2);
-            var t3 = default(T3);
-            var t4 = default(T4);
-
-            if (_first.VaryStart(list, m => t1 = m) && _second.VaryStart(list, m => t2 = m) &&
-                _third.VaryStart(list, m => t3 = m) && _fourth.VaryStart(list, m => t4 = m) && list.Count == 0)
-            {
-                setResult(Tuple.Create(t1, t2, t3, t4));
-                return true;
-            }
-
-            return false;
         }
 
         public Boolean Validate(IEnumerable<CssToken> value)

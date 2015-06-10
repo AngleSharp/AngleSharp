@@ -16,32 +16,6 @@
             _endConverter = endConverter;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<Tuple<T[], U>> setResult)
-        {
-            var v1 = default(T[]);
-            var v2 = default(U);
-            var items = value.ToList();
-            var end = items[items.Count - 1];
-            items.RemoveAt(items.Count - 1);
-            
-            if (_endConverter.TryConvert(end, m => v2 = m))
-            {
-                if (items.Count == 0)
-                {
-                    v1 = new T[0];
-                }
-                else if (_listConverter.TryConvert(Merge(items), m => v1 = m) == false)
-                {
-                    return false;
-                }
-
-                setResult(Tuple.Create(v1, v2));
-                return true;
-            }
-
-            return false;
-        }
-
         public Boolean Validate(IEnumerable<CssToken> value)
         {
             var items = value.ToList();
