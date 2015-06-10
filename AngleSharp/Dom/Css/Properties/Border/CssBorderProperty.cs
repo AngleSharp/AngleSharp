@@ -44,7 +44,9 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return StyleConverter.TryConvert(value, m =>
+            return StyleConverter.Validate(value);
+            //TODO Convert instead of validate
+            /*, m =>
             {
                 Get<CssBorderTopWidthProperty>().TrySetValue(m.Item1);
                 Get<CssBorderTopStyleProperty>().TrySetValue(m.Item2);
@@ -58,7 +60,7 @@
                 Get<CssBorderBottomWidthProperty>().TrySetValue(m.Item1);
                 Get<CssBorderBottomStyleProperty>().TrySetValue(m.Item2);
                 Get<CssBorderBottomColorProperty>().TrySetValue(m.Item3);
-            });
+            });*/
         }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)

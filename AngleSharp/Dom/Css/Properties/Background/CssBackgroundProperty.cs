@@ -69,7 +69,9 @@
             //  <final-bg-layer> = 
             //      <bg-image> || <position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box> || <background-color>
 
-            return StyleConverter.TryConvert(value, m =>
+            return StyleConverter.Validate(value);
+            //TODO Convert instead of validate
+            /*, m =>
             {
                 Get<CssBackgroundImageProperty>().TrySetValue(Transform(m, n => n.Item1));
                 Get<CssBackgroundPositionProperty>().TrySetValue(Transform(m, n => n.Item2.Item1));
@@ -79,7 +81,7 @@
                 Get<CssBackgroundOriginProperty>().TrySetValue(Transform(m, n => n.Item5));
                 Get<CssBackgroundClipProperty>().TrySetValue(Transform(m, n => n.Item6));
                 Get<CssBackgroundColorProperty>().TrySetValue(m.Item2.Item7);
-            });
+            });*/
         }
 
         static CssValue Transform(Tuple<BgLayer[], FinalBgLayer> data, Func<BgLayer, CssValue> selector)

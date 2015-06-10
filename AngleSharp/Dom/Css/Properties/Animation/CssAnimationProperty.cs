@@ -49,7 +49,9 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return ListConverter.TryConvert(value, t =>
+            return ListConverter.Validate(value);
+            //TODO Convert instead of validate
+            /*, t =>
             {
                 Get<CssAnimationDurationProperty>().TrySetValue(Transform(t.Select(m => m.Item1)));
                 Get<CssAnimationTimingFunctionProperty>().TrySetValue(Transform(t.Select(m => m.Item2)));
@@ -59,7 +61,7 @@
                 Get<CssAnimationFillModeProperty>().TrySetValue(Transform(t.Select(m => m.Item6)));
                 Get<CssAnimationPlayStateProperty>().TrySetValue(Transform(t.Select(m => m.Item7)));
                 Get<CssAnimationNameProperty>().TrySetValue(Transform(t.Select(m => m.Rest.Item1)));
-            });
+            });*/
         }
 
         CssValue Transform(IEnumerable<CssValue> values)

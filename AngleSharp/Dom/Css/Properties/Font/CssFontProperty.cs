@@ -62,7 +62,9 @@
         {
             //[ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]? <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ] | caption | icon | menu | message-box | small-caption | status-bar
 
-            return StyleConverter.TryConvert(value, m =>
+            return StyleConverter.Validate(value);
+            //TODO Convert instead of validate
+            /*, m =>
             {
                 Get<CssFontStyleProperty>().TrySetValue(m.Item1.Item1);
                 Get<CssFontVariantProperty>().TrySetValue(m.Item1.Item2);
@@ -71,7 +73,7 @@
                 Get<CssFontSizeProperty>().TrySetValue(m.Item2.Item1);
                 Get<CssLineHeightProperty>().TrySetValue(m.Item2.Item2);
                 Get<CssFontFamilyProperty>().TrySetValue(m.Item3);
-            }) || SystemFontConverter.TryConvert(value, SetSystemFont);
+            }) || SystemFontConverter.TryConvert(value, SetSystemFont);*/
         }
 
         /// <summary>

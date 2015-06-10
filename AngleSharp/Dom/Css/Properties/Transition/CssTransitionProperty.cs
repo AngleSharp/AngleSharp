@@ -45,13 +45,15 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return ListConverter.TryConvert(value, t =>
+            return ListConverter.Validate(value);
+            //TODO Convert instead of validate
+            /*, t =>
             {
                 Get<CssTransitionPropertyProperty>().TrySetValue(Transform(t.Select(m => m.Item1)));
                 Get<CssTransitionDurationProperty>().TrySetValue(Transform(t.Select(m => m.Item2)));
                 Get<CssTransitionTimingFunctionProperty>().TrySetValue(Transform(t.Select(m => m.Item3)));
                 Get<CssTransitionDelayProperty>().TrySetValue(Transform(t.Select(m => m.Item4)));
-            });
+            });*/
         }
 
         CssValue Transform(IEnumerable<CssValue> values)

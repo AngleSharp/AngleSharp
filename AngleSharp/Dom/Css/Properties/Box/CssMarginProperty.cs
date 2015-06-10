@@ -41,13 +41,15 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return StyleConverter.TryConvert(value, m =>
+            return StyleConverter.Validate(value);
+            //TODO Convert instead of validate
+            /*, m =>
             {
                 Get<CssMarginTopProperty>().TrySetValue(m.Item1);
                 Get<CssMarginRightProperty>().TrySetValue(m.Item2);
                 Get<CssMarginBottomProperty>().TrySetValue(m.Item3);
                 Get<CssMarginLeftProperty>().TrySetValue(m.Item4);
-            });
+            });*/
         }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)

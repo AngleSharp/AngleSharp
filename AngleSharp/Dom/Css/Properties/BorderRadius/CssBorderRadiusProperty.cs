@@ -43,13 +43,15 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return RadiusConverter.TryConvert(value, m =>
+            return RadiusConverter.Validate(value);
+            //TODO Convert instead of validate
+            /*, m =>
             {
                 Get<CssBorderTopLeftRadiusProperty>().TrySetValue(Extract(m, 0));
                 Get<CssBorderTopRightRadiusProperty>().TrySetValue(Extract(m, 1));
                 Get<CssBorderBottomRightRadiusProperty>().TrySetValue(Extract(m, 2));
                 Get<CssBorderBottomLeftRadiusProperty>().TrySetValue(Extract(m, 3));
-            });
+            });*/
         }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)

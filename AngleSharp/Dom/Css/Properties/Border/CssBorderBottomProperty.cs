@@ -33,12 +33,14 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return CssBorderProperty.StyleConverter.TryConvert(value, m =>
+            return CssBorderProperty.StyleConverter.Validate(value);
+            //TODO Convert instead of validate
+            /*, m =>
             {
                 Get<CssBorderBottomWidthProperty>().TrySetValue(m.Item1);
                 Get<CssBorderBottomStyleProperty>().TrySetValue(m.Item2);
                 Get<CssBorderBottomColorProperty>().TrySetValue(m.Item3);
-            });
+            });*/
         }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)

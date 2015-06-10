@@ -44,12 +44,14 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return StyleConverter.TryConvert(value, m =>
+            return StyleConverter.Validate(value);
+            //TODO Convert instead of validate
+            /*, m =>
             {
                 Get<CssColumnRuleColorProperty>().TrySetValue(m.Item1);
                 Get<CssColumnRuleWidthProperty>().TrySetValue(m.Item2);
                 Get<CssColumnRuleStyleProperty>().TrySetValue(m.Item3);
-            });
+            });*/
         }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)

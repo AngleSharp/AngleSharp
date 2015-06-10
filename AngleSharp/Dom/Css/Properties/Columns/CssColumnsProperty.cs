@@ -43,11 +43,13 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return StyleConverter.TryConvert(value, m =>
+            return StyleConverter.Validate(value);
+            //TODO Convert instead of validate
+            /*, m =>
             {
                 Get<CssColumnWidthProperty>().TrySetValue(m.Item1);
                 Get<CssColumnCountProperty>().TrySetValue(m.Item2);
-            });
+            });*/
         }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
