@@ -1,16 +1,10 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
-    using AngleSharp.Dom.Css;
     using System;
+    using AngleSharp.Dom.Css;
 
     sealed class AspectRatioMediaFeature : MediaFeature
     {
-        #region Fields
-
-        Tuple<Int32, Int32> _ratio;
-
-        #endregion
-
         #region ctor
 
         public AspectRatioMediaFeature(String name)
@@ -20,21 +14,22 @@
 
         #endregion
 
+        #region Internal Properties
+
+        internal override IValueConverter Converter
+        {
+            // Default: NOT Allowed
+            get { return Converters.RatioConverter; }
+        }
+
+        #endregion
+
         #region Methods
-
-        internal override Boolean TrySetDefault()
-        {
-            return false;
-        }
-
-        internal override Boolean TrySetCustom(CssValue value)
-        {
-            return Converters.RatioConverter.TryConvert(value, m => _ratio = m);
-        }
 
         public override Boolean Validate(RenderDevice device)
         {
-            var desired = (Single)_ratio.Item1 / (Single)_ratio.Item2;
+            var ratio = Tuple.Create(1f, 1f);
+            var desired = ratio.Item1 / ratio.Item2;
             var available = (Single)device.ViewPortWidth / (Single)device.ViewPortHeight;
 
             if (IsMaximum)

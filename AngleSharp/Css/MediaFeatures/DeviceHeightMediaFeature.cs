@@ -6,12 +6,6 @@
 
     sealed class DeviceHeightMediaFeature : MediaFeature
     {
-        #region Fields
-
-        Length _length;
-
-        #endregion
-
         #region ctor
 
         public DeviceHeightMediaFeature(String name)
@@ -21,21 +15,22 @@
 
         #endregion
 
+        #region Internal Properties
+
+        internal override IValueConverter Converter
+        {
+            // Default: Allowed
+            get { return Converters.LengthConverter; }
+        }
+
+        #endregion
+
         #region Methods
-
-        internal override Boolean TrySetDefault()
-        {
-            return true;
-        }
-
-        internal override Boolean TrySetCustom(CssValue value)
-        {
-            return Converters.LengthConverter.TryConvert(value, m => _length = m);
-        }
 
         public override Boolean Validate(RenderDevice device)
         {
-            var desired = _length.ToPixel();
+            var length = Length.Zero;
+            var desired = length.ToPixel();
             var available = (Single)device.DeviceHeight;
 
             if (IsMaximum)

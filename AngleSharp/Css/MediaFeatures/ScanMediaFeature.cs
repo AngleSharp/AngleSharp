@@ -1,14 +1,13 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
-    using AngleSharp.Dom.Css;
     using System;
+    using AngleSharp.Dom.Css;
 
     sealed class ScanMediaFeature : MediaFeature
     {
         #region Fields
 
-        static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Interlace, Keywords.Progressive);
-        Boolean _interlace;
+        static readonly IValueConverter<Boolean> TheConverter = Converters.Toggle(Keywords.Interlace, Keywords.Progressive);
 
         #endregion
 
@@ -17,41 +16,26 @@
         public ScanMediaFeature()
             : base(FeatureNames.Scan)
         {
-            _interlace = false;
         }
 
         #endregion
 
-        #region Properties
+        #region Internal Properties
 
-        public Boolean IsProgressive
+        internal override IValueConverter Converter
         {
-            get { return !_interlace; }
-        }
-
-        public Boolean IsInterlaced
-        {
-            get { return _interlace; }
+            // Default: Allowed (value: false => progressive)
+            get { return TheConverter; }
         }
 
         #endregion
 
         #region Methods
 
-        internal override Boolean TrySetDefault()
-        {
-            _interlace = false;
-            return true;
-        }
-
-        internal override Boolean TrySetCustom(CssValue value)
-        {
-            return Converter.TryConvert(value, m => _interlace = m);
-        }
-
         public override Boolean Validate(RenderDevice device)
         {
-            var desired = _interlace;
+            var interlace = false;
+            var desired = interlace;
             var available = device.IsInterlaced;
             return desired == available;
         }

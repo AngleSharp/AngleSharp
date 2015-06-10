@@ -1,15 +1,14 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
+    using System;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
-    using System;
 
     sealed class ScriptingMediaFeature : MediaFeature
     {
         #region Fields
 
-        static readonly IValueConverter<ScriptingState> Converter = Map.ScriptingStates.ToConverter();
-        ScriptingState _state;
+        static readonly IValueConverter<ScriptingState> TheConverter = Map.ScriptingStates.ToConverter();
 
         #endregion
 
@@ -18,42 +17,32 @@
         public ScriptingMediaFeature()
             : base(FeatureNames.Scripting)
         {
-            _state = ScriptingState.None;
         }
 
         #endregion
 
-        #region Properties
+        #region Internal Properties
 
-        public ScriptingState State
+        internal override IValueConverter Converter
         {
-            get { return _state; }
+            // Default: ScriptingState.None
+            get { return TheConverter; }
         }
 
         #endregion
 
         #region Methods
 
-        internal override Boolean TrySetDefault()
-        {
-            _state = ScriptingState.None;
-            return true;
-        }
-
-        internal override Boolean TrySetCustom(CssValue value)
-        {
-            return Converter.TryConvert(value, m => _state = m);
-        }
-
         public override Boolean Validate(RenderDevice device)
         {
+            var state = ScriptingState.None;
             var options = device.Options;
             var available = ScriptingState.None;
 
             if (options != null && options.IsScripting())
                 available = device.DeviceType == RenderDevice.Kind.Screen ? ScriptingState.Enabled : ScriptingState.InitialOnly;
 
-            return _state == available;
+            return state == available;
         }
 
         #endregion

@@ -1,14 +1,13 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
-    using AngleSharp.Dom.Css;
     using System;
+    using AngleSharp.Dom.Css;
 
     sealed class OrientationMediaFeature : MediaFeature
     {
         #region Fields
 
-        static readonly IValueConverter<Boolean> Converter = Converters.Toggle(Keywords.Portrait, Keywords.Landscape);
-        Boolean _portrait;
+        static readonly IValueConverter<Boolean> TheConverter = Converters.Toggle(Keywords.Portrait, Keywords.Landscape);
 
         #endregion
 
@@ -17,41 +16,26 @@
         public OrientationMediaFeature()
             : base(FeatureNames.Orientation)
         {
-            _portrait = false;
         }
 
         #endregion
 
-        #region Properties
+        #region Internal Properties
 
-        public Boolean IsLandscape
+        internal override IValueConverter Converter
         {
-            get { return !_portrait; }
-        }
-
-        public Boolean IsPortrait
-        {
-            get { return _portrait; }
+            // Default: Allowed (value: false => landscape)
+            get { return TheConverter; }
         }
 
         #endregion
 
         #region Methods
 
-        internal override Boolean TrySetDefault()
-        {
-            _portrait = false;
-            return true;
-        }
-
-        internal override Boolean TrySetCustom(CssValue value)
-        {
-            return Converter.TryConvert(value, m => _portrait = m);
-        }
-
         public override Boolean Validate(RenderDevice device)
         {
-            var desired = _portrait;
+            var portrait = false;
+            var desired = portrait;
             var available = device.DeviceHeight >= device.DeviceWidth;
             return desired == available;
         }

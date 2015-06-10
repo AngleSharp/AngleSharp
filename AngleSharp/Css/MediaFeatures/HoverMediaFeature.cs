@@ -1,15 +1,14 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
+    using System;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
-    using System;
 
     sealed class HoverMediaFeature : MediaFeature
     {
         #region Fields
 
-        static readonly IValueConverter<HoverAbility> Converter = Map.HoverAbilities.ToConverter();
-        HoverAbility _hover;
+        static readonly IValueConverter<HoverAbility> TheConverter = Map.HoverAbilities.ToConverter();
 
         #endregion
 
@@ -18,36 +17,26 @@
         public HoverMediaFeature()
             : base(FeatureNames.Hover)
         {
-            _hover = HoverAbility.Hover;
         }
 
         #endregion
 
-        #region Properties
+        #region Internal Properties
 
-        public HoverAbility Hover
+        internal override IValueConverter Converter
         {
-            get { return _hover; }
+            // Default: HoverAbility.Hover
+            get { return TheConverter; }
         }
 
         #endregion
 
         #region Methods
 
-        internal override Boolean TrySetDefault()
-        {
-            _hover = HoverAbility.Hover;
-            return true;
-        }
-
-        internal override Boolean TrySetCustom(CssValue value)
-        {
-            return Converter.TryConvert(value, m => _hover = m);
-        }
-
         public override Boolean Validate(RenderDevice device)
         {
-            var desired = _hover;
+            var hover = HoverAbility.Hover;
+            var desired = hover;
             //Nothing yet, so we assume we have a headless browser
             return desired == HoverAbility.None;
         }

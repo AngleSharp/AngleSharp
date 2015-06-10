@@ -2,6 +2,7 @@
 {
     using System;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Represents a feature expression within
@@ -25,6 +26,18 @@
             _name = name;
             _min = name.StartsWith("min-");
             _max = name.StartsWith("max-");
+        }
+
+        #endregion
+
+        #region Internal Properties
+
+        /// <summary>
+        /// Gets the used value converter.
+        /// </summary>
+        internal abstract IValueConverter Converter
+        {
+            get;
         }
 
         #endregion
@@ -80,19 +93,6 @@
         #region Methods
 
         /// <summary>
-        /// Tries to set the default value.
-        /// </summary>
-        /// <returns>True if the default value is acceptable, otherwise false.</returns>
-        internal abstract Boolean TrySetDefault();
-
-        /// <summary>
-        /// Tries to set the given value.
-        /// </summary>
-        /// <param name="value">The value that should be used.</param>
-        /// <returns>True if the given value is valid, otherwise false.</returns>
-        internal abstract Boolean TrySetCustom(CssValue value);
-
-        /// <summary>
         /// Tries to set the given value.
         /// </summary>
         /// <param name="value">The value that should be used.</param>
@@ -102,9 +102,9 @@
             var result = false;
 
             if (value == null)
-                result = !IsMinimum && !IsMaximum && TrySetDefault();
+                result = !IsMinimum && !IsMaximum && Converter.HasDefault();
             else
-                result = TrySetCustom(value);
+                result = Converter.Validate(value);
 
             if (result)
                 _value = value;

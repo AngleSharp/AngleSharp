@@ -1,15 +1,14 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
+    using System;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
-    using System;
 
     sealed class ColorMediaFeature : MediaFeature
     {
         #region Fields
 
-        static readonly IValueConverter<Int32> Converter = Converters.IntegerConverter.Constraint(m => m > 0);
-        Int32 _color;
+        static readonly IValueConverter<Int32> TheConverter = Converters.IntegerConverter.Constraint(m => m > 0);
 
         #endregion
 
@@ -22,22 +21,22 @@
 
         #endregion
 
+        #region Internal Properties
+
+        internal override IValueConverter Converter
+        {
+            // Default: 1
+            get { return TheConverter; }
+        }
+
+        #endregion
+
         #region Methods
-
-        internal override Boolean TrySetDefault()
-        {
-            _color = 1;
-            return true;
-        }
-
-        internal override Boolean TrySetCustom(CssValue value)
-        {
-            return Converter.TryConvert(value, m => _color = m);
-        }
 
         public override Boolean Validate(RenderDevice device)
         {
-            var desired = _color;
+            var color = 1;
+            var desired = color;
             var available = Math.Pow(device.ColorBits, 2);
 
             if (IsMaximum)

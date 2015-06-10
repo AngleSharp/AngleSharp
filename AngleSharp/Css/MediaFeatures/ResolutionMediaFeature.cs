@@ -6,12 +6,6 @@
 
     sealed class ResolutionMediaFeature : MediaFeature
     {
-        #region Fields
-
-        Resolution _res;
-
-        #endregion
-
         #region ctor
 
         public ResolutionMediaFeature(String name)
@@ -21,22 +15,22 @@
 
         #endregion
 
+        #region Internal Properties
+
+        internal override IValueConverter Converter
+        {
+            // Default: new Resolution(72f, Resolution.Unit.Dpi)
+            get { return Converters.ResolutionConverter; }
+        }
+
+        #endregion
+
         #region Methods
-
-        internal override Boolean TrySetDefault()
-        {
-            _res = new Resolution(72f, Resolution.Unit.Dpi);
-            return true;
-        }
-
-        internal override Boolean TrySetCustom(CssValue value)
-        {
-            return Converters.ResolutionConverter.TryConvert(value, m => _res = m);
-        }
 
         public override Boolean Validate(RenderDevice device)
         {
-            var desired = _res.To(Resolution.Unit.Dpi);
+            var res = new Resolution(72f, Resolution.Unit.Dpi);
+            var desired = res.To(Resolution.Unit.Dpi);
             var available = (Single)device.Resolution;
 
             if (IsMaximum)

@@ -1,15 +1,14 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
+    using System;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
-    using System;
 
     sealed class PointerMediaFeature : MediaFeature
     {
         #region Fields
 
-        static readonly IValueConverter<PointerAccuracy> Converter = Map.PointerAccuracies.ToConverter();
-        PointerAccuracy _accuracy;
+        static readonly IValueConverter<PointerAccuracy> TheConverter = Map.PointerAccuracies.ToConverter();
 
         #endregion
 
@@ -18,36 +17,26 @@
         public PointerMediaFeature()
             : base(FeatureNames.Pointer)
         {
-            _accuracy = PointerAccuracy.Fine;
         }
 
         #endregion
 
-        #region Properties
+        #region Internal Properties
 
-        public PointerAccuracy Accuracy
+        internal override IValueConverter Converter
         {
-            get { return _accuracy; }
+            // Default: PointerAccuracy.Fine
+            get { return TheConverter; }
         }
 
         #endregion
 
         #region Methods
 
-        internal override Boolean TrySetDefault()
-        {
-            _accuracy = PointerAccuracy.Fine;
-            return true;
-        }
-
-        internal override Boolean TrySetCustom(CssValue value)
-        {
-            return Converter.TryConvert(value, m => _accuracy = m);
-        }
-
         public override Boolean Validate(RenderDevice device)
         {
-            var desired = _accuracy;
+            var accuracy = PointerAccuracy.Fine;
+            var desired = accuracy;
             //Nothing yet, so we assume we have a headless browser
             return desired == PointerAccuracy.None;
         }

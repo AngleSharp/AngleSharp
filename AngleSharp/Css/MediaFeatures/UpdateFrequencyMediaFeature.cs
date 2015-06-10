@@ -1,15 +1,14 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
+    using System;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
-    using System;
 
     sealed class UpdateFrequencyMediaFeature : MediaFeature
     {
         #region Fields
 
-        static readonly IValueConverter<UpdateFrequency> Converter = Map.UpdateFrequencies.ToConverter();
-        UpdateFrequency _frequency;
+        static readonly IValueConverter<UpdateFrequency> TheConverter = Map.UpdateFrequencies.ToConverter();
 
         #endregion
 
@@ -18,36 +17,26 @@
         public UpdateFrequencyMediaFeature()
             : base(FeatureNames.UpdateFrequency)
         {
-            _frequency = UpdateFrequency.Normal;
         }
 
         #endregion
 
-        #region Properties
+        #region Internal Properties
 
-        public UpdateFrequency Frequency
+        internal override IValueConverter Converter
         {
-            get { return _frequency; }
+            // Default: UpdateFrequency.Normal
+            get { return TheConverter; }
         }
 
         #endregion
 
         #region Methods
 
-        internal override Boolean TrySetDefault()
-        {
-            _frequency = UpdateFrequency.Normal;
-            return true;
-        }
-
-        internal override Boolean TrySetCustom(CssValue value)
-        {
-            return Converter.TryConvert(value, m => _frequency = m);
-        }
-
         public override Boolean Validate(RenderDevice device)
         {
-            var desired = _frequency;
+            var frequency = UpdateFrequency.Normal;
+            var desired = frequency;
             var available = device.Frequency;
 
             if (available >= 30)
