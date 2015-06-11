@@ -37,11 +37,6 @@
             return 2;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.IntegerConverter.Validate(value);
-        }
-
         #endregion
     }
 }

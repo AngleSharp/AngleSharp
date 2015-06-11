@@ -38,11 +38,6 @@
             return BreakMode.Auto;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.BreakInsideModeConverter.Validate(value);
-        }
-
         #endregion
     }
 }

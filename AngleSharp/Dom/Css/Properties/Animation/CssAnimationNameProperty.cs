@@ -43,11 +43,6 @@
             return String.Empty;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return ListConverter.Validate(value);
-        }
-
         #endregion
     }
 }

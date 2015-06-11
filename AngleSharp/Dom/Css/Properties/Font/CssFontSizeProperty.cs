@@ -36,11 +36,6 @@
             return FontSize.Medium.ToLength();
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.FontSizeConverter.Validate(value);
-        }
-
         #endregion
     }
 }

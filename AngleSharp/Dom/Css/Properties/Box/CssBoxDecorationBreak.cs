@@ -39,11 +39,6 @@
             return false;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.BoxDecorationConverter.Validate(value);
-        }
-
         #endregion
     }
 }

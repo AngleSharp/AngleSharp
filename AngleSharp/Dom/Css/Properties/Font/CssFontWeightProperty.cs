@@ -50,11 +50,6 @@
             return new FontWeight { IsRelative = false, Value = 400 };
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return StyleConverter.Validate(value);
-        }
-
         #endregion
 
         #region Structure

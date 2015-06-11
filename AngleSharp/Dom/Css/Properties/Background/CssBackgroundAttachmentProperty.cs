@@ -43,11 +43,6 @@
             return BackgroundAttachment.Scroll;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return AttachmentConverter.Validate(value);
-        }
-
         #endregion
     }
 }

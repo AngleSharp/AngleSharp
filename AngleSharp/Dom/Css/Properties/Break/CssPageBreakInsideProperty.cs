@@ -43,11 +43,6 @@
             return BreakMode.Auto;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return BreakConverter.Validate(value);
-        }
-
         #endregion
     }
 }

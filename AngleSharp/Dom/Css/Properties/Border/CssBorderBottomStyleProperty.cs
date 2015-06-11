@@ -35,11 +35,6 @@
             return LineStyle.None;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.LineStyleConverter.Validate(value);
-        }
-
         #endregion
     }
 }

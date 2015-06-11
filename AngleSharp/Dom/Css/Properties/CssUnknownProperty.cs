@@ -33,11 +33,6 @@
             return null;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return true;
-        }
-
         #endregion
     }
 }

@@ -35,11 +35,6 @@
             return true;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.BorderCollapseConverter.Validate(value);
-        }
-
         #endregion
     }
 }

@@ -36,11 +36,6 @@
             return Point.Center;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.PointConverter.Validate(value);
-        }
-
         #endregion
     }
 }

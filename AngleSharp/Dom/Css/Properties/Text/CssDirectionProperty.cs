@@ -36,11 +36,6 @@
             return DirectionMode.Ltr;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.DirectionModeConverter.Validate(value);
-        }
-
         #endregion
     }
 }

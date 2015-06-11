@@ -44,11 +44,6 @@
             return Map.TimingFunctions[Keywords.Ease];
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return ListConverter.Validate(value);
-        }
-
         #endregion
     }
 }

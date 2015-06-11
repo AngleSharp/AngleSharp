@@ -56,11 +56,6 @@
             return Point.Center;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return PerspectiveConverter.Validate(value);
-        }
-
         #endregion
     }
 }

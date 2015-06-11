@@ -36,11 +36,6 @@
             return ListStyle.Disc;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.ListStyleConverter.Validate(value);
-        }
-
         #endregion
     }
 }

@@ -36,11 +36,6 @@
             return Visibility.Visible;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.VisibilityConverter.Validate(value);
-        }
-
         #endregion
     }
 }

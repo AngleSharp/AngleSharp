@@ -36,11 +36,6 @@
             return PositionMode.Static;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.PositionModeConverter.Validate(value);
-        }
-
         #endregion
     }
 }

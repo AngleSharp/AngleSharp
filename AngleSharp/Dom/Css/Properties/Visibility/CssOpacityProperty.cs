@@ -36,11 +36,6 @@
             return 1f;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.NumberConverter.Validate(value);
-        }
-
         #endregion
     }
 }

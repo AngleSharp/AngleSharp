@@ -37,11 +37,6 @@
             return new Shadow[0];
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.MultipleShadowConverter.Validate(value);
-        }
-
         #endregion
     }
 }

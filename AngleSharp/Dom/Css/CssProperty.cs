@@ -204,7 +204,10 @@
         /// </summary>
         /// <param name="value">The value to be checked.</param>
         /// <returns>True if the value is valid, otherwise false.</returns>
-        protected abstract Boolean IsValid(CssValue value);
+        protected virtual Boolean IsValid(CssValue value)
+        {
+            return Converter.Validate(value);
+        }
 
         #endregion
 

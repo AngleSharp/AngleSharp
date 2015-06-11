@@ -36,11 +36,6 @@
             return Length.Zero;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.BorderRadiusConverter.Validate(value);
-        }
-
         #endregion
     }
 }

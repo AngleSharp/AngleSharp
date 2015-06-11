@@ -36,11 +36,6 @@
             return ClearMode.None;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.ClearModeConverter.Validate(value);
-        }
-
         #endregion
     }
 }

@@ -42,11 +42,6 @@
             return BorderRepeat.Stretch;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return StyleConverter.Validate(value);
-        }
-
         #endregion
     }
 }

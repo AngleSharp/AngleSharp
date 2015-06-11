@@ -36,11 +36,6 @@
             return Floating.None;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.FloatingConverter.Validate(value);
-        }
-
         #endregion
     }
 }

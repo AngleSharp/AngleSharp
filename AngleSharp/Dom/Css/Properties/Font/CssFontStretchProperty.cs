@@ -36,11 +36,6 @@
             return FontStretch.Normal;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.FontStretchConverter.Validate(value);
-        }
-
         #endregion
     }
 }

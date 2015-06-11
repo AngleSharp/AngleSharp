@@ -37,11 +37,6 @@
             return Color.Transparent;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.ColorConverter.Validate(value);
-        }
-
         #endregion
     }
 }

@@ -52,11 +52,6 @@
             return Default;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return ListConverter.Validate(value);
-        }
-
         #endregion
 
         #region Structure

@@ -37,11 +37,6 @@
             return Length.Medium;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.LineWidthConverter.Validate(value);
-        }
-
         #endregion
     }
 }

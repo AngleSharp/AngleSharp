@@ -36,11 +36,6 @@
             return BreakMode.Auto;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.PageBreakModeConverter.Validate(value);
-        }
-
         #endregion
     }
 }

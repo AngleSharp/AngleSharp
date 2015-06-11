@@ -36,11 +36,6 @@
             return TextTransform.None;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.TextTransformConverter.Validate(value);
-        }
-
         #endregion
     }
 }

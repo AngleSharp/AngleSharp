@@ -35,11 +35,6 @@
             return UnicodeMode.Normal;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.UnicodeModeConverter.Validate(value);
-        }
-
         #endregion
     }
 }

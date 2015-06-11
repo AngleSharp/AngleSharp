@@ -36,11 +36,6 @@
             return HorizontalAlignment.Left;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.HorizontalAlignmentConverter.Validate(value);
-        }
-
         #endregion
     }
 }

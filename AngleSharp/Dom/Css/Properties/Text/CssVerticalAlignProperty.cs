@@ -2,6 +2,7 @@
 {
     using System;
     using AngleSharp.Css;
+    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
 
     /// <summary>
@@ -14,6 +15,13 @@
     /// </summary>
     sealed class CssVerticalAlignProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter<Length> StyleConverter = 
+            Converters.LengthOrPercentConverter.Or(Converters.VerticalAlignmentConverter.To(m => Length.Zero));
+
+        #endregion
+
         #region ctor
 
         internal CssVerticalAlignProperty()
@@ -27,7 +35,7 @@
 
         internal override IValueConverter Converter
         {
-            get { return Converters.VerticalAlignmentConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion
@@ -37,12 +45,6 @@
         protected override Object GetDefault(IElement element)
         {
             return VerticalAlignment.Baseline;
-        }
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.LengthOrPercentConverter.Validate(value) || 
-                   Converters.VerticalAlignmentConverter.Validate(value);
         }
 
         #endregion

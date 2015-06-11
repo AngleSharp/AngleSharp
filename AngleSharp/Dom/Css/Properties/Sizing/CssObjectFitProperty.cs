@@ -35,11 +35,6 @@
             return ObjectFitting.Fill;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.ObjectFittingConverter.Validate(value);
-        }
-
         #endregion
     }
 }

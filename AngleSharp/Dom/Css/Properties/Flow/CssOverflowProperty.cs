@@ -35,11 +35,6 @@
             return OverflowMode.Visible;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.OverflowModeConverter.Validate(value);
-        }
-
         #endregion
     }
 }

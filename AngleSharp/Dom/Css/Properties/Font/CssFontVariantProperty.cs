@@ -36,11 +36,6 @@
             return FontVariant.Normal;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.FontVariantConverter.Validate(value);
-        }
-
         #endregion
     }
 }

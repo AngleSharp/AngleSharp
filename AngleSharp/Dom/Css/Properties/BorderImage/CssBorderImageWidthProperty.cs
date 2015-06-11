@@ -43,11 +43,6 @@
             return Length.Full;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return StyleConverter.Validate(value);
-        }
-
         #endregion
     }
 }

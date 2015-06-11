@@ -37,11 +37,6 @@
             return null;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.OptionalLengthOrPercentConverter.Validate(value);
-        }
-
         #endregion
     }
 }

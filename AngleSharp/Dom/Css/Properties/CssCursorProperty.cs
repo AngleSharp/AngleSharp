@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Tuple<CustomCursor[], SystemCursor>> CursorConverter = 
+        static readonly IValueConverter<Tuple<CustomCursor[], SystemCursor>> StyleConverter = 
             Converters.ImageSourceConverter.To(m => new CustomCursor { Image = m }).Or(
                 Converters.WithOrder(
                     Converters.ImageSourceConverter.Required(),
@@ -37,7 +37,7 @@
 
         internal override IValueConverter Converter
         {
-            get { return CursorConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion
@@ -47,11 +47,6 @@
         protected override Object GetDefault(IElement element)
         {
             return SystemCursor.Auto;
-        }
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return CursorConverter.Validate(value);
         }
 
         #endregion

@@ -36,11 +36,6 @@
             return TextDecorationStyle.Solid;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.TextDecorationStyleConverter.Validate(value);
-        }
-
         #endregion
     }
 }

@@ -43,11 +43,6 @@
             return Keywords.All;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return PropConverter.Validate(value);
-        }
-
         #endregion
     }
 }

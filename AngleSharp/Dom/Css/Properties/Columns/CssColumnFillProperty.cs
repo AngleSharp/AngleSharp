@@ -36,11 +36,6 @@
             return true;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.ColumnFillConverter.Validate(value);
-        }
-
         #endregion
     }
 }

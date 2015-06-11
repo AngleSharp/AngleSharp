@@ -36,11 +36,6 @@
             return ListPosition.Outside;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.ListPositionConverter.Validate(value);
-        }
-
         #endregion
     }
 }

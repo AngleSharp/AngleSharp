@@ -36,11 +36,6 @@
             return Whitespace.Normal;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.WhitespaceConverter.Validate(value);
-        }
-
         #endregion
     }
 }

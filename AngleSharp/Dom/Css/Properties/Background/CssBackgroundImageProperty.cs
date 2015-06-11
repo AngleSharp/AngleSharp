@@ -37,11 +37,6 @@
             return new IImageSource[0];
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.MultipleImageSourceConverter.Validate(value);
-        }
-
         #endregion
     }
 }

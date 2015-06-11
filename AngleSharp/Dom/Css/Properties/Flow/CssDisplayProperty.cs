@@ -36,11 +36,6 @@
             return DisplayMode.Inline;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.DisplayModeConverter.Validate(value);
-        }
-
         #endregion
     }
 }

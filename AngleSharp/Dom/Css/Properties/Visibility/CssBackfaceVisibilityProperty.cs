@@ -38,11 +38,6 @@
             return true;
         }
 
-        protected override Boolean IsValid(CssValue value)
-        {
-            return Converters.BackfaceVisibilityConverter.Validate(value);
-        }
-
         #endregion
     }
 }
