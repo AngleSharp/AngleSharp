@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
 
@@ -31,16 +30,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: BreakMode.Auto
             get { return BreakConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return BreakMode.Auto;
         }
 
         #endregion

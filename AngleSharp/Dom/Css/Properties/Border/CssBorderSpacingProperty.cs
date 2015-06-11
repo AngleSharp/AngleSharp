@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
@@ -31,16 +30,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: Length.Zero
             get { return SpacingConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return Length.Zero;
         }
 
         #endregion

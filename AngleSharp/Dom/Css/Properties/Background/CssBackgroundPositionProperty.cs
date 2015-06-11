@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
@@ -32,16 +31,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: Point.Center
             get { return ListConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return Point.Center;
         }
 
         #endregion

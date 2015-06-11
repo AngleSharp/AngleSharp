@@ -1,9 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Css.Values;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -25,16 +22,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: Nothing
             get { return Converters.MultipleShadowConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return new Shadow[0];
         }
 
         #endregion

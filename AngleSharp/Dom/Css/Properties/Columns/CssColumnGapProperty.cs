@@ -1,9 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Css.Values;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available at:
@@ -25,16 +22,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: new Length(1f, Length.Unit.Em)
             get { return Converters.LengthOrNormalConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return new Length(1f, Length.Unit.Em);
         }
 
         #endregion

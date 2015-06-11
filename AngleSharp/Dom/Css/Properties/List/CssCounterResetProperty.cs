@@ -35,17 +35,13 @@
 
         internal override IValueConverter Converter
         {
+            // Default: Nothing
             get { return CounterConverter; }
         }
 
         #endregion
 
         #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return null;
-        }
 
         protected override Boolean IsValid(CssValue value)
         {

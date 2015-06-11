@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using AngleSharp.Css;
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
@@ -47,18 +46,13 @@
 
         internal override IValueConverter Converter
         {
+            // Default: NormalContentMode
             get { return StyleConverter; }
         }
 
         #endregion
 
         #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            var parts = Default.Select(m => m.Stringify(element));
-            return String.Join(String.Empty, parts);
-        }
 
         protected override Boolean IsValid(CssValue value)
         {

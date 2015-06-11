@@ -39,16 +39,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: Nothing (just use original size)
             get { return ListConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return Default;
         }
 
         #endregion

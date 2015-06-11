@@ -31,16 +31,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: All
             get { return PropConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return Keywords.All;
         }
 
         #endregion

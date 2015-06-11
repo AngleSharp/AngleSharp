@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available:
@@ -23,16 +21,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: ObjectFitting.Fill
             get { return Converters.ObjectFittingConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return ObjectFitting.Fill;
         }
 
         #endregion

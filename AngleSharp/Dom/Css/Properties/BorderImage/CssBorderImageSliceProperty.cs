@@ -38,16 +38,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: new Length(100f, Length.Unit.Percent)
             get { return StyleConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return new Length(100f, Length.Unit.Percent);
         }
 
         #endregion

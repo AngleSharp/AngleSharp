@@ -33,16 +33,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: "Times New Roman"
             get { return StyleConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return "Times New Roman";
         }
 
         #endregion

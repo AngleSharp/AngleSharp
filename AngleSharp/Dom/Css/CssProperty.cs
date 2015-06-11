@@ -193,13 +193,6 @@
         #region Methods
 
         /// <summary>
-        /// Gets the default value for the given element.
-        /// </summary>
-        /// <param name="element">The element to use.</param>
-        /// <returns>The value for the given element.</returns>
-        protected abstract Object GetDefault(IElement element);
-
-        /// <summary>
         /// Notified once the value changed.
         /// </summary>
         /// <param name="value">The value to be checked.</param>

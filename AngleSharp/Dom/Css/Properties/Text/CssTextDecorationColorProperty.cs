@@ -25,16 +25,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: Color.Black
             get { return Converters.ColorConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return Color.Black;
         }
 
         #endregion

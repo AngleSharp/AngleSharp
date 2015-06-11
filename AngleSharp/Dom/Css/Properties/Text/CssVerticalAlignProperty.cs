@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
@@ -35,16 +34,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: VerticalAlignment.Baseline
             get { return StyleConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return VerticalAlignment.Baseline;
         }
 
         #endregion

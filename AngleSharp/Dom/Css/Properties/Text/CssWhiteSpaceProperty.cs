@@ -24,16 +24,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: Whitespace.Normal
             get { return Converters.WhitespaceConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return Whitespace.Normal;
         }
 
         #endregion

@@ -21,16 +21,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: nothing
             get { return Converters.Any; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return null;
         }
 
         #endregion

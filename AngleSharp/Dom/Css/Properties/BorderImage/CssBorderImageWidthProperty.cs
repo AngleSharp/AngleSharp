@@ -31,16 +31,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: Length.Full
             get { return StyleConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return Length.Full;
         }
 
         #endregion

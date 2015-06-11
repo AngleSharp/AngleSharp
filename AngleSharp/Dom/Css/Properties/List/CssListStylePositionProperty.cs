@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available at
@@ -24,16 +22,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: ListPosition.Outside
             get { return Converters.ListPositionConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return ListPosition.Outside;
         }
 
         #endregion

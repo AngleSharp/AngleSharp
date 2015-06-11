@@ -44,16 +44,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: Tuple.Create(Point.Center, Length.Zero
             get { return StyleConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return Tuple.Create(Point.Center, Length.Zero);
         }
 
         #endregion

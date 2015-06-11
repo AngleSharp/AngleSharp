@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information:
@@ -24,16 +22,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: TextDecorationStyle.Solid
             get { return Converters.TextDecorationStyleConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return TextDecorationStyle.Solid;
         }
 
         #endregion

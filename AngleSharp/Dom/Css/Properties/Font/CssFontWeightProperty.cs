@@ -38,16 +38,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: new FontWeight { IsRelative = false, Value = 400 }
             get { return StyleConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return new FontWeight { IsRelative = false, Value = 400 };
         }
 
         #endregion

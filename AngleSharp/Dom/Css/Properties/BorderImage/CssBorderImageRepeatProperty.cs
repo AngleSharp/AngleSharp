@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
 
@@ -30,16 +29,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: BorderRepeat.Stretch
             get { return StyleConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return BorderRepeat.Stretch;
         }
 
         #endregion

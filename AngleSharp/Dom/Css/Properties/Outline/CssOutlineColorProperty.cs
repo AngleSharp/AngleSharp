@@ -1,9 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Css.Values;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available:
@@ -26,16 +23,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: Color.Transparent
             get { return Converters.InvertedColorConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return Color.Transparent;
         }
 
         #endregion

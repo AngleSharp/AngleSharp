@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
@@ -32,16 +31,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: Ease
             get { return ListConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return Map.TimingFunctions[Keywords.Ease];
         }
 
         #endregion

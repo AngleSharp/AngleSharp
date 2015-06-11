@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using System;
-    using System.Linq;
     using AngleSharp.Css;
-    using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
 
     /// <summary>
@@ -37,17 +35,13 @@
 
         internal override IValueConverter Converter
         {
+            // Default: Tuple.Create("«", "»")
             get { return StyleConverter; }
         }
 
         #endregion
 
         #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return Tuple.Create("«", "»");
-        }
 
         protected override Boolean IsValid(CssValue value)
         {

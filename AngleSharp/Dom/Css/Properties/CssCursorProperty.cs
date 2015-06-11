@@ -37,16 +37,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: SystemCursor.Auto
             get { return StyleConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return SystemCursor.Auto;
         }
 
         #endregion

@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -24,16 +22,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: Visibility.Visible
             get { return Converters.VisibilityConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return Visibility.Visible;
         }
 
         #endregion

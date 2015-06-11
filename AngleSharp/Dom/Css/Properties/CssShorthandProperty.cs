@@ -37,11 +37,6 @@
 
         #region Methods
 
-        protected sealed override Object GetDefault(IElement element)
-        {
-            return null;
-        }
-
         protected TProperty Get<TProperty>()
         {
             return _properties.OfType<TProperty>().FirstOrDefault();

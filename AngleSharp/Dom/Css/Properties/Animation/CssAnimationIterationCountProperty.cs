@@ -31,16 +31,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: 1f
             get { return ListConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return 1f;
         }
 
         #endregion

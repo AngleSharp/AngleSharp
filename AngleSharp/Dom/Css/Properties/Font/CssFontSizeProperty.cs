@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information:
@@ -24,16 +22,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: FontSize.Medium.ToLength()
             get { return Converters.FontSizeConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return FontSize.Medium.ToLength();
         }
 
         #endregion

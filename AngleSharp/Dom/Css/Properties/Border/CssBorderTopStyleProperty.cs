@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available at:
@@ -23,16 +21,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: LineStyle.None
             get { return Converters.LineStyleConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return LineStyle.None;
         }
 
         #endregion

@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// More infos can be found on the W3C homepage or
@@ -27,16 +25,8 @@
 
         internal override IValueConverter Converter
         {
+            // Default: false
             get { return Converters.BoxDecorationConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Object GetDefault(IElement element)
-        {
-            return false;
         }
 
         #endregion
