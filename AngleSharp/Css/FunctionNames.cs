@@ -216,17 +216,5 @@
         /// The perspective function.
         /// </summary>
         public static readonly String Perspective = "perspective";
-
-
-        /// <summary>
-        /// Creates a function call expression from the given strings.
-        /// </summary>
-        /// <param name="function">The name of the function.</param>
-        /// <param name="arguments">The arguments of the function.</param>
-        /// <returns>The CSS function call expression.</returns>
-        public static String Build(String function, params String[] arguments)
-        {
-            return String.Concat(function, "(", String.Join(", ", arguments), ")");
-        }
     }
 }
