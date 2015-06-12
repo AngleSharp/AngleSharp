@@ -180,6 +180,12 @@
             return null;
         }
 
+        public static Int32? ToPositiveInteger(this IEnumerable<CssToken> value)
+        {
+            var element = value.ToInteger();
+            return element.HasValue && element.Value >= 0 ? element : null;
+        }
+
         public static Byte? ToByte(this IEnumerable<CssToken> value)
         {
             var val = value.ToInteger();
