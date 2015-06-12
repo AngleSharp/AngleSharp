@@ -41,13 +41,6 @@
             return identifier != null && identifier.Equals(expected, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static Boolean TryGetValue<T>(this Dictionary<String, T> obj, IEnumerable<CssToken> value, out T mode)
-        {
-            var identifier = value.ToIdentifier();
-            mode = default(T);
-            return identifier != null && obj.TryGetValue(identifier, out mode);
-        }
-
         public static String ToUri(this IEnumerable<CssToken> value)
         {
             var element = value.OnlyOrDefault();
