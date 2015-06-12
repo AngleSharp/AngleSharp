@@ -2,38 +2,59 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
 
-    sealed class OneOrMoreValueConverter<T> : IValueConverter<T[]>
+    sealed class OneOrMoreValueConverter : IValueConverter
     {
-        readonly IValueConverter<T> _converter;
+        readonly IValueConverter _converter;
         readonly Int32 _minimum;
         readonly Int32 _maximum;
 
-        public OneOrMoreValueConverter(IValueConverter<T> converter, Int32 minimum, Int32 maximum)
+        public OneOrMoreValueConverter(IValueConverter converter, Int32 minimum, Int32 maximum)
         {
             _converter = converter;
             _minimum = minimum;
             _maximum = maximum;
         }
 
-        public Boolean Validate(IEnumerable<CssToken> value)
+        public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             var items = value.ToItems();
+            var n = items.Count;
 
-            if (items.Count >= _minimum && items.Count <= _maximum)
+            if (n >= _minimum && n <= _maximum)
             {
-                foreach (var item in items)
+                var values = new IPropertyValue[items.Count];
+
+                for (int i = 0; i < n; i++)
                 {
-                    if (!_converter.Validate(item))
-                        return false;
+                    values[i] = _converter.Convert(items[i]);
+
+                    if (values[i] == null)
+                        return null;
                 }
 
-                return true;
+                return new MultipleValue(values);
             }
 
-            return false;
+            return null;
+        }
+
+        sealed class MultipleValue : IPropertyValue
+        {
+            readonly IPropertyValue[] _values;
+
+            public MultipleValue(IPropertyValue[] values)
+            {
+                _values = values;
+            }
+
+            public String CssText
+            {
+                get { return String.Join(" ", _values.Select(m => m.CssText)); }
+            }
         }
     }
 }

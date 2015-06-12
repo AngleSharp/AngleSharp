@@ -69,6 +69,10 @@
     <Compile Include="Css\RenderDevice.cs" />
     <Compile Include="Css\RenderStyle.cs" />
     <Compile Include="Css\Converters.cs" />
+    <Compile Include="Css\ValueConverters\PeriodicValueConverter.cs" />
+    <Compile Include="Css\ValueConverters\UrlValueConverter.cs" />
+    <Compile Include="Css\ValueConverters\StringValueConverter.cs" />
+    <Compile Include="Css\ValueConverters\StructValueConverter.cs" />
     <Compile Include="Css\ValueConverters\StartsWithValueConverter.cs" />
     <Compile Include="Css\ValueConverters\GradientConverter.cs" />
     <Compile Include="Css\ValueConverters\OrderedOptionsConverter.cs" />
@@ -84,8 +88,6 @@
     <Compile Include="Dom\Constants\TableRules.cs" />
     <Compile Include="Dom\Css\Constants\BlendMode.cs" />
     <Compile Include="Css\ValueConverters\ArgumentsValueConverter.cs" />
-    <Compile Include="Css\ValueConverters\ClassValueConverter.cs" />
-    <Compile Include="Css\ValueConverters\ConstraintValueConverter.cs" />
     <Compile Include="Css\ValueConverters\DictionaryValueConverter.cs" />
     <Compile Include="Css\ValueConverters\EndListValueConverter.cs" />
     <Compile Include="Css\ValueConverters\FunctionValueConverter.cs" />
@@ -103,8 +105,6 @@
     <Compile Include="Css\ValueConverters\OptionValueConverter.cs" />
     <Compile Include="Css\ValueConverters\OrValueConverter.cs" />
     <Compile Include="Css\ValueConverters\RequiredValueConverter.cs" />
-    <Compile Include="Css\ValueConverters\StructValueConverter.cs" />
-    <Compile Include="Css\ValueConverters\ToValueConverter.cs" />
     <Compile Include="Dom\Css\Constants\ScriptingState.cs" />
     <Compile Include="Dom\Css\Constants\UpdateFrequency.cs" />
     <Compile Include="Dom\Css\Properties\CssShorthandProperty.cs" />

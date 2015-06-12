@@ -2,75 +2,99 @@
 {
     using System;
     using System.Collections.Generic;
-    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
 
-    sealed class GradientConverter<T> : IValueConverter<Tuple<T, GradientStop[]>>
+    abstract class GradientConverter : IValueConverter
     {
-        readonly IValueConverter<T> _arguments;
-        readonly T _default;
+        readonly IValueConverter _arguments;
 
-        public GradientConverter(IValueConverter<T> arguments, T defaultValue)
+        public GradientConverter(IValueConverter arguments)
         {
-            _default = defaultValue;
             _arguments = arguments;
         }
 
-        public static GradientStop[] ToGradientStops(List<List<CssToken>> values, Int32 offset)
+        public static IPropertyValue[] ToGradientStops(List<List<CssToken>> values, Int32 offset)
         {
-            var stops = new GradientStop[values.Count - offset];
+            var stops = new IPropertyValue[values.Count - offset];
 
             for (int i = offset, k = 0; i < values.Count; i++, k++)
             {
-                var location = Length.Missing;
+                stops[k] = ToGradientStop(values[i]);
 
-                if (k == 0)
-                    location = Length.Zero;
-                else if (k == stops.Length - 1)
-                    location = Length.Full;
-
-                var stop = ToGradientStop(values[i], location);
-
-                if (stop == null)
+                if (stops[k] == null)
                     return null;
-
-                stops[k] = stop.Value;
             }
 
             return stops;
         }
 
-        public static GradientStop? ToGradientStop(List<CssToken> value, Length? location)
+        public static IPropertyValue ToGradientStop(List<CssToken> value)
         {
-            var color = Color.Transparent;
+            var color = default(IPropertyValue);
+            var position = default(IPropertyValue);
             var items = value.ToItems();
-            var position = default(Length?);
 
             if (items.Count != 0)
             {
-                if ((position = items[items.Count - 1].ToDistance()) != null)
-                    items.RemoveAt(items.Count - 1);
-                else
-                    position = location;
+                position = Converters.LengthOrPercentConverter.Convert(items[items.Count - 1]);
 
-                //TODO Use Convert instead of Validate
-                if (items.Count == 0 || (items.Count == 1 && Converters.ColorConverter.Validate(items[0])))
-                    return new GradientStop(color, location.Value);
+                if (position != null)
+                    items.RemoveAt(items.Count - 1);
             }
 
-            return null;
+            if (items.Count != 0)
+            {
+                color = Converters.ColorConverter.Convert(items[items.Count - 1]);
+
+                if (color != null)
+                    items.RemoveAt(items.Count - 1);
+            }
+
+            return items.Count == 0 ? new StopValue(color, position) : null;
         }
 
-        public Boolean Validate(IEnumerable<CssToken> value)
+        public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             var args = value.ToList();
-            var offset = 0;
+            var initial = args.Count != 0 ? _arguments.Convert(args[0]) : null;
+            var offset = initial != null ? 1 : 0;
+            var stops = ToGradientStops(args, offset);
+            return stops != null ? new GradientValue(initial, stops) : null;
+        }
 
-            if (args.Count != 0 && _arguments.Validate(args[0]))
-                offset = 1;
+        sealed class GradientValue : IPropertyValue
+        {
+            readonly IPropertyValue _initial;
+            readonly IPropertyValue[] _stops;
 
-            return ToGradientStops(args, offset) != null;
+            public GradientValue(IPropertyValue initial, IPropertyValue[] stops)
+            {
+                _initial = initial;
+                _stops = stops;
+            }
+
+            public String CssText
+            {
+                get { throw new NotImplementedException(); }
+            }
+        }
+
+        sealed class StopValue : IPropertyValue
+        {
+            readonly IPropertyValue _color;
+            readonly IPropertyValue _position;
+
+            public StopValue(IPropertyValue color, IPropertyValue position)
+            {
+                _color = color;
+                _position = position;
+            }
+
+            public String CssText
+            {
+                get { throw new NotImplementedException(); }
+            }
         }
     }
 }

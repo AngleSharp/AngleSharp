@@ -4,21 +4,21 @@
     using System.Collections.Generic;
     using AngleSharp.Parser.Css;
 
-    sealed class StartsWithValueConverter<T> : IValueConverter<T>
+    sealed class StartsWithValueConverter : IValueConverter
     {
         readonly Predicate<CssToken> _condition;
-        readonly IValueConverter<T> _converter;
+        readonly IValueConverter _converter;
 
-        public StartsWithValueConverter(Predicate<CssToken> condition, IValueConverter<T> converter)
+        public StartsWithValueConverter(Predicate<CssToken> condition, IValueConverter converter)
         {
             _condition = condition;
             _converter = converter;
         }
 
-        public Boolean Validate(IEnumerable<CssToken> value)
+        public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             var rest = Transform(value);
-            return rest != null && _converter.Validate(rest);
+            return rest != null ? _converter.Convert(rest) : null;
         }
 
         List<CssToken> Transform(IEnumerable<CssToken> values)

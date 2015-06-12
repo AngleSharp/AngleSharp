@@ -5,20 +5,35 @@
     using System.Linq;
     using AngleSharp.Parser.Css;
 
-    sealed class OptionValueConverter<T> : IValueConverter<T>
+    sealed class OptionValueConverter<T> : IValueConverter
     {
-        readonly IValueConverter<T> _converter;
+        readonly IValueConverter _converter;
         readonly T _defaultValue;
 
-        public OptionValueConverter(IValueConverter<T> converter, T defaultValue)
+        public OptionValueConverter(IValueConverter converter, T defaultValue)
         {
             _converter = converter;
             _defaultValue = defaultValue;
         }
 
-        public Boolean Validate(IEnumerable<CssToken> value)
+        public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
-            return value.Any() == false || _converter.Validate(value);
+            return value.Any() ? _converter.Convert(value) : new OptionValue(_defaultValue);
+        }
+
+        sealed class OptionValue : IPropertyValue
+        {
+            readonly T _value;
+
+            public OptionValue(T value)
+            {
+                _value = value;
+            }
+
+            public String CssText
+            {
+                get { return Keywords.Initial; }
+            }
         }
     }
 }

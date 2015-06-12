@@ -2,41 +2,51 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
 
-    sealed class EndListValueConverter<T, U> : IValueConverter<Tuple<T[], U>>
+    sealed class EndListValueConverter : IValueConverter
     {
-        readonly IValueConverter<T[]> _listConverter;
-        readonly IValueConverter<U> _endConverter;
+        readonly IValueConverter _listConverter;
+        readonly IValueConverter _endConverter;
 
-        public EndListValueConverter(IValueConverter<T[]> listConverter, IValueConverter<U> endConverter)
+        public EndListValueConverter(IValueConverter listConverter, IValueConverter endConverter)
         {
             _listConverter = listConverter;
             _endConverter = endConverter;
         }
 
-        public Boolean Validate(IEnumerable<CssToken> value)
+        public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             var items = value.ToList();
-            var end = items[items.Count - 1];
-            items.RemoveAt(items.Count - 1);
-            return _endConverter.Validate(end) && (items.Count == 0 || _listConverter.Validate(Merge(items)));
+            var n = items.Count - 1;
+            var values = new IPropertyValue[n + 1];
+
+            for (int i = 0; i < n; i++)
+            {
+                values[i] = _listConverter.Convert(items[i]);
+
+                if (values[i] == null)
+                    return null;
+            }
+
+            values[n] = _endConverter.Convert(items[n]);
+            return values[n] != null ? new ListValue(values) : null;
         }
 
-        static IEnumerable<CssToken> Merge(List<List<CssToken>> items)
+        sealed class ListValue : IPropertyValue
         {
-            var first = true;
+            readonly IPropertyValue[] _values;
 
-            foreach (var item in items)
+            public ListValue(IPropertyValue[] values)
             {
-                if (first)
-                    first = false;
-                else
-                    yield return new CssToken(CssTokenType.Comma, ",", TextPosition.Empty);
+                _values = values;
+            }
 
-                foreach (var value in item)
-                    yield return value;
+            public String CssText
+            {
+                get { return String.Join(", ", _values.Select(m => m.CssText)); }
             }
         }
     }

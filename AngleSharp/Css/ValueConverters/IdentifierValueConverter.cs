@@ -5,7 +5,38 @@
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
 
-    sealed class IdentifierValueConverter<T> : IValueConverter<T>
+    sealed class IdentifierValueConverter : IValueConverter
+    {
+        readonly Func<IEnumerable<CssToken>, String> _converter;
+
+        public IdentifierValueConverter(Func<IEnumerable<CssToken>, String> converter)
+        {
+            _converter = converter;
+        }
+
+        public IPropertyValue Convert(IEnumerable<CssToken> value)
+        {
+            var result = _converter(value);
+            return result != null ? new IdentifierValue(result) : null;
+        }
+
+        sealed class IdentifierValue : IPropertyValue
+        {
+            readonly String _identifier;
+
+            public IdentifierValue(String identifier)
+            {
+                _identifier = identifier;
+            }
+
+            public String CssText
+            {
+                get { return _identifier; }
+            }
+        }
+    }
+
+    sealed class IdentifierValueConverter<T> : IValueConverter
     {
         readonly String _identifier;
         readonly T _result;
@@ -16,20 +47,27 @@
             _result = result;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
+        public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
-            if (value.Is(_identifier))
-            {
-                setResult(_result);
-                return true;
-            }
-
-            return false;
+            return value.Is(_identifier) ? 
+                new IdentifierValue(_identifier, _result) : null;
         }
 
-        public Boolean Validate(IEnumerable<CssToken> value)
+        sealed class IdentifierValue : IPropertyValue
         {
-            return value.Is(_identifier);
+            readonly String _identifier;
+            readonly T _value;
+
+            public IdentifierValue(String identifier, T value)
+            {
+                _identifier = identifier;
+                _value = value;
+            }
+
+            public String CssText
+            {
+                get { return _identifier; }
+            }
         }
     }
 }

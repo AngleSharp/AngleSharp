@@ -2,31 +2,48 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
 
-    sealed class ListValueConverter<T> : IValueConverter<T[]>
+    sealed class ListValueConverter : IValueConverter
     {
-        readonly IValueConverter<T> _converter;
+        readonly IValueConverter _converter;
 
-        public ListValueConverter(IValueConverter<T> converter)
+        public ListValueConverter(IValueConverter converter)
         {
             _converter = converter;
         }
 
-        public Boolean Validate(IEnumerable<CssToken> value)
+        public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             var items = value.ToList();
+            var values = new IPropertyValue[items.Count];
 
-            foreach (var item in items)
+            for (var i = 0; i < items.Count; i++)
             {
-                if (!_converter.Validate(item))
-                {
-                    return false;
-                }
+                values[i] = _converter.Convert(items[i]);
+
+                if (values[i] == null)
+                    return null;
             }
 
-            return true;
+            return new ListValue(values);
+        }
+
+        sealed class ListValue : IPropertyValue
+        {
+            readonly IPropertyValue[] _values;
+
+            public ListValue(IPropertyValue[] values)
+            {
+                _values = values;
+            }
+
+            public String CssText
+            {
+                get { return String.Join(", ", _values.Select(m => m.CssText)); }
+            }
         }
     }
 }

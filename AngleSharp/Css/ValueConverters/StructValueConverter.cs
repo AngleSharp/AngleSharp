@@ -2,10 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using AngleSharp.Parser.Css;
 
-    sealed class StructValueConverter<T> : IValueConverter<T>
-        where T : struct
+    sealed class StructValueConverter<T> : IValueConverter
+        where T : struct, IFormattable
     {
         readonly Func<IEnumerable<CssToken>, T?> _converter;
 
@@ -14,22 +15,25 @@
             _converter = converter;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
+        public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
-            var result = _converter(value);
-
-            if (result.HasValue)
-            {
-                setResult(result.Value);
-                return true;
-            }
-
-            return false;
+            var val = _converter(value);
+            return val.HasValue ? new StructValue(val.Value) : null;
         }
 
-        public Boolean Validate(IEnumerable<CssToken> value)
+        sealed class StructValue : IPropertyValue
         {
-            return _converter(value).HasValue;
+            readonly T _value;
+
+            public StructValue(T value)
+            {
+                _value = value;
+            }
+
+            public String CssText
+            {
+                get { return _value.ToString(null, CultureInfo.InvariantCulture); }
+            }
         }
     }
 }

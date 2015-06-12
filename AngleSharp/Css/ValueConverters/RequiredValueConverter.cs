@@ -1,22 +1,21 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using AngleSharp.Parser.Css;
 
-    sealed class RequiredValueConverter<T> : IValueConverter<T>
+    sealed class RequiredValueConverter : IValueConverter
     {
-        readonly IValueConverter<T> _converter;
+        readonly IValueConverter _converter;
 
-        public RequiredValueConverter(IValueConverter<T> converter)
+        public RequiredValueConverter(IValueConverter converter)
         {
             _converter = converter;
         }
 
-        public Boolean Validate(IEnumerable<CssToken> value)
+        public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
-            return value.Any() && _converter.Validate(value);
+            return value.Any() ? _converter.Convert(value) : null;
         }
     }
 }

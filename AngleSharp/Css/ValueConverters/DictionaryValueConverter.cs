@@ -5,7 +5,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
 
-    sealed class DictionaryValueConverter<T> : IValueConverter<T>
+    sealed class DictionaryValueConverter<T> : IValueConverter
     {
         readonly Dictionary<String, T> _values;
 
@@ -14,23 +14,29 @@
             _values = values;
         }
 
-        public Boolean TryConvert(IEnumerable<CssToken> value, Action<T> setResult)
+        public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
-            var temp = default(T);
-
-            if (_values.TryGetValue(value, out temp))
-            {
-                setResult(temp);
-                return true;
-            }
-
-            return false;
+            var identifier = value.ToIdentifier();
+            var mode = default(T);
+            return identifier != null && _values.TryGetValue(identifier, out mode) ?
+                new EnumeratedValue(identifier, mode) : null;
         }
 
-        public Boolean Validate(IEnumerable<CssToken> value)
+        sealed class EnumeratedValue : IPropertyValue
         {
-            var mode = default(T);
-            return _values.TryGetValue(value, out mode);
+            readonly String _identifier;
+            readonly T _value;
+
+            public EnumeratedValue(String identifier, T value)
+            {
+                _identifier = identifier;
+                _value = value;
+            }
+
+            public String CssText
+            {
+                get { return _identifier; }
+            }
         }
     }
 }
