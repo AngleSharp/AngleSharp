@@ -7,7 +7,6 @@
     using AngleSharp.Css;
     using AngleSharp.Css.ValueConverters;
     using AngleSharp.Css.Values;
-    using AngleSharp.Dom.Css;
     using AngleSharp.Parser.Css;
     
     /// <summary>
@@ -18,9 +17,9 @@
     {
         #region Methods
 
-        public static Boolean VaryStart<T>(this IValueConverter<T> converter, List<CssToken> list)
+        public static IPropertyValue VaryStart(this IValueConverter converter, List<CssToken> list)
         {
-            return converter.VaryStart(list, (c, v) => c.Validate(v));
+            return converter.VaryStart(list, (c, v) => c.Convert(v));
         }
 
         public static Boolean HasDefault(this IValueConverter converter)
@@ -28,27 +27,32 @@
             return true;
         }
 
-        static Boolean VaryStart<T>(this IValueConverter<T> converter, List<CssToken> list, Func<IValueConverter<T>, IEnumerable<CssToken>, Boolean> validate)
+        static IPropertyValue VaryStart(this IValueConverter converter, List<CssToken> list, Func<IValueConverter, IEnumerable<CssToken>, IPropertyValue> validate)
         {
             for (int count = list.Count; count > 0; count--)
             {
-                if (list[count - 1].Type != CssTokenType.Whitespace && validate(converter, list.Take(count)))
+                if (list[count - 1].Type == CssTokenType.Whitespace)
+                    continue;
+
+                var value = validate(converter, list.Take(count));
+
+                if (value != null)
                 {
                     list.RemoveRange(0, count);
                     list.Trim();
-                    return true;
+                    return value;
                 }
             }
 
             return validate(converter, Enumerable.Empty<CssToken>());
         }
 
-        public static Boolean VaryAll<T>(this IValueConverter<T> converter, List<CssToken> list)
+        public static IPropertyValue VaryAll(this IValueConverter converter, List<CssToken> list)
         {
-            return converter.VaryAll(list, (c, v) => c.Validate(v));
+            return converter.VaryAll(list, (c, v) => c.Convert(v));
         }
 
-        static Boolean VaryAll<T>(this IValueConverter<T> converter, List<CssToken> list, Func<IValueConverter<T>, IEnumerable<CssToken>, Boolean> validate)
+        static IPropertyValue VaryAll(this IValueConverter converter, List<CssToken> list, Func<IValueConverter, IEnumerable<CssToken>, IPropertyValue> validate)
         {
             for (int i = 0; i < list.Count; i++)
             {
@@ -59,11 +63,16 @@
                 {
                     var count = j - i;
 
-                    if (list[j - 1].Type != CssTokenType.Whitespace && validate(converter, list.Skip(i).Take(count)))
+                    if (list[j - 1].Type == CssTokenType.Whitespace)
+                        continue;
+
+                    var value = validate(converter, list.Skip(i).Take(count));
+
+                    if (value != null)
                     {
                         list.RemoveRange(i, count);
                         list.Trim();
-                        return true;
+                        return value;
                     }
                 }
             }
@@ -71,104 +80,69 @@
             return validate(converter, Enumerable.Empty<CssToken>());
         }
 
-        public static IValueConverter<T[]> Many<T>(this IValueConverter<T> converter, Int32 min = 1, Int32 max = UInt16.MaxValue)
+        public static IValueConverter Many(this IValueConverter converter, Int32 min = 1, Int32 max = UInt16.MaxValue)
         {
-            return new OneOrMoreValueConverter<T>(converter, min, max);
+            return new OneOrMoreValueConverter(converter, min, max);
         }
 
-        public static IValueConverter<T[]> FromList<T>(this IValueConverter<T> converter)
+        public static IValueConverter FromList(this IValueConverter converter)
         {
-            return new ListValueConverter<T>(converter);
+            return new ListValueConverter(converter);
         }
 
-        public static IValueConverter<T> ToConverter<T>(this Dictionary<String, T> values)
+        public static IValueConverter ToConverter<T>(this Dictionary<String, T> values)
         {
             return new DictionaryValueConverter<T>(values);
         }
 
-        public static IValueConverter<U> To<T, U>(this IValueConverter<T> converter, Func<T, U> result)
+        public static IValueConverter Periodic(this IValueConverter converter)
         {
-            return new ToValueConverter<T, U>(converter, result);
+            return new PeriodicValueConverter(converter);
         }
 
-        public static IValueConverter<Tuple<T, T, T, T>> Periodic<T>(this IValueConverter<T> converter)
+        public static IValueConverter RequiresEnd(this IValueConverter listConverter, IValueConverter endConverter)
         {
-            return converter.To(m => Tuple.Create(m, m, m, m)).Or(
-                new OrderedOptionsConverter<T, T>(converter, converter).To(m => Tuple.Create(m.Item1, m.Item2, m.Item1, m.Item2))).Or(
-                new OrderedOptionsConverter<T, T, T>(converter, converter, converter).To(m => Tuple.Create(m.Item1, m.Item2, m.Item3, m.Item2))).Or(
-                new OrderedOptionsConverter<T, T, T, T>(converter, converter, converter, converter));
+            return new EndListValueConverter(listConverter, endConverter);
         }
 
-        public static IValueConverter<Tuple<T[], U>> RequiresEnd<T, U>(this IValueConverter<T[]> listConverter, IValueConverter<U> endConverter)
+        public static IValueConverter Required(this IValueConverter converter)
         {
-            return new EndListValueConverter<T, U>(listConverter, endConverter);
+            return new RequiredValueConverter(converter);
         }
 
-        public static IValueConverter<T> Required<T>(this IValueConverter<T> converter)
-        {
-            return new RequiredValueConverter<T>(converter);
-        }
-
-        public static IValueConverter<CssValue> Val<T>(this IValueConverter<T> converter)
-        {
-            return new ToValueConverter<T>(converter);
-        }
-
-        public static IValueConverter<T> Option<T>(this IValueConverter<T> converter, T defaultValue)
+        public static IValueConverter Option<T>(this IValueConverter converter, T defaultValue)
         {
             return new OptionValueConverter<T>(converter, defaultValue);
         }
 
-        public static IValueConverter<CssValue> Option(this IValueConverter<CssValue> converter)
+        public static IValueConverter Or(this IValueConverter primary, IValueConverter secondary)
         {
-            return new OptionValueConverter<CssValue>(converter, null);
+            return new OrValueConverter(primary, secondary);
         }
 
-        public static IValueConverter<T> Or<T>(this IValueConverter<T> primary, IValueConverter<T> secondary)
-        {
-            return new OrValueConverter<T>(primary, secondary);
-        }
-
-        public static IValueConverter<T> Or<T>(this IValueConverter<T> primary, String keyword, T value)
+        public static IValueConverter Or<T>(this IValueConverter primary, String keyword, T value)
         {
             var identifier = new IdentifierValueConverter<T>(keyword, value);
-            return new OrValueConverter<T>(primary, identifier);
+            return new OrValueConverter(primary, identifier);
         }
 
-        public static IValueConverter<Nullable<T>> ToNullable<T>(this IValueConverter<T> primary)
-            where T : struct
-        {
-            return primary.To(m => new Nullable<T>(m));
-        }
-
-        public static IValueConverter<T> OrDefault<T>(this IValueConverter<T> primary)
+        public static IValueConverter OrDefault<T>(this IValueConverter primary)
         {
             var identifier = new IdentifierValueConverter<T>(Keywords.Auto, default(T));
             return primary.Or(identifier);
         }
 
-        public static IValueConverter<Nullable<T>> OrNullDefault<T>(this IValueConverter<T> primary)
-            where T : struct
+        public static IValueConverter StartsWithKeyword(this IValueConverter converter, String keyword)
         {
-            return primary.ToNullable().OrDefault();
+            return new StartsWithValueConverter(m => m.Type == CssTokenType.Ident && m.Data.Equals(keyword, StringComparison.OrdinalIgnoreCase), converter);
         }
 
-        public static IValueConverter<T> Constraint<T>(this IValueConverter<T> primary, Predicate<T> constraint)
+        public static IValueConverter StartsWithDelimiter(this IValueConverter converter)
         {
-            return new ConstraintValueConverter<T>(primary, constraint);
+            return new StartsWithValueConverter(m => m.Type == CssTokenType.Delim && m.Data == "/", converter);
         }
 
-        public static IValueConverter<T> StartsWithKeyword<T>(this IValueConverter<T> converter, String keyword)
-        {
-            return new StartsWithValueConverter<T>(m => m.Type == CssTokenType.Ident && m.Data.Equals(keyword, StringComparison.OrdinalIgnoreCase), converter);
-        }
-
-        public static IValueConverter<T> StartsWithDelimiter<T>(this IValueConverter<T> converter)
-        {
-            return new StartsWithValueConverter<T>(m => m.Type == CssTokenType.Delim && m.Data == "/", converter);
-        }
-
-        public static IValueConverter<Color> WithCurrentColor(this IValueConverter<Color> converter)
+        public static IValueConverter WithCurrentColor(this IValueConverter converter)
         {
             return converter.Or(Keywords.CurrentColor, Color.Transparent);
         }
