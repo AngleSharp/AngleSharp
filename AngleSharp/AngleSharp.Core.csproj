@@ -69,6 +69,7 @@
     <Compile Include="Css\RenderDevice.cs" />
     <Compile Include="Css\RenderStyle.cs" />
     <Compile Include="Css\Converters.cs" />
+    <Compile Include="Css\ValueConverters\AnyValueConverter.cs" />
     <Compile Include="Css\ValueConverters\PeriodicValueConverter.cs" />
     <Compile Include="Css\ValueConverters\UrlValueConverter.cs" />
     <Compile Include="Css\ValueConverters\StringValueConverter.cs" />
