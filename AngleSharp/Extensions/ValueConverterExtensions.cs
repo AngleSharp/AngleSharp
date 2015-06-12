@@ -110,6 +110,11 @@
             return new RequiredValueConverter(converter);
         }
 
+        public static IValueConverter Option(this IValueConverter converter)
+        {
+            return new OptionValueConverter(converter);
+        }
+
         public static IValueConverter Option<T>(this IValueConverter converter, T defaultValue)
         {
             return new OptionValueConverter<T>(converter, defaultValue);
@@ -120,16 +125,25 @@
             return new OrValueConverter(primary, secondary);
         }
 
+        public static IValueConverter Or(this IValueConverter primary, String keyword)
+        {
+            return primary.Or<Object>(keyword, null);
+        }
+
         public static IValueConverter Or<T>(this IValueConverter primary, String keyword, T value)
         {
             var identifier = new IdentifierValueConverter<T>(keyword, value);
             return new OrValueConverter(primary, identifier);
         }
 
-        public static IValueConverter OrDefault<T>(this IValueConverter primary)
+        public static IValueConverter OrNone(this IValueConverter primary)
         {
-            var identifier = new IdentifierValueConverter<T>(Keywords.Auto, default(T));
-            return primary.Or(identifier);
+            return primary.Or(Keywords.None);
+        }
+
+        public static IValueConverter OrAuto(this IValueConverter primary)
+        {
+            return primary.Or(Keywords.Auto);
         }
 
         public static IValueConverter StartsWithKeyword(this IValueConverter converter, String keyword)
