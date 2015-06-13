@@ -471,7 +471,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssFontProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("12px/14px sans-serif", concrete.Value);
+            Assert.AreEqual("12px / 14px sans-serif", concrete.Value);
         }
 
         [Test]
@@ -541,7 +541,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssFontProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("italic bold 12px/30px Georgia, serif", concrete.Value);
+            Assert.AreEqual("italic bold 12px / 30px Georgia, serif", concrete.Value);
         }
 
         [Test]
@@ -652,7 +652,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssFontProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("12pt/14pt sans-serif", concrete.Value);
+            Assert.AreEqual("12pt / 14pt sans-serif", concrete.Value);
         }
 
         [Test]
@@ -680,7 +680,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssFontProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("x-large/110% \"New Century Schoolbook\", serif", concrete.Value);
+            Assert.AreEqual("x-large / 110% \"New Century Schoolbook\", serif", concrete.Value);
         }
 
         [Test]
@@ -708,7 +708,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssFontProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("normal small-caps 120%/120% Fantasy", concrete.Value);
+            Assert.AreEqual("normal small-caps 120% / 120% fantasy", concrete.Value);
         }
 
         [Test]
@@ -750,7 +750,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssFontProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("italic bold 12px/30px Georgia, serif", concrete.Value);
+            Assert.AreEqual("italic bold 12px / 30px Georgia, serif", concrete.Value);
             //Assert.AreEqual(new Length(30f, Length.Unit.Px), concrete.Height);
             //Assert.AreEqual(new Length(12f, Length.Unit.Px), concrete.Size);
             //Assert.AreEqual(FontStyle.Italic, concrete.Style);

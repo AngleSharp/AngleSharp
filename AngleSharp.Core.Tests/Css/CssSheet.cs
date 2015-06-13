@@ -531,7 +531,7 @@ h1 { color: blue }");
             Assert.IsNotNull(decl);
             Assert.AreEqual(8, decl.Length);
 
-            Assert.AreEqual("bold 1em/2em monospace", decl.GetPropertyValue("font"));
+            Assert.AreEqual("bold 1em / 2em monospace", decl.GetPropertyValue("font"));
 
             var content = decl.GetProperty("content");
             Assert.AreEqual("content", content.Name);
