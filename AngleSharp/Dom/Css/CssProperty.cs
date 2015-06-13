@@ -103,7 +103,7 @@
         /// </summary>
         public String Value
         {
-            get { return _value.CssText; }
+            get { return _value != null ? _value.CssText : Keywords.Initial; }
         }
 
         /// <summary>
