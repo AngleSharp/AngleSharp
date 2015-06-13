@@ -764,7 +764,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("red", concrete.Value);
+            Assert.AreEqual("rgb(255, 0, 0)", concrete.Value);
         }
 
         [Test]
@@ -778,7 +778,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("blue", concrete.Value);
+            Assert.AreEqual("rgb(0, 0, 255)", concrete.Value);
         }
 
         [Test]

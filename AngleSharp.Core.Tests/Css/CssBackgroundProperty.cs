@@ -143,7 +143,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBackgroundColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("teal", concrete.Value);
+            Assert.AreEqual("rgb(0, 128, 128)", concrete.Value);
         }
 
         [Test]
@@ -185,7 +185,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBackgroundColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("transparent", concrete.Value);
+            Assert.AreEqual("rgba(0, 0, 0, 0)", concrete.Value);
         }
 
         [Test]
