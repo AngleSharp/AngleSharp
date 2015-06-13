@@ -378,7 +378,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("60px -16px rgb(128, 128, 0)", concrete.Value);
+            Assert.AreEqual("60px -16px rgb(0, 128, 128)", concrete.Value);
         }
 
         [Test]
@@ -531,7 +531,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssClipProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rect(2px, 3em, 1in, 0cm)", concrete.Value);
+            Assert.AreEqual("rect(2px, 3em, 1in, 0)", concrete.Value);
         }
 
         [Test]
@@ -545,7 +545,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssClipProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rect(2px 3em 1in 0cm)", concrete.Value);
+            Assert.AreEqual("rect(2px 3em 1in 0)", concrete.Value);
         }
 
         [Test]

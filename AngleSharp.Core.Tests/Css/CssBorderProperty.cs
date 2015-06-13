@@ -89,7 +89,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderBottomColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("red", concrete.Value);
+            Assert.AreEqual("rgb(255, 0, 0)", concrete.Value);
         }
 
         [Test]
@@ -367,7 +367,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderBottomWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("thin", concrete.Value);
+            Assert.AreEqual("1px", concrete.Value);
         }
 
         [Test]
@@ -409,7 +409,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderLeftWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("thick", concrete.Value);
+            Assert.AreEqual("5px", concrete.Value);
         }
 
         [Test]

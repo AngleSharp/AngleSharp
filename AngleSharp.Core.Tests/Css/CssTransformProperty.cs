@@ -187,7 +187,7 @@
             var concrete = (CssPerspectiveOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("top center", concrete.Value);
+            Assert.AreEqual("center top", concrete.Value);
         }
 
         [Test]

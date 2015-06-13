@@ -46,7 +46,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderImageSourceProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("linear-gradient(to top, red, yellow)", concrete.Value);
+            Assert.AreEqual("linear-gradient(to top, rgb(255, 0, 0), rgb(255, 255, 0))", concrete.Value);
         }
 
         [Test]
@@ -295,7 +295,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderImageSliceProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3", concrete.Value);
+            Assert.AreEqual("3px", concrete.Value);
         }
 
         [Test]
@@ -369,7 +369,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderImageSliceProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10% 30 fill 0 0", concrete.Value);
+            Assert.AreEqual("10% 30px 0 0 fill", concrete.Value);
         }
 
         [Test]
