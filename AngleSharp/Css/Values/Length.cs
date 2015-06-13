@@ -356,7 +356,8 @@
         /// <returns>The unit string.</returns>
         public override String ToString()
         {
-            return String.Concat(_value.ToString(), UnitString);
+            var unit = _value == 0f ? String.Empty : UnitString;
+            return String.Concat(_value.ToString(), unit);
         }
 
         /// <summary>
@@ -367,7 +368,8 @@
         /// <returns>The unit string.</returns>
         public String ToString(String format, IFormatProvider formatProvider)
         {
-            return String.Concat(_value.ToString(format, formatProvider), UnitString);
+            var unit = _value == 0f ? String.Empty : UnitString;
+            return String.Concat(_value.ToString(format, formatProvider), unit);
         }
 
         #endregion
