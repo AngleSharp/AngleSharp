@@ -195,6 +195,12 @@
             return null;
         }
 
+        public static Single? ToNaturalSingle(this IEnumerable<CssToken> value)
+        {
+            var element = value.ToSingle();
+            return element.HasValue && element.Value >= 0f ? element : null;
+        }
+
         public static Int32? ToInteger(this IEnumerable<CssToken> value)
         {
             var element = value.OnlyOrDefault();

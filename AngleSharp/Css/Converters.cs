@@ -136,6 +136,11 @@
         public static readonly IValueConverter NumberConverter = new StructValueConverter<Single>(ValueExtensions.ToSingle);
 
         /// <summary>
+        /// Represents an number object that is zero or greater.
+        /// </summary>
+        public static readonly IValueConverter NaturalNumberConverter = new StructValueConverter<Single>(ValueExtensions.ToNaturalSingle);
+
+        /// <summary>
         /// Represents a percentage object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/percentage
         /// </summary>
