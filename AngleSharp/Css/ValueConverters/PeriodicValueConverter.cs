@@ -45,9 +45,37 @@
                 _left = left ?? _right;
             }
 
+            public String[] Values
+            {
+                get
+                {
+                    var top = _top.CssText;
+                    var right = _right.CssText;
+                    var bottom = _bottom.CssText;
+                    var left = _left.CssText;
+
+                    if (right == left)
+                    {
+                        if (top == bottom)
+                        {
+                            if (right == top)
+                            {
+                                return new[] { top };
+                            }
+
+                            return new[] { top, right };
+                        }
+
+                        return new[] { top, right, bottom };
+                    }
+                    
+                    return new[] { top, right, bottom, left };
+                }
+            }
+
             public String CssText
             {
-                get { return String.Join(" ", new []{ _top.CssText, _right.CssText, _bottom.CssText, _left.CssText }); }
+                get {  return String.Join(" ", Values); }
             }
         }
     }
