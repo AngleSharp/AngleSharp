@@ -14,6 +14,7 @@
     {
         #region Fields
 
+        // Default: new Length(100f, Length.Unit.Percent)
         internal static readonly IValueConverter StyleConverter = Converters.WithAny(
             Converters.BorderSliceConverter.Option(new Length(100f, Length.Unit.Percent)),
             Converters.BorderSliceConverter.Option(),
@@ -36,7 +37,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: new Length(100f, Length.Unit.Percent)
             get { return StyleConverter; }
         }
 

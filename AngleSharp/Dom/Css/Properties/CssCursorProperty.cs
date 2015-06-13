@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
 
     /// <summary>
@@ -13,6 +11,7 @@
     {
         #region Fields
 
+        // Default: SystemCursor.Auto
         static readonly IValueConverter StyleConverter = 
             Converters.ImageSourceConverter.Or(
                 Converters.WithOrder(
@@ -36,22 +35,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: SystemCursor.Auto
             get { return StyleConverter; }
-        }
-
-        #endregion
-
-        #region Custom Cursor
-
-        /// <summary>
-        /// A url pointing to an image file.
-        /// </summary>
-        struct CustomCursor
-        {
-            public IImageSource Image;
-            public Single X;
-            public Single Y;
         }
 
         #endregion

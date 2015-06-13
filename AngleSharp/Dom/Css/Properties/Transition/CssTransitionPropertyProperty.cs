@@ -13,6 +13,7 @@
     {
         #region Fields
 
+        // Default: All
         static readonly IValueConverter PropConverter = Converters.AnimatableConverter.FromList().OrNone();
         
         #endregion
@@ -30,7 +31,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: All
             get { return PropConverter; }
         }
 

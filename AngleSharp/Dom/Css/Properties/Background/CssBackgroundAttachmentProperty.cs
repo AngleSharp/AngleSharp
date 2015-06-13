@@ -12,6 +12,7 @@
     {
         #region Fields
 
+        // Default: BackgroundAttachment.Scroll
         static readonly IValueConverter AttachmentConverter = Converters.BackgroundAttachmentConverter.FromList();
 
         #endregion
@@ -29,7 +30,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: BackgroundAttachment.Scroll
             get { return AttachmentConverter; }
         }
 

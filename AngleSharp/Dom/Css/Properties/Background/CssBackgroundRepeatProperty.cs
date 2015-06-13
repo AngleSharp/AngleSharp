@@ -17,6 +17,7 @@
             Keywords.RepeatX, new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.NoRepeat }).Or(
             Keywords.RepeatY, new Repeat { Horizontal = BackgroundRepeat.NoRepeat, Vertical = BackgroundRepeat.Repeat }).Or(
             Converters.WithOrder(Map.BackgroundRepeats.ToConverter().Required(), Map.BackgroundRepeats.ToConverter().Required()));
+        // Default: repeat, repeat
         static readonly IValueConverter ListConverter = SingleConverter.FromList();
 
         #endregion
@@ -34,7 +35,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: repeat, repeat
             get { return ListConverter; }
         }
 

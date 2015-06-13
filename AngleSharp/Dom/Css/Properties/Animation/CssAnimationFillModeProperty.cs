@@ -12,6 +12,7 @@
     {
         #region Fields
 
+        // Default: AnimationFillStyle.None
         static readonly IValueConverter ListConverter = Converters.AnimationFillStyleConverter.FromList();
 
         #endregion
@@ -29,7 +30,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: AnimationFillStyle.None
             get { return ListConverter; }
         }
 

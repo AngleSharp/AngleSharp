@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
 
     /// <summary>
@@ -16,6 +15,7 @@
     {
         #region Fields
 
+        // Default: VerticalAlignment.Baseline
         static readonly IValueConverter StyleConverter = Converters.LengthOrPercentConverter.Or(Converters.VerticalAlignmentConverter);
 
         #endregion
@@ -33,7 +33,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: VerticalAlignment.Baseline
             get { return StyleConverter; }
         }
 

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
 
     /// <summary>
@@ -12,6 +11,7 @@
     {
         #region Fields
 
+        // Default: Length.Zero
         static readonly IValueConverter SpacingConverter = Converters.LengthConverter.Many(1, 2);
 
         #endregion
@@ -29,7 +29,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Length.Zero
             get { return SpacingConverter; }
         }
 

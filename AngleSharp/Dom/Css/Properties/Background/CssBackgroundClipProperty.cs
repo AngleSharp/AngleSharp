@@ -12,6 +12,7 @@
     {
         #region Fields
 
+        // Default: BoxModel.BorderBox
         static readonly IValueConverter ListConverter = Converters.BoxModelConverter.FromList();
 
         #endregion
@@ -29,7 +30,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: BoxModel.BorderBox
             get { return ListConverter; }
         }
 

@@ -13,6 +13,7 @@
     {
         #region Fields
 
+        // Default: Nothing
         static readonly IValueConverter StyleConverter = Converters.TransformConverter.Many().OrNone();
 
         #endregion
@@ -30,7 +31,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Default
             get { return StyleConverter; }
         }
 

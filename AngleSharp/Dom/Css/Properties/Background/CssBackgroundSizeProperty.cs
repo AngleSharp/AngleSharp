@@ -18,6 +18,7 @@
                 Keywords.Cover, new BackgroundSize { IsCovered = true }).Or(
                 Keywords.Contain, new BackgroundSize { IsContained = true }).Or(
                 Converters.WithOrder(Converters.AutoLengthOrPercentConverter.Required(), Converters.AutoLengthOrPercentConverter.Required()));
+        // Default: Nothing (just use original size)
         internal static readonly IValueConverter ListConverter = SingleConverter.FromList();
 
         #endregion
@@ -35,7 +36,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Nothing (just use original size)
             get { return ListConverter; }
         }
 

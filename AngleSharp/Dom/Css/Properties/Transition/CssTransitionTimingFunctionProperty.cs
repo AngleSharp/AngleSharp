@@ -13,6 +13,7 @@
     {
         #region Fields
 
+        // Default: Ease
         static readonly IValueConverter ListConverter = Converters.TransitionConverter.FromList();
 
         #endregion
@@ -30,7 +31,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Ease
             get { return ListConverter; }
         }
 

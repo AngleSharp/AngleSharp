@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
 
     /// <summary>
@@ -14,6 +13,7 @@
     {
         #region Fields
 
+        // Default: true
         static readonly IValueConverter StyleConverter = Converters.Toggle(Keywords.Flat, Keywords.Preserve3d);
 
         #endregion
@@ -31,7 +31,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: true
             get { return StyleConverter; }
         }
 

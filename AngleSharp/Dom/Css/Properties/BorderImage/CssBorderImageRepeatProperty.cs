@@ -11,6 +11,7 @@
     {
         #region Fields
 
+        // Default: BorderRepeat.Stretch
         internal static readonly IValueConverter StyleConverter = Map.BorderRepeatModes.ToConverter().Many(1, 2);
 
         #endregion
@@ -28,7 +29,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: BorderRepeat.Stretch
             get { return StyleConverter; }
         }
 

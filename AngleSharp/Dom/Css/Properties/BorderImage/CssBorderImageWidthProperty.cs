@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
 
     /// <summary>
@@ -13,6 +11,7 @@
     {
         #region Fields
 
+        // Default: Length.Full
         internal static readonly IValueConverter StyleConverter = Converters.ImageBorderWidthConverter.Periodic();
 
         #endregion
@@ -30,7 +29,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Length.Full
             get { return StyleConverter; }
         }
 

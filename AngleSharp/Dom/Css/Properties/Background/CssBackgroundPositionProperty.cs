@@ -13,6 +13,7 @@
     {
         #region Fields
 
+        // Default: Point.Center
         static readonly IValueConverter ListConverter = Converters.PointConverter.FromList();
 
         #endregion
@@ -30,7 +31,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Point.Center
             get { return ListConverter; }
         }
 

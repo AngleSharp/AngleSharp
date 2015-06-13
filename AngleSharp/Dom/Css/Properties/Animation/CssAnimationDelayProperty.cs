@@ -13,6 +13,7 @@
     {
         #region Fields
 
+        // Default: Time.Zero
         static readonly IValueConverter ListConverter = Converters.TimeConverter.FromList();
 
         #endregion
@@ -30,7 +31,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Time.Zero
             get { return ListConverter; }
         }
 

@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
 
@@ -13,6 +12,7 @@
     {
         #region Fields
 
+        // Default: "Times New Roman"
         internal static readonly IValueConverter StyleConverter = Map.DefaultFontFamilies.ToConverter().Or(
             Converters.StringConverter).Or(Converters.LiteralsConverter).FromList();
 
@@ -31,7 +31,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: "Times New Roman"
             get { return StyleConverter; }
         }
 

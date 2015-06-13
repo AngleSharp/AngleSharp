@@ -12,6 +12,7 @@
     {
         #region Fields
 
+        // Default: PlayState.Running
         static readonly IValueConverter ListConverter = Converters.PlayStateConverter.FromList();
 
         #endregion
@@ -29,7 +30,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: PlayState.Running
             get { return ListConverter; }
         }
 

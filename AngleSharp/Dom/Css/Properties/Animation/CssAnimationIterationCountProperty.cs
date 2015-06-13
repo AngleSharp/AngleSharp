@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
 
@@ -13,6 +12,7 @@
     {
         #region Fields
 
+        // Default: 1f
         internal static readonly IValueConverter ListConverter = Converters.PositiveOrInfiniteNumberConverter.FromList();
 
         #endregion
@@ -30,7 +30,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: 1f
             get { return ListConverter; }
         }
 

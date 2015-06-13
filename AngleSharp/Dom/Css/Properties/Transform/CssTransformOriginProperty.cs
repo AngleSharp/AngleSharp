@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
@@ -18,6 +17,7 @@
     {
         #region Fields
 
+        // Default: Tuple.Create(Point.Center, Length.Zero
         static IValueConverter StyleConverter = Converters.WithOrder(
             Converters.LengthOrPercentConverter.Or(Keywords.Center, Point.Center).Or(Converters.WithAny(
                 Converters.LengthOrPercentConverter.Or(Keywords.Left, Length.Zero).Or(Keywords.Right, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half),
@@ -42,7 +42,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Tuple.Create(Point.Center, Length.Zero
             get { return StyleConverter; }
         }
 
