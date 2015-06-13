@@ -269,6 +269,9 @@
     <Compile Include="..\AngleSharp\Css\ValueConverters\ArgumentsValueConverter.cs">
       <Link>Css\ValueConverters\ArgumentsValueConverter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\ContinuousValueConverter.cs">
+      <Link>Css\ValueConverters\ContinuousValueConverter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\ValueConverters\DictionaryValueConverter.cs">
       <Link>Css\ValueConverters\DictionaryValueConverter.cs</Link>
     </Compile>
