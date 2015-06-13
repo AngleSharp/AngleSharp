@@ -33,6 +33,37 @@ h1 {
         }
 
         [Test]
+        public void CssSheet1WithDoubleMarkedCommentFromIssue93()
+        {
+            var sheet = ParseStyleSheet(@"
+            /**special css**/
+            .dis-none { display: none;}
+            .dis { display: block; }
+            /*common css*/
+            .dis2 { display: block; }
+            ");
+            var css = sheet.CssText;
+            Assert.AreEqual(3, sheet.Rules.Length);
+            Assert.AreEqual(".dis-none { display: none; }", sheet.Rules[0].CssText);
+            Assert.AreEqual(".dis { display: block; }", sheet.Rules[1].CssText);
+            Assert.AreEqual(".dis2 { display: none; }", sheet.Rules[2].CssText);
+        }
+
+        [Test]
+        public void CssSheet2WithDoubleMarkedCommentFromIssue93()
+        {
+            var sheet = ParseStyleSheet(@"
+            /**special css**/
+            .dis-none { display: none;}
+            .dis { display: block; }
+            ");
+            var css = sheet.CssText;
+            Assert.AreEqual(2, sheet.Rules.Length);
+            Assert.AreEqual(".dis-none { display: none; }", sheet.Rules[0].CssText);
+            Assert.AreEqual(".dis { display: block; }", sheet.Rules[1].CssText);
+        }
+
+        [Test]
         public void CssSheetSerializeListStyleNone()
         {
             var cssSrc = ".T1 {list-style:NONE}";
