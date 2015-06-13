@@ -104,7 +104,7 @@
             if (value == null)
                 result = !IsMinimum && !IsMaximum && Converter.HasDefault();
             else
-                result = Converter.Validate(value);
+                result = Converter.Convert(value) != null;
 
             if (result)
                 _value = value;

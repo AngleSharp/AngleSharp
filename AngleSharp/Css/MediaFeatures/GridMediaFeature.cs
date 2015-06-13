@@ -6,12 +6,6 @@
 
     sealed class GridMediaFeature : MediaFeature
     {
-        #region Fields
-
-        static readonly IValueConverter<Int32> TheConverter = Converters.IntegerConverter.Constraint(m => m == 1 || m == 0);
-
-        #endregion
-
         #region ctor
 
         public GridMediaFeature()
@@ -26,7 +20,7 @@
         internal override IValueConverter Converter
         {
             // Default: Allowed
-            get { return TheConverter; }
+            get { return Converters.BinaryConverter; }
         }
 
         #endregion

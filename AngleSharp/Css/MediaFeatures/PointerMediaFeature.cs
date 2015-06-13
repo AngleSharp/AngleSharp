@@ -8,7 +8,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<PointerAccuracy> TheConverter = Map.PointerAccuracies.ToConverter();
+        static readonly IValueConverter TheConverter = Map.PointerAccuracies.ToConverter();
 
         #endregion
 

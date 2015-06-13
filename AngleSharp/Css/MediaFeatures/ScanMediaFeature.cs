@@ -7,7 +7,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Boolean> TheConverter = Converters.Toggle(Keywords.Interlace, Keywords.Progressive);
+        static readonly IValueConverter TheConverter = Converters.Toggle(Keywords.Interlace, Keywords.Progressive);
 
         #endregion
 

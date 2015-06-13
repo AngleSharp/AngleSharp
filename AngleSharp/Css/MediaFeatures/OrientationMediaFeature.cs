@@ -7,7 +7,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Boolean> TheConverter = Converters.Toggle(Keywords.Portrait, Keywords.Landscape);
+        static readonly IValueConverter TheConverter = Converters.Toggle(Keywords.Portrait, Keywords.Landscape);
 
         #endregion
 

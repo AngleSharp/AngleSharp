@@ -6,12 +6,6 @@
 
     sealed class ColorMediaFeature : MediaFeature
     {
-        #region Fields
-
-        static readonly IValueConverter<Int32> TheConverter = Converters.IntegerConverter.Constraint(m => m > 0);
-
-        #endregion
-
         #region ctor
 
         public ColorMediaFeature(String name)
@@ -26,7 +20,7 @@
         internal override IValueConverter Converter
         {
             // Default: 1
-            get { return TheConverter; }
+            get { return Converters.PositiveIntegerConverter; }
         }
 
         #endregion

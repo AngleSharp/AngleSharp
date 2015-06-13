@@ -8,7 +8,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<ScriptingState> TheConverter = Map.ScriptingStates.ToConverter();
+        static readonly IValueConverter TheConverter = Map.ScriptingStates.ToConverter();
 
         #endregion
 

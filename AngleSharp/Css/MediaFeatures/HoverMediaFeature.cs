@@ -8,7 +8,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<HoverAbility> TheConverter = Map.HoverAbilities.ToConverter();
+        static readonly IValueConverter TheConverter = Map.HoverAbilities.ToConverter();
 
         #endregion
 

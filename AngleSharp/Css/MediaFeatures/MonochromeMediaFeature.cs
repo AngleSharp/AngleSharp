@@ -19,7 +19,7 @@
         internal override IValueConverter Converter
         {
             // Default: 0
-            get { return Converters.PositiveIntegerConverter; }
+            get { return Converters.NaturalIntegerConverter; }
         }
 
         #endregion

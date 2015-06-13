@@ -8,7 +8,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<UpdateFrequency> TheConverter = Map.UpdateFrequencies.ToConverter();
+        static readonly IValueConverter TheConverter = Map.UpdateFrequencies.ToConverter();
 
         #endregion
 
