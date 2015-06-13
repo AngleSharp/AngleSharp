@@ -680,22 +680,26 @@
         /// </summary>
         CssToken Comment()
         {
+            var current = GetNext();
+
             while (true)
             {
-                var current = GetNext();
-
                 if (current == Symbols.Asterisk)
                 {
                     current = GetNext();
 
                     if (current == Symbols.Solidus)
                         return Data(GetNext());
+
+                    continue;
                 }
                 else if (current == Symbols.EndOfFile)
                 {
                     RaiseErrorOccurred(CssParseError.EOF);
                     return Data(current);
                 }
+
+                current = GetNext();
             }
         }
 

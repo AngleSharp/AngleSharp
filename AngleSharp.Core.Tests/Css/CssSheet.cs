@@ -46,7 +46,7 @@ h1 {
             Assert.AreEqual(3, sheet.Rules.Length);
             Assert.AreEqual(".dis-none { display: none; }", sheet.Rules[0].CssText);
             Assert.AreEqual(".dis { display: block; }", sheet.Rules[1].CssText);
-            Assert.AreEqual(".dis2 { display: none; }", sheet.Rules[2].CssText);
+            Assert.AreEqual(".dis2 { display: block; }", sheet.Rules[2].CssText);
         }
 
         [Test]
