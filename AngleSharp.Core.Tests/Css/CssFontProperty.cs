@@ -722,7 +722,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssFontProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("condensed oblique 12pt \"Helvetica Neue\", serif", concrete.Value);
+            Assert.AreEqual("oblique condensed 12pt \"Helvetica Neue\", serif", concrete.Value);
         }
 
         [Test]

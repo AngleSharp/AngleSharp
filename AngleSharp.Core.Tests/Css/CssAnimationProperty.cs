@@ -585,7 +585,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssAnimationProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0s ease 10 my-animation, linear 5 other-animation,  0s step-start 1s 10 yet-another", concrete.Value);
+            Assert.AreEqual("0s ease 10 my-animation, linear 5 other-animation, 0s step-start 1s 10 yet-another", concrete.Value);
         }
     }
 }
