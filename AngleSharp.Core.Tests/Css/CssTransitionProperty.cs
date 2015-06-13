@@ -18,7 +18,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionPropertyProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("none", concrete.Value.CssText);
+            Assert.AreEqual("none", concrete.Value);
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionPropertyProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("all", concrete.Value.CssText);
+            Assert.AreEqual("all", concrete.Value);
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionPropertyProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("width, height", concrete.Value.CssText);
+            Assert.AreEqual("width, height", concrete.Value);
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionTimingFunctionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("ease", concrete.Value.CssText);
+            Assert.AreEqual("ease", concrete.Value);
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionTimingFunctionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("ease-in", concrete.Value.CssText);
+            Assert.AreEqual("ease-in", concrete.Value);
         }
 
         [Test]
@@ -127,7 +127,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionTimingFunctionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("step-start", concrete.Value.CssText);
+            Assert.AreEqual("step-start", concrete.Value);
         }
 
         [Test]
@@ -141,7 +141,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionTimingFunctionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("step-start, step-end", concrete.Value.CssText);
+            Assert.AreEqual("step-start, step-end", concrete.Value);
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionTimingFunctionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("step-start, step-end, linear, ease-in-out", concrete.Value.CssText);
+            Assert.AreEqual("step-start, step-end, linear, ease-in-out", concrete.Value);
         }
 
         [Test]
@@ -169,7 +169,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionTimingFunctionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("cubic-bezier(0, 1, 0.5, 1)", concrete.Value.CssText);
+            Assert.AreEqual("cubic-bezier(0, 1, 0.5, 1)", concrete.Value);
         }
 
         [Test]
@@ -183,7 +183,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionTimingFunctionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("steps(10, start)", concrete.Value.CssText);
+            Assert.AreEqual("steps(10, start)", concrete.Value);
         }
 
         [Test]
@@ -197,7 +197,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionTimingFunctionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("steps(25, end)", concrete.Value.CssText);
+            Assert.AreEqual("steps(25, end)", concrete.Value);
         }
 
         [Test]
@@ -211,7 +211,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionTimingFunctionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("steps(25), linear, cubic-bezier(0.25, 1, 0.5, 1)", concrete.Value.CssText);
+            Assert.AreEqual("steps(25), linear, cubic-bezier(0.25, 1, 0.5, 1)", concrete.Value);
         }
 
         [Test]
@@ -225,7 +225,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionDurationProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("6s", concrete.Value.CssText);
+            Assert.AreEqual("6s", concrete.Value);
         }
 
         [Test]
@@ -239,7 +239,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionDurationProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("60ms", concrete.Value.CssText);
+            Assert.AreEqual("60ms", concrete.Value);
         }
 
         [Test]
@@ -253,7 +253,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionDurationProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
+            Assert.AreEqual("60ms, 1s, 2s", concrete.Value);
         }
 
         [Test]
@@ -267,7 +267,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionDelayProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("60ms", concrete.Value.CssText);
+            Assert.AreEqual("60ms", concrete.Value);
         }
 
         [Test]
@@ -281,7 +281,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionDelayProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
+            Assert.AreEqual("60ms, 1s, 2s", concrete.Value);
         }
 
         [Test]
@@ -295,7 +295,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("60ms, 1s, 2s", concrete.Value.CssText);
+            Assert.AreEqual("60ms, 1s, 2s", concrete.Value);
         }
 
         [Test]
@@ -309,7 +309,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("steps(25), linear, cubic-bezier(0.25, 1, 0.5, 1)", concrete.Value.CssText);
+            Assert.AreEqual("steps(25), linear, cubic-bezier(0.25, 1, 0.5, 1)", concrete.Value);
         }
 
         [Test]
@@ -323,7 +323,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("width, height", concrete.Value.CssText);
+            Assert.AreEqual("width, height", concrete.Value);
         }
 
         [Test]
@@ -337,7 +337,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("ease", concrete.Value.CssText);
+            Assert.AreEqual("ease", concrete.Value);
         }
 
         [Test]
@@ -351,7 +351,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("all 1s ease", concrete.Value.CssText);
+            Assert.AreEqual("all 1s ease", concrete.Value);
         }
 
         [Test]
@@ -365,7 +365,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("all 1s ease, height steps(5) 50ms", concrete.Value.CssText);
+            Assert.AreEqual("all 1s ease, height steps(5) 50ms", concrete.Value);
         }
 
         [Test]
@@ -379,7 +379,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssTransitionProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("all 1s ease, height step-start 50ms, width, cubic-bezier(0.2, 0.5, 1, 1)", concrete.Value.CssText);
+            Assert.AreEqual("all 1s ease, height step-start 50ms, width, cubic-bezier(0.2, 0.5, 1, 1)", concrete.Value);
         }
     }
 }

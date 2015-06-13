@@ -18,7 +18,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssPaddingLeftProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("15px", concrete.Value.CssText);
+            Assert.AreEqual("15px", concrete.Value);
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssPaddingRightProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3em", concrete.Value.CssText);
+            Assert.AreEqual("3em", concrete.Value);
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssPaddingTopProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("4%", concrete.Value.CssText);
+            Assert.AreEqual("4%", concrete.Value);
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssPaddingBottomProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value.CssText);
+            Assert.AreEqual("0", concrete.Value);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssPaddingProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value.CssText);
+            Assert.AreEqual("0", concrete.Value);
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssPaddingProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("25%", concrete.Value.CssText);
+            Assert.AreEqual("25%", concrete.Value);
         }
 
         [Test]
@@ -102,7 +102,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssPaddingProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 3em", concrete.Value.CssText);
+            Assert.AreEqual("10px 3em", concrete.Value);
         }
 
         [Test]
@@ -129,7 +129,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssPaddingProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 3em 5px", concrete.Value.CssText);
+            Assert.AreEqual("10px 3em 5px", concrete.Value);
         }
 
         [Test]
@@ -143,7 +143,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssPaddingProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 5% 8px 2%", concrete.Value.CssText);
+            Assert.AreEqual("10px 5% 8px 2%", concrete.Value);
         }
 
         [Test]

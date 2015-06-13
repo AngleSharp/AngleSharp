@@ -21,8 +21,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssHeightProperty>(property);
             var concrete = (CssHeightProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
-            Assert.AreEqual("28%", value.CssText);
+            Assert.AreEqual("28%", concrete.Value);
             //Assert.IsInstanceOf<Percent>(value);
         }
 
@@ -37,8 +36,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssHeightProperty>(property);
             var concrete = (CssHeightProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
-            Assert.AreEqual("0.3em", value.CssText);
+            Assert.AreEqual("0.3em", concrete.Value);
             //Assert.IsInstanceOf<Length>(value);
         }
 
@@ -53,8 +51,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssHeightProperty>(property);
             var concrete = (CssHeightProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
-            Assert.AreEqual("144px", value.CssText);
+            Assert.AreEqual("144px", concrete.Value);
             //Assert.IsInstanceOf<Length>(value);
         }
 
@@ -69,8 +66,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssHeightProperty>(property);
             var concrete = (CssHeightProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
-            //Assert.AreEqual("auto", value.CssText);
+            Assert.AreEqual("auto", concrete.Value);
         }
 
         [Test]
@@ -84,8 +80,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssWidthProperty>(property);
             var concrete = (CssWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
-            Assert.AreEqual("0.5cm", value.CssText);
+            Assert.AreEqual("0.5cm", concrete.Value);
             //Assert.IsInstanceOf<Length>(value);
         }
 
@@ -100,8 +95,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssWidthProperty>(property);
             var concrete = (CssWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
-            Assert.AreEqual("1.5mm", value.CssText);
+            Assert.AreEqual("1.5mm", concrete.Value);
             //Assert.IsInstanceOf<Length>(value);
         }
 
@@ -350,7 +344,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssMaxWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("none", concrete.Value.CssText);
+            Assert.AreEqual("none", concrete.Value);
         }
 
         [Test]
@@ -364,7 +358,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssMaxWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("15px", concrete.Value.CssText);
+            Assert.AreEqual("15px", concrete.Value);
         }
 
         [Test]
@@ -378,7 +372,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssMinWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("15%", concrete.Value.CssText);
+            Assert.AreEqual("15%", concrete.Value);
         }
     }
 }

@@ -507,7 +507,7 @@ h1 { color: blue }");
                 Assert.AreEqual(names[i], decl.Name);
                 Assert.AreEqual(propertyName, decl.Name);
                 Assert.IsFalse(decl.IsImportant);
-                Assert.AreEqual("20px", decl.Value.CssText);   
+                Assert.AreEqual("20px", decl.Value);   
             }
         }
 
@@ -521,7 +521,7 @@ h1 { color: blue }");
             var prop = decl.GetProperty("font-family");
             Assert.AreEqual("font-family", prop.Name);
             Assert.IsFalse(prop.IsImportant);
-            Assert.AreEqual("\"Helvetica Neue\", Helvetica, Arial, sans-serif", prop.Value.CssText);
+            Assert.AreEqual("\"Helvetica Neue\", Helvetica, Arial, sans-serif", prop.Value);
         }
 
         [Test]
@@ -536,7 +536,7 @@ h1 { color: blue }");
             var content = decl.GetProperty("content");
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
-            Assert.AreEqual("\" (\" attr(href) \")\"", content.Value.CssText);
+            Assert.AreEqual("\" (\" attr(href) \")\"", content.Value);
         }
 
         [Test]
@@ -559,7 +559,7 @@ h1 { color: blue }");
             var background = decl.GetProperty("background-color");
             Assert.AreEqual("background-color", background.Name);
             Assert.IsFalse(background.IsImportant);
-            Assert.AreEqual("rgba(255, 123, 13, 1)", background.Value.CssText);
+            Assert.AreEqual("rgba(255, 123, 13, 1)", background.Value);
         }
 
         [Test]
@@ -687,7 +687,7 @@ h1 { color: blue }");
             var display = decl.GetProperty("display");
             Assert.AreEqual("display", display.Name);
             Assert.IsFalse(display.IsImportant);
-            Assert.AreEqual("block", display.Value.CssText);
+            Assert.AreEqual("block", display.Value);
         }
 
         [Test]

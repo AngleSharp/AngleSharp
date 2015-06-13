@@ -40,7 +40,7 @@ namespace AngleSharp.Core.Tests
             Assert.IsTrue(rule.IsImportant);
             Assert.AreEqual("background-color", rule.Name);
             Assert.AreEqual(rule.Name, decl[0]);
-            Assert.AreEqual("green", rule.Value.CssText);
+            Assert.AreEqual("green", rule.Value);
         }
     }
 }

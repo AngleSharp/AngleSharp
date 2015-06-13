@@ -18,7 +18,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("300px", concrete.Value.CssText);
+            Assert.AreEqual("300px", concrete.Value);
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0.3vw", concrete.Value.CssText);
+            Assert.AreEqual("0.3vw", concrete.Value);
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("auto", concrete.Value.CssText);
+            Assert.AreEqual("auto", concrete.Value);
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnCountProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("auto", concrete.Value.CssText);
+            Assert.AreEqual("auto", concrete.Value);
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnCountProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3", concrete.Value.CssText);
+            Assert.AreEqual("3", concrete.Value);
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnCountProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value.CssText);
+            Assert.AreEqual("0", concrete.Value);
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnsProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value.CssText);
+            Assert.AreEqual("0", concrete.Value);
         }
 
         [Test]
@@ -129,7 +129,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnsProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px", concrete.Value.CssText);
+            Assert.AreEqual("10px", concrete.Value);
         }
 
         [Test]
@@ -143,7 +143,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnsProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("4", concrete.Value.CssText);
+            Assert.AreEqual("4", concrete.Value);
         }
 
         [Test]
@@ -157,7 +157,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnsProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("25em 5", concrete.Value.CssText);
+            Assert.AreEqual("25em 5", concrete.Value);
         }
 
         [Test]
@@ -171,7 +171,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnsProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("5 25em", concrete.Value.CssText);
+            Assert.AreEqual("5 25em", concrete.Value);
         }
 
         [Test]
@@ -185,7 +185,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnsProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("auto auto", concrete.Value.CssText);
+            Assert.AreEqual("auto auto", concrete.Value);
         }
 
         [Test]
@@ -199,7 +199,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnsProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("auto", concrete.Value.CssText);
+            Assert.AreEqual("auto", concrete.Value);
         }
 
         [Test]
@@ -226,7 +226,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnSpanProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("all", concrete.Value.CssText);
+            Assert.AreEqual("all", concrete.Value);
         }
 
         [Test]
@@ -240,7 +240,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnSpanProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("none", concrete.Value.CssText);
+            Assert.AreEqual("none", concrete.Value);
         }
 
         [Test]
@@ -267,7 +267,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnGapProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("20px", concrete.Value.CssText);
+            Assert.AreEqual("20px", concrete.Value);
         }
 
         [Test]
@@ -281,7 +281,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnGapProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("normal", concrete.Value.CssText);
+            Assert.AreEqual("normal", concrete.Value);
         }
 
         [Test]
@@ -295,7 +295,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnGapProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value.CssText);
+            Assert.AreEqual("0", concrete.Value);
         }
 
         [Test]
@@ -322,7 +322,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnFillProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("balance", concrete.Value.CssText);
+            Assert.AreEqual("balance", concrete.Value);
         }
 
         [Test]
@@ -336,7 +336,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnFillProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("auto", concrete.Value.CssText);
+            Assert.AreEqual("auto", concrete.Value);
         }
 
         [Test]
@@ -350,7 +350,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnRuleColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("transparent", concrete.Value.CssText);
+            Assert.AreEqual("transparent", concrete.Value);
         }
 
         [Test]
@@ -364,7 +364,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnRuleColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("rgb(192, 56, 78)", concrete.Value.CssText);
+            Assert.AreEqual("rgb(192, 56, 78)", concrete.Value);
         }
 
         [Test]
@@ -378,7 +378,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnRuleColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("red", concrete.Value.CssText);
+            Assert.AreEqual("red", concrete.Value);
         }
 
         [Test]
@@ -405,7 +405,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnRuleStyleProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("inset", concrete.Value.CssText);
+            Assert.AreEqual("inset", concrete.Value);
         }
 
         [Test]
@@ -419,7 +419,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnRuleStyleProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("none", concrete.Value.CssText);
+            Assert.AreEqual("none", concrete.Value);
         }
 
         [Test]
@@ -446,7 +446,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnRuleWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("2px", concrete.Value.CssText);
+            Assert.AreEqual("2px", concrete.Value);
         }
 
         [Test]
@@ -460,7 +460,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnRuleWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("thick", concrete.Value.CssText);
+            Assert.AreEqual("thick", concrete.Value);
         }
 
         [Test]
@@ -474,7 +474,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnRuleWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("medium", concrete.Value.CssText);
+            Assert.AreEqual("medium", concrete.Value);
         }
 
         [Test]
@@ -488,7 +488,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnRuleWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("thin", concrete.Value.CssText);
+            Assert.AreEqual("thin", concrete.Value);
         }
 
         [Test]
@@ -502,7 +502,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnRuleProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("dotted", concrete.Value.CssText);
+            Assert.AreEqual("dotted", concrete.Value);
         }
 
         [Test]
@@ -516,7 +516,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnRuleProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("solid blue", concrete.Value.CssText);
+            Assert.AreEqual("solid blue", concrete.Value);
         }
 
         [Test]
@@ -530,7 +530,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnRuleProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("solid 8px", concrete.Value.CssText);
+            Assert.AreEqual("solid 8px", concrete.Value);
         }
 
         [Test]
@@ -544,7 +544,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssColumnRuleProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("thick inset blue", concrete.Value.CssText);
+            Assert.AreEqual("thick inset blue", concrete.Value);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsAnimatable);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("none", concrete.Value.CssText);
+            Assert.AreEqual("none", concrete.Value);
             //Assert.AreEqual(ObjectFitting.None, concrete.Fitting);
         }
 
@@ -50,7 +50,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsAnimatable);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            //Assert.AreEqual("scale-down", concrete.Value.CssText);
+            Assert.AreEqual("scale-down", concrete.Value);
             //Assert.AreEqual(ObjectFitting.ScaleDown, concrete.Fitting);
         }
 
@@ -66,7 +66,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsAnimatable);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("cover", concrete.Value.CssText);
+            Assert.AreEqual("cover", concrete.Value);
             //Assert.AreEqual(ObjectFitting.Cover, concrete.Fitting);
         }
 
@@ -82,7 +82,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsAnimatable);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("contain", concrete.Value.CssText);
+            Assert.AreEqual("contain", concrete.Value);
             //Assert.AreEqual(ObjectFitting.Contain, concrete.Fitting);
         }
 
@@ -98,7 +98,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsTrue(property.IsAnimatable);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("center", concrete.Value.CssText);
+            Assert.AreEqual("center", concrete.Value);
         }
 
         [Test]
@@ -127,7 +127,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsTrue(property.IsAnimatable);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("top left", concrete.Value.CssText);
+            Assert.AreEqual("top left", concrete.Value);
         }
 
         [Test]
@@ -142,7 +142,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsTrue(property.IsAnimatable);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("50% 50%", concrete.Value.CssText);
+            Assert.AreEqual("50% 50%", concrete.Value);
         }
 
         [Test]
@@ -157,7 +157,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsTrue(property.IsAnimatable);
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("left 30px", concrete.Value.CssText);
+            Assert.AreEqual("left 30px", concrete.Value);
         }
     }
 }

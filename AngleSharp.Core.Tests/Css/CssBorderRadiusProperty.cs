@@ -20,7 +20,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderBottomLeftRadiusProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("40px 40px", concrete.Value.CssText);
+            Assert.AreEqual("40px 40px", concrete.Value);
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderBottomLeftRadiusProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("40px 20em", concrete.Value.CssText);
+            Assert.AreEqual("40px 20em", concrete.Value);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderBottomLeftRadiusProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 5%", concrete.Value.CssText);
+            Assert.AreEqual("10px 5%", concrete.Value);
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderBottomLeftRadiusProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10%", concrete.Value.CssText);
+            Assert.AreEqual("10%", concrete.Value);
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderBottomRightRadiusProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value.CssText);
+            Assert.AreEqual("0", concrete.Value);
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderBottomRightRadiusProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("20px", concrete.Value.CssText);
+            Assert.AreEqual("20px", concrete.Value);
         }
 
         [Test]
@@ -104,7 +104,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderTopLeftRadiusProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3.5cm", concrete.Value.CssText);
+            Assert.AreEqual("3.5cm", concrete.Value);
         }
 
         [Test]
@@ -118,7 +118,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderTopRightRadiusProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("15% 3.5%", concrete.Value.CssText);
+            Assert.AreEqual("15% 3.5%", concrete.Value);
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderRadiusProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("15% 3.5%", concrete.Value.CssText);
+            Assert.AreEqual("15% 3.5%", concrete.Value);
         }
 
         [Test]
@@ -154,7 +154,7 @@ namespace AngleSharp.Core.Tests.Css
             //Assert.AreEqual(Length.Zero, concrete.VerticalBottomRight);
             //Assert.AreEqual(Length.Zero, concrete.VerticalTopLeft);
             //Assert.AreEqual(Length.Zero, concrete.VerticalTopRight);
-            Assert.AreEqual("0", concrete.Value.CssText);
+            Assert.AreEqual("0", concrete.Value);
         }
 
         [Test]
@@ -176,7 +176,7 @@ namespace AngleSharp.Core.Tests.Css
             //Assert.AreEqual(new Length(3f, Length.Unit.Px), concrete.VerticalBottomRight);
             //Assert.AreEqual(new Length(4f, Length.Unit.Px), concrete.HorizontalBottomLeft);
             //Assert.AreEqual(new Length(4f, Length.Unit.Px), concrete.VerticalBottomLeft);
-            Assert.AreEqual("2px 4px 3px", concrete.Value.CssText);
+            Assert.AreEqual("2px 4px 3px", concrete.Value);
         }
 
         [Test]
@@ -198,7 +198,7 @@ namespace AngleSharp.Core.Tests.Css
             //Assert.AreEqual(new Length(3f, Length.Unit.Px), concrete.VerticalBottomRight);
             //Assert.AreEqual(new Length(0f, Length.Unit.Px), concrete.HorizontalBottomLeft);
             //Assert.AreEqual(new Length(0f, Length.Unit.Px), concrete.VerticalBottomLeft);
-            Assert.AreEqual("2px 4px 3px 0", concrete.Value.CssText);
+            Assert.AreEqual("2px 4px 3px 0", concrete.Value);
         }
 
         [Test]
@@ -233,7 +233,7 @@ namespace AngleSharp.Core.Tests.Css
             //Assert.AreEqual(new Length(5f, Length.Unit.Em), concrete.VerticalBottomRight);
             //Assert.AreEqual(new Length(1f, Length.Unit.Em), concrete.HorizontalBottomLeft);
             //Assert.AreEqual(new Length(5f, Length.Unit.Em), concrete.VerticalBottomLeft);
-            Assert.AreEqual("1em/5em", concrete.Value.CssText);
+            Assert.AreEqual("1em/5em", concrete.Value);
         }
 
         [Test]
@@ -255,7 +255,7 @@ namespace AngleSharp.Core.Tests.Css
             //Assert.AreEqual(new Length(2f, Length.Unit.Px), concrete.VerticalBottomRight);
             //Assert.AreEqual(new Length(3f, Length.Unit.Px), concrete.HorizontalBottomLeft);
             //Assert.AreEqual(new Length(4f, Length.Unit.Px), concrete.VerticalBottomLeft);
-            Assert.AreEqual("4px 3px 6px/2px 4px", concrete.Value.CssText);
+            Assert.AreEqual("4px 3px 6px/2px 4px", concrete.Value);
         }
 
         [Test]
@@ -269,7 +269,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderRadiusProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("4px 3px 6px 1em/2px 4px 0 20%", concrete.Value.CssText);
+            Assert.AreEqual("4px 3px 6px 1em/2px 4px 0 20%", concrete.Value);
         }
 
         [Test]

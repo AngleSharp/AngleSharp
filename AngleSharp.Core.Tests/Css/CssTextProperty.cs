@@ -19,7 +19,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssWordSpacingProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0", concrete.Value.CssText);
+            Assert.AreEqual("0", concrete.Value);
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssWordSpacingProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0.3rem", concrete.Value.CssText);
+            Assert.AreEqual("0.3rem", concrete.Value);
         }
 
         [Test]
@@ -47,7 +47,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssWordSpacingProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0.3em", concrete.Value.CssText);
+            Assert.AreEqual("0.3em", concrete.Value);
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssWordSpacingProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("normal", concrete.Value.CssText);
+            Assert.AreEqual("normal", concrete.Value);
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextShadowProperty>(property);
             var concrete = (CssTextShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
+            var value = concrete.OriginalValue;
             Assert.AreEqual("0 0 2px black inset", value.CssText);
         }
 
@@ -90,7 +90,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextShadowProperty>(property);
             var concrete = (CssTextShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
+            var value = concrete.OriginalValue;
             Assert.AreEqual("rgba(255, 255, 255, 0.5) 0px 3px 3px", value.CssText);
         }
 
@@ -108,7 +108,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextShadowProperty>(property);
             var concrete = (CssTextShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
+            var value = concrete.OriginalValue;
             Assert.AreEqual("0px 3px 0px rgb(178, 169, 143), 0px 14px 10px rgba(0, 0, 0, 0.15), 0px 24px 2px rgba(0, 0, 0, 0.1), 0px 34px 30px rgba(0, 0, 0, 0.1)", value.CssText);
         }
 
@@ -123,7 +123,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextShadowProperty>(property);
             var concrete = (CssTextShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
+            var value = concrete.OriginalValue;
             Assert.AreEqual("4px 3px 0px rgb(255, 255, 255), 9px 8px 0px rgba(0, 0, 0, 0.15)", value.CssText);
         }
 
@@ -138,7 +138,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextShadowProperty>(property);
             var concrete = (CssTextShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
+            var value = concrete.OriginalValue;
             Assert.AreEqual("2px 4px 3px rgba(0, 0, 0, 0.3)", value.CssText);
         }
 
@@ -153,7 +153,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextAlignProperty>(property);
             var concrete = (CssTextAlignProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
+            var value = concrete.OriginalValue;
             Assert.AreEqual("justify", value.CssText);
         }
 
@@ -168,7 +168,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextIndentProperty>(property);
             var concrete = (CssTextIndentProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
+            var value = concrete.OriginalValue;
             Assert.AreEqual("3em", value.CssText);
         }
 
@@ -183,7 +183,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextIndentProperty>(property);
             var concrete = (CssTextIndentProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
+            var value = concrete.OriginalValue;
             Assert.AreEqual("0", value.CssText);
         }
 
@@ -198,7 +198,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextIndentProperty>(property);
             var concrete = (CssTextIndentProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.Value;
+            var value = concrete.OriginalValue;
             Assert.AreEqual("10%", value.CssText);
         }
 
@@ -238,7 +238,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTextDecorationProperty>(property);
             var concrete = (CssTextDecorationProperty)property;
-            //Assert.AreEqual("line-through", concrete.Value.CssText);
+            Assert.AreEqual("line-through", concrete.Value);
         }
 
         [Test]
@@ -252,7 +252,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsInherited);
             Assert.IsFalse(property.IsImportant);
             var concrete = (CssTextDecorationProperty)property;
-            Assert.AreEqual("underline overline", concrete.Value.CssText);
+            Assert.AreEqual("underline overline", concrete.Value);
         }
 
         [Test]
@@ -266,7 +266,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTextDecorationColorProperty>(property);
             var concrete = (CssTextDecorationColorProperty)property;
-            Assert.AreEqual("rgb(255, 0, 0)", concrete.Value.CssText);
+            Assert.AreEqual("rgb(255, 0, 0)", concrete.Value);
         }
 
         [Test]
@@ -280,7 +280,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTextDecorationColorProperty>(property);
             var concrete = (CssTextDecorationColorProperty)property;
-            Assert.AreEqual("red", concrete.Value.CssText);
+            Assert.AreEqual("red", concrete.Value);
         }
 
         [Test]
@@ -307,7 +307,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTextDecorationLineProperty>(property);
             var concrete = (CssTextDecorationLineProperty)property;
-            Assert.AreEqual("none", concrete.Value.CssText);
+            Assert.AreEqual("none", concrete.Value);
         }
 
         [Test]
@@ -321,7 +321,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTextDecorationLineProperty>(property);
             var concrete = (CssTextDecorationLineProperty)property;
-            Assert.AreEqual("overline underline line-through", concrete.Value.CssText);
+            Assert.AreEqual("overline underline line-through", concrete.Value);
         }
 
         [Test]
@@ -335,7 +335,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTextDecorationStyleProperty>(property);
             var concrete = (CssTextDecorationStyleProperty)property;
-            //Assert.AreEqual("wavy", concrete.Value.CssText);
+            Assert.AreEqual("wavy", concrete.Value);
         }
 
         [Test]
