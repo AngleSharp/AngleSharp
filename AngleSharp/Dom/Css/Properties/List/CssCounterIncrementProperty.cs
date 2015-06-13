@@ -21,11 +21,8 @@
             return pairs[0];
         */
         // Default: Nothing
-        static readonly IValueConverter CounterConverter = 
-            Converters.WithOrder(
-                Converters.WithOrder(
-                    Converters.IdentifierConverter.Required(),
-                    Converters.IntegerConverter.Option(1)));
+        static readonly IValueConverter CounterConverter = Converters.Continuous(
+            Converters.WithOrder(Converters.IdentifierConverter.Required(), Converters.IntegerConverter.Option(1)));
 
         #endregion
 

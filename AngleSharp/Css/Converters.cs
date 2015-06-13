@@ -786,6 +786,16 @@
             return new UnorderedOptionsConverter(converters);
         }
 
+        /// <summary>
+        /// Uses the provided converter for the whole value.
+        /// </summary>
+        /// <param name="converter">The converter that is used.</param>
+        /// <returns>The new converter.</returns>
+        public static IValueConverter Continuous(IValueConverter converter)
+        {
+            return new ContinuousValueConverter(converter);
+        }
+
         #endregion
 
         #region Helper
