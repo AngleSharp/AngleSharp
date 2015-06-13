@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using AngleSharp.Css;
 
@@ -32,43 +31,6 @@
         {
             get { return _properties; }
         }
-
-        #endregion
-
-        #region Methods
-
-        protected static String SerializePeriodic(CssProperty t, CssProperty r, CssProperty b, CssProperty l)
-        {
-            var top = t.SerializeValue();
-            var right = r.SerializeValue();
-            var bottom = b.SerializeValue();
-            var left = l.SerializeValue();
-            return SerializePeriodic(top, right, bottom, left);
-        }
-
-        protected static String SerializePeriodic(String top, String right, String bottom, String left)
-        {
-            if (left != right)
-                return String.Format("{0} {1} {2} {3}", top, right, bottom, left);
-            else if (bottom != top)
-                return String.Format("{0} {1} {2}", top, right, bottom);
-            else if (right != top)
-                return String.Format("{0} {1}", top, right);
-
-            return top;
-        }
-
-        internal override sealed String SerializeValue()
-        {
-            return SerializeValue(_properties);
-        }
-
-        /// <summary>
-        /// Serializes the shorthand with only the given properties.
-        /// </summary>
-        /// <param name="properties">The properties to use.</param>
-        /// <returns>The serialized value or an empty string, if serialization is not possible.</returns>
-        internal abstract String SerializeValue(IEnumerable<CssProperty> properties);
 
         #endregion
     }

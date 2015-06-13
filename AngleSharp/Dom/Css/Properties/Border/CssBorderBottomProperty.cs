@@ -1,8 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using AngleSharp.Css;
 
     /// <summary>
@@ -13,12 +10,6 @@
     {
         #region Fields
         
-        //TODO Convert instead of validate
-        /*
-            Get<CssBorderBottomWidthProperty>().TrySetValue(m.Item1);
-            Get<CssBorderBottomStyleProperty>().TrySetValue(m.Item2);
-            Get<CssBorderBottomColorProperty>().TrySetValue(m.Item3);
-        */
         static readonly IValueConverter StyleConverter = CssBorderProperty.StyleConverter;
 
         #endregion
@@ -37,22 +28,6 @@
         internal override IValueConverter Converter
         {
             get { return StyleConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        internal override String SerializeValue(IEnumerable<CssProperty> properties)
-        {
-            var color = properties.OfType<CssBorderBottomColorProperty>().FirstOrDefault();
-            var width = properties.OfType<CssBorderBottomWidthProperty>().FirstOrDefault();
-            var style = properties.OfType<CssBorderBottomStyleProperty>().FirstOrDefault();
-
-            if (color == null || width == null || style == null)
-                return String.Empty;
-
-            return CssBorderProperty.SerializeValue(width, style, color);
         }
 
         #endregion

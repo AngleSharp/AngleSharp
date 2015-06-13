@@ -1,8 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
 
@@ -18,16 +15,6 @@
         // <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ] | 
         // caption | icon | menu | message-box | small-caption | status-bar
 
-        //TODO Convert instead of validate
-        /*
-            Get<CssFontStyleProperty>().TrySetValue(m.Item1.Item1);
-            Get<CssFontVariantProperty>().TrySetValue(m.Item1.Item2);
-            Get<CssFontWeightProperty>().TrySetValue(m.Item1.Item3);
-            Get<CssFontStretchProperty>().TrySetValue(m.Item1.Item4);
-            Get<CssFontSizeProperty>().TrySetValue(m.Item2.Item1);
-            Get<CssLineHeightProperty>().TrySetValue(m.Item2.Item2);
-            Get<CssFontFamilyProperty>().TrySetValue(m.Item3);
-        */
         internal static readonly IValueConverter StyleConverter = Converters.WithOrder(
             Converters.WithAny(
                 Converters.FontStyleConverter.Option(),
@@ -83,49 +70,6 @@
                     //SetFont("Segoe UI", "15px");
                     break;
             }
-        }
-
-        internal override String SerializeValue(IEnumerable<CssProperty> properties)
-        {
-            var families = properties.OfType<CssFontFamilyProperty>().FirstOrDefault();
-            var size = properties.OfType<CssFontSizeProperty>().FirstOrDefault();
-            var style = properties.OfType<CssFontStyleProperty>().FirstOrDefault();
-            var variant = properties.OfType<CssFontVariantProperty>().FirstOrDefault();
-            var weight = properties.OfType<CssFontWeightProperty>().FirstOrDefault();
-            var stretch = properties.OfType<CssFontStretchProperty>().FirstOrDefault();
-            var height = properties.OfType<CssLineHeightProperty>().FirstOrDefault();
-
-            if (families == null || size == null)
-                return String.Empty;
-
-            var values = new List<String>();
-
-            if (style != null && style.HasValue)
-                values.Add(style.SerializeValue());
-
-            if (variant != null && variant.HasValue)
-                values.Add(variant.SerializeValue());
-
-            if (weight != null && weight.HasValue)
-                values.Add(weight.SerializeValue());
-
-            if (stretch != null && stretch.HasValue)
-                values.Add(stretch.SerializeValue());
-
-            values.Add(size.SerializeValue());
-
-            if (height != null && height.HasValue)
-            {
-                var recent = values.Count - 1;
-                var value = String.Concat(values[recent], "/", height.SerializeValue());
-                values.RemoveAt(recent);
-                values.Add(value);
-            }
-
-            values.Add(families.SerializeValue());
-            values.RemoveAll(m => String.IsNullOrEmpty(m));
-
-            return String.Join(" ", values);
         }
 
         #endregion

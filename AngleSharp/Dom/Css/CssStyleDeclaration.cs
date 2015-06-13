@@ -106,7 +106,8 @@
                                 continue;
 
                             var rule = Factory.Properties.CreateShorthand(shorthand);
-                            var value = rule.SerializeValue(currentLonghands);
+                            //TODO
+                            var value = String.Empty;// rule.SerializeValue(currentLonghands);
 
                             if (String.IsNullOrEmpty(value))
                                 continue;
@@ -2410,14 +2411,15 @@
                 }
 
                 var shortHand = Factory.Properties.CreateShorthand(propertyName);
-                return shortHand.SerializeValue(properties);
+                //TODO
+                return String.Empty;// shortHand.SerializeValue(properties);
             }
             else
             {
                 var property = GetProperty(propertyName);
 
                 if (property != null)
-                    return property.SerializeValue();
+                    return property.Value;
 
                 return String.Empty;
             }

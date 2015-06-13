@@ -103,7 +103,7 @@
         /// </summary>
         public String Value
         {
-            get { return SerializeValue(); }
+            get { return _value.CssText; }
         }
 
         /// <summary>
@@ -152,7 +152,7 @@
         /// </summary>
         public String CssText
         {
-            get { return Serialize(_name, SerializeValue(), _important); }
+            get { return Serialize(_name, Value, _important); }
         }
 
         #endregion
@@ -181,15 +181,6 @@
         #endregion
 
         #region String representation
-
-        /// <summary>
-        /// Serializes the current value of the CSS property.
-        /// </summary>
-        /// <returns>The string representation of the value.</returns>
-        internal virtual String SerializeValue()
-        {
-            return _value.CssText;
-        }
 
         /// <summary>
         /// Serializes the full CSS declaration.
