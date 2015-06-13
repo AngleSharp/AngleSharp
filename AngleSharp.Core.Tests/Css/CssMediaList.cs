@@ -50,7 +50,7 @@ namespace AngleSharp.Core.Tests.Css
             var h1 = (ICssStyleRule)sheet.Rules[0];
             Assert.AreEqual("h1", h1.SelectorText);
             var style = h1.Style;
-            Assert.AreEqual("green", style.Color);
+            Assert.AreEqual("rgb(0, 128, 0)", style.Color);
         }
 
         [Test]
@@ -227,7 +227,7 @@ h1 { color: green }";
             Assert.AreEqual(1, sheet.Rules.Length);
             Assert.IsInstanceOf<ICssStyleRule>(sheet.Rules[0]);
             var style = (ICssStyleRule)sheet.Rules[0];
-            Assert.AreEqual("green", style.Style.Color);
+            Assert.AreEqual("rgb(0, 128, 0)", style.Style.Color);
             Assert.AreEqual("h1", style.SelectorText);
         }
 

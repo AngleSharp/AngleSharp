@@ -388,7 +388,7 @@
             Assert.AreEqual(1, style.Count());
 
             Assert.AreEqual("color", style[0]);
-            Assert.AreEqual("red", style.Color);
+            Assert.AreEqual("rgb(255, 0, 0)", style.Color);
         }
 
         [Test]
@@ -425,32 +425,32 @@
 
             var test1 = style1[0];
             Assert.AreEqual("color", test1);
-            Assert.AreEqual("red", style1.GetPropertyValue(test1));
+            Assert.AreEqual("rgb(255, 0, 0)", style1.GetPropertyValue(test1));
 
             var style2 = (elements[1] as IHtmlElement).Style;
             Assert.AreEqual(1, style2.Count());
 
             var test2 = style2[0];
             Assert.AreEqual("color", test2);
-            Assert.AreEqual("red", style2.GetPropertyValue(test2));
+            Assert.AreEqual("rgb(255, 0, 0)", style2.GetPropertyValue(test2));
 
             var style3 = (elements[2] as IHtmlElement).Style;
             Assert.AreEqual(1, style3.Count());
 
             var test3 = style3[0];
             Assert.AreEqual("color", test3);
-            Assert.AreEqual("red", style3.GetPropertyValue(test3));
+            Assert.AreEqual("rgb(255, 0, 0)", style3.GetPropertyValue(test3));
 
             var style4 = (elements[3] as IHtmlElement).Style;
             Assert.AreEqual(2, style4.Count());
 
             var background = style4[0];
             Assert.AreEqual("background-color", background);
-            Assert.AreEqual("blue", style4.GetPropertyValue(background));
+            Assert.AreEqual("rgb(0, 0, 255)", style4.GetPropertyValue(background));
 
             var color = style4[1];
             Assert.AreEqual("color", color);
-            Assert.AreEqual("red", style4.GetPropertyValue(color));
+            Assert.AreEqual("rgb(255, 0, 0)", style4.GetPropertyValue(color));
         }
 
         [Test]

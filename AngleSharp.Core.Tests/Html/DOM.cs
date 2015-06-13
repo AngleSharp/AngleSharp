@@ -435,7 +435,7 @@
         public void CSSStyleDeclarationUnbound()
         {
             var css = new CssStyleDeclaration();
-            var text = "background-color: red; color: black;";
+            var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0);";
             css.CssText = text;
             Assert.AreEqual(text, css.CssText);
             Assert.AreEqual(2, css.Length);
@@ -492,7 +492,7 @@
             var context = BrowsingContext.New(new Configuration().WithCss());
             var document = new HtmlDocument(context);
             var element = document.CreateElement<IHtmlSpanElement>();
-            var text = "background-color: red; color: black;";
+            var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0);";
             element.SetAttribute("style", text);
             Assert.AreEqual(text, element.Style.CssText);
             Assert.AreEqual(2, element.Style.Length);
@@ -504,7 +504,7 @@
             var context = BrowsingContext.New(new Configuration().WithCss());
             var document = new HtmlDocument(context);
             var element = document.CreateElement<IHtmlSpanElement>();
-            var text = "background-color: red; color: black;";
+            var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0);";
             element.SetAttribute("style", String.Empty);
             Assert.AreEqual(String.Empty, element.Style.CssText);
             element.SetAttribute("style", text);
@@ -518,7 +518,7 @@
             var context = BrowsingContext.New(new Configuration().WithCss());
             var document = new HtmlDocument(context);
             var element = new HtmlSpanElement(document);
-            var text = "background-color: red; color: black;";
+            var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0);";
             element.Style.CssText = text;
             Assert.AreEqual(text, element.GetAttribute("style"));
             Assert.AreEqual(2, element.Style.Length);

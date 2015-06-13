@@ -378,7 +378,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("60px -16px teal", concrete.Value);
+            Assert.AreEqual("60px -16px rgb(128, 128, 0)", concrete.Value);
         }
 
         [Test]
@@ -392,7 +392,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10px 5px 5px black", concrete.Value);
+            Assert.AreEqual("10px 5px 5px rgb(0, 0, 0)", concrete.Value);
         }
 
         [Test]
@@ -406,7 +406,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3px 3px red, -1em 0 0.4em olive", concrete.Value);
+            Assert.AreEqual("3px 3px rgb(255, 0, 0), -1em 0 0.4em rgb(128, 128, 0)", concrete.Value);
         }
 
         [Test]
@@ -420,7 +420,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("inset 5em 1em gold", concrete.Value);
+            Assert.AreEqual("inset 5em 1em rgb(255, 215, 0)", concrete.Value);
         }
 
         [Test]
@@ -434,7 +434,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0 0 1em gold", concrete.Value);
+            Assert.AreEqual("0 0 1em rgb(255, 215, 0)", concrete.Value);
         }
 
         [Test]
@@ -448,7 +448,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("inset 0 0 1em gold", concrete.Value);
+            Assert.AreEqual("inset 0 0 1em rgb(255, 215, 0)", concrete.Value);
         }
 
         [Test]
@@ -462,7 +462,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBoxShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("inset 0 0 1em gold, 0 0 1em red", concrete.Value);
+            Assert.AreEqual("inset 0 0 1em rgb(255, 215, 0), 0 0 1em rgb(255, 0, 0)", concrete.Value);
         }
 
         [Test]

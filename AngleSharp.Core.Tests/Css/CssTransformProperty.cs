@@ -314,7 +314,7 @@
             var concrete = (CssTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("top right", concrete.Value);
+            Assert.AreEqual("right top", concrete.Value);
         }
 
         [Test]
@@ -384,7 +384,7 @@
             var concrete = (CssTransformOriginProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("bottom right 2cm", concrete.Value);
+            Assert.AreEqual("right bottom 2cm", concrete.Value);
         }
 
         [Test]

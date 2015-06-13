@@ -28,7 +28,7 @@ h1 {
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
-            Assert.AreEqual("red", h1.Style.Color);
+            Assert.AreEqual("rgb(255, 0, 0)", h1.Style.Color);
             Assert.AreEqual("bold", h1.Style.FontWeight);
         }
 
@@ -36,7 +36,7 @@ h1 {
         public void CssSheetSerializeListStyleNone()
         {
             var cssSrc = ".T1 {list-style:NONE}";
-            var expected = ".T1 { list-style: NONE; }";
+            var expected = ".T1 { list-style: none; }";
             var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.CssText;
             Assert.AreEqual(expected, cssText);
@@ -98,7 +98,7 @@ h1 {
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("green", p.Style.Color);
+            Assert.AreEqual("rgb(0, 128, 0)", p.Style.Color);
         }
 
         [Test]
@@ -140,7 +140,7 @@ h1 {
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual(2, h1.Style.Length);
             Assert.AreEqual("color", h1.Style[0]);
-            Assert.AreEqual("red", h1.Style.Color);
+            Assert.AreEqual("rgb(255, 0, 0)", h1.Style.Color);
         }
 
         [Test]
@@ -174,7 +174,7 @@ h1 {
             Assert.NotNull(style);
             Assert.AreEqual("#hi", style.SelectorText);
             Assert.AreEqual(1, style.Style.Length);
-            Assert.AreEqual("green", style.Style.Color);
+            Assert.AreEqual("rgb(0, 128, 0)", style.Style.Color);
         }
 
         [Test]
@@ -193,7 +193,7 @@ h1 {
             Assert.NotNull(style);
             Assert.AreEqual("p", style.SelectorText);
             Assert.AreEqual(1, style.Style.Length);
-            Assert.AreEqual("green", style.Style.Color);
+            Assert.AreEqual("rgb(0, 128, 0)", style.Style.Color);
         }
 
         [Test]
@@ -213,7 +213,7 @@ h1 { color: blue }");
             Assert.AreEqual("h1", h1.SelectorText);
             Assert.AreEqual(1, h1.Style.Length);
             Assert.AreEqual("color", h1.Style[0]);
-            Assert.AreEqual("blue", h1.Style.Color);
+            Assert.AreEqual("rgb(0, 0, 255)", h1.Style.Color);
         }
 
         [Test]
@@ -272,7 +272,7 @@ h1 { color: blue }");
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("green", p.Style.Color);
+            Assert.AreEqual("rgb(0, 128, 0)", p.Style.Color);
         }
 
         [Test]
@@ -285,7 +285,7 @@ h1 { color: blue }");
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("green", p.Style.Color);
+            Assert.AreEqual("rgb(0, 128, 0)", p.Style.Color);
         }
 
         [Test]
@@ -298,7 +298,7 @@ h1 { color: blue }");
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("green", p.Style.Color);
+            Assert.AreEqual("rgb(0, 128, 0)", p.Style.Color);
         }
 
         [Test]
@@ -311,7 +311,7 @@ h1 { color: blue }");
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("green", p.Style.Color);
+            Assert.AreEqual("rgb(0, 128, 0)", p.Style.Color);
         }
 
         [Test]
@@ -324,7 +324,7 @@ h1 { color: blue }");
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("green", p.Style.Color);
+            Assert.AreEqual("rgb(0, 128, 0)", p.Style.Color);
         }
 
         [Test]
@@ -337,7 +337,7 @@ h1 { color: blue }");
             Assert.AreEqual("p", p.SelectorText);
             Assert.AreEqual(1, p.Style.Length);
             Assert.AreEqual("color", p.Style[0]);
-            Assert.AreEqual("green", p.Style.Color);
+            Assert.AreEqual("rgb(0, 128, 0)", p.Style.Color);
         }
 
         [Test]

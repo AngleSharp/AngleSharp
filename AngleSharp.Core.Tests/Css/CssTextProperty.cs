@@ -280,7 +280,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTextDecorationColorProperty>(property);
             var concrete = (CssTextDecorationColorProperty)property;
-            Assert.AreEqual("red", concrete.Value);
+            Assert.AreEqual("rgb(255, 0, 0)", concrete.Value);
         }
 
         [Test]

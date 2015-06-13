@@ -69,7 +69,7 @@
             Assert.AreEqual("bold", element.ClassName);
 
             var computedStyle = window.GetComputedStyle(element);
-            Assert.AreEqual("red", computedStyle.Color);
+            Assert.AreEqual("rgb(255, 0, 0)", computedStyle.Color);
             Assert.AreEqual("bold", computedStyle.FontWeight);
             Assert.AreEqual(3, computedStyle.Length);
         }
@@ -109,7 +109,7 @@
             Assert.AreEqual("prioOne", prioOne.Id);
 
             var computePrioOneStyle = window.GetComputedStyle(prioOne);
-            Assert.AreEqual("black", computePrioOneStyle.Color);
+            Assert.AreEqual("rgb(0, 0, 0)", computePrioOneStyle.Color);
         }
 
         [Test]
@@ -138,7 +138,7 @@
             Assert.AreEqual("span", element.LocalName);
 
             var computedStyle = window.GetComputedStyle(element);
-            Assert.AreEqual("red", computedStyle.Color);
+            Assert.AreEqual("rgb(255, 0, 0)", computedStyle.Color);
             Assert.AreEqual(1, computedStyle.Length);
         }
 
