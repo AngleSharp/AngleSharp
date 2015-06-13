@@ -64,6 +64,21 @@
         public static readonly Dictionary<String, Visibility> Visibilities = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
+        /// Contains the string-PlayState mapping.
+        /// </summary>
+        public static readonly Dictionary<String, PlayState> PlayStates = new Dictionary<String, PlayState>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-FontVariant mapping.
+        /// </summary>
+        public static readonly Dictionary<String, FontVariant> FontVariants = new Dictionary<String, FontVariant>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// Contains the string-DirectionMode mapping.
+        /// </summary>
+        public static readonly Dictionary<String, DirectionMode> DirectionModes = new Dictionary<String, DirectionMode>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
         /// Contains the string-ListStyle mapping.
         /// </summary>
         public static readonly Dictionary<String, ListStyle> ListStyles = new Dictionary<String, ListStyle>(StringComparer.OrdinalIgnoreCase);
@@ -534,6 +549,15 @@
             SystemFonts.Add(Keywords.MessageBox, SystemFont.MessageBox);
             SystemFonts.Add(Keywords.SmallCaption, SystemFont.SmallCaption);
             SystemFonts.Add(Keywords.StatusBar, SystemFont.StatusBar);
+
+            PlayStates.Add(Keywords.Running, PlayState.Running);
+            PlayStates.Add(Keywords.Paused, PlayState.Paused);
+
+            FontVariants.Add(Keywords.Normal, FontVariant.Normal);
+            FontVariants.Add(Keywords.SmallCaps, FontVariant.SmallCaps);
+
+            DirectionModes.Add(Keywords.Ltr, DirectionMode.Ltr);
+            DirectionModes.Add(Keywords.Rtl, DirectionMode.Rtl);
         }
 
         #endregion

@@ -4,8 +4,6 @@
     using System.Linq;
     using AngleSharp.Css.ValueConverters;
     using AngleSharp.Css.Values;
-    using AngleSharp.Dom;
-    using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
 
     /// <summary>
@@ -20,24 +18,6 @@
         /// http://dev.w3.org/csswg/css-backgrounds/#line-width
         /// </summary>
         public static readonly IValueConverter LineWidthConverter = new StructValueConverter<Length>(ValueExtensions.ToBorderWidth);
-
-        /// <summary>
-        /// Represents a distance object with line-height additions.
-        /// http://www.w3.org/TR/CSS2/visudet.html#propdef-line-height
-        /// </summary>
-        public static readonly IValueConverter LineHeightConverter = new StructValueConverter<Length>(ValueExtensions.ToLineHeight);
-
-        /// <summary>
-        /// Represents a length object that is based on percentage or number.
-        /// http://dev.w3.org/csswg/css-backgrounds/#border-image-slice
-        /// </summary>
-        public static readonly IValueConverter BorderSliceConverter = new StructValueConverter<Length>(ValueExtensions.ToBorderSlice);
-
-        /// <summary>
-        /// Represents a length object that is based on percentage, length or number.
-        /// http://dev.w3.org/csswg/css-backgrounds/#border-image-width
-        /// </summary>
-        public static readonly IValueConverter ImageBorderWidthConverter = new StructValueConverter<Length>(ValueExtensions.ToImageBorderWidth);
 
         /// <summary>
         /// Represents a length object.
@@ -395,6 +375,24 @@
         #region Composed
 
         /// <summary>
+        /// Represents a distance object with line-height additions.
+        /// http://www.w3.org/TR/CSS2/visudet.html#propdef-line-height
+        /// </summary>
+        public static readonly IValueConverter LineHeightConverter = LengthOrPercentConverter.Or(NumberConverter).Or(Keywords.Normal);
+
+        /// <summary>
+        /// Represents a length object that is based on percentage or number.
+        /// http://dev.w3.org/csswg/css-backgrounds/#border-image-slice
+        /// </summary>
+        public static readonly IValueConverter BorderSliceConverter = PercentConverter.Or(NumberConverter);
+
+        /// <summary>
+        /// Represents a length object that is based on percentage, length or number.
+        /// http://dev.w3.org/csswg/css-backgrounds/#border-image-width
+        /// </summary>
+        public static readonly IValueConverter ImageBorderWidthConverter = LengthOrPercentConverter.Or(NumberConverter).Or(Keywords.Auto);
+
+        /// <summary>
         /// Represents a timing-function object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
         /// </summary>
@@ -601,20 +599,17 @@
         /// <summary>
         /// Represents a converter for the PlayState enumeration.
         /// </summary>
-        public static readonly IValueConverter PlayStateConverter = Converters.Assign(
-            Keywords.Running, PlayState.Running).Or(Keywords.Paused, PlayState.Paused);
+        public static readonly IValueConverter PlayStateConverter = Map.PlayStates.ToConverter();
 
         /// <summary>
         /// Represents a converter for the FontVariant enumeration.
         /// </summary>
-        public static readonly IValueConverter FontVariantConverter = Converters.Assign(
-            Keywords.Normal, FontVariant.Normal).Or(Keywords.SmallCaps, FontVariant.SmallCaps);
+        public static readonly IValueConverter FontVariantConverter = Map.FontVariants.ToConverter();
 
         /// <summary>
         /// Represents a converter for the DirectionMode enumeration.
         /// </summary>
-        public static readonly IValueConverter DirectionModeConverter = Converters.Assign(
-            Keywords.Ltr, DirectionMode.Ltr).Or(Keywords.Rtl, DirectionMode.Rtl);
+        public static readonly IValueConverter DirectionModeConverter = Map.DirectionModes.ToConverter();
 
         /// <summary>
         /// Represents a converter for the HorizontalAlignment enumeration.

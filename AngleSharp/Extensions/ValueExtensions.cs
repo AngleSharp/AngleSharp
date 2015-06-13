@@ -51,38 +51,6 @@
             return null;
         }
 
-        public static Length? ToBorderSlice(this IEnumerable<CssToken> value)
-        {
-            var percent = value.ToPercent();
-
-            if (percent.HasValue)
-                return new Length(percent.Value.Value, Length.Unit.Percent);
-
-            var number = value.ToSingle();
-
-            if (number.HasValue)
-                return new Length(number.Value, Length.Unit.Px);
-
-            return null;
-        }
-
-        public static Length? ToLineHeight(this IEnumerable<CssToken> value)
-        {
-            var distance = value.ToDistance();
-
-            if (distance != null)
-                return distance;
-            else if (value.Is(Keywords.Normal))
-                return new Length(120f, Length.Unit.Percent);
-
-            var val = value.ToSingle();
-
-            if (val.HasValue)
-                return new Length(val.Value * 100f, Length.Unit.Percent);
-
-            return null;
-        }
-
         public static Length? ToDistance(this IEnumerable<CssToken> value)
         {
             var percent = value.ToPercent();
@@ -378,19 +346,6 @@
             return null;
         }
 
-        public static Length? ToImageBorderWidth(this IEnumerable<CssToken> value)
-        {
-            if (value.Is(Keywords.Auto))
-                return new Length(100f, Length.Unit.Percent);
-
-            var multiple = value.ToSingle();
-
-            if (multiple.HasValue)
-                return new Length(multiple.Value * 100f, Length.Unit.Percent);
-
-            return value.ToDistance();
-        }
-
         public static Length? ToBorderWidth(this IEnumerable<CssToken> value)
         {
             var length = value.ToLength();
@@ -462,19 +417,6 @@
 
             value.RemoveRange(++end, value.Count - end);
             value.RemoveRange(0, begin);
-        }
-
-        public static List<List<CssToken>> ToArgs(this IEnumerable<CssToken> value, Int32 size)
-        {
-            var args = value.ToList();
-
-            if (args.Count > size)
-                return null;
-
-            while (args.Count < size)
-                args.Add(new List<CssToken>());
-
-            return args;
         }
 
         public static List<List<CssToken>> ToList(this IEnumerable<CssToken> value)
