@@ -55,7 +55,7 @@
 
             public String CssText
             {
-                get { return Keywords.Initial; }
+                get { return String.Empty; }
             }
         }
     }

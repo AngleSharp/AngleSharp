@@ -42,7 +42,7 @@
 
             public String CssText
             {
-                get { return String.Join(" ", _options.Select(m => m.CssText)); }
+                get { return String.Join(" ", _options.Where(m => !String.IsNullOrEmpty(m.CssText)).Select(m => m.CssText)); }
             }
         }
     }
