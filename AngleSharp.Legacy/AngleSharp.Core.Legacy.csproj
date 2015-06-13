@@ -153,6 +153,9 @@
     <Compile Include="..\AngleSharp\Css\IDocumentFunction.cs">
       <Link>Css\IDocumentFunction.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\IPropertyValue.cs">
+      <Link>Css\IPropertyValue.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\IValueConverter.cs">
       <Link>Css\IValueConverter.cs</Link>
     </Compile>
@@ -245,14 +248,11 @@
     <Compile Include="..\AngleSharp\Css\Units.cs">
       <Link>Css\Units.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\AnyValueConverter.cs">
+      <Link>Css\ValueConverters\AnyValueConverter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\ValueConverters\ArgumentsValueConverter.cs">
       <Link>Css\ValueConverters\ArgumentsValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\ValueConverters\ClassValueConverter.cs">
-      <Link>Css\ValueConverters\ClassValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\ValueConverters\ConstraintValueConverter.cs">
-      <Link>Css\ValueConverters\ConstraintValueConverter.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\ValueConverters\DictionaryValueConverter.cs">
       <Link>Css\ValueConverters\DictionaryValueConverter.cs</Link>
@@ -284,20 +284,29 @@
     <Compile Include="..\AngleSharp\Css\ValueConverters\OrValueConverter.cs">
       <Link>Css\ValueConverters\OrValueConverter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\PeriodicValueConverter.cs">
+      <Link>Css\ValueConverters\PeriodicValueConverter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\ValueConverters\RequiredValueConverter.cs">
       <Link>Css\ValueConverters\RequiredValueConverter.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\ValueConverters\StartsWithValueConverter.cs">
       <Link>Css\ValueConverters\StartsWithValueConverter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\StringsValueConverter.cs">
+      <Link>Css\ValueConverters\StringsValueConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\StringValueConverter.cs">
+      <Link>Css\ValueConverters\StringValueConverter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\ValueConverters\StructValueConverter.cs">
       <Link>Css\ValueConverters\StructValueConverter.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\ValueConverters\ToValueConverter.cs">
-      <Link>Css\ValueConverters\ToValueConverter.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Css\ValueConverters\UnorderedOptionsConverter.cs">
       <Link>Css\ValueConverters\UnorderedOptionsConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\UrlValueConverter.cs">
+      <Link>Css\ValueConverters\UrlValueConverter.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\Values\Angle.cs">
       <Link>Css\Values\Angle.cs</Link>
@@ -586,6 +595,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Constants\FontVariant.cs">
       <Link>Dom\Css\Constants\FontVariant.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\DOM\Css\Constants\FontWeight.cs">
+      <Link>Dom\Css\Constants\FontWeight.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Constants\HoverAbility.cs">
       <Link>Dom\Css\Constants\HoverAbility.cs</Link>
