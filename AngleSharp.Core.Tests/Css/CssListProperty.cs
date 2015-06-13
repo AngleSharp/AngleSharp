@@ -211,7 +211,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssListStyleProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("square url(\"image.png\") inside", concrete.Value);
+            Assert.AreEqual("square inside url(\"image.png\")", concrete.Value);
         }
 
         [Test]

@@ -499,7 +499,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssFontProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("bold italic large serif", concrete.Value);
+            Assert.AreEqual("italic bold large serif", concrete.Value);
         }
 
         [Test]
@@ -694,7 +694,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssFontProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("bold italic large Palatino, serif", concrete.Value);
+            Assert.AreEqual("italic bold large Palatino, serif", concrete.Value);
         }
 
         [Test]

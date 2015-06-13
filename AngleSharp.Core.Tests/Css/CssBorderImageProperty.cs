@@ -295,7 +295,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderImageSliceProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("3px", concrete.Value);
+            Assert.AreEqual("3", concrete.Value);
         }
 
         [Test]
@@ -369,7 +369,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderImageSliceProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("10% 30px 0 0 fill", concrete.Value);
+            Assert.AreEqual("10% 30 0 0 fill", concrete.Value);
         }
 
         [Test]

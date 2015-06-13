@@ -530,7 +530,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssAnimationProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("my-animation 2s 0.5s", concrete.Value);
+            Assert.AreEqual("2s 0.5s my-animation", concrete.Value);
         }
 
         [Test]
@@ -544,7 +544,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssAnimationProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("my-animation 200ms 0.5s ease", concrete.Value);
+            Assert.AreEqual("200ms ease 0.5s my-animation", concrete.Value);
         }
 
         [Test]
@@ -571,7 +571,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssAnimationProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("my-animation 200ms 2.5 ease-in-out", concrete.Value);
+            Assert.AreEqual("200ms ease-in-out 2.5 my-animation", concrete.Value);
         }
 
         [Test]
@@ -585,7 +585,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssAnimationProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("my-animation 0s 10 ease, other-animation 5 linear, yet-another 0s 1s 10 step-start", concrete.Value);
+            Assert.AreEqual("0s ease 10 my-animation, linear 5 other-animation,  0s step-start 1s 10 yet-another", concrete.Value);
         }
     }
 }

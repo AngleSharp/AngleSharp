@@ -145,7 +145,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("transparent", concrete.Value);
+            Assert.AreEqual("rgba(0, 0, 0, 0)", concrete.Value);
         }
 
         [Test]
@@ -159,7 +159,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("red green", concrete.Value);
+            Assert.AreEqual("rgb(255, 0, 0) rgb(0, 128, 0)", concrete.Value);
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("red rgb(0, 0, 0)", concrete.Value);
+            Assert.AreEqual("rgb(255, 0, 0) rgb(0, 0, 0)", concrete.Value);
         }
 
         [Test]
@@ -187,7 +187,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("red blue green", concrete.Value);
+            Assert.AreEqual("rgb(255, 0, 0) rgb(0, 0, 255) rgb(0, 128, 0)", concrete.Value);
         }
 
         [Test]
@@ -201,7 +201,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("red blue green black", concrete.Value);
+            Assert.AreEqual("rgb(255, 0, 0) rgb(0, 0, 255) rgb(0, 128, 0) rgb(0, 0, 0)", concrete.Value);
         }
 
         [Test]
@@ -423,7 +423,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("medium", concrete.Value);
+            Assert.AreEqual("3px", concrete.Value);
         }
 
         [Test]
@@ -451,7 +451,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("thin 1px", concrete.Value);
+            Assert.AreEqual("1px", concrete.Value);
         }
 
         [Test]
@@ -465,7 +465,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("medium thin thick", concrete.Value);
+            Assert.AreEqual("3px 1px 5px", concrete.Value);
         }
 
         [Test]
@@ -511,7 +511,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderWidthProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("medium 0 1px thick", concrete.Value);
+            Assert.AreEqual("3px 0 1px 5px", concrete.Value);
             //Assert.AreEqual(Length.Medium, concrete.Top);
             //Assert.AreEqual(Length.Zero, concrete.Right);
             //Assert.AreEqual(new Length(1f, Length.Unit.Px), concrete.Bottom);
@@ -576,7 +576,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderTopProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("2px red", concrete.Value);
+            Assert.AreEqual("2px rgb(255, 0, 0)", concrete.Value);
             //Assert.AreEqual(new Length(2f, Length.Unit.Px), concrete.Width);
             //Assert.AreEqual(Color.Red, concrete.Color);
             //Assert.AreEqual(LineStyle.None, concrete.Style);
@@ -627,7 +627,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("inset green 3em", concrete.Value);
+            Assert.AreEqual("3em inset rgb(0, 128, 0)", concrete.Value);
             //Assert.AreEqual(new Length(3f, Length.Unit.Em), concrete.Width);
             //Assert.AreEqual(Color.Green, concrete.Color);
             //Assert.AreEqual(LineStyle.Inset, concrete.Style);
@@ -661,7 +661,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssBorderProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("0.5px black double", concrete.Value);
+            Assert.AreEqual("0.5px double rgb(0, 0, 0)", concrete.Value);
             //Assert.AreEqual(new Length(0.5f, Length.Unit.Px), concrete.Width);
             //Assert.AreEqual(Color.Black, concrete.Color);
             //Assert.AreEqual(LineStyle.Double, concrete.Style);

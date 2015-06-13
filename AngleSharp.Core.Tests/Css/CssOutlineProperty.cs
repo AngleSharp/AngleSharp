@@ -173,7 +173,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssOutlineProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("thin", concrete.Value);
+            Assert.AreEqual("1px", concrete.Value);
         }
 
         [Test]
@@ -187,7 +187,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssOutlineProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("thin invert", concrete.Value);
+            Assert.AreEqual("1px invert", concrete.Value);
         }
 
         [Test]
@@ -201,7 +201,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssOutlineProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("dotted 0.3em rgb(255, 255, 255)", concrete.Value);
+            Assert.AreEqual("0.3em dotted rgb(255, 255, 255)", concrete.Value);
         }
 
         [Test]
@@ -242,7 +242,7 @@ namespace AngleSharp.Core.Tests.Css
             var concrete = (CssOutlineProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("solid black 1px", concrete.Value);
+            Assert.AreEqual("1px solid rgb(0, 0, 0)", concrete.Value);
         }
     }
 }
