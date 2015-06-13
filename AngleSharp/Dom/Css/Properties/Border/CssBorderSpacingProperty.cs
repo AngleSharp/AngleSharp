@@ -12,8 +12,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Length[]> SpacingConverter = 
-            Converters.LengthConverter.Many(1, 2);
+        static readonly IValueConverter SpacingConverter = Converters.LengthConverter.Many(1, 2);
 
         #endregion
 

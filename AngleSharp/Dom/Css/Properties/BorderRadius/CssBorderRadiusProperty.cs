@@ -14,10 +14,9 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Tuple<CssValue, CssValue>> RadiusConverter = 
-            Converters.WithOrder(
-                Converters.LengthOrPercentConverter.Periodic().Val().Required(),
-                Converters.LengthOrPercentConverter.Periodic().Val().StartsWithDelimiter().Option());
+        static readonly IValueConverter RadiusConverter = Converters.WithOrder(
+            Converters.LengthOrPercentConverter.Periodic().Required(),
+            Converters.LengthOrPercentConverter.Periodic().StartsWithDelimiter().Option());
 
         #endregion
 
@@ -43,7 +42,7 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return RadiusConverter.Validate(value);
+            return RadiusConverter.Convert(value) != null;
             //TODO Convert instead of validate
             /*, m =>
             {

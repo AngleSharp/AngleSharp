@@ -13,11 +13,8 @@
     {
         #region Fields
 
-        static readonly TextDecorationLine[] Default = new TextDecorationLine[0];
-        static readonly IValueConverter<TextDecorationLine[]> SingleConverter = 
-            Map.TextDecorationLines.ToConverter().Many();
-        internal static readonly IValueConverter<TextDecorationLine[]> ListConverter = 
-            SingleConverter.Or(Keywords.None, Default);
+        static readonly IValueConverter SingleConverter = Map.TextDecorationLines.ToConverter().Many();
+        internal static readonly IValueConverter ListConverter = SingleConverter.OrNone();
 
         #endregion
 

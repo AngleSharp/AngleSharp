@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
-    using System.Collections.Generic;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
 
@@ -13,15 +11,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<FontWeight> StyleConverter = (new Dictionary<String, FontWeight>(StringComparer.OrdinalIgnoreCase)
-        {
-            { Keywords.Normal, new FontWeight { IsRelative = false, Value = 400 } },
-            { Keywords.Bold, new FontWeight { IsRelative = false, Value = 700 } },
-            { Keywords.Bolder, new FontWeight { IsRelative = true, Value = 100 } },
-            { Keywords.Lighter, new FontWeight { IsRelative = true, Value = -100 } }
-        }).ToConverter().Or(
-            Converters.IntegerConverter.Constraint(m => m >= 100 && m <= 900).To(
-            m => new FontWeight { IsRelative = false, Value = m }));
+        internal static readonly IValueConverter StyleConverter = Converters.FontWeightConverter.Or(Converters.WeightIntegerConverter);
 
         #endregion
 
@@ -40,16 +30,6 @@
         {
             // Default: new FontWeight { IsRelative = false, Value = 400 }
             get { return StyleConverter; }
-        }
-
-        #endregion
-
-        #region Structure
-
-        internal struct FontWeight
-        {
-            public Boolean IsRelative;
-            public Int32 Value;
         }
 
         #endregion

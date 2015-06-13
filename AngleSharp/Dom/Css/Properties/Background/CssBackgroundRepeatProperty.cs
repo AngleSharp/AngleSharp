@@ -13,16 +13,11 @@
     {
         #region Fields
 
-        static readonly Repeat Default = 
-            new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.Repeat };
-        internal static readonly IValueConverter<Repeat> SingleConverter = 
-            Map.BackgroundRepeats.ToConverter().To(m => new Repeat { Horizontal = m, Vertical = m }).Or(
-                Keywords.RepeatX, new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.NoRepeat }).Or(
-                Keywords.RepeatY, new Repeat { Horizontal = BackgroundRepeat.NoRepeat, Vertical = BackgroundRepeat.Repeat }).Or(
-                Converters.WithOrder(Map.BackgroundRepeats.ToConverter().Required(), Map.BackgroundRepeats.ToConverter().Required()).To(
-                    m => new Repeat { Horizontal = m.Item1, Vertical = m.Item2 }));
-        static readonly IValueConverter<Repeat[]> ListConverter = 
-            SingleConverter.FromList();
+        internal static readonly IValueConverter SingleConverter = Map.BackgroundRepeats.ToConverter().Or(
+            Keywords.RepeatX, new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.NoRepeat }).Or(
+            Keywords.RepeatY, new Repeat { Horizontal = BackgroundRepeat.NoRepeat, Vertical = BackgroundRepeat.Repeat }).Or(
+            Converters.WithOrder(Map.BackgroundRepeats.ToConverter().Required(), Map.BackgroundRepeats.ToConverter().Required()));
+        static readonly IValueConverter ListConverter = SingleConverter.FromList();
 
         #endregion
 

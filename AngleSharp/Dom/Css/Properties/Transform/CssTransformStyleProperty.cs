@@ -14,8 +14,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Boolean> StyleConverter = 
-            Converters.Toggle(Keywords.Flat, Keywords.Preserve3d);
+        static readonly IValueConverter StyleConverter = Converters.Toggle(Keywords.Flat, Keywords.Preserve3d);
 
         #endregion
 

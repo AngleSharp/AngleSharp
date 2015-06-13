@@ -13,8 +13,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<String[]> PropConverter =
-            Converters.AnimatableConverter.FromList().Or(Keywords.None, new String[0]);
+        static readonly IValueConverter PropConverter = Converters.AnimatableConverter.FromList().OrNone();
         
         #endregion
 

@@ -16,28 +16,28 @@
     {
         #region Fields
 
-        static readonly IValueConverter<BgLayer> NormalLayerConverter = Converters.WithAny(
-            Converters.ImageSourceConverter.Val().Option(),
+        static readonly IValueConverter NormalLayerConverter = Converters.WithAny(
+            Converters.ImageSourceConverter.Option(),
             Converters.WithOrder(
-                Converters.PointConverter.Val().Option(),
-                CssBackgroundSizeProperty.SingleConverter.StartsWithDelimiter().Val().Option()),
-            CssBackgroundRepeatProperty.SingleConverter.Val().Option(),
-            Converters.BackgroundAttachmentConverter.Val().Option(),
-            Converters.BoxModelConverter.Val().Option(),
-            Converters.BoxModelConverter.Val().Option());
+                Converters.PointConverter.Option(),
+                CssBackgroundSizeProperty.SingleConverter.StartsWithDelimiter().Option()),
+            CssBackgroundRepeatProperty.SingleConverter.Option(),
+            Converters.BackgroundAttachmentConverter.Option(),
+            Converters.BoxModelConverter.Option(),
+            Converters.BoxModelConverter.Option());
 
-        static readonly IValueConverter<FinalBgLayer> FinalLayerConverter = Converters.WithAny(
-            Converters.ImageSourceConverter.Val().Option(),
+        static readonly IValueConverter FinalLayerConverter = Converters.WithAny(
+            Converters.ImageSourceConverter.Option(),
             Converters.WithOrder(
-                Converters.PointConverter.Val().Option(),
-                CssBackgroundSizeProperty.SingleConverter.StartsWithDelimiter().Val().Option()),
-            CssBackgroundRepeatProperty.SingleConverter.Val().Option(),
-            Converters.BackgroundAttachmentConverter.Val().Option(),
-            Converters.BoxModelConverter.Val().Option(),
-            Converters.BoxModelConverter.Val().Option(),
-            Converters.CurrentColorConverter.Val().Option());
+                Converters.PointConverter.Option(),
+                CssBackgroundSizeProperty.SingleConverter.StartsWithDelimiter().Option()),
+            CssBackgroundRepeatProperty.SingleConverter.Option(),
+            Converters.BackgroundAttachmentConverter.Option(),
+            Converters.BoxModelConverter.Option(),
+            Converters.BoxModelConverter.Option(),
+            Converters.CurrentColorConverter.Option());
 
-        static readonly IValueConverter<Tuple<BgLayer[], FinalBgLayer>> StyleConverter = NormalLayerConverter.FromList().RequiresEnd(FinalLayerConverter);
+        static readonly IValueConverter StyleConverter = NormalLayerConverter.FromList().RequiresEnd(FinalLayerConverter);
 
         #endregion
 
@@ -69,7 +69,7 @@
             //  <final-bg-layer> = 
             //      <bg-image> || <position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box> || <background-color>
 
-            return StyleConverter.Validate(value);
+            return StyleConverter.Convert(value) != null;
             //TODO Convert instead of validate
             /*, m =>
             {

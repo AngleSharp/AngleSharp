@@ -13,13 +13,12 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Tuple<CustomCursor[], SystemCursor>> StyleConverter = 
-            Converters.ImageSourceConverter.To(m => new CustomCursor { Image = m }).Or(
+        static readonly IValueConverter StyleConverter = 
+            Converters.ImageSourceConverter.Or(
                 Converters.WithOrder(
                     Converters.ImageSourceConverter.Required(),
                     Converters.NumberConverter.Required(),
-                    Converters.NumberConverter.Required()).To(
-                v => new CustomCursor { Image = v.Item1, X = v.Item2, Y = v.Item3 })).
+                    Converters.NumberConverter.Required())).
                 FromList().RequiresEnd(Map.Cursors.ToConverter());
 
         #endregion

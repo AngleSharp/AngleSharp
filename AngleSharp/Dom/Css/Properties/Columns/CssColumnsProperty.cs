@@ -14,10 +14,9 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Tuple<CssValue, CssValue>> StyleConverter = 
-            Converters.WithAny(
-                Converters.AutoLengthConverter.Val().Option(),
-                Converters.OptionalIntegerConverter.Val().Option());
+        static readonly IValueConverter StyleConverter = Converters.WithAny(
+            Converters.AutoLengthConverter.Option(),
+            Converters.OptionalIntegerConverter.Option());
 
         #endregion
 
@@ -43,7 +42,7 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return StyleConverter.Validate(value);
+            return StyleConverter.Convert(value) != null;
             //TODO Convert instead of validate
             /*, m =>
             {

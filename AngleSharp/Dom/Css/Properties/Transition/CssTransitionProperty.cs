@@ -14,12 +14,11 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<CssValue, CssValue, CssValue, CssValue>[]> ListConverter = 
-            Converters.WithAny(
-                Converters.AnimatableConverter.Val().Option(),
-                Converters.TimeConverter.Val().Option(),
-                Converters.TransitionConverter.Val().Option(),
-                Converters.TimeConverter.Val().Option()).FromList();
+        internal static readonly IValueConverter ListConverter = Converters.WithAny(
+            Converters.AnimatableConverter.Option(),
+            Converters.TimeConverter.Option(),
+            Converters.TransitionConverter.Option(),
+            Converters.TimeConverter.Option()).FromList();
 
         #endregion
 
@@ -45,7 +44,7 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return ListConverter.Validate(value);
+            return ListConverter.Convert(value) != null;
             //TODO Convert instead of validate
             /*, t =>
             {

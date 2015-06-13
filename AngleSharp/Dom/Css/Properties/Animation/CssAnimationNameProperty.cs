@@ -13,8 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<String[]> ListConverter = 
-            Converters.Assign(Keywords.None, new String[0]).Or(Converters.IdentifierConverter.FromList());
+        internal static readonly IValueConverter ListConverter = Converters.IdentifierConverter.FromList().OrNone();
 
         #endregion
 

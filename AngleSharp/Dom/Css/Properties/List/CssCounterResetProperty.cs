@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
-    using System.Collections.Generic;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
 
@@ -13,12 +11,20 @@
     {
         #region Fields
 
-        static readonly IValueConverter<KeyValuePair<String, Int32>[]> CounterConverter = 
+        // Former way of computing for IElement element:
+        /*
+            var pairs = CounterConverter.Convert(Value);
+
+            if (pairs.Length == 0)
+                return null;
+
+            return pairs[0];
+        */
+        // Default: Nothing
+        static readonly IValueConverter CounterConverter = Converters.WithOrder(
             Converters.WithOrder(
-                Converters.WithOrder(
-                    Converters.IdentifierConverter.Required(),
-                    Converters.IntegerConverter.Option(0)).To(
-                m => new KeyValuePair<String, Int32>(m.Item1, m.Item2)));
+                Converters.IdentifierConverter.Required(),
+                Converters.IntegerConverter.Option(0)));
 
         #endregion
 
@@ -35,26 +41,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Nothing
             get { return CounterConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            // Former way of computing for IElement element:
-            /*
-                var pairs = CounterConverter.Convert(Value);
-
-                if (pairs.Length == 0)
-                    return null;
-
-                return pairs[0];
-            */
-            return CounterConverter.Validate(value);
         }
 
         #endregion

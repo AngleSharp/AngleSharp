@@ -12,8 +12,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<BoxModel[]> ListConverter = 
-            Converters.BoxModelConverter.FromList();
+        static readonly IValueConverter ListConverter = Converters.BoxModelConverter.FromList();
 
         #endregion
 

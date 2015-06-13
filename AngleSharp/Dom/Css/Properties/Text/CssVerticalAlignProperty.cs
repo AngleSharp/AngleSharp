@@ -16,8 +16,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Length> StyleConverter = 
-            Converters.LengthOrPercentConverter.Or(Converters.VerticalAlignmentConverter.To(m => Length.Zero));
+        static readonly IValueConverter StyleConverter = Converters.LengthOrPercentConverter.Or(Converters.VerticalAlignmentConverter);
 
         #endregion
 

@@ -11,8 +11,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<BorderRepeat[]> StyleConverter = 
-            Map.BorderRepeatModes.ToConverter().Many(1, 2);
+        internal static readonly IValueConverter StyleConverter = Map.BorderRepeatModes.ToConverter().Many(1, 2);
 
         #endregion
 

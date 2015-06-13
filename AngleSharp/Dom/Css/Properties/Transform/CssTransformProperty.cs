@@ -13,9 +13,7 @@
     {
         #region Fields
 
-        static readonly ITransform[] Default = new ITransform[0];
-        static readonly IValueConverter<ITransform[]> StyleConverter = 
-            Converters.TransformConverter.Many().Or(Keywords.None, Default);
+        static readonly IValueConverter StyleConverter = Converters.TransformConverter.Many().OrNone();
 
         #endregion
 

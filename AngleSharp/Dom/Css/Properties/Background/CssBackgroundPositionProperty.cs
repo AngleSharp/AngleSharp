@@ -13,8 +13,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Point[]> ListConverter = 
-            Converters.PointConverter.FromList();
+        static readonly IValueConverter ListConverter = Converters.PointConverter.FromList();
 
         #endregion
 

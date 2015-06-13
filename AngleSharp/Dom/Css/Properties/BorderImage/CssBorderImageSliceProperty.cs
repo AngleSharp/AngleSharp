@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
@@ -15,13 +14,12 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Length, Length?, Length?, Length?, Boolean>> StyleConverter = 
-            Converters.WithAny(
-                Converters.BorderSliceConverter.Option(new Length(100f, Length.Unit.Percent)),
-                Converters.BorderSliceConverter.ToNullable().Option(null),
-                Converters.BorderSliceConverter.ToNullable().Option(null),
-                Converters.BorderSliceConverter.ToNullable().Option(null),
-                Converters.Assign(Keywords.Fill, true).Option(false));
+        internal static readonly IValueConverter StyleConverter = Converters.WithAny(
+            Converters.BorderSliceConverter.Option(new Length(100f, Length.Unit.Percent)),
+            Converters.BorderSliceConverter.Option(),
+            Converters.BorderSliceConverter.Option(),
+            Converters.BorderSliceConverter.Option(),
+            Converters.Assign(Keywords.Fill, true).Option(false));
 
         #endregion
 

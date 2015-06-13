@@ -12,8 +12,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<BreakMode> BreakConverter = 
-            Converters.Assign(Keywords.Auto, BreakMode.Auto).Or(Keywords.Avoid, BreakMode.Avoid);
+        static readonly IValueConverter BreakConverter = Converters.Assign(Keywords.Auto, BreakMode.Auto).Or(Keywords.Avoid, BreakMode.Avoid);
 
         #endregion
 

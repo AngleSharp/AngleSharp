@@ -14,16 +14,15 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<CssValue, CssValue, CssValue, CssValue, CssValue, CssValue, CssValue, Tuple<CssValue>>[]> ListConverter = 
-            Converters.WithAny(
-                Converters.TimeConverter.Val().Option(),
-                Converters.TransitionConverter.Val().Option(),
-                Converters.TimeConverter.Val().Option(),
-                Converters.PositiveOrInfiniteNumberConverter.Val().Option(),
-                Converters.AnimationDirectionConverter.Val().Option(),
-                Converters.AnimationFillStyleConverter.Val().Option(),
-                Converters.PlayStateConverter.Val().Option(),
-                Converters.IdentifierConverter.Val().Option()).FromList();
+        internal static readonly IValueConverter ListConverter = Converters.WithAny(
+            Converters.TimeConverter.Option(),
+            Converters.TransitionConverter.Option(),
+            Converters.TimeConverter.Option(),
+            Converters.PositiveOrInfiniteNumberConverter.Option(),
+            Converters.AnimationDirectionConverter.Option(),
+            Converters.AnimationFillStyleConverter.Option(),
+            Converters.PlayStateConverter.Option(),
+            Converters.IdentifierConverter.Option()).FromList();
 
         #endregion
 
@@ -49,7 +48,7 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return ListConverter.Validate(value);
+            return ListConverter.Convert(value) != null;
             //TODO Convert instead of validate
             /*, t =>
             {

@@ -22,13 +22,20 @@
             { Keywords.NoCloseQuote, new NoCloseQuoteContentMode() }
         };
         static readonly ContentMode[] Default = new[] { new NormalContentMode() };
-        static readonly IValueConverter<ContentMode[]> StyleConverter = 
-            Converters.Assign(Keywords.Normal, Default).Or(Keywords.None, new ContentMode[0]).Or(
+
+        // Way of converting for an IElement element
+        /*
+            var values = ContentConverter.Convert(Value);
+            var parts = values.Select(m => m.Stringify(element));
+            return String.Join(String.Empty, parts);
+        */
+        // Default: Nothing
+        static readonly IValueConverter StyleConverter = Converters.Assign(Keywords.Normal, Default).OrNone().Or(
                 ContentModes.ToConverter().Or(
-                Converters.UrlConverter.To(TransformUrl)).Or(
-                Converters.StringConverter.To(TransformString)).Or(
-                Converters.AttrConverter.To(TransformAttr)).Or(
-                Converters.CounterConverter.To(TransformCounter)).Many()
+                Converters.UrlConverter).Or(
+                Converters.StringConverter).Or(
+                Converters.AttrConverter).Or(
+                Converters.CounterConverter).Many()
             );
 
         #endregion
@@ -46,23 +53,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: NormalContentMode
             get { return StyleConverter; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            // Way of converting for an IElement element
-            /*
-                var values = ContentConverter.Convert(Value);
-                var parts = values.Select(m => m.Stringify(element));
-                return String.Join(String.Empty, parts);
-            */
-            return StyleConverter.Validate(value);
         }
 
         #endregion

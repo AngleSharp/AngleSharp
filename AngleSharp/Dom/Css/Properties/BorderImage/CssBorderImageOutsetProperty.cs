@@ -13,8 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Tuple<Length, Length, Length, Length>> StyleConverter = 
-            Converters.LengthOrPercentConverter.Periodic();
+        internal static readonly IValueConverter StyleConverter = Converters.LengthOrPercentConverter.Periodic();
 
         #endregion
 

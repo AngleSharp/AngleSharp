@@ -13,8 +13,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<ITimingFunction[]> ListConverter = 
-            Converters.TransitionConverter.FromList();
+        static readonly IValueConverter ListConverter = Converters.TransitionConverter.FromList();
 
         #endregion
 

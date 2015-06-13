@@ -14,14 +14,13 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Tuple<CssValue, Tuple<CssValue, CssValue, CssValue>, CssValue>> ImageConverter = 
-            Converters.WithAny(
-                Converters.OptionalImageSourceConverter.Val().Option(),
-                Converters.WithOrder(
-                    CssBorderImageSliceProperty.StyleConverter.Val().Option(),
-                    CssBorderImageWidthProperty.StyleConverter.Val().StartsWithDelimiter().Option(),
-                    CssBorderImageOutsetProperty.StyleConverter.Val().StartsWithDelimiter().Option()),
-                CssBorderImageRepeatProperty.StyleConverter.Val().Option());
+        static readonly IValueConverter ImageConverter = Converters.WithAny(
+            Converters.OptionalImageSourceConverter.Option(),
+            Converters.WithOrder(
+                CssBorderImageSliceProperty.StyleConverter.Option(),
+                CssBorderImageWidthProperty.StyleConverter.StartsWithDelimiter().Option(),
+                CssBorderImageOutsetProperty.StyleConverter.StartsWithDelimiter().Option()),
+            CssBorderImageRepeatProperty.StyleConverter.Option());
 
         #endregion
 
@@ -47,7 +46,7 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return ImageConverter.Validate(value);
+            return ImageConverter.Convert(value) != null;
             //TODO Convert instead of validate
             /*, m =>
             {

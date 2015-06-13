@@ -33,7 +33,7 @@
 
         protected override Boolean IsValid(CssValue value)
         {
-            return CssBorderProperty.StyleConverter.Validate(value);
+            return CssBorderProperty.StyleConverter.Convert(value) != null;
             //TODO Convert instead of validate
             /*, m =>
             {

@@ -199,7 +199,7 @@
         /// <returns>True if the value is valid, otherwise false.</returns>
         protected virtual Boolean IsValid(CssValue value)
         {
-            return Converter.Validate(value);
+            return Converter.Convert(value) != null;
         }
 
         #endregion

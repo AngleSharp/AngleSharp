@@ -24,7 +24,7 @@
         internal override IValueConverter Converter
         {
             // Default: 2
-            get { return Converters.PositiveIntegerConverter; }
+            get { return Converters.NaturalIntegerConverter; }
         }
 
         #endregion

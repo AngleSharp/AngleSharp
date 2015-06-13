@@ -13,10 +13,8 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<String[]> StyleConverter = 
-            Map.DefaultFontFamilies.ToConverter().Or(
-                Converters.StringConverter).Or(
-                Converters.IdentifierConverter.Many().To(names => String.Join(" ", names))).FromList();
+        internal static readonly IValueConverter StyleConverter = Map.DefaultFontFamilies.ToConverter().Or(
+            Converters.StringConverter).Or(Converters.LiteralsConverter).FromList();
 
         #endregion
 

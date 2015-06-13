@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<SystemFont> SystemFontConverter = (new Dictionary<String, SystemFont>()
+        internal static readonly IValueConverter SystemFontConverter = (new Dictionary<String, SystemFont>()
         {
             { Keywords.Caption, SystemFont.Caption },
             { Keywords.Icon, SystemFont.Icon },
@@ -24,17 +24,16 @@
             { Keywords.StatusBar, SystemFont.StatusBar }
         }).ToConverter();
 
-        internal static readonly IValueConverter<Tuple<Tuple<CssValue, CssValue, CssValue, CssValue>, Tuple<CssValue, CssValue>, CssValue>> StyleConverter = 
+        internal static readonly IValueConverter StyleConverter = Converters.WithOrder(
+            Converters.WithAny(
+                Converters.FontStyleConverter.Option(),
+                Converters.FontVariantConverter.Option(),
+                CssFontWeightProperty.StyleConverter.Option(),
+                Converters.FontStretchConverter.Option()),
             Converters.WithOrder(
-                Converters.WithAny(
-                    Converters.FontStyleConverter.Val().Option(),
-                    Converters.FontVariantConverter.Val().Option(),
-                    CssFontWeightProperty.StyleConverter.Val().Option(),
-                    Converters.FontStretchConverter.Val().Option()),
-                Converters.WithOrder(
-                    Converters.FontSizeConverter.Val().Required(),
-                    Converters.LineHeightConverter.Val().StartsWithDelimiter().Option()),
-                CssFontFamilyProperty.StyleConverter.Val().Required());
+                Converters.FontSizeConverter.Required(),
+                Converters.LineHeightConverter.StartsWithDelimiter().Option()),
+            CssFontFamilyProperty.StyleConverter.Required());
 
         #endregion
 
@@ -62,7 +61,7 @@
         {
             //[ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]? <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ] | caption | icon | menu | message-box | small-caption | status-bar
 
-            return StyleConverter.Validate(value);
+            return StyleConverter.Convert(value) != null;
             //TODO Convert instead of validate
             /*, m =>
             {

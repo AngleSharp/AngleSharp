@@ -15,8 +15,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter<Length> StyleConverter = 
-            Converters.LengthConverter.Or(Keywords.None, Length.Zero);
+        static readonly IValueConverter StyleConverter = Converters.LengthConverter.OrNone();
 
         #endregion
 

@@ -13,8 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter<Single[]> ListConverter = 
-            Converters.PositiveOrInfiniteNumberConverter.FromList();
+        internal static readonly IValueConverter ListConverter = Converters.PositiveOrInfiniteNumberConverter.FromList();
 
         #endregion
 
