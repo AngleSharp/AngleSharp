@@ -218,6 +218,11 @@
         /// </summary>
         public static readonly Dictionary<String, FontWeight> FontWeights = new Dictionary<String, FontWeight>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Contains the string-SystemFont mapping.
+        /// </summary>
+        public static readonly Dictionary<String, SystemFont> SystemFonts = new Dictionary<String, SystemFont>(StringComparer.OrdinalIgnoreCase);
+
         #endregion
 
         #region Initial Population
@@ -522,6 +527,13 @@
             FontWeights.Add(Keywords.Bold, FontWeight.Bold);
             FontWeights.Add(Keywords.Bolder, FontWeight.Bolder);
             FontWeights.Add(Keywords.Lighter, FontWeight.Lighter);
+            
+            SystemFonts.Add(Keywords.Caption, SystemFont.Caption);
+            SystemFonts.Add(Keywords.Icon, SystemFont.Icon);
+            SystemFonts.Add(Keywords.Menu, SystemFont.Menu);
+            SystemFonts.Add(Keywords.MessageBox, SystemFont.MessageBox);
+            SystemFonts.Add(Keywords.SmallCaption, SystemFont.SmallCaption);
+            SystemFonts.Add(Keywords.StatusBar, SystemFont.StatusBar);
         }
 
         #endregion

@@ -17,15 +17,6 @@
         //[ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]? 
         // <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ] | 
         // caption | icon | menu | message-box | small-caption | status-bar
-        internal static readonly IValueConverter SystemFontConverter = (new Dictionary<String, SystemFont>()
-        {
-            { Keywords.Caption, SystemFont.Caption },
-            { Keywords.Icon, SystemFont.Icon },
-            { Keywords.Menu, SystemFont.Menu },
-            { Keywords.MessageBox, SystemFont.MessageBox },
-            { Keywords.SmallCaption, SystemFont.SmallCaption },
-            { Keywords.StatusBar, SystemFont.StatusBar }
-        }).ToConverter();
 
         //TODO Convert instead of validate
         /*
@@ -36,7 +27,7 @@
             Get<CssFontSizeProperty>().TrySetValue(m.Item2.Item1);
             Get<CssLineHeightProperty>().TrySetValue(m.Item2.Item2);
             Get<CssFontFamilyProperty>().TrySetValue(m.Item3);
-        || SystemFontConverter.TryConvert(value, SetSystemFont)*/
+        */
         internal static readonly IValueConverter StyleConverter = Converters.WithOrder(
             Converters.WithAny(
                 Converters.FontStyleConverter.Option(),
@@ -46,7 +37,7 @@
             Converters.WithOrder(
                 Converters.FontSizeConverter.Required(),
                 Converters.LineHeightConverter.StartsWithDelimiter().Option()),
-            CssFontFamilyProperty.StyleConverter.Required());
+            CssFontFamilyProperty.StyleConverter.Required()).Or(Converters.SystemFontConverter);
 
         #endregion
 

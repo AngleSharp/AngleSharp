@@ -681,6 +681,11 @@
         /// </summary>
         public static readonly IValueConverter FontWeightConverter = Map.FontWeights.ToConverter();
 
+        /// <summary>
+        /// Represents a converter for the SystemFont enumeration.
+        /// </summary>
+        public static readonly IValueConverter SystemFontConverter = Map.SystemFonts.ToConverter();
+
         #endregion
 
         #region Toggles
