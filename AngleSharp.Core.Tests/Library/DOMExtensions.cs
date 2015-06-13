@@ -406,8 +406,8 @@
 
             var style = (elements[0] as IHtmlElement).Style;
 
-            Assert.AreEqual("red", style.Color);
-            Assert.AreEqual("green", style.BackgroundColor);
+            Assert.AreEqual("rgb(255, 0, 0)", style.Color);
+            Assert.AreEqual("rgb(0, 128, 0)", style.BackgroundColor);
             Assert.AreEqual("\"Tahoma\"", style.FontFamily);
             Assert.AreEqual("10px", style.FontSize);
             Assert.AreEqual("0.5", style.Opacity);
