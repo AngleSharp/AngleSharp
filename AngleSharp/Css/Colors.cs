@@ -164,7 +164,7 @@
             { "whitesmoke", new Color(245, 245, 245) },
             { "yellow", new Color(255, 255, 0) },
             { "yellowgreen", new Color(154, 205, 50) },
-            { "transparent", new Color(0, 0, 0) },
+            { "transparent", new Color(0, 0, 0, 0) },
             // CSS2 system colors
             { "activeborder", new Color(255, 255, 255) },
             { "activecaption", new Color(204, 204, 204) },
