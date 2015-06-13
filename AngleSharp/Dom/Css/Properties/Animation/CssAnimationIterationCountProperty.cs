@@ -13,7 +13,7 @@
         #region Fields
 
         // Default: 1f
-        internal static readonly IValueConverter ListConverter = Converters.NaturalNumberConverter.FromList();
+        internal static readonly IValueConverter ListConverter = Converters.PositiveOrInfiniteNumberConverter.FromList();
 
         #endregion
 

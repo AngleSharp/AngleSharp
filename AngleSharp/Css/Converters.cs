@@ -492,7 +492,7 @@
         /// <summary>
         /// Represents a positive or infinite number object.
         /// </summary>
-        public static readonly IValueConverter PositiveOrInfiniteNumberConverter = NaturalIntegerConverter.Or(Keywords.Infinite, Single.PositiveInfinity);
+        public static readonly IValueConverter PositiveOrInfiniteNumberConverter = NaturalNumberConverter.Or(Keywords.Infinite, Single.PositiveInfinity);
 
         /// <summary>
         /// Represents a positive or infinite number object.
