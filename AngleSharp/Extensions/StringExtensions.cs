@@ -762,15 +762,7 @@
             Color color;
 
             if (Color.TryFromHex(value, out color))
-            {
-                var arguments = String.Join(", ", new []
-                {
-                    color.R.ToString(),
-                    color.G.ToString(),
-                    color.B.ToString()
-                });
-                return String.Concat(FunctionNames.Rgb, "(", arguments, ")");
-            }
+                return color.ToString(null, CultureInfo.InvariantCulture);
 
             return value;
         }

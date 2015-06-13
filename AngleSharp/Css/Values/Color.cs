@@ -460,7 +460,27 @@
         /// <returns>The ARGB string.</returns>
         public override String ToString()
         {
-            return String.Concat("#", alpha.ToString("X2"), red.ToString("X2"), green.ToString("X2"), blue.ToString("X2"));
+            if (alpha == 255)
+            {
+                var arguments = String.Join(", ", new[]
+                {
+                    R.ToString(),
+                    G.ToString(),
+                    B.ToString()
+                });
+                return String.Concat(FunctionNames.Rgb, "(", arguments, ")");
+            }
+            else
+            {
+                var arguments = String.Join(", ", new[]
+                {
+                    R.ToString(),
+                    G.ToString(),
+                    B.ToString(),
+                    Alpha.ToString()
+                });
+                return String.Concat(FunctionNames.Rgba, "(", arguments, ")");
+            }
         }
 
         /// <summary>
@@ -471,7 +491,27 @@
         /// <returns>The unit string.</returns>
         public String ToString(String format, IFormatProvider formatProvider)
         {
-            return String.Concat("#", alpha.ToString("X2", formatProvider), red.ToString("X2", formatProvider), green.ToString("X2", formatProvider), blue.ToString("X2", formatProvider));
+            if (alpha == 255)
+            {
+                var arguments = String.Join(", ", new[]
+                {
+                    R.ToString(format, formatProvider),
+                    G.ToString(format, formatProvider),
+                    B.ToString(format, formatProvider)
+                });
+                return String.Concat(FunctionNames.Rgb, "(", arguments, ")");
+            }
+            else
+            {
+                var arguments = String.Join(", ", new[]
+                {
+                    R.ToString(format, formatProvider),
+                    G.ToString(format, formatProvider),
+                    B.ToString(format, formatProvider),
+                    Alpha.ToString(format, formatProvider)
+                });
+                return String.Concat(FunctionNames.Rgba, "(", arguments, ")");
+            }
         }
 
         #endregion
