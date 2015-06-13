@@ -11,6 +11,18 @@
     /// </summary>
     sealed class CssBorderTopProperty : CssShorthandProperty
     {
+        #region Fields
+
+        //TODO Convert instead of validate
+        /*
+            Get<CssBorderTopWidthProperty>().TrySetValue(m.Item1);
+            Get<CssBorderTopStyleProperty>().TrySetValue(m.Item2);
+            Get<CssBorderTopColorProperty>().TrySetValue(m.Item3);
+         */
+        static readonly IValueConverter StyleConverter = CssBorderProperty.StyleConverter;
+
+        #endregion
+
         #region ctor
 
         internal CssBorderTopProperty()
@@ -30,18 +42,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return CssBorderProperty.StyleConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, m =>
-            {
-                Get<CssBorderTopWidthProperty>().TrySetValue(m.Item1);
-                Get<CssBorderTopStyleProperty>().TrySetValue(m.Item2);
-                Get<CssBorderTopColorProperty>().TrySetValue(m.Item3);
-            });*/
-        }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {

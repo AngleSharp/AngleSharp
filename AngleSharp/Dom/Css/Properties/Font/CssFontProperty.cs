@@ -14,6 +14,9 @@
     {
         #region Fields
 
+        //[ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]? 
+        // <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ] | 
+        // caption | icon | menu | message-box | small-caption | status-bar
         internal static readonly IValueConverter SystemFontConverter = (new Dictionary<String, SystemFont>()
         {
             { Keywords.Caption, SystemFont.Caption },
@@ -24,6 +27,16 @@
             { Keywords.StatusBar, SystemFont.StatusBar }
         }).ToConverter();
 
+        //TODO Convert instead of validate
+        /*
+            Get<CssFontStyleProperty>().TrySetValue(m.Item1.Item1);
+            Get<CssFontVariantProperty>().TrySetValue(m.Item1.Item2);
+            Get<CssFontWeightProperty>().TrySetValue(m.Item1.Item3);
+            Get<CssFontStretchProperty>().TrySetValue(m.Item1.Item4);
+            Get<CssFontSizeProperty>().TrySetValue(m.Item2.Item1);
+            Get<CssLineHeightProperty>().TrySetValue(m.Item2.Item2);
+            Get<CssFontFamilyProperty>().TrySetValue(m.Item3);
+        || SystemFontConverter.TryConvert(value, SetSystemFont)*/
         internal static readonly IValueConverter StyleConverter = Converters.WithOrder(
             Converters.WithAny(
                 Converters.FontStyleConverter.Option(),
@@ -56,24 +69,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            //[ [ <‘font-style’> || <font-variant-css21> || <‘font-weight’> || <‘font-stretch’> ]? <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ] | caption | icon | menu | message-box | small-caption | status-bar
-
-            return StyleConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, m =>
-            {
-                Get<CssFontStyleProperty>().TrySetValue(m.Item1.Item1);
-                Get<CssFontVariantProperty>().TrySetValue(m.Item1.Item2);
-                Get<CssFontWeightProperty>().TrySetValue(m.Item1.Item3);
-                Get<CssFontStretchProperty>().TrySetValue(m.Item1.Item4);
-                Get<CssFontSizeProperty>().TrySetValue(m.Item2.Item1);
-                Get<CssLineHeightProperty>().TrySetValue(m.Item2.Item2);
-                Get<CssFontFamilyProperty>().TrySetValue(m.Item3);
-            }) || SystemFontConverter.TryConvert(value, SetSystemFont);*/
-        }
 
         /// <summary>
         /// Instead of specifying individual longhand properties, a keyword

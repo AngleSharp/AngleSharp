@@ -14,6 +14,13 @@
     {
         #region Fields
 
+        //TODO Convert instead of validate
+        /*
+            Get<CssBorderTopLeftRadiusProperty>().TrySetValue(Extract(m, 0));
+            Get<CssBorderTopRightRadiusProperty>().TrySetValue(Extract(m, 1));
+            Get<CssBorderBottomRightRadiusProperty>().TrySetValue(Extract(m, 2));
+            Get<CssBorderBottomLeftRadiusProperty>().TrySetValue(Extract(m, 3));
+         */
         static readonly IValueConverter RadiusConverter = Converters.WithOrder(
             Converters.LengthOrPercentConverter.Periodic().Required(),
             Converters.LengthOrPercentConverter.Periodic().StartsWithDelimiter().Option());
@@ -39,19 +46,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return RadiusConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, m =>
-            {
-                Get<CssBorderTopLeftRadiusProperty>().TrySetValue(Extract(m, 0));
-                Get<CssBorderTopRightRadiusProperty>().TrySetValue(Extract(m, 1));
-                Get<CssBorderBottomRightRadiusProperty>().TrySetValue(Extract(m, 2));
-                Get<CssBorderBottomLeftRadiusProperty>().TrySetValue(Extract(m, 3));
-            });*/
-        }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {

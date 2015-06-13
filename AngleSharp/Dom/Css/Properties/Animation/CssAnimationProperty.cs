@@ -14,6 +14,17 @@
     {
         #region Fields
 
+        //TODO Convert instead of validate
+        /*
+            Get<CssAnimationDurationProperty>().TrySetValue(Transform(t.Select(m => m.Item1)));
+            Get<CssAnimationTimingFunctionProperty>().TrySetValue(Transform(t.Select(m => m.Item2)));
+            Get<CssAnimationDelayProperty>().TrySetValue(Transform(t.Select(m => m.Item3)));
+            Get<CssAnimationIterationCountProperty>().TrySetValue(Transform(t.Select(m => m.Item4)));
+            Get<CssAnimationDirectionProperty>().TrySetValue(Transform(t.Select(m => m.Item5)));
+            Get<CssAnimationFillModeProperty>().TrySetValue(Transform(t.Select(m => m.Item6)));
+            Get<CssAnimationPlayStateProperty>().TrySetValue(Transform(t.Select(m => m.Item7)));
+            Get<CssAnimationNameProperty>().TrySetValue(Transform(t.Select(m => m.Rest.Item1)));
+         */
         internal static readonly IValueConverter ListConverter = Converters.WithAny(
             Converters.TimeConverter.Option(),
             Converters.TransitionConverter.Option(),
@@ -45,31 +56,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return ListConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, t =>
-            {
-                Get<CssAnimationDurationProperty>().TrySetValue(Transform(t.Select(m => m.Item1)));
-                Get<CssAnimationTimingFunctionProperty>().TrySetValue(Transform(t.Select(m => m.Item2)));
-                Get<CssAnimationDelayProperty>().TrySetValue(Transform(t.Select(m => m.Item3)));
-                Get<CssAnimationIterationCountProperty>().TrySetValue(Transform(t.Select(m => m.Item4)));
-                Get<CssAnimationDirectionProperty>().TrySetValue(Transform(t.Select(m => m.Item5)));
-                Get<CssAnimationFillModeProperty>().TrySetValue(Transform(t.Select(m => m.Item6)));
-                Get<CssAnimationPlayStateProperty>().TrySetValue(Transform(t.Select(m => m.Item7)));
-                Get<CssAnimationNameProperty>().TrySetValue(Transform(t.Select(m => m.Rest.Item1)));
-            });*/
-        }
-
-        CssValue Transform(IEnumerable<CssValue> values)
-        {
-            //if (values.Count() > 1)
-            //    return new CssValueList(values.ToList());
-
-            return values.FirstOrDefault();
-        }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {

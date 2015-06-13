@@ -14,6 +14,21 @@
     {
         #region Fields
 
+        //TODO Convert instead of validate
+        /*
+            Get<CssBorderTopWidthProperty>().TrySetValue(m.Item1);
+            Get<CssBorderTopStyleProperty>().TrySetValue(m.Item2);
+            Get<CssBorderTopColorProperty>().TrySetValue(m.Item3);
+            Get<CssBorderLeftWidthProperty>().TrySetValue(m.Item1);
+            Get<CssBorderLeftStyleProperty>().TrySetValue(m.Item2);
+            Get<CssBorderLeftColorProperty>().TrySetValue(m.Item3);
+            Get<CssBorderRightWidthProperty>().TrySetValue(m.Item1);
+            Get<CssBorderRightStyleProperty>().TrySetValue(m.Item2);
+            Get<CssBorderRightColorProperty>().TrySetValue(m.Item3);
+            Get<CssBorderBottomWidthProperty>().TrySetValue(m.Item1);
+            Get<CssBorderBottomStyleProperty>().TrySetValue(m.Item2);
+            Get<CssBorderBottomColorProperty>().TrySetValue(m.Item3);
+         */
         internal static readonly IValueConverter StyleConverter = Converters.WithAny(
             Converters.LineWidthConverter.Option(),
             Converters.LineStyleConverter.Option(),
@@ -40,27 +55,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return StyleConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, m =>
-            {
-                Get<CssBorderTopWidthProperty>().TrySetValue(m.Item1);
-                Get<CssBorderTopStyleProperty>().TrySetValue(m.Item2);
-                Get<CssBorderTopColorProperty>().TrySetValue(m.Item3);
-                Get<CssBorderLeftWidthProperty>().TrySetValue(m.Item1);
-                Get<CssBorderLeftStyleProperty>().TrySetValue(m.Item2);
-                Get<CssBorderLeftColorProperty>().TrySetValue(m.Item3);
-                Get<CssBorderRightWidthProperty>().TrySetValue(m.Item1);
-                Get<CssBorderRightStyleProperty>().TrySetValue(m.Item2);
-                Get<CssBorderRightColorProperty>().TrySetValue(m.Item3);
-                Get<CssBorderBottomWidthProperty>().TrySetValue(m.Item1);
-                Get<CssBorderBottomStyleProperty>().TrySetValue(m.Item2);
-                Get<CssBorderBottomColorProperty>().TrySetValue(m.Item3);
-            });*/
-        }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {

@@ -37,11 +37,6 @@
 
         #region Methods
 
-        protected TProperty Get<TProperty>()
-        {
-            return _properties.OfType<TProperty>().FirstOrDefault();
-        }
-
         protected static String SerializePeriodic(CssProperty t, CssProperty r, CssProperty b, CssProperty l)
         {
             var top = t.SerializeValue();
@@ -49,11 +44,6 @@
             var bottom = b.SerializeValue();
             var left = l.SerializeValue();
             return SerializePeriodic(top, right, bottom, left);
-        }
-
-        protected static String SerializePeriodic(CssValue top, CssValue right, CssValue bottom, CssValue left)
-        {
-            return SerializePeriodic(top.CssText, right.CssText, bottom.CssText, left.CssText);
         }
 
         protected static String SerializePeriodic(String top, String right, String bottom, String left)
@@ -66,14 +56,6 @@
                 return String.Format("{0} {1}", top, right);
 
             return top;
-        }
-
-        internal sealed override void Reset()
-        {
-            base.Reset();
-
-            foreach (var property in _properties)
-                property.Reset();
         }
 
         internal override sealed String SerializeValue()

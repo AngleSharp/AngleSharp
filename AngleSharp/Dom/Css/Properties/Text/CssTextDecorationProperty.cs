@@ -14,6 +14,12 @@
     {
         #region Fields
 
+        //TODO Convert instead of validate
+        /*
+            Get<CssTextDecorationColorProperty>().TrySetValue(m.Item1);
+            Get<CssTextDecorationStyleProperty>().TrySetValue(m.Item2);
+            Get<CssTextDecorationLineProperty>().TrySetValue(m.Item3);
+        */
         static readonly IValueConverter StyleConverter = Converters.WithAny(
             Converters.ColorConverter.Option(),
             Converters.TextDecorationStyleConverter.Option(),
@@ -40,18 +46,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return StyleConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, m =>
-            {
-                Get<CssTextDecorationColorProperty>().TrySetValue(m.Item1);
-                Get<CssTextDecorationStyleProperty>().TrySetValue(m.Item2);
-                Get<CssTextDecorationLineProperty>().TrySetValue(m.Item3);
-            });*/
-        }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {

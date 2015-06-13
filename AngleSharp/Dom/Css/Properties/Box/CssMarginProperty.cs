@@ -14,6 +14,13 @@
     {
         #region Fields
 
+        //TODO Convert instead of validate
+        /*
+            Get<CssMarginTopProperty>().TrySetValue(m.Item1);
+            Get<CssMarginRightProperty>().TrySetValue(m.Item2);
+            Get<CssMarginBottomProperty>().TrySetValue(m.Item3);
+            Get<CssMarginLeftProperty>().TrySetValue(m.Item4);
+        */
         static readonly IValueConverter StyleConverter = Converters.AutoLengthOrPercentConverter.Periodic();
 
         #endregion
@@ -37,19 +44,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return StyleConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, m =>
-            {
-                Get<CssMarginTopProperty>().TrySetValue(m.Item1);
-                Get<CssMarginRightProperty>().TrySetValue(m.Item2);
-                Get<CssMarginBottomProperty>().TrySetValue(m.Item3);
-                Get<CssMarginLeftProperty>().TrySetValue(m.Item4);
-            });*/
-        }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {

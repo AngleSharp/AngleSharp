@@ -14,6 +14,13 @@
     {
         #region Fields
 
+        //TODO Convert instead of validate
+        /*
+            Get<CssPaddingTopProperty>().TrySetValue(m.Item1);
+            Get<CssPaddingRightProperty>().TrySetValue(m.Item2);
+            Get<CssPaddingBottomProperty>().TrySetValue(m.Item3);
+            Get<CssPaddingLeftProperty>().TrySetValue(m.Item4);
+        */
         static readonly IValueConverter StyleConverter = Converters.LengthOrPercentConverter.Periodic();
 
         #endregion
@@ -37,19 +44,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return StyleConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, m =>
-            {
-                Get<CssPaddingTopProperty>().TrySetValue(m.Item1);
-                Get<CssPaddingRightProperty>().TrySetValue(m.Item2);
-                Get<CssPaddingBottomProperty>().TrySetValue(m.Item3);
-                Get<CssPaddingLeftProperty>().TrySetValue(m.Item4);
-            });*/
-        }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {

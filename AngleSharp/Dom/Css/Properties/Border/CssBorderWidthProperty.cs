@@ -14,6 +14,13 @@
     {
         #region Fields
 
+        //TODO Convert instead of validate
+        /*
+            Get<CssBorderTopWidthProperty>().TrySetValue(m.Item1);
+            Get<CssBorderRightWidthProperty>().TrySetValue(m.Item2);
+            Get<CssBorderBottomWidthProperty>().TrySetValue(m.Item3);
+            Get<CssBorderLeftWidthProperty>().TrySetValue(m.Item4);
+         */
         static readonly IValueConverter StyleConverter = Converters.LineWidthConverter.Periodic();
 
         #endregion
@@ -37,19 +44,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return StyleConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, m =>
-            {
-                Get<CssBorderTopWidthProperty>().TrySetValue(m.Item1);
-                Get<CssBorderRightWidthProperty>().TrySetValue(m.Item2);
-                Get<CssBorderBottomWidthProperty>().TrySetValue(m.Item3);
-                Get<CssBorderLeftWidthProperty>().TrySetValue(m.Item4);
-            });*/
-        }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {

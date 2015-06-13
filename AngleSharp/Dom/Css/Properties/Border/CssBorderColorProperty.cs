@@ -14,6 +14,13 @@
     {
         #region Fields
 
+        //TODO Convert instead of validate
+        /*
+            Get<CssBorderTopColorProperty>().TrySetValue(m.Item1);
+            Get<CssBorderRightColorProperty>().TrySetValue(m.Item2);
+            Get<CssBorderBottomColorProperty>().TrySetValue(m.Item3);
+            Get<CssBorderLeftColorProperty>().TrySetValue(m.Item4);
+         */
         static readonly IValueConverter StyleConverter = Converters.CurrentColorConverter.Periodic();
 
         #endregion
@@ -37,19 +44,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return StyleConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, m =>
-            {
-                Get<CssBorderTopColorProperty>().TrySetValue(m.Item1);
-                Get<CssBorderRightColorProperty>().TrySetValue(m.Item2);
-                Get<CssBorderBottomColorProperty>().TrySetValue(m.Item3);
-                Get<CssBorderLeftColorProperty>().TrySetValue(m.Item4);
-            });*/
-        }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {

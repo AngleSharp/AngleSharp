@@ -14,6 +14,11 @@
     {
         #region Fields
 
+        //TODO Convert instead of validate
+        /*
+            Get<CssColumnWidthProperty>().TrySetValue(m.Item1);
+            Get<CssColumnCountProperty>().TrySetValue(m.Item2);
+         */
         static readonly IValueConverter StyleConverter = Converters.WithAny(
             Converters.AutoLengthConverter.Option(),
             Converters.OptionalIntegerConverter.Option());
@@ -39,17 +44,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return StyleConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, m =>
-            {
-                Get<CssColumnWidthProperty>().TrySetValue(m.Item1);
-                Get<CssColumnCountProperty>().TrySetValue(m.Item2);
-            });*/
-        }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {

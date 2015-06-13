@@ -14,6 +14,12 @@
     {
         #region Fields
 
+        //TODO Convert instead of validate
+        /*
+            Get<CssListStyleTypeProperty>().TrySetValue(m.Item1);
+            Get<CssListStylePositionProperty>().TrySetValue(m.Item2);
+            Get<CssListStyleImageProperty>().TrySetValue(m.Item3);
+         */
         static readonly IValueConverter StyleConverter = Converters.WithAny(
             Converters.ListStyleConverter.Option(),
             Converters.ListPositionConverter.Option(),
@@ -40,18 +46,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return StyleConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, m =>
-            {
-                Get<CssListStyleTypeProperty>().TrySetValue(m.Item1);
-                Get<CssListStylePositionProperty>().TrySetValue(m.Item2);
-                Get<CssListStyleImageProperty>().TrySetValue(m.Item3);
-            });*/
-        }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {

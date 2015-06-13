@@ -1,12 +1,10 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using BgLayer = System.Tuple<CssValue, System.Tuple<CssValue, CssValue>, CssValue, CssValue, CssValue, CssValue>;
-    using FinalBgLayer = System.Tuple<CssValue, System.Tuple<CssValue, CssValue>, CssValue, CssValue, CssValue, CssValue, CssValue>;
+    using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available at:
@@ -16,6 +14,11 @@
     {
         #region Fields
 
+        //[ <bg-layer> , ]* <final-bg-layer> where: 
+        //  <bg-layer> = 
+        //      <bg-image> || <position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box> 
+        //  <final-bg-layer> = 
+        //      <bg-image> || <position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box> || <background-color>
         static readonly IValueConverter NormalLayerConverter = Converters.WithAny(
             Converters.ImageSourceConverter.Option(),
             Converters.WithOrder(
@@ -26,6 +29,17 @@
             Converters.BoxModelConverter.Option(),
             Converters.BoxModelConverter.Option());
 
+        //TODO Convert instead of validate
+        /*
+            Get<CssBackgroundImageProperty>().TrySetValue(Transform(m, n => n.Item1));
+            Get<CssBackgroundPositionProperty>().TrySetValue(Transform(m, n => n.Item2.Item1));
+            Get<CssBackgroundSizeProperty>().TrySetValue(Transform(m, n => n.Item2.Item2));
+            Get<CssBackgroundRepeatProperty>().TrySetValue(Transform(m, n => n.Item3));
+            Get<CssBackgroundAttachmentProperty>().TrySetValue(Transform(m, n => n.Item4));
+            Get<CssBackgroundOriginProperty>().TrySetValue(Transform(m, n => n.Item5));
+            Get<CssBackgroundClipProperty>().TrySetValue(Transform(m, n => n.Item6));
+            Get<CssBackgroundColorProperty>().TrySetValue(m.Item2.Item7);
+         */
         static readonly IValueConverter FinalLayerConverter = Converters.WithAny(
             Converters.ImageSourceConverter.Option(),
             Converters.WithOrder(
@@ -60,46 +74,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            //[ <bg-layer> , ]* <final-bg-layer> where: 
-            //  <bg-layer> = 
-            //      <bg-image> || <position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box> 
-            //  <final-bg-layer> = 
-            //      <bg-image> || <position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box> || <background-color>
-
-            return StyleConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, m =>
-            {
-                Get<CssBackgroundImageProperty>().TrySetValue(Transform(m, n => n.Item1));
-                Get<CssBackgroundPositionProperty>().TrySetValue(Transform(m, n => n.Item2.Item1));
-                Get<CssBackgroundSizeProperty>().TrySetValue(Transform(m, n => n.Item2.Item2));
-                Get<CssBackgroundRepeatProperty>().TrySetValue(Transform(m, n => n.Item3));
-                Get<CssBackgroundAttachmentProperty>().TrySetValue(Transform(m, n => n.Item4));
-                Get<CssBackgroundOriginProperty>().TrySetValue(Transform(m, n => n.Item5));
-                Get<CssBackgroundClipProperty>().TrySetValue(Transform(m, n => n.Item6));
-                Get<CssBackgroundColorProperty>().TrySetValue(m.Item2.Item7);
-            });*/
-        }
-
-        static CssValue Transform(Tuple<BgLayer[], FinalBgLayer> data, Func<BgLayer, CssValue> selector)
-        {
-            var final = new BgLayer(data.Item2.Item1, data.Item2.Item2, data.Item2.Item3, data.Item2.Item4, data.Item2.Item5, data.Item2.Item6);
-
-            if (data.Item1.Length == 0)
-                return selector(final);
-
-            //var list = new CssValueList();
-
-            //foreach (var item in data.Item1)
-            //    list.Add(selector(item));
-
-            //list.Add(selector(final));
-            //return list;
-            return null;
-        }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {

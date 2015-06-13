@@ -16,7 +16,8 @@
         readonly String _name;
 
         Boolean _important;
-        CssValue _value;
+        CssValue _originalValue;
+        IPropertyValue _value;
 
         #endregion
 
@@ -42,7 +43,7 @@
         /// </summary>
         internal Boolean HasValue
         {
-            get { return _value != null; }
+            get { return _originalValue != null; }
         }
 
         /// <summary>
@@ -82,7 +83,7 @@
         /// </summary>
         internal CssValue OriginalValue
         {
-            get { return _value ?? CssValue.Initial; }
+            get { return _originalValue ?? CssValue.Initial; }
         }
 
         /// <summary>
@@ -110,7 +111,7 @@
         /// </summary>
         public Boolean IsInherited
         {
-            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || (_value != null && _value.Is(Keywords.Inherit)); }
+            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || (_originalValue != null && _originalValue.Is(Keywords.Inherit)); }
         }
 
         /// <summary>
@@ -126,7 +127,7 @@
         /// </summary>
         public Boolean IsInitial
         {
-            get { return _value == null || _value.Is(Keywords.Initial); }
+            get { return _originalValue == null || _originalValue.Is(Keywords.Initial); }
         }
 
         /// <summary>
@@ -161,45 +162,20 @@
         /// <summary>
         /// Tries to set the given value and returns the status.
         /// </summary>
-        /// <param name="value">The value that should be set.</param>
+        /// <param name="newValue">The value that should be set.</param>
         /// <returns>True if the value is valid, otherwise false.</returns>
-        internal Boolean TrySetValue(CssValue value)
+        internal Boolean TrySetValue(CssValue newValue)
         {
-            if (value == null || value.Is(Keywords.Inherit) || value.Is(Keywords.Initial))
+            var value = Converter.Convert(newValue);
+
+            if (value != null)
             {
-                Reset();
-                _value = value;
-                return true;
-            }
-            else if (IsValid(value))
-            {
+                _originalValue = newValue;
                 _value = value;
                 return true;
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Resets the property to its initial state.
-        /// </summary>
-        internal virtual void Reset()
-        {
-            _value = null;
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Notified once the value changed.
-        /// </summary>
-        /// <param name="value">The value to be checked.</param>
-        /// <returns>True if the value is valid, otherwise false.</returns>
-        protected virtual Boolean IsValid(CssValue value)
-        {
-            return Converter.Convert(value) != null;
         }
 
         #endregion
@@ -212,7 +188,7 @@
         /// <returns>The string representation of the value.</returns>
         internal virtual String SerializeValue()
         {
-            return OriginalValue.ToText();
+            return _value.CssText;
         }
 
         /// <summary>

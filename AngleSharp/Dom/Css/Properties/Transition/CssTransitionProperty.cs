@@ -14,6 +14,13 @@
     {
         #region Fields
 
+        //TODO Convert instead of validate
+        /*
+            Get<CssTransitionPropertyProperty>().TrySetValue(Transform(t.Select(m => m.Item1)));
+            Get<CssTransitionDurationProperty>().TrySetValue(Transform(t.Select(m => m.Item2)));
+            Get<CssTransitionTimingFunctionProperty>().TrySetValue(Transform(t.Select(m => m.Item3)));
+            Get<CssTransitionDelayProperty>().TrySetValue(Transform(t.Select(m => m.Item4)));
+        */
         internal static readonly IValueConverter ListConverter = Converters.WithAny(
             Converters.AnimatableConverter.Option(),
             Converters.TimeConverter.Option(),
@@ -41,27 +48,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return ListConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, t =>
-            {
-                Get<CssTransitionPropertyProperty>().TrySetValue(Transform(t.Select(m => m.Item1)));
-                Get<CssTransitionDurationProperty>().TrySetValue(Transform(t.Select(m => m.Item2)));
-                Get<CssTransitionTimingFunctionProperty>().TrySetValue(Transform(t.Select(m => m.Item3)));
-                Get<CssTransitionDelayProperty>().TrySetValue(Transform(t.Select(m => m.Item4)));
-            });*/
-        }
-
-        CssValue Transform(IEnumerable<CssValue> values)
-        {
-            //if (values.Count() > 1)
-            //    return new CssValueList(values.ToList());
-
-            return values.FirstOrDefault();
-        }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {

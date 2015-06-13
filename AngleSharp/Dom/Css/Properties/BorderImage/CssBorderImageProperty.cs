@@ -14,6 +14,14 @@
     {
         #region Fields
 
+        //TODO Convert instead of validate
+        /*
+            Get<CssBorderImageSourceProperty>().TrySetValue(m.Item1);
+            Get<CssBorderImageSliceProperty>().TrySetValue(m.Item2.Item1);
+            Get<CssBorderImageWidthProperty>().TrySetValue(m.Item2.Item2);
+            Get<CssBorderImageOutsetProperty>().TrySetValue(m.Item2.Item3);
+            Get<CssBorderImageRepeatProperty>().TrySetValue(m.Item3);
+         */
         static readonly IValueConverter ImageConverter = Converters.WithAny(
             Converters.OptionalImageSourceConverter.Option(),
             Converters.WithOrder(
@@ -43,20 +51,6 @@
         #endregion
 
         #region Methods
-
-        protected override Boolean IsValid(CssValue value)
-        {
-            return ImageConverter.Convert(value) != null;
-            //TODO Convert instead of validate
-            /*, m =>
-            {
-                Get<CssBorderImageSourceProperty>().TrySetValue(m.Item1);
-                Get<CssBorderImageSliceProperty>().TrySetValue(m.Item2.Item1);
-                Get<CssBorderImageWidthProperty>().TrySetValue(m.Item2.Item2);
-                Get<CssBorderImageOutsetProperty>().TrySetValue(m.Item2.Item3);
-                Get<CssBorderImageRepeatProperty>().TrySetValue(m.Item3);
-            });*/
-        }
 
         internal override String SerializeValue(IEnumerable<CssProperty> properties)
         {
