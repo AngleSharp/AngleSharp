@@ -138,6 +138,31 @@
             return null;
         }
 
+        public static String ToLiterals(this IEnumerable<CssToken> value)
+        {
+            var elements = new List<String>();
+            var it = value.GetEnumerator();
+
+            if (it.MoveNext())
+            {
+                do
+                {
+                    if (it.Current.Type == CssTokenType.Ident)
+                        elements.Add(it.Current.Data);
+                    else
+                        return null;
+
+                    if (it.MoveNext() && it.Current.Type != CssTokenType.Whitespace)
+                        return null;
+                }
+                while (it.MoveNext());
+
+                return String.Join(" ", elements);
+            }
+
+            return null;
+        }
+
         public static String ToIdentifier(this IEnumerable<CssToken> value)
         {
             var element = value.OnlyOrDefault();
@@ -180,20 +205,34 @@
             return null;
         }
 
-        public static Int32? ToPositiveInteger(this IEnumerable<CssToken> value)
+        public static Int32? ToNaturalInteger(this IEnumerable<CssToken> value)
         {
             var element = value.ToInteger();
             return element.HasValue && element.Value >= 0 ? element : null;
         }
 
+        public static Int32? ToPositiveInteger(this IEnumerable<CssToken> value)
+        {
+            var element = value.ToInteger();
+            return element.HasValue && element.Value > 0 ? element : null;
+        }
+
+        public static Int32? ToWeightInteger(this IEnumerable<CssToken> value)
+        {
+            var element = value.ToPositiveInteger();
+            return element.HasValue && IsWeight(element.Value) ? element : null;
+        }
+
+        public static Int32? ToBinary(this IEnumerable<CssToken> value)
+        {
+            var element = value.ToInteger();
+            return element.HasValue && (element.Value == 0 || element.Value == 1) ? element : null;
+        }
+
         public static Byte? ToByte(this IEnumerable<CssToken> value)
         {
-            var val = value.ToInteger();
-
-            if (val.HasValue)
-                return (Byte)Math.Min(Math.Max(val.Value, 0), 255);
-
-            return null;
+            var element = value.ToNaturalInteger();
+            return element.HasValue ? (Byte?)Math.Min(element.Value, 255) : null;
         }
 
         public static Angle? ToAngle(this IEnumerable<CssToken> value)
@@ -486,6 +525,17 @@
                 return Color.FromHex(element.Data);
 
             return null;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static Boolean IsWeight(Int32 value)
+        {
+            return value == 100 || value == 200 || value == 300 || value == 400 ||
+                   value == 500 || value == 600 || value == 700 || value == 800 ||
+                   value == 900;
         }
 
         #endregion
