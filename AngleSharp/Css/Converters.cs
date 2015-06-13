@@ -253,12 +253,8 @@
         /// </summary>
         public static readonly IValueConverter LinearGradientConverter = Construct(() =>
         {
-            var side = SideOrCornerConverter.StartsWithKeyword(Keywords.To);
-            var angle = AngleConverter.Or(side);
-            var gradient = new GradientConverter(angle, Angle.Half);
-
-            return new FunctionValueConverter(FunctionNames.LinearGradient, gradient).Or(
-                   new FunctionValueConverter(FunctionNames.RepeatingLinearGradient, gradient));
+            return new FunctionValueConverter(FunctionNames.LinearGradient, new LinearGradientConverter(false)).Or(
+                   new FunctionValueConverter(FunctionNames.RepeatingLinearGradient, new LinearGradientConverter(true)));
         });
 
         /// <summary>
@@ -266,19 +262,9 @@
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient
         /// </summary>
         public static readonly IValueConverter RadialGradientConverter = Construct(() =>
-        {
-            var position = PointConverter.StartsWithKeyword(Keywords.At).Option(Point.Center);
-            var defaultValue = new { Width = Length.Zero, Height = Length.Zero, SizeMode = RadialGradient.SizeMode.FarthestCorner };
-            var circle = WithOrder(WithAny(Assign(Keywords.Circle, true).Option(true), LengthConverter.Option(defaultValue)), position);
-            var ellipse = WithOrder(WithAny(Assign(Keywords.Ellipse, false).Option(false), LengthOrPercentConverter.Many(2, 2).Option(defaultValue)), position);
-            var extents = WithOrder(WithAny(Toggle(Keywords.Circle, Keywords.Ellipse).Option(false), Map.RadialGradientSizeModes.ToConverter()), position);
-
-            var gradient = new GradientConverter(
-                circle.Or(ellipse.Or(extents)), 
-                Tuple.Create(false, defaultValue.Width, defaultValue.Height, defaultValue.SizeMode, Point.Center));
-
-            return new FunctionValueConverter(FunctionNames.RadialGradient, gradient).Or(
-                   new FunctionValueConverter(FunctionNames.RepeatingRadialGradient, gradient));
+        {            
+            return new FunctionValueConverter(FunctionNames.RadialGradient, new RadialGradientConverter(false)).Or(
+                   new FunctionValueConverter(FunctionNames.RepeatingRadialGradient, new RadialGradientConverter(true)));
         });
 
         /// <summary>

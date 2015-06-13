@@ -2,16 +2,17 @@
 {
     using System;
     using System.Collections.Generic;
+    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
 
     abstract class GradientConverter : IValueConverter
     {
-        readonly IValueConverter _arguments;
+        readonly Boolean _repeating;
 
-        public GradientConverter(IValueConverter arguments)
+        public GradientConverter(Boolean repeating)
         {
-            _arguments = arguments;
+            _repeating = repeating;
         }
 
         public static IPropertyValue[] ToGradientStops(List<List<CssToken>> values, Int32 offset)
@@ -57,28 +58,13 @@
         public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             var args = value.ToList();
-            var initial = args.Count != 0 ? _arguments.Convert(args[0]) : null;
+            var initial = args.Count != 0 ? ConvertFirstArgument(args[0]) : null;
             var offset = initial != null ? 1 : 0;
             var stops = ToGradientStops(args, offset);
-            return stops != null ? new GradientValue(initial, stops) : null;
+            return stops != null ? new GradientValue(_repeating, initial, stops) : null;
         }
 
-        sealed class GradientValue : IPropertyValue
-        {
-            readonly IPropertyValue _initial;
-            readonly IPropertyValue[] _stops;
-
-            public GradientValue(IPropertyValue initial, IPropertyValue[] stops)
-            {
-                _initial = initial;
-                _stops = stops;
-            }
-
-            public String CssText
-            {
-                get { throw new NotImplementedException(); }
-            }
-        }
+        protected abstract IPropertyValue ConvertFirstArgument(IEnumerable<CssToken> value);
 
         sealed class StopValue : IPropertyValue
         {
@@ -93,8 +79,91 @@
 
             public String CssText
             {
-                get { throw new NotImplementedException(); }
+                get 
+                {
+                    if (_color == null && _position != null)
+                        return _position.CssText;
+
+                    if (_color != null && _position == null)
+                        return _color.CssText;
+
+                    return String.Concat(_color.CssText, " ", _position.CssText); 
+                }
             }
+        }
+
+        sealed class GradientValue : IPropertyValue
+        {
+            readonly Boolean _repeating;
+            readonly IPropertyValue _initial;
+            readonly IPropertyValue[] _stops;
+
+            public GradientValue(Boolean repeating, IPropertyValue initial, IPropertyValue[] stops)
+            {
+                _repeating = repeating;
+                _initial = initial;
+                _stops = stops;
+            }
+
+            public String CssText
+            {
+                get
+                {
+                    var count = _stops.Length;
+
+                    if (_initial != null)
+                        count++;
+
+                    var args = new String[count];
+                    count = 0;
+
+                    if (_initial != null)
+                        args[count++] = _initial.CssText;
+
+                    for (int i = 0; i < _stops.Length; i++)
+                        args[count++] = _stops[i].CssText;
+
+                    return String.Join(", ", args);
+                }
+            }
+        }
+    }
+
+    sealed class LinearGradientConverter : GradientConverter
+    {
+        readonly IValueConverter _converter;
+
+        public LinearGradientConverter(Boolean repeating)
+            : base(repeating)
+        {
+            _converter = Converters.AngleConverter.Or(
+                Converters.SideOrCornerConverter.StartsWithKeyword(Keywords.To));
+        }
+
+        protected override IPropertyValue ConvertFirstArgument(IEnumerable<CssToken> value)
+        {
+            return _converter.Convert(value);
+        }
+    }
+
+    sealed class RadialGradientConverter : GradientConverter
+    {
+        readonly IValueConverter _converter;
+
+        public RadialGradientConverter(Boolean repeating)
+            : base(repeating)
+        {
+            var position = Converters.PointConverter.StartsWithKeyword(Keywords.At).Option(Point.Center);
+            var circle = Converters.WithOrder(Converters.WithAny(Converters.Assign(Keywords.Circle, true).Option(true), Converters.LengthConverter.Option()), position);
+            var ellipse = Converters.WithOrder(Converters.WithAny(Converters.Assign(Keywords.Ellipse, false).Option(false), Converters.LengthOrPercentConverter.Many(2, 2).Option()), position);
+            var extents = Converters.WithOrder(Converters.WithAny(Converters.Toggle(Keywords.Circle, Keywords.Ellipse).Option(false), Map.RadialGradientSizeModes.ToConverter()), position);
+
+            _converter = circle.Or(ellipse.Or(extents));
+        }
+
+        protected override IPropertyValue ConvertFirstArgument(IEnumerable<CssToken> value)
+        {
+            return _converter.Convert(value);
         }
     }
 }
