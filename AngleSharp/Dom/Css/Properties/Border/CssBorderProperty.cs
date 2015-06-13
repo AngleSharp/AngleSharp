@@ -71,7 +71,7 @@
 
             if (leftColor == null || rightColor == null || topColor == null || bottomColor == null)
                 return String.Empty;
-            else if (leftColor.Value != rightColor.Value || leftColor.Value != topColor.Value || leftColor.Value != bottomColor.Value)
+            else if (leftColor.OriginalValue != rightColor.OriginalValue || leftColor.OriginalValue != topColor.OriginalValue || leftColor.OriginalValue != bottomColor.OriginalValue)
                 return String.Empty;
 
             var leftWidth = properties.OfType<CssBorderLeftWidthProperty>().FirstOrDefault();
@@ -81,7 +81,7 @@
 
             if (leftWidth == null || rightWidth == null || topWidth == null || bottomWidth == null)
                 return String.Empty;
-            else if (leftWidth.Value != rightWidth.Value || leftWidth.Value != topWidth.Value || leftWidth.Value != bottomWidth.Value)
+            else if (leftWidth.OriginalValue != rightWidth.OriginalValue || leftWidth.OriginalValue != topWidth.OriginalValue || leftWidth.OriginalValue != bottomWidth.OriginalValue)
                 return String.Empty;
 
             var leftStyle = properties.OfType<CssBorderLeftStyleProperty>().FirstOrDefault();
@@ -91,7 +91,7 @@
 
             if (leftStyle == null || rightStyle == null || topStyle == null || bottomStyle == null)
                 return String.Empty;
-            else if (leftStyle.Value != rightStyle.Value || leftStyle.Value != topStyle.Value || leftStyle.Value != bottomStyle.Value)
+            else if (leftStyle.OriginalValue != rightStyle.OriginalValue || leftStyle.OriginalValue != topStyle.OriginalValue || leftStyle.OriginalValue != bottomStyle.OriginalValue)
                 return String.Empty;
 
             return SerializeValue(leftWidth, leftStyle, leftColor);

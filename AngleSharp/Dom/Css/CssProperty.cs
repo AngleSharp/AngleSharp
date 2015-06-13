@@ -80,7 +80,7 @@
         /// <summary>
         /// Gets the value of the property.
         /// </summary>
-        internal CssValue Value
+        internal CssValue OriginalValue
         {
             get { return _value ?? CssValue.Initial; }
         }
@@ -212,7 +212,7 @@
         /// <returns>The string representation of the value.</returns>
         internal virtual String SerializeValue()
         {
-            return Value.ToText();
+            return OriginalValue.ToText();
         }
 
         /// <summary>
