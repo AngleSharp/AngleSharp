@@ -369,7 +369,7 @@
                 switch (unit.Unit)
                 {
                     case "s":
-                        return new Time(unit.Value, Time.Unit.Ms);
+                        return new Time(unit.Value, Time.Unit.S);
                     case "ms":
                         return new Time(unit.Value, Time.Unit.Ms);
                 }
