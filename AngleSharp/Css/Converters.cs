@@ -78,7 +78,7 @@
         /// <summary>
         /// Represents many string objects, but always divisible by 2.
         /// </summary>
-        public static readonly IValueConverter EvenStringsConverter = new StringValueConverter();
+        public static readonly IValueConverter EvenStringsConverter = new StringsValueConverter();
 
         /// <summary>
         /// Represents a string object from many identifiers.
