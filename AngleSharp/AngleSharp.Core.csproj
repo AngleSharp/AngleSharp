@@ -71,6 +71,7 @@
     <Compile Include="Css\Converters.cs" />
     <Compile Include="Css\ValueConverters\AnyValueConverter.cs" />
     <Compile Include="Css\ValueConverters\PeriodicValueConverter.cs" />
+    <Compile Include="Css\ValueConverters\StringsValueConverter.cs" />
     <Compile Include="Css\ValueConverters\UrlValueConverter.cs" />
     <Compile Include="Css\ValueConverters\StringValueConverter.cs" />
     <Compile Include="Css\ValueConverters\StructValueConverter.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Css\IValueConverter.cs" />
     <Compile Include="Dom\Collections\ElementMap.cs" />
     <Compile Include="Dom\Constants\CacheStatus.cs" />
+    <Compile Include="Dom\Css\Constants\FontWeight.cs" />
     <Compile Include="Dom\Css\Constants\HoverAbility.cs" />
     <Compile Include="Dom\Css\Constants\ObjectFitting.cs" />
     <Compile Include="Dom\Css\Constants\OverflowMode.cs" />

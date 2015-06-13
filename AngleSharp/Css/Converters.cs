@@ -76,6 +76,16 @@
         public static readonly IValueConverter StringConverter = new StringValueConverter();
 
         /// <summary>
+        /// Represents many string objects, but always divisible by 2.
+        /// </summary>
+        public static readonly IValueConverter EvenStringsConverter = new StringValueConverter();
+
+        /// <summary>
+        /// Represents a string object from many identifiers.
+        /// </summary>
+        public static readonly IValueConverter LiteralsConverter = new IdentifierValueConverter(ValueExtensions.ToLiterals);
+
+        /// <summary>
         /// Represents an identifier object.
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/user-ident
         /// </summary>
@@ -92,6 +102,26 @@
         /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
         /// </summary>
         public static readonly IValueConverter IntegerConverter = new StructValueConverter<Int32>(ValueExtensions.ToInteger);
+
+        /// <summary>
+        /// Represents an integer object that is zero or greater.
+        /// </summary>
+        public static readonly IValueConverter NaturalIntegerConverter = new StructValueConverter<Int32>(ValueExtensions.ToNaturalInteger);
+
+        /// <summary>
+        /// Represents an integer object that only allows values \in { 100, 200, ..., 900 }.
+        /// </summary>
+        public static readonly IValueConverter WeightIntegerConverter = new StructValueConverter<Int32>(ValueExtensions.ToWeightInteger);
+
+        /// <summary>
+        /// Represents an integer object that is greater tha zero.
+        /// </summary>
+        public static readonly IValueConverter PositiveIntegerConverter = new StructValueConverter<Int32>(ValueExtensions.ToPositiveInteger);
+
+        /// <summary>
+        /// Represents an integer object with 0 or 1.
+        /// </summary>
+        public static readonly IValueConverter BinaryConverter = new StructValueConverter<Int32>(ValueExtensions.ToBinary);
 
         /// <summary>
         /// Represents an angle object.
@@ -127,12 +157,6 @@
         /// Represents a distance object (either Length or Percent).
         /// </summary>
         public static readonly IValueConverter LengthOrPercentConverter = new StructValueConverter<Length>(ValueExtensions.ToDistance);
-
-        /// <summary>
-        /// Represents an integer object that is zero or greater.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
-        /// </summary>
-        public static readonly IValueConverter PositiveIntegerConverter = new StructValueConverter<Int32>(ValueExtensions.ToPositiveInteger);
 
         #endregion
 
@@ -245,12 +269,9 @@
         {
             var position = PointConverter.StartsWithKeyword(Keywords.At).Option(Point.Center);
             var defaultValue = new { Width = Length.Zero, Height = Length.Zero, SizeMode = RadialGradient.SizeMode.FarthestCorner };
-            var circle = WithOrder(WithAny(Assign(Keywords.Circle, true).Option(true), LengthConverter.To(
-                m => new { Width = m, Height = m, SizeMode = RadialGradient.SizeMode.None }).Option(defaultValue)), position);
-            var ellipse = WithOrder(WithAny(Assign(Keywords.Ellipse, false).Option(false), LengthOrPercentConverter.Many(2, 2).To(
-                m => new { Width = m[0], Height = m[1], SizeMode = RadialGradient.SizeMode.None }).Option(defaultValue)), position);
-            var extents = WithOrder(WithAny(Toggle(Keywords.Circle, Keywords.Ellipse).Option(false), Map.RadialGradientSizeModes.ToConverter().To(
-                m => new { Width = Length.Zero, Height = Length.Zero, SizeMode = m })), position);
+            var circle = WithOrder(WithAny(Assign(Keywords.Circle, true).Option(true), LengthConverter.Option(defaultValue)), position);
+            var ellipse = WithOrder(WithAny(Assign(Keywords.Ellipse, false).Option(false), LengthOrPercentConverter.Many(2, 2).Option(defaultValue)), position);
+            var extents = WithOrder(WithAny(Toggle(Keywords.Circle, Keywords.Ellipse).Option(false), Map.RadialGradientSizeModes.ToConverter()), position);
 
             var gradient = new GradientConverter(
                 circle.Or(ellipse.Or(extents)), 
@@ -480,7 +501,7 @@
         /// <summary>
         /// Represents a positive or infinite number object.
         /// </summary>
-        public static readonly IValueConverter PositiveOrInfiniteNumberConverter = PositiveIntegerConverter.Or(Keywords.Infinite, Single.PositiveInfinity);
+        public static readonly IValueConverter PositiveOrInfiniteNumberConverter = NaturalIntegerConverter.Or(Keywords.Infinite, Single.PositiveInfinity);
 
         /// <summary>
         /// Represents a positive or infinite number object.
@@ -663,6 +684,11 @@
         /// Represents a converter for the FontStyle enumeration.
         /// </summary>
         public static readonly IValueConverter FontStyleConverter = Map.FontStyles.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the FontWeight enumeration.
+        /// </summary>
+        public static readonly IValueConverter FontWeightConverter = Map.FontWeights.ToConverter();
 
         #endregion
 

@@ -213,6 +213,11 @@
         /// </summary>
         public static readonly Dictionary<String, ObjectFitting> ObjectFittings = new Dictionary<String, ObjectFitting>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Contains the string-FontWeight mapping.
+        /// </summary>
+        public static readonly Dictionary<String, FontWeight> FontWeights = new Dictionary<String, FontWeight>(StringComparer.OrdinalIgnoreCase);
+
         #endregion
 
         #region Initial Population
@@ -512,6 +517,11 @@
             ObjectFittings.Add(Keywords.Contain, ObjectFitting.Contain);
             ObjectFittings.Add(Keywords.Fill, ObjectFitting.Fill);
             ObjectFittings.Add(Keywords.ScaleDown, ObjectFitting.ScaleDown);
+
+            FontWeights.Add(Keywords.Normal, FontWeight.Normal);
+            FontWeights.Add(Keywords.Bold, FontWeight.Bold);
+            FontWeights.Add(Keywords.Bolder, FontWeight.Bolder);
+            FontWeights.Add(Keywords.Lighter, FontWeight.Lighter);
         }
 
         #endregion
