@@ -100,7 +100,7 @@
         /// <summary>
         /// Gets the serialized value of the property.
         /// </summary>
-        String ICssProperty.Value
+        public String Value
         {
             get { return SerializeValue(); }
         }
