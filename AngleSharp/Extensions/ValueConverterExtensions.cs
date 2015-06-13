@@ -148,12 +148,12 @@
 
         public static IValueConverter StartsWithKeyword(this IValueConverter converter, String keyword)
         {
-            return new StartsWithValueConverter(m => m.Type == CssTokenType.Ident && m.Data.Equals(keyword, StringComparison.OrdinalIgnoreCase), converter);
+            return new StartsWithValueConverter(CssTokenType.Ident, keyword, converter);
         }
 
         public static IValueConverter StartsWithDelimiter(this IValueConverter converter)
         {
-            return new StartsWithValueConverter(m => m.Type == CssTokenType.Delim && m.Data == "/", converter);
+            return new StartsWithValueConverter(CssTokenType.Delim, "/", converter);
         }
 
         public static IValueConverter WithCurrentColor(this IValueConverter converter)
