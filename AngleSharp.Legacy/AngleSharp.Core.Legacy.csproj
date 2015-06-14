@@ -254,6 +254,9 @@
     <Compile Include="..\AngleSharp\Css\ValueConverters\ArgumentsValueConverter.cs">
       <Link>Css\ValueConverters\ArgumentsValueConverter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\ValueConverters\ConstraintValueConverter.cs">
+      <Link>Css\ValueConverters\ConstraintValueConverter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\ValueConverters\ContinuousValueConverter.cs">
       <Link>Css\ValueConverters\ContinuousValueConverter.cs</Link>
     </Compile>
