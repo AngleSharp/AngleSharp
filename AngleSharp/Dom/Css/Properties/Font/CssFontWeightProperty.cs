@@ -11,8 +11,8 @@
     {
         #region Fields
 
-        // Default: FontWeight.Normal
-        internal static readonly IValueConverter StyleConverter = Converters.FontWeightConverter.Or(Converters.WeightIntegerConverter);
+        static readonly IValueConverter StyleConverter = Converters.FontWeightConverter.Or(
+            Converters.WeightIntegerConverter).OrDefault(FontWeight.Normal);
 
         #endregion
 

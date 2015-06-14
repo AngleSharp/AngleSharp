@@ -15,16 +15,17 @@
         // <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ] | 
         // caption | icon | menu | message-box | small-caption | status-bar
 
-        internal static readonly IValueConverter StyleConverter = Converters.WithOrder(
+        static readonly IValueConverter StyleConverter = Converters.WithOrder(
             Converters.WithAny(
                 Converters.FontStyleConverter.Option(),
                 Converters.FontVariantConverter.Option(),
-                CssFontWeightProperty.StyleConverter.Option(),
+                Converters.FontWeightConverter.Or(Converters.WeightIntegerConverter).Option(),
                 Converters.FontStretchConverter.Option()),
             Converters.WithOrder(
                 Converters.FontSizeConverter.Required(),
                 Converters.LineHeightConverter.StartsWithDelimiter().Option()),
-            CssFontFamilyProperty.StyleConverter.Required()).Or(Converters.SystemFontConverter);
+            Converters.FontFamiliesConverter.Required()).Or(
+        Converters.SystemFontConverter);
 
         #endregion
 

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information:
@@ -11,6 +12,12 @@
     /// </summary>
     sealed class CssWordSpacingProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.OptionalLengthConverter.OrDefault();
+
+        #endregion
+
         #region ctor
 
         internal CssWordSpacingProperty()
@@ -24,8 +31,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Nothing
-            get { return Converters.OptionalLengthConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

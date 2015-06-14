@@ -12,9 +12,7 @@
     {
         #region Fields
 
-        // Default: "Times New Roman"
-        internal static readonly IValueConverter StyleConverter = Map.DefaultFontFamilies.ToConverter().Or(
-            Converters.StringConverter).Or(Converters.LiteralsConverter).FromList();
+        static readonly IValueConverter StyleConverter = Converters.FontFamiliesConverter.OrDefault("Times New Roman");
 
         #endregion
 

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssFontSizeProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.FontSizeConverter.OrDefault(FontSize.Medium.ToLength());
+
+        #endregion
+
         #region ctor
 
         internal CssFontSizeProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: FontSize.Medium.ToLength()
-            get { return Converters.FontSizeConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

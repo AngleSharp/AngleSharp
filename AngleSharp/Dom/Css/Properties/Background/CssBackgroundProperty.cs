@@ -21,8 +21,8 @@
             Converters.ImageSourceConverter.Option(),
             Converters.WithOrder(
                 Converters.PointConverter.Option(),
-                CssBackgroundSizeProperty.SingleConverter.StartsWithDelimiter().Option()),
-            CssBackgroundRepeatProperty.SingleConverter.Option(),
+                Converters.BackgroundSizeConverter.StartsWithDelimiter().Option()),
+            Converters.BackgroundRepeatConverter.Option(),
             Converters.BackgroundAttachmentConverter.Option(),
             Converters.BoxModelConverter.Option(),
             Converters.BoxModelConverter.Option());
@@ -31,8 +31,8 @@
             Converters.ImageSourceConverter.Option(),
             Converters.WithOrder(
                 Converters.PointConverter.Option(),
-                CssBackgroundSizeProperty.SingleConverter.StartsWithDelimiter().Option()),
-            CssBackgroundRepeatProperty.SingleConverter.Option(),
+                Converters.BackgroundSizeConverter.StartsWithDelimiter().Option()),
+            Converters.BackgroundRepeatConverter.Option(),
             Converters.BackgroundAttachmentConverter.Option(),
             Converters.BoxModelConverter.Option(),
             Converters.BoxModelConverter.Option(),

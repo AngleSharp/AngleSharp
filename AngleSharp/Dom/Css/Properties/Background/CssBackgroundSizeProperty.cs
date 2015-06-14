@@ -11,14 +11,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter SingleConverter = Converters.AutoLengthOrPercentConverter.Or(
-            Keywords.Cover).Or(
-            Keywords.Contain).Or(
-            Converters.WithOrder(
-                Converters.AutoLengthOrPercentConverter.Required(), 
-                Converters.AutoLengthOrPercentConverter.Required()));
-
-        static readonly IValueConverter ListConverter = SingleConverter.FromList().OrDefault();
+        static readonly IValueConverter ListConverter = Converters.BackgroundSizeConverter.FromList().OrDefault();
 
         #endregion
 

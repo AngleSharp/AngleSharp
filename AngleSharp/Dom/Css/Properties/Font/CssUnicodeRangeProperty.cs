@@ -21,7 +21,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Nothing
             get { return Converters.Any; }
         }
 

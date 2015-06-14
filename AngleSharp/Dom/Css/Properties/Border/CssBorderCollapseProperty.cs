@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -8,6 +9,12 @@
     /// </summary>
     sealed class CssBorderCollapseProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.BorderCollapseConverter.OrDefault(true);
+
+        #endregion
+
         #region ctor
 
         internal CssBorderCollapseProperty()
@@ -21,8 +28,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: true
-            get { return Converters.BorderCollapseConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

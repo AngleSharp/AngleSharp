@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available at:
@@ -9,8 +10,8 @@
     sealed class CssBorderBottomProperty : CssShorthandProperty
     {
         #region Fields
-        
-        static readonly IValueConverter StyleConverter = CssBorderProperty.StyleConverter;
+
+        static readonly IValueConverter StyleConverter = Converters.BorderConverter.OrDefault();
 
         #endregion
 

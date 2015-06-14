@@ -13,14 +13,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter SingleConverter = Map.BackgroundRepeats.ToConverter().Or(
-            Keywords.RepeatX).Or(
-            Keywords.RepeatY).Or(
-            Converters.WithOrder(
-                Map.BackgroundRepeats.ToConverter().Required(), 
-                Map.BackgroundRepeats.ToConverter().Required()));
-
-        static readonly IValueConverter ListConverter = SingleConverter.FromList().OrDefault(BackgroundRepeat.Repeat);
+        static readonly IValueConverter ListConverter = Converters.BackgroundRepeatConverter.FromList().OrDefault(BackgroundRepeat.Repeat);
 
         #endregion
 

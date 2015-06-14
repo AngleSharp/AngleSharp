@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = Converters.CurrentColorConverter.Periodic();
+        static readonly IValueConverter StyleConverter = Converters.CurrentColorConverter.Periodic().OrDefault();
 
         #endregion
 

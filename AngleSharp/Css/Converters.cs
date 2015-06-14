@@ -532,6 +532,11 @@
         #region Maps
 
         /// <summary>
+        /// Represents a converter for the default font families.
+        /// </summary>
+        public static readonly IValueConverter DefaultFontFamiliesConverter = Map.DefaultFontFamilies.ToConverter();
+
+        /// <summary>
         /// Represents a converter for the LineStyle enumeration.
         /// </summary>
         public static readonly IValueConverter LineStyleConverter = Map.LineStyles.ToConverter();
@@ -762,6 +767,30 @@
         {
             return Assign(on, true).Or(off, false);
         }
+
+        /// <summary>
+        /// Represents a converter for font families.
+        /// </summary>
+        public static readonly IValueConverter FontFamiliesConverter = DefaultFontFamiliesConverter.Or(Converters.StringConverter).Or(Converters.LiteralsConverter).FromList();
+
+        /// <summary>
+        /// Represents a converter for border properties.
+        /// </summary>
+        public static readonly IValueConverter BorderConverter = WithAny(LineWidthConverter.Option(), LineStyleConverter.Option(), CurrentColorConverter.Option());
+
+        /// <summary>
+        /// Represents a converter for background size.
+        /// </summary>
+        public static readonly IValueConverter BackgroundSizeConverter = AutoLengthOrPercentConverter.Or(
+            Keywords.Cover).Or(Keywords.Contain).Or(
+            WithOrder(AutoLengthOrPercentConverter.Required(), AutoLengthOrPercentConverter.Required()));
+
+        /// <summary>
+        /// Represents a converter for background repeat.
+        /// </summary>
+        public static readonly IValueConverter BackgroundRepeatConverter = Map.BackgroundRepeats.ToConverter().Or(
+            Keywords.RepeatX).Or(Keywords.RepeatY).Or(
+            WithOrder(Map.BackgroundRepeats.ToConverter().Required(), Map.BackgroundRepeats.ToConverter().Required()));
 
         #endregion
 
