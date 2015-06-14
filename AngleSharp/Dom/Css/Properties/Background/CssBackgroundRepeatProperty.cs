@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter ListConverter = Converters.BackgroundRepeatConverter.FromList().OrDefault(BackgroundRepeat.Repeat);
+        static readonly IValueConverter ListConverter = Converters.BackgroundRepeatsConverter.FromList().OrDefault(BackgroundRepeat.Repeat);
 
         #endregion
 

@@ -372,163 +372,6 @@
 
         #endregion
 
-        #region Composed
-
-        /// <summary>
-        /// Represents a distance object with line-height additions.
-        /// http://www.w3.org/TR/CSS2/visudet.html#propdef-line-height
-        /// </summary>
-        public static readonly IValueConverter LineHeightConverter = LengthOrPercentConverter.Or(NumberConverter).Or(Keywords.Normal);
-
-        /// <summary>
-        /// Represents a length object that is based on percentage or number.
-        /// http://dev.w3.org/csswg/css-backgrounds/#border-image-slice
-        /// </summary>
-        public static readonly IValueConverter BorderSliceConverter = PercentConverter.Or(NumberConverter);
-
-        /// <summary>
-        /// Represents a length object that is based on percentage, length or number.
-        /// http://dev.w3.org/csswg/css-backgrounds/#border-image-width
-        /// </summary>
-        public static readonly IValueConverter ImageBorderWidthConverter = LengthOrPercentConverter.Or(NumberConverter).Or(Keywords.Auto);
-
-        /// <summary>
-        /// Represents a timing-function object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
-        /// </summary>
-        public static readonly IValueConverter TransitionConverter = new DictionaryValueConverter<ITimingFunction>(Map.TimingFunctions).Or(
-            StepsConverter).Or(CubicBezierConverter);
-
-        /// <summary>
-        /// Represents a gradient object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/gradient
-        /// </summary>
-        public static readonly IValueConverter GradientConverter = LinearGradientConverter.Or(RadialGradientConverter);
-
-        /// <summary>
-        /// Represents a transform function.
-        /// http://www.w3.org/TR/css3-transforms/#typedef-transform-function
-        /// </summary>
-        public static readonly IValueConverter TransformConverter = MatrixTransformConverter.Or(
-            ScaleTransformConverter).Or(
-            RotateTransformConverter).Or(
-            TranslateTransformConverter).Or(
-            SkewTransformConverter).Or(
-            PerspectiveConverter);
-
-        /// <summary>
-        /// Represents a color object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
-        /// </summary>
-        public static readonly IValueConverter ColorConverter = PureColorConverter.Or(
-            RgbColorConverter.Or(RgbaColorConverter)).Or(
-            HslColorConverter.Or(HslaColorConverter));
-
-        /// <summary>
-        /// Represents a color object or, alternatively, the current color.
-        /// </summary>
-        public static readonly IValueConverter CurrentColorConverter = ColorConverter.WithCurrentColor();
-
-        /// <summary>
-        /// Represents a color object, the current color, or the inverted current color.
-        /// </summary>
-        public static readonly IValueConverter InvertedColorConverter = CurrentColorConverter.Or(Keywords.Invert);
-
-        /// <summary>
-        /// Represents a ratio object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
-        /// </summary>
-        public static readonly IValueConverter RatioConverter = WithOrder(
-            IntegerConverter.Required(), 
-            IntegerConverter.StartsWithDelimiter().Required());
-
-        /// <summary>
-        /// Represents a shadow object.
-        /// http://dev.w3.org/csswg/css-backgrounds/#shadow
-        /// </summary>
-        public static readonly IValueConverter ShadowConverter = WithAny(
-            Assign(Keywords.Inset, true).Option(false),
-            LengthConverter.Many(2, 4).Required(),
-            ColorConverter.WithCurrentColor().Option(Color.Black));
-
-        /// <summary>
-        /// Represents multiple shadow objects.
-        /// </summary>
-        public static readonly IValueConverter MultipleShadowConverter = ShadowConverter.FromList().OrNone();
-
-        /// <summary>
-        /// Represents an image source object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/image
-        /// </summary>
-        public static readonly IValueConverter ImageSourceConverter = UrlConverter.Or(GradientConverter);
-
-        /// <summary>
-        /// Represents an optional image source object.
-        /// </summary>
-        public static readonly IValueConverter OptionalImageSourceConverter = ImageSourceConverter.OrNone();
-
-        /// <summary>
-        /// Represents multiple image source object.
-        /// </summary>
-        public static readonly IValueConverter MultipleImageSourceConverter = ImageSourceConverter.FromList().OrNone();
-
-        /// <summary>
-        /// Represents the border-radius (horizontal / vertical; radius) converter.
-        /// </summary>
-        public static readonly IValueConverter BorderRadiusConverter = WithOrder(
-            LengthOrPercentConverter.Required(), LengthOrPercentConverter.Option());
-
-        #endregion
-
-        #region Specific
-
-        /// <summary>
-        /// Represents an optional integer object.
-        /// </summary>
-        public static readonly IValueConverter OptionalIntegerConverter = IntegerConverter.OrAuto();
-
-        /// <summary>
-        /// Represents a positive or infinite number object.
-        /// </summary>
-        public static readonly IValueConverter PositiveOrInfiniteNumberConverter = NaturalNumberConverter.Or(Keywords.Infinite, Single.PositiveInfinity);
-
-        /// <summary>
-        /// Represents a positive or infinite number object.
-        /// </summary>
-        public static readonly IValueConverter OptionalNumberConverter = NumberConverter.OrNone();
-
-        /// <summary>
-        /// Represents a length object or alternatively a fixed length when "normal" is given.
-        /// </summary>
-        public static readonly IValueConverter LengthOrNormalConverter = LengthConverter.Or(Keywords.Normal, new Length(1f, Length.Unit.Em));
-
-        /// <summary>
-        /// Represents a length object or null, when "normal" is given.
-        /// </summary>
-        public static readonly IValueConverter OptionalLengthConverter = LengthConverter.Or(Keywords.Normal);
-
-        /// <summary>
-        /// Represents a length (or default).
-        /// </summary>
-        public static readonly IValueConverter AutoLengthConverter = LengthConverter.OrAuto();
-
-        /// <summary>
-        /// Represents a distance object (either Length or Percent) or none.
-        /// </summary>
-        public static readonly IValueConverter OptionalLengthOrPercentConverter = LengthOrPercentConverter.OrNone();
-
-        /// <summary>
-        /// Represents a distance object (or default).
-        /// </summary>
-        public static readonly IValueConverter AutoLengthOrPercentConverter = LengthOrPercentConverter.OrAuto();
-
-        /// <summary>
-        /// Represents a length for a font size.
-        /// </summary>
-        public static readonly IValueConverter FontSizeConverter = LengthOrPercentConverter.Or(Map.FontSizes.ToConverter());
-
-        #endregion
-
         #region Maps
 
         /// <summary>
@@ -545,6 +388,11 @@
         /// Represents a converter for the BackgroundAttachment enumeration.
         /// </summary>
         public static readonly IValueConverter BackgroundAttachmentConverter = Map.BackgroundAttachments.ToConverter();
+
+        /// <summary>
+        /// Represents a converter for the BackgroundRepeat enumeration.
+        /// </summary>
+        public static readonly IValueConverter BackgroundRepeatConverter = Map.BackgroundRepeats.ToConverter();
 
         /// <summary>
         /// Represents a converter for the BoxModel enumeration.
@@ -565,7 +413,7 @@
         /// Represents a converter for the TextDecorationStyle enumeration.
         /// </summary>
         public static readonly IValueConverter TextDecorationStyleConverter = Map.TextDecorationStyles.ToConverter();
-        
+
         /// <summary>
         /// Represents a converter for the TextDecorationLine enumeration, 
         /// taking many values or none.
@@ -694,6 +542,186 @@
 
         #endregion
 
+        #region Specific
+
+        /// <summary>
+        /// Represents an optional integer object.
+        /// </summary>
+        public static readonly IValueConverter OptionalIntegerConverter = IntegerConverter.OrAuto();
+
+        /// <summary>
+        /// Represents a positive or infinite number object.
+        /// </summary>
+        public static readonly IValueConverter PositiveOrInfiniteNumberConverter = NaturalNumberConverter.Or(Keywords.Infinite, Single.PositiveInfinity);
+
+        /// <summary>
+        /// Represents a positive or infinite number object.
+        /// </summary>
+        public static readonly IValueConverter OptionalNumberConverter = NumberConverter.OrNone();
+
+        /// <summary>
+        /// Represents a length object or alternatively a fixed length when "normal" is given.
+        /// </summary>
+        public static readonly IValueConverter LengthOrNormalConverter = LengthConverter.Or(Keywords.Normal, new Length(1f, Length.Unit.Em));
+
+        /// <summary>
+        /// Represents a length object or null, when "normal" is given.
+        /// </summary>
+        public static readonly IValueConverter OptionalLengthConverter = LengthConverter.Or(Keywords.Normal);
+
+        /// <summary>
+        /// Represents a length (or default).
+        /// </summary>
+        public static readonly IValueConverter AutoLengthConverter = LengthConverter.OrAuto();
+
+        /// <summary>
+        /// Represents a distance object (either Length or Percent) or none.
+        /// </summary>
+        public static readonly IValueConverter OptionalLengthOrPercentConverter = LengthOrPercentConverter.OrNone();
+
+        /// <summary>
+        /// Represents a distance object (or default).
+        /// </summary>
+        public static readonly IValueConverter AutoLengthOrPercentConverter = LengthOrPercentConverter.OrAuto();
+
+        /// <summary>
+        /// Represents a length for a font size.
+        /// </summary>
+        public static readonly IValueConverter FontSizeConverter = LengthOrPercentConverter.Or(Map.FontSizes.ToConverter());
+
+        #endregion
+
+        #region Composed
+
+        /// <summary>
+        /// Represents a distance object with line-height additions.
+        /// http://www.w3.org/TR/CSS2/visudet.html#propdef-line-height
+        /// </summary>
+        public static readonly IValueConverter LineHeightConverter = LengthOrPercentConverter.Or(NumberConverter).Or(Keywords.Normal);
+
+        /// <summary>
+        /// Represents a length object that is based on percentage or number.
+        /// http://dev.w3.org/csswg/css-backgrounds/#border-image-slice
+        /// </summary>
+        public static readonly IValueConverter BorderSliceConverter = PercentConverter.Or(NumberConverter);
+
+        /// <summary>
+        /// Represents a length object that is based on percentage, length or number.
+        /// http://dev.w3.org/csswg/css-backgrounds/#border-image-width
+        /// </summary>
+        public static readonly IValueConverter ImageBorderWidthConverter = LengthOrPercentConverter.Or(NumberConverter).Or(Keywords.Auto);
+
+        /// <summary>
+        /// Represents a timing-function object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/timing-function
+        /// </summary>
+        public static readonly IValueConverter TransitionConverter = new DictionaryValueConverter<ITimingFunction>(Map.TimingFunctions).Or(
+            StepsConverter).Or(CubicBezierConverter);
+
+        /// <summary>
+        /// Represents a gradient object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/gradient
+        /// </summary>
+        public static readonly IValueConverter GradientConverter = LinearGradientConverter.Or(RadialGradientConverter);
+
+        /// <summary>
+        /// Represents a transform function.
+        /// http://www.w3.org/TR/css3-transforms/#typedef-transform-function
+        /// </summary>
+        public static readonly IValueConverter TransformConverter = MatrixTransformConverter.Or(
+            ScaleTransformConverter).Or(
+            RotateTransformConverter).Or(
+            TranslateTransformConverter).Or(
+            SkewTransformConverter).Or(
+            PerspectiveConverter);
+
+        /// <summary>
+        /// Represents a color object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+        /// </summary>
+        public static readonly IValueConverter ColorConverter = PureColorConverter.Or(
+            RgbColorConverter.Or(RgbaColorConverter)).Or(
+            HslColorConverter.Or(HslaColorConverter));
+
+        /// <summary>
+        /// Represents a color object or, alternatively, the current color.
+        /// </summary>
+        public static readonly IValueConverter CurrentColorConverter = ColorConverter.WithCurrentColor();
+
+        /// <summary>
+        /// Represents a color object, the current color, or the inverted current color.
+        /// </summary>
+        public static readonly IValueConverter InvertedColorConverter = CurrentColorConverter.Or(Keywords.Invert);
+
+        /// <summary>
+        /// Represents a ratio object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
+        /// </summary>
+        public static readonly IValueConverter RatioConverter = WithOrder(
+            IntegerConverter.Required(), 
+            IntegerConverter.StartsWithDelimiter().Required());
+
+        /// <summary>
+        /// Represents a shadow object.
+        /// http://dev.w3.org/csswg/css-backgrounds/#shadow
+        /// </summary>
+        public static readonly IValueConverter ShadowConverter = WithAny(
+            Assign(Keywords.Inset, true).Option(false),
+            LengthConverter.Many(2, 4).Required(),
+            ColorConverter.WithCurrentColor().Option(Color.Black));
+
+        /// <summary>
+        /// Represents multiple shadow objects.
+        /// </summary>
+        public static readonly IValueConverter MultipleShadowConverter = ShadowConverter.FromList().OrNone();
+
+        /// <summary>
+        /// Represents an image source object.
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/image
+        /// </summary>
+        public static readonly IValueConverter ImageSourceConverter = UrlConverter.Or(GradientConverter);
+
+        /// <summary>
+        /// Represents an optional image source object.
+        /// </summary>
+        public static readonly IValueConverter OptionalImageSourceConverter = ImageSourceConverter.OrNone();
+
+        /// <summary>
+        /// Represents multiple image source object.
+        /// </summary>
+        public static readonly IValueConverter MultipleImageSourceConverter = ImageSourceConverter.FromList().OrNone();
+
+        /// <summary>
+        /// Represents the border-radius (horizontal / vertical; radius) converter.
+        /// </summary>
+        public static readonly IValueConverter BorderRadiusConverter = WithOrder(
+            LengthOrPercentConverter.Required(), LengthOrPercentConverter.Option());
+
+        /// <summary>
+        /// Represents a converter for font families.
+        /// </summary>
+        public static readonly IValueConverter FontFamiliesConverter = DefaultFontFamiliesConverter.Or(Converters.StringConverter).Or(Converters.LiteralsConverter).FromList();
+
+        /// <summary>
+        /// Represents a converter for border properties.
+        /// </summary>
+        public static readonly IValueConverter BorderConverter = WithAny(LineWidthConverter.Option(), LineStyleConverter.Option(), CurrentColorConverter.Option());
+
+        /// <summary>
+        /// Represents a converter for background size.
+        /// </summary>
+        public static readonly IValueConverter BackgroundSizeConverter = AutoLengthOrPercentConverter.Or(
+            Keywords.Cover).Or(Keywords.Contain).Or(
+            WithOrder(AutoLengthOrPercentConverter.Required(), AutoLengthOrPercentConverter.Required()));
+
+        /// <summary>
+        /// Represents a converter for background repeat.
+        /// </summary>
+        public static readonly IValueConverter BackgroundRepeatsConverter = BackgroundRepeatConverter.Or(Keywords.RepeatX).Or(Keywords.RepeatY).Or(
+            WithOrder(BackgroundRepeatConverter.Required(), BackgroundRepeatConverter.Required()));
+
+        #endregion
+
         #region Toggles
 
         /// <summary>
@@ -767,30 +795,6 @@
         {
             return Assign(on, true).Or(off, false);
         }
-
-        /// <summary>
-        /// Represents a converter for font families.
-        /// </summary>
-        public static readonly IValueConverter FontFamiliesConverter = DefaultFontFamiliesConverter.Or(Converters.StringConverter).Or(Converters.LiteralsConverter).FromList();
-
-        /// <summary>
-        /// Represents a converter for border properties.
-        /// </summary>
-        public static readonly IValueConverter BorderConverter = WithAny(LineWidthConverter.Option(), LineStyleConverter.Option(), CurrentColorConverter.Option());
-
-        /// <summary>
-        /// Represents a converter for background size.
-        /// </summary>
-        public static readonly IValueConverter BackgroundSizeConverter = AutoLengthOrPercentConverter.Or(
-            Keywords.Cover).Or(Keywords.Contain).Or(
-            WithOrder(AutoLengthOrPercentConverter.Required(), AutoLengthOrPercentConverter.Required()));
-
-        /// <summary>
-        /// Represents a converter for background repeat.
-        /// </summary>
-        public static readonly IValueConverter BackgroundRepeatConverter = Map.BackgroundRepeats.ToConverter().Or(
-            Keywords.RepeatX).Or(Keywords.RepeatY).Or(
-            WithOrder(Map.BackgroundRepeats.ToConverter().Required(), Map.BackgroundRepeats.ToConverter().Required()));
 
         #endregion
 

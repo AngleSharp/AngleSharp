@@ -22,7 +22,7 @@
             Converters.WithOrder(
                 Converters.PointConverter.Option(),
                 Converters.BackgroundSizeConverter.StartsWithDelimiter().Option()),
-            Converters.BackgroundRepeatConverter.Option(),
+            Converters.BackgroundRepeatsConverter.Option(),
             Converters.BackgroundAttachmentConverter.Option(),
             Converters.BoxModelConverter.Option(),
             Converters.BoxModelConverter.Option());
@@ -32,7 +32,7 @@
             Converters.WithOrder(
                 Converters.PointConverter.Option(),
                 Converters.BackgroundSizeConverter.StartsWithDelimiter().Option()),
-            Converters.BackgroundRepeatConverter.Option(),
+            Converters.BackgroundRepeatsConverter.Option(),
             Converters.BackgroundAttachmentConverter.Option(),
             Converters.BoxModelConverter.Option(),
             Converters.BoxModelConverter.Option(),
