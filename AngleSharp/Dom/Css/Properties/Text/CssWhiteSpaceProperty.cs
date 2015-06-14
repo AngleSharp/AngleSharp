@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssWhiteSpaceProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.WhitespaceConverter.OrDefault(Whitespace.Normal);
+
+        #endregion
+
         #region ctor
 
         internal CssWhiteSpaceProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Whitespace.Normal
-            get { return Converters.WhitespaceConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

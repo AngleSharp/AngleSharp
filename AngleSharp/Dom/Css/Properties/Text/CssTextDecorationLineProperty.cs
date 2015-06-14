@@ -13,9 +13,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter SingleConverter = Map.TextDecorationLines.ToConverter().Many();
-        // Default: Nothing
-        internal static readonly IValueConverter ListConverter = SingleConverter.OrNone();
+        static readonly IValueConverter ListConverter = Converters.TextDecorationLinesConverter.OrDefault();
 
         #endregion
 

@@ -560,6 +560,12 @@
         /// Represents a converter for the TextDecorationStyle enumeration.
         /// </summary>
         public static readonly IValueConverter TextDecorationStyleConverter = Map.TextDecorationStyles.ToConverter();
+        
+        /// <summary>
+        /// Represents a converter for the TextDecorationLine enumeration, 
+        /// taking many values or none.
+        /// </summary>
+        public static readonly IValueConverter TextDecorationLinesConverter = Map.TextDecorationLines.ToConverter().Many().OrNone();
 
         /// <summary>
         /// Represents a converter for the ListPosition enumeration.

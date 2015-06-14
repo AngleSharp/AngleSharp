@@ -17,7 +17,6 @@
     {
         #region Fields
 
-        // Default: Tuple.Create(Point.Center, Length.Zero
         static IValueConverter StyleConverter = Converters.WithOrder(
             Converters.LengthOrPercentConverter.Or(Keywords.Center, Point.Center).Or(Converters.WithAny(
                 Converters.LengthOrPercentConverter.Or(Keywords.Left, Length.Zero).Or(Keywords.Right, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half),
@@ -25,7 +24,7 @@
             Converters.WithAny(
                 Converters.LengthOrPercentConverter.Or(Keywords.Top, Length.Zero).Or(Keywords.Bottom, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half),
                 Converters.LengthOrPercentConverter.Or(Keywords.Left, Length.Zero).Or(Keywords.Right, Length.Full).Or(Keywords.Center, Length.Half).Option(Length.Half))).Required(),
-            Converters.LengthConverter.Option(Length.Zero));
+            Converters.LengthConverter.Option(Length.Zero)).OrDefault(Point.Center);
 
         #endregion
 

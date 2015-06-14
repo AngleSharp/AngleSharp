@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -11,6 +12,12 @@
     /// </summary>
     sealed class CssBackfaceVisibilityProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.BackfaceVisibilityConverter.OrDefault(true);
+
+        #endregion
+
         #region ctor
 
         internal CssBackfaceVisibilityProperty()
@@ -24,8 +31,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: true
-            get { return Converters.BackfaceVisibilityConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

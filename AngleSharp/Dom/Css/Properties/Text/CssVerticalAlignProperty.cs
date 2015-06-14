@@ -15,8 +15,8 @@
     {
         #region Fields
 
-        // Default: VerticalAlignment.Baseline
-        static readonly IValueConverter StyleConverter = Converters.LengthOrPercentConverter.Or(Converters.VerticalAlignmentConverter);
+        static readonly IValueConverter StyleConverter = Converters.LengthOrPercentConverter.Or(
+            Converters.VerticalAlignmentConverter).OrDefault(VerticalAlignment.Baseline);
 
         #endregion
 

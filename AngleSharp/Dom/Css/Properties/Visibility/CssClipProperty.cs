@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information can be found:
@@ -10,6 +11,12 @@
     /// </summary>
     sealed class CssClipProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.ShapeConverter.OrDefault();
+
+        #endregion
+
         #region ctor
 
         internal CssClipProperty()
@@ -23,8 +30,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Nothing
-            get { return Converters.ShapeConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

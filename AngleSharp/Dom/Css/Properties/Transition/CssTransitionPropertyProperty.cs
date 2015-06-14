@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
 
@@ -13,8 +12,7 @@
     {
         #region Fields
 
-        // Default: All
-        static readonly IValueConverter PropConverter = Converters.AnimatableConverter.FromList().OrNone();
+        static readonly IValueConverter ListConverter = Converters.AnimatableConverter.FromList().OrNone().OrDefault(Keywords.All);
         
         #endregion
 
@@ -31,7 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            get { return PropConverter; }
+            get { return ListConverter; }
         }
 
         #endregion

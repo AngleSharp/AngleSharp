@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available:
@@ -8,6 +10,12 @@
     /// </summary>
     sealed class CssObjectPositionProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.PointConverter.OrDefault(Point.Center);
+
+        #endregion
+
         #region ctor
 
         internal CssObjectPositionProperty()
@@ -21,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Point.Center
-            get { return Converters.PointConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

@@ -13,8 +13,7 @@
     {
         #region Fields
 
-        // Default: Time.Zero
-        static readonly IValueConverter ListConverter = Converters.TimeConverter.FromList();
+        static readonly IValueConverter ListConverter = Converters.TimeConverter.FromList().OrDefault(Time.Zero);
 
         #endregion
 

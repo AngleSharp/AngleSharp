@@ -15,7 +15,7 @@
             Converters.AnimatableConverter.Option(),
             Converters.TimeConverter.Option(),
             Converters.TransitionConverter.Option(),
-            Converters.TimeConverter.Option()).FromList();
+            Converters.TimeConverter.Option()).FromList().OrDefault();
 
         #endregion
 

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssVisibilityProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.VisibilityConverter.OrDefault(Visibility.Visible);
+
+        #endregion
+
         #region ctor
 
         internal CssVisibilityProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Visibility.Visible
-            get { return Converters.VisibilityConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

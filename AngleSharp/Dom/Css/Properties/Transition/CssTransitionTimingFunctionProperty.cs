@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
 
     /// <summary>
@@ -13,8 +12,7 @@
     {
         #region Fields
 
-        // Default: Ease
-        static readonly IValueConverter ListConverter = Converters.TransitionConverter.FromList();
+        static readonly IValueConverter ListConverter = Converters.TransitionConverter.FromList().OrDefault(Map.TimingFunctions[Keywords.Ease]);
 
         #endregion
 

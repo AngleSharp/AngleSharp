@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More Information:
@@ -9,6 +11,12 @@
     /// </summary>
     sealed class CssTextDecorationColorProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.ColorConverter.OrDefault(Color.Black);
+
+        #endregion
+
         #region ctor
 
         internal CssTextDecorationColorProperty()
@@ -22,8 +30,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Color.Black
-            get { return Converters.ColorConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

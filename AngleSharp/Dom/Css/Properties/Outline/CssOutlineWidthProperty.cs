@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available:
@@ -11,6 +13,12 @@
     /// </summary>
     sealed class CssOutlineWidthProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.LineWidthConverter.OrDefault(Length.Medium);
+
+        #endregion
+
         #region ctor
 
         internal CssOutlineWidthProperty()
@@ -24,8 +32,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Length.Medium
-            get { return Converters.LineWidthConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

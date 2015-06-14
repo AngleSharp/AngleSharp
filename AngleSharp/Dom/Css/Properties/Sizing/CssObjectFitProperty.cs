@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available:
@@ -8,6 +9,12 @@
     /// </summary>
     sealed class CssObjectFitProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.ObjectFittingConverter.OrDefault(ObjectFitting.Fill);
+
+        #endregion
+
         #region ctor
 
         internal CssObjectFitProperty()
@@ -21,8 +28,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: ObjectFitting.Fill
-            get { return Converters.ObjectFittingConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssTextTransformProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.TextTransformConverter.OrDefault(TextTransform.None);
+
+        #endregion
+
         #region ctor
 
         internal CssTextTransformProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: TextTransform.None
-            get { return Converters.TextTransformConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

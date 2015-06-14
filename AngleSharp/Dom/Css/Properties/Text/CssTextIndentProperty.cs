@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available at:
@@ -11,6 +13,12 @@
     /// </summary>
     sealed class CssTextIndentProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.LengthOrPercentConverter.OrDefault(Length.Zero);
+
+        #endregion
+
         #region ctor
 
         internal CssTextIndentProperty()
@@ -24,8 +32,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Length.Zero
-            get { return Converters.LengthOrPercentConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

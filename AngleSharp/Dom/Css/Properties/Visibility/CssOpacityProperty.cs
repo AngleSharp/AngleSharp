@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssOpacityProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.NumberConverter.OrDefault(1f);
+
+        #endregion
+
         #region ctor
 
         internal CssOpacityProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: 1f
-            get { return Converters.NumberConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

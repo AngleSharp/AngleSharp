@@ -14,7 +14,7 @@
         static readonly IValueConverter StyleConverter = Converters.WithAny(
             Converters.ColorConverter.Option(),
             Converters.TextDecorationStyleConverter.Option(),
-            CssTextDecorationLineProperty.ListConverter.Option());
+            Converters.TextDecorationLinesConverter.Option()).OrDefault();
 
         #endregion
 

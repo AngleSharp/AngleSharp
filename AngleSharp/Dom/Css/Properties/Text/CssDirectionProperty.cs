@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssDirectionProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.DirectionModeConverter.OrDefault(DirectionMode.Ltr);
+
+        #endregion
+
         #region ctor
 
         internal CssDirectionProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: DirectionMode.Ltr
-            get { return Converters.DirectionModeConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

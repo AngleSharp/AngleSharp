@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available:
@@ -10,6 +12,12 @@
     /// </summary>
     sealed class CssOutlineColorProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.InvertedColorConverter.OrDefault(Color.Transparent);
+
+        #endregion
+
         #region ctor
 
         internal CssOutlineColorProperty()
@@ -23,8 +31,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Color.Transparent
-            get { return Converters.InvertedColorConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

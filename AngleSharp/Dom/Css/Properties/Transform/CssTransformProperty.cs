@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
 
     /// <summary>
@@ -13,8 +12,7 @@
     {
         #region Fields
 
-        // Default: Nothing
-        static readonly IValueConverter StyleConverter = Converters.TransformConverter.Many().OrNone();
+        static readonly IValueConverter StyleConverter = Converters.TransformConverter.Many().OrNone().OrDefault();
 
         #endregion
 

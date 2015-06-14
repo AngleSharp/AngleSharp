@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssTextAlignProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.HorizontalAlignmentConverter.OrDefault(HorizontalAlignment.Left);
+
+        #endregion
+
         #region ctor
 
         internal CssTextAlignProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: HorizontalAlignment.Left
-            get { return Converters.HorizontalAlignmentConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion
