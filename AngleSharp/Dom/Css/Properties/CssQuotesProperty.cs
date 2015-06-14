@@ -28,8 +28,7 @@
 
             return Tuple.Create("", "");
         */
-        // Default: Tuple.Create("«", "»")
-        static readonly IValueConverter StyleConverter = Converters.EvenStringsConverter.OrNone();
+        static readonly IValueConverter StyleConverter = Converters.EvenStringsConverter.OrNone().OrDefault(new[] { "«", "»" });
 
         #endregion
 

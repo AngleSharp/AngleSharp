@@ -11,14 +11,12 @@
     {
         #region Fields
 
-        // Default: SystemCursor.Auto
-        static readonly IValueConverter StyleConverter = 
-            Converters.ImageSourceConverter.Or(
-                Converters.WithOrder(
-                    Converters.ImageSourceConverter.Required(),
-                    Converters.NumberConverter.Required(),
-                    Converters.NumberConverter.Required())).
-                FromList().RequiresEnd(Map.Cursors.ToConverter());
+        static readonly IValueConverter StyleConverter = Converters.ImageSourceConverter.Or(
+            Converters.WithOrder(
+                Converters.ImageSourceConverter.Required(),
+                Converters.NumberConverter.Required(),
+                Converters.NumberConverter.Required())).
+            FromList().RequiresEnd(Map.Cursors.ToConverter()).OrDefault(SystemCursor.Auto);
 
         #endregion
 

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -10,6 +11,12 @@
     /// </summary>
     sealed class CssCaptionSideProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.CaptionSideConverter.OrDefault(true);
+
+        #endregion
+
         #region ctor
 
         internal CssCaptionSideProperty()
@@ -23,8 +30,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: true
-            get { return Converters.CaptionSideConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -14,6 +15,12 @@
     /// </summary>
     sealed class CssTableLayoutProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.TableLayoutConverter.OrDefault(false);
+
+        #endregion
+
         #region ctor
 
         internal CssTableLayoutProperty()
@@ -27,8 +34,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: false
-            get { return Converters.TableLayoutConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

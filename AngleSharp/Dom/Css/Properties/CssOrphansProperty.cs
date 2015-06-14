@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -10,6 +11,12 @@
     /// </summary>
     sealed class CssOrphansProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.NaturalIntegerConverter.OrDefault(2);
+
+        #endregion
+
         #region ctor
 
         internal CssOrphansProperty()
@@ -23,8 +30,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: 2
-            get { return Converters.NaturalIntegerConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

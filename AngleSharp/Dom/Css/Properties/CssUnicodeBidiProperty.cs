@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -8,6 +9,12 @@
     /// </summary>
     sealed class CssUnicodeBidiProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.UnicodeModeConverter.OrDefault(UnicodeMode.Normal);
+
+        #endregion
+
         #region ctor
 
         internal CssUnicodeBidiProperty()
@@ -21,8 +28,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: UnicodeMode.Normal
-            get { return Converters.UnicodeModeConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

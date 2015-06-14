@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using System;
+    using AngleSharp.Css;
 
     /// <summary>
     /// Represents an unknown property that takes every value.
@@ -21,7 +21,6 @@
 
         internal override IValueConverter Converter
         {
-            // Default: nothing
             get { return Converters.Any; }
         }
 

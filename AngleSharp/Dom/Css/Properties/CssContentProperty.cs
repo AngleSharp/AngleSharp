@@ -29,14 +29,12 @@
             var parts = values.Select(m => m.Stringify(element));
             return String.Join(String.Empty, parts);
         */
-        // Default: Nothing
         static readonly IValueConverter StyleConverter = Converters.Assign(Keywords.Normal, Default).OrNone().Or(
-                ContentModes.ToConverter().Or(
-                Converters.UrlConverter).Or(
-                Converters.StringConverter).Or(
-                Converters.AttrConverter).Or(
-                Converters.CounterConverter).Many()
-            );
+            ContentModes.ToConverter().Or(
+            Converters.UrlConverter).Or(
+            Converters.StringConverter).Or(
+            Converters.AttrConverter).Or(
+            Converters.CounterConverter).Many()).OrDefault();
 
         #endregion
 

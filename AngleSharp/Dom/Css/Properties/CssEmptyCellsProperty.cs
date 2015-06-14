@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -11,6 +12,12 @@
     /// </summary>
     sealed class CssEmptyCellsProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.EmptyCellsConverter.OrDefault(true);
+
+        #endregion
+
         #region ctor
 
         internal CssEmptyCellsProperty()
@@ -24,8 +31,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: true
-            get { return Converters.EmptyCellsConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion
