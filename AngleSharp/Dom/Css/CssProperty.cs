@@ -16,7 +16,6 @@
         readonly String _name;
 
         Boolean _important;
-        CssValue _originalValue;
         IPropertyValue _value;
 
         #endregion
@@ -43,7 +42,7 @@
         /// </summary>
         internal Boolean HasValue
         {
-            get { return _originalValue != null; }
+            get { return _value != null; }
         }
 
         /// <summary>
@@ -79,14 +78,6 @@
         }
 
         /// <summary>
-        /// Gets the value of the property.
-        /// </summary>
-        internal CssValue OriginalValue
-        {
-            get { return _originalValue ?? CssValue.Initial; }
-        }
-
-        /// <summary>
         /// Gets the used value converter.
         /// </summary>
         internal abstract IValueConverter Converter
@@ -111,7 +102,7 @@
         /// </summary>
         public Boolean IsInherited
         {
-            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || (_originalValue != null && _originalValue.Is(Keywords.Inherit)); }
+            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || (_value != null && _value.Original.Is(Keywords.Inherit)); }
         }
 
         /// <summary>
@@ -127,7 +118,7 @@
         /// </summary>
         public Boolean IsInitial
         {
-            get { return _originalValue == null || _originalValue.Is(Keywords.Initial); }
+            get { return _value == null || _value.Original.Is(Keywords.Initial); }
         }
 
         /// <summary>
@@ -170,7 +161,6 @@
 
             if (value != null)
             {
-                _originalValue = newValue;
                 _value = value;
                 return true;
             }
