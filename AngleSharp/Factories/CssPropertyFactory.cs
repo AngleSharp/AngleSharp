@@ -436,13 +436,13 @@
         /// Gets the longhands that map to the specified shorthand property.
         /// </summary>
         /// <param name="name">The name of the shorthand property.</param>
-        /// <returns>An enumeration over all longhand properties.</returns>
-        public IEnumerable<String> GetLonghands(String name)
+        /// <returns>An array with all longhand property names.</returns>
+        public String[] GetLonghands(String name)
         {
             if (mappings.ContainsKey(name))
                 return mappings[name];
             
-            return Enumerable.Empty<String>();
+            return new String[0];
         }
 
         /// <summary>
