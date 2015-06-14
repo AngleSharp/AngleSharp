@@ -11,7 +11,11 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = Converters.BorderConverter.OrDefault();
+        static readonly IValueConverter StyleConverter = Converters.WithAny(
+            Converters.LineWidthConverter.Option().For(PropertyNames.BorderWidth),
+            Converters.LineStyleConverter.Option().For(PropertyNames.BorderStyle),
+            Converters.CurrentColorConverter.Option().For(PropertyNames.BorderColor)
+        ).OrDefault();
 
         #endregion
 

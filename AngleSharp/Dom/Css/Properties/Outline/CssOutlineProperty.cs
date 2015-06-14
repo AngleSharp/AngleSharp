@@ -12,9 +12,9 @@
         #region Fields
 
         static readonly IValueConverter StyleConverter = Converters.WithAny(
-            Converters.LineWidthConverter.Option(),
-            Converters.LineStyleConverter.Option(),
-            Converters.InvertedColorConverter.Option()).OrDefault();
+            Converters.LineWidthConverter.Option().For(PropertyNames.OutlineWidth),
+            Converters.LineStyleConverter.Option().For(PropertyNames.OutlineStyle),
+            Converters.InvertedColorConverter.Option().For(PropertyNames.OutlineColor)).OrDefault();
 
         #endregion
 

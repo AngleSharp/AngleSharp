@@ -12,8 +12,8 @@
         #region Fields
 
         static readonly IValueConverter StyleConverter = Converters.WithAny(
-            Converters.AutoLengthConverter.Option(),
-            Converters.OptionalIntegerConverter.Option()).OrDefault();
+            Converters.AutoLengthConverter.Option().For(PropertyNames.ColumnWidth),
+            Converters.OptionalIntegerConverter.Option().For(PropertyNames.ColumnCount)).OrDefault();
 
         #endregion
 

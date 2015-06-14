@@ -703,11 +703,6 @@
         public static readonly IValueConverter FontFamiliesConverter = DefaultFontFamiliesConverter.Or(Converters.StringConverter).Or(Converters.LiteralsConverter).FromList();
 
         /// <summary>
-        /// Represents a converter for border properties.
-        /// </summary>
-        public static readonly IValueConverter BorderConverter = WithAny(LineWidthConverter.Option(), LineStyleConverter.Option(), CurrentColorConverter.Option());
-
-        /// <summary>
         /// Represents a converter for background size.
         /// </summary>
         public static readonly IValueConverter BackgroundSizeConverter = AutoLengthOrPercentConverter.Or(

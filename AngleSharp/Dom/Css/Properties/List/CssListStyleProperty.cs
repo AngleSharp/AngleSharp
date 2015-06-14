@@ -12,9 +12,9 @@
         #region Fields
 
         static readonly IValueConverter StyleConverter = Converters.WithAny(
-            Converters.ListStyleConverter.Option(),
-            Converters.ListPositionConverter.Option(),
-            Converters.OptionalImageSourceConverter.Option()).OrDefault();
+            Converters.ListStyleConverter.Option().For(PropertyNames.ListStyleType),
+            Converters.ListPositionConverter.Option().For(PropertyNames.ListStylePosition),
+            Converters.OptionalImageSourceConverter.Option().For(PropertyNames.ListStyleImage)).OrDefault();
 
         #endregion
 

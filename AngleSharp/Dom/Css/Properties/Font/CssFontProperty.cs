@@ -17,14 +17,14 @@
 
         static readonly IValueConverter StyleConverter = Converters.WithOrder(
             Converters.WithAny(
-                Converters.FontStyleConverter.Option(),
-                Converters.FontVariantConverter.Option(),
-                Converters.FontWeightConverter.Or(Converters.WeightIntegerConverter).Option(),
-                Converters.FontStretchConverter.Option()),
+                Converters.FontStyleConverter.Option().For(PropertyNames.FontStyle),
+                Converters.FontVariantConverter.Option().For(PropertyNames.FontVariant),
+                Converters.FontWeightConverter.Or(Converters.WeightIntegerConverter).Option().For(PropertyNames.FontWeight),
+                Converters.FontStretchConverter.Option().For(PropertyNames.FontStretch)),
             Converters.WithOrder(
-                Converters.FontSizeConverter.Required(),
-                Converters.LineHeightConverter.StartsWithDelimiter().Option()),
-            Converters.FontFamiliesConverter.Required()).Or(
+                Converters.FontSizeConverter.Required().For(PropertyNames.FontSize),
+                Converters.LineHeightConverter.StartsWithDelimiter().Option().For(PropertyNames.LineHeight),
+            Converters.FontFamiliesConverter.Required().For(PropertyNames.FontFamily))).Or(
         Converters.SystemFontConverter);
 
         #endregion
@@ -54,7 +54,7 @@
         /// can be used to represent a specific system font.
         /// </summary>
         /// <param name="font">The font to select.</param>
-        void SetSystemFont(SystemFont font)
+        static void SetSystemFont(SystemFont font)
         {
             switch (font)
             {

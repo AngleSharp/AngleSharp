@@ -12,9 +12,9 @@
         #region Fields
 
         static readonly IValueConverter StyleConverter = Converters.WithAny(
-            Converters.ColorConverter.Option(),
-            Converters.TextDecorationStyleConverter.Option(),
-            Converters.TextDecorationLinesConverter.Option()).OrDefault();
+            Converters.ColorConverter.Option().For(PropertyNames.TextDecorationColor),
+            Converters.TextDecorationStyleConverter.Option().For(PropertyNames.TextDecorationStyle),
+            Converters.TextDecorationLinesConverter.Option().For(PropertyNames.TextDecorationLine)).OrDefault();
 
         #endregion
 

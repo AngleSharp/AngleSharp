@@ -12,12 +12,12 @@
         #region Fields
 
         static readonly IValueConverter ImageConverter = Converters.WithAny(
-            Converters.OptionalImageSourceConverter.Option(),
+            Converters.OptionalImageSourceConverter.Option().For(PropertyNames.BorderImageSource),
             Converters.WithOrder(
-                CssBorderImageSliceProperty.TheConverter.Option(),
-                CssBorderImageWidthProperty.TheConverter.StartsWithDelimiter().Option(),
-                CssBorderImageOutsetProperty.TheConverter.StartsWithDelimiter().Option()),
-            CssBorderImageRepeatProperty.TheConverter.Option()).OrDefault();
+                CssBorderImageSliceProperty.TheConverter.Option().For(PropertyNames.BorderImageSlice),
+                CssBorderImageWidthProperty.TheConverter.StartsWithDelimiter().Option().For(PropertyNames.BorderImageWidth),
+                CssBorderImageOutsetProperty.TheConverter.StartsWithDelimiter().Option().For(PropertyNames.BorderImageOutset)),
+            CssBorderImageRepeatProperty.TheConverter.Option().For(PropertyNames.BorderImageRepeat)).OrDefault();
 
         #endregion
 

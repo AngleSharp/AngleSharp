@@ -12,9 +12,9 @@
         #region Fields
 
         static readonly IValueConverter StyleConverter = Converters.WithAny(
-            Converters.ColorConverter.Option(),
-            Converters.LineWidthConverter.Option(),
-            Converters.LineStyleConverter.Option()).OrDefault();
+            Converters.ColorConverter.Option().For(PropertyNames.ColumnRuleColor),
+            Converters.LineWidthConverter.Option().For(PropertyNames.ColumnRuleWidth),
+            Converters.LineStyleConverter.Option().For(PropertyNames.ColumnRuleStyle)).OrDefault();
 
         #endregion
 

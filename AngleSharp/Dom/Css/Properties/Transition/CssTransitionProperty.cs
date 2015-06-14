@@ -12,10 +12,10 @@
         #region Fields
 
         internal static readonly IValueConverter ListConverter = Converters.WithAny(
-            Converters.AnimatableConverter.Option(),
-            Converters.TimeConverter.Option(),
-            Converters.TransitionConverter.Option(),
-            Converters.TimeConverter.Option()).FromList().OrDefault();
+            Converters.AnimatableConverter.Option().For(PropertyNames.TransitionProperty),
+            Converters.TimeConverter.Option().For(PropertyNames.TransitionDuration),
+            Converters.TransitionConverter.Option().For(PropertyNames.TransitionTimingFunction),
+            Converters.TimeConverter.Option().For(PropertyNames.TransitionDelay)).FromList().OrDefault();
 
         #endregion
 
