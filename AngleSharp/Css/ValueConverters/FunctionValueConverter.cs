@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
+using AngleSharp.Dom.Css;
 
     sealed class FunctionValueConverter : IValueConverter
     {
@@ -23,7 +24,7 @@
             if (Check(function))
             {
                 var args = _arguments.Convert(function.ArgumentTokens);
-                return args != null ? new FunctionValue(_name, args) : null;
+                return args != null ? new FunctionValue(_name, args, value) : null;
             }
 
             return null;
@@ -38,16 +39,23 @@
         {
             readonly String _name;
             readonly IPropertyValue _arguments;
+            readonly CssValue _value;
 
-            public FunctionValue(String name, IPropertyValue arguments)
+            public FunctionValue(String name, IPropertyValue arguments, IEnumerable<CssToken> tokens)
             {
                 _name = name;
                 _arguments = arguments;
+                _value = new CssValue(tokens);
             }
 
             public String CssText
             {
                 get { return String.Concat(_name, "(", _arguments.CssText, ")"); }
+            }
+
+            public CssValue Original
+            {
+                get { return _value; }
             }
         }
     }

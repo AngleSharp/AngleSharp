@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Dom.Css;
 
     sealed class StartsWithValueConverter : IValueConverter
     {
@@ -20,12 +21,12 @@
         public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             var rest = Transform(value);
-            return rest != null ? CreateFrom(_converter.Convert(rest)) : null;
+            return rest != null ? CreateFrom(_converter.Convert(rest), value) : null;
         }
 
-        IPropertyValue CreateFrom(IPropertyValue value)
+        IPropertyValue CreateFrom(IPropertyValue value, IEnumerable<CssToken> tokens)
         {
-            return value != null ? new StartValue(_data, value) : null;
+            return value != null ? new StartValue(_data, value, tokens) : null;
         }
 
         List<CssToken> Transform(IEnumerable<CssToken> values)
@@ -60,16 +61,23 @@
         {
             readonly String _start;
             readonly IPropertyValue _value;
+            readonly CssValue _original;
 
-            public StartValue(String start, IPropertyValue value)
+            public StartValue(String start, IPropertyValue value, IEnumerable<CssToken> tokens)
             {
                 _start = start;
                 _value = value;
+                _original = new CssValue(tokens);
             }
 
             public String CssText
             {
                 get { return String.Concat(_start, " ", _value.CssText); }
+            }
+
+            public CssValue Original
+            {
+                get { return _original; }
             }
         }
     }

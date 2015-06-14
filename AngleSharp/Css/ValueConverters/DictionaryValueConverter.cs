@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Dom.Css;
 
     sealed class DictionaryValueConverter<T> : IValueConverter
     {
@@ -19,23 +20,30 @@
             var identifier = value.ToIdentifier();
             var mode = default(T);
             return identifier != null && _values.TryGetValue(identifier, out mode) ?
-                new EnumeratedValue(identifier, mode) : null;
+                new EnumeratedValue(identifier, mode, value) : null;
         }
 
         sealed class EnumeratedValue : IPropertyValue
         {
             readonly String _identifier;
             readonly T _value;
+            readonly CssValue _original;
 
-            public EnumeratedValue(String identifier, T value)
+            public EnumeratedValue(String identifier, T value, IEnumerable<CssToken> tokens)
             {
                 _identifier = identifier;
                 _value = value;
+                _original = new CssValue(tokens);
             }
 
             public String CssText
             {
                 get { return _identifier; }
+            }
+
+            public CssValue Original
+            {
+                get { return _original; }
             }
         }
     }

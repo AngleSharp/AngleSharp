@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Dom.Css;
 
     sealed class IdentifierValueConverter : IValueConverter
     {
@@ -17,21 +18,28 @@
         public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             var result = _converter(value);
-            return result != null ? new IdentifierValue(result) : null;
+            return result != null ? new IdentifierValue(result, value) : null;
         }
 
         sealed class IdentifierValue : IPropertyValue
         {
             readonly String _identifier;
+            readonly CssValue _value;
 
-            public IdentifierValue(String identifier)
+            public IdentifierValue(String identifier, IEnumerable<CssToken> tokens)
             {
                 _identifier = identifier;
+                _value = new CssValue(tokens);
             }
 
             public String CssText
             {
                 get { return _identifier; }
+            }
+
+            public CssValue Original
+            {
+                get { return _value; }
             }
         }
     }
@@ -49,24 +57,30 @@
 
         public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
-            return value.Is(_identifier) ? 
-                new IdentifierValue(_identifier, _result) : null;
+            return value.Is(_identifier) ? new IdentifierValue(_identifier, _result, value) : null;
         }
 
         sealed class IdentifierValue : IPropertyValue
         {
             readonly String _identifier;
             readonly T _value;
+            readonly CssValue _original;
 
-            public IdentifierValue(String identifier, T value)
+            public IdentifierValue(String identifier, T value, IEnumerable<CssToken> tokens)
             {
                 _identifier = identifier;
                 _value = value;
+                _original = new CssValue(tokens);
             }
 
             public String CssText
             {
                 get { return _identifier; }
+            }
+
+            public CssValue Original
+            {
+                get { return _original; }
             }
         }
     }

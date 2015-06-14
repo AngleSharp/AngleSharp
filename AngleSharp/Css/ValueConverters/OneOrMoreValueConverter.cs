@@ -5,6 +5,7 @@
     using System.Linq;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Dom.Css;
 
     sealed class OneOrMoreValueConverter : IValueConverter
     {
@@ -36,7 +37,7 @@
                         return null;
                 }
 
-                return new MultipleValue(values);
+                return new MultipleValue(values, value);
             }
 
             return null;
@@ -45,15 +46,22 @@
         sealed class MultipleValue : IPropertyValue
         {
             readonly IPropertyValue[] _values;
+            readonly CssValue _value;
 
-            public MultipleValue(IPropertyValue[] values)
+            public MultipleValue(IPropertyValue[] values, IEnumerable<CssToken> tokens)
             {
                 _values = values;
+                _value = new CssValue(tokens);
             }
 
             public String CssText
             {
                 get { return String.Join(" ", _values.Where(m => !String.IsNullOrEmpty(m.CssText)).Select(m => m.CssText)); }
+            }
+
+            public CssValue Original
+            {
+                get { return _value; }
             }
         }
     }

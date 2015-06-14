@@ -5,6 +5,7 @@
     using System.Linq;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Dom.Css;
 
     sealed class ContinuousValueConverter : IValueConverter
     {
@@ -33,21 +34,28 @@
                 options.Add(option);
             }
 
-            return new OptionsValue(options.ToArray());
+            return new OptionsValue(options.ToArray(), value);
         }
 
         sealed class OptionsValue : IPropertyValue
         {
             readonly IPropertyValue[] _options;
+            readonly CssValue _value;
 
-            public OptionsValue(IPropertyValue[] options)
+            public OptionsValue(IPropertyValue[] options, IEnumerable<CssToken> tokens)
             {
                 _options = options;
+                _value = new CssValue(tokens);
             }
 
             public String CssText
             {
                 get { return String.Join(" ", _options.Where(m => !String.IsNullOrEmpty(m.CssText)).Select(m => m.CssText)); }
+            }
+
+            public CssValue Original
+            {
+                get { return _value; }
             }
         }
     }

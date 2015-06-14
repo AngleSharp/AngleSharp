@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Dom.Css;
 
     sealed class PeriodicValueConverter : IValueConverter
     {
@@ -27,7 +28,7 @@
                     return null;
             }
 
-            return list.Count == 0 ? new PeriodicValue(options[0], options[1], options[2], options[3]) : null;
+            return list.Count == 0 ? new PeriodicValue(options, value) : null;
         }
 
         sealed class PeriodicValue : IPropertyValue
@@ -36,13 +37,15 @@
             readonly IPropertyValue _right; 
             readonly IPropertyValue _bottom;
             readonly IPropertyValue _left;
+            readonly CssValue _original;
 
-            public PeriodicValue(IPropertyValue top, IPropertyValue right, IPropertyValue bottom, IPropertyValue left)
+            public PeriodicValue(IPropertyValue[] options, IEnumerable<CssToken> tokens)
             {
-                _top = top;
-                _right = right ?? _top;
-                _bottom = bottom ?? _top;
-                _left = left ?? _right;
+                _top = options[0];
+                _right = options[1] ?? _top;
+                _bottom = options[2] ?? _top;
+                _left = options[3] ?? _right;
+                _original = new CssValue(tokens);
             }
 
             public String[] Values
@@ -76,6 +79,11 @@
             public String CssText
             {
                 get {  return String.Join(" ", Values); }
+            }
+
+            public CssValue Original
+            {
+                get { return _original; }
             }
         }
     }

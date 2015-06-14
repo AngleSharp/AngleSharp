@@ -5,6 +5,7 @@
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Dom.Css;
 
     abstract class GradientConverter : IValueConverter
     {
@@ -52,7 +53,7 @@
                     items.RemoveAt(items.Count - 1);
             }
 
-            return items.Count == 0 ? new StopValue(color, position) : null;
+            return items.Count == 0 ? new StopValue(color, position, value) : null;
         }
 
         public IPropertyValue Convert(IEnumerable<CssToken> value)
@@ -61,7 +62,7 @@
             var initial = args.Count != 0 ? ConvertFirstArgument(args[0]) : null;
             var offset = initial != null ? 1 : 0;
             var stops = ToGradientStops(args, offset);
-            return stops != null ? new GradientValue(_repeating, initial, stops) : null;
+            return stops != null ? new GradientValue(_repeating, initial, stops, value) : null;
         }
 
         protected abstract IPropertyValue ConvertFirstArgument(IEnumerable<CssToken> value);
@@ -70,11 +71,13 @@
         {
             readonly IPropertyValue _color;
             readonly IPropertyValue _position;
+            readonly CssValue _original;
 
-            public StopValue(IPropertyValue color, IPropertyValue position)
+            public StopValue(IPropertyValue color, IPropertyValue position, IEnumerable<CssToken> tokens)
             {
                 _color = color;
                 _position = position;
+                _original = new CssValue(tokens);
             }
 
             public String CssText
@@ -90,6 +93,11 @@
                     return String.Concat(_color.CssText, " ", _position.CssText); 
                 }
             }
+
+            public CssValue Original
+            {
+                get { return _original; }
+            }
         }
 
         sealed class GradientValue : IPropertyValue
@@ -97,12 +105,14 @@
             readonly Boolean _repeating;
             readonly IPropertyValue _initial;
             readonly IPropertyValue[] _stops;
+            readonly CssValue _original;
 
-            public GradientValue(Boolean repeating, IPropertyValue initial, IPropertyValue[] stops)
+            public GradientValue(Boolean repeating, IPropertyValue initial, IPropertyValue[] stops, IEnumerable<CssToken> tokens)
             {
                 _repeating = repeating;
                 _initial = initial;
                 _stops = stops;
+                _original = new CssValue(tokens);
             }
 
             public String CssText
@@ -125,6 +135,11 @@
 
                     return String.Join(", ", args);
                 }
+            }
+
+            public CssValue Original
+            {
+                get { return _original; }
             }
         }
     }

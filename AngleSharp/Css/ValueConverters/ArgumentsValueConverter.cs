@@ -5,6 +5,7 @@
     using System.Linq;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Dom.Css;
 
     sealed class ArgumentsValueConverter : IValueConverter
     {
@@ -33,7 +34,7 @@
                         return null;
                 }
 
-                return new ArgumentsValue(args);
+                return new ArgumentsValue(args, value);
             }
 
             return null;
@@ -42,15 +43,22 @@
         sealed class ArgumentsValue : IPropertyValue
         {
             readonly IPropertyValue[] _arguments;
+            readonly CssValue _value;
 
-            public ArgumentsValue(IPropertyValue[] arguments)
+            public ArgumentsValue(IPropertyValue[] arguments, IEnumerable<CssToken> tokens)
             {
                 _arguments = arguments;
+                _value = new CssValue(tokens);
             }
 
             public String CssText
             {
                 get { return String.Join(", ", _arguments.Where(m => !String.IsNullOrEmpty(m.CssText)).Select(m => m.CssText)); }
+            }
+
+            public CssValue Original
+            {
+                get { return _value; }
             }
         }
     }

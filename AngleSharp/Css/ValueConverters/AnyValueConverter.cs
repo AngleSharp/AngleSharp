@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Dom.Css;
 
     sealed class AnyValueConverter : IValueConverter
     {
@@ -14,16 +15,21 @@
 
         sealed class AnyValue : IPropertyValue
         {
-            readonly IEnumerable<CssToken> _value;
+            readonly CssValue _value;
 
-            public AnyValue(IEnumerable<CssToken> value)
+            public AnyValue(IEnumerable<CssToken> tokens)
             {
-                _value = value;
+                _value = new CssValue(tokens);
             }
 
             public String CssText
             {
                 get { return _value.ToText(); }
+            }
+
+            public CssValue Original
+            {
+                get { return _value; }
             }
         }
     }

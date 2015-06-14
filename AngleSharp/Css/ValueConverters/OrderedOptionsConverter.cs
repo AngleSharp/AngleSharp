@@ -5,6 +5,7 @@
     using System.Linq;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Dom.Css;
 
     sealed class OrderedOptionsConverter: IValueConverter
     {
@@ -28,21 +29,28 @@
                     return null;
             }
 
-            return list.Count == 0 ? new OptionsValue(options) : null;
+            return list.Count == 0 ? new OptionsValue(options, value) : null;
         }
 
         sealed class OptionsValue : IPropertyValue
         {
             readonly IPropertyValue[] _options;
+            readonly CssValue _original;
 
-            public OptionsValue(IPropertyValue[] options)
+            public OptionsValue(IPropertyValue[] options, IEnumerable<CssToken> tokens)
             {
                 _options = options;
+                _original = new CssValue(tokens);
             }
 
             public String CssText
             {
                 get { return String.Join(" ", _options.Where(m => !String.IsNullOrEmpty(m.CssText)).Select(m => m.CssText)); }
+            }
+
+            public CssValue Original
+            {
+                get { return _original; }
             }
         }
     }
