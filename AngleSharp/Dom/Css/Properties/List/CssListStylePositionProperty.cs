@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available at
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssListStylePositionProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.ListPositionConverter.OrDefault(ListPosition.Outside);
+
+        #endregion
+
         #region ctor
 
         internal CssListStylePositionProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: ListPosition.Outside
-            get { return Converters.ListPositionConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

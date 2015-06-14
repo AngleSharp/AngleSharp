@@ -20,9 +20,8 @@
 
             return pairs[0];
         */
-        // Default: Nothing
-        static readonly IValueConverter CounterConverter = Converters.Continuous(
-            Converters.WithOrder(Converters.IdentifierConverter.Required(), Converters.IntegerConverter.Option(0)));
+        static readonly IValueConverter StyleConverter = Converters.Continuous(
+            Converters.WithOrder(Converters.IdentifierConverter.Required(), Converters.IntegerConverter.Option(0))).OrDefault();
 
         #endregion
 
@@ -39,7 +38,7 @@
 
         internal override IValueConverter Converter
         {
-            get { return CounterConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

@@ -13,7 +13,7 @@
 
         static readonly IValueConverter StyleConverter = Converters.WithAny(
             Converters.AutoLengthConverter.Option(),
-            Converters.OptionalIntegerConverter.Option());
+            Converters.OptionalIntegerConverter.Option()).OrDefault();
 
         #endregion
 

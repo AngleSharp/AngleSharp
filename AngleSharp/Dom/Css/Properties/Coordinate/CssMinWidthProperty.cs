@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -9,6 +11,12 @@
     /// </summary>
     sealed class CssMinWidthProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.LengthOrPercentConverter.OrDefault(Length.Zero);
+
+        #endregion
+
         #region ctor
 
         internal CssMinWidthProperty()
@@ -22,8 +30,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Length.Zero
-            get { return Converters.LengthOrPercentConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

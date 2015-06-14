@@ -14,7 +14,7 @@
         static readonly IValueConverter StyleConverter = Converters.WithAny(
             Converters.ColorConverter.Option(),
             Converters.LineWidthConverter.Option(),
-            Converters.LineStyleConverter.Option());
+            Converters.LineStyleConverter.Option()).OrDefault();
 
         #endregion
 

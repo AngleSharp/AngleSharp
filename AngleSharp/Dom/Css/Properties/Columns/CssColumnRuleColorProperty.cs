@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available at:
@@ -9,6 +11,12 @@
     /// </summary>
     sealed class CssColumnRuleColorProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.ColorConverter.OrDefault(Color.Transparent);
+
+        #endregion
+
         #region ctor
 
         internal CssColumnRuleColorProperty()
@@ -22,8 +30,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Color.Transparent
-            get { return Converters.ColorConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

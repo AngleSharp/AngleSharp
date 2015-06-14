@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available at
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssListStyleTypeProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.ListStyleConverter.OrDefault(ListStyle.Disc);
+
+        #endregion
+
         #region ctor
 
         internal CssListStyleTypeProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: ListStyle.Disc
-            get { return Converters.ListStyleConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

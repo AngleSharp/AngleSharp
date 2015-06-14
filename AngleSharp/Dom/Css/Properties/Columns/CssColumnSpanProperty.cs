@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available at:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssColumnSpanProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.ColumnSpanConverter.OrDefault(false);
+
+        #endregion
+
         #region ctor
 
         internal CssColumnSpanProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: false
-            get { return Converters.ColumnSpanConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

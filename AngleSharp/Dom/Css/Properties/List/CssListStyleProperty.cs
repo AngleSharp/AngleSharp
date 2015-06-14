@@ -14,7 +14,7 @@
         static readonly IValueConverter StyleConverter = Converters.WithAny(
             Converters.ListStyleConverter.Option(),
             Converters.ListPositionConverter.Option(),
-            Converters.OptionalImageSourceConverter.Option());
+            Converters.OptionalImageSourceConverter.Option()).OrDefault();
 
         #endregion
 

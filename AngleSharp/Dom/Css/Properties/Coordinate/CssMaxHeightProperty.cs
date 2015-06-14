@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -12,6 +13,12 @@
     /// </summary>
     sealed class CssMaxHeightProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.OptionalLengthOrPercentConverter.OrDefault();
+
+        #endregion
+
         #region ctor
 
         internal CssMaxHeightProperty()
@@ -25,8 +32,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Nothing
-            get { return Converters.OptionalLengthOrPercentConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -8,6 +9,12 @@
     /// </summary>
     sealed class CssRightProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.AutoLengthOrPercentConverter.OrDefault(Keywords.Auto);
+
+        #endregion
+
         #region ctor
 
         internal CssRightProperty()
@@ -21,8 +28,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: auto
-            get { return Converters.AutoLengthOrPercentConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

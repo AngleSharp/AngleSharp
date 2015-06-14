@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available at:
@@ -9,6 +11,12 @@
     /// </summary>
     sealed class CssColumnGapProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.LengthOrNormalConverter.OrDefault(new Length(1f, Length.Unit.Em));
+
+        #endregion
+
         #region ctor
 
         internal CssColumnGapProperty()
@@ -22,8 +30,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: new Length(1f, Length.Unit.Em)
-            get { return Converters.LengthOrNormalConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

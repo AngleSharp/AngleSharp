@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available at:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssColumnRuleStyleProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.LineStyleConverter.OrDefault(LineStyle.None);
+
+        #endregion
+
         #region ctor
 
         internal CssColumnRuleStyleProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: LineStyle.None
-            get { return Converters.LineStyleConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion
