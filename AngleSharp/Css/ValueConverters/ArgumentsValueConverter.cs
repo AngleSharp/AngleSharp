@@ -20,13 +20,14 @@
             var items = value.ToList();
             var n = _converters.Length;
 
-            if (items.Count == n)
+            if (items.Count <= n)
             {
-                var args = new IPropertyValue[items.Count];
+                var args = new IPropertyValue[n];
 
                 for (int i = 0; i < n; i++)
                 {
-                    args[i] = _converters[i].Convert(items[i]);
+                    var item = i < items.Count ? items[i] : Enumerable.Empty<CssToken>();
+                    args[i] = _converters[i].Convert(item);
 
                     if (args[i] == null)
                         return null;
@@ -49,7 +50,7 @@
 
             public String CssText
             {
-                get { return String.Join(", ", _arguments.Select(m => m.CssText)); }
+                get { return String.Join(", ", _arguments.Where(m => !String.IsNullOrEmpty(m.CssText)).Select(m => m.CssText)); }
             }
         }
     }
