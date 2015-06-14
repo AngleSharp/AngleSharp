@@ -16,5 +16,15 @@
         }
 
         #endregion
+
+        public virtual void Import(CssProperty[] properties)
+        {
+
+        }
+
+        public virtual void Export(CssProperty[] properties)
+        {
+
+        }
     }
 }

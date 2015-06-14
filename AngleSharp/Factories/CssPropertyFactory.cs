@@ -368,9 +368,15 @@
         /// </summary>
         /// <param name="name">The name of the corresponding shorthand property.</param>
         /// <returns>The created longhand properties.</returns>
-        public IEnumerable<CssProperty> CreateLonghandsFor(String name)
+        public CssProperty[] CreateLonghandsFor(String name)
         {
-            return GetLonghands(name).Select(m => CreateLonghand(m));
+            var propertyNames = GetLonghands(name);
+            var properties = new List<CssProperty>();
+
+            foreach (var propertyName in propertyNames)
+                properties.Add(CreateLonghand(propertyName));
+
+            return properties.ToArray();
         }
 
         #endregion

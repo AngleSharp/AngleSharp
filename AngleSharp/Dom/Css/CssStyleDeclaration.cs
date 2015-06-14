@@ -94,20 +94,20 @@
 
                         foreach (var shorthand in shorthands.OrderByDescending(m => Factory.Properties.GetLonghands(m).Count()))
                         {
+                            var rule = Factory.Properties.CreateShorthand(shorthand);
                             var properties = Factory.Properties.GetLonghands(shorthand);
-                            var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToList();
+                            var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToArray();
 
-                            if (currentLonghands.Count == 0)
+                            if (currentLonghands.Length == 0)
                                 continue;
 
                             var important = currentLonghands.Count(m => m.IsImportant);
 
-                            if (important > 0 && important != currentLonghands.Count)
+                            if (important > 0 && important != currentLonghands.Length)
                                 continue;
 
-                            var rule = Factory.Properties.CreateShorthand(shorthand);
-                            //TODO
-                            var value = String.Empty;// rule.SerializeValue(currentLonghands);
+                            rule.Import(currentLonghands);
+                            var value = rule.Value;
 
                             if (String.IsNullOrEmpty(value))
                                 continue;
@@ -2397,6 +2397,7 @@
         {
             if (Factory.Properties.IsShorthand(propertyName))
             {
+                var shortHand = Factory.Properties.CreateShorthand(propertyName);
                 var propertyNames = Factory.Properties.GetLonghands(propertyName);
                 var properties = new List<CssProperty>();
 
@@ -2410,9 +2411,8 @@
                     properties.Add(property);
                 }
 
-                var shortHand = Factory.Properties.CreateShorthand(propertyName);
-                //TODO
-                return String.Empty;// shortHand.SerializeValue(properties);
+                shortHand.Import(properties.ToArray());
+                return shortHand.Value;
             }
             else
             {
@@ -2622,10 +2622,11 @@
 
         void SetShorthand(CssShorthandProperty shorthand)
         {
-            var properties = shorthand.Properties;
+            var properties = Factory.Properties.CreateLonghandsFor(shorthand.Name);
+            shorthand.Export(properties);
 
-            for (int i = 0; i < properties.Length; i++)
-                SetLonghand(properties[i]);
+            foreach (var property in properties)
+                SetLonghand(property);
         }
 
         void RaiseChanged()
