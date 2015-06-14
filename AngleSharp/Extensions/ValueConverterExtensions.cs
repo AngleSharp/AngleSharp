@@ -141,6 +141,26 @@
             return primary.Or(Keywords.None);
         }
 
+        public static IValueConverter OrDefault(this IValueConverter primary)
+        {
+            return primary.OrInherit().Or(Keywords.Initial);
+        }
+
+        public static IValueConverter OrDefault<T>(this IValueConverter primary, T value)
+        {
+            return primary.OrInherit().OrInitial(value);
+        }
+
+        public static IValueConverter OrInherit(this IValueConverter primary)
+        {
+            return primary.Or(Keywords.Inherit);
+        }
+
+        public static IValueConverter OrInitial<T>(this IValueConverter primary, T value)
+        {
+            return primary.Or(Keywords.Initial, value);
+        }
+
         public static IValueConverter OrAuto(this IValueConverter primary)
         {
             return primary.Or(Keywords.Auto);

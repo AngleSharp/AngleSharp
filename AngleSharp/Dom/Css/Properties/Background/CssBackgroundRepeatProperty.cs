@@ -14,11 +14,13 @@
         #region Fields
 
         internal static readonly IValueConverter SingleConverter = Map.BackgroundRepeats.ToConverter().Or(
-            Keywords.RepeatX, new Repeat { Horizontal = BackgroundRepeat.Repeat, Vertical = BackgroundRepeat.NoRepeat }).Or(
-            Keywords.RepeatY, new Repeat { Horizontal = BackgroundRepeat.NoRepeat, Vertical = BackgroundRepeat.Repeat }).Or(
-            Converters.WithOrder(Map.BackgroundRepeats.ToConverter().Required(), Map.BackgroundRepeats.ToConverter().Required()));
-        // Default: repeat, repeat
-        static readonly IValueConverter ListConverter = SingleConverter.FromList();
+            Keywords.RepeatX).Or(
+            Keywords.RepeatY).Or(
+            Converters.WithOrder(
+                Map.BackgroundRepeats.ToConverter().Required(), 
+                Map.BackgroundRepeats.ToConverter().Required()));
+
+        static readonly IValueConverter ListConverter = SingleConverter.FromList().OrDefault(BackgroundRepeat.Repeat);
 
         #endregion
 
@@ -36,16 +38,6 @@
         internal override IValueConverter Converter
         {
             get { return ListConverter; }
-        }
-
-        #endregion
-
-        #region Structure
-
-        internal struct Repeat
-        {
-            public BackgroundRepeat Horizontal;
-            public BackgroundRepeat Vertical;
         }
 
         #endregion

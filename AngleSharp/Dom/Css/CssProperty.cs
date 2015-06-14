@@ -166,7 +166,7 @@
         /// <returns>True if the value is valid, otherwise false.</returns>
         internal Boolean TrySetValue(CssValue newValue)
         {
-            var value = Converter.Convert(newValue);
+            var value = Converter.Convert(newValue ?? CssValue.Initial);
 
             if (value != null)
             {
@@ -191,7 +191,8 @@
         /// <returns>The string representation of the declaration.</returns>
         internal static String Serialize(String name, String value, Boolean important)
         {
-            return String.Concat(name, ": ", String.Concat(value, important ? " !important" : String.Empty, ";"));
+            var rest = String.Concat(value, important ? " !important" : String.Empty);
+            return String.Concat(name, ": ", rest, ";");
         }
 
         #endregion

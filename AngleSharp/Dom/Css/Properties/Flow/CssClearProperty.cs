@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssClearProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.ClearModeConverter.OrDefault(ClearMode.None);
+
+        #endregion
+
         #region ctor
 
         internal CssClearProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: ClearMode.None
-            get { return Converters.ClearModeConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

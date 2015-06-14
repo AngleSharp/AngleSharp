@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -8,6 +9,12 @@
     /// </summary>
     sealed class CssOverflowProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.OverflowModeConverter.OrDefault(OverflowMode.Visible);
+
+        #endregion
+
         #region ctor
 
         internal CssOverflowProperty()
@@ -21,8 +28,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: OverflowMode.Visible
-            get { return Converters.OverflowModeConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

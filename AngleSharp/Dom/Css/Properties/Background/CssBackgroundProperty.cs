@@ -38,7 +38,7 @@
             Converters.BoxModelConverter.Option(),
             Converters.CurrentColorConverter.Option());
 
-        static readonly IValueConverter StyleConverter = NormalLayerConverter.FromList().RequiresEnd(FinalLayerConverter);
+        static readonly IValueConverter StyleConverter = NormalLayerConverter.FromList().RequiresEnd(FinalLayerConverter).OrDefault();
 
         #endregion
 

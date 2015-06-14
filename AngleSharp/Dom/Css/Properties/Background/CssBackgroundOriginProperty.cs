@@ -12,8 +12,7 @@
     {
         #region Fields
 
-        // Default: BoxModel.PaddingBox
-        static readonly IValueConverter ListConverter = Converters.BoxModelConverter.FromList();
+        static readonly IValueConverter ListConverter = Converters.BoxModelConverter.FromList().OrDefault(BoxModel.PaddingBox);
 
         #endregion
 

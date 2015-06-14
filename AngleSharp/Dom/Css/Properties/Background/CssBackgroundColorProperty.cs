@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More information available at:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssBackgroundColorProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.CurrentColorConverter.OrDefault();
+
+        #endregion
+
         #region ctor
 
         internal CssBackgroundColorProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Color.Transparent
-            get { return Converters.CurrentColorConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

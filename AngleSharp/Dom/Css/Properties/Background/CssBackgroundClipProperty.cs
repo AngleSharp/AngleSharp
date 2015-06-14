@@ -12,8 +12,7 @@
     {
         #region Fields
 
-        // Default: BoxModel.BorderBox
-        static readonly IValueConverter ListConverter = Converters.BoxModelConverter.FromList();
+        static readonly IValueConverter ListConverter = Converters.BoxModelConverter.FromList().OrDefault(BoxModel.BorderBox);
 
         #endregion
 

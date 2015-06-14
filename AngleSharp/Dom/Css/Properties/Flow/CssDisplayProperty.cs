@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssDisplayProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.DisplayModeConverter.OrDefault(DisplayMode.Inline);
+
+        #endregion
+
         #region ctor
 
         internal CssDisplayProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: DisplayMode.Inline
-            get { return Converters.DisplayModeConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

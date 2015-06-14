@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -11,6 +13,12 @@
     /// </summary>
     sealed class CssMarginLeftProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.AutoLengthOrPercentConverter.OrDefault(Length.Zero);
+
+        #endregion
+
         #region ctor
 
         internal CssMarginLeftProperty()
@@ -24,8 +32,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Length.Zero
-            get { return Converters.AutoLengthOrPercentConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
 
     /// <summary>
@@ -13,13 +11,14 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter SingleConverter = 
-            Converters.AutoLengthOrPercentConverter.Or(
-                Keywords.Cover, new BackgroundSize { IsCovered = true }).Or(
-                Keywords.Contain, new BackgroundSize { IsContained = true }).Or(
-                Converters.WithOrder(Converters.AutoLengthOrPercentConverter.Required(), Converters.AutoLengthOrPercentConverter.Required()));
-        // Default: Nothing (just use original size)
-        internal static readonly IValueConverter ListConverter = SingleConverter.FromList();
+        internal static readonly IValueConverter SingleConverter = Converters.AutoLengthOrPercentConverter.Or(
+            Keywords.Cover).Or(
+            Keywords.Contain).Or(
+            Converters.WithOrder(
+                Converters.AutoLengthOrPercentConverter.Required(), 
+                Converters.AutoLengthOrPercentConverter.Required()));
+
+        static readonly IValueConverter ListConverter = SingleConverter.FromList().OrDefault();
 
         #endregion
 
@@ -37,18 +36,6 @@
         internal override IValueConverter Converter
         {
             get { return ListConverter; }
-        }
-
-        #endregion
-
-        #region Structure
-
-        internal struct BackgroundSize
-        {
-            public Boolean IsCovered;
-            public Boolean IsContained;
-            public Length Width;
-            public Length Height;
         }
 
         #endregion

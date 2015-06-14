@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// More infos can be found on the W3C homepage or
@@ -12,6 +13,12 @@
     /// </summary>
     sealed class CssBoxDecorationBreak : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.BoxDecorationConverter.OrDefault(false);
+
+        #endregion
+
         #region ctor
 
         internal CssBoxDecorationBreak()
@@ -25,8 +32,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: false
-            get { return Converters.BoxDecorationConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

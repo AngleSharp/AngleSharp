@@ -13,8 +13,7 @@
     {
         #region Fields
 
-        // Default: Point.Center
-        static readonly IValueConverter ListConverter = Converters.PointConverter.FromList();
+        static readonly IValueConverter ListConverter = Converters.PointConverter.FromList().OrDefault(Point.Center);
 
         #endregion
 

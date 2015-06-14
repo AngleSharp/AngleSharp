@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssPositionProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.PositionModeConverter.OrDefault(PositionMode.Static);
+
+        #endregion
+
         #region ctor
 
         internal CssPositionProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: PositionMode.Static
-            get { return Converters.PositionModeConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

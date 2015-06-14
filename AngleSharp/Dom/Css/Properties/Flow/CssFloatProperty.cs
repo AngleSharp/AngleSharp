@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssFloatProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.FloatingConverter.OrDefault(Floating.None);
+
+        #endregion
+
         #region ctor
 
         internal CssFloatProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Floating.None
-            get { return Converters.FloatingConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion
