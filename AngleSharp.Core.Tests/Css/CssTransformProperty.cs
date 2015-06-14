@@ -202,8 +202,7 @@
             var concrete = (CssTransformStyleProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            var value = concrete.OriginalValue;
-            Assert.AreEqual("preserve-3d", value.CssText);
+            Assert.AreEqual("preserve-3d", concrete.Value);
         }
 
         [Test]

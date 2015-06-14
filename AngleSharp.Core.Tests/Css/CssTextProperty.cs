@@ -75,8 +75,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextShadowProperty>(property);
             var concrete = (CssTextShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.OriginalValue;
-            Assert.AreEqual("0 0 2px black inset", value.CssText);
+            Assert.AreEqual("inset 0 0 2px rgb(0, 0, 0)", concrete.Value);
         }
 
         [Test]
@@ -90,8 +89,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextShadowProperty>(property);
             var concrete = (CssTextShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.OriginalValue;
-            Assert.AreEqual("rgba(255, 255, 255, 0.5) 0px 3px 3px", value.CssText);
+            Assert.AreEqual("0 3px 3px rgba(255, 255, 255, 0.5)", concrete.Value);
         }
 
         [Test]
@@ -108,8 +106,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextShadowProperty>(property);
             var concrete = (CssTextShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.OriginalValue;
-            Assert.AreEqual("0px 3px 0px rgb(178, 169, 143), 0px 14px 10px rgba(0, 0, 0, 0.15), 0px 24px 2px rgba(0, 0, 0, 0.1), 0px 34px 30px rgba(0, 0, 0, 0.1)", value.CssText);
+            Assert.AreEqual("0 3px 0 rgb(178, 169, 143), 0 14px 10px rgba(0, 0, 0, 0.15), 0 24px 2px rgba(0, 0, 0, 0.1), 0 34px 30px rgba(0, 0, 0, 0.1)", concrete.Value);
         }
 
         [Test]
@@ -123,8 +120,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextShadowProperty>(property);
             var concrete = (CssTextShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.OriginalValue;
-            Assert.AreEqual("4px 3px 0px rgb(255, 255, 255), 9px 8px 0px rgba(0, 0, 0, 0.15)", value.CssText);
+            Assert.AreEqual("4px 3px 0 rgb(255, 255, 255), 9px 8px 0 rgba(0, 0, 0, 0.15)", concrete.Value);
         }
 
         [Test]
@@ -138,8 +134,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextShadowProperty>(property);
             var concrete = (CssTextShadowProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.OriginalValue;
-            Assert.AreEqual("2px 4px 3px rgba(0, 0, 0, 0.3)", value.CssText);
+            Assert.AreEqual("2px 4px 3px rgba(0, 0, 0, 0.3)", concrete.Value);
         }
 
         [Test]
@@ -153,8 +148,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextAlignProperty>(property);
             var concrete = (CssTextAlignProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.OriginalValue;
-            Assert.AreEqual("justify", value.CssText);
+            Assert.AreEqual("justify", concrete.Value);
         }
 
         [Test]
@@ -168,8 +162,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextIndentProperty>(property);
             var concrete = (CssTextIndentProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.OriginalValue;
-            Assert.AreEqual("3em", value.CssText);
+            Assert.AreEqual("3em", concrete.Value);
         }
 
         [Test]
@@ -183,8 +176,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextIndentProperty>(property);
             var concrete = (CssTextIndentProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.OriginalValue;
-            Assert.AreEqual("0", value.CssText);
+            Assert.AreEqual("0", concrete.Value);
         }
 
         [Test]
@@ -198,8 +190,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsInstanceOf<CssTextIndentProperty>(property);
             var concrete = (CssTextIndentProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            var value = concrete.OriginalValue;
-            Assert.AreEqual("10%", value.CssText);
+            Assert.AreEqual("10%", concrete.Value);
         }
 
         [Test]
