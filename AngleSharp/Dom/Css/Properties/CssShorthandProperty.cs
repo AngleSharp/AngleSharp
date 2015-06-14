@@ -17,14 +17,21 @@
 
         #endregion
 
-        public virtual void Import(CssProperty[] properties)
-        {
+        #region Methods
 
+        public void Import(CssProperty[] properties)
+        {
         }
 
-        public virtual void Export(CssProperty[] properties)
+        public void Export(CssProperty[] properties)
         {
-
+            foreach (var property in properties)
+            {
+                var value = DeclaredValue.ExtractFor(property.Name);
+                property.TrySetValue(value);
+            }
         }
+
+        #endregion
     }
 }
