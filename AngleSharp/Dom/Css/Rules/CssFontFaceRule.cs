@@ -160,7 +160,7 @@
             foreach (var declaration in _declarations)
             {
                 if (declaration.HasValue && declaration.Name == propertyName)
-                    return declaration.OriginalValue.CssText;
+                    return declaration.Value;
             }
 
             return String.Empty;
