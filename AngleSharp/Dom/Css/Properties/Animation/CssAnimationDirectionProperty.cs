@@ -12,8 +12,7 @@
     {
         #region Fields
 
-        // Default: AnimationDirection.Normal
-        static readonly IValueConverter ListConverter = Converters.AnimationDirectionConverter.FromList();
+        static readonly IValueConverter ListConverter = Converters.AnimationDirectionConverter.FromList().OrDefault(AnimationDirection.Normal);
 
         #endregion
 

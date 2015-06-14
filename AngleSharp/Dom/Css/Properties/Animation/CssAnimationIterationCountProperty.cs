@@ -12,8 +12,7 @@
     {
         #region Fields
 
-        // Default: 1f
-        internal static readonly IValueConverter ListConverter = Converters.PositiveOrInfiniteNumberConverter.FromList();
+        static readonly IValueConverter ListConverter = Converters.PositiveOrInfiniteNumberConverter.FromList().OrDefault(1f);
 
         #endregion
 

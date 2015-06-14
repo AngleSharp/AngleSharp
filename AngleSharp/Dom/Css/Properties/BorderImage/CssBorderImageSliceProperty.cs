@@ -14,13 +14,14 @@
     {
         #region Fields
 
-        // Default: new Length(100f, Length.Unit.Percent)
-        internal static readonly IValueConverter StyleConverter = Converters.WithAny(
+        internal static readonly IValueConverter TheConverter = Converters.WithAny(
             Converters.BorderSliceConverter.Option(new Length(100f, Length.Unit.Percent)),
             Converters.BorderSliceConverter.Option(),
             Converters.BorderSliceConverter.Option(),
             Converters.BorderSliceConverter.Option(),
             Converters.Assign(Keywords.Fill, true).Option(false));
+
+        static readonly IValueConverter StyleConverter = TheConverter.OrDefault(Length.Full);
 
         #endregion
 

@@ -12,8 +12,7 @@
     {
         #region Fields
 
-        // Default: Nothing
-        internal static readonly IValueConverter ListConverter = Converters.IdentifierConverter.FromList().OrNone();
+        static readonly IValueConverter ListConverter = Converters.IdentifierConverter.FromList().OrNone().OrDefault();
 
         #endregion
 

@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Values;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -8,6 +10,12 @@
     /// </summary>
     sealed class CssBorderBottomRightRadiusProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.BorderRadiusConverter.OrDefault(Length.Zero);
+
+        #endregion
+
         #region ctor
 
         internal CssBorderBottomRightRadiusProperty()
@@ -21,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Length.Zero
-            get { return Converters.BorderRadiusConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

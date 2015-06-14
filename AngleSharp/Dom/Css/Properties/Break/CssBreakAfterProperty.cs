@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -9,6 +10,12 @@
     /// </summary>
     sealed class CssBreakAfterProperty : CssProperty
     {
+        #region Fields
+
+        static readonly IValueConverter StyleConverter = Converters.BreakModeConverter.OrDefault(BreakMode.Auto);
+
+        #endregion
+
         #region ctor
 
         internal CssBreakAfterProperty()
@@ -22,8 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: BreakMode.Auto
-            get { return Converters.BreakModeConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

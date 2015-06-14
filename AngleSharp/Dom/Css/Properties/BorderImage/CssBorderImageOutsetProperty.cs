@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
 
     /// <summary>
@@ -11,8 +12,8 @@
     {
         #region Fields
 
-        // Default: Tuple.Create(Length.Zero, Length.Zero, Length.Zero, Length.Zero)
-        internal static readonly IValueConverter StyleConverter = Converters.LengthOrPercentConverter.Periodic();
+        internal static readonly IValueConverter TheConverter = Converters.LengthOrPercentConverter.Periodic();
+        static readonly IValueConverter StyleConverter = TheConverter.OrDefault(Length.Zero);
 
         #endregion
 

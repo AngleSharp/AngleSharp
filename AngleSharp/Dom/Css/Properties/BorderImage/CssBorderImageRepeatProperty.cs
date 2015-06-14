@@ -11,8 +11,8 @@
     {
         #region Fields
 
-        // Default: BorderRepeat.Stretch
-        internal static readonly IValueConverter StyleConverter = Map.BorderRepeatModes.ToConverter().Many(1, 2);
+        internal static readonly IValueConverter TheConverter = Map.BorderRepeatModes.ToConverter().Many(1, 2);
+        static readonly IValueConverter StyleConverter = TheConverter.OrDefault(BorderRepeat.Stretch);
 
         #endregion
 

@@ -11,9 +11,9 @@
     {
         #region Fields
 
-        static readonly IValueConverter RadiusConverter = Converters.WithOrder(
+        static readonly IValueConverter StyleConverter = Converters.WithOrder(
             Converters.LengthOrPercentConverter.Periodic().Required(),
-            Converters.LengthOrPercentConverter.Periodic().StartsWithDelimiter().Option());
+            Converters.LengthOrPercentConverter.Periodic().StartsWithDelimiter().Option()).OrDefault();
 
         #endregion
 
@@ -30,7 +30,7 @@
 
         internal override IValueConverter Converter
         {
-            get { return RadiusConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

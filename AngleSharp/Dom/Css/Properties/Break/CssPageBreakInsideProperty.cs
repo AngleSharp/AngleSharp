@@ -12,8 +12,7 @@
     {
         #region Fields
 
-        // Default: BreakMode.Auto
-        static readonly IValueConverter BreakConverter = Converters.Assign(Keywords.Auto, BreakMode.Auto).Or(Keywords.Avoid, BreakMode.Avoid);
+        static readonly IValueConverter StyleConverter = Converters.Assign(Keywords.Auto, BreakMode.Auto).Or(Keywords.Avoid, BreakMode.Avoid).OrDefault(BreakMode.Auto);
 
         #endregion
 
@@ -30,7 +29,7 @@
 
         internal override IValueConverter Converter
         {
-            get { return BreakConverter; }
+            get { return StyleConverter; }
         }
 
         #endregion

@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter ListConverter = Converters.WithAny(
+        static readonly IValueConverter ListConverter = Converters.WithAny(
             Converters.TimeConverter.Option(),
             Converters.TransitionConverter.Option(),
             Converters.TimeConverter.Option(),
@@ -19,7 +19,7 @@
             Converters.AnimationDirectionConverter.Option(),
             Converters.AnimationFillStyleConverter.Option(),
             Converters.PlayStateConverter.Option(),
-            Converters.IdentifierConverter.Option()).FromList();
+            Converters.IdentifierConverter.Option()).FromList().OrDefault();
 
         #endregion
 

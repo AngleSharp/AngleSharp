@@ -14,10 +14,10 @@
         static readonly IValueConverter ImageConverter = Converters.WithAny(
             Converters.OptionalImageSourceConverter.Option(),
             Converters.WithOrder(
-                CssBorderImageSliceProperty.StyleConverter.Option(),
-                CssBorderImageWidthProperty.StyleConverter.StartsWithDelimiter().Option(),
-                CssBorderImageOutsetProperty.StyleConverter.StartsWithDelimiter().Option()),
-            CssBorderImageRepeatProperty.StyleConverter.Option());
+                CssBorderImageSliceProperty.TheConverter.Option(),
+                CssBorderImageWidthProperty.TheConverter.StartsWithDelimiter().Option(),
+                CssBorderImageOutsetProperty.TheConverter.StartsWithDelimiter().Option()),
+            CssBorderImageRepeatProperty.TheConverter.Option()).OrDefault();
 
         #endregion
 

@@ -12,8 +12,7 @@
     {
         #region Fields
 
-        // Default: PlayState.Running
-        static readonly IValueConverter ListConverter = Converters.PlayStateConverter.FromList();
+        static readonly IValueConverter ListConverter = Converters.PlayStateConverter.FromList().OrDefault(PlayState.Running);
 
         #endregion
 
