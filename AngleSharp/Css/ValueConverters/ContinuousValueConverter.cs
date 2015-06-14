@@ -57,6 +57,26 @@
             {
                 get { return _value; }
             }
+
+            public CssValue ExtractFor(String name)
+            {
+                var tokens = new List<CssToken>();
+
+                foreach (var option in _options)
+                {
+                    var extracted = option.ExtractFor(name);
+
+                    if (extracted != null)
+                    {
+                        if (tokens.Count > 0)
+                            tokens.Add(new CssToken(CssTokenType.Whitespace, ' ', TextPosition.Empty));
+
+                        tokens.AddRange(extracted);
+                    }
+                }
+
+                return new CssValue(tokens);
+            }
         }
     }
 }

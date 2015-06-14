@@ -52,6 +52,26 @@ using AngleSharp.Dom.Css;
             {
                 get { return _value; }
             }
+
+            public CssValue ExtractFor(String name)
+            {
+                var tokens = new List<CssToken>();
+
+                foreach (var value in _values)
+                {
+                    var extracted = value.ExtractFor(name);
+
+                    if (extracted != null)
+                    {
+                        if (tokens.Count > 0)
+                            tokens.Add(new CssToken(CssTokenType.Comma, ',', TextPosition.Empty));
+
+                        tokens.AddRange(extracted);
+                    }
+                }
+
+                return new CssValue(tokens);
+            }
         }
     }
 }

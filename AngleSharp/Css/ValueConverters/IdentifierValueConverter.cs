@@ -41,6 +41,11 @@
             {
                 get { return _value; }
             }
+
+            public CssValue ExtractFor(String name)
+            {
+                return _value;
+            }
         }
     }
 
@@ -81,6 +86,11 @@
             public CssValue Original
             {
                 get { return _original; }
+            }
+
+            public CssValue ExtractFor(String name)
+            {
+                return _original;
             }
         }
     }

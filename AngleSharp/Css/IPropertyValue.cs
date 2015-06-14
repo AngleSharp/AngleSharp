@@ -8,5 +8,7 @@
         String CssText { get; }
 
         CssValue Original { get; }
+
+        CssValue ExtractFor(String name);
     }
 }

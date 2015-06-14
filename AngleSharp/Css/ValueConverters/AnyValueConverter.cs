@@ -31,6 +31,11 @@
             {
                 get { return _value; }
             }
+
+            public CssValue ExtractFor(String name)
+            {
+                return _value;
+            }
         }
     }
 }

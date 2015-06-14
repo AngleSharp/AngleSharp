@@ -85,6 +85,20 @@
             {
                 get { return _original; }
             }
+
+            public CssValue ExtractFor(String name)
+            {
+                if (name.Contains("top"))
+                    return _top.Original;
+                else if (name.Contains("left"))
+                    return _left.Original;
+                else if (name.Contains("right"))
+                    return _right.Original;
+                else if (name.Contains("bottom"))
+                    return _bottom.Original;
+
+                return null;
+            }
         }
     }
 }

@@ -98,6 +98,11 @@
             {
                 get { return _original; }
             }
+
+            public CssValue ExtractFor(String name)
+            {
+                return _original;
+            }
         }
 
         sealed class GradientValue : IPropertyValue
@@ -140,6 +145,11 @@
             public CssValue Original
             {
                 get { return _original; }
+            }
+
+            public CssValue ExtractFor(String name)
+            {
+                return _original;
             }
         }
     }

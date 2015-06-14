@@ -8,7 +8,7 @@
     using AngleSharp.Css.ValueConverters;
     using AngleSharp.Css.Values;
     using AngleSharp.Parser.Css;
-    
+
     /// <summary>
     /// Essential extensions for using the value converters.
     /// </summary>
@@ -113,6 +113,11 @@
         public static IValueConverter Option(this IValueConverter converter)
         {
             return new OptionValueConverter(converter);
+        }
+
+        public static IValueConverter For(this IValueConverter converter, String label)
+        {
+            return new ConstraintValueConverter(converter, label);
         }
 
         public static IValueConverter Option<T>(this IValueConverter converter, T defaultValue)
