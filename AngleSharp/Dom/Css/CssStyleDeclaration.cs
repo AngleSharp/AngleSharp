@@ -106,12 +106,11 @@
                             if (important > 0 && important != currentLonghands.Length)
                                 continue;
 
-                            // TODO
+                            //TODO
                             if (properties.Length != currentLonghands.Length)
                                 continue;
 
-                            rule.Import(currentLonghands);
-                            var value = rule.Value;
+                            var value = rule.Stringify(currentLonghands);
 
                             if (String.IsNullOrEmpty(value))
                                 continue;
@@ -2415,8 +2414,7 @@
                     properties.Add(property);
                 }
 
-                shortHand.Import(properties.ToArray());
-                return shortHand.Value;
+                return shortHand.Stringify(properties.ToArray());
             }
             else
             {

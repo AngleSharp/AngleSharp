@@ -19,10 +19,10 @@
 
         #region Methods
 
-        public void Import(CssProperty[] properties)
+        public String Stringify(CssProperty[] properties)
         {
             var value = Converter.Construct(properties);
-            DeclaredValue = value;
+            return value != null ? value.CssText : null;
         }
 
         public void Export(CssProperty[] properties)
