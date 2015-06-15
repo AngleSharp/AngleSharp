@@ -6,6 +6,8 @@
     using AngleSharp.Dom.Html;
     using NUnit.Framework;
     using AngleSharp.Core.Tests.Mocks;
+    using System.Text;
+    using System.IO;
 
     [TestFixture]
     public class ContextLoadingTests
@@ -181,6 +183,22 @@
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
             Assert.AreEqual(0, document.Requests.Count());
+        }
+
+        [Test]
+        public async Task ContextLoadPageWithCssAndNoLoaders()
+        {
+            var url = "http://localhost";
+            var source = "<!doctype html><link rel=stylesheet href=http://localhost/beispiel.css type=text/css />";
+            var memory = new MemoryStream(Encoding.UTF8.GetBytes(source));
+            var config = new Configuration(null, null, null).WithCss();
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(m => m.Content(memory).Address(url));
+            var links = document.QuerySelectorAll("link");
+            Assert.AreEqual(1, links.Length);
+            var link = links[0] as IHtmlLinkElement;
+            Assert.NotNull(link);
+            Assert.AreEqual("http://localhost/beispiel.css", link.Href);
         }
     }
 }
