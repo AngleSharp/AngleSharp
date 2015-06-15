@@ -149,6 +149,19 @@
         }
 
         [Test]
+        public async Task ContextLoadAmazonWithCss()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var url = "http://www.amazon.com";
+                var config = new Configuration().WithDefaultLoader().WithCss();
+                var document = await BrowsingContext.New(config).OpenAsync(url);
+                Assert.IsNotNull(document);
+                Assert.AreNotEqual(0, document.Body.ChildElementCount);
+            }
+        }
+
+        [Test]
         public async Task ContextLoadExternalResources()
         {
             var delayRequester = new DelayRequester(100);
