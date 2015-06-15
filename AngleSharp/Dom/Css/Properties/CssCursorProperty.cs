@@ -15,8 +15,8 @@
             Converters.WithOrder(
                 Converters.ImageSourceConverter.Required(),
                 Converters.NumberConverter.Required(),
-                Converters.NumberConverter.Required())).
-            FromList().RequiresEnd(Map.Cursors.ToConverter()).OrDefault(SystemCursor.Auto);
+                Converters.NumberConverter.Required())).RequiresEnd(
+            Map.Cursors.ToConverter()).OrDefault(SystemCursor.Auto);
 
         #endregion
 
