@@ -29,7 +29,7 @@
                     return null;
             }
 
-            return new ListValue(values, value);
+            return values.Length != 1 ? new ListValue(values, value) : values[0];
         }
 
         public IPropertyValue Construct(CssProperty[] properties)

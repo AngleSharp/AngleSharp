@@ -34,19 +34,26 @@
 
         public IPropertyValue Construct(CssProperty[] properties)
         {
-            var values = new IPropertyValue[_converters.Length];
+            var result = properties.Guard<OptionsValue>();
 
-            for (var i = 0; i < _converters.Length; i++)
+            if (result == null)
             {
-                var result = _converters[i].Construct(properties);
+                var values = new IPropertyValue[_converters.Length];
 
-                if (result == null)
-                    return null;
+                for (var i = 0; i < _converters.Length; i++)
+                {
+                    var value = _converters[i].Construct(properties);
 
-                values[i] = result;
+                    if (value == null)
+                        return null;
+
+                    values[i] = value;
+                }
+
+                result = new OptionsValue(values, Enumerable.Empty<CssToken>());
             }
 
-            return new OptionsValue(values, Enumerable.Empty<CssToken>());
+            return result;
         }
 
         sealed class OptionsValue : IPropertyValue
