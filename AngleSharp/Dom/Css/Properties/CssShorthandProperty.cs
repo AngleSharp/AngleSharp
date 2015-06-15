@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using System;
+    using AngleSharp.Css;
 
     /// <summary>
     /// Base class for all shorthand properties
@@ -21,6 +21,8 @@
 
         public void Import(CssProperty[] properties)
         {
+            var value = Converter.Construct(properties);
+            DeclaredValue = value;
         }
 
         public void Export(CssProperty[] properties)

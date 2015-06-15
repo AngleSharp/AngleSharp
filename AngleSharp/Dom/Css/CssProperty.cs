@@ -88,9 +88,10 @@
         /// <summary>
         /// Gets the declared value, if any.
         /// </summary>
-        internal IPropertyValue DeclaredValue
+        public IPropertyValue DeclaredValue
         {
             get { return _value; }
+            protected set { _value = value; }
         }
 
         #endregion
