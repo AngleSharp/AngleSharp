@@ -180,7 +180,7 @@ em { font-style: italic !important; }
             Assert.AreEqual(8, style.Length);
 
             Assert.AreEqual("0", style.Margin);
-            Assert.AreEqual("red", style.Color);
+            Assert.AreEqual("rgb(255, 0, 0)", style.Color);
             Assert.AreEqual("bold", style.FontWeight);
             Assert.AreEqual("italic", style.FontStyle);
             Assert.AreEqual("20px", style.FontSize);
