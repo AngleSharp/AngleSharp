@@ -19,6 +19,7 @@
         TokenList _relList;
         SettableTokenList _sizes;
         Task<IResponse> _current;
+        Url _cachedUrl;
 
         #endregion
 
@@ -221,7 +222,7 @@
             {
                 var url = Url;
 
-                if (url != null && (_current == null || !url.Equals(_current.Result.Address)))
+                if (url != null && (_current == null || !url.Equals(_cachedUrl)))
                 {
                     var config = owner.Options;
                     var engine = config.GetStyleEngine(Type ?? MimeTypes.Css);
@@ -240,11 +241,12 @@
                             Configuration = config
                         };
 
+                        _cachedUrl = url;
                         _current = owner.Tasks.Add(cancel => owner.Loader.FetchAsync(request, cancel));
                         _current.ContinueWith(m =>
                         {
                             using (var response = m.Result)
-                                _sheet = engine.Parse(response, options);
+                                _sheet = engine.Parse(response, options); 
                         });
                     }
                 }
