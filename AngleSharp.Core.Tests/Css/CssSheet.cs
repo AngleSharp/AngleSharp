@@ -104,6 +104,27 @@ h1 {
         }
 
         [Test]
+        public void CssSheetIgnoreVendorPrefixes()
+        {
+            var css = @".something { 
+  -o-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background: -webkit-linear-gradient(red, green);
+  background: linear-gradient(red, green);
+}";
+            var stylesheet = ParseStyleSheet(css);
+            Assert.AreEqual(1, stylesheet.Rules.Length);
+            var style = stylesheet.Rules[0] as ICssStyleRule;
+            Assert.IsNotNull(style);
+            Assert.AreEqual(15, style.Style.Length);
+        }
+
+        [Test]
         public void CssSheetSimpleStyleRuleStringification()
         {
             var css = @"html { font-family: sans-serif; }";
