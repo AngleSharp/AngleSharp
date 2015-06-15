@@ -115,9 +115,9 @@
             return new OptionValueConverter(converter);
         }
 
-        public static IValueConverter For(this IValueConverter converter, String label)
+        public static IValueConverter For(this IValueConverter converter, params String[] labels)
         {
-            return new ConstraintValueConverter(converter, label);
+            return new ConstraintValueConverter(converter, labels);
         }
 
         public static IValueConverter Option<T>(this IValueConverter converter, T defaultValue)

@@ -12,9 +12,9 @@
         #region Fields
 
         static readonly IValueConverter StyleConverter = Converters.WithAny(
-            Converters.LineWidthConverter.Option().For(PropertyNames.BorderWidth),
-            Converters.LineStyleConverter.Option().For(PropertyNames.BorderStyle),
-            Converters.CurrentColorConverter.Option().For(PropertyNames.BorderColor)
+            Converters.LineWidthConverter.Option().For(PropertyNames.BorderTopWidth, PropertyNames.BorderRightWidth, PropertyNames.BorderBottomWidth, PropertyNames.BorderLeftWidth),
+            Converters.LineStyleConverter.Option().For(PropertyNames.BorderTopStyle, PropertyNames.BorderRightStyle, PropertyNames.BorderBottomStyle, PropertyNames.BorderLeftStyle),
+            Converters.CurrentColorConverter.Option().For(PropertyNames.BorderTopColor, PropertyNames.BorderRightColor, PropertyNames.BorderBottomColor, PropertyNames.BorderLeftColor)
         ).OrDefault();
 
         #endregion
