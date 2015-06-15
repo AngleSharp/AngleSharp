@@ -32,6 +32,11 @@
             return null;
         }
 
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return properties.Guard<StringsValue>();
+        }
+
         sealed class StringsValue : IPropertyValue
         {
             readonly String[] _values;

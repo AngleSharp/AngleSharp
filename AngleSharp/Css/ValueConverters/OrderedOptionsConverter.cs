@@ -32,6 +32,23 @@
             return list.Count == 0 ? new OptionsValue(options, value) : null;
         }
 
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            var values = new IPropertyValue[_converters.Length];
+
+            for (var i = 0; i < _converters.Length; i++)
+            {
+                var result = _converters[i].Construct(properties);
+
+                if (result == null)
+                    return null;
+
+                values[i] = result;
+            }
+
+            return new OptionsValue(values, Enumerable.Empty<CssToken>());
+        }
+
         sealed class OptionsValue : IPropertyValue
         {
             readonly IPropertyValue[] _options;
@@ -61,10 +78,10 @@
                 {
                     var extracted = option.ExtractFor(name);
 
-                    if (extracted != null)
+                    if (extracted != null && extracted.Count > 0)
                     {
                         if (tokens.Count > 0)
-                            tokens.Add(new CssToken(CssTokenType.Whitespace, ' ', TextPosition.Empty));
+                            tokens.Add(CssToken.Whitespace);
 
                         tokens.AddRange(extracted);
                     }

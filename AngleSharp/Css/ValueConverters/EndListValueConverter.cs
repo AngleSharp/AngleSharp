@@ -3,9 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
-    using AngleSharp.Dom.Css;
 
     sealed class EndListValueConverter : IValueConverter
     {
@@ -34,6 +34,38 @@
 
             values[n] = _endConverter.Convert(items[n]);
             return values[n] != null ? new ListValue(values, value) : null;
+        }
+
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            var valueList = new List<List<CssToken>>[properties.Length];
+            var dummies = new CssProperty[properties.Length];
+            var max = 0;
+
+            for (var i = 0; i < properties.Length; i++)
+            {
+                var value = properties[i].DeclaredValue;
+                valueList[i] = value != null ? value.Original.ToList() : new List<List<CssToken>>();
+                dummies[i] = Factory.Properties.CreateLonghand(properties[i].Name);
+                max = Math.Max(max, valueList[i].Count);
+            }
+
+            var values = new IPropertyValue[max];
+
+            for (int i = 0; i < max; i++)
+            {
+                for (int j = 0; j < dummies.Length; j++)
+                {
+                    var list = valueList[j];
+                    var tokens = list.Count > i ? list[i] : Enumerable.Empty<CssToken>();
+                    dummies[j].TrySetValue(new CssValue(tokens));
+                }
+
+                var converter = (i < max - 1) ? _listConverter : _endConverter;
+                values[i] = converter.Construct(dummies);
+            }
+
+            return new ListValue(values, Enumerable.Empty<CssToken>());
         }
 
         sealed class ListValue : IPropertyValue
@@ -68,7 +100,7 @@
                     if (extracted != null)
                     {
                         if (tokens.Count > 0)
-                            tokens.Add(new CssToken(CssTokenType.Whitespace, ' ', TextPosition.Empty));
+                            tokens.Add(CssToken.Whitespace);
 
                         tokens.AddRange(extracted);
                     }

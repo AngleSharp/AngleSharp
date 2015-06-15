@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using AngleSharp.Dom.Css;
     using AngleSharp.Parser.Css;
 
@@ -19,6 +20,13 @@
         public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             var result = _converter.Convert(value);
+            return result != null ? new TransformationValueConverter(result, _label) : null;
+        }
+
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            var filtered = properties.Where(m => m.Name == _label).ToArray();
+            var result = _converter.Construct(filtered);
             return result != null ? new TransformationValueConverter(result, _label) : null;
         }
 

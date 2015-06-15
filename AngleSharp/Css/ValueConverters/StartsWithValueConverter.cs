@@ -2,8 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using AngleSharp.Parser.Css;
+    using System.Linq;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
 
     sealed class StartsWithValueConverter : IValueConverter
     {
@@ -22,6 +23,12 @@
         {
             var rest = Transform(value);
             return rest != null ? CreateFrom(_converter.Convert(rest), value) : null;
+        }
+
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            var value = _converter.Construct(properties);
+            return value != null ? CreateFrom(value, Enumerable.Empty<CssToken>()) : null;
         }
 
         IPropertyValue CreateFrom(IPropertyValue value, IEnumerable<CssToken> tokens)
@@ -82,7 +89,7 @@
 
             public CssValue ExtractFor(String name)
             {
-                return _original;
+                return _value.ExtractFor(name);
             }
         }
     }

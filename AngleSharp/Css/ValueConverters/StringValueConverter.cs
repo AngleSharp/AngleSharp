@@ -14,6 +14,11 @@
             return str != null ? new StringValue(str, value) : null;
         }
 
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return properties.Guard<StringValue>();
+        }
+
         sealed class StringValue : IPropertyValue
         {
             readonly String _value;

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Dom.Css;
 
     sealed class OrValueConverter : IValueConverter
     {
@@ -17,6 +18,11 @@
         public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             return _previous.Convert(value) ?? _next.Convert(value);
+        }
+
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return _previous.Construct(properties) ?? _next.Construct(properties);
         }
     }
 }

@@ -37,6 +37,11 @@
             return new OptionsValue(options.ToArray(), value);
         }
 
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return properties.Guard<OptionsValue>();
+        }
+
         sealed class OptionsValue : IPropertyValue
         {
             readonly IPropertyValue[] _options;
@@ -69,7 +74,7 @@
                     if (extracted != null)
                     {
                         if (tokens.Count > 0)
-                            tokens.Add(new CssToken(CssTokenType.Whitespace, ' ', TextPosition.Empty));
+                            tokens.Add(CssToken.Whitespace);
 
                         tokens.AddRange(extracted);
                     }

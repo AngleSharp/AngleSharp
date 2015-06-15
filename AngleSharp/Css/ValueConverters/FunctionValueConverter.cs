@@ -30,6 +30,11 @@ using AngleSharp.Dom.Css;
             return null;
         }
 
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return properties.Guard<FunctionValue>();
+        }
+
         Boolean Check(CssFunctionToken function)
         {
             return function != null && function.Data.Equals(_name, StringComparison.OrdinalIgnoreCase);

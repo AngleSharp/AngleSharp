@@ -40,6 +40,11 @@
             return null;
         }
 
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return properties.Guard<ArgumentsValue>();
+        }
+
         sealed class ArgumentsValue : IPropertyValue
         {
             readonly IPropertyValue[] _arguments;

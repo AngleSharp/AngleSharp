@@ -16,7 +16,7 @@
             _repeating = repeating;
         }
 
-        public static IPropertyValue[] ToGradientStops(List<List<CssToken>> values, Int32 offset)
+        static IPropertyValue[] ToGradientStops(List<List<CssToken>> values, Int32 offset)
         {
             var stops = new IPropertyValue[values.Count - offset];
 
@@ -31,7 +31,7 @@
             return stops;
         }
 
-        public static IPropertyValue ToGradientStop(List<CssToken> value)
+        static IPropertyValue ToGradientStop(List<CssToken> value)
         {
             var color = default(IPropertyValue);
             var position = default(IPropertyValue);
@@ -63,6 +63,11 @@
             var offset = initial != null ? 1 : 0;
             var stops = ToGradientStops(args, offset);
             return stops != null ? new GradientValue(_repeating, initial, stops, value) : null;
+        }
+
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return properties.Guard<GradientValue>();
         }
 
         protected abstract IPropertyValue ConvertFirstArgument(IEnumerable<CssToken> value);

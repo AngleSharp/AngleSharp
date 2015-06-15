@@ -2,9 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
-    using AngleSharp.Dom.Css;
 
     sealed class PeriodicValueConverter : IValueConverter
     {
@@ -29,6 +30,21 @@
             }
 
             return list.Count == 0 ? new PeriodicValue(options, value) : null;
+        }
+
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            if (properties.Length == 4)
+            {
+                var options = new IPropertyValue[4];
+                options[0] = _converter.Construct(new[] { properties[0] });
+                options[1] = _converter.Construct(new[] { properties[1] });
+                options[2] = _converter.Construct(new[] { properties[2] });
+                options[3] = _converter.Construct(new[] { properties[3] });
+                return options[0] != null && options[1] != null && options[2] != null && options[3] != null ? new PeriodicValue(options, Enumerable.Empty<CssToken>()) : null;
+            }
+
+            return null;
         }
 
         sealed class PeriodicValue : IPropertyValue

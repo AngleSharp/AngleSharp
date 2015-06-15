@@ -23,6 +23,11 @@
                 new EnumeratedValue(identifier, mode, value) : null;
         }
 
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return properties.Guard<EnumeratedValue>();
+        }
+
         sealed class EnumeratedValue : IPropertyValue
         {
             readonly String _identifier;

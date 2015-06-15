@@ -43,6 +43,23 @@
             return null;
         }
 
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            var values = new IPropertyValue[properties.Length];
+
+            for (var i = 0; i < properties.Length; i++)
+            {
+                var result = _converter.Construct(new[] { properties[i] });
+
+                if (result == null)
+                    return null;
+
+                values[i] = result;
+            }
+
+            return new MultipleValue(values, Enumerable.Empty<CssToken>());
+        }
+
         sealed class MultipleValue : IPropertyValue
         {
             readonly IPropertyValue[] _values;
@@ -75,7 +92,7 @@
                     if (extracted != null)
                     {
                         if (tokens.Count > 0)
-                            tokens.Add(new CssToken(CssTokenType.Whitespace, ' ', TextPosition.Empty));
+                            tokens.Add(CssToken.Whitespace);
 
                         tokens.AddRange(extracted);
                     }

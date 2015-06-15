@@ -14,6 +14,11 @@
             return str != null ? new UrlValue(str, value) : null;
         }
 
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return properties.Guard<UrlValue>();
+        }
+
         sealed class UrlValue : IPropertyValue
         {
             readonly String _value;

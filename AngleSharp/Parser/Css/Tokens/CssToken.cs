@@ -16,6 +16,7 @@
         readonly TextPosition _position;
 
         public static readonly CssToken Whitespace = new CssToken(CssTokenType.Whitespace, " ", TextPosition.Empty);
+        public static readonly CssToken Comma = new CssToken(CssTokenType.Comma, ",", TextPosition.Empty);
 
         #endregion
 

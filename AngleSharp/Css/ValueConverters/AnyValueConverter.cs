@@ -2,15 +2,20 @@
 {
     using System;
     using System.Collections.Generic;
+    using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
-    using AngleSharp.Dom.Css;
 
     sealed class AnyValueConverter : IValueConverter
     {
         public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             return new AnyValue(value);
+        }
+
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return properties.Guard<AnyValue>();
         }
 
         sealed class AnyValue : IPropertyValue

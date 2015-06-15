@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using AngleSharp.Parser.Css;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
 
     sealed class OptionValueConverter : IValueConverter
     {
@@ -18,6 +18,11 @@
         public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             return value.Any() ? _converter.Convert(value) : new OptionValue(value);
+        }
+
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return _converter.Construct(properties) ?? new OptionValue(Enumerable.Empty<CssToken>());
         }
 
         sealed class OptionValue : IPropertyValue
@@ -60,6 +65,11 @@
         public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             return value.Any() ? _converter.Convert(value) : new OptionValue(_defaultValue, value);
+        }
+
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return _converter.Construct(properties) ?? new OptionValue(_defaultValue, Enumerable.Empty<CssToken>());
         }
 
         sealed class OptionValue : IPropertyValue

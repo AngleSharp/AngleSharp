@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using AngleSharp.Dom.Css;
     using AngleSharp.Parser.Css;
 
     sealed class RequiredValueConverter : IValueConverter
@@ -16,6 +17,11 @@
         public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             return value.Any() ? _converter.Convert(value) : null;
+        }
+
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return properties.Length == 1 && properties[0].HasValue ? _converter.Construct(properties) : null;
         }
     }
 }

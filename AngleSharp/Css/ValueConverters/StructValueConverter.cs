@@ -22,6 +22,11 @@
             return val.HasValue ? new StructValue(val.Value, value) : null;
         }
 
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return properties.Guard<StructValue>();
+        }
+
         sealed class StructValue : IPropertyValue
         {
             readonly T _value;

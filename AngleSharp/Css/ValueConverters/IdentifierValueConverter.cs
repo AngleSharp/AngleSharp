@@ -21,6 +21,11 @@
             return result != null ? new IdentifierValue(result, value) : null;
         }
 
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return properties.Guard<IdentifierValue>();
+        }
+
         sealed class IdentifierValue : IPropertyValue
         {
             readonly String _identifier;
@@ -63,6 +68,11 @@
         public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             return value.Is(_identifier) ? new IdentifierValue(_identifier, _result, value) : null;
+        }
+
+        public IPropertyValue Construct(CssProperty[] properties)
+        {
+            return properties.Guard<IdentifierValue>();
         }
 
         sealed class IdentifierValue : IPropertyValue
