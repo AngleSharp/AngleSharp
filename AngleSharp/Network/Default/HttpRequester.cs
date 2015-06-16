@@ -116,14 +116,18 @@
             TaskCompletionSource<Boolean> _completed;
             HttpWebResponse _response;
 
+            readonly CookieContainer _cookies;
             readonly HttpWebRequest _http;
             readonly IRequest _request;
             readonly Byte[] _buffer;
 
             public RequestState(IRequest request, IDictionary<String, String> headers)
             {
+                var cookieHeader = request.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
+                _cookies = new CookieContainer();
                 _request = request;
                 _http = WebRequest.Create(request.Address) as HttpWebRequest;
+                _http.CookieContainer = _cookies;
                 _http.Method = request.Method.ToString().ToUpperInvariant();
                 _buffer = new Byte[BufferSize];
                 _completed = new TaskCompletionSource<Boolean>();
@@ -133,6 +137,8 @@
 
                 foreach (var header in request.Headers)
                     AddHeader(header.Key, header.Value);
+
+                _cookies.SetCookies(_http.RequestUri, cookieHeader);
             }
 
             public async Task<IResponse> RequestAsync(CancellationToken cancellationToken)
@@ -195,6 +201,7 @@
                     return null;
 
                 var result = new Response();
+                var cookie = _cookies.GetCookieHeader(_response.ResponseUri);
                 var headers = _response.Headers.AllKeys.Select(m => new { Key = m, Value = _response.Headers[m] });
                 result.Content = _response.GetResponseStream();
                 result.StatusCode = _response.StatusCode;
@@ -202,6 +209,9 @@
 
                 foreach (var header in headers)
                     result.Headers.Add(header.Key, header.Value);
+
+                if (cookie != null)
+                    result.Headers[HeaderNames.SetCookie] = cookie;
 
                 return result;
             }
