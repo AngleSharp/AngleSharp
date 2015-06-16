@@ -41,6 +41,11 @@
                 Method = request.Method
             };
 
+            var cookie = _context.Configuration.GetCookie(request.Target.Origin);
+
+            if (cookie != null)
+                data.Headers[HeaderNames.Cookie] = cookie;
+
             if (request.MimeType != null)
                 data.Headers[HeaderNames.ContentType] = request.MimeType;
             

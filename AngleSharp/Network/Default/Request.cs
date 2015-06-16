@@ -16,7 +16,7 @@
         /// </summary>
         public Request()
         {
-            Headers = new Dictionary<String, String>();
+            Headers = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
         }
 
         #endregion

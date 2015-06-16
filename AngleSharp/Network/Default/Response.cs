@@ -17,7 +17,7 @@
         /// </summary>
         public Response()
         {
-            Headers = new Dictionary<String, String>();
+            Headers = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
             StatusCode = HttpStatusCode.Accepted;
         }
 
