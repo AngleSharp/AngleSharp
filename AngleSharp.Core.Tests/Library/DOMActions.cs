@@ -7,6 +7,7 @@
     using AngleSharp.Html;
     using AngleSharp.Linq;
     using NUnit.Framework;
+    using AngleSharp.Parser.Html;
 
     [TestFixture]
     public class DOMActions
@@ -30,6 +31,20 @@
             Assert.AreEqual("http://localhost/test.png", img.Source);
             var url = new Url(img.Source);
             Assert.AreEqual("test.png", url.Path);
+        }
+
+        [Test]
+        public void SetStyleAttributeAfterPageLoadWithInvalidColor()
+        {
+            var html = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT>a=/XSS/alert(a.source)</SCRIPT>\">";
+            var parser = new HtmlParser(html, new Configuration().WithCss());
+            var dom = parser.Parse();
+            var div = (IHtmlElement)dom.QuerySelector("div");
+            var n = div.Style.Length; 
+            // hang occurs only if this line is executed prior to setting the attribute
+            // hang occurs when executing next line
+            div.SetAttribute("style", "background-color: http://www.codeplex.com?url=&lt;SCRIPT&gt;a=/XSS/alert(a.source)&lt;/SCRIPT&gt;");
+            Assert.AreEqual(div.Style.BackgroundColor, "");
         }
 
         [Test]
