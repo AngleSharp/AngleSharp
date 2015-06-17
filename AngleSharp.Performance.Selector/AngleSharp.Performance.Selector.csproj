@@ -46,7 +46,6 @@
   <ItemGroup>
     <Compile Include="AngleSharpSelector.cs" />
     <Compile Include="CsQuerySelector.cs" />
-    <Compile Include="Output.cs" />
     <Compile Include="Page.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -55,7 +54,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectorTest.cs" />
-    <Compile Include="Warmup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -71,6 +69,10 @@
     <ProjectReference Include="..\AngleSharp.Performance.Common\AngleSharp.Performance.Common.csproj">
       <Project>{cb9d1e29-d529-4525-b139-2a25115bca96}</Project>
       <Name>AngleSharp.Performance.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AngleSharp.Performance.Utilities\AngleSharp.Performance.Utilities.csproj">
+      <Project>{1ff31b98-b7d2-4694-a430-09dd112bbe33}</Project>
+      <Name>AngleSharp.Performance.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\AngleSharp\AngleSharp.Core.csproj">
       <Project>{91f78c48-287e-41b5-9e49-44d6e1e31290}</Project>
