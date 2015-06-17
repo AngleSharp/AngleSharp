@@ -19,7 +19,7 @@
         readonly String _name;
         readonly NodeFlags _flags;
 
-        Document _owner;
+        WeakReference<Document> _owner;
         Url _baseUri;
         Node _parent;
         NodeList _children;
@@ -33,7 +33,7 @@
         /// </summary>
         internal Node(Document owner, String name, NodeType type = NodeType.Element, NodeFlags flags = NodeFlags.None)
         {
-            _owner = owner;
+            _owner = new WeakReference<Document>(owner);
             _name = name ?? String.Empty;
             _type = type;
             _children = new NodeList();
@@ -81,8 +81,11 @@
                     return _baseUri;
                 else if (_parent != null)
                     return _parent.BaseUrl;
-                else if (_owner != null)
-                    return _owner._baseUri ?? _owner.DocumentUrl;
+
+                var owner = Owner;
+
+                if (owner != null)
+                    return owner._baseUri ?? owner.DocumentUrl;
                 else if (_type == NodeType.Document)
                     return ((Document)this).DocumentUrl;
 
@@ -266,14 +269,23 @@
         /// </summary>
         internal Document Owner
         {
-            get { return _type != NodeType.Document ? _owner : null; }
+            get
+            {
+                var owner = default(Document);
+
+                if (_type != NodeType.Document)
+                    _owner.TryGetTarget(out owner);
+
+                return owner;
+            }
             set
             {
-                if (_owner == value)
+                var oldDocument = Owner;
+
+                if (oldDocument == value)
                     return;
 
-                var oldDocument = _owner;
-                _owner = value;
+                _owner = new WeakReference<Document>(value);
 
                 for (int i = 0; i < _children.Length; i++)
                     _children[i].Owner = value;
@@ -400,7 +412,7 @@
         /// <returns>The duplicate node.</returns>
         public virtual INode Clone(Boolean deep = true)
         {
-            var node = new Node(_owner, _name, _type, _flags);
+            var node = new Node(Owner, _name, _type, _flags);
             CopyProperties(this, node, deep);
             return node;
         }
@@ -420,7 +432,7 @@
             if (this == otherNode)
                 return DocumentPositions.Same;
 
-            if (_owner != otherNode.Owner)
+            if (Owner != otherNode.Owner)
                 return DocumentPositions.Disconnected | DocumentPositions.ImplementationSpecific | (otherNode.GetHashCode() > GetHashCode() ? DocumentPositions.Following : DocumentPositions.Preceding);
             else if (otherNode.IsAncestorOf(this))
                 return DocumentPositions.Contains | DocumentPositions.Preceding;
@@ -472,16 +484,17 @@
                         var sb = Pool.NewStringBuilder();
                         var sibling = text;
                         var end = i;
+                        var owner = Owner;
 
                         while ((sibling = sibling.NextSibling as TextNode) != null)
                         {
                             sb.Append(sibling.Data);
                             end++;
 
-                            _owner.ForEachRange(m => m.Head == sibling, m => m.StartWith(text, length));
-                            _owner.ForEachRange(m => m.Tail == sibling, m => m.EndWith(text, length));
-                            _owner.ForEachRange(m => m.Head == sibling.Parent && m.Start == end, m => m.StartWith(text, length));
-                            _owner.ForEachRange(m => m.Tail == sibling.Parent && m.End == end, m => m.EndWith(text, length));
+                            owner.ForEachRange(m => m.Head == sibling, m => m.StartWith(text, length));
+                            owner.ForEachRange(m => m.Tail == sibling, m => m.EndWith(text, length));
+                            owner.ForEachRange(m => m.Head == sibling.Parent && m.Start == end, m => m.StartWith(text, length));
+                            owner.ForEachRange(m => m.Tail == sibling.Parent && m.End == end, m => m.EndWith(text, length));
 
                             length += sibling.Length;
                         }
@@ -605,7 +618,7 @@
         /// <param name="document">The new owner of the node.</param>
         internal void ChangeOwner(Document document)
         {
-            var oldDocument = _owner;
+            var oldDocument = Owner;
 
             if (_parent != null)
                 _parent.RemoveChild(this, false);
@@ -641,8 +654,10 @@
         /// </param>
         internal void ReplaceAll(Node node, Boolean suppressObservers)
         {
+            var owner = Owner;
+
             if (node != null)
-                _owner.AdoptNode(node);
+                owner.AdoptNode(node);
 
             var removedNodes = new NodeList(_children);
             var addedNodes = new NodeList();
@@ -663,7 +678,7 @@
 
             if (!suppressObservers)
             {
-                _owner.QueueMutation(MutationRecord.ChildList(
+                owner.QueueMutation(MutationRecord.ChildList(
                     target: this,
                     addedNodes: addedNodes,
                     removedNodes: removedNodes));
@@ -685,13 +700,14 @@
         /// <returns>The inserted node.</returns>
         internal INode InsertBefore(Node newElement, Node referenceElement, Boolean suppressObservers)
         {
+            var owner = Owner;
             var count = newElement.NodeType == NodeType.DocumentFragment ? newElement.ChildNodes.Length : 1;
 
             if (referenceElement != null)
             {
                 var childIndex = referenceElement.Index();
-                _owner.ForEachRange(m => m.Head == this && m.Start > childIndex, m => m.StartWith(this, m.Start + count));
-                _owner.ForEachRange(m => m.Tail == this && m.End > childIndex, m => m.EndWith(this, m.End + count));
+                owner.ForEachRange(m => m.Head == this && m.Start > childIndex, m => m.StartWith(this, m.Start + count));
+                owner.ForEachRange(m => m.Tail == this && m.End > childIndex, m => m.EndWith(this, m.End + count));
             }
 
             if (newElement.NodeType == NodeType.Document || newElement.Contains(this))
@@ -733,7 +749,7 @@
 
             if (!suppressObservers)
             {
-                _owner.QueueMutation(MutationRecord.ChildList(
+                owner.QueueMutation(MutationRecord.ChildList(
                     target: this,
                     addedNodes: addedNodes,
                     previousSibling: _children[n - 1],
@@ -752,12 +768,13 @@
         /// </param>
         internal void RemoveChild(Node node, Boolean suppressObservers)
         {
+            var owner = Owner;
             var index = _children.Index(node);
 
-            _owner.ForEachRange(m => m.Head.IsInclusiveDescendantOf(node), m => m.StartWith(this, index));
-            _owner.ForEachRange(m => m.Tail.IsInclusiveDescendantOf(node), m => m.EndWith(this, index));
-            _owner.ForEachRange(m => m.Head == this && m.Start > index, m => m.StartWith(this, m.Start - 1));
-            _owner.ForEachRange(m => m.Tail == this && m.End > index, m => m.EndWith(this, m.End - 1));
+            owner.ForEachRange(m => m.Head.IsInclusiveDescendantOf(node), m => m.StartWith(this, index));
+            owner.ForEachRange(m => m.Tail.IsInclusiveDescendantOf(node), m => m.EndWith(this, index));
+            owner.ForEachRange(m => m.Head == this && m.Start > index, m => m.StartWith(this, m.Start - 1));
+            owner.ForEachRange(m => m.Tail == this && m.End > index, m => m.EndWith(this, m.End - 1));
 
             var oldPreviousSibling = index > 0 ? _children[index - 1] : null;
 
@@ -766,13 +783,13 @@
                 var removedNodes = new NodeList();
                 removedNodes.Add(node);
 
-                _owner.QueueMutation(MutationRecord.ChildList(
+                owner.QueueMutation(MutationRecord.ChildList(
                     target: this, 
                     removedNodes: removedNodes, 
                     previousSibling: oldPreviousSibling, 
                     nextSibling: node.NextSibling));
 
-                _owner.AddTransientObserver(node);
+                owner.AddTransientObserver(node);
             }
 
             RemoveNode(index, node);
@@ -832,11 +849,12 @@
                 }
 
                 var referenceChild = child.NextSibling;
+                var owner = Owner;
 
                 if (referenceChild == node)
                     referenceChild = node.NextSibling;
 
-                _owner.AdoptNode(node);
+                owner.AdoptNode(node);
                 RemoveChild(child, true);
                 InsertBefore(node, referenceChild, true);
                 var addedNodes = new NodeList();
@@ -850,7 +868,7 @@
 
                 if (!suppressObservers)
                 {
-                    _owner.QueueMutation(MutationRecord.ChildList(
+                    owner.QueueMutation(MutationRecord.ChildList(
                         target: this,
                         addedNodes: addedNodes,
                         removedNodes: removedNodes,
