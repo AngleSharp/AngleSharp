@@ -2826,6 +2826,7 @@
       <Link>Xml\XmlMarkupFormatter.cs</Link>
     </Compile>
     <Compile Include="Extensions\LegacyExtensions.cs" />
+    <Compile Include="Foundation\WeakReference.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
