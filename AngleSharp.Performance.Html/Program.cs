@@ -63,11 +63,8 @@
                 "http://www.aliexpress.com",
                 "http://www.netflix.com").Wait();
 
-            var statistics = new StatisticParser();
-
             var parsers = new List<ITestee>
             {
-                //statistics
                 new AngleSharpParser(),
                 new CsQueryParser(),
                 new AgilityPackParser()
@@ -80,8 +77,6 @@
             };
 
             testsuite.Run();
-
-            //statistics.Print();
         }
     }
 }
