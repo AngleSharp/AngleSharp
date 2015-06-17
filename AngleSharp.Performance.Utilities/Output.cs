@@ -1,8 +1,8 @@
-﻿namespace AngleSharp.Performance.Html
+﻿namespace AngleSharp.Performance
 {
     using System;
 
-    sealed class Output : IOutput
+    public sealed class Output : IOutput
     {
         public void Write(String text)
         {
