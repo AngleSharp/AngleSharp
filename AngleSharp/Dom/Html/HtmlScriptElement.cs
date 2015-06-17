@@ -154,9 +154,13 @@
             else if (!CancelledBeforeScriptExecute())
             {
                 var engine = Owner.Options.GetScriptEngine(ScriptLanguage);
+                var result = _current.Result;
 
-                using (var result = _current.Result)
+                if (result != null)
+                {
                     engine.Evaluate(result, CreateOptions());
+                    result.Dispose();
+                }
 
                 AfterScriptExecute();
 

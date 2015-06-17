@@ -116,6 +116,9 @@
         /// </returns>
         public static async Task<IResponse> FetchWithCorsAsync(this IResourceLoader loader, ResourceRequest request, CorsSetting setting, OriginBehavior behavior, CancellationToken cancel)
         {
+            if (loader == null)
+                return null;
+
             var url = request.Target;
 
             if (request.Origin == url.Origin || url.Scheme == KnownProtocols.Data || url.Href == "about:blank")

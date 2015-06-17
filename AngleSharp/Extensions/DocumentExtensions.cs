@@ -382,6 +382,7 @@
             where TResource : IResourceInfo
         {
             var loader = document.Loader;
+            var resource = default(TResource);
 
             return document.Tasks.Add(async (cancel) =>
             {
@@ -395,11 +396,16 @@
                     foreach (var resourceService in resourceServices)
                     {
                         if (resourceService.SupportsType(response.Headers[HeaderNames.ContentType]))
-                            return await resourceService.CreateAsync(response, cancel).ConfigureAwait(false);
+                        {
+                            resource = await resourceService.CreateAsync(response, cancel).ConfigureAwait(false);
+                            break;
+                        }
                     }
+
+                    response.Dispose();
                 }
 
-                return default(TResource);
+                return resource;
             });
         }
     }

@@ -245,8 +245,13 @@
                         _current = owner.Tasks.Add(cancel => owner.Loader.FetchAsync(request, cancel));
                         _current.ContinueWith(m =>
                         {
-                            using (var response = m.Result)
-                                _sheet = engine.Parse(response, options); 
+                            var result = m.Result;
+
+                            if (result != null)
+                            {
+                                _sheet = engine.Parse(result, options);
+                                result.Dispose();
+                            }
                         });
                     }
                 }
