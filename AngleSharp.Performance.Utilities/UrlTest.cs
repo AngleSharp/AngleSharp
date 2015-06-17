@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Performance.Html
+﻿namespace AngleSharp.Performance
 {
     using System;
     using System.IO;
@@ -15,29 +15,23 @@
             Source = source;
         }
 
-        public static Boolean UseBuffer
-        {
-            get;
-            set;
-        }
-
-        internal static async Task<UrlTest> For(String url)
+        internal static async Task<UrlTest> For(String url, String extension, Boolean withBuffer)
         {
             try
             {
                 var source = String.Empty;
                 var uri = new Uri(url);
                 var name = uri.Host.Replace("www.", "").Replace(".com", "").Replace(".de", "").Replace(".org", "");
-                var fileName = name + ".html";
+                var fileName = name + extension;
 
-                if (!UseBuffer || !File.Exists(fileName))
+                if (!withBuffer || !File.Exists(fileName))
                 {
                     http.DefaultRequestHeaders.UserAgent.Clear();
                     http.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.27 Safari/537.36 OPR/26.0.1656.8 (Edition beta)");
                     var content = await http.GetAsync(uri);
                     source = await content.Content.ReadAsStringAsync();
 
-                    if (UseBuffer)
+                    if (withBuffer)
                         File.WriteAllText(fileName, source);
                 }
                 else
