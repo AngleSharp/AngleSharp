@@ -40,12 +40,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="HTMLparser">
-      <HintPath>..\packages\Majestic13.3.2.0\lib\Net4\HTMLparser.dll</HintPath>
-    </Reference>
-    <Reference Include="Majestic13">
-      <HintPath>..\packages\Majestic13.3.2.0\lib\Net4\Majestic13.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
@@ -59,7 +53,6 @@
     <Compile Include="AgilityPackParser.cs" />
     <Compile Include="AngleSharpParser.cs" />
     <Compile Include="CsQueryParser.cs" />
-    <Compile Include="MajesticParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatisticParser.cs" />
