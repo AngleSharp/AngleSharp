@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Output.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StandardTests.cs" />
+    <Compile Include="StandardTest.cs" />
     <Compile Include="UrlTest.cs" />
     <Compile Include="UrlTests.cs" />
     <Compile Include="Warmup.cs" />
