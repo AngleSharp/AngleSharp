@@ -7,49 +7,50 @@
     {
         static void Main(String[] args)
         {
-            var tests = new List<ITest>
-            {
-                new SelectorTest("body"),
-                new SelectorTest("div"),
-                new SelectorTest("body div"),
-                new SelectorTest("div p"),
-                new SelectorTest("div > p"),
-                new SelectorTest("div + p"),
-                new SelectorTest("div ~ p"),
-                new SelectorTest("div[class^=exa][class$=mple]"),
-                new SelectorTest("div p a"),
-                new SelectorTest("div, p, a"),
-                new SelectorTest(".note"),
-                new SelectorTest("div.example"),
-                new SelectorTest("ul .tocline2"),
-                new SelectorTest("div.example, div.note"),
-                new SelectorTest("#title"),
-                new SelectorTest("h1#title"),
-                new SelectorTest("div #title"),
-                new SelectorTest("ul.toc li.tocline2"),
-                new SelectorTest("ul.toc > li.tocline2"),
-                new SelectorTest("h1#title + div > p"),
-                new SelectorTest("h1[id]:contains(Selectors)"),
-                new SelectorTest("a[href][lang][class]"),
-                new SelectorTest("div[class]"),
-                new SelectorTest("div[class=example]"),
-                new SelectorTest("div[class^=exa]"),
-                new SelectorTest("div[class$=mple]"),
-                new SelectorTest("div[class*=e]"),
-                new SelectorTest("div[class|=dialog]"),
-                new SelectorTest("div[class!=made_up]"),
-                new SelectorTest("div[class~=example]"),
-                new SelectorTest("div:not(.example)"),
-                new SelectorTest("p:contains(selectors)"),
-                new SelectorTest("p:nth-child(even)"),
-                new SelectorTest("p:nth-child(2n)"),
-                new SelectorTest("p:nth-child(odd)"),
-                new SelectorTest("p:nth-child(2n+1)"),
-                new SelectorTest("p:nth-child(n)"),
-                new SelectorTest("p:only-child"),
-                new SelectorTest("p:last-child"),
-                new SelectorTest("p:first-child")
-            };
+            var selectors = new StandardTests();
+
+            selectors.Include(
+                ("body"),
+                ("div"),
+                ("body div"),
+                ("div p"),
+                ("div > p"),
+                ("div + p"),
+                ("div ~ p"),
+                ("div[class^=exa][class$=mple]"),
+                ("div p a"),
+                ("div, p, a"),
+                (".note"),
+                ("div.example"),
+                ("ul .tocline2"),
+                ("div.example, div.note"),
+                ("#title"),
+                ("h1#title"),
+                ("div #title"),
+                ("ul.toc li.tocline2"),
+                ("ul.toc > li.tocline2"),
+                ("h1#title + div > p"),
+                ("h1[id]:contains(Selectors)"),
+                ("a[href][lang][class]"),
+                ("div[class]"),
+                ("div[class=example]"),
+                ("div[class^=exa]"),
+                ("div[class$=mple]"),
+                ("div[class*=e]"),
+                ("div[class|=dialog]"),
+                ("div[class!=made_up]"),
+                ("div[class~=example]"),
+                ("div:not(.example)"),
+                ("p:contains(selectors)"),
+                ("p:nth-child(even)"),
+                ("p:nth-child(2n)"),
+                ("p:nth-child(odd)"),
+                ("p:nth-child(2n+1)"),
+                ("p:nth-child(n)"),
+                ("p:only-child"),
+                ("p:last-child"),
+                ("p:first-child")
+            );
 
             var parsers = new List<ITestee>
             {
@@ -57,7 +58,7 @@
                 new CsQuerySelector(Page.Content),
             };
 
-            var testsuite = new TestSuite(parsers, tests, new Output(), new Warmup())
+            var testsuite = new TestSuite(parsers, selectors.Tests, new Output(), new Warmup())
             {
                 NumberOfRepeats = 20,
                 NumberOfReRuns = 1
