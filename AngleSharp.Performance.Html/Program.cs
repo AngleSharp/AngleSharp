@@ -17,8 +17,6 @@
                 "http://www.smashing.com",
                 "http://www.youtube.com",
                 "http://www.weibo.com",
-                "http://en.wikipedia.org",
-                "http://www.w3.org",
                 "http://www.yahoo.com",
                 "http://www.google.com",
                 "http://www.linkedin.com",
@@ -61,7 +59,9 @@
                 "http://www.163.com",
                 "http://www.neobux.com",
                 "http://www.aliexpress.com",
-                "http://www.netflix.com").Wait();
+                "http://www.netflix.com",
+                "http://www.w3.org/TR/html5/single-page.html",
+                "http://en.wikipedia.org/wiki/South_African_labour_law").Wait();
 
             var parsers = new List<ITestee>
             {
