@@ -247,36 +247,45 @@
         {
             var list = new MediaList();
 
-            while (token.Type != CssTokenType.Eof)
-            {
-                var medium = CreateMedium(ref token);
-
-                if (medium == null)
-                    break;
-
-                list.Add(medium);
-
-                if (token.Type != CssTokenType.Comma)
-                    break;
-
-                token = _tokenizer.Get();
-            }
-
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
-                if (token.Type == CssTokenType.RoundBracketClose)
-                    token = _tokenizer.Get();
+                while (token.Type != CssTokenType.Eof)
+                {
+                    var medium = CreateMedium(ref token);
 
-                if (token.Type == CssTokenType.CurlyBracketOpen)
-                    token = _tokenizer.Get();
+                    if (medium == null)
+                        break;
 
-                _tokenizer.JumpToEndOfDeclaration();
-                token = _tokenizer.Get();
-            }
-            else if (list.Length == 0)
-            {
-                _tokenizer.JumpToEndOfDeclaration();
-                token = _tokenizer.Get();
+                    list.Add(medium);
+
+                    if (token.Type != CssTokenType.Comma)
+                        break;
+
+                    token = _tokenizer.Get();
+                }
+
+                if (token.Type != CssTokenType.CurlyBracketOpen)
+                {
+                    do
+                    {
+                        if (token.Type == CssTokenType.Eof || token.Type == CssTokenType.Semicolon)
+                            break;
+
+                        token = _tokenizer.Get();
+                    }
+                    while (token.Type != CssTokenType.CurlyBracketOpen);
+
+                    list.Clear();
+                }
+
+                if (list.Length == 0)
+                {
+                    list.Add(new CssMedium
+                    {
+                        IsInverse = true,
+                        Type = Keywords.All
+                    });
+                }
             }
 
             return list;

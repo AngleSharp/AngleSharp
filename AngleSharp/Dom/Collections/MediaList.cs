@@ -61,14 +61,14 @@
         /// </summary>
         public String MediaText
         {
-            get 
+            get
             {
                 var parts = new String[_media.Count];
 
                 for (int i = 0; i < _media.Count; i++)
                     parts[i] = _media[i].CssText;
 
-                return String.Join(", ", parts); 
+                return String.Join(", ", parts);
             }
             set
             {
@@ -150,9 +150,17 @@
         /// Adds the given medium to the list of media.
         /// </summary>
         /// <param name="medium">The medium to add.</param>
-        internal void Add(CssMedium medium)
+        public void Add(CssMedium medium)
         {
             _media.Add(medium);
+        }
+
+        /// <summary>
+        /// Removes all entries from the media list.
+        /// </summary>
+        public void Clear()
+        {
+            _media.Clear();
         }
 
         /// <summary>
@@ -160,7 +168,7 @@
         /// Clears the existing media.
         /// </summary>
         /// <param name="list">The list to import.</param>
-        internal void Import(MediaList list)
+        public void Import(MediaList list)
         {
             _media.Clear();
             _media.AddRange(list._media);
