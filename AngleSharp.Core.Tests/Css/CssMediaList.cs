@@ -37,7 +37,11 @@ namespace AngleSharp.Core.Tests.Css
     h1 { color: green }
 }";
             var sheet = ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.Rules.Length);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Media, sheet.Rules[0].Type);
+            var media = sheet.Rules[0] as ICssMediaRule;
+            Assert.AreEqual("not all", media.ConditionText);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [Test]
@@ -172,7 +176,11 @@ namespace AngleSharp.Core.Tests.Css
     h1 { color: red }
 }";
             var sheet = ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.Rules.Length);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Media, sheet.Rules[0].Type);
+            var media = sheet.Rules[0] as ICssMediaRule;
+            Assert.AreEqual("not all", media.ConditionText);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [Test]
@@ -182,7 +190,11 @@ namespace AngleSharp.Core.Tests.Css
     h1 { color: red }
 }";
             var sheet = ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.Rules.Length);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Media, sheet.Rules[0].Type);
+            var media = sheet.Rules[0] as ICssMediaRule;
+            Assert.AreEqual("", media.ConditionText);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [Test]
@@ -192,7 +204,11 @@ namespace AngleSharp.Core.Tests.Css
     h1 { color: red }
 }";
             var sheet = ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.Rules.Length);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Media, sheet.Rules[0].Type);
+            var media = sheet.Rules[0] as ICssMediaRule;
+            Assert.AreEqual("not all", media.ConditionText);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [Test]
@@ -202,7 +218,11 @@ namespace AngleSharp.Core.Tests.Css
     h1 { color: red }
 }";
             var sheet = ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.Rules.Length);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Media, sheet.Rules[0].Type);
+            var media = sheet.Rules[0] as ICssMediaRule;
+            Assert.AreEqual("not all", media.ConditionText);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [Test]
@@ -213,7 +233,11 @@ namespace AngleSharp.Core.Tests.Css
 }";
 
             var sheet = ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.Rules.Length);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Media, sheet.Rules[0].Type);
+            var media = sheet.Rules[0] as ICssMediaRule;
+            Assert.AreEqual("not all", media.ConditionText);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [Test]
@@ -224,9 +248,10 @@ namespace AngleSharp.Core.Tests.Css
 }
 h1 { color: green }";
             var sheet = ParseStyleSheet(source);
-            Assert.AreEqual(1, sheet.Rules.Length);
-            Assert.IsInstanceOf<ICssStyleRule>(sheet.Rules[0]);
-            var style = (ICssStyleRule)sheet.Rules[0];
+            Assert.AreEqual(2, sheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Media, sheet.Rules[0].Type);
+            Assert.IsInstanceOf<ICssStyleRule>(sheet.Rules[1]);
+            var style = (ICssStyleRule)sheet.Rules[1];
             Assert.AreEqual("rgb(0, 128, 0)", style.Style.Color);
             Assert.AreEqual("h1", style.SelectorText);
         }
@@ -238,7 +263,11 @@ h1 { color: green }";
     h1 { color: red }
 }";
             var sheet = ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.Rules.Length);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Media, sheet.Rules[0].Type);
+            var media = sheet.Rules[0] as ICssMediaRule;
+            Assert.AreEqual("not all", media.ConditionText);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [Test]
@@ -248,7 +277,11 @@ h1 { color: green }";
     h1 { color: red }
 }";
             var sheet = ParseStyleSheet(source);
-            Assert.AreEqual(0, sheet.Rules.Length);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Media, sheet.Rules[0].Type);
+            var media = sheet.Rules[0] as ICssMediaRule;
+            Assert.AreEqual("not all", media.ConditionText);
+            Assert.AreEqual(1, media.Rules.Length);
         }
 
         [Test]
