@@ -25,6 +25,7 @@
             using (var stream = source.ToStream())
             {
                 var document = factory.Parse(stream, Encoding.UTF8);
+                // Even using two kinds of selectors -- measure perf.
                 document.QuerySelectorAll("a[href]");
                 document.QuerySelectorAll("div > p > a");
             }

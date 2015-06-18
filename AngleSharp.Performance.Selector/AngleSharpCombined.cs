@@ -22,6 +22,7 @@
         {
             var parser = new HtmlParser(source, configuration);
             var document = parser.Parse();
+            // Even using two kinds of selectors -- measure perf.
             document.QuerySelectorAll("a[href]");
             document.QuerySelectorAll("div > p > a");
         }
