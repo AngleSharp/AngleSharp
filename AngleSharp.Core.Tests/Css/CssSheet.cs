@@ -824,5 +824,35 @@ p.info span::after {
             Assert.AreEqual(initialSourceCode, finalSourceCode);
             Assert.AreEqual(initialSheet.Rules.Length, finalSheet.Rules.Length);
         }
+
+        [Test]
+        public void CssParseSheetWithStyleMediaAndStyleRule()
+        {
+            var sheet = ParseStyleSheet(@".mobile,.tablet{display:none;} @media only screen and(max-width:51.875em){.tablet{display:block;}} .disp {display:block;}");
+            Assert.AreEqual(3, sheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Style, sheet.Rules[0].Type);
+            Assert.AreEqual(CssRuleType.Media, sheet.Rules[1].Type);
+            Assert.AreEqual(CssRuleType.Style, sheet.Rules[2].Type);
+        }
+
+        [Test]
+        public void CssParseSheetWithMediaAndTwoStyleRules()
+        {
+            var sheet = ParseStyleSheet(@"@media only screen and(max-width:51.875em){.tablet{display:block;}} .mobile,.tablet{display:none;} .disp {display:block;}");
+            Assert.AreEqual(3, sheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Media, sheet.Rules[0].Type);
+            Assert.AreEqual(CssRuleType.Style, sheet.Rules[1].Type);
+            Assert.AreEqual(CssRuleType.Style, sheet.Rules[2].Type);
+        }
+
+        [Test]
+        public void CssParseSheetWithTwoStyleAndMediaRule()
+        {
+            var sheet = ParseStyleSheet(@".mobile,.tablet{display:none;} .disp {display:block;} @media only screen and(max-width:51.875em){.tablet{display:block;}}");
+            Assert.AreEqual(3, sheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Style, sheet.Rules[0].Type);
+            Assert.AreEqual(CssRuleType.Style, sheet.Rules[1].Type);
+            Assert.AreEqual(CssRuleType.Media, sheet.Rules[2].Type);
+        }
     }
 }
