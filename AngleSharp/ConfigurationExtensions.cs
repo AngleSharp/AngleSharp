@@ -149,5 +149,29 @@
         }
 
         #endregion
+
+        #region Cookies
+
+        /// <summary>
+        /// Registers the default cookie service if no other cookie service has
+        /// been registered yet.
+        /// </summary>
+        /// <param name="configuration">The configuration to extend.</param>
+        /// <returns>The new instance with the service.</returns>
+        public static IConfiguration WithCookies(this IConfiguration configuration)
+        {
+            if (configuration == null)
+                throw new ArgumentNullException("configuration");
+
+            if (configuration.GetServices<ICookieService>().Any() == false)
+            {
+                var service = new MemoryCookieService();
+                return configuration.With(service);
+            }
+
+            return configuration;
+        }
+
+        #endregion
     }
 }

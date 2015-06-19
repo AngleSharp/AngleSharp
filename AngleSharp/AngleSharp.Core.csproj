@@ -197,6 +197,7 @@
     <Compile Include="Parser\Xml\XmlParserExtensions.cs" />
     <Compile Include="Services\Default\LoaderService.cs" />
     <Compile Include="Services\Default\LocaleEncodingService.cs" />
+    <Compile Include="Services\Default\MemoryCookieService.cs" />
     <Compile Include="Services\Default\StylingService.cs" />
     <Compile Include="Services\IClipboardService.cs" />
     <Compile Include="Services\IEncodingService.cs" />
