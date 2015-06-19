@@ -23,6 +23,13 @@
         String this[Int32 index] { get; }
 
         /// <summary>
+        /// Gets the value of the property with the given name.
+        /// </summary>
+        /// <param name="propertyName">The name of the property to get.</param>
+        /// <returns>The value of the property.</returns>
+        String this[String propertyName] { get; }
+
+        /// <summary>
         /// Gets or sets the textual representation of the declaration block.
         /// </summary>
         [DomName("cssText")]

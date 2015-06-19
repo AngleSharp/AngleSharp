@@ -185,6 +185,16 @@
             }
         }
 
+        /// <summary>
+        /// Gets the value of the property with the given name.
+        /// </summary>
+        /// <param name="propertyName">The name of the property to get.</param>
+        /// <returns>The value of the property.</returns>
+        public String this[String name]
+        {
+            get { return GetPropertyValue(name); }
+        }
+
         internal IEnumerable<CssProperty> Declarations 
         {
             get { return _declarations; }
