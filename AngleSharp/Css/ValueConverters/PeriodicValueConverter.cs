@@ -37,11 +37,12 @@
             if (properties.Length == 4)
             {
                 var options = new IPropertyValue[4];
-                options[0] = _converter.Construct(new[] { properties[0] });
-                options[1] = _converter.Construct(new[] { properties[1] });
-                options[2] = _converter.Construct(new[] { properties[2] });
-                options[3] = _converter.Construct(new[] { properties[3] });
-                return options[0] != null && options[1] != null && options[2] != null && options[3] != null ? new PeriodicValue(options, Enumerable.Empty<CssToken>()) : null;
+                options[0] = _converter.Construct(properties.Where(m => m.Name.Contains("top")).Take(1).ToArray());
+                options[1] = _converter.Construct(properties.Where(m => m.Name.Contains("right")).Take(1).ToArray());
+                options[2] = _converter.Construct(properties.Where(m => m.Name.Contains("bottom")).Take(1).ToArray());
+                options[3] = _converter.Construct(properties.Where(m => m.Name.Contains("left")).Take(1).ToArray());
+                return options[0] != null && options[1] != null && options[2] != null && options[3] != null ? 
+                    new PeriodicValue(options, Enumerable.Empty<CssToken>()) : null;
             }
 
             return null;
