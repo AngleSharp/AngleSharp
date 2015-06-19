@@ -13,16 +13,13 @@
     static class ObjectExtensions
     {
         /// <summary>
-        /// Transforms the values of the object into a dictionary by using the
-        /// provided converter.
+        /// Transforms the values of the object into a dictionary of strings.
         /// </summary>
-        /// <typeparam name="T">The type of the new values.</typeparam>
         /// <param name="values">The object instance to convert.</param>
-        /// <param name="converter">The supplied converter.</param>
         /// <returns>A dictionary mapping field names to values.</returns>
-        public static Dictionary<String, T> ToDictionary<T>(this Object values, Func<Object, T> converter)
+        public static Dictionary<String, String> ToDictionary(this Object values)
         {
-            var symbols = new Dictionary<String, T>();
+            var symbols = new Dictionary<String, String>();
 
             if (values != null)
             {
@@ -31,21 +28,11 @@
                 foreach (var property in properties)
                 {
                     var value = property.GetValue(values, null) ?? String.Empty;
-                    symbols.Add(property.Name, converter(value));
+                    symbols.Add(property.Name, value.ToString());
                 }
             }
 
             return symbols;
-        }
-
-        /// <summary>
-        /// Transforms the values of the object into a dictionary.
-        /// </summary>
-        /// <param name="values">The object instance to convert.</param>
-        /// <returns>A dictionary mapping field names to values.</returns>
-        public static Dictionary<String, Object> ToDictionary(this Object values)
-        {
-            return values.ToDictionary(m => m);
         }
 
         /// <summary>

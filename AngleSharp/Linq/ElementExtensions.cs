@@ -80,7 +80,7 @@
         public static T Attr<T>(this T elements, Object attributes)
             where T : IEnumerable<IElement>
         {
-            var realAttributes = attributes.ToDictionary(m => m.ToString());
+            var realAttributes = attributes.ToDictionary();
             return elements.Attr(realAttributes);
         }
 
@@ -170,7 +170,7 @@
         public static T Css<T>(this T elements, Object properties)
             where T : IEnumerable<IElement>
         {
-            var realProperties = properties.ToDictionary(m => m.ToString());
+            var realProperties = properties.ToDictionary();
             return elements.Css(realProperties);
         }
 

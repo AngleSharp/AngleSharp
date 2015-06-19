@@ -293,7 +293,7 @@
             /// <returns>The current instance.</returns>
             public VirtualResponse Headers(Object obj)
             {
-                var headers = obj.ToDictionary<String>(m => m.ToString());
+                var headers = obj.ToDictionary();
 
                 foreach (var header in headers)
                 {
