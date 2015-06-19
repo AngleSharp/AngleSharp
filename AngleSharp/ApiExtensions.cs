@@ -8,6 +8,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
+    using AngleSharp.Dom.Html;
 
     /// <summary>
     /// A set of useful extension methods when dealing with the DOM.
@@ -270,9 +271,52 @@
         public static Task<IDocument> Navigate<TElement>(this TElement element, CancellationToken cancel)
             where TElement : IUrlUtilities, IElement
         {
+            if (element == null)
+                throw new ArgumentNullException("element");
+
             var address = element.Href;
             var url = Url.Create(address);
             return element.Owner.Context.OpenAsync(url, cancel);
+        }
+
+        /// <summary>
+        /// Submits the given form by decomposing the object into a dictionary
+        /// that contains its properties as name value pairs.
+        /// </summary>
+        /// <param name="form">The form to submit.</param>
+        /// <param name="fields">The fields to use as values.</param>
+        /// <returns>The task eventually resulting in the response.</returns>
+        public static Task<IDocument> Submit(this IHtmlFormElement form, Object fields)
+        {
+            return form.Submit(fields.ToDictionary());
+        }
+
+        /// <summary>
+        /// Submits the given form by using the dictionary which contains name
+        /// value pairs of input fields to submit.
+        /// </summary>
+        /// <param name="form">The form to submit.</param>
+        /// <param name="fields">The fields to use as values.</param>
+        /// <returns>The task eventually resulting in the response.</returns>
+        public static Task<IDocument> Submit(this IHtmlFormElement form, IDictionary<String, String> fields)
+        {
+            if (form == null)
+                throw new ArgumentNullException("form");
+
+            if (fields == null)
+                throw new ArgumentNullException("fields");
+
+            var elements = form.Elements;
+
+            foreach (var element in elements.OfType<IHtmlInputElement>())
+            {
+                var value = default(String);
+
+                if (fields.TryGetValue(element.Name ?? String.Empty, out value))
+                    element.Value = value;
+            }
+
+            return form.Submit();
         }
 
         #endregion
