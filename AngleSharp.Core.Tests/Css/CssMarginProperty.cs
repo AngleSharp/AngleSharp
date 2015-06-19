@@ -229,5 +229,25 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
+
+        [Test]
+        public void CssMarginShouldBeRecombinedCorrectly()
+        {
+            var snippet = ".centered {margin-bottom: 1px; margin-top: 2px; margin-left: 3px; margin-right: 4px}";
+            var expected = ".centered { margin: 2px 4px 1px 3px; }";
+            var result = CssParser.ParseRule(snippet);
+            var actual = result.CssText;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CssMarginShouldBeSimplifiedCorrectly()
+        {
+            var snippet = ".centered {margin:0;margin-left:auto;margin-right:auto;text-align:left;}";
+            var expected = ".centered { margin: 0 auto; text-align: left; }";
+            var result = CssParser.ParseRule(snippet);
+            var actual = result.CssText;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
