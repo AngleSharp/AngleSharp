@@ -110,7 +110,7 @@
         /// </summary>
         public Boolean IsInherited
         {
-            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || (_value != null && _value.Original.Is(Keywords.Inherit)); }
+            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || (_value != null && _value.CssText == Keywords.Inherit); }
         }
 
         /// <summary>
@@ -126,7 +126,7 @@
         /// </summary>
         public Boolean IsInitial
         {
-            get { return _value == null || _value.Original.Is(Keywords.Initial); }
+            get { return _value == null || _value.CssText == Keywords.Initial; }
         }
 
         /// <summary>
