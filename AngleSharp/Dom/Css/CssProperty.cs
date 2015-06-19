@@ -86,11 +86,12 @@
         }
 
         /// <summary>
-        /// Gets the declared value, if any.
+        /// Gets or sets the declared value, if any.
         /// </summary>
         internal IPropertyValue DeclaredValue
         {
             get { return _value; }
+            set { _value = value; }
         }
 
         #endregion
