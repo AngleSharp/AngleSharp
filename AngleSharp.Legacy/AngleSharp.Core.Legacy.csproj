@@ -2714,6 +2714,9 @@
     <Compile Include="..\AngleSharp\Services\Default\LocaleEncodingService.cs">
       <Link>Services\Default\LocaleEncodingService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\Default\MemoryCookieService.cs">
+      <Link>Services\Default\MemoryCookieService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\Default\StylingService.cs">
       <Link>Services\Default\StylingService.cs</Link>
     </Compile>
