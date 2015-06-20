@@ -153,12 +153,15 @@
             }
             else if (!CancelledBeforeScriptExecute())
             {
-                var engine = Owner.Options.GetScriptEngine(ScriptLanguage);
+                var owner = Owner;
+                var engine = owner.Options.GetScriptEngine(ScriptLanguage);
                 var result = _current.Result;
 
                 if (result != null)
                 {
-                    engine.Evaluate(result, CreateOptions());
+                    try { engine.Evaluate(result, CreateOptions()); }
+                    catch { /* We omit failed 3rd party services */ }
+                    
                     result.Dispose();
                 }
 
@@ -167,7 +170,7 @@
                 if (Source != null) 
                     Load();
                 else 
-                    Owner.QueueTask(Load);
+                    owner.QueueTask(Load);
             }
         }
 
@@ -241,25 +244,27 @@
 
         void InvokeLoadingScript(Url url)
         {
+            var owner = Owner;
+
             if (_parserInserted && !IsAsync)
             {
                 if (IsDeferred)
-                    Owner.AddScript(this);
+                    owner.AddScript(this);
             }
             else if (!IsAsync && !_forceAsync)
             {
                 //Add to end of list of scripts (in order) --> sufficient
-                Owner.AddScript(this);
+                owner.AddScript(this);
             }
             else
             {
                 //Just add to the set of scripts
-                Owner.AddScript(this);
+                owner.AddScript(this);
             }
 
             var request = this.CreateRequestFor(url);
             var setting = CrossOrigin.ToEnum(CorsSetting.None);
-            _current = Owner.Tasks.Add(cancel => Owner.Loader.FetchWithCorsAsync(request, setting, OriginBehavior.Taint, cancel));
+            _current = owner.Tasks.Add(cancel => Owner.Loader.FetchWithCorsAsync(request, setting, OriginBehavior.Taint, cancel));
             _current.ContinueWith(m => _readyToBeExecuted = (_parserInserted && !IsAsync) || _readyToBeExecuted);
         }
 

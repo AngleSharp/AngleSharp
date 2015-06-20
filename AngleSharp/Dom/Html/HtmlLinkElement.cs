@@ -242,15 +242,17 @@
                         };
 
                         _cachedUrl = url;
-                        _current = owner.Tasks.Add(cancel => owner.Loader.FetchAsync(request, cancel));
+                        _current = owner.Tasks.Add(cancel => Owner.Loader.FetchAsync(request, cancel));
                         _current.ContinueWith(m =>
                         {
-                            var result = m.Result;
+                            var response = m.Result;
 
-                            if (result != null)
+                            if (response != null)
                             {
-                                _sheet = engine.Parse(result, options);
-                                result.Dispose();
+                                try { _sheet = engine.Parse(response, options); }
+                                catch { /* We omit failed 3rd party services */ }
+
+                                response.Dispose();
                             }
                         });
                     }
