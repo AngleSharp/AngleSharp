@@ -297,5 +297,45 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
+
+        [Test]
+        public void CssBorderRadiusCircleShouldBeExpandedAndRecombinedCorrectly()
+        {
+            var snippet = ".centered { border-radius: 5px; }";
+            var expected = ".centered { border-radius: 5px; }";
+            var result = CssParser.ParseRule(snippet);
+            var actual = result.CssText;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CssBorderRadiusEllipseShouldBeExpandedAndRecombinedCorrectly()
+        {
+            var snippet = ".centered { border-radius: 5px/3px; }";
+            var expected = ".centered { border-radius: 5px / 3px; }";
+            var result = CssParser.ParseRule(snippet);
+            var actual = result.CssText;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CssBorderRadiusSimplificationShouldWork()
+        {
+            var snippet = ".centered { border-top-left-radius: 0 1px; border-bottom-left-radius: 1px 2px; border-top-right-radius: 0 3px; border-bottom-right-radius: 1px 4px; }";
+            var expected = ".centered { border-radius: 0 0 1px 1px / 1px 3px 4px 2px; }";
+            var result = CssParser.ParseRule(snippet);
+            var actual = result.CssText;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void CssBorderRadiusRecombinationAndReductionCheck()
+        {
+            var snippet = ".centered { border-top-left-radius: 0 1px; border-bottom-left-radius: 0 1px; border-top-right-radius: 1px 1px; border-bottom-right-radius: 0 1px; }";
+            var expected = ".centered { border-radius: 0 1px / 1px; }";
+            var result = CssParser.ParseRule(snippet);
+            var actual = result.CssText;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
