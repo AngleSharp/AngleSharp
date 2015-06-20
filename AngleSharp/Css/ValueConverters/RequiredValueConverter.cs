@@ -21,7 +21,7 @@
 
         public IPropertyValue Construct(CssProperty[] properties)
         {
-            return properties.Length == 1 && properties[0].HasValue ? _converter.Construct(properties) : null;
+            return _converter.Construct(properties);
         }
     }
 }
