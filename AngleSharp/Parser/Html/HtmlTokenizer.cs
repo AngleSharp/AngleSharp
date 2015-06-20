@@ -141,13 +141,7 @@
                         return NewCharacter();
 
                     case Symbols.Ampersand:
-                        var value = CharacterReference(GetNext());
-
-                        if (value == null)
-                            _stringBuffer.Append(Symbols.Ampersand);
-                        else
-                            _stringBuffer.Append(value);
-
+                        AppendCharacterReference(GetNext());
                         break;
 
                     case Symbols.Null:
@@ -215,12 +209,7 @@
                 switch (c)
                 {
                     case Symbols.Ampersand:
-                        var value = CharacterReference(GetNext());
-
-                        if (value == null)
-                            _stringBuffer.Append(Symbols.Ampersand);
-
-                        _stringBuffer.Append(value);
+                        AppendCharacterReference(GetNext());
                         break;
 
                     case Symbols.LessThan:
@@ -449,14 +438,17 @@
         /// </summary>
         /// <param name="c">The next input character.</param>
         /// <param name="allowedCharacter">The additionally allowed character if there is one.</param>
-        String CharacterReference(Char c, Char allowedCharacter = Symbols.Null)
+        void AppendCharacterReference(Char c, Char allowedCharacter = Symbols.Null)
         {
             if (c.IsSpaceCharacter() || c == Symbols.LessThan || c == Symbols.EndOfFile || c == Symbols.Ampersand || c == allowedCharacter)
             {
                 Back();
-                return null;
+                _stringBuffer.Append(Symbols.Ampersand);
+                return;
             }
 
+            var entity = default(String);
+            
             if (c == Symbols.Num)
             {
                 var exp = 10;
@@ -496,7 +488,8 @@
                         Back();
 
                     RaiseErrorOccurred(HtmlParseError.CharacterReferenceWrongNumber);
-                    return null;
+                    _stringBuffer.Append(Symbols.Ampersand);
+                    return;
                 }
 
                 if (c != Symbols.Semicolon)
@@ -508,23 +501,23 @@
                 if (Entities.IsInCharacterTable(num))
                 {
                     RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidCode);
-                    return Entities.GetSymbolFromTable(num);
+                    entity = Entities.GetSymbolFromTable(num);
                 }
-
-                if (Entities.IsInvalidNumber(num))
+                else if (Entities.IsInvalidNumber(num))
                 {
                     RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidNumber);
-                    return Symbols.Replacement.ToString();
+                    entity = Symbols.Replacement.ToString();
                 }
+                else 
+                {
+                    if (Entities.IsInInvalidRange(num))
+                        RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidRange);
 
-                if (Entities.IsInInvalidRange(num))
-                    RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidRange);
-
-                return Entities.Convert(num);
+                    entity = Entities.Convert(num);
+                }
             }
             else
             {
-                String last = null;
                 var consumed = 0;
                 var start = InsertionPoint - 1;
                 var reference = new Char[31];
@@ -545,7 +538,7 @@
                     if (value != null)
                     {
                         consumed = 0;
-                        last = value;
+                        entity = value;
                     }
                 }
                 while (chr != Symbols.EndOfFile && index < 31);
@@ -561,15 +554,22 @@
                             RaiseErrorOccurred(HtmlParseError.CharacterReferenceAttributeEqualsFound);
 
                         InsertionPoint = start;
-                        return null;
+                        _stringBuffer.Append(Symbols.Ampersand);
+                        return;
                     }
 
                     Back();
                     RaiseErrorOccurred(HtmlParseError.CharacterReferenceNotTerminated);
                 }
 
-                return last;
+                if (entity == null)
+                {
+                    _stringBuffer.Append(Symbols.Ampersand);
+                    return;
+                }
             }
+
+            _stringBuffer.Append(entity);
         }
 
         #endregion
@@ -1849,12 +1849,7 @@
                 }
                 else if (c == Symbols.Ampersand)
                 {
-                    var value = CharacterReference(GetNext(), Symbols.DoubleQuote);
-
-                    if (value == null)
-                        _stringBuffer.Append(Symbols.Ampersand);
-                    else
-                        _stringBuffer.Append(value);
+                    AppendCharacterReference(GetNext(), Symbols.DoubleQuote);
                 }
                 else if (c == Symbols.Null)
                 {
@@ -1890,12 +1885,7 @@
                 }
                 else if (c == Symbols.Ampersand)
                 {
-                    var value = CharacterReference(GetNext(), Symbols.SingleQuote);
-
-                    if (value == null)
-                        _stringBuffer.Append(Symbols.Ampersand);
-                    else
-                        _stringBuffer.Append(value);
+                    AppendCharacterReference(GetNext(), Symbols.SingleQuote);
                 }
                 else if (c == Symbols.Null)
                 {
@@ -1936,12 +1926,7 @@
                 }
                 else if (c == Symbols.Ampersand)
                 {
-                    var value = CharacterReference(GetNext(), Symbols.GreaterThan);
-
-                    if (value == null)
-                        _stringBuffer.Append(Symbols.Ampersand);
-                    else
-                        _stringBuffer.Append(value);
+                    AppendCharacterReference(GetNext(), Symbols.GreaterThan);
                 }
                 else if (c == Symbols.Null)
                 {
