@@ -249,5 +249,15 @@ namespace AngleSharp.Core.Tests.Css
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
         }
+
+        [Test]
+        public void CssMarginShouldBeReducedCompletely()
+        {
+            var snippet = ".centered {margin-bottom: 0px; margin-top: 0; margin-left: 0px; margin-right: 0}";
+            var expected = ".centered { margin: 0; }";
+            var result = CssParser.ParseRule(snippet);
+            var actual = result.CssText;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
