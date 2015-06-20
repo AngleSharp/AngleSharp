@@ -11,7 +11,8 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = Converters.LineWidthConverter.Periodic().OrDefault();
+        static readonly IValueConverter StyleConverter = Converters.LineWidthConverter.Periodic(
+            PropertyNames.BorderTopWidth, PropertyNames.BorderRightWidth, PropertyNames.BorderBottomWidth, PropertyNames.BorderLeftWidth).OrDefault();
 
         #endregion
 

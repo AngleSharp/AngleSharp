@@ -12,8 +12,11 @@
         #region Fields
 
         static readonly IValueConverter StyleConverter = Converters.WithOrder(
-            Converters.LengthOrPercentConverter.Periodic().Required(),
-            Converters.LengthOrPercentConverter.Periodic().StartsWithDelimiter().Option()).OrDefault();
+            Converters.LengthOrPercentConverter.Periodic(
+                PropertyNames.BorderTopLeftRadius, PropertyNames.BorderTopRightRadius, PropertyNames.BorderBottomRightRadius, PropertyNames.BorderBottomLeftRadius).Required(),
+            Converters.LengthOrPercentConverter.Periodic(
+                PropertyNames.BorderTopLeftRadius, PropertyNames.BorderTopRightRadius, PropertyNames.BorderBottomRightRadius, PropertyNames.BorderBottomLeftRadius).
+            StartsWithDelimiter().Option()).OrDefault();
 
         #endregion
 

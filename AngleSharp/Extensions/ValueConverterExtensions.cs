@@ -95,9 +95,9 @@
             return new DictionaryValueConverter<T>(values);
         }
 
-        public static IValueConverter Periodic(this IValueConverter converter)
+        public static IValueConverter Periodic(this IValueConverter converter, params String[] labels)
         {
-            return new PeriodicValueConverter(converter);
+            return new PeriodicValueConverter(converter, labels);
         }
 
         public static IValueConverter RequiresEnd(this IValueConverter listConverter, IValueConverter endConverter)

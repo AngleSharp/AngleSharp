@@ -10,10 +10,12 @@
     sealed class PeriodicValueConverter : IValueConverter
     {
         readonly IValueConverter _converter;
+        readonly String[] _labels;
 
-        public PeriodicValueConverter(IValueConverter converter)
+        public PeriodicValueConverter(IValueConverter converter, String[] labels)
         {
             _converter = converter;
+            _labels = labels.Length == 4 ? labels : Enumerable.Repeat(String.Empty, 4).ToArray();
         }
 
         public IPropertyValue Convert(IEnumerable<CssToken> value)
@@ -29,7 +31,7 @@
                     return null;
             }
 
-            return list.Count == 0 ? new PeriodicValue(options, value) : null;
+            return list.Count == 0 ? new PeriodicValue(options, value, _labels) : null;
         }
 
         public IPropertyValue Construct(CssProperty[] properties)
@@ -37,12 +39,12 @@
             if (properties.Length == 4)
             {
                 var options = new IPropertyValue[4];
-                options[0] = _converter.Construct(properties.Where(m => m.Name.Contains("top")).Take(1).ToArray());
-                options[1] = _converter.Construct(properties.Where(m => m.Name.Contains("right")).Take(1).ToArray());
-                options[2] = _converter.Construct(properties.Where(m => m.Name.Contains("bottom")).Take(1).ToArray());
-                options[3] = _converter.Construct(properties.Where(m => m.Name.Contains("left")).Take(1).ToArray());
+                options[0] = _converter.Construct(properties.Where(m => m.Name == _labels[0]).ToArray());
+                options[1] = _converter.Construct(properties.Where(m => m.Name == _labels[1]).ToArray());
+                options[2] = _converter.Construct(properties.Where(m => m.Name == _labels[2]).ToArray());
+                options[3] = _converter.Construct(properties.Where(m => m.Name == _labels[3]).ToArray());
                 return options[0] != null && options[1] != null && options[2] != null && options[3] != null ? 
-                    new PeriodicValue(options, Enumerable.Empty<CssToken>()) : null;
+                    new PeriodicValue(options, Enumerable.Empty<CssToken>(), _labels) : null;
             }
 
             return null;
@@ -55,14 +57,16 @@
             readonly IPropertyValue _bottom;
             readonly IPropertyValue _left;
             readonly CssValue _original;
+            readonly String[] _labels;
 
-            public PeriodicValue(IPropertyValue[] options, IEnumerable<CssToken> tokens)
+            public PeriodicValue(IPropertyValue[] options, IEnumerable<CssToken> tokens, String[] labels)
             {
                 _top = options[0];
                 _right = options[1] ?? _top;
                 _bottom = options[2] ?? _top;
                 _left = options[3] ?? _right;
                 _original = new CssValue(tokens);
+                _labels = labels;
             }
 
             public String[] Values
@@ -105,13 +109,13 @@
 
             public CssValue ExtractFor(String name)
             {
-                if (name.Contains("top"))
+                if (name == _labels[0])
                     return _top.Original;
-                else if (name.Contains("left"))
+                else if (name == _labels[1])
                     return _left.Original;
-                else if (name.Contains("right"))
+                else if (name == _labels[2])
                     return _right.Original;
-                else if (name.Contains("bottom"))
+                else if (name == _labels[3])
                     return _bottom.Original;
 
                 return null;

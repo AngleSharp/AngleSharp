@@ -12,7 +12,8 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = Converters.AutoLengthOrPercentConverter.Periodic().OrDefault(Length.Zero);
+        static readonly IValueConverter StyleConverter = Converters.AutoLengthOrPercentConverter.Periodic(
+            PropertyNames.MarginTop, PropertyNames.MarginRight, PropertyNames.MarginBottom, PropertyNames.MarginLeft).OrDefault(Length.Zero);
 
         #endregion
 
