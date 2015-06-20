@@ -45,19 +45,26 @@
 
         public IPropertyValue Construct(CssProperty[] properties)
         {
-            var values = new IPropertyValue[properties.Length];
+            var result = properties.Guard<MultipleValue>();
 
-            for (var i = 0; i < properties.Length; i++)
+            if (result == null)
             {
-                var result = _converter.Construct(new[] { properties[i] });
+                var values = new IPropertyValue[properties.Length];
 
-                if (result == null)
-                    return null;
+                for (var i = 0; i < properties.Length; i++)
+                {
+                    var value = _converter.Construct(new[] { properties[i] });
 
-                values[i] = result;
+                    if (value == null)
+                        return null;
+
+                    values[i] = value;
+                }
+
+                result = new MultipleValue(values, Enumerable.Empty<CssToken>());
             }
 
-            return new MultipleValue(values, Enumerable.Empty<CssToken>());
+            return result;
         }
 
         sealed class MultipleValue : IPropertyValue

@@ -346,7 +346,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextDecorationExpansionAndRecombination()
         {
             var snippet = ".centered {text-decoration:underline;}";
-            var expected = ".centered { text-decoration:underline; }";
+            var expected = ".centered { text-decoration: underline; }";
             var result = CssParser.ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
