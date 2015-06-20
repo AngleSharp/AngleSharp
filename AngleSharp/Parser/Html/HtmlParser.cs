@@ -1087,6 +1087,11 @@
 
                 AddElement(tag);
             }
+            else if (tagName.IsOneOf(Tags.Code, Tags.B, Tags.Strong, Tags.Em, Tags.U, Tags.I))
+            {
+                ReconstructFormatting();
+                _formattingElements.AddFormatting(AddElement(tag));
+            }
             else if (tagName == Tags.Script)
             {
                 InHead(tag);
@@ -1136,17 +1141,10 @@
 
                 AddElement(tag);
             }
-            else if (tagName.IsOneOf(Tags.B, Tags.Strong, Tags.Code, Tags.Em, Tags.U, Tags.I) ||
-                     tagName.IsOneOf(Tags.Font, Tags.S, Tags.Small, Tags.Strike, Tags.Big, Tags.Tt))
+            else if (tagName.IsOneOf(Tags.Font, Tags.S, Tags.Small, Tags.Strike, Tags.Big, Tags.Tt))
             {
                 ReconstructFormatting();
                 _formattingElements.AddFormatting(AddElement(tag));
-            }
-            else if (tagName.IsOneOf(Tags.Caption, Tags.Col, Tags.Colgroup) ||
-                     tagName.IsOneOf(Tags.Frame, Tags.Head) ||
-                     tagName.IsOneOf(Tags.Tbody, Tags.Td, Tags.Tfoot, Tags.Th, Tags.Thead, Tags.Tr))
-            {
-                RaiseErrorOccurred(HtmlParseError.TagCannotStartHere, tag);
             }
             else if (tagName.IsOneOf(Tags.Style, Tags.Link) ||
                      tagName.IsOneOf(Tags.Meta, Tags.Title, Tags.NoFrames, Tags.Template) ||
@@ -1433,6 +1431,12 @@
                     InBody(HtmlTagToken.Open(Tags.Hr));
                     InBody(HtmlTagToken.Close(Tags.Form));
                 }
+            }
+            else if (tagName.IsOneOf(Tags.Tbody, Tags.Td, Tags.Tfoot, Tags.Th, Tags.Thead, Tags.Tr) ||
+                     tagName.IsOneOf(Tags.Caption, Tags.Col, Tags.Colgroup) ||
+                     tagName.IsOneOf(Tags.Frame, Tags.Head))
+            {
+                RaiseErrorOccurred(HtmlParseError.TagCannotStartHere, tag);
             }
             else
             {
