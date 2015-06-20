@@ -158,5 +158,15 @@ namespace AngleSharp.Core.Tests.Css
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsFalse(concrete.HasValue);
         }
+
+        [Test]
+        public void CssPaddingShouldBeRecombinedCorrectly()
+        {
+            var snippet = ".centered {padding-bottom: 2em; padding-top: 2.5em; padding-left: 0; padding-right: 0}";
+            var expected = ".centered { padding: 2.5em 0 2em; }";
+            var result = CssParser.ParseRule(snippet);
+            var actual = result.CssText;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
