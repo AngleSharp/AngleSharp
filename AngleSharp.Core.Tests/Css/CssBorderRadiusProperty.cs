@@ -332,7 +332,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderRadiusRecombinationAndReductionCheck()
         {
             var snippet = ".centered { border-top-left-radius: 0 1px; border-bottom-left-radius: 0 1px; border-top-right-radius: 1px 1px; border-bottom-right-radius: 0 1px; }";
-            var expected = ".centered { border-radius: 0 1px / 1px; }";
+            var expected = ".centered { border-radius: 0 1px 0 0 / 1px; }";
             var result = CssParser.ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
