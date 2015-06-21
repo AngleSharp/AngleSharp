@@ -6,6 +6,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using AngleSharp.Dom.Css;
+    using System.Collections;
 
     sealed class OrderedOptionsConverter: IValueConverter
     {
@@ -56,7 +57,7 @@
             return result;
         }
 
-        sealed class OptionsValue : IPropertyValue
+        sealed class OptionsValue : IPropertyValue, IEnumerable<IPropertyValue>
         {
             readonly IPropertyValue[] _options;
             readonly CssValue _original;
@@ -95,6 +96,17 @@
                 }
 
                 return new CssValue(tokens);
+            }
+
+            IEnumerator<IPropertyValue> IEnumerable<IPropertyValue>.GetEnumerator()
+            {
+                foreach (var option in _options)
+                    yield return option;
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return _options.GetEnumerator();
             }
         }
     }
