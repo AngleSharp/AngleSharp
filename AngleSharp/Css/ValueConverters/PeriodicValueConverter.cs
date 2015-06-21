@@ -23,6 +23,9 @@
             var list = new List<CssToken>(value);
             var options = new IPropertyValue[4];
 
+            if (list.Count == 0)
+                return null;
+
             for (int i = 0; i < options.Length && list.Count != 0; i++)
             {
                 options[i] = _converter.VaryStart(list);
