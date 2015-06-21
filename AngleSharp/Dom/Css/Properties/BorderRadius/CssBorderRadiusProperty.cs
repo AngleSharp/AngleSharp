@@ -2,6 +2,10 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -11,12 +15,7 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = Converters.WithOrder(
-            Converters.LengthOrPercentConverter.Periodic(
-                PropertyNames.BorderTopLeftRadius, PropertyNames.BorderTopRightRadius, PropertyNames.BorderBottomRightRadius, PropertyNames.BorderBottomLeftRadius).Required(),
-            Converters.LengthOrPercentConverter.Periodic(
-                PropertyNames.BorderTopLeftRadius, PropertyNames.BorderTopRightRadius, PropertyNames.BorderBottomRightRadius, PropertyNames.BorderBottomLeftRadius).
-            StartsWithDelimiter().Option()).OrDefault();
+        static readonly IValueConverter StyleConverter = Converters.BorderRadiusShorthandConverter.OrDefault();
 
         #endregion
 

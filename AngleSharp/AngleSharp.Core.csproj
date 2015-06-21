@@ -70,6 +70,7 @@
     <Compile Include="Css\RenderStyle.cs" />
     <Compile Include="Css\Converters.cs" />
     <Compile Include="Css\ValueConverters\AnyValueConverter.cs" />
+    <Compile Include="Css\ValueConverters\BorderRadiusConverter.cs" />
     <Compile Include="Css\ValueConverters\ConstraintValueConverter.cs" />
     <Compile Include="Css\ValueConverters\ContinuousValueConverter.cs" />
     <Compile Include="Css\ValueConverters\PeriodicValueConverter.cs" />

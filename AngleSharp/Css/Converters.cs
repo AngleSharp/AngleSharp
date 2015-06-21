@@ -692,6 +692,11 @@
         public static readonly IValueConverter MultipleImageSourceConverter = ImageSourceConverter.FromList().OrNone();
 
         /// <summary>
+        /// Represents the border-radius (h h h h / v v v v) converter.
+        /// </summary>
+        public static readonly IValueConverter BorderRadiusShorthandConverter = new BorderRadiusConverter();
+
+        /// <summary>
         /// Represents the border-radius (horizontal / vertical; radius) converter.
         /// </summary>
         public static readonly IValueConverter BorderRadiusConverter = WithOrder(
