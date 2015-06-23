@@ -142,7 +142,16 @@
                 var url = new Url(Source);
                 var request = this.CreateRequestFor(url);
                 _current = Owner.LoadResource<IObjectInfo>(request);
-                _current.ContinueWith(m => this.FireSimpleEvent(EventNames.Load));
+                _current.ContinueWith(m =>
+                {
+                    if (m.IsFaulted || m.Exception != null)
+                    {
+                        this.FireSimpleEvent(EventNames.Error);
+                        return;
+                    }
+
+                    this.FireSimpleEvent(EventNames.Load);
+                });
             }
         }
 

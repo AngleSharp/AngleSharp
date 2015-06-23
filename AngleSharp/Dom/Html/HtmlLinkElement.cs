@@ -245,15 +245,24 @@
                         _current = owner.Tasks.Add(cancel => Owner.Loader.FetchAsync(request, cancel));
                         _current.ContinueWith(m =>
                         {
-                            var response = m.Result;
-
-                            if (response != null)
+                            if (m.IsFaulted == false && m.Exception == null)
                             {
-                                try { _sheet = engine.Parse(response, options); }
-                                catch { /* We omit failed 3rd party services */ }
+                                var response = m.Result;
 
-                                response.Dispose();
+                                if (response != null)
+                                {
+                                    try
+                                    {
+                                        _sheet = engine.Parse(response, options);
+                                        this.FireSimpleEvent(EventNames.Load);
+                                        return;
+                                    }
+                                    catch { /* Do not care here */ }
+                                    finally { response.Dispose(); }
+                                }
                             }
+
+                            this.FireSimpleEvent(EventNames.Error);
                         });
                     }
                 }

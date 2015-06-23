@@ -165,7 +165,16 @@
                 //TODO Implement with srcset etc. --> see:
                 //http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#update-the-image-data
                 _current = Owner.LoadResource<IImageInfo>(request);
-                _current.ContinueWith(m => this.FireSimpleEvent(EventNames.Load));
+                _current.ContinueWith(m =>
+                {
+                    if (m.IsFaulted || m.Exception != null)
+                    {
+                        this.FireSimpleEvent(EventNames.Error);
+                        return;
+                    }
+
+                    this.FireSimpleEvent(EventNames.Load);
+                });
             }
         }
 
