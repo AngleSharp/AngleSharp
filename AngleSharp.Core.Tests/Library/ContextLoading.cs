@@ -201,5 +201,27 @@
             Assert.NotNull(link);
             Assert.AreEqual("http://localhost/beispiel.css", link.Href);
         }
+
+        [Test]
+        public async Task CheckIfAllStyleSheetsAreProcessed()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var html = @"<html>
+  <head>
+     <title>test title</title>
+     <link href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css' rel='stylesheet'>
+    </head>
+    <body>
+    </body>
+</html>";
+
+                var config = new Configuration().WithDefaultLoader(l => l.IsResourceLoadingEnabled = true).WithCss();
+                var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(html));
+                Assert.AreEqual(0, document.StyleSheets.Length);
+                await document.WhenLoadFired<IHtmlLinkElement>();
+                Assert.AreEqual(1, document.StyleSheets.Length);
+            }
+        }
     }
 }
