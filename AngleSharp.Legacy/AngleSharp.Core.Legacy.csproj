@@ -2552,6 +2552,9 @@
     <Compile Include="..\AngleSharp\Parser\Css\CssParserExtensions.cs">
       <Link>Parser\Css\CssParserExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\CssParserOptions.cs">
+      <Link>Parser\Css\CssParserOptions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\CssParseState.cs">
       <Link>Parser\Css\CssParseState.cs</Link>
     </Compile>
@@ -2638,6 +2641,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Html\HtmlParserExtensions.cs">
       <Link>Parser\Html\HtmlParserExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\HtmlParserOptions.cs">
+      <Link>Parser\Html\HtmlParserOptions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Html\HtmlTokenizer.cs">
       <Link>Parser\Html\HtmlTokenizer.cs</Link>
