@@ -160,6 +160,7 @@
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
     <Compile Include="Foundation\CancellableTasks.cs" />
     <Compile Include="Parser\Css\CssParseMode.cs" />
+    <Compile Include="Parser\Css\CssParserOptions.cs" />
     <Compile Include="Parser\Css\CssParseState.cs" />
     <Compile Include="Parser\Css\States\CssCharsetState.cs" />
     <Compile Include="Parser\Css\States\CssDocumentState.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="Parser\Css\States\CssSupportsState.cs" />
     <Compile Include="Parser\Css\States\CssUnknownState.cs" />
     <Compile Include="Parser\Css\Tokens\CssFunctionToken.cs" />
+    <Compile Include="Parser\Html\HtmlParserOptions.cs" />
     <Compile Include="Parser\Xml\XmlParseError.cs" />
     <Compile Include="Foundation\Factory.cs" />
     <Compile Include="Dom\MutationHost.cs" />
