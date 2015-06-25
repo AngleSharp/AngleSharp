@@ -294,7 +294,17 @@
             public VirtualResponse Headers(Object obj)
             {
                 var headers = obj.ToDictionary();
+                return Headers(headers);
+            }
 
+            /// <summary>
+            /// Sets the headers with the name of the keys and their assigned
+            /// values.
+            /// </summary>
+            /// <param name="headers">The dictionary to use.</param>
+            /// <returns>The current instance.</returns>
+            public VirtualResponse Headers(IDictionary<String, String> headers)
+            {
                 foreach (var header in headers)
                 {
                     Header(header.Key, header.Value);
