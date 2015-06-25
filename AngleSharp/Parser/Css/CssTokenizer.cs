@@ -124,7 +124,7 @@
 
         public void JumpToNextSemicolon()
         {
-            var current = GetNext();
+            var current = Current;
 
             while (current != Symbols.EndOfFile && current != Symbols.Semicolon)
             {
