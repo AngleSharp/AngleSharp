@@ -854,5 +854,22 @@ p.info span::after {
             Assert.AreEqual(CssRuleType.Style, sheet.Rules[1].Type);
             Assert.AreEqual(CssRuleType.Media, sheet.Rules[2].Type);
         }
+
+        [Test]
+        public void CssParseImportStatementWithNoMediaTextFollowedByStyle()
+        {
+            var src = "@import url(import3.css); p { color : #f00; }";
+            var sheet = ParseStyleSheet(src);
+            Assert.AreEqual(2, sheet.Rules.Length);
+            var import = sheet.Rules[0] as ICssImportRule;
+            var style = sheet.Rules[1] as ICssStyleRule;
+            Assert.IsNotNull(import);
+            Assert.IsNotNull(style);
+            Assert.AreEqual(0, import.Media.Length);
+            Assert.AreEqual("", import.Media.MediaText);
+            Assert.AreEqual("import3.css", import.Href);
+            Assert.AreEqual("p", style.Selector.Text);
+            Assert.AreEqual(1, style.Style.Length);
+        }
     }
 }
