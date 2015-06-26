@@ -259,5 +259,15 @@ namespace AngleSharp.Core.Tests.Css
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
         }
+
+        [Test]
+        public void CssMarginReductionForPeriodicExpansion()
+        {
+            var snippet = "p { margin: 0 auto; }";
+            var expected = "p { margin: 0 auto; }";
+            var result = CssParser.ParseRule(snippet);
+            var actual = result.CssText;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
