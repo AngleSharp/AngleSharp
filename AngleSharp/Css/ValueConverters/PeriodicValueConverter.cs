@@ -115,11 +115,11 @@
                 if (name == _labels[0])
                     return _top.Original;
                 else if (name == _labels[1])
-                    return _left.Original;
-                else if (name == _labels[2])
                     return _right.Original;
-                else if (name == _labels[3])
+                else if (name == _labels[2])
                     return _bottom.Original;
+                else if (name == _labels[3])
+                    return _left.Original;
 
                 return null;
             }
