@@ -106,12 +106,16 @@
                 get
                 {
                     var horizontal = _horizontal.CssText;
-                    var vertical = _vertical.CssText;
 
-                    if (horizontal == vertical)
-                        return horizontal;
+                    if (_vertical != null)
+                    {
+                        var vertical = _vertical.CssText;
 
-                    return String.Concat(horizontal, " / ", vertical);
+                        if (horizontal != vertical)
+                            return String.Concat(horizontal, " / ", vertical);
+                    }
+
+                    return horizontal;
                 }
             }
 
