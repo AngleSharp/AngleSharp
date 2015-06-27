@@ -337,5 +337,15 @@ namespace AngleSharp.Core.Tests.Css
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
         }
+
+        [Test]
+        public void CssBorderRadiusPureCircleRecombination()
+        {
+            var snippet = ".test { border-top-left-radius:15px;border-bottom-left-radius:15px;border-bottom-right-radius:0;border-top-right-radius:0;}";
+            var expected = ".test { border-radius: 15px 0 0 15px; }";
+            var result = CssParser.ParseRule(snippet);
+            var actual = result.CssText;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
