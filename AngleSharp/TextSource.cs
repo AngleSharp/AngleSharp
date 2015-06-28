@@ -36,7 +36,7 @@
         TextSource(Encoding encoding)
         {
             _buffer = new Byte[BufferSize];
-            _chars = new Char[BufferSize];
+            _chars = new Char[BufferSize + 1];
             _raw = new MemoryStream();
             _index = 0;
             _encoding = encoding ?? TextEncoding.Utf8;
