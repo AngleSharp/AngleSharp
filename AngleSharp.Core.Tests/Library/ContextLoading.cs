@@ -8,6 +8,9 @@
     using AngleSharp.Core.Tests.Mocks;
     using System.Text;
     using System.IO;
+    using System.Net.Http;
+    using System.Net;
+    using System;
 
     [TestFixture]
     public class ContextLoadingTests
@@ -221,6 +224,31 @@
                 Assert.AreEqual(0, document.StyleSheets.Length);
                 await document.WhenLoadFired<IHtmlLinkElement>();
                 Assert.AreEqual(1, document.StyleSheets.Length);
+            }
+        }
+
+        [Test]
+        public async Task LoadContextFromStreamLoadedWithHttpClient()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var http = new HttpClient(new HttpClientHandler
+                {
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                });
+                var url = new Uri("http://kommersant.ru/rss-list");
+                var msg = await http.GetAsync(url);
+                msg.EnsureSuccessStatusCode();
+                var pageData = await msg.Content.ReadAsStreamAsync();
+                var context = BrowsingContext.New();
+                var document = await context.OpenAsync(r =>
+                {
+                    r.Content(pageData);
+                    r.Address(url);
+                });
+
+                Assert.IsNotNull(document);
+                Assert.AreNotEqual(0, document.All.Length);
             }
         }
     }
