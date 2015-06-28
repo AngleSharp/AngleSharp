@@ -252,7 +252,7 @@
             _column++;
             _current = _source.ReadCharacter();
 
-            if (_current == Symbols.CarriageReturn)
+            while (_current == Symbols.CarriageReturn)
             {
                 _current = _source.ReadCharacter();
             }
