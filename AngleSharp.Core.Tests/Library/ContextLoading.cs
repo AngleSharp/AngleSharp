@@ -232,11 +232,61 @@
         {
             if (Helper.IsNetworkAvailable())
             {
+                var url = new Uri("http://kommersant.ru/rss-list");
                 var http = new HttpClient(new HttpClientHandler
                 {
                     AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
                 });
+                var msg = await http.GetAsync(url);
+                msg.EnsureSuccessStatusCode();
+                var pageData = await msg.Content.ReadAsStreamAsync();
+                var context = BrowsingContext.New();
+                var document = await context.OpenAsync(r =>
+                {
+                    r.Content(pageData);
+                    r.Address(url);
+                });
+
+                Assert.IsNotNull(document);
+                Assert.AreNotEqual(0, document.All.Length);
+            }
+        }
+
+        [Test]
+        public async Task LoadContextFromStreamLoadedWithHttpClientShouldNotFaceBufferTooSmall()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
                 var url = new Uri("http://kommersant.ru/rss-list");
+                var http = new HttpClient(new HttpClientHandler
+                {
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                });
+                var msg = await http.GetAsync(url);
+                msg.EnsureSuccessStatusCode();
+                var pageData = await msg.Content.ReadAsStreamAsync();
+                var context = BrowsingContext.New();
+                var document = await context.OpenAsync(r =>
+                {
+                    r.Content(pageData);
+                    r.Address(url);
+                });
+
+                Assert.IsNotNull(document);
+                Assert.AreNotEqual(0, document.All.Length);
+            }
+        }
+
+        [Test]
+        public async Task LoadContextFromStreamLoadedWithHttpClientShouldNotBeStuckForever()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var url = new Uri("http://eurobelarus.info/");
+                var http = new HttpClient(new HttpClientHandler
+                {
+                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+                });
                 var msg = await http.GetAsync(url);
                 msg.EnsureSuccessStatusCode();
                 var pageData = await msg.Content.ReadAsStreamAsync();
