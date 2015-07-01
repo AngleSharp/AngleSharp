@@ -310,7 +310,7 @@
             var source = new TextSource(stream, configuration.DefaultEncoding());
             var sheet = new CssStyleSheet(configuration, source) { Href = url };
             var parser = new CssParser(sheet);
-            return await parser.ParseAsync(cancel).ConfigureAwait(false);
+            return await parser.ParseAsync(new CssParserOptions(), cancel).ConfigureAwait(false);
         }
 
         #endregion

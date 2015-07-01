@@ -1,16 +1,16 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Css;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css.States;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
-    using AngleSharp.Css;
-    using AngleSharp.Dom;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Extensions;
-    using AngleSharp.Parser.Css.States;
 
     /// <summary>
     /// The CSS parser.
@@ -106,24 +106,41 @@
         /// </returns>
         public Task<ICssStyleSheet> ParseAsync()
         {
-            return ParseAsync(CancellationToken.None);
+            return ParseAsync(new CssParserOptions());
         }
 
         /// <summary>
         /// Parses the given source asynchronously and creates the stylesheet.
         /// </summary>
+        /// <param name="options">
+        /// The options to set the desired behavior during parsing.
+        /// </param>
+        /// <returns>
+        /// The task which could be awaited or continued differently.
+        /// </returns>
+        public Task<ICssStyleSheet> ParseAsync(CssParserOptions options)
+        {
+            return ParseAsync(options, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Parses the given source asynchronously and creates the stylesheet.
+        /// </summary>
+        /// <param name="options">
+        /// The options to set the desired behavior during parsing.
+        /// </param>
         /// <param name="cancelToken">The cancellation token to use.</param>
         /// <returns>
         /// The task which could be awaited or continued differently.
         /// </returns>
-        public Task<ICssStyleSheet> ParseAsync(CancellationToken cancelToken)
+        public Task<ICssStyleSheet> ParseAsync(CssParserOptions options, CancellationToken cancelToken)
         {
             lock (_syncGuard)
             {
                 if (!_started)
                 {
                     _started = true;
-                    _task = KernelAsync(cancelToken);
+                    _task = KernelAsync(options, cancelToken);
                 }
             }
 
@@ -133,12 +150,25 @@
         /// <summary>
         /// Parses the given source code.
         /// </summary>
+        /// <returns>The new stylesheet.</returns>
         public ICssStyleSheet Parse()
+        {
+            return Parse(new CssParserOptions());
+        }
+
+        /// <summary>
+        /// Parses the given source code.
+        /// </summary>
+        /// <param name="options">
+        /// The options to set the desired behavior during parsing.
+        /// </param>
+        /// <returns>The new stylesheet.</returns>
+        public ICssStyleSheet Parse(CssParserOptions options)
         {
             if (!_started)
             {
                 _started = true;
-                Kernel();
+                Kernel(options);
             }
 
             return _sheet;
@@ -174,7 +204,7 @@
         /// <summary>
         /// The kernel that is pulling the tokens into the parser.
         /// </summary>
-        void Kernel()
+        void Kernel(CssParserOptions options)
         {
             var token = _tokenizer.Get();
 
@@ -190,10 +220,10 @@
         /// <summary>
         /// The kernel that is pulling the tokens into the parser.
         /// </summary>
-        async Task<ICssStyleSheet> KernelAsync(CancellationToken cancelToken)
+        async Task<ICssStyleSheet> KernelAsync(CssParserOptions options, CancellationToken cancelToken)
         {
             await _sheet.Source.PrefetchAll(cancelToken).ConfigureAwait(false);
-            Kernel();
+            Kernel(options);
             return _sheet;
         }
 

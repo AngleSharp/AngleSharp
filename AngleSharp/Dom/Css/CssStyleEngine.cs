@@ -98,7 +98,12 @@
             if (events != null)
                 events.Publish(evt);
 
-            parser.Parse();
+            parser.Parse(new CssParserOptions
+            {
+                IsDroppingUnknownDeclarations = true,
+                IsDroppingUnknownRules = true,
+                IsIgnoringInvalidValues = true
+            });
             evt.SetResult(style);
             return style;
         }
