@@ -88,20 +88,6 @@
         IDocument Open(String type = "text/html", String replace = null);
 
         /// <summary>
-        /// Opens another window, i.e. works like the window.open method.
-        /// </summary>
-        /// <param name="url">The URL to open.</param>
-        /// <param name="name">The name of the new window.</param>
-        /// <param name="features">
-        /// The feature string of the new window.
-        /// </param>
-        /// <param name="replace">
-        /// Special annotation to replace the history.
-        /// </param>
-        [DomName("open")]
-        IWindow OpenNew(String url, String name, String features, String replace = null);
-
-        /// <summary>
         /// Finishes writing to a document.
         /// </summary>
         [DomName("close")]

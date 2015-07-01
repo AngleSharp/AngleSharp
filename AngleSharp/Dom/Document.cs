@@ -1072,20 +1072,6 @@
         }
 
         /// <summary>
-        /// Opens a new window. Basically just uses the current window (if any)
-        /// to open another window.
-        /// </summary>
-        public IWindow OpenNew(String url, String name, String features, String replace = null)
-        {
-            var view = DefaultView;
-
-            if (view == null)
-                throw new DomException(DomError.InvalidAccess);
-
-            return view.Open(url, name, features, replace);
-        }
-
-        /// <summary>
         /// Opens a document stream for writing. For information see:
         /// http://www.whatwg.org/specs/web-apps/current-work/#dom-document-open
         /// </summary>
