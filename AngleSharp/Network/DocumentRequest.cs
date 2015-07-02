@@ -44,6 +44,29 @@
         }
 
         /// <summary>
+        /// Creates a POST request for the given target with the provided body
+        /// and encoding type from the optional source node and optional
+        /// referer string.
+        /// </summary>
+        /// <param name="target">The target to use.</param>
+        /// <param name="body"></param>
+        /// <param name="type"></param>
+        /// <param name="source">The optional source of the request.</param>
+        /// <param name="referer">The optional referrer string.</param>
+        /// <returns>The new document request.</returns>
+        public static DocumentRequest Post(Url target, Stream body, String type, INode source = null, String referer = null)
+        {
+            return new DocumentRequest(target)
+            {
+                Method = HttpMethod.Post,
+                Body = body,
+                MimeType = type,
+                Referer = referer,
+                Source = source
+            };
+        }
+
+        /// <summary>
         /// Gets or sets the source of the request, if any.
         /// </summary>
         public INode Source

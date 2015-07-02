@@ -425,38 +425,32 @@
         /// Submits the body of the form.
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-body
         /// </summary>
-        void SubmitAsEntityBody(Url action)
+        void SubmitAsEntityBody(Url target)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
-            var mimeType = default(String);
-            var result = MemoryStream.Null;
+            var type = default(String);
+            var body = MemoryStream.Null;
 
             if (enctype.Equals(MimeTypes.UrlencodedForm, StringComparison.OrdinalIgnoreCase))
             {
-                result = formDataSet.AsUrlEncoded(TextEncoding.Resolve(encoding));
-                mimeType = MimeTypes.UrlencodedForm;
+                body = formDataSet.AsUrlEncoded(TextEncoding.Resolve(encoding));
+                type = MimeTypes.UrlencodedForm;
             }
             else if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
             {
-                result = formDataSet.AsMultipart(TextEncoding.Resolve(encoding));
-                mimeType = String.Concat(MimeTypes.MultipartForm, "; boundary=", formDataSet.Boundary);
+                body = formDataSet.AsMultipart(TextEncoding.Resolve(encoding));
+                type = String.Concat(MimeTypes.MultipartForm, "; boundary=", formDataSet.Boundary);
             }
             else if (enctype.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase))
             {
-                result = formDataSet.AsPlaintext(TextEncoding.Resolve(encoding));
-                mimeType = MimeTypes.Plain;
+                body = formDataSet.AsPlaintext(TextEncoding.Resolve(encoding));
+                type = MimeTypes.Plain;
             }
 
-            _current = NavigateTo(new DocumentRequest(action)
-            {
-                Method = HttpMethod.Post,
-                Source = this,
-                Body = result,
-                MimeType = mimeType,
-                Referer = Owner.DocumentUri
-            });
+            var request = DocumentRequest.Post(target, body, type, source: this, referer: Owner.DocumentUri);
+            _current = NavigateTo(request);
         }
 
         /// <summary>
