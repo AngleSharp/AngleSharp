@@ -103,11 +103,7 @@
             if (!String.IsNullOrEmpty(src))
             {
                 var url = this.HyperReference(src);
-                var request = new DocumentRequest(url)
-                {
-                    Source = this,
-                    Referer = Owner.DocumentUri
-                };
+                var request = DocumentRequest.Get(url, source: this, referer: Owner.DocumentUri);
                 _current = Owner.Tasks.Add(cancel => _context.OpenAsync(request, cancel));
                 _current.ContinueWith(m => this.FireSimpleEvent(EventNames.Load));
             }

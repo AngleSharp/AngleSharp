@@ -1740,12 +1740,7 @@
             else
             {
                 var url = new Url(e.CurrentLocation);
-                var request = new DocumentRequest(url)
-                {
-                    Source = this,
-                    Referer = DocumentUri
-                };
-
+                var request = DocumentRequest.Get(url, source: this, referer: DocumentUri);
                 await _context.OpenAsync(request, CancellationToken.None);
             }
         }

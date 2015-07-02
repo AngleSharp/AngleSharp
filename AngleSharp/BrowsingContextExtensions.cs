@@ -93,7 +93,7 @@
             if (url == null)
                 throw new ArgumentNullException("url");
             
-            var request = new DocumentRequest(url);
+            var request = DocumentRequest.Get(url);
 
             if (context != null && context.Active != null)
                 request.Referer = context.Active.DocumentUri;

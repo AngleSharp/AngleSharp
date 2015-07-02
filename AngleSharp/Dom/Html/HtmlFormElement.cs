@@ -361,11 +361,7 @@
                 action.Href = action.Href.ReplaceFirst("%%", result);
             }
 
-            _current = NavigateTo(new DocumentRequest(action)
-            {
-                Referer = Owner.DocumentUri,
-                Source = this
-            });
+            GetActionUrl(action);
         }
 
         /// <summary>
@@ -422,11 +418,7 @@
         /// </summary>
         void GetActionUrl(Url action)
         {
-            _current = NavigateTo(new DocumentRequest(action)
-            {
-                Referer = Owner.DocumentUri,
-                Source = this
-            });
+            _current = NavigateTo(DocumentRequest.Get(action, source: this, referer: Owner.DocumentUri));
         }
 
         /// <summary>

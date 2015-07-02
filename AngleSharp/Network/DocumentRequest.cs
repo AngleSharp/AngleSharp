@@ -15,11 +15,32 @@
         /// <param name="target">The resource's url.</param>
         public DocumentRequest(Url target)
         {
+            if (target == null)
+                throw new ArgumentNullException("target");
+
             Target = target;
             Referer = null;
             Method = HttpMethod.Get;
             Body = MemoryStream.Null;
             MimeType = null;
+        }
+
+        /// <summary>
+        /// Creates a GET request for the given target from the optional source
+        /// node and optional referer string.
+        /// </summary>
+        /// <param name="target">The target to use.</param>
+        /// <param name="source">The optional source of the request.</param>
+        /// <param name="referer">The optional referrer string.</param>
+        /// <returns>The new document request.</returns>
+        public static DocumentRequest Get(Url target, INode source = null, String referer = null)
+        {
+            return new DocumentRequest(target)
+            {
+                Method = HttpMethod.Get,
+                Referer = referer,
+                Source = source
+            };
         }
 
         /// <summary>
