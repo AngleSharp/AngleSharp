@@ -37,9 +37,7 @@
         /// based on the given source.
         /// </summary>
         /// <param name="source">The source code as a string.</param>
-        /// <param name="configuration">
-        /// [Optional] The configuration to use.
-        /// </param>
+        /// <param name="configuration">The configuration to use.</param>
         public CssParser(String source, IConfiguration configuration = null)
             : this(new CssStyleSheet(configuration, new TextSource(source)))
         { }
@@ -49,9 +47,7 @@
         /// based on the given stream.
         /// </summary>
         /// <param name="stream">The stream to use as source.</param>
-        /// <param name="configuration">
-        /// [Optional] The configuration to use.
-        /// </param>
+        /// <param name="configuration">The configuration to use.</param>
         public CssParser(Stream stream, IConfiguration configuration = null)
             : this(new CssStyleSheet(configuration, new TextSource(stream, configuration.DefaultEncoding())))
         { }
@@ -178,12 +174,6 @@
 
         #region Helpers
 
-        /// <summary>
-        /// Creates the tokenizer for the given source code.
-        /// </summary>
-        /// <param name="sourceCode">The code to analyze.</param>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <returns>The fresh tokenizer for the code.</returns>
         static CssTokenizer CreateTokenizer(String sourceCode, IConfiguration configuration)
         {
             var events = configuration != null ? configuration.Events : null;
@@ -191,19 +181,6 @@
             return new CssTokenizer(source, events);
         }
 
-        /// <summary>
-        /// Fires an error occurred event.
-        /// </summary>
-        /// <param name="code">The associated error code.</param>
-        /// <param name="token">The associated token.</param>
-        void RaiseErrorOccurred(CssParseError code, CssToken token)
-        {
-            _tokenizer.RaiseErrorOccurred(code, token.Position);
-        }
-
-        /// <summary>
-        /// The kernel that is pulling the tokens into the parser.
-        /// </summary>
         void Kernel(CssParserOptions options)
         {
             var token = _tokenizer.Get();
@@ -217,9 +194,6 @@
             while (token.Type != CssTokenType.Eof);
         }
 
-        /// <summary>
-        /// The kernel that is pulling the tokens into the parser.
-        /// </summary>
         async Task<ICssStyleSheet> KernelAsync(CssParserOptions options, CancellationToken cancelToken)
         {
             await _sheet.Source.PrefetchAll(cancelToken).ConfigureAwait(false);
