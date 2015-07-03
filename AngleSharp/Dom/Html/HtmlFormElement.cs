@@ -9,6 +9,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using System.Text;
 
     /// <summary>
     /// Represents the form element.
@@ -334,22 +335,10 @@
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
             var result = String.Empty;
+            var stream = CreateBody(enctype, TextEncoding.Resolve(encoding), formDataSet);
 
-            if (enctype.Equals(MimeTypes.UrlencodedForm, StringComparison.OrdinalIgnoreCase))
-            {
-                using (var sr = new StreamReader(formDataSet.AsUrlEncoded(TextEncoding.Resolve(encoding))))
-                    result = sr.ReadToEnd();
-            }
-            else if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
-            {
-                using (var sr = new StreamReader(formDataSet.AsMultipart(TextEncoding.Resolve(encoding))))
-                    result = sr.ReadToEnd();
-            }
-            else if (enctype.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase))
-            {
-                using (var sr = new StreamReader(formDataSet.AsPlaintext(TextEncoding.Resolve(encoding))))
-                    result = sr.ReadToEnd();
-            }
+            using (var sr = new StreamReader(stream))
+                result = sr.ReadToEnd();
 
             if (action.Href.Contains("%%%%"))
             {
@@ -376,9 +365,7 @@
             var headers = String.Empty;
 
             using (var sr = new StreamReader(result))
-            {
                 headers = sr.ReadToEnd();
-            }
 
             action.Query = headers.Replace("+", "%20");
             return GetActionUrl(action);
@@ -393,23 +380,11 @@
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
             var encoding = TextEncoding.UsAscii;
+            var stream = CreateBody(enctype, encoding, formDataSet);
             var body = String.Empty;
 
-            if (enctype.Equals(MimeTypes.UrlencodedForm, StringComparison.OrdinalIgnoreCase))
-            {
-                using (var sr = new StreamReader(formDataSet.AsUrlEncoded(encoding)))
-                    body = sr.ReadToEnd();
-            }
-            else if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
-            {
-                using (var sr = new StreamReader(formDataSet.AsMultipart(encoding)))
-                    body = sr.ReadToEnd();
-            }
-            else if (enctype.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase))
-            {
-                using (var sr = new StreamReader(formDataSet.AsPlaintext(encoding)))
-                    body = sr.ReadToEnd();
-            }
+            using (var sr = new StreamReader(stream))
+                body = sr.ReadToEnd();
 
             action.Query = "body=" + body.UrlEncode(encoding);
             return GetActionUrl(action);
@@ -433,26 +408,12 @@
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
-            var type = default(String);
-            var body = MemoryStream.Null;
+            var body = CreateBody(enctype, TextEncoding.Resolve(encoding), formDataSet);
 
-            if (enctype.Equals(MimeTypes.UrlencodedForm, StringComparison.OrdinalIgnoreCase))
-            {
-                body = formDataSet.AsUrlEncoded(TextEncoding.Resolve(encoding));
-                type = MimeTypes.UrlencodedForm;
-            }
-            else if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
-            {
-                body = formDataSet.AsMultipart(TextEncoding.Resolve(encoding));
-                type = String.Concat(MimeTypes.MultipartForm, "; boundary=", formDataSet.Boundary);
-            }
-            else if (enctype.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase))
-            {
-                body = formDataSet.AsPlaintext(TextEncoding.Resolve(encoding));
-                type = MimeTypes.Plain;
-            }
+            if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
+                enctype = String.Concat(MimeTypes.MultipartForm, "; boundary=", formDataSet.Boundary);
 
-            var request = DocumentRequest.Post(target, body, type, source: this, referer: Owner.DocumentUri);
+            var request = DocumentRequest.Post(target, body, enctype, source: this, referer: Owner.DocumentUri);
             return NavigateTo(request);
         }
 
@@ -464,8 +425,9 @@
         /// <param name="request">The request to issue.</param>
         Task<IDocument> NavigateTo(DocumentRequest request)
         {
-            Owner.Tasks.Cancel(_current);
-            return Owner.Tasks.Add(cancel => Owner.Context.OpenAsync(request, cancel));
+            var owner = Owner;
+            owner.Tasks.Cancel(_current);
+            return owner.Tasks.Add(cancel => Owner.Context.OpenAsync(request, cancel));
         }
 
         /// <summary>
@@ -479,9 +441,7 @@
             var result = formDataSet.AsUrlEncoded(TextEncoding.Resolve(encoding));
 
             using (var sr = new StreamReader(result))
-            {
                 action.Query = sr.ReadToEnd();
-            }
 
             return GetActionUrl(action);
         }
@@ -499,12 +459,18 @@
             return formDataSet;
         }
 
-        /// <summary>
-        /// Checks the encoding type of the form and returns the appropriate
-        /// encoding type, which is either the given one, or the default one.
-        /// </summary>
-        /// <param name="encType">The encoding type used by the form.</param>
-        /// <returns>A valid encoding type.</returns>
+        static Stream CreateBody(String enctype, Encoding encoding, FormDataSet formDataSet)
+        {
+            if (enctype.Equals(MimeTypes.UrlencodedForm, StringComparison.OrdinalIgnoreCase))
+                return formDataSet.AsUrlEncoded(encoding);
+            else if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
+                return formDataSet.AsMultipart(encoding);
+            else if (enctype.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase))
+                return formDataSet.AsPlaintext(encoding);
+
+            return MemoryStream.Null;
+        }
+
         static String CheckEncType(String encType)
         {
             if (!String.IsNullOrEmpty(encType) && (encType.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase) ||
