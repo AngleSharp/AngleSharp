@@ -1,8 +1,10 @@
 ﻿namespace AngleSharp.Network
 {
-    using System;
-    using System.IO;
     using AngleSharp.Dom;
+    using AngleSharp.Html;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
 
     /// <summary>
     /// Represents the arguments to load a document.
@@ -70,6 +72,46 @@
                 Referer = referer,
                 Source = source
             };
+        }
+
+        /// <summary>
+        /// Creates a POST request for the given target with the fields being
+        /// used to generate the body and encoding type plaintext.
+        /// </summary>
+        /// <param name="target">The target to use.</param>
+        /// <param name="fields">The fields to send.</param>
+        /// <returns>The new document request.</returns>
+        public static DocumentRequest PostAsPlaintext(Url target, IDictionary<String, String> fields)
+        {
+            if (fields == null)
+                throw new ArgumentNullException("fields");
+
+            var fds = new FormDataSet();
+
+            foreach (var field in fields)
+                fds.Append(field.Key, field.Value, InputTypeNames.Text);
+
+            return Post(target, fds.AsPlaintext(), MimeTypes.Plain);
+        }
+
+        /// <summary>
+        /// Creates a POST request for the given target with the fields being
+        /// used to generate the body and encoding type url encoded.
+        /// </summary>
+        /// <param name="target">The target to use.</param>
+        /// <param name="fields">The fields to send.</param>
+        /// <returns>The new document request.</returns>
+        public static DocumentRequest PostAsUrlencoded(Url target, IDictionary<String, String> fields)
+        {
+            if (fields == null)
+                throw new ArgumentNullException("fields");
+
+            var fds = new FormDataSet();
+
+            foreach (var field in fields)
+                fds.Append(field.Key, field.Value, InputTypeNames.Text);
+
+            return Post(target, fds.AsUrlEncoded(), MimeTypes.UrlencodedForm);
         }
 
         /// <summary>
