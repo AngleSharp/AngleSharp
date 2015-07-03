@@ -264,13 +264,10 @@
             if (owner.ActiveSandboxing.HasFlag(Sandboxes.Forms))
                 return;
 
-            if (!submittedFromSubmitMethod && !from.Attributes.Any(m => m.Name == AttributeNames.FormNoValidate) && NoValidate)
+            if (!submittedFromSubmitMethod && !from.Attributes.Any(m => m.Name == AttributeNames.FormNoValidate) && NoValidate && !CheckValidity())
             {
-                if (!CheckValidity())
-                {
-                    this.FireSimpleEvent(EventNames.Invalid);
-                    return;
-                }
+                this.FireSimpleEvent(EventNames.Invalid);
+                return;
             }
 
             var action = String.IsNullOrEmpty(Action) ? new Url(owner.DocumentUri) : this.HyperReference(Action);
@@ -289,36 +286,42 @@
             var replace = createdBrowsingContext || owner.ReadyState != DocumentReadyState.Complete;
             var scheme = action.Scheme;
             var method = Method.ToEnum(HttpMethod.Get);
+            _current = SubmitForm(method, scheme, action);
+        }
 
+        Task<IDocument> SubmitForm(HttpMethod method, String scheme, Url action)
+        {
             if (scheme == KnownProtocols.Http || scheme == KnownProtocols.Https)
             {
                 if (method == HttpMethod.Get)
-                    _current = MutateActionUrl(action);
+                    return MutateActionUrl(action);
                 else if (method == HttpMethod.Post)
-                    _current = SubmitAsEntityBody(action);
+                    return SubmitAsEntityBody(action);
             }
             else if (scheme == KnownProtocols.Data)
             {
                 if (method == HttpMethod.Get)
-                    _current = GetActionUrl(action);
+                    return GetActionUrl(action);
                 else if (method == HttpMethod.Post)
-                    _current = PostToData(action);
+                    return PostToData(action);
             }
             else if (scheme == KnownProtocols.Mailto)
             {
                 if (method == HttpMethod.Get)
-                    _current = MailWithHeaders(action);
+                    return MailWithHeaders(action);
                 else if (method == HttpMethod.Post)
-                    _current = MailAsBody(action);
+                    return MailAsBody(action);
             }
             else if (scheme == KnownProtocols.Ftp || scheme == KnownProtocols.JavaScript)
             {
-                _current = GetActionUrl(action);
+                return GetActionUrl(action);
             }
             else
             {
-                _current = MutateActionUrl(action);
+                return MutateActionUrl(action);
             }
+
+            return _current;
         }
 
         /// <summary>
@@ -483,11 +486,6 @@
             return GetActionUrl(action);
         }
 
-        /// <summary>
-        /// Constructs the form data set with the given submitter.
-        /// </summary>
-        /// <param name="submitter">[Optional] The submitter to use.</param>
-        /// <returns>The constructed form data set.</returns>
         FormDataSet ConstructDataSet(HtmlElement submitter = null)
         {
             var formDataSet = new FormDataSet();
@@ -509,8 +507,11 @@
         /// <returns>A valid encoding type.</returns>
         static String CheckEncType(String encType)
         {
-            if (!String.IsNullOrEmpty(encType) && (encType.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase) || encType.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase)))
+            if (!String.IsNullOrEmpty(encType) && (encType.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase) ||
+                                                   encType.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase)))
+            {
                 return encType;
+            }
 
             return MimeTypes.UrlencodedForm;
         }
