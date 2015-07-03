@@ -293,31 +293,31 @@
             if (scheme == KnownProtocols.Http || scheme == KnownProtocols.Https)
             {
                 if (method == HttpMethod.Get)
-                    MutateActionUrl(action);
+                    _current = MutateActionUrl(action);
                 else if (method == HttpMethod.Post)
-                    SubmitAsEntityBody(action);
+                    _current = SubmitAsEntityBody(action);
             }
             else if (scheme == KnownProtocols.Data)
             {
                 if (method == HttpMethod.Get)
-                    GetActionUrl(action);
+                    _current = GetActionUrl(action);
                 else if (method == HttpMethod.Post)
-                    PostToData(action);
+                    _current = PostToData(action);
             }
             else if (scheme == KnownProtocols.Mailto)
             {
                 if (method == HttpMethod.Get)
-                    MailWithHeaders(action);
+                    _current = MailWithHeaders(action);
                 else if (method == HttpMethod.Post)
-                    MailAsBody(action);
+                    _current = MailAsBody(action);
             }
             else if (scheme == KnownProtocols.Ftp || scheme == KnownProtocols.JavaScript)
             {
-                GetActionUrl(action);
+                _current = GetActionUrl(action);
             }
             else
             {
-                MutateActionUrl(action);
+                _current = MutateActionUrl(action);
             }
         }
 
@@ -325,7 +325,7 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-data-post
         /// </summary>
-        void PostToData(Url action)
+        Task<IDocument> PostToData(Url action)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
@@ -359,31 +359,33 @@
                 action.Href = action.Href.ReplaceFirst("%%", result);
             }
 
-            GetActionUrl(action);
+            return GetActionUrl(action);
         }
 
         /// <summary>
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-headers
         /// </summary>
-        void MailWithHeaders(Url action)
+        Task<IDocument> MailWithHeaders(Url action)
         {
             var formDataSet = ConstructDataSet();
             var result = formDataSet.AsUrlEncoded(TextEncoding.UsAscii);
             var headers = String.Empty;
 
             using (var sr = new StreamReader(result))
+            {
                 headers = sr.ReadToEnd();
+            }
 
             action.Query = headers.Replace("+", "%20");
-            GetActionUrl(action);
+            return GetActionUrl(action);
         }
 
         /// <summary>
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-body
         /// </summary>
-        void MailAsBody(Url action)
+        Task<IDocument> MailAsBody(Url action)
         {
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
@@ -407,23 +409,23 @@
             }
 
             action.Query = "body=" + body.UrlEncode(encoding);
-            GetActionUrl(action);
+            return GetActionUrl(action);
         }
 
         /// <summary>
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-get-action
         /// </summary>
-        void GetActionUrl(Url action)
+        Task<IDocument> GetActionUrl(Url action)
         {
-            _current = NavigateTo(DocumentRequest.Get(action, source: this, referer: Owner.DocumentUri));
+            return NavigateTo(DocumentRequest.Get(action, source: this, referer: Owner.DocumentUri));
         }
 
         /// <summary>
         /// Submits the body of the form.
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-body
         /// </summary>
-        void SubmitAsEntityBody(Url target)
+        Task<IDocument> SubmitAsEntityBody(Url target)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
@@ -448,7 +450,7 @@
             }
 
             var request = DocumentRequest.Post(target, body, type, source: this, referer: Owner.DocumentUri);
-            _current = NavigateTo(request);
+            return NavigateTo(request);
         }
 
         /// <summary>
@@ -467,7 +469,7 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mutate-action
         /// </summary>
-        void MutateActionUrl(Url action)
+        Task<IDocument> MutateActionUrl(Url action)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet();
@@ -478,7 +480,7 @@
                 action.Query = sr.ReadToEnd();
             }
 
-            GetActionUrl(action);
+            return GetActionUrl(action);
         }
 
         /// <summary>
