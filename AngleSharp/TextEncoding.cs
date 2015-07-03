@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using AngleSharp.Extensions;
-    using AngleSharp.Html;
 
     /// <summary>
     /// Various HTML encoding helpers.
@@ -128,6 +128,11 @@
         /// Gets the iso-8859-13 encoding.
         /// </summary>
         public static readonly Encoding Latin13 = GetEncoding("iso-8859-13");
+
+        /// <summary>
+        /// Gets the US-ASCII encoding.
+        /// </summary>
+        public static readonly Encoding UsAscii = GetEncoding("us-ascii");
 
         #endregion
 

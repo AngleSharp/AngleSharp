@@ -17,8 +17,6 @@
     {
         #region Fields
 
-        static readonly String UsAscii = "us-ascii";
-
         HtmlFormControlsCollection _elements;
         Task<IDocument> _current;
 
@@ -352,7 +350,7 @@
 
             if (action.Href.Contains("%%%%"))
             {
-                result = result.UrlEncode(TextEncoding.Resolve(UsAscii));
+                result = result.UrlEncode(TextEncoding.UsAscii);
                 action.Href = action.Href.ReplaceFirst("%%%%", result);
             }
             else if (action.Href.Contains("%%"))
@@ -371,7 +369,7 @@
         void MailWithHeaders(Url action)
         {
             var formDataSet = ConstructDataSet();
-            var result = formDataSet.AsUrlEncoded(TextEncoding.Resolve(UsAscii));
+            var result = formDataSet.AsUrlEncoded(TextEncoding.UsAscii);
             var headers = String.Empty;
 
             using (var sr = new StreamReader(result))
@@ -389,7 +387,7 @@
         {
             var formDataSet = ConstructDataSet();
             var enctype = Enctype;
-            var encoding = TextEncoding.Resolve(UsAscii);
+            var encoding = TextEncoding.UsAscii;
             var body = String.Empty;
 
             if (enctype.Equals(MimeTypes.UrlencodedForm, StringComparison.OrdinalIgnoreCase))
