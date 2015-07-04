@@ -159,6 +159,8 @@
     <Compile Include="Extensions\RuleExtensions.cs" />
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
     <Compile Include="Foundation\CancellableTasks.cs" />
+    <Compile Include="IStyleFormattable.cs" />
+    <Compile Include="IStyleFormatter.cs" />
     <Compile Include="Parser\Css\CssParseMode.cs" />
     <Compile Include="Parser\Css\CssParserOptions.cs" />
     <Compile Include="Parser\Css\CssParseState.cs" />

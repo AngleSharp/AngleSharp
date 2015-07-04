@@ -92,11 +92,7 @@
 
         #region String representation
 
-        /// <summary>
-        /// Returns a CSS code representation of the rule.
-        /// </summary>
-        /// <returns>A string that contains the code.</returns>
-        protected override String ToCss()
+        public override String ToCss(IStyleFormatter formatter)
         {
             var prefix = String.IsNullOrEmpty(_prefix) ? String.Empty : _prefix + " ";
             return String.Concat("@namespace ", prefix, _namespaceURI.CssUrl(), ";");

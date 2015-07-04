@@ -179,6 +179,20 @@
 
         #endregion
 
+        #region Methods
+
+        public String ToCss()
+        {
+            return ToCss(null);
+        }
+
+        public String ToCss(IStyleFormatter formatter)
+        {
+            return Serialize(Name, Value, IsImportant);
+        }
+
+        #endregion
+
         #region String representation
 
         /// <summary>

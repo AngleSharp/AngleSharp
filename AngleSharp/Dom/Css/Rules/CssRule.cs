@@ -77,6 +77,17 @@
 
         #endregion
 
+        #region Methods
+
+        public String ToCss()
+        {
+            return ToCss(null);
+        }
+
+        public abstract String ToCss(IStyleFormatter formatter);
+
+        #endregion
+
         #region Internal Methods
 
         /// <summary>
@@ -85,16 +96,6 @@
         /// </summary>
         /// <param name="rule">The new rule.</param>
         protected abstract void ReplaceWith(ICssRule rule);
-
-        #endregion
-
-        #region String representation
-
-        /// <summary>
-        /// Returns a CSS code representation of the rule.
-        /// </summary>
-        /// <returns>A string that contains the code.</returns>
-        protected abstract String ToCss();
 
         #endregion
     }

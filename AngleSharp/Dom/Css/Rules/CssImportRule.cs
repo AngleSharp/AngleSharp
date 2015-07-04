@@ -79,11 +79,7 @@
 
         #region String representation
 
-        /// <summary>
-        /// Returns a CSS code representation of the rule.
-        /// </summary>
-        /// <returns>A string that contains the code.</returns>
-        protected override String ToCss()
+        public override String ToCss(IStyleFormatter formatter)
         {
             var media = _media.MediaText;
             return String.Concat("@import ", _href.CssUrl(), media.Length > 0 ? " " : String.Empty, media);

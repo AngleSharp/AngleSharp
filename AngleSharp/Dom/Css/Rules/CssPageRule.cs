@@ -88,16 +88,12 @@
 
         #region String representation
 
-        /// <summary>
-        /// Returns a CSS code representation of the rule.
-        /// </summary>
-        /// <returns>A string that contains the code.</returns>
-        protected override String ToCss()
+        public override String ToCss(IStyleFormatter formatter)
         {
             var inner = String.Concat(" { ", _style.CssText, _style.Length > 0 ? " }" : "}");
             return String.Concat("@page ", _selector.Text, inner);
         }
 
         #endregion
-	}
+    }
 }

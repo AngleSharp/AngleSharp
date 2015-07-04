@@ -85,11 +85,7 @@
 
         #region String representation
 
-        /// <summary>
-        /// Returns a CSS code representation of the rule.
-        /// </summary>
-        /// <returns>A string that contains the code.</returns>
-        protected override String ToCss()
+        public override String ToCss(IStyleFormatter formatter)
         {
             return String.Concat(_selector.Text, " ", _style.ToCssBlock());
         }

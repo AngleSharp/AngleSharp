@@ -89,28 +89,30 @@
         /// </summary>
         public String CssText
         {
-            get
-            {
-                var sb = Pool.NewStringBuilder();
-
-                if (_rules.Length > 0)
-                {
-                    sb.Append(_rules[0].CssText);
-
-                    for (int i = 1; i < _rules.Length; i++)
-                    {
-                        sb.AppendLine();
-                        sb.Append(_rules[i].CssText);
-                    }
-                }
-
-                return sb.ToPool();
-            }
+            get { return ToCss(); }
         }
 
         #endregion
 
         #region Methods
+
+        public override String ToCss(IStyleFormatter formatter)
+        {
+            var sb = Pool.NewStringBuilder();
+
+            if (_rules.Length > 0)
+            {
+                sb.Append(_rules[0].CssText);
+
+                for (int i = 1; i < _rules.Length; i++)
+                {
+                    sb.AppendLine();
+                    sb.Append(_rules[i].CssText);
+                }
+            }
+
+            return sb.ToPool();
+        }
 
         /// <summary>
         /// Removes a style rule from the current style sheet object.

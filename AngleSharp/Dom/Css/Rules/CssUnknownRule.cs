@@ -59,11 +59,7 @@
             base.ReplaceWith(rule);
         }
 
-        /// <summary>
-        /// Returns a CSS code representation of the rule.
-        /// </summary>
-        /// <returns>A string that contains the code.</returns>
-        protected override String ToCss()
+        public override String ToCss(IStyleFormatter formatter)
         {
             var middle = _prelude.Length > 0 ? String.Concat(" ", _prelude, " ") : " ";
             return String.Concat("@", _name, middle, Rules.ToCssBlock());

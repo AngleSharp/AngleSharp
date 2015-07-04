@@ -105,5 +105,16 @@
         }
 
         #endregion
+
+        #region Methods
+
+        public String ToCss()
+        {
+            return ToCss(null);
+        }
+
+        public abstract String ToCss(IStyleFormatter formatter);
+
+        #endregion
     }
 }

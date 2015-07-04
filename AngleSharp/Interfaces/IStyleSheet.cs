@@ -8,7 +8,7 @@
     /// Represent a stylesheet for collecting style information.
     /// </summary>
     [DomName("StyleSheet")]
-    public interface IStyleSheet
+    public interface IStyleSheet : IStyleFormattable
     {
         /// <summary>
         /// Gets the style sheet language for this style sheet.
