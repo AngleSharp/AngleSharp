@@ -183,6 +183,9 @@
     <Compile Include="..\AngleSharp\Css\MediaFeatures\DeviceHeightMediaFeature.cs">
       <Link>Css\MediaFeatures\DeviceHeightMediaFeature.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\MediaFeatures\DevicePixelRatioFeature.cs">
+      <Link>Css\MediaFeatures\DevicePixelRatioFeature.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\MediaFeatures\DeviceWidthMediaFeature.cs">
       <Link>Css\MediaFeatures\DeviceWidthMediaFeature.cs</Link>
     </Compile>
