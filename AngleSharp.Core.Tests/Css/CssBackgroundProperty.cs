@@ -286,16 +286,17 @@ namespace AngleSharp.Core.Tests.Css
         }
 
         [Test]
-        public void CssBackgroundImageUrlNoneIllegal()
+        public void CssBackgroundImageUrlNoneUrlLegal()
         {
-            var snippet = "background-image: url(image.png),none";
+            var snippet = "background-image: url(image.png),none, url(foo.gif)";
             var property = CssParser.ParseDeclaration(snippet);
             Assert.AreEqual("background-image", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundImageProperty>(property);
             var concrete = (CssBackgroundImageProperty)property;
             Assert.IsFalse(concrete.IsInherited);
-            Assert.IsFalse(concrete.HasValue);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url(\"image.png\"), none, url(\"foo.gif\")", concrete.Value);
         }
 
         [Test]
