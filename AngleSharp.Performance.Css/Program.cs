@@ -19,6 +19,7 @@
                 "http://z-ecx.images-amazon.com/images/G/01/AUIClients/AmazonUI-a607978b4c59f6c52279818077903ce9a01d14e2.rendering_engine-not-trident.min._V2_.css",
                 "http://assets-cdn.github.com/assets/github2/index-0d569068eabc0305b93b246950eb913fc9d2948b952824895172164835b351dd.css",
                 "http://codeproject.cachefly.net/App_Themes/CodeProject/Css/Main.min.css?dt=2.8.150616.1",
+                "http://cdn.sstatic.net/stackoverflow/all.css?v=5a386bc7d85d",
                 "http://fbstatic-a.akamaihd.net/rsrc.php/v2/yX/r/fr81HMP3WaY.css").Wait();
 
             var parsers = new List<ITestee>
