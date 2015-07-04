@@ -157,7 +157,6 @@
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\EventTargetExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
-    <Compile Include="Extensions\RuleExtensions.cs" />
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
     <Compile Include="Foundation\CancellableTasks.cs" />
     <Compile Include="IStyleFormattable.cs" />
