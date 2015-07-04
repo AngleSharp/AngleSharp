@@ -1,10 +1,13 @@
 ﻿using AngleSharp;
 using AngleSharp.Css;
 using AngleSharp.Dom.Css;
+using AngleSharp.Network.Default;
 using AngleSharp.Parser.Css;
 using NUnit.Framework;
 using System;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AngleSharp.Core.Tests
 {
@@ -870,6 +873,19 @@ p.info span::after {
             Assert.AreEqual("import3.css", import.Href);
             Assert.AreEqual("p", style.Selector.Text);
             Assert.AreEqual(1, style.Style.Length);
+        }
+
+        [Test]
+        public void CssParseMediaRuleWithInvalidMediumEntities()
+        {
+            var src = "@media only screen and (min--moz-device-pixel-ratio:1.5),only screen and (-o-min-device-pixel-ratio:3/2),only screen and (-webkit-min-device-pixel-ratio:1.5),only screen and (min-device-pixel-ratio:1.5){.favicon{background-image:url('../img/favicons-sprite32.png?v=1b9547cf9cee3350a5b4875951e3e552');background-size:16px 5634px}}";
+            var sheet = ParseStyleSheet(src);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            var media = sheet.Rules[0] as ICssMediaRule;
+            Assert.IsNotNull(media);
+            Assert.AreEqual(1, media.Media.Length);
+            Assert.AreEqual(1, media.Rules.Length);
+            Assert.AreEqual("only screen and (min-device-pixel-ratio:1.5)", media.ConditionText);
         }
     }
 }
