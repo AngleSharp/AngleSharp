@@ -689,7 +689,7 @@
         /// <summary>
         /// Represents multiple image source object.
         /// </summary>
-        public static readonly IValueConverter MultipleImageSourceConverter = ImageSourceConverter.FromList().OrNone();
+        public static readonly IValueConverter MultipleImageSourceConverter = OptionalImageSourceConverter.FromList();
 
         /// <summary>
         /// Represents the border-radius (h h h h / v v v v) converter.

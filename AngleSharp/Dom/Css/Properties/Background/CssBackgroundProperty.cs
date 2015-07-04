@@ -18,7 +18,7 @@
         //      <bg-image> || <position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box> || <background-color>
 
         static readonly IValueConverter NormalLayerConverter = Converters.WithAny(
-            Converters.ImageSourceConverter.Option().For(PropertyNames.BackgroundImage),
+            Converters.OptionalImageSourceConverter.Option().For(PropertyNames.BackgroundImage),
             Converters.WithOrder(
                 Converters.PointConverter.Option().For(PropertyNames.BackgroundPosition),
                 Converters.BackgroundSizeConverter.StartsWithDelimiter().Option().For(PropertyNames.BackgroundSize)),
@@ -28,7 +28,7 @@
             Converters.BoxModelConverter.Option().For(PropertyNames.BackgroundClip));
 
         static readonly IValueConverter FinalLayerConverter = Converters.WithAny(
-            Converters.ImageSourceConverter.Option().For(PropertyNames.BackgroundImage),
+            Converters.OptionalImageSourceConverter.Option().For(PropertyNames.BackgroundImage),
             Converters.WithOrder(
                 Converters.PointConverter.Option().For(PropertyNames.BackgroundPosition),
                 Converters.BackgroundSizeConverter.StartsWithDelimiter().Option().For(PropertyNames.BackgroundSize)),
