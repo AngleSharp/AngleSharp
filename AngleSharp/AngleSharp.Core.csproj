@@ -60,6 +60,7 @@
     <Compile Include="Css\ICondition.cs" />
     <Compile Include="Css\IDocumentFunction.cs" />
     <Compile Include="Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs" />
+    <Compile Include="Css\MediaFeatures\DevicePixelRatioFeature.cs" />
     <Compile Include="Css\MediaFeatures\HoverMediaFeature.cs" />
     <Compile Include="Css\MediaFeatures\PointerMediaFeature.cs" />
     <Compile Include="Css\MediaFeatures\ScriptingMediaFeature.cs" />

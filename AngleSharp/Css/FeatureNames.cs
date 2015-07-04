@@ -53,6 +53,11 @@
         public readonly static String MinMonochrome = "min-monochrome";
 
         /// <summary>
+        /// Gets the name of the min-device-pixel-ratio feature.
+        /// </summary>
+        public readonly static String MinDevicePixelRatio = "min-device-pixel-ratio";
+
+        /// <summary>
         /// Gets the name of the max-width feature.
         /// </summary>
         public readonly static String MaxWidth = "max-width";
@@ -96,6 +101,11 @@
         /// Gets the name of the max-monochrome feature.
         /// </summary>
         public readonly static String MaxMonochrome = "max-monochrome";
+
+        /// <summary>
+        /// Gets the name of the max-device-pixel-ratio feature.
+        /// </summary>
+        public readonly static String MaxDevicePixelRatio = "max-device-pixel-ratio";
 
         /// <summary>
         /// Gets the name of the width feature.
@@ -156,6 +166,11 @@
         /// Gets the name of the scan feature.
         /// </summary>
         public readonly static String Scan = "scan";
+
+        /// <summary>
+        /// Gets the name of the device-pixel-ratio feature.
+        /// </summary>
+        public readonly static String DevicePixelRatio = "device-pixel-ratio";
 
         /// <summary>
         /// Gets the name of the min-device-aspect-ratio feature.
