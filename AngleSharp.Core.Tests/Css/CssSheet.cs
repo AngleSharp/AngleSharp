@@ -885,7 +885,7 @@ p.info span::after {
             Assert.IsNotNull(media);
             Assert.AreEqual(1, media.Media.Length);
             Assert.AreEqual(1, media.Rules.Length);
-            Assert.AreEqual("only screen and (min-device-pixel-ratio:1.5)", media.ConditionText);
+            Assert.AreEqual("only screen and (min-device-pixel-ratio: 1.5)", media.ConditionText);
         }
     }
 }
