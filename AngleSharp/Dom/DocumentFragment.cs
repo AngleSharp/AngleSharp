@@ -31,7 +31,6 @@
             : this(context.Owner)
         {
             var parser = new HtmlParser(html, Owner.Options);
-            parser.IsScripting = false;
             var root = parser.ParseFragment(context).DocumentElement;
 
             while (root.HasChildNodes)

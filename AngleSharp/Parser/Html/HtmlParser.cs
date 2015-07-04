@@ -1,11 +1,5 @@
 ﻿namespace AngleSharp.Parser.Html
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Dom.Mathml;
@@ -13,6 +7,12 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the Tree construction as specified in
@@ -92,8 +92,6 @@
             _templateModes = new Stack<HtmlTreeMode>();
             _formattingElements = new List<Element>();
             _frameset = true;
-            _embedded = false;
-            _scripting = document.Options.IsScripting();
             _currentMode = HtmlTreeMode.Initial;
         }
 
@@ -151,12 +149,11 @@
         }
 
         /// <summary>
-        /// Gets if scripting should be considered to be enabled.
+        /// Gets if the parser has run for with scripting enabled.
         /// </summary>
         public Boolean IsScripting
         {
             get { return _scripting; }
-            internal set { _scripting = value; }
         }
 
         #endregion
@@ -165,28 +162,39 @@
 
         /// <summary>
         /// Parses the given source asynchronously and creates the document.
+        /// Default options are chosen, where scripting is determined by the
+        /// configuration of the document.
         /// </summary>
-        /// <returns>
-        /// The task which could be awaited or continued differently.
-        /// </returns>
         public Task<IHtmlDocument> ParseAsync()
         {
-            return ParseAsync(CancellationToken.None);
+            return ParseAsync(new HtmlParserOptions
+            {
+                IsScripting = _document.Options.IsScripting()
+            });
         }
 
         /// <summary>
         /// Parses the given source asynchronously and creates the document.
         /// </summary>
+        /// <param name="options">The options to use for parsing.</param>
+        public Task<IHtmlDocument> ParseAsync(HtmlParserOptions options)
+        {
+            return ParseAsync(options, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Parses the given source asynchronously and creates the document.
+        /// </summary>
+        /// <param name="options">The options to use for parsing.</param>
         /// <param name="cancelToken">The cancellation token to use.</param>
-        /// <returns>
-        /// The task which could be awaited or continued differently.
-        /// </returns>
-        public Task<IHtmlDocument> ParseAsync(CancellationToken cancelToken)
+        public Task<IHtmlDocument> ParseAsync(HtmlParserOptions options, CancellationToken cancelToken)
         {
 			lock (_syncGuard)
 			{
 				if (!_started)
-				{
+                {
+                    _embedded = options.IsEmbedded;
+                    _scripting = options.IsScripting;
 					_started = true;
                     _parsing = KernelAsync(cancelToken);
 				}
@@ -196,69 +204,31 @@
         }
 
         /// <summary>
-        /// Parses the given source and creates the document.
+        /// Parses the given source and creates the document. Default options
+        /// are chosen, where scripting is determined by the configuration of
+        /// the document.
         /// </summary>
         public IHtmlDocument Parse()
         {
-            lock (_syncGuard)
+            return Parse(new HtmlParserOptions
             {
-                if (!_started)
-                {
-                    _started = true;
-                    Kernel();
-                }
-            }
-
-            return _document;
+                IsScripting = _document.Options.IsScripting()
+            });
         }
 
         /// <summary>
-        /// Parses the given source as an embedded document asynchronously and
-        /// creates the document.
+        /// Parses the given source and creates the document.
         /// </summary>
-        /// <returns>
-        /// The task which could be awaited or continued differently.
-        /// </returns>
-        public Task<IHtmlDocument> ParseEmbeddedAsync()
-        {
-            return ParseEmbeddedAsync(CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Parses the given source as an embedded document asynchronously and
-        /// creates the document.
-        /// </summary>
-        /// <param name="cancelToken">The cancellation token to use.</param>
-        /// <returns>
-        /// The task which could be awaited or continued differently.
-        /// </returns>
-        public Task<IHtmlDocument> ParseEmbeddedAsync(CancellationToken cancelToken)
+        /// <param name="options">The options to use for parsing.</param>
+        public IHtmlDocument Parse(HtmlParserOptions options)
         {
             lock (_syncGuard)
             {
                 if (!_started)
                 {
+                    _embedded = options.IsEmbedded;
+                    _scripting = options.IsScripting;
                     _started = true;
-                    _embedded = true;
-                    _parsing = KernelAsync(cancelToken);
-                }
-            }
-
-            return _parsing;
-        }
-
-        /// <summary>
-        /// Parses the given source as an embedded document and creates the
-        /// document.
-        /// </summary>
-        public IDocument ParseEmbedded()
-        {
-            lock (_syncGuard)
-            {
-                if (!_started)
-                {
-                    _started = true;
-                    _embedded = true;
                     Kernel();
                 }
             }
@@ -274,9 +244,6 @@
         /// <param name="context">
         /// The context element where the algorithm is applied to.
         /// </param>
-        /// <returns>
-        /// The task which could be awaited or continued differently.
-        /// </returns>
         public Task<IHtmlDocument> ParseFragmentAsync(IElement context)
         {
             return ParseFragmentAsync(context, CancellationToken.None);
@@ -291,9 +258,6 @@
         /// The context element where the algorithm is applied to.
         /// </param>
         /// <param name="cancelToken">The cancellation token to use.</param>
-        /// <returns>
-        /// The task which could be awaited or continued differently.
-        /// </returns>
         public Task<IHtmlDocument> ParseFragmentAsync(IElement context, CancellationToken cancelToken)
         {
             lock (_syncGuard)
@@ -301,6 +265,7 @@
                 if (!_started)
                 {
                     _started = true;
+                    _scripting = false;
                     SwitchToFragment(context as Element);
                     _parsing = KernelAsync(cancelToken);
                 }
@@ -324,6 +289,7 @@
                 if (!_started)
                 {
                     _started = true;
+                    _scripting = false;
                     SwitchToFragment(context as Element);
                     Kernel();
                 }

@@ -91,7 +91,8 @@
             if (events != null)
                 events.Publish(startEvent);
 
-            var result = await parser.ParseAsync(cancelToken).ConfigureAwait(false);
+            var options = new HtmlParserOptions { IsScripting = config.IsScripting() };
+            var result = await parser.ParseAsync(options, cancelToken).ConfigureAwait(false);
             startEvent.SetResult(result);
             return document;
         }
