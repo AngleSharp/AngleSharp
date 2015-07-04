@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Css
 {
+    using AngleSharp.Dom.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the standard CSS3 style formatter.
@@ -18,22 +20,26 @@
 
         #region Methods
 
-        String IStyleFormatter.Sheet(String[] rules)
+        String IStyleFormatter.Sheet(IEnumerable<IStyleFormattable> rules)
         {
-            var sb = Pool.NewStringBuilder();
+            var lines = new List<String>();
 
-            if (rules.Length > 0)
-            {
-                sb.Append(rules[0]);
+            foreach (var rule in rules)
+                lines.Add(rule.ToCss(this));
 
-                for (int i = 1; i < rules.Length; i++)
-                {
-                    sb.AppendLine().Append(rules[i]);
-                }
-            }
-
-            return sb.ToPool();
+            return String.Join(Environment.NewLine, lines);
         }
+
+        String IStyleFormatter.Block(IEnumerable<IStyleFormattable> rules)
+        {
+            var sb = Pool.NewStringBuilder().Append('{');
+
+            foreach (var rule in rules)
+                sb.Append(' ').Append(rule.ToCss(this));
+
+            return sb.Append(' ').Append('}').ToPool();
+        }
+
         String IStyleFormatter.Declaration(String name, String value, Boolean important)
         {
             var rest = String.Concat(value, important ? " !important" : String.Empty);
@@ -61,6 +67,22 @@
         {
             var ending = value != null ? ": " + value : String.Empty;
             return String.Concat("(", name, ending, ")");
+        }
+
+        String IStyleFormatter.Rule(String name, String value)
+        {
+            return String.Concat(name, " ", value, ";");
+        }
+
+        String IStyleFormatter.Rule(String name, String prelude, String rules)
+        {
+            prelude = String.IsNullOrEmpty(prelude) ? String.Empty : prelude + " ";
+            return String.Concat(name, " ", prelude, rules);
+        }
+
+        String IStyleFormatter.Style(String selector, String rules)
+        {
+            return String.Concat(selector, " { ", rules, " }");
         }
 
         #endregion
