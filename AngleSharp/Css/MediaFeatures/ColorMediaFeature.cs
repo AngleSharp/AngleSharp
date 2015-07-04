@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
     using System;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Extensions;
 
     sealed class ColorMediaFeature : MediaFeature
     {

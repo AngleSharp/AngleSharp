@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
     using System;
-    using AngleSharp.Dom.Css;
 
     sealed class DeviceAspectRatioMediaFeature : MediaFeature
     {

@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
-    using System;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
+    using System;
 
     sealed class UpdateFrequencyMediaFeature : MediaFeature
     {

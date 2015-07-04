@@ -1,8 +1,7 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
-    using System;
     using AngleSharp.Css.Values;
-    using AngleSharp.Dom.Css;
+    using System;
 
     sealed class DeviceWidthMediaFeature : MediaFeature
     {
