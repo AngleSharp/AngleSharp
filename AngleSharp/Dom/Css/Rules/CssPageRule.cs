@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the @page rule.
     /// </summary>
-    sealed class CssPageRule : CssGroupingRule, ICssPageRule
+    sealed class CssPageRule : CssRule, ICssPageRule
     {
         #region Fields
 
@@ -33,7 +33,6 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
-            base.ReplaceWith(rule);
             var newRule = (CssPageRule)rule;
             _selector = newRule._selector;
             _style.Clear();
@@ -90,8 +89,8 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            var inner = String.Concat(" { ", _style.CssText, _style.Length > 0 ? " }" : "}");
-            return String.Concat("@page ", _selector.Text, inner);
+            var rules = formatter.Block(_style);
+            return formatter.Rule("@page", _selector.Text, rules);
         }
 
         #endregion

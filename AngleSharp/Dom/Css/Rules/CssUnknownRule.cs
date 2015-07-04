@@ -61,8 +61,8 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            var middle = _prelude.Length > 0 ? String.Concat(" ", _prelude, " ") : " ";
-            return String.Concat("@", _name, middle, Rules.ToCssBlock());
+            var rules = formatter.Block(Rules);
+            return formatter.Rule("@" + _name, _prelude, rules);
         }
 
         #endregion

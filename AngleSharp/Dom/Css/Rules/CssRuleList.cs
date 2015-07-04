@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -47,22 +46,6 @@
         ICssRule ICssRuleList.this[Int32 index]
         {
             get { return index >= 0 && index < _rules.Count ? _rules[index] : null; }
-        }
-
-        /// <summary>
-        /// Gets a CSS code representation of the rulelist.
-        /// </summary>
-        public String CssText
-        {
-            get
-            {
-                var sb = Pool.NewStringBuilder();
-
-                for (int i = 0; i < _rules.Count; i++)
-                    sb.AppendLine(_rules[i].CssText);
-
-                return sb.ToPool();
-            }
         }
 
         #endregion

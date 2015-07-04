@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        String _namespaceURI;
+        String _namespaceUri;
         String _prefix;
 
         #endregion
@@ -35,11 +35,11 @@
         /// </summary>
         public String NamespaceUri
         {
-            get { return _namespaceURI; }
+            get { return _namespaceUri; }
             set 
             {
                 CheckValidity();
-                _namespaceURI = value ?? String.Empty;
+                _namespaceUri = value ?? String.Empty;
             }
         }
 
@@ -65,7 +65,7 @@
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = rule as CssNamespaceRule;
-            _namespaceURI = newRule._namespaceURI;
+            _namespaceUri = newRule._namespaceUri;
             _prefix = newRule._prefix;
         }
 
@@ -94,8 +94,9 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            var prefix = String.IsNullOrEmpty(_prefix) ? String.Empty : _prefix + " ";
-            return String.Concat("@namespace ", prefix, _namespaceURI.CssUrl(), ";");
+            var space = String.IsNullOrEmpty(_prefix) ? String.Empty : " ";
+            var value = String.Concat(_prefix, space, _namespaceUri.CssUrl());
+            return formatter.Rule("@namespace", value);
         }
 
         #endregion

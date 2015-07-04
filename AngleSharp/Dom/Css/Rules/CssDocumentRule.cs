@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
-    using System.Collections.Generic;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Contains the rules specified by a
@@ -91,7 +91,8 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            return String.Concat("@document ", ConditionText, " ", Rules.ToCssBlock());
+            var rules = formatter.Block(Rules);
+            return formatter.Rule("@document", ConditionText, rules);
         }
 
         #endregion

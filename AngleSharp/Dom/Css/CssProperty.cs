@@ -152,7 +152,7 @@
         /// </summary>
         public String CssText
         {
-            get { return Serialize(_name, Value, _important); }
+            get { return ToCss(); }
         }
 
         #endregion
@@ -183,29 +183,12 @@
 
         public String ToCss()
         {
-            return ToCss(null);
+            return ToCss(CssStyleFormatter.Instance);
         }
 
         public String ToCss(IStyleFormatter formatter)
         {
-            return Serialize(Name, Value, IsImportant);
-        }
-
-        #endregion
-
-        #region String representation
-
-        /// <summary>
-        /// Serializes the full CSS declaration.
-        /// </summary>
-        /// <param name="name">The name of the declaration.</param>
-        /// <param name="value">The value of the declaration.</param>
-        /// <param name="important">True if the important flag is set.</param>
-        /// <returns>The string representation of the declaration.</returns>
-        internal static String Serialize(String name, String value, Boolean important)
-        {
-            var rest = String.Concat(value, important ? " !important" : String.Empty);
-            return String.Concat(name, ": ", rest, ";");
+            return formatter.Declaration(Name, Value, IsImportant);
         }
 
         #endregion

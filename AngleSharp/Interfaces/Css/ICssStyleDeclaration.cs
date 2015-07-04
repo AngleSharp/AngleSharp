@@ -9,7 +9,7 @@
     /// this underlying state depends upon the source of the CSSStyleDeclaration instance.
     /// </summary>
     [DomName("CSSStyleDeclaration")]
-    public interface ICssStyleDeclaration : IEnumerable<ICssProperty>
+    public interface ICssStyleDeclaration : IEnumerable<ICssProperty>, IStyleFormattable
     {
         #region API
 

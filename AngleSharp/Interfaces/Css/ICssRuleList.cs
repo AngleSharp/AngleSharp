@@ -23,10 +23,5 @@
         /// </summary>
         [DomName("length")]
         Int32 Length { get; }
-
-        /// <summary>
-        /// Gets the text representation of the rule list.
-        /// </summary>
-        String CssText { get; }
     }
 }

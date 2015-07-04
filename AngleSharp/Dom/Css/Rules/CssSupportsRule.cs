@@ -89,7 +89,8 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            return String.Concat("@supports ", ConditionText, " ", Rules.ToCssBlock());
+            var rules = formatter.Block(Rules);
+            return formatter.Rule("@supports", ConditionText, rules);
         }
 
         #endregion

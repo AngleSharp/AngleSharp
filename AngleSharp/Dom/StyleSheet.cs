@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom
 {
+    using AngleSharp.Css;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
     using AngleSharp.Html;
@@ -110,7 +111,7 @@
 
         public String ToCss()
         {
-            return ToCss(null);
+            return ToCss(CssStyleFormatter.Instance);
         }
 
         public abstract String ToCss(IStyleFormatter formatter);

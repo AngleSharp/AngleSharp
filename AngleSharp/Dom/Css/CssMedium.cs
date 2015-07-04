@@ -10,7 +10,7 @@
     /// Represents a medium rule. More information available at:
     /// http://www.w3.org/TR/css3-mediaqueries/
     /// </summary>
-    sealed class CssMedium : IEnumerable<MediaFeature>
+    sealed class CssMedium : IEnumerable<MediaFeature>, IStyleFormattable
     {
         #region Media Types and Features
 
@@ -82,34 +82,30 @@
                 var constraints = new String[_features.Count];
 
                 for (int i = 0; i < _features.Count; i++)
-                    constraints[i] = _features[i].CssText;
+                    constraints[i] = _features[i].ToCss();
 
                 return String.Join(" and ", constraints);
-            }
-        }
-
-        /// <summary>
-        /// Gets a CSS code representation of the medium.
-        /// </summary>
-        public String CssText
-        {
-            get
-            {
-                var constraints = Constraints;
-                var prefix = IsExclusive ? "only " : (IsInverse ? "not " : String.Empty);
-
-                if (String.IsNullOrEmpty(constraints))
-                    return String.Concat(prefix, Type ?? String.Empty);
-                else if (String.IsNullOrEmpty(Type))
-                    return String.Concat(prefix, constraints);
-
-                return String.Concat(prefix, Type, " and ", constraints);
             }
         }
 
         #endregion
 
         #region Methods
+
+        public String ToCss()
+        {
+            return ToCss(CssStyleFormatter.Instance);
+        }
+
+        public String ToCss(IStyleFormatter formatter)
+        {
+            var constraints = new String[_features.Count];
+
+            for (int i = 0; i < _features.Count; i++)
+                constraints[i] = _features[i].ToCss(formatter);
+
+            return formatter.Medium(IsExclusive, IsInverse, Type, constraints);
+        }
 
         /// <summary>
         /// Validates the given medium against the provided rendering device.

@@ -74,67 +74,7 @@
         /// </summary>
         public String CssText
         {
-            get
-            {
-                var list = new List<String>();
-                var serialized = new List<String>();
-
-                foreach (var declaration in _declarations)
-                {
-                    var property = declaration.Name;
-
-                    if (serialized.Contains(property))
-                        continue;
-
-                    var shorthands = Factory.Properties.GetShorthands(property);
-
-                    if (shorthands.Any())
-                    {
-                        var longhands = _declarations.Where(m => !serialized.Contains(m.Name)).ToList();
-
-                        foreach (var shorthand in shorthands.OrderByDescending(m => Factory.Properties.GetLonghands(m).Count()))
-                        {
-                            var rule = Factory.Properties.CreateShorthand(shorthand);
-                            var properties = Factory.Properties.GetLonghands(shorthand);
-                            var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToArray();
-
-                            if (currentLonghands.Length == 0)
-                                continue;
-
-                            var important = currentLonghands.Count(m => m.IsImportant);
-
-                            if (important > 0 && important != currentLonghands.Length)
-                                continue;
-
-                            //TODO
-                            if (properties.Length != currentLonghands.Length)
-                                continue;
-
-                            var value = rule.Stringify(currentLonghands);
-
-                            if (String.IsNullOrEmpty(value))
-                                continue;
-
-                            value = CssProperty.Serialize(shorthand, value, important != 0);
-                            list.Add(value);
-
-                            foreach (var longhand in currentLonghands)
-                            {
-                                serialized.Add(longhand.Name);
-                                longhands.Remove(longhand);
-                            }
-                        }
-                    }
-
-                    if (serialized.Contains(property))
-                        continue;
-
-                    list.Add(declaration.CssText);
-                    serialized.Add(property);
-                }
-
-                return String.Join(" ", list);
-            }
+            get { return ToCss(); }
             set
             {
                 if (_readOnly)
@@ -2346,11 +2286,73 @@
 
         #region Methods
 
-        /// <summary>
-        /// Removes the given property and returns its value.
-        /// </summary>
-        /// <param name="propertyName">The name of the property to be removed.</param>
-        /// <returns>The value of the deleted property, if any.</returns>
+        public String ToCss()
+        {
+            return ToCss(CssStyleFormatter.Instance);
+        }
+
+        public String ToCss(IStyleFormatter formatter)
+        {
+            var list = new List<String>();
+            var serialized = new List<String>();
+
+            foreach (var declaration in _declarations)
+            {
+                var property = declaration.Name;
+
+                if (serialized.Contains(property))
+                    continue;
+
+                var shorthands = Factory.Properties.GetShorthands(property);
+
+                if (shorthands.Any())
+                {
+                    var longhands = _declarations.Where(m => !serialized.Contains(m.Name)).ToList();
+
+                    foreach (var shorthand in shorthands.OrderByDescending(m => Factory.Properties.GetLonghands(m).Count()))
+                    {
+                        var rule = Factory.Properties.CreateShorthand(shorthand);
+                        var properties = Factory.Properties.GetLonghands(shorthand);
+                        var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToArray();
+
+                        if (currentLonghands.Length == 0)
+                            continue;
+
+                        var important = currentLonghands.Count(m => m.IsImportant);
+
+                        if (important > 0 && important != currentLonghands.Length)
+                            continue;
+
+                        //TODO
+                        if (properties.Length != currentLonghands.Length)
+                            continue;
+
+                        var value = rule.Stringify(currentLonghands);
+
+                        if (String.IsNullOrEmpty(value))
+                            continue;
+
+                        value = CssStyleFormatter.Instance.Declaration(shorthand, value, important != 0);
+                        list.Add(value);
+
+                        foreach (var longhand in currentLonghands)
+                        {
+                            serialized.Add(longhand.Name);
+                            longhands.Remove(longhand);
+                        }
+                    }
+                }
+
+                if (serialized.Contains(property))
+                    continue;
+
+                list.Add(declaration.CssText);
+                serialized.Add(property);
+            }
+
+            return String.Join(" ", list);
+        }
+
         public String RemoveProperty(String propertyName)
         {
             if (_readOnly)
@@ -2374,11 +2376,6 @@
             return value;
         }
 
-        /// <summary>
-        /// Returns the optional priority, "important".
-        /// </summary>
-        /// <param name="propertyName">The name of the property to get the priority of.</param>
-        /// <returns>A priority or the empty string.</returns>
         public String GetPropertyPriority(String propertyName)
         {
             var property = GetProperty(propertyName);
@@ -2401,11 +2398,6 @@
             return String.Empty;
         }
 
-        /// <summary>
-        /// Returns the value of a property.
-        /// </summary>
-        /// <param name="propertyName">The name of the property to get the value of.</param>
-        /// <returns>A value or the empty string if nothing has been set.</returns>
         public String GetPropertyValue(String propertyName)
         {
             if (Factory.Properties.IsShorthand(propertyName))
@@ -2465,12 +2457,6 @@
             }
         }
 
-        /// <summary>
-        /// Sets a property with the given name and value.
-        /// </summary>
-        /// <param name="propertyName">The property's name.</param>
-        /// <param name="propertyValue">The value of the property.</param>
-        /// <param name="priority">The optional priority.</param>
         public void SetProperty(String propertyName, String propertyValue, String priority = null)
         {
             if (_readOnly)
@@ -2506,21 +2492,11 @@
 
         #region Internal Methods
 
-        /// <summary>
-        /// Either gets the available property or creates a new one.
-        /// </summary>
-        /// <param name="propertyName">The name of the property.</param>
-        /// <returns>The existing or created property.</returns>
         internal CssProperty CreateProperty(String propertyName)
         {
             return GetProperty(propertyName) ?? Factory.Properties.Create(propertyName);
         }
 
-        /// <summary>
-        /// Gets the given CSS property.
-        /// </summary>
-        /// <param name="name">The name of the property to get.</param>
-        /// <returns>The property with the specified name or null.</returns>
         internal CssProperty GetProperty(String name)
         {
             foreach (var declaration in _declarations)
@@ -2532,10 +2508,6 @@
             return null;
         }
 
-        /// <summary>
-        /// Sets the given CSS property, if the property is equal or higher.
-        /// </summary>
-        /// <param name="property">The property to set.</param>
         internal void SetProperty(CssProperty property)
         {
             if (property is CssShorthandProperty)
@@ -2544,10 +2516,6 @@
                 SetLonghand(property);
         }
 
-        /// <summary>
-        /// Updates the CSSStyleDeclaration with the given value.
-        /// </summary>
-        /// <param name="value">The new value.</param>
         internal void Update(String value)
         {
             _declarations.Clear();
@@ -2556,27 +2524,16 @@
                 CssParser.AppendDeclarations(this, value);
         }
 
-        /// <summary>
-        /// Sets the the declarations from the other style declaration.
-        /// </summary>
-        /// <param name="style">The style to take the declarations from.</param>
         internal void SetDeclarations(CssStyleDeclaration style)
         {
             ChangeDeclarations(style, m => false, (o, n) => !o.IsImportant || n.IsImportant);
         }
 
-        /// <summary>
-        /// Update the the declarations with the given style declaration.
-        /// </summary>
-        /// <param name="style">The style to take the declarations from.</param>
         internal void UpdateDeclarations(CssStyleDeclaration style)
         {
             ChangeDeclarations(style, m => !m.CanBeInherited, (o, n) => o.IsInherited);
         }
 
-        /// <summary>
-        /// Clears the declarations.
-        /// </summary>
         internal void Clear()
         {
             _declarations.Clear();

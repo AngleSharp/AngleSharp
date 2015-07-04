@@ -44,7 +44,7 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            return String.Concat("@charset ", CharacterSet.CssString(), ";");
+            return formatter.Rule("@charset", CharacterSet.CssString());
         }
 
         #endregion

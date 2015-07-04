@@ -82,7 +82,9 @@
         public override String ToCss(IStyleFormatter formatter)
         {
             var media = _media.MediaText;
-            return String.Concat("@import ", _href.CssUrl(), media.Length > 0 ? " " : String.Empty, media);
+            var space = String.IsNullOrEmpty(media) ? String.Empty : " ";
+            var value = String.Concat(_href.CssUrl(), space, media);
+            return formatter.Rule("@import", value);
         }
 
         #endregion

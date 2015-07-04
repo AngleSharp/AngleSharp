@@ -79,7 +79,8 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            return String.Concat("@media ", _media.MediaText, " ", Rules.ToCssBlock());
+            var rules = formatter.Block(Rules);
+            return formatter.Rule("@media", _media.MediaText, rules);
         }
 
         #endregion

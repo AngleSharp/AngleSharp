@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
+    using System;
 
     /// <summary>
     /// Represents a CSS Stylesheet.
@@ -98,20 +98,7 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            var sb = Pool.NewStringBuilder();
-
-            if (_rules.Length > 0)
-            {
-                sb.Append(_rules[0].CssText);
-
-                for (int i = 1; i < _rules.Length; i++)
-                {
-                    sb.AppendLine();
-                    sb.Append(_rules[i].CssText);
-                }
-            }
-
-            return sb.ToPool();
+            return formatter.Sheet(_rules);
         }
 
         /// <summary>

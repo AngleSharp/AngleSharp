@@ -8,7 +8,7 @@
     /// Represents a feature expression within
     /// a media query.
     /// </summary>
-    public abstract class MediaFeature
+    public abstract class MediaFeature : IStyleFormattable
     {
         #region Fields
 
@@ -76,18 +76,6 @@
             get { return _value != null ? _value.CssText : String.Empty; }
         }
 
-        /// <summary>
-        /// Gets a CSS code representation of the medium.
-        /// </summary>
-        public String CssText
-        {
-            get
-            {
-                var ending = _value != null ? ": " + _value.CssText : String.Empty;
-                return String.Concat("(", _name, ending, ")");
-            }
-        }
-
         #endregion
 
         #region Methods
@@ -118,6 +106,25 @@
         /// <param name="device">The provided rendering device.</param>
         /// <returns>True if the constraints are satisfied, otherwise false.</returns>
         public abstract Boolean Validate(RenderDevice device);
+
+        /// <summary>
+        /// Returns the (complete) CSS style representation of the node.
+        /// </summary>
+        /// <returns>The source code snippet.</returns>
+        public String ToCss()
+        {
+            return ToCss(CssStyleFormatter.Instance);
+        }
+
+        /// <summary>
+        /// Returns the serialization of the node guided by the formatter.
+        /// </summary>
+        /// <param name="formatter">The formatter to use.</param>
+        /// <returns>The source code snippet.</returns>
+        public String ToCss(IStyleFormatter formatter)
+        {
+            return formatter.Constraint(_name, _value != null ? _value.CssText : null);
+        }
 
         #endregion
     }

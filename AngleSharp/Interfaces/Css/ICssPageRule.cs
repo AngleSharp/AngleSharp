@@ -7,7 +7,7 @@
     /// Represents the @page CSS rule.
     /// </summary>
     [DomName("CSSPageRule")]
-    public interface ICssPageRule : ICssGroupingRule
+    public interface ICssPageRule : ICssRule
     {
         /// <summary>
         /// Gets or sets the textual representation of the selector for this rule, e.g. "h1,h2".

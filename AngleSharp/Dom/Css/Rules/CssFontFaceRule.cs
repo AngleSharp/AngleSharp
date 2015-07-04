@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
+    using System;
+    using System.Linq;
 
     /// <summary>
     /// Represents the @font-face rule.
@@ -144,7 +144,8 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            return String.Concat("@font-face ", _declarations.ToCssBlock());
+            var rules = formatter.Block(_declarations.Where(m => m.HasValue));
+            return formatter.Rule("@font-face", null, rules);
         }
 
         #endregion

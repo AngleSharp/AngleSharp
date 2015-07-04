@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
     using System.Linq;
@@ -117,7 +116,8 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            return String.Concat("@keyframes ", _name, " ", _rules.ToCssBlock());
+            var rules = formatter.Block(Rules);
+            return formatter.Rule("@keyframes", _name, rules);
         }
 
         #endregion
