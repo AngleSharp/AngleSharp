@@ -6,8 +6,8 @@
 
     sealed class CssUnknownState : CssParseState
     {
-        public CssUnknownState(CssTokenizer tokenizer)
-            : base(tokenizer)
+        public CssUnknownState(CssTokenizer tokenizer, CssParserOptions options)
+            : base(tokenizer, options)
         {
         }
 

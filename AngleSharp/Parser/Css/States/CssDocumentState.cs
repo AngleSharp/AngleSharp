@@ -6,8 +6,8 @@
 
     sealed class CssDocumentState : CssParseState
     {
-        public CssDocumentState(CssTokenizer tokenizer)
-            : base(tokenizer)
+        public CssDocumentState(CssTokenizer tokenizer, CssParserOptions options)
+            : base(tokenizer, options)
         {
         }
 

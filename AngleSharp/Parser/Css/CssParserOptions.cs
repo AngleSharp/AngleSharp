@@ -33,5 +33,14 @@
             get;
             set;
         }
+
+        /// <summary>
+        /// Gets or sets if invalid constraints should be ignored.
+        /// </summary>
+        public Boolean IsIgnoringInvalidConstraints
+        {
+            get;
+            set;
+        }
     }
 }

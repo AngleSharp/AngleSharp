@@ -6,8 +6,8 @@
 
     sealed class CssKeyframesState : CssParseState
     {
-        public CssKeyframesState(CssTokenizer tokenizer)
-            : base(tokenizer)
+        public CssKeyframesState(CssTokenizer tokenizer, CssParserOptions options)
+            : base(tokenizer, options)
         {
         }
 

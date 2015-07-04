@@ -187,7 +187,7 @@
 
             do
             {
-                var rule = _tokenizer.CreateRule(token);
+                var rule = _tokenizer.CreateRule(token, options);
                 _sheet.AddRule(rule);
                 token = _tokenizer.Get();
             }
@@ -239,7 +239,7 @@
         {
             var tokenizer = CreateTokenizer(keyText, configuration);
             var token = tokenizer.Get();
-            var state = new CssKeyframesState(tokenizer);
+            var state = new CssKeyframesState(tokenizer, default(CssParserOptions));
             var selector = state.CreateKeyframeSelector(ref token);
             return token.Type == CssTokenType.Eof ? selector : null;
         }
@@ -260,7 +260,7 @@
         {
             var tokenizer = CreateTokenizer(valueText, configuration);
             var token = default(CssToken);
-            var state = new CssUnknownState(tokenizer);
+            var state = new CssUnknownState(tokenizer, default(CssParserOptions));
             var value = state.CreateValue(ref token);
             return token.Type == CssTokenType.Eof ? value : null;
         }
@@ -277,7 +277,7 @@
         {
             var tokenizer = CreateTokenizer(ruleText, configuration);
             var token = tokenizer.Get();
-            var rule = tokenizer.CreateRule(token);
+            var rule = tokenizer.CreateRule(token, default(CssParserOptions));
             return tokenizer.Get().Type == CssTokenType.Eof ? rule : null;
         }
 
@@ -309,7 +309,7 @@
         {
             var tokenizer = CreateTokenizer(declarationText, configuration);
             var token = tokenizer.Get();
-            var state = new CssUnknownState(tokenizer);
+            var state = new CssUnknownState(tokenizer, default(CssParserOptions));
             var declaration = state.CreateDeclaration(ref token);
             return token.Type == CssTokenType.Eof ? declaration : null;
         }
@@ -326,7 +326,7 @@
         {
             var tokenizer = CreateTokenizer(mediaText, configuration);
             var token = tokenizer.Get();
-            var state = new CssUnknownState(tokenizer);
+            var state = new CssUnknownState(tokenizer, default(CssParserOptions));
             var list = state.CreateMedia(ref token);
             return token.Type == CssTokenType.Eof ? list : null;
         }
@@ -343,7 +343,7 @@
         {
             var tokenizer = CreateTokenizer(conditionText, configuration);
             var token = tokenizer.Get();
-            var state = new CssSupportsState(tokenizer);
+            var state = new CssSupportsState(tokenizer, default(CssParserOptions));
             var condition = state.CreateCondition(ref token);
             return token.Type == CssTokenType.Eof ? condition : null;
         }
@@ -361,7 +361,7 @@
         {
             var tokenizer = CreateTokenizer(source, configuration);
             var token = tokenizer.Get();
-            var state = new CssDocumentState(tokenizer);
+            var state = new CssDocumentState(tokenizer, default(CssParserOptions));
             var conditions = state.CreateFunctions(ref token);
             return token.Type == CssTokenType.Eof ? conditions : null;
         }
@@ -378,7 +378,7 @@
         {
             var tokenizer = CreateTokenizer(source, configuration);
             var token = tokenizer.Get();
-            var state = new CssUnknownState(tokenizer);
+            var state = new CssUnknownState(tokenizer, default(CssParserOptions));
             var medium = state.CreateMedium(ref token);
             return token.Type == CssTokenType.Eof ? medium : null;
         }
@@ -395,7 +395,7 @@
         {
             var tokenizer = CreateTokenizer(ruleText, configuration);
             var token = tokenizer.Get();
-            var state = new CssKeyframesState(tokenizer);
+            var state = new CssKeyframesState(tokenizer, default(CssParserOptions));
             var rule = state.CreateKeyframeRule(token);
             return tokenizer.Get().Type == CssTokenType.Eof ? rule : null;
         }
@@ -412,7 +412,7 @@
         internal static void AppendDeclarations(CssStyleDeclaration style, String declarations, IConfiguration configuration = null)
         {
             var tokenizer = CreateTokenizer(declarations, configuration);
-            var state = new CssUnknownState(tokenizer);
+            var state = new CssUnknownState(tokenizer, default(CssParserOptions));
             state.FillDeclarations(style);
         }
 

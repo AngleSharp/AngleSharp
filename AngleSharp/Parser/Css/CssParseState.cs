@@ -9,14 +9,16 @@
         #region Fields
 
         protected readonly CssTokenizer _tokenizer;
+        protected readonly CssParserOptions _options;
 
         #endregion
 
         #region ctor
 
-        public CssParseState(CssTokenizer tokenizer)
+        public CssParseState(CssTokenizer tokenizer, CssParserOptions options)
         {
             _tokenizer = tokenizer;
+            _options = options;
         }
 
         #endregion
@@ -175,7 +177,7 @@
 
             while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
             {
-                var rule = _tokenizer.CreateRule(token);
+                var rule = _tokenizer.CreateRule(token, _options);
                 group.AddRule(rule);
                 token = _tokenizer.Get();
             }

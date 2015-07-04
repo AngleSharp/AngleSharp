@@ -4,8 +4,8 @@
 
     sealed class CssMediaState : CssParseState
     {
-        public CssMediaState(CssTokenizer tokenizer)
-            : base(tokenizer)
+        public CssMediaState(CssTokenizer tokenizer, CssParserOptions options)
+            : base(tokenizer, options)
         {
         }
 

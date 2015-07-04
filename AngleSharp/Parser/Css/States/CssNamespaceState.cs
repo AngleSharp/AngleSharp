@@ -4,8 +4,8 @@
 
     sealed class CssNamespaceState : CssParseState
     {
-        public CssNamespaceState(CssTokenizer tokenizer)
-            : base(tokenizer)
+        public CssNamespaceState(CssTokenizer tokenizer, CssParserOptions options)
+            : base(tokenizer, options)
         {
         }
 

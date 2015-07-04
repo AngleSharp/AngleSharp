@@ -4,8 +4,8 @@
 
     sealed class CssStyleState : CssParseState
     {
-        public CssStyleState(CssTokenizer tokenizer)
-            : base(tokenizer)
+        public CssStyleState(CssTokenizer tokenizer, CssParserOptions options)
+            : base(tokenizer, options)
         {
         }
 

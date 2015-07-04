@@ -13,50 +13,45 @@
     [DebuggerStepThrough]
     static class CssAtRule
     {
-        delegate CssParseState Creator(CssTokenizer parser);
+        delegate CssParseState Creator(CssTokenizer parser, CssParserOptions options);
 
         static readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>();
 
         static CssAtRule()
         {
-            creators.Add(RuleNames.Charset, (tokenizer) => new CssCharsetState(tokenizer));
-            creators.Add(RuleNames.Page, (tokenizer) => new CssPageState(tokenizer));
-            creators.Add(RuleNames.Import, (tokenizer) => new CssImportState(tokenizer));
-            creators.Add(RuleNames.FontFace, (tokenizer) => new CssFontFaceState(tokenizer));
-            creators.Add(RuleNames.Media, (tokenizer) => new CssMediaState(tokenizer));
-            creators.Add(RuleNames.Namespace, (tokenizer) => new CssNamespaceState(tokenizer));
-            creators.Add(RuleNames.Supports, (tokenizer) => new CssSupportsState(tokenizer));
-            creators.Add(RuleNames.Keyframes, (tokenizer) => new CssKeyframesState(tokenizer));
-            creators.Add(RuleNames.Document, (tokenizer) => new CssDocumentState(tokenizer));
+            creators.Add(RuleNames.Charset, (tokenizer, options) => new CssCharsetState(tokenizer, options));
+            creators.Add(RuleNames.Page, (tokenizer, options) => new CssPageState(tokenizer, options));
+            creators.Add(RuleNames.Import, (tokenizer, options) => new CssImportState(tokenizer, options));
+            creators.Add(RuleNames.FontFace, (tokenizer, options) => new CssFontFaceState(tokenizer, options));
+            creators.Add(RuleNames.Media, (tokenizer, options) => new CssMediaState(tokenizer, options));
+            creators.Add(RuleNames.Namespace, (tokenizer, options) => new CssNamespaceState(tokenizer, options));
+            creators.Add(RuleNames.Supports, (tokenizer, options) => new CssSupportsState(tokenizer, options));
+            creators.Add(RuleNames.Keyframes, (tokenizer, options) => new CssKeyframesState(tokenizer, options));
+            creators.Add(RuleNames.Document, (tokenizer, options) => new CssDocumentState(tokenizer, options));
         }
 
         /// <summary>
         /// Parses an @-rule with the given name, if there is any.
         /// </summary>
-        /// <param name="tokenizer">The currently active tokenizer.</param>
-        /// <param name="token">The name of the @-rule.</param>
-        /// <returns>
-        /// The created rule or null, if no rule could be created.
-        /// </returns>
-        public static CssRule CreateAtRule(this CssTokenizer tokenizer, CssToken token)
+        public static CssRule CreateAtRule(this CssTokenizer tokenizer, CssToken token, CssParserOptions options)
         {
             Creator creator;
 
             if (creators.TryGetValue(token.Data, out creator))
-                return creator(tokenizer).Create(token);
+                return creator(tokenizer, options).Create(token);
 
-            return new CssUnknownState(tokenizer).Create(token);
+            return new CssUnknownState(tokenizer, options).Create(token);
         }
 
         /// <summary>
         /// Creates a rule with the enumeration of tokens.
         /// </summary>
-        public static CssRule CreateRule(this CssTokenizer tokenizer, CssToken token)
+        public static CssRule CreateRule(this CssTokenizer tokenizer, CssToken token, CssParserOptions options)
         {
             switch (token.Type)
             {
                 case CssTokenType.AtKeyword:
-                    return tokenizer.CreateAtRule(token);
+                    return tokenizer.CreateAtRule(token, options);
 
                 case CssTokenType.CurlyBracketOpen:
                     tokenizer.RaiseErrorOccurred(CssParseError.InvalidBlockStart, token.Position);
@@ -73,7 +68,7 @@
                     return null;
 
                 default:
-                    return new CssStyleState(tokenizer).Create(token);
+                    return new CssStyleState(tokenizer, options).Create(token);
             }
         }
     }

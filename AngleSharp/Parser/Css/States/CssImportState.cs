@@ -5,8 +5,8 @@
 
     sealed class CssImportState : CssParseState
     {
-        public CssImportState(CssTokenizer tokenizer)
-            : base(tokenizer)
+        public CssImportState(CssTokenizer tokenizer, CssParserOptions options)
+            : base(tokenizer, options)
         {
         }
 

@@ -4,8 +4,8 @@
 
     sealed class CssCharsetState : CssParseState
     {
-        public CssCharsetState(CssTokenizer tokenizer)
-            : base(tokenizer)
+        public CssCharsetState(CssTokenizer tokenizer, CssParserOptions options)
+            : base(tokenizer, options)
         {
         }
 

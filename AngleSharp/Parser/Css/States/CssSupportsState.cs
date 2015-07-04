@@ -8,8 +8,8 @@
 
     sealed class CssSupportsState : CssParseState
     {
-        public CssSupportsState(CssTokenizer tokenizer)
-            : base(tokenizer)
+        public CssSupportsState(CssTokenizer tokenizer, CssParserOptions options)
+            : base(tokenizer, options)
         {
         }
 

@@ -4,8 +4,8 @@
 
     sealed class CssFontFaceState : CssParseState
     {
-        public CssFontFaceState(CssTokenizer tokenizer)
-            : base(tokenizer)
+        public CssFontFaceState(CssTokenizer tokenizer, CssParserOptions options)
+            : base(tokenizer, options)
         {
         }
 

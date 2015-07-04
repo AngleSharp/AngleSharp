@@ -4,8 +4,8 @@
 
     sealed class CssPageState : CssParseState
     {
-        public CssPageState(CssTokenizer tokenizer)
-            : base(tokenizer)
+        public CssPageState(CssTokenizer tokenizer, CssParserOptions options)
+            : base(tokenizer, options)
         {
         }
 
