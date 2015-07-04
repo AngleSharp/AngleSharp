@@ -230,6 +230,20 @@ namespace AngleSharp.Core.Tests.Css
         }
 
         [Test]
+        public void CssBackgroundImageUrlAndNoneLegal()
+        {
+            var snippet = "background-image: url(\"img/sprites.svg?v=1bc768be1b3c\"),none";
+            var property = CssParser.ParseDeclaration(snippet);
+            Assert.AreEqual("background-image", property.Name);
+            Assert.IsFalse(property.IsImportant);
+            Assert.IsInstanceOf<CssBackgroundImageProperty>(property);
+            var concrete = (CssBackgroundImageProperty)property;
+            Assert.IsFalse(concrete.IsInherited);
+            Assert.IsTrue(concrete.HasValue);
+            Assert.AreEqual("url(\"img/sprites.svg?v=1bc768be1b3c\"), none", concrete.Value);
+        }
+
+        [Test]
         public void CssBackgroundImageUrlLegal()
         {
             var snippet = "background-image: url(image.png)";
