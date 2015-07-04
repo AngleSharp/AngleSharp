@@ -1,8 +1,9 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using System;
+    using AngleSharp.Css;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
+    using System;
 
     abstract class CssParseState
     {
@@ -48,10 +49,12 @@
         /// </summary>
         public CssProperty CreateDeclaration(ref CssToken token)
         {
+            var property = default(CssProperty);
+
             if (token.Type == CssTokenType.Ident)
             {
-                var property = default(CssProperty);
                 var propertyName = token.Data;
+                var unknown = false;
                 token = _tokenizer.Get();
 
                 if (token.Type != CssTokenType.Colon)
@@ -65,6 +68,7 @@
                     if (property == null)
                     {
                         RaiseErrorOccurred(CssParseError.UnknownDeclarationName, token);
+                        unknown = true;
                         property = new CssUnknownProperty(propertyName);
                     }
 
@@ -75,6 +79,11 @@
                         RaiseErrorOccurred(CssParseError.ValueMissing, token);
                     else if (property.TrySetValue(val))
                         property.IsImportant = important;
+                    else if (_options.IsToleratingInvalidValues)
+                        property.DeclaredValue = Converters.Any.Convert(val);
+
+                    if (unknown && _options.IsIncludingUnknownDeclarations == false)
+                        property = null;
                 }
 
                 _tokenizer.JumpToEndOfDeclaration();
@@ -82,8 +91,6 @@
 
                 if (token.Type == CssTokenType.Semicolon)
                     token = _tokenizer.Get();
-
-                return property;
             }
             else if (token.Type != CssTokenType.Eof)
             {
@@ -91,7 +98,7 @@
                 token = _tokenizer.Get();
             }
 
-            return null;
+            return property;
         }
 
         /// <summary>

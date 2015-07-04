@@ -102,7 +102,7 @@
         /// </returns>
         public Task<ICssStyleSheet> ParseAsync()
         {
-            return ParseAsync(new CssParserOptions());
+            return ParseAsync(default(CssParserOptions));
         }
 
         /// <summary>
@@ -149,7 +149,7 @@
         /// <returns>The new stylesheet.</returns>
         public ICssStyleSheet Parse()
         {
-            return Parse(new CssParserOptions());
+            return Parse(default(CssParserOptions));
         }
 
         /// <summary>
@@ -297,19 +297,21 @@
         }
 
         /// <summary>
-        /// Takes a string and transforms it into a CSS declaration (CSS
-        /// property).
+        /// Takes a string and transforms it into a CSS declaration (property).
         /// </summary>
-        /// <param name="declarationText">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        /// <returns>The CSSProperty object.</returns>
         internal static CssProperty ParseDeclaration(String declarationText, IConfiguration configuration = null)
+        {
+            return ParseDeclaration(declarationText, default(CssParserOptions), configuration);
+        }
+
+        /// <summary>
+        /// Takes a string and transforms it into a CSS declaration (property).
+        /// </summary>
+        internal static CssProperty ParseDeclaration(String declarationText, CssParserOptions options, IConfiguration configuration = null)
         {
             var tokenizer = CreateTokenizer(declarationText, configuration);
             var token = tokenizer.Get();
-            var state = new CssUnknownState(tokenizer, default(CssParserOptions));
+            var state = new CssUnknownState(tokenizer, options);
             var declaration = state.CreateDeclaration(ref token);
             return token.Type == CssTokenType.Eof ? declaration : null;
         }

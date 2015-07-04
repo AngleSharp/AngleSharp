@@ -1,14 +1,10 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using AngleSharp.Css.Values;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Extensions;
     using AngleSharp.Css;
     using AngleSharp.Css.DocumentFunctions;
-    using AngleSharp.Dom.Collections;
+    using AngleSharp.Extensions;
+    using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// Extensions to be used exclusively by the parser or the tokenizer.

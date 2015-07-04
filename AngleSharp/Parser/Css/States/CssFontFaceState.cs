@@ -5,7 +5,7 @@
     sealed class CssFontFaceState : CssParseState
     {
         public CssFontFaceState(CssTokenizer tokenizer, CssParserOptions options)
-            : base(tokenizer, options)
+            : base(tokenizer, new CssParserOptions { IsIncludingUnknownDeclarations = true, IsToleratingInvalidValues = options.IsToleratingInvalidValues })
         {
         }
 

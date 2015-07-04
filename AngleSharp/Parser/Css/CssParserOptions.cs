@@ -10,7 +10,7 @@
         /// <summary>
         /// Gets or sets if unknown (@-) rules are dropped.
         /// </summary>
-        public Boolean IsDroppingUnknownRules
+        public Boolean IsIncludingUnknownRules
         {
             get;
             set;
@@ -19,7 +19,7 @@
         /// <summary>
         /// Gets or sets if unknown declarations are dropped.
         /// </summary>
-        public Boolean IsDroppingUnknownDeclarations
+        public Boolean IsIncludingUnknownDeclarations
         {
             get;
             set;
@@ -28,7 +28,7 @@
         /// <summary>
         /// Gets or sets if invalid values for declarations should be ignored.
         /// </summary>
-        public Boolean IsIgnoringInvalidValues
+        public Boolean IsToleratingInvalidValues
         {
             get;
             set;
@@ -37,7 +37,7 @@
         /// <summary>
         /// Gets or sets if invalid constraints should be ignored.
         /// </summary>
-        public Boolean IsIgnoringInvalidConstraints
+        public Boolean IsToleratingInvalidConstraints
         {
             get;
             set;

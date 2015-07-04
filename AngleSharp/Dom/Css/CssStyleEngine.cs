@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Events;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using AngleSharp.Services.Styling;
+    using System;
 
     /// <summary>
     /// The CSS style engine for creating CSSStyleSheet instances.
@@ -98,12 +98,7 @@
             if (events != null)
                 events.Publish(evt);
 
-            parser.Parse(new CssParserOptions
-            {
-                IsDroppingUnknownDeclarations = true,
-                IsDroppingUnknownRules = true,
-                IsIgnoringInvalidValues = true
-            });
+            parser.Parse();
             evt.SetResult(style);
             return style;
         }

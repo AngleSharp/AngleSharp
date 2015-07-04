@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
     using AngleSharp.Css;
     using AngleSharp.Dom.Css;
     using AngleSharp.Parser.Css.States;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
 
     /// <summary>
     /// Collects all possible @-rules for easy access.

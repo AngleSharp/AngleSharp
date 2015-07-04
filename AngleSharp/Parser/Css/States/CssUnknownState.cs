@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Parser.Css.States
 {
-    using System.Collections.Generic;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
+    using System.Collections.Generic;
 
     sealed class CssUnknownState : CssParseState
     {
@@ -13,9 +13,24 @@
 
         public override CssRule Create(CssToken current)
         {
-            RaiseErrorOccurred(CssParseError.UnknownAtRule, current);
-            _tokenizer.SkipUnknownRule();
-            return null;
+            if (_options.IsIncludingUnknownRules)
+            {
+                var unknown = new CssUnknownRule(current.Data);
+                _tokenizer.State = CssParseMode.Text;
+                unknown.Prelude = _tokenizer.Get().Data;
+                _tokenizer.State = CssParseMode.Data;
+
+                if (_tokenizer.Get().Type == CssTokenType.CurlyBracketOpen)
+                    FillRules(unknown);
+
+                return unknown;
+            }
+            else
+            {
+                RaiseErrorOccurred(CssParseError.UnknownAtRule, current);
+                _tokenizer.SkipUnknownRule();
+                return null;
+            }
         }
 
         public CssValue CreateValue(ref CssToken token)
