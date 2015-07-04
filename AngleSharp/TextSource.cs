@@ -274,8 +274,11 @@
         /// <returns>The awaitable task.</returns>
         public async Task PrefetchAll(CancellationToken cancellationToken)
         {
-            while (!_finished && !cancellationToken.IsCancellationRequested)
-                await ExpandBufferAsync(BufferSize, cancellationToken).ConfigureAwait(false);
+            if (_content.Length == 0)
+                await DetectByteOrderMarkAsync(cancellationToken).ConfigureAwait(false);
+
+            while (!_finished)
+                await ReadIntoBufferAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
