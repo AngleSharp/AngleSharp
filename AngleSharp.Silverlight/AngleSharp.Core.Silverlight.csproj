@@ -1802,9 +1802,6 @@
     <Compile Include="..\AngleSharp\Extensions\RequesterExtensions.cs">
       <Link>Extensions\RequesterExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Extensions\RuleExtensions.cs">
-      <Link>Extensions\RuleExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Extensions\StringExtensions.cs">
       <Link>Extensions\StringExtensions.cs</Link>
     </Compile>
