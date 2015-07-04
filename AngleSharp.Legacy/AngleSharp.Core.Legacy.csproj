@@ -129,6 +129,9 @@
     <Compile Include="..\AngleSharp\Css\Converters.cs">
       <Link>Css\Converters.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\CssStyleFormatter.cs">
+      <Link>Css\CssStyleFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\DocumentFunctions\DomainFunction.cs">
       <Link>Css\DocumentFunctions\DomainFunction.cs</Link>
     </Compile>
