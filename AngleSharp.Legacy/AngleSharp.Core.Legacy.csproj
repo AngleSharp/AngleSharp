@@ -2465,6 +2465,12 @@
     <Compile Include="..\AngleSharp\Interfaces\Xml\IXmlDocument.cs">
       <Link>Interfaces\Xml\IXmlDocument.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\IStyleFormattable.cs">
+      <Link>IStyleFormattable.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\IStyleFormatter.cs">
+      <Link>IStyleFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Linq\ElementExtensions.cs">
       <Link>Linq\ElementExtensions.cs</Link>
     </Compile>
