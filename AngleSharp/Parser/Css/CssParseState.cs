@@ -134,10 +134,13 @@
                 token = _tokenizer.Get();
                 var couldSetConstraint = TrySetConstraint(medium, ref token);
 
-                if (couldSetConstraint == false || token.Type != CssTokenType.RoundBracketClose)
+                if (token.Type != CssTokenType.RoundBracketClose)
                     return null;
 
                 token = _tokenizer.Get();
+
+                if (couldSetConstraint == false)
+                    return null;
 
                 if (token.Type != CssTokenType.Ident || String.Compare(token.Data, Keywords.And, StringComparison.OrdinalIgnoreCase) != 0)
                     break;
@@ -253,10 +256,8 @@
                 {
                     var medium = CreateMedium(ref token);
 
-                    if (medium == null)
-                        break;
-
-                    list.Add(medium);
+                    if (medium != null)
+                        list.Add(medium);
 
                     if (token.Type != CssTokenType.Comma)
                         break;
@@ -336,7 +337,7 @@
                 }
 
                 _tokenizer.State = CssParseMode.Data;
-                medium.AddConstraint(feature, value.ToPool());
+                return medium.AddConstraint(feature, value.ToPool());
             }
 
             return token.Type != CssTokenType.Eof;
