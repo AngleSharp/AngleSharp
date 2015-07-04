@@ -1236,7 +1236,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssUnknownPropertyPreservesCase()
         {
             var snippet = "my-Property: something";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = CssParser.ParseDeclaration(snippet, new CssParserOptions { IsIncludingUnknownDeclarations = true });
             Assert.AreEqual("my-Property", property.Name);
             Assert.IsInstanceOf<CssUnknownProperty>(property);
         }

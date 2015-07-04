@@ -124,7 +124,7 @@ h1 {
             Assert.AreEqual(1, stylesheet.Rules.Length);
             var style = stylesheet.Rules[0] as ICssStyleRule;
             Assert.IsNotNull(style);
-            Assert.AreEqual(15, style.Style.Length);
+            Assert.AreEqual(13, style.Style.Length);
         }
 
         [Test]
@@ -193,7 +193,7 @@ h1 {
             Assert.IsInstanceOf<CssStyleRule>(sheet.Rules[0]);
             var h1 = sheet.Rules[0] as ICssStyleRule;
             Assert.AreEqual("h1", h1.SelectorText);
-            Assert.AreEqual(2, h1.Style.Length);
+            Assert.AreEqual(1, h1.Style.Length);
             Assert.AreEqual("color", h1.Style[0]);
             Assert.AreEqual("rgb(255, 0, 0)", h1.Style.Color);
         }
