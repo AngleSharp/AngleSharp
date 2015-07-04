@@ -76,13 +76,14 @@
 
         String IStyleFormatter.Rule(String name, String prelude, String rules)
         {
-            prelude = String.IsNullOrEmpty(prelude) ? String.Empty : prelude + " ";
-            return String.Concat(name, " ", prelude, rules);
+            var text = String.IsNullOrEmpty(prelude) ? String.Empty : prelude + " ";
+            return String.Concat(name, " ", text, rules);
         }
 
         String IStyleFormatter.Style(String selector, String rules)
         {
-            return String.Concat(selector, " { ", rules, " }");
+            var open = String.IsNullOrEmpty(rules) ? " {" : " { ";
+            return String.Concat(selector, open, rules, " }");
         }
 
         #endregion
