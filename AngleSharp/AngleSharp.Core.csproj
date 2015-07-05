@@ -67,6 +67,7 @@
     <Compile Include="Css\MediaFeatures\UnknownMediaFeature.cs" />
     <Compile Include="Css\MediaFeatures\UpdateFrequencyMediaFeature.cs" />
     <Compile Include="Css\IPropertyValue.cs" />
+    <Compile Include="Css\PrettyStyleFormatter.cs" />
     <Compile Include="Css\PseudoClassNames.cs" />
     <Compile Include="Css\PseudoElementNames.cs" />
     <Compile Include="Css\RenderDevice.cs" />
