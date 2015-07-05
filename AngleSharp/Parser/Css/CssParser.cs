@@ -266,11 +266,6 @@
         /// <summary>
         /// Takes a string and transforms it into CSS declarations.
         /// </summary>
-        /// <param name="declarations">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        /// <returns>The CSSStyleDeclaration object.</returns>
         internal static CssStyleDeclaration ParseDeclarations(String declarations)
         {
             var style = new CssStyleDeclaration();

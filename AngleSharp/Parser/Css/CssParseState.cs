@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Css.MediaFeatures;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
     using System;
@@ -327,7 +328,7 @@
             }
 
             var value = Pool.NewValueBuilder();
-            var feature = token.Data;
+            var featureName = token.Data;
             token = _tokenizer.Get();
 
             if (token.Type == CssTokenType.Colon)
@@ -345,7 +346,21 @@
                 }
 
                 _tokenizer.State = CssParseMode.Data;
-                return medium.AddConstraint(feature, value.ToPool());
+
+                var val = value.ToPool();
+                var feature = Factory.MediaFeatures.Create(featureName);
+
+                if (feature == null || !feature.TrySetValue(val))
+                {
+                    if (_options.IsToleratingInvalidConstraints == false)
+                        return false;
+
+                    feature = new UnknownMediaFeature(featureName);
+                    feature.TrySetValue(val);
+                }
+
+                medium.AddConstraint(feature);
+                return true;
             }
 
             return token.Type != CssTokenType.Eof;

@@ -152,17 +152,10 @@
         /// <summary>
         /// Adds a constraint to the list of constraints.
         /// </summary>
-        /// <param name="name">The name of the feature.</param>
-        /// <param name="value">The value of the feature, if any.</param>
-        internal Boolean AddConstraint(String name, CssValue value = null)
+        /// <param name="feature">The feature to add.</param>
+        internal void AddConstraint(MediaFeature feature)
         {
-            var feature = Factory.MediaFeatures.Create(name);
-
-            if (feature == null || !feature.TrySetValue(value))
-                return false;
-
             _features.Add(feature);
-            return true;
         }
 
         #endregion
