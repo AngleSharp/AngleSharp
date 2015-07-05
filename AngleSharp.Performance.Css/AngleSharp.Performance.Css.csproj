@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Alba.CsCss">
+      <HintPath>..\packages\Alba.CsCss.1.0.1.0\lib\net35\Alba.CsCss.dll</HintPath>
+    </Reference>
     <Reference Include="ExCSS">
       <HintPath>..\packages\ExCSS.2.0.6\lib\net45\ExCSS.dll</HintPath>
     </Reference>
@@ -45,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AngleSharpParser.cs" />
+    <Compile Include="CsCssParser.cs" />
     <Compile Include="ExCssParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

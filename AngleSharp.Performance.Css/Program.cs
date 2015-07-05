@@ -25,7 +25,8 @@
             var parsers = new List<ITestee>
             {
                 new AngleSharpParser(),
-                new ExCssParser()
+                new ExCssParser(),
+                new CsCssParser()
             };
 
             var testsuite = new TestSuite(parsers, stylesheets.Tests, new Output(), new Warmup())
