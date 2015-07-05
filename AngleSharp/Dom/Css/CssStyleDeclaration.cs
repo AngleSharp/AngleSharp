@@ -2323,7 +2323,6 @@
                         if (important > 0 && important != currentLonghands.Length)
                             continue;
 
-                        //TODO
                         if (properties.Length != currentLonghands.Length)
                             continue;
 
