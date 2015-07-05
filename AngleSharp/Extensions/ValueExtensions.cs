@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.Css.Values;
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using AngleSharp.Css.Values;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Parser.Css;
 
     /// <summary>
     /// A bunch of useful extension methods.
@@ -484,16 +484,6 @@
             return value == 100 || value == 200 || value == 300 || value == 400 ||
                    value == 500 || value == 600 || value == 700 || value == 800 ||
                    value == 900;
-        }
-
-        #endregion
-
-        #region Value Calculation
-
-        public static Length Add(this Length a, Length b)
-        {
-            //TODO return new Compute(a, b, '+');
-            return Length.Zero;
         }
 
         #endregion

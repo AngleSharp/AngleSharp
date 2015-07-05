@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Css
 {
-    using System;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// Represents a feature expression within

@@ -1,13 +1,13 @@
 ﻿namespace AngleSharp.Extensions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
     using AngleSharp.Css;
     using AngleSharp.Css.ValueConverters;
     using AngleSharp.Css.Values;
     using AngleSharp.Parser.Css;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
 
     /// <summary>
     /// Essential extensions for using the value converters.
@@ -17,24 +17,24 @@
     {
         #region Methods
 
-        public static IPropertyValue VaryStart(this IValueConverter converter, List<CssToken> list)
+        public static IPropertyValue ConvertDefault(this IValueConverter converter)
         {
-            return converter.VaryStart(list, (c, v) => c.Convert(v));
+            return converter.Convert(Enumerable.Empty<CssToken>());
         }
 
         public static Boolean HasDefault(this IValueConverter converter)
         {
-            return true;
+            return converter.ConvertDefault() != null;
         }
 
-        static IPropertyValue VaryStart(this IValueConverter converter, List<CssToken> list, Func<IValueConverter, IEnumerable<CssToken>, IPropertyValue> validate)
+        public static IPropertyValue VaryStart(this IValueConverter converter, List<CssToken> list)
         {
             for (int count = list.Count; count > 0; count--)
             {
                 if (list[count - 1].Type == CssTokenType.Whitespace)
                     continue;
 
-                var value = validate(converter, list.Take(count));
+                var value = converter.Convert(list.Take(count));
 
                 if (value != null)
                 {
@@ -44,15 +44,10 @@
                 }
             }
 
-            return validate(converter, Enumerable.Empty<CssToken>());
+            return converter.ConvertDefault();
         }
 
         public static IPropertyValue VaryAll(this IValueConverter converter, List<CssToken> list)
-        {
-            return converter.VaryAll(list, (c, v) => c.Convert(v));
-        }
-
-        static IPropertyValue VaryAll(this IValueConverter converter, List<CssToken> list, Func<IValueConverter, IEnumerable<CssToken>, IPropertyValue> validate)
         {
             for (int i = 0; i < list.Count; i++)
             {
@@ -66,7 +61,7 @@
                     if (list[j - 1].Type == CssTokenType.Whitespace)
                         continue;
 
-                    var value = validate(converter, list.Skip(i).Take(count));
+                    var value = converter.Convert(list.Skip(i).Take(count));
 
                     if (value != null)
                     {
@@ -77,7 +72,7 @@
                 }
             }
 
-            return validate(converter, Enumerable.Empty<CssToken>());
+            return converter.ConvertDefault();
         }
 
         public static IValueConverter Many(this IValueConverter converter, Int32 min = 1, Int32 max = UInt16.MaxValue)
@@ -153,17 +148,12 @@
 
         public static IValueConverter OrDefault<T>(this IValueConverter primary, T value)
         {
-            return primary.OrInherit().OrInitial(value);
+            return primary.OrInherit().Or(Keywords.Initial, value);
         }
 
         public static IValueConverter OrInherit(this IValueConverter primary)
         {
             return primary.Or(Keywords.Inherit);
-        }
-
-        public static IValueConverter OrInitial<T>(this IValueConverter primary, T value)
-        {
-            return primary.Or(Keywords.Initial, value);
         }
 
         public static IValueConverter OrAuto(this IValueConverter primary)
