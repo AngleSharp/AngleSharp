@@ -216,6 +216,9 @@
     <Compile Include="..\AngleSharp\Css\MediaFeatures\ScriptingMediaFeature.cs">
       <Link>Css\MediaFeatures\ScriptingMediaFeature.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\MediaFeatures\UnknownMediaFeature.cs">
+      <Link>Css\MediaFeatures\UnknownMediaFeature.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\MediaFeatures\UpdateFrequencyMediaFeature.cs">
       <Link>Css\MediaFeatures\UpdateFrequencyMediaFeature.cs</Link>
     </Compile>
