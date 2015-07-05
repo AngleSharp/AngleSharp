@@ -208,12 +208,9 @@
         /// <summary>
         /// Takes a string and transforms it into a selector object.
         /// </summary>
-        /// <param name="selectorText">The string to parse.</param>
-        /// <returns>The Selector object.</returns>
         public static ISelector ParseSelector(String selectorText)
         {
-            var source = new TextSource(selectorText);
-            var tokenizer = new CssTokenizer(source, null);
+            var tokenizer = CreateTokenizer(selectorText, default(IConfiguration));
             tokenizer.State = CssParseMode.Selector;
             var creator = Pool.NewSelectorConstructor();
             var token = tokenizer.Get();
@@ -228,16 +225,11 @@
         }
 
         /// <summary>
-        /// Takes a string and transforms it into a selector object.
+        /// Takes a string and transforms it into a keyframe selector object.
         /// </summary>
-        /// <param name="keyText">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        /// <returns>The Selector object.</returns>
-        public static IKeyframeSelector ParseKeyframeSelector(String keyText, IConfiguration configuration = null)
+        public static IKeyframeSelector ParseKeyframeSelector(String keyText)
         {
-            var tokenizer = CreateTokenizer(keyText, configuration);
+            var tokenizer = CreateTokenizer(keyText, default(IConfiguration));
             var token = tokenizer.Get();
             var state = new CssKeyframesState(tokenizer, default(CssParserOptions));
             var selector = state.CreateKeyframeSelector(ref token);
@@ -251,14 +243,9 @@
         /// <summary>
         /// Takes a string and transforms it into a CSS value.
         /// </summary>
-        /// <param name="valueText">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        /// <returns>The CSSValue object.</returns>
-        internal static CssValue ParseValue(String valueText, IConfiguration configuration = null)
+        internal static CssValue ParseValue(String valueText)
         {
-            var tokenizer = CreateTokenizer(valueText, configuration);
+            var tokenizer = CreateTokenizer(valueText, default(IConfiguration));
             var token = default(CssToken);
             var state = new CssUnknownState(tokenizer, default(CssParserOptions));
             var value = state.CreateValue(ref token);
@@ -268,14 +255,9 @@
         /// <summary>
         /// Takes a string and transforms it into a CSS rule.
         /// </summary>
-        /// <param name="ruleText">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        /// <returns>The CSSRule object.</returns>
-        internal static CssRule ParseRule(String ruleText, IConfiguration configuration = null)
+        internal static CssRule ParseRule(String ruleText)
         {
-            var tokenizer = CreateTokenizer(ruleText, configuration);
+            var tokenizer = CreateTokenizer(ruleText, default(IConfiguration));
             var token = tokenizer.Get();
             var rule = tokenizer.CreateRule(token, default(CssParserOptions));
             return tokenizer.Get().Type == CssTokenType.Eof ? rule : null;
@@ -289,27 +271,27 @@
         /// Optional: The configuration to use for construction.
         /// </param>
         /// <returns>The CSSStyleDeclaration object.</returns>
-        internal static CssStyleDeclaration ParseDeclarations(String declarations, IConfiguration configuration = null)
+        internal static CssStyleDeclaration ParseDeclarations(String declarations)
         {
             var style = new CssStyleDeclaration();
-            AppendDeclarations(style, declarations, configuration);
+            AppendDeclarations(style, declarations);
             return style;
         }
 
         /// <summary>
         /// Takes a string and transforms it into a CSS declaration (property).
         /// </summary>
-        internal static CssProperty ParseDeclaration(String declarationText, IConfiguration configuration = null)
+        internal static CssProperty ParseDeclaration(String declarationText)
         {
-            return ParseDeclaration(declarationText, default(CssParserOptions), configuration);
+            return ParseDeclaration(declarationText, default(CssParserOptions));
         }
 
         /// <summary>
         /// Takes a string and transforms it into a CSS declaration (property).
         /// </summary>
-        internal static CssProperty ParseDeclaration(String declarationText, CssParserOptions options, IConfiguration configuration = null)
+        internal static CssProperty ParseDeclaration(String declarationText, CssParserOptions options)
         {
-            var tokenizer = CreateTokenizer(declarationText, configuration);
+            var tokenizer = CreateTokenizer(declarationText, default(IConfiguration));
             var token = tokenizer.Get();
             var state = new CssUnknownState(tokenizer, options);
             var declaration = state.CreateDeclaration(ref token);
@@ -319,14 +301,9 @@
         /// <summary>
         /// Takes a string and transforms it into a stream of CSS media.
         /// </summary>
-        /// <param name="mediaText">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        /// <returns>The stream of media.</returns>
-        internal static List<CssMedium> ParseMediaList(String mediaText, IConfiguration configuration = null)
+        internal static List<CssMedium> ParseMediaList(String mediaText)
         {
-            var tokenizer = CreateTokenizer(mediaText, configuration);
+            var tokenizer = CreateTokenizer(mediaText, default(IConfiguration));
             var token = tokenizer.Get();
             var state = new CssUnknownState(tokenizer, default(CssParserOptions));
             var list = state.CreateMedia(ref token);
@@ -336,14 +313,9 @@
         /// <summary>
         /// Takes a string and transforms it into supports condition.
         /// </summary>
-        /// <param name="conditionText">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        /// <returns>The parsed condition.</returns>
-        internal static ICondition ParseCondition(String conditionText, IConfiguration configuration = null)
+        internal static ICondition ParseCondition(String conditionText)
         {
-            var tokenizer = CreateTokenizer(conditionText, configuration);
+            var tokenizer = CreateTokenizer(conditionText, default(IConfiguration));
             var token = tokenizer.Get();
             var state = new CssSupportsState(tokenizer, default(CssParserOptions));
             var condition = state.CreateCondition(ref token);
@@ -354,14 +326,9 @@
         /// Takes a string and transforms it into an enumeration of special
         /// document functions and their arguments.
         /// </summary>
-        /// <param name="source">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        /// <returns>The iterator over the function-argument tuples.</returns>
-        internal static List<IDocumentFunction> ParseDocumentRules(String source, IConfiguration configuration = null)
+        internal static List<IDocumentFunction> ParseDocumentRules(String source)
         {
-            var tokenizer = CreateTokenizer(source, configuration);
+            var tokenizer = CreateTokenizer(source, default(IConfiguration));
             var token = tokenizer.Get();
             var state = new CssDocumentState(tokenizer, default(CssParserOptions));
             var conditions = state.CreateFunctions(ref token);
@@ -371,14 +338,9 @@
         /// <summary>
         /// Takes a valid media string and parses the medium information.
         /// </summary>
-        /// <param name="source">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        /// <returns>The CSS medium.</returns>
-        internal static CssMedium ParseMedium(String source, IConfiguration configuration = null)
+        internal static CssMedium ParseMedium(String source)
         {
-            var tokenizer = CreateTokenizer(source, configuration);
+            var tokenizer = CreateTokenizer(source, default(IConfiguration));
             var token = tokenizer.Get();
             var state = new CssUnknownState(tokenizer, default(CssParserOptions));
             var medium = state.CreateMedium(ref token);
@@ -388,14 +350,9 @@
         /// <summary>
         /// Takes a string and transforms it into a CSS keyframe rule.
         /// </summary>
-        /// <param name="ruleText">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        /// <returns>The CSSKeyframeRule object.</returns>
-        internal static CssKeyframeRule ParseKeyframeRule(String ruleText, IConfiguration configuration = null)
+        internal static CssKeyframeRule ParseKeyframeRule(String ruleText)
         {
-            var tokenizer = CreateTokenizer(ruleText, configuration);
+            var tokenizer = CreateTokenizer(ruleText, default(IConfiguration));
             var token = tokenizer.Get();
             var state = new CssKeyframesState(tokenizer, default(CssParserOptions));
             var rule = state.CreateKeyframeRule(token);
@@ -406,14 +363,9 @@
         /// Takes a string and appends all rules to the given list of
         /// properties.
         /// </summary>
-        /// <param name="style">The style declarations.</param>
-        /// <param name="declarations">The string to parse.</param>
-        /// <param name="configuration">
-        /// Optional: The configuration to use for construction.
-        /// </param>
-        internal static void AppendDeclarations(CssStyleDeclaration style, String declarations, IConfiguration configuration = null)
+        internal static void AppendDeclarations(CssStyleDeclaration style, String declarations)
         {
-            var tokenizer = CreateTokenizer(declarations, configuration);
+            var tokenizer = CreateTokenizer(declarations, default(IConfiguration));
             var state = new CssUnknownState(tokenizer, default(CssParserOptions));
             state.FillDeclarations(style);
         }
