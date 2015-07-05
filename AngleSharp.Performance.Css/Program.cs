@@ -23,7 +23,8 @@
                 "http://fbstatic-a.akamaihd.net/rsrc.php/v2/yX/r/fr81HMP3WaY.css",
                 "https://s.yimg.com/zz/combo?/os/stencil/3.1.0/styles-ltr.css&/os/fp/atomic-css.2c9008c2.css",
                 "http://static.licdn.com/sc/h/59ugqor0mlj9qjt7ohmi1kpko,cy00fqioblh011agl8l3n36sc",
-                "http://style.aliunicorn.com/css/6v/??apollo/core/core-ws-responsive.css,run/wholesale/font-v1.css,run/site/en/common/header/header-v150213.css,run/site/en/common/bottombar/bottom-bar.css?t=145f12b3e_104c763f9a").Wait();
+                "http://style.aliunicorn.com/css/6v/??apollo/core/core-ws-responsive.css,run/wholesale/font-v1.css,run/site/en/common/header/header-v150213.css,run/site/en/common/bottombar/bottom-bar.css?t=145f12b3e_104c763f9a",
+                "http://www.florian-rappl.de/Content/style?v=o2O40dFmfq2JG0tQyfQctozyaA9IcUQxq9b6x16JOKw1").Wait();
 
             var parsers = new List<ITestee>
             {
