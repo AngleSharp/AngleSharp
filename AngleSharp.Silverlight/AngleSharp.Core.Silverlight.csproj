@@ -242,6 +242,9 @@
     <Compile Include="..\AngleSharp\Css\MediaFeatures\WidthMediaFeature.cs">
       <Link>Css\MediaFeatures\WidthMediaFeature.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\PrettyStyleFormatter.cs">
+      <Link>Css\PrettyStyleFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Priority.cs">
       <Link>Css\Priority.cs</Link>
     </Compile>
