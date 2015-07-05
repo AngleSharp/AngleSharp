@@ -34,6 +34,14 @@
         String Declaration(String name, String value, Boolean important);
 
         /// <summary>
+        /// Creates the serialization of the declarations with the provided
+        /// string representations.
+        /// </summary>
+        /// <param name="declarations">The declarations to aggregate.</param>
+        /// <returns>The serialization of the declarations.</returns>
+        String Declarations(IEnumerable<String> declarations);
+
+        /// <summary>
         /// Serializes a CSS medium with the provided properties.
         /// </summary>
         /// <param name="exclusive">Is the medium exclusive (only)?</param>

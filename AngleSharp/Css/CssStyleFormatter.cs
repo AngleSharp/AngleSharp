@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css
 {
-    using AngleSharp.Dom.Css;
     using System;
     using System.Collections.Generic;
 
@@ -84,6 +83,11 @@
         {
             var open = String.IsNullOrEmpty(rules) ? " {" : " { ";
             return String.Concat(selector, open, rules, " }");
+        }
+
+        String IStyleFormatter.Declarations(IEnumerable<String> declarations)
+        {
+            return String.Join(" ", declarations);
         }
 
         #endregion

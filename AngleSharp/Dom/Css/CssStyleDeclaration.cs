@@ -2332,8 +2332,7 @@
                         if (String.IsNullOrEmpty(value))
                             continue;
 
-                        value = CssStyleFormatter.Instance.Declaration(shorthand, value, important != 0);
-                        list.Add(value);
+                        list.Add(CssStyleFormatter.Instance.Declaration(shorthand, value, important != 0));
 
                         foreach (var longhand in currentLonghands)
                         {
@@ -2346,11 +2345,11 @@
                 if (serialized.Contains(property))
                     continue;
 
-                list.Add(declaration.CssText);
+                list.Add(declaration.ToCss(formatter));
                 serialized.Add(property);
             }
 
-            return String.Join(" ", list);
+            return formatter.Declarations(list);
         }
 
         public String RemoveProperty(String propertyName)
