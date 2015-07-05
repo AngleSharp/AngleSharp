@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExCSS">
+      <HintPath>..\packages\ExCSS.2.0.6\lib\net45\ExCSS.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,11 +45,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AngleSharpParser.cs" />
+    <Compile Include="ExCssParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AngleSharp.Performance.Common\AngleSharp.Performance.Common.csproj">
