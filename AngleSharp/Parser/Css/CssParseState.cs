@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
     using System;
@@ -80,7 +79,7 @@
                     else if (property.TrySetValue(val))
                         property.IsImportant = important;
                     else if (_options.IsToleratingInvalidValues)
-                        property.DeclaredValue = Converters.Any.Convert(val);
+                        (property = new CssUnknownProperty(propertyName)).TrySetValue(val);
 
                     if (unknown && _options.IsIncludingUnknownDeclarations == false)
                         property = null;
