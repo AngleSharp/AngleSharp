@@ -399,7 +399,7 @@ h1 { color: blue }");
         public void CssCreateValueListConformal()
         {
             var valueString = "24px 12px 6px";
-            var list = CssParser.ParseValue(valueString) as CssValue;
+            var list = CssParser.ParseValue(valueString);
             Assert.AreEqual(5, list.Count);
             Assert.AreEqual(list[0].ToValue(), "24px");
             Assert.AreEqual(list[1].ToValue(), " ");
@@ -412,7 +412,7 @@ h1 { color: blue }");
         public void CssCreateValueListNonConformal()
         {
             var valueString = "  24px  12px 6px  13px ";
-            var list = CssParser.ParseValue(valueString) as CssValue;
+            var list = CssParser.ParseValue(valueString);
             Assert.AreEqual(7, list.Count);
             Assert.AreEqual(list[0].ToValue(), "24px");
             Assert.AreEqual(list[1].ToValue(), " ");
@@ -443,7 +443,7 @@ h1 { color: blue }");
         public void CssCreateValueListIllegal()
         {
             var valueString = " , ";
-            var list = CssParser.ParseValue(valueString) as CssValue;
+            var list = CssParser.ParseValue(valueString);
             Assert.AreEqual(1, list.Count);
         }
 
@@ -451,7 +451,7 @@ h1 { color: blue }");
         public void CssCreateMultipleValues()
         {
             var valueString = "Arial, Verdana, Helvetica, Sans-Serif";
-            var list = CssParser.ParseValue(valueString) as CssValue;
+            var list = CssParser.ParseValue(valueString);
             Assert.AreEqual(10, list.Count);
             Assert.AreEqual("Arial", list[0].Data);
             Assert.AreEqual("Verdana", list[3].Data);
@@ -463,7 +463,7 @@ h1 { color: blue }");
         public void CssCreateMultipleValueLists()
         {
             var valueString = "Arial 10pt bold, Verdana 12pt italic";
-            var list = CssParser.ParseValue(valueString) as CssValue;
+            var list = CssParser.ParseValue(valueString);
             Assert.AreEqual(12, list.Count);
             Assert.AreEqual("Arial", list[0].ToValue());
             Assert.AreEqual("Verdana", list[7].ToValue());
@@ -477,7 +477,7 @@ h1 { color: blue }");
         public void CssCreateMultipleValuesNonConformal()
         {
             var valueString = "  Arial  ,  Verdana  ,Helvetica,Sans-Serif   ";
-            var list = CssParser.ParseValue(valueString) as CssValue;
+            var list = CssParser.ParseValue(valueString);
             Assert.AreEqual(10, list.Count);
             Assert.AreEqual("Arial", list[0].ToValue());
             Assert.AreEqual("Verdana", list[3].ToValue());

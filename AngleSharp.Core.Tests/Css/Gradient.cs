@@ -14,7 +14,7 @@
         public void InLinearGradient()
         {
             var source = "linear-gradient(135deg, red, blue)";
-            var value = CssParser.ParseValue(source) as CssValue;
+            var value = CssParser.ParseValue(source);
             Assert.AreEqual(1, value.Count);
             Assert.AreEqual("linear-gradient", value[0].Data);
         }
@@ -23,7 +23,7 @@
         public void InRadialGradient()
         {
             var source = "radial-gradient(ellipse farthest-corner at 45px 45px , #00FFFF, rgba(0, 0, 255, 0) 50%, #0000FF 95%)";
-            var value = CssParser.ParseValue(source) as CssValue;
+            var value = CssParser.ParseValue(source);
             Assert.AreEqual("radial-gradient", value[0].Data);
         }
 
