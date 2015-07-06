@@ -1,11 +1,11 @@
-using System;
-using AngleSharp;
-using AngleSharp.Dom;
-using AngleSharp.Dom.Html;
-using NUnit.Framework;
-
 namespace AngleSharp.Core.Tests.Html
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Html;
+    using AngleSharp.Extensions;
+    using NUnit.Framework;
+    using System;
+
     /// <summary>
     /// Tests generated according to the W3C-Test.org page:
     /// http://www.w3c-test.org/html/semantics/forms/constraints/form-validation-validity-valueMissing.html

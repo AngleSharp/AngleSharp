@@ -4,7 +4,7 @@
     using System.Linq;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Linq;
+    using AngleSharp.Extensions;
     using NUnit.Framework;
 
     [TestFixture]

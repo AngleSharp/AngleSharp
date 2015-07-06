@@ -1,16 +1,16 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using AngleSharp.Dom.Html;
-    using NUnit.Framework;
     using AngleSharp.Core.Tests.Mocks;
-    using System.Text;
-    using System.IO;
-    using System.Net.Http;
-    using System.Net;
+    using AngleSharp.Dom.Html;
+    using AngleSharp.Extensions;
+    using NUnit.Framework;
     using System;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class ContextLoadingTests

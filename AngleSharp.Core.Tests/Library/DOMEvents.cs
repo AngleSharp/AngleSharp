@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
+    using AngleSharp.Extensions;
     using NUnit.Framework;
 
     [TestFixture]

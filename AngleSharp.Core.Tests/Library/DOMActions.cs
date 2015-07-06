@@ -5,7 +5,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
-    using AngleSharp.Linq;
+    using AngleSharp.Extensions;
     using NUnit.Framework;
     using AngleSharp.Parser.Html;
 

@@ -1,14 +1,15 @@
 ﻿namespace AngleSharp.Core.Tests
 {
-    using System;
-    using System.Linq;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Html;
     using AngleSharp.Events;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using NUnit.Framework;
+    using System;
+    using System.Linq;
 
     [TestFixture]
     public class DOMTests
