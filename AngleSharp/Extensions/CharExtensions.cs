@@ -272,5 +272,12 @@
                    c.IsInRange(0x90000, 0x9fffd) || c.IsInRange(0xa0000, 0xafffd) || c.IsInRange(0xb0000, 0xbfffd) || c.IsInRange(0xc0000, 0xcfffd) ||
                    c.IsInRange(0xd0000, 0xdfffd) || c.IsInRange(0xe0000, 0xefffd) || c.IsInRange(0xf0000, 0xffffd) || c.IsInRange(0x100000, 0x10fffd);
         }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean IsInvalid(this Int32 utf32)
+        {
+            return utf32 == 0 || utf32 > Symbols.MaximumCodepoint || (utf32 > 0xD800 && utf32 < 0xDFFF);
+        }
     }
 }
