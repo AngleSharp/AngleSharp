@@ -18,7 +18,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-		public void DocumentUrlTest1()
+		public void DocumentUrlWithSpacesAndLineBreak()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -37,7 +37,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest2()
+		public void DocumentUrlWithEverythingSupplied()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -55,7 +55,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest3()
+		public void DocumentUrlWithInvalidSchemeResolvingToFileName()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -73,7 +73,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest4()
+		public void DocumentUrlWithInvalidHostResolvingToFileName()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -92,7 +92,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest5()
+		public void DocumentUrlWithBareHostNameResolvingToFileName()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -110,7 +110,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest6()
+		public void DocumentUrlWithProtocolAndHostName()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -128,7 +128,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest7()
+		public void DocumentUrlWithValidSchemeConvertedWithPercentEncoding()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -146,7 +146,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest8()
+		public void DocumentUrlWithColonButMissingPort()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -164,7 +164,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest9()
+		public void DocumentUrlWithPortZeroAndPath()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -182,7 +182,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest10()
+		public void DocumentUrlWithPortZerosAndPath()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -200,7 +200,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest11()
+		public void DocumentUrlWithStandardPortAndPath()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -218,7 +218,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest14()
+		public void DocumentUrlWithColonButNoPortAndLineBreak()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -237,7 +237,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest16()
+		public void DocumentUrlWithStrangePortAndPath()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -255,7 +255,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest18()
+		public void DocumentUrlWithNoRelativeUrlTakesAbsolutePath()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -273,7 +273,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest19()
+		public void DocumentUrlWithSpacesTakesAbsolutePath()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -291,7 +291,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest20()
+		public void DocumentUrlWithInvalidSchemeTakesFileName()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
