@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Services.Styling;
+    using System;
 
     /// <summary>
     /// Represents the HTML style element.

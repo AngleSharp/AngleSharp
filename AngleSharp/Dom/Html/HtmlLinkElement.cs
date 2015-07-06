@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
-    using System.Threading.Tasks;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Services.Styling;
+    using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML link element.
@@ -19,7 +19,6 @@
         TokenList _relList;
         SettableTokenList _sizes;
         Task<IResponse> _current;
-        Url _cachedUrl;
 
         #endregion
 
@@ -33,8 +32,9 @@
         {
             RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
             RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);
-            RegisterAttributeObserver(AttributeNames.Href, value => TargetChanged());
-            RegisterAttributeObserver(AttributeNames.Type, value => TargetChanged());
+            RegisterAttributeObserver(AttributeNames.Href, value => UpdateSource(value));
+            RegisterAttributeObserver(AttributeNames.Type, value => UpdateType(value));
+            RegisterAttributeObserver(AttributeNames.Rel, value => UpdateType(Type));
         }
 
         #endregion
@@ -214,58 +214,59 @@
 
         #region Helpers
 
-        void TargetChanged()
+        void UpdateType(String value)
         {
-            var owner = Owner;
+            if (_current == null || _current.IsFaulted || _current.IsCompleted == false || _current.Result == null)
+                return;
 
-            if (owner.Options.IsStyling())
+            var type = value ?? MimeTypes.Css;
+            var config = Owner.Options;
+
+            if (config.IsStyling() && RelationList.Contains(Keywords.StyleSheet))
             {
-                var url = Url;
+                var engine = config.GetStyleEngine(type);
 
-                if (url != null && (_current == null || !url.Equals(_cachedUrl)))
+                if (engine != null)
                 {
-                    var config = owner.Options;
-                    var engine = config.GetStyleEngine(Type ?? MimeTypes.Css);
-
-                    owner.Tasks.Cancel(_current);
-
-                    if (engine != null)
+                    var options = new StyleOptions
                     {
-                        var request = this.CreateRequestFor(url);
-                        var options = new StyleOptions
-                        {
-                            Element = this,
-                            Title = Title,
-                            IsDisabled = IsDisabled,
-                            IsAlternate = RelationList.Contains(Keywords.Alternate),
-                            Configuration = config
-                        };
+                        Element = this,
+                        Title = Title,
+                        IsDisabled = IsDisabled,
+                        IsAlternate = RelationList.Contains(Keywords.Alternate),
+                        Configuration = config
+                    };
 
-                        _cachedUrl = url;
-                        _current = owner.Tasks.Add(cancel => Owner.Loader.FetchAsync(request, cancel));
-                        _current.ContinueWith(m =>
-                        {
-                            if (m.IsFaulted == false && m.Exception == null)
-                            {
-                                var response = m.Result;
-
-                                if (response != null)
-                                {
-                                    try
-                                    {
-                                        _sheet = engine.Parse(response, options);
-                                        this.FireSimpleEvent(EventNames.Load);
-                                        return;
-                                    }
-                                    catch { /* Do not care here */ }
-                                    finally { response.Dispose(); }
-                                }
-                            }
-
-                            this.FireSimpleEvent(EventNames.Error);
-                        });
+                    using (var response = _current.Result)
+                    {
+                        try { _sheet = engine.Parse(response, options); }
+                        catch { /* Do not care here */ }
                     }
                 }
+            }
+        }
+
+        void UpdateSource(String value)
+        {
+            Owner.Tasks.Cancel(_current);
+
+            if (!String.IsNullOrEmpty(value))
+            {
+                var request = this.CreateRequestFor(Url);
+                _current = Owner.Tasks.Add(cancel => Owner.Loader.FetchAsync(request, cancel));
+
+                _current.ContinueWith(m =>
+                {
+                    if (m.IsFaulted == false && m.Exception == null)
+                    {
+                        UpdateType(Type);
+                        this.FireSimpleEvent(EventNames.Load);
+                    }
+                    else
+                    {
+                        this.FireSimpleEvent(EventNames.Error);
+                    }
+                });
             }
         }
 

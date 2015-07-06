@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
-    using System.Threading.Tasks;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Services.Media;
+    using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the image element.
@@ -33,6 +33,14 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the url of the link elements address.
+        /// </summary>
+        public Url Url
+        {
+            get { return new Url(Source); }
+        }
 
         /// <summary>
         /// Gets the actual used image source.
@@ -160,8 +168,7 @@
 
             if (!String.IsNullOrEmpty(value))
             {
-                var url = new Url(ActualSource);
-                var request = this.CreateRequestFor(url);
+                var request = this.CreateRequestFor(Url);
                 //TODO Implement with srcset etc. --> see:
                 //http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#update-the-image-data
                 _current = Owner.LoadResource<IImageInfo>(request);
@@ -170,10 +177,11 @@
                     if (m.IsFaulted || m.Exception != null)
                     {
                         this.FireSimpleEvent(EventNames.Error);
-                        return;
                     }
-
-                    this.FireSimpleEvent(EventNames.Load);
+                    else
+                    {
+                        this.FireSimpleEvent(EventNames.Load);
+                    }
                 });
             }
         }
