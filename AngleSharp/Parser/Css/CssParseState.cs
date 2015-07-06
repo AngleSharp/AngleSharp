@@ -54,7 +54,6 @@
             if (token.Type == CssTokenType.Ident)
             {
                 var propertyName = token.Data;
-                var unknown = false;
                 token = _tokenizer.Get();
 
                 if (token.Type != CssTokenType.Colon)
@@ -63,27 +62,19 @@
                 }
                 else
                 {
-                    property = Factory.Properties.Create(propertyName);
+                    property = _options.IsIncludingUnknownDeclarations || _options.IsToleratingInvalidValues ?
+                        new CssUnknownProperty(propertyName) : Factory.Properties.Create(propertyName);
 
                     if (property == null)
-                    {
                         RaiseErrorOccurred(CssParseError.UnknownDeclarationName, token);
-                        unknown = true;
-                        property = new CssUnknownProperty(propertyName);
-                    }
 
                     var important = false;
                     var val = CreateValue(ref token, out important);
 
                     if (val == null)
                         RaiseErrorOccurred(CssParseError.ValueMissing, token);
-                    else if (property.TrySetValue(val))
+                    else if (property != null && property.TrySetValue(val))
                         property.IsImportant = important;
-                    else if (_options.IsToleratingInvalidValues)
-                        (property = new CssUnknownProperty(propertyName)).TrySetValue(val);
-
-                    if (unknown && _options.IsIncludingUnknownDeclarations == false)
-                        property = null;
                 }
 
                 _tokenizer.JumpToEndOfDeclaration();
@@ -349,16 +340,11 @@
                 _tokenizer.State = CssParseMode.Data;
 
                 var val = value.ToPool();
-                var feature = Factory.MediaFeatures.Create(featureName);
+                var feature = _options.IsToleratingInvalidConstraints ? 
+                    new UnknownMediaFeature(featureName) : Factory.MediaFeatures.Create(featureName);
 
                 if (feature == null || !feature.TrySetValue(val))
-                {
-                    if (_options.IsToleratingInvalidConstraints == false)
-                        return false;
-
-                    feature = new UnknownMediaFeature(featureName);
-                    feature.TrySetValue(val);
-                }
+                    return false;
 
                 medium.AddConstraint(feature);
                 return true;
