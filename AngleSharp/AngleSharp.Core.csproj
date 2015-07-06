@@ -191,7 +191,7 @@
     <Compile Include="Interfaces\Html\IHtmlDataElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlDocument.cs" />
     <Compile Include="Interfaces\Svg\ISvgDocument.cs" />
-    <Compile Include="Linq\SelectorExtensions.cs" />
+    <Compile Include="Extensions\SelectorExtensions.cs" />
     <Compile Include="Network\Default\DocumentLoader.cs" />
     <Compile Include="Network\Default\ResourceLoader.cs" />
     <Compile Include="Network\DocumentRequest.cs" />
@@ -237,9 +237,7 @@
     <Compile Include="Html\InputTypes\ButtonInputType.cs" />
     <Compile Include="Interfaces\Css\IKeyframeSelector.cs" />
     <Compile Include="Interfaces\IPseudoElement.cs" />
-    <Compile Include="Linq\ElementExtensions.cs" />
-    <Compile Include="Linq\NodeExtensions.cs" />
-    <Compile Include="Linq\StyleSheetExtensions.cs" />
+    <Compile Include="Extensions\StyleSheetExtensions.cs" />
     <Compile Include="Parser\Css\CssAtRule.cs" />
     <Compile Include="Services\ICommandService.cs" />
     <Compile Include="Services\IContextService.cs" />
@@ -723,7 +721,7 @@
     <Compile Include="Factories\MathElementFactory.cs" />
     <Compile Include="Factories\SvgElementFactory.cs" />
     <Compile Include="Parser\Html\HtmlParserExtensions.cs" />
-    <Compile Include="ApiExtensions.cs" />
+    <Compile Include="Extensions\ApiExtensions.cs" />
     <Compile Include="Html\AttributeNames.cs" />
     <Compile Include="Css\FunctionNames.cs" />
     <Compile Include="Html\EventNames.cs" />

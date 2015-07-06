@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Linq
+﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;

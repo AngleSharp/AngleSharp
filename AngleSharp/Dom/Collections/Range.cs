@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Collections
 {
     using AngleSharp.Extensions;
-    using AngleSharp.Linq;
     using System;
     using System.Collections.Generic;
     using System.Linq;
