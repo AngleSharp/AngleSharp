@@ -1590,11 +1590,12 @@
         {
             if (current.IsHex())
             {
-                var escape = new List<Char>();
+                var escape = new Char[6];
+                var length = 0;
 
-                for (int i = 0; i < 6; i++)
+                while (length < escape.Length)
                 {
-                    escape.Add(current);
+                    escape[length++] = current;
                     current = GetNext();
 
                     if (!current.IsHex())
@@ -1604,8 +1605,12 @@
                 if (current != Symbols.Space)
                     Back();
 
-                var code = Int32.Parse(new String(escape.ToArray()), NumberStyles.HexNumber);
-                return code.ConvertFromUtf32();
+                var code = Int32.Parse(new String(escape, 0, length), NumberStyles.HexNumber);
+
+                if (code.IsInvalid() == false)
+                    return code.ConvertFromUtf32();
+
+                current = Symbols.Replacement;
             }
 
             return current.ToString();

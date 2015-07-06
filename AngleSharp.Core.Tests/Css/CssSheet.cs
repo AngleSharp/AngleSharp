@@ -887,5 +887,23 @@ p.info span::after {
             Assert.AreEqual(1, media.Rules.Length);
             Assert.AreEqual("only screen and (min-device-pixel-ratio: 1.5)", media.ConditionText);
         }
+
+        [Test]
+        public void CssParseStyleWithInvalidSurrogatePair()
+        {
+            var src = @"span.berschrift2Zchn
+{mso-style-name:""\00DCberschrift 2 Zchn"";
+mso-style-priority:9;
+mso-style-link:""\00DCberschrift 2"";
+font-family:""Cambria"",""serif"";
+color:#4F81BD;
+font-weight:bold;}";
+            var sheet = ParseStyleSheet(src);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            var style = sheet.Rules[0] as ICssStyleRule;
+            Assert.IsNotNull(style);
+            Assert.AreEqual("span.berschrift2Zchn", style.SelectorText);
+            Assert.AreEqual(3, style.Style.Length);
+        }
     }
 }
