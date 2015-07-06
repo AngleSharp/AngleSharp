@@ -88,15 +88,16 @@
 
                 _tokenizer.JumpToEndOfDeclaration();
                 token = _tokenizer.Get();
-
-                if (token.Type == CssTokenType.Semicolon)
-                    token = _tokenizer.Get();
             }
             else if (token.Type != CssTokenType.Eof)
             {
                 RaiseErrorOccurred(CssParseError.IdentExpected, token);
+                _tokenizer.JumpToEndOfDeclaration();
                 token = _tokenizer.Get();
             }
+
+            if (token.Type == CssTokenType.Semicolon)
+                token = _tokenizer.Get();
 
             return property;
         }
