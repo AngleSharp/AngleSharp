@@ -63,9 +63,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AngleSharp\ApiExtensions.cs">
-      <Link>ApiExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Attributes\Accessors.cs">
       <Link>Attributes\Accessors.cs</Link>
     </Compile>
@@ -1757,6 +1754,9 @@
     <Compile Include="..\AngleSharp\Events\RequestStartEvent.cs">
       <Link>Events\RequestStartEvent.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Extensions\ApiExtensions.cs">
+      <Link>Extensions\ApiExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Extensions\AttrExtensions.cs">
       <Link>Extensions\AttrExtensions.cs</Link>
     </Compile>
@@ -1796,11 +1796,17 @@
     <Compile Include="..\AngleSharp\Extensions\RequesterExtensions.cs">
       <Link>Extensions\RequesterExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Extensions\SelectorExtensions.cs">
+      <Link>Extensions\SelectorExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Extensions\StringExtensions.cs">
       <Link>Extensions\StringExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\StyleExtensions.cs">
       <Link>Extensions\StyleExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\StyleSheetExtensions.cs">
+      <Link>Extensions\StyleSheetExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\ValueConverterExtensions.cs">
       <Link>Extensions\ValueConverterExtensions.cs</Link>
@@ -2479,18 +2485,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\IStyleFormatter.cs">
       <Link>IStyleFormatter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Linq\ElementExtensions.cs">
-      <Link>Linq\ElementExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Linq\NodeExtensions.cs">
-      <Link>Linq\NodeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Linq\SelectorExtensions.cs">
-      <Link>Linq\SelectorExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Linq\StyleSheetExtensions.cs">
-      <Link>Linq\StyleSheetExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\Default\DocumentLoader.cs">
       <Link>Network\Default\DocumentLoader.cs</Link>
