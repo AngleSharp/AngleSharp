@@ -3734,7 +3734,7 @@
             SetupElement(element, tag, false);
             _openElements.Add(element);
             _tokenizer.IsAcceptingCharacterData = false;
-            _document.ApplyManifest(element);
+            _document.ApplyManifest();
         }
 
         /// <summary>

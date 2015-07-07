@@ -1,16 +1,15 @@
 ﻿namespace AngleSharp.Extensions
 {
-    using System;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Html;
     using AngleSharp.Network;
     using AngleSharp.Services;
     using AngleSharp.Services.Media;
+    using System;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Useful methods for document objects.
@@ -179,27 +178,32 @@
         /// Applies the manifest to the given document.
         /// </summary>
         /// <param name="document">The document to modify.</param>
-        /// <param name="root">The document's element.</param>
-        public static void ApplyManifest(this Document document, HtmlHtmlElement root)
+        public static void ApplyManifest(this Document document)
         {
             if (!document.IsInBrowsingContext)
                 return;
 
-            var manifest = root.Manifest;
-            //TODO
-            //Replace by algorithm to resolve the value of that attribute to an absolute URL,
-            //relative to the newly created element.
-            Predicate<String> CanResolve = str => false;
+            var root = document.DocumentElement as IHtmlHtmlElement;
 
-            if (!String.IsNullOrEmpty(manifest) && CanResolve(manifest))
+            if (root != null)
             {
-                //Run the application cache selection algorithm with the result of applying the URL serializer
-                //algorithm to the resulting parsed URL with the exclude fragment flag set.
-            }
-            else
-            {
-                //Run the application cache selection algorithm with no manifest.
-                //The algorithm must be passed the Document object.
+                var manifest = root.Manifest;
+
+                //TODO
+                //Replace by algorithm to resolve the value of that attribute to an absolute URL,
+                //relative to the newly created element.
+                Predicate<String> CanResolve = str => false;
+
+                if (!String.IsNullOrEmpty(manifest) && CanResolve(manifest))
+                {
+                    //Run the application cache selection algorithm with the result of applying the URL serializer
+                    //algorithm to the resulting parsed URL with the exclude fragment flag set.
+                }
+                else
+                {
+                    //Run the application cache selection algorithm with no manifest.
+                    //The algorithm must be passed the Document object.
+                }
             }
         }
 
