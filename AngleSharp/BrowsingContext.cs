@@ -3,10 +3,12 @@
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
+    using System.Diagnostics;
 
     /// <summary>
     /// A simple and lightweight browsing context.
     /// </summary>
+    [DebuggerStepThrough]
     public sealed class BrowsingContext : IBrowsingContext
     {
         #region Fields

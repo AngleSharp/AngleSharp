@@ -4,11 +4,13 @@
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Text;
 
     /// <summary>
     /// Various HTML encoding helpers.
     /// </summary>
+    [DebuggerStepThrough]
     static class TextEncoding
     {
         #region Fields

@@ -1,10 +1,11 @@
 ﻿namespace AngleSharp
 {
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
     using AngleSharp.Events;
     using AngleSharp.Services;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Linq;
 
     /// <summary>
     /// Represents context configuration for the AngleSharp library. Custom
@@ -13,6 +14,7 @@
     /// class. To change the default configuration one needs to provide a
     /// service that implements IConfiguration in the dependency resolver.
     /// </summary>
+    [DebuggerStepThrough]
     public class Configuration : IConfiguration
     {
         #region Fields

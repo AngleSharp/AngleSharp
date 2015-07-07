@@ -1,15 +1,15 @@
 ﻿namespace AngleSharp
 {
-    using System;
-    using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
+    using System;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// A handy helper to construct various kinds of documents from a given

@@ -1,5 +1,11 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Html;
+    using AngleSharp.Dom.Svg;
+    using AngleSharp.Dom.Xml;
+    using AngleSharp.Extensions;
+    using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -7,12 +13,6 @@
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
-    using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Dom.Svg;
-    using AngleSharp.Dom.Xml;
-    using AngleSharp.Extensions;
-    using AngleSharp.Network;
 
     /// <summary>
     /// A set of extensions for the browsing context.
