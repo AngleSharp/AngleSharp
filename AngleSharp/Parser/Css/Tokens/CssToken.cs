@@ -1,12 +1,10 @@
 ﻿namespace AngleSharp.Parser.Css
 {
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// The base class token for the CSS parser.
     /// </summary>
-    [DebuggerStepThrough]
     class CssToken
     {
         #region Fields

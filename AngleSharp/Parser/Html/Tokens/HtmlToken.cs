@@ -1,14 +1,12 @@
 ﻿namespace AngleSharp.Parser.Html
 {
-    using System;
-    using System.Diagnostics;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// The abstract base class of any HTML token.
     /// </summary>
-    [DebuggerStepThrough]
     class HtmlToken
     {
         #region Fields
