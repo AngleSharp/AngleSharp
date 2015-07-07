@@ -269,20 +269,6 @@
         }
 
         /// <summary>
-        /// Returns a value indicating whether the specified object occurs within this string.
-        /// This method might seem obsolete, but it is quite useful in case of porting
-        /// AngleSharp to a PCL, where String instances to not have a Contains method.
-        /// </summary>
-        /// <param name="str">The string to examine.</param>
-        /// <param name="content">The string to seek.</param>
-        /// <returns>True if the value parameter occurs within this string, or if value is the empty string.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean Contains(this String str, String content)
-        {
-            return str.IndexOf(content) >= 0;
-        }
-
-        /// <summary>
         /// Collapses and strips all spaces in the given string.
         /// </summary>
         /// <param name="str">The string to collapse and strip.</param>
