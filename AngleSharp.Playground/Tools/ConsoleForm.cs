@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Playground.Tools
 {
-    using System;
-    using System.Linq;
-    using AngleSharp;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
+    using AngleSharp.Extensions;
+    using System;
+    using System.Linq;
 
     class ConsoleForm
     {
