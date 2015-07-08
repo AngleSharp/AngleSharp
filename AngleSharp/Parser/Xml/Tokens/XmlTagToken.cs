@@ -11,6 +11,8 @@
         #region Fields
         
         readonly List<KeyValuePair<String, String>> _attributes;
+        String _name;
+        Boolean _selfClosing;
 
         #endregion
 
@@ -22,7 +24,7 @@
         public XmlTagToken(XmlTokenType type, TextPosition position)
             : base(type, position)
         {
-            Name = String.Empty;
+            _name = String.Empty;
             _attributes = new List<KeyValuePair<String, String>>();
         }
 
@@ -35,8 +37,8 @@
         /// </summary>
         public Boolean IsSelfClosing
         {
-            get;
-            set;
+            get { return _selfClosing; }
+            set { _selfClosing = value; }
         }
 
         /// <summary>
@@ -44,8 +46,8 @@
         /// </summary>
         public String Name
         {
-            get;
-            set;
+            get { return _name; }
+            set { _name = value; }
         }
 
         /// <summary>
@@ -67,7 +69,7 @@
         /// <param name="name">The name of the attribute.</param>
         public void AddAttribute(String name)
         {
-            Attributes.Add(new KeyValuePair<String, String>(name, String.Empty));
+            _attributes.Add(new KeyValuePair<String, String>(name, String.Empty));
         }
 
         /// <summary>
@@ -77,7 +79,7 @@
         /// <param name="value">The value of the attribute.</param>
         public void AddAttribute(String name, String value)
         {
-            Attributes.Add(new KeyValuePair<String, String>(name, value));
+            _attributes.Add(new KeyValuePair<String, String>(name, value));
         }
 
         /// <summary>
@@ -86,7 +88,7 @@
         /// <param name="value">The value to set.</param>
         public void SetAttributeValue(String value)
         {
-            Attributes[Attributes.Count - 1] = new KeyValuePair<String, String>(Attributes[Attributes.Count - 1].Key, value);
+            _attributes[_attributes.Count - 1] = new KeyValuePair<String, String>(_attributes[_attributes.Count - 1].Key, value);
         }
 
         /// <summary>
@@ -97,10 +99,10 @@
         /// <returns>The value of the attribute.</returns>
         public String GetAttribute(String name)
         {
-            for (var i = 0; i != Attributes.Count; i++)
+            for (var i = 0; i != _attributes.Count; i++)
             {
-                if (Attributes[i].Key == name)
-                    return Attributes[i].Value;
+                if (_attributes[i].Key == name)
+                    return _attributes[i].Value;
             }
 
             return String.Empty;

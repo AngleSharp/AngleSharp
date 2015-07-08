@@ -1,27 +1,27 @@
 ﻿namespace AngleSharp.Parser.Xml
 {
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// The abstract base class of any XML token.
     /// </summary>
-    [DebuggerStepThrough]
     abstract class XmlToken
     {
         #region Fields
         
         readonly XmlTokenType _type;
         readonly TextPosition _position;
+        readonly Boolean _ignorable;
 
         #endregion
 
         #region ctor
 
-        public XmlToken(XmlTokenType type, TextPosition position)
+        public XmlToken(XmlTokenType type, TextPosition position, Boolean ignorable = false)
         {
             _type = type;
             _position = position;
+            _ignorable = ignorable;
         }
 
         #endregion
@@ -40,9 +40,9 @@
         /// Gets if the token is a character token and contains a
         /// white-space character.
         /// </summary>
-        public virtual Boolean IsIgnorable
+        public Boolean IsIgnorable
         {
-            get { return false; }
+            get { return _ignorable; }
         }
 
         /// <summary>

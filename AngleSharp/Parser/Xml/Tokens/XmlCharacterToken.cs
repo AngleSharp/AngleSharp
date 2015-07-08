@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Parser.Xml
 {
-    using System;
     using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// The character token that contains a single character.
@@ -28,7 +28,7 @@
         /// Creates a new character token with the given character.
         /// </summary>
         public XmlCharacterToken(TextPosition position, Char data)
-            : base(XmlTokenType.Character, position)
+            : base(XmlTokenType.Character, position, data.IsSpaceCharacter())
         {
             _data = data;
         }
@@ -43,15 +43,6 @@
         public Char Data
         {
             get { return _data; }
-        }
-
-        /// <summary>
-        /// Gets if the character data is actually a space character.
-        /// </summary>
-        /// <returns>True if the character data is a space character.</returns>
-        public override Boolean IsIgnorable
-        {
-            get { return _data.IsSpaceCharacter(); }
         }
 
         #endregion

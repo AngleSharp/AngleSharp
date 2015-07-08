@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Parser.Xml
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// The entity token that defines an entity.
@@ -11,7 +11,7 @@
     {
         #region Entities
 
-        static readonly Dictionary<String, String> entities = new Dictionary<String, String>
+        static readonly Dictionary<String, String> DefaultEntities = new Dictionary<String, String>
         {
             { "amp", "&" },
             { "lt", "<" },
@@ -19,6 +19,14 @@
             { "apos", "'" },
             { "quot", "\"" }
         };
+
+        #endregion
+
+        #region Fields
+
+        readonly Boolean _numeric;
+        readonly Boolean _hex;
+        readonly String _value;
 
         #endregion
 
@@ -30,9 +38,9 @@
         public XmlEntityToken(TextPosition position, String value, Boolean numeric = false, Boolean hex = false)
             : base(XmlTokenType.Entity, position)
         {
-            IsNumeric = numeric;
-            IsHex = hex;
-            Value = value;
+            _numeric = numeric;
+            _hex = hex;
+            _value = value;
         }
 
         #endregion
@@ -41,20 +49,17 @@
 
         public Boolean IsNumeric
         {
-            get;
-            private set;
+            get { return _numeric; }
         }
 
         public Boolean IsHex
         {
-            get;
-            private set;
+            get { return _hex; }
         }
 
         public String Value
         {
-            get;
-            private set;
+            get { return _value; }
         }
 
         #endregion
@@ -67,9 +72,9 @@
         /// <returns>The string that is contained in the entity token.</returns>
         public String GetEntity()
         {
-            if (IsNumeric)
+            if (_numeric)
             {
-                var num = IsHex ? Value.FromHex() : Value.FromDec();
+                var num = _numeric ? _value.FromHex() : _value.FromDec();
 
                 if (!num.IsValidAsCharRef())
                     throw XmlParseError.CharacterReferenceInvalidNumber.At(Position);
@@ -80,7 +85,7 @@
             {
                 var entity = default(String);
 
-                if (!String.IsNullOrEmpty(Value) && entities.TryGetValue(Value, out entity))
+                if (!String.IsNullOrEmpty(_value) && DefaultEntities.TryGetValue(_value, out entity))
                     return entity;
 
                 throw XmlParseError.CharacterReferenceInvalidCode.At(Position);
