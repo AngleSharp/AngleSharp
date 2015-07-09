@@ -78,7 +78,7 @@
         /// </summary>
         /// <param name="configuration">The configuration to extend.</param>
         /// <returns>The new instance with the service.</returns>
-        public static IConfiguration WithCss(this IConfiguration configuration)
+        public static IConfiguration WithCss(this IConfiguration configuration, Action<CssStyleEngine> setup = null)
         {
             if (configuration == null)
                 throw new ArgumentNullException("configuration");
@@ -86,7 +86,12 @@
             if (configuration.GetServices<IStylingService>().Any() == false)
             {
                 var service = new StylingService();
-                service.Register(new CssStyleEngine());
+                var engine = new CssStyleEngine();
+
+                if (setup != null)
+                    setup(engine);
+
+                service.Register(engine);
                 return configuration.With(service);
             }
 

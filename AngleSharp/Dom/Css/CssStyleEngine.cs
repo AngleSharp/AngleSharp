@@ -14,6 +14,19 @@
         #region Fields
 
         IStyleSheet _default;
+        CssParserOptions _options;
+
+        #endregion
+
+        #region ctor
+
+        /// <summary>
+        /// Creates a new style engine.
+        /// </summary>
+        public CssStyleEngine()
+        {
+            _options = new CssParserOptions();
+        }
 
         #endregion
 
@@ -33,12 +46,35 @@
         /// </summary>
         public IStyleSheet Default
         {
-            get { return _default ?? (_default = SetupDefault()); }
+            get { return _default ?? SetDefault(DefaultSource); }
+        }
+
+        /// <summary>
+        /// Gets or sets the used parser options.
+        /// </summary>
+        public CssParserOptions Options
+        {
+            get { return _options; }
+            set { _options = value; }
         }
 
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Sets a new default stylesheet defined by the provided string.
+        /// </summary>
+        /// <param name="source">The source for a new base stylesheet.</param>
+        /// <returns>The CSSOM of the parsed source.</returns>
+        public IStyleSheet SetDefault(String source)
+        {
+            _default = Parse(source, new StyleOptions
+            {
+                Configuration = Configuration.Default
+            });
+            return _default;
+        }
 
         /// <summary>
         /// Creates a style sheet for the given source.
@@ -89,7 +125,7 @@
 
         #region Helper
 
-        static IStyleSheet Parse(CssStyleSheet style, StyleOptions options)
+        IStyleSheet Parse(CssStyleSheet style, StyleOptions options)
         {
             var parser = new CssParser(style);
             var evt = new CssParseStartEvent(parser);
@@ -98,7 +134,7 @@
             if (events != null)
                 events.Publish(evt);
 
-            parser.Parse();
+            parser.Parse(_options);
             evt.SetResult(style);
             return style;
         }
@@ -107,9 +143,10 @@
 
         #region Default Stylesheet
 
-        static IStyleSheet SetupDefault()
-        {
-            var parser = new CssParser(@"
+        /// <summary>
+        /// Gets the source code for the by default used base stylesheet.
+        /// </summary>
+        public static readonly String DefaultSource = @"
 html, address,
 blockquote,
 body, dd, div,
@@ -187,9 +224,7 @@ BDO[DIR='rtl']  { direction: rtl; unicode-bidi: bidi-override }
   h1, h2, h3,
   h4, h5, h6    { page-break-after: avoid }
   ul, ol, dl    { page-break-before: avoid }
-}");
-            return parser.Parse();
-        }
+}";
 
         #endregion
     }
