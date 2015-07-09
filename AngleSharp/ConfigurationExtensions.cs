@@ -77,6 +77,7 @@
         /// to retrieve, if no other styling service has been registered yet.
         /// </summary>
         /// <param name="configuration">The configuration to extend.</param>
+        /// <param name="setup">Optional setup for the style engine.</param>
         /// <returns>The new instance with the service.</returns>
         public static IConfiguration WithCss(this IConfiguration configuration, Action<CssStyleEngine> setup = null)
         {
