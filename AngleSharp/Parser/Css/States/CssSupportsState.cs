@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Parser.Css.States
 {
-    using System;
-    using System.Collections.Generic;
     using AngleSharp.Css;
     using AngleSharp.Css.Conditions;
     using AngleSharp.Dom.Css;
+    using System;
+    using System.Collections.Generic;
 
     sealed class CssSupportsState : CssParseState
     {
@@ -16,7 +16,7 @@
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssSupportsRule();
+            var rule = new CssSupportsRule(_options);
             rule.Condition = CreateCondition(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)

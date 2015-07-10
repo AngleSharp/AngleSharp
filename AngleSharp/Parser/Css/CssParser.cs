@@ -308,11 +308,11 @@
         /// <summary>
         /// Takes a string and transforms it into supports condition.
         /// </summary>
-        internal static ICondition ParseCondition(String conditionText)
+        internal static ICondition ParseCondition(String conditionText, CssParserOptions options)
         {
             var tokenizer = CreateTokenizer(conditionText, default(IConfiguration));
             var token = tokenizer.Get();
-            var state = new CssSupportsState(tokenizer, default(CssParserOptions));
+            var state = new CssSupportsState(tokenizer, options);
             var condition = state.CreateCondition(ref token);
             return token.Type == CssTokenType.Eof ? condition : null;
         }

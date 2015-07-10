@@ -1,12 +1,9 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using AngleSharp.Css;
     using AngleSharp.Css.Conditions;
-    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
+    using System;
 
     /// <summary>
     /// Represents an @supports rule.
@@ -15,6 +12,7 @@
     {
         #region Fields
 
+        readonly CssParserOptions _options;
         ICondition _condition;
 
         static readonly ICondition empty = new EmptyCondition();
@@ -23,10 +21,11 @@
 
         #region ctor
 
-        internal CssSupportsRule()
+        internal CssSupportsRule(CssParserOptions options)
             : base(CssRuleType.Supports)
         {
             _condition = empty;
+            _options = options;
         }
 
         #endregion
@@ -41,7 +40,7 @@
             get { return _condition.Text; }
             set
             {
-                var condition = CssParser.ParseCondition(value);
+                var condition = CssParser.ParseCondition(value, _options);
 
                 if (condition == null)
                     throw new DomException(DomError.Syntax);
