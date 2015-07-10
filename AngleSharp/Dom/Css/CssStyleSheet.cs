@@ -94,6 +94,34 @@
 
         #endregion
 
+        #region Internal Properties
+
+        /// <summary>
+        /// Gets a CSSRuleList of the CSS rules in the style sheet.
+        /// </summary>
+        internal CssRuleList Rules
+        {
+            get { return _rules; }
+        }
+
+        /// <summary>
+        /// Gets the text stream source.
+        /// </summary>
+        internal TextSource Source
+        {
+            get { return _source; }
+        }
+
+        /// <summary>
+        /// Gets the configuration to use.
+        /// </summary>
+        internal IConfiguration Options
+        {
+            get { return _config; }
+        }
+
+        #endregion
+
         #region Methods
 
         public override String ToCss(IStyleFormatter formatter)
@@ -132,31 +160,6 @@
         {
             if (rule != null)
                 _rules.Add(rule, this, null);
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets a CSSRuleList of the CSS rules in the style sheet.
-        /// </summary>
-        internal CssRuleList Rules
-        {
-            get { return _rules; }
-        }
-
-        /// <summary>
-        /// Gets the text stream source.
-        /// </summary>
-        internal TextSource Source
-        {
-            get { return _source; }
-        }
-
-        internal IConfiguration Options
-        {
-            get { return _config; }
         }
 
         #endregion
