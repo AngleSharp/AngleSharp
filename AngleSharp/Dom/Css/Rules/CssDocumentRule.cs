@@ -15,15 +15,17 @@
         #region Fields
 
         readonly List<IDocumentFunction> _conditions;
+        readonly CssParserOptions _options;
 
         #endregion
 
         #region ctor
 
-        internal CssDocumentRule()
+        internal CssDocumentRule(CssParserOptions options)
             : base(CssRuleType.Document)
         {
             _conditions = new List<IDocumentFunction>();
+            _options = options;
         }
 
         #endregion
@@ -51,7 +53,7 @@
             }
             set
             {
-                var conditions = CssParser.ParseDocumentRules(value);
+                var conditions = CssParser.ParseDocumentRules(value, _options);
 
                 if (conditions == null)
                     throw new DomException(DomError.Syntax);

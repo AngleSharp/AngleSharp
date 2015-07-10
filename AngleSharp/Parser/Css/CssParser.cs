@@ -321,11 +321,11 @@
         /// Takes a string and transforms it into an enumeration of special
         /// document functions and their arguments.
         /// </summary>
-        internal static List<IDocumentFunction> ParseDocumentRules(String source)
+        internal static List<IDocumentFunction> ParseDocumentRules(String source, CssParserOptions options)
         {
             var tokenizer = CreateTokenizer(source, default(IConfiguration));
             var token = tokenizer.Get();
-            var state = new CssDocumentState(tokenizer, default(CssParserOptions));
+            var state = new CssDocumentState(tokenizer, options);
             var conditions = state.CreateFunctions(ref token);
             return token.Type == CssTokenType.Eof ? conditions : null;
         }

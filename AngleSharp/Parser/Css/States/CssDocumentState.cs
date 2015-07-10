@@ -14,7 +14,7 @@
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssDocumentRule();
+            var rule = new CssDocumentRule(_options);
             var functions = CreateFunctions(ref token);
             rule.Conditions.AddRange(functions);
 
