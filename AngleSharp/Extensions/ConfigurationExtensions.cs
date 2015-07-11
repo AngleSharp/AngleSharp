@@ -216,7 +216,7 @@
 
         public static Boolean IsScripting(this IConfiguration configuration)
         {
-            return configuration.GetService<IScriptingService>() != null;
+            return configuration != null && configuration.GetService<IScriptingService>() != null;
         }
 
         /// <summary>

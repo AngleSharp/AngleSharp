@@ -179,6 +179,7 @@
     <Compile Include="Parser\Css\States\CssSupportsState.cs" />
     <Compile Include="Parser\Css\States\CssUnknownState.cs" />
     <Compile Include="Parser\Css\Tokens\CssFunctionToken.cs" />
+    <Compile Include="Parser\Html\HtmlParser.cs" />
     <Compile Include="Parser\Html\HtmlParserOptions.cs" />
     <Compile Include="Parser\Xml\XmlParseError.cs" />
     <Compile Include="Foundation\Factory.cs" />
@@ -714,7 +715,6 @@
     <Compile Include="Extensions\RequesterExtensions.cs" />
     <Compile Include="Parser\Css\CssTokenizer.cs" />
     <Compile Include="Parser\Css\CssValueBuilder.cs" />
-    <Compile Include="DocumentBuilder.cs" />
     <Compile Include="Dom\Css\Rules\CssDocumentRule.cs" />
     <Compile Include="Dom\Constants\AdjacentPosition.cs" />
     <Compile Include="Factories\HtmlElementFactory.cs" />
@@ -940,7 +940,7 @@
     <Compile Include="Dom\Notation.cs" />
     <Compile Include="Dom\Svg\SvgElement.cs" />
     <Compile Include="Dom\TextNode.cs" />
-    <Compile Include="Parser\Html\HtmlParser.cs" />
+    <Compile Include="Parser\Html\HtmlDomBuilder.cs" />
     <Compile Include="Network\IResponse.cs" />
     <Compile Include="Extensions\PortableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

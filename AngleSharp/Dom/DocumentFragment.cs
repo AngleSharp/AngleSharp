@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Dom.Collections;
+    using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Html;
     using System;
@@ -30,7 +31,9 @@
         internal DocumentFragment(Element context, String html)
             : this(context.Owner)
         {
-            var parser = new HtmlParser(html, Owner.Options);
+            var source = new TextSource(html);
+            var document = new HtmlDocument(Owner.Context, source);
+            var parser = new HtmlDomBuilder(document);
             var root = parser.ParseFragment(context).DocumentElement;
 
             while (root.HasChildNodes)

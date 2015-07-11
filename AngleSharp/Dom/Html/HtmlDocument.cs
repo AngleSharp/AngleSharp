@@ -80,8 +80,8 @@
             var config = context.Configuration;
             var events = config.Events;
             var document = new HtmlDocument(context, source);
-            var parser = new HtmlParser(document);
-            var startEvent = new HtmlParseStartEvent(parser);
+            var parser = new HtmlDomBuilder(document);
+            var startEvent = new HtmlParseStartEvent();
             document.ContentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html);
             document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
             document.DocumentUri = response.Address.Href;

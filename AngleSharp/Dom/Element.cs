@@ -864,6 +864,10 @@
 
         #region Helpers
 
+        /// <summary>
+        /// Creates the style for the inline style declaration.
+        /// </summary>
+        /// <returns>The declaration representing the declarations.</returns>
         protected CssStyleDeclaration CreateStyle()
         {
             var engine = Owner.Options.GetStyleEngine(MimeTypes.Css);
