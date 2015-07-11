@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
@@ -14,8 +15,8 @@
         /// <summary>
         /// Constructs a new CSS condition rule.
         /// </summary>
-        internal CssConditionRule (CssRuleType type)
-            : base(type)
+        internal CssConditionRule (CssRuleType type, CssParserOptions options)
+            : base(type, options)
 	    { 
         }
 

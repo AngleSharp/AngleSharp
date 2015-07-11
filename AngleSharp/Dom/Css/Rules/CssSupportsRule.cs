@@ -22,7 +22,7 @@
         #region ctor
 
         internal CssSupportsRule(CssParserOptions options)
-            : base(CssRuleType.Supports)
+            : base(CssRuleType.Supports, options)
         {
             _condition = empty;
             _options = options;

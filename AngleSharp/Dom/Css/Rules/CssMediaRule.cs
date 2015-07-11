@@ -22,7 +22,7 @@
         /// Creates a new CSS @media rule with a new media list.
         /// </summary>
         internal CssMediaRule(CssParserOptions options)
-            : base(CssRuleType.Media)
+            : base(CssRuleType.Media, options)
         {
             _media = new MediaList(options);
         }

@@ -267,9 +267,17 @@
         /// </summary>
         internal static CssValue ParseValue(String valueText)
         {
+            return ParseValue(valueText, default(CssParserOptions));
+        }
+
+        /// <summary>
+        /// Takes a string and transforms it into a CSS value.
+        /// </summary>
+        internal static CssValue ParseValue(String valueText, CssParserOptions options)
+        {
             var tokenizer = CreateTokenizer(valueText, default(IConfiguration));
             var token = default(CssToken);
-            var state = new CssUnknownState(tokenizer, default(CssParserOptions));
+            var state = new CssUnknownState(tokenizer, options);
             var value = state.CreateValue(ref token);
             return token.Type == CssTokenType.Eof ? value : null;
         }

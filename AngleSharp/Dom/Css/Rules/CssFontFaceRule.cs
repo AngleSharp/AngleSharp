@@ -13,6 +13,7 @@
         #region Fields
 
         readonly CssProperty[] _declarations;
+        readonly CssParserOptions _options;
 
         #endregion
 
@@ -21,9 +22,10 @@
         /// <summary>
         /// Creates a new @font-face rule.
         /// </summary>
-        internal CssFontFaceRule()
+        internal CssFontFaceRule(CssParserOptions options)
             : base(CssRuleType.FontFace)
-        { 
+        {
+            _options = options;
             _declarations = new CssProperty[]
             {
                 new CssFontFamilyProperty(),
@@ -169,7 +171,7 @@
             {
                 if (declaration.Name == propertyName)
                 {
-                    var value = CssParser.ParseValue(valueText);
+                    var value = CssParser.ParseValue(valueText, _options);
                     declaration.TrySetValue(value);
                     break;
                 }

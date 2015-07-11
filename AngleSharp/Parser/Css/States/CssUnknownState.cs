@@ -15,7 +15,7 @@
         {
             if (_options.IsIncludingUnknownRules)
             {
-                var unknown = new CssUnknownRule(current.Data);
+                var unknown = new CssUnknownRule(current.Data, _options);
                 _tokenizer.State = CssParseMode.Text;
                 unknown.Prelude = _tokenizer.Get().Data;
                 _tokenizer.State = CssParseMode.Data;

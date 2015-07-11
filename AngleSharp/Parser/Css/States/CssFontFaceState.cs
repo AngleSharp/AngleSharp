@@ -12,7 +12,7 @@
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssFontFaceRule();
+            var rule = new CssFontFaceRule(_options);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
                 return SkipDeclarations(token);

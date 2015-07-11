@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
@@ -20,8 +20,8 @@
         /// <summary>
         /// Creates a new unknown rule.
         /// </summary>
-        public CssUnknownRule(String name)
-            : base(CssRuleType.Unknown)
+        public CssUnknownRule(String name, CssParserOptions options)
+            : base(CssRuleType.Unknown, options)
         {
             _name = name;
             _prelude = String.Empty;

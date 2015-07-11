@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Parser.Css;
+    using System;
 
     /// <summary>
     /// Represents the CSSGroupingRule interface.
@@ -11,6 +11,7 @@
         #region Fields
 
         readonly CssRuleList _rules;
+        readonly CssParserOptions _options;
 
         #endregion
 
@@ -19,10 +20,11 @@
         /// <summary>
         /// Creates a new CSS grouping rule.
         /// </summary>
-        internal CssGroupingRule(CssRuleType type)
+        internal CssGroupingRule(CssRuleType type, CssParserOptions options)
             : base(type)
         {
             _rules = new CssRuleList();
+            _options = options;
         }
 
         #endregion
@@ -44,19 +46,11 @@
 
         #endregion
 
-        #region Internal Methods
+        #region Internal Properties
 
-        internal void AddRule(CssRule rule)
+        internal CssParserOptions Options 
         {
-            if (rule != null)
-                _rules.Add(rule, Owner, this);
-        }
-
-        protected override void ReplaceWith(ICssRule rule)
-        {
-            var newRule = (CssGroupingRule)rule;
-            _rules.Clear();
-            _rules.Import(newRule._rules, Owner, Parent);
+            get { return _options; }
         }
 
         #endregion
@@ -81,7 +75,7 @@
         /// </returns>
         public Int32 Insert(String rule, Int32 index)
         {
-            var value = CssParser.ParseRule(rule);
+            var value = CssParser.ParseRule(rule, _options);
             _rules.Insert(value, index, Owner, this);
             return index;    
         }
@@ -95,6 +89,23 @@
         public void RemoveAt(Int32 index)
         {
             _rules.RemoveAt(index);
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal void AddRule(CssRule rule)
+        {
+            if (rule != null)
+                _rules.Add(rule, Owner, this);
+        }
+
+        protected override void ReplaceWith(ICssRule rule)
+        {
+            var newRule = (CssGroupingRule)rule;
+            _rules.Clear();
+            _rules.Import(newRule._rules, Owner, Parent);
         }
 
         #endregion
