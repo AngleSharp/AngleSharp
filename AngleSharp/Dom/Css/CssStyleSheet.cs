@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Dom.Collections;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using System;
@@ -25,6 +26,7 @@
         /// <summary>
         /// Creates a new CSS Stylesheet.
         /// </summary>
+        /// <param name="options">The options for the parser.</param>
         /// <param name="config">
         /// The configuration to use for the stylesheet.
         /// </param>
@@ -36,6 +38,7 @@
         /// <summary>
         /// Creates a new CSS Stylesheet.
         /// </summary>
+        /// <param name="options">The options for the parser.</param>
         /// <param name="config">
         /// The configuration to use for the stylesheet.
         /// </param>
@@ -48,16 +51,18 @@
         /// <summary>
         /// Creates a new CSS Stylesheet.
         /// </summary>
+        /// <param name="options">The options for the parser.</param>
         /// <param name="config">
         /// The configuration to use for the stylesheet.
         /// </param>
         /// <param name="source">The underlying source.</param>
         internal CssStyleSheet(CssParserOptions options, IConfiguration config, TextSource source)
-            : base(options)
+            : base(new MediaList(options))
         {
             _source = source;
             _rules = new CssRuleList();
             _config = config ?? Configuration.Default;
+            _options = options;
         }
 
         #endregion
