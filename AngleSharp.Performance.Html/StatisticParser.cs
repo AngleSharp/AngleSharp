@@ -1,14 +1,15 @@
 ﻿namespace AngleSharp.Performance.Html
 {
+    using AngleSharp;
+    using AngleSharp.Parser.Html;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using AngleSharp;
-    using AngleSharp.Parser.Html;
 
     class StatisticParser : ITestee
     {
         static readonly IConfiguration configuration = new Configuration();
+        static readonly HtmlParser parser = new HtmlParser(configuration);
 
         readonly Dictionary<String, Int32> _bins = new Dictionary<String, Int32>();
 
@@ -24,8 +25,7 @@
 
         public void Run(String source)
         {
-            var parser = new HtmlParser(source, configuration);
-            var document = parser.Parse();
+            var document = parser.Parse(source);
 
             foreach (var element in document.All)
             {
