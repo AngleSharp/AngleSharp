@@ -308,5 +308,10 @@
 
             return type.GetElementType();
         }
+
+        public static T Find<T>(this List<T> elements, Func<T, Boolean> search)
+        {
+            return elements.Where(search).FirstOrDefault();
+        }
     }
 }
