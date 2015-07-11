@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents a standard HTML element in the node tree.
@@ -162,14 +162,6 @@
             get { return _dataset ?? (_dataset = new StringMap("data-", this)); }
         }
 
-        /// <summary>
-        /// Gets an object representing the declarations of an element's style attributes.
-        /// </summary>
-        public CssStyleDeclaration Style
-        {
-            get { return _style ?? (_style = CreateStyle()); }
-        }
-
         ICssStyleDeclaration IElementCssInlineStyle.Style
         {
             get { return Style; }
@@ -213,6 +205,19 @@
         {
             get { return GetOwnAttribute(AttributeNames.Translate).ToEnum(SimpleChoice.Yes) == SimpleChoice.Yes; }
             set { SetOwnAttribute(AttributeNames.Translate, value ? Keywords.Yes : Keywords.No); }
+        }
+
+        #endregion
+
+        #region Internal Properties
+
+        /// <summary>
+        /// Gets an object representing the declarations of an element's style
+        /// attributes.
+        /// </summary>
+        internal CssStyleDeclaration Style
+        {
+            get { return _style ?? (_style = CreateStyle()); }
         }
 
         #endregion
@@ -262,7 +267,7 @@
 
         #endregion
 
-        #region Internal methods
+        #region Internal Methods
 
         /// <summary>
         /// Gets the assigned form if any (use only on selected elements).
@@ -294,22 +299,14 @@
             return parent as IHtmlFormElement;
         }
 
+        #endregion
+
+        #region Helpers
+
         String GetDefaultLanguage()
         {
             var parent = ParentElement as IHtmlElement;
             return parent != null ? parent.Language : Owner.Options.GetLanguage();
-        }
-
-        CssStyleDeclaration CreateStyle()
-        {
-            if (Owner.Options.IsStyling())
-            {
-                var style = new CssStyleDeclaration(GetOwnAttribute(AttributeNames.Style));
-                style.Changed += (s, ev) => UpdateAttribute(AttributeNames.Style, _style.CssText);
-                return style;
-            }
-
-            return null;
         }
 
         void UpdateStyle(String value)
@@ -320,10 +317,6 @@
             if (_style != null)
                 _style.Update(value);
         }
-
-        #endregion
-
-        #region Helpers
 
         protected Boolean IsClickedCancelled()
         {

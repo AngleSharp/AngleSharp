@@ -1,14 +1,16 @@
 ﻿namespace AngleSharp.Dom
 {
+    using AngleSharp.Dom.Collections;
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Dom.Events;
+    using AngleSharp.Extensions;
+    using AngleSharp.Html;
+    using AngleSharp.Network;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using AngleSharp.Dom.Collections;
-    using AngleSharp.Dom.Events;
-    using AngleSharp.Extensions;
-    using AngleSharp.Html;
-    using AngleSharp.Parser.Css;
 
     /// <summary>
     /// Represents an element node.
@@ -861,6 +863,21 @@
         #endregion
 
         #region Helpers
+
+        protected CssStyleDeclaration CreateStyle()
+        {
+            var engine = Owner.Options.GetStyleEngine(MimeTypes.Css);
+
+            if (engine != null)
+            {
+                var source = GetOwnAttribute(AttributeNames.Style);
+                var style = new CssStyleDeclaration(default(CssParserOptions), source);
+                style.Changed += (s, ev) => UpdateAttribute(AttributeNames.Style, style.CssText);
+                return style;
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Updates an attribute's value without notifying the observers.

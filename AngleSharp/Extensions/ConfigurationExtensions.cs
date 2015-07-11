@@ -1,14 +1,14 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Services;
+    using AngleSharp.Services.Scripting;
+    using AngleSharp.Services.Styling;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
     using System.Text;
-    using AngleSharp.Dom;
-    using AngleSharp.Services;
-    using AngleSharp.Services.Scripting;
-    using AngleSharp.Services.Styling;
 
     /// <summary>
     /// Represents a helper to construct objects with externally defined
@@ -191,11 +191,6 @@
         #endregion
 
         #region Parsing Styles
-
-        public static Boolean IsStyling(this IConfiguration configuration)
-        {
-            return configuration.GetService<IStylingService>() != null;
-        }
 
         /// <summary>
         /// Tries to resolve a style engine for the given type name.

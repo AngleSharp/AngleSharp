@@ -386,10 +386,10 @@
         /// Takes a string and appends all rules to the given list of
         /// properties.
         /// </summary>
-        internal static void AppendDeclarations(CssStyleDeclaration style, String declarations)
+        internal static void AppendDeclarations(CssStyleDeclaration style, String declarations, CssParserOptions options)
         {
             var tokenizer = CreateTokenizer(declarations, default(IConfiguration));
-            var state = new CssUnknownState(tokenizer, default(CssParserOptions));
+            var state = new CssUnknownState(tokenizer, options);
             state.FillDeclarations(style);
         }
 

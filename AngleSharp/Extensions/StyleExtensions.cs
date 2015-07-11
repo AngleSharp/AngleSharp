@@ -4,6 +4,7 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Html;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -25,7 +26,7 @@
         /// <returns>The style declaration containing all the declarations.</returns>
         public static CssStyleDeclaration ComputeDeclarations(this StyleCollection rules, IElement element, String pseudoSelector = null)
         {
-            var style = new CssStyleDeclaration();
+            var style = new CssStyleDeclaration(default(CssParserOptions), readOnly: true);
             var pseudoElement = PseudoElement.Create(element, pseudoSelector);
 
             if (pseudoElement != null)
@@ -45,7 +46,7 @@
                 style.UpdateDeclarations(decls);
             }
 
-            return new CssStyleDeclaration(style.Declarations);
+            return style;
         }
 
         /// <summary>

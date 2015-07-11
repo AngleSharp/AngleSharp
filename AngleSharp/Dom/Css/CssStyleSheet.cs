@@ -69,6 +69,9 @@
 
         #region Properties
 
+        /// <summary>
+        /// Gets the mime-type of the stylesheet, which is CSS.
+        /// </summary>
         public override String Type
         {
             get { return MimeTypes.Css; }
@@ -83,7 +86,8 @@
         }
 
         /// <summary>
-        /// Gets the @import rule if the stylesheet was importated otherwise it returns null.
+        /// Gets the @import rule if the stylesheet was importated otherwise
+        /// it returns null.
         /// </summary>
         public ICssRule OwnerRule
         {
@@ -139,7 +143,9 @@
         /// <summary>
         /// Removes a style rule from the current style sheet object.
         /// </summary>
-        /// <param name="index">The index representing the position to be removed.</param>
+        /// <param name="index">
+        /// The index representing the position to be removed.
+        /// </param>
         /// <returns>The current stylesheet.</returns>
         public void RemoveAt(Int32 index)
         {
@@ -149,8 +155,13 @@
         /// <summary>
         /// Inserts a new style rule into the current style sheet.
         /// </summary>
-        /// <param name="rule">A string containing the rule to be inserted (selector and declaration).</param>
-        /// <param name="index">The index representing the position to be inserted.</param>
+        /// <param name="rule">
+        /// A string containing the rule to be inserted (selector and 
+        /// declaration).
+        /// </param>
+        /// <param name="index">
+        /// The index representing the position to be inserted.
+        /// </param>
         /// <returns>The current stylesheet.</returns>
         public Int32 Insert(String rule, Int32 index)
         {

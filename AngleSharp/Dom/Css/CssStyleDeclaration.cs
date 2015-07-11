@@ -17,6 +17,7 @@
         readonly List<CssProperty> _declarations;
         readonly Boolean _readOnly;
         readonly CssRule _parent;
+        readonly CssParserOptions _options;
 
         #endregion
 
@@ -28,19 +29,22 @@
 
         #region ctor
 
-        CssStyleDeclaration(Boolean readOnly, CssRule parent)
+        CssStyleDeclaration(Boolean readOnly, CssRule parent, CssParserOptions options)
         {
             _readOnly = readOnly;
             _parent = parent;
+            _options = options;
             _declarations = new List<CssProperty>();
         }
 
         /// <summary>
         /// Creates a new CSS style declaration with no parent.
         /// </summary>
+        /// <param name="options">The options for the parser.</param>
         /// <param name="source">The source to start with.</param>
-        internal CssStyleDeclaration(String source = null)
-            : this(false, null)
+        /// <param name="readOnly">Seal it for modifications.</param>
+        internal CssStyleDeclaration(CssParserOptions options, String source = null, Boolean readOnly = false)
+            : this(readOnly, null, options)
         {
             Update(source);
         }
@@ -50,19 +54,8 @@
         /// </summary>
         /// <param name="parent">The parent of the style declaration.</param>
         internal CssStyleDeclaration(CssRule parent)
-            : this(false, parent)
+            : this(false, parent, parent.Options)
         {
-        }
-
-        /// <summary>
-        /// Creates a new read-only CSS style declaration.
-        /// </summary>
-        /// <param name="properties">The properties to show.</param>
-        internal CssStyleDeclaration(IEnumerable<CssProperty> properties)
-            : this(true, null)
-        {
-            foreach (var property in properties)
-                _declarations.Add(property);
         }
 
         #endregion
@@ -86,7 +79,8 @@
         }
 
         /// <summary>
-        /// Gets if the style declaration is read-only and must not be modified.
+        /// Gets if the style declaration is read-only and must not be 
+        /// modified.
         /// </summary>
         public Boolean IsReadOnly
         {
@@ -113,7 +107,9 @@
         /// Gets the name of the property at the given index.
         /// </summary>
         /// <param name="index">The index of the property to get.</param>
-        /// <returns>The name of the property at the given index or null.</returns>
+        /// <returns>
+        /// The name of the property at the given index or null.
+        /// </returns>
         public String this[Int32 index]
         {
             get
@@ -145,9 +141,9 @@
         #region CSS Properties
 
         /// <summary>
-        /// Gets or sets how a flex item's lines align within the flex container when there
-        /// is extra space along the axis that is perpendicular to the axis defined by the
-        /// flex-direction property.
+        /// Gets or sets how a flex item's lines align within the flex
+        /// container when there is extra space along the axis that is
+        /// perpendicular to the axis defined by the flex-direction property.
         /// </summary>
         String ICssStyleDeclaration.AlignContent
         {
@@ -157,7 +153,8 @@
 
         /// <summary>
         /// Gets or sets the alignment value (perpendicular to the layout axis
-        /// defined by the flex-direction property) of flex items of the flex container.
+        /// defined by the flex-direction property) of flex items of the flex
+        /// container.
         /// </summary>
         String ICssStyleDeclaration.AlignItems
         {
@@ -166,9 +163,9 @@
         }
 
         /// <summary>
-        /// Gets or sets the alignment value (perpendicular to the layout
-        /// axis defined by the flex-direction property) of flex items of
-        /// the flex container.
+        /// Gets or sets the alignment value (perpendicular to the layout axis
+        /// defined by the flex-direction property) of flex items of the flex
+        /// container.
         /// </summary>
         String ICssStyleDeclaration.AlignSelf
         {
@@ -177,8 +174,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a string that indicates whether the object represents a
-        /// keyboard shortcut.
+        /// Gets or sets a string that indicates whether the object represents
+        /// a keyboard shortcut.
         /// </summary>
         String ICssStyleDeclaration.Accelerator
         {
@@ -187,8 +184,8 @@
         }
 
         /// <summary>
-        /// Gets or sets which baseline of this element is to be aligned
-        /// with the corresponding baseline of the parent.
+        /// Gets or sets which baseline of this element is to be aligned with
+        /// the corresponding baseline of the parent.
         /// </summary>
         String ICssStyleDeclaration.AlignmentBaseline
         {
@@ -198,9 +195,9 @@
 
         /// <summary>
         /// Gets or sets one or more shorthand values that define all animation
-        /// properties (except animation-play-state) for a set of corresponding object
-        /// properties identified in the CSS @keyframes at-rule specified by the
-        /// animations-name property.
+        /// properties (except animation-play-state) for a set of corresponding
+        /// object properties identified in the CSS @keyframes at-rule
+        /// specified by the animations-name property.
         /// </summary>
         String ICssStyleDeclaration.Animation
         {
@@ -209,11 +206,10 @@
         }
 
         /// <summary>
-        /// Gets or sets the offset within an animation cycle
-        /// (the amount of time from the start of a cycle) before
-        /// the animation is displayed for a set of corresponding
-        /// object properties identified in the CSS @keyframes at-rule
-        /// specified by the animation-name property.
+        /// Gets or sets the offset within an animation cycle (the amount of
+        /// time from the start of a cycle) before the animation is displayed
+        /// for a set of corresponding object properties identified in the CSS
+        /// @keyframes at-rule specified by the animation-name property.
         /// </summary>
         String ICssStyleDeclaration.AnimationDelay
         {
@@ -231,7 +227,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the length of time to complete one cycle of the animation.
+        /// Gets or sets the length of time to complete one cycle of the
+        /// animation.
         /// </summary>
         String ICssStyleDeclaration.AnimationDuration
         {
@@ -240,7 +237,8 @@
         }
 
         /// <summary>
-        /// Gets or sets whether the effects of an animation are visible before or after it plays.
+        /// Gets or sets whether the effects of an animation are visible before
+        /// or after it plays.
         /// </summary>
         String ICssStyleDeclaration.AnimationFillMode
         {
@@ -258,8 +256,8 @@
         }
 
         /// <summary>
-        /// Gets or sets one or more animation names. An animation name
-        /// selects a CSS @keyframes at-rule.
+        /// Gets or sets one or more animation names. An animation name selects
+        /// a CSS @keyframes at-rule.
         /// </summary>
         String ICssStyleDeclaration.AnimationName
         {
@@ -289,8 +287,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies whether the back face
-        /// (reverse side) of an object is visible.
+        /// Gets or sets a value that specifies whether the back face (reverse
+        /// side) of an object is visible.
         /// </summary>
         String ICssStyleDeclaration.BackfaceVisibility
         {
@@ -308,8 +306,8 @@
         }
 
         /// <summary>
-        /// Gets or sets how the background image (or images) is attached
-        /// to the object within the document.
+        /// Gets or sets how the background image (or images) is attached to
+        /// the object within the document.
         /// </summary>
         String ICssStyleDeclaration.BackgroundAttachment
         {
@@ -346,7 +344,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the positioning area of an element or multiple elements.
+        /// Gets or sets the positioning area of an element or multiple
+        /// elements.
         /// </summary>
         String ICssStyleDeclaration.BackgroundOrigin
         {
@@ -382,7 +381,8 @@
         }
 
         /// <summary>
-        /// Gets or sets whether and how the background image (or images) is tiled.
+        /// Gets or sets whether and how the background image (or images) is
+        /// tiled.
         /// </summary>
         String ICssStyleDeclaration.BackgroundRepeat
         {
@@ -411,7 +411,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the location of the Dynamic HTML (DHTML) behaviorDHTML Behaviors.
+        /// Gets or sets the location of the Dynamic HTML (DHTML) behavior 
+        /// DHTML Behaviors.
         /// </summary>
         String ICssStyleDeclaration.Behavior
         {
@@ -438,7 +439,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the foreground color of the bottom border of an object.
+        /// Gets or sets the foreground color of the bottom border of an
+        /// object.
         /// </summary>
         String ICssStyleDeclaration.BorderBottomColor
         {
@@ -447,8 +449,9 @@
         }
 
         /// <summary>
-        /// Gets or sets the radii of the quarter ellipse that defines
-        /// the shape of the lower-left corner for the outer border edge of the current box.
+        /// Gets or sets the radii of the quarter ellipse that defines the
+        /// shape of the lower-left corner for the outer border edge of the
+        /// current box.
         /// </summary>
         String ICssStyleDeclaration.BorderBottomLeftRadius
         {
@@ -457,9 +460,9 @@
         }
 
         /// <summary>
-        /// Gets or sets one or two values that define the radii of the
-        /// quarter ellipse that defines the shape of the lower-right corner
-        /// for the outer border edge of the current box.
+        /// Gets or sets one or two values that define the radii of the quarter
+        /// ellipse that defines the shape of the lower-right corner for the
+        /// outer border edge of the current box.
         /// </summary>
         String ICssStyleDeclaration.BorderBottomRightRadius
         {
@@ -486,8 +489,8 @@
         }
 
         /// <summary>
-        /// Gets or sets whether the row and cell borders of a table are joined in a
-        /// single border or detached as in standard HTML.
+        /// Gets or sets whether the row and cell borders of a table are joined
+        /// in a single border or detached as in standard HTML.
         /// </summary>
         String ICssStyleDeclaration.BorderCollapse
         {
@@ -514,7 +517,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the amount by which the border image area extends beyond the border box.
+        /// Gets or sets the amount by which the border image area extends
+        /// beyond the border box.
         /// </summary>
         String ICssStyleDeclaration.BorderImageOutset
         {
@@ -532,8 +536,9 @@
         }
 
         /// <summary>
-        /// Gets or sets four inward offsets, this property slices the specified
-        /// border image into a three by three grid: four corners, four edges, and a central region.
+        /// Gets or sets four inward offsets, this property slices the
+        /// specified border image into a three by three grid: four corners,
+        /// four edges, and a central region.
         /// </summary>
         String ICssStyleDeclaration.BorderImageSlice
         {
@@ -596,8 +601,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the radii of a quarter ellipse that defines the shape of
-        /// the corners for the outer border edge of the current box.
+        /// Gets or sets the radii of a quarter ellipse that defines the shape
+        /// of the corners for the outer border edge of the current box.
         /// </summary>
         String ICssStyleDeclaration.BorderRadius
         {
@@ -642,7 +647,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the distance between the borders of adjoining cells in a table.
+        /// Gets or sets the distance between the borders of adjoining cells in
+        /// a table.
         /// </summary>
         String ICssStyleDeclaration.BorderSpacing
         {
@@ -651,7 +657,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the style of the left, right, top, and bottom borders of the object.
+        /// Gets or sets the style of the left, right, top, and bottom borders
+        /// of the object.
         /// </summary>
         String ICssStyleDeclaration.BorderStyle
         {
@@ -678,8 +685,9 @@
         }
 
         /// <summary>
-        /// Gets or sets  one or two values that define the radii of the quarter ellipse
-        /// that defines the shape of the upper-left corner for the outer border edge of the current box.
+        /// Gets or sets  one or two values that define the radii of the
+        /// quarter ellipse that defines the shape of the upper-left corner for
+        /// the outer border edge of the current box.
         /// </summary>
         String ICssStyleDeclaration.BorderTopLeftRadius
         {
@@ -688,9 +696,9 @@
         }
 
         /// <summary>
-        /// Gets or sets one or two values that define the radii of the
-        /// quarter ellipse that defines the shape of the upper-right
-        /// corner for the outer border edge of the current box.
+        /// Gets or sets one or two values that define the radii of the quarter
+        /// ellipse that defines the shape of the upper-right corner for the
+        /// outer border edge of the current box.
         /// </summary>
         String ICssStyleDeclaration.BorderTopRightRadius
         {
@@ -717,7 +725,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the thicknesses of the left, right, top, and bottom borders of an object.
+        /// Gets or sets the thicknesses of the left, right, top, and bottom
+        /// borders of an object.
         /// </summary>
         String ICssStyleDeclaration.BorderWidth
         {
@@ -745,8 +754,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the column-break behavior that follows a content
-        /// block in a multi-column element.
+        /// Gets or sets the column-break behavior that follows a content block
+        /// in a multi-column element.
         /// </summary>
         String ICssStyleDeclaration.BreakAfter
         {
@@ -784,8 +793,9 @@
         }
 
         /// <summary>
-        /// Gets or sets whether the object allows floating objects on its left side,
-        /// right side, or both, so that the next text displays past the floating objects.
+        /// Gets or sets whether the object allows floating objects on its left
+        /// side, right side, or both, so that the next text displays past the
+        /// floating objects.
         /// </summary>
         String ICssStyleDeclaration.Clear
         {
@@ -877,7 +887,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the optimal number of columns in a multi-column element.
+        /// Gets or sets the optimal number of columns in a multi-column
+        /// element.
         /// </summary>
         String ICssStyleDeclaration.ColumnCount
         {
@@ -896,7 +907,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the width of the gap between columns in a multi-column element.
+        /// Gets or sets the width of the gap between columns in a multi-column
+        /// element.
         /// </summary>
         String ICssStyleDeclaration.ColumnGap
         {
@@ -905,8 +917,9 @@
         }
 
         /// <summary>
-        /// Gets or sets a shorthand value  that specifies values for the columnRuleWidth, 
-        /// columnRuleStyle, and the columnRuleColor of a multi-column element.
+        /// Gets or sets a shorthand value  that specifies values for the
+        /// columnRuleWidth, columnRuleStyle, and the columnRuleColor of a
+        /// multi-column element.
         /// </summary>
         String ICssStyleDeclaration.ColumnRule
         {
@@ -915,7 +928,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the color for all column rules in a multi-column element.
+        /// Gets or sets the color for all column rules in a multi-column
+        /// element.
         /// </summary>
         String ICssStyleDeclaration.ColumnRuleColor
         {
@@ -924,7 +938,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the style for all column rules in a multi-column element.
+        /// Gets or sets the style for all column rules in a multi-column
+        /// element.
         /// </summary>
         String ICssStyleDeclaration.ColumnRuleStyle
         {
@@ -933,7 +948,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the width of all column rules in a multi-column element.
+        /// Gets or sets the width of all column rules in a multi-column
+        /// element.
         /// </summary>
         String ICssStyleDeclaration.ColumnRuleWidth
         {
@@ -942,8 +958,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a shorthand value that specifies values for the column-width
-        /// and the column-count of a multi-column element.
+        /// Gets or sets a shorthand value that specifies values for the
+        /// column-width and the column-count of a multi-column element.
         /// </summary>
         String ICssStyleDeclaration.Columns
         {
@@ -962,7 +978,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the optimal width of the columns in a multi-column element.
+        /// Gets or sets the optimal width of the columns in a multi-column
+        /// element.
         /// </summary>
         String ICssStyleDeclaration.ColumnWidth
         {
@@ -971,7 +988,8 @@
         }
 
         /// <summary>
-        /// Gets or sets generated content to insert before or after an element.
+        /// Gets or sets generated content to insert before or after an
+        /// element.
         /// </summary>
         String ICssStyleDeclaration.Content
         {
@@ -998,8 +1016,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies whether a box should float
-        /// to the left, right, or not at all.
+        /// Gets or sets a value that specifies whether a box should float to
+        /// the left, right, or not at all.
         /// </summary>
         String ICssStyleDeclaration.Float
         {
@@ -1027,7 +1045,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates whether and how the object is rendered.
+        /// Gets or sets a value that indicates whether and how the object is
+        /// rendered.
         /// </summary>
         String ICssStyleDeclaration.Display
         {
@@ -1036,7 +1055,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that determines or redetermines a scaled-baseline table.
+        /// Gets or sets a value that determines or redetermines a
+        /// scaled-baseline table.
         /// </summary>
         String ICssStyleDeclaration.DominantBaseline
         {
@@ -1054,7 +1074,8 @@
         }
 
         /// <summary>
-        /// Allocate a shared background image all graphic elements within a container.
+        /// Allocate a shared background image all graphic elements within a
+        /// container.
         /// </summary>
         String ICssStyleDeclaration.EnableBackground
         {
@@ -1073,8 +1094,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies the opacity of the painting operation that
-        /// is used to paint the interior of the current object.
+        /// Gets or sets a value that specifies the opacity of the painting
+        /// operation that is used to paint the interior of the current object.
         /// </summary>
         String ICssStyleDeclaration.FillOpacity
         {
@@ -1083,8 +1104,9 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates the algorithm that is to be used to determine
-        /// what parts of the canvas are included inside the shape.
+        /// Gets or sets a value that indicates the algorithm that is to be
+        /// used to determine what parts of the canvas are included inside the
+        /// shape.
         /// </summary>
         String ICssStyleDeclaration.FillRule
         {
@@ -1103,8 +1125,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the parameter values of a flexible length, the positive and
-        /// negative flexibility, and the preferred size.
+        /// Gets or sets the parameter values of a flexible length, the
+        /// positive and negative flexibility, and the preferred size.
         /// </summary>
         String ICssStyleDeclaration.Flex
         {
@@ -1122,8 +1144,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the direction of the main axis which specifies how
-        /// the flex items are displayed in the flex container.
+        /// Gets or sets the direction of the main axis which specifies how the
+        /// flex items are displayed in the flex container.
         /// </summary>
         String ICssStyleDeclaration.FlexDirection
         {
@@ -1132,8 +1154,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the shorthand property to set both the flex-direction and flex-wrap
-        /// properties of a flex container.
+        /// Gets or sets the shorthand property to set both the flex-direction
+        /// and flex-wrap properties of a flex container.
         /// </summary>
         String ICssStyleDeclaration.FlexFlow
         {
@@ -1160,9 +1182,9 @@
         }
 
         /// <summary>
-        /// Gets or sets whether flex items wrap and the direction they
-        /// wrap onto multiple lines or columns based on the spac
-        /// available in the flex container. 
+        /// Gets or sets whether flex items wrap and the direction they wrap
+        /// onto multiple lines or columns based on the space available in the
+        /// flex container. 
         /// </summary>
         String ICssStyleDeclaration.FlexWrap
         {
@@ -1172,8 +1194,8 @@
 
         /// <summary>
         /// Gets or sets a combination of separate font properties of the
-        /// object. Alternatively, sets or retrieves one or more of
-        /// six user-preference fonts.
+        /// object. Alternatively, sets or retrieves one or more of six
+        /// user-preference fonts.
         /// </summary>
         String ICssStyleDeclaration.Font
         {
@@ -1201,7 +1223,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates the font size used for text in the object.
+        /// Gets or sets a value that indicates the font size used for text in
+        /// the object.
         /// </summary>
         String ICssStyleDeclaration.FontSize
         {
@@ -1210,9 +1233,9 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies an aspect value for an element that
-        /// will effectively preserve the x-height of the first choice font, whether
-        /// it is substituted or not.
+        /// Gets or sets a value that specifies an aspect value for an element
+        /// that will effectively preserve the x-height of the first choice
+        /// font, whether it is substituted or not.
         /// </summary>
         String ICssStyleDeclaration.FontSizeAdjust
         {
@@ -1221,8 +1244,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates a normal, condensed,
-        /// or expanded face of a font family.
+        /// Gets or sets a value that indicates a normal, condensed, or
+        /// expanded face of a font family.
         /// </summary>
         String ICssStyleDeclaration.FontStretch
         {
@@ -1231,7 +1254,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the font style of the object as italic, normal, or oblique.
+        /// Gets or sets the font style of the object as italic, normal, or
+        /// oblique.
         /// </summary>
         String ICssStyleDeclaration.FontStyle
         {
@@ -1240,7 +1264,8 @@
         }
 
         /// <summary>
-        /// Gets or sets whether the text of the object is in small capital letters.
+        /// Gets or sets whether the text of the object is in small capital
+        /// letters.
         /// </summary>
         String ICssStyleDeclaration.FontVariant
         {
@@ -1258,8 +1283,9 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that alters the orientation of a sequence of characters
-        /// relative to an inline-progression-direction of horizontal.
+        /// Gets or sets a value that alters the orientation of a sequence of
+        /// characters relative to an inline-progression-direction of
+        /// horizontal.
         /// </summary>
         String ICssStyleDeclaration.GlyphOrientationHorizontal
         {
@@ -1269,7 +1295,8 @@
 
         /// <summary>
         /// Gets or sets a value that alters the orientation of a sequence
-        /// of characters relative to an inline-progression-direction of vertical.
+        /// of characters relative to an inline-progression-direction of
+        /// vertical.
         /// </summary>
         String ICssStyleDeclaration.GlyphOrientationVertical
         {
@@ -1296,8 +1323,9 @@
         }
 
         /// <summary>
-        /// Gets or sets a how flex items are aligned along the main axis of the flex
-        /// container after any flexible lengths and auto margins are resolved.
+        /// Gets or sets a how flex items are aligned along the main axis of
+        /// the flex container after any flexible lengths and auto margins are
+        /// resolved.
         /// </summary>
         String ICssStyleDeclaration.JustifyContent
         {
@@ -1306,8 +1334,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the composite document grid properties
-        /// that specify the layout of text characters.
+        /// Gets or sets the composite document grid properties that specify
+        /// the layout of text characters.
         /// </summary>
         String ICssStyleDeclaration.LayoutGrid
         {
@@ -1326,8 +1354,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the gridline value used for rendering the
-        /// text content of an element.
+        /// Gets or sets the gridline value used for rendering the text content
+        /// of an element.
         /// </summary>
         String ICssStyleDeclaration.LayoutGridLine
         {
@@ -1345,8 +1373,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the type of grid used for rendering
-        /// the text content of an element.
+        /// Gets or sets the type of grid used for rendering the text content
+        /// of an element.
         /// </summary>
         String ICssStyleDeclaration.LayoutGridType
         {
@@ -1365,7 +1393,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the amount of additional space between letters in the object.
+        /// Gets or sets the amount of additional space between letters in the
+        /// object.
         /// </summary>
         String ICssStyleDeclaration.LetterSpacing
         {
@@ -1383,7 +1412,8 @@
         }
 
         /// <summary>
-        /// Gets or sets up to three separate list-style properties of the object.
+        /// Gets or sets up to three separate list-style properties of the
+        /// object.
         /// </summary>
         String ICssStyleDeclaration.ListStyle
         {
@@ -1392,8 +1422,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates which image to use as
-        /// a list-item marker for the object.
+        /// Gets or sets a value that indicates which image to use as a
+        /// list-item marker for the object.
         /// </summary>
         String ICssStyleDeclaration.ListStyleImage
         {
@@ -1402,8 +1432,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a variable that indicates how the list-item marker
-        /// is drawn relative to the content of the object.
+        /// Gets or sets a variable that indicates how the list-item marker is
+        /// drawn relative to the content of the object.
         /// </summary>
         String ICssStyleDeclaration.ListStylePosition
         {
@@ -1412,7 +1442,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the predefined type of the line-item marker for the object.
+        /// Gets or sets the predefined type of the line-item marker for the
+        /// object.
         /// </summary>
         String ICssStyleDeclaration.ListStyleType
         {
@@ -1421,7 +1452,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the width of the top, right, bottom, and left margins of the object.
+        /// Gets or sets the width of the top, right, bottom, and left margins
+        /// of the object.
         /// </summary>
         String ICssStyleDeclaration.Margin
         {
@@ -1476,9 +1508,9 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that defines the arrowhead or polymarker
-        /// that is drawn at the final vertex of a given path element or
-        /// basic shape.
+        /// Gets or sets a value that defines the arrowhead or polymarker that
+        /// is drawn at the final vertex of a given path element or basic
+        /// shape.
         /// </summary>
         String ICssStyleDeclaration.MarkerEnd
         {
@@ -1498,9 +1530,9 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that defines the arrowhead or polymarker
-        /// that is drawn at the first vertex of a given path element or
-        /// basic shape.
+        /// Gets or sets a value that defines the arrowhead or polymarker that
+        /// is drawn at the first vertex of a given path element or basic
+        /// shape.
         /// </summary>
         String ICssStyleDeclaration.MarkerStart
         {
@@ -1554,7 +1586,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies object or group opacity in CSS or SVG.
+        /// Gets or sets a value that specifies object or group opacity in CSS
+        /// or SVG.
         /// </summary>
         String ICssStyleDeclaration.Opacity
         {
@@ -1563,10 +1596,10 @@
         }
 
         /// <summary>
-        /// Gets or sets the order, which property specifies the order used to lay out
-        /// flex items in their flex container. Elements are laid out by ascending order
-        /// of the order value. Elements with the same order value are laid out in the
-        /// order they appear in the source code.
+        /// Gets or sets the order, which property specifies the order used to
+        /// lay out flex items in their flex container. Elements are laid out
+        /// by ascending order of the order value. Elements with the same order
+        /// value are laid out in the order they appear in the source code.
         /// </summary>
         String ICssStyleDeclaration.Order
         {
@@ -1575,8 +1608,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the minimum number of lines of a paragraph
-        /// that must appear at the bottom of a page.
+        /// Gets or sets the minimum number of lines of a paragraph that must
+        /// appear at the bottom of a page.
         /// </summary>
         String ICssStyleDeclaration.Orphans
         {
@@ -1641,8 +1674,8 @@
         }
 
         /// <summary>
-        /// Gets or sets how to manage the content of the object when
-        /// the content exceeds the height of the object.
+        /// Gets or sets how to manage the content of the object when the
+        /// content exceeds the height of the object.
         /// </summary>
         String ICssStyleDeclaration.OverflowY
         {
@@ -1652,7 +1685,8 @@
 
         /// <summary>
         /// Gets or sets the amount of space to insert between the object and
-        /// its margin or, if there is a border, between the object and its border.
+        /// its margin or, if there is a border, between the object and its
+        /// border.
         /// </summary>
         String ICssStyleDeclaration.Padding
         {
@@ -1681,8 +1715,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the amount of space to insert between
-        /// the right border of the object and the content.
+        /// Gets or sets the amount of space to insert between the right border
+        /// of the object and the content.
         /// </summary>
         String ICssStyleDeclaration.PaddingRight
         {
@@ -1691,8 +1725,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the amount of space to insert between the top
-        /// border of the object and the content.
+        /// Gets or sets the amount of space to insert between the top border
+        /// of the object and the content.
         /// </summary>
         String ICssStyleDeclaration.PaddingTop
         {
@@ -1701,7 +1735,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether a page break occurs after the object.
+        /// Gets or sets a value indicating whether a page break occurs after
+        /// the object.
         /// </summary>
         String ICssStyleDeclaration.PageBreakAfter
         {
@@ -1710,7 +1745,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a string indicating whether a page break occurs before the object.
+        /// Gets or sets a string indicating whether a page break occurs before
+        /// the object.
         /// </summary>
         String ICssStyleDeclaration.PageBreakBefore
         {
@@ -1719,8 +1755,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a string indicating whether a page break is
-        /// allowed to occur inside the object.
+        /// Gets or sets a string indicating whether a page break is allowed to
+        /// occur inside the object.
         /// </summary>
         String ICssStyleDeclaration.PageBreakInside
         {
@@ -1729,8 +1765,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that represents the perspective from which all child
-        /// elements of the object are viewed.
+        /// Gets or sets a value that represents the perspective from which all
+        /// child elements of the object are viewed.
         /// </summary>
         String ICssStyleDeclaration.Perspective
         {
@@ -1750,8 +1786,9 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies under what circumstances a given graphics
-        /// element can be the target element for a pointer event in SVG.
+        /// Gets or sets a value that specifies under what circumstances a
+        /// given graphics element can be the target element for a pointer
+        /// event in SVG.
         /// </summary>
         String ICssStyleDeclaration.PointerEvents
         {
@@ -1760,7 +1797,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the pairs of strings to be used as quotes in generated content.
+        /// Gets or sets the pairs of strings to be used as quotes in generated
+        /// content.
         /// </summary>
         String ICssStyleDeclaration.Quotes
         {
@@ -1778,8 +1816,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the position of the object relative to the right edge of
-        /// the next positioned object in the document hierarchy.
+        /// Gets or sets the position of the object relative to the right edge
+        /// of the next positioned object in the document hierarchy.
         /// </summary>
         String ICssStyleDeclaration.Right
         {
@@ -1788,7 +1826,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates how to align the ruby text content.
+        /// Gets or sets a value that indicates how to align the ruby text
+        /// content.
         /// </summary>
         String ICssStyleDeclaration.RubyAlign
         {
@@ -1797,9 +1836,10 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates whether, and on which side, ruby
-        /// text is allowed to partially overhang any adjacent text in addition
-        /// to its own base, when the ruby text is wider than the ruby base
+        /// Gets or sets a value that indicates whether, and on which side,
+        /// ruby text is allowed to partially overhang any adjacent text in
+        /// addition to its own base, when the ruby text is wider than the
+        /// ruby base.
         /// </summary>
         String ICssStyleDeclaration.RubyOverhang
         {
@@ -1846,7 +1886,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the color of the scroll box and scroll arrows of a scroll bar.
+        /// Gets or sets the color of the scroll box and scroll arrows of a
+        /// scroll bar.
         /// </summary>
         String ICssStyleDeclaration.ScrollbarFaceColor
         {
@@ -1855,7 +1896,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the color of the top and left edges of the scroll box and scroll arrows of a scroll bar.
+        /// Gets or sets the color of the top and left edges of the scroll box
+        /// and scroll arrows of a scroll bar.
         /// </summary>
         String ICssStyleDeclaration.ScrollbarHighlightColor
         {
@@ -1864,8 +1906,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the color of the bottom and right edges of the
-        /// scroll box and scroll arrows of a scroll bar.
+        /// Gets or sets the color of the bottom and right edges of the scroll
+        /// box and scroll arrows of a scroll bar.
         /// </summary>
         String ICssStyleDeclaration.ScrollbarShadowColor
         {
@@ -1883,8 +1925,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates the color to paint along
-        /// the outline of a given graphical element.
+        /// Gets or sets a value that indicates the color to paint along the
+        /// outline of a given graphical element.
         /// </summary>
         String ICssStyleDeclaration.Stroke
         {
@@ -1893,8 +1935,8 @@
         }
 
         /// <summary>
-        /// Gets or sets one or more values that indicate the pattern of
-        /// dashes and gaps used to stroke paths.
+        /// Gets or sets one or more values that indicate the pattern of dashes
+        /// and gaps used to stroke paths.
         /// </summary>
         String ICssStyleDeclaration.StrokeDasharray
         {
@@ -1903,8 +1945,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies the distance into the
-        /// dash pattern to start the dash.
+        /// Gets or sets a value that specifies the distance into the dash
+        /// pattern to start the dash.
         /// </summary>
         String ICssStyleDeclaration.StrokeDashoffset
         {
@@ -1913,8 +1955,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies the shape to be used at the
-        /// end of open subpaths when they are stroked.
+        /// Gets or sets a value that specifies the shape to be used at the end
+        /// of open subpaths when they are stroked.
         /// </summary>
         String ICssStyleDeclaration.StrokeLinecap
         {
@@ -1923,8 +1965,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies the shape to be used at the corners of
-        /// paths or basic shapes when they are stroked.
+        /// Gets or sets a value that specifies the shape to be used at the
+        /// corners of paths or basic shapes when they are stroked.
         /// </summary>
         String ICssStyleDeclaration.StrokeLinejoin
         {
@@ -1934,7 +1976,8 @@
 
         /// <summary>
         /// Gets or sets a value that indicates the limit on the ratio of the
-        /// length of miter joins (as specified in the StrokeLinejoin property).
+        /// length of miter joins (as specified in the StrokeLinejoin 
+        /// property).
         /// </summary>
         String ICssStyleDeclaration.StrokeMiterlimit
         {
@@ -1943,8 +1986,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies the opacity of the painting operation
-        /// that is used to stroke the current object.
+        /// Gets or sets a value that specifies the opacity of the painting 
+        /// operation that is used to stroke the current object.
         /// </summary>
         String ICssStyleDeclaration.StrokeOpacity
         {
@@ -1953,7 +1996,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that specifies the width of the stroke on the current object.
+        /// Gets or sets a value that specifies the width of the stroke on the
+        /// current object.
         /// </summary>
         String ICssStyleDeclaration.StrokeWidth
         {
@@ -1962,7 +2006,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a string that indicates whether the table layout is fixed.
+        /// Gets or sets a string that indicates whether the table layout is
+        /// fixed.
         /// </summary>
         String ICssStyleDeclaration.TableLayout
         {
@@ -1971,8 +2016,8 @@
         }
 
         /// <summary>
-        /// Gets or sets whether the text in the object is left-aligned, right-aligned, 
-        /// centered, or justified.
+        /// Gets or sets whether the text in the object is left-aligned,
+        /// right-aligned, centered, or justified.
         /// </summary>
         String ICssStyleDeclaration.TextAlign
         {
@@ -1981,8 +2026,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates how to align the last line or only
-        /// line of text in the specified object.
+        /// Gets or sets a value that indicates how to align the last line or
+        /// only line of text in the specified object.
         /// </summary>
         String ICssStyleDeclaration.TextAlignLast
         {
@@ -2000,7 +2045,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the autospacing and narrow space width adjustment of text.
+        /// Gets or sets the autospacing and narrow space width adjustment of
+        /// text.
         /// </summary>
         String ICssStyleDeclaration.TextAutospace
         {
@@ -2019,7 +2065,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the indentation of the first line of text in the object.
+        /// Gets or sets the indentation of the first line of text in the
+        /// object.
         /// </summary>
         String ICssStyleDeclaration.TextIndent
         {
@@ -2028,7 +2075,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the type of alignment used to justify text in the object.
+        /// Gets or sets the type of alignment used to justify text in the
+        /// object.
         /// </summary>
         String ICssStyleDeclaration.TextJustify
         {
@@ -2037,8 +2085,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates whether to render
-        /// ellipses (...) to indicate text overflow.
+        /// Gets or sets a value that indicates whether to render ellipses
+        /// (...) to indicate text overflow.
         /// </summary>
         String ICssStyleDeclaration.TextOverflow
         {
@@ -2066,8 +2114,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the position of the underline decoration that is set through the
-        /// text-decoration property of the object.
+        /// Gets or sets the position of the underline decoration that is set
+        /// through the text-decoration property of the object.
         /// </summary>
         String ICssStyleDeclaration.TextUnderlinePosition
         {
@@ -2076,8 +2124,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the position of the object relative to the top of
-        /// the next positioned object in the document hierarchy.
+        /// Gets or sets the position of the object relative to the top of the
+        /// next positioned object in the document hierarchy.
         /// </summary>
         String ICssStyleDeclaration.Top
         {
@@ -2086,8 +2134,8 @@
         }
 
         /// <summary>
-        /// Gets or sets a list of one or more transform functions that specify how
-        /// to translate, rotate, or scale an element in 2-D or 3-D space.
+        /// Gets or sets a list of one or more transform functions that specify
+        /// how to translate, rotate, or scale an element in 2-D or 3-D space.
         /// </summary>
         String ICssStyleDeclaration.Transform
         {
@@ -2096,7 +2144,8 @@
         }
 
         /// <summary>
-        /// Gets or sets one or two values that establish the origin of transformation for an element.
+        /// Gets or sets one or two values that establish the origin of 
+        /// transformation for an element.
         /// </summary>
         String ICssStyleDeclaration.TransformOrigin
         {
@@ -2115,9 +2164,9 @@
         }
 
         /// <summary>
-        /// Gets or sets one or more shorthand values that specify the transition properties
-        /// for a set of corresponding object properties identified in the transition-property
-        /// property.
+        /// Gets or sets one or more shorthand values that specify the 
+        /// transition properties for a set of corresponding object properties 
+        /// identified in the transition-property property.
         /// </summary>
         String ICssStyleDeclaration.Transition
         {
@@ -2127,9 +2176,9 @@
 
         /// <summary>
         /// Gets or sets one or more values that specify the offset within a
-        /// transition (the amount of time from the start of a transition) before
-        /// the transition is displayed  for a set of corresponding object properties 
-        /// identified in the transition property.
+        /// transition (the amount of time from the start of a transition) 
+        /// before the transition is displayed  for a set of corresponding 
+        /// object properties identified in the transition property.
         /// </summary>
         String ICssStyleDeclaration.TransitionDelay
         {
@@ -2138,9 +2187,9 @@
         }
 
         /// <summary>
-        /// Gets or sets one or more values that specify the durations of transitions on
-        /// a set of corresponding object properties identified in the transition-property
-        /// property.
+        /// Gets or sets one or more values that specify the durations of 
+        /// transitions on a set of corresponding object properties identified 
+        /// in the transition-property property.
         /// </summary>
         String ICssStyleDeclaration.TransitionDuration
         {
@@ -2149,9 +2198,10 @@
         }
 
         /// <summary>
-        /// Gets or sets a value that identifies the CSS property name or names to which
-        /// the transition effect (defined by the transition-duration, transition-timing-function,
-        /// and transition-delay properties) is applied when a new property value is specified.
+        /// Gets or sets a value that identifies the CSS property name or names
+        /// to which the transition effect (defined by the transition-duration, 
+        /// transition-timing-function, and transition-delay properties) is 
+        /// applied when a new property value is specified.
         /// </summary>
         String ICssStyleDeclaration.TransitionProperty
         {
@@ -2160,9 +2210,10 @@
         }
 
         /// <summary>
-        /// Gets or sets one or more values that specify the intermediate property values to be
-        /// used during a transition on a set of corresponding object properties identified
-        /// in the transition-property property.
+        /// Gets or sets one or more values that specify the intermediate 
+        /// property values to be used during a transition on a set of 
+        /// corresponding object properties identified in the 
+        /// transition-property property.
         /// </summary>
         String ICssStyleDeclaration.TransitionTimingFunction
         {
@@ -2171,7 +2222,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the level of embedding with respect to the bidirectional algorithm.
+        /// Gets or sets the level of embedding with respect to the 
+        /// bidirectional algorithm.
         /// </summary>
         String ICssStyleDeclaration.UnicodeBidi
         {
@@ -2227,8 +2279,8 @@
         }
 
         /// <summary>
-        /// Gets or sets line-breaking behavior within words, particularly where
-        /// multiple languages appear in the object.
+        /// Gets or sets line-breaking behavior within words, particularly 
+        /// where multiple languages appear in the object.
         /// </summary>
         String ICssStyleDeclaration.WordBreak
         {
@@ -2237,7 +2289,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the amount of additional space between words in the object.
+        /// Gets or sets the amount of additional space between words in the 
+        /// object.
         /// </summary>
         String ICssStyleDeclaration.WordSpacing
         {
@@ -2468,7 +2521,7 @@
                 if (priority != null && !priority.Equals(Keywords.Important, StringComparison.OrdinalIgnoreCase))
                     return;
 
-                var value = CssParser.ParseValue(propertyValue);
+                var value = CssParser.ParseValue(propertyValue, _options);
 
                 if (value == null)
                     return;
@@ -2519,7 +2572,7 @@
             _declarations.Clear();
 
             if (!String.IsNullOrEmpty(value))
-                CssParser.AppendDeclarations(this, value);
+                CssParser.AppendDeclarations(this, value, _options);
         }
 
         internal void SetDeclarations(CssStyleDeclaration style)

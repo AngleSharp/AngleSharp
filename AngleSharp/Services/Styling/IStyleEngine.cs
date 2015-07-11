@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Services.Styling
 {
-    using System;
     using AngleSharp.Dom;
     using AngleSharp.Network;
+    using System;
 
     /// <summary>
     /// Defines the API of an available engine for computing the stylesheet.

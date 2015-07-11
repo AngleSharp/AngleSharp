@@ -1,8 +1,9 @@
 ﻿namespace AngleSharp.Dom.Svg
 {
-    using System;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents an element of the SVG DOM.
@@ -23,18 +24,29 @@
         public SvgElement(Document owner, String name, String prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, Namespaces.SvgUri, flags | NodeFlags.SvgMember)
         {
+            RegisterAttributeObserver(AttributeNames.Style, UpdateStyle);
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets an object representing the declarations of an element's style attributes.
-        /// </summary>
-        public ICssStyleDeclaration Style
+        ICssStyleDeclaration IElementCssInlineStyle.Style
         {
-            get { return _style ?? (_style = new CssStyleDeclaration()); }
+            get { return Style; }
+        }
+
+        #endregion
+
+        #region Internal Properties
+
+        /// <summary>
+        /// Gets an object representing the declarations of an element's style
+        /// attributes.
+        /// </summary>
+        internal CssStyleDeclaration Style
+        {
+            get { return _style ?? (_style = CreateStyle()); }
         }
 
         #endregion
@@ -44,7 +56,10 @@
         /// <summary>
         /// Returns a duplicate of the node on which this method was called.
         /// </summary>
-        /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
+        /// <param name="deep">
+        /// Optional value: true if the children of the node should also be
+        /// cloned, or false to clone only the specified node.
+        /// </param>
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
@@ -52,6 +67,19 @@
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void UpdateStyle(String value)
+        {
+            if (String.IsNullOrEmpty(value))
+                Attributes.Remove(Attributes.Get(null, AttributeNames.Style));
+
+            if (_style != null)
+                _style.Update(value);
         }
 
         #endregion

@@ -221,27 +221,23 @@
 
             var type = value ?? MimeTypes.Css;
             var config = Owner.Options;
+            var engine = config.GetStyleEngine(type);
 
-            if (config.IsStyling() && RelationList.Contains(Keywords.StyleSheet))
+            if (engine != null && RelationList.Contains(Keywords.StyleSheet))
             {
-                var engine = config.GetStyleEngine(type);
-
-                if (engine != null)
+                var options = new StyleOptions
                 {
-                    var options = new StyleOptions
-                    {
-                        Element = this,
-                        Title = Title,
-                        IsDisabled = IsDisabled,
-                        IsAlternate = RelationList.Contains(Keywords.Alternate),
-                        Configuration = config
-                    };
+                    Element = this,
+                    Title = Title,
+                    IsDisabled = IsDisabled,
+                    IsAlternate = RelationList.Contains(Keywords.Alternate),
+                    Configuration = config
+                };
 
-                    using (var response = _current.Result)
-                    {
-                        try { _sheet = engine.Parse(response, options); }
-                        catch { /* Do not care here */ }
-                    }
+                using (var response = _current.Result)
+                {
+                    try { _sheet = engine.Parse(response, options); }
+                    catch { /* Do not care here */ }
                 }
             }
         }

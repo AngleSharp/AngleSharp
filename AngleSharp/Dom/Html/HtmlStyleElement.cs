@@ -117,7 +117,8 @@
         IStyleSheet CreateSheet()
         {
             var config = Owner.Options;
-            var engine = config.GetStyleEngine(Type ?? MimeTypes.Css);
+            var type = Type ?? MimeTypes.Css;
+            var engine = config.GetStyleEngine(type);
 
             if (engine == null)
                 return null;

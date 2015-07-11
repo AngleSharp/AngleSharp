@@ -4,6 +4,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -53,13 +54,13 @@
         /// <returns>Returns the cascaded read-only style declaration.</returns>
         public static CssStyleDeclaration ComputeCascadedStyle(this StyleCollection styleCollection, IElement element)
         {
-            var style = new CssStyleDeclaration();
+            var style = new CssStyleDeclaration(default(CssParserOptions), readOnly: true);
             var rules = styleCollection.SortBySpecifity(element);
 
             foreach (var rule in rules)
                 style.SetDeclarations(rule.Style);
 
-            return new CssStyleDeclaration(style.Declarations);
+            return style;
         }
 
         /// <summary>
