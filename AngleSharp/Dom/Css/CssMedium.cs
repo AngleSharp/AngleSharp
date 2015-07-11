@@ -92,21 +92,6 @@
 
         #region Methods
 
-        public String ToCss()
-        {
-            return ToCss(CssStyleFormatter.Instance);
-        }
-
-        public String ToCss(IStyleFormatter formatter)
-        {
-            var constraints = new String[_features.Count];
-
-            for (int i = 0; i < _features.Count; i++)
-                constraints[i] = _features[i].ToCss(formatter);
-
-            return formatter.Medium(IsExclusive, IsInverse, Type, constraints);
-        }
-
         /// <summary>
         /// Validates the given medium against the provided rendering device.
         /// </summary>
@@ -156,6 +141,63 @@
         internal void AddConstraint(MediaFeature feature)
         {
             _features.Add(feature);
+        }
+
+        /// <summary>
+        /// Determines whether the given object is the same.
+        /// </summary>
+        /// <param name="obj">The object to compare with.</param>
+        /// <returns>True if both are the same, otherwise false.</returns>
+        public override Boolean Equals(Object obj)
+        {
+            var other = obj as CssMedium;
+
+            if (other != null && 
+                other.IsExclusive == this.IsExclusive && 
+                other.IsInverse == this.IsInverse && 
+                other.Type == this.Type && 
+                other._features.Count == this._features.Count)
+            {
+                foreach (var feature in other._features)
+                {
+                    var shared = _features.Find(m => m.Name == feature.Name);
+
+                    if (shared == null || shared.Value != feature.Value)
+                        return false;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Serves as the default hash function.
+        /// </summary>
+        /// <returns>The hash code of the object.</returns>
+        public override Int32 GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        #endregion
+
+        #region String Representation
+
+        public String ToCss()
+        {
+            return ToCss(CssStyleFormatter.Instance);
+        }
+
+        public String ToCss(IStyleFormatter formatter)
+        {
+            var constraints = new String[_features.Count];
+
+            for (int i = 0; i < _features.Count; i++)
+                constraints[i] = _features[i].ToCss(formatter);
+
+            return formatter.Medium(IsExclusive, IsInverse, Type, constraints);
         }
 
         #endregion
