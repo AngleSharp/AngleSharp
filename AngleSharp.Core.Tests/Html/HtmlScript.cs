@@ -1,11 +1,11 @@
-﻿using System;
-using AngleSharp.Core.Tests.Mocks;
-using AngleSharp.Dom;
-using AngleSharp.Parser.Html;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom;
+    using AngleSharp.Parser.Html;
+    using NUnit.Framework;
+    using System;
+
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
     /// tree-construction/tests16.dat
@@ -2827,8 +2827,8 @@ namespace AngleSharp.Core.Tests
         {
             var source = "<!doctype html><noscript><!--<noscript></noscript>--></noscript>";
             var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(source, config); 
-            var doc = parser.Parse();
+            var parser = new HtmlParser(config); 
+            var doc = parser.Parse(source);
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2873,8 +2873,8 @@ namespace AngleSharp.Core.Tests
         {
             var source = "<!doctype html><noscript><!--</noscript>X<noscript>--></noscript>";
             var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(source, config);
-            var doc = parser.Parse();
+            var parser = new HtmlParser(config);
+            var doc = parser.Parse(source);
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2929,8 +2929,8 @@ namespace AngleSharp.Core.Tests
         {
             var source = "<!doctype html><noscript><iframe></noscript>X";
             var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(source, config);
-            var doc = parser.Parse();
+            var parser = new HtmlParser(config);
+            var doc = parser.Parse(source);
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);

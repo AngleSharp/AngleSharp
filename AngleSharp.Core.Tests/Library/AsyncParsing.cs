@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Core.Tests
 {
-    using System.Text;
-    using System.Threading.Tasks;
     using AngleSharp;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
     using NUnit.Framework;
+    using System.Text;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class AsyncParsingTests
@@ -35,16 +35,14 @@
         {
             var text = "<html><head><title>My test</title></head><body><p>Some text</p></body></html>";
             var source = new DelayedStream(Encoding.UTF8.GetBytes(text));
-            var parser = new HtmlParser(source, Configuration.Default);
+            var parser = new HtmlParser(Configuration.Default);
 
-            using (var task = parser.ParseAsync())
+            using (var task = parser.ParseAsync(source))
             {
                 Assert.IsFalse(task.IsCompleted);
-                Assert.IsNotNull(parser.Result);
                 var result = await task;
 
                 Assert.IsTrue(task.IsCompleted);
-                Assert.AreEqual(parser.Result, result);
                 Assert.AreEqual("My test", result.Title);
                 Assert.AreEqual(1, result.Body.ChildElementCount);
                 Assert.AreEqual("Some text", result.Body.Children[0].TextContent);
@@ -71,17 +69,16 @@
         public async Task TestAsyncHtmlParsingFromString()
         {
             var source = "<html><head><title>My test</title></head><body><p>Some text</p></body></html>";
-            var parser = new HtmlParser(source, Configuration.Default);
+            var parser = new HtmlParser(Configuration.Default);
 
-            using (var task = parser.ParseAsync())
+            using (var task = parser.ParseAsync(source))
             {
                 Assert.IsTrue(task.IsCompleted);
                 var result = await task;
 
-                Assert.AreEqual(parser.Result, result);
-                Assert.AreEqual("My test", parser.Result.Title);
-                Assert.AreEqual(1, parser.Result.Body.ChildElementCount);
-                Assert.AreEqual("Some text", parser.Result.Body.Children[0].TextContent);
+                Assert.AreEqual("My test", result.Title);
+                Assert.AreEqual(1, result.Body.ChildElementCount);
+                Assert.AreEqual("Some text", result.Body.Children[0].TextContent);
             }
         }
     }

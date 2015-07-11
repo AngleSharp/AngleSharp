@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using AngleSharp.Core.Tests.Mocks;
-using AngleSharp.Dom;
-using AngleSharp.Extensions;
-using AngleSharp.Parser.Html;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom;
+    using AngleSharp.Extensions;
+    using AngleSharp.Parser.Html;
+    using NUnit.Framework;
+    using System;
+    using System.Linq;
+
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
     /// tree-construction/isindex.dat,
@@ -2830,8 +2830,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var source = @"<p id=""status""><noscript><strong>A</strong></noscript><span>B</span></p>";
             var config = new Configuration().With(new EnableScripting());
-            var parser = new HtmlParser(source, config);
-            var doc = parser.Parse();
+            var parser = new HtmlParser(config);
+            var doc = parser.Parse(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4928,8 +4928,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var source = @"<noscript><!--<noscript></noscript>--></noscript>";
             var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(source, config);
-            var doc = parser.Parse();
+            var parser = new HtmlParser(config);
+            var doc = parser.Parse(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4969,8 +4969,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var source = @"<noscript><!--</noscript>X<noscript>--></noscript>";
             var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(source, config);
-            var doc = parser.Parse();
+            var parser = new HtmlParser(config);
+            var doc = parser.Parse(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5020,8 +5020,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var source = @"<noscript><iframe></noscript>X";
             var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(source, config);
-            var doc = parser.Parse();
+            var parser = new HtmlParser(config);
+            var doc = parser.Parse(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

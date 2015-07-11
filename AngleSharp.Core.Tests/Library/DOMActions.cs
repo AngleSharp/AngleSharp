@@ -1,13 +1,13 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using System;
-    using System.Linq;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Html;
     using AngleSharp.Extensions;
-    using NUnit.Framework;
+    using AngleSharp.Html;
     using AngleSharp.Parser.Html;
+    using NUnit.Framework;
+    using System;
+    using System.Linq;
 
     [TestFixture]
     public class DOMActions
@@ -37,8 +37,8 @@
         public void SetStyleAttributeAfterPageLoadWithInvalidColor()
         {
             var html = "<Div style=\"background-color: http://www.codeplex.com?url=<SCRIPT>a=/XSS/alert(a.source)</SCRIPT>\">";
-            var parser = new HtmlParser(html, new Configuration().WithCss());
-            var dom = parser.Parse();
+            var parser = new HtmlParser(new Configuration().WithCss());
+            var dom = parser.Parse(html);
             var div = (IHtmlElement)dom.QuerySelector("div");
             var n = div.Style.Length; 
             // hang occurs only if this line is executed prior to setting the attribute
