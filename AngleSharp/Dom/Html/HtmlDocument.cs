@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
     using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Parser.Html;
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a document node that contains only HTML nodes.
