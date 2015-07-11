@@ -11,7 +11,7 @@
 
         public override CssRule Create(CssToken current)
         {
-            var rule = new CssStyleRule();
+            var rule = new CssStyleRule(_options);
             rule.Selector = CreateSelector(ref current);
             FillDeclarations(rule.Style);
             return rule.Selector != null ? rule : null;

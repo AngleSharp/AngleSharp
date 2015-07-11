@@ -12,7 +12,7 @@
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssNamespaceRule();
+            var rule = new CssNamespaceRule(_options);
             rule.Prefix = GetRuleName(ref token);
 
             if (token.Type == CssTokenType.Url)

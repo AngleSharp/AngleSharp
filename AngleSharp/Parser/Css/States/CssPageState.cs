@@ -12,7 +12,7 @@
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssPageRule();
+            var rule = new CssPageRule(_options);
             rule.Selector = CreateSelector(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)

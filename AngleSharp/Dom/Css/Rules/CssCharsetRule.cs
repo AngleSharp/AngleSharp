@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
@@ -10,8 +11,8 @@
     {
         #region ctor
 
-        internal CssCharsetRule()
-            : base(CssRuleType.Charset)
+        internal CssCharsetRule(CssParserOptions options)
+            : base(CssRuleType.Charset, options)
         {
         }
 

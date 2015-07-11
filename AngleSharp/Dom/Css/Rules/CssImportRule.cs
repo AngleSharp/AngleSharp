@@ -12,7 +12,6 @@
     {
         #region Fields
 
-        readonly CssParserOptions _options;
         readonly MediaList _media;
 
         String _href;
@@ -26,10 +25,9 @@
         /// Creates a new CSS import rule
         /// </summary>
         internal CssImportRule(CssParserOptions options)
-            : base(CssRuleType.Import)
+            : base(CssRuleType.Import, options)
         {
-            _options = options;
-            _media = new MediaList(_options);
+            _media = new MediaList(options);
         }
 
         #endregion

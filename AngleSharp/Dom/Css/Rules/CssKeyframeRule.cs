@@ -20,8 +20,8 @@
         /// <summary>
         /// Creates a new @keyframe rule.
         /// </summary>
-        internal CssKeyframeRule()
-            : base(CssRuleType.Keyframe)
+        internal CssKeyframeRule(CssParserOptions options)
+            : base(CssRuleType.Keyframe, options)
         {
             _style = new CssStyleDeclaration(this);
         }

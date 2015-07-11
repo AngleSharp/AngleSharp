@@ -373,11 +373,11 @@
         /// <summary>
         /// Takes a string and transforms it into a CSS keyframe rule.
         /// </summary>
-        internal static CssKeyframeRule ParseKeyframeRule(String ruleText)
+        internal static CssKeyframeRule ParseKeyframeRule(String ruleText, CssParserOptions options)
         {
             var tokenizer = CreateTokenizer(ruleText, default(IConfiguration));
             var token = tokenizer.Get();
-            var state = new CssKeyframesState(tokenizer, default(CssParserOptions));
+            var state = new CssKeyframesState(tokenizer, options);
             var rule = state.CreateKeyframeRule(token);
             return tokenizer.Get().Type == CssTokenType.Eof ? rule : null;
         }

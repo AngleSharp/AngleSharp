@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Parser.Css.States
 {
-    using System.Collections.Generic;
     using AngleSharp.Css.Values;
     using AngleSharp.Dom.Css;
+    using System.Collections.Generic;
 
     sealed class CssKeyframesState : CssParseState
     {
@@ -14,7 +14,7 @@
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssKeyframesRule();
+            var rule = new CssKeyframesRule(_options);
             rule.Name = GetRuleName(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
@@ -29,7 +29,7 @@
         /// </summary>
         public CssKeyframeRule CreateKeyframeRule(CssToken token)
         {
-            var rule = new CssKeyframeRule();
+            var rule = new CssKeyframeRule(_options);
             rule.Key = CreateKeyframeSelector(ref token);
 
             if (rule.Key == null)

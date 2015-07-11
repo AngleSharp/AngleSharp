@@ -20,8 +20,8 @@
         /// <summary>
         /// Creates a new @page rule.
         /// </summary>
-        internal CssPageRule()
-            : base(CssRuleType.Page)
+        internal CssPageRule(CssParserOptions options)
+            : base(CssRuleType.Page, options)
         {
             _style = new CssStyleDeclaration(this);
             _selector = SimpleSelector.All;

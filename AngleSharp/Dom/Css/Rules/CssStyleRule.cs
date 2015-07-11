@@ -20,8 +20,8 @@
         /// <summary>
         /// Creates a new CSS style rule.
         /// </summary>
-        internal CssStyleRule()
-            : base(CssRuleType.Style)
+        internal CssStyleRule(CssParserOptions options)
+            : base(CssRuleType.Style, options)
         {
             _style = new CssStyleDeclaration(this);
             _selector = SimpleSelector.All;

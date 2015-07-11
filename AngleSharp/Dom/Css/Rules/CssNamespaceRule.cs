@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
@@ -20,8 +21,8 @@
         /// <summary>
         /// Creates a new @namespace rule.
         /// </summary>
-        internal CssNamespaceRule()
-            : base(CssRuleType.Namespace)
+        internal CssNamespaceRule(CssParserOptions options)
+            : base(CssRuleType.Namespace, options)
         {
         }
 

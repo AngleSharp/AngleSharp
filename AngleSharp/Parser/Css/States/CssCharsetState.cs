@@ -12,7 +12,7 @@
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssCharsetRule();
+            var rule = new CssCharsetRule(_options);
 
             if (token.Type == CssTokenType.String)
                 rule.CharacterSet = token.Data;

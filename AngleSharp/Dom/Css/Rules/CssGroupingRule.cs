@@ -11,7 +11,6 @@
         #region Fields
 
         readonly CssRuleList _rules;
-        readonly CssParserOptions _options;
 
         #endregion
 
@@ -21,10 +20,9 @@
         /// Creates a new CSS grouping rule.
         /// </summary>
         internal CssGroupingRule(CssRuleType type, CssParserOptions options)
-            : base(type)
+            : base(type, options)
         {
             _rules = new CssRuleList();
-            _options = options;
         }
 
         #endregion
@@ -42,15 +40,6 @@
         ICssRuleList ICssGroupingRule.Rules
         {
             get { return _rules; }
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        internal CssParserOptions Options 
-        {
-            get { return _options; }
         }
 
         #endregion
@@ -75,7 +64,7 @@
         /// </returns>
         public Int32 Insert(String rule, Int32 index)
         {
-            var value = CssParser.ParseRule(rule, _options);
+            var value = CssParser.ParseRule(rule, Options);
             _rules.Insert(value, index, Owner, this);
             return index;    
         }
