@@ -1,17 +1,17 @@
-﻿using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-using System;
-using System.Linq;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
+    using NUnit.Framework;
+    using System;
+    using System.Linq;
+
     [TestFixture]
     public class CssKeyframeRuleTests
     {
         CssKeyframeRule Create(String source)
         {
-            return CssParser.ParseKeyframeRule(source);
+            return CssParser.ParseKeyframeRule(source, default(CssParserOptions));
         }
 
         [Test]
