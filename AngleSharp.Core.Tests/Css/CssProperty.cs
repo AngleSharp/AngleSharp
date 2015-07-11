@@ -1215,7 +1215,7 @@ namespace AngleSharp.Core.Tests.Css
         [Test]
         public void CssPropertyFactoryCalls()
         {
-            var decl = new CssStyleDeclaration();
+            var decl = new CssStyleDeclaration(default(CssParserOptions));
             var invalid = decl.CreateProperty("invalid");
             var border = decl.CreateProperty("border");
             var color = decl.CreateProperty("color");

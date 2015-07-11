@@ -7,6 +7,7 @@
     using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Parser.Css;
     using NUnit.Framework;
     using System;
     using System.Linq;
@@ -427,7 +428,7 @@
         [Test]
         public void CSSStyleDeclarationEmpty()
         {
-            var css = new CssStyleDeclaration();
+            var css = new CssStyleDeclaration(default(CssParserOptions));
             Assert.AreEqual("", css.CssText);
             Assert.AreEqual(0, css.Length);
         }
@@ -435,7 +436,7 @@
         [Test]
         public void CSSStyleDeclarationUnbound()
         {
-            var css = new CssStyleDeclaration();
+            var css = new CssStyleDeclaration(default(CssParserOptions));
             var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0);";
             css.CssText = text;
             Assert.AreEqual(text, css.CssText);

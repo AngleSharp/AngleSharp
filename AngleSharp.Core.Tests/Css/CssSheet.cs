@@ -1,16 +1,11 @@
-﻿using AngleSharp;
-using AngleSharp.Css;
-using AngleSharp.Dom.Css;
-using AngleSharp.Network.Default;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
+    using NUnit.Framework;
+    using System;
+    using System.IO;
+
     [TestFixture]
     public class CssSheetTests
     {
@@ -22,8 +17,7 @@ namespace AngleSharp.Core.Tests
 
         static CssStyleDeclaration ParseDeclarations(String declarations)
         {
-            var style = new CssStyleDeclaration();
-            CssParser.AppendDeclarations(style, declarations);
+            var style = new CssStyleDeclaration(default(CssParserOptions), declarations);
             return style;
         }
 
