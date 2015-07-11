@@ -216,7 +216,7 @@
             if (configuration == null)
                 configuration = AngleSharp.Configuration.Default;
 
-            return new CssStyleSheet(configuration) { Href = url };
+            return new CssStyleSheet(default(CssParserOptions), configuration) { Href = url };
         }
 
         /// <summary>
@@ -237,7 +237,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var stream = new TextSource(sourceCode);
-            var sheet = new CssStyleSheet(configuration, stream) { Href = url };
+            var sheet = new CssStyleSheet(default(CssParserOptions), configuration, stream) { Href = url };
             var parser = new CssParser(sheet);
             return parser.Parse();
         }
@@ -262,7 +262,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
-            var sheet = new CssStyleSheet(configuration, source) { Href = url };
+            var sheet = new CssStyleSheet(default(CssParserOptions), configuration, source) { Href = url };
             var parser = new CssParser(sheet);
             return parser.Parse();
         }
@@ -308,7 +308,7 @@
                 configuration = AngleSharp.Configuration.Default;
 
             var source = new TextSource(stream, configuration.DefaultEncoding());
-            var sheet = new CssStyleSheet(configuration, source) { Href = url };
+            var sheet = new CssStyleSheet(default(CssParserOptions), configuration, source) { Href = url };
             var parser = new CssParser(sheet);
             return await parser.ParseAsync(new CssParserOptions(), cancel).ConfigureAwait(false);
         }

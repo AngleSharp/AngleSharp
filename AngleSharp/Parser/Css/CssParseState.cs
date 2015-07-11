@@ -247,10 +247,8 @@
         /// <summary>
         /// Before any medium has been found for the @media or @import rule.
         /// </summary>
-        protected MediaList CreateMediaList(ref CssToken token)
+        protected void FillMediaList(MediaList list, ref CssToken token)
         {
-            var list = new MediaList();
-
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
                 while (token.Type != CssTokenType.Eof)
@@ -289,8 +287,6 @@
                     });
                 }
             }
-
-            return list;
         }
 
         /// <summary>

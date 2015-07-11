@@ -88,7 +88,7 @@
         /// <returns>The created style sheet.</returns>
         public IStyleSheet Parse(String source, StyleOptions options)
         {
-            var style = new CssStyleSheet(options.Configuration, source) 
+            var style = new CssStyleSheet(_options, options.Configuration, source) 
             {
                 OwnerNode = options.Element,
                 IsDisabled = options.IsDisabled,
@@ -111,7 +111,7 @@
         public IStyleSheet Parse(IResponse response, StyleOptions options)
         {
             var source = new TextSource(response.Content);
-            var style = new CssStyleSheet(options.Configuration, source) 
+            var style = new CssStyleSheet(_options, options.Configuration, source) 
             { 
                 Href = response.Address.Href, 
                 OwnerNode = options.Element,

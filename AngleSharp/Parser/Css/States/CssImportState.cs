@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Parser.Css.States
 {
-    using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
 
     sealed class CssImportState : CssParseState
@@ -13,13 +12,15 @@
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssImportRule();
+            var rule = new CssImportRule(_options);
 
             if (token.Is(CssTokenType.String, CssTokenType.Url))
             {
                 rule.Href = token.Data;
                 token = _tokenizer.Get();
-                rule.Media = token.Type == CssTokenType.Semicolon ? new MediaList() : CreateMediaList(ref token);
+
+                if (token.Type != CssTokenType.Semicolon)
+                    FillMediaList(rule.Media, ref token);
             }
 
             _tokenizer.JumpToNextSemicolon();

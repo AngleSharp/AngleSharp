@@ -14,6 +14,7 @@
         readonly CssRuleList _rules;
         readonly TextSource _source;
         readonly IConfiguration _config;
+        readonly CssParserOptions _options;
 
         ICssRule _ownerRule;
 
@@ -27,8 +28,8 @@
         /// <param name="config">
         /// The configuration to use for the stylesheet.
         /// </param>
-        internal CssStyleSheet(IConfiguration config)
-            : this(config, new TextSource(String.Empty))
+        internal CssStyleSheet(CssParserOptions options, IConfiguration config)
+            : this(options, config, new TextSource(String.Empty))
         {
         }
 
@@ -39,8 +40,8 @@
         /// The configuration to use for the stylesheet.
         /// </param>
         /// <param name="source">The CSS source code.</param>
-        internal CssStyleSheet(IConfiguration config, String source)
-            : this(config, new TextSource(source))
+        internal CssStyleSheet(CssParserOptions options, IConfiguration config, String source)
+            : this(options, config, new TextSource(source))
         {
         }
 
@@ -51,7 +52,8 @@
         /// The configuration to use for the stylesheet.
         /// </param>
         /// <param name="source">The underlying source.</param>
-        internal CssStyleSheet(IConfiguration config, TextSource source)
+        internal CssStyleSheet(CssParserOptions options, IConfiguration config, TextSource source)
+            : base(options)
         {
             _source = source;
             _rules = new CssRuleList();
@@ -147,7 +149,7 @@
         /// <returns>The current stylesheet.</returns>
         public Int32 Insert(String rule, Int32 index)
         {
-            var value = CssParser.ParseRule(rule);
+            var value = CssParser.ParseRule(rule, _options);
             _rules.Insert(value, index, this, null);
             return index;            
         }

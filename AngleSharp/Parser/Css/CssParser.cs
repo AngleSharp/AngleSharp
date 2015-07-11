@@ -39,7 +39,7 @@
         /// <param name="source">The source code as a string.</param>
         /// <param name="configuration">The configuration to use.</param>
         public CssParser(String source, IConfiguration configuration = null)
-            : this(new CssStyleSheet(configuration, new TextSource(source)))
+            : this(source, default(CssParserOptions), configuration)
         { }
 
         /// <summary>
@@ -49,7 +49,29 @@
         /// <param name="stream">The stream to use as source.</param>
         /// <param name="configuration">The configuration to use.</param>
         public CssParser(Stream stream, IConfiguration configuration = null)
-            : this(new CssStyleSheet(configuration, new TextSource(stream, configuration.DefaultEncoding())))
+            : this(stream, default(CssParserOptions), configuration)
+        { }
+
+        /// <summary>
+        /// Creates a new CSS parser instance with a new stylesheet
+        /// based on the given source.
+        /// </summary>
+        /// <param name="source">The source code as a string.</param>
+        /// <param name="options">The options for the parser.</param>
+        /// <param name="configuration">The configuration to use.</param>
+        public CssParser(String source, CssParserOptions options, IConfiguration configuration = null)
+            : this(new CssStyleSheet(options, configuration, new TextSource(source)))
+        { }
+
+        /// <summary>
+        /// Creates a new CSS parser instance with an new stylesheet
+        /// based on the given stream.
+        /// </summary>
+        /// <param name="stream">The stream to use as source.</param>
+        /// <param name="options">The options for the parser.</param>
+        /// <param name="configuration">The configuration to use.</param>
+        public CssParser(Stream stream, CssParserOptions options, IConfiguration configuration = null)
+            : this(new CssStyleSheet(options, configuration, new TextSource(stream, configuration.DefaultEncoding())))
         { }
 
         /// <summary>
@@ -257,20 +279,18 @@
         /// </summary>
         internal static CssRule ParseRule(String ruleText)
         {
-            var tokenizer = CreateTokenizer(ruleText, default(IConfiguration));
-            var token = tokenizer.Get();
-            var rule = tokenizer.CreateRule(token, default(CssParserOptions));
-            return tokenizer.Get().Type == CssTokenType.Eof ? rule : null;
+            return ParseRule(ruleText, default(CssParserOptions));
         }
 
         /// <summary>
-        /// Takes a string and transforms it into CSS declarations.
+        /// Takes a string and transforms it into a CSS rule.
         /// </summary>
-        internal static CssStyleDeclaration ParseDeclarations(String declarations)
+        internal static CssRule ParseRule(String ruleText, CssParserOptions options)
         {
-            var style = new CssStyleDeclaration();
-            AppendDeclarations(style, declarations);
-            return style;
+            var tokenizer = CreateTokenizer(ruleText, default(IConfiguration));
+            var token = tokenizer.Get();
+            var rule = tokenizer.CreateRule(token, options);
+            return tokenizer.Get().Type == CssTokenType.Eof ? rule : null;
         }
 
         /// <summary>
@@ -296,11 +316,11 @@
         /// <summary>
         /// Takes a string and transforms it into a stream of CSS media.
         /// </summary>
-        internal static List<CssMedium> ParseMediaList(String mediaText)
+        internal static List<CssMedium> ParseMediaList(String mediaText, CssParserOptions options)
         {
             var tokenizer = CreateTokenizer(mediaText, default(IConfiguration));
             var token = tokenizer.Get();
-            var state = new CssUnknownState(tokenizer, default(CssParserOptions));
+            var state = new CssUnknownState(tokenizer, options);
             var list = state.CreateMedia(ref token);
             return token.Type == CssTokenType.Eof ? list : null;
         }
@@ -333,11 +353,11 @@
         /// <summary>
         /// Takes a valid media string and parses the medium information.
         /// </summary>
-        internal static CssMedium ParseMedium(String source)
+        internal static CssMedium ParseMedium(String source, CssParserOptions options)
         {
             var tokenizer = CreateTokenizer(source, default(IConfiguration));
             var token = tokenizer.Get();
-            var state = new CssUnknownState(tokenizer, default(CssParserOptions));
+            var state = new CssUnknownState(tokenizer, options);
             var medium = state.CreateMedium(ref token);
             return token.Type == CssTokenType.Eof ? medium : null;
         }

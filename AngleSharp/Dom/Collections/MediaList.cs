@@ -14,6 +14,7 @@
     {
         #region Fields
 
+        readonly CssParserOptions _options;
         readonly List<CssMedium> _media;
 
         #endregion
@@ -23,8 +24,9 @@
         /// <summary>
         /// Creates a new MediaList.
         /// </summary>
-        internal MediaList()
+        internal MediaList(CssParserOptions options)
         {
+            _options = options;
             _media = new List<CssMedium>();
         }
 
@@ -74,7 +76,7 @@
             {
                 _media.Clear();
 
-                foreach (var medium in CssParser.ParseMediaList(value))
+                foreach (var medium in CssParser.ParseMediaList(value, _options))
                 {
                     if (medium == null)
                         throw new DomException(DomError.Syntax);
@@ -111,7 +113,7 @@
         /// <param name="newMedium">The new medium to add.</param>
         public void Add(String newMedium)
         {
-            var medium = CssParser.ParseMedium(newMedium);
+            var medium = CssParser.ParseMedium(newMedium, _options);
 
             if (medium == null)
                 throw new DomException(DomError.Syntax);
@@ -125,7 +127,7 @@
         /// <param name="oldMedium">The medium to delete in the media list.</param>
         public void Remove(String oldMedium)
         {
-            var medium = CssParser.ParseMedium(oldMedium);
+            var medium = CssParser.ParseMedium(oldMedium, _options);
 
             if (medium == null)
                 throw new DomException(DomError.Syntax);

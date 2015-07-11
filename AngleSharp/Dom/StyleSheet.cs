@@ -4,6 +4,7 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
     using AngleSharp.Html;
+    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
@@ -26,9 +27,9 @@
         /// <summary>
         /// Creates a new style sheet.
         /// </summary>
-        internal StyleSheet()
+        internal StyleSheet(CssParserOptions options)
         {
-            _media = new MediaList();
+            _media = new MediaList(options);
         }
 
         #endregion

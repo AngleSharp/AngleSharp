@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
@@ -11,7 +12,9 @@
     {
         #region Fields
 
-        MediaList _media;
+        readonly CssParserOptions _options;
+        readonly MediaList _media;
+
         String _href;
         ICssStyleSheet _styleSheet;
 
@@ -22,9 +25,11 @@
         /// <summary>
         /// Creates a new CSS import rule
         /// </summary>
-        internal CssImportRule()
+        internal CssImportRule(CssParserOptions options)
             : base(CssRuleType.Import)
         {
+            _options = options;
+            _media = new MediaList(_options);
         }
 
         #endregion
@@ -45,13 +50,7 @@
         /// </summary>
         IMediaList ICssImportRule.Media
         {
-            get { return _media ?? (_media = new MediaList()); }
-        }
-
-        public MediaList Media
-        {
             get { return _media; }
-            set { _media = value; }
         }
 
         /// <summary>
@@ -61,6 +60,15 @@
         {
             get { return _styleSheet; }
             set { _styleSheet = value; }
+        }
+
+        #endregion
+
+        #region Internal Properties
+
+        internal MediaList Media
+        {
+            get { return _media; }
         }
 
         #endregion

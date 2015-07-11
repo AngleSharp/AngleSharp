@@ -2,7 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Dom.Collections;
-    using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
@@ -21,19 +21,10 @@
         /// <summary>
         /// Creates a new CSS @media rule with a new media list.
         /// </summary>
-        internal CssMediaRule()
-            : this(new MediaList())
-        {
-        }
-
-        /// <summary>
-        /// Creates a new CSS @media rule with the given media list.
-        /// </summary>
-        /// <param name="media">The media list.</param>
-        internal CssMediaRule(MediaList media)
+        internal CssMediaRule(CssParserOptions options)
             : base(CssRuleType.Media)
         {
-            _media = media;
+            _media = new MediaList(options);
         }
 
         #endregion
@@ -52,7 +43,16 @@
         /// <summary>
         /// Gets a list of media types for this rule.
         /// </summary>
-        public IMediaList Media
+        IMediaList ICssMediaRule.Media
+        {
+            get { return _media; }
+        }
+
+        #endregion
+
+        #region Internal Properties
+
+        internal MediaList Media
         {
             get { return _media; }
         }
