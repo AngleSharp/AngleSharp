@@ -1,10 +1,10 @@
-﻿using NUnit.Framework;
-using System;
-using System.IO;
-using System.Net.NetworkInformation;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using NUnit.Framework;
+    using System;
+    using System.IO;
+    using System.Net.NetworkInformation;
+
     /// <summary>
     /// Small (but quite useable) code to enable / disable some
     /// test(s) depending on the current network status.

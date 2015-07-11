@@ -1,9 +1,9 @@
-﻿using System;
-using AngleSharp.Dom;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Html
+﻿namespace AngleSharp.Core.Tests.Html
 {
+    using AngleSharp.Dom;
+    using NUnit.Framework;
+    using System;
+
     /// <summary>
     /// Tests (automatically modified and adjusted originally) taken from
     /// http://w3c-test.org/html/dom/documents/dom-tree-accessors/document.body-getter.html

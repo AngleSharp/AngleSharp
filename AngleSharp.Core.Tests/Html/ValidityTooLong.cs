@@ -1,10 +1,10 @@
-using System;
-using AngleSharp.Dom;
-using AngleSharp.Dom.Html;
-using NUnit.Framework;
-
 namespace AngleSharp.Core.Tests.Html
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Html;
+    using NUnit.Framework;
+    using System;
+
     /// <summary>
     /// Tests generated according to the W3C-Test.org page:
     /// http://www.w3c-test.org/html/semantics/forms/constraints/form-validation-validity-tooLong.html

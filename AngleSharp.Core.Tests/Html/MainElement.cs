@@ -1,9 +1,9 @@
-using System;
-using AngleSharp.Dom;
-using NUnit.Framework;
-
 namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom;
+    using NUnit.Framework;
+    using System;
+
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
     /// tree-construction/main-element.dat

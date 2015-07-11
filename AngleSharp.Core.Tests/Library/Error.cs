@@ -1,10 +1,10 @@
-﻿using AngleSharp.Core.Tests.Mocks;
-using AngleSharp.Events;
-using AngleSharp.Parser.Html;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Events;
+    using AngleSharp.Parser.Html;
+    using NUnit.Framework;
+
     [TestFixture]
     public class ErrorTests
     {

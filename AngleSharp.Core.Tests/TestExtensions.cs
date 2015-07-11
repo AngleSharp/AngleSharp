@@ -25,7 +25,7 @@
 
         public static IDocument ToHtmlDocument(this String sourceCode, IConfiguration configuration = null)
         {
-            var parser = new HtmlParser(configuration ?? Configuration.Default);
+            var parser = new HtmlParser(configuration);
             return parser.Parse(sourceCode);
         }
 
@@ -62,7 +62,7 @@
 
         public static IDocument ToHtmlDocument(this Stream content, IConfiguration configuration = null)
         {
-            var parser = new HtmlParser(configuration ?? Configuration.Default);
+            var parser = new HtmlParser(configuration);
             return parser.Parse(content);
         }
 
