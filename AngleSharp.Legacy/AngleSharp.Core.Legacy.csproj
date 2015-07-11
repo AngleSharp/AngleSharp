@@ -407,9 +407,6 @@
     <Compile Include="..\AngleSharp\Css\Values\TranslateTransform.cs">
       <Link>Css\Values\TranslateTransform.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\DocumentBuilder.cs">
-      <Link>DocumentBuilder.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Dom\Attr.cs">
       <Link>Dom\Attr.cs</Link>
     </Compile>
@@ -2632,6 +2629,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssUnitToken.cs">
       <Link>Parser\Css\Tokens\CssUnitToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Html\HtmlDomBuilder.cs">
+      <Link>Parser\Html\HtmlDomBuilder.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Html\HtmlForeignExtensions.cs">
       <Link>Parser\Html\HtmlForeignExtensions.cs</Link>
