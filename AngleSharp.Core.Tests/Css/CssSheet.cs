@@ -20,6 +20,13 @@ namespace AngleSharp.Core.Tests
             return parser.Parse();
         }
 
+        static CssStyleDeclaration ParseDeclarations(String declarations)
+        {
+            var style = new CssStyleDeclaration();
+            CssParser.AppendDeclarations(style, declarations);
+            return style;
+        }
+
         [Test]
         public void CssSheetOnEofDuringRuleWithoutSemicolon()
         {
@@ -529,7 +536,7 @@ h1 { color: blue }");
         public void CssRgbaFunction()
         {
             var names = new[] { "border-top-color", "border-right-color", "border-bottom-color", "border-left-color" };
-            var decls = CssParser.ParseDeclarations("border-color: rgba(82, 168, 236, 0.8)");
+            var decls = ParseDeclarations("border-color: rgba(82, 168, 236, 0.8)");
             Assert.IsNotNull(decls);
             Assert.AreEqual(4, decls.Length);
 
@@ -551,7 +558,7 @@ h1 { color: blue }");
         public void CssMarginAll()
         {
             var names = new[] { "margin-top", "margin-right", "margin-bottom", "margin-left" };
-            var decls = CssParser.ParseDeclarations("margin: 20px;");
+            var decls = ParseDeclarations("margin: 20px;");
             Assert.IsNotNull(decls);
             Assert.AreEqual(4, decls.Length);
 
@@ -569,11 +576,7 @@ h1 { color: blue }");
         [Test]
         public void CssSeveralFontFamily()
         {
-            var decl = CssParser.ParseDeclarations("font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
-
-            var prop = decl.GetProperty("font-family");
+            var prop = CssParser.ParseDeclaration("font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif");
             Assert.AreEqual("font-family", prop.Name);
             Assert.IsFalse(prop.IsImportant);
             Assert.AreEqual("\"Helvetica Neue\", Helvetica, Arial, sans-serif", prop.Value);
@@ -582,7 +585,7 @@ h1 { color: blue }");
         [Test]
         public void CssFontWithSlashAndContent()
         {
-            var decl = CssParser.ParseDeclarations("font: bold 1em/2em monospace; content: \" (\" attr(href) \")\"");
+            var decl = ParseDeclarations("font: bold 1em/2em monospace; content: \" (\" attr(href) \")\"");
             Assert.IsNotNull(decl);
             Assert.AreEqual(8, decl.Length);
 
@@ -607,11 +610,7 @@ h1 { color: blue }");
         [Test]
         public void CssBackgroundColorRgba()
         {
-            var decl = CssParser.ParseDeclarations("background-color: rgba(255, 123, 13, 1)");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
-
-            var background = decl.GetProperty("background-color");
+            var background = CssParser.ParseDeclaration("background-color: rgba(255, 123, 13, 1)");
             Assert.AreEqual("background-color", background.Name);
             Assert.IsFalse(background.IsImportant);
             Assert.AreEqual("rgba(255, 123, 13, 1)", background.Value);
@@ -628,11 +627,7 @@ h1 { color: blue }");
         [Test]
         public void CssTextShadow()
         {
-            var decl = CssParser.ParseDeclarations("text-shadow: 0 0 10px #000");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
-
-            var textShadow = decl.GetProperty("text-shadow");
+            var textShadow = CssParser.ParseDeclaration("text-shadow: 0 0 10px #000");
             Assert.AreEqual("text-shadow", textShadow.Name);
             Assert.IsFalse(textShadow.IsImportant);
         }
@@ -648,11 +643,7 @@ h1 { color: blue }");
         [Test]
         public void CssContentWithCounter()
         {
-            var decl = CssParser.ParseDeclarations("content:counter(paging, decimal-leading-zero)");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
-
-            var content = decl.GetProperty("content");
+            var content = CssParser.ParseDeclaration("content:counter(paging, decimal-leading-zero)");
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
         }
@@ -660,11 +651,7 @@ h1 { color: blue }");
         [Test]
         public void CssBackgroundColorRgb()
         {
-            var decl = CssParser.ParseDeclarations("background-color: rgb(245, 0, 111)");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
-
-            var backgroundColor = decl.GetProperty("background-color");
+            var backgroundColor = CssParser.ParseDeclaration("background-color: rgb(245, 0, 111)");
             Assert.AreEqual("background-color", backgroundColor.Name);
             Assert.IsFalse(backgroundColor.IsImportant);
         }
@@ -683,11 +670,7 @@ h1 { color: blue }");
         [Test]
         public void CssContentEscaped()
         {
-            var decl = CssParser.ParseDeclarations("content:'\005E'");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
-
-            var content = decl.GetProperty("content");
+            var content = CssParser.ParseDeclaration("content:'\005E'");
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
         }
@@ -695,11 +678,7 @@ h1 { color: blue }");
         [Test]
         public void CssContentCounter()
         {
-            var decl = CssParser.ParseDeclarations("content:counter(list)'.'");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
-
-            var content = decl.GetProperty("content");
+            var content = CssParser.ParseDeclaration("content:counter(list)'.'");
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
             //Assert.AreEqual(CssValueType.List, content.Value.Type);
@@ -708,11 +687,7 @@ h1 { color: blue }");
         [Test]
         public void CssTransformTranslate()
         {
-            var decl = CssParser.ParseDeclarations("transform:translateY(-50%)");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
-
-            var transform = decl.GetProperty("transform");
+            var transform = CssParser.ParseDeclaration("transform:translateY(-50%)");
             Assert.AreEqual("transform", transform.Name);
             Assert.IsFalse(transform.IsImportant);
         }
@@ -720,14 +695,10 @@ h1 { color: blue }");
         [Test]
         public void CssBoxShadowMultiline()
         {
-            var decl = CssParser.ParseDeclarations(@"
+            var boxShadow = CssParser.ParseDeclaration(@"
         box-shadow:
 			0 0 0 10px rgba(60, 61, 64, 0.6),
 			0 0 50px #3C3D40;");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
-
-            var boxShadow = decl.GetProperty("box-shadow");
             Assert.AreEqual("box-shadow", boxShadow.Name);
             Assert.IsFalse(boxShadow.IsImportant);
         }
@@ -735,11 +706,7 @@ h1 { color: blue }");
         [Test]
         public void CssDisplayBlock()
         {
-            var decl = CssParser.ParseDeclarations("display:block");
-            Assert.IsNotNull(decl);
-            Assert.AreEqual(1, decl.Length);
-
-            var display = decl.GetProperty("display");
+            var display = CssParser.ParseDeclaration("display:block");
             Assert.AreEqual("display", display.Name);
             Assert.IsFalse(display.IsImportant);
             Assert.AreEqual("block", display.Value);
