@@ -70,6 +70,26 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the specified options.
+        /// </summary>
+        public XmlParserOptions Options
+        {
+            get { return _options; }
+        }
+
+        /// <summary>
+        /// Gets the specified context.
+        /// </summary>
+        public IBrowsingContext Context
+        {
+            get { return _context; }
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
