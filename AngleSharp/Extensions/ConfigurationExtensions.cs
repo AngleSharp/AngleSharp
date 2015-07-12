@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
+    using AngleSharp.Network;
     using AngleSharp.Services;
     using AngleSharp.Services.Scripting;
     using AngleSharp.Services.Styling;
@@ -191,6 +192,18 @@
         #endregion
 
         #region Parsing Styles
+
+        /// <summary>
+        /// Tries to resolve the CSS style engine.
+        /// </summary>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <returns>
+        /// The CSS style engine or null, if none has been registered.
+        /// </returns>
+        public static ICssStyleEngine GetCssStyleEngine(this IConfiguration configuration)
+        {
+            return configuration.GetStyleEngine(MimeTypes.Css) as ICssStyleEngine;
+        }
 
         /// <summary>
         /// Tries to resolve a style engine for the given type name.

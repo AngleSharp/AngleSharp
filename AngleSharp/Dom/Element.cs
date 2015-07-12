@@ -7,6 +7,7 @@
     using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Services.Styling;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -868,15 +869,20 @@
         /// Creates the style for the inline style declaration.
         /// </summary>
         /// <returns>The declaration representing the declarations.</returns>
-        protected CssStyleDeclaration CreateStyle()
+        protected ICssStyleDeclaration CreateStyle()
         {
-            var engine = Owner.Options.GetStyleEngine(MimeTypes.Css);
+            var config = Owner.Options;
+            var engine = config.GetCssStyleEngine();
 
             if (engine != null)
             {
                 var source = GetOwnAttribute(AttributeNames.Style);
-                var style = new CssStyleDeclaration(CssParser.Default);
-                style.Update(source);
+                var options = new StyleOptions
+                {
+                    Element = this,
+                    Configuration = config
+                };
+                var style = engine.ParseInline(source, options) as CssStyleDeclaration;
                 style.Changed += (s, ev) => UpdateAttribute(AttributeNames.Style, style.CssText);
                 return style;
             }

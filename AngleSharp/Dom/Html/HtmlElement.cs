@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        CssStyleDeclaration _style;
+        ICssStyleDeclaration _style;
         StringMap _dataset;
         IHtmlMenuElement _menu;
         SettableTokenList _dropZone;
@@ -162,9 +162,13 @@
             get { return _dataset ?? (_dataset = new StringMap("data-", this)); }
         }
 
-        ICssStyleDeclaration IElementCssInlineStyle.Style
+        /// <summary>
+        /// Gets an object representing the declarations of an element's style
+        /// attributes.
+        /// </summary>
+        public ICssStyleDeclaration Style
         {
-            get { return Style; }
+            get { return _style ?? (_style = CreateStyle()); }
         }
 
         /// <summary>
@@ -205,19 +209,6 @@
         {
             get { return GetOwnAttribute(AttributeNames.Translate).ToEnum(SimpleChoice.Yes) == SimpleChoice.Yes; }
             set { SetOwnAttribute(AttributeNames.Translate, value ? Keywords.Yes : Keywords.No); }
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets an object representing the declarations of an element's style
-        /// attributes.
-        /// </summary>
-        internal CssStyleDeclaration Style
-        {
-            get { return _style ?? (_style = CreateStyle()); }
         }
 
         #endregion
@@ -314,8 +305,10 @@
             if (String.IsNullOrEmpty(value))
                 Attributes.Remove(Attributes.Get(null, AttributeNames.Style));
 
-            if (_style != null)
-                _style.Update(value);
+            var style = _style as CssStyleDeclaration;
+
+            if (style != null)
+                style.Update(value);
         }
 
         protected Boolean IsClickedCancelled()

@@ -236,7 +236,7 @@
 
                 using (var response = _current.Result)
                 {
-                    try { _sheet = engine.Parse(response, options); }
+                    try { _sheet = engine.ParseStylesheet(response, options); }
                     catch { /* Do not care here */ }
                 }
             }

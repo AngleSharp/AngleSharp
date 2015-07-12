@@ -79,7 +79,7 @@
             var newRule = (CssKeyframeRule)rule;
             _selector = newRule._selector;
             _style.Clear();
-            _style.SetDeclarations(newRule._style);
+            _style.SetDeclarations(newRule._style.Declarations);
         }
 
         #endregion

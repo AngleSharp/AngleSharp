@@ -9,11 +9,11 @@
     /// <summary>
     /// The CSS style engine for creating CSSStyleSheet instances.
     /// </summary>
-    public class CssStyleEngine : IStyleEngine
+    public class CssStyleEngine : ICssStyleEngine
     {
         #region Fields
 
-        IStyleSheet _default;
+        ICssStyleSheet _default;
         CssParserOptions _options;
 
         #endregion
@@ -44,7 +44,7 @@
         /// Gets the default stylesheet as specified by the W3C:
         /// http://www.w3.org/TR/CSS21/sample.html
         /// </summary>
-        public IStyleSheet Default
+        public ICssStyleSheet Default
         {
             get { return _default ?? SetDefault(DefaultSource); }
         }
@@ -65,14 +65,14 @@
         /// <summary>
         /// Sets a new default stylesheet defined by the provided string.
         /// </summary>
-        /// <param name="source">The source for a new base stylesheet.</param>
+        /// <param name="sourceCode">The source for a new base stylesheet.</param>
         /// <returns>The CSSOM of the parsed source.</returns>
-        public IStyleSheet SetDefault(String source)
+        public ICssStyleSheet SetDefault(String sourceCode)
         {
-            _default = Parse(source, new StyleOptions
-            {
-                Configuration = Configuration.Default
-            });
+            var parser = new CssParser(_options);
+            var source = new TextSource(sourceCode);
+            var sheet = new CssStyleSheet(parser);
+            _default = Parse(parser, sheet, source);
             return _default;
         }
 
@@ -86,7 +86,7 @@
         /// The options with the parameters for evaluating the style.
         /// </param>
         /// <returns>The created style sheet.</returns>
-        public IStyleSheet Parse(String sourceCode, StyleOptions options)
+        public IStyleSheet ParseStylesheet(String sourceCode, StyleOptions options)
         {
             var parser = new CssParser(_options, options.Configuration);
             var sheet = new CssStyleSheet(parser) 
@@ -110,7 +110,7 @@
         /// The options with the parameters for evaluating the style.
         /// </param>
         /// <returns>The created style sheet.</returns>
-        public IStyleSheet Parse(IResponse response, StyleOptions options)
+        public IStyleSheet ParseStylesheet(IResponse response, StyleOptions options)
         {
             var parser = new CssParser(_options, options.Configuration);
             var sheet = new CssStyleSheet(parser) 
@@ -124,11 +124,29 @@
             return Parse(parser, sheet, source);
         }
 
+        /// <summary>
+        /// Creates a style declaration for the given source.
+        /// </summary>
+        /// <param name="source">
+        /// The source code for the inline style declaration.
+        /// </param>
+        /// <param name="options">
+        /// The options with the parameters for evaluating the style.
+        /// </param>
+        /// <returns>The created style declaration.</returns>
+        public ICssStyleDeclaration ParseInline(String source, StyleOptions options)
+        {
+            var parser = new CssParser(_options, options.Configuration);
+            var style = new CssStyleDeclaration(parser);
+            style.Update(source);
+            return style;
+        }
+
         #endregion
 
         #region Helper
 
-        IStyleSheet Parse(CssParser parser, CssStyleSheet sheet, TextSource source)
+        CssStyleSheet Parse(CssParser parser, CssStyleSheet sheet, TextSource source)
         {
             var evt = new CssParseStartEvent();
             var events = parser.Config.Events;

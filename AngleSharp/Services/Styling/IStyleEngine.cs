@@ -15,11 +15,6 @@
         String Type { get; }
 
         /// <summary>
-        /// Gets the default stylesheet, if any.
-        /// </summary>
-        IStyleSheet Default { get; }
-
-        /// <summary>
         /// Creates a style sheet for the given source.
         /// </summary>
         /// <param name="source">
@@ -29,7 +24,7 @@
         /// The options with the parameters for evaluating the style.
         /// </param>
         /// <returns>The created style sheet.</returns>
-        IStyleSheet Parse(String source, StyleOptions options);
+        IStyleSheet ParseStylesheet(String source, StyleOptions options);
 
         /// <summary>
         /// Creates a style sheet for the given response from a request.
@@ -42,6 +37,6 @@
         /// The options with the parameters for evaluating the style.
         /// </param>
         /// <returns>The created style sheet.</returns>
-        IStyleSheet Parse(IResponse response, StyleOptions options);
+        IStyleSheet ParseStylesheet(IResponse response, StyleOptions options);
     }
 }

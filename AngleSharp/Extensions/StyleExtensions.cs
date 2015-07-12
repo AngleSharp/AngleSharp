@@ -25,27 +25,27 @@
         /// <returns>The style declaration containing all the declarations.</returns>
         public static CssStyleDeclaration ComputeDeclarations(this StyleCollection rules, IElement element, String pseudoSelector = null)
         {
-            var style = new CssStyleDeclaration();
+            var computedStyle = new CssStyleDeclaration();
             var pseudoElement = PseudoElement.Create(element, pseudoSelector);
 
             if (pseudoElement != null)
                 element = pseudoElement;
 
-            style.SetDeclarations(rules.ComputeCascadedStyle(element));
-            var htmlElement = element as HtmlElement;
+            computedStyle.SetDeclarations(rules.ComputeCascadedStyle(element).Declarations);
+            var htmlElement = element as IHtmlElement;
 
             if (htmlElement != null)
-                style.SetDeclarations(htmlElement.Style);
+                computedStyle.SetDeclarations(htmlElement.Style.OfType<CssProperty>());
 
             var nodes = element.GetAncestors().OfType<IElement>();
 
             foreach (var node in nodes)
             {
-                var decls = rules.ComputeCascadedStyle(node);
-                style.UpdateDeclarations(decls);
+                var style = rules.ComputeCascadedStyle(node);
+                computedStyle.UpdateDeclarations(style.Declarations);
             }
 
-            return style;
+            return computedStyle;
         }
 
         /// <summary>

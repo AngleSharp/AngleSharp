@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        CssStyleDeclaration _style;
+        ICssStyleDeclaration _style;
 
         #endregion
 
@@ -31,20 +31,11 @@
 
         #region Properties
 
-        ICssStyleDeclaration IElementCssInlineStyle.Style
-        {
-            get { return Style; }
-        }
-
-        #endregion
-
-        #region Internal Properties
-
         /// <summary>
         /// Gets an object representing the declarations of an element's style
         /// attributes.
         /// </summary>
-        internal CssStyleDeclaration Style
+        public ICssStyleDeclaration Style
         {
             get { return _style ?? (_style = CreateStyle()); }
         }
@@ -78,8 +69,10 @@
             if (String.IsNullOrEmpty(value))
                 Attributes.Remove(Attributes.Get(null, AttributeNames.Style));
 
-            if (_style != null)
-                _style.Update(value);
+            var style = _style as CssStyleDeclaration;
+
+            if (style != null)
+                style.Update(value);
         }
 
         #endregion

@@ -131,7 +131,7 @@
                 IsAlternate = false,
                 Configuration = config
             };
-            return engine.Parse(TextContent, options);
+            return engine.ParseStylesheet(TextContent, options);
         }
 
         #endregion

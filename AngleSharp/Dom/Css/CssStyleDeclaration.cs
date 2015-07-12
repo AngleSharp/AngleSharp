@@ -2579,14 +2579,14 @@
                 _parser.AppendDeclarations(this, value);
         }
 
-        internal void SetDeclarations(CssStyleDeclaration style)
+        internal void SetDeclarations(IEnumerable<CssProperty> decls)
         {
-            ChangeDeclarations(style, m => false, (o, n) => !o.IsImportant || n.IsImportant);
+            ChangeDeclarations(decls, m => false, (o, n) => !o.IsImportant || n.IsImportant);
         }
 
-        internal void UpdateDeclarations(CssStyleDeclaration style)
+        internal void UpdateDeclarations(IEnumerable<CssProperty> decls)
         {
-            ChangeDeclarations(style, m => !m.CanBeInherited, (o, n) => o.IsInherited);
+            ChangeDeclarations(decls, m => !m.CanBeInherited, (o, n) => o.IsInherited);
         }
 
         internal void Clear()
@@ -2598,11 +2598,11 @@
 
         #region Helpers
 
-        void ChangeDeclarations(CssStyleDeclaration style, Predicate<CssProperty> defaultSkip, Func<CssProperty, CssProperty, Boolean> removeExisting)
+        void ChangeDeclarations(IEnumerable<CssProperty> decls, Predicate<CssProperty> defaultSkip, Func<CssProperty, CssProperty, Boolean> removeExisting)
         {
             var declarations = new List<CssProperty>();
 
-            foreach (var newdecl in style._declarations)
+            foreach (var newdecl in decls)
             {
                 var skip = defaultSkip(newdecl);
 

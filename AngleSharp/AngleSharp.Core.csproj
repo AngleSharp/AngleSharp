@@ -218,6 +218,7 @@
     <Compile Include="Services\IScriptingService.cs" />
     <Compile Include="Services\IStylingService.cs" />
     <Compile Include="Services\IWindowService.cs" />
+    <Compile Include="Services\Styling\ICssStyleEngine.cs" />
     <Compile Include="TextRange.cs" />
     <Compile Include="Html\InputTypeNames.cs" />
     <Compile Include="Html\InputTypes\BaseInputType.cs" />

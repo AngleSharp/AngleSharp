@@ -53,13 +53,16 @@
         /// <returns>Returns the cascaded read-only style declaration.</returns>
         public static CssStyleDeclaration ComputeCascadedStyle(this StyleCollection styleCollection, IElement element)
         {
-            var style = new CssStyleDeclaration();
+            var computedStyle = new CssStyleDeclaration();
             var rules = styleCollection.SortBySpecifity(element);
 
             foreach (var rule in rules)
-                style.SetDeclarations(rule.Style);
+            {
+                var inlineStyle = rule.Style;
+                computedStyle.SetDeclarations(inlineStyle.Declarations);
+            }
 
-            return style;
+            return computedStyle;
         }
 
         /// <summary>
