@@ -2843,6 +2843,9 @@
     <Compile Include="..\AngleSharp\Services\Scripting\ScriptOptions.cs">
       <Link>Services\Scripting\ScriptOptions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\Styling\ICssStyleEngine.cs">
+      <Link>Services\Styling\ICssStyleEngine.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\Styling\IStyleEngine.cs">
       <Link>Services\Styling\IStyleEngine.cs</Link>
     </Compile>
