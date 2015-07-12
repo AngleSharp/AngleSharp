@@ -111,21 +111,21 @@
         /// <summary>
         /// Parses the string asynchronously with option to cancel.
         /// </summary>
-        public Task<IHtmlDocument> ParseAsync(String source, CancellationToken cancel)
+        public async Task<IHtmlDocument> ParseAsync(String source, CancellationToken cancel)
         {
             var document = CreateDocument(source);
             var parser = new HtmlDomBuilder(document);
-            return parser.ParseAsync(_options, cancel);
+            return await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Parses the stream asynchronously with option to cancel.
         /// </summary>
-        public Task<IHtmlDocument> ParseAsync(Stream source, CancellationToken cancel)
+        public async Task<IHtmlDocument> ParseAsync(Stream source, CancellationToken cancel)
         {
             var document = CreateDocument(source);
             var parser = new HtmlDomBuilder(document);
-            return parser.ParseAsync(_options, cancel);
+            return await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
         }
 
         #endregion

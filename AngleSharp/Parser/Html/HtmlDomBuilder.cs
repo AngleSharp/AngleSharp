@@ -42,7 +42,7 @@
         Boolean _scripting;
         Int32 _nested;
         Boolean _started;
-        Task<IHtmlDocument> _parsing;
+        Task<HtmlDocument> _parsing;
         Task _waiting;
 
         #endregion
@@ -103,7 +103,7 @@
         /// Gets if the tree builder has been created for
         /// parsing HTML fragments.
         /// </summary>
-        public Boolean IsFragmentCase
+        Boolean IsFragmentCase
         {
             get { return _fragmentContext != null; }
         }
@@ -111,7 +111,7 @@
         /// <summary>
         /// Gets the adjusted current node.
         /// </summary>
-        internal Element AdjustedCurrentNode
+        Element AdjustedCurrentNode
         {
             get { return (_fragmentContext != null && _openElements.Count == 1) ? _fragmentContext : CurrentNode; }
         }
@@ -119,7 +119,7 @@
         /// <summary>
         /// Gets the current node.
         /// </summary>
-        internal Element CurrentNode
+        Element CurrentNode
         {
             get { return _openElements.Count > 0 ? _openElements[_openElements.Count - 1] : null; }
         }
@@ -133,7 +133,7 @@
         /// </summary>
         /// <param name="options">The options to use for parsing.</param>
         /// <param name="cancelToken">The cancellation token to use.</param>
-        public Task<IHtmlDocument> ParseAsync(HtmlParserOptions options, CancellationToken cancelToken)
+        public Task<HtmlDocument> ParseAsync(HtmlParserOptions options, CancellationToken cancelToken)
         {
 			lock (_syncGuard)
 			{
@@ -153,7 +153,7 @@
         /// Parses the given source and creates the document.
         /// </summary>
         /// <param name="options">The options to use for parsing.</param>
-        public IHtmlDocument Parse(HtmlParserOptions options)
+        public HtmlDocument Parse(HtmlParserOptions options)
         {
             lock (_syncGuard)
             {
@@ -176,8 +176,7 @@
         /// <param name="context">
         /// The context element where the algorithm is applied to.
         /// </param>
-        /// <returns></returns>
-        public IDocument ParseFragment(IElement context)
+        public HtmlDocument ParseFragment(Element context)
         {
             lock (_syncGuard)
             {
@@ -185,7 +184,7 @@
                 {
                     _started = true;
                     _scripting = false;
-                    SwitchToFragment(context as Element);
+                    SwitchToFragment(context);
                     Kernel();
                 }
             }
@@ -200,7 +199,6 @@
         /// <param name="context">
         /// The context element where the algorithm is applied to.
         /// </param>
-        /// <returns>The current instance for chaining.</returns>
         void SwitchToFragment(Element context)
         {
             if (context == null)
@@ -244,6 +242,9 @@
             while (context != null);
         }
 
+        /// <summary>
+        /// Restarts the parser by resetting the internal state.
+        /// </summary>
         void Restart()
         {
             _currentMode = HtmlTreeMode.Initial;
@@ -260,10 +261,10 @@
         /// algorithm specified in 8.2.3.1 The insertion mode.
         /// http://www.w3.org/html/wg/drafts/html/master/syntax.html#the-insertion-mode
         /// </summary>
-        void Reset(IElement context = null)
+        void Reset(Element context = null)
         {
             var last = false;
-            var node = default(IElement);
+            var node = default(Element);
 
             for (var i = _openElements.Count - 1; i >= 0; i--)
             {
@@ -3502,7 +3503,7 @@
         /// </summary>
         /// <param name="cancelToken">The cancellation token to consider.</param>
         /// <returns>The task to await.</returns>
-        async Task<IHtmlDocument> KernelAsync(CancellationToken cancelToken)
+        async Task<HtmlDocument> KernelAsync(CancellationToken cancelToken)
         {
             var source = _document.Source;
             var token = default(HtmlToken);
