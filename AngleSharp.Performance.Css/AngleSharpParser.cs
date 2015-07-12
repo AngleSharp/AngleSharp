@@ -7,6 +7,14 @@
     class AngleSharpParser : ITestee
     {
         static readonly IConfiguration configuration = new Configuration().WithCss();
+        static readonly CssParserOptions options = new CssParserOptions
+        {
+            IsIncludingUnknownDeclarations = true,
+            IsIncludingUnknownRules = true,
+            IsToleratingInvalidConstraints = true,
+            IsToleratingInvalidValues = true
+        };
+        static readonly CssParser parser = new CssParser(options, configuration);
 
         public String Name
         {
@@ -20,14 +28,7 @@
 
         public void Run(String source)
         {
-            var parser = new CssParser(source, configuration);
-            parser.Parse(new CssParserOptions
-            {
-                IsIncludingUnknownDeclarations = true,
-                IsIncludingUnknownRules = true,
-                IsToleratingInvalidConstraints = true,
-                IsToleratingInvalidValues = true
-            });
+            parser.ParseStylesheet(source);
         }
     }
 }
