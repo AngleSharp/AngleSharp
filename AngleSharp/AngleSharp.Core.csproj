@@ -203,7 +203,9 @@
     <Compile Include="Parser\Css\CssParserExtensions.cs" />
     <Compile Include="Parser\Html\HtmlParseError.cs" />
     <Compile Include="Parser\Xml\XmlParseException.cs" />
+    <Compile Include="Parser\Xml\XmlParser.cs" />
     <Compile Include="Parser\Xml\XmlParserExtensions.cs" />
+    <Compile Include="Parser\Xml\XmlParserOptions.cs" />
     <Compile Include="Services\Default\LoaderService.cs" />
     <Compile Include="Services\Default\LocaleEncodingService.cs" />
     <Compile Include="Services\Default\MemoryCookieService.cs" />
@@ -962,7 +964,7 @@
     <Compile Include="Parser\Xml\Tokens\XmlTagToken.cs" />
     <Compile Include="Parser\Xml\Tokens\XmlToken.cs" />
     <Compile Include="Xml\XmlMarkupFormatter.cs" />
-    <Compile Include="Parser\Xml\XmlParser.cs" />
+    <Compile Include="Parser\Xml\XmlDomBuilder.cs" />
     <Compile Include="Parser\Xml\XmlTokenizer.cs" />
     <Compile Include="Parser\Xml\XmlTokenType.cs" />
     <Compile Include="Parser\Xml\XmlTreeMode.cs" />

@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Dom.Svg
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Parser.Xml;
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a document node that contains only SVG nodes.
@@ -78,13 +78,13 @@
         {
             var contentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Svg);
             var document = new SvgDocument(context, source);
-            var parser = new XmlParser(document);
+            var parser = new XmlDomBuilder(document);
             document.ContentType = contentType;
             document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
             document.DocumentUri = response.Address.Href;
             document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
             document.ReadyState = DocumentReadyState.Loading;
-            await parser.ParseAsync(cancelToken).ConfigureAwait(false);
+            await parser.ParseAsync(default(XmlParserOptions), cancelToken).ConfigureAwait(false);
             return document;
         }
     }

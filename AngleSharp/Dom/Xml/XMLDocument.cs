@@ -54,13 +54,13 @@
         {
             var contentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Xml);
             var document = new XmlDocument(context, source);
-            var parser = new XmlParser(document);
+            var parser = new XmlDomBuilder(document);
             document.ContentType = contentType;
             document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
             document.DocumentUri = response.Address.Href;
             document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
             document.ReadyState = DocumentReadyState.Loading;
-            await parser.ParseAsync(cancelToken).ConfigureAwait(false);
+            await parser.ParseAsync(default(XmlParserOptions), cancelToken).ConfigureAwait(false);
             return document;
         }
     }
