@@ -48,10 +48,11 @@
             var source = new TextSource(sourceCode);
             var document = new HtmlDocument(ctx, source);
             var parser = new HtmlDomBuilder(sourceCode, configuration);
+            var element = context as Element;
 
-            if (context != null)
+            if (element != null)
             {
-                return parser.ParseFragment(context).DocumentElement.ChildNodes;
+                return parser.ParseFragment(element).DocumentElement.ChildNodes;
             }
             else
             {
