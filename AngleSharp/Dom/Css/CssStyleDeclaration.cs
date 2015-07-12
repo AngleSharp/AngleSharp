@@ -15,7 +15,6 @@
         #region Fields
 
         readonly List<CssProperty> _declarations;
-        readonly Boolean _readOnly;
         readonly CssRule _parent;
         readonly CssParser _parser;
 
@@ -29,24 +28,29 @@
 
         #region ctor
 
-        CssStyleDeclaration(Boolean readOnly, CssRule parent, CssParser parser)
+        CssStyleDeclaration(CssRule parent, CssParser parser)
         {
-            _readOnly = readOnly;
             _parent = parent;
             _parser = parser;
             _declarations = new List<CssProperty>();
         }
 
         /// <summary>
-        /// Creates a new CSS style declaration with no parent.
+        /// Creates a new CSS style declaration with no parent, which has a
+        /// parser and is therefore not read-only.
         /// </summary>
         /// <param name="parser">The used parser.</param>
-        /// <param name="source">The source to start with.</param>
-        /// <param name="readOnly">Seal it for modifications.</param>
-        internal CssStyleDeclaration(CssParser parser, String source = null, Boolean readOnly = false)
-            : this(readOnly, null, parser)
+        internal CssStyleDeclaration(CssParser parser)
+            : this(null, parser)
         {
-            Update(source);
+        }
+
+        /// <summary>
+        /// Creates a new read-only CSS style declaration.
+        /// </summary>
+        internal CssStyleDeclaration()
+            : this(null, null)
+        {
         }
 
         /// <summary>
@@ -54,7 +58,7 @@
         /// </summary>
         /// <param name="parent">The parent of the style declaration.</param>
         internal CssStyleDeclaration(CssRule parent)
-            : this(false, parent, parent.Parser)
+            : this(parent, parent.Parser)
         {
         }
 
@@ -70,9 +74,6 @@
             get { return ToCss(); }
             set
             {
-                if (_readOnly)
-                    throw new DomException(DomError.NoModificationAllowed);
-
                 Update(value);
                 RaiseChanged();
             }
@@ -84,7 +85,7 @@
         /// </summary>
         public Boolean IsReadOnly
         {
-            get { return _readOnly; }
+            get { return _parser == null; }
         }
 
         /// <summary>
@@ -2406,7 +2407,7 @@
 
         public String RemoveProperty(String propertyName)
         {
-            if (_readOnly)
+            if (IsReadOnly)
                 throw new DomException(DomError.NoModificationAllowed);
 
             var value = GetPropertyValue(propertyName);
@@ -2487,7 +2488,7 @@
 
         public void SetPropertyPriority(String propertyName, String priority)
         {
-            if (_readOnly)
+            if (IsReadOnly)
                 throw new DomException(DomError.NoModificationAllowed);
             
             if (!Factory.Properties.IsSupported(propertyName))
@@ -2510,7 +2511,7 @@
 
         public void SetProperty(String propertyName, String propertyValue, String priority = null)
         {
-            if (_readOnly)
+            if (IsReadOnly)
                 throw new DomException(DomError.NoModificationAllowed);
 
             if (!Factory.Properties.IsSupported(propertyName))
@@ -2569,6 +2570,9 @@
 
         internal void Update(String value)
         {
+            if (IsReadOnly)
+                throw new DomException(DomError.NoModificationAllowed);
+
             _declarations.Clear();
 
             if (!String.IsNullOrEmpty(value))

@@ -875,7 +875,8 @@
             if (engine != null)
             {
                 var source = GetOwnAttribute(AttributeNames.Style);
-                var style = new CssStyleDeclaration(CssParser.Default, source);
+                var style = new CssStyleDeclaration(CssParser.Default);
+                style.Update(source);
                 style.Changed += (s, ev) => UpdateAttribute(AttributeNames.Style, style.CssText);
                 return style;
             }
