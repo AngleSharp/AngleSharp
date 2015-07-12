@@ -31,9 +31,8 @@
 
         public static IDocument ToXmlDocument(this String sourceCode, IConfiguration configuration = null)
         {
-            var xmlParser = new XmlParser(sourceCode, configuration);
-            xmlParser.Parse();
-            return xmlParser.Result;
+            var xmlParser = new XmlParser(configuration);
+            return xmlParser.Parse(sourceCode);
         }
 
         public static ICssStyleSheet ToCssStylesheet(this String sourceCode, IConfiguration configuration = null)
