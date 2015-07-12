@@ -2702,6 +2702,9 @@
     <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlToken.cs">
       <Link>Parser\Xml\Tokens\XmlToken.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\XmlDomBuilder.cs">
+      <Link>Parser\Xml\XmlDomBuilder.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Parser\Xml\XmlParseError.cs">
       <Link>Parser\Xml\XmlParseError.cs</Link>
     </Compile>
@@ -2713,6 +2716,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Xml\XmlParserExtensions.cs">
       <Link>Parser\Xml\XmlParserExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Xml\XmlParserOptions.cs">
+      <Link>Parser\Xml\XmlParserOptions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Xml\XmlTokenizer.cs">
       <Link>Parser\Xml\XmlTokenizer.cs</Link>
