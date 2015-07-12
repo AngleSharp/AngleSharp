@@ -458,7 +458,7 @@
         /// </returns>
         public Boolean Matches(String selectors)
         {
-            return CssParser.ParseSelector(selectors).Match(this);
+            return CssParser.Default.ParseSelector(selectors).Match(this);
         }
 
         /// <summary>
@@ -875,7 +875,7 @@
             if (engine != null)
             {
                 var source = GetOwnAttribute(AttributeNames.Style);
-                var style = new CssStyleDeclaration(default(CssParserOptions), source);
+                var style = new CssStyleDeclaration(CssParser.Default, source);
                 style.Changed += (s, ev) => UpdateAttribute(AttributeNames.Style, style.CssText);
                 return style;
             }

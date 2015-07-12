@@ -21,8 +21,8 @@
         /// <summary>
         /// Creates a new @namespace rule.
         /// </summary>
-        internal CssNamespaceRule(CssParserOptions options)
-            : base(CssRuleType.Namespace, options)
+        internal CssNamespaceRule(CssParser parser)
+            : base(CssRuleType.Namespace, parser)
         {
         }
 

@@ -20,8 +20,8 @@
         /// <summary>
         /// Creates a new unknown rule.
         /// </summary>
-        public CssUnknownRule(String name, CssParserOptions options)
-            : base(CssRuleType.Unknown, options)
+        public CssUnknownRule(String name, CssParser parser)
+            : base(CssRuleType.Unknown, parser)
         {
             _name = name;
             _prelude = String.Empty;

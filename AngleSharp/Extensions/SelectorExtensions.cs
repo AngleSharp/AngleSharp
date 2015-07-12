@@ -171,7 +171,7 @@
 
         static ISelector CreateSelector(String selector)
         {
-            return CssParser.ParseSelector(selector);
+            return CssParser.Default.ParseSelector(selector);
         }
 
         #endregion

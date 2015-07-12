@@ -6,16 +6,16 @@
 
     sealed class CssUnknownState : CssParseState
     {
-        public CssUnknownState(CssTokenizer tokenizer, CssParserOptions options)
-            : base(tokenizer, options)
+        public CssUnknownState(CssTokenizer tokenizer, CssParser parser)
+            : base(tokenizer, parser)
         {
         }
 
         public override CssRule Create(CssToken current)
         {
-            if (_options.IsIncludingUnknownRules)
+            if (_parser.Options.IsIncludingUnknownRules)
             {
-                var unknown = new CssUnknownRule(current.Data, _options);
+                var unknown = new CssUnknownRule(current.Data, _parser);
                 _tokenizer.State = CssParseMode.Text;
                 unknown.Prelude = _tokenizer.Get().Data;
                 _tokenizer.State = CssParseMode.Data;

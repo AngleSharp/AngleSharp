@@ -11,8 +11,8 @@
     {
         #region ctor
 
-        internal CssCharsetRule(CssParserOptions options)
-            : base(CssRuleType.Charset, options)
+        internal CssCharsetRule(CssParser parser)
+            : base(CssRuleType.Charset, parser)
         {
         }
 

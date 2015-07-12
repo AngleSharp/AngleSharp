@@ -21,10 +21,10 @@
         /// <summary>
         /// Creates a new CSS @media rule with a new media list.
         /// </summary>
-        internal CssMediaRule(CssParserOptions options)
-            : base(CssRuleType.Media, options)
+        internal CssMediaRule(CssParser parser)
+            : base(CssRuleType.Media, parser)
         {
-            _media = new MediaList(options);
+            _media = new MediaList(parser);
         }
 
         #endregion

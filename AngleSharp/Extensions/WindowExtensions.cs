@@ -54,7 +54,7 @@
         /// <returns>Returns the cascaded read-only style declaration.</returns>
         public static CssStyleDeclaration ComputeCascadedStyle(this StyleCollection styleCollection, IElement element)
         {
-            var style = new CssStyleDeclaration(default(CssParserOptions), readOnly: true);
+            var style = new CssStyleDeclaration(CssParser.Default, readOnly: true);
             var rules = styleCollection.SortBySpecifity(element);
 
             foreach (var rule in rules)

@@ -15,8 +15,8 @@
         /// <summary>
         /// Constructs a new CSS condition rule.
         /// </summary>
-        internal CssConditionRule (CssRuleType type, CssParserOptions options)
-            : base(type, options)
+        internal CssConditionRule (CssRuleType type, CssParser parser)
+            : base(type, parser)
 	    { 
         }
 

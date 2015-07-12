@@ -17,7 +17,7 @@
         readonly List<CssProperty> _declarations;
         readonly Boolean _readOnly;
         readonly CssRule _parent;
-        readonly CssParserOptions _options;
+        readonly CssParser _parser;
 
         #endregion
 
@@ -29,22 +29,22 @@
 
         #region ctor
 
-        CssStyleDeclaration(Boolean readOnly, CssRule parent, CssParserOptions options)
+        CssStyleDeclaration(Boolean readOnly, CssRule parent, CssParser parser)
         {
             _readOnly = readOnly;
             _parent = parent;
-            _options = options;
+            _parser = parser;
             _declarations = new List<CssProperty>();
         }
 
         /// <summary>
         /// Creates a new CSS style declaration with no parent.
         /// </summary>
-        /// <param name="options">The options for the parser.</param>
+        /// <param name="parser">The used parser.</param>
         /// <param name="source">The source to start with.</param>
         /// <param name="readOnly">Seal it for modifications.</param>
-        internal CssStyleDeclaration(CssParserOptions options, String source = null, Boolean readOnly = false)
-            : this(readOnly, null, options)
+        internal CssStyleDeclaration(CssParser parser, String source = null, Boolean readOnly = false)
+            : this(readOnly, null, parser)
         {
             Update(source);
         }
@@ -54,7 +54,7 @@
         /// </summary>
         /// <param name="parent">The parent of the style declaration.</param>
         internal CssStyleDeclaration(CssRule parent)
-            : this(false, parent, parent.Options)
+            : this(false, parent, parent.Parser)
         {
         }
 
@@ -2521,7 +2521,7 @@
                 if (priority != null && !priority.Equals(Keywords.Important, StringComparison.OrdinalIgnoreCase))
                     return;
 
-                var value = CssParser.ParseValue(propertyValue, _options);
+                var value = _parser.ParseValue(propertyValue);
 
                 if (value == null)
                     return;
@@ -2572,7 +2572,7 @@
             _declarations.Clear();
 
             if (!String.IsNullOrEmpty(value))
-                CssParser.AppendDeclarations(this, value, _options);
+                _parser.AppendDeclarations(this, value);
         }
 
         internal void SetDeclarations(CssStyleDeclaration style)

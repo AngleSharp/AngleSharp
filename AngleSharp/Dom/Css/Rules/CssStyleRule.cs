@@ -20,8 +20,8 @@
         /// <summary>
         /// Creates a new CSS style rule.
         /// </summary>
-        internal CssStyleRule(CssParserOptions options)
-            : base(CssRuleType.Style, options)
+        internal CssStyleRule(CssParser parser)
+            : base(CssRuleType.Style, parser)
         {
             _style = new CssStyleDeclaration(this);
             _selector = SimpleSelector.All;
@@ -48,7 +48,7 @@
             get { return _selector.Text; }
             set 
             {
-                var selector = CssParser.ParseSelector(value);
+                var selector = Parser.ParseSelector(value);
 
                 if (selector != null)
                     _selector = selector;

@@ -79,22 +79,24 @@
         /// <summary>
         /// Creates a style sheet for the given source.
         /// </summary>
-        /// <param name="source">
+        /// <param name="sourceCode">
         /// The source code describing the style sheet.
         /// </param>
         /// <param name="options">
         /// The options with the parameters for evaluating the style.
         /// </param>
         /// <returns>The created style sheet.</returns>
-        public IStyleSheet Parse(String source, StyleOptions options)
+        public IStyleSheet Parse(String sourceCode, StyleOptions options)
         {
-            var style = new CssStyleSheet(_options, options.Configuration, source) 
+            var parser = new CssParser(_options, options.Configuration);
+            var sheet = new CssStyleSheet(parser) 
             {
                 OwnerNode = options.Element,
                 IsDisabled = options.IsDisabled,
                 Title = options.Title
             };
-            return Parse(style, options);
+            var source = new TextSource(sourceCode);
+            return Parse(parser, sheet, source);
         }
 
         /// <summary>
@@ -110,33 +112,33 @@
         /// <returns>The created style sheet.</returns>
         public IStyleSheet Parse(IResponse response, StyleOptions options)
         {
-            var source = new TextSource(response.Content);
-            var style = new CssStyleSheet(_options, options.Configuration, source) 
+            var parser = new CssParser(_options, options.Configuration);
+            var sheet = new CssStyleSheet(parser) 
             { 
                 Href = response.Address.Href, 
                 OwnerNode = options.Element,
                 IsDisabled = options.IsDisabled,
                 Title = options.Title
             };
-            return Parse(style, options);
+            var source = new TextSource(response.Content);
+            return Parse(parser, sheet, source);
         }
 
         #endregion
 
         #region Helper
 
-        IStyleSheet Parse(CssStyleSheet style, StyleOptions options)
+        IStyleSheet Parse(CssParser parser, CssStyleSheet sheet, TextSource source)
         {
-            var parser = new CssParser(style);
-            var evt = new CssParseStartEvent(parser);
-            var events = options.Configuration.Events;
+            var evt = new CssParseStartEvent();
+            var events = parser.Config.Events;
 
             if (events != null)
                 events.Publish(evt);
 
-            parser.Parse(_options);
-            evt.SetResult(style);
-            return style;
+            parser.ParseStylesheet(sheet, source);
+            evt.SetResult(sheet);
+            return sheet;
         }
 
         #endregion

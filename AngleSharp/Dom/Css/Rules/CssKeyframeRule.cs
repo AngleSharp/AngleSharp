@@ -20,8 +20,8 @@
         /// <summary>
         /// Creates a new @keyframe rule.
         /// </summary>
-        internal CssKeyframeRule(CssParserOptions options)
-            : base(CssRuleType.Keyframe, options)
+        internal CssKeyframeRule(CssParser parser)
+            : base(CssRuleType.Keyframe, parser)
         {
             _style = new CssStyleDeclaration(this);
         }
@@ -39,7 +39,7 @@
             get { return _selector.Text; }
             set
             {
-                var selector = CssParser.ParseKeyframeSelector(value);
+                var selector = Parser.ParseKeyframeSelector(value);
 
                 if (selector == null)
                     throw new DomException(DomError.Syntax);

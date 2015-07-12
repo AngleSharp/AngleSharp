@@ -19,8 +19,8 @@
         /// <summary>
         /// Creates a new CSS grouping rule.
         /// </summary>
-        internal CssGroupingRule(CssRuleType type, CssParserOptions options)
-            : base(type, options)
+        internal CssGroupingRule(CssRuleType type, CssParser parser)
+            : base(type, parser)
         {
             _rules = new CssRuleList();
         }
@@ -64,7 +64,7 @@
         /// </returns>
         public Int32 Insert(String rule, Int32 index)
         {
-            var value = CssParser.ParseRule(rule, Options);
+            var value = Parser.ParseRule(rule);
             _rules.Insert(value, index, Owner, this);
             return index;    
         }

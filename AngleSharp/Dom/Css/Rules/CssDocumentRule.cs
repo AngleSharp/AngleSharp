@@ -20,8 +20,8 @@
 
         #region ctor
 
-        internal CssDocumentRule(CssParserOptions options)
-            : base(CssRuleType.Document, options)
+        internal CssDocumentRule(CssParser parser)
+            : base(CssRuleType.Document, parser)
         {
             _conditions = new List<IDocumentFunction>();
         }
@@ -51,7 +51,7 @@
             }
             set
             {
-                var conditions = CssParser.ParseDocumentRules(value, Options);
+                var conditions = Parser.ParseDocumentRules(value);
 
                 if (conditions == null)
                     throw new DomException(DomError.Syntax);

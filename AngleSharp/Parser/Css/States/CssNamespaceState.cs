@@ -4,15 +4,15 @@
 
     sealed class CssNamespaceState : CssParseState
     {
-        public CssNamespaceState(CssTokenizer tokenizer, CssParserOptions options)
-            : base(tokenizer, options)
+        public CssNamespaceState(CssTokenizer tokenizer, CssParser parser)
+            : base(tokenizer, parser)
         {
         }
 
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssNamespaceRule(_options);
+            var rule = new CssNamespaceRule(_parser);
             rule.Prefix = GetRuleName(ref token);
 
             if (token.Type == CssTokenType.Url)

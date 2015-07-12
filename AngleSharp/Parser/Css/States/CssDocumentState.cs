@@ -1,20 +1,20 @@
 ﻿namespace AngleSharp.Parser.Css.States
 {
-    using System.Collections.Generic;
     using AngleSharp.Css;
     using AngleSharp.Dom.Css;
+    using System.Collections.Generic;
 
     sealed class CssDocumentState : CssParseState
     {
-        public CssDocumentState(CssTokenizer tokenizer, CssParserOptions options)
-            : base(tokenizer, options)
+        public CssDocumentState(CssTokenizer tokenizer, CssParser parser)
+            : base(tokenizer, parser)
         {
         }
 
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssDocumentRule(_options);
+            var rule = new CssDocumentRule(_parser);
             var functions = CreateFunctions(ref token);
             rule.Conditions.AddRange(functions);
 

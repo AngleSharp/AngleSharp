@@ -25,7 +25,7 @@
         /// <returns>An element object.</returns>
         public static IElement QuerySelector(this INodeList elements, String selectors)
         {
-            var sg = CssParser.ParseSelector(selectors);
+            var sg = CssParser.Default.ParseSelector(selectors);
 
             if (sg == null)
                 throw new DomException(DomError.Syntax);
@@ -42,27 +42,13 @@
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
         public static HtmlElementCollection QuerySelectorAll(this INodeList elements, String selectors)
         {
-            var sg = CssParser.ParseSelector(selectors);
+            var sg = CssParser.Default.ParseSelector(selectors);
 
             if (sg == null)
                 throw new DomException(DomError.Syntax);
 
             var result = new List<IElement>();
             elements.QuerySelectorAll(sg, result);
-            return new HtmlElementCollection(result);
-        }
-
-        /// <summary>
-        /// Returns a list of the elements within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that matches the selector.
-        /// </summary>
-        /// <param name="elements">The elements to take as source.</param>
-        /// <param name="selector">A selector object.</param>
-        /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static HtmlElementCollection QuerySelectorAll(this INodeList elements, ISelector selector)
-        {
-            var result = new List<IElement>();
-            elements.QuerySelectorAll(selector, result);
             return new HtmlElementCollection(result);
         }
 
@@ -157,6 +143,20 @@
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Returns a list of the elements within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that matches the selector.
+        /// </summary>
+        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="selector">A selector object.</param>
+        /// <returns>A HTMLCollection with all elements that match the selection.</returns>
+        public static HtmlElementCollection QuerySelectorAll(this INodeList elements, ISelector selector)
+        {
+            var result = new List<IElement>();
+            elements.QuerySelectorAll(selector, result);
+            return new HtmlElementCollection(result);
         }
 
         /// <summary>

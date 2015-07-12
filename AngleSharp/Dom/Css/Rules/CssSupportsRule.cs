@@ -12,7 +12,6 @@
     {
         #region Fields
 
-        readonly CssParserOptions _options;
         ICondition _condition;
 
         static readonly ICondition empty = new EmptyCondition();
@@ -21,11 +20,10 @@
 
         #region ctor
 
-        internal CssSupportsRule(CssParserOptions options)
-            : base(CssRuleType.Supports, options)
+        internal CssSupportsRule(CssParser parser)
+            : base(CssRuleType.Supports, parser)
         {
             _condition = empty;
-            _options = options;
         }
 
         #endregion
@@ -40,7 +38,7 @@
             get { return _condition.Text; }
             set
             {
-                var condition = CssParser.ParseCondition(value, _options);
+                var condition = Parser.ParseCondition(value);
 
                 if (condition == null)
                     throw new DomException(DomError.Syntax);

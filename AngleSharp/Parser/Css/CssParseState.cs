@@ -5,21 +5,24 @@
     using AngleSharp.Dom.Css;
     using System;
 
+    /// <summary>
+    /// See http://dev.w3.org/csswg/css-syntax/#parsing for details.
+    /// </summary>
     abstract class CssParseState
     {
         #region Fields
 
         protected readonly CssTokenizer _tokenizer;
-        protected readonly CssParserOptions _options;
+        protected readonly CssParser _parser;
 
         #endregion
 
         #region ctor
 
-        public CssParseState(CssTokenizer tokenizer, CssParserOptions options)
+        public CssParseState(CssTokenizer tokenizer, CssParser parser)
         {
             _tokenizer = tokenizer;
-            _options = options;
+            _parser = parser;
         }
 
         #endregion
@@ -47,7 +50,7 @@
         /// <summary>
         /// Called before the property name has been detected.
         /// </summary>
-        public CssProperty CreateDeclaration(ref CssToken token)
+        public CssProperty CreateDeclarationWith(Func<String, CssProperty> createProperty, ref CssToken token)
         {
             var property = default(CssProperty);
 
@@ -62,8 +65,8 @@
                 }
                 else
                 {
-                    property = _options.IsIncludingUnknownDeclarations || _options.IsToleratingInvalidValues ?
-                        new CssUnknownProperty(propertyName) : Factory.Properties.Create(propertyName);
+                    property = _parser.Options.IsIncludingUnknownDeclarations || _parser.Options.IsToleratingInvalidValues ?
+                        new CssUnknownProperty(propertyName) : createProperty(propertyName);
 
                     if (property == null)
                         RaiseErrorOccurred(CssParseError.UnknownDeclarationName, token);
@@ -91,6 +94,14 @@
                 token = _tokenizer.Get();
 
             return property;
+        }
+
+        /// <summary>
+        /// Called before the property name has been detected.
+        /// </summary>
+        public CssProperty CreateDeclaration(ref CssToken token)
+        {
+            return CreateDeclarationWith(Factory.Properties.Create, ref token);
         }
 
         /// <summary>
@@ -176,7 +187,7 @@
 
             while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
             {
-                var rule = _tokenizer.CreateRule(token, _options);
+                var rule = _tokenizer.CreateRule(token, _parser);
                 group.AddRule(rule);
                 token = _tokenizer.Get();
             }
@@ -336,7 +347,7 @@
                 _tokenizer.State = CssParseMode.Data;
 
                 var val = value.ToPool();
-                var feature = _options.IsToleratingInvalidConstraints ? 
+                var feature = _parser.Options.IsToleratingInvalidConstraints ? 
                     new UnknownMediaFeature(featureName) : Factory.MediaFeatures.Create(featureName);
 
                 if (feature == null || !feature.TrySetValue(val))

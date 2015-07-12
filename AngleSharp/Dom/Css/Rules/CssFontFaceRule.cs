@@ -21,8 +21,8 @@
         /// <summary>
         /// Creates a new @font-face rule.
         /// </summary>
-        internal CssFontFaceRule(CssParserOptions options)
-            : base(CssRuleType.FontFace, options)
+        internal CssFontFaceRule(CssParser parser)
+            : base(CssRuleType.FontFace, parser)
         {
             _declarations = new CssProperty[]
             {
@@ -169,7 +169,7 @@
             {
                 if (declaration.Name == propertyName)
                 {
-                    var value = CssParser.ParseValue(valueText, Options);
+                    var value = Parser.ParseValue(valueText);
                     declaration.TrySetValue(value);
                     break;
                 }

@@ -12,7 +12,7 @@
         #region Fields
 
         readonly CssRuleType _type;
-        readonly CssParserOptions _options;
+        readonly CssParser _parser;
 
         ICssStyleSheet _ownerSheet;
         ICssRule _parentRule;
@@ -24,10 +24,10 @@
         /// <summary>
         /// Creates a new CSS rule.
         /// </summary>
-        internal CssRule(CssRuleType type, CssParserOptions options)
+        internal CssRule(CssRuleType type, CssParser parser)
         {
             _type = type;
-            _options = options;
+            _parser = parser;
         }
 
         #endregion
@@ -42,7 +42,7 @@
             get { return ToCss(); }
             set
             {
-                var rule = CssParser.ParseRule(value, _options);
+                var rule = _parser.ParseRule(value);
 
                 if (rule == null)
                     throw new DomException(DomError.Syntax);
@@ -83,9 +83,9 @@
 
         #region Internal Properties
 
-        internal CssParserOptions Options
+        internal CssParser Parser
         {
-            get { return _options; }
+            get { return _parser; }
         }
 
         #endregion

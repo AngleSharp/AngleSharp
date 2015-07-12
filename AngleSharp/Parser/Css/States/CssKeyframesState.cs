@@ -6,15 +6,15 @@
 
     sealed class CssKeyframesState : CssParseState
     {
-        public CssKeyframesState(CssTokenizer tokenizer, CssParserOptions options)
-            : base(tokenizer, options)
+        public CssKeyframesState(CssTokenizer tokenizer, CssParser parser)
+            : base(tokenizer, parser)
         {
         }
 
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssKeyframesRule(_options);
+            var rule = new CssKeyframesRule(_parser);
             rule.Name = GetRuleName(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
@@ -29,7 +29,7 @@
         /// </summary>
         public CssKeyframeRule CreateKeyframeRule(CssToken token)
         {
-            var rule = new CssKeyframeRule(_options);
+            var rule = new CssKeyframeRule(_parser);
             rule.Key = CreateKeyframeSelector(ref token);
 
             if (rule.Key == null)

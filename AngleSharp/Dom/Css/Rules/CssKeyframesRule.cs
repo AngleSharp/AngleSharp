@@ -21,8 +21,8 @@
         /// <summary>
         /// Creates a new @keyframes rule.
         /// </summary>
-        internal CssKeyframesRule(CssParserOptions options)
-            : base(CssRuleType.Keyframes, options)
+        internal CssKeyframesRule(CssParser parser)
+            : base(CssRuleType.Keyframes, parser)
         {
             _rules = new CssRuleList();
         }
@@ -63,7 +63,7 @@
         /// <param name="rule">A string containing a keyframe in the same format as an entry of a @keyframes at-rule.</param>
         public void Add(String rule)
         {
-            var value = CssParser.ParseKeyframeRule(rule, Options);
+            var value = Parser.ParseKeyframeRule(rule);
             _rules.Insert(value, _rules.Length, Owner, this);
         }
 

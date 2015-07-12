@@ -20,8 +20,8 @@
         /// <summary>
         /// Creates a new @page rule.
         /// </summary>
-        internal CssPageRule(CssParserOptions options)
-            : base(CssRuleType.Page, options)
+        internal CssPageRule(CssParser parser)
+            : base(CssRuleType.Page, parser)
         {
             _style = new CssStyleDeclaration(this);
             _selector = SimpleSelector.All;
@@ -60,7 +60,7 @@
             get { return _selector.Text; }
             set
             {
-                var selector = CssParser.ParseSelector(value);
+                var selector = Parser.ParseSelector(value);
 
                 if (selector != null)
                     _selector = selector;

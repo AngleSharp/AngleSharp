@@ -4,15 +4,15 @@
 
     sealed class CssCharsetState : CssParseState
     {
-        public CssCharsetState(CssTokenizer tokenizer, CssParserOptions options)
-            : base(tokenizer, options)
+        public CssCharsetState(CssTokenizer tokenizer, CssParser parser)
+            : base(tokenizer, parser)
         {
         }
 
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssCharsetRule(_options);
+            var rule = new CssCharsetRule(_parser);
 
             if (token.Type == CssTokenType.String)
                 rule.CharacterSet = token.Data;

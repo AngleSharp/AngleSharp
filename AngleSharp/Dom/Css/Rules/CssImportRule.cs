@@ -24,10 +24,10 @@
         /// <summary>
         /// Creates a new CSS import rule
         /// </summary>
-        internal CssImportRule(CssParserOptions options)
-            : base(CssRuleType.Import, options)
+        internal CssImportRule(CssParser parser)
+            : base(CssRuleType.Import, parser)
         {
-            _media = new MediaList(options);
+            _media = new MediaList(parser);
         }
 
         #endregion

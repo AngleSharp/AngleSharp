@@ -13,9 +13,7 @@
         #region Fields
 
         readonly CssRuleList _rules;
-        readonly TextSource _source;
-        readonly IConfiguration _config;
-        readonly CssParserOptions _options;
+        readonly CssParser _parser;
 
         ICssRule _ownerRule;
 
@@ -26,43 +24,12 @@
         /// <summary>
         /// Creates a new CSS Stylesheet.
         /// </summary>
-        /// <param name="options">The options for the parser.</param>
-        /// <param name="config">
-        /// The configuration to use for the stylesheet.
-        /// </param>
-        internal CssStyleSheet(CssParserOptions options, IConfiguration config)
-            : this(options, config, new TextSource(String.Empty))
+        /// <param name="parser">The parser to use.</param>
+        internal CssStyleSheet(CssParser parser)
+            : base(new MediaList(parser))
         {
-        }
-
-        /// <summary>
-        /// Creates a new CSS Stylesheet.
-        /// </summary>
-        /// <param name="options">The options for the parser.</param>
-        /// <param name="config">
-        /// The configuration to use for the stylesheet.
-        /// </param>
-        /// <param name="source">The CSS source code.</param>
-        internal CssStyleSheet(CssParserOptions options, IConfiguration config, String source)
-            : this(options, config, new TextSource(source))
-        {
-        }
-
-        /// <summary>
-        /// Creates a new CSS Stylesheet.
-        /// </summary>
-        /// <param name="options">The options for the parser.</param>
-        /// <param name="config">
-        /// The configuration to use for the stylesheet.
-        /// </param>
-        /// <param name="source">The underlying source.</param>
-        internal CssStyleSheet(CssParserOptions options, IConfiguration config, TextSource source)
-            : base(new MediaList(options))
-        {
-            _source = source;
             _rules = new CssRuleList();
-            _config = config ?? Configuration.Default;
-            _options = options;
+            _parser = parser;
         }
 
         #endregion
@@ -115,22 +82,6 @@
             get { return _rules; }
         }
 
-        /// <summary>
-        /// Gets the text stream source.
-        /// </summary>
-        internal TextSource Source
-        {
-            get { return _source; }
-        }
-
-        /// <summary>
-        /// Gets the configuration to use.
-        /// </summary>
-        internal IConfiguration Options
-        {
-            get { return _config; }
-        }
-
         #endregion
 
         #region Methods
@@ -165,7 +116,7 @@
         /// <returns>The current stylesheet.</returns>
         public Int32 Insert(String rule, Int32 index)
         {
-            var value = CssParser.ParseRule(rule, _options);
+            var value = _parser.ParseRule(rule);
             _rules.Insert(value, index, this, null);
             return index;            
         }

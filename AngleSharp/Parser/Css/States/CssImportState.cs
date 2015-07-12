@@ -4,15 +4,15 @@
 
     sealed class CssImportState : CssParseState
     {
-        public CssImportState(CssTokenizer tokenizer, CssParserOptions options)
-            : base(tokenizer, options)
+        public CssImportState(CssTokenizer tokenizer, CssParser parser)
+            : base(tokenizer, parser)
         {
         }
 
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssImportRule(_options);
+            var rule = new CssImportRule(_parser);
 
             if (token.Is(CssTokenType.String, CssTokenType.Url))
             {

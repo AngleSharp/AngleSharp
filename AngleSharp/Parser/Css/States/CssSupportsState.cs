@@ -8,15 +8,15 @@
 
     sealed class CssSupportsState : CssParseState
     {
-        public CssSupportsState(CssTokenizer tokenizer, CssParserOptions options)
-            : base(tokenizer, options)
+        public CssSupportsState(CssTokenizer tokenizer, CssParser parser)
+            : base(tokenizer, parser)
         {
         }
 
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssSupportsRule(_options);
+            var rule = new CssSupportsRule(_parser);
             rule.Condition = CreateCondition(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)

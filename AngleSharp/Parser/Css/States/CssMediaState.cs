@@ -4,15 +4,15 @@
 
     sealed class CssMediaState : CssParseState
     {
-        public CssMediaState(CssTokenizer tokenizer, CssParserOptions options)
-            : base(tokenizer, options)
+        public CssMediaState(CssTokenizer tokenizer, CssParser parser)
+            : base(tokenizer, parser)
         {
         }
 
         public override CssRule Create(CssToken current)
         {
             var token = _tokenizer.Get();
-            var rule = new CssMediaRule(_options);
+            var rule = new CssMediaRule(_parser);
             FillMediaList(rule.Media, ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
