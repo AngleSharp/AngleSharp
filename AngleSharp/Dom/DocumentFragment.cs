@@ -34,7 +34,12 @@
             var source = new TextSource(html);
             var document = new HtmlDocument(Owner.Context, source);
             var parser = new HtmlDomBuilder(document);
-            var root = parser.ParseFragment(context).DocumentElement;
+            var options = new HtmlParserOptions
+            {
+                IsEmbedded = false,
+                IsScripting = Owner.Options.IsScripting()
+            };
+            var root = parser.ParseFragment(options, context).DocumentElement;
 
             while (root.HasChildNodes)
             {

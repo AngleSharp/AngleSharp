@@ -25,11 +25,8 @@
         readonly XmlTokenizer _tokenizer;
         readonly Document _document;
         readonly List<Element> _openElements;
-        readonly Object _syncGuard;
 
-        Boolean _started;
         XmlTreeMode _currentMode;
-        Task<Document> _parsing;
         Boolean _standalone;
 
         #endregion
@@ -69,8 +66,6 @@
         internal XmlDomBuilder(Document document)
         {
             _tokenizer = new XmlTokenizer(document.Source, document.Options.Events);
-			_syncGuard = new Object();
-            _started = false;
             _document = document;
             _standalone = false;
             _openElements = new List<Element>();
@@ -104,18 +99,22 @@
         /// </summary>
         /// <param name="options">The options to use for parsing.</param>
         /// <param name="cancelToken">The cancellation token to use.</param>
-        public Task<Document> ParseAsync(XmlParserOptions options, CancellationToken cancelToken)
+        public async Task<Document> ParseAsync(XmlParserOptions options, CancellationToken cancelToken)
         {
-            lock (_syncGuard)
-            {
-                if (!_started)
-                {
-                    _started = true;
-                    _parsing = KernelAsync(cancelToken);
-                }
-            }
+            var source = _document.Source;
+            var token = default(XmlToken);
 
-            return _parsing;
+            do
+            {
+                if (source.Length - source.Index < 1024)
+                    await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
+
+                token = _tokenizer.Get();
+                Consume(token);
+            }
+            while (token.Type != XmlTokenType.EndOfFile);
+
+            return _document;
         }
 
         /// <summary>
@@ -124,14 +123,14 @@
         /// <param name="options">The options to use for parsing.</param>
         public Document Parse(XmlParserOptions options)
         {
-            lock (_syncGuard)
+            var token = default(XmlToken);
+
+            do
             {
-                if (!_started)
-                {
-                    _started = true;
-                    Kernel();
-                }
+                token = _tokenizer.Get();
+                Consume(token);
             }
+            while (token.Type != XmlTokenType.EndOfFile);
 
             return _document;
         }
@@ -380,44 +379,6 @@
                 return t >= 1.0 && t < 2.0;
 
             return false;
-        }
-
-        /// <summary>
-        /// The kernel that is pulling the tokens into the parser.
-        /// </summary>
-        void Kernel()
-        {
-            var token = default(XmlToken);
-
-            do
-            {
-                token = _tokenizer.Get();
-                Consume(token);
-            }
-            while (token.Type != XmlTokenType.EndOfFile);
-        }
-
-        /// <summary>
-        /// The kernel that is pulling the tokens into the parser.
-        /// </summary>
-        /// <param name="cancelToken">The cancellation token to consider.</param>
-        /// <returns>The task to await.</returns>
-        async Task<Document> KernelAsync(CancellationToken cancelToken)
-        {
-            var source = _document.Source;
-            var token = default(XmlToken);
-
-            do
-            {
-                if (source.Length - source.Index < 1024)
-                    await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
-
-                token = _tokenizer.Get();
-                Consume(token);
-            }
-            while (token.Type != XmlTokenType.EndOfFile);
-
-            return _document;
         }
 
         /// <summary>

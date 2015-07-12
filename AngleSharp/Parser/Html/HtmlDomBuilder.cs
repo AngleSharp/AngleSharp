@@ -29,20 +29,16 @@
         readonly List<Element> _openElements;
         readonly List<Element> _formattingElements;
         readonly Stack<HtmlTreeMode> _templateModes;
-        readonly Object _syncGuard;
 
         HtmlFormElement _currentFormElement;
         HtmlScriptElement _currentScriptElement;
         HtmlTreeMode _currentMode;
         HtmlTreeMode _previousMode;
+        HtmlParserOptions _options;
         Element _fragmentContext;
         Boolean _foster;
-        Boolean _embedded;
         Boolean _frameset;
-        Boolean _scripting;
         Int32 _nested;
-        Boolean _started;
-        Task<HtmlDocument> _parsing;
         Task _waiting;
 
         #endregion
@@ -85,8 +81,6 @@
         internal HtmlDomBuilder(HtmlDocument document)
         {
             _tokenizer = new HtmlTokenizer(document.Source, document.Options.Events);
-			_syncGuard = new Object();
-            _started = false;
             _document = document;
             _openElements = new List<Element>();
             _templateModes = new Stack<HtmlTreeMode>();
@@ -133,20 +127,26 @@
         /// </summary>
         /// <param name="options">The options to use for parsing.</param>
         /// <param name="cancelToken">The cancellation token to use.</param>
-        public Task<HtmlDocument> ParseAsync(HtmlParserOptions options, CancellationToken cancelToken)
+        public async Task<HtmlDocument> ParseAsync(HtmlParserOptions options, CancellationToken cancelToken)
         {
-			lock (_syncGuard)
-			{
-				if (!_started)
-                {
-                    _embedded = options.IsEmbedded;
-                    _scripting = options.IsScripting;
-					_started = true;
-                    _parsing = KernelAsync(cancelToken);
-				}
-            }
+            var source = _document.Source;
+            var token = default(HtmlToken);
+            _options = options;
 
-            return _parsing;
+            do
+            {
+                if (source.Length - source.Index < 1024)
+                    await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
+
+                if (_waiting != null && _waiting.Status == TaskStatus.Running)
+                    await _waiting.ConfigureAwait(false);
+
+                token = _tokenizer.Get();
+                Consume(token);
+            }
+            while (token.Type != HtmlTokenType.EndOfFile);
+
+            return _document;
         }
 
         /// <summary>
@@ -155,16 +155,18 @@
         /// <param name="options">The options to use for parsing.</param>
         public HtmlDocument Parse(HtmlParserOptions options)
         {
-            lock (_syncGuard)
+            var token = default(HtmlToken);
+            _options = options;
+
+            do
             {
-                if (!_started)
-                {
-                    _embedded = options.IsEmbedded;
-                    _scripting = options.IsScripting;
-                    _started = true;
-                    Kernel();
-                }
+                if (_waiting != null && _waiting.Status == TaskStatus.Running)
+                    _waiting.Wait();
+
+                token = _tokenizer.Get();
+                Consume(token);
             }
+            while (token.Type != HtmlTokenType.EndOfFile);
 
             return _document;
         }
@@ -173,33 +175,11 @@
         /// Switches to the fragment algorithm with the specified context
         /// element. Then parses the given source and creates the document.
         /// </summary>
+        /// <param name="options">The options to use for parsing.</param>
         /// <param name="context">
         /// The context element where the algorithm is applied to.
         /// </param>
-        public HtmlDocument ParseFragment(Element context)
-        {
-            lock (_syncGuard)
-            {
-                if (!_started)
-                {
-                    _started = true;
-                    _scripting = false;
-                    SwitchToFragment(context);
-                    Kernel();
-                }
-            }
-
-            return _document;
-        }
-
-        /// <summary>
-        /// Switches to the fragment algorithm with the specified context
-        /// element.
-        /// </summary>
-        /// <param name="context">
-        /// The context element where the algorithm is applied to.
-        /// </param>
-        void SwitchToFragment(Element context)
+        public HtmlDocument ParseFragment(HtmlParserOptions options, Element context)
         {
             if (context == null)
                 throw new ArgumentNullException("context");
@@ -214,7 +194,7 @@
                 _tokenizer.State = HtmlParseMode.Script;
             else if (tagName == Tags.Plaintext)
                 _tokenizer.State = HtmlParseMode.Plaintext;
-            else if (tagName == Tags.NoScript && _scripting)
+            else if (tagName == Tags.NoScript && options.IsScripting)
                 _tokenizer.State = HtmlParseMode.Rawtext;
 
             var root = new HtmlHtmlElement(_document);
@@ -240,6 +220,8 @@
                 context = context.ParentElement as Element;
             }
             while (context != null);
+
+            return Parse(options);
         }
 
         /// <summary>
@@ -475,7 +457,7 @@
                 }
             }
 
-            if (_embedded == false)
+            if (_options.IsEmbedded == false)
             {
                 RaiseErrorOccurred(HtmlParseError.DoctypeMissing, token);
                 _document.QuirksMode = QuirksMode.On;
@@ -663,7 +645,7 @@
                         RCDataAlgorithm(token.AsTag());
                         return;
                     }
-                    else if (tagName.IsOneOf(Tags.Style, Tags.NoFrames) || (_scripting && tagName == Tags.NoScript))
+                    else if (tagName.IsOneOf(Tags.Style, Tags.NoFrames) || (_options.IsScripting && tagName == Tags.NoScript))
                     {
                         RawtextAlgorithm(token.AsTag());
                         return;
@@ -1177,7 +1159,7 @@
             }
             else if (tagName == Tags.NoScript)
             {
-                if (_scripting)
+                if (_options.IsScripting)
                 {
                     RawtextAlgorithm(tag);
                     return;
@@ -3479,50 +3461,6 @@
         #endregion
 
         #region Helpers
-
-        /// <summary>
-        /// The kernel that is pulling the tokens into the parser.
-        /// </summary>
-        void Kernel()
-        {
-            var token = default(HtmlToken);
-
-            do
-            {
-                if (_waiting != null && _waiting.Status == TaskStatus.Running)
-                    _waiting.Wait();
-
-                token = _tokenizer.Get();
-                Consume(token);
-            }
-            while (token.Type != HtmlTokenType.EndOfFile);
-        }
-
-        /// <summary>
-        /// The kernel that is pulling the tokens into the parser.
-        /// </summary>
-        /// <param name="cancelToken">The cancellation token to consider.</param>
-        /// <returns>The task to await.</returns>
-        async Task<HtmlDocument> KernelAsync(CancellationToken cancelToken)
-        {
-            var source = _document.Source;
-            var token = default(HtmlToken);
-
-            do
-            {
-                if (source.Length - source.Index < 1024)
-                    await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
-
-                if (_waiting != null && _waiting.Status == TaskStatus.Running)
-                    await _waiting.ConfigureAwait(false);
-
-                token = _tokenizer.Get();
-                Consume(token);
-            }
-            while (token.Type != HtmlTokenType.EndOfFile);
-
-            return _document;
-        }
 
         /// <summary>
         /// Runs a script given by the current node.
