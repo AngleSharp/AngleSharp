@@ -1,23 +1,15 @@
 ﻿namespace AngleSharp.Core.Tests.Css
 {
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Parser.Css;
     using NUnit.Framework;
-    using System;
     using System.Linq;
 
     [TestFixture]
-    public class CssKeyframeRuleTests
+    public class CssKeyframeRuleTests : CssConstructionFunctions
     {
-        CssKeyframeRule Create(String source)
-        {
-            return CssParser.ParseKeyframeRule(source, default(CssParserOptions));
-        }
-
         [Test]
         public void KeyframeRuleWithFromAndMarginLeft()
         {
-            var rule = Create(@"  from {
+            var rule = ParseKeyframeRule(@"  from {
     margin-left: 0px;
   }");
             Assert.IsNotNull(rule);
@@ -30,7 +22,7 @@
         [Test]
         public void KeyframeRuleWith50PercentAndMarginLeftOpacity()
         {
-            var rule = Create(@"  50% {
+            var rule = ParseKeyframeRule(@"  50% {
     margin-left: 110px;
     opacity: 1;
   }");
@@ -45,7 +37,7 @@
         [Test]
         public void KeyframeRuleWithToAndMarginLeft()
         {
-            var rule = Create(@"  to {
+            var rule = ParseKeyframeRule(@"  to {
     margin-left: 200px;
   }");
             Assert.IsNotNull(rule);
@@ -58,7 +50,7 @@
         [Test]
         public void KeyframeRuleWithFromTo255075PercentAndPaddingTopPaddingLeftColor()
         {
-            var rule = Create(@"  from,to, 25%, 50%,75%{
+            var rule = ParseKeyframeRule(@"  from,to, 25%, 50%,75%{
     padding-top: 200px;
     padding-left: 2em;
     color: red
@@ -75,7 +67,7 @@
         [Test]
         public void KeyframeRuleWith0AndNoDeclarations()
         {
-            var rule = Create(@"  0% { }");
+            var rule = ParseKeyframeRule(@"  0% { }");
             Assert.IsNotNull(rule);
             Assert.AreEqual("0%", rule.KeyText);
             Assert.AreEqual(1, rule.Key.Stops.Count());

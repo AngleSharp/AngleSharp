@@ -1,8 +1,8 @@
-﻿using AngleSharp.Dom.Css;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom.Css;
+    using NUnit.Framework;
+
     [TestFixture]
     public class HtmlCssIntegrationTests
     {

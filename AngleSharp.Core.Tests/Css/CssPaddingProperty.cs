@@ -1,17 +1,16 @@
-﻿using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Css;
+    using NUnit.Framework;
+
     [TestFixture]
-    public class CssPaddingPropertyTests
+    public class CssPaddingPropertyTests : CssConstructionFunctions
     {
         [Test]
         public void CssPaddingLeftLengthLegal()
         {
             var snippet = "padding-left: 15px ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding-left", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPaddingLeftProperty>(property);
@@ -25,7 +24,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPaddingRightLengthImportantLegal()
         {
             var snippet = "padding-right: 3em!important";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding-right", property.Name);
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssPaddingRightProperty>(property);
@@ -39,7 +38,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPaddingTopPercentLegal()
         {
             var snippet = "padding-top: 4% ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding-top", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPaddingTopProperty>(property);
@@ -53,7 +52,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPaddingBottomZeroLegal()
         {
             var snippet = "padding-bottom: 0 ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding-bottom", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPaddingBottomProperty>(property);
@@ -67,7 +66,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPaddingAllZeroLegal()
         {
             var snippet = "padding: 0 ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPaddingProperty>(property);
@@ -81,7 +80,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPaddingAllPercentLegal()
         {
             var snippet = "padding: 25% ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPaddingProperty>(property);
@@ -95,7 +94,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPaddingSidesLengthLegal()
         {
             var snippet = "padding: 10px 3em ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPaddingProperty>(property);
@@ -109,7 +108,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPaddingAutoIllegal()
         {
             var snippet = "padding: auto ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPaddingProperty>(property);
@@ -122,7 +121,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPaddingThreeValuesLegal()
         {
             var snippet = "padding: 10px 3em 5px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPaddingProperty>(property);
@@ -136,7 +135,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPaddingAllValuesWithPercentLegal()
         {
             var snippet = "padding: 10px 5% 8px 2% ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPaddingProperty>(property);
@@ -150,7 +149,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPaddingTooManyValuesIllegal()
         {
             var snippet = "padding: 10px 5% 8px 2% 3px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("padding", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssPaddingProperty>(property);
@@ -164,7 +163,7 @@ namespace AngleSharp.Core.Tests.Css
         {
             var snippet = ".centered {padding-bottom: 2em; padding-top: 2.5em; padding-left: 0; padding-right: 0}";
             var expected = ".centered { padding: 2.5em 0 2em; }";
-            var result = CssParser.ParseRule(snippet);
+            var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
         }

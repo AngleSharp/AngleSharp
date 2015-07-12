@@ -1,20 +1,16 @@
-﻿using AngleSharp;
-using AngleSharp.Css;
-using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-using System.Linq;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Css;
+    using NUnit.Framework;
+
     [TestFixture]
-    public class CssFontPropertyTests
+    public class CssFontPropertyTests : CssConstructionFunctions
     {
         [Test]
         public void CssFontFamilyMultipleWithIdentifiersLegal()
         {
             var snippet = "font-family: Gill Sans Extrabold, sans-serif ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontFamilyProperty>(property);
@@ -28,7 +24,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontFamilyInitialLegal()
         {
             var snippet = "font-family: initial ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontFamilyProperty>(property);
@@ -42,7 +38,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontFamilyMultipleDiverseLegal()
         {
             var snippet = "font-family: Courier, \"Lucida Console\", monospace ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontFamilyProperty>(property);
@@ -56,7 +52,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontFamilyMultipleStringLegal()
         {
             var snippet = "font-family: \"Goudy Bookletter 1911\", sans-serif ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontFamilyProperty>(property);
@@ -70,7 +66,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontFamilyMultipleNumberIllegal()
         {
             var snippet = "font-family: Goudy Bookletter 1911, sans-serif  ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontFamilyProperty>(property);
@@ -83,7 +79,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontFamilyMultipleFractionIllegal()
         {
             var snippet = "font-family: Red/Black, sans-serif  ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontFamilyProperty>(property);
@@ -96,7 +92,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontFamilyMultipleStringMixedWithIdentifierIllegal()
         {
             var snippet = "font-family: \"Lucida\" Grande, sans-serif ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontFamilyProperty>(property);
@@ -109,7 +105,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontFamilyMultipleExclamationMarkIllegal()
         {
             var snippet = "font-family: Ahem!, sans-serif ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontFamilyProperty>(property);
@@ -122,7 +118,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontFamilyMultipleAtIllegal()
         {
             var snippet = "font-family: test@foo, sans-serif ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontFamilyProperty>(property);
@@ -135,7 +131,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontFamilyHashIllegal()
         {
             var snippet = "font-family: #POUND ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontFamilyProperty>(property);
@@ -148,7 +144,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontFamilyDashIllegal()
         {
             var snippet = "font-family: Hawaii 5-0 ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-family", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontFamilyProperty>(property);
@@ -161,7 +157,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontVariantNormalUppercaseLegal()
         {
             var snippet = "font-variant : NORMAL";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-variant", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontVariantProperty>(property);
@@ -175,7 +171,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontVariantSmallCapsLegal()
         {
             var snippet = "font-variant : small-caps ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-variant", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontVariantProperty>(property);
@@ -189,7 +185,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontVariantSmallCapsIllegal()
         {
             var snippet = "font-variant : smallCaps ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-variant", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontVariantProperty>(property);
@@ -202,7 +198,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontStyleItalicLegal()
         {
             var snippet = "font-style : italic";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontStyleProperty>(property);
@@ -216,7 +212,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontStyleObliqueLegal()
         {
             var snippet = "font-style : oblique ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontStyleProperty>(property);
@@ -230,7 +226,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontStyleNormalImportantLegal()
         {
             var snippet = "font-style : normal !important";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-style", property.Name);
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssFontStyleProperty>(property);
@@ -244,7 +240,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizeAbsoluteImportantXxSmallLegal()
         {
             var snippet = "font-size : xx-small !important";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssFontSizeProperty>(property);
@@ -258,7 +254,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizeAbsoluteMediumUppercaseLegal()
         {
             var snippet = "font-size : medium";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontSizeProperty>(property);
@@ -272,7 +268,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizeAbsoluteLargeImportantLegal()
         {
             var snippet = "font-size : large !important";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssFontSizeProperty>(property);
@@ -286,7 +282,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizeRelativeLargerLegal()
         {
             var snippet = "font-size : larger ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontSizeProperty>(property);
@@ -300,7 +296,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizeRelativeLargestIllegal()
         {
             var snippet = "font-size : largest ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontSizeProperty>(property);
@@ -313,7 +309,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizePercentLegal()
         {
             var snippet = "font-size : 120% ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontSizeProperty>(property);
@@ -327,7 +323,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizeZeroLegal()
         {
             var snippet = "font-size : 0 ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontSizeProperty>(property);
@@ -341,7 +337,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizeLengthLegal()
         {
             var snippet = "font-size : 3.5em ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontSizeProperty>(property);
@@ -355,7 +351,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizeNumberIllegal()
         {
             var snippet = "font-size : 120.3 ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontSizeProperty>(property);
@@ -368,7 +364,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontWeightPercentllegal()
         {
             var snippet = "font-weight : 100% ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-weight", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontWeightProperty>(property);
@@ -381,7 +377,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontWeightBolderLegalImportant()
         {
             var snippet = "font-weight : bolder !important";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-weight", property.Name);
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssFontWeightProperty>(property);
@@ -395,7 +391,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontWeightBoldLegal()
         {
             var snippet = "font-weight : bold";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-weight", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontWeightProperty>(property);
@@ -409,7 +405,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontWeight400Legal()
         {
             var snippet = "font-weight : 400 ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-weight", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontWeightProperty>(property);
@@ -423,7 +419,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontStretchNormalUppercaseImportantLegal()
         {
             var snippet = "font-stretch : NORMAL !important";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-stretch", property.Name);
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssFontStretchProperty>(property);
@@ -437,7 +433,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontStretchExtraCondensedLegal()
         {
             var snippet = "font-stretch : extra-condensed ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-stretch", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontStretchProperty>(property);
@@ -451,7 +447,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontStretchSemiExpandedSpaceBetweenIllegal()
         {
             var snippet = "font-stretch : semi expanded ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-stretch", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontStretchProperty>(property);
@@ -464,7 +460,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontShorthandWithFractionLegal()
         {
             var snippet = "font : 12px/14px sans-serif ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontProperty>(property);
@@ -478,7 +474,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontShorthandPercentLegal()
         {
             var snippet = "font : 80% sans-serif ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontProperty>(property);
@@ -492,7 +488,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontShorthandBoldItalicLargeLegal()
         {
             var snippet = "font : bold italic large serif ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontProperty>(property);
@@ -506,7 +502,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontShorthandPredefinedLegal()
         {
             var snippet = "font : status-bar ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontProperty>(property);
@@ -520,7 +516,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontShorthandSizeAndFontListLegal()
         {
             var snippet = "font : 15px arial,sans-serif ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontProperty>(property);
@@ -534,7 +530,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontShorthandStyleWeightSizeLineHeightAndFontListLegal()
         {
             var snippet = "font : italic bold 12px/30px Georgia, serif";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontProperty>(property);
@@ -548,7 +544,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssLetterSpacingLengthPxLegal()
         {
             var snippet = "letter-spacing: 3px ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("letter-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssLetterSpacingProperty>(property);
@@ -562,7 +558,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssLetterSpacingLengthFloatPxLegal()
         {
             var snippet = "letter-spacing: .3px ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("letter-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssLetterSpacingProperty>(property);
@@ -576,7 +572,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssLetterSpacingLengthFloatEmLegal()
         {
             var snippet = "letter-spacing: 0.3em ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("letter-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssLetterSpacingProperty>(property);
@@ -590,7 +586,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssLetterSpacingNormalLegal()
         {
             var snippet = "letter-spacing: normal ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("letter-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssLetterSpacingProperty>(property);
@@ -604,7 +600,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizeAdjustNoneLegal()
         {
             var snippet = "font-size-adjust : NONE";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size-adjust", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontSizeAdjustProperty>(property);
@@ -618,7 +614,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizeAdjustNumberLegal()
         {
             var snippet = "font-size-adjust : 0.5";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size-adjust", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontSizeAdjustProperty>(property);
@@ -632,7 +628,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizeAdjustLengthIllegal()
         {
             var snippet = "font-size-adjust : 1.1em ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font-size-adjust", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontSizeAdjustProperty>(property);
@@ -645,7 +641,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizeHeightFamilyLegal()
         {
             var snippet = "font: 12pt/14pt sans-serif ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontProperty>(property);
@@ -659,7 +655,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizeFamilyLegal()
         {
             var snippet = "font: 80% sans-serif ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontProperty>(property);
@@ -673,7 +669,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSizeHeightMultipleFamiliesLegal()
         {
             var snippet = "font: x-large/110% 'New Century Schoolbook', serif ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontProperty>(property);
@@ -687,7 +683,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontWeightVariantSizeFamiliesLegal()
         {
             var snippet = "font: bold italic large Palatino, serif ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontProperty>(property);
@@ -701,7 +697,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontStyleVariantSizeHeightFamilyLegal()
         {
             var snippet = "font: normal small-caps 120%/120% Fantasy ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontProperty>(property);
@@ -715,7 +711,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontStyleVariantSizeFamiliesLegal()
         {
             var snippet = "font: condensed oblique 12pt \"Helvetica Neue\", serif ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontProperty>(property);
@@ -729,7 +725,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontSystemFamilyLegal()
         {
             var snippet = "font: status-bar ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontProperty>(property);
@@ -743,7 +739,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssFontStyleWeightSizeHeightFamiliesLegal()
         {
             var snippet = "font: italic bold 12px/30px Georgia, serif";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("font", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssFontProperty>(property);

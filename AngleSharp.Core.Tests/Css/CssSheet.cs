@@ -11,13 +11,32 @@
     {
         static ICssStyleSheet ParseStyleSheet(String source)
         {
-            var parser = new CssParser(source);
-            return parser.Parse();
+            var parser = new CssParser();
+            return parser.ParseStylesheet(source);
+        }
+
+        static CssRule ParseRule(String source)
+        {
+            var parser = new CssParser();
+            return parser.ParseRule(source);
+        }
+
+        static CssProperty ParseDeclaration(String source)
+        {
+            var parser = new CssParser();
+            return parser.ParseDeclaration(source);
+        }
+
+        static CssValue ParseValue(String source)
+        {
+            var parser = new CssParser();
+            return parser.ParseValue(source);
         }
 
         static CssStyleDeclaration ParseDeclarations(String declarations)
         {
-            var style = new CssStyleDeclaration(default(CssParserOptions), declarations);
+            var parser = new CssParser();
+            var style = new CssStyleDeclaration(parser, declarations);
             return style;
         }
 
@@ -400,7 +419,7 @@ h1 { color: blue }");
         public void CssCreateValueListConformal()
         {
             var valueString = "24px 12px 6px";
-            var list = CssParser.ParseValue(valueString);
+            var list = ParseValue(valueString);
             Assert.AreEqual(5, list.Count);
             Assert.AreEqual(list[0].ToValue(), "24px");
             Assert.AreEqual(list[1].ToValue(), " ");
@@ -413,7 +432,7 @@ h1 { color: blue }");
         public void CssCreateValueListNonConformal()
         {
             var valueString = "  24px  12px 6px  13px ";
-            var list = CssParser.ParseValue(valueString);
+            var list = ParseValue(valueString);
             Assert.AreEqual(7, list.Count);
             Assert.AreEqual(list[0].ToValue(), "24px");
             Assert.AreEqual(list[1].ToValue(), " ");
@@ -428,7 +447,7 @@ h1 { color: blue }");
         public void CssCreateValueListEmpty()
         {
             var valueString = "";
-            var value = CssParser.ParseValue(valueString);
+            var value = ParseValue(valueString);
             Assert.IsNull(value);
         }
 
@@ -436,7 +455,7 @@ h1 { color: blue }");
         public void CssCreateValueListSpaces()
         {
             var valueString = "  ";
-            var value = CssParser.ParseValue(valueString);
+            var value = ParseValue(valueString);
             Assert.IsNull(value);
         }
 
@@ -444,7 +463,7 @@ h1 { color: blue }");
         public void CssCreateValueListIllegal()
         {
             var valueString = " , ";
-            var list = CssParser.ParseValue(valueString);
+            var list = ParseValue(valueString);
             Assert.AreEqual(1, list.Count);
         }
 
@@ -452,7 +471,7 @@ h1 { color: blue }");
         public void CssCreateMultipleValues()
         {
             var valueString = "Arial, Verdana, Helvetica, Sans-Serif";
-            var list = CssParser.ParseValue(valueString);
+            var list = ParseValue(valueString);
             Assert.AreEqual(10, list.Count);
             Assert.AreEqual("Arial", list[0].Data);
             Assert.AreEqual("Verdana", list[3].Data);
@@ -464,7 +483,7 @@ h1 { color: blue }");
         public void CssCreateMultipleValueLists()
         {
             var valueString = "Arial 10pt bold, Verdana 12pt italic";
-            var list = CssParser.ParseValue(valueString);
+            var list = ParseValue(valueString);
             Assert.AreEqual(12, list.Count);
             Assert.AreEqual("Arial", list[0].ToValue());
             Assert.AreEqual("Verdana", list[7].ToValue());
@@ -478,7 +497,7 @@ h1 { color: blue }");
         public void CssCreateMultipleValuesNonConformal()
         {
             var valueString = "  Arial  ,  Verdana  ,Helvetica,Sans-Serif   ";
-            var list = CssParser.ParseValue(valueString);
+            var list = ParseValue(valueString);
             Assert.AreEqual(10, list.Count);
             Assert.AreEqual("Arial", list[0].ToValue());
             Assert.AreEqual("Verdana", list[3].ToValue());
@@ -490,7 +509,7 @@ h1 { color: blue }");
         public void CssColorBlack()
         {
             var valueString = "#000000";
-            var value = CssParser.ParseValue(valueString);
+            var value = ParseValue(valueString);
             Assert.IsNotNull(value);
         }
 
@@ -498,7 +517,7 @@ h1 { color: blue }");
         public void CssColorRed()
         {
             var valueString = "#FF0000";
-            var value = CssParser.ParseValue(valueString);
+            var value = ParseValue(valueString);
             Assert.IsNotNull(value);
         }
 
@@ -506,7 +525,7 @@ h1 { color: blue }");
         public void CssColorMixedShort()
         {
             var valueString = "#07C";
-            var value = CssParser.ParseValue(valueString);
+            var value = ParseValue(valueString);
             Assert.IsNotNull(value);
         }
 
@@ -514,7 +533,7 @@ h1 { color: blue }");
         public void CssColorGreenShort()
         {
             var valueString = "#00F";
-            var value = CssParser.ParseValue(valueString);
+            var value = ParseValue(valueString);
             Assert.IsNotNull(value);
         }
 
@@ -522,7 +541,7 @@ h1 { color: blue }");
         public void CssColorRedShort()
         {
             var valueString = "#F00";
-            var value = CssParser.ParseValue(valueString);
+            var value = ParseValue(valueString);
             Assert.IsNotNull(value);
         }
 
@@ -570,7 +589,7 @@ h1 { color: blue }");
         [Test]
         public void CssSeveralFontFamily()
         {
-            var prop = CssParser.ParseDeclaration("font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif");
+            var prop = ParseDeclaration("font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif");
             Assert.AreEqual("font-family", prop.Name);
             Assert.IsFalse(prop.IsImportant);
             Assert.AreEqual("\"Helvetica Neue\", Helvetica, Arial, sans-serif", prop.Value);
@@ -594,7 +613,7 @@ h1 { color: blue }");
         [Test]
         public void CssBackgroundWebkitGradient()
         {
-            var background = CssParser.ParseDeclaration("background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFA84C), color-stop(100%, #FF7B0D))");
+            var background = ParseDeclaration("background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFA84C), color-stop(100%, #FF7B0D))");
             Assert.IsNotNull(background);
             Assert.AreEqual("background", background.Name);
             Assert.IsFalse(background.IsImportant);
@@ -604,7 +623,7 @@ h1 { color: blue }");
         [Test]
         public void CssBackgroundColorRgba()
         {
-            var background = CssParser.ParseDeclaration("background-color: rgba(255, 123, 13, 1)");
+            var background = ParseDeclaration("background-color: rgba(255, 123, 13, 1)");
             Assert.AreEqual("background-color", background.Name);
             Assert.IsFalse(background.IsImportant);
             Assert.AreEqual("rgba(255, 123, 13, 1)", background.Value);
@@ -613,7 +632,7 @@ h1 { color: blue }");
         [Test]
         public void CssFontWithFraction()
         {
-            var font = CssParser.ParseDeclaration("font:bold 40px/1.13 'PT Sans Narrow', sans-serif");
+            var font = ParseDeclaration("font:bold 40px/1.13 'PT Sans Narrow', sans-serif");
             Assert.AreEqual("font", font.Name);
             Assert.IsFalse(font.IsImportant);
         }
@@ -621,7 +640,7 @@ h1 { color: blue }");
         [Test]
         public void CssTextShadow()
         {
-            var textShadow = CssParser.ParseDeclaration("text-shadow: 0 0 10px #000");
+            var textShadow = ParseDeclaration("text-shadow: 0 0 10px #000");
             Assert.AreEqual("text-shadow", textShadow.Name);
             Assert.IsFalse(textShadow.IsImportant);
         }
@@ -629,7 +648,7 @@ h1 { color: blue }");
         [Test]
         public void CssBackgroundWithImage()
         {
-            var background = CssParser.ParseDeclaration("background:url(../images/ribbon.svg) no-repeat");
+            var background = ParseDeclaration("background:url(../images/ribbon.svg) no-repeat");
             Assert.AreEqual("background", background.Name);
             Assert.IsFalse(background.IsImportant);
         }
@@ -637,7 +656,7 @@ h1 { color: blue }");
         [Test]
         public void CssContentWithCounter()
         {
-            var content = CssParser.ParseDeclaration("content:counter(paging, decimal-leading-zero)");
+            var content = ParseDeclaration("content:counter(paging, decimal-leading-zero)");
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
         }
@@ -645,7 +664,7 @@ h1 { color: blue }");
         [Test]
         public void CssBackgroundColorRgb()
         {
-            var backgroundColor = CssParser.ParseDeclaration("background-color: rgb(245, 0, 111)");
+            var backgroundColor = ParseDeclaration("background-color: rgb(245, 0, 111)");
             Assert.AreEqual("background-color", backgroundColor.Name);
             Assert.IsFalse(backgroundColor.IsImportant);
         }
@@ -654,7 +673,7 @@ h1 { color: blue }");
         public void CssImportSheet()
         {
             var rule = "@import url(fonts.css);";
-            var decl = CssParser.ParseRule(rule);
+            var decl = ParseRule(rule);
             Assert.IsNotNull(decl);
             Assert.IsInstanceOf<CssImportRule>(decl);
             var importRule = (CssImportRule)decl;
@@ -664,7 +683,7 @@ h1 { color: blue }");
         [Test]
         public void CssContentEscaped()
         {
-            var content = CssParser.ParseDeclaration("content:'\005E'");
+            var content = ParseDeclaration("content:'\005E'");
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
         }
@@ -672,7 +691,7 @@ h1 { color: blue }");
         [Test]
         public void CssContentCounter()
         {
-            var content = CssParser.ParseDeclaration("content:counter(list)'.'");
+            var content = ParseDeclaration("content:counter(list)'.'");
             Assert.AreEqual("content", content.Name);
             Assert.IsFalse(content.IsImportant);
             //Assert.AreEqual(CssValueType.List, content.Value.Type);
@@ -681,7 +700,7 @@ h1 { color: blue }");
         [Test]
         public void CssTransformTranslate()
         {
-            var transform = CssParser.ParseDeclaration("transform:translateY(-50%)");
+            var transform = ParseDeclaration("transform:translateY(-50%)");
             Assert.AreEqual("transform", transform.Name);
             Assert.IsFalse(transform.IsImportant);
         }
@@ -689,7 +708,7 @@ h1 { color: blue }");
         [Test]
         public void CssBoxShadowMultiline()
         {
-            var boxShadow = CssParser.ParseDeclaration(@"
+            var boxShadow = ParseDeclaration(@"
         box-shadow:
 			0 0 0 10px rgba(60, 61, 64, 0.6),
 			0 0 50px #3C3D40;");
@@ -700,7 +719,7 @@ h1 { color: blue }");
         [Test]
         public void CssDisplayBlock()
         {
-            var display = CssParser.ParseDeclaration("display:block");
+            var display = ParseDeclaration("display:block");
             Assert.AreEqual("display", display.Name);
             Assert.IsFalse(display.IsImportant);
             Assert.AreEqual("block", display.Value);

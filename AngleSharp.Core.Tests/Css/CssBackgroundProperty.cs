@@ -1,17 +1,16 @@
-﻿using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Css;
+    using NUnit.Framework;
+
     [TestFixture]
-    public class CssBackgroundPropertyTests
+    public class CssBackgroundPropertyTests : CssConstructionFunctions
     {
         [Test]
         public void CssBackgroundAttachmentScrollLegal()
         {
             var snippet = "background-attachment : scroll";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-attachment", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundAttachmentProperty>(property);
@@ -25,7 +24,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundAttachmentInitialLegal()
         {
             var snippet = "background-attachment : initial";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-attachment", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundAttachmentProperty>(property);
@@ -39,7 +38,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundAttachmentFixedUppercaseLegal()
         {
             var snippet = "background-attachment : Fixed ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-attachment", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundAttachmentProperty>(property);
@@ -53,7 +52,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundAttachmentFixedLocalLegal()
         {
             var snippet = "background-attachment : fixed  ,  local ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-attachment", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundAttachmentProperty>(property);
@@ -67,7 +66,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundAttachmentFixedLocalScrollScrollLegal()
         {
             var snippet = "background-attachment : fixed  ,  local,scroll,scroll ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-attachment", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundAttachmentProperty>(property);
@@ -81,7 +80,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundAttachmentNoneIllegal()
         {
             var snippet = "background-attachment : none ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-attachment", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundAttachmentProperty>(property);
@@ -94,7 +93,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundClipPaddingBoxUppercaseLegal()
         {
             var snippet = "background-clip : Padding-Box ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-clip", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundClipProperty>(property);
@@ -108,7 +107,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundClipPaddingBoxBorderBoxLegal()
         {
             var snippet = "background-clip : Padding-Box, border-box ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-clip", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundClipProperty>(property);
@@ -122,7 +121,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundClipContentBoxLegal()
         {
             var snippet = "background-clip : content-box";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-clip", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundClipProperty>(property);
@@ -136,7 +135,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundColorTealLegal()
         {
             var snippet = "background-color : teal";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundColorProperty>(property);
@@ -150,7 +149,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundColorRgbLegal()
         {
             var snippet = "background-color : rgb(255  ,  255  ,  128)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundColorProperty>(property);
@@ -164,7 +163,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundColorHslaLegal()
         {
             var snippet = "background-color : hsla(50, 33%, 25%, 0.75)";//equal to rgba(85, 78, 43, 0.75)
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundColorProperty>(property);
@@ -178,7 +177,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundColorTransparentLegal()
         {
             var snippet = "background-color : Transparent";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundColorProperty>(property);
@@ -192,7 +191,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundColorHexLegal()
         {
             var snippet = "background-color : #bbff00";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundColorProperty>(property);
@@ -206,7 +205,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundColorMultipleIllegal()
         {
             var snippet = "background-color : #bbff00, transparent, red, #ff00ff";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundColorProperty>(property);
@@ -219,7 +218,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundImageNoneLegal()
         {
             var snippet = "background-image: NONE";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-image", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundImageProperty>(property);
@@ -233,7 +232,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundImageUrlAndNoneLegal()
         {
             var snippet = "background-image: url(\"img/sprites.svg?v=1bc768be1b3c\"),none";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-image", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundImageProperty>(property);
@@ -247,7 +246,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundImageUrlLegal()
         {
             var snippet = "background-image: url(image.png)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-image", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundImageProperty>(property);
@@ -261,7 +260,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundImageUrlAbsoluteLegal()
         {
             var snippet = "background-image: url(http://www.example.com/images/bck.png)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-image", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundImageProperty>(property);
@@ -275,7 +274,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundImageUrlsLegal()
         {
             var snippet = "background-image: url(image.png),url('bla.png')";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-image", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundImageProperty>(property);
@@ -289,7 +288,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundImageUrlNoneUrlLegal()
         {
             var snippet = "background-image: url(image.png),none, url(foo.gif)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-image", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundImageProperty>(property);
@@ -303,7 +302,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundOriginContentBoxLegal()
         {
             var snippet = "background-origin: CONTENT-BOX";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundOriginProperty>(property);
@@ -317,7 +316,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundOriginContentBoxPaddingBoxLegal()
         {
             var snippet = "background-origin: CONTENT-BOX, Padding-Box";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundOriginProperty>(property);
@@ -331,7 +330,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundOriginBorderBoxLegal()
         {
             var snippet = "background-origin: border-box";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-origin", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundOriginProperty>(property);
@@ -345,7 +344,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundPositionTopLegal()
         {
             var snippet = "background-position: top";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundPositionProperty>(property);
@@ -359,7 +358,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundPositionPercentPercentLegal()
         {
             var snippet = "background-position: 25% 75%";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundPositionProperty>(property);
@@ -373,7 +372,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundPositionCenterPercentLegal()
         {
             var snippet = "background-position: center 75%";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundPositionProperty>(property);
@@ -387,7 +386,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundPositionRightLengthBottomLengthLegal()
         {
             var snippet = "background-position: right 20px bottom 20px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundPositionProperty>(property);
@@ -401,7 +400,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundPositionLengthLengthCenterMultipleLegal()
         {
             var snippet = "background-position: 10px 20px, center";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundPositionProperty>(property);
@@ -415,7 +414,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundPositionZeroMultipleLegal()
         {
             var snippet = "background-position: 0 0, 0 0";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundPositionProperty>(property);
@@ -429,7 +428,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundRepeatRepeatXLegal()
         {
             var snippet = "background-repeat: repeat-x";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundRepeatProperty>(property);
@@ -443,7 +442,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundRepeatRepeatYLegal()
         {
             var snippet = "background-repeat: repeat-y";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundRepeatProperty>(property);
@@ -457,7 +456,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundRepeatRepeatLegal()
         {
             var snippet = "background-repeat: REPEAT";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundRepeatProperty>(property);
@@ -471,7 +470,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundRepeatRoundLegal()
         {
             var snippet = "background-repeat: rounD";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundRepeatProperty>(property);
@@ -485,7 +484,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundRepeatRepeatSpaceLegal()
         {
             var snippet = "background-repeat: repeat space";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundRepeatProperty>(property);
@@ -499,7 +498,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundRepeatRepeatXSpaceIllegal()
         {
             var snippet = "background-repeat: repeat-x space";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundRepeatProperty>(property);
@@ -512,7 +511,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundRepeatRepeatXRepeatYMultipleLegal()
         {
             var snippet = "background-repeat: repeat-X, repeat-Y";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundRepeatProperty>(property);
@@ -526,7 +525,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundRepeatSpaceRoundLegal()
         {
             var snippet = "background-repeat: space round";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundRepeatProperty>(property);
@@ -540,7 +539,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundRepeatNoRepeatRepeatXIllegal()
         {
             var snippet = "background-repeat: no-repeat repeat-x";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundRepeatProperty>(property);
@@ -553,7 +552,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundRepeatRepeatRepeatNoRepeatRepeatLegal()
         {
             var snippet = "background-repeat: repeat repeat, no-repeat repeat";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-repeat", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundRepeatProperty>(property);
@@ -567,7 +566,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundSizeLengthLegal()
         {
             var snippet = "background-size: 2em";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundSizeProperty>(property);
@@ -581,7 +580,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundSizePercentLegal()
         {
             var snippet = "background-size: 20%";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundSizeProperty>(property);
@@ -595,7 +594,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundSizeAutoAutoLegal()
         {
             var snippet = "background-size: auto auto";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundSizeProperty>(property);
@@ -609,7 +608,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundSizeAutoLengthLegal()
         {
             var snippet = "background-size: auto 50px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundSizeProperty>(property);
@@ -623,7 +622,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundSizeLengthLengthLegal()
         {
             var snippet = "background-size: 25px 50px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundSizeProperty>(property);
@@ -637,7 +636,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundSizePercentPercentLegal()
         {
             var snippet = "background-size: 50% 50%";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundSizeProperty>(property);
@@ -651,7 +650,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundSizeAutoUppercaseLegal()
         {
             var snippet = "background-size: AUTO";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundSizeProperty>(property);
@@ -665,7 +664,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundSizeCoverLegal()
         {
             var snippet = "background-size: cover";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundSizeProperty>(property);
@@ -679,7 +678,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundSizeContainCoverMultipleLegal()
         {
             var snippet = "background-size: contain,cover";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundSizeProperty>(property);
@@ -693,7 +692,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundSizeContainLengthAutoPercentLegal()
         {
             var snippet = "background-size: contain,100px,auto,20%";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-size", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundSizeProperty>(property);
@@ -707,7 +706,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundRedLegal()
         {
             var snippet = "background: red";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundProperty>(property);
@@ -721,7 +720,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundWhiteImageLegal()
         {
             var snippet = "background: white url(\"pendant.png\");";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundProperty>(property);
@@ -735,7 +734,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundImageLegal()
         {
             var snippet = "background: url(\"topbanner.png\") #00d repeat-y fixed";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundProperty>(property);
@@ -749,7 +748,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBackgroundWithoutColorLegal()
         {
             var snippet = "background: url(\"img_tree.png\") no-repeat right top";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundProperty>(property);
@@ -764,7 +763,7 @@ namespace AngleSharp.Core.Tests.Css
         {
             var url = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEcAAAAcCAMAAAAEJ1IZAAAABGdBTUEAALGPC/xhBQAAVAI/VAI/VAI/VAI/VAI/VAI/VAAAA////AI/VRZ0U8AAAAFJ0Uk5TYNV4S2UbgT/Gk6uQt585w2wGXS0zJO2lhGttJK6j4YqZSobH1AAAAAElFTkSuQmCC";
             var snippet = "background-image: url('" + url + "')";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("background-image", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBackgroundImageProperty>(property);

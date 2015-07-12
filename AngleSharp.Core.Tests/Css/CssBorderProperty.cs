@@ -1,19 +1,16 @@
-﻿using AngleSharp;
-using AngleSharp.Css;
-using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Css;
+    using NUnit.Framework;
+
     [TestFixture]
-    public class CssBorderPropertyTests
+    public class CssBorderPropertyTests : CssConstructionFunctions
     {
         [Test]
         public void CssBorderSpacingLengthLegal()
         {
             var snippet = "border-spacing: 20px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderSpacingProperty>(property);
@@ -27,7 +24,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderSpacingZeroLegal()
         {
             var snippet = "border-spacing: 0";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderSpacingProperty>(property);
@@ -41,7 +38,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderSpacingLengthLengthLegal()
         {
             var snippet = "border-spacing: 15px 3em";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderSpacingProperty>(property);
@@ -55,7 +52,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderSpacingLengthZeroLegal()
         {
             var snippet = "border-spacing: 15px 0";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderSpacingProperty>(property);
@@ -69,7 +66,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderSpacingPercentIllegal()
         {
             var snippet = "border-spacing: 15%";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderSpacingProperty>(property);
@@ -82,7 +79,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderBottomColorRedLegal()
         {
             var snippet = "border-bottom-color: red";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-bottom-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderBottomColorProperty>(property);
@@ -96,7 +93,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderTopColorHexLegal()
         {
             var snippet = "border-top-color: #0F0";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-top-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderTopColorProperty>(property);
@@ -110,7 +107,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderRightColorRgbaLegal()
         {
             var snippet = "border-right-color: rgba(1, 1, 1, 0)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-right-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderRightColorProperty>(property);
@@ -124,7 +121,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderLeftColorRgbLegal()
         {
             var snippet = "border-left-color: rgb(1, 255, 100)  !important";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-left-color", property.Name);
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssBorderLeftColorProperty>(property);
@@ -138,7 +135,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderColorTransparentLegal()
         {
             var snippet = "border-color: transparent";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderColorProperty>(property);
@@ -152,7 +149,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderColorRedGreenLegal()
         {
             var snippet = "border-color: red   green";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderColorProperty>(property);
@@ -166,7 +163,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderColorRedRgbLegal()
         {
             var snippet = "border-color: red   rgb(0,0,0)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderColorProperty>(property);
@@ -180,7 +177,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderColorRedBlueGreenLegal()
         {
             var snippet = "border-color: red blue green";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderColorProperty>(property);
@@ -194,7 +191,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderColorRedBlueGreenBlackLegal()
         {
             var snippet = "border-color: red blue green   BLACK";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderColorProperty>(property);
@@ -208,7 +205,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderColorRedBlueGreenBlackTransparentIllegal()
         {
             var snippet = "border-color: red blue green black transparent";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderColorProperty>(property);
@@ -221,7 +218,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderStyleDottedLegal()
         {
             var snippet = "border-style: dotted";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderStyleProperty>(property);
@@ -235,7 +232,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderStyleInsetOutsetUpperLegal()
         {
             var snippet = "border-style: INSET   OUTset";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderStyleProperty>(property);
@@ -249,7 +246,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderStyleDoubleGrooveLegal()
         {
             var snippet = "border-style: double   groove";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderStyleProperty>(property);
@@ -263,7 +260,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderStyleRidgeSolidDashedLegal()
         {
             var snippet = "border-style: ridge solid dashed";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderStyleProperty>(property);
@@ -277,7 +274,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderStyleHiddenDottedNoneNoneLegal()
         {
             var snippet = "border-style   :   hidden  dotted  NONE   nONe";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderStyleProperty>(property);
@@ -291,7 +288,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderStyleWavyIllegal()
         {
             var snippet = "border-style: wavy";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderStyleProperty>(property);
@@ -304,7 +301,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderBottomStyleGrooveLegal()
         {
             var snippet = "border-bottom-style: GROOVE";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-bottom-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderBottomStyleProperty>(property);
@@ -318,7 +315,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderTopStyleNoneLegal()
         {
             var snippet = "border-top-style:none";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-top-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderTopStyleProperty>(property);
@@ -332,7 +329,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderRightStyleDoubleLegal()
         {
             var snippet = "border-right-style:double";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-right-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderRightStyleProperty>(property);
@@ -346,7 +343,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderLeftStyleHiddenLegal()
         {
             var snippet = "border-left-style: hidden  !important";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-left-style", property.Name);
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssBorderLeftStyleProperty>(property);
@@ -360,7 +357,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderBottomWidthThinLegal()
         {
             var snippet = "border-bottom-width: THIN";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-bottom-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderBottomWidthProperty>(property);
@@ -374,7 +371,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderTopWidthZeroLegal()
         {
             var snippet = "border-top-width: 0";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-top-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderTopWidthProperty>(property);
@@ -388,7 +385,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderRightWidthEmLegal()
         {
             var snippet = "border-right-width: 3em";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-right-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderRightWidthProperty>(property);
@@ -402,7 +399,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderLeftWidthThickLegal()
         {
             var snippet = "border-left-width: thick !important";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-left-width", property.Name);
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssBorderLeftWidthProperty>(property);
@@ -416,7 +413,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderWidthMediumLegal()
         {
             var snippet = "border-width: medium";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderWidthProperty>(property);
@@ -430,7 +427,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderWidthLengthZeroLegal()
         {
             var snippet = "border-width: 3px   0";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderWidthProperty>(property);
@@ -444,7 +441,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderWidthThinLengthLegal()
         {
             var snippet = "border-width: THIN   1px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderWidthProperty>(property);
@@ -458,7 +455,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderWidthMediumThinThickLegal()
         {
             var snippet = "border-width: medium thin thick";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderWidthProperty>(property);
@@ -472,7 +469,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderWidthLengthLengthLengthLengthLegal()
         {
             var snippet = "border-width:  1px  2px   3px  4px  !important ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-width", property.Name);
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssBorderWidthProperty>(property);
@@ -486,7 +483,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderWidthLengthInEmZeroLegal()
         {
             var snippet = "border-width:  0.3em 0 ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderWidthProperty>(property);
@@ -504,7 +501,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderWidthMediumZeroLengthThickLegal()
         {
             var snippet = "border-width:   medium 0 1px thick ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderWidthProperty>(property);
@@ -522,7 +519,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderWidthZerosIllegal()
         {
             var snippet = "border-width: 0 0 0 0 0";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderWidthProperty>(property);
@@ -535,7 +532,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderLeftZeroLegal()
         {
             var snippet = "border-left:   0 ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-left", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderLeftProperty>(property);
@@ -552,7 +549,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderRightLineStyleLegal()
         {
             var snippet = "border-right :   dotted ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-right", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderRightProperty>(property);
@@ -569,7 +566,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderTopLengthRedLegal()
         {
             var snippet = "border-top :  2px red ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-top", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderTopProperty>(property);
@@ -586,7 +583,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderBottomRgbLegal()
         {
             var snippet = "border-bottom :  rgb(255, 100, 0) ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border-bottom", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderBottomProperty>(property);
@@ -603,7 +600,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderGrooveRgbLegal()
         {
             var snippet = "border :  GROOVE rgb(255, 100, 0) ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderProperty>(property);
@@ -620,7 +617,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderInsetGreenLengthLegal()
         {
             var snippet = "border :  inset  green 3em ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderProperty>(property);
@@ -637,7 +634,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderRedSolidLengthLegal()
         {
             var snippet = "border :  red  SOLID 1px ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderProperty>(property);
@@ -654,7 +651,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderLengthBlackDoubleLegal()
         {
             var snippet = "border :  0.5px black double ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderProperty>(property);
@@ -671,7 +668,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderOutSetCurrentColor()
         {
             var snippet = "border: 1px outset currentColor";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderProperty>(property);
@@ -688,7 +685,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBorderOutSetWithNoColor()
         {
             var snippet = "border: 1px outset";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("border", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBorderProperty>(property);

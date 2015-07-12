@@ -1,11 +1,9 @@
-﻿using System;
-using NUnit.Framework;
-using AngleSharp;
-using AngleSharp.Dom;
-using AngleSharp.Dom.Html;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Html;
+    using NUnit.Framework;
+
     [TestFixture]
     public class CssW3CSelectorTests
     {

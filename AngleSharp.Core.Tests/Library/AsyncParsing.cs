@@ -16,16 +16,14 @@
         {
             var text = "h1 { color: red; } h2 { color: blue; } p { font-family: Arial; } div { margin: 10 }";
             var source = new DelayedStream(Encoding.UTF8.GetBytes(text));
-            var parser = new CssParser(source, Configuration.Default);
+            var parser = new CssParser(Configuration.Default);
 
-            using (var task = parser.ParseAsync())
+            using (var task = parser.ParseStylesheetAsync(source))
             {
                 Assert.IsFalse(task.IsCompleted);
-                Assert.IsNotNull(parser.Result);
                 var result = await task;
 
                 Assert.IsTrue(task.IsCompleted);
-                Assert.AreEqual(parser.Result, result);
                 Assert.AreEqual(4, result.Rules.Length);
             }
         }
@@ -53,14 +51,14 @@
         public async Task TestAsyncCssParsingFromString()
         {
             var source = "h1 { color: red; } h2 { color: blue; } p { font-family: Arial; } div { margin: 10 }";
-            var parser = new CssParser(source, Configuration.Default);
+            var parser = new CssParser(Configuration.Default);
 
-            using (var task = parser.ParseAsync())
+            using (var task = parser.ParseStylesheetAsync(source))
             {
                 Assert.IsTrue(task.IsCompleted);
                 var result = await task;
 
-                Assert.AreEqual(parser.Result, result);
+                Assert.AreEqual(result, result);
                 Assert.AreEqual(4, result.Rules.Length);
             }
         }

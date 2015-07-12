@@ -428,7 +428,8 @@
         [Test]
         public void CSSStyleDeclarationEmpty()
         {
-            var css = new CssStyleDeclaration(default(CssParserOptions));
+            var parser = new CssParser();
+            var css = new CssStyleDeclaration(parser);
             Assert.AreEqual("", css.CssText);
             Assert.AreEqual(0, css.Length);
         }
@@ -436,7 +437,8 @@
         [Test]
         public void CSSStyleDeclarationUnbound()
         {
-            var css = new CssStyleDeclaration(default(CssParserOptions));
+            var parser = new CssParser();
+            var css = new CssStyleDeclaration(parser);
             var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0);";
             css.CssText = text;
             Assert.AreEqual(text, css.CssText);

@@ -1,17 +1,17 @@
-﻿using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
+    using NUnit.Framework;
+
     [TestFixture]
-    public class CssPropertyTests
+    public class CssPropertyTests : CssConstructionFunctions
     {
         [Test]
         public void CssBreakAfterLegalAvoid()
         {
             var snippet = "break-after:avoid";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("break-after", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -25,7 +25,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPageBreakAfterLegalAvoid()
         {
             var snippet = "page-break-after:avoid";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("page-break-after", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -39,7 +39,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBreakAfterLegalPageCapital()
         {
             var snippet = "break-after:Page";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("break-after", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -53,7 +53,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPageBreakAfterIllegalAvoidColumn()
         {
             var snippet = "page-break-after:avoid-column";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("page-break-after", property.Name);
             Assert.IsFalse(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -66,7 +66,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBreakAfterLegalAvoidColumn()
         {
             var snippet = "break-after:avoid-column";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("break-after", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -80,7 +80,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBreakBeforeLegalAvoidColumn()
         {
             var snippet = "break-before:AUTO";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("break-before", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -94,7 +94,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPageBreakBeforeLegalAvoid()
         {
             var snippet = "page-break-before:AUTO";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("page-break-before", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -108,7 +108,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPageBreakBeforeLegalLeft()
         {
             var snippet = "page-break-before:left";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("page-break-before", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -122,7 +122,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBreakBeforeIllegalValue()
         {
             var snippet = "break-before:whatever";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("break-before", property.Name);
             Assert.IsFalse(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -135,7 +135,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBreakInsideIllegalPage()
         {
             var snippet = "break-inside:page";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("break-inside", property.Name);
             Assert.IsFalse(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -148,7 +148,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBreakInsideLegalAvoidRegionUppercase()
         {
             var snippet = "break-inside:avoid-REGION";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("break-inside", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -162,7 +162,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPageBreakInsideLegalAvoid()
         {
             var snippet = "page-break-inside:avoid";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("page-break-inside", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -176,7 +176,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPageBreakInsideLegalAutoUppercase()
         {
             var snippet = "page-break-inside:AUTO";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("page-break-inside", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -190,7 +190,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssClearLegalLeft()
         {
             var snippet = "clear:left";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("clear", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -204,7 +204,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssClearLegalBoth()
         {
             var snippet = "clear:both";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("clear", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -218,7 +218,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssClearInherited()
         {
             var snippet = "clear:inherit";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("clear", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsTrue(property.IsInherited);
@@ -232,7 +232,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssClearIllegal()
         {
             var snippet = "clear:yes";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("clear", property.Name);
             Assert.IsFalse(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -245,7 +245,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssPositionLegalAbsolute()
         {
             var snippet = "position:absolute";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("position", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -259,7 +259,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssDisplayLegalBlock()
         {
             var snippet = "display:   block ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("display", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -273,7 +273,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssVisibilityLegalCollapse()
         {
             var snippet = "visibility:collapse";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("visibility", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -287,7 +287,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssVisibilityLegalHiddenCompleteUppercase()
         {
             var snippet = "VISIBILITY:HIDDEN";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("visibility", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -301,7 +301,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOverflowLegalAuto()
         {
             var snippet = "overflow:auto";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("overflow", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -315,7 +315,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTableLayoutLegalFixedCapitalX()
         {
             var snippet = "table-layout: fiXed";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("table-layout", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -329,7 +329,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxShadowOffsetLegal()
         {
             var snippet = "box-shadow:  5px 4px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-shadow", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
@@ -343,7 +343,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxShadowInsetOffsetLegal()
         {
             var snippet = "box-shadow: inset 5px 4px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-shadow", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
@@ -357,7 +357,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxShadowNoneUppercaseLegal()
         {
             var snippet = "box-shadow: NONE";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-shadow", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
@@ -371,7 +371,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxShadowNormalTealLegal()
         {
             var snippet = "box-shadow: 60px -16px teal";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-shadow", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
@@ -385,7 +385,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxShadowNormalSpreadBlackLegal()
         {
             var snippet = "box-shadow: 10px 5px 5px black";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-shadow", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
@@ -399,7 +399,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxShadowOliveAndRedLegal()
         {
             var snippet = "box-shadow: 3px 3px red, -1em 0 0.4em olive";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-shadow", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
@@ -413,7 +413,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxShadowInsetGoldLegal()
         {
             var snippet = "box-shadow: inset 5em 1em gold";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-shadow", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
@@ -427,7 +427,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxShadowZeroGoldLegal()
         {
             var snippet = "box-shadow: 0 0 1em gold";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-shadow", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
@@ -441,7 +441,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxShadowInsetZeroGoldLegal()
         {
             var snippet = "box-shadow: inset  0 0 1em gold";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-shadow", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
@@ -455,7 +455,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxShadowInsetZeroGoldAndNormalRedLegal()
         {
             var snippet = "box-shadow: inset  0 0 1em  gold   ,  0 0   1em   red !important";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-shadow", property.Name);
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
@@ -469,7 +469,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxShadowOffsetColorLegal()
         {
             var snippet = "box-shadow:  5px 4px #000";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-shadow", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
@@ -483,7 +483,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxShadowOffsetBlurColorLegal()
         {
             var snippet = "box-shadow:  5px 4px 2px #000";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-shadow", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
@@ -497,7 +497,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxShadowInitialUppercaseLegal()
         {
             var snippet = "box-shadow:  INITIAL";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-shadow", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
@@ -511,7 +511,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxShadowOffsetIllegal()
         {
             var snippet = "box-shadow:  5px 4px 2px 1px 3px #f00";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-shadow", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxShadowProperty>(property);
@@ -524,7 +524,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssClipShapeLegal()
         {
             var snippet = "clip: rect( 2px, 3em, 1in, 0cm )";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("clip", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClipProperty>(property);
@@ -538,7 +538,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssClipShapeBackwards()
         {
             var snippet = "clip: rect( 2px 3em 1in 0cm )";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("clip", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClipProperty>(property);
@@ -552,7 +552,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssClipShapeZerosLegal()
         {
             var snippet = "clip: rect(0, 0, 0, 0)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("clip", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClipProperty>(property);
@@ -566,7 +566,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssClipShapeZerosIllegal()
         {
             var snippet = "clip: rect(0, 0, 0 0)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("clip", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClipProperty>(property);
@@ -579,7 +579,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssClipShapeNonZerosIllegal()
         {
             var snippet = "clip: rect(2px, 1cm, 5mm)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("clip", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClipProperty>(property);
@@ -592,7 +592,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssClipShapeSingleValueIllegal()
         {
             var snippet = "clip: rect(1em)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("clip", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssClipProperty>(property);
@@ -605,7 +605,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCursorDefaultUppercaseLegal()
         {
             var snippet = "cursor: DEFAULT";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("cursor", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
@@ -619,7 +619,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCursorAutoLegal()
         {
             var snippet = "cursor: auto";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("cursor", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
@@ -633,7 +633,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCursorZoomOutLegal()
         {
             var snippet = "cursor  : zoom-out";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("cursor", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
@@ -647,7 +647,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCursorUrlNoFallbackIllegal()
         {
             var snippet = "cursor  : url(foo.png)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("cursor", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
@@ -660,7 +660,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCursorUrlLegal()
         {
             var snippet = "cursor  : url(foo.png), default";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("cursor", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
@@ -674,7 +674,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCursorUrlShiftedLegal()
         {
             var snippet = "cursor  : url(foo.png) 0 5, auto";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("cursor", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
@@ -688,7 +688,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCursorUrlShiftedNoFallbackIllegal()
         {
             var snippet = "cursor  : url(foo.png) 0 5";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("cursor", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
@@ -701,7 +701,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCursorUrlsLegal()
         {
             var snippet = "cursor  : url(foo.png), url(master.png), url(more.png), wait";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("cursor", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCursorProperty>(property);
@@ -715,7 +715,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssColorHexLegal()
         {
             var snippet = "color : #123456";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssColorProperty>(property);
@@ -729,7 +729,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssColorRgbLegal()
         {
             var snippet = "color : rgb(121, 181, 201)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssColorProperty>(property);
@@ -743,7 +743,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssColorRgbaLegal()
         {
             var snippet = "color : rgba(255, 255, 201, 0.7)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssColorProperty>(property);
@@ -757,7 +757,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssColorNameLegal()
         {
             var snippet = "color : red";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssColorProperty>(property);
@@ -771,7 +771,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssColorNameUppercaseLegal()
         {
             var snippet = "color : BLUE";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssColorProperty>(property);
@@ -785,7 +785,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssColorNameIllegal()
         {
             var snippet = "color : horse";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssColorProperty>(property);
@@ -798,7 +798,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOrphansZeroLegal()
         {
             var snippet = "orphans : 0 ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("orphans", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOrphansProperty>(property);
@@ -812,7 +812,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOrphansTwoLegal()
         {
             var snippet = "orphans : 2 ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("orphans", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOrphansProperty>(property);
@@ -826,7 +826,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOrphansNegativeIllegal()
         {
             var snippet = "orphans : -2 ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("orphans", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOrphansProperty>(property);
@@ -839,7 +839,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOrphansFloatingIllegal()
         {
             var snippet = "orphans : 1.5 ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("orphans", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOrphansProperty>(property);
@@ -852,7 +852,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxDecorationBreakNumberIllegal()
         {
             var snippet = "box-decoration-break : 1.5 ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-decoration-break", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxDecorationBreak>(property);
@@ -865,7 +865,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxDecorationBreakSliceLegal()
         {
             var snippet = "box-decoration-break : slice ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-decoration-break", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxDecorationBreak>(property);
@@ -879,7 +879,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxDecorationBreakClonePascalLegal()
         {
             var snippet = "box-decoration-break : Clone ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-decoration-break", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBoxDecorationBreak>(property);
@@ -893,7 +893,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBoxDecorationBreakInheritLegal()
         {
             var snippet = "box-decoration-break : inherit!important ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("box-decoration-break", property.Name);
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssBoxDecorationBreak>(property);
@@ -907,7 +907,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssContentNormalLegal()
         {
             var snippet = "content : normal ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("content", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssContentProperty>(property);
@@ -921,7 +921,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssContentNoneLegalUppercaseN()
         {
             var snippet = "content : noNe ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("content", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssContentProperty>(property);
@@ -935,7 +935,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssContentStringLegal()
         {
             var snippet = "content : 'hi' ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("content", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssContentProperty>(property);
@@ -949,7 +949,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssContentNoOpenQuoteNoCloseQuoteLegal()
         {
             var snippet = "content : no-open-quote no-close-quote ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("content", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssContentProperty>(property);
@@ -963,7 +963,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssContentUrlLegal()
         {
             var snippet = "content : url(test.html) ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("content", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssContentProperty>(property);
@@ -977,7 +977,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssContentStringsLegal()
         {
             var snippet = "content : 'how' 'are' 'you' ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("content", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssContentProperty>(property);
@@ -991,7 +991,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssQuoteStringIllegal()
         {
             var snippet = "quotes : '\"' ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("quotes", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
@@ -1004,7 +1004,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssQuoteStringsLegal()
         {
             var snippet = "quotes : '\"' '\"' ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("quotes", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
@@ -1018,7 +1018,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssQuoteStringsIllegal()
         {
             var snippet = "quotes : \"'\"";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("quotes", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
@@ -1031,7 +1031,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssQuoteStringsMultipleLegal()
         {
             var snippet = "quotes : '\"' '\"' '`' '´' ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("quotes", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
@@ -1045,7 +1045,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssQuoteStringsMultipleIllegal()
         {
             var snippet = "quotes : '\"' '\"' '`' ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("quotes", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
@@ -1058,7 +1058,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssQuoteNoneLegal()
         {
             var snippet = "quotes : none";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("quotes", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
@@ -1072,7 +1072,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssQuoteNoneStringIllegal()
         {
             var snippet = "quotes : 'none'";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("quotes", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
@@ -1085,7 +1085,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssQuoteNormalIllegal()
         {
             var snippet = "quotes : normal ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("quotes", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssQuotesProperty>(property);
@@ -1098,7 +1098,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssWidowsZeroLegal()
         {
             var snippet = "widows: 0";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("widows", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssWidowsProperty>(property);
@@ -1113,7 +1113,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssWidowsThreeLegal()
         {
             var snippet = "widows: 3";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("widows", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssWidowsProperty>(property);
@@ -1128,7 +1128,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssWidowsLengthIllegal()
         {
             var snippet = "widows: 5px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("widows", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssWidowsProperty>(property);
@@ -1142,7 +1142,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssUnicodeBidiEmbedLegal()
         {
             var snippet = "unicode-BIDI: Embed";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("unicode-bidi", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssUnicodeBidiProperty>(property);
@@ -1157,7 +1157,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssUnicodeBidiIsolateLegal()
         {
             var snippet = "unicode-Bidi: isolate";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("unicode-bidi", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssUnicodeBidiProperty>(property);
@@ -1172,7 +1172,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssUnicodeBidiBidiOverrideLegal()
         {
             var snippet = "unicode-Bidi: Bidi-Override";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("unicode-bidi", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssUnicodeBidiProperty>(property);
@@ -1187,7 +1187,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssUnicodeBidiPlaintextLegal()
         {
             var snippet = "unicode-Bidi: PLAINTEXT";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("unicode-bidi", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssUnicodeBidiProperty>(property);
@@ -1202,7 +1202,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssUnicodeBidiIllegal()
         {
             var snippet = "unicode-bidi: none";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("unicode-bidi", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssUnicodeBidiProperty>(property);
@@ -1215,7 +1215,8 @@ namespace AngleSharp.Core.Tests.Css
         [Test]
         public void CssPropertyFactoryCalls()
         {
-            var decl = new CssStyleDeclaration(default(CssParserOptions));
+            var parser = new CssParser();
+            var decl = new CssStyleDeclaration(parser);
             var invalid = decl.CreateProperty("invalid");
             var border = decl.CreateProperty("border");
             var color = decl.CreateProperty("color");
@@ -1236,7 +1237,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssUnknownPropertyPreservesCase()
         {
             var snippet = "my-Property: something";
-            var property = CssParser.ParseDeclaration(snippet, new CssParserOptions { IsIncludingUnknownDeclarations = true });
+            var property = ParseDeclaration(snippet, new CssParserOptions { IsIncludingUnknownDeclarations = true });
             Assert.AreEqual("my-Property", property.Name);
             Assert.IsInstanceOf<CssUnknownProperty>(property);
         }

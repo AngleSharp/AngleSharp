@@ -1,22 +1,20 @@
-﻿using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-using System;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Css;
+    using NUnit.Framework;
+    using System;
+
     [TestFixture]
-    public class CssSupportsTests
+    public class CssSupportsTests : CssConstructionFunctions
     {
         [Test]
         public void SupportsEmptyRule()
         {
             var source = @"@supports () { }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual(String.Empty, supports.ConditionText);
             Assert.IsTrue(supports.IsSupported);
         }
@@ -25,11 +23,10 @@ namespace AngleSharp.Core.Tests.Css
         public void SupportsBackgroundColorRedRule()
         {
             var source = @"@supports (background-color: red) { }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("(background-color: red)", supports.ConditionText);
             Assert.IsTrue(supports.IsSupported);
         }
@@ -38,11 +35,10 @@ namespace AngleSharp.Core.Tests.Css
         public void SupportsBackgroundColorRedAndColorBlueRule()
         {
             var source = @"@supports ((background-color: red) and (color: blue)) { }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("((background-color: red) and (color: blue))", supports.ConditionText);
             Assert.IsTrue(supports.IsSupported);
         }
@@ -51,11 +47,10 @@ namespace AngleSharp.Core.Tests.Css
         public void SupportsNotUnsupportedDeclarationRule()
         {
             var source = @"@supports (not (background-transparency: half)) { }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("(not (background-transparency: half))", supports.ConditionText);
             Assert.IsTrue(supports.IsSupported);
         }
@@ -64,11 +59,10 @@ namespace AngleSharp.Core.Tests.Css
         public void SupportsUnsupportedDeclarationRule()
         {
             var source = @"@supports ((background-transparency: zero)) { }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("((background-transparency: zero))", supports.ConditionText);
             Assert.IsFalse(supports.IsSupported);
         }
@@ -77,11 +71,10 @@ namespace AngleSharp.Core.Tests.Css
         public void SupportsBackgroundRedWithImportantRule()
         {
             var source = @"@supports (background: red !important) { }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("(background: red !important)", supports.ConditionText);
             Assert.IsTrue(supports.IsSupported);
         }
@@ -90,11 +83,10 @@ namespace AngleSharp.Core.Tests.Css
         public void SupportsPaddingTopOrPaddingLeftRule()
         {
             var source = @"@supports ((padding-TOP :  0) or (padding-left : 0)) { }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("((padding-top: 0) or (padding-left: 0))", supports.ConditionText);
             Assert.IsTrue(supports.IsSupported);
         }
@@ -103,11 +95,10 @@ namespace AngleSharp.Core.Tests.Css
         public void SupportsPaddingTopOrPaddingLeftAndPaddingBottomOrPaddingRightRule()
         {
             var source = @"@supports (((padding-top: 0)  or  (padding-left: 0))  and  ((padding-bottom:  0)  or  (padding-right: 0))) { }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("(((padding-top: 0) or (padding-left: 0)) and ((padding-bottom: 0) or (padding-right: 0)))", supports.ConditionText);
             Assert.IsTrue(supports.IsSupported);
         }
@@ -116,11 +107,10 @@ namespace AngleSharp.Core.Tests.Css
         public void SupportsDisplayFlexWithImportantRule()
         {
             var source = @"@supports (display: flex !important) { }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("(display: flex !important)", supports.ConditionText);
             Assert.IsTrue(supports.IsSupported);
         }
@@ -129,20 +119,18 @@ namespace AngleSharp.Core.Tests.Css
         public void SupportsBareDisplayFlexRule()
         {
             var source = @"@supports display: flex { }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(0, parser.Result.Rules.Length);
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(0, sheet.Rules.Length);
         }
 
         [Test]
         public void SupportsDisplayFlexMultipleBracketsRule()
         {
             var source = @"@supports ((display: flex)) { }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("((display: flex))", supports.ConditionText);
             Assert.IsTrue(supports.IsSupported);
         }
@@ -153,11 +141,10 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@supports ((transition-property: color) or
            (animation-name: foo)) and
           (transform: rotate(10deg)) { }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg))", supports.ConditionText);
             Assert.IsTrue(supports.IsSupported);
         }
@@ -168,11 +155,10 @@ namespace AngleSharp.Core.Tests.Css
             var source = @"@supports (transition-property: color) or
            ((animation-name: foo) and
           (transform: rotate(10deg))) { }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("(transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg)))", supports.ConditionText);
             Assert.IsTrue(supports.IsSupported);
         }
@@ -184,11 +170,10 @@ namespace AngleSharp.Core.Tests.Css
           ( -moz-box-shadow: 0 0 2px black ) or
           ( -webkit-box-shadow: 0 0 2px black ) or
           ( -o-box-shadow: 0 0 2px black ) { }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("(box-shadow: 0 0 2px black) or (-moz-box-shadow: 0 0 2px black) or (-webkit-box-shadow: 0 0 2px black) or (-o-box-shadow: 0 0 2px black)", supports.ConditionText);
             Assert.IsTrue(supports.IsSupported);
         }
@@ -201,11 +186,10 @@ namespace AngleSharp.Core.Tests.Css
   #navigation { width: 25%; }
   #article { width: 75%; }
 }";
-            var parser = new CssParser(source);
-            parser.Parse();
-            Assert.AreEqual(1, parser.Result.Rules.Length);
-            Assert.IsInstanceOf<CssSupportsRule>(parser.Result.Rules[0]);
-            var supports = parser.Result.Rules[0] as CssSupportsRule;
+            var sheet = ParseStyleSheet(source);
+            Assert.AreEqual(1, sheet.Rules.Length);
+            Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
+            var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual(3, supports.Rules.Length);
             Assert.AreEqual("not (display: flex)", supports.ConditionText);
             Assert.IsFalse(supports.IsSupported);

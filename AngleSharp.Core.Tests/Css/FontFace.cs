@@ -1,17 +1,17 @@
-﻿using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-using System;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
+    using NUnit.Framework;
+    using System;
+
     [TestFixture]
     public class FontFaceTests
     {
         static ICssStyleSheet ParseStyleSheet(String source)
         {
-            var parser = new CssParser(source);
-            return parser.Parse();
+            var parser = new CssParser();
+            return parser.ParseStylesheet(source);
         }
 
         [Test]

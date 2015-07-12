@@ -1,17 +1,16 @@
-﻿using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Css;
+    using NUnit.Framework;
+
     [TestFixture]
-    public class CssTransitionPropertyTests
+    public class CssTransitionPropertyTests : CssConstructionFunctions
     {
         [Test]
         public void CssTransitionPropertyNoneLegal()
         {
             var snippet = "transition-property : none";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-property", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionPropertyProperty>(property);
@@ -25,7 +24,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionPropertyAllLegal()
         {
             var snippet = "transition-property : ALL";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-property", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionPropertyProperty>(property);
@@ -39,7 +38,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionPropertyWidthHeightLegal()
         {
             var snippet = "transition-property : width   , height";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-property", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionPropertyProperty>(property);
@@ -53,7 +52,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionPropertyDashSpecificIllegal()
         {
             var snippet = "transition-property : -specific";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-property", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionPropertyProperty>(property);
@@ -66,7 +65,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionPropertySlidingVerticallyIllegal()
         {
             var snippet = "transition-property : sliding-vertically";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-property", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionPropertyProperty>(property);
@@ -79,7 +78,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionPropertyTest05Illegal()
         {
             var snippet = "transition-property : test_05";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-property", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionPropertyProperty>(property);
@@ -92,7 +91,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionTimingFunctionEaseLegal()
         {
             var snippet = "transition-timing-function : ease";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
@@ -106,7 +105,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionTimingFunctionEaseInLegal()
         {
             var snippet = "transition-timing-function : ease-IN";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
@@ -120,7 +119,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionTimingFunctionStepStartLegal()
         {
             var snippet = "transition-timing-function : step-start";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
@@ -134,7 +133,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionTimingFunctionStepStartStepEndLegal()
         {
             var snippet = "transition-timing-function : step-start  , step-end";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
@@ -148,7 +147,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionTimingFunctionStepStartStepEndLinearEaseInOutLegal()
         {
             var snippet = "transition-timing-function : step-start  , step-end,linear,ease-IN-OUT";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
@@ -162,7 +161,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionTimingFunctionCubicBezierLegal()
         {
             var snippet = "transition-timing-function : cubic-bezier(0, 1, 0.5, 1)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
@@ -176,7 +175,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionTimingFunctionStepsStartLegal()
         {
             var snippet = "transition-timing-function : steps(10, start)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
@@ -190,7 +189,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionTimingFunctionStepsEndLegal()
         {
             var snippet = "transition-timing-function : steps(25, end)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
@@ -204,7 +203,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionTimingFunctionStepsLinearCubicBezierLegal()
         {
             var snippet = "transition-timing-function : steps(25), linear, cubic-bezier(0.25, 1, 0.5, 1)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-timing-function", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionTimingFunctionProperty>(property);
@@ -218,7 +217,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionDurationSecondsLegal()
         {
             var snippet = "transition-duration : 6s";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-duration", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionDurationProperty>(property);
@@ -232,7 +231,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionDurationMillisecondsLegal()
         {
             var snippet = "transition-duration : 60ms";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-duration", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionDurationProperty>(property);
@@ -246,7 +245,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionDurationMillisecondsSecondsSecondsLegal()
         {
             var snippet = "transition-duration : 60ms, 1s, 2s";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-duration", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionDurationProperty>(property);
@@ -260,7 +259,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionDelayMillisecondsLegal()
         {
             var snippet = "transition-delay : 60ms";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-delay", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionDelayProperty>(property);
@@ -274,7 +273,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionDelayMillisecondsSecondsSecondsLegal()
         {
             var snippet = "transition-delay : 60ms, 1s, 2s";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition-delay", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionDelayProperty>(property);
@@ -288,7 +287,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionMillisecondsSecondsSecondsLegal()
         {
             var snippet = "transition : 60ms, 1s, 2s";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionProperty>(property);
@@ -302,7 +301,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionStepsLinearCubicBezierLegal()
         {
             var snippet = "transition : steps(25), linear, cubic-bezier(0.25, 1, 0.5, 1)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionProperty>(property);
@@ -316,7 +315,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionWidthHeightLegal()
         {
             var snippet = "transition : width   , height";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionProperty>(property);
@@ -330,7 +329,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionEaseLegal()
         {
             var snippet = "transition : ease";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionProperty>(property);
@@ -344,7 +343,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionSecondsEaseAllLegal()
         {
             var snippet = "transition : all 1s ease";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionProperty>(property);
@@ -358,7 +357,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionSecondsEaseAllHeightMsStepsLegal()
         {
             var snippet = "transition : all 1s ease, height steps(5) 50ms";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionProperty>(property);
@@ -372,7 +371,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTransitionSecondsEaseAllHeightMsStepsWidthCubicBezierLegal()
         {
             var snippet = "transition : all 1s ease, height step-start 50ms,width,cubic-bezier(0.2,0.5 , 1  ,  1)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("transition", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTransitionProperty>(property);

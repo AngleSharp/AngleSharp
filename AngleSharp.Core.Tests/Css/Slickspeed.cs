@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Core.Tests.Css
 {
-    using System.Globalization;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using NUnit.Framework;

@@ -1,20 +1,16 @@
-﻿using AngleSharp;
-using AngleSharp.Css;
-using AngleSharp.Css.Values;
-using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Css;
+    using NUnit.Framework;
+
     [TestFixture]
-    public class CssOutlinePropertyTests
+    public class CssOutlinePropertyTests : CssConstructionFunctions
     {
         [Test]
         public void CssOutlineStyleDottedLegal()
         {
             var snippet = "outline-style   :  dotTED";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineStyleProperty>(property);
@@ -28,7 +24,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineStyleSolidLegal()
         {
             var snippet = "outline-style   :  solid";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineStyleProperty>(property);
@@ -42,7 +38,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineStyleNoIllegal()
         {
             var snippet = "outline-style   :  no";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineStyleProperty>(property);
@@ -55,7 +51,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineColorInvertLegal()
         {
             var snippet = "outline-color :  invert ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineColorProperty>(property);
@@ -69,7 +65,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineColorHslLegal()
         {
             var snippet = "outline-color :  hsl(320, 80%, 50%) ";//equivalent to rgba(229, 26, 161, 1)
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineColorProperty>(property);
@@ -83,7 +79,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineColorHexLegal()
         {
             var snippet = "outline-color :  #0000FF ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineColorProperty>(property);
@@ -97,7 +93,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineColorRedLegal()
         {
             var snippet = "outline-color :  red ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineColorProperty>(property);
@@ -111,7 +107,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineColorIllegal()
         {
             var snippet = "outline-color :  blau ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-color", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineColorProperty>(property);
@@ -124,7 +120,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineWidthThinImportantLegal()
         {
             var snippet = "outline-width :  thin !important";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-width", property.Name);
             Assert.IsTrue(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineWidthProperty>(property);
@@ -138,7 +134,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineWidthNumberIllegal()
         {
             var snippet = "outline-width :  3";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineWidthProperty>(property);
@@ -151,7 +147,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineWidthLengthLegal()
         {
             var snippet = "outline-width :  0.1em";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineWidthProperty>(property);
@@ -166,7 +162,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineSingleLegal()
         {
             var snippet = "outline :  thin";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineProperty>(property);
@@ -180,7 +176,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineDualLegal()
         {
             var snippet = "outline :  thin   invert";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineProperty>(property);
@@ -194,7 +190,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineAllDottedLegal()
         {
             var snippet = "outline :  dotted 0.3em rgb(255, 255, 255)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineProperty>(property);
@@ -208,7 +204,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineDoubleColorIllegal()
         {
             var snippet = "outline :  dotted #123456 rgb(255, 255, 255)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineProperty>(property);
@@ -221,7 +217,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineAllSolidLegal()
         {
             var snippet = "outline :  1px solid #000";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineProperty>(property);
@@ -235,7 +231,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssOutlineAllColorNamedLegal()
         {
             var snippet = "outline :  solid black 1px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("outline", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssOutlineProperty>(property);

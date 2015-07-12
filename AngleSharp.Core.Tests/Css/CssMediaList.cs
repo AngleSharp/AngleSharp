@@ -1,19 +1,11 @@
-﻿using System;
-using NUnit.Framework;
-using AngleSharp.Parser.Css;
-using AngleSharp.Dom.Css;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
-    [TestFixture]
-    public class CssMediaListTests
-    {
-        static ICssStyleSheet ParseStyleSheet(String source)
-        {
-            var parser = new CssParser(source);
-            return parser.Parse();
-        }
+    using AngleSharp.Dom.Css;
+    using NUnit.Framework;
 
+    [TestFixture]
+    public class CssMediaListTests : CssConstructionFunctions
+    {
         [Test]
         public void SimpleScreenMediaList()
         {

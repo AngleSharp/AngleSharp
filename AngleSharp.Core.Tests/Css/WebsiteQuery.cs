@@ -1,8 +1,8 @@
-﻿using AngleSharp.Dom.Html;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Html;
+    using NUnit.Framework;
+
     [TestFixture]
     public class WebsiteQueryTests
     {

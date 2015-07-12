@@ -38,9 +38,8 @@
 
         public static ICssStyleSheet ToCssStylesheet(this String sourceCode, IConfiguration configuration = null)
         {
-            var parser = new CssParser(sourceCode, configuration);
-            parser.Parse();
-            return parser.Result;
+            var parser = new CssParser(configuration);
+            return parser.ParseStylesheet(sourceCode);
         }
 
         public static INodeList ToHtmlFragment(this String sourceCode, IElement context = null, IConfiguration configuration = null)
@@ -74,9 +73,8 @@
 
         public static ICssStyleSheet ToCssStylesheet(this Stream content, IConfiguration configuration = null)
         {
-            var parser = new CssParser(content, configuration);
-            parser.Parse();
-            return parser.Result;
+            var parser = new CssParser(configuration);
+            return parser.ParseStylesheet(content);
         }
     }
 }

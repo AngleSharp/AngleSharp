@@ -1,17 +1,16 @@
-﻿using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Css;
+    using NUnit.Framework;
+
     [TestFixture]
-    public class CssListPropertyTests
+    public class CssListPropertyTests : CssConstructionFunctions
     {
         [Test]
         public void CssListStylePositionOutsideLegal()
         {
             var snippet = "list-style-position: outside ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStylePositionProperty>(property);
@@ -25,7 +24,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssListStylePositionOutsideIllegal()
         {
             var snippet = "list-style-position: out-side ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStylePositionProperty>(property);
@@ -38,7 +37,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssListStylePositionNoneIllegal()
         {
             var snippet = "list-style-position: none ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStylePositionProperty>(property);
@@ -51,7 +50,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssListStylePositionInsideLegal()
         {
             var snippet = "list-style-position: insiDe ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStylePositionProperty>(property);
@@ -65,7 +64,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssListStyleImageNoneLegal()
         {
             var snippet = "list-style-image: none ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style-image", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStyleImageProperty>(property);
@@ -79,7 +78,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssListStyleImageUrlLegal()
         {
             var snippet = "list-style-image: url(http://www.example.com/images/list.png)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style-image", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStyleImageProperty>(property);
@@ -93,7 +92,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssListStyleTypeDiscLegal()
         {
             var snippet = "list-style-type: disc ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style-type", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStyleTypeProperty>(property);
@@ -107,7 +106,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssListStyleTypeLowerAlphaLegal()
         {
             var snippet = "list-style-type: lower-ALPHA ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style-type", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStyleTypeProperty>(property);
@@ -121,7 +120,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssListStyleTypeGeorgianLegal()
         {
             var snippet = "list-style-type: georgian ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style-type", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStyleTypeProperty>(property);
@@ -135,7 +134,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssListStyleTypeDecimalLeadingZeroLegal()
         {
             var snippet = "list-style-type: decimal-leading-zerO ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style-type", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStyleTypeProperty>(property);
@@ -149,7 +148,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssListStyleTypeNumberIllegal()
         {
             var snippet = "list-style-type: number ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style-type", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStyleTypeProperty>(property);
@@ -162,7 +161,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssListStyleCircleLegal()
         {
             var snippet = "list-style: circle ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStyleProperty>(property);
@@ -176,7 +175,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssListStyleNone()
         {
             var snippet = "list-style: none";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStyleProperty>(property);
@@ -190,7 +189,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssListStyleSquareInsideLegal()
         {
             var snippet = "list-style: square inside ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStyleProperty>(property);
@@ -204,7 +203,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssListStyleSquareImageInsideLegal()
         {
             var snippet = "list-style: square url('image.png') inside ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("list-style", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssListStyleProperty>(property);
@@ -218,7 +217,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCounterResetLegal()
         {
             var snippet = "counter-reset: chapter section 1 page;";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("counter-reset", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCounterResetProperty>(property);
@@ -232,7 +231,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCounterResetSingleLegal()
         {
             var snippet = "counter-reset: counter-name";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("counter-reset", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCounterResetProperty>(property);
@@ -246,7 +245,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCounterResetNoneLegal()
         {
             var snippet = "counter-reset: none";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("counter-reset", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCounterResetProperty>(property);
@@ -260,7 +259,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCounterResetNumberIllegal()
         {
             var snippet = "counter-reset: 3";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("counter-reset", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCounterResetProperty>(property);
@@ -273,7 +272,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCounterResetNegativeLegal()
         {
             var snippet = "counter-reset  :  counter-name   -1";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("counter-reset", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCounterResetProperty>(property);
@@ -287,7 +286,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCounterResetTwoCountersExplicitLegal()
         {
             var snippet = "counter-reset  :  counter1   1   counter2   4  ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("counter-reset", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCounterResetProperty>(property);
@@ -301,7 +300,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCounterIncrementNoneLegal()
         {
             var snippet = "counter-increment: none";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("counter-increment", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCounterIncrementProperty>(property);
@@ -315,7 +314,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssCounterIncrementLegal()
         {
             var snippet = "counter-increment: chapter section 2 page";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("counter-increment", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssCounterIncrementProperty>(property);

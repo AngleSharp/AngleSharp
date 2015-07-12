@@ -1,12 +1,9 @@
-﻿using AngleSharp;
-using AngleSharp.Css;
-using AngleSharp.Css.MediaFeatures;
-using AngleSharp.Dom.Css;
-using NUnit.Framework;
-using System.Collections.Generic;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Css;
+    using AngleSharp.Css.MediaFeatures;
+    using NUnit.Framework;
+
     [TestFixture]
     public class CssMediaFeaturesTests
     {

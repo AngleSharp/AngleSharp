@@ -1,10 +1,9 @@
-﻿using AngleSharp;
-using AngleSharp.Dom;
-using NUnit.Framework;
-using System;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom;
+    using NUnit.Framework;
+    using System;
+
     [TestFixture]
     public class CssSelectorTests
     {

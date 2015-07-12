@@ -1,20 +1,16 @@
-﻿using AngleSharp;
-using AngleSharp.Css;
-using AngleSharp.Css.Values;
-using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Css;
+    using NUnit.Framework;
+
     [TestFixture]
-    public class CssCoordinatePropertyTests
+    public class CssCoordinatePropertyTests : CssConstructionFunctions
     {
         [Test]
         public void CssHeightLegalPercentage()
         {
             var snippet = "height:   28% ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("height", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -29,7 +25,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssHeightLegalLengthInEm()
         {
             var snippet = "height:   0.3em ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("height", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -44,7 +40,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssHeightLegalLengthInPx()
         {
             var snippet = "height:   144px ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("height", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -59,7 +55,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssHeightLegalAutoUppercase()
         {
             var snippet = "height: AUTO ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("height", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -73,7 +69,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssWidthLegalLengthInCm()
         {
             var snippet = "width:0.5cm";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("width", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -88,7 +84,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssWidthLegalLengthInMm()
         {
             var snippet = "width:1.5mm";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("width", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -103,7 +99,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssWidthIllegalLength()
         {
             var snippet = "width:1.5 meter";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("width", property.Name);
             Assert.IsFalse(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -117,7 +113,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssLeftLegalPixel()
         {
             var snippet = "left: 25px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("left", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssLeftProperty>(property);
@@ -130,7 +126,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTopLegalEm()
         {
             var snippet = "top:  0.7em ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("top", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTopProperty>(property);
@@ -143,7 +139,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssRightLegalMm()
         {
             var snippet = "right:  1.5mm";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("right", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssRightProperty>(property);
@@ -156,7 +152,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBottomLegalPercent()
         {
             var snippet = "bottom:  50%";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("bottom", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBottomProperty>(property);
@@ -169,7 +165,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssHeightZeroLegal()
         {
             var snippet = "height:0";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("height", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssHeightProperty>(property);
@@ -182,7 +178,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssWidthZeroLegal()
         {
             var snippet = "width  :  0";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssWidthProperty>(property);
@@ -195,7 +191,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssWidthPercentLegal()
         {
             var snippet = "width  :  20.5%";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssWidthProperty>(property);
@@ -208,7 +204,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssWidthPercentInLegal()
         {
             var snippet = "width  :  3in";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssWidthProperty>(property);
@@ -220,7 +216,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssHeightAngleIllegal()
         {
             var snippet = "height  :  3deg";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("height", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssHeightProperty>(property);
@@ -233,7 +229,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssHeightResolutionIllegal()
         {
             var snippet = "height  :  3dpi";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("height", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssHeightProperty>(property);
@@ -246,7 +242,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTopLegalRem()
         {
             var snippet = "top:  1.2rem ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("top", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssTopProperty>(property);
@@ -259,7 +255,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssRightLegalCm()
         {
             var snippet = "right:  0.5cm";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("right", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssRightProperty>(property);
@@ -272,7 +268,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBottomLegalPercentTwo()
         {
             var snippet = "bottom:  0.50%";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("bottom", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBottomProperty>(property);
@@ -285,7 +281,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBottomLegalZero()
         {
             var snippet = "bottom:  0";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("bottom", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBottomProperty>(property);
@@ -298,7 +294,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssBottomIllegalNumber()
         {
             var snippet = "bottom:  20";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("bottom", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssBottomProperty>(property);
@@ -311,7 +307,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssMinHeightLegalZero()
         {
             var snippet = "min-height:  0";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("min-height", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssMinHeightProperty>(property);
@@ -324,7 +320,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssMaxHeightIllegalAuto()
         {
             var snippet = "max-height:  auto";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("max-height", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssMaxHeightProperty>(property);
@@ -337,7 +333,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssMaxWidthLegalNone()
         {
             var snippet = "max-width:  none";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("max-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssMaxWidthProperty>(property);
@@ -351,7 +347,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssMaxWidthLegalLength()
         {
             var snippet = "max-width:  15px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("max-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssMaxWidthProperty>(property);
@@ -365,7 +361,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssMinWidthLegalPercent()
         {
             var snippet = "min-width:  15%";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("min-width", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssMinWidthProperty>(property);

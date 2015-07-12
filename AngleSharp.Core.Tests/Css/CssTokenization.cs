@@ -1,10 +1,8 @@
-﻿using AngleSharp;
-using AngleSharp.Parser;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Parser.Css;
+    using NUnit.Framework;
+
     [TestFixture]
     public class CssTokenizationTests
     {

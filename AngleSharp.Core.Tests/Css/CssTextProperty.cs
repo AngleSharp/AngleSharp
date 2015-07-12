@@ -1,18 +1,17 @@
-﻿using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Css;
+    using NUnit.Framework;
+
     [TestFixture]
-    public class CssTextPropertyTests
+    public class CssTextPropertyTests : CssConstructionFunctions
     {
 
         [Test]
         public void CssWordSpacingZeroLengthLegal()
         {
             var snippet = "word-spacing: 0";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("word-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssWordSpacingProperty>(property);
@@ -26,7 +25,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssWordSpacingLengthFloatRemLegal()
         {
             var snippet = "word-spacing: .3rem ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("word-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssWordSpacingProperty>(property);
@@ -40,7 +39,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssWordSpacingLengthFloatEmLegal()
         {
             var snippet = "word-spacing: 0.3em ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("word-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssWordSpacingProperty>(property);
@@ -54,7 +53,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssWordSpacingNormalLegal()
         {
             var snippet = "word-spacing: normal ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("word-spacing", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssWordSpacingProperty>(property);
@@ -68,7 +67,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextShadowLegalInsetAtLast()
         {
             var snippet = "text-shadow: 0 0 2px black inset";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-shadow", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -82,7 +81,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextShadowLegalColorInFront()
         {
             var snippet = "text-shadow: rgba(255,255,255,0.5) 0px 3px 3px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-shadow", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -99,7 +98,7 @@ namespace AngleSharp.Core.Tests.Css
              0px 14px 10px rgba(0,0,0,0.15),
              0px 24px 2px rgba(0,0,0,0.1),
              0px 34px 30px rgba(0,0,0,0.1)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-shadow", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -113,7 +112,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextShadowLegalMultipleInline()
         {
             var snippet = "text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0,0,0,0.15)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-shadow", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -127,7 +126,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextShadowLegalColorRgbaLast()
         {
             var snippet = "text-shadow: 2px 4px 3px rgba(0,0,0,0.3)";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-shadow", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -141,7 +140,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextAlignLegalJustify()
         {
             var snippet = "text-align:justify";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-align", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -155,7 +154,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextIndentLegalLength()
         {
             var snippet = "text-indent:3em";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-indent", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -169,7 +168,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextIndentLegalZero()
         {
             var snippet = "text-indent:0";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-indent", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -183,7 +182,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextIndentLegalPercent()
         {
             var snippet = "text-indent:10%";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-indent", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -197,7 +196,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextIndentIllegalNone()
         {
             var snippet = "text-indent:none";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-indent", property.Name);
             Assert.IsFalse(property.HasValue);
             Assert.IsFalse(property.IsImportant);
@@ -209,7 +208,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextDecorationIllegal()
         {
             var snippet = "text-decoration: line-pass";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-decoration", property.Name);
             Assert.IsFalse(property.HasValue);
             Assert.IsFalse(property.IsInherited);
@@ -222,7 +221,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextDecorationLegalLineThrough()
         {
             var snippet = "text-decoration: line-Through";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-decoration", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInherited);
@@ -236,7 +235,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextDecorationLegalUnderlineOverline()
         {
             var snippet = "text-decoration:  underline  overline";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-decoration", property.Name);
             Assert.IsInstanceOf<CssTextDecorationProperty>(property);
             Assert.IsTrue(property.HasValue);
@@ -250,7 +249,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextDecorationColorLegalHex()
         {
             var snippet = "text-decoration-color: #F00";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-decoration-color", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInherited);
@@ -264,7 +263,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextDecorationColorLegalRed()
         {
             var snippet = "text-decoration-color: red";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-decoration-color", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInherited);
@@ -278,7 +277,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextDecorationLineIllegalInteger()
         {
             var snippet = "text-decoration-line: 5";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-decoration-line", property.Name);
             Assert.IsFalse(property.HasValue);
             Assert.IsFalse(property.IsInherited);
@@ -291,7 +290,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextDecorationLineLegalNone()
         {
             var snippet = "text-decoration-line: none";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-decoration-line", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInherited);
@@ -305,7 +304,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextDecorationLineLegalOverlineUnderlineLineThrough()
         {
             var snippet = "text-decoration-line: overline    underline line-through  ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-decoration-line", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInherited);
@@ -319,7 +318,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextDecorationStyleLegalWavyUppercase()
         {
             var snippet = "text-decoration-style: WAVY ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-decoration-style", property.Name);
             Assert.IsTrue(property.HasValue);
             Assert.IsFalse(property.IsInherited);
@@ -333,7 +332,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssTextDecorationStyleIllegalMultiple()
         {
             var snippet = "text-decoration-style: wavy dotted";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("text-decoration-style", property.Name);
             Assert.IsFalse(property.HasValue);
             Assert.IsFalse(property.IsInherited);
@@ -347,7 +346,7 @@ namespace AngleSharp.Core.Tests.Css
         {
             var snippet = ".centered {text-decoration:underline;}";
             var expected = ".centered { text-decoration: underline; }";
-            var result = CssParser.ParseRule(snippet);
+            var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
         }

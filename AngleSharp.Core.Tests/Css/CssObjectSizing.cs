@@ -1,17 +1,16 @@
-﻿using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Css;
+    using NUnit.Framework;
+
     [TestFixture]
-    public class CssObjectSizingTests
+    public class CssObjectSizingTests : CssConstructionFunctions
     {
         [Test]
         public void CssObjectFitNoneLegal()
         {
             var snippet = "object-fit : none";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-fit", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssObjectFitProperty>(property);
@@ -27,7 +26,7 @@ namespace AngleSharp.Core.Tests.Css
         public void ObjectFitScaledownIllegal()
         {
             var snippet = "object-fit : scaledown";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-fit", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssObjectFitProperty>(property);
@@ -42,7 +41,7 @@ namespace AngleSharp.Core.Tests.Css
         public void ObjectFitScaleDownLegal()
         {
             var snippet = "object-fit : scale-DOWN";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-fit", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssObjectFitProperty>(property);
@@ -58,7 +57,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssObjectFitCoverLegal()
         {
             var snippet = "object-fit : cover";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-fit", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssObjectFitProperty>(property);
@@ -74,7 +73,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssObjectFitContainLegal()
         {
             var snippet = "object-fit : contain";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-fit", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssObjectFitProperty>(property);
@@ -90,7 +89,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssObjectPositionCenterLegal()
         {
             var snippet = "object-position : center";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssObjectPositionProperty>(property);
@@ -105,7 +104,7 @@ namespace AngleSharp.Core.Tests.Css
         public void ObjectPositionTopLeftIllegal()
         {
             var snippet = "object-position : top-left";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssObjectPositionProperty>(property);
@@ -119,7 +118,7 @@ namespace AngleSharp.Core.Tests.Css
         public void ObjectPositionTopLeftLegal()
         {
             var snippet = "object-position : top left";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssObjectPositionProperty>(property);
@@ -134,7 +133,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssObjectPosition5050Legal()
         {
             var snippet = "object-position : 50%   50% ";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssObjectPositionProperty>(property);
@@ -149,7 +148,7 @@ namespace AngleSharp.Core.Tests.Css
         public void CssObjectPositionLeft30Legal()
         {
             var snippet = "object-position : left  30px";
-            var property = CssParser.ParseDeclaration(snippet);
+            var property = ParseDeclaration(snippet);
             Assert.AreEqual("object-position", property.Name);
             Assert.IsFalse(property.IsImportant);
             Assert.IsInstanceOf<CssObjectPositionProperty>(property);
