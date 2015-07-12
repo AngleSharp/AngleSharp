@@ -1,45 +1,14 @@
 ﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Core.Tests.Css;
     using AngleSharp.Dom.Css;
-    using AngleSharp.Parser.Css;
     using NUnit.Framework;
     using System;
     using System.IO;
 
     [TestFixture]
-    public class CssSheetTests
+    public class CssSheetTests : CssConstructionFunctions
     {
-        static ICssStyleSheet ParseStyleSheet(String source)
-        {
-            var parser = new CssParser();
-            return parser.ParseStylesheet(source);
-        }
-
-        static CssRule ParseRule(String source)
-        {
-            var parser = new CssParser();
-            return parser.ParseRule(source);
-        }
-
-        static CssProperty ParseDeclaration(String source)
-        {
-            var parser = new CssParser();
-            return parser.ParseDeclaration(source);
-        }
-
-        static CssValue ParseValue(String source)
-        {
-            var parser = new CssParser();
-            return parser.ParseValue(source);
-        }
-
-        static CssStyleDeclaration ParseDeclarations(String declarations)
-        {
-            var parser = new CssParser();
-            var style = new CssStyleDeclaration(parser, declarations);
-            return style;
-        }
-
         [Test]
         public void CssSheetOnEofDuringRuleWithoutSemicolon()
         {

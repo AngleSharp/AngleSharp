@@ -39,7 +39,8 @@
         internal static CssStyleDeclaration ParseDeclarations(String declarations)
         {
             var parser = new CssParser();
-            var style = new CssStyleDeclaration(parser, declarations);
+            var style = new CssStyleDeclaration(parser);
+            style.Update(declarations);
             return style;
         }
 
