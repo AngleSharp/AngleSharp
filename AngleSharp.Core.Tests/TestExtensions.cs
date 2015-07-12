@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Html;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
     using AngleSharp.Parser.Xml;
@@ -52,7 +53,12 @@
 
             if (element != null)
             {
-                return parser.ParseFragment(element).DocumentElement.ChildNodes;
+                var options = new HtmlParserOptions
+                {
+                    IsEmbedded = false,
+                    IsScripting = configuration.IsScripting()
+                };
+                return parser.ParseFragment(options, element).DocumentElement.ChildNodes;
             }
             else
             {
