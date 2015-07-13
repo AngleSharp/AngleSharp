@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Events;
     using AngleSharp.Network;
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Net;
@@ -178,6 +179,24 @@
             }
 
             throw new DomException(DomError.Network);
+        }
+
+        #endregion
+
+        #region Resolving
+
+        /// <summary>
+        /// Gets the content-type from the response's headers.
+        /// </summary>
+        /// <param name="response">The response to examine.</param>
+        /// <returns>The provided or default content-type.</returns>
+        public static String GetContentType(this IResponse response)
+        {
+            var fileName = response.Address.Path;
+            var index = fileName.LastIndexOf('.');
+            var extension = index >= 0 ? fileName.Substring(index) : ".a";
+            var defaultType = MimeTypes.FromExtension(MimeTypes.Binary);
+            return response.Headers.GetOrDefault(HeaderNames.ContentType, defaultType);
         }
 
         #endregion
