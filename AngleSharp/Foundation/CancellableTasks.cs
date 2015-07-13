@@ -3,7 +3,6 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -26,13 +25,6 @@
 
         #region Methods
 
-        public Task Add(Func<CancellationToken, Task> creator)
-        {
-            var cts = new CancellationTokenSource();
-            var task = creator(cts.Token);
-            return Add(task, cts);
-        }
-
         public Task<T> Add<T>(Func<CancellationToken, Task<T>> creator)
         {
             var cts = new CancellationTokenSource();
@@ -42,25 +34,25 @@
 
         public void Cancel(Task task)
         {
-            if (task != null)
+            if (task == null)
+                return;
+
+            for (int i = _tasks.Count - 1; i >= 0; i--)
             {
-                for (int i = _tasks.Count - 1; i >= 0; i--)
+                if (_tasks[i].Item1 == task)
                 {
-                    if (_tasks[i].Item1 == task)
-                    {
-                        var tuple = _tasks[i];
-                        _tasks.Remove(tuple);
-                        tuple.Item2.Cancel();
-                        break;
-                    }
+                    var tuple = _tasks[i];
+                    _tasks.Remove(tuple);
+                    tuple.Item2.Cancel();
+                    break;
                 }
             }
         }
 
         public void Dispose()
         {
-            foreach (var task in _tasks)
-                task.Item2.Cancel();
+            for (int i = 0; i < _tasks.Count; i++)
+                _tasks[i].Item2.Cancel();
 
             _tasks.Clear();
         }
@@ -89,13 +81,17 @@
 
         #region Helpers
 
-        T Add<T>(T task, CancellationTokenSource cts)
-            where T : Task
+        Task<T> Add<T>(Task<T> task, CancellationTokenSource cts)
         {
             var tuple = Tuple.Create<Task, CancellationTokenSource>(task, cts);
-            _tasks.RemoveAll(m => m.Item1.Status == TaskStatus.RanToCompletion || m.Item1.Status == TaskStatus.Faulted);
+            _tasks.RemoveAll(m => IsDone(m.Item1));
             _tasks.Add(tuple);
             return task;
+        }
+
+        static Boolean IsDone(Task task)
+        {
+            return task.Status == TaskStatus.RanToCompletion || task.Status == TaskStatus.Faulted;
         }
 
         #endregion
