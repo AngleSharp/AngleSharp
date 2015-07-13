@@ -105,7 +105,7 @@
                 var url = this.HyperReference(src);
                 var request = DocumentRequest.Get(url, source: this, referer: Owner.DocumentUri);
                 _current = Owner.Tasks.Add(cancel => _context.OpenAsync(request, cancel));
-                _current.ContinueWith(m => this.FireSimpleEvent(EventNames.Load));
+                _current.ContinueWith(m => this.FireLoadOrErrorEvent(m));
             }
         }
 

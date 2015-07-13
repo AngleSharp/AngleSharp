@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
-    using System;
-    using System.Threading.Tasks;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Services.Media;
+    using System;
+    using System.Threading.Tasks;
 
     class ImageInputType : BaseInputType
     {
@@ -27,7 +27,7 @@
                 var url = inp.HyperReference(src);
                 var request = inp.CreateRequestFor(url);
                 _current = inp.Owner.LoadResource<IImageInfo>(request);
-                _current.ContinueWith(m => inp.FireSimpleEvent(EventNames.Load));
+                _current.ContinueWith(m => inp.FireLoadOrErrorEvent(m));
             }
         }
 

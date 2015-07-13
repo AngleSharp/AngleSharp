@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
-    using System.Threading.Tasks;
     using AngleSharp.Dom.Media;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Services;
     using AngleSharp.Services.Media;
+    using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the abstract base for HTML media (audio / video) elements.
@@ -434,7 +434,7 @@
                     if (m.Result == null)
                         _network = MediaNetworkState.NoSource;
 
-                    this.FireSimpleEvent(EventNames.Load);
+                    this.FireLoadOrErrorEvent(m);
                 });
             }
         }

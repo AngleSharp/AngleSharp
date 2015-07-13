@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
-    using System.Threading.Tasks;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Services.Media;
+    using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML object element.
@@ -142,16 +142,7 @@
                 var url = new Url(Source);
                 var request = this.CreateRequestFor(url);
                 _current = Owner.LoadResource<IObjectInfo>(request);
-                _current.ContinueWith(m =>
-                {
-                    if (m.IsFaulted || m.Exception != null)
-                    {
-                        this.FireSimpleEvent(EventNames.Error);
-                        return;
-                    }
-
-                    this.FireSimpleEvent(EventNames.Load);
-                });
+                _current.ContinueWith(m => this.FireLoadOrErrorEvent(m));
             }
         }
 
