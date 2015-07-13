@@ -1940,6 +1940,9 @@
     <Compile Include="..\AngleSharp\Html\Tags.cs">
       <Link>Html\Tags.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\IBindable.cs">
+      <Link>IBindable.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\IBrowsingContext.cs">
       <Link>IBrowsingContext.cs</Link>
     </Compile>
