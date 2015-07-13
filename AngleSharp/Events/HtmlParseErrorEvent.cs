@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Events
 {
     using System;
-    using AngleSharp.Extensions;
-    using AngleSharp.Parser.Html;
 
     /// <summary>
     /// The event that is published in case of an HTML parse error.
@@ -10,17 +8,7 @@
     public class HtmlParseErrorEvent
     {
         #region ctor
-
-        /// <summary>
-        /// Creates a new HtmlParseErrorEvent event.
-        /// </summary>
-        /// <param name="error">The error object.</param>
-        /// <param name="position">The position in the source.</param>
-        internal HtmlParseErrorEvent(HtmlParseError error, TextPosition position)
-            : this(error.GetCode(), error.GetMessage(), position)
-        {
-        }
-
+        
         /// <summary>
         /// Creates a new HtmlParseErrorEvent event.
         /// </summary>

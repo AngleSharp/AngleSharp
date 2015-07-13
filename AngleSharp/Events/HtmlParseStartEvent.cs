@@ -6,21 +6,38 @@
     /// <summary>
     /// The event that is published in case of starting HTML parsing.
     /// </summary>
-    public class HtmlParseStartEvent
+    public class HtmlParseStartEvent : IDisposable
     {
         /// <summary>
         /// Action called once the parsing ended.
         /// </summary>
-        public event Action<IDocument> Ended;
+        public event EventHandler Ended;
 
         /// <summary>
-        /// Sets the document by invoking the ended event.
+        /// Creates a new event for starting HTML parsing.
         /// </summary>
-        /// <param name="document">The document to propagate.</param>
-        public void SetResult(IDocument document)
+        /// <param name="document">The document to be filled.</param>
+        public HtmlParseStartEvent(IDocument document)
+        {
+            Document = document;
+        }
+
+        /// <summary>
+        /// Gets the document, which is to be filled.
+        /// </summary>
+        public IDocument Document
+        {
+            get;
+            private set;
+        }
+
+        void IDisposable.Dispose()
         {
             if (Ended != null)
-                Ended(document);
+            {
+                Ended(this, EventArgs.Empty);
+                Ended = null;
+            }
         }
     }
 }

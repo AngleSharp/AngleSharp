@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Parser.Html
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
     using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
 
     /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
@@ -67,13 +67,13 @@
         /// <summary>
         /// Fires an error occurred event.
         /// </summary>
-        /// <param name="code">The associated error code.</param>
+        /// <param name="error">The associated error code.</param>
         /// <param name="position">The position of the error.</param>
-        public void RaiseErrorOccurred(HtmlParseError code, TextPosition position)
+        public void RaiseErrorOccurred(HtmlParseError error, TextPosition position)
         {
             if (_events != null)
             {
-                var errorEvent = new HtmlParseErrorEvent(code, position);
+                var errorEvent = new HtmlParseErrorEvent(error.GetCode(), error.GetMessage(), position);
                 _events.Publish(errorEvent);
             }
         }
