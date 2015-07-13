@@ -149,7 +149,7 @@
                 if (_headers == null)
                 {
                     _headers = new SettableTokenList(GetOwnAttribute(AttributeNames.Headers));
-                    _headers.Changed += (s, ev) => UpdateAttribute(AttributeNames.Headers, _headers.Value);
+                    CreateBindings(_headers, AttributeNames.Headers);
                 }
 
                 return _headers; 

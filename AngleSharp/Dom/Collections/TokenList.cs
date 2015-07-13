@@ -8,7 +8,7 @@
     /// <summary>
     /// A simple list of tokens that is immutable.
     /// </summary>
-    class TokenList : ITokenList
+    class TokenList : ITokenList, IBindable
     {
         #region Fields
 
@@ -18,7 +18,7 @@
 
         #region Events
 
-        public event EventHandler Changed;
+        public event Action<String> Changed;
 
         #endregion
 
@@ -59,6 +59,26 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Updates the DOMTokenList with the given value.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        public void Update(String value)
+        {
+            _tokens.Clear();
+
+            if (String.IsNullOrEmpty(value))
+                return;
+
+            var elements = value.SplitSpaces();
+
+            for (int i = 0; i < elements.Length; i++)
+            {
+                if (!_tokens.Contains(elements[i]))
+                    _tokens.Add(elements[i]);
+            }
+        }
 
         /// <summary>
         /// Returns true if the underlying string contains token, otherwise false.
@@ -132,30 +152,6 @@
 
         #endregion
 
-        #region Internal Methods
-
-        /// <summary>
-        /// Updates the DOMTokenList with the given value.
-        /// </summary>
-        /// <param name="value">The new value.</param>
-        internal void Update(String value)
-        {
-            _tokens.Clear();
-
-            if (String.IsNullOrEmpty(value))
-                return;
-
-            var elements = value.SplitSpaces();
-
-            for (int i = 0; i < elements.Length; i++)
-            {
-                if (!_tokens.Contains(elements[i]))
-                    _tokens.Add(elements[i]);
-            }
-        }
-
-        #endregion
-
         #region Helper
 
         /// <summary>
@@ -164,7 +160,7 @@
         void RaiseChanged()
         {
             if (Changed != null)
-                Changed(this, EventArgs.Empty);
+                Changed(ToString());
         }
 
         #endregion

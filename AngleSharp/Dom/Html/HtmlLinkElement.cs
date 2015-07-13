@@ -117,7 +117,7 @@
                 if (_relList == null)
                 {
                     _relList = new TokenList(GetOwnAttribute(AttributeNames.Rel));
-                    _relList.Changed += (s, ev) => UpdateAttribute(AttributeNames.Rel, _relList.ToString());
+                    CreateBindings(_relList, AttributeNames.Rel);
                 }
 
                 return _relList; 
@@ -134,7 +134,7 @@
                 if (_sizes == null)
                 {
                     _sizes = new SettableTokenList(GetOwnAttribute(AttributeNames.Sizes));
-                    _sizes.Changed += (s, ev) => UpdateAttribute(AttributeNames.Sizes, _sizes.Value);
+                    CreateBindings(_sizes, AttributeNames.Sizes);
                 }
 
                 return _sizes; 

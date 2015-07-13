@@ -10,7 +10,7 @@
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
-    sealed class CssStyleDeclaration : ICssStyleDeclaration
+    sealed class CssStyleDeclaration : ICssStyleDeclaration, IBindable
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region Events
 
-        public event EventHandler Changed;
+        public event Action<String> Changed;
 
         #endregion
 
@@ -2340,6 +2340,17 @@
 
         #region Methods
 
+        public void Update(String value)
+        {
+            if (IsReadOnly)
+                throw new DomException(DomError.NoModificationAllowed);
+
+            _declarations.Clear();
+
+            if (!String.IsNullOrEmpty(value))
+                _parser.AppendDeclarations(this, value);
+        }
+
         public String ToCss()
         {
             return ToCss(CssStyleFormatter.Instance);
@@ -2568,17 +2579,6 @@
                 SetLonghand(property);
         }
 
-        internal void Update(String value)
-        {
-            if (IsReadOnly)
-                throw new DomException(DomError.NoModificationAllowed);
-
-            _declarations.Clear();
-
-            if (!String.IsNullOrEmpty(value))
-                _parser.AppendDeclarations(this, value);
-        }
-
         internal void SetDeclarations(IEnumerable<CssProperty> decls)
         {
             ChangeDeclarations(decls, m => false, (o, n) => !o.IsImportant || n.IsImportant);
@@ -2656,7 +2656,7 @@
         void RaiseChanged()
         {
             if (Changed != null)
-                Changed(this, EventArgs.Empty);
+                Changed(CssText);
         }
 
         #endregion

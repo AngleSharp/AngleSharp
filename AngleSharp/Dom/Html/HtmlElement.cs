@@ -29,7 +29,16 @@
         public HtmlElement(Document owner, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, Combine(prefix, localName), localName, prefix, Namespaces.HtmlUri, flags | NodeFlags.HtmlMember)
         {
-            RegisterAttributeObserver(AttributeNames.Style, UpdateStyle);
+            RegisterAttributeObserver(AttributeNames.Style, value =>
+            {
+                var bindable = _style as IBindable;
+
+                if (String.IsNullOrEmpty(value))
+                    Attributes.Remove(Attributes.Get(null, AttributeNames.Style));
+
+                if (bindable != null)
+                    bindable.Update(value);
+            });
         }
 
         #endregion
@@ -75,7 +84,7 @@
                 if (_dropZone == null)
                 {
                     _dropZone = new SettableTokenList(GetOwnAttribute(AttributeNames.DropZone));
-                    _dropZone.Changed += (s, ev) => UpdateAttribute(AttributeNames.DropZone, _dropZone.Value);
+                    CreateBindings(_dropZone, AttributeNames.DropZone);
                 }
 
                 return _dropZone;
@@ -298,17 +307,6 @@
         {
             var parent = ParentElement as IHtmlElement;
             return parent != null ? parent.Language : Owner.Options.GetLanguage();
-        }
-
-        void UpdateStyle(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-                Attributes.Remove(Attributes.Get(null, AttributeNames.Style));
-
-            var style = _style as CssStyleDeclaration;
-
-            if (style != null)
-                style.Update(value);
         }
 
         protected Boolean IsClickedCancelled()

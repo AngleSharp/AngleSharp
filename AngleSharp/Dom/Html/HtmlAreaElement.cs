@@ -26,7 +26,6 @@
             : base(owner, Tags.Area, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _location = new BoundLocation(this, AttributeNames.Href);
-            RegisterAttributeObserver(AttributeNames.Rel, UpdateRelList);
         }
 
         #endregion
@@ -186,7 +185,7 @@
                 if (_relList == null)
                 {
                     _relList = new TokenList(GetOwnAttribute(AttributeNames.Rel));
-                    _relList.Changed += (s, ev) => UpdateAttribute(AttributeNames.Rel, _relList.ToString());
+                    CreateBindings(_relList, AttributeNames.Rel);
                 }
 
                 return _relList; 
@@ -203,7 +202,7 @@
                 if (_ping == null)
                 {
                     _ping = new SettableTokenList(GetOwnAttribute(AttributeNames.Ping));
-                    _ping.Changed += (s, ev) => UpdateAttribute(AttributeNames.Ping, _ping.Value);
+                    CreateBindings(_ping, AttributeNames.Ping);
                 }
 
                 return _ping;
@@ -277,16 +276,6 @@
         {
             get;
             set;
-        }
-
-        #endregion
-
-        #region Helpers
-
-        void UpdateRelList(String value)
-        {
-            if (_relList != null)
-                _relList.Update(value);
         }
 
         #endregion

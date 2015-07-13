@@ -24,7 +24,16 @@
         public SvgElement(Document owner, String name, String prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, Namespaces.SvgUri, flags | NodeFlags.SvgMember)
         {
-            RegisterAttributeObserver(AttributeNames.Style, UpdateStyle);
+            RegisterAttributeObserver(AttributeNames.Style, value =>
+            {
+                var bindable = _style as IBindable;
+
+                if (String.IsNullOrEmpty(value))
+                    Attributes.Remove(Attributes.Get(null, AttributeNames.Style));
+
+                if (bindable != null)
+                    bindable.Update(value);
+            });
         }
 
         #endregion
@@ -58,21 +67,6 @@
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;
-        }
-
-        #endregion
-
-        #region Helpers
-
-        void UpdateStyle(String value)
-        {
-            if (String.IsNullOrEmpty(value))
-                Attributes.Remove(Attributes.Get(null, AttributeNames.Style));
-
-            var style = _style as CssStyleDeclaration;
-
-            if (style != null)
-                style.Update(value);
         }
 
         #endregion

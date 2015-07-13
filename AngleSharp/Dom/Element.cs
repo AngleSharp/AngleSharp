@@ -5,7 +5,6 @@
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using AngleSharp.Services.Styling;
     using System;
@@ -61,7 +60,6 @@
             _namespace = namespaceUri;
             _attributes = new List<IAttr>();
             _attributeHandlers = new Dictionary<String, Action<String>>();
-            RegisterAttributeObserver(AttributeNames.Class, UpdateClassList);
         }
 
         #endregion
@@ -118,15 +116,15 @@
         /// </summary>
         public ITokenList ClassList
         {
-            get 
+            get
             {
                 if (_classList == null)
                 {
                     _classList = new TokenList(GetOwnAttribute(AttributeNames.Class));
-                    _classList.Changed += (s, ev) => UpdateAttribute(AttributeNames.Class, _classList.ToString());
+                    CreateBindings(_classList, AttributeNames.Class);
                 }
 
-                return _classList; 
+                return _classList;
             }
         }
 
@@ -877,17 +875,23 @@
             if (engine != null)
             {
                 var source = GetOwnAttribute(AttributeNames.Style);
-                var options = new StyleOptions
-                {
-                    Element = this,
-                    Configuration = config
-                };
-                var style = engine.ParseInline(source, options) as CssStyleDeclaration;
-                style.Changed += (s, ev) => UpdateAttribute(AttributeNames.Style, style.CssText);
+                var options = new StyleOptions { Element = this, Configuration = config };
+                var style = engine.ParseInline(source, options);
+                var bindable = style as IBindable;
+
+                if (bindable != null)
+                    bindable.Changed += value => UpdateAttribute(AttributeNames.Style, value);
+
                 return style;
             }
 
             return null;
+        }
+
+        protected void CreateBindings(IBindable bindable, String attributeName)
+        {
+            bindable.Changed += value => UpdateAttribute(attributeName, value);
+            RegisterAttributeObserver(attributeName, value => bindable.Update(value));
         }
 
         /// <summary>
@@ -981,12 +985,6 @@
                 handler = callback;
 
             _attributeHandlers[name] = handler;
-        }
-
-        void UpdateClassList(String value)
-        {
-            if (_classList != null)
-                _classList.Update(value);
         }
 
         #endregion

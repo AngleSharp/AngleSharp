@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
-    using System.Threading.Tasks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML iframe element.
@@ -59,7 +59,7 @@
                 if (_sandbox == null)
                 {
                     _sandbox = new SettableTokenList(GetOwnAttribute(AttributeNames.Sandbox));
-                    _sandbox.Changed += (s, ev) => UpdateAttribute(AttributeNames.Sandbox, _sandbox.Value);
+                    CreateBindings(_sandbox, AttributeNames.Sandbox);
                 }
 
                 return _sandbox;
