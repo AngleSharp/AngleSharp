@@ -102,7 +102,6 @@
     <Compile Include="Css\ValueConverters\FunctionValueConverter.cs" />
     <Compile Include="Css\ValueConverters\IdentifierValueConverter.cs" />
     <Compile Include="Css\IValueConverter.cs" />
-    <Compile Include="Dom\Collections\ElementMap.cs" />
     <Compile Include="Dom\Constants\CacheStatus.cs" />
     <Compile Include="Dom\Css\Constants\FontWeight.cs" />
     <Compile Include="Dom\Css\Constants\HoverAbility.cs" />
@@ -633,7 +632,6 @@
     <Compile Include="Interfaces\Html\IHtmlUnorderedListElement.cs" />
     <Compile Include="Interfaces\Html\IHtmlVideoElement.cs" />
     <Compile Include="Interfaces\Html\IRadioNodeList.cs" />
-    <Compile Include="Interfaces\IElementMap.cs" />
     <Compile Include="Interfaces\IStringList.cs" />
     <Compile Include="Interfaces\IWindowTimers.cs" />
     <Compile Include="Interfaces\Media\IAudioTrack.cs" />
