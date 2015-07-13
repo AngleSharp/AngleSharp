@@ -21,7 +21,7 @@
         /// <summary>
         /// Creates a new stylesheet class.
         /// </summary>
-        /// <param name="parent">The parent responsible for this list.</param>
+        /// <param name="sheets">The list to enumerate.</param>
         internal StyleSheetList(IEnumerable<IStyleSheet> sheets)
         {
             _sheets = sheets;
