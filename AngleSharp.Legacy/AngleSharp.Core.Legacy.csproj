@@ -413,9 +413,6 @@
     <Compile Include="..\AngleSharp\Dom\CharacterData.cs">
       <Link>Dom\CharacterData.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\Collections\ElementMap.cs">
-      <Link>Dom\Collections\ElementMap.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Dom\Collections\HtmlAllCollection.cs">
       <Link>Dom\Collections\HtmlAllCollection.cs</Link>
     </Compile>
@@ -2302,9 +2299,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IElement.cs">
       <Link>Interfaces\IElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\IElementMap.cs">
-      <Link>Interfaces\IElementMap.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IEventTarget.cs">
       <Link>Interfaces\IEventTarget.cs</Link>
