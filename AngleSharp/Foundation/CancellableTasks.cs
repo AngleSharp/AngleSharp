@@ -9,34 +9,35 @@
 
     sealed class CancellableTasks : IDisposable, IEnumerable<Task>
     {
+        #region Fields
+
         readonly List<Tuple<Task, CancellationTokenSource>> _tasks;
+
+        #endregion
+
+        #region ctor
 
         public CancellableTasks()
         {
             _tasks = new List<Tuple<Task, CancellationTokenSource>>();
         }
 
-        public void Add(Task task, CancellationTokenSource cts)
-        {
-            var tuple = Tuple.Create(task, cts);
-            _tasks.Add(tuple);
-            task.ContinueWith(m => _tasks.Remove(tuple));
-        }
+        #endregion
+
+        #region Methods
 
         public Task Add(Func<CancellationToken, Task> creator)
         {
             var cts = new CancellationTokenSource();
             var task = creator(cts.Token);
-            Add(task, cts);
-            return task;
+            return Add(task, cts);
         }
 
         public Task<T> Add<T>(Func<CancellationToken, Task<T>> creator)
         {
             var cts = new CancellationTokenSource();
             var task = creator(cts.Token);
-            Add(task, cts);
-            return task;
+            return Add(task, cts);
         }
 
         public void Cancel(Task task)
@@ -59,12 +60,14 @@
         public void Dispose()
         {
             foreach (var task in _tasks)
-            {
                 task.Item2.Cancel();
-            }
 
             _tasks.Clear();
         }
+
+        #endregion
+
+        #region Enumerator
 
         public IEnumerator<Task> GetEnumerator()
         {
@@ -81,5 +84,20 @@
         {
             return GetEnumerator();
         }
+
+        #endregion
+
+        #region Helpers
+
+        T Add<T>(T task, CancellationTokenSource cts)
+            where T : Task
+        {
+            var tuple = Tuple.Create<Task, CancellationTokenSource>(task, cts);
+            _tasks.RemoveAll(m => m.Item1.Status == TaskStatus.RanToCompletion || m.Item1.Status == TaskStatus.Faulted);
+            _tasks.Add(tuple);
+            return task;
+        }
+
+        #endregion
     }
 }
