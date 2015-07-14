@@ -42,10 +42,7 @@
             for (int i = _tasks.Count - 1; i >= 0; i--)
             {
                 if (_tasks[i].OriginatedFrom(origin))
-                {
                     _tasks.Remove(_tasks[i].Cancel());
-                    break;
-                }
             }
         }
 
@@ -57,10 +54,7 @@
             for (int i = _tasks.Count - 1; i >= 0; i--)
             {
                 if (_tasks[i].Is(task))
-                {
                     _tasks.Remove(_tasks[i].Cancel());
-                    break;
-                }
             }
         }
 
