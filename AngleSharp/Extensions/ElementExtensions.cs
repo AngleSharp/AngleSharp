@@ -622,6 +622,14 @@
             return parent != null && parent.LastElementChild == element;
         }
 
+        /// <summary>
+        /// Creates a task from the provided element with the construction
+        /// function.
+        /// </summary>
+        /// <typeparam name="T">The type of the  task's result.</typeparam>
+        /// <param name="element">The originator of the task.</param>
+        /// <param name="creator">The creation function.</param>
+        /// <returns>The created task.</returns>
         public static Task<T> CreateTask<T>(this Element element, Func<CancellationToken, Task<T>> creator)
         {
             var document = element.Owner;
@@ -636,6 +644,10 @@
 #endif
         }
 
+        /// <summary>
+        /// Cancels all outstanding tasks from the given element.
+        /// </summary>
+        /// <param name="element">The originator of the tasks.</param>
         public static void CancelTasks(this Element element)
         {
             var document = element.Owner;
