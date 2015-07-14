@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        readonly List<Tuple<Task, CancellationTokenSource>> _tasks;
+        readonly List<CancellableTask> _tasks;
 
         #endregion
 
@@ -18,7 +18,7 @@
 
         public CancellableTasks()
         {
-            _tasks = new List<Tuple<Task, CancellationTokenSource>>();
+            _tasks = new List<CancellableTask>();
         }
 
         #endregion
@@ -39,11 +39,9 @@
 
             for (int i = _tasks.Count - 1; i >= 0; i--)
             {
-                if (_tasks[i].Item1 == task)
+                if (_tasks[i].Is(task))
                 {
-                    var tuple = _tasks[i];
-                    _tasks.Remove(tuple);
-                    tuple.Item2.Cancel();
+                    _tasks.Remove(_tasks[i].Cancel());
                     break;
                 }
             }
@@ -52,7 +50,7 @@
         public void Dispose()
         {
             for (int i = 0; i < _tasks.Count; i++)
-                _tasks[i].Item2.Cancel();
+                _tasks[i].Cancel();
 
             _tasks.Clear();
         }
@@ -65,10 +63,10 @@
         {
             for (int i = 0; i < _tasks.Count; i++)
             {
-                var tuple = _tasks[i];
+                var task = _tasks[i];
 
-                if (tuple.Item1.Status != TaskStatus.RanToCompletion)
-                    yield return tuple.Item1;
+                if (task.IsActive)
+                    yield return task;
             }
         }
 
@@ -83,15 +81,51 @@
 
         Task<T> Add<T>(Task<T> task, CancellationTokenSource cts)
         {
-            var tuple = Tuple.Create<Task, CancellationTokenSource>(task, cts);
-            _tasks.RemoveAll(m => IsDone(m.Item1));
-            _tasks.Add(tuple);
+            _tasks.RemoveAll(m => m.IsActive == false);
+            _tasks.Add(new CancellableTask(task, cts, ""));
             return task;
         }
 
-        static Boolean IsDone(Task task)
+        #endregion
+
+        #region Struct
+
+        struct CancellableTask
         {
-            return task.Status == TaskStatus.RanToCompletion || task.Status == TaskStatus.Faulted;
+            readonly Task _task;
+            readonly CancellationTokenSource _cts;
+            readonly String _group;
+
+            public CancellableTask(Task task, CancellationTokenSource cts, String group)
+            {
+                _task = task;
+                _cts = cts;
+                _group = group;
+            }
+
+            public CancellableTask Cancel()
+            {
+                _cts.Cancel();
+                return this;
+            }
+
+            public Boolean Is(Task task)
+            {
+                return _task == task;
+            }
+
+            public static implicit operator Task(CancellableTask t)
+            {
+                return t._task;
+            }
+
+            public Boolean IsActive
+            {
+                get
+                {
+                    return _task.Status != TaskStatus.RanToCompletion && _task.Status != TaskStatus.Faulted;
+                }
+            }
         }
 
         #endregion
