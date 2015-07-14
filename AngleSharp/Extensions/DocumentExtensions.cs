@@ -401,43 +401,5 @@
 
             return loader.CreateResourceLoader(document);
         }
-
-        /// <summary>
-        /// Tries to load the resource of the resource type from the request.
-        /// </summary>
-        /// <param name="document">The document to use.</param>
-        /// <param name="request">The issued request.</param>
-        /// <returns>A task that will end with an image info or null.</returns>
-        public static Task<TResource> LoadResource<TResource>(this Document document, ResourceRequest request)
-            where TResource : IResourceInfo
-        {
-            var loader = document.Loader;
-            var resource = default(TResource);
-
-            return document.Tasks.Add(async (cancel) =>
-            {
-                var response = await loader.FetchAsync(request, cancel).ConfigureAwait(false);
-
-                if (response != null)
-                {
-                    var options = document.Options;
-                    var services = options.GetServices<IResourceService<TResource>>();
-                    var type = response.GetContentType();
-
-                    foreach (var service in services)
-                    {
-                        if (service.SupportsType(type))
-                        {
-                            resource = await service.CreateAsync(response, cancel).ConfigureAwait(false);
-                            break;
-                        }
-                    }
-
-                    response.Dispose();
-                }
-
-                return resource;
-            });
-        }
     }
 }

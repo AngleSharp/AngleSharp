@@ -6,7 +6,6 @@
     using AngleSharp.Services;
     using AngleSharp.Services.Media;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the abstract base for HTML media (audio / video) elements.
@@ -18,7 +17,7 @@
 
         readonly BoundLocation _src;
         protected MediaNetworkState _network;
-        protected Task<TResource> _current;
+        protected TResource _media;
 
         ITextTrackList _texts;
 
@@ -341,7 +340,7 @@
 
         public IMediaController Controller
         {
-            get { return _current != null && _current.IsCompleted && _current.Result != null ? _current.Result.Controller : null; }
+            get { return _media != null ? _media.Controller : null; }
         }
 
         public Double DefaultPlaybackRate
@@ -416,11 +415,10 @@
         /// </summary>
         public void Load()
         {
+            var src = CurrentSource;
             //TODO More complex check if something is already loading (what is loading, cancel?, ...)
             //see: https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-load
-            Owner.Tasks.Cancel(_current);
-            
-            var src = CurrentSource;
+            this.CancelTasks();
 
             if (src != null)
             {
@@ -428,9 +426,10 @@
                 var url = new Url(src);
                 var request = this.CreateRequestFor(url);
                 _network = MediaNetworkState.Loading;
-                _current = Owner.LoadResource<TResource>(request);
-                _current.ContinueWith(m =>
+                this.LoadResource<TResource>(request).ContinueWith(m =>
                 {
+                    _media = m.Result;
+
                     if (m.Result == null)
                         _network = MediaNetworkState.NoSource;
 

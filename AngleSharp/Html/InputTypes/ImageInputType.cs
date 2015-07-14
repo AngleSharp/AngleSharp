@@ -4,13 +4,12 @@
     using AngleSharp.Extensions;
     using AngleSharp.Services.Media;
     using System;
-    using System.Threading.Tasks;
 
     class ImageInputType : BaseInputType
     {
         #region Fields
 
-        readonly Task<IImageInfo> _current;
+        IImageInfo _img;
 
         #endregion
 
@@ -26,8 +25,11 @@
             {
                 var url = inp.HyperReference(src);
                 var request = inp.CreateRequestFor(url);
-                _current = inp.Owner.LoadResource<IImageInfo>(request);
-                _current.ContinueWith(m => inp.FireLoadOrErrorEvent(m));
+                inp.LoadResource<IImageInfo>(request).ContinueWith(m =>
+                {
+                    _img = m.Result;
+                    inp.FireLoadOrErrorEvent(m);
+                });
             }
         }
 
@@ -37,12 +39,12 @@
 
         public Int32 Width
         {
-            get { return _current.IsCompleted && _current.Result != null ? _current.Result.Width : 0; }
+            get { return _img != null ? _img.Width : 0; }
         }
 
         public Int32 Height
         {
-            get { return _current.IsCompleted && _current.Result != null ? _current.Result.Height : 0; }
+            get { return _img != null ? _img.Height : 0; }
         }
 
         #endregion

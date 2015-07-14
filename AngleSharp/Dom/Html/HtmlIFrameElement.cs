@@ -6,7 +6,6 @@
     using AngleSharp.Html;
     using AngleSharp.Network;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML iframe element.
@@ -17,7 +16,6 @@
 
         readonly IBrowsingContext _context;
         SettableTokenList _sandbox;
-        Task _current;
         
         #endregion
 
@@ -98,14 +96,14 @@
 
         void UpdateSource(String src)
         {
-            Owner.Tasks.Cancel(_current);
+            this.CancelTasks();
 
             if (!String.IsNullOrEmpty(src))
             {
                 var url = this.HyperReference(src);
                 var request = DocumentRequest.Get(url, source: this, referer: Owner.DocumentUri);
-                _current = Owner.Tasks.Add(cancel => _context.OpenAsync(request, cancel));
-                _current.ContinueWith(m => this.FireLoadOrErrorEvent(m));
+                this.CreateTask(cancel => _context.OpenAsync(request, cancel))
+                    .ContinueWith(m => this.FireLoadOrErrorEvent(m));
             }
         }
 

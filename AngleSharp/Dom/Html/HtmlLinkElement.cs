@@ -18,7 +18,6 @@
         IStyleSheet _sheet;
         TokenList _relList;
         SettableTokenList _sizes;
-        Task<IResponse> _current;
 
         #endregion
 
@@ -33,8 +32,6 @@
             RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
             RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);
             RegisterAttributeObserver(AttributeNames.Href, value => UpdateSource(value));
-            RegisterAttributeObserver(AttributeNames.Type, value => UpdateType(value));
-            RegisterAttributeObserver(AttributeNames.Rel, value => UpdateType(Type));
         }
 
         #endregion
@@ -196,7 +193,7 @@
 
         #endregion
 
-        #region Internal methods
+        #region Helpers
 
         void UpdateMedia(String value)
         {
@@ -210,54 +207,45 @@
                 _sheet.IsDisabled = value != null;
         }
 
-        #endregion
-
-        #region Helpers
-
-        void UpdateType(String value)
+        void FinishLoading(Task<IResponse> task)
         {
-            if (_current == null || _current.IsFaulted || _current.IsCompleted == false || _current.Result == null)
-                return;
-
-            var type = value ?? MimeTypes.Css;
+            var type = Type ?? MimeTypes.Css;
             var config = Owner.Options;
             var engine = config.GetStyleEngine(type);
 
-            if (engine != null && RelationList.Contains(Keywords.StyleSheet))
+            if (task.IsCompleted && task.IsFaulted == false)
             {
-                var options = new StyleOptions
+                if (engine != null && RelationList.Contains(Keywords.StyleSheet))
                 {
-                    Element = this,
-                    Title = Title,
-                    IsDisabled = IsDisabled,
-                    IsAlternate = RelationList.Contains(Keywords.Alternate),
-                    Configuration = config
-                };
+                    var options = new StyleOptions
+                    {
+                        Element = this,
+                        Title = Title,
+                        IsDisabled = IsDisabled,
+                        IsAlternate = RelationList.Contains(Keywords.Alternate),
+                        Configuration = config
+                    };
 
-                using (var response = _current.Result)
-                {
-                    try { _sheet = engine.ParseStylesheet(response, options); }
-                    catch { /* Do not care here */ }
+                    using (var response = task.Result)
+                    {
+                        try { _sheet = engine.ParseStylesheet(response, options); }
+                        catch { /* Do not care here */ }
+                    }
                 }
             }
+
+            this.FireLoadOrErrorEvent(task);
         }
 
         void UpdateSource(String value)
         {
-            Owner.Tasks.Cancel(_current);
+            this.CancelTasks();
 
             if (!String.IsNullOrEmpty(value))
             {
                 var request = this.CreateRequestFor(Url);
-                _current = Owner.Tasks.Add(cancel => Owner.Loader.FetchAsync(request, cancel));
-
-                _current.ContinueWith(m =>
-                {
-                    if (m.IsFaulted == false && m.Exception == null)
-                        UpdateType(Type);
-
-                    this.FireLoadOrErrorEvent(m);
-                });
+                this.CreateTask(cancel => Owner.Loader.FetchAsync(request, cancel))
+                    .ContinueWith(m => FinishLoading(m));
             }
         }
 

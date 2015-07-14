@@ -4,8 +4,12 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Services;
+    using AngleSharp.Services.Media;
     using System;
     using System.Diagnostics;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Useful methods for element objects.
@@ -616,6 +620,59 @@
         {
             var parent = element.ParentElement;
             return parent != null && parent.LastElementChild == element;
+        }
+
+        public static Task<T> CreateTask<T>(this Element element, Func<CancellationToken, Task<T>> creator)
+        {
+            var document = element.Owner;
+
+            if (document != null)
+                return document.Tasks.Add(element, creator);
+
+#if LEGACY || SILVERLIGHT
+            return TaskEx.FromResult(default(T));
+#else
+            return Task.FromResult(default(T));
+#endif
+        }
+
+        public static void CancelTasks(this Element element)
+        {
+            var document = element.Owner;
+
+            if (document != null)
+                document.Tasks.CancelAll(element);
+        }
+
+        /// <summary>
+        /// Tries to load the resource of the resource type from the request.
+        /// </summary>
+        /// <param name="element">The document to use.</param>
+        /// <param name="request">The issued request.</param>
+        /// <returns>A task that will end with a resource or null.</returns>
+        public static Task<TResource> LoadResource<TResource>(this Element element, ResourceRequest request)
+            where TResource : IResourceInfo
+        {
+            var document = element.Owner;
+            var loader = document.Loader;
+
+            return element.CreateTask(async (cancel) =>
+            {
+                using (var response = await loader.FetchAsync(request, cancel).ConfigureAwait(false))
+                {
+                    var options = document.Options;
+                    var services = options.GetServices<IResourceService<TResource>>();
+                    var type = response.GetContentType();
+
+                    foreach (var service in services)
+                    {
+                        if (service.SupportsType(type))
+                            return await service.CreateAsync(response, cancel).ConfigureAwait(false);
+                    }
+                }
+
+                return default(TResource);
+            });
         }
     }
 }

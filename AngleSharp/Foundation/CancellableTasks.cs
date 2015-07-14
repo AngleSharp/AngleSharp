@@ -25,11 +25,28 @@
 
         #region Methods
 
-        public Task<T> Add<T>(Func<CancellationToken, Task<T>> creator)
+        public Task<T> Add<T>(Object origin, Func<CancellationToken, Task<T>> creator)
         {
             var cts = new CancellationTokenSource();
             var task = creator(cts.Token);
-            return Add(task, cts);
+            _tasks.RemoveAll(m => m.IsActive == false);
+            _tasks.Add(new CancellableTask(task, cts, origin));
+            return task;
+        }
+
+        public void CancelAll(Object origin)
+        {
+            if (origin == null)
+                return;
+
+            for (int i = _tasks.Count - 1; i >= 0; i--)
+            {
+                if (_tasks[i].OriginatedFrom(origin))
+                {
+                    _tasks.Remove(_tasks[i].Cancel());
+                    break;
+                }
+            }
         }
 
         public void Cancel(Task task)
@@ -77,36 +94,30 @@
 
         #endregion
 
-        #region Helpers
-
-        Task<T> Add<T>(Task<T> task, CancellationTokenSource cts)
-        {
-            _tasks.RemoveAll(m => m.IsActive == false);
-            _tasks.Add(new CancellableTask(task, cts, ""));
-            return task;
-        }
-
-        #endregion
-
         #region Struct
 
         struct CancellableTask
         {
             readonly Task _task;
             readonly CancellationTokenSource _cts;
-            readonly String _group;
+            readonly WeakReference _origin;
 
-            public CancellableTask(Task task, CancellationTokenSource cts, String group)
+            public CancellableTask(Task task, CancellationTokenSource cts, Object origin)
             {
                 _task = task;
                 _cts = cts;
-                _group = group;
+                _origin = new WeakReference(origin);
             }
 
             public CancellableTask Cancel()
             {
                 _cts.Cancel();
                 return this;
+            }
+
+            public Boolean OriginatedFrom(Object source)
+            {
+                return Object.ReferenceEquals(_origin.Target, source);
             }
 
             public Boolean Is(Task task)

@@ -1,15 +1,15 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Threading.Tasks;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the form element.
@@ -19,7 +19,6 @@
         #region Fields
 
         HtmlFormControlsCollection _elements;
-        Task<IDocument> _current;
 
         #endregion
 
@@ -175,8 +174,43 @@
         /// </summary>
         public Task<IDocument> Submit()
         {
-            SubmitForm(this, true);
-            return _current;
+            return SubmitForm(this, true);
+        }
+
+        /// <summary>
+        /// Submits the form element from the provided element.
+        /// </summary>
+        internal Task<IDocument> SubmitForm(HtmlElement from, Boolean submittedFromSubmitMethod)
+        {
+            var owner = Owner;
+            var browsingContext = owner.Context;
+
+            if (owner.ActiveSandboxing.HasFlag(Sandboxes.Forms))
+                return null;
+
+            if (!submittedFromSubmitMethod && !from.Attributes.Any(m => m.Name == AttributeNames.FormNoValidate) && NoValidate && !CheckValidity())
+            {
+                this.FireSimpleEvent(EventNames.Invalid);
+                return null;
+            }
+
+            var action = String.IsNullOrEmpty(Action) ? new Url(owner.DocumentUri) : this.HyperReference(Action);
+            var createdBrowsingContext = false;
+            var targetBrowsingContext = owner.Context;
+            var target = Target;
+
+            if (!String.IsNullOrEmpty(target))
+            {
+                targetBrowsingContext = owner.GetTarget(target);
+
+                if (createdBrowsingContext = (targetBrowsingContext == null))
+                    targetBrowsingContext = owner.CreateTarget(target);
+            }
+
+            var replace = createdBrowsingContext || owner.ReadyState != DocumentReadyState.Complete;
+            var scheme = action.Scheme;
+            var method = Method.ToEnum(HttpMethod.Get);
+            return SubmitForm(method, scheme, action);
         }
 
         /// <summary>
@@ -257,39 +291,6 @@
 
         #region Helpers
 
-        void SubmitForm(HtmlElement from, Boolean submittedFromSubmitMethod)
-        {
-            var owner = Owner;
-            var browsingContext = owner.Context;
-
-            if (owner.ActiveSandboxing.HasFlag(Sandboxes.Forms))
-                return;
-
-            if (!submittedFromSubmitMethod && !from.Attributes.Any(m => m.Name == AttributeNames.FormNoValidate) && NoValidate && !CheckValidity())
-            {
-                this.FireSimpleEvent(EventNames.Invalid);
-                return;
-            }
-
-            var action = String.IsNullOrEmpty(Action) ? new Url(owner.DocumentUri) : this.HyperReference(Action);
-            var createdBrowsingContext = false;
-            var targetBrowsingContext = owner.Context;
-            var target = Target;
-
-            if (!String.IsNullOrEmpty(target))
-            {
-                targetBrowsingContext = owner.GetTarget(target);
-
-                if (createdBrowsingContext = (targetBrowsingContext == null))
-                    targetBrowsingContext = owner.CreateTarget(target);
-            }
-
-            var replace = createdBrowsingContext || owner.ReadyState != DocumentReadyState.Complete;
-            var scheme = action.Scheme;
-            var method = Method.ToEnum(HttpMethod.Get);
-            _current = SubmitForm(method, scheme, action);
-        }
-
         Task<IDocument> SubmitForm(HttpMethod method, String scheme, Url action)
         {
             if (scheme == KnownProtocols.Http || scheme == KnownProtocols.Https)
@@ -317,12 +318,8 @@
             {
                 return GetActionUrl(action);
             }
-            else
-            {
-                return MutateActionUrl(action);
-            }
 
-            return _current;
+            return MutateActionUrl(action);
         }
 
         /// <summary>
@@ -425,9 +422,8 @@
         /// <param name="request">The request to issue.</param>
         Task<IDocument> NavigateTo(DocumentRequest request)
         {
-            var owner = Owner;
-            owner.Tasks.Cancel(_current);
-            return owner.Tasks.Add(cancel => Owner.Context.OpenAsync(request, cancel));
+            this.CancelTasks();
+            return this.CreateTask(cancel => Owner.Context.OpenAsync(request, cancel));
         }
 
         /// <summary>

@@ -4,7 +4,6 @@
     using AngleSharp.Html;
     using AngleSharp.Services.Media;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML object element.
@@ -14,7 +13,7 @@
         #region Fields
 
         readonly BoundLocation _data;
-        Task<IObjectInfo> _current;
+        IObjectInfo _obj;
 
         #endregion
 
@@ -95,7 +94,7 @@
         /// </summary>
         public Int32 OriginalWidth
         {
-            get { return _current != null ? (_current.IsCompleted && _current.Result != null ? _current.Result.Width : 0) : 0; }
+            get { return _obj != null ? _obj.Width : 0; }
         }
 
         /// <summary>
@@ -103,7 +102,7 @@
         /// </summary>
         public Int32 OriginalHeight
         {
-            get { return _current != null ? (_current.IsCompleted && _current.Result != null ? _current.Result.Height : 0) : 0; }
+            get { return _obj != null ? _obj.Height : 0; }
         }
 
         /// <summary>
@@ -135,14 +134,17 @@
 
         void UpdateSource(String value)
         {
-            Owner.Tasks.Cancel(_current);
+            this.CancelTasks();
 
             if (!String.IsNullOrEmpty(value))
             {
                 var url = new Url(Source);
                 var request = this.CreateRequestFor(url);
-                _current = Owner.LoadResource<IObjectInfo>(request);
-                _current.ContinueWith(m => this.FireLoadOrErrorEvent(m));
+                this.LoadResource<IObjectInfo>(request).ContinueWith(m =>
+                {
+                    _obj = m.Result;
+                    this.FireLoadOrErrorEvent(m);
+                });
             }
         }
 

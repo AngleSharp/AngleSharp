@@ -4,7 +4,6 @@
     using AngleSharp.Html;
     using AngleSharp.Services.Media;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the image element.
@@ -14,7 +13,7 @@
         #region Fields
 
         readonly BoundLocation _src;
-        Task<IImageInfo> _current;
+        IImageInfo _img;
 
         #endregion
 
@@ -128,7 +127,7 @@
         /// </summary>
         public Int32 OriginalWidth
         {
-            get { return _current != null ? (_current.IsCompleted && _current.Result != null ? _current.Result.Width : 0) : 0; }
+            get { return _img != null ? _img.Width : 0; }
         }
 
         /// <summary>
@@ -136,7 +135,7 @@
         /// </summary>
         public Int32 OriginalHeight
         {
-            get { return _current != null ? (_current.IsCompleted && _current.Result != null ? _current.Result.Height : 0) : 0; }
+            get { return _img != null ? _img.Height : 0; }
         }
 
         /// <summary>
@@ -144,7 +143,7 @@
         /// </summary>
         public Boolean IsCompleted
         {
-            get { return _current == null || _current.IsCompleted; }
+            get { return _img == null; }
         }
 
         /// <summary>
@@ -164,15 +163,18 @@
 
         void UpdateSource(String value)
         {
-            Owner.Tasks.Cancel(_current);
+            this.CancelTasks();
 
             if (!String.IsNullOrEmpty(value))
             {
                 var request = this.CreateRequestFor(Url);
                 //TODO Implement with srcset etc. --> see:
                 //http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#update-the-image-data
-                _current = Owner.LoadResource<IImageInfo>(request);
-                _current.ContinueWith(m => this.FireLoadOrErrorEvent(m));
+                this.LoadResource<IImageInfo>(request).ContinueWith(m =>
+                {
+                    _img = m.Result;
+                    this.FireLoadOrErrorEvent(m);
+                });
             }
         }
 

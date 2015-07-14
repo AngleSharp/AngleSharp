@@ -1,11 +1,10 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
-    using System.Threading.Tasks;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Services.Scripting;
+    using System;
 
     /// <summary>
     /// Represents an HTML script element.
@@ -19,7 +18,7 @@
         Boolean _wasParserInserted;
         Boolean _forceAsync;
         Boolean _readyToBeExecuted;
-        Task<IResponse> _current;
+        IResponse _current;
 
         #endregion
 
@@ -145,9 +144,6 @@
         internal void Run()
         {
             if (_current == null)
-                return;
-
-            if (_current.Exception != null || _current.IsFaulted)
             {
                 Error();
             }
@@ -155,15 +151,10 @@
             {
                 var owner = Owner;
                 var engine = owner.Options.GetScriptEngine(ScriptLanguage);
-                var result = _current.Result;
 
-                if (result != null)
-                {
-                    try { engine.Evaluate(result, CreateOptions()); }
-                    catch { /* We omit failed 3rd party services */ }
-                    
-                    result.Dispose();
-                }
+                try { engine.Evaluate(_current, CreateOptions()); }
+                catch { /* We omit failed 3rd party services */ }
+                finally { _current.Dispose(); }
 
                 AfterScriptExecute();
 
@@ -264,8 +255,12 @@
 
             var request = this.CreateRequestFor(url);
             var setting = CrossOrigin.ToEnum(CorsSetting.None);
-            _current = owner.Tasks.Add(cancel => Owner.Loader.FetchWithCorsAsync(request, setting, OriginBehavior.Taint, cancel));
-            _current.ContinueWith(m => _readyToBeExecuted = (_parserInserted && !IsAsync) || _readyToBeExecuted);
+            var behavior = OriginBehavior.Taint;
+            this.CreateTask(c => Owner.Loader.FetchWithCorsAsync(request, setting, behavior, c)).ContinueWith(m =>
+            {
+                _current = m.Result;
+                _readyToBeExecuted = (_parserInserted && !IsAsync) || _readyToBeExecuted;
+            });
         }
 
         void Load()

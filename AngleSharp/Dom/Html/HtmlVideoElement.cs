@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Dom.Media;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Services.Media;
+    using System;
 
     /// <summary>
     /// Represents the HTML video element.
@@ -62,7 +62,7 @@
         /// </summary>
         public Int32 OriginalWidth
         {
-            get { return _current != null ? (_current.IsCompleted && _current.Result != null ? _current.Result.Width : 0) : 0; }
+            get { return _media != null ? _media.Width : 0; }
         }
 
         /// <summary>
@@ -70,7 +70,7 @@
         /// </summary>
         public Int32 OriginalHeight
         {
-            get { return _current != null ? (_current.IsCompleted && _current.Result != null ? _current.Result.Height : 0) : 0; }
+            get { return _media != null ? _media.Height : 0; }
         }
 
         /// <summary>
