@@ -1,17 +1,17 @@
 ﻿namespace AngleSharp.Events
 {
-    using System;
     using AngleSharp.Network;
+    using System;
 
     /// <summary>
     /// The event that is published in case of new request.
     /// </summary>
-    public class RequestStartEvent
+    public class RequestStartEvent : IDisposable
     {
         /// <summary>
         /// Action called once the request ended.
         /// </summary>
-        public event Action<IResponse> Ended;
+        public event EventHandler Ended;
 
         /// <summary>
         /// Creates a new event for starting a request.
@@ -42,14 +42,13 @@
             private set;
         }
 
-        /// <summary>
-        /// Sets the response by invoking the ended event.
-        /// </summary>
-        /// <param name="response">The response to propagate.</param>
-        public void SetResult(IResponse response)
+        void IDisposable.Dispose()
         {
             if (Ended != null)
-                Ended(response);
+            {
+                Ended(this, EventArgs.Empty);
+                Ended = null;
+            }
         }
     }
 }

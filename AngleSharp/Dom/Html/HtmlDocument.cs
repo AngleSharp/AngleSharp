@@ -77,23 +77,26 @@
         /// <returns>The task that builds the document.</returns>
         internal async static Task<HtmlDocument> LoadAsync(IBrowsingContext context, IResponse response, TextSource source, CancellationToken cancelToken)
         {
-            var config = context.Configuration;
-            var events = config.Events;
             var document = new HtmlDocument(context, source);
-            var parser = new HtmlDomBuilder(document);
-            var startEvent = new HtmlParseStartEvent();
-            document.ContentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html);
-            document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
-            document.DocumentUri = response.Address.Href;
-            document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
-            document.ReadyState = DocumentReadyState.Loading;
 
-            if (events != null)
-                events.Publish(startEvent);
+            using (var evt = new HtmlParseStartEvent(document))
+            {
+                var config = context.Configuration;
+                var events = config.Events;
+                var parser = new HtmlDomBuilder(document);
+                document.ContentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html);
+                document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
+                document.DocumentUri = response.Address.Href;
+                document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
+                document.ReadyState = DocumentReadyState.Loading;
 
-            var options = new HtmlParserOptions { IsScripting = config.IsScripting() };
-            var result = await parser.ParseAsync(options, cancelToken).ConfigureAwait(false);
-            startEvent.SetResult(result);
+                if (events != null)
+                    events.Publish(evt);
+
+                var options = new HtmlParserOptions { IsScripting = config.IsScripting() };
+                await parser.ParseAsync(options, cancelToken).ConfigureAwait(false);
+            }
+
             return document;
         }
     }

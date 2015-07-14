@@ -1,13 +1,14 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Events;
+    using AngleSharp.Network;
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
-    using AngleSharp.Dom;
-    using AngleSharp.Events;
-    using AngleSharp.Network;
 
     /// <summary>
     /// Useful extensions for IRequester objects.
@@ -35,14 +36,13 @@
             {
                 if (requester.SupportsProtocol(request.Address.Scheme))
                 {
-                    var evt = new RequestStartEvent(requester, request);
+                    using (var evt = new RequestStartEvent(requester, request))
+                    {
+                        if (events != null)
+                            events.Publish(evt);
 
-                    if (events != null)
-                        events.Publish(evt);
-
-                    var result = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
-                    evt.SetResult(result);
-                    return result;
+                        return await requester.RequestAsync(request, cancel).ConfigureAwait(false);
+                    }
                 }
             }
 
@@ -179,6 +179,24 @@
             }
 
             throw new DomException(DomError.Network);
+        }
+
+        #endregion
+
+        #region Resolving
+
+        /// <summary>
+        /// Gets the content-type from the response's headers.
+        /// </summary>
+        /// <param name="response">The response to examine.</param>
+        /// <returns>The provided or default content-type.</returns>
+        public static String GetContentType(this IResponse response)
+        {
+            var fileName = response.Address.Path;
+            var index = fileName.LastIndexOf('.');
+            var extension = index >= 0 ? fileName.Substring(index) : ".a";
+            var defaultType = MimeTypes.FromExtension(MimeTypes.Binary);
+            return response.Headers.GetOrDefault(HeaderNames.ContentType, defaultType);
         }
 
         #endregion

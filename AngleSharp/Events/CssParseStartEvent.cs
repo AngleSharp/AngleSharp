@@ -6,21 +6,38 @@
     /// <summary>
     /// The event that is published in case of starting CSS parsing.
     /// </summary>
-    public class CssParseStartEvent
+    public class CssParseStartEvent : IDisposable
     {
         /// <summary>
         /// Action called once the parsing ended.
         /// </summary>
-        public event Action<ICssStyleSheet> Ended;
+        public event EventHandler Ended;
 
         /// <summary>
-        /// Sets the sheet by invoking the ended event.
+        /// Creates a new event for starting CSS parsing.
         /// </summary>
-        /// <param name="sheet">The sheet to propagate.</param>
-        public void SetResult(ICssStyleSheet sheet)
+        /// <param name="styleSheet">The sheet to be filled.</param>
+        public CssParseStartEvent(ICssStyleSheet styleSheet)
+        {
+            StyleSheet = styleSheet;
+        }
+
+        /// <summary>
+        /// Gets the stylesheet, which is to be filled.
+        /// </summary>
+        public ICssStyleSheet StyleSheet 
+        { 
+            get; 
+            private set; 
+        }
+
+        void IDisposable.Dispose()
         {
             if (Ended != null)
-                Ended(sheet);
+            {
+                Ended(this, EventArgs.Empty);
+                Ended = null;
+            }
         }
     }
 }

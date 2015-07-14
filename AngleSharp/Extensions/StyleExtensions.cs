@@ -108,6 +108,16 @@
         }
 
         /// <summary>
+        /// Creates a new StyleSheetList instance for the given node.
+        /// </summary>
+        /// <param name="parent">The node to get the StyleSheets from.</param>
+        /// <returns>The new StyleSheetList instance.</returns>
+        public static IStyleSheetList CreateStyleSheets(this INode parent)
+        {
+            return new StyleSheetList(parent.GetStyleSheets());
+        }
+
+        /// <summary>
         /// Gets an enumeration over all the stylesheets from the given parent.
         /// </summary>
         /// <param name="parent">The parent to use.</param>

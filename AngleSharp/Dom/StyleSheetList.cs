@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Extensions;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -13,7 +12,7 @@
     {
         #region Fields
 
-        readonly INode _parent;
+        readonly IEnumerable<IStyleSheet> _sheets;
 
         #endregion
 
@@ -22,10 +21,10 @@
         /// <summary>
         /// Creates a new stylesheet class.
         /// </summary>
-        /// <param name="parent">The parent responsible for this list.</param>
-        internal StyleSheetList(INode parent)
+        /// <param name="sheets">The list to enumerate.</param>
+        internal StyleSheetList(IEnumerable<IStyleSheet> sheets)
         {
-            _parent = parent;
+            _sheets = sheets;
         }
 
         #endregion
@@ -41,7 +40,7 @@
         /// <returns>The stylesheet.</returns>
         public IStyleSheet this[Int32 index]
         {
-            get { return _parent.GetStyleSheets().Skip(index).FirstOrDefault(); }
+            get { return _sheets.Skip(index).FirstOrDefault(); }
         }
 
         #endregion
@@ -53,7 +52,7 @@
         /// </summary>
         public Int32 Length
         {
-            get { return _parent.GetStyleSheets().Count(); }
+            get { return _sheets.Count(); }
         }
 
         #endregion
@@ -66,7 +65,7 @@
         /// <returns>The enumerator.</returns>
         public IEnumerator<IStyleSheet> GetEnumerator()
         {
-            return _parent.GetStyleSheets().GetEnumerator();
+            return _sheets.GetEnumerator();
         }
 
         /// <summary>

@@ -14,18 +14,18 @@
         #region Fields
 
         readonly List<MutationObserver> _observers;
-        readonly Document _document;
+        readonly IConfiguration _configuration;
         Boolean _queued;
 
         #endregion
 
         #region ctor
 
-        public MutationHost(Document document)
+        public MutationHost(IConfiguration configuration)
         {
             _observers = new List<MutationObserver>();
             _queued = false;
-            _document = document;
+            _configuration = configuration;
         }
 
         #endregion
@@ -58,7 +58,7 @@
         /// </summary>
         public void ScheduleCallback()
         {
-            var eventLoop = _document.Options.GetService<IEventService>();
+            var eventLoop = _configuration.GetService<IEventService>();
 
             if (_queued || eventLoop == null)
                 return;
@@ -73,7 +73,7 @@
         void DispatchCallback()
         {
             var observers = _observers.ToArray();
-            var eventLoop = _document.Options.GetService<IEventService>();
+            var eventLoop = _configuration.GetService<IEventService>();
             _queued = false;
 
             if (eventLoop == null)

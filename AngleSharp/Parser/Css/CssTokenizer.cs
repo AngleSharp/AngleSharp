@@ -1,12 +1,11 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
     using AngleSharp.Css;
     using AngleSharp.Events;
     using AngleSharp.Extensions;
+    using System;
+    using System.Diagnostics;
+    using System.Globalization;
 
     /// <summary>
     /// The CSS tokenizer.
@@ -82,13 +81,13 @@
         /// <summary>
         /// Fires an error occurred event.
         /// </summary>
-        /// <param name="code">The associated error code.</param>
+        /// <param name="error">The associated error code.</param>
         /// <param name="position">Position of the error.</param>
-        public void RaiseErrorOccurred(CssParseError code, TextPosition position)
+        public void RaiseErrorOccurred(CssParseError error, TextPosition position)
         {
             if (_events != null)
             {
-                var errorEvent = new CssParseErrorEvent(code, position);
+                var errorEvent = new CssParseErrorEvent(error.GetCode(), error.GetMessage(), position);
                 _events.Publish(errorEvent);
             }
         }

@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Events
 {
     using System;
-    using AngleSharp.Extensions;
-    using AngleSharp.Parser.Css;
 
     /// <summary>
     /// The event that is published in case of an CSS parse error.
@@ -10,16 +8,6 @@
     public class CssParseErrorEvent
     {
         #region ctor
-
-        /// <summary>
-        /// Creates a new CssParseErrorEvent event.
-        /// </summary>
-        /// <param name="error">The error object.</param>
-        /// <param name="position">The position in the source.</param>
-        internal CssParseErrorEvent(CssParseError error, TextPosition position)
-            : this(error.GetCode(), error.GetMessage(), position)
-        {
-        }
 
         /// <summary>
         /// Creates a new CssParseErrorEvent event.

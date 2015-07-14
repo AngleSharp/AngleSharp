@@ -18,11 +18,13 @@
     static class DocumentExtensions
     {
         /// <summary>
-        /// Iterates over all ranges in the document, applying the provided action
-        /// when the given condition is fulfilled.
+        /// Iterates over all ranges in the document, applying the provided
+        /// action when the given condition is fulfilled.
         /// </summary>
         /// <param name="document">The document that hosts the ranges.</param>
-        /// <param name="condition">The condition that needs to be fulfilled.</param>
+        /// <param name="condition">
+        /// The condition that needs to be fulfilled.
+        /// </param>
         /// <param name="action">The action to apply to the range.</param>
         public static void ForEachRange(this Document document, Predicate<Range> condition, Action<Range> action)
         {
@@ -57,7 +59,9 @@
         /// <summary>
         /// Queues an action in the event loop of the document.
         /// </summary>
-        /// <param name="document">The document that hosts the configuration.</param>
+        /// <param name="document">
+        /// The document that hosts the configuration.
+        /// </param>
         /// <param name="action">The action that should be invoked.</param>
         public static void QueueTask(this Document document, Action action)
         {
@@ -72,7 +76,9 @@
         /// <summary>
         /// Queues an task in the event loop of the document.
         /// </summary>
-        /// <param name="document">The document that hosts the configuration.</param>
+        /// <param name="document">
+        /// The document that hosts the configuration.
+        /// </param>
         /// <param name="task">The task that should be run.</param>
         public static void QueueTask(this Document document, Task task)
         {
@@ -85,9 +91,12 @@
         }
 
         /// <summary>
-        /// Spins the event loop of the document until the given predicate is matched.
+        /// Spins the event loop of the document until the given predicate is 
+        /// matched.
         /// </summary>
-        /// <param name="document">The document that hosts the configuration.</param>
+        /// <param name="document">
+        /// The document that hosts the configuration.
+        /// </param>
         /// <param name="predicate">The condition that has to be met.</param>
         public static async Task SpinLoop(this Document document, Func<Boolean> predicate)
         {
@@ -190,19 +199,21 @@
                 var manifest = root.Manifest;
 
                 //TODO
-                //Replace by algorithm to resolve the value of that attribute to an absolute URL,
-                //relative to the newly created element.
+                // Replace by algorithm to resolve the value of that attribute
+                // to an absolute URL, relative to the newly created element.
                 Predicate<String> CanResolve = str => false;
 
                 if (!String.IsNullOrEmpty(manifest) && CanResolve(manifest))
                 {
-                    //Run the application cache selection algorithm with the result of applying the URL serializer
-                    //algorithm to the resulting parsed URL with the exclude fragment flag set.
+                    // Run the application cache selection algorithm with the
+                    // result of applying the URL serializer algorithm to the
+                    // resulting parsed URL with the exclude fragment flag set.
                 }
                 else
                 {
-                    //Run the application cache selection algorithm with no manifest.
-                    //The algorithm must be passed the Document object.
+                    // Run the application cache selection algorithm with no
+                    // manifest. The algorithm must be passed the Document 
+                    // object.
                 }
             }
         }
@@ -218,8 +229,9 @@
         }
 
         /// <summary>
-        /// Provides a stable state by running the synchronous sections of asynchronously-running
-        /// algorithms until the asynchronous algorithm can be resumed (if appropriate).
+        /// Provides a stable state by running the synchronous sections of 
+        /// asynchronously-running algorithms until the asynchronous algorithm
+        /// can be resumed (if appropriate).
         /// </summary>
         /// <param name="document">The document to use.</param>
         public static void ProvideStableState(this Document document)
@@ -228,16 +240,21 @@
         }
 
         /// <summary>
-        /// Checks if the document has any active stylesheets that block the scripts. A style sheet is
-        /// blocking scripts if the responsible element was created by that Document's parser, and the
-        /// element is either a style element or a link element that was an external resource link that
-        /// contributes to the styling processing model when the element was created by the parser, and
-        /// the element's style sheet was enabled when the element was created by the parser, and the
-        /// element's style sheet ready flag is not yet set.
+        /// Checks if the document has any active stylesheets that block the
+        /// scripts. A style sheet is blocking scripts if the responsible 
+        /// element was created by that Document's parser, and the element is
+        /// either a style element or a link element that was an external
+        /// resource link that contributes to the styling processing model when
+        /// the element was created by the parser, and the element's style
+        /// sheet was enabled when the element was created by the parser, and 
+        /// the element's style sheet ready flag is not yet set.
         /// http://www.w3.org/html/wg/drafts/html/master/document-metadata.html#has-no-style-sheet-that-is-blocking-scripts
         /// </summary>
         /// <param name="document">The document to use.</param>
-        /// <returns>True if any stylesheets still need to be downloaded, otherwise false.</returns>
+        /// <returns>
+        /// True if any stylesheets still need to be downloaded, otherwise 
+        /// false.
+        /// </returns>
         public static Boolean HasScriptBlockingStyleSheet(this Document document)
         {
             //TODO
@@ -254,8 +271,8 @@
         }
 
         /// <summary>
-        /// Spins the event loop until all stylesheets are downloaded (if required) and all
-        /// scripts are ready to be parser executed.
+        /// Spins the event loop until all stylesheets are downloaded (if
+        /// required) and all scripts are ready to be parser executed.
         /// http://www.w3.org/html/wg/drafts/html/master/syntax.html#the-end
         /// (bullet 3)
         /// </summary>
@@ -274,9 +291,13 @@
         /// <summary>
         /// Gets the specified target browsing context.
         /// </summary>
-        /// <param name="document">The document that originates the request.</param>
+        /// <param name="document">
+        /// The document that originates the request.
+        /// </param>
         /// <param name="target">The specified target name.</param>
-        /// <returns>The available context, or null, if the context does not exist yet.</returns>
+        /// <returns>
+        /// The available context, or null, if the context does not exist yet.
+        /// </returns>
         public static IBrowsingContext GetTarget(this Document document, String target)
         {
             if (String.IsNullOrEmpty(target) || target.Equals("_self", StringComparison.Ordinal))
@@ -292,7 +313,9 @@
         /// <summary>
         /// Creates the specified target browsing context.
         /// </summary>
-        /// <param name="document">The document that originates the request.</param>
+        /// <param name="document">
+        /// The document that originates the request.
+        /// </param>
         /// <param name="target">The specified target name.</param>
         /// <returns>The new context.</returns>
         public static IBrowsingContext CreateTarget(this Document document, String target)
@@ -324,7 +347,8 @@
         }
 
         /// <summary>
-        /// Creates a new nested browsing context with the given name and creator.
+        /// Creates a new nested browsing context with the given name and 
+        /// creator.
         /// </summary>
         /// <param name="document">The creator of the context.</param>
         /// <param name="security">The sandbox flag of the context.</param>
@@ -338,7 +362,9 @@
         /// <summary>
         /// Creates a new Window instance for the given document.
         /// </summary>
-        /// <param name="document">The document that demands a DefaultView.</param>
+        /// <param name="document">
+        /// The document that demands a DefaultView.
+        /// </param>
         /// <returns>The freshly created Window.</returns>
         public static IWindow CreateWindow(this Document document)
         {
@@ -395,13 +421,14 @@
                 if (response != null)
                 {
                     var options = document.Options;
-                    var resourceServices = options.GetServices<IResourceService<TResource>>();
+                    var services = options.GetServices<IResourceService<TResource>>();
+                    var type = response.GetContentType();
 
-                    foreach (var resourceService in resourceServices)
+                    foreach (var service in services)
                     {
-                        if (resourceService.SupportsType(response.Headers[HeaderNames.ContentType]))
+                        if (service.SupportsType(type))
                         {
-                            resource = await resourceService.CreateAsync(response, cancel).ConfigureAwait(false);
+                            resource = await service.CreateAsync(response, cancel).ConfigureAwait(false);
                             break;
                         }
                     }

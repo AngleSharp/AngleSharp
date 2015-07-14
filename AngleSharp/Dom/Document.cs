@@ -1,17 +1,17 @@
 ﻿namespace AngleSharp.Dom
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a document node.
@@ -23,9 +23,9 @@
 
         static readonly String AboutBlank = "about:blank";
 
-        readonly StyleSheetList _styleSheets;
+        readonly IStyleSheetList _styleSheets;
         readonly Queue<HtmlScriptElement> _loadingScripts;
-        readonly List<WeakReference> _ranges;
+        readonly List<WeakReference<Range>> _ranges;
         readonly MutationHost _mutations;
         readonly IBrowsingContext _context;
         readonly IWindow _view;
@@ -51,7 +51,7 @@
         HtmlCollection<IHtmlAnchorElement> _anchors;
         HtmlElementCollection _children;
         DomImplementation _implementation;
-        StringList _styleSheetSets;
+        IStringList _styleSheetSets;
         HtmlCollection<IHtmlImageElement> _images;
         HtmlCollection<IHtmlScriptElement> _scripts;
         HtmlCollection<IHtmlEmbedElement> _plugins;
@@ -436,27 +436,27 @@
         internal Document(IBrowsingContext context, TextSource source)
             : base(null, "#document", NodeType.Document)
         {
-            _tasks = new CancellableTasks();
             _async = true;
+            _designMode = false;
+            _firedUnload = false;
+            _salvageable = true;
+            _shown = false;
+            _preferredStyleSheetSet = String.Empty;
             _context = context ?? BrowsingContext.New();
             _source = source;
             _referrer = String.Empty;
             _contentType = MimeTypes.ApplicationXml;
             _ready = DocumentReadyState.Loading;
-            _styleSheets = new StyleSheetList(this);
-            _mutations = new MutationHost(this);
-            _preferredStyleSheetSet = String.Empty;
-            _loadingScripts = new Queue<HtmlScriptElement>();
-            _quirksMode = QuirksMode.Off;
-            _designMode = false;
-            _location = new Location(AboutBlank);
-            _location.Changed += LocationChanged;
-            _ranges = new List<WeakReference>();
-            _view = this.CreateWindow();
-            _firedUnload = false;
-            _salvageable = true;
-            _shown = false;
             _sandbox = Sandboxes.None;
+            _quirksMode = QuirksMode.Off;
+            _tasks = new CancellableTasks();
+            _mutations = new MutationHost(Options);
+            _loadingScripts = new Queue<HtmlScriptElement>();
+            _location = new Location(AboutBlank);
+            _ranges = new List<WeakReference<Range>>();
+            _location.Changed += LocationChanged;
+            _styleSheets = this.CreateStyleSheets();
+            _view = this.CreateWindow();
             _loader = this.CreateLoader();
         }
 
@@ -953,7 +953,15 @@
         /// </summary>
         internal IEnumerable<Range> Ranges
         {
-            get { return _ranges.Where(m => m.IsAlive).Select(m => m.Target).OfType<Range>(); }
+            get 
+            { 
+                return _ranges.Select(entry => 
+                {
+                    var range = default(Range);
+                    entry.TryGetTarget(out range);
+                    return range;
+                }).Where(range => range != null); 
+            }
         }
 
         /// <summary>
@@ -1269,7 +1277,7 @@
         public IRange CreateRange()
         {
             var range = new Range(this);
-            _ranges.Add(new WeakReference(range));
+            _ranges.Add(new WeakReference<Range>(range));
             return range;
         }
 

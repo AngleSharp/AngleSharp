@@ -254,14 +254,9 @@
                 _current.ContinueWith(m =>
                 {
                     if (m.IsFaulted == false && m.Exception == null)
-                    {
                         UpdateType(Type);
-                        this.FireSimpleEvent(EventNames.Load);
-                    }
-                    else
-                    {
-                        this.FireSimpleEvent(EventNames.Error);
-                    }
+
+                    this.FireLoadOrErrorEvent(m);
                 });
             }
         }
