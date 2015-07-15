@@ -2,12 +2,10 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Xml;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
-    using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -32,32 +30,6 @@
         #endregion
 
         #region ctor
-
-        /// <summary>
-        /// Creates a new instance of the XML parser with an new document
-        /// based on the given source.
-        /// </summary>
-        /// <param name="source">The source code as a string.</param>
-        /// <param name="configuration">
-        /// [Optional] The configuration to use.
-        /// </param>
-        public XmlDomBuilder(String source, IConfiguration configuration = null)
-            : this(new XmlDocument(BrowsingContext.New(configuration), new TextSource(source)))
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the XML parser with an new document
-        /// based on the given stream.
-        /// </summary>
-        /// <param name="stream">The stream to use as source.</param>
-        /// <param name="configuration">
-        /// [Optional] The configuration to use.
-        /// </param>
-        public XmlDomBuilder(Stream stream, IConfiguration configuration = null)
-            : this(new XmlDocument(BrowsingContext.New(configuration), new TextSource(stream, configuration.DefaultEncoding())))
-        {
-        }
 
         /// <summary>
         /// Creates a new instance of the XML parser with the specified document.

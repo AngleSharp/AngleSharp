@@ -10,7 +10,6 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.IO;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -44,32 +43,6 @@
         #endregion
 
         #region ctor
-
-        /// <summary>
-        /// Creates a new instance of the HTML parser with an new document
-        /// based on the given source.
-        /// </summary>
-        /// <param name="source">The source code as a string.</param>
-        /// <param name="configuration">
-        /// [Optional] The configuration to use.
-        /// </param>
-        public HtmlDomBuilder(String source, IConfiguration configuration = null)
-            : this(new HtmlDocument(BrowsingContext.New(configuration), new TextSource(source)))
-        {
-        }
-
-        /// <summary>
-        /// Creates a new instance of the HTML parser with an new document
-        /// based on the given stream.
-        /// </summary>
-        /// <param name="stream">The stream to use as source.</param>
-        /// <param name="configuration">
-        /// [Optional] The configuration to use.
-        /// </param>
-        public HtmlDomBuilder(Stream stream, IConfiguration configuration = null)
-            : this(new HtmlDocument(BrowsingContext.New(configuration), new TextSource(stream, configuration.DefaultEncoding())))
-        {
-        }
 
         /// <summary>
         /// Creates a new instance of the HTML parser with the specified
@@ -3486,8 +3459,8 @@
             {
                 script = _currentScriptElement;
                 _currentScriptElement = null;
-                await _document.WaitForReady().ConfigureAwait(false);
                 _nested++;
+                await _document.WaitForReady().ConfigureAwait(false);
                 script.Run();
                 _nested--;
                 _tokenizer.ResetInsertionPoint();
