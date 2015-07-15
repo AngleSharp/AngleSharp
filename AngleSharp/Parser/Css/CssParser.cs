@@ -2,7 +2,6 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Dom.Css;
-    using AngleSharp.Parser.Css.States;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -164,11 +163,7 @@
         /// </summary>
         public IKeyframeSelector ParseKeyframeSelector(String keyText)
         {
-            var tokenizer = CreateTokenizer(keyText, _config);
-            var token = tokenizer.Get();
-            var state = new CssKeyframesState(tokenizer, this);
-            var selector = state.CreateKeyframeSelector(ref token);
-            return token.Type == CssTokenType.Eof ? selector : null;
+            return Parse(keyText, (b, t) => Tuple.Create(b.CreateKeyframeSelector(ref t), t));
         }
 
         #endregion
@@ -191,10 +186,11 @@
         {
             var tokenizer = CreateTokenizer(source, _config);
             var token = tokenizer.Get();
+            var builder = new CssBuilder(tokenizer, this);
 
             do
             {
-                var rule = tokenizer.CreateRule(token, this);
+                var rule = builder.CreateRule(token);
                 sheet.AddRule(rule);
                 token = tokenizer.Get();
             }
@@ -210,8 +206,8 @@
         {
             var tokenizer = CreateTokenizer(valueText, _config);
             var token = default(CssToken);
-            var state = new CssUnknownState(tokenizer, this);
-            var value = state.CreateValue(ref token);
+            var builder = new CssBuilder(tokenizer, this);
+            var value = builder.CreateValue(ref token);
             return token.Type == CssTokenType.Eof ? value : null;
         }
 
@@ -220,10 +216,7 @@
         /// </summary>
         internal CssRule ParseRule(String ruleText)
         {
-            var tokenizer = CreateTokenizer(ruleText, _config);
-            var token = tokenizer.Get();
-            var rule = tokenizer.CreateRule(token, this);
-            return tokenizer.Get().Type == CssTokenType.Eof ? rule : null;
+            return Parse(ruleText, (b, t) => b.CreateRule(t));
         }
 
         /// <summary>
@@ -231,11 +224,7 @@
         /// </summary>
         internal CssProperty ParseDeclaration(String declarationText)
         {
-            var tokenizer = CreateTokenizer(declarationText, _config);
-            var token = tokenizer.Get();
-            var state = new CssUnknownState(tokenizer, this);
-            var declaration = state.CreateDeclaration(ref token);
-            return token.Type == CssTokenType.Eof ? declaration : null;
+            return Parse(declarationText, (b, t) => Tuple.Create(b.CreateDeclaration(ref t), t));
         }
 
         /// <summary>
@@ -243,11 +232,7 @@
         /// </summary>
         internal List<CssMedium> ParseMediaList(String mediaText)
         {
-            var tokenizer = CreateTokenizer(mediaText, _config);
-            var token = tokenizer.Get();
-            var state = new CssUnknownState(tokenizer, this);
-            var list = state.CreateMedia(ref token);
-            return token.Type == CssTokenType.Eof ? list : null;
+            return Parse(mediaText, (b, t) => Tuple.Create(b.CreateMedia(ref t), t));
         }
 
         /// <summary>
@@ -255,36 +240,24 @@
         /// </summary>
         internal ICondition ParseCondition(String conditionText)
         {
-            var tokenizer = CreateTokenizer(conditionText, _config);
-            var token = tokenizer.Get();
-            var state = new CssSupportsState(tokenizer, this);
-            var condition = state.CreateCondition(ref token);
-            return token.Type == CssTokenType.Eof ? condition : null;
+            return Parse(conditionText, (b, t) => Tuple.Create(b.CreateCondition(ref t), t));
         }
 
         /// <summary>
         /// Takes a string and transforms it into an enumeration of special
         /// document functions and their arguments.
         /// </summary>
-        internal List<IDocumentFunction> ParseDocumentRules(String source)
+        internal List<IDocumentFunction> ParseDocumentRules(String documentText)
         {
-            var tokenizer = CreateTokenizer(source, _config);
-            var token = tokenizer.Get();
-            var state = new CssDocumentState(tokenizer, this);
-            var conditions = state.CreateFunctions(ref token);
-            return token.Type == CssTokenType.Eof ? conditions : null;
+            return Parse(documentText, (b, t) => Tuple.Create(b.CreateFunctions(ref t), t));
         }
 
         /// <summary>
         /// Takes a valid media string and parses the medium information.
         /// </summary>
-        internal CssMedium ParseMedium(String source)
+        internal CssMedium ParseMedium(String mediumText)
         {
-            var tokenizer = CreateTokenizer(source, _config);
-            var token = tokenizer.Get();
-            var state = new CssUnknownState(tokenizer, this);
-            var medium = state.CreateMedium(ref token);
-            return token.Type == CssTokenType.Eof ? medium : null;
+            return Parse(mediumText, (b, t) => Tuple.Create(b.CreateMedium(ref t), t));
         }
 
         /// <summary>
@@ -292,11 +265,7 @@
         /// </summary>
         internal CssKeyframeRule ParseKeyframeRule(String ruleText)
         {
-            var tokenizer = CreateTokenizer(ruleText, _config);
-            var token = tokenizer.Get();
-            var state = new CssKeyframesState(tokenizer, this);
-            var rule = state.CreateKeyframeRule(token);
-            return tokenizer.Get().Type == CssTokenType.Eof ? rule : null;
+            return Parse(ruleText, (b, t) => b.CreateKeyframeRule(t));
         }
 
         /// <summary>
@@ -306,13 +275,31 @@
         internal void AppendDeclarations(CssStyleDeclaration style, String declarations)
         {
             var tokenizer = CreateTokenizer(declarations, _config);
-            var state = new CssUnknownState(tokenizer, this);
-            state.FillDeclarations(style);
+            var builder = new CssBuilder(tokenizer, this);
+            builder.FillDeclarations(style);
         }
 
         #endregion
 
         #region Helpers
+
+        T Parse<T>(String source, Func<CssBuilder, CssToken, T> create)
+        {
+            var tokenizer = CreateTokenizer(source, _config);
+            var token = tokenizer.Get();
+            var builder = new CssBuilder(tokenizer, this);
+            var rule = create(builder, token);
+            return tokenizer.Get().Type == CssTokenType.Eof ? rule : default(T);
+        }
+
+        T Parse<T>(String source, Func<CssBuilder, CssToken, Tuple<T, CssToken>> create)
+        {
+            var tokenizer = CreateTokenizer(source, _config);
+            var token = tokenizer.Get();
+            var builder = new CssBuilder(tokenizer, this);
+            var pair = create(builder, token);
+            return pair.Item2.Type == CssTokenType.Eof ? pair.Item1 : default(T);
+        }
 
         static CssTokenizer CreateTokenizer(String sourceCode, IConfiguration configuration)
         {
