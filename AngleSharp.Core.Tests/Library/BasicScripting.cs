@@ -71,6 +71,32 @@
             Assert.AreEqual(2, index);
         }
 
+        [Test]
+        public async Task DocumentWriteDynamicallyWithCustomScriptEngineAndSourceMultipleNested()
+        {
+            var index = 0;
+            var content = new[]
+            {
+                "<script type='c-sharp' src='foo2.cs'></script>",
+                "<script type='c-sharp' src='foo3.cs'></script>",
+                "<script type='c-sharp' src='foo4.cs'></script>",
+                "<script type='c-sharp' src='foo5.cs'></script><b>dynamically written</b>",
+                "This is "
+            };
+            var scripting = new TestScriptEngine(options => options.Document.Write(content[index++]));
+            var mockRequester = new MockRequester();
+            var config = Configuration.Default
+                                      .With(new TestScriptService(scripting))
+                                      .WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { mockRequester });
+            var source = "<title>Some title</title><body><script type='c-sharp' src='foo.cs'></script>";
+            var doc = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+            Assert.AreEqual("This is dynamically written", doc.Body.TextContent);
+            Assert.AreEqual(1, doc.QuerySelectorAll("b").Length);
+            var bold = doc.QuerySelector("b");
+            Assert.AreEqual("dynamically written", bold.TextContent);
+            Assert.AreEqual(5, index);
+        }
+
         class TestScriptService : IScriptingService
         {
             readonly TestScriptEngine _engine;
