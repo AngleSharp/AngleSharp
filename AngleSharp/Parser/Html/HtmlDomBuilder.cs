@@ -30,14 +30,12 @@
         readonly Stack<HtmlTreeMode> _templateModes;
 
         HtmlFormElement _currentFormElement;
-        HtmlScriptElement _currentScriptElement;
         HtmlTreeMode _currentMode;
         HtmlTreeMode _previousMode;
         HtmlParserOptions _options;
         Element _fragmentContext;
         Boolean _foster;
         Boolean _frameset;
-        Int32 _nested;
         Task _waiting;
 
         #endregion
@@ -111,11 +109,11 @@
                 if (source.Length - source.Index < 1024)
                     await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
 
-                if (_waiting != null && _waiting.Status == TaskStatus.Running)
-                    await _waiting.ConfigureAwait(false);
-
                 token = _tokenizer.Get();
                 Consume(token);
+
+                if (_waiting != null && _waiting.Status == TaskStatus.Running)
+                    await _waiting.ConfigureAwait(false);
             }
             while (token.Type != HtmlTokenType.EndOfFile);
 
@@ -133,11 +131,11 @@
 
             do
             {
-                if (_waiting != null && _waiting.Status == TaskStatus.Running)
-                    _waiting.Wait();
-
                 token = _tokenizer.Get();
                 Consume(token);
+
+                if (_waiting != null && _waiting.Status == TaskStatus.Running)
+                    _waiting.Wait();
             }
             while (token.Type != HtmlTokenType.EndOfFile);
 
@@ -633,8 +631,7 @@
                     {
                         var script = new HtmlScriptElement(_document);
                         AddElement(script, token.AsTag());
-                        script.IsParserInserted = true;
-                        script.IsAlreadyStarted = IsFragmentCase;
+                        script.SetStarted(IsFragmentCase);
                         _tokenizer.State = HtmlParseMode.Script;
                         _previousMode = _currentMode;
                         _currentMode = HtmlTreeMode.Text;
@@ -1478,7 +1475,7 @@
                     }
                     else
                     {
-                        _waiting = RunScript(CurrentNode as HtmlScriptElement);
+                        HandleScript(CurrentNode as HtmlScriptElement);
                     }
 
                     return;
@@ -3158,32 +3155,31 @@
                     var node = CurrentNode;
                     var script = node as HtmlScriptElement;
 
-                    if (script == null)
+                    if (script != null)
                     {
-                        if (node.LocalName != tagName)
-                            RaiseErrorOccurred(HtmlParseError.TagClosingMismatch, token);
-
-                        for (int i = _openElements.Count - 1; i > 0; i--)
-                        {
-                            if (node.LocalName.Equals(tagName, StringComparison.OrdinalIgnoreCase))
-                            {
-                                _openElements.RemoveRange(i + 1, _openElements.Count - i - 1);
-                                CloseCurrentNode();
-                                break;
-                            }
-
-                            node = _openElements[i - 1];
-
-                            if (node.Flags.HasFlag(NodeFlags.HtmlMember))
-                            {
-                                Home(token);
-                                break;
-                            }
-                        }
+                        HandleScript(script);
+                        return;
                     }
-                    else
+
+                    if (node.LocalName != tagName)
+                        RaiseErrorOccurred(HtmlParseError.TagClosingMismatch, token);
+
+                    for (int i = _openElements.Count - 1; i > 0; i--)
                     {
-                        _waiting = RunScript(script);
+                        if (node.LocalName.Equals(tagName, StringComparison.OrdinalIgnoreCase))
+                        {
+                            _openElements.RemoveRange(i + 1, _openElements.Count - i - 1);
+                            CloseCurrentNode();
+                            break;
+                        }
+
+                        node = _openElements[i - 1];
+
+                        if (node.Flags.HasFlag(NodeFlags.HtmlMember))
+                        {
+                            Home(token);
+                            break;
+                        }
                     }
 
                     return;
@@ -3438,40 +3434,37 @@
         /// <summary>
         /// Runs a script given by the current node.
         /// </summary>
-        async Task RunScript(HtmlScriptElement script)
+        void HandleScript(HtmlScriptElement script)
         {
             //Disable scripting for HTML fragments (security reasons)
-            if (script == null || IsFragmentCase)
-                return;
-
-            _document.PerformMicrotaskCheckpoint();
-            _document.ProvideStableState();
-            CloseCurrentNode();
-            _currentMode = _previousMode;
-            _nested++;
-            script.Prepare();
-            _nested--;
-
-            if (_currentScriptElement == null || _nested != 0)
-                return;
-
-            do
+            if (script != null && !IsFragmentCase)
             {
-                script = _currentScriptElement;
-                _currentScriptElement = null;
-                _nested++;
-                await _document.WaitForReady().ConfigureAwait(false);
-                script.Run();
-                _nested--;
-                _tokenizer.ResetInsertionPoint();
+                _document.PerformMicrotaskCheckpoint();
+                _document.ProvideStableState();
+                CloseCurrentNode();
+                _currentMode = _previousMode;
+
+                if (script.Prepare())
+                    _waiting = RunScript(script);
             }
-            while (_currentScriptElement != null);
         }
 
         /// <summary>
-        /// If there is a node in the stack of open elements that is not either a dd element, a dt element, an
-        /// li element, a p element, a tbody element, a td element, a tfoot element, a th element, a thead
-        /// element, a tr element, the body element, or the html element, then this is a parse error.
+        /// Runs the current script element, if there is one.
+        /// </summary>
+        /// <returns>The task waiting for the document to be ready.</returns>
+        async Task RunScript(HtmlScriptElement script)
+        {
+            await _document.WaitForReady().ConfigureAwait(false);
+            script.Run();
+        }
+
+        /// <summary>
+        /// If there is a node in the stack of open elements that is not either
+        /// a dd element, a dt element, an li element, a p element, a tbody
+        /// element, a td element, a tfoot element, a th element, a thead
+        /// element, a tr element, the body element, or the html element, then
+        /// this is a parse error.
         /// </summary>
         void CheckBodyOnClosing(HtmlToken token)
         {

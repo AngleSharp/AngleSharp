@@ -5,9 +5,11 @@
     using AngleSharp.Network;
     using AngleSharp.Services.Scripting;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Represents an HTML script element.
+    /// http://www.w3.org/TR/html5/scripting-1.html#execute-the-script-block
     /// </summary>
     sealed class HtmlScriptElement : HtmlElement, IHtmlScriptElement
     {
@@ -15,10 +17,8 @@
 
         Boolean _started;
         Boolean _parserInserted;
-        Boolean _wasParserInserted;
         Boolean _forceAsync;
-        Boolean _readyToBeExecuted;
-        IResponse _current;
+        Action _runScript;
 
         #endregion
 
@@ -30,27 +30,27 @@
         public HtmlScriptElement(Document owner, String prefix = null)
             : base(owner, Tags.Script, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
+            _forceAsync = false;
+            _parserInserted = false;
+            _started = false;
         }
 
         #endregion
 
         #region Internal Properties
 
-        internal Boolean IsReady
+        internal String AlternativeLanguage
         {
-            get { return _readyToBeExecuted; }
+            get
+            {
+                var language = GetOwnAttribute(AttributeNames.Language);
+                return language != null ? "text/" + language : null;
+            }
         }
 
-        internal Boolean IsParserInserted 
+        internal IScriptEngine Engine
         {
-            get { return _parserInserted; }
-            set { _parserInserted = value; }
-        }
-
-        internal Boolean IsAlreadyStarted
-        {
-            get { return _started; }
-            set { _started = value; }
+            get { return Owner.Options.GetScriptEngine(ScriptLanguage); }
         }
 
         #endregion
@@ -64,8 +64,7 @@
         {
             get
             {
-                var language = GetOwnAttribute(AttributeNames.Language);
-                var type = Type ?? (language != null ? "text/" + language : null);
+                var type = Type ?? AlternativeLanguage;
                 return String.IsNullOrEmpty(type) ? MimeTypes.DefaultJavaScript : type;
             }
         }
@@ -137,67 +136,73 @@
 
         #region Internal Methods
 
-        /// <summary>
-        /// More information available at:
-        /// http://www.w3.org/TR/html5/scripting-1.html#execute-the-script-block
-        /// </summary>
+        internal void SetStarted(Boolean fragmentCase)
+        {
+            _parserInserted = true;
+            _started = fragmentCase;
+        }
+        
         internal void Run()
         {
-            if (_current == null)
-            {
-                Error();
-            }
-            else if (!CancelledBeforeScriptExecute())
-            {
-                var owner = Owner;
-                var engine = owner.Options.GetScriptEngine(ScriptLanguage);
+            if (_runScript == null)
+                return;
 
-                try { engine.Evaluate(_current, CreateOptions()); }
-                catch { /* We omit failed 3rd party services */ }
-                finally { _current.Dispose(); }
+            var cancelled = this.FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
 
-                AfterScriptExecute();
+            if (cancelled == false)
+                _runScript();
+        }
 
-                if (Source != null) 
-                    Load();
-                else 
-                    owner.QueueTask(Load);
-            }
+        void RunFromResponse(IResponse response)
+        {
+            var options = CreateOptions();
+
+            try { Engine.Evaluate(response, options); }
+            catch { /* We omit failed 3rd party services */ }
+
+            FireAfterScriptExecuteEvent();
+            FireLoadEvent();
+        }
+
+        void RunFromSource()
+        {
+            var options = CreateOptions();
+
+            try { Engine.Evaluate(Text, options); }
+            catch { /* We omit failed 3rd party services */ }
+
+            FireAfterScriptExecuteEvent();
+            Owner.QueueTask(FireLoadEvent);
         }
 
         /// <summary>
         /// More information available at:
         /// http://www.w3.org/TR/html5/scripting-1.html#prepare-a-script
         /// </summary>
-        internal void Prepare()
+        internal Boolean Prepare()
         {
-            if (_started || Owner == null)
-                return;
-
             var options = Owner.Options;
-            var engine = options.GetScriptEngine(ScriptLanguage);
-
-            if (engine == null)
-                return;
-
-            _wasParserInserted = _parserInserted;
-            _parserInserted = false;
-
-            _forceAsync = _wasParserInserted && !IsAsync;
-
-            if (String.IsNullOrEmpty(Source) && String.IsNullOrEmpty(Text))
-                return;
-
-            if (_wasParserInserted)
-            {
-                _parserInserted = true;
-                _forceAsync = false;
-            }
-
-            _started = true;
-
             var eventAttr = GetOwnAttribute(AttributeNames.Event);
             var forAttr = GetOwnAttribute(AttributeNames.For);
+            var src = Source;
+            var wasParserInserted = _parserInserted;
+
+            if (_started)
+                return false;
+            else if (wasParserInserted)
+                _forceAsync = !IsAsync;
+
+            _parserInserted = false;
+
+            if (String.IsNullOrEmpty(src) && String.IsNullOrEmpty(Text))
+                return false;
+            else if (Engine == null)
+                return false;
+            else if (wasParserInserted) 
+                _forceAsync = false;
+
+            _parserInserted = true;
+            _started = true;
 
             if (!String.IsNullOrEmpty(eventAttr) && !String.IsNullOrEmpty(forAttr))
             {
@@ -207,78 +212,81 @@
                 if (eventAttr.EndsWith("()"))
                     eventAttr = eventAttr.Substring(0, eventAttr.Length - 2);
 
-                if (!forAttr.Equals(AttributeNames.Window, StringComparison.OrdinalIgnoreCase) || !eventAttr.Equals("onload", StringComparison.OrdinalIgnoreCase))
-                    return;
+                if (!forAttr.Equals(AttributeNames.Window, StringComparison.OrdinalIgnoreCase) || 
+                    !eventAttr.Equals("onload", StringComparison.OrdinalIgnoreCase))
+                    return false;
             }
-
-            var src = Source;
 
             if (src != null)
             {
                 if (src == String.Empty)
-                {
-                    Owner.QueueTask(Error);
-                    return;
-                }
-
-                InvokeLoadingScript(this.HyperReference(src));
+                    Owner.QueueTask(FireErrorEvent);
+                else
+                    return InvokeLoadingScript(this.HyperReference(src));
             }
-            else if (_parserInserted && Owner.HasScriptBlockingStyleSheet())
+            else if (_parserInserted && Owner.GetStyleSheetDownloads().Any())
             {
-                _readyToBeExecuted = true;
+                _runScript = RunFromSource;
+                return true;
             }
             else
             {
-                engine.Evaluate(Text, CreateOptions());
+                RunFromSource();
             }
+
+            return false;
         }
 
-        void InvokeLoadingScript(Url url)
+        Boolean InvokeLoadingScript(Url url)
         {
-            var owner = Owner;
+            var fromParser = true;
 
-            if (_parserInserted && !IsAsync)
+            //Just add to the (end of) set of scripts
+            if ((_parserInserted && IsDeferred && !IsAsync) || !_parserInserted || IsAsync)
             {
-                if (IsDeferred)
-                    owner.AddScript(this);
-            }
-            else if (!IsAsync && !_forceAsync)
-            {
-                //Add to end of list of scripts (in order) --> sufficient
-                owner.AddScript(this);
-            }
-            else
-            {
-                //Just add to the set of scripts
-                owner.AddScript(this);
+                Owner.AddScript(this);
+                fromParser = false;
             }
 
             var request = this.CreateRequestFor(url);
             var setting = CrossOrigin.ToEnum(CorsSetting.None);
             var behavior = OriginBehavior.Taint;
-            this.CreateTask(c => Owner.Loader.FetchWithCorsAsync(request, setting, behavior, c)).ContinueWith(m =>
+            this.CreateTask(async c =>
             {
-                _current = m.Result;
-                _readyToBeExecuted = (_parserInserted && !IsAsync) || _readyToBeExecuted;
+                var response = await Owner.Loader.FetchWithCorsAsync(request, setting, behavior, c).ConfigureAwait(false);
+
+                if (response != null)
+                {
+                    _runScript = () =>
+                    {
+                        RunFromResponse(response);
+                        response.Dispose();
+                    };
+                }
+                else
+                    FireErrorEvent();
+
+                return response;
             });
+
+            return fromParser;
         }
 
-        void Load()
+        #endregion
+
+        #region Helpers
+
+        void FireLoadEvent()
         {
             this.FireSimpleEvent(EventNames.Load);
         }
 
-        void Error()
+        void FireErrorEvent()
         {
             this.FireSimpleEvent(EventNames.Error);
         }
 
-        Boolean CancelledBeforeScriptExecute()
-        {
-            return this.FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
-        }
-
-        void AfterScriptExecute()
+        void FireAfterScriptExecuteEvent()
         {
             this.FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
         }
