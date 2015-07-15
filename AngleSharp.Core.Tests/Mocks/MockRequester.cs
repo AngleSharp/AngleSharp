@@ -10,8 +10,17 @@
 
     public class MockRequester : IRequester
     {
+        public Action<IRequest> OnRequest
+        {
+            get;
+            set;
+        }
+
         public IResponse Request(IRequest request)
         {
+            if (OnRequest != null)
+                OnRequest(request);
+
             return new Response { Address = request.Address, Content = new MemoryStream() };
         }
 
