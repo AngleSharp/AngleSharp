@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Html
 {
+    using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using System;
@@ -100,6 +101,22 @@
             var document = CreateDocument(source);
             var parser = new HtmlDomBuilder(document);
             return parser.Parse(_options);
+        }
+
+        /// <summary>
+        /// Parses the string and returns the result.
+        /// </summary>
+        public INodeList ParseFragment(String source, IElement context)
+        {
+            var document = CreateDocument(source);
+            var parser = new HtmlDomBuilder(document);
+
+            if (context == null)
+                return parser.Parse(_options).ChildNodes;
+
+            var element = context as Element ?? 
+                Factory.HtmlElements.Create(document, context.LocalName, context.Prefix);
+            return parser.ParseFragment(_options, element).DocumentElement.ChildNodes;
         }
 
         /// <summary>
