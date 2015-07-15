@@ -142,7 +142,9 @@
                 var request = this.CreateRequestFor(url);
                 this.LoadResource<IObjectInfo>(request).ContinueWith(m =>
                 {
-                    _obj = m.Result;
+                    if (m.IsFaulted == false)
+                        _obj = m.Result;
+
                     this.FireLoadOrErrorEvent(m);
                 });
             }

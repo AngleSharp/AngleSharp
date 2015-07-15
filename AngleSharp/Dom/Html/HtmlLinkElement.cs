@@ -228,8 +228,11 @@
 
                     using (var response = task.Result)
                     {
-                        try { _sheet = engine.ParseStylesheet(response, options); }
-                        catch { /* Do not care here */ }
+                        if (response != null)
+                        {
+                            try { _sheet = engine.ParseStylesheet(response, options); }
+                            catch { /* Do not care here */ }
+                        }
                     }
                 }
             }

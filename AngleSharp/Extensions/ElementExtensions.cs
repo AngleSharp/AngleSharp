@@ -668,14 +668,17 @@
             {
                 using (var response = await loader.FetchAsync(request, cancel).ConfigureAwait(false))
                 {
-                    var options = document.Options;
-                    var services = options.GetServices<IResourceService<TResource>>();
-                    var type = response.GetContentType();
-
-                    foreach (var service in services)
+                    if (response != null)
                     {
-                        if (service.SupportsType(type))
-                            return await service.CreateAsync(response, cancel).ConfigureAwait(false);
+                        var options = document.Options;
+                        var services = options.GetServices<IResourceService<TResource>>();
+                        var type = response.GetContentType();
+
+                        foreach (var service in services)
+                        {
+                            if (service.SupportsType(type))
+                                return await service.CreateAsync(response, cancel).ConfigureAwait(false);
+                        }
                     }
                 }
 

@@ -174,7 +174,7 @@
                 var result = await loader.FetchAsync(request, cancel).ConfigureAwait(false);
 
                 //TODO If CORS cross-origin request is success
-                if (result.StatusCode == HttpStatusCode.OK)
+                if (result != null && result.StatusCode == HttpStatusCode.OK)
                     return result;
             }
 

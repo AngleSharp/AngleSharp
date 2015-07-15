@@ -172,7 +172,9 @@
                 //http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#update-the-image-data
                 this.LoadResource<IImageInfo>(request).ContinueWith(m =>
                 {
-                    _img = m.Result;
+                    if (m.IsFaulted == false)
+                        _img = m.Result;
+
                     this.FireLoadOrErrorEvent(m);
                 });
             }

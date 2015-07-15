@@ -49,7 +49,7 @@
         public ISelector Selector
         {
             get { return _selector; }
-            set { _selector = value; }
+            set { if (value != null) _selector = value; }
         }
 
         /// <summary>

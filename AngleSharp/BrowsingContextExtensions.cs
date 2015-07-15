@@ -68,13 +68,10 @@
             if (request == null)
                 throw new ArgumentNullException("request");
 
-            var response = await context.Loader.SendAsync(request, cancel).ConfigureAwait(false);
-
-            if (response != null)
+            using (var response = await context.Loader.SendAsync(request, cancel).ConfigureAwait(false))
             {
-                var document = await context.OpenAsync(response, cancel).ConfigureAwait(false);
-                response.Dispose();
-                return document;
+                if (response != null)
+                    return await context.OpenAsync(response, cancel).ConfigureAwait(false);
             }
 
             return await context.OpenNewAsync(request.Target.Href).ConfigureAwait(false);
