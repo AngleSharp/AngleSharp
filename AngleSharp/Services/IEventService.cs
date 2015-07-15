@@ -22,12 +22,5 @@
         /// <param name="steps">The steps to run.</param>
         /// <returns>An awaitable task.</returns>
         Task Execute(Action steps);
-
-        /// <summary>
-        /// Spins the event loop until the provided condition is met.
-        /// </summary>
-        /// <param name="condition">The condition that needs to be fulfilled.</param>
-        /// <returns>An awaitable task.</returns>
-        Task Spin(Func<Boolean> condition);
     }
 }

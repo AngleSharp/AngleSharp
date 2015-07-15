@@ -5,7 +5,6 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Network;
     using AngleSharp.Services;
-    using AngleSharp.Services.Media;
     using System;
     using System.Diagnostics;
     using System.Linq;
@@ -88,24 +87,6 @@
                 eventLoop.Enqueue(task);
             else if (task.Status == TaskStatus.Created)
                 task.Start();
-        }
-
-        /// <summary>
-        /// Spins the event loop of the document until the given predicate is 
-        /// matched.
-        /// </summary>
-        /// <param name="document">
-        /// The document that hosts the configuration.
-        /// </param>
-        /// <param name="predicate">The condition that has to be met.</param>
-        public static async Task SpinLoop(this Document document, Func<Boolean> predicate)
-        {
-            var eventLoop = document.Options.GetService<IEventService>();
-
-            if (eventLoop != null)
-                await eventLoop.Spin(predicate).ConfigureAwait(false);
-            else
-                while (predicate() == false) ;
         }
 
         /// <summary>
@@ -240,37 +221,6 @@
         }
 
         /// <summary>
-        /// Checks if the document has any active stylesheets that block the
-        /// scripts. A style sheet is blocking scripts if the responsible 
-        /// element was created by that Document's parser, and the element is
-        /// either a style element or a link element that was an external
-        /// resource link that contributes to the styling processing model when
-        /// the element was created by the parser, and the element's style
-        /// sheet was enabled when the element was created by the parser, and 
-        /// the element's style sheet ready flag is not yet set.
-        /// http://www.w3.org/html/wg/drafts/html/master/document-metadata.html#has-no-style-sheet-that-is-blocking-scripts
-        /// </summary>
-        /// <param name="document">The document to use.</param>
-        /// <returns>
-        /// True if any stylesheets still need to be downloaded, otherwise 
-        /// false.
-        /// </returns>
-        public static Boolean HasScriptBlockingStyleSheet(this Document document)
-        {
-            //TODO
-
-            if (document.IsInBrowsingContext && document.Context.Parent != null)
-            {
-                var parentDocument = document.Context.Parent.Active as Document;
-
-                if (parentDocument != null)
-                    return parentDocument.HasScriptBlockingStyleSheet();
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Spins the event loop until all stylesheets are downloaded (if
         /// required) and all scripts are ready to be parser executed.
         /// http://www.w3.org/html/wg/drafts/html/master/syntax.html#the-end
@@ -279,13 +229,8 @@
         /// <param name="document">The document to use.</param>
         public static async Task WaitForReady(this Document document)
         {
-            if (document.HasScriptBlockingStyleSheet() || document.IsWaitingForScript())
-            {
-                Func<Boolean> condition = () => 
-                    document.HasScriptBlockingStyleSheet() == false && 
-                    document.IsWaitingForScript() == false;
-                await document.SpinLoop(condition).ConfigureAwait(false);
-            }
+            await TaskEx.WhenAll(document.GetScriptDownloads()).ConfigureAwait(false);
+            await TaskEx.WhenAll(document.GetStyleSheetDownloads()).ConfigureAwait(false);
         }
 
         /// <summary>

@@ -423,14 +423,6 @@
         /// <summary>
         /// Creates a new document node.
         /// </summary>
-        internal Document(IBrowsingContext context = null)
-            : this(context, new TextSource(String.Empty))
-        {
-        }
-
-        /// <summary>
-        /// Creates a new document node.
-        /// </summary>
         /// <param name="context">The context of the document.</param>
         /// <param name="source">The underlying source.</param>
         internal Document(IBrowsingContext context, TextSource source)
@@ -1547,12 +1539,25 @@
         /// <summary>
         /// Checks if the document is waiting for a script to finish preparing.
         /// </summary>
-        /// <returns>
-        /// True if any script is still preparing, otherwise false.
-        /// </returns>
-        internal Boolean IsWaitingForScript()
+        internal IEnumerable<Task> GetScriptDownloads()
         {
-            return _loadingScripts.Count > 0 && _loadingScripts.Peek().IsReady == false;
+            return _tasks.OfOriginType<HtmlScriptElement>();
+        }
+
+        /// <summary>
+        /// Checks if the document has any active stylesheets that block the
+        /// scripts. A style sheet is blocking scripts if the responsible 
+        /// element was created by that Document's parser, and the element is
+        /// either a style element or a link element that was an external
+        /// resource link that contributes to the styling processing model when
+        /// the element was created by the parser, and the element's style
+        /// sheet was enabled when the element was created by the parser, and 
+        /// the element's style sheet ready flag is not yet set.
+        /// http://www.w3.org/html/wg/drafts/html/master/document-metadata.html#has-no-style-sheet-that-is-blocking-scripts
+        /// </summary>
+        internal IEnumerable<Task> GetStyleSheetDownloads()
+        {
+            return _tasks.OfOriginType<HtmlLinkElement>();
         }
 
         /// <summary>
