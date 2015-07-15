@@ -637,11 +637,7 @@
             if (document != null)
                 return document.Tasks.Add(element, creator);
 
-#if LEGACY || SILVERLIGHT
             return TaskEx.FromResult(default(T));
-#else
-            return Task.FromResult(default(T));
-#endif
         }
 
         /// <summary>
