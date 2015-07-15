@@ -6,12 +6,13 @@
     /// <summary>
     /// Represents an unknown CSS rule.
     /// </summary>
-    sealed class CssUnknownRule : CssGroupingRule
+    sealed class CssUnknownRule : CssRule
     {
         #region Fields
 
         readonly String _name;
         String _prelude;
+        String _content;
 
         #endregion
 
@@ -25,6 +26,7 @@
         {
             _name = name;
             _prelude = String.Empty;
+            _content = String.Empty;
         }
 
         #endregion
@@ -48,6 +50,12 @@
             set { _prelude = value; }
         }
 
+        public String Content
+        {
+            get { return _content; }
+            set { _content = value; }
+        }
+
         #endregion
 
         #region Methods
@@ -56,13 +64,12 @@
         {
             var newRule = rule as CssUnknownRule;
             _prelude = newRule._prelude;
-            base.ReplaceWith(rule);
+            _content = newRule._content;
         }
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            var rules = formatter.Block(Rules);
-            return formatter.Rule("@" + _name, _prelude, rules);
+            return formatter.Rule("@" + _name, _prelude.Trim(), _content.Trim());
         }
 
         #endregion

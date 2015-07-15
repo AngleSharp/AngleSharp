@@ -228,11 +228,38 @@
                 var unknown = new CssUnknownRule(current.Data, _parser);
                 _tokenizer.State = CssParseMode.Text;
                 unknown.Prelude = _tokenizer.Get().Data;
+                _tokenizer.State = CssParseMode.Selector;
+                var sb = Pool.NewStringBuilder();
+                var token = _tokenizer.Get();
+                sb.Append(token.ToValue());
+
+                if (token.Type == CssTokenType.CurlyBracketOpen)
+                {
+                    var curly = 1;
+
+                    do
+                    {
+                        token = _tokenizer.Get();
+                        sb.Append(token.ToValue());
+
+                        switch (token.Type)
+                        {
+                            case CssTokenType.CurlyBracketOpen:
+                                curly++;
+                                break;
+                            case CssTokenType.CurlyBracketClose:
+                                curly--;
+                                break;
+                            case CssTokenType.Eof:
+                                curly = 0;
+                                break;
+                        }
+                    }
+                    while (curly != 0);
+                }
+
+                unknown.Content = sb.ToPool();
                 _tokenizer.State = CssParseMode.Data;
-
-                if (_tokenizer.Get().Type == CssTokenType.CurlyBracketOpen)
-                    FillRules(unknown);
-
                 return unknown;
             }
             else
