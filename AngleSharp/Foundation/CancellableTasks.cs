@@ -34,6 +34,20 @@
             return task;
         }
 
+        public IEnumerable<Task> OfOriginType<T>()
+            where T : class
+        {
+            var tasks = _tasks.ToArray();
+
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                var origin = tasks[i].Origin as T;
+
+                if (origin != null && tasks[i].IsActive)
+                    yield return tasks[i];
+            }
+        }
+
         public void CancelAll(Object origin)
         {
             if (origin == null)
@@ -72,12 +86,12 @@
 
         public IEnumerator<Task> GetEnumerator()
         {
-            for (int i = 0; i < _tasks.Count; i++)
-            {
-                var task = _tasks[i];
+            var tasks = _tasks.ToArray();
 
-                if (task.IsActive)
-                    yield return task;
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                if (tasks[i].IsActive)
+                    yield return tasks[i];
             }
         }
 
@@ -103,6 +117,11 @@
                 _origin = new WeakReference(origin);
             }
 
+            public Object Origin
+            {
+                get { return _origin.Target; }
+            }
+
             public CancellableTask Cancel()
             {
                 _cts.Cancel();
@@ -111,7 +130,7 @@
 
             public Boolean OriginatedFrom(Object source)
             {
-                return Object.ReferenceEquals(_origin.Target, source);
+                return Object.ReferenceEquals(Origin, source);
             }
 
             public Boolean Is(Task task)
