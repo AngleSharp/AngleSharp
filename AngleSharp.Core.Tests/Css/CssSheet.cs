@@ -2,6 +2,7 @@
 {
     using AngleSharp.Core.Tests.Css;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
     using NUnit.Framework;
     using System;
     using System.IO;
@@ -853,6 +854,56 @@ font-weight:bold;}";
             Assert.IsNotNull(style);
             Assert.AreEqual("span.berschrift2Zchn", style.SelectorText);
             Assert.AreEqual(3, style.Style.Length);
+        }
+
+        [Test]
+        public void CssParseMsViewPortWithoutOptions()
+        {
+            var css = "@-ms-viewport{width:device-width} .dsip { display: block; }";
+            var doc = ParseStyleSheet(css);
+            var result = doc.CssText;
+            Assert.AreEqual(".dsip { display: block; }", result);
+        }
+
+        [Test]
+        public void CssParseMsViewPortWithUnknownRules()
+        {
+            var options = new CssParserOptions()
+            {
+                IsIncludingUnknownDeclarations = true,
+                IsIncludingUnknownRules = true,
+                IsToleratingInvalidConstraints = true,
+                IsToleratingInvalidValues = true
+            };
+            var css = "@-ms-viewport{width:device-width} .dsip { display: block; }";
+            var doc = ParseStyleSheet(css, options);
+            var result = doc.CssText;
+            Assert.AreEqual("@-ms-viewport {width:device-width}\r\n.dsip { display: block; }", result);
+        }
+
+        [Test]
+        public void CssParseMediaAndMsViewPortWithoutOptions()
+        {
+            var css = "@media screen and (max-width: 400px) {  @-ms-viewport { width: 320px; }  }  .dsip { display: block; }";
+            var doc = ParseStyleSheet(css);
+            var result = doc.CssText;
+            Assert.AreEqual("@media screen and (max-width: 400px) { }\r\n.dsip { display: block; }", result);
+        }
+
+        [Test]
+        public void CssParseMediaAndMsViewPortWithUnknownRules()
+        {
+            var options = new CssParserOptions()
+            {
+                IsIncludingUnknownDeclarations = true,
+                IsIncludingUnknownRules = true,
+                IsToleratingInvalidConstraints = true,
+                IsToleratingInvalidValues = true
+            };
+            var css = "@media screen and (max-width: 400px) {  @-ms-viewport { width: 320px; }  }  .dsip { display: block; }";
+            var doc = ParseStyleSheet(css, options);
+            var result = doc.CssText;
+            Assert.AreEqual("@media screen and (max-width: 400px) { @-ms-viewport { width: 320px; } }\r\n.dsip { display: block; }", result);
         }
     }
 }

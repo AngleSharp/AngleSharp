@@ -12,6 +12,12 @@
             return parser.ParseStylesheet(source);
         }
 
+        internal static ICssStyleSheet ParseStyleSheet(String source, CssParserOptions options)
+        {
+            var parser = new CssParser(options);
+            return parser.ParseStylesheet(source);
+        }
+
         internal static CssRule ParseRule(String source)
         {
             var parser = new CssParser();
