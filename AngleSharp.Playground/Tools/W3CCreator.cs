@@ -1,15 +1,15 @@
 ﻿namespace AngleSharp.Playground.Tools
 {
+    using AngleSharp;
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Dom.Html;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Text;
     using System.Text.RegularExpressions;
-    using AngleSharp;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Parser.Css;
 
     /// <summary>
     /// Creates tests based on the official tests
@@ -43,8 +43,8 @@
             var title = Sanatize(document.GetElementsByTagName("title")[0].TextContent);
             var content = document.GetElementsByTagName("content")[0].InnerHtml.Trim().Replace("\"", "\"\"");
             var styling = document.GetElementsByTagName("css")[0].TextContent;
-            var parser = new CssParser(styling);
-            var sheet = parser.Parse();
+            var parser = new CssParser();
+            var sheet = parser.ParseStylesheet(styling);
             var selectors = new StringBuilder();
             var i = 1;
 

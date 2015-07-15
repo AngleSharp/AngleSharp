@@ -33,9 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AngleSharp, Version=0.8.6.41008, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="AngleSharp, Version=0.8.7.41616, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AngleSharp.0.8.6\lib\net45\AngleSharp.dll</HintPath>
+      <HintPath>..\packages\AngleSharp.0.8.7\lib\net45\AngleSharp.dll</HintPath>
     </Reference>
     <Reference Include="AngleSharp.Scripting.JavaScript, Version=0.1.6.39665, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

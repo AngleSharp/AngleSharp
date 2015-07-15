@@ -1,5 +1,11 @@
 ﻿namespace AngleSharp.Playground
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
+    using AngleSharp.Parser.Html;
+    using AngleSharp.Playground.Tools;
+    using ConsoleInteraction.Assets;
     using System;
     using System.Diagnostics;
     using System.Globalization;
@@ -7,12 +13,6 @@
     using System.Net.Http;
     using System.Resources;
     using System.Threading.Tasks;
-    using AngleSharp.Dom;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Parser.Css;
-    using AngleSharp.Parser.Html;
-    using AngleSharp.Playground.Tools;
-    using ConsoleInteraction.Assets;
 
     class Program
     {
@@ -24,8 +24,6 @@
             //var form = new ConsoleForm("<form method=post action='http://requestb.in/1hc34c81' enctype='text/plain'><input type=hidden name=q value=r><input type=text name=Name><input type=text name=Birthday><input type=text name=Remark></form>");
             //form.FillInteractive();
             //form.Submit();
-
-            TestAsync().Wait();
 
             TestCss(Stylesheets.rsi, "a sample stylesheet");
 
@@ -46,24 +44,6 @@
                 using (var fs = File.Create(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), requestUri.Host)))
                     await response.CopyToAsync(fs);
             }
-        }
-
-        static async Task TestAsync()
-        {
-            Console.WriteLine("Starting async!");
-            var parser = new HtmlParser(HtmlFiles.W3C);
-
-            var task = parser.ParseAsync();
-            var sw = Stopwatch.StartNew();
-
-            while (!task.IsCompleted)
-            {
-                await Task.Delay(15);
-                Console.WriteLine("{0} | {1} elements", sw.ElapsedMilliseconds, parser.Result.All.Length);
-            }
-
-            sw.Stop();
-            Console.WriteLine("Done!");
         }
 
         static void ReadHtmlFiles(ResourceManager resourceManager)
@@ -88,9 +68,9 @@
 
         static IDocument TestHtml(String source, String title = "HTML document")
         {
-            var parser = new HtmlParser(source);
+            var parser = new HtmlParser();
             var sw = Stopwatch.StartNew();
-            var document = parser.Parse();
+            var document = parser.Parse(source);
             sw.Stop();
             Console.WriteLine("Parsing " + title + " took " + sw.ElapsedMilliseconds + "ms");
             return document;
@@ -98,9 +78,9 @@
 
         static ICssStyleSheet TestCss(String source, String title = "CSS document")
         {
-            var parser = new CssParser(source);
+            var parser = new CssParser();
             var sw = Stopwatch.StartNew();
-            var sheet = parser.Result;
+            var sheet = parser.ParseStylesheet(source);
             sw.Stop();
             Console.WriteLine("Parsing " + title + " took " + sw.ElapsedMilliseconds + "ms");
             return sheet;
