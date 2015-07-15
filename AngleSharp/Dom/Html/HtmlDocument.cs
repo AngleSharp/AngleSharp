@@ -14,7 +14,7 @@
     sealed class HtmlDocument : Document, IHtmlDocument
     {
         internal HtmlDocument(IBrowsingContext context, TextSource source)
-            : base(context, source)
+            : base(context ?? BrowsingContext.New(), source)
         {
             ContentType = MimeTypes.Html;
         }

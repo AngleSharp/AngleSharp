@@ -13,7 +13,7 @@
     sealed class SvgDocument : Document, ISvgDocument
     {
         internal SvgDocument(IBrowsingContext context, TextSource source)
-            : base(context, source)
+            : base(context ?? BrowsingContext.New(), source)
         {
             ContentType = MimeTypes.Svg;
         }

@@ -434,7 +434,7 @@
             _salvageable = true;
             _shown = false;
             _preferredStyleSheetSet = String.Empty;
-            _context = context ?? BrowsingContext.New();
+            _context = context;
             _source = source;
             _referrer = String.Empty;
             _contentType = MimeTypes.ApplicationXml;

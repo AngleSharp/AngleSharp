@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Dom.Xml
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Parser.Xml;
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a document node that contains only XML nodes.
@@ -13,7 +13,7 @@
     sealed class XmlDocument : Document, IXmlDocument
     {
         internal XmlDocument(IBrowsingContext context, TextSource source)
-            : base(context, source)
+            : base(context ?? BrowsingContext.New(), source)
         {
             ContentType = MimeTypes.Xml;
         }
