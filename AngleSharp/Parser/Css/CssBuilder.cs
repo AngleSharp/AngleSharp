@@ -19,8 +19,8 @@
     {
         #region Fields
 
-        protected readonly CssTokenizer _tokenizer;
-        protected readonly CssParser _parser;
+        readonly CssTokenizer _tokenizer;
+        readonly CssParser _parser;
 
         #endregion
 
@@ -246,7 +246,7 @@
         public CssValue CreateValue(ref CssToken token)
         {
             var important = false;
-            return CreateValue(ref token, out important);
+            return CreateValue(CssTokenType.CurlyBracketClose, ref token, out important);
         }
 
         public List<CssMedium> CreateMedia(ref CssToken token)
@@ -412,7 +412,7 @@
                         RaiseErrorOccurred(CssParseError.UnknownDeclarationName, token);
 
                     var important = false;
-                    var val = CreateValue(ref token, out important);
+                    var val = CreateValue(CssTokenType.CurlyBracketClose, ref token, out important);
 
                     if (val == null)
                         RaiseErrorOccurred(CssParseError.ValueMissing, token);
@@ -550,7 +550,7 @@
             if (token.Type == CssTokenType.Colon)
             {
                 var important = false;
-                var result = CreateValue(ref token, out important);
+                var result = CreateValue(CssTokenType.RoundBracketClose, ref token, out important);
                 property.IsImportant = important;
 
                 if (result != null)
@@ -674,7 +674,7 @@
         /// <summary>
         /// Called before any token in the value regime had been seen.
         /// </summary>
-        CssValue CreateValue(ref CssToken token, out Boolean important)
+        CssValue CreateValue(CssTokenType closing, ref CssToken token, out Boolean important)
         {
             var value = Pool.NewValueBuilder();
             _tokenizer.State = CssParseMode.Value;
@@ -682,8 +682,7 @@
 
             while (token.Type != CssTokenType.Eof)
             {
-                if (token.Is(CssTokenType.Semicolon, CssTokenType.CurlyBracketClose) ||
-                   (token.Type == CssTokenType.RoundBracketClose && value.IsReady))
+                if (token.Is(CssTokenType.Semicolon, closing))
                     break;
 
                 value.Apply(token);
