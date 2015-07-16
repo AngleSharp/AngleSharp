@@ -1,7 +1,10 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom.Html;
     using AngleSharp.Events;
+    using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
     using NUnit.Framework;
 
@@ -55,6 +58,26 @@
             Assert.AreEqual((int)HtmlParseError.TagCannotBeSelfClosed, parseErrors.Received[3].Code);
             Assert.AreEqual(70, parseErrors.Received[3].Position.Column);
             Assert.AreEqual(18, parseErrors.Received[3].Position.Line);
+        }
+
+        [Test]
+        public void ParseInlineStyleWithToleratedInvalidValueShouldReturnThatValue()
+        {
+            var html = "<div style=\"background-image: url(javascript:alert(1))\"></div>";
+            var options = new CssParserOptions
+            {
+                IsIncludingUnknownDeclarations = true,
+                IsIncludingUnknownRules = true,
+                IsToleratingInvalidConstraints = true,
+                IsToleratingInvalidValues = true
+            };
+            var config = Configuration.Default.WithCss(e => e.Options = options);
+            var parser = new HtmlParser(config);
+            var dom = parser.Parse(html);
+            var div = dom.QuerySelector<IHtmlElement>("div");
+            Assert.AreEqual(1, div.Style.Length);
+            Assert.AreEqual("background-image", div.Style[0]);
+            Assert.AreEqual("url(\"javascript:alert(1)\")", div.Style.BackgroundImage);
         }
     }
 }
