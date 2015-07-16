@@ -50,13 +50,7 @@
         /// </summary>
         public CssValue Result
         {
-            get
-            {
-                if (IsValid == false)
-                    return null;
-
-                return new CssValue(_values);
-            }
+            get { return new CssValue(_values); }
         }
 
         /// <summary>

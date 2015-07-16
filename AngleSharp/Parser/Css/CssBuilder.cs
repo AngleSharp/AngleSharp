@@ -718,7 +718,12 @@
 
             important = value.IsImportant;
             _tokenizer.State = CssParseMode.Data;
-            return value.ToPool();
+
+            if (value.IsValid || _parser.Options.IsToleratingInvalidValues)
+                return value.ToPool();
+
+            value.ToPool();
+            return null;
         }
 
         /// <summary>

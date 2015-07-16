@@ -1239,16 +1239,28 @@
         /// </summary>
         CssToken UrlBad(CssTokenType type)
         {
+            var current = Current;
+            var curly = 0;
+            var round = 1;
+
             while (true)
             {
-                var current = GetNext();
-
                 if (current == Symbols.EndOfFile)
                 {
                     RaiseErrorOccurred(CssParseError.EOF);
                     return NewUrl(type, FlushBuffer(), true);
                 }
-                else if (current == Symbols.RoundBracketClose)
+                else if (current == Symbols.Semicolon)
+                {
+                    Back();
+                    return NewUrl(type, FlushBuffer(), true);
+                }
+                else if (current == Symbols.CurlyBracketClose && --curly == -1)
+                {
+                    Back();
+                    return NewUrl(type, FlushBuffer(), true);
+                }
+                else if (current == Symbols.RoundBracketClose && --round == 0)
                 {
                     return NewUrl(type, FlushBuffer(), true);
                 }
@@ -1257,6 +1269,17 @@
                     current = GetNext();
                     _stringBuffer.Append(ConsumeEscape(current));
                 }
+                else
+                {
+                    if (current == Symbols.RoundBracketOpen)
+                        ++round;
+                    else if (curly == Symbols.CurlyBracketOpen)
+                        ++curly;
+
+                    _stringBuffer.Append(current);
+                }
+
+                current = GetNext();
             }
         }
 
