@@ -79,5 +79,26 @@
             Assert.AreEqual("background-image", div.Style[0]);
             Assert.AreEqual("url(\"javascript:alert(1)\")", div.Style.BackgroundImage);
         }
+
+        [Test]
+        public void ParseInlineStyleWithUnknownDeclarationShouldBeAbleToRemoveThatDeclaration()
+        {
+            var html = @"<DIV STYLE='background: url(""javascript:alert(foo)"")'>";
+            var options = new CssParserOptions
+            {
+                IsIncludingUnknownDeclarations = true,
+                IsIncludingUnknownRules = true,
+                IsToleratingInvalidConstraints = true,
+                IsToleratingInvalidValues = true
+            };
+            var config = Configuration.Default.WithCss(e => e.Options = options);
+            var parser = new HtmlParser(config);
+            var dom = parser.Parse(html);
+            var div = dom.QuerySelector<IHtmlElement>("div");
+            Assert.AreEqual(1, div.Style.Length);
+            Assert.AreEqual("background", div.Style[0]);
+            div.Style.RemoveProperty("background");
+            Assert.AreEqual(0, div.Style.Length);
+        }
     }
 }
