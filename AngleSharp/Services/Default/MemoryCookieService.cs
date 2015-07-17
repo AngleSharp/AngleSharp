@@ -25,8 +25,20 @@
         /// <returns>The cookie header.</returns>
         public String this[String origin]
         {
-            get { return _container.GetCookieHeader(new Uri(origin)); }
-            set { _container.SetCookies(new Uri(origin), value); }
+            get 
+            { 
+                return _container.GetCookieHeader(new Uri(origin)); 
+            }
+            set
+            {
+                var domain = new Uri(origin);
+                var cookies = _container.GetCookies(domain);
+
+                foreach (Cookie cookie in cookies)
+                    cookie.Expired = true;
+
+                _container.SetCookies(domain, value); 
+            }
         }
     }
 }
