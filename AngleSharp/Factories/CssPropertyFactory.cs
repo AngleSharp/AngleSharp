@@ -423,16 +423,6 @@
         }
 
         /// <summary>
-        /// Checks if the given property name if generally supported.
-        /// </summary>
-        /// <param name="name">The name of the property.</param>
-        /// <returns>True if the property name is supported, otherwise false.</returns>
-        public Boolean IsSupported(String name)
-        {
-            return IsLonghand(name) || IsShorthand(name);
-        }
-
-        /// <summary>
         /// Gets the longhands that map to the specified shorthand property.
         /// </summary>
         /// <param name="name">The name of the shorthand property.</param>
