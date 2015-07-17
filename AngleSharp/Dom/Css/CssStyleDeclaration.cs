@@ -67,6 +67,14 @@
         #region General Properties
 
         /// <summary>
+        /// Gets if unknown declarations are not allowed.
+        /// </summary>
+        public Boolean IsStrictMode
+        {
+            get { return IsReadOnly || _parser.Options.IsIncludingUnknownDeclarations == false; }
+        }
+
+        /// <summary>
         /// Gets or sets the textual representation of the declaration block.
         /// </summary>
         public String CssText
@@ -2360,13 +2368,12 @@
         {
             var list = new List<String>();
             var serialized = new List<String>();
-            var strict = _parser.Options.IsIncludingUnknownDeclarations == false;
 
             foreach (var declaration in _declarations)
             {
                 var property = declaration.Name;
 
-                if (strict)
+                if (IsStrictMode)
                 {
                     if (serialized.Contains(property))
                         continue;
@@ -2434,17 +2441,16 @@
 
         void RemovePropertyByName(String propertyName)
         {
-            var missing = true;
-
-            for (int i = _declarations.Count - 1; i >= 0 && missing; i--)
+            for (int i = _declarations.Count - 1; i >= 0; i--)
             {
-                missing = _declarations[i].Name != propertyName;
-
-                if (missing == false)
+                if (_declarations[i].Name == propertyName)
+                {
                     _declarations.RemoveAt(i);
+                    break;
+                }
             }
 
-            if (missing && Factory.Properties.IsShorthand(propertyName))
+            if (IsStrictMode && Factory.Properties.IsShorthand(propertyName))
             {
                 var longhands = Factory.Properties.GetLonghands(propertyName);
 
@@ -2457,12 +2463,10 @@
         {
             var property = GetProperty(propertyName);
 
-            if (property != null)
-            {
-                if (property.IsImportant)
-                    return Keywords.Important;
-            }
-            else if (Factory.Properties.IsShorthand(propertyName))
+            if (property != null && property.IsImportant)
+                return Keywords.Important;
+
+            if (IsStrictMode && Factory.Properties.IsShorthand(propertyName))
             {
                 var longhands = Factory.Properties.GetLonghands(propertyName);
 
@@ -2485,7 +2489,7 @@
             if (property != null)
                 return property.Value;
 
-            if (Factory.Properties.IsShorthand(propertyName))
+            if (IsStrictMode && Factory.Properties.IsShorthand(propertyName))
             {
                 var shortHand = Factory.Properties.CreateShorthand(propertyName);
                 var declarations = Factory.Properties.GetLonghands(propertyName);
@@ -2517,13 +2521,11 @@
             if (IsReadOnly)
                 throw new DomException(DomError.NoModificationAllowed);
 
-            var strictMode = _parser.Options.IsIncludingUnknownDeclarations == false;
-
             if (!String.IsNullOrEmpty(priority) && !priority.Equals(Keywords.Important, StringComparison.OrdinalIgnoreCase))
                 return;
 
             var important = !String.IsNullOrEmpty(priority);
-            var mappings = strictMode && Factory.Properties.IsShorthand(propertyName) ? 
+            var mappings = IsStrictMode && Factory.Properties.IsShorthand(propertyName) ? 
                 Factory.Properties.GetLonghands(propertyName) : 
                 Enumerable.Repeat(propertyName, 1);
             
@@ -2577,12 +2579,10 @@
                 
             property = Factory.Properties.Create(propertyName);
 
-            if (property != null)
+            if (property != null || IsStrictMode)
                 return property;
-            else if (_parser.Options.IsIncludingUnknownDeclarations)
-                property = new CssUnknownProperty(propertyName);
 
-            return property;
+            return new CssUnknownProperty(propertyName);
         }
 
         internal CssProperty GetProperty(String name)
