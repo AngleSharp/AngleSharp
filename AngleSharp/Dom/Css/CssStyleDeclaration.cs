@@ -2360,57 +2360,62 @@
         {
             var list = new List<String>();
             var serialized = new List<String>();
+            var strict = _parser.Options.IsIncludingUnknownDeclarations == false;
 
             foreach (var declaration in _declarations)
             {
                 var property = declaration.Name;
 
-                if (serialized.Contains(property))
-                    continue;
-
-                var shorthands = Factory.Properties.GetShorthands(property);
-
-                if (shorthands.Any())
+                if (strict)
                 {
-                    var longhands = _declarations.Where(m => !serialized.Contains(m.Name)).ToList();
+                    if (serialized.Contains(property))
+                        continue;
 
-                    foreach (var shorthand in shorthands.OrderByDescending(m => Factory.Properties.GetLonghands(m).Count()))
+                    var shorthands = Factory.Properties.GetShorthands(property);
+
+                    if (shorthands.Any())
                     {
-                        var rule = Factory.Properties.CreateShorthand(shorthand);
-                        var properties = Factory.Properties.GetLonghands(shorthand);
-                        var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToArray();
+                        var longhands = _declarations.Where(m => !serialized.Contains(m.Name)).ToList();
 
-                        if (currentLonghands.Length == 0)
-                            continue;
-
-                        var important = currentLonghands.Count(m => m.IsImportant);
-
-                        if (important > 0 && important != currentLonghands.Length)
-                            continue;
-
-                        if (properties.Length != currentLonghands.Length)
-                            continue;
-
-                        var value = rule.Stringify(currentLonghands);
-
-                        if (String.IsNullOrEmpty(value))
-                            continue;
-
-                        list.Add(CssStyleFormatter.Instance.Declaration(shorthand, value, important != 0));
-
-                        foreach (var longhand in currentLonghands)
+                        foreach (var shorthand in shorthands.OrderByDescending(m => Factory.Properties.GetLonghands(m).Count()))
                         {
-                            serialized.Add(longhand.Name);
-                            longhands.Remove(longhand);
+                            var rule = Factory.Properties.CreateShorthand(shorthand);
+                            var properties = Factory.Properties.GetLonghands(shorthand);
+                            var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToArray();
+
+                            if (currentLonghands.Length == 0)
+                                continue;
+
+                            var important = currentLonghands.Count(m => m.IsImportant);
+
+                            if (important > 0 && important != currentLonghands.Length)
+                                continue;
+
+                            if (properties.Length != currentLonghands.Length)
+                                continue;
+
+                            var value = rule.Stringify(currentLonghands);
+
+                            if (String.IsNullOrEmpty(value))
+                                continue;
+
+                            list.Add(CssStyleFormatter.Instance.Declaration(shorthand, value, important != 0));
+
+                            foreach (var longhand in currentLonghands)
+                            {
+                                serialized.Add(longhand.Name);
+                                longhands.Remove(longhand);
+                            }
                         }
                     }
+
+                    if (serialized.Contains(property))
+                        continue;
+
+                    serialized.Add(property);
                 }
 
-                if (serialized.Contains(property))
-                    continue;
-
                 list.Add(declaration.ToCss(formatter));
-                serialized.Add(property);
             }
 
             return formatter.Declarations(list);
@@ -2422,28 +2427,42 @@
                 throw new DomException(DomError.NoModificationAllowed);
 
             var value = GetPropertyValue(propertyName);
+            RemovePropertyByName(propertyName);
+            RaiseChanged();
+            return value;
+        }
 
-            if (Factory.Properties.IsShorthand(propertyName))
+        void RemovePropertyByName(String propertyName)
+        {
+            var missing = true;
+
+            for (int i = _declarations.Count - 1; i >= 0 && missing; i--)
+            {
+                missing = _declarations[i].Name != propertyName;
+
+                if (missing == false)
+                    _declarations.RemoveAt(i);
+            }
+
+            if (missing && Factory.Properties.IsShorthand(propertyName))
             {
                 var longhands = Factory.Properties.GetLonghands(propertyName);
 
                 foreach (var longhand in longhands)
-                    RemoveProperty(longhand);
+                    RemovePropertyByName(longhand);
             }
-            else
-            {
-                _declarations.RemoveAll(rule => rule.Name == propertyName);
-                RaiseChanged();
-            }
-
-            return value;
         }
 
         public String GetPropertyPriority(String propertyName)
         {
             var property = GetProperty(propertyName);
 
-            if (Factory.Properties.IsShorthand(propertyName))
+            if (property != null)
+            {
+                if (property.IsImportant)
+                    return Keywords.Important;
+            }
+            else if (Factory.Properties.IsShorthand(propertyName))
             {
                 var longhands = Factory.Properties.GetLonghands(propertyName);
 
@@ -2455,23 +2474,26 @@
 
                 return Keywords.Important;
             }
-            else if (property != null && property.IsImportant)
-                return Keywords.Important;
 
             return String.Empty;
         }
 
         public String GetPropertyValue(String propertyName)
         {
+            var property = GetProperty(propertyName);
+
+            if (property != null)
+                return property.Value;
+
             if (Factory.Properties.IsShorthand(propertyName))
             {
                 var shortHand = Factory.Properties.CreateShorthand(propertyName);
-                var propertyNames = Factory.Properties.GetLonghands(propertyName);
+                var declarations = Factory.Properties.GetLonghands(propertyName);
                 var properties = new List<CssProperty>();
 
-                foreach (var declaration in propertyNames)
+                foreach (var declaration in declarations)
                 {
-                    var property = GetProperty(declaration);
+                    property = GetProperty(declaration);
 
                     if (property == null)
                         return String.Empty;
@@ -2481,15 +2503,8 @@
 
                 return shortHand.Stringify(properties.ToArray());
             }
-            else
-            {
-                var property = GetProperty(propertyName);
 
-                if (property != null)
-                    return property.Value;
-
-                return String.Empty;
-            }
+            return String.Empty;
         }
 
         public void SetPropertyValue(String propertyName, String propertyValue)
@@ -2501,15 +2516,16 @@
         {
             if (IsReadOnly)
                 throw new DomException(DomError.NoModificationAllowed);
-            
-            if (!Factory.Properties.IsSupported(propertyName))
-                return;
+
+            var strictMode = _parser.Options.IsIncludingUnknownDeclarations == false;
 
             if (!String.IsNullOrEmpty(priority) && !priority.Equals(Keywords.Important, StringComparison.OrdinalIgnoreCase))
                 return;
 
             var important = !String.IsNullOrEmpty(priority);
-            var mappings = Factory.Properties.IsShorthand(propertyName) ? Factory.Properties.GetLonghands(propertyName) : Enumerable.Repeat(propertyName, 1);
+            var mappings = strictMode && Factory.Properties.IsShorthand(propertyName) ? 
+                Factory.Properties.GetLonghands(propertyName) : 
+                Enumerable.Repeat(propertyName, 1);
             
             foreach (var mapping in mappings)
             {
@@ -2524,9 +2540,6 @@
         {
             if (IsReadOnly)
                 throw new DomException(DomError.NoModificationAllowed);
-
-            if (!Factory.Properties.IsSupported(propertyName))
-                return;
 
             if (!String.IsNullOrEmpty(propertyValue))
             {
@@ -2557,7 +2570,19 @@
 
         internal CssProperty CreateProperty(String propertyName)
         {
-            return GetProperty(propertyName) ?? Factory.Properties.Create(propertyName);
+            var property = GetProperty(propertyName);
+
+            if (property != null)
+                return property;
+                
+            property = Factory.Properties.Create(propertyName);
+
+            if (property != null)
+                return property;
+            else if (_parser.Options.IsIncludingUnknownDeclarations)
+                property = new CssUnknownProperty(propertyName);
+
+            return property;
         }
 
         internal CssProperty GetProperty(String name)
