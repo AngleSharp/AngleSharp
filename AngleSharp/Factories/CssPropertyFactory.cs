@@ -1,11 +1,10 @@
 ﻿namespace AngleSharp.Factories
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using AngleSharp.Css;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Provides string to CSSProperty instance creation mappings.
