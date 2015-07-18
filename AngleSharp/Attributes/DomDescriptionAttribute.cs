@@ -6,10 +6,19 @@
     /// This attribute is used to place a description on some object.
     /// The description can then be read out at runtime.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | AttributeTargets.Property | AttributeTargets.Event | AttributeTargets.Method | AttributeTargets.Field | AttributeTargets.Delegate)]
+    [AttributeUsage(
+        AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | 
+        AttributeTargets.Property | AttributeTargets.Event | AttributeTargets.Method | 
+        AttributeTargets.Field | AttributeTargets.Delegate)]
     public sealed class DomDescriptionAttribute : Attribute
     {
-        internal DomDescriptionAttribute(String description)
+        /// <summary>
+        /// Creates a new DomDescriptionAttribute.
+        /// </summary>
+        /// <param name="description">
+        /// The description of the decorated type or member.
+        /// </param>
+        public DomDescriptionAttribute(String description)
         {
             Description = description;
         }

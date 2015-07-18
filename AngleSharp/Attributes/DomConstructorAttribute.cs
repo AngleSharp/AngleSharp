@@ -9,8 +9,5 @@
     [AttributeUsage(AttributeTargets.Constructor)]
     public sealed class DomConstructorAttribute : Attribute
     {
-        internal DomConstructorAttribute()
-        {
-        }
     }
 }

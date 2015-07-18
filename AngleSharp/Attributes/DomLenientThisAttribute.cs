@@ -10,8 +10,5 @@
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Event)]
     public sealed class DomLenientThisAttribute : Attribute
     {
-        internal DomLenientThisAttribute()
-        {
-        }
     }
 }
