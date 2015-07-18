@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
+    using AngleSharp.Events;
     using System;
     using System.Collections.Generic;
-    using AngleSharp.Events;
 
     class EventReceiver<TReceivingEvent> : IEventAggregator
     {
@@ -13,10 +13,24 @@
             get { return _received; }
         }
 
+        public Action<TReceivingEvent> OnReceived
+        {
+            get;
+            set;
+        }
+
         public void Publish<TEvent>(TEvent data)
         {
             if (typeof(TEvent) == typeof(TReceivingEvent))
-                _received.Add((TReceivingEvent)(data as Object));
+                Receive((TReceivingEvent)(data as Object));
+        }
+
+        void Receive(TReceivingEvent data)
+        {
+            if (OnReceived != null)
+                OnReceived(data);
+
+            _received.Add(data);
         }
 
         public void Subscribe<TEvent>(ISubscriber<TEvent> listener)
