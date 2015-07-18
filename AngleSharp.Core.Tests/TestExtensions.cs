@@ -34,9 +34,11 @@
             return config.With(service);
         }
 
-        public static IConfiguration WithPageRequester(this IConfiguration config)
+        public static IConfiguration WithPageRequester(this IConfiguration config, Boolean enableNavigation = true, Boolean enableResourceLoading = false)
         {
             var service = new LoaderService(PageRequester.All);
+            service.IsResourceLoadingEnabled = enableResourceLoading;
+            service.IsNavigationEnabled = enableNavigation;
             return config.With(service);
         }
 

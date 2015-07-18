@@ -8,8 +8,6 @@
     using System;
     using System.IO;
     using System.Linq;
-    using System.Net;
-    using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -65,16 +63,16 @@
             if (Helper.IsNetworkAvailable())
             {
                 var title = "PostUrlencodeNormal";
-                var url = "http://anglesharp.azurewebsites.net/PostUrlEncodeNormal";
+                var address = "http://anglesharp.azurewebsites.net/PostUrlEncodeNormal";
                 var config = new Configuration().WithDefaultLoader();
-                var document = await BrowsingContext.New(config).OpenAsync(Url.Create(url));
+                var document = await BrowsingContext.New(config).OpenAsync(address);
                 var h1 = document.QuerySelector("h1");
 
                 Assert.IsNotNull(document);
                 Assert.IsNotNull(document.DocumentElement);
                 Assert.IsNotNull(document.Body);
                 Assert.IsNotNull(document.Head);
-                Assert.AreEqual(url, document.DocumentUri);
+                Assert.AreEqual(address, document.DocumentUri);
                 Assert.AreEqual(title, document.Title);
                 Assert.AreEqual(title, h1.TextContent);
             }
@@ -85,10 +83,10 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var url = "http://anglesharp.azurewebsites.net/PostUrlEncodeNormal";
+                var address = "http://anglesharp.azurewebsites.net/PostUrlEncodeNormal";
                 var config = new Configuration().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
-                var document = await context.OpenAsync(Url.Create(url));
+                var document = await context.OpenAsync(address);
 
                 Assert.AreEqual(1, document.Forms.Length);
 
@@ -120,17 +118,17 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var url = "http://anglesharp.azurewebsites.net/";
+                var address = "http://anglesharp.azurewebsites.net/";
                 var config = new Configuration().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
-                var document = await context.OpenAsync(Url.Create(url));
+                var document = await context.OpenAsync(address);
                 var anchors = document.QuerySelectorAll<IHtmlAnchorElement>("ul a");
                 var anchor = anchors.Where(m => m.TextContent == "Header").FirstOrDefault();
                 var result = await context.OpenAsync(Url.Create(anchor.Href));
 
                 Assert.IsNotNull(result);
                 Assert.AreEqual(result, context.Active);
-                Assert.AreEqual(url, context.Active.Body.TextContent);
+                Assert.AreEqual(address, context.Active.Body.TextContent);
             }
         }
 
@@ -140,10 +138,10 @@
             if (Helper.IsNetworkAvailable())
             {
                 var title = "PostUrlencodeNormal";
-                var url = "http://anglesharp.azurewebsites.net/";
+                var address = "http://anglesharp.azurewebsites.net/";
                 var config = new Configuration().WithDefaultLoader();
                 var context = BrowsingContext.New(config);
-                var document = await context.OpenAsync(Url.Create(url));
+                var document = await context.OpenAsync(address);
                 var anchors = document.QuerySelectorAll<IHtmlAnchorElement>("ul a");
                 var anchor = anchors.Where(m => m.TextContent == title).FirstOrDefault();
                 var result = await anchor.Navigate();
@@ -159,9 +157,9 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var url = "http://www.amazon.com";
+                var address = "http://www.amazon.com";
                 var config = new Configuration().WithPageRequester().WithCss();
-                var document = await BrowsingContext.New(config).OpenAsync(url);
+                var document = await BrowsingContext.New(config).OpenAsync(address);
                 await Task.WhenAll(document.Requests);
                 Assert.IsNotNull(document);
                 Assert.AreNotEqual(0, document.Body.ChildElementCount);
@@ -220,7 +218,7 @@
     </body>
 </html>";
 
-                var config = new Configuration().WithDefaultLoader(l => l.IsResourceLoadingEnabled = true).WithCss();
+                var config = new Configuration().WithPageRequester(enableResourceLoading: true).WithCss();
                 var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(html));
                 Assert.AreEqual(0, document.StyleSheets.Length);
                 await document.WhenLoadFired<IHtmlLinkElement>();
@@ -229,49 +227,14 @@
         }
 
         [Test]
-        public async Task LoadContextFromStreamLoadedWithHttpClient()
-        {
-            if (Helper.IsNetworkAvailable())
-            {
-                var url = new Uri("http://kommersant.ru/rss-list");
-                var http = new HttpClient(new HttpClientHandler
-                {
-                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-                });
-                var msg = await http.GetAsync(url);
-                msg.EnsureSuccessStatusCode();
-                var pageData = await msg.Content.ReadAsStreamAsync();
-                var context = BrowsingContext.New();
-                var document = await context.OpenAsync(r =>
-                {
-                    r.Content(pageData);
-                    r.Address(url);
-                });
-
-                Assert.IsNotNull(document);
-                Assert.AreNotEqual(0, document.All.Length);
-            }
-        }
-
-        [Test]
         public async Task LoadContextFromStreamLoadedWithHttpClientShouldNotFaceBufferTooSmall()
         {
             if (Helper.IsNetworkAvailable())
             {
-                var url = new Uri("http://kommersant.ru/rss-list");
-                var http = new HttpClient(new HttpClientHandler
-                {
-                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-                });
-                var msg = await http.GetAsync(url);
-                msg.EnsureSuccessStatusCode();
-                var pageData = await msg.Content.ReadAsStreamAsync();
-                var context = BrowsingContext.New();
-                var document = await context.OpenAsync(r =>
-                {
-                    r.Content(pageData);
-                    r.Address(url);
-                });
+                var address = "http://kommersant.ru/rss-list";
+                var config = Configuration.Default.WithPageRequester();
+                var context = BrowsingContext.New(config);
+                var document = await context.OpenAsync(address);
 
                 Assert.IsNotNull(document);
                 Assert.AreNotEqual(0, document.All.Length);
@@ -283,20 +246,10 @@
         {
             if (Helper.IsNetworkAvailable())
             {
-                var url = new Uri("http://eurobelarus.info/");
-                var http = new HttpClient(new HttpClientHandler
-                {
-                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-                });
-                var msg = await http.GetAsync(url);
-                msg.EnsureSuccessStatusCode();
-                var pageData = await msg.Content.ReadAsStreamAsync();
-                var context = BrowsingContext.New();
-                var document = await context.OpenAsync(r =>
-                {
-                    r.Content(pageData);
-                    r.Address(url);
-                });
+                var address = "http://eurobelarus.info/";
+                var config = Configuration.Default.WithPageRequester();
+                var context = BrowsingContext.New(config);
+                var document = await context.OpenAsync(address);
 
                 Assert.IsNotNull(document);
                 Assert.AreNotEqual(0, document.All.Length);
