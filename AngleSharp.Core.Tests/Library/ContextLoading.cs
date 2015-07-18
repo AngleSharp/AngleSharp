@@ -2,6 +2,7 @@
 {
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom.Html;
+    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using NUnit.Framework;
     using System;
@@ -299,6 +300,23 @@
 
                 Assert.IsNotNull(document);
                 Assert.AreNotEqual(0, document.All.Length);
+            }
+        }
+
+        [Test]
+        public async Task LoadContextFromStreamChunked()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var address = "http://anglesharp.azurewebsites.net/Chunked";
+                var events = new EventReceiver<HtmlParseStartEvent>();
+                var config = new Configuration(events: events).WithDefaultLoader();
+                var context = BrowsingContext.New(config);
+                var start = DateTime.Now;
+                events.OnReceived = rec => start = DateTime.Now;
+                var document = await context.OpenAsync(address);
+                var end = DateTime.Now;
+                Assert.Greater(end - start, TimeSpan.FromSeconds(1));
             }
         }
     }
