@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp;
-    using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Network;
     using AngleSharp.Services;
     using AngleSharp.Services.Scripting;
@@ -30,15 +29,12 @@
         [Test]
         public async Task DocumentWriteDynamicallyWithCustomScriptEngineAndSource()
         {
-            var scripting = new TestScriptEngine(options => options.Document.Write("<b>Dynamically written</b>"));
-            var mockRequester = new MockRequester();
-            var config = Configuration.Default
-                                      .With(new TestScriptService(scripting))
-                                      .WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { mockRequester });
             var baseAddress = "http://www.example.com";
             var filename = "foo.cs";
             var hasFoo = false;
-            mockRequester.OnRequest = request => hasFoo = request.Address.Href == baseAddress + "/" + filename;
+            var scripting = new TestScriptEngine(options => options.Document.Write("<b>Dynamically written</b>"));
+            var config = Configuration.Default.With(new TestScriptService(scripting))
+                                      .WithMockRequester(request => hasFoo = request.Address.Href == baseAddress + "/" + filename);
             var source = "<title>Some title</title><body><script type='c-sharp' src='" + filename + "'></script>";
             var doc = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address(baseAddress));
             Assert.IsTrue(hasFoo);
@@ -58,10 +54,7 @@
                 "<b>Dynamically written</b>"
             };
             var scripting = new TestScriptEngine(options => options.Document.Write(content[index++]));
-            var mockRequester = new MockRequester();
-            var config = Configuration.Default
-                                      .With(new TestScriptService(scripting))
-                                      .WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { mockRequester });
+            var config = Configuration.Default.With(new TestScriptService(scripting)).WithMockRequester();
             var source = "<title>Some title</title><body><script type='c-sharp' src='foo.cs'></script>";
             var doc = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
             Assert.AreEqual("Dynamically written", doc.Body.TextContent);
@@ -84,10 +77,7 @@
                 "This is "
             };
             var scripting = new TestScriptEngine(options => options.Document.Write(content[index++]));
-            var mockRequester = new MockRequester();
-            var config = Configuration.Default
-                                      .With(new TestScriptService(scripting))
-                                      .WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { mockRequester });
+            var config = Configuration.Default.With(new TestScriptService(scripting)).WithMockRequester();
             var source = "<title>Some title</title><body><script type='c-sharp' src='foo.cs'></script>";
             var doc = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
             Assert.AreEqual("This is dynamically written", doc.Body.TextContent);

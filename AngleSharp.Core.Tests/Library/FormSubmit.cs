@@ -1,14 +1,14 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using System;
-    using System.IO;
-    using System.Linq;
-    using System.Threading.Tasks;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Dom.Io;
     using NUnit.Framework;
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class FormSubmitTests

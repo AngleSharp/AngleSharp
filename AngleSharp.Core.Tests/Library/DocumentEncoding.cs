@@ -1,13 +1,12 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using System;
-    using System.Globalization;
-    using System.Linq;
     using AngleSharp;
     using AngleSharp.Dom.Html;
     using NUnit.Framework;
-    using System.Threading.Tasks;
+    using System;
+    using System.Linq;
     using System.Net.Http;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class DocumentEncodingTests

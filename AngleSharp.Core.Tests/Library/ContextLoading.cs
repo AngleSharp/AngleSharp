@@ -160,7 +160,7 @@
             if (Helper.IsNetworkAvailable())
             {
                 var url = "http://www.amazon.com";
-                var config = new Configuration().WithDefaultLoader().WithCss();
+                var config = new Configuration().WithPageRequester().WithCss();
                 var document = await BrowsingContext.New(config).OpenAsync(url);
                 await Task.WhenAll(document.Requests);
                 Assert.IsNotNull(document);
