@@ -155,15 +155,12 @@
         [Test]
         public async Task ContextLoadAmazonWithCss()
         {
-            if (Helper.IsNetworkAvailable())
-            {
-                var address = "http://www.amazon.com";
-                var config = new Configuration().WithPageRequester().WithCss();
-                var document = await BrowsingContext.New(config).OpenAsync(address);
-                await Task.WhenAll(document.Requests);
-                Assert.IsNotNull(document);
-                Assert.AreNotEqual(0, document.Body.ChildElementCount);
-            }
+            var address = "http://www.amazon.com";
+            var config = new Configuration().WithPageRequester().WithCss();
+            var document = await BrowsingContext.New(config).OpenAsync(address);
+            await Task.WhenAll(document.Requests);
+            Assert.IsNotNull(document);
+            Assert.AreNotEqual(0, document.Body.ChildElementCount);
         }
 
         [Test]
@@ -207,9 +204,7 @@
         [Test]
         public async Task CheckIfAllStyleSheetsAreProcessed()
         {
-            if (Helper.IsNetworkAvailable())
-            {
-                var html = @"<html>
+            var html = @"<html>
   <head>
      <title>test title</title>
      <link href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css' rel='stylesheet'>
@@ -218,31 +213,27 @@
     </body>
 </html>";
 
-                var config = new Configuration().WithPageRequester(enableResourceLoading: true).WithCss();
-                var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(html));
-                Assert.AreEqual(0, document.StyleSheets.Length);
-                await document.WhenLoadFired<IHtmlLinkElement>();
-                Assert.AreEqual(1, document.StyleSheets.Length);
-            }
+            var config = new Configuration().WithPageRequester(enableResourceLoading: true).WithCss();
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(html));
+            Assert.AreEqual(0, document.StyleSheets.Length);
+            await document.WhenLoadFired<IHtmlLinkElement>();
+            Assert.AreEqual(1, document.StyleSheets.Length);
         }
 
         [Test]
-        public async Task LoadContextFromStreamLoadedWithHttpClientShouldNotFaceBufferTooSmall()
+        public async Task LoadContextFromStreamLoadedShouldNotFaceBufferTooSmall()
         {
-            if (Helper.IsNetworkAvailable())
-            {
-                var address = "http://kommersant.ru/rss-list";
-                var config = Configuration.Default.WithPageRequester();
-                var context = BrowsingContext.New(config);
-                var document = await context.OpenAsync(address);
+            var address = "http://kommersant.ru/rss-list";
+            var config = Configuration.Default.WithPageRequester();
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(address);
 
-                Assert.IsNotNull(document);
-                Assert.AreNotEqual(0, document.All.Length);
-            }
+            Assert.IsNotNull(document);
+            Assert.AreNotEqual(0, document.All.Length);
         }
 
         [Test]
-        public async Task LoadContextFromStreamLoadedWithHttpClientShouldNotBeStuckForever()
+        public async Task LoadContextFromStreamLoadedShouldNotBeStuckForever()
         {
             if (Helper.IsNetworkAvailable())
             {
