@@ -98,6 +98,9 @@
     <Compile Include="Css\CssMediaFeatures.cs" />
     <Compile Include="Css\Slickspeed.cs" />
     <Compile Include="Css\WebsiteQuery.cs" />
+    <Compile Include="External\MemoryStreamExtensions.cs" />
+    <Compile Include="External\PageRequester.cs" />
+    <Compile Include="External\SiteMapping.cs" />
     <Compile Include="Html\Adoption.cs" />
     <Compile Include="Html\BasicRuleSet.cs" />
     <Compile Include="Html\CData.cs" />
