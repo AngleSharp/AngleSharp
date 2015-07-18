@@ -1,3 +1,0 @@
-<!ELEMENT doc (#PCDATA)>
-<!ENTITY % e SYSTEM "031-2.ent">
-<!ENTITY e "<![CDATA[%e;]]>">

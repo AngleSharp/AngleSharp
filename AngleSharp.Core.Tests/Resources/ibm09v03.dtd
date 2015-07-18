@@ -1,4 +1,0 @@
-<!ELEMENT student (#PCDATA)> 
-<!-- testing entity value with PEReference -->
- 	<!ENTITY % FullName "first , last">
-	<!ENTITY Name "%FullName;">

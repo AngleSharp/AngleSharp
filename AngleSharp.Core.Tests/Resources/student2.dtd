@@ -1,4 +1,0 @@
-<?xml encoding="utf-8"?>
-<!-- student.dtd -->
-<!ENTITY combine "My Name is %FullName; and my age is &Age; Again %FullName; %FullName; and my status is 
-		&Status; &Status; and %FullName; &Age; %FullName; &Status; That is all.">

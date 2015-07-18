@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<!--
-    "encoding=..." is mandatory in text declarations.
-
-    All external entities (parameter, general) have optional text
-    declarations; only the document entity may omit this declaration.
--->

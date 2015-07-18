@@ -1,4 +1,0 @@
-<!ELEMENT doc EMPTY>
-<![TEMP[
-<!ATTLIST doc att CDATA #IMPLIED>
-]]>
