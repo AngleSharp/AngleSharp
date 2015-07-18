@@ -46,7 +46,7 @@
         /// <summary>
         /// Gets or sets the headers (key-value pairs) of the response.
         /// </summary>
-        public Dictionary<String, String> Headers
+        public IDictionary<String, String> Headers
         {
             get;
             set;

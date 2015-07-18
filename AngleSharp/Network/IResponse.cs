@@ -23,7 +23,7 @@
         /// <summary>
         /// Gets the headers that have been send with the response.
         /// </summary>
-        Dictionary<String, String> Headers { get; }
+        IDictionary<String, String> Headers { get; }
 
         /// <summary>
         /// Gets the content that has been send with the response.

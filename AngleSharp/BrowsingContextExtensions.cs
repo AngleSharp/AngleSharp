@@ -346,7 +346,7 @@
                 get { return content; }
             }
 
-            Dictionary<String, String> IResponse.Headers
+            IDictionary<String, String> IResponse.Headers
             {
                 get { return headers; }
             }
