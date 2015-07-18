@@ -6,7 +6,7 @@
     /// <summary>
     /// The event that is published in case of new request.
     /// </summary>
-    public class RequestStartEvent : IDisposable
+    public class RequestStartEvent
     {
         /// <summary>
         /// Action called once the request ended.
@@ -42,7 +42,7 @@
             private set;
         }
 
-        void IDisposable.Dispose()
+        internal void FireEnd()
         {
             if (Ended != null)
             {

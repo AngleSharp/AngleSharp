@@ -78,25 +78,22 @@
         internal async static Task<HtmlDocument> LoadAsync(IBrowsingContext context, IResponse response, TextSource source, CancellationToken cancelToken)
         {
             var document = new HtmlDocument(context, source);
+            var evt = new HtmlParseStartEvent(document);
+            var config = context.Configuration;
+            var events = config.Events;
+            var parser = new HtmlDomBuilder(document);
+            document.ContentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html);
+            document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
+            document.DocumentUri = response.Address.Href;
+            document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
+            document.ReadyState = DocumentReadyState.Loading;
 
-            using (var evt = new HtmlParseStartEvent(document))
-            {
-                var config = context.Configuration;
-                var events = config.Events;
-                var parser = new HtmlDomBuilder(document);
-                document.ContentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html);
-                document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
-                document.DocumentUri = response.Address.Href;
-                document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
-                document.ReadyState = DocumentReadyState.Loading;
+            if (events != null)
+                events.Publish(evt);
 
-                if (events != null)
-                    events.Publish(evt);
-
-                var options = new HtmlParserOptions { IsScripting = config.IsScripting() };
-                await parser.ParseAsync(options, cancelToken).ConfigureAwait(false);
-            }
-
+            var options = new HtmlParserOptions { IsScripting = config.IsScripting() };
+            await parser.ParseAsync(options, cancelToken).ConfigureAwait(false);
+            evt.FireEnd();
             return document;
         }
     }

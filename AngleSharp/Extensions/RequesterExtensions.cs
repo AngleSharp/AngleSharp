@@ -36,13 +36,14 @@
             {
                 if (requester.SupportsProtocol(request.Address.Scheme))
                 {
-                    using (var evt = new RequestStartEvent(requester, request))
-                    {
-                        if (events != null)
-                            events.Publish(evt);
+                    var evt = new RequestStartEvent(requester, request);
 
-                        return await requester.RequestAsync(request, cancel).ConfigureAwait(false);
-                    }
+                    if (events != null)
+                        events.Publish(evt);
+
+                    var result = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
+                    evt.FireEnd();
+                    return result;
                 }
             }
 

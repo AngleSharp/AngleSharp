@@ -6,7 +6,7 @@
     /// <summary>
     /// The event that is published in case of starting HTML parsing.
     /// </summary>
-    public class HtmlParseStartEvent : IDisposable
+    public class HtmlParseStartEvent
     {
         /// <summary>
         /// Action called once the parsing ended.
@@ -31,7 +31,7 @@
             private set;
         }
 
-        void IDisposable.Dispose()
+        internal void FireEnd()
         {
             if (Ended != null)
             {

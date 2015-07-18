@@ -148,16 +148,14 @@
 
         CssStyleSheet Parse(CssParser parser, CssStyleSheet sheet, TextSource source)
         {
-            using (var evt = new CssParseStartEvent(sheet))
-            {
-                var events = parser.Config.Events;
+            var evt = new CssParseStartEvent(sheet);
+            var events = parser.Config.Events;
 
-                if (events != null)
-                    events.Publish(evt);
+            if (events != null)
+                events.Publish(evt);
 
-                parser.ParseStylesheet(sheet, source);
-            }
-
+            parser.ParseStylesheet(sheet, source);
+            evt.FireEnd();
             return sheet;
         }
 
