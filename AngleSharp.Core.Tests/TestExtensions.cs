@@ -1,10 +1,14 @@
 ﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Core.Tests.External;
+    using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
     using AngleSharp.Parser.Xml;
+    using AngleSharp.Services.Default;
     using NUnit.Framework;
     using System;
     using System.IO;
@@ -20,6 +24,19 @@
             Assert.IsNull(element.Prefix);
 
             return element.LocalName;
+        }
+
+        public static IConfiguration WithPageRequester(this IConfiguration config)
+        {
+            var service = new LoaderService(PageRequester.All);
+            return config.With(service);
+        }
+
+        public static IConfiguration WithMockRequester(this IConfiguration config, Action<IRequest> onRequest = null)
+        {
+            var mockRequester = new MockRequester();
+            mockRequester.OnRequest = onRequest;
+            return config.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { mockRequester });
         }
 
         public static IDocument ToHtmlDocument(this String sourceCode, IConfiguration configuration = null)
