@@ -9,6 +9,7 @@
     using AngleSharp.Parser.Html;
     using AngleSharp.Parser.Xml;
     using AngleSharp.Services.Default;
+    using AngleSharp.Services.Scripting;
     using NUnit.Framework;
     using System;
     using System.IO;
@@ -24,6 +25,13 @@
             Assert.IsNull(element.Prefix);
 
             return element.LocalName;
+        }
+
+        public static IConfiguration WithScripts<T>(this IConfiguration config, T scripting)
+            where T : IScriptEngine
+        {
+            var service = new MockScriptService<T>(scripting);
+            return config.With(service);
         }
 
         public static IConfiguration WithPageRequester(this IConfiguration config)
