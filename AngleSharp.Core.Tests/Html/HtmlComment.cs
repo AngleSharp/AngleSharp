@@ -515,5 +515,13 @@ namespace AngleSharp.Core.Tests
                 Assert.Fail("The parsing resulted in a stackoverflow.");
             }
         }
+
+        [Test]
+        public void CommentInHtmlCausesException()
+        {
+            var source = "<!DOCTYPE html><body><!---------------------GA--------------------------- --></body></html>";
+            var doc = Html(source);
+            Assert.IsNotNull(doc);
+        }
     }
 }
