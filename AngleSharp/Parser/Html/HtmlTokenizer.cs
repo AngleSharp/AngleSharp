@@ -795,7 +795,7 @@
             switch (c)
             {
                 case Symbols.Minus:
-                    return CommentDashStart(GetNext());
+                    return CommentDashStart(GetNext()) ?? Comment(GetNext());
                 case Symbols.Null:
                     RaiseErrorOccurred(HtmlParseError.Null);
                     _stringBuffer.Append(Symbols.Replacement);
