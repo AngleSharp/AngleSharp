@@ -4,7 +4,6 @@
     using System;
     using System.IO;
 
-
     /// <summary>
     /// Represents a binary large object.
     /// http://dev.w3.org/2006/webapi/FileAPI/#dfn-Blob

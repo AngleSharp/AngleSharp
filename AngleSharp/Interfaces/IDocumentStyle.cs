@@ -7,6 +7,7 @@
     /// Extends the document with further properties for styling.
     /// </summary>
     [DomName("DocumentStyle")]
+    [DomNoInterfaceObject]
     public interface IDocumentStyle
     {
         /// <summary>

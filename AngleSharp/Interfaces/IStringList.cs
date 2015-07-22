@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a string list.
     /// </summary>
-    [DomName("StringList")]
+    [DomName("DOMStringList")]
     public interface IStringList : IEnumerable<String>
     {
         /// <summary>

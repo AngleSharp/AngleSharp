@@ -6,6 +6,7 @@
     /// A set of useful methods for retrieving style information.
     /// </summary>
     [DomName("GetStyleUtils")]
+    [DomNoInterfaceObject]
     public interface IStyleUtilities
     {
         /// <summary>

@@ -8,6 +8,7 @@
     /// pseudo-elements.
     /// </summary>
     [DomName("PseudoElement")]
+    [DomNoInterfaceObject]
     public interface IPseudoElement : IStyleUtilities
     {
     }

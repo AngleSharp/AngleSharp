@@ -7,6 +7,7 @@
     /// Represents any at (grouping) CSS rule.
     /// </summary>
     [DomName("CSSGroupingRule")]
+    [DomNoInterfaceObject]
     public interface ICssGroupingRule : ICssRule
     {
         /// <summary>
