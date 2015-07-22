@@ -10,10 +10,9 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// For more details: See the W3C Recommendation
+    /// Represents the Tree construction as specified in the official W3C
+    /// specification for XML:
     /// http://www.w3.org/TR/REC-xml/
-    /// and a little bit about XML parser (XHTML context)
-    /// http://www.w3.org/html/wg/drafts/html/master/the-xhtml-syntax.html#xml-parser.
     /// </summary>
     [DebuggerStepThrough]
     sealed class XmlDomBuilder
@@ -24,6 +23,7 @@
         readonly Document _document;
         readonly List<Element> _openElements;
 
+        XmlParserOptions _options;
         XmlTreeMode _currentMode;
         Boolean _standalone;
 
@@ -32,9 +32,9 @@
         #region ctor
 
         /// <summary>
-        /// Creates a new instance of the XML parser with the specified document.
+        /// Creates a new instance of the XML parser.
         /// </summary>
-        /// <param name="document">The document instance to be constructed.</param>
+        /// <param name="document">The document instance to be filled.</param>
         internal XmlDomBuilder(Document document)
         {
             _tokenizer = new XmlTokenizer(document.Source, document.Options.Events);
@@ -51,7 +51,7 @@
         /// <summary>
         /// Gets the current node.
         /// </summary>
-        Node CurrentNode
+        public Node CurrentNode
         {
             get
             {
@@ -75,6 +75,7 @@
         {
             var source = _document.Source;
             var token = default(XmlToken);
+            _options = options;
 
             do
             {
@@ -151,7 +152,7 @@
                 if (!tok.IsEncodingMissing)
                     SetEncoding(tok.Encoding);
 
-                if (!CheckVersion(tok.Version))
+                if (!CheckVersion(tok.Version) && _options.IsSuppressingErrors == false)
                     throw XmlParseError.XmlDeclarationVersionUnsupported.At(token.Position);
             }
             else
@@ -220,7 +221,7 @@
                 }
                 default:
                 {
-                    if (!token.IsIgnorable)
+                    if (!token.IsIgnorable && _options.IsSuppressingErrors == false)
                         throw XmlParseError.XmlMissingRoot.At(token.Position);
 
                     break;
@@ -257,7 +258,12 @@
                     var tok = (XmlTagToken)token;
 
                     if (CurrentNode.NodeName != tok.Name)
+                    {
+                        if (_options.IsSuppressingErrors)
+                            break;
+
                         throw XmlParseError.TagClosingMismatch.At(token.Position);
+                    }
 
                     _openElements.RemoveAt(_openElements.Count - 1);
 
@@ -293,14 +299,23 @@
                 }
                 case XmlTokenType.EndOfFile:
                 {
+                    if (_options.IsSuppressingErrors)
+                        break;
+
                     throw XmlParseError.EOF.At(token.Position);
                 }
                 case XmlTokenType.Doctype:
                 {
+                    if (_options.IsSuppressingErrors)
+                        break;
+
                     throw XmlParseError.XmlDoctypeAfterContent.At(token.Position);
                 }
                 case XmlTokenType.Declaration:
                 {
+                    if (_options.IsSuppressingErrors)
+                        break;
+
                     throw XmlParseError.XmlDeclarationMisplaced.At(token.Position);
                 }
             }
@@ -326,7 +341,7 @@
                 }
                 default:
                 {
-                    if (!token.IsIgnorable)
+                    if (!token.IsIgnorable && _options.IsSuppressingErrors == false)
                         throw XmlParseError.XmlMissingRoot.At(token.Position);
 
                     break;
