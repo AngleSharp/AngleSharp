@@ -6,10 +6,12 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     /// <summary>
     /// A wrapper around an element to extend the DOM.
     /// </summary>
+    [DebuggerStepThrough]
     abstract class PseudoElement : IElement, IPseudoElement
     {
         #region Factory

@@ -1,10 +1,12 @@
 ﻿namespace AngleSharp.Dom
 {
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// Represents a notation node.
     /// </summary>
+    [DebuggerStepThrough]
     sealed class Notation : Node
     {
         #region ctor

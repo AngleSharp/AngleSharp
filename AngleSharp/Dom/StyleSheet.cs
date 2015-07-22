@@ -5,10 +5,12 @@
     using AngleSharp.Dom.Css;
     using AngleSharp.Html;
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// Represent a stylesheet object.
     /// </summary>
+    [DebuggerStepThrough]
     abstract class StyleSheet : IStyleSheet
     {
         #region Fields

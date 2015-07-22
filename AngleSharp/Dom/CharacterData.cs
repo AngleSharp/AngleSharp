@@ -2,10 +2,12 @@
 {
     using AngleSharp.Extensions;
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// The base class for all characterdata implementations.
     /// </summary>
+    [DebuggerStepThrough]
     abstract class CharacterData : Node, ICharacterData
     {
         #region Fields

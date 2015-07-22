@@ -3,11 +3,13 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// A collection of CSS elements.
     /// </summary>
+    [DebuggerStepThrough]
     sealed class StyleSheetList : IStyleSheetList
     {
         #region Fields

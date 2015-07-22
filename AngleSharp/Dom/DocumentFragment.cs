@@ -5,11 +5,13 @@
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Html;
     using System;
+    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// Represents a document fragment.
     /// </summary>
+    [DebuggerStepThrough]
     sealed class DocumentFragment : Node, IDocumentFragment
     {
         #region ctor

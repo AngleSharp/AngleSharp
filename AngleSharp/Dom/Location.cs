@@ -1,10 +1,12 @@
 ﻿namespace AngleSharp.Dom
 {
     using System;
+    using System.Diagnostics;
 
     /// <summary>
     /// A location object with information about a Url.
     /// </summary>
+    [DebuggerStepThrough]
     sealed class Location : ILocation
     {
         #region Fields
