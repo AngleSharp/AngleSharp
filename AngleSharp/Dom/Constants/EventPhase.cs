@@ -5,6 +5,7 @@
     /// <summary>
     /// Represents the different phases of an event.
     /// </summary>
+    [DomName("Event")]
     public enum EventPhase : ushort
     {
         /// <summary>

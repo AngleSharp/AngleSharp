@@ -5,6 +5,7 @@
     /// <summary>
     /// An enumeration over all possible keyboard locations.
     /// </summary>
+    [DomName("KeyboardEvent")]
     public enum KeyboardLocation
     {
         /// <summary>

@@ -5,6 +5,7 @@
     /// <summary>
     /// A collection of official DOM error codes.
     /// </summary>
+    [DomName("DOMError")]
     public enum DomError : ushort
     {
         /// <summary>

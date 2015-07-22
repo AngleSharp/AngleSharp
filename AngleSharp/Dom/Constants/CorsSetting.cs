@@ -12,16 +12,14 @@
         /// </summary>
         None,
         /// <summary>
-        /// Cross-origin CORS requests for the element will have the
-        /// omit credentials flag set. 
+        /// Cross-origin CORS requests for the element will have the omit 
+        /// credentials flag set. 
         /// </summary>
-        [DomName("anonymous")]
         Anonymous,
         /// <summary>
-        /// Cross-origin CORS requests for the element will not have
-        /// the omit credentials flag set
+        /// Cross-origin CORS requests for the element will not have the omit 
+        /// credentials flag set
         /// </summary>
-        [DomName("use-credentials")]
         UseCredentials
     }
 }

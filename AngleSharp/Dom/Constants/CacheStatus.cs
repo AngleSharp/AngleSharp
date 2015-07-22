@@ -5,6 +5,7 @@
     /// <summary>
     /// An enumeration over all possible cache states.
     /// </summary>
+    [DomName("ApplicationCache")]
     public enum CacheStatus : ushort
     {
         /// <summary>

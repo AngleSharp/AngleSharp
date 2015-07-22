@@ -5,6 +5,7 @@
     /// <summary>
     /// Enumeration with the various media error codes.
     /// </summary>
+    [DomName("MediaError")]
     public enum MediaErrorCode : ushort
     {
         /// <summary>

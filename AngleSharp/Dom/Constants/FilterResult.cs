@@ -5,6 +5,7 @@
     /// <summary>
     /// An enumeration that contains the valid results of examining a node.
     /// </summary>
+    [DomName("NodeFilter")]
     public enum FilterResult : ushort
     {
         /// <summary>

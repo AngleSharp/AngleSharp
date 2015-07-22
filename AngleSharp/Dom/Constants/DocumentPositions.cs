@@ -7,6 +7,7 @@
     /// Enumeration of possible document position values.
     /// </summary>
     [Flags]
+    [DomName("Document")]
     public enum DocumentPositions : ushort
     {
         /// <summary>

@@ -5,6 +5,7 @@
     /// <summary>
     /// An enumeration of media ready states.
     /// </summary>
+    [DomName("HTMLMediaElement")]
     public enum MediaReadyState : ushort
     {
         /// <summary>

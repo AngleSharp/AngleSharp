@@ -5,6 +5,7 @@
     /// <summary>
     /// Enumeration with the various mouse wheel modes.
     /// </summary>
+    [DomName("WheelEvent")]
     public enum WheelMode
     {
         /// <summary>

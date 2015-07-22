@@ -5,6 +5,7 @@
     /// <summary>
     /// The set of possible CSS rules.
     /// </summary>
+    [DomName("CSSRule")]
     public enum CssRuleType : ushort
     {  
         /// <summary>
