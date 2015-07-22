@@ -65,10 +65,9 @@
         #region Properties
 
         /// <summary>
-        /// Gets if the tree builder has been created for
-        /// parsing HTML fragments.
+        /// Gets if the tree builder has been created for parsing fragments.
         /// </summary>
-        Boolean IsFragmentCase
+        public Boolean IsFragmentCase
         {
             get { return _fragmentContext != null; }
         }
@@ -76,7 +75,7 @@
         /// <summary>
         /// Gets the adjusted current node.
         /// </summary>
-        Element AdjustedCurrentNode
+        public Element AdjustedCurrentNode
         {
             get { return (_fragmentContext != null && _openElements.Count == 1) ? _fragmentContext : CurrentNode; }
         }
@@ -84,7 +83,7 @@
         /// <summary>
         /// Gets the current node.
         /// </summary>
-        Element CurrentNode
+        public Element CurrentNode
         {
             get { return _openElements.Count > 0 ? _openElements[_openElements.Count - 1] : null; }
         }
