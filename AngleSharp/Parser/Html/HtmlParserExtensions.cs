@@ -26,7 +26,7 @@
             for (var i = 0; i < attributes.Count; i++)
             {
                 var attribute = attributes[i];
-                element.Attributes.Add(new Attr(element, attribute.Key, attribute.Value));
+                element.Attributes.SetNamedItem(new Attr(element, attribute.Key, attribute.Value));
                 element.AttributeChanged(attribute.Key, null, null, true);
             }
         }

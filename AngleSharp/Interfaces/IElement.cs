@@ -1,4 +1,6 @@
-﻿namespace AngleSharp.Dom
+﻿using AngleSharp.Interfaces;
+
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
@@ -32,7 +34,7 @@
         /// Gets the sequence of associated attributes.
         /// </summary>
         [DomName("attributes")]
-        IEnumerable<IAttr> Attributes { get; }
+        INamedNodeMap Attributes { get; }
 
         /// <summary>
         /// Gets the list of class names.
