@@ -905,5 +905,34 @@ font-weight:bold;}";
             var result = doc.CssText;
             Assert.AreEqual("@media screen and (max-width: 400px) { @-ms-viewport { width: 320px; } }\r\n.dsip { display: block; }", result);
         }
+
+        [Test]
+        public void CssStyleSheetInsertAndDeleteShouldWork()
+        {
+            var parser = new CssParser();
+		    var s = new CssStyleSheet(parser);
+            Assert.AreEqual(0, s.Rules.Length);
+            
+            s.Insert("a {color: blue}", 0);
+            Assert.AreEqual(1, s.Rules.Length);
+            
+            s.Insert("a *:first-child, a img {border: none}", 1);
+            Assert.AreEqual(2, s.Rules.Length);
+
+            s.RemoveAt(1);
+            Assert.AreEqual(1, s.Rules.Length);
+
+            s.RemoveAt(0);
+            Assert.AreEqual(0, s.Rules.Length);
+        }
+
+        [Test]
+        public void CssStyleSheetInsertShouldSetParentStyleSheetCorrectly()
+        {
+            var parser = new CssParser();
+            var s = new CssStyleSheet(parser);
+            s.Insert("a {color: blue}", 0);
+            Assert.AreEqual(s, s.Rules[0].Owner);
+        }
     }
 }
