@@ -28,6 +28,11 @@
         public static readonly String FontFace = "font-face";
 
         /// <summary>
+        /// The @viewport rule.
+        /// </summary>
+        public static readonly String ViewPort = "viewport";
+
+        /// <summary>
         /// The @import rule.
         /// </summary>
         public static readonly String Import = "import";

@@ -59,6 +59,8 @@
                 return CreateKeyframes(token);
             else if (token.Data == RuleNames.Document)
                 return CreateDocument(token);
+            else if (token.Data == RuleNames.ViewPort)
+                return CreateViewport(token);
 
             return CreateUnknown(token);
         }
@@ -118,6 +120,18 @@
             return rule;
         }
 
+        public CssRule CreateViewport(CssToken current)
+        {
+            var token = _tokenizer.Get();
+            var rule = new CssViewportRule(_parser);
+
+            if (token.Type != CssTokenType.CurlyBracketOpen)
+                return SkipDeclarations(token);
+
+            FillDeclarations(rule, CreateViewportProperty);
+            return rule;
+        }
+
         public CssRule CreateFontFace(CssToken current)
         {
             var token = _tokenizer.Get();
@@ -126,7 +140,7 @@
             if (token.Type != CssTokenType.CurlyBracketOpen)
                 return SkipDeclarations(token);
 
-            FillFontFaceDeclarations(rule);
+            FillDeclarations(rule, CreateFontFaceProperty);
             return rule;
         }
 
@@ -628,26 +642,32 @@
             }
         }
 
-        void FillFontFaceDeclarations(CssFontFaceRule rule)
+        void FillDeclarations(CssDeclarationRule rule, Func<String, CssProperty> createProperty)
         {
             var token = _tokenizer.Get();
 
             while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
             {
-                var property = CreateDeclarationWith(CreateProperty, ref token);
+                var property = CreateDeclarationWith(createProperty, ref token);
 
                 if (property != null && property.HasValue)
                     rule.SetProperty(property);
             }
         }
 
-        CssProperty CreateProperty(String propertyName)
+        CssProperty CreateFontFaceProperty(String propertyName)
         {
             if (propertyName.Equals(PropertyNames.Src, StringComparison.OrdinalIgnoreCase))
                 return new CssSrcProperty();
             else if (propertyName.Equals(PropertyNames.UnicodeRange, StringComparison.OrdinalIgnoreCase))
                 return new CssUnicodeRangeProperty();
 
+            return Factory.Properties.Create(propertyName);
+        }
+
+        CssProperty CreateViewportProperty(String propertyName)
+        {
+            //TODO
             return Factory.Properties.Create(propertyName);
         }
 

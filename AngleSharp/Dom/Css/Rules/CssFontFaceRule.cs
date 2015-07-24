@@ -3,37 +3,20 @@
     using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
-    using System.Linq;
 
     /// <summary>
     /// Represents the @font-face rule.
     /// </summary>
-	sealed class CssFontFaceRule : CssRule, ICssFontFaceRule
+    sealed class CssFontFaceRule : CssDeclarationRule, ICssFontFaceRule
     {
-        #region Fields
-
-        readonly CssProperty[] _declarations;
-
-        #endregion
-
         #region ctor
 
         /// <summary>
         /// Creates a new @font-face rule.
         /// </summary>
         internal CssFontFaceRule(CssParser parser)
-            : base(CssRuleType.FontFace, parser)
+            : base(CssRuleType.FontFace, RuleNames.FontFace, parser)
         {
-            _declarations = new CssProperty[]
-            {
-                new CssFontFamilyProperty(),
-                new CssSrcProperty(),
-                new CssFontStyleProperty(),
-                new CssFontWeightProperty(),
-                new CssFontStretchProperty(),
-                new CssUnicodeRangeProperty(),
-                new CssFontVariantProperty()
-            };
         }
 
         #endregion
@@ -110,70 +93,6 @@
         {
             get { return String.Empty; }
             set { }
-        }
-
-        #endregion
-
-        #region Internal methods
-
-        internal void SetProperty(CssProperty property)
-        {
-            for (int i = 0; i < _declarations.Length; i++)
-            {
-                if (_declarations[i].Name == property.Name)
-                {
-                    _declarations[i] = property;
-                    break;
-                }
-            }
-        }
-
-        protected override void ReplaceWith(ICssRule rule)
-        {
-            var newRule = (CssFontFaceRule)rule;
-
-            for (int i = 0; i < _declarations.Length; i++)
-            {
-                _declarations[i] = newRule._declarations[i];
-            }
-        }
-
-        #endregion
-
-        #region String representation
-
-        public override String ToCss(IStyleFormatter formatter)
-        {
-            var rules = formatter.Block(_declarations.Where(m => m.HasValue));
-            return formatter.Rule("@font-face", null, rules);
-        }
-
-        #endregion
-
-        #region Helpers
-
-        String GetValue(String propertyName)
-        {
-            foreach (var declaration in _declarations)
-            {
-                if (declaration.HasValue && declaration.Name == propertyName)
-                    return declaration.Value;
-            }
-
-            return String.Empty;
-        }
-
-        void SetValue(String propertyName, String valueText)
-        {
-            foreach (var declaration in _declarations)
-            {
-                if (declaration.Name == propertyName)
-                {
-                    var value = Parser.ParseValue(valueText);
-                    declaration.TrySetValue(value);
-                    break;
-                }
-            }
         }
 
         #endregion

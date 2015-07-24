@@ -123,7 +123,9 @@
     <Compile Include="Dom\Css\Properties\Font\CssSrcProperty.cs" />
     <Compile Include="Dom\Css\Properties\Sizing\CssObjectFitProperty.cs" />
     <Compile Include="Dom\Css\Properties\Sizing\CssObjectPositionProperty.cs" />
+    <Compile Include="Dom\Css\Rules\CssDeclarationRule.cs" />
     <Compile Include="Dom\Css\Rules\CssUnknownRule.cs" />
+    <Compile Include="Dom\Css\Rules\CssViewportRule.cs" />
     <Compile Include="Dom\Css\Selector\KeyframeSelector.cs" />
     <Compile Include="Css\Values\PerspectiveTransform.cs" />
     <Compile Include="Css\Values\RotateTransform.cs" />
