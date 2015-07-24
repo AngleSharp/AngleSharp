@@ -1160,6 +1160,9 @@
     <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSConditionRule.cs">
       <Link>Dom\Css\Rules\CSSConditionRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CssDeclarationRule.cs">
+      <Link>Dom\Css\Rules\CssDeclarationRule.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSDocumentRule.cs">
       <Link>Dom\Css\Rules\CSSDocumentRule.cs</Link>
     </Compile>
@@ -1201,6 +1204,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Rules\CSSUnknownRule.cs">
       <Link>Dom\Css\Rules\CSSUnknownRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\Rules\CssViewportRule.cs">
+      <Link>Dom\Css\Rules\CssViewportRule.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Selector\ComplexSelector.cs">
       <Link>Dom\Css\Selector\ComplexSelector.cs</Link>
