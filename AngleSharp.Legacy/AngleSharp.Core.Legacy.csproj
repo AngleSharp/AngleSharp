@@ -962,6 +962,9 @@
     <Compile Include="..\AngleSharp\Dom\Css\Properties\CSSEmptyCellsProperty.cs">
       <Link>Dom\Css\Properties\CSSEmptyCellsProperty.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\Properties\CssFeatureProperty.cs">
+      <Link>Dom\Css\Properties\CssFeatureProperty.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Properties\CSSOrphansProperty.cs">
       <Link>Dom\Css\Properties\CSSOrphansProperty.cs</Link>
     </Compile>
