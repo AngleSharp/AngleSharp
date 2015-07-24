@@ -73,6 +73,7 @@
       <DependentUpon>Assets.resx</DependentUpon>
     </Compile>
     <Compile Include="Css\CssConstructionFunctions.cs" />
+    <Compile Include="Css\CssImportRule.cs" />
     <Compile Include="Css\CssObjectSizing.cs" />
     <Compile Include="Css\CssProperty.cs" />
     <Compile Include="Css\CssFontProperty.cs" />
