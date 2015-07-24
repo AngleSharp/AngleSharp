@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
+    using AngleSharp.Extensions;
     using System;
 
     sealed class ColorMediaFeature : MediaFeature
@@ -17,8 +18,12 @@
 
         internal override IValueConverter Converter
         {
-            // Default: 1
-            get { return Converters.PositiveIntegerConverter; }
+            get 
+            {
+                return IsMinimum || IsMaximum ? 
+                    Converters.PositiveIntegerConverter : 
+                    Converters.PositiveIntegerConverter.Option(1);
+            }
         }
 
         #endregion

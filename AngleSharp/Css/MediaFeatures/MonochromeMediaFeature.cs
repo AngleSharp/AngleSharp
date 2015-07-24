@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css.MediaFeatures
 {
+    using AngleSharp.Extensions;
     using System;
 
     sealed class MonochromeMediaFeature : MediaFeature
@@ -17,8 +18,12 @@
 
         internal override IValueConverter Converter
         {
-            // Default: 0
-            get { return Converters.NaturalIntegerConverter; }
+            get
+            {
+                return IsMinimum || IsMaximum ?
+                    Converters.NaturalIntegerConverter :
+                    Converters.NaturalIntegerConverter.Option(1);
+            }
         }
 
         #endregion
