@@ -1,10 +1,11 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using AngleSharp.Extensions;
-    using AngleSharp.Parser.Css;
+    using System.Linq;
 
     /// <summary>
     /// Represents a CSS value.
@@ -16,6 +17,7 @@
         readonly List<CssToken> _tokens;
 
         public static CssValue Initial = CssValue.FromString(Keywords.Initial);
+        public static CssValue Empty = new CssValue(Enumerable.Empty<CssToken>());
 
         #endregion
 

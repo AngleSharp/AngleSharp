@@ -41,26 +41,26 @@
         /// </summary>
         public CssRule CreateAtRule(CssToken token)
         {
-            if (token.Data == RuleNames.Charset)
-                return CreateCharset(token);
-            else if (token.Data == RuleNames.Page)
-                return CreatePage(token);
-            else if (token.Data == RuleNames.Import)
-                return CreateImport(token);
+            if (token.Data == RuleNames.Media)
+                return CreateMedia(token);
             else if (token.Data == RuleNames.FontFace)
                 return CreateFontFace(token);
-            else if (token.Data == RuleNames.Media)
-                return CreateMedia(token);
-            else if (token.Data == RuleNames.Namespace)
-                return CreateNamespace(token);
-            else if (token.Data == RuleNames.Supports)
-                return CreateSupports(token);
             else if (token.Data == RuleNames.Keyframes)
                 return CreateKeyframes(token);
-            else if (token.Data == RuleNames.Document)
-                return CreateDocument(token);
+            else if (token.Data == RuleNames.Import)
+                return CreateImport(token);
+            else if (token.Data == RuleNames.Charset)
+                return CreateCharset(token);
+            else if (token.Data == RuleNames.Namespace)
+                return CreateNamespace(token);
+            else if (token.Data == RuleNames.Page)
+                return CreatePage(token);
+            else if (token.Data == RuleNames.Supports)
+                return CreateSupports(token);
             else if (token.Data == RuleNames.ViewPort)
                 return CreateViewport(token);
+            else if (token.Data == RuleNames.Document)
+                return CreateDocument(token);
 
             return CreateUnknown(token);
         }
@@ -153,9 +153,7 @@
             {
                 rule.Href = token.Data;
                 token = _tokenizer.Get();
-
-                if (token.Type != CssTokenType.Semicolon)
-                    FillMediaList(rule.Media, ref token);
+                FillMediaList(rule.Media, CssTokenType.Semicolon, ref token);
             }
 
             _tokenizer.JumpToNextSemicolon();
@@ -179,10 +177,20 @@
         {
             var token = _tokenizer.Get();
             var rule = new CssMediaRule(_parser);
-            FillMediaList(rule.Media, ref token);
+            FillMediaList(rule.Media, CssTokenType.CurlyBracketOpen, ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
-                return SkipDeclarations(token);
+            {
+                while (token.Type != CssTokenType.Eof)
+                {
+                    if (token.Type == CssTokenType.Semicolon)
+                        return null;
+                    else if (token.Type == CssTokenType.CurlyBracketOpen)
+                        break;
+
+                    token = _tokenizer.Get();
+                }
+            }
 
             FillRules(rule);
             return rule;
@@ -749,46 +757,33 @@
         /// <summary>
         /// Before any medium has been found for the @media or @import rule.
         /// </summary>
-        void FillMediaList(MediaList list, ref CssToken token)
+        void FillMediaList(MediaList list, CssTokenType end, ref CssToken token)
         {
-            if (token.Type != CssTokenType.CurlyBracketOpen)
+            if (token.Type == end)
+                return;
+
+            while (token.Type != CssTokenType.Eof)
             {
-                while (token.Type != CssTokenType.Eof)
-                {
-                    var medium = CreateMedium(ref token);
+                var medium = CreateMedium(ref token);
 
-                    if (medium != null)
-                        list.Add(medium);
+                if (medium != null)
+                    list.Add(medium);
 
-                    if (token.Type != CssTokenType.Comma)
-                        break;
+                if (token.Type != CssTokenType.Comma)
+                    break;
 
-                    token = _tokenizer.Get();
-                }
-
-                if (token.Type != CssTokenType.CurlyBracketOpen)
-                {
-                    do
-                    {
-                        if (token.Type == CssTokenType.Eof || token.Type == CssTokenType.Semicolon)
-                            break;
-
-                        token = _tokenizer.Get();
-                    }
-                    while (token.Type != CssTokenType.CurlyBracketOpen);
-
-                    list.Clear();
-                }
-
-                if (list.Length == 0)
-                {
-                    list.Add(new CssMedium
-                    {
-                        IsInverse = true,
-                        Type = Keywords.All
-                    });
-                }
+                token = _tokenizer.Get();
             }
+
+            if (token.Type == end && list.Length > 0)
+                return;
+
+            list.Clear();
+            list.Add(new CssMedium
+            {
+                IsInverse = true,
+                Type = Keywords.All
+            });
         }
 
         /// <summary>
@@ -815,6 +810,10 @@
 
             var value = Pool.NewValueBuilder();
             var featureName = token.Data;
+            var val = CssValue.Empty;
+            var feature = _parser.Options.IsToleratingInvalidConstraints ?
+                new UnknownMediaFeature(featureName) : Factory.MediaFeatures.Create(featureName);
+
             token = _tokenizer.Get();
 
             if (token.Type == CssTokenType.Colon)
@@ -833,18 +832,18 @@
 
                 _tokenizer.State = CssParseMode.Data;
 
-                var val = value.ToPool();
-                var feature = _parser.Options.IsToleratingInvalidConstraints ? 
-                    new UnknownMediaFeature(featureName) : Factory.MediaFeatures.Create(featureName);
+                val = value.ToPool();
+            }
+            else if (token.Type == CssTokenType.Eof)
+                return false;
 
-                if (feature == null || !feature.TrySetValue(val))
-                    return false;
-
+            if (feature != null && feature.TrySetValue(val))
+            {
                 medium.AddConstraint(feature);
                 return true;
             }
 
-            return token.Type != CssTokenType.Eof;
+            return false;
         }
 
         #endregion

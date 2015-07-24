@@ -73,7 +73,15 @@
         /// </summary>
         public String Value
         {
-            get { return _value != null ? _value.CssText : String.Empty; }
+            get { return HasValue ? _value.CssText : String.Empty; }
+        }
+
+        /// <summary>
+        /// Gets if a value has been set for this feature.
+        /// </summary>
+        public Boolean HasValue
+        {
+            get { return _value != null && _value.Count > 0; }
         }
 
         #endregion
@@ -123,7 +131,7 @@
         /// <returns>The source code snippet.</returns>
         public String ToCss(IStyleFormatter formatter)
         {
-            return formatter.Constraint(_name, _value != null ? _value.CssText : null);
+            return formatter.Constraint(_name, HasValue ? Value : null);
         }
 
         #endregion
