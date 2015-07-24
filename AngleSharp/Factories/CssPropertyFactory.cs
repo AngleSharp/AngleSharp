@@ -22,6 +22,7 @@
 
         readonly Dictionary<String, LonghandCreator> longhands = new Dictionary<String, LonghandCreator>(StringComparer.OrdinalIgnoreCase);
         readonly Dictionary<String, ShorthandCreator> shorthands = new Dictionary<String, ShorthandCreator>(StringComparer.OrdinalIgnoreCase);
+        readonly Dictionary<String, LonghandCreator> fonts = new Dictionary<String, LonghandCreator>(StringComparer.OrdinalIgnoreCase);
         readonly Dictionary<String, String[]> mappings = new Dictionary<String, String[]>();
         readonly List<String> animatables = new List<String>();
 
@@ -197,13 +198,13 @@
                 PropertyNames.FontVariant,
                 PropertyNames.FontWeight,
                 PropertyNames.LineHeight);
-            AddLonghand(PropertyNames.FontFamily, () => new CssFontFamilyProperty(), animatable: false);
+            AddLonghand(PropertyNames.FontFamily, () => new CssFontFamilyProperty(), animatable: false, font: true);
             AddLonghand(PropertyNames.FontSize, () => new CssFontSizeProperty(), animatable: true);
             AddLonghand(PropertyNames.FontSizeAdjust, () => new CssFontSizeAdjustProperty(), animatable: true);
-            AddLonghand(PropertyNames.FontStyle, () => new CssFontStyleProperty(), animatable: false);
+            AddLonghand(PropertyNames.FontStyle, () => new CssFontStyleProperty(), animatable: false, font: true);
             AddLonghand(PropertyNames.FontVariant, () => new CssFontVariantProperty(), animatable: false);
-            AddLonghand(PropertyNames.FontWeight, () => new CssFontWeightProperty(), animatable: true);
-            AddLonghand(PropertyNames.FontStretch, () => new CssFontStretchProperty(), animatable: true);
+            AddLonghand(PropertyNames.FontWeight, () => new CssFontWeightProperty(), animatable: true, font: true);
+            AddLonghand(PropertyNames.FontStretch, () => new CssFontStretchProperty(), animatable: true, font: true);
             AddLonghand(PropertyNames.LineHeight, () => new CssLineHeightProperty(), animatable: true);
 
             AddLonghand(PropertyNames.Height, () => new CssHeightProperty(), animatable: true);
@@ -302,6 +303,9 @@
             AddLonghand(PropertyNames.ZIndex, () => new CssZIndexProperty(), animatable: true);
             AddLonghand(PropertyNames.ObjectFit, () => new CssObjectFitProperty(), animatable: false);
             AddLonghand(PropertyNames.ObjectPosition, () => new CssObjectPositionProperty(), animatable: true);
+
+            fonts.Add(PropertyNames.Src, () => new CssSrcProperty());
+            fonts.Add(PropertyNames.UnicodeRange, () => new CssUnicodeRangeProperty());
         }
 
         void AddShorthand(String name, ShorthandCreator creator, params String[] longhands)
@@ -310,12 +314,15 @@
             mappings.Add(name, longhands);
         }
 
-        void AddLonghand(String name, LonghandCreator creator, Boolean animatable = false)
+        void AddLonghand(String name, LonghandCreator creator, Boolean animatable = false, Boolean font = false)
         {
             longhands.Add(name, creator);
 
             if (animatable)
                 animatables.Add(name);
+
+            if (font)
+                fonts.Add(name, creator);
         }
 
         #endregion
@@ -330,6 +337,32 @@
         public CssProperty Create(String name)
         {
             return CreateLonghand(name) ?? CreateShorthand(name);
+        }
+
+        /// <summary>
+        /// Creates a new property for @font-face.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <returns>The created property.</returns>
+        public CssProperty CreateFont(String name)
+        {
+            LonghandCreator propertyCreator;
+
+            if (fonts.TryGetValue(name, out propertyCreator))
+                return propertyCreator();
+
+            return null;
+        }
+
+        /// <summary>
+        /// Creates a new property for @viewport.
+        /// </summary>
+        /// <param name="name">The name of the property.</param>
+        /// <returns>The created property.</returns>
+        public CssProperty CreateViewport(String name)
+        {
+            var feature = Factory.MediaFeatures.Create(name);
+            return feature != null ? new CssFeatureProperty(feature) : null;
         }
 
         /// <summary>

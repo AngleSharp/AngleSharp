@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
+    using System;
 
     /// <summary>
     /// Represents an unknown property that takes every value.

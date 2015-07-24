@@ -128,7 +128,7 @@
             if (token.Type != CssTokenType.CurlyBracketOpen)
                 return SkipDeclarations(token);
 
-            FillDeclarations(rule, CreateViewportProperty);
+            FillDeclarations(rule, Factory.Properties.CreateViewport);
             return rule;
         }
 
@@ -140,7 +140,7 @@
             if (token.Type != CssTokenType.CurlyBracketOpen)
                 return SkipDeclarations(token);
 
-            FillDeclarations(rule, CreateFontFaceProperty);
+            FillDeclarations(rule, Factory.Properties.CreateFont);
             return rule;
         }
 
@@ -653,22 +653,6 @@
                 if (property != null && property.HasValue)
                     rule.SetProperty(property);
             }
-        }
-
-        CssProperty CreateFontFaceProperty(String propertyName)
-        {
-            if (propertyName.Equals(PropertyNames.Src, StringComparison.OrdinalIgnoreCase))
-                return new CssSrcProperty();
-            else if (propertyName.Equals(PropertyNames.UnicodeRange, StringComparison.OrdinalIgnoreCase))
-                return new CssUnicodeRangeProperty();
-
-            return Factory.Properties.Create(propertyName);
-        }
-
-        CssProperty CreateViewportProperty(String propertyName)
-        {
-            //TODO
-            return Factory.Properties.Create(propertyName);
         }
 
         /// <summary>

@@ -116,6 +116,7 @@
     <Compile Include="Css\ValueConverters\RequiredValueConverter.cs" />
     <Compile Include="Dom\Css\Constants\ScriptingState.cs" />
     <Compile Include="Dom\Css\Constants\UpdateFrequency.cs" />
+    <Compile Include="Dom\Css\Properties\CssFeatureProperty.cs" />
     <Compile Include="Dom\Css\Properties\CssShorthandProperty.cs" />
     <Compile Include="Dom\Css\Properties\CssUnknownProperty.cs" />
     <Compile Include="Dom\Css\Properties\Font\CssFontSizeAdjustProperty.cs" />
