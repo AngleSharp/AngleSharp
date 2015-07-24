@@ -1,7 +1,10 @@
 ﻿namespace AngleSharp.Core.Tests.Css
 {
+    using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
     using NUnit.Framework;
+    using System;
 
     [TestFixture]
     public class CssMediaListTests : CssConstructionFunctions
@@ -370,6 +373,26 @@ h1 { color: green }";
             var list = media.Media;
             Assert.AreEqual(1, list.Length);
             Assert.AreEqual(1, media.Rules.Length);
+        }
+
+        [Test]
+        public void CssMediaListApiWithAppendDeleteAndTextShouldWork()
+        {
+            var media = new [] { "handheld", "screen", "only screen and (max-device-width: 480px)" };
+            var p = new CssParser();
+		    var m = new MediaList(p);
+            Assert.AreEqual(0, m.Length);
+
+		    m.Add(media[0]);
+		    m.Add(media[1]);
+		    m.Add(media[2]);
+
+		    m.Remove(media[1]);
+
+            Assert.AreEqual(2, m.Length);
+            Assert.AreEqual(media[0], m[0]);
+            Assert.AreEqual(media[2], m[1]);
+            Assert.AreEqual(String.Concat(media[0], ", ", media[2]), m.MediaText);
         }
     }
 }
