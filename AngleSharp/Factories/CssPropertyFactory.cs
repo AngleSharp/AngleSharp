@@ -202,7 +202,7 @@
             AddLonghand(PropertyNames.FontSize, () => new CssFontSizeProperty(), animatable: true);
             AddLonghand(PropertyNames.FontSizeAdjust, () => new CssFontSizeAdjustProperty(), animatable: true);
             AddLonghand(PropertyNames.FontStyle, () => new CssFontStyleProperty(), animatable: false, font: true);
-            AddLonghand(PropertyNames.FontVariant, () => new CssFontVariantProperty(), animatable: false);
+            AddLonghand(PropertyNames.FontVariant, () => new CssFontVariantProperty(), animatable: false, font: true);
             AddLonghand(PropertyNames.FontWeight, () => new CssFontWeightProperty(), animatable: true, font: true);
             AddLonghand(PropertyNames.FontStretch, () => new CssFontStretchProperty(), animatable: true, font: true);
             AddLonghand(PropertyNames.LineHeight, () => new CssLineHeightProperty(), animatable: true);
