@@ -499,7 +499,7 @@
             if (_namespace == Namespaces.HtmlUri)
                 name = name.ToLowerInvariant();
 
-            return _attributes.Has(name);
+            return _attributes.GetNamedItem(name) != null;
         }
 
         /// <summary>
@@ -516,7 +516,7 @@
             if (String.IsNullOrEmpty(namespaceUri))
                 namespaceUri = null;
 
-            return _attributes.Has(namespaceUri, localName);
+            return _attributes.GetNamedItem(namespaceUri, localName) != null;
         }
 
         /// <summary>
