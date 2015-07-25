@@ -5,7 +5,7 @@
     /// <summary>
     /// Contains an enumeration of various node types.
     /// </summary>
-    [DomName("document")]
+    [DomName("Document")]
     public enum NodeType : ushort
     {
         /// <summary>
