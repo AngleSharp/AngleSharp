@@ -5,7 +5,7 @@
     /// <summary>
     /// An enumeration of possible network states.
     /// </summary>
-    [DomName("HTMLMediaElement ")]
+    [DomName("HTMLMediaElement")]
     public enum MediaNetworkState : ushort
     {
         /// <summary>
