@@ -1,12 +1,9 @@
-﻿using System.Linq;
-using AngleSharp.Interfaces;
-
-namespace AngleSharp.Extensions
+﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
 
     /// <summary>
     /// Extensions for the list of attributes.

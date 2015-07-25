@@ -1,10 +1,7 @@
-﻿using AngleSharp.Interfaces;
-
-namespace AngleSharp.Dom
+﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// The Element interface represents an object within a DOM document. 

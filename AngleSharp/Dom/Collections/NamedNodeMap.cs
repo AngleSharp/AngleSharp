@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using AngleSharp.Interfaces;
-
-namespace AngleSharp.Dom.Collections
+﻿namespace AngleSharp.Dom.Collections
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+
     /// <summary>
     /// NamedNodeNap is a key/value pair of nodes that can be accessed by numeric or string index
     /// </summary>
@@ -13,32 +12,45 @@ namespace AngleSharp.Dom.Collections
     {
         #region Fields
         
-        private readonly List<IAttr> _items = new List<IAttr>();
+        readonly List<IAttr> _items;
+
+        #endregion
+
+        #region ctor
+
+        public NamedNodeMap()
+        {
+            _items = new List<IAttr>();
+        }
 
         #endregion
 
         #region Index
 
-        public IAttr this[string name]
+        public IAttr this[String name]
         {
             get { return _items.FirstOrDefault(i => i.Name == name); }
         }
 
-        public IAttr this[int index]
+        public IAttr this[Int32 index]
         {
             get { return _items.ElementAtOrDefault(index); }
         }
 
         #endregion
 
-        public int Length
+        #region Properties
+
+        public Int32 Length
         {
             get { return _items.Count; }
         }
 
+        #endregion
+
         #region Methods
 
-        public IAttr GetNamedItem(string name)
+        public IAttr GetNamedItem(String name)
         {
             return this[name];
         }
@@ -49,7 +61,7 @@ namespace AngleSharp.Dom.Collections
             _items.Add(item);
         }
 
-        public void RemoveNamedItem(string name)
+        public void RemoveNamedItem(String name)
         {
             _items.RemoveAll(i => i.Name == name);
         }
@@ -64,7 +76,7 @@ namespace AngleSharp.Dom.Collections
             return _items.GetEnumerator();
         }
 
-        public IAttr GetNamedItemNS(string namespaceUri, string localName)
+        public IAttr GetNamedItemNS(String namespaceUri, String localName)
         {
             return _items.FirstOrDefault(attribute => attribute.NamespaceUri == namespaceUri && attribute.LocalName == localName);
         }
@@ -75,7 +87,7 @@ namespace AngleSharp.Dom.Collections
             _items.Add(item);
         }
 
-        public void RemoveNamedItemNS(string namespaceUri, string localName)
+        public void RemoveNamedItemNS(String namespaceUri, String localName)
         {
             _items.RemoveAll(i => i.NamespaceUri == namespaceUri && i.LocalName == localName);
         }

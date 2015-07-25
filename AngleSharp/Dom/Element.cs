@@ -1,6 +1,4 @@
-﻿using AngleSharp.Interfaces;
-
-namespace AngleSharp.Dom
+﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
