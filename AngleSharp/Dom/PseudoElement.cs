@@ -1,4 +1,6 @@
-﻿namespace AngleSharp.Dom
+﻿using AngleSharp.Interfaces;
+
+namespace AngleSharp.Dom
 {
     using AngleSharp.Css;
     using AngleSharp.Dom.Css;
@@ -93,7 +95,7 @@
             get { return _host.NamespaceUri; }
         }
 
-        public IEnumerable<IAttr> Attributes
+        public INamedNodeMap Attributes
         {
             get { return _host.Attributes; }
         }

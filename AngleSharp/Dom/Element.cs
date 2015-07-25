@@ -1,4 +1,6 @@
-﻿namespace AngleSharp.Dom
+﻿using AngleSharp.Interfaces;
+
+namespace AngleSharp.Dom
 {
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
@@ -20,7 +22,7 @@
     {
         #region Fields
 
-        readonly List<IAttr> _attributes;
+        readonly NamedNodeMap _attributes;
         readonly Dictionary<String, Action<String>> _attributeHandlers;
         readonly String _namespace;
         readonly String _prefix;
@@ -58,7 +60,7 @@
             _localName = localName;
             _prefix = prefix;
             _namespace = namespaceUri;
-            _attributes = new List<IAttr>();
+            _attributes = new NamedNodeMap();
             _attributeHandlers = new Dictionary<String, Action<String>>();
         }
 
@@ -319,7 +321,7 @@
         /// <summary>
         /// Gets the sequence of associated attributes.
         /// </summary>
-        IEnumerable<IAttr> IElement.Attributes
+        INamedNodeMap IElement.Attributes
         {
             get { return _attributes; }
         }
@@ -327,7 +329,7 @@
         /// <summary>
         /// Gets the associated attribute container.
         /// </summary>
-        internal List<IAttr> Attributes
+        internal INamedNodeMap Attributes
         {
             get { return _attributes; }
         }
@@ -534,13 +536,13 @@
             if (_namespace == Namespaces.HtmlUri)
                 name = name.ToLower();
 
-            var attr = _attributes.Get(name);
+            var attr = _attributes.GetNamedItem(name);
             return attr != null ? attr.Value : null;
         }
 
         protected String GetOwnAttribute(String name)
         {
-            var attr = _attributes.Get(null, name);
+            var attr = _attributes.GetNamedItemNS(null, name);
             return attr != null ? attr.Value : null;
         }
 
@@ -562,7 +564,7 @@
             if (String.IsNullOrEmpty(namespaceUri))
                 namespaceUri = null;
 
-            var attr = _attributes.Get(namespaceUri, localName);
+            var attr = _attributes.GetNamedItemNS(namespaceUri, localName);
             return attr != null ? attr.Value : null;
         }
 
@@ -582,16 +584,16 @@
                 if (_namespace == Namespaces.HtmlUri)
                     name = name.ToLowerInvariant();
 
-                for (int i = 0; i < _attributes.Count; i++)
-                {
-                    if (_attributes[i].Prefix == null && _attributes[i].LocalName == name)
+                foreach(var attribute in _attributes)
+                { 
+                    if (attribute.Prefix == null && attribute.LocalName == name)
                     {
-                        _attributes[i].Value = value;
+                        attribute.Value = value;
                         return;
                     }
                 }
 
-                _attributes.Add(new Attr(this, name, value));
+                _attributes.SetNamedItem(new Attr(this, name, value));
                 AttributeChanged(name, null, null);
             }
             else
@@ -600,16 +602,16 @@
 
         protected void SetOwnAttribute(String name, String value)
         {
-            for (int i = 0; i < _attributes.Count; i++)
+            foreach (var attribute in _attributes)
             {
-                if (_attributes[i].LocalName == name && _attributes[i].NamespaceUri == null)
+                if (attribute.LocalName == name && attribute.NamespaceUri == null)
                 {
-                    _attributes[i].Value = value;
+                    attribute.Value = value;
                     return;
                 }
             }
 
-            _attributes.Add(new Attr(this, null, name, value, null));
+            _attributes.SetNamedItem(new Attr(this, null, name, value, null));
             AttributeChanged(name, null, null);
         }
 
@@ -648,16 +650,16 @@
                 else if (namespaceUri == Namespaces.XmlNsUri && name != Namespaces.XmlNsPrefix && prefix != Namespaces.XmlNsPrefix)
                     throw new DomException(DomError.Namespace);
 
-                for (int i = 0; i < _attributes.Count; i++)
+                foreach (var attribute in _attributes)
                 {
-                    if (_attributes[i].LocalName == localName && _attributes[i].NamespaceUri == namespaceUri)
+                    if (attribute.LocalName == localName && attribute.NamespaceUri == namespaceUri)
                     {
-                        _attributes[i].Value = value;
+                        attribute.Value = value;
                         return;
                     }
                 }
 
-                _attributes.Add(new Attr(this, prefix, localName, value, namespaceUri));
+                _attributes.SetNamedItem(new Attr(this, prefix, localName, value, namespaceUri));
                 AttributeChanged(localName, namespaceUri, null);
             }
             else
@@ -676,13 +678,12 @@
             if (_namespace == Namespaces.HtmlUri)
                 name = name.ToLower();
 
-            for (int i = 0; i < _attributes.Count; i++)
+            foreach (var attribute in _attributes)
             {
-                if (_attributes[i].Prefix == null && _attributes[i].LocalName == name)
+                if (attribute.Prefix == null && attribute.LocalName == name)
                 {
-                    var attr = _attributes[i];
-                    _attributes.RemoveAt(i);
-                    AttributeChanged(attr.LocalName, attr.NamespaceUri, attr.Value);
+                    _attributes.RemoveNamedItem(attribute.Name);
+                    AttributeChanged(attribute.LocalName, attribute.NamespaceUri, attribute.Value);
                     return;
                 }
             }
@@ -703,13 +704,12 @@
             if (String.IsNullOrEmpty(namespaceUri))
                 namespaceUri = null;
 
-            for (int i = 0; i < _attributes.Count; i++)
+            foreach (var attribute in _attributes)
             {
-                if (_attributes[i].LocalName == localName && _attributes[i].NamespaceUri == namespaceUri)
+                if (attribute.LocalName == localName && attribute.NamespaceUri == namespaceUri)
                 {
-                    var attr = _attributes[i];
-                    _attributes.RemoveAt(i);
-                    AttributeChanged(attr.LocalName, attr.NamespaceUri, attr.Value);
+                    _attributes.RemoveNamedItemNS(attribute.NamespaceUri, attribute.LocalName);
+                    AttributeChanged(attribute.LocalName, attribute.NamespaceUri, attribute.Value);
                     return;
                 }
             }
@@ -742,12 +742,12 @@
                 if (this.NamespaceUri != otherElement.NamespaceUri)
                     return false;
 
-                if (_attributes.Count != otherElement.Attributes.Count())
+                if (_attributes.Length != otherElement.Attributes.Length)
                     return false;
 
-                for (int i = 0; i < _attributes.Count; i++)
+                foreach(var attribute in _attributes)
                 {
-                    if (!otherElement.Attributes.Any(m => m.Name == _attributes[i].Name && m.Value == _attributes[i].Value))
+                    if (!otherElement.Attributes.Any(m => m.Name == attribute.Name && m.Value == attribute.Value))
                         return false;
                 }
 
@@ -918,7 +918,7 @@
 
             if (namespaceUri == null && _attributeHandlers.TryGetValue(localName, out handler))
             {
-                var attr = _attributes.Get(null, localName);
+                var attr = _attributes.GetNamedItemNS(null, localName);
                 handler(attr != null ? attr.Value : null);
             }
 
@@ -966,8 +966,10 @@
         /// </param>
         protected static void CopyAttributes(Element source, Element target)
         {
-            for (int i = 0; i < source._attributes.Count; i++)
-                target._attributes.Add(new Attr(target, source._attributes[i].Name, source._attributes[i].Value));
+            foreach (var attribute in source._attributes)
+            {
+                target._attributes.SetNamedItem(new Attr(target, attribute.Name, attribute.Value));
+            }
         }
 
         /// <summary>

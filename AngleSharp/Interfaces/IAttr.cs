@@ -1,4 +1,6 @@
-﻿namespace AngleSharp.Dom
+﻿using AngleSharp.Interfaces;
+
+namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
     using System;
