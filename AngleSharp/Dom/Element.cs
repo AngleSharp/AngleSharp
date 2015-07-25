@@ -540,7 +540,7 @@
 
         protected String GetOwnAttribute(String name)
         {
-            var attr = _attributes.GetNamedItemNS(null, name);
+            var attr = _attributes.GetNamedItem(null, name);
             return attr != null ? attr.Value : null;
         }
 
@@ -562,7 +562,7 @@
             if (String.IsNullOrEmpty(namespaceUri))
                 namespaceUri = null;
 
-            var attr = _attributes.GetNamedItemNS(namespaceUri, localName);
+            var attr = _attributes.GetNamedItem(namespaceUri, localName);
             return attr != null ? attr.Value : null;
         }
 
@@ -706,7 +706,7 @@
             {
                 if (attribute.LocalName == localName && attribute.NamespaceUri == namespaceUri)
                 {
-                    _attributes.RemoveNamedItemNS(attribute.NamespaceUri, attribute.LocalName);
+                    _attributes.RemoveNamedItem(attribute.NamespaceUri, attribute.LocalName);
                     AttributeChanged(attribute.LocalName, attribute.NamespaceUri, attribute.Value);
                     return;
                 }
@@ -916,7 +916,7 @@
 
             if (namespaceUri == null && _attributeHandlers.TryGetValue(localName, out handler))
             {
-                var attr = _attributes.GetNamedItemNS(null, localName);
+                var attr = _attributes.GetNamedItem(null, localName);
                 handler(attr != null ? attr.Value : null);
             }
 

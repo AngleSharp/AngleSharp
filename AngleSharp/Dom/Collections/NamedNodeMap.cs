@@ -76,18 +76,18 @@
             return _items.GetEnumerator();
         }
 
-        public IAttr GetNamedItemNS(String namespaceUri, String localName)
+        public IAttr GetNamedItem(String namespaceUri, String localName)
         {
             return _items.FirstOrDefault(attribute => attribute.NamespaceUri == namespaceUri && attribute.LocalName == localName);
         }
 
-        public void SetNamedItemNS(IAttr item)
+        public void SetNamedItemWithNamespaceUri(IAttr item)
         {
-            RemoveNamedItemNS(item.NamespaceUri, item.LocalName);
+            RemoveNamedItem(item.NamespaceUri, item.LocalName);
             _items.Add(item);
         }
 
-        public void RemoveNamedItemNS(String namespaceUri, String localName)
+        public void RemoveNamedItem(String namespaceUri, String localName)
         {
             _items.RemoveAll(i => i.NamespaceUri == namespaceUri && i.LocalName == localName);
         }
