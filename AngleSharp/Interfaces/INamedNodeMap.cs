@@ -7,6 +7,7 @@
     /// <summary>
     /// NamedNodeNap is a key/value pair of nodes that can be accessed by
     /// numeric or string index.
+    /// https://dom.spec.whatwg.org/#interface-namednodemap
     /// </summary>
 	[DomName("NamedNodeMap")]
     public interface INamedNodeMap : IEnumerable<IAttr>
@@ -39,6 +40,7 @@
         /// Gets a named item in the NamedNodeMap.
         /// </summary>
         /// <param name="name">The name of the item to get.</param>
+        /// <returns>The attribute with the given name.</returns>
         [DomName("getNamedItem")]
         IAttr GetNamedItem(String name);
 
@@ -46,15 +48,17 @@
         /// Sets a named item in the NamedNodeMap.
         /// </summary>
         /// <param name="item">The named item to set.</param>
+        /// <returns>The replaced attribute, if any.</returns>
         [DomName("setNamedItem")]
-        void SetNamedItem(IAttr item);
+        IAttr SetNamedItem(IAttr item);
 
         /// <summary>
         /// Removes a named item from the NamedNodeMap
         /// </summary>
         /// <param name="name">The named item to remove.</param>
+        /// <returns>The removed attribute.</returns>
         [DomName("removeNamedItem")]
-        void RemoveNamedItem(String name);
+        IAttr RemoveNamedItem(String name);
 
         /// <summary>
         /// Gets a named item in the NamedNodeMap identified by namespace and
@@ -62,6 +66,7 @@
         /// </summary>
         /// <param name="namespaceUri">The namespace of the item.</param>
         /// <param name="localName">The local name of the item.</param>
+        /// <returns>The attribute with the namespaceUri and name.</returns>
         [DomName("getNamedItemNS")]
         IAttr GetNamedItem(String namespaceUri, String localName);
 
@@ -69,15 +74,17 @@
         /// Sets a named item in the NamedNodeMap.
         /// </summary>
         /// <param name="item">The named item to set.</param>
+        /// <returns>The replaced attribute, if any.</returns>
         [DomName("setNamedItemNS")]
-        void SetNamedItemWithNamespaceUri(IAttr item);
+        IAttr SetNamedItemWithNamespaceUri(IAttr item);
 
         /// <summary>
         /// Removes a named item from the NamedNodeMap.
         /// </summary>
         /// <param name="namespaceUri">The namespace of the item.</param>
         /// <param name="localName">The local name of the item.</param>
+        /// <returns>The removed attribute.</returns>
         [DomName("removeNamedItemNS")]
-        void RemoveNamedItem(String namespaceUri, String localName);
+        IAttr RemoveNamedItem(String namespaceUri, String localName);
     }
 }

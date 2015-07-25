@@ -110,7 +110,9 @@
             { 
                 var oldValue = _value;
                 _value = value; 
-                _container.AttributeChanged(_localName, _namespace, oldValue); 
+
+                if (_container != null)
+                    _container.AttributeChanged(_localName, _namespace, oldValue); 
             }
         }
 
