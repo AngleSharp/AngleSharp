@@ -348,7 +348,7 @@
             Assert.AreEqual("3", psbt.TextContent);
 
             var s = body.ChildNodes[1] as Element;
-            Assert.AreEqual("A", s.Attributes.Get("id").Value);
+            Assert.AreEqual("A", s.Attributes.GetNamedItem("id").Value);
             Assert.AreEqual(NodeType.Element, s.NodeType);
             Assert.AreEqual(1, s.ChildNodes.Length);
 
@@ -577,7 +577,7 @@
             Assert.AreEqual(1, dochtml0body1form0label1input1.Attributes.Length);
             Assert.AreEqual("input", dochtml0body1form0label1input1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1form0label1input1.NodeType);
-            Assert.AreEqual("isindex", dochtml0body1form0label1input1.Attributes.Get("name").Value);
+            Assert.AreEqual("isindex", dochtml0body1form0label1input1.Attributes.GetNamedItem("name").Value);
 
             var dochtml0body1form0hr2 = dochtml0body1form0.ChildNodes[2] as Element; ;
             Assert.AreEqual(0, dochtml0body1form0hr2.ChildNodes.Length);
@@ -614,7 +614,7 @@
             Assert.AreEqual(1, dochtml0body1form0.Attributes.Length);
             Assert.AreEqual("form", dochtml0body1form0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1form0.NodeType);
-            Assert.AreEqual("B", dochtml0body1form0.Attributes.Get("action").Value);
+            Assert.AreEqual("B", dochtml0body1form0.Attributes.GetNamedItem("action").Value);
 
             var dochtml0body1form0hr0 = dochtml0body1form0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1form0hr0.ChildNodes.Length);
@@ -637,8 +637,8 @@
             Assert.AreEqual(2, dochtml0body1form0label1input1.Attributes.Length);
             Assert.AreEqual("input", dochtml0body1form0label1input1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1form0label1input1.NodeType);
-            Assert.AreEqual("D", dochtml0body1form0label1input1.Attributes.Get("foo").Value);
-            Assert.AreEqual("isindex", dochtml0body1form0label1input1.Attributes.Get("name").Value);
+            Assert.AreEqual("D", dochtml0body1form0label1input1.Attributes.GetNamedItem("foo").Value);
+            Assert.AreEqual("isindex", dochtml0body1form0label1input1.Attributes.GetNamedItem("name").Value);
 
             var dochtml0body1form0hr2 = dochtml0body1form0.ChildNodes[2] as Element; ;
             Assert.AreEqual(0, dochtml0body1form0hr2.ChildNodes.Length);
@@ -883,7 +883,7 @@ console.log(""PASS"");
             Assert.AreEqual(1, dochtml0body1div0.Attributes.Length);
             Assert.AreEqual("div", dochtml0body1div0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
-            Assert.AreEqual("bar", dochtml0body1div0.Attributes.Get("foo").Value);
+            Assert.AreEqual("bar", dochtml0body1div0.Attributes.GetNamedItem("foo").Value);
 
             var dochtml0body1div0Text0 = dochtml0body1div0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1div0Text0.NodeType);
@@ -980,14 +980,14 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(1, dochtml0body1foo0.Attributes.Length);
             Assert.AreEqual("foo", dochtml0body1foo0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1foo0.NodeType);
-            Assert.AreEqual("baz", dochtml0body1foo0.Attributes.Get("bar").Value);
+            Assert.AreEqual("baz", dochtml0body1foo0.Attributes.GetNamedItem("bar").Value);
 
             var dochtml0body1potato1 = dochtml0body1.ChildNodes[1] as Element;
             Assert.AreEqual(0, dochtml0body1potato1.ChildNodes.Length);
             Assert.AreEqual(1, dochtml0body1potato1.Attributes.Length);
             Assert.AreEqual("potato", dochtml0body1potato1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1potato1.NodeType);
-            Assert.AreEqual("duck", dochtml0body1potato1.Attributes.Get("quack").Value);
+            Assert.AreEqual("duck", dochtml0body1potato1.Attributes.GetNamedItem("quack").Value);
         }
 
         [Test]
@@ -1018,14 +1018,14 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(1, dochtml0body1foo0.Attributes.Length);
             Assert.AreEqual("foo", dochtml0body1foo0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1foo0.NodeType);
-            Assert.AreEqual("baz", dochtml0body1foo0.Attributes.Get("bar").Value);
+            Assert.AreEqual("baz", dochtml0body1foo0.Attributes.GetNamedItem("bar").Value);
 
             var dochtml0body1foo0potato0 = dochtml0body1foo0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1foo0potato0.ChildNodes.Length);
             Assert.AreEqual(1, dochtml0body1foo0potato0.Attributes.Length);
             Assert.AreEqual("potato", dochtml0body1foo0potato0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1foo0potato0.NodeType);
-            Assert.AreEqual("duck", dochtml0body1foo0potato0.Attributes.Get("quack").Value);
+            Assert.AreEqual("duck", dochtml0body1foo0potato0.Attributes.GetNamedItem("quack").Value);
         }
 
         [Test]
@@ -1120,7 +1120,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(1, dochtml0body1div0.Attributes.Length);
             Assert.AreEqual("div", dochtml0body1div0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1div0.NodeType);
-            Assert.AreEqual("", dochtml0body1div0.Attributes.Get("foo").Value);
+            Assert.AreEqual("", dochtml0body1div0.Attributes.GetNamedItem("foo").Value);
 
             var dochtml0body1div0img0 = dochtml0body1div0.ChildNodes[0] as Element;
             Assert.AreEqual(0, dochtml0body1div0img0.ChildNodes.Length);
@@ -1286,8 +1286,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(2, dochtml0body1.Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
-            Assert.AreEqual("bar", dochtml0body1.Attributes.Get("foo").Value);
-            Assert.AreEqual("mama", dochtml0body1.Attributes.Get("yo").Value);
+            Assert.AreEqual("bar", dochtml0body1.Attributes.GetNamedItem("foo").Value);
+            Assert.AreEqual("mama", dochtml0body1.Attributes.GetNamedItem("yo").Value);
         }
 
         [Test]
@@ -1354,7 +1354,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(1, dochtml0body1bdy0br0.Attributes.Length);
             Assert.AreEqual("br", dochtml0body1bdy0br0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1bdy0br0.NodeType);
-            Assert.AreEqual("bar", dochtml0body1bdy0br0.Attributes.Get("foo").Value);
+            Assert.AreEqual("bar", dochtml0body1bdy0br0.Attributes.GetNamedItem("foo").Value);
         }
 
         [Test]
@@ -1421,7 +1421,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(1, dochtml0body1bdy0br0.Attributes.Length);
             Assert.AreEqual("br", dochtml0body1bdy0br0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1bdy0br0.NodeType);
-            Assert.AreEqual("bar", dochtml0body1bdy0br0.Attributes.Get("foo").Value);
+            Assert.AreEqual("bar", dochtml0body1bdy0br0.Attributes.GetNamedItem("foo").Value);
         }
 
         [Test]
@@ -2556,7 +2556,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(1, dochtml0body1ul0li0div0.Attributes.Length);
             Assert.AreEqual("div", dochtml0body1ul0li0div0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ul0li0div0.NodeType);
-            Assert.AreEqual("foo", dochtml0body1ul0li0div0.Attributes.Get("id").Value);
+            Assert.AreEqual("foo", dochtml0body1ul0li0div0.Attributes.GetNamedItem("id").Value);
 
             var dochtml0body1ul0li0div0Text0 = dochtml0body1ul0li0div0.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1ul0li0div0Text0.NodeType);
@@ -2791,7 +2791,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(1, dochtml1body1input0.Attributes.Length);
             Assert.AreEqual("input", dochtml1body1input0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml1body1input0.NodeType);
-            Assert.AreEqual("button", dochtml1body1input0.Attributes.Get("type").Value);
+            Assert.AreEqual("button", dochtml1body1input0.Attributes.GetNamedItem("type").Value);
         }
 
         [Test]
@@ -2822,7 +2822,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(1, dochtml0body1foo0.Attributes.Length);
             Assert.AreEqual("foo", dochtml0body1foo0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1foo0.NodeType);
-            Assert.AreEqual("qux/", dochtml0body1foo0.Attributes.Get("bar").Value);
+            Assert.AreEqual("qux/", dochtml0body1foo0.Attributes.GetNamedItem("bar").Value);
         }
 
         [Test]
@@ -2856,7 +2856,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(1, dochtml0body1p0.Attributes.Length);
             Assert.AreEqual("p", dochtml0body1p0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1p0.NodeType);
-            Assert.AreEqual("status", dochtml0body1p0.Attributes.Get("id").Value);
+            Assert.AreEqual("status", dochtml0body1p0.Attributes.GetNamedItem("id").Value);
 
             var dochtml0body1p0noscript0 = dochtml0body1p0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1p0noscript0.ChildNodes.Length);
@@ -2908,7 +2908,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(1, dochtml0body1p0.Attributes.Length);
             Assert.AreEqual("p", dochtml0body1p0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1p0.NodeType);
-            Assert.AreEqual("status", dochtml0body1p0.Attributes.Get("id").Value);
+            Assert.AreEqual("status", dochtml0body1p0.Attributes.GetNamedItem("id").Value);
 
             var dochtml0body1p0noscript0 = dochtml0body1p0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml0body1p0noscript0.ChildNodes.Length);
@@ -3244,9 +3244,9 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(1, dochtml1body1a0.Attributes.Length);
             Assert.AreEqual("a", dochtml1body1a0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml1body1a0.NodeType);
-            Assert.IsNotNull(dochtml1body1a0.Attributes.Get("href"));
-            Assert.AreEqual("href", dochtml1body1a0.Attributes.Get("href").Name);
-            Assert.AreEqual("#1", dochtml1body1a0.Attributes.Get("href").Value);
+            Assert.IsNotNull(dochtml1body1a0.Attributes.GetNamedItem("href"));
+            Assert.AreEqual("href", dochtml1body1a0.Attributes.GetNamedItem("href").Name);
+            Assert.AreEqual("#1", dochtml1body1a0.Attributes.GetNamedItem("href").Value);
 
             var dochtml1body1a0nobr0 = dochtml1body1a0.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml1body1a0nobr0.ChildNodes.Length);
@@ -3281,18 +3281,18 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(1, dochtml1body1nobr1a1.Attributes.Length);
             Assert.AreEqual("a", dochtml1body1nobr1a1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml1body1nobr1a1.NodeType);
-            Assert.IsNotNull(dochtml1body1nobr1a1.Attributes.Get("href"));
-            Assert.AreEqual("href", dochtml1body1nobr1a1.Attributes.Get("href").Name);
-            Assert.AreEqual("#2", dochtml1body1nobr1a1.Attributes.Get("href").Value);
+            Assert.IsNotNull(dochtml1body1nobr1a1.Attributes.GetNamedItem("href"));
+            Assert.AreEqual("href", dochtml1body1nobr1a1.Attributes.GetNamedItem("href").Name);
+            Assert.AreEqual("#2", dochtml1body1nobr1a1.Attributes.GetNamedItem("href").Value);
 
             var dochtml1body1a2 = dochtml1body1.ChildNodes[2] as Element; ;
             Assert.AreEqual(2, dochtml1body1a2.ChildNodes.Length);
             Assert.AreEqual(1, dochtml1body1a2.Attributes.Length);
             Assert.AreEqual("a", dochtml1body1a2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml1body1a2.NodeType);
-            Assert.IsNotNull(dochtml1body1a2.Attributes.Get("href"));
-            Assert.AreEqual("href", dochtml1body1a2.Attributes.Get("href").Name);
-            Assert.AreEqual("#2", dochtml1body1a2.Attributes.Get("href").Value);
+            Assert.IsNotNull(dochtml1body1a2.Attributes.GetNamedItem("href"));
+            Assert.AreEqual("href", dochtml1body1a2.Attributes.GetNamedItem("href").Name);
+            Assert.AreEqual("#2", dochtml1body1a2.Attributes.GetNamedItem("href").Value);
 
             var dochtml1body1a2nobr0 = dochtml1body1a2.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml1body1a2nobr0.ChildNodes.Length);
@@ -3327,18 +3327,18 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(1, dochtml1body1nobr3a1.Attributes.Length);
             Assert.AreEqual("a", dochtml1body1nobr3a1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml1body1nobr3a1.NodeType);
-            Assert.IsNotNull(dochtml1body1nobr3a1.Attributes.Get("href"));
-            Assert.AreEqual("href", dochtml1body1nobr3a1.Attributes.Get("href").Name);
-            Assert.AreEqual("#3", dochtml1body1nobr3a1.Attributes.Get("href").Value);
+            Assert.IsNotNull(dochtml1body1nobr3a1.Attributes.GetNamedItem("href"));
+            Assert.AreEqual("href", dochtml1body1nobr3a1.Attributes.GetNamedItem("href").Name);
+            Assert.AreEqual("#3", dochtml1body1nobr3a1.Attributes.GetNamedItem("href").Value);
 
             var dochtml1body1a4 = dochtml1body1.ChildNodes[4] as Element;
             Assert.AreEqual(2, dochtml1body1a4.ChildNodes.Length);
             Assert.AreEqual(1, dochtml1body1a4.Attributes.Length);
             Assert.AreEqual("a", dochtml1body1a4.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml1body1a4.NodeType);
-            Assert.IsNotNull(dochtml1body1a4.Attributes.Get("href"));
-            Assert.AreEqual("href", dochtml1body1a4.Attributes.Get("href").Name);
-            Assert.AreEqual("#3", dochtml1body1a4.Attributes.Get("href").Value);
+            Assert.IsNotNull(dochtml1body1a4.Attributes.GetNamedItem("href"));
+            Assert.AreEqual("href", dochtml1body1a4.Attributes.GetNamedItem("href").Name);
+            Assert.AreEqual("#3", dochtml1body1a4.Attributes.GetNamedItem("href").Value);
 
             var dochtml1body1a4nobr0 = dochtml1body1a4.ChildNodes[0] as Element;
             Assert.AreEqual(1, dochtml1body1a4nobr0.ChildNodes.Length);
@@ -4136,24 +4136,24 @@ console.log(""FOO<span>BAR</span>BAZ"");
             Assert.AreEqual(2, dochtml0body1p0code0.Attributes.Length);
             Assert.AreEqual("code", dochtml0body1p0code0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1p0code0.NodeType);
-            Assert.IsNotNull(dochtml0body1p0code0.Attributes.Get("code"));
-            Assert.AreEqual("code", dochtml0body1p0code0.Attributes.Get("code").Name);
-            Assert.AreEqual("", dochtml0body1p0code0.Attributes.Get("code").Value);
-            Assert.IsNotNull(dochtml0body1p0code0.Attributes.Get("x<"));
-            Assert.AreEqual("x<", dochtml0body1p0code0.Attributes.Get("x<").Name);
-            Assert.AreEqual("", dochtml0body1p0code0.Attributes.Get("x<").Value);
+            Assert.IsNotNull(dochtml0body1p0code0.Attributes.GetNamedItem("code"));
+            Assert.AreEqual("code", dochtml0body1p0code0.Attributes.GetNamedItem("code").Name);
+            Assert.AreEqual("", dochtml0body1p0code0.Attributes.GetNamedItem("code").Value);
+            Assert.IsNotNull(dochtml0body1p0code0.Attributes.GetNamedItem("x<"));
+            Assert.AreEqual("x<", dochtml0body1p0code0.Attributes.GetNamedItem("x<").Name);
+            Assert.AreEqual("", dochtml0body1p0code0.Attributes.GetNamedItem("x<").Value);
 
             var dochtml0body1code1 = dochtml0body1.ChildNodes[1] as Element;
             Assert.AreEqual(1, dochtml0body1code1.ChildNodes.Length);
             Assert.AreEqual(2, dochtml0body1code1.Attributes.Length);
             Assert.AreEqual("code", dochtml0body1code1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1code1.NodeType);
-            Assert.IsNotNull(dochtml0body1code1.Attributes.Get("code"));
-            Assert.AreEqual("code", dochtml0body1code1.Attributes.Get("code").Name);
-            Assert.AreEqual("", dochtml0body1code1.Attributes.Get("code").Value);
-            Assert.IsNotNull(dochtml0body1code1.Attributes.Get("x<"));
-            Assert.AreEqual("x<", dochtml0body1code1.Attributes.Get("x<").Name);
-            Assert.AreEqual("", dochtml0body1code1.Attributes.Get("x<").Value);
+            Assert.IsNotNull(dochtml0body1code1.Attributes.GetNamedItem("code"));
+            Assert.AreEqual("code", dochtml0body1code1.Attributes.GetNamedItem("code").Name);
+            Assert.AreEqual("", dochtml0body1code1.Attributes.GetNamedItem("code").Value);
+            Assert.IsNotNull(dochtml0body1code1.Attributes.GetNamedItem("x<"));
+            Assert.AreEqual("x<", dochtml0body1code1.Attributes.GetNamedItem("x<").Name);
+            Assert.AreEqual("", dochtml0body1code1.Attributes.GetNamedItem("x<").Value);
 
             var dochtml0body1code1Text0 = dochtml0body1code1.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, dochtml0body1code1Text0.NodeType);

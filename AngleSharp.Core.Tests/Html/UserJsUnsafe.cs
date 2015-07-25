@@ -69,7 +69,7 @@ bar]]>");
             Assert.AreEqual(1, dochtmlheadscript.ChildNodes.Length);
             Assert.AreEqual(1, dochtmlheadscript.Attributes.Length);
             Assert.AreEqual(NodeType.Element, dochtmlheadscript.NodeType);
-            Assert.AreEqual("data", dochtmlheadscript.Attributes.Get("type").Value);
+            Assert.AreEqual("data", dochtmlheadscript.Attributes.GetNamedItem("type").Value);
 
             var text = dochtmlheadscript.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, text.NodeType);
@@ -100,7 +100,7 @@ bar]]>");
             Assert.AreEqual(1, dochtmlheadscript.ChildNodes.Length);
             Assert.AreEqual(1, dochtmlheadscript.Attributes.Length);
             Assert.AreEqual(NodeType.Element, dochtmlheadscript.NodeType);
-            Assert.AreEqual("data", dochtmlheadscript.Attributes.Get("type").Value);
+            Assert.AreEqual("data", dochtmlheadscript.Attributes.GetNamedItem("type").Value);
 
             var text = dochtmlheadscript.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, text.NodeType);
@@ -131,7 +131,7 @@ bar]]>");
             Assert.AreEqual(1, dochtmlheadscript.ChildNodes.Length);
             Assert.AreEqual(1, dochtmlheadscript.Attributes.Length);
             Assert.AreEqual(NodeType.Element, dochtmlheadscript.NodeType);
-            Assert.AreEqual("data", dochtmlheadscript.Attributes.Get("type").Value);
+            Assert.AreEqual("data", dochtmlheadscript.Attributes.GetNamedItem("type").Value);
 
             var text = dochtmlheadscript.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, text.NodeType);
@@ -162,7 +162,7 @@ bar]]>");
             Assert.AreEqual(1, dochtmlheadscript.ChildNodes.Length);
             Assert.AreEqual(1, dochtmlheadscript.Attributes.Length);
             Assert.AreEqual(NodeType.Element, dochtmlheadscript.NodeType);
-            Assert.AreEqual("data", dochtmlheadscript.Attributes.Get("type").Value);
+            Assert.AreEqual("data", dochtmlheadscript.Attributes.GetNamedItem("type").Value);
 
             var text = dochtmlheadscript.ChildNodes[0];
             Assert.AreEqual(NodeType.Text, text.NodeType);

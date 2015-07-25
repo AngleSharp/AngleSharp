@@ -45,13 +45,13 @@ namespace AngleSharp.Dom.Collections
 
         public void SetNamedItem(IAttr item)
         {
-            RemoveNamedItem(item);
+            RemoveNamedItem(item.Name);
             _items.Add(item);
         }
 
-        public void RemoveNamedItem(IAttr item)
+        public void RemoveNamedItem(string name)
         {
-            _items.RemoveAll(i => i.Name == item.Name);
+            _items.RemoveAll(i => i.Name == name);
         }
 
         public IEnumerator<IAttr> GetEnumerator()
@@ -64,7 +64,22 @@ namespace AngleSharp.Dom.Collections
             return _items.GetEnumerator();
         }
 
+        public IAttr GetNamedItemNS(string namespaceUri, string localName)
+        {
+            return _items.FirstOrDefault(attribute => attribute.NamespaceUri == namespaceUri && attribute.LocalName == localName);
+        }
 
+        public void SetNamedItemNS(IAttr item)
+        {
+            RemoveNamedItemNS(item.NamespaceUri, item.LocalName);
+            _items.Add(item);
+        }
+
+        public void RemoveNamedItemNS(string namespaceUri, string localName)
+        {
+            _items.RemoveAll(i => i.NamespaceUri == namespaceUri && i.LocalName == localName);
+        }
+        
         #endregion
     }
 }

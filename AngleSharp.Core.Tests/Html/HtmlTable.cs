@@ -154,7 +154,7 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(1, dochtml0body1table0colgroup0col0.Attributes.Length);
             Assert.AreEqual("col", dochtml0body1table0colgroup0col0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1table0colgroup0col0.NodeType);
-            Assert.AreEqual("bar", dochtml0body1table0colgroup0col0.Attributes.Get("foo").Value);
+            Assert.AreEqual("bar", dochtml0body1table0colgroup0col0.Attributes.GetNamedItem("foo").Value);
         }
 
         [Test]

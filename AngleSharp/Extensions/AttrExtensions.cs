@@ -45,35 +45,7 @@ namespace AngleSharp.Extensions
         {
             return attributes.Any(attribute => attribute.NamespaceUri == namespaceUri && attribute.LocalName == localName);
         }
-
-        /// <summary>
-        /// Gets the attribute with the provided name.
-        /// </summary>
-        /// <param name="attributes">The list of attributes.</param>
-        /// <param name="name">The name to get.</param>
-        /// <returns>The attribute with the name or null.</returns>
-        public static IAttr Get(this INamedNodeMap attributes, String name)
-        {
-            return attributes[name];
-        }
-
-        /// <summary>
-        /// Gets the an attribute with the provided local name and namespace
-        /// URI.
-        /// </summary>
-        /// <param name="attributes">The list of attributes.</param>
-        /// <param name="namespaceUri">
-        /// The namespace URI of the attribute.
-        /// </param>
-        /// <param name="localName">The local name to get.</param>
-        /// <returns>
-        /// The attribute with the local name and namespace or null.
-        /// </returns>
-        public static IAttr Get(this INamedNodeMap attributes, String namespaceUri, String localName)
-        {
-            return attributes.FirstOrDefault(attribute => attribute.NamespaceUri == namespaceUri && attribute.LocalName == localName);
-        }
-
+        
         /// <summary>
         /// Compares another attribute container to the current container.
         /// </summary>

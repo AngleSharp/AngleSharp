@@ -107,7 +107,7 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(1, dochtmlbodydiv.Attributes.Length);
             Assert.AreEqual("div", dochtmlbodydiv.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtmlbodydiv.NodeType);
-            Assert.AreEqual("`bar`", dochtmlbodydiv.Attributes.Get("foo").Value);
+            Assert.AreEqual("`bar`", dochtmlbodydiv.Attributes.GetNamedItem("foo").Value);
         }
 
         [Test]
@@ -422,7 +422,7 @@ namespace AngleSharp.Core.Tests
             Assert.AreEqual(1, dochtmlbodytableinput.Attributes.Length);
             Assert.AreEqual("input", dochtmlbodytableinput.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtmlbodytableinput.NodeType);
-            Assert.AreEqual("hidden", dochtmlbodytableinput.Attributes.Get("type").Value);
+            Assert.AreEqual("hidden", dochtmlbodytableinput.Attributes.GetNamedItem("type").Value);
         }
 
         [Test]

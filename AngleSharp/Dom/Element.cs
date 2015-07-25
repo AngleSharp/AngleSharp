@@ -536,13 +536,13 @@ namespace AngleSharp.Dom
             if (_namespace == Namespaces.HtmlUri)
                 name = name.ToLower();
 
-            var attr = _attributes.Get(name);
+            var attr = _attributes.GetNamedItem(name);
             return attr != null ? attr.Value : null;
         }
 
         protected String GetOwnAttribute(String name)
         {
-            var attr = _attributes.Get(null, name);
+            var attr = _attributes.GetNamedItemNS(null, name);
             return attr != null ? attr.Value : null;
         }
 
@@ -564,7 +564,7 @@ namespace AngleSharp.Dom
             if (String.IsNullOrEmpty(namespaceUri))
                 namespaceUri = null;
 
-            var attr = _attributes.Get(namespaceUri, localName);
+            var attr = _attributes.GetNamedItemNS(namespaceUri, localName);
             return attr != null ? attr.Value : null;
         }
 
@@ -682,7 +682,7 @@ namespace AngleSharp.Dom
             {
                 if (attribute.Prefix == null && attribute.LocalName == name)
                 {
-                    _attributes.RemoveNamedItem(attribute);
+                    _attributes.RemoveNamedItem(attribute.Name);
                     AttributeChanged(attribute.LocalName, attribute.NamespaceUri, attribute.Value);
                     return;
                 }
@@ -708,7 +708,7 @@ namespace AngleSharp.Dom
             {
                 if (attribute.LocalName == localName && attribute.NamespaceUri == namespaceUri)
                 {
-                    _attributes.RemoveNamedItem(attribute);
+                    _attributes.RemoveNamedItemNS(attribute.NamespaceUri, attribute.LocalName);
                     AttributeChanged(attribute.LocalName, attribute.NamespaceUri, attribute.Value);
                     return;
                 }
@@ -918,7 +918,7 @@ namespace AngleSharp.Dom
 
             if (namespaceUri == null && _attributeHandlers.TryGetValue(localName, out handler))
             {
-                var attr = _attributes.Get(null, localName);
+                var attr = _attributes.GetNamedItemNS(null, localName);
                 handler(attr != null ? attr.Value : null);
             }
 

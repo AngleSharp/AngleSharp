@@ -52,8 +52,31 @@ namespace AngleSharp.Interfaces
         /// <summary>
         /// Removes a named item from the NamedNodeMap
         /// </summary>
-        /// <param name="item">The named item to remove.</param>
+        /// <param name="name">The named item to remove.</param>
         [DomName("removeNamedItem")]
-        void RemoveNamedItem(IAttr item);
+        void RemoveNamedItem(String name);
+
+        /// <summary>
+        /// Gets a named item in the NamedNodeMap identified by namespace and local name
+        /// </summary>
+        /// <param name="namespaceURI">The namespace of the item.</param>
+        /// <param name="localName">The local name of the item.</param>
+        [DomName("getNamedItemNS")]
+        IAttr GetNamedItemNS(String namespaceURI, string localName);
+
+        /// <summary>
+        /// Sets a named item in the NamedNodeMap
+        /// </summary>
+        /// <param name="item">The named item to set.</param>
+        [DomName("setNamedItemNS")]
+        void SetNamedItemNS(IAttr item);
+
+        /// <summary>
+        /// Removes a named item from the NamedNodeMap
+        /// </summary>
+        /// <param name="namespaceURI">The namespace of the item.</param>
+        /// <param name="localName">The local name of the item.</param>
+        [DomName("removeNamedItemNS")]
+        void RemoveNamedItemNS(String namespaceURI, string localName);
     }
 }
