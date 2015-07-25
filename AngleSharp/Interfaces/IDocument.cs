@@ -242,6 +242,33 @@
         IElement CreateElement(String namespaceUri, String name);
 
         /// <summary>
+        /// Creates an Attr of the given name.
+        /// </summary>
+        /// <param name="name">
+        /// The name of the attribute.
+        /// </param>
+        /// <returns>
+        /// A new Attr object with the nodeName attribute set to name, and
+        /// localName, prefix, and namespaceURI set to null. The value of the
+        /// attribute is the empty string.
+        /// </returns>
+        [DomName("createAttribute")]
+        IAttr CreateAttribute(String name);
+
+        /// <summary>
+        /// Creates an attribute of the given qualified name and namespace URI.
+        /// </summary>
+        /// <param name="namespaceUri">
+        /// The namespace URI of the attribute to create.
+        /// </param>
+        /// <param name="name">
+        /// The qualified name of the attribute to instantiate.
+        /// </param>
+        /// <returns>A new Attr object.</returns>
+        [DomName("createAttributeNS")]
+        IAttr CreateAttribute(String namespaceUri, String name);
+
+        /// <summary>
         /// Creates a ProcessingInstruction node given the specified name and
         /// data strings.
         /// </summary>

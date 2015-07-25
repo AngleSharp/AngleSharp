@@ -1318,24 +1318,10 @@
         /// <returns>The created element.</returns>
         public IElement CreateElement(String namespaceUri, String qualifiedName)
         {
-            if (String.IsNullOrEmpty(namespaceUri))
-                namespaceUri = null;
-
-            if (!qualifiedName.IsXmlName())
-                throw new DomException(DomError.InvalidCharacter);
-            else if (!qualifiedName.IsQualifiedName())
-                throw new DomException(DomError.Namespace);
-
-            var parts = qualifiedName.Split(':');
-            var prefix = parts.Length == 2 ? parts[0] : null;
-            var localName = parts.Length == 2 ? parts[1] : qualifiedName;
-
-            if ((prefix == Namespaces.XmlPrefix && namespaceUri != Namespaces.XmlUri) ||
-                ((qualifiedName == Namespaces.XmlNsPrefix || prefix == Namespaces.XmlNsPrefix) && namespaceUri != Namespaces.XmlNsUri) ||
-                (namespaceUri == Namespaces.XmlNsUri && (qualifiedName != Namespaces.XmlNsPrefix || prefix != Namespaces.XmlNsPrefix)))
-                throw new DomException(DomError.Namespace);
-
+            var localName = default(String);
+            var prefix = default(String);
             var element = default(Element);
+            GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out prefix, out localName);
 
             if (namespaceUri == Namespaces.HtmlUri)
                 element = Factory.HtmlElements.Create(this, localName, prefix);
@@ -1523,6 +1509,35 @@
             return _context.Active == this;
         }
 
+        /// <summary>
+        /// Creates an Attr of the given name.
+        /// </summary>
+        /// <param name="localName">The name of the attribute.</param>
+        /// <returns>A new Attr object.</returns>
+        public IAttr CreateAttribute(String localName)
+        {
+            if (!localName.IsXmlName())
+                throw new DomException(DomError.InvalidCharacter);
+
+            return new Attr(null, localName);
+        }
+
+        /// <summary>
+        /// Creates an attribute of the given qualified name and namespace URI.
+        /// </summary>
+        /// <param name="namespaceUri">
+        /// The namespace URI of the attribute to create.
+        /// </param>
+        /// <param name="qualifiedName">The qualified name of the attribute.</param>
+        /// <returns>A new Attr object.</returns>
+        public IAttr CreateAttribute(String namespaceUri, String qualifiedName)
+        {
+            var localName = default(String);
+            var prefix = default(String);
+            GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out prefix, out localName);
+            return new Attr(null, prefix, localName, String.Empty, namespaceUri);
+        }
+
         #endregion
 
         #region Internal methods
@@ -1683,6 +1698,26 @@
         #endregion
 
         #region Helpers
+
+        static void GetPrefixAndLocalName(String qualifiedName, ref String namespaceUri, out String prefix, out String localName)
+        {
+            if (String.IsNullOrEmpty(namespaceUri))
+                namespaceUri = null;
+
+            if (!qualifiedName.IsXmlName())
+                throw new DomException(DomError.InvalidCharacter);
+            else if (!qualifiedName.IsQualifiedName())
+                throw new DomException(DomError.Namespace);
+
+            var parts = qualifiedName.Split(':');
+            prefix = parts.Length == 2 ? parts[0] : null;
+            localName = parts.Length == 2 ? parts[1] : qualifiedName;
+
+            if ((prefix == Namespaces.XmlPrefix && namespaceUri != Namespaces.XmlUri) ||
+                ((qualifiedName == Namespaces.XmlNsPrefix || prefix == Namespaces.XmlNsPrefix) && namespaceUri != Namespaces.XmlNsUri) ||
+                (namespaceUri == Namespaces.XmlNsUri && (qualifiedName != Namespaces.XmlNsPrefix || prefix != Namespaces.XmlNsPrefix)))
+                throw new DomException(DomError.Namespace);
+        }
 
         static Boolean IsCommand(IElement element)
         {
