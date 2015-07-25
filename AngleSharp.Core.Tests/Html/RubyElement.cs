@@ -23,25 +23,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -51,7 +51,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rb1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rb1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb1).Attributes.Length);
             Assert.AreEqual("rb", dochtml0body1ruby0rb1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb1.NodeType);
 
@@ -61,7 +61,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rb2 = dochtml0body1ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rb2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb2).Attributes.Length);
             Assert.AreEqual("rb", dochtml0body1ruby0rb2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb2.NodeType);
         }
@@ -73,25 +73,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -101,7 +101,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rb1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rb1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb1).Attributes.Length);
             Assert.AreEqual("rb", dochtml0body1ruby0rb1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb1.NodeType);
 
@@ -111,7 +111,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rt2 = dochtml0body1ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rt2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt2).Attributes.Length);
             Assert.AreEqual("rt", dochtml0body1ruby0rt2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rt2.NodeType);
         }
@@ -123,25 +123,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -151,7 +151,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rb1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rb1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb1).Attributes.Length);
             Assert.AreEqual("rb", dochtml0body1ruby0rb1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb1.NodeType);
 
@@ -161,7 +161,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc2 = dochtml0body1ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rtc2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc2).Attributes.Length);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc2.NodeType);
         }
@@ -173,25 +173,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -201,7 +201,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rb1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rb1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb1).Attributes.Length);
             Assert.AreEqual("rb", dochtml0body1ruby0rb1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb1.NodeType);
 
@@ -211,7 +211,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rp2 = dochtml0body1ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rp2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp2).Attributes.Length);
             Assert.AreEqual("rp", dochtml0body1ruby0rp2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp2.NodeType);
         }
@@ -223,25 +223,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(2, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -251,7 +251,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rb1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(2, dochtml0body1ruby0rb1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb1).Attributes.Length);
             Assert.AreEqual("rb", dochtml0body1ruby0rb1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb1.NodeType);
 
@@ -261,7 +261,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rb1span1 = dochtml0body1ruby0rb1.ChildNodes[1];
             Assert.AreEqual(0, dochtml0body1ruby0rb1span1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb1span1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb1span1).Attributes.Length);
             Assert.AreEqual("span", dochtml0body1ruby0rb1span1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb1span1.NodeType);
         }
@@ -273,25 +273,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -301,7 +301,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rt1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rt1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt1).Attributes.Length);
             Assert.AreEqual("rt", dochtml0body1ruby0rt1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rt1.NodeType);
 
@@ -311,7 +311,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rb2 = dochtml0body1ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rb2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb2).Attributes.Length);
             Assert.AreEqual("rb", dochtml0body1ruby0rb2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb2.NodeType);
         }
@@ -323,25 +323,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -351,7 +351,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rt1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rt1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt1).Attributes.Length);
             Assert.AreEqual("rt", dochtml0body1ruby0rt1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rt1.NodeType);
 
@@ -361,7 +361,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rt2 = dochtml0body1ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rt2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt2).Attributes.Length);
             Assert.AreEqual("rt", dochtml0body1ruby0rt2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rt2.NodeType);
         }
@@ -373,25 +373,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -401,7 +401,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rt1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rt1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt1).Attributes.Length);
             Assert.AreEqual("rt", dochtml0body1ruby0rt1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rt1.NodeType);
 
@@ -411,7 +411,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc2 = dochtml0body1ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rtc2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc2).Attributes.Length);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc2.NodeType);
         }
@@ -423,25 +423,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -451,7 +451,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rt1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rt1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt1).Attributes.Length);
             Assert.AreEqual("rt", dochtml0body1ruby0rt1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rt1.NodeType);
 
@@ -461,7 +461,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rp2 = dochtml0body1ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rp2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp2).Attributes.Length);
             Assert.AreEqual("rp", dochtml0body1ruby0rp2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp2.NodeType);
         }
@@ -473,25 +473,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(2, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -501,7 +501,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rt1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(2, dochtml0body1ruby0rt1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt1).Attributes.Length);
             Assert.AreEqual("rt", dochtml0body1ruby0rt1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rt1.NodeType);
 
@@ -511,7 +511,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rt1span1 = dochtml0body1ruby0rt1.ChildNodes[1];
             Assert.AreEqual(0, dochtml0body1ruby0rt1span1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt1span1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt1span1).Attributes.Length);
             Assert.AreEqual("span", dochtml0body1ruby0rt1span1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rt1span1.NodeType);
         }
@@ -523,25 +523,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -551,7 +551,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rtc1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1).Attributes.Length);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc1.NodeType);
 
@@ -561,7 +561,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rb2 = dochtml0body1ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rb2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb2).Attributes.Length);
             Assert.AreEqual("rb", dochtml0body1ruby0rb2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb2.NodeType);
         }
@@ -573,25 +573,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(2, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -601,7 +601,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(3, dochtml0body1ruby0rtc1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1).Attributes.Length);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc1.NodeType);
 
@@ -611,7 +611,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc1rt1 = dochtml0body1ruby0rtc1.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rtc1rt1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1rt1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1rt1).Attributes.Length);
             Assert.AreEqual("rt", dochtml0body1ruby0rtc1rt1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc1rt1.NodeType);
 
@@ -621,7 +621,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc1rt2 = dochtml0body1ruby0rtc1.ChildNodes[2];
             Assert.AreEqual(1, dochtml0body1ruby0rtc1rt2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1rt2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1rt2).Attributes.Length);
             Assert.AreEqual("rt", dochtml0body1ruby0rtc1rt2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc1rt2.NodeType);
 
@@ -637,25 +637,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -665,7 +665,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rtc1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1).Attributes.Length);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc1.NodeType);
 
@@ -675,7 +675,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc2 = dochtml0body1ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rtc2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc2).Attributes.Length);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc2.NodeType);
         }
@@ -687,25 +687,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(2, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -715,7 +715,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(2, dochtml0body1ruby0rtc1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1).Attributes.Length);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc1.NodeType);
 
@@ -725,7 +725,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc1rp1 = dochtml0body1ruby0rtc1.ChildNodes[1];
             Assert.AreEqual(0, dochtml0body1ruby0rtc1rp1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1rp1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1rp1).Attributes.Length);
             Assert.AreEqual("rp", dochtml0body1ruby0rtc1rp1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc1rp1.NodeType);
         }
@@ -737,25 +737,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(2, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -765,7 +765,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(2, dochtml0body1ruby0rtc1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1).Attributes.Length);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc1.NodeType);
 
@@ -775,7 +775,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc1span1 = dochtml0body1ruby0rtc1.ChildNodes[1];
             Assert.AreEqual(0, dochtml0body1ruby0rtc1span1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1span1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc1span1).Attributes.Length);
             Assert.AreEqual("span", dochtml0body1ruby0rtc1span1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc1span1.NodeType);
         }
@@ -787,25 +787,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -815,7 +815,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rp1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rp1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp1).Attributes.Length);
             Assert.AreEqual("rp", dochtml0body1ruby0rp1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp1.NodeType);
 
@@ -825,7 +825,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rb2 = dochtml0body1ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rb2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rb2).Attributes.Length);
             Assert.AreEqual("rb", dochtml0body1ruby0rb2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rb2.NodeType);
         }
@@ -837,25 +837,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -865,7 +865,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rp1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rp1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp1).Attributes.Length);
             Assert.AreEqual("rp", dochtml0body1ruby0rp1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp1.NodeType);
 
@@ -875,7 +875,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rt2 = dochtml0body1ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rt2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rt2).Attributes.Length);
             Assert.AreEqual("rt", dochtml0body1ruby0rt2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rt2.NodeType);
         }
@@ -887,25 +887,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -915,7 +915,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rp1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rp1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp1).Attributes.Length);
             Assert.AreEqual("rp", dochtml0body1ruby0rp1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp1.NodeType);
 
@@ -925,7 +925,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc2 = dochtml0body1ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rtc2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc2).Attributes.Length);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc2.NodeType);
         }
@@ -937,25 +937,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -965,7 +965,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rp1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rp1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp1).Attributes.Length);
             Assert.AreEqual("rp", dochtml0body1ruby0rp1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp1.NodeType);
 
@@ -975,7 +975,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rp2 = dochtml0body1ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rp2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp2).Attributes.Length);
             Assert.AreEqual("rp", dochtml0body1ruby0rp2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp2.NodeType);
         }
@@ -987,25 +987,25 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(2, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
@@ -1015,7 +1015,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rp1 = dochtml0body1ruby0.ChildNodes[1];
             Assert.AreEqual(2, dochtml0body1ruby0rp1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp1).Attributes.Length);
             Assert.AreEqual("rp", dochtml0body1ruby0rp1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp1.NodeType);
 
@@ -1025,7 +1025,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rp1span1 = dochtml0body1ruby0rp1.ChildNodes[1];
             Assert.AreEqual(0, dochtml0body1ruby0rp1span1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp1span1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rp1span1).Attributes.Length);
             Assert.AreEqual("span", dochtml0body1ruby0rp1span1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rp1span1.NodeType);
         }
@@ -1037,37 +1037,37 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0).Attributes.Length);
             Assert.AreEqual("html", dochtml0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0.NodeType);
 
             var dochtml0head0 = dochtml0.ChildNodes[0];
             Assert.AreEqual(0, dochtml0head0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0head0).Attributes.Length);
             Assert.AreEqual("head", dochtml0head0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0head0.NodeType);
 
             var dochtml0body1 = dochtml0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1).Attributes.Length);
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
 
             var dochtml0body1ruby0 = dochtml0body1.ChildNodes[0];
             Assert.AreEqual(1, dochtml0body1ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0.NodeType);
 
             var dochtml0body1ruby0rtc0 = dochtml0body1ruby0.ChildNodes[0];
             Assert.AreEqual(1, dochtml0body1ruby0rtc0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc0).Attributes.Length);
             Assert.AreEqual("rtc", dochtml0body1ruby0rtc0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc0.NodeType);
 
             var dochtml0body1ruby0rtc0ruby0 = dochtml0body1ruby0rtc0.ChildNodes[0];
             Assert.AreEqual(3, dochtml0body1ruby0rtc0ruby0.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc0ruby0).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc0ruby0).Attributes.Length);
             Assert.AreEqual("ruby", dochtml0body1ruby0rtc0ruby0.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc0ruby0.NodeType);
 
@@ -1077,7 +1077,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc0ruby0rb1 = dochtml0body1ruby0rtc0ruby0.ChildNodes[1];
             Assert.AreEqual(1, dochtml0body1ruby0rtc0ruby0rb1.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc0ruby0rb1).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc0ruby0rb1).Attributes.Length);
             Assert.AreEqual("rb", dochtml0body1ruby0rtc0ruby0rb1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc0ruby0rb1.NodeType);
 
@@ -1087,7 +1087,7 @@ namespace AngleSharp.Core.Tests
 
             var dochtml0body1ruby0rtc0ruby0rt2 = dochtml0body1ruby0rtc0ruby0.ChildNodes[2];
             Assert.AreEqual(0, dochtml0body1ruby0rtc0ruby0rt2.ChildNodes.Length);
-            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc0ruby0rt2).Attributes.Count);
+            Assert.AreEqual(0, ((Element)dochtml0body1ruby0rtc0ruby0rt2).Attributes.Length);
             Assert.AreEqual("rt", dochtml0body1ruby0rtc0ruby0rt2.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1ruby0rtc0ruby0rt2.NodeType);
         }

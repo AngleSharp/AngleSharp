@@ -428,6 +428,9 @@
     <Compile Include="..\AngleSharp\Dom\Collections\MediaList.cs">
       <Link>Dom\Collections\MediaList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Collections\NamedNodeMap.cs">
+      <Link>Dom\Collections\NamedNodeMap.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Collections\NodeIterator.cs">
       <Link>Dom\Collections\NodeIterator.cs</Link>
     </Compile>
@@ -2335,6 +2338,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IMutationRecord.cs">
       <Link>Interfaces\IMutationRecord.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\INamedNodeMap.cs">
+      <Link>Interfaces\INamedNodeMap.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\INode.cs">
       <Link>Interfaces\INode.cs</Link>

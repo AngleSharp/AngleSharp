@@ -90,6 +90,7 @@
     <Compile Include="Css\Values\IImageSource.cs" />
     <Compile Include="Css\Map.cs" />
     <Compile Include="Css\Values\MatrixTransform.cs" />
+    <Compile Include="Dom\Collections\NamedNodeMap.cs" />
     <Compile Include="Dom\Collections\StyleCollection.cs" />
     <Compile Include="Dom\Constants\DomError.cs" />
     <Compile Include="Dom\Constants\Sandboxes.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Foundation\CancellableTasks.cs" />
     <Compile Include="Foundation\TaskEx.cs" />
     <Compile Include="IBindable.cs" />
+    <Compile Include="Interfaces\INamedNodeMap.cs" />
     <Compile Include="IStyleFormattable.cs" />
     <Compile Include="IStyleFormatter.cs" />
     <Compile Include="Parser\Css\CssBuilder.cs" />
