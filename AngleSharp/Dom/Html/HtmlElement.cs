@@ -34,7 +34,7 @@
                 var bindable = _style as IBindable;
 
                 if (String.IsNullOrEmpty(value))
-                    Attributes.RemoveNamedItem(AttributeNames.Style);
+                    RemoveAttribute(AttributeNames.Style);
 
                 if (bindable != null)
                     bindable.Update(value);

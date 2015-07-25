@@ -12,15 +12,19 @@
     {
         #region Fields
         
-        readonly List<IAttr> _items;
+        readonly List<Attr> _items;
+        readonly WeakReference<Element> _owner;
+        readonly Dictionary<String, Action<String>> _attributeHandlers;
 
         #endregion
 
         #region ctor
 
-        public NamedNodeMap()
+        public NamedNodeMap(Element owner)
         {
-            _items = new List<IAttr>();
+            _items = new List<Attr>();
+            _owner = new WeakReference<Element>(owner);
+            _attributeHandlers = new Dictionary<String, Action<String>>();
         }
 
         #endregion
@@ -41,6 +45,16 @@
 
         #region Properties
 
+        public Element Owner
+        {
+            get
+            {
+                var owner = default(Element);
+                _owner.TryGetTarget(out owner);
+                return owner;
+            }
+        }
+
         public Int32 Length
         {
             get { return _items.Count; }
@@ -49,6 +63,22 @@
         #endregion
 
         #region Methods
+
+        public void RaiseChangedEvent(Attr attr, String newValue, String oldValue)
+        {
+            var owner = Owner;
+
+            if (attr.NamespaceUri == null)
+            {
+                var handler = GetHandler(attr.LocalName);
+
+                if (handler != null)
+                    handler(newValue);
+            }
+
+            if (owner != null)
+                owner.AttributeChanged(attr.LocalName, attr.NamespaceUri, oldValue);
+        }
 
         public IAttr GetNamedItem(String name)
         {
@@ -75,43 +105,69 @@
 
         public IAttr SetNamedItem(IAttr item)
         {
-            var name = item.Name;
+            var proposed = Prepare(item);
 
-            for (int i = 0; i < _items.Count; i++)
+            if (proposed != null)
             {
-                if (_items[i].Name.Equals(name, StringComparison.Ordinal))
+                var name = item.Name;
+
+                for (int i = 0; i < _items.Count; i++)
                 {
-                    var attr = _items[i];
-                    _items[i] = item;
-                    return attr;
+                    if (_items[i].Name.Equals(name, StringComparison.Ordinal))
+                    {
+                        var attr = _items[i];
+                        _items[i] = proposed;
+                        RaiseChangedEvent(proposed, proposed.Value, attr.Value);
+                        return attr;
+                    }
                 }
+
+                _items.Add(proposed);
+                RaiseChangedEvent(proposed, proposed.Value, null);
             }
 
-            _items.Add(item);
             return null;
         }
 
         public IAttr SetNamedItemWithNamespaceUri(IAttr item)
         {
-            var localName = item.LocalName;
-            var namespaceUri = item.NamespaceUri;
+            var proposed = Prepare(item);
 
-            for (int i = 0; i < _items.Count; i++)
+            if (proposed != null)
             {
-                if (String.Equals(_items[i].LocalName, localName, StringComparison.Ordinal) &&
-                    String.Equals(_items[i].NamespaceUri, namespaceUri, StringComparison.Ordinal))
+                var localName = item.LocalName;
+                var namespaceUri = item.NamespaceUri;
+
+                for (int i = 0; i < _items.Count; i++)
                 {
-                    var attr = _items[i];
-                    _items[i] = item;
-                    return attr;
+                    if (String.Equals(_items[i].LocalName, localName, StringComparison.Ordinal) &&
+                        String.Equals(_items[i].NamespaceUri, namespaceUri, StringComparison.Ordinal))
+                    {
+                        var attr = _items[i];
+                        _items[i] = proposed;
+                        RaiseChangedEvent(proposed, proposed.Value, attr.Value);
+                        return attr;
+                    }
                 }
+
+                _items.Add(proposed);
+                RaiseChangedEvent(proposed, proposed.Value, null);
             }
 
-            _items.Add(item);
             return null;
         }
 
         public IAttr RemoveNamedItem(String name)
+        {
+            var result = RemoveNamedItemOrDefault(name);
+
+            if (result == null)
+                throw new DomException(DomError.NotFound);
+
+            return result;
+        }
+
+        public IAttr RemoveNamedItemOrDefault(String name)
         {
             for (int i = 0; i < _items.Count; i++)
             {
@@ -119,14 +175,26 @@
                 {
                     var attr = _items[i];
                     _items.RemoveAt(i);
+                    attr.Container = null;
+                    RaiseChangedEvent(attr, null, attr.Value);
                     return attr;
                 }
             }
 
-            throw new DomException(DomError.NotFound);
+            return null;
         }
 
         public IAttr RemoveNamedItem(String namespaceUri, String localName)
+        {
+            var result = RemoveNamedItemOrDefault(namespaceUri, localName);
+
+            if (result == null)
+                throw new DomException(DomError.NotFound);
+
+            return result;
+        }
+
+        public IAttr RemoveNamedItemOrDefault(String namespaceUri, String localName)
         {
             for (int i = 0; i < _items.Count; i++)
             {
@@ -135,11 +203,48 @@
                 {
                     var attr = _items[i];
                     _items.RemoveAt(i);
+                    attr.Container = null;
+                    RaiseChangedEvent(attr, null, attr.Value);
                     return attr;
                 }
             }
-            
-            throw new DomException(DomError.NotFound);
+
+            return null;
+        }
+
+        public Action<String> GetHandler(String name)
+        {
+            var handler = default(Action<String>);
+            _attributeHandlers.TryGetValue(name, out handler);
+            return handler;
+        }
+
+        public void SetHandler(String name, Action<String> handler)
+        {
+            _attributeHandlers[name] = handler;
+        }
+
+        public void AddHandler(String name, Action<String> handler)
+        {
+            if (handler != null)
+            {
+                var existing = default(Action<String>);
+
+                if (_attributeHandlers.TryGetValue(name, out existing))
+                    handler += existing;
+
+                _attributeHandlers[name] = handler;
+            }
+        }
+
+        public Action<String> RemoveHandler(String name)
+        {
+            var handler = GetHandler(name);
+
+            if (handler != null)
+                _attributeHandlers.Remove(name);
+
+            return handler;
         }
 
         public IEnumerator<IAttr> GetEnumerator()
@@ -152,6 +257,27 @@
             return _items.GetEnumerator();
         }
         
+        #endregion
+
+        #region Helpers
+
+        Attr Prepare(IAttr item)
+        {
+            var attr = item as Attr;
+
+            if (attr != null)
+            {
+                if (attr.Container == this)
+                    return null;
+                else if (attr.Container != null)
+                    throw new DomException(DomError.InUse);
+
+                attr.Container = this;
+            }
+
+            return attr;
+        }
+
         #endregion
     }
 }

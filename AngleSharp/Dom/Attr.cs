@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom
 {
+    using AngleSharp.Dom.Collections;
     using AngleSharp.Html;
     using System;
     using System.Diagnostics;
@@ -12,11 +13,11 @@
     {
         #region Fields
 
-        readonly Element _container;
         readonly String _localName;
         readonly String _prefix;
         readonly String _namespace;
         String _value;
+        NamedNodeMap _container;
 
         #endregion
 
@@ -25,22 +26,19 @@
         /// <summary>
         /// Creates a new NodeAttribute with empty value.
         /// </summary>
-        /// <param name="container">The parent of the attribute.</param>
         /// <param name="localName">The name of the attribute.</param>
-        internal Attr(Element container, String localName)
-            : this(container, localName, String.Empty)
+        internal Attr(String localName)
+            : this(localName, String.Empty)
         {
         }
 
         /// <summary>
         /// Creates a new NodeAttribute.
         /// </summary>
-        /// <param name="container">The parent of the attribute.</param>
         /// <param name="localName">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
-        internal Attr(Element container, String localName, String value)
+        internal Attr(String localName, String value)
         {
-            _container = container;
             _localName = localName;
             _value = value;
         }
@@ -48,18 +46,26 @@
         /// <summary>
         /// Creates a new NodeAttribute.
         /// </summary>
-        /// <param name="container">The parent of the attribute.</param>
         /// <param name="prefix">The prefix of the attribute.</param>
         /// <param name="localName">The name of the attribute.</param>
         /// <param name="value">The value of the attribute.</param>
         /// <param name="namespaceUri">The namespace of the attribute.</param>
-        internal Attr(Element container, String prefix, String localName, String value, String namespaceUri)
+        internal Attr(String prefix, String localName, String value, String namespaceUri)
         {
             _prefix = prefix;
             _localName = localName;
-            _container = container;
             _value = value;
             _namespace = namespaceUri;
+        }
+
+        #endregion
+
+        #region Internal Properties
+
+        internal NamedNodeMap Container
+        {
+            get { return _container; }
+            set { _container = value; }
         }
 
         #endregion
@@ -109,10 +115,10 @@
             set 
             { 
                 var oldValue = _value;
-                _value = value; 
+                _value = value;
 
                 if (_container != null)
-                    _container.AttributeChanged(_localName, _namespace, oldValue); 
+                    _container.RaiseChangedEvent(this, value, oldValue);
             }
         }
 

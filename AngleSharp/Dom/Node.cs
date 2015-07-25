@@ -584,6 +584,37 @@
         #region Helpers
 
         /// <summary>
+        /// For more information, see:
+        /// https://dom.spec.whatwg.org/#validate-and-extract
+        /// </summary>
+        protected static void GetPrefixAndLocalName(String qualifiedName, ref String namespaceUri, out String prefix, out String localName)
+        {
+            if (String.IsNullOrEmpty(namespaceUri))
+                namespaceUri = null;
+
+            if (!qualifiedName.IsXmlName())
+                throw new DomException(DomError.InvalidCharacter);
+            else if (!qualifiedName.IsQualifiedName())
+                throw new DomException(DomError.Namespace);
+
+            prefix = null;
+            localName = qualifiedName;
+            var index = qualifiedName.IndexOf(':');
+
+            if (index > 0)
+            {
+                prefix = qualifiedName.Substring(0, index);
+                localName = qualifiedName.Substring(index + 1);
+            }
+
+            if ((prefix != null && namespaceUri == null) ||
+                (prefix == Namespaces.XmlPrefix && namespaceUri != Namespaces.XmlUri) ||
+                ((qualifiedName == Namespaces.XmlNsPrefix || prefix == Namespaces.XmlNsPrefix) && namespaceUri != Namespaces.XmlNsUri) ||
+                (namespaceUri == Namespaces.XmlNsUri && (qualifiedName != Namespaces.XmlNsPrefix && prefix != Namespaces.XmlNsPrefix)))
+                throw new DomException(DomError.Namespace);
+        }
+
+        /// <summary>
         /// Tries to locate the namespace of the given prefix.
         /// </summary>
         /// <param name="prefix">The prefix of the namespace.</param>

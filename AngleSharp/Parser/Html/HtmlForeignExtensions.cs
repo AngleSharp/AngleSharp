@@ -112,7 +112,7 @@
                     element.SetAttribute(Namespaces.XmlUri, name, value);
                     return;
                 }
-                else if (name.Equals("xmlns") || name.Equals("xmlns:xlink"))
+                else if (name.Equals(Namespaces.XmlNsPrefix, StringComparison.Ordinal) || name.Equals("xmlns:xlink", StringComparison.Ordinal))
                 {
                     element.SetAttribute(Namespaces.XmlNsUri, name, value);
                     return;

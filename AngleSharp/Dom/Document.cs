@@ -1519,7 +1519,7 @@
             if (!localName.IsXmlName())
                 throw new DomException(DomError.InvalidCharacter);
 
-            return new Attr(null, localName);
+            return new Attr(localName);
         }
 
         /// <summary>
@@ -1535,7 +1535,7 @@
             var localName = default(String);
             var prefix = default(String);
             GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out prefix, out localName);
-            return new Attr(null, prefix, localName, String.Empty, namespaceUri);
+            return new Attr(prefix, localName, String.Empty, namespaceUri);
         }
 
         #endregion
@@ -1698,26 +1698,6 @@
         #endregion
 
         #region Helpers
-
-        static void GetPrefixAndLocalName(String qualifiedName, ref String namespaceUri, out String prefix, out String localName)
-        {
-            if (String.IsNullOrEmpty(namespaceUri))
-                namespaceUri = null;
-
-            if (!qualifiedName.IsXmlName())
-                throw new DomException(DomError.InvalidCharacter);
-            else if (!qualifiedName.IsQualifiedName())
-                throw new DomException(DomError.Namespace);
-
-            var parts = qualifiedName.Split(':');
-            prefix = parts.Length == 2 ? parts[0] : null;
-            localName = parts.Length == 2 ? parts[1] : qualifiedName;
-
-            if ((prefix == Namespaces.XmlPrefix && namespaceUri != Namespaces.XmlUri) ||
-                ((qualifiedName == Namespaces.XmlNsPrefix || prefix == Namespaces.XmlNsPrefix) && namespaceUri != Namespaces.XmlNsUri) ||
-                (namespaceUri == Namespaces.XmlNsUri && (qualifiedName != Namespaces.XmlNsPrefix || prefix != Namespaces.XmlNsPrefix)))
-                throw new DomException(DomError.Namespace);
-        }
 
         static Boolean IsCommand(IElement element)
         {

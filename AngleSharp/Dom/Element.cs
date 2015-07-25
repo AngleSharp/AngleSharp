@@ -8,7 +8,6 @@
     using AngleSharp.Parser.Css;
     using AngleSharp.Services.Styling;
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
 
@@ -21,7 +20,6 @@
         #region Fields
 
         readonly NamedNodeMap _attributes;
-        readonly Dictionary<String, Action<String>> _attributeHandlers;
         readonly String _namespace;
         readonly String _prefix;
         readonly String _localName;
@@ -58,8 +56,7 @@
             _localName = localName;
             _prefix = prefix;
             _namespace = namespaceUri;
-            _attributes = new NamedNodeMap();
-            _attributeHandlers = new Dictionary<String, Action<String>>();
+            _attributes = new NamedNodeMap(this);
         }
 
         #endregion
@@ -538,12 +535,6 @@
             return attr != null ? attr.Value : null;
         }
 
-        protected String GetOwnAttribute(String name)
-        {
-            var attr = _attributes.GetNamedItem(null, name);
-            return attr != null ? attr.Value : null;
-        }
-
         /// <summary>
         /// Returns the value of the named attribute on the specified element.
         /// </summary>
@@ -582,35 +573,10 @@
                 if (_namespace == Namespaces.HtmlUri)
                     name = name.ToLowerInvariant();
 
-                foreach(var attribute in _attributes)
-                { 
-                    if (attribute.Prefix == null && attribute.LocalName == name)
-                    {
-                        attribute.Value = value;
-                        return;
-                    }
-                }
-
-                _attributes.SetNamedItem(new Attr(this, name, value));
-                AttributeChanged(name, null, null);
+                SetOwnAttribute(name, value);
             }
             else
                 RemoveAttribute(name);
-        }
-
-        protected void SetOwnAttribute(String name, String value)
-        {
-            foreach (var attribute in _attributes)
-            {
-                if (attribute.LocalName == name && attribute.NamespaceUri == null)
-                {
-                    attribute.Value = value;
-                    return;
-                }
-            }
-
-            _attributes.SetNamedItem(new Attr(this, null, name, value, null));
-            AttributeChanged(name, null, null);
         }
 
         /// <summary>
@@ -626,39 +592,10 @@
         {            
             if (value != null)
             {
-                if (String.IsNullOrEmpty(namespaceUri))
-                    namespaceUri = null;
-
-                if (!name.IsXmlName())
-                    throw new DomException(DomError.InvalidCharacter);
-                else if (!name.IsQualifiedName())
-                    throw new DomException(DomError.Namespace);
-
-                var index = name.IndexOf(Symbols.Colon);
-                var prefix = index >= 0 ? name.Substring(0, index) : null;
-                var localName = index >= 0 ? name.Substring(index + 1) : name;
-
-                if (prefix != null && namespaceUri == null)
-                    throw new DomException(DomError.Namespace);
-
-                if (prefix == Namespaces.XmlPrefix && namespaceUri != Namespaces.XmlUri)
-                    throw new DomException(DomError.Namespace);
-                else if ((name == Namespaces.XmlNsPrefix || prefix == Namespaces.XmlNsPrefix) && namespaceUri != Namespaces.XmlNsUri)
-                    throw new DomException(DomError.Namespace);
-                else if (namespaceUri == Namespaces.XmlNsUri && name != Namespaces.XmlNsPrefix && prefix != Namespaces.XmlNsPrefix)
-                    throw new DomException(DomError.Namespace);
-
-                foreach (var attribute in _attributes)
-                {
-                    if (attribute.LocalName == localName && attribute.NamespaceUri == namespaceUri)
-                    {
-                        attribute.Value = value;
-                        return;
-                    }
-                }
-
-                _attributes.SetNamedItem(new Attr(this, prefix, localName, value, namespaceUri));
-                AttributeChanged(localName, namespaceUri, null);
+                var prefix = default(String);
+                var localName = default(String);
+                GetPrefixAndLocalName(name, ref namespaceUri, out prefix, out localName);
+                _attributes.SetNamedItem(new Attr(prefix, localName, value, namespaceUri));
             }
             else
                 RemoveAttribute(namespaceUri, name);
@@ -676,15 +613,7 @@
             if (_namespace == Namespaces.HtmlUri)
                 name = name.ToLower();
 
-            foreach (var attribute in _attributes)
-            {
-                if (attribute.Prefix == null && attribute.LocalName == name)
-                {
-                    _attributes.RemoveNamedItem(attribute.Name);
-                    AttributeChanged(attribute.LocalName, attribute.NamespaceUri, attribute.Value);
-                    return;
-                }
-            }
+            _attributes.RemoveNamedItemOrDefault(name);
         }
 
         /// <summary>
@@ -702,15 +631,7 @@
             if (String.IsNullOrEmpty(namespaceUri))
                 namespaceUri = null;
 
-            foreach (var attribute in _attributes)
-            {
-                if (attribute.LocalName == localName && attribute.NamespaceUri == namespaceUri)
-                {
-                    _attributes.RemoveNamedItem(attribute.NamespaceUri, attribute.LocalName);
-                    AttributeChanged(attribute.LocalName, attribute.NamespaceUri, attribute.Value);
-                    return;
-                }
-            }
+            _attributes.RemoveNamedItemOrDefault(namespaceUri, localName);
         }
 
         /// <summary>
@@ -740,14 +661,8 @@
                 if (this.NamespaceUri != otherElement.NamespaceUri)
                     return false;
 
-                if (_attributes.Length != otherElement.Attributes.Length)
+                if (_attributes.AreEqual(otherElement.Attributes) == false)
                     return false;
-
-                foreach(var attribute in _attributes)
-                {
-                    if (!otherElement.Attributes.Any(m => m.Name == attribute.Name && m.Value == attribute.Value))
-                        return false;
-                }
 
                 return base.Equals(otherNode);
             }
@@ -861,6 +776,26 @@
 
         #region Helpers
 
+        protected String GetOwnAttribute(String name)
+        {
+            var attr = _attributes.GetNamedItem(null, name);
+            return attr != null ? attr.Value : null;
+        }
+
+        protected void SetOwnAttribute(String name, String value)
+        {
+            foreach (var attribute in _attributes)
+            {
+                if (attribute.LocalName == name && attribute.NamespaceUri == null)
+                {
+                    attribute.Value = value;
+                    return;
+                }
+            }
+
+            _attributes.SetNamedItem(new Attr(name, value));
+        }
+
         /// <summary>
         /// Creates the style for the inline style declaration.
         /// </summary>
@@ -899,27 +834,13 @@
         /// <param name="value">The value of the attribute to set.</param>
         protected void UpdateAttribute(String name, String value)
         {
-            Action<String> handler = null;
-
-            if (_attributeHandlers.TryGetValue(name, out handler))
-                _attributeHandlers.Remove(name);
-
+            var handler = _attributes.RemoveHandler(name);
             SetOwnAttribute(name, value);
-
-            if (handler != null)
-                _attributeHandlers.Add(name, handler);
+            _attributes.SetHandler(name, handler);
         }
 
         internal void AttributeChanged(String localName, String namespaceUri, String oldValue, Boolean suppressMutationObservers = false)
         {
-            Action<String> handler = null;
-
-            if (namespaceUri == null && _attributeHandlers.TryGetValue(localName, out handler))
-            {
-                var attr = _attributes.GetNamedItem(null, localName);
-                handler(attr != null ? attr.Value : null);
-            }
-
             if (!suppressMutationObservers)
             {
                 Owner.QueueMutation(MutationRecord.Attributes(
@@ -966,7 +887,8 @@
         {
             foreach (var attribute in source._attributes)
             {
-                target._attributes.SetNamedItem(new Attr(target, attribute.Name, attribute.Value));
+                var attr = new Attr(attribute.Name, attribute.Value);
+                target._attributes.SetNamedItem(attr);
             }
         }
 
@@ -977,14 +899,7 @@
         /// <param name="callback">The callback to invoke.</param>
         protected void RegisterAttributeObserver(String name, Action<String> callback)
         {
-            Action<String> handler = null;
-
-            if (_attributeHandlers.TryGetValue(name, out handler))
-                handler += callback;
-            else
-                handler = callback;
-
-            _attributeHandlers[name] = handler;
+            _attributes.AddHandler(name, callback);
         }
 
         #endregion
