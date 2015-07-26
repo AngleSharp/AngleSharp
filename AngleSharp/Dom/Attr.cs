@@ -9,7 +9,7 @@
     /// Represents a generic node attribute.
     /// </summary>
     [DebuggerStepThrough]
-    sealed class Attr : IAttr, IEquatable<IAttr>
+    sealed class Attr : IAttr
     {
         #region Fields
 
@@ -86,7 +86,7 @@
         /// </summary>
         public Boolean IsId
         {
-            get { return _prefix == null && _localName.Equals(AttributeNames.Id, StringComparison.OrdinalIgnoreCase); }
+            get { return _prefix == null && String.Equals(_localName, AttributeNames.Id, StringComparison.OrdinalIgnoreCase); }
         }
 
         /// <summary>
@@ -151,7 +151,26 @@
         /// </returns>
         public Boolean Equals(IAttr other)
         {
-            return other == this || (_value == other.Value && _localName == other.Name);
+            return (String.Equals(Prefix, other.Prefix, StringComparison.Ordinal) &&
+                    String.Equals(NamespaceUri, other.NamespaceUri, StringComparison.Ordinal) &&
+                    String.Equals(Value, other.Value, StringComparison.Ordinal));
+        }
+
+        /// <summary>
+        /// Serves as the default hash function.
+        /// </summary>
+        /// <returns>The hash code for the current attribute.</returns>
+        public override Int32 GetHashCode()
+        {
+            const int prime = 31;
+            var result = 1;
+
+            result = result * prime + _localName.GetHashCode();
+            result = result * prime + _value.GetHashCode();
+            result = result * prime + (_namespace ?? "").GetHashCode();
+            result = result * prime + (_prefix ?? "").GetHashCode();
+
+            return result;
         }
 
         #endregion

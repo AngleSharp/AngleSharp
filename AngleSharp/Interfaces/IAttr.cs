@@ -7,7 +7,7 @@
     /// This type represents a DOM element's attribute as an object. 
     /// </summary>
     [DomName("Attr")]
-    public interface IAttr
+    public interface IAttr : IEquatable<IAttr>
     {
         /// <summary>
         /// Gets the local name of the attribute.

@@ -90,36 +90,14 @@
         /// <param name="value">The value of the attribute.</param>
         public static void AdjustAttribute(this Element element, String name, String value)
         {
-            if (name.Length > 6 && String.Compare("xlink:", 0, name, 0, 6) == 0)
-            {
-                if (String.Compare(AttributeNames.Actuate, 0, name, 6, 7) == 0 ||
-                    String.Compare(AttributeNames.Arcrole, 0, name, 6, 7) == 0 ||
-                    String.Compare(AttributeNames.Href, 0, name, 6, 4) == 0 ||
-                    String.Compare(AttributeNames.Role, 0, name, 6, 4) == 0 ||
-                    String.Compare(AttributeNames.Show, 0, name, 6, 4) == 0 ||
-                    String.Compare(AttributeNames.Type, 0, name, 6, 4) == 0 ||
-                    String.Compare(AttributeNames.Title, 0, name, 6, 5) == 0)
-                {
-                    element.SetAttribute(Namespaces.XLinkUri, name.Substring(name.IndexOf(Symbols.Colon) + 1), value);
-                    return;
-                }
-            }
-            else if (name.Length > 4)
-            {
-                if (String.Compare("xml:", 0, name, 0, 4) == 0 && (String.Compare(Tags.Base, 0, name, 4, 4) == 0 ||
-                    String.Compare(AttributeNames.Lang, 0, name, 4, 4) == 0 || String.Compare(AttributeNames.Space, 0, name, 4, 5) == 0))
-                {
-                    element.SetAttribute(Namespaces.XmlUri, name, value);
-                    return;
-                }
-                else if (name.Equals(Namespaces.XmlNsPrefix, StringComparison.Ordinal) || name.Equals("xmlns:xlink", StringComparison.Ordinal))
-                {
-                    element.SetAttribute(Namespaces.XmlNsUri, name, value);
-                    return;
-                }
-            }
-
-            element.SetAttribute(name, value);
+            if (IsXLinkAttribute(name))
+                element.SetAttribute(Namespaces.XLinkUri, name.Substring(name.IndexOf(Symbols.Colon) + 1), value);
+            else if (IsXmlAttribute(name))
+                element.SetAttribute(Namespaces.XmlUri, name, value);
+            else if (IsXmlNamespaceAttribute(name))
+                element.SetAttribute(Namespaces.XmlNsUri, name, value);
+            else
+                element.SetAttribute(name, value);
         }
 
         /// <summary>
@@ -129,7 +107,7 @@
         /// <returns>The name with the correct capitalization.</returns>
         public static String AdjustToMathAttribute(this String attributeName)
         {
-            if (attributeName.Equals("definitionurl"))
+            if (attributeName.Equals("definitionurl", StringComparison.Ordinal))
                 return "definitionURL";
 
             return attributeName;
@@ -142,12 +120,43 @@
         /// <returns>The name with the correct capitalization.</returns>
         public static String AdjustToSvgAttribute(this String attributeName)
         {
-            String adjustedAttributeName;
+            var adjustedAttributeName = default(String);
 
             if (svgAttributeNames.TryGetValue(attributeName, out adjustedAttributeName))
                 return adjustedAttributeName;
 
             return attributeName;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static Boolean IsXmlNamespaceAttribute(String name)
+        {
+            return name.Length > 4 &&
+                (name.Equals(Namespaces.XmlNsPrefix, StringComparison.Ordinal) ||
+                    name.Equals("xmlns:xlink", StringComparison.Ordinal));
+        }
+
+        static Boolean IsXmlAttribute(String name)
+        {
+            return (name.Length > 4 && String.Compare("xml:", 0, name, 0, 4, StringComparison.Ordinal) == 0) &&
+                (String.Compare(Tags.Base, 0, name, 4, 4, StringComparison.Ordinal) == 0 ||
+                    String.Compare(AttributeNames.Lang, 0, name, 4, 4, StringComparison.Ordinal) == 0 ||
+                    String.Compare(AttributeNames.Space, 0, name, 4, 5, StringComparison.Ordinal) == 0);
+        }
+
+        static Boolean IsXLinkAttribute(String name)
+        {
+            return (name.Length > 6 && String.Compare("xlink:", 0, name, 0, 6, StringComparison.Ordinal) == 0) &&
+                (String.Compare(AttributeNames.Actuate, 0, name, 6, 7, StringComparison.Ordinal) == 0 ||
+                    String.Compare(AttributeNames.Arcrole, 0, name, 6, 7, StringComparison.Ordinal) == 0 ||
+                    String.Compare(AttributeNames.Href, 0, name, 6, 4, StringComparison.Ordinal) == 0 ||
+                    String.Compare(AttributeNames.Role, 0, name, 6, 4, StringComparison.Ordinal) == 0 ||
+                    String.Compare(AttributeNames.Show, 0, name, 6, 4, StringComparison.Ordinal) == 0 ||
+                    String.Compare(AttributeNames.Type, 0, name, 6, 4, StringComparison.Ordinal) == 0 ||
+                    String.Compare(AttributeNames.Title, 0, name, 6, 5, StringComparison.Ordinal) == 0);
         }
 
         #endregion

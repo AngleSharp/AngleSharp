@@ -29,7 +29,9 @@
 
                 foreach (var elB in targetAttributes)
                 {
-                    if (found = (elA.Name == elB.Name && elA.NamespaceUri == elB.NamespaceUri && elA.Value == elB.Value))
+                    found = elA.GetHashCode() == elB.GetHashCode();
+
+                    if (found)
                         break;
                 }
 

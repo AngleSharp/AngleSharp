@@ -61,6 +61,18 @@
 
         #endregion
 
+        #region Internal Properties
+
+        /// <summary>
+        /// Gets the associated attribute container.
+        /// </summary>
+        internal NamedNodeMap Attributes
+        {
+            get { return _attributes; }
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -317,14 +329,6 @@
         /// Gets the sequence of associated attributes.
         /// </summary>
         INamedNodeMap IElement.Attributes
-        {
-            get { return _attributes; }
-        }
-
-        /// <summary>
-        /// Gets the associated attribute container.
-        /// </summary>
-        internal INamedNodeMap Attributes
         {
             get { return _attributes; }
         }
@@ -658,13 +662,9 @@
 
             if (otherElement != null)
             {
-                if (this.NamespaceUri != otherElement.NamespaceUri)
-                    return false;
-
-                if (_attributes.AreEqual(otherElement.Attributes) == false)
-                    return false;
-
-                return base.Equals(otherNode);
+                return String.Equals(NamespaceUri, otherElement.NamespaceUri, StringComparison.Ordinal) &&
+                    _attributes.AreEqual(otherElement.Attributes) && 
+                    base.Equals(otherNode);
             }
 
             return false;
@@ -784,16 +784,7 @@
 
         protected void SetOwnAttribute(String name, String value)
         {
-            foreach (var attribute in _attributes)
-            {
-                if (attribute.LocalName == name && attribute.NamespaceUri == null)
-                {
-                    attribute.Value = value;
-                    return;
-                }
-            }
-
-            _attributes.SetNamedItem(new Attr(name, value));
+            _attributes.SetNamedItemWithNamespaceUri(new Attr(name, value));
         }
 
         /// <summary>
@@ -839,16 +830,13 @@
             _attributes.SetHandler(name, handler);
         }
 
-        internal void AttributeChanged(String localName, String namespaceUri, String oldValue, Boolean suppressMutationObservers = false)
+        internal void AttributeChanged(String localName, String namespaceUri, String oldValue)
         {
-            if (!suppressMutationObservers)
-            {
-                Owner.QueueMutation(MutationRecord.Attributes(
-                    target: this,
-                    attributeName: localName,
-                    attributeNamespace: namespaceUri,
-                    previousValue: oldValue));
-            }
+            Owner.QueueMutation(MutationRecord.Attributes(
+                target: this,
+                attributeName: localName,
+                attributeNamespace: namespaceUri,
+                previousValue: oldValue));
         }
 
         /// <summary>
@@ -887,8 +875,8 @@
         {
             foreach (var attribute in source._attributes)
             {
-                var attr = new Attr(attribute.Name, attribute.Value);
-                target._attributes.SetNamedItem(attr);
+                var attr = new Attr(attribute.Prefix, attribute.LocalName, attribute.Value, attribute.NamespaceUri);
+                target._attributes.FastAddItem(attr);
             }
         }
 

@@ -23,11 +23,13 @@
         /// <param name="attributes">The attributes to set.</param>
         public static void SetAttributes(this Element element, List<KeyValuePair<String, String>> attributes)
         {
+            var container = element.Attributes;
+
             for (var i = 0; i < attributes.Count; i++)
             {
                 var attribute = attributes[i];
-                element.Attributes.SetNamedItem(new Attr(attribute.Key, attribute.Value));
-                element.AttributeChanged(attribute.Key, null, null, true);
+                var item = new Attr(attribute.Key, attribute.Value);
+                container.FastAddItem(item);
             }
         }
 
@@ -74,7 +76,9 @@
                 if (format == null)
                     break;
 
-                if (format.NodeName == element.NodeName && format.NamespaceUri == element.NamespaceUri && format.Attributes.AreEqual(element.Attributes) && ++count == 3)
+                if (String.Equals(format.NodeName, element.NodeName, StringComparison.Ordinal) && 
+                    String.Equals(format.NamespaceUri, element.NamespaceUri, StringComparison.Ordinal) && 
+                    format.Attributes.AreEqual(element.Attributes) && ++count == 3)
                 {
                     formatting.RemoveAt(i);
                     break;

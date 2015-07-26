@@ -43,9 +43,9 @@
 
         #endregion
 
-        #region Properties
+        #region Internal Properties
 
-        public Element Owner
+        internal Element Owner
         {
             get
             {
@@ -55,6 +55,10 @@
             }
         }
 
+        #endregion
+
+        #region Properties
+
         public Int32 Length
         {
             get { return _items.Count; }
@@ -62,29 +66,99 @@
 
         #endregion
 
-        #region Methods
+        #region Internal Methods
 
-        public void RaiseChangedEvent(Attr attr, String newValue, String oldValue)
+        internal void FastAddItem(Attr attr)
+        {
+            _items.Add(attr);
+
+            if (attr.NamespaceUri == null)
+                CallHandlers(attr.LocalName, attr.Value);
+        }
+
+        internal void RaiseChangedEvent(Attr attr, String newValue, String oldValue)
         {
             var owner = Owner;
 
             if (attr.NamespaceUri == null)
-            {
-                var handler = GetHandler(attr.LocalName);
-
-                if (handler != null)
-                    handler(newValue);
-            }
+                CallHandlers(attr.LocalName, newValue);
 
             if (owner != null)
                 owner.AttributeChanged(attr.LocalName, attr.NamespaceUri, oldValue);
         }
 
+        internal void SetHandler(String name, Action<String> handler)
+        {
+            _attributeHandlers[name] = handler;
+        }
+
+        internal void AddHandler(String name, Action<String> handler)
+        {
+            if (handler != null)
+            {
+                var existing = default(Action<String>);
+
+                if (_attributeHandlers.TryGetValue(name, out existing))
+                    handler += existing;
+
+                _attributeHandlers[name] = handler;
+            }
+        }
+
+        internal Action<String> RemoveHandler(String name)
+        {
+            var handler = default(Action<String>);
+
+            if (_attributeHandlers.TryGetValue(name, out handler))
+                _attributeHandlers.Remove(name);
+
+            return handler;
+        }
+
+        internal IAttr RemoveNamedItemOrDefault(String name)
+        {
+            for (int i = 0; i < _items.Count; i++)
+            {
+                if (String.Equals(_items[i].Name, name, StringComparison.Ordinal))
+                {
+                    var attr = _items[i];
+                    _items.RemoveAt(i);
+                    attr.Container = null;
+                    RaiseChangedEvent(attr, null, attr.Value);
+                    return attr;
+                }
+            }
+
+            return null;
+        }
+
+        internal IAttr RemoveNamedItemOrDefault(String namespaceUri, String localName)
+        {
+            for (int i = 0; i < _items.Count; i++)
+            {
+                if (String.Equals(_items[i].LocalName, localName, StringComparison.Ordinal) &&
+                    String.Equals(_items[i].NamespaceUri, namespaceUri, StringComparison.Ordinal))
+                {
+                    var attr = _items[i];
+                    _items.RemoveAt(i);
+                    attr.Container = null;
+                    RaiseChangedEvent(attr, null, attr.Value);
+                    return attr;
+                }
+            }
+
+            return null;
+        }
+
+        #endregion
+
+        #region Methods
+
         public IAttr GetNamedItem(String name)
         {
             for (int i = 0; i < _items.Count; i++)
             {
-                if (_items[i].Name.Equals(name, StringComparison.Ordinal))
+                if (String.Equals(_items[i].Name, name, StringComparison.Ordinal))
                     return _items[i];
             }
 
@@ -113,7 +187,7 @@
 
                 for (int i = 0; i < _items.Count; i++)
                 {
-                    if (_items[i].Name.Equals(name, StringComparison.Ordinal))
+                    if (String.Equals(_items[i].Name, name, StringComparison.Ordinal))
                     {
                         var attr = _items[i];
                         _items[i] = proposed;
@@ -167,23 +241,6 @@
             return result;
         }
 
-        public IAttr RemoveNamedItemOrDefault(String name)
-        {
-            for (int i = 0; i < _items.Count; i++)
-            {
-                if (_items[i].Name.Equals(name, StringComparison.Ordinal))
-                {
-                    var attr = _items[i];
-                    _items.RemoveAt(i);
-                    attr.Container = null;
-                    RaiseChangedEvent(attr, null, attr.Value);
-                    return attr;
-                }
-            }
-
-            return null;
-        }
-
         public IAttr RemoveNamedItem(String namespaceUri, String localName)
         {
             var result = RemoveNamedItemOrDefault(namespaceUri, localName);
@@ -192,59 +249,6 @@
                 throw new DomException(DomError.NotFound);
 
             return result;
-        }
-
-        public IAttr RemoveNamedItemOrDefault(String namespaceUri, String localName)
-        {
-            for (int i = 0; i < _items.Count; i++)
-            {
-                if (String.Equals(_items[i].LocalName, localName, StringComparison.Ordinal) &&
-                    String.Equals(_items[i].NamespaceUri, namespaceUri, StringComparison.Ordinal))
-                {
-                    var attr = _items[i];
-                    _items.RemoveAt(i);
-                    attr.Container = null;
-                    RaiseChangedEvent(attr, null, attr.Value);
-                    return attr;
-                }
-            }
-
-            return null;
-        }
-
-        public Action<String> GetHandler(String name)
-        {
-            var handler = default(Action<String>);
-            _attributeHandlers.TryGetValue(name, out handler);
-            return handler;
-        }
-
-        public void SetHandler(String name, Action<String> handler)
-        {
-            _attributeHandlers[name] = handler;
-        }
-
-        public void AddHandler(String name, Action<String> handler)
-        {
-            if (handler != null)
-            {
-                var existing = default(Action<String>);
-
-                if (_attributeHandlers.TryGetValue(name, out existing))
-                    handler += existing;
-
-                _attributeHandlers[name] = handler;
-            }
-        }
-
-        public Action<String> RemoveHandler(String name)
-        {
-            var handler = GetHandler(name);
-
-            if (handler != null)
-                _attributeHandlers.Remove(name);
-
-            return handler;
         }
 
         public IEnumerator<IAttr> GetEnumerator()
@@ -260,6 +264,14 @@
         #endregion
 
         #region Helpers
+
+        void CallHandlers(String name, String value)
+        {
+            var handler = default(Action<String>);
+            
+            if (_attributeHandlers.TryGetValue(name, out handler))
+                handler(value);
+        }
 
         Attr Prepare(IAttr item)
         {
