@@ -2380,7 +2380,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest140()
+		public void DocumentUrlWithUnprintedSpace()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2398,7 +2398,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest141()
+		public void DocumentUrlWithMixtureOfSlashesAndBackslashes()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2416,7 +2416,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest142()
+		public void DocumentUrlWithCharactersThatRequirePercentEncoding()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2434,7 +2434,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest143()
+		public void DocumentUrlWithAtCharacterAndPercentEncoding()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2452,7 +2452,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest144()
+		public void DocumentUrlWithAsianCharactersThatNeedToBePercentEncoded()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2470,7 +2470,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest145()
+		public void DocumentUrlWithSpecialCdotCharacter()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2488,7 +2488,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest146()
+		public void DocumentUrlWithVerySpecialSlashCharacterAsSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2506,7 +2506,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest147()
+		public void DocumentUrlWithSpecialCharactersAsSlashes()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2524,7 +2524,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest148()
+		public void DocumentUrlWithPathSearchAndHash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2542,7 +2542,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest149()
+		public void DocumentUrlithSpecialCharactersInHash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
