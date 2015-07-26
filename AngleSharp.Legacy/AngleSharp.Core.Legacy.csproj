@@ -2612,9 +2612,6 @@
     <Compile Include="..\AngleSharp\Parser\Html\HtmlForeignExtensions.cs">
       <Link>Parser\Html\HtmlForeignExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Parser\Html\HtmlHelpers.cs">
-      <Link>Parser\Html\HtmlHelpers.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Parser\Html\HtmlParseError.cs">
       <Link>Parser\Html\HtmlParseError.cs</Link>
     </Compile>
