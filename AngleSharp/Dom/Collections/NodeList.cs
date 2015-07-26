@@ -17,6 +17,11 @@
         /// </summary>
         readonly List<Node> _entries;
 
+        /// <summary>
+        /// Gets an empty node-list. Shouldn't be modified.
+        /// </summary>
+        internal static readonly NodeList Empty = new NodeList();
+
         #endregion
 
         #region ctor

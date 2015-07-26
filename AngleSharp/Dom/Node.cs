@@ -35,7 +35,7 @@
             _owner = new WeakReference<Document>(owner);
             _name = name ?? String.Empty;
             _type = type;
-            _children = new NodeList();
+            _children = CreateNodeList(type);
             _flags = flags;
         }
 
@@ -584,6 +584,12 @@
         #endregion
 
         #region Helpers
+
+        static NodeList CreateNodeList(NodeType type)
+        {
+            return (type == NodeType.Document || type == NodeType.DocumentFragment || type == NodeType.Element) ?
+                new NodeList() : NodeList.Empty;
+        }
 
         /// <summary>
         /// For more information, see:
