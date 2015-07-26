@@ -900,7 +900,7 @@
 
                 AddElement(tag);
             }
-            else if (tagName.IsOneOf(Tags.Code, Tags.B, Tags.Strong, Tags.Em, Tags.U, Tags.I))
+            else if (Tags.AllSemanticFormattingTags.Contains(tagName))
             {
                 ReconstructFormatting();
                 _formattingElements.AddFormatting(AddElement(tag));
@@ -909,7 +909,7 @@
             {
                 InHead(tag);
             }
-            else if (tagName.IsOneOf(Tags.H3, Tags.H2, Tags.H4, Tags.H1, Tags.H6, Tags.H5))
+            else if (Tags.AllHeadingTags.Contains(tagName))
             {
                 if (IsInButtonScope())
                     InBodyEndTagParagraph(tag);
@@ -944,24 +944,19 @@
                 else
                     RaiseErrorOccurred(HtmlParseError.FormAlreadyOpen, tag);
             }
-            else if (tagName.IsOneOf(Tags.Ol, Tags.Dl, Tags.Fieldset) ||
-                     tagName.IsOneOf(Tags.Figcaption, Tags.Figure, Tags.Article, Tags.Aside, Tags.BlockQuote, Tags.Center) ||
-                     tagName.IsOneOf(Tags.Address, Tags.Dialog, Tags.Dir, Tags.Summary, Tags.Details, Tags.Main) ||
-                     tagName.IsOneOf(Tags.Footer, Tags.Header, Tags.Nav, Tags.Section, Tags.Menu, Tags.Hgroup))
+            else if (Tags.AllBodyScopeTags.Contains(tagName))
             {
                 if (IsInButtonScope())
                     InBodyEndTagParagraph(tag);
 
                 AddElement(tag);
             }
-            else if (tagName.IsOneOf(Tags.Font, Tags.S, Tags.Small, Tags.Strike, Tags.Big, Tags.Tt))
+            else if (Tags.AllClassicFormattingTags.Contains(tagName))
             {
                 ReconstructFormatting();
                 _formattingElements.AddFormatting(AddElement(tag));
             }
-            else if (tagName.IsOneOf(Tags.Style, Tags.Link) ||
-                     tagName.IsOneOf(Tags.Meta, Tags.Title, Tags.NoFrames, Tags.Template) ||
-                     tagName.IsOneOf(Tags.Base, Tags.BaseFont, Tags.Bgsound))
+            else if (Tags.AllHeadTags.Contains(tagName))
             {
                 InHead(tag);
             }
@@ -1245,9 +1240,7 @@
                     InBody(HtmlTagToken.Close(Tags.Form));
                 }
             }
-            else if (tagName.IsOneOf(Tags.Tbody, Tags.Td, Tags.Tfoot, Tags.Th, Tags.Thead, Tags.Tr) ||
-                     tagName.IsOneOf(Tags.Caption, Tags.Col, Tags.Colgroup) ||
-                     tagName.IsOneOf(Tags.Frame, Tags.Head))
+            else if (Tags.AllSpecialNestedTags.Contains(tagName))
             {
                 RaiseErrorOccurred(HtmlParseError.TagCannotStartHere, tag);
             }
@@ -1291,17 +1284,11 @@
             {
                 InBodyEndTagParagraph(tag);
             }
-            else if (tagName.IsOneOf(Tags.Ol, Tags.Ul, Tags.Dl, Tags.Fieldset, Tags.Button) ||
-                     tagName.IsOneOf(Tags.Figcaption, Tags.Figure, Tags.Article, Tags.Aside, Tags.BlockQuote, Tags.Center) ||
-                     tagName.IsOneOf(Tags.Address, Tags.Dialog, Tags.Dir, Tags.Summary, Tags.Details, Tags.Listing) ||
-                     tagName.IsOneOf(Tags.Footer, Tags.Header, Tags.Nav, Tags.Section, Tags.Menu, Tags.Hgroup) ||
-                     tagName.IsOneOf(Tags.Main, Tags.Pre))
+            else if (Tags.AllBlockTags.Contains(tagName))
             {
                 InBodyEndTagBlock(tag);
             }
-            else if (tagName.IsOneOf(Tags.B, Tags.Strong, Tags.Code) ||
-                     tagName.IsOneOf(Tags.NoBr, Tags.Em, Tags.U, Tags.I) ||
-                     tagName.IsOneOf(Tags.Font, Tags.S, Tags.Small, Tags.Strike, Tags.Big, Tags.Tt))
+            else if (Tags.AllFormattingTags.Contains(tagName))
             {
                 HeisenbergAlgorithm(tag);
             }
@@ -1329,7 +1316,7 @@
                 RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, tag);
                 InBodyStartTagBreakrow(HtmlTagToken.Open(Tags.Br));
             }
-            else if (tagName.IsOneOf(Tags.H3, Tags.H2, Tags.H4, Tags.H1, Tags.H6, Tags.H5))
+            else if (Tags.AllHeadingTags.Contains(tagName))
             {
                 if (IsInScope<HtmlHeadingElement>())
                 {
@@ -3131,13 +3118,7 @@
 
                         ForeignSpecialTag(tag);
                     }
-                    else if (tagName.IsOneOf(Tags.B, Tags.Big, Tags.BlockQuote, Tags.Body, Tags.Br, Tags.Center) ||
-                             tagName.IsOneOf(Tags.Code, Tags.Dd, Tags.Div, Tags.Dl, Tags.Dt, Tags.Em) ||
-                             tagName.IsOneOf(Tags.Embed, Tags.Head, Tags.Hr, Tags.I, Tags.Img, Tags.Li, Tags.Ul) ||
-                             tagName.IsOneOf(Tags.H3, Tags.H2, Tags.H4, Tags.H1, Tags.H6, Tags.H5) ||
-                             tagName.IsOneOf(Tags.Listing, Tags.Menu, Tags.Meta, Tags.NoBr, Tags.Ol) ||
-                             tagName.IsOneOf(Tags.P, Tags.Pre, Tags.Ruby, Tags.S, Tags.Small, Tags.Span, Tags.Strike) ||
-                             tagName.IsOneOf(Tags.Strong, Tags.Sub, Tags.Sup, Tags.Table, Tags.Tt, Tags.U, Tags.Var))
+                    else if (Tags.AllForeignExceptions.Contains(tagName))
                     {
                         ForeignNormalTag(tag);
                     }

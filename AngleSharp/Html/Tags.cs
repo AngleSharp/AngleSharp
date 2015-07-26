@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Html
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// The collection of (known / used) tags.
@@ -734,6 +735,73 @@
         /// The xml tag.
         /// </summary>
         public static readonly String Xml = "xml";
+
+        #endregion
+
+        #region Combinations
+
+        public static readonly HashSet<String> AllForeignExceptions = new HashSet<String>
+        {
+            Tags.B, Tags.Big, Tags.BlockQuote, Tags.Body, Tags.Br, Tags.Center,
+            Tags.Code, Tags.Dd, Tags.Div, Tags.Dl, Tags.Dt, Tags.Em,
+            Tags.Embed, Tags.Head, Tags.Hr, Tags.I, Tags.Img, Tags.Li, Tags.Ul,
+            Tags.H3, Tags.H2, Tags.H4, Tags.H1, Tags.H6, Tags.H5,
+            Tags.Listing, Tags.Menu, Tags.Meta, Tags.NoBr, Tags.Ol,
+            Tags.P, Tags.Pre, Tags.Ruby, Tags.S, Tags.Small, Tags.Span, Tags.Strike,
+            Tags.Strong, Tags.Sub, Tags.Sup, Tags.Table, Tags.Tt, Tags.U, Tags.Var
+        };
+
+        public static readonly HashSet<String> AllHeadTags = new HashSet<String>
+        {
+            Tags.Style, Tags.Link,
+            Tags.Meta, Tags.Title, Tags.NoFrames, Tags.Template,
+            Tags.Base, Tags.BaseFont, Tags.Bgsound
+        };
+
+        public static readonly HashSet<String> AllHeadingTags = new HashSet<String>
+        {
+            Tags.H3, Tags.H2, Tags.H4, Tags.H1, Tags.H6, Tags.H5
+        };
+
+        public static readonly HashSet<String> AllBlockTags = new HashSet<String>
+        {
+            Tags.Ol, Tags.Ul, Tags.Dl, Tags.Fieldset, Tags.Button,
+            Tags.Figcaption, Tags.Figure, Tags.Article, Tags.Aside, Tags.BlockQuote, Tags.Center,
+            Tags.Address, Tags.Dialog, Tags.Dir, Tags.Summary, Tags.Details, Tags.Listing,
+            Tags.Footer, Tags.Header, Tags.Nav, Tags.Section, Tags.Menu, Tags.Hgroup,
+            Tags.Main, Tags.Pre
+        };
+
+        public static readonly HashSet<String> AllBodyScopeTags = new HashSet<String>
+        {
+            Tags.Ol, Tags.Dl, Tags.Fieldset,
+            Tags.Figcaption, Tags.Figure, Tags.Article, Tags.Aside, Tags.BlockQuote, Tags.Center,
+            Tags.Address, Tags.Dialog, Tags.Dir, Tags.Summary, Tags.Details, Tags.Main,
+            Tags.Footer, Tags.Header, Tags.Nav, Tags.Section, Tags.Menu, Tags.Hgroup
+        };
+
+        public static readonly HashSet<String> AllSemanticFormattingTags = new HashSet<String>
+        {
+            Tags.B, Tags.Strong, Tags.Code, Tags.Em, Tags.U, Tags.I
+        };
+
+        public static readonly HashSet<String> AllClassicFormattingTags = new HashSet<String> 
+        {
+            Tags.Font, Tags.S, Tags.Small, Tags.Strike, Tags.Big, Tags.Tt
+        };
+
+        public static readonly HashSet<String> AllFormattingTags = new HashSet<String> 
+        {
+            Tags.B, Tags.Strong, Tags.Code, Tags.Em, Tags.U, Tags.I,
+            Tags.NoBr, Tags.Font, Tags.S, Tags.Small, Tags.Strike, Tags.Big, Tags.Tt
+        };
+
+        public static readonly HashSet<String> AllSpecialNestedTags = new HashSet<String>
+        {
+            Tags.Tbody, Tags.Td, Tags.Tfoot, Tags.Th, Tags.Thead, Tags.Tr,
+            Tags.Caption, Tags.Col, Tags.Colgroup,
+            Tags.Frame, Tags.Head
+        };
 
         #endregion
     }

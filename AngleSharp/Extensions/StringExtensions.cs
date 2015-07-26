@@ -348,6 +348,18 @@
 
             return false;
         }
+        
+        /// <summary>
+        /// Checks if two strings are exactly equal.
+        /// </summary>
+        /// <param name="current">The current string.</param>
+        /// <param name="other">The other string.</param>
+        /// <returns>True if both are equal, false otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean Is(this String current, String other)
+        {
+            return String.CompareOrdinal(current, other) == 0;
+        }
 
         /// <summary>
         /// Examines if the given element is equal to one of the given elements.
@@ -359,8 +371,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2)
         {
-            return String.Equals(element, item1, StringComparison.Ordinal) || 
-                   String.Equals(element, item2, StringComparison.Ordinal);
+            return element.Is(item1) || element.Is(item2);
         }
 
         /// <summary>
@@ -374,9 +385,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3)
         {
-            return String.Equals(element, item1, StringComparison.Ordinal) || 
-                   String.Equals(element, item2, StringComparison.Ordinal) || 
-                   String.Equals(element, item3, StringComparison.Ordinal);
+            return element.Is(item1) || element.Is(item2) || element.Is(item3);
         }
 
         /// <summary>
@@ -391,10 +400,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4)
         {
-            return String.Equals(element, item1, StringComparison.Ordinal) ||
-                   String.Equals(element, item2, StringComparison.Ordinal) ||
-                   String.Equals(element, item3, StringComparison.Ordinal) ||
-                   String.Equals(element, item4, StringComparison.Ordinal);
+            return element.Is(item1) || element.Is(item2) || element.Is(item3) || element.Is(item4);
         }
 
         /// <summary>
@@ -410,11 +416,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5)
         {
-            return String.Equals(element, item1, StringComparison.Ordinal) ||
-                   String.Equals(element, item2, StringComparison.Ordinal) ||
-                   String.Equals(element, item3, StringComparison.Ordinal) ||
-                   String.Equals(element, item4, StringComparison.Ordinal) ||
-                   String.Equals(element, item5, StringComparison.Ordinal);
+            return element.Is(item1) || element.Is(item2) || element.Is(item3) || element.Is(item4) || element.Is(item5);
         }
 
         /// <summary>
@@ -431,12 +433,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5, String item6)
         {
-            return String.Equals(element, item1, StringComparison.Ordinal) ||
-                   String.Equals(element, item2, StringComparison.Ordinal) ||
-                   String.Equals(element, item3, StringComparison.Ordinal) ||
-                   String.Equals(element, item4, StringComparison.Ordinal) ||
-                   String.Equals(element, item5, StringComparison.Ordinal) ||
-                   String.Equals(element, item6, StringComparison.Ordinal);
+            return element.Is(item1) || element.Is(item2) || element.Is(item3) || element.Is(item4) || element.Is(item5) || element.Is(item6);
         }
 
         /// <summary>
@@ -454,13 +451,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5, String item6, String item7)
         {
-            return String.Equals(element, item1, StringComparison.Ordinal) ||
-                   String.Equals(element, item2, StringComparison.Ordinal) ||
-                   String.Equals(element, item3, StringComparison.Ordinal) ||
-                   String.Equals(element, item4, StringComparison.Ordinal) ||
-                   String.Equals(element, item5, StringComparison.Ordinal) ||
-                   String.Equals(element, item6, StringComparison.Ordinal) ||
-                   String.Equals(element, item7, StringComparison.Ordinal);
+            return element.Is(item1) || element.Is(item2) || element.Is(item3) || element.Is(item4) || element.Is(item5) || element.Is(item6) || element.Is(item7);
         }
 
         /// <summary>
@@ -582,7 +573,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean HasHyphen(this String str, String value)
         {
-            return str.Equals(value, StringComparison.Ordinal) || (str.Length > value.Length && str.StartsWith(value, StringComparison.Ordinal) && str[value.Length] == '-');
+            return str.Is(value) || (str.Length > value.Length && str.StartsWith(value, StringComparison.Ordinal) && str[value.Length] == '-');
         }
 
         /// <summary>
