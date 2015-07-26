@@ -803,6 +803,46 @@
             Tags.Frame, Tags.Head
         };
 
+        public static readonly HashSet<String> AllTableElements = new HashSet<String>
+        {
+            Tags.Tbody, Tags.Col, Tags.Tfoot, Tags.Td, Tags.Thead, Tags.Tr
+        };
+
+        public static readonly HashSet<String> AllTableRootElements = new HashSet<String>
+        {
+            Tags.Caption, Tags.Colgroup, Tags.Tbody, Tags.Tfoot, Tags.Thead
+        };
+
+        public static readonly HashSet<String> AllTableGeneralElements = new HashSet<String>
+        {
+            Tags.Caption, Tags.Colgroup, Tags.Col, Tags.Tbody, Tags.Tfoot, Tags.Thead
+        };
+
+        public static readonly HashSet<String> AllTableSectionElements = new HashSet<String>
+        {
+            Tags.Tbody, Tags.Tfoot, Tags.Thead
+        };
+
+        public static readonly HashSet<String> AllTableSpecialElements = new HashSet<String>
+        {
+            Tags.Td, Tags.Th,  Tags.Body, Tags.Caption, Tags.Col, Tags.Colgroup, Tags.Html
+        };
+
+        public static readonly HashSet<String> AllTableCoreElements = new HashSet<String>
+        {
+            Tags.Tr, Tags.Table, Tags.Tbody, Tags.Tfoot, Tags.Thead
+        };
+
+        public static readonly HashSet<String> AllTableSelectElements = new HashSet<String>
+        {
+            Tags.Tr, Tags.Table, Tags.Tbody, Tags.Tfoot, Tags.Thead, Tags.Td, Tags.Th, Tags.Caption
+        };
+
+        public static readonly HashSet<String> AllTableCellsAndRows = new HashSet<String>
+        {
+            Tags.Tr, Tags.Td, Tags.Th
+        };
+
         #endregion
     }
 }

@@ -726,7 +726,6 @@
     <Compile Include="Css\RuleNames.cs" />
     <Compile Include="Extensions\XmlExtensions.cs" />
     <Compile Include="Html\FormDataSet.cs" />
-    <Compile Include="Parser\Html\HtmlHelpers.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Foundation\Pool.cs" />
     <Compile Include="Network\Default\Request.cs" />
