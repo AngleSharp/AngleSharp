@@ -1077,7 +1077,7 @@
         /// </summary>
         public IDocument Open(String type = "text/html", String replace = null)
         {
-            if (_contentType != MimeTypes.Html)
+            if (!String.Equals(_contentType, MimeTypes.Html, StringComparison.Ordinal))
                 throw new DomException(DomError.InvalidState);
 
             if (IsInBrowsingContext && _context.Active != this)
@@ -1320,19 +1320,16 @@
         {
             var localName = default(String);
             var prefix = default(String);
-            var element = default(Element);
             GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out prefix, out localName);
 
-            if (namespaceUri == Namespaces.HtmlUri)
-                element = Factory.HtmlElements.Create(this, localName, prefix);
-            else if (namespaceUri == Namespaces.SvgUri)
-                element = Factory.SvgElements.Create(this, localName, prefix);
-            else if (namespaceUri == Namespaces.MathMlUri)
-                element = Factory.MathElements.Create(this, localName, prefix);
-            else
-                element = new Element(this, localName, prefix, namespaceUri);
+            if (String.Equals(namespaceUri, Namespaces.HtmlUri, StringComparison.Ordinal))
+                return Factory.HtmlElements.Create(this, localName, prefix);
+            else if (String.Equals(namespaceUri, Namespaces.SvgUri, StringComparison.Ordinal))
+                return Factory.SvgElements.Create(this, localName, prefix);
+            else if (String.Equals(namespaceUri, Namespaces.MathMlUri, StringComparison.Ordinal))
+                return Factory.MathElements.Create(this, localName, prefix);
             
-            return element;
+            return new Element(this, localName, prefix, namespaceUri);
         }
 
         /// <summary>
@@ -1706,12 +1703,12 @@
 
         static Boolean IsLink(IElement element)
         {
-            return (element is IHtmlAnchorElement || element is IHtmlAreaElement) && element.Attributes.Any(m => m.Name == AttributeNames.Href);
+            return (element is IHtmlAnchorElement || element is IHtmlAreaElement) && element.Attributes.Any(m => String.Equals(m.Name, AttributeNames.Href, StringComparison.Ordinal));
         }
 
         static Boolean IsAnchor(IHtmlAnchorElement element)
         {
-            return element.Attributes.Any(m => m.Name == AttributeNames.Name);
+            return element.Attributes.Any(m => String.Equals(m.Name, AttributeNames.Name, StringComparison.Ordinal));
         }
 
         void RaiseDomContentLoaded()

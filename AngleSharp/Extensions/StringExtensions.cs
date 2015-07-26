@@ -359,7 +359,8 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2)
         {
-            return element == item1 || element == item2;
+            return String.Equals(element, item1, StringComparison.Ordinal) || 
+                   String.Equals(element, item2, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -373,7 +374,9 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3)
         {
-            return element == item1 || element == item2 || element == item3;
+            return String.Equals(element, item1, StringComparison.Ordinal) || 
+                   String.Equals(element, item2, StringComparison.Ordinal) || 
+                   String.Equals(element, item3, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -388,7 +391,10 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4)
         {
-            return element == item1 || element == item2 || element == item3 || element == item4;
+            return String.Equals(element, item1, StringComparison.Ordinal) ||
+                   String.Equals(element, item2, StringComparison.Ordinal) ||
+                   String.Equals(element, item3, StringComparison.Ordinal) ||
+                   String.Equals(element, item4, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -404,7 +410,11 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5)
         {
-            return element == item1 || element == item2 || element == item3 || element == item4 || element == item5;
+            return String.Equals(element, item1, StringComparison.Ordinal) ||
+                   String.Equals(element, item2, StringComparison.Ordinal) ||
+                   String.Equals(element, item3, StringComparison.Ordinal) ||
+                   String.Equals(element, item4, StringComparison.Ordinal) ||
+                   String.Equals(element, item5, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -421,7 +431,12 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5, String item6)
         {
-            return element == item1 || element == item2 || element == item3 || element == item4 || element == item5 || element == item6;
+            return String.Equals(element, item1, StringComparison.Ordinal) ||
+                   String.Equals(element, item2, StringComparison.Ordinal) ||
+                   String.Equals(element, item3, StringComparison.Ordinal) ||
+                   String.Equals(element, item4, StringComparison.Ordinal) ||
+                   String.Equals(element, item5, StringComparison.Ordinal) ||
+                   String.Equals(element, item6, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -439,7 +454,13 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5, String item6, String item7)
         {
-            return element == item1 || element == item2 || element == item3 || element == item4 || element == item5 || element == item6 || element == item7;
+            return String.Equals(element, item1, StringComparison.Ordinal) ||
+                   String.Equals(element, item2, StringComparison.Ordinal) ||
+                   String.Equals(element, item3, StringComparison.Ordinal) ||
+                   String.Equals(element, item4, StringComparison.Ordinal) ||
+                   String.Equals(element, item5, StringComparison.Ordinal) ||
+                   String.Equals(element, item6, StringComparison.Ordinal) ||
+                   String.Equals(element, item7, StringComparison.Ordinal);
         }
 
         /// <summary>

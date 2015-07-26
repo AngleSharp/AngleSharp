@@ -557,7 +557,7 @@
                 namespaceUri = null;
 
             var defaultNamespace = LocateNamespace(null);
-            return defaultNamespace == namespaceUri;
+            return String.Equals(defaultNamespace, namespaceUri, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -567,7 +567,9 @@
         /// <returns>True if they are equal, otherwise false.</returns>
         public virtual Boolean Equals(INode otherNode)
         {
-            if (BaseUri != otherNode.BaseUri || NodeName != otherNode.NodeName || ChildNodes.Length != otherNode.ChildNodes.Length)
+            if (!String.Equals(BaseUri, otherNode.BaseUri, StringComparison.Ordinal) || 
+                !String.Equals(NodeName, otherNode.NodeName, StringComparison.Ordinal) || 
+                ChildNodes.Length != otherNode.ChildNodes.Length)
                 return false;
 
             for (int i = 0; i < _children.Length; i++)
@@ -608,9 +610,9 @@
             }
 
             if ((prefix != null && namespaceUri == null) ||
-                (prefix == Namespaces.XmlPrefix && namespaceUri != Namespaces.XmlUri) ||
-                ((qualifiedName == Namespaces.XmlNsPrefix || prefix == Namespaces.XmlNsPrefix) && namespaceUri != Namespaces.XmlNsUri) ||
-                (namespaceUri == Namespaces.XmlNsUri && (qualifiedName != Namespaces.XmlNsPrefix && prefix != Namespaces.XmlNsPrefix)))
+                (String.Equals(prefix, Namespaces.XmlPrefix, StringComparison.Ordinal) && !String.Equals(namespaceUri, Namespaces.XmlUri, StringComparison.Ordinal)) ||
+                ((String.Equals(qualifiedName, Namespaces.XmlNsPrefix, StringComparison.Ordinal) || String.Equals(prefix, Namespaces.XmlNsPrefix, StringComparison.Ordinal)) && !String.Equals(namespaceUri, Namespaces.XmlNsUri, StringComparison.Ordinal)) ||
+                (String.Equals(namespaceUri, Namespaces.XmlNsUri, StringComparison.Ordinal) && (!String.Equals(qualifiedName, Namespaces.XmlNsPrefix, StringComparison.Ordinal) && !String.Equals(prefix, Namespaces.XmlNsPrefix, StringComparison.Ordinal))))
                 throw new DomException(DomError.Namespace);
         }
 
