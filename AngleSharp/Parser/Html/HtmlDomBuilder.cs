@@ -160,11 +160,11 @@
                 _tokenizer.State = HtmlParseMode.RCData;
             else if (tagName.IsOneOf(Tags.Style, Tags.Xmp, Tags.Iframe, Tags.NoEmbed, Tags.NoFrames))
                 _tokenizer.State = HtmlParseMode.Rawtext;
-            else if (String.Equals(tagName, Tags.Script, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Script))
                 _tokenizer.State = HtmlParseMode.Script;
-            else if (String.Equals(tagName, Tags.Plaintext, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Plaintext))
                 _tokenizer.State = HtmlParseMode.Plaintext;
-            else if (String.Equals(tagName, Tags.NoScript, StringComparison.Ordinal) && options.IsScripting)
+            else if (tagName.Is(Tags.NoScript) && options.IsScripting)
                 _tokenizer.State = HtmlParseMode.Rawtext;
 
             var root = new HtmlHtmlElement(_document);
@@ -230,29 +230,29 @@
 
                 var tagName = node.LocalName;
 
-                if (String.Equals(tagName, Tags.Select, StringComparison.Ordinal))
+                if (tagName.Is(Tags.Select))
                     _currentMode = HtmlTreeMode.InSelect;
                 else if (tagName.IsOneOf(Tags.Th, Tags.Td))
                     _currentMode = last ? HtmlTreeMode.InBody : HtmlTreeMode.InCell;
-                else if (String.Equals(tagName, Tags.Tr, StringComparison.Ordinal))
+                else if (tagName.Is(Tags.Tr))
                     _currentMode = HtmlTreeMode.InRow;
                 else if (tagName.IsOneOf(Tags.Thead, Tags.Tfoot, Tags.Tbody))
                     _currentMode = HtmlTreeMode.InTableBody;
-                else if (String.Equals(tagName, Tags.Body, StringComparison.Ordinal))
+                else if (tagName.Is(Tags.Body))
                     _currentMode = HtmlTreeMode.InBody;
-                else if (String.Equals(tagName, Tags.Table, StringComparison.Ordinal))
+                else if (tagName.Is(Tags.Table))
                     _currentMode = HtmlTreeMode.InTable;
-                else if (String.Equals(tagName, Tags.Caption, StringComparison.Ordinal))
+                else if (tagName.Is(Tags.Caption))
                     _currentMode = HtmlTreeMode.InCaption;
-                else if (String.Equals(tagName, Tags.Colgroup, StringComparison.Ordinal))
+                else if (tagName.Is(Tags.Colgroup))
                     _currentMode = HtmlTreeMode.InColumnGroup;
-                else if (String.Equals(tagName, Tags.Template, StringComparison.Ordinal))
+                else if (tagName.Is(Tags.Template))
                     _currentMode = _templateModes.Peek();
-                else if (String.Equals(tagName, Tags.Html, StringComparison.Ordinal))
+                else if (tagName.Is(Tags.Html))
                     _currentMode = HtmlTreeMode.BeforeHead;
-                else if (String.Equals(tagName, Tags.Head, StringComparison.Ordinal))
+                else if (tagName.Is(Tags.Head))
                     _currentMode = last ? HtmlTreeMode.InBody : HtmlTreeMode.InHead;
-                else if (String.Equals(tagName, Tags.Frameset, StringComparison.Ordinal))
+                else if (tagName.Is(Tags.Frameset))
                     _currentMode = HtmlTreeMode.InFrameset;
                 else if (last)
                     _currentMode = HtmlTreeMode.InBody;
@@ -274,7 +274,7 @@
             if (node == null || token.Type == HtmlTokenType.EndOfFile || node.Flags.HasFlag(NodeFlags.HtmlMember) || 
                 (node.Flags.HasFlag(NodeFlags.HtmlTip) && token.IsHtmlCompatible) ||
                 (node.Flags.HasFlag(NodeFlags.MathTip) && token.IsMathCompatible) || 
-                (node.Flags.HasFlag(NodeFlags.MathMember) && token.IsSvg && String.Equals(node.LocalName, Tags.AnnotationXml, StringComparison.Ordinal)))
+                (node.Flags.HasFlag(NodeFlags.MathMember) && token.IsSvg && node.LocalName.Is(Tags.AnnotationXml)))
                 Home(token);
             else
                 Foreign(token);
@@ -461,7 +461,7 @@
                 }
                 case HtmlTokenType.StartTag:
                 {
-                    if (!String.Equals(token.Name, Tags.Html, StringComparison.Ordinal))
+                    if (!token.Name.Is(Tags.Html))
                         break;
 
                     AddRoot(token.AsTag());
@@ -508,12 +508,12 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Html, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Html))
                     {
                         InBody(token);
                         return;
                     }
-                    else if (String.Equals(tagName, Tags.Head, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Head))
                     {
                         AddElement(new HtmlHeadElement(_document), token.AsTag());
                         _currentMode = HtmlTreeMode.InHead;
@@ -578,12 +578,12 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Html, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Html))
                     {
                         InBody(token);
                         return;
                     }
-                    else if (String.Equals(tagName, Tags.Meta, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Meta))
                     {
                         var element = new HtmlMetaElement(_document);
                         AddElement(element, token.AsTag(), true);
@@ -610,23 +610,23 @@
                         CloseCurrentNode();
                         return;
                     }
-                    else if (String.Equals(tagName, Tags.Title, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Title))
                     {
                         RCDataAlgorithm(token.AsTag());
                         return;
                     }
-                    else if (tagName.IsOneOf(Tags.Style, Tags.NoFrames) || (_options.IsScripting && String.Equals(tagName, Tags.NoScript, StringComparison.Ordinal)))
+                    else if (tagName.IsOneOf(Tags.Style, Tags.NoFrames) || (_options.IsScripting && tagName.Is(Tags.NoScript)))
                     {
                         RawtextAlgorithm(token.AsTag());
                         return;
                     }
-                    else if (String.Equals(tagName, Tags.NoScript, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.NoScript))
                     {
                         AddElement(token.AsTag());
                         _currentMode = HtmlTreeMode.InHeadNoScript;
                         return;
                     }
-                    else if (String.Equals(tagName, Tags.Script, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Script))
                     {
                         var script = new HtmlScriptElement(_document);
                         AddElement(script, token.AsTag());
@@ -636,12 +636,12 @@
                         _currentMode = HtmlTreeMode.Text;
                         return;
                     }
-                    else if (String.Equals(tagName, Tags.Head, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Head))
                     {
                         RaiseErrorOccurred(HtmlParseError.HeadTagMisplaced, token);
                         return;
                     }
-                    else if (String.Equals(tagName, Tags.Template, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Template))
                     {
                         AddElement(new HtmlTemplateElement(_document), token.AsTag());
                         _formattingElements.AddScopeMarker();
@@ -657,7 +657,7 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Head, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Head))
                     {
                         CloseCurrentNode();
 
@@ -665,7 +665,7 @@
                         _waiting = _document.WaitForReady();
                         return;
                     }
-                    else if (String.Equals(tagName, Tags.Template, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Template))
                     {
                         if (TagCurrentlyOpen(Tags.Template))
                         {
@@ -725,7 +725,7 @@
 
                     if (tagName.IsOneOf(Tags.Style, Tags.Link, Tags.BaseFont, Tags.Meta, Tags.NoFrames, Tags.Bgsound))
                         InHead(token);
-                    else if (String.Equals(tagName, Tags.Html, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Html))
                         InBody(token);
                     else if (tagName.IsOneOf(Tags.Head, Tags.NoScript))
                         RaiseErrorOccurred(HtmlParseError.TagInappropriate, token);
@@ -738,13 +738,13 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.NoScript, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.NoScript))
                     {
                         CloseCurrentNode();
                         _currentMode = HtmlTreeMode.InHead;
                         return;
                     }
-                    else if (!String.Equals(tagName, Tags.Br, StringComparison.Ordinal))
+                    else if (!tagName.Is(Tags.Br))
                     {
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
                         return;
@@ -797,17 +797,17 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Html, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Html))
                     {
                         InBody(token);
                         return;
                     }
-                    else if (String.Equals(tagName, Tags.Body, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Body))
                     {
                         AfterHeadStartTagBody(token.AsTag());
                         return;
                     }
-                    else if (String.Equals(tagName, Tags.Frameset, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Frameset))
                     {
                         AddElement(new HtmlFrameSetElement(_document), token.AsTag());
                         _currentMode = HtmlTreeMode.InFrameset;
@@ -823,7 +823,7 @@
                         _openElements.Remove(head);
                         return;
                     }
-                    else if (String.Equals(tagName, Tags.Head, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Head))
                     {
                         RaiseErrorOccurred(HtmlParseError.HeadTagMisplaced, token);
                         return;
@@ -850,14 +850,14 @@
         {
             var tagName = tag.Name;
 
-            if (String.Equals(tagName, Tags.Div, StringComparison.Ordinal))
+            if (tagName.Is(Tags.Div))
             {
                 if (IsInButtonScope())
                     InBodyEndTagParagraph(tag);
 
                 AddElement(tag);
             }
-            else if (String.Equals(tagName, Tags.A, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.A))
             {
                 for (var i = _formattingElements.Count - 1; i >= 0; i--)
                 {
@@ -880,16 +880,16 @@
                 AddElement(element, tag);
                 _formattingElements.AddFormatting(element);
             }
-            else if (String.Equals(tagName, Tags.Span, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Span))
             {
                 ReconstructFormatting();
                 AddElement(tag);
             }
-            else if (String.Equals(tagName, Tags.Li, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Li))
             {
                 InBodyStartTagListItem(tag);
             }
-            else if (String.Equals(tagName, Tags.Img, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Img))
             {
                 InBodyStartTagBreakrow(tag);
             }
@@ -905,7 +905,7 @@
                 ReconstructFormatting();
                 _formattingElements.AddFormatting(AddElement(tag));
             }
-            else if (String.Equals(tagName, Tags.Script, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Script))
             {
                 InHead(tag);
             }
@@ -922,16 +922,16 @@
 
                 AddElement(new HtmlHeadingElement(_document, tagName), tag);
             }
-            else if (String.Equals(tagName, Tags.Input, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Input))
             {
                 ReconstructFormatting();
                 AddElement(new HtmlInputElement(_document), tag, true);
                 CloseCurrentNode();
 
-                if (!tag.GetAttribute(AttributeNames.Type).Equals(AttributeNames.Hidden, StringComparison.OrdinalIgnoreCase))
+                if (!tag.GetAttribute(AttributeNames.Type).Isi(AttributeNames.Hidden))
                     _frameset = false;
             }
-            else if (String.Equals(tagName, Tags.Form, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Form))
             {
                 if (_currentFormElement == null)
                 {
@@ -969,7 +969,7 @@
                 _frameset = false;
                 PreventNewLine();
             }
-            else if (String.Equals(tagName, Tags.Button, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Button))
             {
                 if (IsInScope<HtmlButtonElement>())
                 {
@@ -984,7 +984,7 @@
                     _frameset = false;
                 }
             }
-            else if (String.Equals(tagName, Tags.Table, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Table))
             {
                 if (_document.QuirksMode != QuirksMode.On && IsInButtonScope())
                     InBodyEndTagParagraph(tag);
@@ -1002,7 +1002,7 @@
                 AddElement(tag, true);
                 CloseCurrentNode();
             }
-            else if (String.Equals(tagName, Tags.Hr, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Hr))
             {
                 if (IsInButtonScope())
                     InBodyEndTagParagraph(tag);
@@ -1011,7 +1011,7 @@
                 CloseCurrentNode();
                 _frameset = false;
             }
-            else if (String.Equals(tagName, Tags.Textarea, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Textarea))
             {
                 AddElement(new HtmlTextAreaElement(_document), tag);
                 _tokenizer.State = HtmlParseMode.RCData;
@@ -1020,7 +1020,7 @@
                 _currentMode = HtmlTreeMode.Text;
                 PreventNewLine();
             }
-            else if (String.Equals(tagName, Tags.Select, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Select))
             {
                 ReconstructFormatting();
                 AddElement(new HtmlSelectElement(_document), tag);
@@ -1053,7 +1053,7 @@
             {
                 InBodyStartTagDefinitionItem(tag);
             }
-            else if (String.Equals(tagName, Tags.Iframe, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Iframe))
             {
                 _frameset = false;
                 RawtextAlgorithm(tag);
@@ -1065,13 +1065,13 @@
                 _formattingElements.AddScopeMarker();
                 _frameset = false;
             }
-            else if (String.Equals(tagName, Tags.Image, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Image))
             {
                 RaiseErrorOccurred(HtmlParseError.ImageTagNamedWrong, tag);
                 tag.Name = Tags.Img;
                 InBodyStartTagBreakrow(tag);
             }
-            else if (String.Equals(tagName, Tags.NoBr, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.NoBr))
             {
                 ReconstructFormatting();
 
@@ -1084,7 +1084,7 @@
 
                 _formattingElements.AddFormatting(AddElement(tag));
             }
-            else if (String.Equals(tagName, Tags.Xmp, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Xmp))
             {
                 if (IsInButtonScope())
                     InBodyEndTagParagraph(tag);
@@ -1117,11 +1117,11 @@
 
                 AddElement(tag);
             }
-            else if (String.Equals(tagName, Tags.NoEmbed, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.NoEmbed))
             {
                 RawtextAlgorithm(tag);
             }
-            else if (String.Equals(tagName, Tags.NoScript, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.NoScript))
             {
                 if (_options.IsScripting)
                 {
@@ -1132,7 +1132,7 @@
                 ReconstructFormatting();
                 AddElement(tag);
             }
-            else if (String.Equals(tagName, Tags.Math, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Math))
             {
                 var element = new MathElement(_document, tagName);
                 ReconstructFormatting();
@@ -1149,7 +1149,7 @@
                 if (tag.IsSelfClosing)
                     _openElements.Remove(element);
             }
-            else if (String.Equals(tagName, Tags.Svg, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Svg))
             {
                 var element = new SvgElement(_document, tagName);
                 ReconstructFormatting();
@@ -1166,7 +1166,7 @@
                 if (tag.IsSelfClosing)
                     _openElements.Remove(element);
             }
-            else if (String.Equals(tagName, Tags.Plaintext, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Plaintext))
             {
                 if (IsInButtonScope())
                     InBodyEndTagParagraph(tag);
@@ -1174,7 +1174,7 @@
                 AddElement(tag);
                 _tokenizer.State = HtmlParseMode.Plaintext;
             }
-            else if (String.Equals(tagName, Tags.Frameset, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Frameset))
             {
                 RaiseErrorOccurred(HtmlParseError.FramesetMisplaced, tag);
 
@@ -1189,14 +1189,14 @@
                     _currentMode = HtmlTreeMode.InFrameset;
                 }
             }
-            else if (String.Equals(tagName, Tags.Html, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Html))
             {
                 RaiseErrorOccurred(HtmlParseError.HtmlTagMisplaced, tag);
 
                 if (_templateModes.Count == 0)
                     _openElements[0].SetUniqueAttributes(tag.Attributes);
             }
-            else if (String.Equals(tagName, Tags.Body, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Body))
             {
                 RaiseErrorOccurred(HtmlParseError.BodyTagMisplaced, tag);
 
@@ -1206,7 +1206,7 @@
                     _openElements[1].SetUniqueAttributes(tag.Attributes);
                 }
             }
-            else if (String.Equals(tagName, Tags.IsIndex, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.IsIndex))
             {
                 RaiseErrorOccurred(HtmlParseError.TagInappropriate, tag);
 
@@ -1255,15 +1255,15 @@
         {
             var tagName = tag.Name;
 
-            if (String.Equals(tagName, Tags.Div, StringComparison.Ordinal))
+            if (tagName.Is(Tags.Div))
             {
                 InBodyEndTagBlock(tag);
             }
-            else if (String.Equals(tagName, Tags.A, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.A))
             {
                 HeisenbergAlgorithm(tag);
             }
-            else if (String.Equals(tagName, Tags.Li, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Li))
             {
                 if (IsInListItemScope())
                 {
@@ -1280,7 +1280,7 @@
                     RaiseErrorOccurred(HtmlParseError.ListItemNotInScope, tag);
                 }
             }
-            else if (String.Equals(tagName, Tags.P, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.P))
             {
                 InBodyEndTagParagraph(tag);
             }
@@ -1292,7 +1292,7 @@
             {
                 HeisenbergAlgorithm(tag);
             }
-            else if (String.Equals(tagName, Tags.Form, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Form))
             {
                 var node = _currentFormElement;
                 _currentFormElement = null;
@@ -1311,7 +1311,7 @@
                     RaiseErrorOccurred(HtmlParseError.FormNotInScope, tag);
                 }
             }
-            else if (String.Equals(tagName, Tags.Br, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Br))
             {
                 RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, tag);
                 InBodyStartTagBreakrow(HtmlTagToken.Open(Tags.Br));
@@ -1322,7 +1322,7 @@
                 {
                     GenerateImpliedEndTags();
 
-                    if (!String.Equals(CurrentNode.LocalName, tagName, StringComparison.Ordinal))
+                    if (!CurrentNode.LocalName.Is(tagName))
                         RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, tag);
 
                     ClearStackBackTo<HtmlHeadingElement>();
@@ -1339,7 +1339,7 @@
                 {
                     GenerateImpliedEndTagsExceptFor(tagName);
 
-                    if (!String.Equals(CurrentNode.LocalName, tagName, StringComparison.Ordinal))
+                    if (!CurrentNode.LocalName.Is(tagName))
                         RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, tag);
 
                     ClearStackBackTo(tagName);
@@ -1356,7 +1356,7 @@
                 {
                     GenerateImpliedEndTags();
 
-                    if (!String.Equals(CurrentNode.LocalName, tagName, StringComparison.Ordinal))
+                    if (!CurrentNode.LocalName.Is(tagName))
                         RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, tag);
 
                     ClearStackBackTo(tagName);
@@ -1368,16 +1368,16 @@
                     RaiseErrorOccurred(HtmlParseError.ObjectNotInScope, tag);
                 }
             }
-            else if (String.Equals(tagName, Tags.Body, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Body))
             {
                 InBodyEndTagBody(tag);
             }
-            else if (String.Equals(tagName, Tags.Html, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Html))
             {
                 if (InBodyEndTagBody(tag))
                     AfterBody(tag);
             }
-            else if (String.Equals(tagName, Tags.Template, StringComparison.Ordinal))
+            else if (tagName.Is(Tags.Template))
             {
                 InHead(tag);
             }
@@ -1454,7 +1454,7 @@
                 }
                 case HtmlTokenType.EndTag:
                 {
-                    if (!String.Equals(token.Name, Tags.Script, StringComparison.Ordinal))
+                    if (!token.Name.Is(Tags.Script))
                     {
                         CloseCurrentNode();
                         _currentMode = _previousMode;
@@ -1499,20 +1499,20 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Caption, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Caption))
                     {
                         ClearStackBackTo<HtmlTableElement>();
                         _formattingElements.AddScopeMarker();
                         AddElement(new HtmlTableCaptionElement(_document), token.AsTag());
                         _currentMode = HtmlTreeMode.InCaption;
                     }
-                    else if (String.Equals(tagName, Tags.Colgroup, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Colgroup))
                     {
                         ClearStackBackTo<HtmlTableElement>();
                         AddElement(new HtmlTableColgroupElement(_document), token.AsTag());
                         _currentMode = HtmlTreeMode.InColumnGroup;
                     }
-                    else if (String.Equals(tagName, Tags.Col, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Col))
                     {
                         InTable(HtmlTagToken.Open(Tags.Colgroup));
                         InColumnGroup(token);
@@ -1528,7 +1528,7 @@
                         InTable(HtmlTagToken.Open(Tags.Tbody));
                         InTableBody(token);
                     }
-                    else if (String.Equals(tagName, Tags.Table, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Table))
                     {
                         RaiseErrorOccurred(HtmlParseError.TableNesting, token);
 
@@ -1539,11 +1539,11 @@
                     {
                         InHead(token);
                     }
-                    else if (String.Equals(tagName, Tags.Input, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Input))
                     {
                         var tag = token.AsTag();
 
-                        if (tag.GetAttribute(AttributeNames.Type).Equals(AttributeNames.Hidden, StringComparison.OrdinalIgnoreCase))
+                        if (tag.GetAttribute(AttributeNames.Type).Isi(AttributeNames.Hidden))
                         {
                             RaiseErrorOccurred(HtmlParseError.InputUnexpected, token);
                             AddElement(new HtmlInputElement(_document), tag, true);
@@ -1555,7 +1555,7 @@
                             InBodyWithFoster(token);
                         }
                     }
-                    else if (String.Equals(tagName, Tags.Form, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Form))
                     {
                         RaiseErrorOccurred(HtmlParseError.FormInappropriate, token);
 
@@ -1578,11 +1578,11 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Table, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Table))
                     {
                         InTableEndTagTable(token);
                     }
-                    else if (String.Equals(tagName, Tags.Template, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Template))
                     {
                         InHead(token);
                     }
@@ -1648,7 +1648,7 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Caption, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Caption))
                     {
                         InCaptionEndTagCaption(token);
                     }
@@ -1656,7 +1656,7 @@
                     {
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
                     }
-                    else if (String.Equals(tagName, Tags.Table, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Table))
                     {
                         RaiseErrorOccurred(HtmlParseError.TableNesting, token);
 
@@ -1721,16 +1721,16 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Html, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Html))
                     {
                         InBody(token);
                     }
-                    else if (String.Equals(tagName, Tags.Col, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Col))
                     {
                         AddElement(new HtmlTableColElement(_document), token.AsTag(), true);
                         CloseCurrentNode();
                     }
-                    else if (String.Equals(tagName, Tags.Template, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Template))
                     {
                         InHead(token);
                     }
@@ -1745,11 +1745,11 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Colgroup, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Colgroup))
                         InColumnGroupEndTagColgroup(token);
-                    else if (String.Equals(tagName, Tags.Col, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Col))
                         RaiseErrorOccurred(HtmlParseError.TagClosedWrong, token);
-                    else if (String.Equals(tagName, Tags.Template, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Template))
                         InHead(token);
                     else
                         break;
@@ -1779,7 +1779,7 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Tr, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Tr))
                     {
                         ClearStackBackTo<HtmlTableSectionElement>();
                         AddElement(new HtmlTableRowElement(_document), token.AsTag());
@@ -1814,7 +1814,7 @@
                     }
                     else if (tagName.Is(Tags.Tr) || Tags.AllTableSpecialElements.Contains(tagName))
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
-                    else if (String.Equals(tagName, Tags.Table, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Table))
                         InTableBodyCloseTable(token.AsTag());
                     else
                         break;
@@ -1861,11 +1861,11 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Tr, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Tr))
                     {
                         InRowEndTagTablerow(token);
                     }
-                    else if (String.Equals(tagName, Tags.Table, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Table))
                     {
                         if (InRowEndTagTablerow(token))
                             InTableBody(token);
@@ -1988,18 +1988,18 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Html, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Html))
                     {
                         InBody(token);
                     }
-                    else if (String.Equals(tagName, Tags.Option, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Option))
                     {
                         if (CurrentNode is HtmlOptionElement)
                             InSelectEndTagOption(token);
 
                         AddElement(new HtmlOptionElement(_document), token.AsTag());
                     }
-                    else if (String.Equals(tagName, Tags.Optgroup, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Optgroup))
                     {
                         if (CurrentNode is HtmlOptionElement)
                             InSelectEndTagOption(token);
@@ -2009,7 +2009,7 @@
 
                         AddElement(new HtmlOptionsGroupElement(_document), token.AsTag());
                     }
-                    else if (String.Equals(tagName, Tags.Select, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Select))
                     {
                         RaiseErrorOccurred(HtmlParseError.SelectNesting, token);
                         InSelectEndTagSelect();
@@ -2039,15 +2039,15 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Template, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Template))
                         InHead(token);
-                    else if (String.Equals(tagName, Tags.Optgroup, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Optgroup))
                         InSelectEndTagOptgroup(token);
-                    else if (String.Equals(tagName, Tags.Option, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Option))
                         InSelectEndTagOption(token);
-                    else if (String.Equals(tagName, Tags.Select, StringComparison.Ordinal) && IsInSelectScope(Tags.Select))
+                    else if (tagName.Is(Tags.Select) && IsInSelectScope(Tags.Select))
                         InSelectEndTagSelect();
-                    else if (String.Equals(tagName, Tags.Select, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Select))
                         RaiseErrorOccurred(HtmlParseError.SelectNotInScope, token);
                     else
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
@@ -2129,9 +2129,9 @@
                         InHead(token);
                     else if (Tags.AllTableRootElements.Contains(tagName))
                         TemplateStep(token, HtmlTreeMode.InTable);
-                    else if (String.Equals(tagName, Tags.Col, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Col))
                         TemplateStep(token, HtmlTreeMode.InColumnGroup);
-                    else if (String.Equals(tagName, Tags.Tr, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Tr))
                         TemplateStep(token, HtmlTreeMode.InTableBody);
                     else if (tagName.IsOneOf(Tags.Td, Tags.Th))
                         TemplateStep(token, HtmlTreeMode.InRow);
@@ -2142,7 +2142,7 @@
                 }
                 case HtmlTokenType.EndTag:
                 {
-                    if (String.Equals(token.Name, Tags.Template, StringComparison.Ordinal))
+                    if (token.Name.Is(Tags.Template))
                         InHead(token);
                     else
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
@@ -2201,7 +2201,7 @@
                 }
                 case HtmlTokenType.StartTag:
                 {
-                    if (String.Equals(token.Name, Tags.Html, StringComparison.Ordinal))
+                    if (token.Name.Is(Tags.Html))
                     {
                         InBody(token);
                         return;
@@ -2211,7 +2211,7 @@
                 }
                 case HtmlTokenType.EndTag:
                 {
-                    if (String.Equals(token.Name, Tags.Html, StringComparison.Ordinal))
+                    if (token.Name.Is(Tags.Html))
                     {
                         if (IsFragmentCase)
                             RaiseErrorOccurred(HtmlParseError.TagInvalidInFragmentMode, token);
@@ -2267,16 +2267,16 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Html, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Html))
                         InBody(token);
-                    else if (String.Equals(tagName, Tags.Frameset, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Frameset))
                         AddElement(new HtmlFrameSetElement(_document), token.AsTag());
-                    else if (String.Equals(tagName, Tags.Frame, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.Frame))
                     {
                         AddElement(new HtmlFrameElement(_document), token.AsTag(), true);
                         CloseCurrentNode();
                     }
-                    else if (String.Equals(tagName, Tags.NoFrames, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.NoFrames))
                         InHead(token);
                     else
                         break;
@@ -2285,7 +2285,7 @@
                 }
                 case HtmlTokenType.EndTag:
                 {
-                    if (!String.Equals(token.Name, Tags.Frameset, StringComparison.Ordinal))
+                    if (!token.Name.Is(Tags.Frameset))
                         break;
 
                     if (CurrentNode != _openElements[0])
@@ -2345,9 +2345,9 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Html, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Html))
                         InBody(token);
-                    else if (String.Equals(tagName, Tags.NoFrames, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.NoFrames))
                         InHead(token);
                     else
                         break;
@@ -2356,7 +2356,7 @@
                 }
                 case HtmlTokenType.EndTag:
                 {
-                    if (!String.Equals(token.Name, Tags.Html, StringComparison.Ordinal))
+                    if (!token.Name.Is(Tags.Html))
                         break;
 
                     _currentMode = HtmlTreeMode.AfterAfterFrameset;
@@ -2408,7 +2408,7 @@
                 }
                 case HtmlTokenType.StartTag:
                 {
-                    if (!String.Equals(token.Name, Tags.Html, StringComparison.Ordinal))
+                    if (!token.Name.Is(Tags.Html))
                         break;
 
                     InBody(token);
@@ -2454,9 +2454,9 @@
                 {
                     var tagName = token.Name;
 
-                    if (String.Equals(tagName, Tags.Html, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Html))
                         InBody(token);
-                    else if (String.Equals(tagName, Tags.NoFrames, StringComparison.Ordinal))
+                    else if (tagName.Is(Tags.NoFrames))
                         InHead(token);
                     else
                         break;
@@ -2563,7 +2563,7 @@
         /// <returns>True if the token was not ignored, otherwise false.</returns>
         Boolean InColumnGroupEndTagColgroup(HtmlToken token)
         {
-            if (String.Equals(CurrentNode.LocalName, Tags.Colgroup, StringComparison.Ordinal))
+            if (CurrentNode.LocalName.Is(Tags.Colgroup))
             {
                 CloseCurrentNode();
                 _currentMode = HtmlTreeMode.InTable;
@@ -2623,7 +2623,7 @@
 
             while (true)
             {
-                if (node is HtmlListItemElement && String.Equals(node.LocalName, Tags.Li, StringComparison.Ordinal))
+                if (node.LocalName.Is(Tags.Li))
                 {
                     InBody(HtmlTagToken.Close(node.LocalName));
                     break;
@@ -2682,7 +2682,7 @@
             {
                 GenerateImpliedEndTags();
 
-                if (!String.Equals(CurrentNode.LocalName, tag.Name, StringComparison.Ordinal))
+                if (!CurrentNode.LocalName.Is(tag.Name))
                     RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, tag);
 
                 ClearStackBackTo(tag.Name);
@@ -2721,7 +2721,7 @@
                     if (_formattingElements[j] == null)
                         break;
                     
-                    if (String.Equals(_formattingElements[j].LocalName, tag.Name, StringComparison.Ordinal))
+                    if (_formattingElements[j].LocalName.Is(tag.Name))
                     {
                         index = j;
                         formattingElement = _formattingElements[j];
@@ -2881,11 +2881,11 @@
 
             while (node != null)
             {
-                if (String.Equals(node.LocalName, tag.Name, StringComparison.Ordinal))
+                if (node.LocalName.Is(tag.Name))
                 {
                     GenerateImpliedEndTagsExceptFor(tag.Name);
 
-                    if (!String.Equals(node.LocalName, tag.Name, StringComparison.Ordinal))
+                    if (!node.LocalName.Is(tag.Name))
                         RaiseErrorOccurred(HtmlParseError.TagClosedWrong, tag);
 
                     for (int i = _openElements.Count - 1; index <= i; i--)
@@ -3105,7 +3105,7 @@
                     var tagName = token.Name;
                     var tag = token.AsTag();
 
-                    if (String.Equals(tagName, Tags.Font, StringComparison.Ordinal))
+                    if (tagName.Is(Tags.Font))
                     {
                         for (var i = 0; i != tag.Attributes.Count; i++)
                         {
@@ -3141,12 +3141,12 @@
                         return;
                     }
 
-                    if (!String.Equals(node.LocalName, tagName, StringComparison.Ordinal))
+                    if (!node.LocalName.Is(tagName))
                         RaiseErrorOccurred(HtmlParseError.TagClosingMismatch, token);
 
                     for (int i = _openElements.Count - 1; i > 0; i--)
                     {
-                        if (node.LocalName.Equals(tagName, StringComparison.OrdinalIgnoreCase))
+                        if (node.LocalName.Isi(tagName))
                         {
                             _openElements.RemoveRange(i + 1, _openElements.Count - i - 1);
                             CloseCurrentNode();
@@ -3184,7 +3184,7 @@
                     _openElements.Add(node);
                     _tokenizer.IsAcceptingCharacterData = true;
                 }
-                else if (String.Equals(tag.Name, Tags.Script, StringComparison.Ordinal))
+                else if (tag.Name.Is(Tags.Script))
                 {
                     Foreign(HtmlTagToken.Close(Tags.Script));
                 }
@@ -3250,9 +3250,7 @@
                 {
                     var value = node.GetAttribute(null, AttributeNames.Encoding);
 
-                    if (!String.IsNullOrEmpty(value) && (
-                        value.Equals(MimeTypes.Html, StringComparison.OrdinalIgnoreCase) ||
-                        value.Equals(MimeTypes.ApplicationXHtml, StringComparison.OrdinalIgnoreCase)))
+                    if (value.Isi(MimeTypes.Html) || value.Isi(MimeTypes.ApplicationXHtml))
                     {
                         AddElement(tag);
                         return;
@@ -3282,7 +3280,7 @@
             {
                 var node = _openElements[i];
 
-                if (String.Equals(node.LocalName, tagName, StringComparison.Ordinal))
+                if (node.LocalName.Is(tagName))
                     return true;
                 else if (node.Flags.HasFlag(NodeFlags.Scoped))
                     return false;
@@ -3378,7 +3376,7 @@
             {
                 var node = _openElements[i];
 
-                if (String.Equals(node.LocalName, tagName, StringComparison.Ordinal))
+                if (node.LocalName.Is(tagName))
                     return true;
                 else if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
                     return false;
@@ -3398,7 +3396,7 @@
             {
                 var node = _openElements[i];
 
-                if (String.Equals(node.LocalName, tagName, StringComparison.Ordinal))
+                if (node.LocalName.Is(tagName))
                     return true;
                 else if (!node.Flags.HasFlag(NodeFlags.HtmlSelectScoped))
                     return false;
@@ -3467,7 +3465,7 @@
         {
             for (int i = 0; i < _openElements.Count; i++)
             {
-                if (String.Equals(_openElements[i].LocalName, tagName, StringComparison.Ordinal))
+                if (_openElements[i].LocalName.Is(tagName))
                     return true;
             }
 
@@ -3705,7 +3703,7 @@
         {
             var node = CurrentNode;
 
-            while (!String.Equals(node.LocalName, tagName, StringComparison.Ordinal) && 
+            while (!node.LocalName.Is(tagName) && 
                    node is HtmlHtmlElement == false && 
                    node is HtmlTemplateElement == false)
             {
@@ -3739,8 +3737,7 @@
         {
             var node = CurrentNode;
 
-            while (node.Flags.HasFlag(NodeFlags.ImpliedEnd) && 
-                   !String.Equals(node.LocalName, tagName, StringComparison.Ordinal))
+            while (node.Flags.HasFlag(NodeFlags.ImpliedEnd) && !node.LocalName.Is(tagName))
             {
                 CloseCurrentNode();
                 node = CurrentNode;

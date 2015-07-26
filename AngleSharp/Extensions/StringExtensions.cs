@@ -362,6 +362,18 @@
         }
 
         /// <summary>
+        /// Checks if two strings are equal when viewed case-insensitive.
+        /// </summary>
+        /// <param name="current">The current string.</param>
+        /// <param name="other">The other string.</param>
+        /// <returns>True if both are equal, false otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean Isi(this String current, String other)
+        {
+            return String.Compare(current, other, StringComparison.OrdinalIgnoreCase) == 0;
+        }
+
+        /// <summary>
         /// Examines if the given element is equal to one of the given elements.
         /// </summary>
         /// <param name="element">The element to check for equality.</param>
