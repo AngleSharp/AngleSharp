@@ -14,9 +14,7 @@
         /// Compares another attribute container to the current container.
         /// </summary>
         /// <param name="sourceAttributes">The original attribute list.</param>
-        /// <param name="targetAttributes">
-        /// The list of attributes to compare to.
-        /// </param>
+        /// <param name="targetAttributes">The list to compare to.</param>
         /// <returns>True if both objects are equal, otherwise false.</returns>
         public static Boolean AreEqual(this INamedNodeMap sourceAttributes, INamedNodeMap targetAttributes)
         {

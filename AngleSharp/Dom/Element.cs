@@ -497,7 +497,7 @@
         /// <returns>The return value of true or false.</returns>
         public Boolean HasAttribute(String name)
         {
-            if (_namespace == Namespaces.HtmlUri)
+            if (String.Equals(_namespace, Namespaces.HtmlUri, StringComparison.Ordinal))
                 name = name.ToLowerInvariant();
 
             return _attributes.GetNamedItem(name) != null;
@@ -532,7 +532,7 @@
         /// </returns>
         public String GetAttribute(String name)
         {
-            if (_namespace == Namespaces.HtmlUri)
+            if (String.Equals(_namespace, Namespaces.HtmlUri, StringComparison.Ordinal))
                 name = name.ToLower();
 
             var attr = _attributes.GetNamedItem(name);
@@ -574,7 +574,7 @@
                 if (!name.IsXmlName())
                     throw new DomException(DomError.InvalidCharacter);
 
-                if (_namespace == Namespaces.HtmlUri)
+                if (String.Equals(_namespace, Namespaces.HtmlUri, StringComparison.Ordinal))
                     name = name.ToLowerInvariant();
 
                 SetOwnAttribute(name, value);
@@ -614,7 +614,7 @@
         /// <returns>The current element.</returns>
         public void RemoveAttribute(String name)
         {
-            if (_namespace == Namespaces.HtmlUri)
+            if (String.Equals(_namespace, Namespaces.HtmlUri, StringComparison.Ordinal))
                 name = name.ToLower();
 
             _attributes.RemoveNamedItemOrDefault(name);
@@ -776,12 +776,22 @@
 
         #region Helpers
 
+        /// <summary>
+        /// Faster way of getting the (known) attribute.
+        /// </summary>
+        /// <param name="name">The name of the attribute.</param>
+        /// <returns>The attribute's value, if any.</returns>
         protected String GetOwnAttribute(String name)
         {
             var attr = _attributes.GetNamedItem(null, name);
             return attr != null ? attr.Value : null;
         }
 
+        /// <summary>
+        /// Faster way of setting the (known) attribute.
+        /// </summary>
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="value">The attribute's value.</param>
         protected void SetOwnAttribute(String name, String value)
         {
             _attributes.SetNamedItemWithNamespaceUri(new Attr(name, value));
@@ -928,7 +938,9 @@
                     var value = _parent.GetOwnAttribute(_attributeName) ?? String.Empty;
                     var baseUrl = _parent.BaseUrl;
 
-                    if (_location == null || !baseUrl.Equals(_baseUrl) || !value.Equals(_value, StringComparison.Ordinal))
+                    if (_location == null || 
+                        !baseUrl.Equals(_baseUrl) || 
+                        !String.Equals(value, _value, StringComparison.Ordinal))
                     {
                         var url = new Url(baseUrl, value);
                         _baseUrl = baseUrl;

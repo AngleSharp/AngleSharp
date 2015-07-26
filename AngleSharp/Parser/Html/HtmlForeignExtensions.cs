@@ -141,7 +141,7 @@
 
         static Boolean IsXmlAttribute(String name)
         {
-            return (name.Length > 4 && String.Compare("xml:", 0, name, 0, 4, StringComparison.Ordinal) == 0) &&
+            return (name.Length > 7 && String.Compare("xml:", 0, name, 0, 4, StringComparison.Ordinal) == 0) &&
                 (String.Compare(Tags.Base, 0, name, 4, 4, StringComparison.Ordinal) == 0 ||
                     String.Compare(AttributeNames.Lang, 0, name, 4, 4, StringComparison.Ordinal) == 0 ||
                     String.Compare(AttributeNames.Space, 0, name, 4, 5, StringComparison.Ordinal) == 0);
@@ -149,7 +149,7 @@
 
         static Boolean IsXLinkAttribute(String name)
         {
-            return (name.Length > 6 && String.Compare("xlink:", 0, name, 0, 6, StringComparison.Ordinal) == 0) &&
+            return (name.Length > 9 && String.Compare("xlink:", 0, name, 0, 6, StringComparison.Ordinal) == 0) &&
                 (String.Compare(AttributeNames.Actuate, 0, name, 6, 7, StringComparison.Ordinal) == 0 ||
                     String.Compare(AttributeNames.Arcrole, 0, name, 6, 7, StringComparison.Ordinal) == 0 ||
                     String.Compare(AttributeNames.Href, 0, name, 6, 4, StringComparison.Ordinal) == 0 ||
