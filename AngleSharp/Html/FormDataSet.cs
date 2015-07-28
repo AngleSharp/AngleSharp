@@ -58,7 +58,6 @@
             CheckBoundaries(encoding);
             ReplaceCharset(encoding);
             var tw = new StreamWriter(ms, encoding);
-            tw.WriteLine();
 
             foreach (var entry in _entries)
             {
@@ -135,12 +134,16 @@
             CheckBoundaries(encoding);
             ReplaceCharset(encoding);
             var tw = new StreamWriter(ms, encoding);
-            tw.WriteLine();
 
-            foreach (var entry in _entries)
+            if (_entries.Count > 0)
             {
-                entry.AsPlaintext(tw);
-                tw.Write("\r\n");
+                _entries[0].AsPlaintext(tw);
+
+                for (int i = 1; i < _entries.Count; i++)
+                {
+                    tw.Write("\r\n");
+                    _entries[i].AsPlaintext(tw);
+                }
             }
 
             tw.Flush();
@@ -317,7 +320,7 @@
             {
                 if (HasName && HasValue)
                 {
-                    stream.WriteLine(String.Concat("content-disposition: form-data; name=\"", 
+                    stream.WriteLine(String.Concat("Content-Disposition: form-data; name=\"", 
                         Name.HtmlEncode(stream.Encoding), "\""));
                     stream.WriteLine();
                     stream.WriteLine(_value.HtmlEncode(stream.Encoding));
