@@ -4,8 +4,11 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Dom.Io;
+    using AngleSharp.Extensions;
+    using AngleSharp.Network;
     using NUnit.Framework;
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
@@ -15,21 +18,42 @@
     {
         const String BaseUrl = "http://anglesharp.azurewebsites.net/";
 
-        static IDocument Load(String url)
+        static Task<IDocument> LoadDocumentAsync(String url)
         {
             var config = new Configuration().WithDefaultLoader();
-            return BrowsingContext.New(config).OpenAsync(Url.Create(url)).Result;
+            return BrowsingContext.New(config).OpenAsync(Url.Create(url));
         }
 
-        static IDocument LoadWithMock(String content, String url)
+        static async Task<IDocument> PostDocumentAsync(Dictionary<String, String> fields, String encType = null)
+        {
+            var config = new Configuration().WithDefaultLoader();
+            var document = await BrowsingContext.New(config).OpenNewAsync(BaseUrl + "echo");
+            var form = document.Body.AppendElement(document.CreateElement<IHtmlFormElement>());
+            form.Method = "POST";
+
+            if (encType != null)
+                form.Enctype = encType;
+
+            foreach (var field in fields)
+            {
+                var input = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                input.Name = field.Key;
+                input.Value = field.Value;
+            }
+
+            return await form.Submit();
+        }
+
+        static Task<IDocument> LoadWithMockAsync(String content, String url)
         {
             var config = Configuration.Default.WithDefaultLoader(requesters: new[] { new MockRequester() });
-            return BrowsingContext.New(config).OpenAsync(m => m.Content(content).Address(url)).Result;
+            return BrowsingContext.New(config).OpenAsync(m => m.Content(content).Address(url));
         }
 
         static FileEntry GenerateFile()
         {
-            var body = new MemoryStream(new Byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 });
+            var content = Enumerable.Range(0, 32).Select(m => (Byte)m).ToArray();
+            var body = new MemoryStream(content);
             return new FileEntry("Filename.txt", body);
         }
 
@@ -44,7 +68,7 @@
         public async Task AsUrlEncodedProducesRightAmountOfAmpersands()
         {
             var url = "http://localhost/";
-            var document = LoadWithMock(@"<form method=get>
+            var document = await LoadWithMockAsync(@"<form method=get>
 <input type=button />
 <input name=other type=text value=something /><input type=text value=something /><input name=another type=text value=test />
 </form>", url);
@@ -58,7 +82,7 @@
         public async Task PostDoNotEncounterNullReferenceExceptionWithoutName()
         {
             var url = "http://localhost/";
-            var document = LoadWithMock(@"
+            var document = await LoadWithMockAsync(@"
 <form method=""post"">
 <input type=""button"" />
 </form>", url);
@@ -74,7 +98,7 @@
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostUrlencodeNormal";
-                var document = Load(url);
+                var document = await LoadDocumentAsync(url);
                 Assert.AreEqual(1, document.Forms.Length);
                 var form = document.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;
@@ -101,7 +125,7 @@
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostUrlencodeFile";
-                var document = Load(url);
+                var document = await LoadDocumentAsync(url);
                 Assert.AreEqual(1, document.Forms.Length);
                 var form = document.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;
@@ -132,7 +156,7 @@
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostMultipartNormal";
-                var document = Load(url);
+                var document = await LoadDocumentAsync(url);
                 Assert.AreEqual(1, document.Forms.Length);
                 var form = document.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;
@@ -159,7 +183,7 @@
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostMultipartFile";
-                var document = Load(url);
+                var document = await LoadDocumentAsync(url);
                 Assert.AreEqual(1, document.Forms.Length);
                 var form = document.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;
@@ -190,7 +214,7 @@
             if (Helper.IsNetworkAvailable())
             {
                 var url = BaseUrl + "PostMultipartFiles";
-                var document = Load(url);
+                var document = await LoadDocumentAsync(url);
                 Assert.AreEqual(1, document.Forms.Length);
                 var form = document.Forms[0] as HtmlFormElement;
                 var name = form.Elements["Name"] as HtmlInputElement;
@@ -216,6 +240,108 @@
                 var response = await form.Submit();
                 Assert.IsNotNull(response);
                 Assert.AreEqual("okay", response.Body.TextContent);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeShouldEchoAllValuesCorrectly()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var fields = new Dictionary<String, String>
+                {
+                    { "myname", "foo" },
+                    { "bar", "this is some longer text" },
+                    { "yeti", "0" },
+                };
+                var result = await PostDocumentAsync(fields);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(3, rows.Length);
+
+                Assert.AreEqual("myname", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual(fields["myname"], rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("bar", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual(fields["bar"], rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("yeti", rows[2].QuerySelector("th").TextContent);
+                Assert.AreEqual(fields["yeti"], rows[2].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("\nmyname=foo&bar=this+is+some+longer+text&yeti=0\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostTextPlainShouldEchoAllValuesCorrectly()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var fields = new Dictionary<String, String>
+                {
+                    { "myname", "foo" },
+                    { "bar", "this is some longer text" },
+                    { "yeti", "0" },
+                };
+                var result = await PostDocumentAsync(fields, MimeTypes.Plain);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(0, rows.Length);
+                Assert.AreEqual("\nmyname=foo\nbar=this is some longer text\nyeti=0\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostMulipartFormdataShouldEchoAllValuesCorrectly()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var fields = new Dictionary<String, String>
+                {
+                    { "myname", "foo" },
+                    { "bar", "this is some longer text" },
+                    { "yeti", "0" },
+                };
+                var result = await PostDocumentAsync(fields, MimeTypes.MultipartForm);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(3, rows.Length);
+
+                Assert.AreEqual("myname", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual(fields["myname"], rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("bar", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual(fields["bar"], rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("yeti", rows[2].QuerySelector("th").TextContent);
+                Assert.AreEqual(fields["yeti"], rows[2].QuerySelector("td").TextContent);
+
+                var lines = raw.Split('\n');
+
+                Assert.AreEqual(15, lines.Length);
+
+                var emptyLines = new[] { 0, 3, 7, 11, 14 };
+                var sameLines = new[] { 1, 5, 9 };
+                var nameLines = new[] { 2, 6, 10 };
+                var valueLines = new[] { 4, 8, 12 };
+
+                foreach (var emptyLine in emptyLines)
+                    Assert.AreEqual(String.Empty, lines[emptyLine]);
+
+                for (int i = 1; i < sameLines.Length; i++)
+                    Assert.AreEqual(lines[sameLines[0]], lines[sameLines[i]]);
+
+                Assert.AreEqual(lines[sameLines[0]] + "--", lines[lines.Length - 2]);
+
+                for (int i = 0; i < nameLines.Length; i++)
+                {
+                    var field = fields.Skip(i).First();
+                    Assert.AreEqual("Content-Disposition: form-data; name=\"" + field.Key + "\"", lines[nameLines[i]]);
+                    Assert.AreEqual(field.Value, lines[valueLines[i]]);
+                }
             }
         }
     }
