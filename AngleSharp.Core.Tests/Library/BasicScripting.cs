@@ -3,6 +3,7 @@
     using AngleSharp;
     using AngleSharp.Core.Tests.Mocks;
     using NUnit.Framework;
+    using System.Text;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -14,12 +15,13 @@
             var scripting = new CallbackScriptEngine(options => options.Document.Write("<b>Dynamically written</b>"));
             var config = Configuration.Default.WithScripts(scripting);
             var source = "<title>Some title</title><body><script type='c-sharp'>//...</script>";
-            var doc = source.ToHtmlDocument(config);
-            Assert.IsNotNull(doc);
-            Assert.IsNotNull(doc.Body.TextContent);
-            Assert.AreEqual("//...Dynamically written", doc.Body.TextContent);
-            Assert.AreEqual(1, doc.QuerySelectorAll("b").Length);
-            var bold = doc.QuerySelector("b");
+            var document = source.ToHtmlDocument(config);
+            var bold = document.QuerySelector("b");
+
+            Assert.IsNotNull(document);
+            Assert.IsNotNull(document.Body.TextContent);
+            Assert.AreEqual("//...Dynamically written", document.Body.TextContent);
+            Assert.AreEqual(1, document.QuerySelectorAll("b").Length);
             Assert.AreEqual("Dynamically written", bold.TextContent);
         }
 
@@ -32,11 +34,12 @@
             var scripting = new CallbackScriptEngine(options => options.Document.Write("<b>Dynamically written</b>"));
             var config = Configuration.Default.WithScripts(scripting).WithMockRequester(request => hasFoo = request.Address.Href == baseAddress + "/" + filename);
             var source = "<title>Some title</title><body><script type='c-sharp' src='" + filename + "'></script>";
-            var doc = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address(baseAddress));
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address(baseAddress));
+            var bold = document.QuerySelector("b");
+
             Assert.IsTrue(hasFoo);
-            Assert.AreEqual("Dynamically written", doc.Body.TextContent);
-            Assert.AreEqual(1, doc.QuerySelectorAll("b").Length);
-            var bold = doc.QuerySelector("b");
+            Assert.AreEqual("Dynamically written", document.Body.TextContent);
+            Assert.AreEqual(1, document.QuerySelectorAll("b").Length);
             Assert.AreEqual("Dynamically written", bold.TextContent);
         }
 
@@ -52,10 +55,11 @@
             var scripting = new CallbackScriptEngine(options => options.Document.Write(content[index++]));
             var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
             var source = "<title>Some title</title><body><script type='c-sharp' src='foo.cs'></script>";
-            var doc = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
-            Assert.AreEqual("Dynamically written", doc.Body.TextContent);
-            Assert.AreEqual(1, doc.QuerySelectorAll("b").Length);
-            var bold = doc.QuerySelector("b");
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+            var bold = document.QuerySelector("b");
+
+            Assert.AreEqual("Dynamically written", document.Body.TextContent);
+            Assert.AreEqual(1, document.QuerySelectorAll("b").Length);
             Assert.AreEqual("Dynamically written", bold.TextContent);
             Assert.AreEqual(2, index);
         }
@@ -75,14 +79,30 @@
             var scripting = new CallbackScriptEngine(options => options.Document.Write(content[index++]));
             var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
             var source = "<title>Some title</title><body><script type='c-sharp' src='foo.cs'></script>";
-            var doc = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
-            Assert.AreEqual("This is dynamically written", doc.Body.TextContent);
-            Assert.AreEqual(1, doc.QuerySelectorAll("b").Length);
-            var bold = doc.QuerySelector("b");
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+            var bold = document.QuerySelector("b");
+
+            Assert.AreEqual("This is dynamically written", document.Body.TextContent);
+            Assert.AreEqual(1, document.QuerySelectorAll("b").Length);
             Assert.AreEqual("dynamically written", bold.TextContent);
             Assert.AreEqual(5, index);
         }
 
+        [Test]
+        public async Task DocumentLoadExternalJavaScriptJqueryFromDifferentDomain()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var source = "<!doctype html><html><script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>";
+                var engine = new ContentScriptEngine();
+                var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true).WithScripts(engine);
+                var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
 
+                Assert.AreEqual(1, engine.Requests.Count);
+                Assert.IsTrue(engine.Requests[0].Item1.StartsWith("/*! jQuery v2.1.4 | (c) 2005, 2015 jQuery Foundation, Inc. | jquery.org/license */"));
+                Assert.AreEqual(document, engine.Requests[0].Item2.Document);
+                Assert.AreEqual(Encoding.UTF8.WebName, engine.Requests[0].Item2.Encoding.WebName);
+            }
+        }
     }
 }

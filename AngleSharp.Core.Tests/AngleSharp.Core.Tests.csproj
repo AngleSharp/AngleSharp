@@ -169,6 +169,7 @@
     <Compile Include="Library\Url.cs" />
     <Compile Include="Library\UrlValidation.cs" />
     <Compile Include="Mocks\CallbackScriptEngine.cs" />
+    <Compile Include="Mocks\ContentScriptEngine.cs" />
     <Compile Include="Mocks\DelayedStream.cs" />
     <Compile Include="Mocks\DelayRequester.cs" />
     <Compile Include="Mocks\DtdRequester.cs" />
