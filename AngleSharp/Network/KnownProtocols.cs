@@ -73,6 +73,11 @@
         /// </summary>
         public static readonly String Blob = "blob";
 
+        static readonly String[] RelativeProtocols = new[] 
+        {
+            Http, Https, Ftp, File, Ws, Wss, Gopher
+        };
+
         /// <summary>
         /// Checks if the given protocol (without a colon in the end) is
         /// following a relative scheme.
@@ -83,8 +88,13 @@
         /// </returns>
         public static Boolean IsRelative(String protocol)
         {
-            return protocol.IsOneOf(Http, Https, Ftp, File, Ws, Wss, Gopher);
+            return RelativeProtocols.Contains(protocol);
         }
+
+        static readonly String[] OriginalableProtocols = new[] 
+        {
+            Http, Https, Ftp, Ws, Wss, Gopher
+        };
 
         /// <summary>
         /// Checks if the given protocol (without a colon in the end) is
@@ -96,7 +106,7 @@
         /// </returns>
         public static Boolean IsOriginable(String protocol)
         {
-            return protocol.IsOneOf(Http, Https, Ftp, Ws, Wss, Gopher);
+            return OriginalableProtocols.Contains(protocol);
         }
     }
 }

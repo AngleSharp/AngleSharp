@@ -729,7 +729,7 @@
                 {
                     var tagName = token.Name;
 
-                    if (tagName.IsOneOf(Tags.Style, Tags.Link, Tags.BaseFont, Tags.Meta, Tags.NoFrames, Tags.Bgsound))
+                    if (Tags.AllHeadNoScriptTags.Contains(tagName))
                         InHead(token);
                     else if (tagName.Is(Tags.Html))
                         InBody(token);
@@ -1523,13 +1523,13 @@
                         InTable(HtmlTagToken.Open(Tags.Colgroup));
                         InColumnGroup(token);
                     }
-                    else if (tagName.IsOneOf(Tags.Tbody, Tags.Thead, Tags.Tfoot))
+                    else if (Tags.AllTableSectionElements.Contains(tagName))
                     {
                         ClearStackBackTo<HtmlTableElement>();
                         AddElement(new HtmlTableSectionElement(_document, tagName), token.AsTag());
                         _currentMode = HtmlTreeMode.InTableBody;
                     }
-                    else if (tagName.IsOneOf(Tags.Td, Tags.Th, Tags.Tr))
+                    else if (Tags.AllTableCellsAndRows.Contains(tagName))
                     {
                         InTable(HtmlTagToken.Open(Tags.Tbody));
                         InTableBody(token);
@@ -1540,10 +1540,6 @@
 
                         if (InTableEndTagTable(token))
                             Home(token);
-                    }
-                    else if (tagName.IsOneOf(Tags.Script, Tags.Style, Tags.Template))
-                    {
-                        InHead(token);
                     }
                     else if (tagName.Is(Tags.Input))
                     {
@@ -1572,6 +1568,10 @@
                             CloseCurrentNode();
                         }
                     }
+                    else if (tagName.IsOneOf(Tags.Script, Tags.Style, Tags.Template))
+                    {
+                        InHead(token);
+                    }
                     else
                     {
                         RaiseErrorOccurred(HtmlParseError.IllegalElementInTableDetected, token);
@@ -1592,7 +1592,7 @@
                     {
                         InHead(token);
                     }
-                    else if (tagName.IsOneOf(Tags.Body, Tags.Colgroup, Tags.Col, Tags.Caption, Tags.Html) || tagName.IsOneOf(Tags.Tbody, Tags.Tr, Tags.Thead, Tags.Th, Tags.Tfoot, Tags.Td))
+                    else if (Tags.AllTableSpecialElements.Contains(tagName) || Tags.AllTableInnerElements.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
                     }
@@ -2553,7 +2553,9 @@
         /// <param name="token">The actual tag token.</param>
         void InSelectEndTagOptgroup(HtmlToken token)
         {
-            if (_openElements.Count > 1 && _openElements[_openElements.Count - 1] is HtmlOptionElement && _openElements[_openElements.Count - 2] is HtmlOptionsGroupElement)
+            if (_openElements.Count > 1 && 
+                _openElements[_openElements.Count - 1] is HtmlOptionElement && 
+                _openElements[_openElements.Count - 2] is HtmlOptionsGroupElement)
                 CloseCurrentNode();
 
             if (CurrentNode is HtmlOptionsGroupElement)
@@ -2635,7 +2637,10 @@
                     break;
                 }
 
-                if (node is HtmlAddressElement == false && node is HtmlDivElement == false && node is HtmlParagraphElement == false && node.Flags.HasFlag(NodeFlags.Special))
+                if (node is HtmlAddressElement == false && 
+                    node is HtmlDivElement == false && 
+                    node is HtmlParagraphElement == false && 
+                    node.Flags.HasFlag(NodeFlags.Special))
                     break;
                 
                 node = _openElements[--index];
@@ -2665,7 +2670,10 @@
                     break;
                 }
 
-                if (node.Flags.HasFlag(NodeFlags.Special) && node is HtmlAddressElement == false && node is HtmlDivElement == false && node is HtmlParagraphElement == false)
+                if (node.Flags.HasFlag(NodeFlags.Special) && 
+                    node is HtmlAddressElement == false && 
+                    node is HtmlDivElement == false && 
+                    node is HtmlParagraphElement == false)
                     break;
 
                 node = _openElements[--index];
@@ -3096,16 +3104,6 @@
 
                     return;
                 }
-                case HtmlTokenType.Comment:
-                {
-                    CurrentNode.AddComment(token);
-                    return;
-                }
-                case HtmlTokenType.Doctype:
-                {
-                    RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate, token);
-                    return;
-                }
                 case HtmlTokenType.StartTag:
                 {
                     var tagName = token.Name;
@@ -3168,6 +3166,16 @@
                         }
                     }
 
+                    return;
+                }
+                case HtmlTokenType.Comment:
+                {
+                    CurrentNode.AddComment(token);
+                    return;
+                }
+                case HtmlTokenType.Doctype:
+                {
+                    RaiseErrorOccurred(HtmlParseError.DoctypeTagInappropriate, token);
                     return;
                 }
             }

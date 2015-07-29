@@ -19,23 +19,6 @@
     static class StringExtensions
     {
         /// <summary>
-        /// Examines if a the given list of characters contains a certain element.
-        /// </summary>
-        /// <param name="list">The list of characters.</param>
-        /// <param name="element">The element to search for.</param>
-        /// <returns>The status of the check.</returns>
-        public static Boolean Contains(this IEnumerable<Char> list, Char element)
-        {
-            foreach (var entry in list)
-            {
-                if (entry == element)
-                    return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Retrieves a string describing the compatibility mode of the given quirksmode.
         /// </summary>
         /// <param name="mode">A specific quriks mode.</param>
@@ -164,12 +147,9 @@
         public static T ToEnum<T>(this String value, T defaultValue)
             where T : struct, IComparable
         {
-            if (String.IsNullOrEmpty(value))
-                return defaultValue;
+            var converted = default(T);
 
-            T converted = default(T);
-
-            if (Enum.TryParse(value, true, out converted))
+            if (!String.IsNullOrEmpty(value) && Enum.TryParse(value, true, out converted))
                 return converted;
 
             return defaultValue;
@@ -183,12 +163,9 @@
         /// <returns>The converted double.</returns>
         public static Double ToDouble(this String value, Double defaultValue = 0.0)
         {
-            if (String.IsNullOrEmpty(value))
-                return defaultValue;
+            var converted = default(Double);
 
-            Double converted;
-
-            if (Double.TryParse(value, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out converted))
+            if (!String.IsNullOrEmpty(value) && Double.TryParse(value, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out converted))
                 return converted;
 
             return defaultValue;
@@ -202,12 +179,9 @@
         /// <returns>The converted integer.</returns>
         public static Int32 ToInteger(this String value, Int32 defaultValue = 0)
         {
-            if (String.IsNullOrEmpty(value))
-                return defaultValue;
+            var converted = default(Int32);
 
-            Int32 converted;
-
-            if (Int32.TryParse(value, out converted))
+            if (!String.IsNullOrEmpty(value) && Int32.TryParse(value, out converted))
                 return converted;
 
             return defaultValue;
@@ -221,12 +195,9 @@
         /// <returns>The converted unsigned integer.</returns>
         public static UInt32 ToInteger(this String value, UInt32 defaultValue = 0)
         {
-            if (String.IsNullOrEmpty(value))
-                return defaultValue;
+            var converted = default(UInt32);
 
-            UInt32 converted;
-
-            if (UInt32.TryParse(value, out converted))
+            if (!String.IsNullOrEmpty(value) && UInt32.TryParse(value, out converted))
                 return converted;
 
             return defaultValue;
@@ -240,12 +211,9 @@
         /// <returns>The converted boolean.</returns>
         public static Boolean ToBoolean(this String value, Boolean defaultValue = false)
         {
-            if (String.IsNullOrEmpty(value))
-                return defaultValue;
+            var converted = default(Boolean);
 
-            Boolean converted;
-
-            if (Boolean.TryParse(value, out converted))
+            if (!String.IsNullOrEmpty(value) && Boolean.TryParse(value, out converted))
                 return converted;
 
             return defaultValue;
@@ -275,8 +243,9 @@
         /// <returns>The modified string with collapsed and stripped spaces.</returns>
         public static String CollapseAndStrip(this String str)
         {
-            var chars = new List<Char>();
+            var chars = new Char[str.Length];
             var hasSpace = true;
+            var index = 0;
 
             for (int i = 0; i < str.Length; i++)
             {
@@ -285,20 +254,20 @@
                     if (hasSpace)
                         continue;
 
-                    chars.Add(Symbols.Space);
                     hasSpace = true;
+                    chars[index++] = Symbols.Space;
                 }
                 else
                 {
                     hasSpace = false;
-                    chars.Add(str[i]);
+                    chars[index++] = str[i];
                 }
             }
 
-            if (hasSpace && chars.Count > 0)
-                chars.RemoveAt(chars.Count - 1);
+            if (hasSpace && index > 0)
+                index--;
 
-            return new String(chars.ToArray());
+            return new String(chars, 0, index);
         }
 
         /// <summary>
@@ -358,7 +327,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean Is(this String current, String other)
         {
-            return String.CompareOrdinal(current, other) == 0;
+            return String.Equals(current, other, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -370,7 +339,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean Isi(this String current, String other)
         {
-            return String.Compare(current, other, StringComparison.OrdinalIgnoreCase) == 0;
+            return String.Equals(current, other, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -429,41 +398,6 @@
         public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5)
         {
             return element.Is(item1) || element.Is(item2) || element.Is(item3) || element.Is(item4) || element.Is(item5);
-        }
-
-        /// <summary>
-        /// Examines if the given element is equal to one of the given elements.
-        /// </summary>
-        /// <param name="element">The element to check for equality.</param>
-        /// <param name="item1">The first item to compare to.</param>
-        /// <param name="item2">The second item to compare to.</param>
-        /// <param name="item3">The third item to compare to.</param>
-        /// <param name="item4">The fourth item to compare to.</param>
-        /// <param name="item5">The fifth item to compare to.</param>
-        /// <param name="item6">The sixth item to compare to.</param>
-        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5, String item6)
-        {
-            return element.Is(item1) || element.Is(item2) || element.Is(item3) || element.Is(item4) || element.Is(item5) || element.Is(item6);
-        }
-
-        /// <summary>
-        /// Examines if the given element is equal to one of the given elements.
-        /// </summary>
-        /// <param name="element">The element to check for equality.</param>
-        /// <param name="item1">The first item to compare to.</param>
-        /// <param name="item2">The second item to compare to.</param>
-        /// <param name="item3">The third item to compare to.</param>
-        /// <param name="item4">The fourth item to compare to.</param>
-        /// <param name="item5">The fifth item to compare to.</param>
-        /// <param name="item6">The sixth item to compare to.</param>
-        /// <param name="item7">The seventh item to compare to.</param>
-        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean IsOneOf(this String element, String item1, String item2, String item3, String item4, String item5, String item6, String item7)
-        {
-            return element.Is(item1) || element.Is(item2) || element.Is(item3) || element.Is(item4) || element.Is(item5) || element.Is(item6) || element.Is(item7);
         }
 
         /// <summary>
@@ -654,40 +588,6 @@
         }
 
         /// <summary>
-        /// Determines if the given string consists only of digits (0-9) as specified here:
-        /// http://www.whatwg.org/specs/web-apps/current-work/multipage/common-microsyntaxes.html#ascii-digits
-        /// </summary>
-        /// <param name="s">The characters to examine.</param>
-        /// <returns>The result of the test.</returns>
-        public static Boolean IsDigit(this String s)
-        {
-            for (int i = 0; i < s.Length; i++)
-            {
-                if (!s[i].IsDigit())
-                    return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Determines if the given string only contains characters, which are hexadecimal (0-9a-fA-F) as specified here:
-        /// http://www.whatwg.org/specs/web-apps/current-work/multipage/common-microsyntaxes.html#ascii-hex-digits
-        /// </summary>
-        /// <param name="s">The string to examine.</param>
-        /// <returns>The result of the test.</returns>
-        public static Boolean IsHex(this String s)
-        {
-            for (int i = 0; i < s.Length; i++)
-            {
-                if (!s[i].IsHex())
-                    return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
         /// Converts the given string to an integer.
         /// </summary>
         /// <param name="s">The hexadecimal representation.</param>
@@ -769,7 +669,7 @@
         /// <returns>The CSS color representation.</returns>
         public static String CssColor(this String value)
         {
-            Color color;
+            var color = default(Color);
 
             if (Color.TryFromHex(value, out color))
                 return color.ToString(null, CultureInfo.InvariantCulture);

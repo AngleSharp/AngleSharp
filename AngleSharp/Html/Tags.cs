@@ -758,6 +758,11 @@
             Tags.Base, Tags.BaseFont, Tags.Bgsound
         };
 
+        public static readonly HashSet<String> AllHeadNoScriptTags = new HashSet<String>
+        {
+            Tags.Style, Tags.Link, Tags.BaseFont, Tags.Meta, Tags.NoFrames, Tags.Bgsound
+        };
+
         public static readonly HashSet<String> AllHeadingTags = new HashSet<String>
         {
             Tags.H3, Tags.H2, Tags.H4, Tags.H1, Tags.H6, Tags.H5
@@ -831,6 +836,11 @@
         public static readonly HashSet<String> AllTableCoreElements = new HashSet<String>
         {
             Tags.Tr, Tags.Table, Tags.Tbody, Tags.Tfoot, Tags.Thead
+        };
+
+        public static readonly HashSet<String> AllTableInnerElements = new HashSet<String>
+        {
+            Tags.Tbody, Tags.Tr, Tags.Thead, Tags.Th, Tags.Tfoot, Tags.Td
         };
 
         public static readonly HashSet<String> AllTableSelectElements = new HashSet<String>

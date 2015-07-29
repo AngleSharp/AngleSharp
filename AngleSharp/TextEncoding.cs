@@ -554,7 +554,13 @@
 
         static Boolean IsDot(Char c)
         {
-            return PossibleDots.Contains(c);
+            for (int i = 0; i < PossibleDots.Length; i++)
+            {
+                if (PossibleDots[i] == c)
+                    return true;
+            }
+
+            return false;
         }
 
         static Char EncodeDigit(Int32 d)

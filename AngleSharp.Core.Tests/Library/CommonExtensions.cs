@@ -7,14 +7,6 @@
     public class CommonExtensionsTests
     {
         [Test]
-        public void ContainsTestSuccess()
-        {
-            var list = "abcd[g;.";
-            var result = list.Contains('[');
-            Assert.IsTrue(result);
-        }
-
-        [Test]
         public void HexadecimalNumbersWorking()
         {
             for (int i = 0; i < 256; i++)
@@ -24,14 +16,6 @@
                 var b = i.ToString("X").PadLeft(2, '0');
                 Assert.AreEqual(b, a);
             }
-        }
-
-        [Test]
-        public void ContainsTestFail()
-        {
-            var list = "abcd[g;.";
-            var result = list.Contains('e');
-            Assert.IsFalse(result);
         }
 
         [Test]
