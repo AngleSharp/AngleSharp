@@ -69,8 +69,13 @@ function CsharpFile(name) {
 function CsharpClass(name) {
   var attributes = [];
   var methods = [];
+  var implementations = [];
   this.addMethod = function(method) {
     methods.push(method);
+    return this;
+  };
+  this.addImplementation = function(implementation) {
+    implementations.push(implementation);
     return this;
   };
   this.addAttribute = function(attribute) {
@@ -79,11 +84,12 @@ function CsharpClass(name) {
   };
   this.serialize = function() {
     var cls = new CodeBlock();
+    var impl = implementations.length ? ' : ' + implementations.join(', ') : '';
 
     for (var i = 0; i < attributes.length; i++)
       cls.line('[' + attributes[i] + ']');
 
-    cls.line('public class ' + name);
+    cls.line('public class ' + name + impl);
     cls.line('{');
 
     for (var i = 0; i < methods.length; i++) {
@@ -101,7 +107,7 @@ function CsharpMethod(name) {
   var attributes = [];
   var lines = [];
   this.addLine = function(line) {
-    lines.push(line);
+    lines.push(line || '');
     return this;
   };
   this.addLines = function(morelines) {
