@@ -111,8 +111,11 @@
                 token = _tokenizer.Get();
                 Consume(token);
 
-                if (_waiting != null && _waiting.Status == TaskStatus.Running)
+                if (_waiting != null)
+                {
                     await _waiting.ConfigureAwait(false);
+                    _waiting = null;
+                }
             }
             while (token.Type != HtmlTokenType.EndOfFile);
 
@@ -133,8 +136,11 @@
                 token = _tokenizer.Get();
                 Consume(token);
 
-                if (_waiting != null && _waiting.Status == TaskStatus.Running)
+                if (_waiting != null)
+                {
                     _waiting.Wait();
+                    _waiting = null;
+                }
             }
             while (token.Type != HtmlTokenType.EndOfFile);
 
