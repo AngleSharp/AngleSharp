@@ -1,5 +1,4 @@
-﻿
-namespace AngleSharp.Core.Tests.Css
+﻿namespace AngleSharp.Core.Tests.Css
 {
     using AngleSharp.Dom.Css;
     using NUnit.Framework;
