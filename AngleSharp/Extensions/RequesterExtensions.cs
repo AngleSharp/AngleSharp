@@ -160,21 +160,18 @@
                     }
                 }
             }
-
-            if (setting == CorsSetting.None)
+            else if (setting == CorsSetting.None)
             {
-                if (behavior == OriginBehavior.Taint)
-                    await loader.LoadAsync(request, cancel).ConfigureAwait(false);
+                if (behavior == OriginBehavior.Fail)
+                    throw new DomException(DomError.Network);
+
+                return await loader.LoadAsync(request, cancel).ConfigureAwait(false);
             }
-
-            if (setting == CorsSetting.Anonymous)
-                request.IsCredentialOmitted = true;
-
-            if (setting == CorsSetting.Anonymous || setting == CorsSetting.UseCredentials)
+            else if (setting == CorsSetting.Anonymous || setting == CorsSetting.UseCredentials)
             {
+                request.IsCredentialOmitted = setting == CorsSetting.Anonymous;
                 var result = await loader.FetchAsync(request, cancel).ConfigureAwait(false);
 
-                //TODO If CORS cross-origin request is success
                 if (result != null && result.StatusCode == HttpStatusCode.OK)
                     return result;
             }
