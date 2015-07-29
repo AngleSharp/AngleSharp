@@ -1,0 +1,86 @@
+{
+	"source": ".foo:matches(.bar,.baz),\n.foo:matches(.bar, .baz),\n.foo:matches(.bar , .baz),\n.foo:matches(.bar ,.baz) {\n  prop: value;\n}\n\n.foo:matches(.bar,.baz,.foobar),\n.foo:matches(.bar, .baz,),\n.foo:matches(,.bar , .baz) {\n  anotherprop: anothervalue;\n}\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "rule",
+        "selectors": [
+          ".foo:matches(.bar,.baz)",
+          ".foo:matches(.bar, .baz)",
+          ".foo:matches(.bar , .baz)",
+          ".foo:matches(.bar ,.baz)"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "prop",
+            "value": "value",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 3
+              },
+              "end": {
+                "line": 5,
+                "column": 14
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 6,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          ".foo:matches(.bar,.baz,.foobar)",
+          ".foo:matches(.bar, .baz,)",
+          ".foo:matches(,.bar , .baz)"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "anotherprop",
+            "value": "anothervalue",
+            "position": {
+              "start": {
+                "line": 11,
+                "column": 3
+              },
+              "end": {
+                "line": 11,
+                "column": 28
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 8,
+            "column": 1
+          },
+          "end": {
+            "line": 12,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

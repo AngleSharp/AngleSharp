@@ -1,0 +1,26 @@
+{
+	"source": "@custom-media\n    --test\n    (min-width: 200px)\n;\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "custom-media",
+        "name": "--test",
+        "media": "(min-width: 200px)",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 4,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+}

@@ -1,0 +1,46 @@
+{
+	"source": "body {\n  background: url('some;stuff;here') 50% 50% no-repeat;\n}\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "rule",
+        "selectors": [
+          "body"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "url('some;stuff;here') 50% 50% no-repeat",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 3
+              },
+              "end": {
+                "line": 2,
+                "column": 55
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 3,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

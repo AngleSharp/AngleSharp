@@ -1,0 +1,46 @@
+{
+	"source": "foo {\n  bar: 'baz';\n}\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "rule",
+        "selectors": [
+          "foo"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "bar",
+            "value": "'baz'",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 3
+              },
+              "end": {
+                "line": 2,
+                "column": 13
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 3,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

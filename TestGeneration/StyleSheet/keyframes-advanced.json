@@ -1,0 +1,133 @@
+{
+	"source": "@keyframes advanced {\n  top {\n    opacity[sqrt]: 0;\n  }\n\n  100 {\n    opacity: 0.5;\n  }\n\n  bottom {\n    opacity: 1;\n  }\n}\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "keyframes",
+        "name": "advanced",
+        "keyframes": [
+          {
+            "type": "keyframe",
+            "values": [
+              "top"
+            ],
+            "declarations": [
+              {
+                "type": "declaration",
+                "property": "opacity[sqrt]",
+                "value": "0",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 5
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 21
+                  },
+                  "source": "input.css"
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 3
+              },
+              "end": {
+                "line": 4,
+                "column": 4
+              },
+              "source": "input.css"
+            }
+          },
+          {
+            "type": "keyframe",
+            "values": [
+              "100"
+            ],
+            "declarations": [
+              {
+                "type": "declaration",
+                "property": "opacity",
+                "value": "0.5",
+                "position": {
+                  "start": {
+                    "line": 7,
+                    "column": 5
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 17
+                  },
+                  "source": "input.css"
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 6,
+                "column": 3
+              },
+              "end": {
+                "line": 8,
+                "column": 4
+              },
+              "source": "input.css"
+            }
+          },
+          {
+            "type": "keyframe",
+            "values": [
+              "bottom"
+            ],
+            "declarations": [
+              {
+                "type": "declaration",
+                "property": "opacity",
+                "value": "1",
+                "position": {
+                  "start": {
+                    "line": 11,
+                    "column": 5
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 15
+                  },
+                  "source": "input.css"
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 10,
+                "column": 3
+              },
+              "end": {
+                "line": 12,
+                "column": 4
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 13,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

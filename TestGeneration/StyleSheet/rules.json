@@ -1,0 +1,113 @@
+{
+	"source": "tobi {\n  name: 'tobi';\n  age: 2;\n}\n\nloki {\n  name: 'loki';\n  age: 1;\n}\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "rule",
+        "selectors": [
+          "tobi"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "name",
+            "value": "'tobi'",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 3
+              },
+              "end": {
+                "line": 2,
+                "column": 15
+              },
+              "source": "input.css"
+            }
+          },
+          {
+            "type": "declaration",
+            "property": "age",
+            "value": "2",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 3
+              },
+              "end": {
+                "line": 3,
+                "column": 9
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 4,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "loki"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "name",
+            "value": "'loki'",
+            "position": {
+              "start": {
+                "line": 7,
+                "column": 3
+              },
+              "end": {
+                "line": 7,
+                "column": 15
+              },
+              "source": "input.css"
+            }
+          },
+          {
+            "type": "declaration",
+            "property": "age",
+            "value": "1",
+            "position": {
+              "start": {
+                "line": 8,
+                "column": 3
+              },
+              "end": {
+                "line": 8,
+                "column": 9
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 6,
+            "column": 1
+          },
+          "end": {
+            "line": 9,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

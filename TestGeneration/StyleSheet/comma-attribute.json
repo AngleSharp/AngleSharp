@@ -1,0 +1,206 @@
+{
+	"source": ".foo[bar=\"baz,quz\"] {\n  foobar: 123;\n}\n\n.bar,\n#bar[baz=\"qux,foo\"],\n#qux {\n  foobar: 456;\n}\n\n.baz[qux=\",foo\"],\n.baz[qux=\"foo,\"],\n.baz[qux=\"foo,bar,baz\"],\n.baz[qux=\",foo,bar,baz,\"],\n.baz[qux=\" , foo , bar , baz , \"] {\n  foobar: 789;\n}\n\n.qux[foo='bar,baz'],\n.qux[bar=\"baz,foo\"],\n#qux[foo=\"foobar\"],\n#qux[foo=',bar,baz, '] {\n  foobar: 012;\n}\n\n#foo[foo=\"\"],\n#foo[bar=\" \"],\n#foo[bar=\",\"],\n#foo[bar=\", \"],\n#foo[bar=\" ,\"],\n#foo[bar=\" , \"],\n#foo[baz=''],\n#foo[qux=' '],\n#foo[qux=','],\n#foo[qux=', '],\n#foo[qux=' ,'],\n#foo[qux=' , '] {\n  foobar: 345;\n}\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "rule",
+        "selectors": [
+          ".foo[bar=\"baz,quz\"]"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "foobar",
+            "value": "123",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 3
+              },
+              "end": {
+                "line": 2,
+                "column": 14
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 3,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          ".bar",
+          "#bar[baz=\"qux,foo\"]",
+          "#qux"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "foobar",
+            "value": "456",
+            "position": {
+              "start": {
+                "line": 8,
+                "column": 3
+              },
+              "end": {
+                "line": 8,
+                "column": 14
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 5,
+            "column": 1
+          },
+          "end": {
+            "line": 9,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          ".baz[qux=\",foo\"]",
+          ".baz[qux=\"foo,\"]",
+          ".baz[qux=\"foo,bar,baz\"]",
+          ".baz[qux=\",foo,bar,baz,\"]",
+          ".baz[qux=\" , foo , bar , baz , \"]"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "foobar",
+            "value": "789",
+            "position": {
+              "start": {
+                "line": 16,
+                "column": 3
+              },
+              "end": {
+                "line": 16,
+                "column": 14
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 11,
+            "column": 1
+          },
+          "end": {
+            "line": 17,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          ".qux[foo='bar,baz']",
+          ".qux[bar=\"baz,foo\"]",
+          "#qux[foo=\"foobar\"]",
+          "#qux[foo=',bar,baz, ']"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "foobar",
+            "value": "012",
+            "position": {
+              "start": {
+                "line": 23,
+                "column": 3
+              },
+              "end": {
+                "line": 23,
+                "column": 14
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 19,
+            "column": 1
+          },
+          "end": {
+            "line": 24,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#foo[foo=\"\"]",
+          "#foo[bar=\" \"]",
+          "#foo[bar=\",\"]",
+          "#foo[bar=\", \"]",
+          "#foo[bar=\" ,\"]",
+          "#foo[bar=\" , \"]",
+          "#foo[baz='']",
+          "#foo[qux=' ']",
+          "#foo[qux=',']",
+          "#foo[qux=', ']",
+          "#foo[qux=' ,']",
+          "#foo[qux=' , ']"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "foobar",
+            "value": "345",
+            "position": {
+              "start": {
+                "line": 38,
+                "column": 3
+              },
+              "end": {
+                "line": 38,
+                "column": 14
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 26,
+            "column": 1
+          },
+          "end": {
+            "line": 39,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

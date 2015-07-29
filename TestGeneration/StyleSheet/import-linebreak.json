@@ -1,0 +1,25 @@
+{
+	"source": "@import\n    url(test.css)\n    screen\n    ;\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "import",
+        "import": "url(test.css)\n    screen",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 4,
+            "column": 6
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+}

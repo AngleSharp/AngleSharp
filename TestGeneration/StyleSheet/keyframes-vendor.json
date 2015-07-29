@@ -1,0 +1,99 @@
+{
+	"source": "@-webkit-keyframes fade {\n  from { opacity: 0 }\n  to { opacity: 1 }\n}\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "keyframes",
+        "name": "fade",
+        "vendor": "-webkit-",
+        "keyframes": [
+          {
+            "type": "keyframe",
+            "values": [
+              "from"
+            ],
+            "declarations": [
+              {
+                "type": "declaration",
+                "property": "opacity",
+                "value": "0",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 10
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 21
+                  },
+                  "source": "input.css"
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 3
+              },
+              "end": {
+                "line": 2,
+                "column": 22
+              },
+              "source": "input.css"
+            }
+          },
+          {
+            "type": "keyframe",
+            "values": [
+              "to"
+            ],
+            "declarations": [
+              {
+                "type": "declaration",
+                "property": "opacity",
+                "value": "1",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 8
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 19
+                  },
+                  "source": "input.css"
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 3
+              },
+              "end": {
+                "line": 3,
+                "column": 20
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 4,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

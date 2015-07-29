@@ -1,0 +1,86 @@
+{
+	"source": "\n   @import url(\"fineprint.css\") print;\n  @import url(\"bluish.css\") projection, tv;\n      @import 'custom.css';\n  @import \"common.css\" screen, projection  ;\n\n  @import url('landscape.css') screen and (orientation:landscape);\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "import",
+        "import": "url(\"fineprint.css\") print",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 4
+          },
+          "end": {
+            "line": 2,
+            "column": 39
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "import",
+        "import": "url(\"bluish.css\") projection, tv",
+        "position": {
+          "start": {
+            "line": 3,
+            "column": 3
+          },
+          "end": {
+            "line": 3,
+            "column": 44
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "import",
+        "import": "'custom.css'",
+        "position": {
+          "start": {
+            "line": 4,
+            "column": 7
+          },
+          "end": {
+            "line": 4,
+            "column": 28
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "import",
+        "import": "\"common.css\" screen, projection",
+        "position": {
+          "start": {
+            "line": 5,
+            "column": 3
+          },
+          "end": {
+            "line": 5,
+            "column": 45
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "import",
+        "import": "url('landscape.css') screen and (orientation:landscape)",
+        "position": {
+          "start": {
+            "line": 7,
+            "column": 3
+          },
+          "end": {
+            "line": 7,
+            "column": 67
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

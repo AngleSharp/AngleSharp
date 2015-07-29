@@ -1,0 +1,43 @@
+{
+	"source": "@custom-media --narrow-window (max-width: 30em);\n@custom-media --wide-window screen and (min-width: 40em);\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "custom-media",
+        "name": "--narrow-window",
+        "media": "(max-width: 30em)",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 1,
+            "column": 49
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "custom-media",
+        "name": "--wide-window",
+        "media": "screen and (min-width: 40em)",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 1
+          },
+          "end": {
+            "line": 2,
+            "column": 58
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

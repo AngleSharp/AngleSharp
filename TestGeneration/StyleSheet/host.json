@@ -1,0 +1,62 @@
+{
+	"source": "@host {\n  :scope {\n    display: block;\n  }\n}\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "host",
+        "rules": [
+          {
+            "type": "rule",
+            "selectors": [
+              ":scope"
+            ],
+            "declarations": [
+              {
+                "type": "declaration",
+                "property": "display",
+                "value": "block",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 5
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 19
+                  },
+                  "source": "input.css"
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 3
+              },
+              "end": {
+                "line": 4,
+                "column": 4
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 5,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

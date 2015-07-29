@@ -1,0 +1,78 @@
+{
+	"source": ".wtf {\n  *overflow-x: hidden;\n  //max-height: 110px;\n  #height: 18px;\n}\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "rule",
+        "selectors": [
+          ".wtf"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "*overflow-x",
+            "value": "hidden",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 3
+              },
+              "end": {
+                "line": 2,
+                "column": 22
+              },
+              "source": "input.css"
+            }
+          },
+          {
+            "type": "declaration",
+            "property": "//max-height",
+            "value": "110px",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 3
+              },
+              "end": {
+                "line": 3,
+                "column": 22
+              },
+              "source": "input.css"
+            }
+          },
+          {
+            "type": "declaration",
+            "property": "#height",
+            "value": "18px",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 3
+              },
+              "end": {
+                "line": 4,
+                "column": 16
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 5,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

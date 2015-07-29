@@ -1,0 +1,1560 @@
+{
+	"source": "/* tests compressed for easy testing */\n/* http://mathiasbynens.be/notes/css-escapes */\n/* will match elements with class=\":`(\" */\n.\\3A \\`\\({}\n/* will match elements with class=\"1a2b3c\" */\n.\\31 a2b3c{}\n/* will match the element with id=\"#fake-id\" */\n#\\#fake-id{}\n/* will match the element with id=\"---\" */\n#\\---{}\n/* will match the element with id=\"-a-b-c-\" */\n#-a-b-c-{}\n/* will match the element with id=\"©\" */\n#©{}\n/* More tests from http://mathiasbynens.be/demo/html5-id */\nhtml{font:1.2em/1.6 Arial;}\ncode{font-family:Consolas;}\nli code{background:rgba(255, 255, 255, .5);padding:.3em;}\nli{background:orange;}\n#♥{background:lime;}\n#©{background:lime;}\n#“‘’”{background:lime;}\n#☺☃{background:lime;}\n#⌘⌥{background:lime;}\n#𝄞♪♩♫♬{background:lime;}\n#\\?{background:lime;}\n#\\@{background:lime;}\n#\\.{background:lime;}\n#\\3A \\){background:lime;}\n#\\3A \\`\\({background:lime;}\n#\\31 23{background:lime;}\n#\\31 a2b3c{background:lime;}\n#\\<p\\>{background:lime;}\n#\\<\\>\\<\\<\\<\\>\\>\\<\\>{background:lime;}\n#\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\[\\>\\+\\+\\+\\+\\+\\+\\+\\>\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\>\\+\\+\\+\\>\\+\\<\\<\\<\\<\\-\\]\\>\\+\\+\\.\\>\\+\\.\\+\\+\\+\\+\\+\\+\\+\\.\\.\\+\\+\\+\\.\\>\\+\\+\\.\\<\\<\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\.\\>\\.\\+\\+\\+\\.\\-\\-\\-\\-\\-\\-\\.\\-\\-\\-\\-\\-\\-\\-\\-\\.\\>\\+\\.\\>\\.{background:lime;}\n#\\#{background:lime;}\n#\\#\\#{background:lime;}\n#\\#\\.\\#\\.\\#{background:lime;}\n#\\_{background:lime;}\n#\\.fake\\-class{background:lime;}\n#foo\\.bar{background:lime;}\n#\\3A hover{background:lime;}\n#\\3A hover\\3A focus\\3A active{background:lime;}\n#\\[attr\\=value\\]{background:lime;}\n#f\\/o\\/o{background:lime;}\n#f\\\\o\\\\o{background:lime;}\n#f\\*o\\*o{background:lime;}\n#f\\!o\\!o{background:lime;}\n#f\\'o\\'o{background:lime;}\n#f\\~o\\~o{background:lime;}\n#f\\+o\\+o{background:lime;}\n\n/* css-parse does not yet pass this test */\n/*#\\{\\}{background:lime;}*/\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "comment",
+        "comment": " tests compressed for easy testing ",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 1,
+            "column": 40
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "comment",
+        "comment": " http://mathiasbynens.be/notes/css-escapes ",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 1
+          },
+          "end": {
+            "line": 2,
+            "column": 48
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "comment",
+        "comment": " will match elements with class=\":`(\" ",
+        "position": {
+          "start": {
+            "line": 3,
+            "column": 1
+          },
+          "end": {
+            "line": 3,
+            "column": 43
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          ".\\3A \\`\\("
+        ],
+        "declarations": [],
+        "position": {
+          "start": {
+            "line": 4,
+            "column": 1
+          },
+          "end": {
+            "line": 4,
+            "column": 12
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "comment",
+        "comment": " will match elements with class=\"1a2b3c\" ",
+        "position": {
+          "start": {
+            "line": 5,
+            "column": 1
+          },
+          "end": {
+            "line": 5,
+            "column": 46
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          ".\\31 a2b3c"
+        ],
+        "declarations": [],
+        "position": {
+          "start": {
+            "line": 6,
+            "column": 1
+          },
+          "end": {
+            "line": 6,
+            "column": 13
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "comment",
+        "comment": " will match the element with id=\"#fake-id\" ",
+        "position": {
+          "start": {
+            "line": 7,
+            "column": 1
+          },
+          "end": {
+            "line": 7,
+            "column": 48
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\#fake-id"
+        ],
+        "declarations": [],
+        "position": {
+          "start": {
+            "line": 8,
+            "column": 1
+          },
+          "end": {
+            "line": 8,
+            "column": 13
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "comment",
+        "comment": " will match the element with id=\"---\" ",
+        "position": {
+          "start": {
+            "line": 9,
+            "column": 1
+          },
+          "end": {
+            "line": 9,
+            "column": 43
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\---"
+        ],
+        "declarations": [],
+        "position": {
+          "start": {
+            "line": 10,
+            "column": 1
+          },
+          "end": {
+            "line": 10,
+            "column": 8
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "comment",
+        "comment": " will match the element with id=\"-a-b-c-\" ",
+        "position": {
+          "start": {
+            "line": 11,
+            "column": 1
+          },
+          "end": {
+            "line": 11,
+            "column": 47
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#-a-b-c-"
+        ],
+        "declarations": [],
+        "position": {
+          "start": {
+            "line": 12,
+            "column": 1
+          },
+          "end": {
+            "line": 12,
+            "column": 11
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "comment",
+        "comment": " will match the element with id=\"©\" ",
+        "position": {
+          "start": {
+            "line": 13,
+            "column": 1
+          },
+          "end": {
+            "line": 13,
+            "column": 41
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#©"
+        ],
+        "declarations": [],
+        "position": {
+          "start": {
+            "line": 14,
+            "column": 1
+          },
+          "end": {
+            "line": 14,
+            "column": 5
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "comment",
+        "comment": " More tests from http://mathiasbynens.be/demo/html5-id ",
+        "position": {
+          "start": {
+            "line": 15,
+            "column": 1
+          },
+          "end": {
+            "line": 15,
+            "column": 60
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "html"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "font",
+            "value": "1.2em/1.6 Arial",
+            "position": {
+              "start": {
+                "line": 16,
+                "column": 6
+              },
+              "end": {
+                "line": 16,
+                "column": 26
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 16,
+            "column": 1
+          },
+          "end": {
+            "line": 16,
+            "column": 28
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "code"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "font-family",
+            "value": "Consolas",
+            "position": {
+              "start": {
+                "line": 17,
+                "column": 6
+              },
+              "end": {
+                "line": 17,
+                "column": 26
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 17,
+            "column": 1
+          },
+          "end": {
+            "line": 17,
+            "column": 28
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "li code"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "rgba(255, 255, 255, .5)",
+            "position": {
+              "start": {
+                "line": 18,
+                "column": 9
+              },
+              "end": {
+                "line": 18,
+                "column": 43
+              },
+              "source": "input.css"
+            }
+          },
+          {
+            "type": "declaration",
+            "property": "padding",
+            "value": ".3em",
+            "position": {
+              "start": {
+                "line": 18,
+                "column": 44
+              },
+              "end": {
+                "line": 18,
+                "column": 56
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 18,
+            "column": 1
+          },
+          "end": {
+            "line": 18,
+            "column": 58
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "li"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "orange",
+            "position": {
+              "start": {
+                "line": 19,
+                "column": 4
+              },
+              "end": {
+                "line": 19,
+                "column": 21
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 19,
+            "column": 1
+          },
+          "end": {
+            "line": 19,
+            "column": 23
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#♥"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 20,
+                "column": 4
+              },
+              "end": {
+                "line": 20,
+                "column": 19
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 20,
+            "column": 1
+          },
+          "end": {
+            "line": 20,
+            "column": 21
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#©"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 21,
+                "column": 4
+              },
+              "end": {
+                "line": 21,
+                "column": 19
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 21,
+            "column": 1
+          },
+          "end": {
+            "line": 21,
+            "column": 21
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#“‘’”"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 22,
+                "column": 7
+              },
+              "end": {
+                "line": 22,
+                "column": 22
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 22,
+            "column": 1
+          },
+          "end": {
+            "line": 22,
+            "column": 24
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#☺☃"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 23,
+                "column": 5
+              },
+              "end": {
+                "line": 23,
+                "column": 20
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 23,
+            "column": 1
+          },
+          "end": {
+            "line": 23,
+            "column": 22
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#⌘⌥"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 24,
+                "column": 5
+              },
+              "end": {
+                "line": 24,
+                "column": 20
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 24,
+            "column": 1
+          },
+          "end": {
+            "line": 24,
+            "column": 22
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#𝄞♪♩♫♬"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 25,
+                "column": 9
+              },
+              "end": {
+                "line": 25,
+                "column": 24
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 25,
+            "column": 1
+          },
+          "end": {
+            "line": 25,
+            "column": 26
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\?"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 26,
+                "column": 5
+              },
+              "end": {
+                "line": 26,
+                "column": 20
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 26,
+            "column": 1
+          },
+          "end": {
+            "line": 26,
+            "column": 22
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\@"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 27,
+                "column": 5
+              },
+              "end": {
+                "line": 27,
+                "column": 20
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 27,
+            "column": 1
+          },
+          "end": {
+            "line": 27,
+            "column": 22
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\."
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 28,
+                "column": 5
+              },
+              "end": {
+                "line": 28,
+                "column": 20
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 28,
+            "column": 1
+          },
+          "end": {
+            "line": 28,
+            "column": 22
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\3A \\)"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 29,
+                "column": 9
+              },
+              "end": {
+                "line": 29,
+                "column": 24
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 29,
+            "column": 1
+          },
+          "end": {
+            "line": 29,
+            "column": 26
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\3A \\`\\("
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 30,
+                "column": 11
+              },
+              "end": {
+                "line": 30,
+                "column": 26
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 30,
+            "column": 1
+          },
+          "end": {
+            "line": 30,
+            "column": 28
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\31 23"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 31,
+                "column": 9
+              },
+              "end": {
+                "line": 31,
+                "column": 24
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 31,
+            "column": 1
+          },
+          "end": {
+            "line": 31,
+            "column": 26
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\31 a2b3c"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 32,
+                "column": 12
+              },
+              "end": {
+                "line": 32,
+                "column": 27
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 32,
+            "column": 1
+          },
+          "end": {
+            "line": 32,
+            "column": 29
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\<p\\>"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 33,
+                "column": 8
+              },
+              "end": {
+                "line": 33,
+                "column": 23
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 33,
+            "column": 1
+          },
+          "end": {
+            "line": 33,
+            "column": 25
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\<\\>\\<\\<\\<\\>\\>\\<\\>"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 34,
+                "column": 21
+              },
+              "end": {
+                "line": 34,
+                "column": 36
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 34,
+            "column": 1
+          },
+          "end": {
+            "line": 34,
+            "column": 38
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\[\\>\\+\\+\\+\\+\\+\\+\\+\\>\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\>\\+\\+\\+\\>\\+\\<\\<\\<\\<\\-\\]\\>\\+\\+\\.\\>\\+\\.\\+\\+\\+\\+\\+\\+\\+\\.\\.\\+\\+\\+\\.\\>\\+\\+\\.\\<\\<\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\+\\.\\>\\.\\+\\+\\+\\.\\-\\-\\-\\-\\-\\-\\.\\-\\-\\-\\-\\-\\-\\-\\-\\.\\>\\+\\.\\>\\."
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 35,
+                "column": 225
+              },
+              "end": {
+                "line": 35,
+                "column": 240
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 35,
+            "column": 1
+          },
+          "end": {
+            "line": 35,
+            "column": 242
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\#"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 36,
+                "column": 5
+              },
+              "end": {
+                "line": 36,
+                "column": 20
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 36,
+            "column": 1
+          },
+          "end": {
+            "line": 36,
+            "column": 22
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\#\\#"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 37,
+                "column": 7
+              },
+              "end": {
+                "line": 37,
+                "column": 22
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 37,
+            "column": 1
+          },
+          "end": {
+            "line": 37,
+            "column": 24
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\#\\.\\#\\.\\#"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 38,
+                "column": 13
+              },
+              "end": {
+                "line": 38,
+                "column": 28
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 38,
+            "column": 1
+          },
+          "end": {
+            "line": 38,
+            "column": 30
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\_"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 39,
+                "column": 5
+              },
+              "end": {
+                "line": 39,
+                "column": 20
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 39,
+            "column": 1
+          },
+          "end": {
+            "line": 39,
+            "column": 22
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\.fake\\-class"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 40,
+                "column": 16
+              },
+              "end": {
+                "line": 40,
+                "column": 31
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 40,
+            "column": 1
+          },
+          "end": {
+            "line": 40,
+            "column": 33
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#foo\\.bar"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 41,
+                "column": 11
+              },
+              "end": {
+                "line": 41,
+                "column": 26
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 41,
+            "column": 1
+          },
+          "end": {
+            "line": 41,
+            "column": 28
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\3A hover"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 42,
+                "column": 12
+              },
+              "end": {
+                "line": 42,
+                "column": 27
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 42,
+            "column": 1
+          },
+          "end": {
+            "line": 42,
+            "column": 29
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\3A hover\\3A focus\\3A active"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 43,
+                "column": 31
+              },
+              "end": {
+                "line": 43,
+                "column": 46
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 43,
+            "column": 1
+          },
+          "end": {
+            "line": 43,
+            "column": 48
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#\\[attr\\=value\\]"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 44,
+                "column": 18
+              },
+              "end": {
+                "line": 44,
+                "column": 33
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 44,
+            "column": 1
+          },
+          "end": {
+            "line": 44,
+            "column": 35
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#f\\/o\\/o"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 45,
+                "column": 10
+              },
+              "end": {
+                "line": 45,
+                "column": 25
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 45,
+            "column": 1
+          },
+          "end": {
+            "line": 45,
+            "column": 27
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#f\\\\o\\\\o"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 46,
+                "column": 10
+              },
+              "end": {
+                "line": 46,
+                "column": 25
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 46,
+            "column": 1
+          },
+          "end": {
+            "line": 46,
+            "column": 27
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#f\\*o\\*o"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 47,
+                "column": 10
+              },
+              "end": {
+                "line": 47,
+                "column": 25
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 47,
+            "column": 1
+          },
+          "end": {
+            "line": 47,
+            "column": 27
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#f\\!o\\!o"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 48,
+                "column": 10
+              },
+              "end": {
+                "line": 48,
+                "column": 25
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 48,
+            "column": 1
+          },
+          "end": {
+            "line": 48,
+            "column": 27
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#f\\'o\\'o"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 49,
+                "column": 10
+              },
+              "end": {
+                "line": 49,
+                "column": 25
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 49,
+            "column": 1
+          },
+          "end": {
+            "line": 49,
+            "column": 27
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#f\\~o\\~o"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 50,
+                "column": 10
+              },
+              "end": {
+                "line": 50,
+                "column": 25
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 50,
+            "column": 1
+          },
+          "end": {
+            "line": 50,
+            "column": 27
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "rule",
+        "selectors": [
+          "#f\\+o\\+o"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "background",
+            "value": "lime",
+            "position": {
+              "start": {
+                "line": 51,
+                "column": 10
+              },
+              "end": {
+                "line": 51,
+                "column": 25
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 51,
+            "column": 1
+          },
+          "end": {
+            "line": 51,
+            "column": 27
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "comment",
+        "comment": " css-parse does not yet pass this test ",
+        "position": {
+          "start": {
+            "line": 53,
+            "column": 1
+          },
+          "end": {
+            "line": 53,
+            "column": 44
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "comment",
+        "comment": "#\\{\\}{background:lime;}",
+        "position": {
+          "start": {
+            "line": 54,
+            "column": 1
+          },
+          "end": {
+            "line": 54,
+            "column": 28
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

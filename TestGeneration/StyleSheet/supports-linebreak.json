@@ -1,0 +1,62 @@
+{
+	"source": "@supports\n    (display: flex)\n    {\n        .test { display: flex; }\n    }\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "supports",
+        "supports": "(display: flex)",
+        "rules": [
+          {
+            "type": "rule",
+            "selectors": [
+              ".test"
+            ],
+            "declarations": [
+              {
+                "type": "declaration",
+                "property": "display",
+                "value": "flex",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 17
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 30
+                  },
+                  "source": "input.css"
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 9
+              },
+              "end": {
+                "line": 4,
+                "column": 33
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 5,
+            "column": 6
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+}

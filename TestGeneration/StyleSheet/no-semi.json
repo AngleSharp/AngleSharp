@@ -1,0 +1,62 @@
+{
+	"source": "\ntobi loki jane {\n  are: 'all';\n  the-species: called \"ferrets\"\n}\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "rule",
+        "selectors": [
+          "tobi loki jane"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "are",
+            "value": "'all'",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 3
+              },
+              "end": {
+                "line": 3,
+                "column": 13
+              },
+              "source": "input.css"
+            }
+          },
+          {
+            "type": "declaration",
+            "property": "the-species",
+            "value": "called \"ferrets\"",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 3
+              },
+              "end": {
+                "line": 5,
+                "column": 1
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 1
+          },
+          "end": {
+            "line": 5,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

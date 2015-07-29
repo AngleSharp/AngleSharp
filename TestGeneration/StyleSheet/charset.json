@@ -1,0 +1,71 @@
+{
+	"source": "@charset \"UTF-8\";       /* Set the encoding of the style sheet to Unicode UTF-8 */\n@charset 'iso-8859-15'; /* Set the encoding of the style sheet to Latin-9 (Western European languages, with euro sign) */\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "charset",
+        "charset": "\"UTF-8\"",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 1,
+            "column": 18
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "comment",
+        "comment": " Set the encoding of the style sheet to Unicode UTF-8 ",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 25
+          },
+          "end": {
+            "line": 1,
+            "column": 83
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "charset",
+        "charset": "'iso-8859-15'",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 1
+          },
+          "end": {
+            "line": 2,
+            "column": 24
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "comment",
+        "comment": " Set the encoding of the style sheet to Latin-9 (Western European languages, with euro sign) ",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 25
+          },
+          "end": {
+            "line": 2,
+            "column": 122
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

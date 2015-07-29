@@ -1,0 +1,41 @@
+{
+	"source": "@namespace \"http://www.w3.org/1999/xhtml\";\n@namespace svg \"http://www.w3.org/2000/svg\";\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "namespace",
+        "namespace": "\"http://www.w3.org/1999/xhtml\"",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 1,
+            "column": 43
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "namespace",
+        "namespace": "svg \"http://www.w3.org/2000/svg\"",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 1
+          },
+          "end": {
+            "line": 2,
+            "column": 45
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

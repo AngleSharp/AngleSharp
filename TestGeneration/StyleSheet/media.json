@@ -1,0 +1,309 @@
+{
+	"source": "@media screen, projection {\n  /* html above */\n  html {\n    /* html inside */\n    background: #fffef0;\n    color: #300;\n  }\n\n  /* body above */\n  body {\n    /* body inside */\n    max-width: 35em;\n    margin: 0 auto;\n  }\n}\n\n@media print {\n  html {\n    background: #fff;\n    color: #000;\n  }\n  body {\n    padding: 1in;\n    border: 0.5pt solid #666;\n  }\n}\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "media",
+        "media": "screen, projection",
+        "rules": [
+          {
+            "type": "comment",
+            "comment": " html above ",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 3
+              },
+              "end": {
+                "line": 2,
+                "column": 19
+              },
+              "source": "input.css"
+            }
+          },
+          {
+            "type": "rule",
+            "selectors": [
+              "html"
+            ],
+            "declarations": [
+              {
+                "type": "comment",
+                "comment": " html inside ",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 5
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 22
+                  },
+                  "source": "input.css"
+                }
+              },
+              {
+                "type": "declaration",
+                "property": "background",
+                "value": "#fffef0",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 5
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 24
+                  },
+                  "source": "input.css"
+                }
+              },
+              {
+                "type": "declaration",
+                "property": "color",
+                "value": "#300",
+                "position": {
+                  "start": {
+                    "line": 6,
+                    "column": 5
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 16
+                  },
+                  "source": "input.css"
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 3
+              },
+              "end": {
+                "line": 7,
+                "column": 4
+              },
+              "source": "input.css"
+            }
+          },
+          {
+            "type": "comment",
+            "comment": " body above ",
+            "position": {
+              "start": {
+                "line": 9,
+                "column": 3
+              },
+              "end": {
+                "line": 9,
+                "column": 19
+              },
+              "source": "input.css"
+            }
+          },
+          {
+            "type": "rule",
+            "selectors": [
+              "body"
+            ],
+            "declarations": [
+              {
+                "type": "comment",
+                "comment": " body inside ",
+                "position": {
+                  "start": {
+                    "line": 11,
+                    "column": 5
+                  },
+                  "end": {
+                    "line": 11,
+                    "column": 22
+                  },
+                  "source": "input.css"
+                }
+              },
+              {
+                "type": "declaration",
+                "property": "max-width",
+                "value": "35em",
+                "position": {
+                  "start": {
+                    "line": 12,
+                    "column": 5
+                  },
+                  "end": {
+                    "line": 12,
+                    "column": 20
+                  },
+                  "source": "input.css"
+                }
+              },
+              {
+                "type": "declaration",
+                "property": "margin",
+                "value": "0 auto",
+                "position": {
+                  "start": {
+                    "line": 13,
+                    "column": 5
+                  },
+                  "end": {
+                    "line": 13,
+                    "column": 19
+                  },
+                  "source": "input.css"
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 10,
+                "column": 3
+              },
+              "end": {
+                "line": 14,
+                "column": 4
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 15,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "media",
+        "media": "print",
+        "rules": [
+          {
+            "type": "rule",
+            "selectors": [
+              "html"
+            ],
+            "declarations": [
+              {
+                "type": "declaration",
+                "property": "background",
+                "value": "#fff",
+                "position": {
+                  "start": {
+                    "line": 19,
+                    "column": 5
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 21
+                  },
+                  "source": "input.css"
+                }
+              },
+              {
+                "type": "declaration",
+                "property": "color",
+                "value": "#000",
+                "position": {
+                  "start": {
+                    "line": 20,
+                    "column": 5
+                  },
+                  "end": {
+                    "line": 20,
+                    "column": 16
+                  },
+                  "source": "input.css"
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 18,
+                "column": 3
+              },
+              "end": {
+                "line": 21,
+                "column": 4
+              },
+              "source": "input.css"
+            }
+          },
+          {
+            "type": "rule",
+            "selectors": [
+              "body"
+            ],
+            "declarations": [
+              {
+                "type": "declaration",
+                "property": "padding",
+                "value": "1in",
+                "position": {
+                  "start": {
+                    "line": 23,
+                    "column": 5
+                  },
+                  "end": {
+                    "line": 23,
+                    "column": 17
+                  },
+                  "source": "input.css"
+                }
+              },
+              {
+                "type": "declaration",
+                "property": "border",
+                "value": "0.5pt solid #666",
+                "position": {
+                  "start": {
+                    "line": 24,
+                    "column": 5
+                  },
+                  "end": {
+                    "line": 24,
+                    "column": 29
+                  },
+                  "source": "input.css"
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 22,
+                "column": 3
+              },
+              "end": {
+                "line": 25,
+                "column": 4
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 17,
+            "column": 1
+          },
+          "end": {
+            "line": 26,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

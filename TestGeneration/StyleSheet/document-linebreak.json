@@ -1,0 +1,63 @@
+{
+	"source": "@document\n    url-prefix()\n    {\n\n        .test {\n            color: blue;\n        }\n\n    }\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "document",
+        "document": "url-prefix()",
+        "vendor": "",
+        "rules": [
+          {
+            "type": "rule",
+            "selectors": [
+              ".test"
+            ],
+            "declarations": [
+              {
+                "type": "declaration",
+                "property": "color",
+                "value": "blue",
+                "position": {
+                  "start": {
+                    "line": 6,
+                    "column": 13
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 24
+                  },
+                  "source": "input.css"
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 9
+              },
+              "end": {
+                "line": 7,
+                "column": 10
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 9,
+            "column": 6
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+}

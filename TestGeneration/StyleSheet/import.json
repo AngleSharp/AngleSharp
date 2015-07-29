@@ -1,0 +1,86 @@
+{
+	"source": "@import url(\"fineprint.css\") print;\n@import url(\"bluish.css\") projection, tv;\n@import 'custom.css';\n@import \"common.css\" screen, projection;\n@import url('landscape.css') screen and (orientation:landscape);\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "import",
+        "import": "url(\"fineprint.css\") print",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 1,
+            "column": 36
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "import",
+        "import": "url(\"bluish.css\") projection, tv",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 1
+          },
+          "end": {
+            "line": 2,
+            "column": 42
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "import",
+        "import": "'custom.css'",
+        "position": {
+          "start": {
+            "line": 3,
+            "column": 1
+          },
+          "end": {
+            "line": 3,
+            "column": 22
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "import",
+        "import": "\"common.css\" screen, projection",
+        "position": {
+          "start": {
+            "line": 4,
+            "column": 1
+          },
+          "end": {
+            "line": 4,
+            "column": 41
+          },
+          "source": "input.css"
+        }
+      },
+      {
+        "type": "import",
+        "import": "url('landscape.css') screen and (orientation:landscape)",
+        "position": {
+          "start": {
+            "line": 5,
+            "column": 1
+          },
+          "end": {
+            "line": 5,
+            "column": 65
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

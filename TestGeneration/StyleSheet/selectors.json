@@ -1,0 +1,48 @@
+{
+	"source": "foo,\nbar,\nbaz {\n  color: 'black';\n}\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "rule",
+        "selectors": [
+          "foo",
+          "bar",
+          "baz"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "color",
+            "value": "'black'",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 3
+              },
+              "end": {
+                "line": 4,
+                "column": 17
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 5,
+            "column": 2
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+
+}

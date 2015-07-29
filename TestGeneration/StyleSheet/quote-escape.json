@@ -1,0 +1,46 @@
+{
+	"source": "p[qwe=\"a\\\",b\"] { color: red }\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "rule",
+        "selectors": [
+          "p[qwe=\"a\\\",b\"]"
+        ],
+        "declarations": [
+          {
+            "type": "declaration",
+            "property": "color",
+            "value": "red",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 18
+              },
+              "end": {
+                "line": 1,
+                "column": 29
+              },
+              "source": "input.css"
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 1,
+            "column": 30
+          },
+          "source": "input.css"
+        }
+      }
+    ],
+    "parsingErrors": []
+  }
+}
+}

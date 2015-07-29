@@ -1,0 +1,25 @@
+{
+	"source": "@namespace\n    \"http://www.w3.org/1999/xhtml\"\n    ;\n",
+	"result": {
+  "type": "stylesheet",
+  "stylesheet": {
+    "rules": [
+      {
+        "type": "namespace",
+        "namespace": "\"http://www.w3.org/1999/xhtml\"",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1
+          },
+          "end": {
+            "line": 3,
+            "column": 6
+          },
+          "source": "input.css"
+        }
+      }
+    ]
+  }
+}
+}
