@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Dom.Io;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Html.InputTypes;
+    using System;
 
     /// <summary>
     /// Represents an HTML input element.
@@ -488,7 +488,7 @@
         /// </summary>
         /// <param name="dataSet">The dataset to construct.</param>
         /// <param name="submitter">The given submitter.</param>
-        internal override void ConstructDataSet(FormDataSet dataSet, HtmlElement submitter)
+        internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
             _type.ConstructDataSet(dataSet);
         }

@@ -168,7 +168,7 @@
         /// </summary>
         /// <param name="dataSet">The dataset to construct.</param>
         /// <param name="submitter">The given submitter.</param>
-        internal virtual void ConstructDataSet(FormDataSet dataSet, HtmlElement submitter)
+        internal virtual void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         { }
 
         /// <summary>

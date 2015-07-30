@@ -7,7 +7,6 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -178,39 +177,11 @@
         }
 
         /// <summary>
-        /// Submits the form element from the provided element.
+        /// Submits the form element from another element.
         /// </summary>
-        internal Task<IDocument> SubmitForm(HtmlElement from, Boolean submittedFromSubmitMethod)
+        public Task<IDocument> Submit(IHtmlElement sourceElement)
         {
-            var owner = Owner;
-            var browsingContext = owner.Context;
-
-            if (owner.ActiveSandboxing.HasFlag(Sandboxes.Forms))
-                return null;
-
-            if (!submittedFromSubmitMethod && !from.Attributes.Any(m => m.Name == AttributeNames.FormNoValidate) && NoValidate && !CheckValidity())
-            {
-                this.FireSimpleEvent(EventNames.Invalid);
-                return null;
-            }
-
-            var action = String.IsNullOrEmpty(Action) ? new Url(owner.DocumentUri) : this.HyperReference(Action);
-            var createdBrowsingContext = false;
-            var targetBrowsingContext = owner.Context;
-            var target = Target;
-
-            if (!String.IsNullOrEmpty(target))
-            {
-                targetBrowsingContext = owner.GetTarget(target);
-
-                if (createdBrowsingContext = (targetBrowsingContext == null))
-                    targetBrowsingContext = owner.CreateTarget(target);
-            }
-
-            var replace = createdBrowsingContext || owner.ReadyState != DocumentReadyState.Complete;
-            var scheme = action.Scheme;
-            var method = Method.ToEnum(HttpMethod.Get);
-            return SubmitForm(method, scheme, action);
+            return SubmitForm(sourceElement, false);
         }
 
         /// <summary>
@@ -291,45 +262,81 @@
 
         #region Helpers
 
-        Task<IDocument> SubmitForm(HttpMethod method, String scheme, Url action)
+        Task<IDocument> SubmitForm(IHtmlElement from, Boolean submittedFromSubmitMethod)
+        {
+            var owner = Owner;
+
+            if (owner.ActiveSandboxing.HasFlag(Sandboxes.Forms))
+            {
+                //Do nothing.
+            }
+            else if (!submittedFromSubmitMethod && !from.HasAttribute(AttributeNames.FormNoValidate) && NoValidate && !CheckValidity())
+            {
+                this.FireSimpleEvent(EventNames.Invalid);
+            }
+            else
+            {
+                var action = String.IsNullOrEmpty(Action) ? new Url(owner.DocumentUri) : this.HyperReference(Action);
+                var createdBrowsingContext = false;
+                var targetBrowsingContext = owner.Context;
+                var target = Target;
+
+                if (!String.IsNullOrEmpty(target))
+                {
+                    targetBrowsingContext = owner.GetTarget(target);
+
+                    if (createdBrowsingContext = (targetBrowsingContext == null))
+                        targetBrowsingContext = owner.CreateTarget(target);
+                }
+
+                var replace = createdBrowsingContext || owner.ReadyState != DocumentReadyState.Complete;
+                var scheme = action.Scheme;
+                var method = Method.ToEnum(HttpMethod.Get);
+                return SubmitForm(method, scheme, action, from);
+            }
+
+            return TaskEx.FromResult<IDocument>(owner);
+        }
+
+        Task<IDocument> SubmitForm(HttpMethod method, String scheme, Url action, IHtmlElement submitter)
         {
             if (scheme == KnownProtocols.Http || scheme == KnownProtocols.Https)
             {
                 if (method == HttpMethod.Get)
-                    return MutateActionUrl(action);
+                    return MutateActionUrl(action, submitter);
                 else if (method == HttpMethod.Post)
-                    return SubmitAsEntityBody(action);
+                    return SubmitAsEntityBody(action, submitter);
             }
             else if (scheme == KnownProtocols.Data)
             {
                 if (method == HttpMethod.Get)
                     return GetActionUrl(action);
                 else if (method == HttpMethod.Post)
-                    return PostToData(action);
+                    return PostToData(action, submitter);
             }
             else if (scheme == KnownProtocols.Mailto)
             {
                 if (method == HttpMethod.Get)
-                    return MailWithHeaders(action);
+                    return MailWithHeaders(action, submitter);
                 else if (method == HttpMethod.Post)
-                    return MailAsBody(action);
+                    return MailAsBody(action, submitter);
             }
             else if (scheme == KnownProtocols.Ftp || scheme == KnownProtocols.JavaScript)
             {
                 return GetActionUrl(action);
             }
 
-            return MutateActionUrl(action);
+            return MutateActionUrl(action, submitter);
         }
 
         /// <summary>
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-data-post
         /// </summary>
-        Task<IDocument> PostToData(Url action)
+        Task<IDocument> PostToData(Url action, IHtmlElement submitter)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
-            var formDataSet = ConstructDataSet();
+            var formDataSet = ConstructDataSet(submitter);
             var enctype = Enctype;
             var result = String.Empty;
             var stream = CreateBody(enctype, TextEncoding.Resolve(encoding), formDataSet);
@@ -355,9 +362,9 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-headers
         /// </summary>
-        Task<IDocument> MailWithHeaders(Url action)
+        Task<IDocument> MailWithHeaders(Url action, IHtmlElement submitter)
         {
-            var formDataSet = ConstructDataSet();
+            var formDataSet = ConstructDataSet(submitter);
             var result = formDataSet.AsUrlEncoded(TextEncoding.UsAscii);
             var headers = String.Empty;
 
@@ -372,9 +379,9 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-body
         /// </summary>
-        Task<IDocument> MailAsBody(Url action)
+        Task<IDocument> MailAsBody(Url action, IHtmlElement submitter)
         {
-            var formDataSet = ConstructDataSet();
+            var formDataSet = ConstructDataSet(submitter);
             var enctype = Enctype;
             var encoding = TextEncoding.UsAscii;
             var stream = CreateBody(enctype, encoding, formDataSet);
@@ -400,10 +407,10 @@
         /// Submits the body of the form.
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-body
         /// </summary>
-        Task<IDocument> SubmitAsEntityBody(Url target)
+        Task<IDocument> SubmitAsEntityBody(Url target, IHtmlElement submitter)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
-            var formDataSet = ConstructDataSet();
+            var formDataSet = ConstructDataSet(submitter);
             var enctype = Enctype;
             var body = CreateBody(enctype, TextEncoding.Resolve(encoding), formDataSet);
 
@@ -430,10 +437,10 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mutate-action
         /// </summary>
-        Task<IDocument> MutateActionUrl(Url action)
+        Task<IDocument> MutateActionUrl(Url action, IHtmlElement submitter)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
-            var formDataSet = ConstructDataSet();
+            var formDataSet = ConstructDataSet(submitter);
             var result = formDataSet.AsUrlEncoded(TextEncoding.Resolve(encoding));
 
             using (var sr = new StreamReader(result))
@@ -442,7 +449,7 @@
             return GetActionUrl(action);
         }
 
-        FormDataSet ConstructDataSet(HtmlElement submitter = null)
+        FormDataSet ConstructDataSet(IHtmlElement submitter)
         {
             var formDataSet = new FormDataSet();
 
