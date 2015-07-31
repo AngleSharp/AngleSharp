@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
-    using System.Linq;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
+    using System.Linq;
 
     /// <summary>
     /// Represents the select element.
@@ -191,7 +191,7 @@
 
         #region Helpers
 
-        internal override void ConstructDataSet(FormDataSet dataSet, HtmlElement submitter)
+        internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
             var options = Options;
 

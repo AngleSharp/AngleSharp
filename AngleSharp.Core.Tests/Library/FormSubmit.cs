@@ -24,22 +24,43 @@
             return BrowsingContext.New(config).OpenAsync(Url.Create(url));
         }
 
-        static async Task<IDocument> PostDocumentAsync(Dictionary<String, String> fields, String encType = null)
+        static Task<IDocument> PostDocumentAsync(Dictionary<String, String> fields, String encType = null)
+        {
+            return PostDocumentAsync((document, form) =>
+            {
+                if (encType != null)
+                    form.Enctype = encType;
+
+                foreach (var field in fields)
+                {
+                    var input = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    input.Name = field.Key;
+                    input.Value = field.Value;
+                }
+            });
+        }
+
+        static Task<IDocument> PostDocumentAsync(String content, String encType = null, Boolean fromButton = false)
+        {
+            return PostDocumentAsync((document, form) =>
+            {
+                if (encType != null)
+                    form.Enctype = encType;
+
+                form.InnerHtml = content;
+            }, fromButton);
+        }
+
+        static async Task<IDocument> PostDocumentAsync(Action<IDocument, IHtmlFormElement> fill, Boolean fromButton = false)
         {
             var config = new Configuration().WithDefaultLoader();
             var document = await BrowsingContext.New(config).OpenNewAsync(BaseUrl + "echo");
             var form = document.Body.AppendElement(document.CreateElement<IHtmlFormElement>());
             form.Method = "POST";
+            fill(document, form);
 
-            if (encType != null)
-                form.Enctype = encType;
-
-            foreach (var field in fields)
-            {
-                var input = form.AppendElement(document.CreateElement<IHtmlInputElement>());
-                input.Name = field.Key;
-                input.Value = field.Value;
-            }
+            if (fromButton)
+                return await form.Submit(form.QuerySelector<IHtmlButtonElement>("button"));
 
             return await form.Submit();
         }
@@ -342,6 +363,124 @@
                     Assert.AreEqual("Content-Disposition: form-data; name=\"" + field.Key + "\"", lines[nameLines[i]]);
                     Assert.AreEqual(field.Value, lines[valueLines[i]]);
                 }
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithModifiedButtonValueShouldNotEchoTheButtonValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var result = await PostDocumentAsync((document, form) =>
+                {
+                    var user = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    var pass = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    var btn = form.AppendElement(document.CreateElement<IHtmlButtonElement>());
+                    user.Type = "text";
+                    user.Name = "username";
+                    user.Value = "foo";
+                    pass.Type = "password";
+                    pass.Name = "password";
+                    pass.Value = "bar";
+                    btn.Name = "login";
+                    btn.Value = "Login";
+                }, fromButton: false);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(2, rows.Length);
+
+                Assert.AreEqual("username", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("foo", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("password", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("bar", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("\nusername=foo&password=bar\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithInitialButtonValueShouldNotEchoTheButtonValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var source = "<input type=text name=username value='foo'><input type=password name=password value='bar'><button type=submit name=login value=Login>";
+                var result = await PostDocumentAsync(source, fromButton: false);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(2, rows.Length);
+
+                Assert.AreEqual("username", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("foo", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("password", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("bar", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("\nusername=foo&password=bar\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeFromButtonWithModifiedValueShouldEchoTheButtonValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var result = await PostDocumentAsync((document, form) =>
+                {
+                    var user = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    var pass = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    var btn = form.AppendElement(document.CreateElement<IHtmlButtonElement>());
+                    user.Type = "text";
+                    user.Name = "username";
+                    user.Value = "foo";
+                    pass.Type = "password";
+                    pass.Name = "password";
+                    pass.Value = "bar";
+                    btn.Name = "login";
+                    btn.Value = "Login";
+                }, fromButton: true);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(3, rows.Length);
+
+                Assert.AreEqual("username", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("foo", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("password", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("bar", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("login", rows[2].QuerySelector("th").TextContent);
+                Assert.AreEqual("Login", rows[2].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("\nusername=foo&password=bar&login=Login\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeFromButtonWithInitialValueShouldEchoTheButtonValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var source = "<input type=text name=username value='foo'><input type=password name=password value='bar'><button type=submit name=login value=Login>";
+                var result = await PostDocumentAsync(source, fromButton: true);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(3, rows.Length);
+
+                Assert.AreEqual("username", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("foo", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("password", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("bar", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("login", rows[2].QuerySelector("th").TextContent);
+                Assert.AreEqual("Login", rows[2].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("\nusername=foo&password=bar&login=Login\n", raw);
             }
         }
     }

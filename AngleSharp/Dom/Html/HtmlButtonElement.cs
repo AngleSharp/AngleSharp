@@ -1,20 +1,14 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents an HTML button element.
     /// </summary>
     sealed class HtmlButtonElement : HtmlFormControlElement, IHtmlButtonElement
     {
-        #region Fields
-
-        String _value;
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -93,8 +87,8 @@
         /// </summary>
         public String Value
         {
-            get { return _value ?? String.Empty; }
-            set { _value = value; }
+            get { return GetOwnAttribute(AttributeNames.Value) ?? String.Empty; }
+            set { SetOwnAttribute(AttributeNames.Value, value); }
         }
 
         #endregion
@@ -125,16 +119,17 @@
 
         public override void DoClick()
         {
-            if (IsClickedCancelled())
-                return;
-
-            var type = Type;
             var form = Form;
 
-            if (type == InputTypeNames.Submit && form != null)
-                form.Submit();
-            else if (type == InputTypeNames.Reset && form != null)
-                form.Reset();
+            if (IsClickedCancelled() == false && form != null)
+            {
+                var type = Type;
+
+                if (type.Is(InputTypeNames.Submit))
+                    form.Submit(this);
+                else if (type.Is(InputTypeNames.Reset))
+                    form.Reset();
+            }
         }
 
         #endregion
@@ -151,15 +146,12 @@
         /// </summary>
         /// <param name="dataSet">The dataset to construct.</param>
         /// <param name="submitter">The given submitter.</param>
-        internal override void ConstructDataSet(FormDataSet dataSet, HtmlElement submitter)
+        internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
-            if (this == submitter)
-                return;
-
             var type = Type;
 
-            if (type == InputTypeNames.Submit || type == InputTypeNames.Reset)
-                dataSet.Append(Name, Value, Type.ToString());
+            if (Object.ReferenceEquals(this, submitter) && type.IsOneOf(InputTypeNames.Submit, InputTypeNames.Reset))
+                dataSet.Append(Name, Value, type);
         }
 
         #endregion

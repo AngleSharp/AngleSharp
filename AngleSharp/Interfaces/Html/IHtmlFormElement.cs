@@ -83,6 +83,12 @@
         Task<IDocument> Submit();
 
         /// <summary>
+        /// Submits the form element as triggered from another element.
+        /// </summary>
+        /// <param name="sourceElement">The form's submitter.</param>
+        Task<IDocument> Submit(IHtmlElement sourceElement);
+
+        /// <summary>
         /// Resets the form to the previous (default) state.
         /// </summary>
         [DomName("reset")]
