@@ -157,6 +157,15 @@
             set { SetOwnAttribute(AttributeNames.IsMap, value ? String.Empty : null); }
         }
 
+        /// <summary>
+        /// Gets or sets the intended type of the media resource.
+        /// </summary>
+        public String Media
+        {
+            get { return GetOwnAttribute(AttributeNames.Media); }
+            set { SetOwnAttribute(AttributeNames.Media, value); }
+        }
+
         #endregion
 
         #region Methods

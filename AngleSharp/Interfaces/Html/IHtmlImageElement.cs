@@ -89,5 +89,11 @@
         /// </summary>
         [DomName("complete")]
         Boolean IsCompleted { get; }
+
+        /// <summary>
+        /// Gets or sets the intended type of the media resource.
+        /// </summary>
+        [DomName("media")]
+        String Media { get; set; }
     }
 }
