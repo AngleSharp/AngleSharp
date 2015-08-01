@@ -127,7 +127,7 @@
         /// </summary>
         public Int32 OriginalWidth
         {
-            get { return _img != null ? _img.Width : 0; }
+            get { return IsCompleted ? _img.Width : 0; }
         }
 
         /// <summary>
@@ -135,7 +135,7 @@
         /// </summary>
         public Int32 OriginalHeight
         {
-            get { return _img != null ? _img.Height : 0; }
+            get { return IsCompleted ? _img.Height : 0; }
         }
 
         /// <summary>
@@ -143,7 +143,7 @@
         /// </summary>
         public Boolean IsCompleted
         {
-            get { return _img == null; }
+            get { return _img != null; }
         }
 
         /// <summary>
@@ -155,15 +155,6 @@
         {
             get { return GetOwnAttribute(AttributeNames.IsMap) != null; }
             set { SetOwnAttribute(AttributeNames.IsMap, value ? String.Empty : null); }
-        }
-
-        /// <summary>
-        /// Gets or sets the intended type of the media resource.
-        /// </summary>
-        public String Media
-        {
-            get { return GetOwnAttribute(AttributeNames.Media); }
-            set { SetOwnAttribute(AttributeNames.Media, value); }
         }
 
         #endregion
@@ -178,6 +169,7 @@
             {
                 var request = this.CreateRequestFor(Url);
                 //TODO Implement with srcset etc. --> see:
+                // --> GetCandidatesFromSourceSet(SourceSet, Sizes);
                 //http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#update-the-image-data
                 this.LoadResource<IImageInfo>(request).ContinueWith(m =>
                 {
