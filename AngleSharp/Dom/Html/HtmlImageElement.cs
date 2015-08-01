@@ -12,8 +12,9 @@
     {
         #region Fields
 
-        readonly BoundLocation _src;
+        Url _lastSource;
         IImageInfo _img;
+        SourceSet _srcset;
 
         #endregion
 
@@ -25,8 +26,10 @@
         public HtmlImageElement(Document owner, String prefix = null)
             : base(owner, Tags.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _src = new BoundLocation(this, AttributeNames.Src);
             RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
+            RegisterAttributeObserver(AttributeNames.SrcSet, UpdateSource);
+            RegisterAttributeObserver(AttributeNames.Sizes, UpdateSource);
+            RegisterAttributeObserver(AttributeNames.CrossOrigin, UpdateSource);
         }
 
         #endregion
@@ -34,19 +37,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets the url of the link elements address.
-        /// </summary>
-        public Url Url
-        {
-            get { return new Url(Source); }
-        }
-
-        /// <summary>
         /// Gets the actual used image source.
         /// </summary>
         public String ActualSource
         {
-            get { return Source;  }
+            get { return _lastSource != null ? _lastSource.Href : null; }
         }
 
         /// <summary>
@@ -72,8 +67,8 @@
         /// </summary>
         public String Source
         {
-            get { return _src.Href; }
-            set { _src.Href = value; }
+            get { return GetUrlAttribute(AttributeNames.Src); }
+            set { SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -161,24 +156,45 @@
 
         #region Methods
 
+        /// <summary>
+        /// For more information, see:
+        /// http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#update-the-image-data
+        /// </summary>
+        void GetImage(Url source)
+        {
+            if (source.IsInvalid)
+                source = null;
+            else if (_lastSource != null && source.Equals(_lastSource))
+                return;
+
+            this.CancelTasks();
+            _lastSource = source;
+
+            if (source == null)
+                return;
+
+            var request = this.CreateRequestFor(source);
+            this.LoadResource<IImageInfo>(request).ContinueWith(m =>
+            {
+                if (m.IsFaulted == false)
+                    _img = m.Result;
+
+                this.FireLoadOrErrorEvent(m);
+            });
+        }
+
         void UpdateSource(String value)
         {
-            this.CancelTasks();
+            if (_srcset == null)
+                _srcset = new SourceSet(this);
 
-            if (!String.IsNullOrEmpty(value))
+            foreach (var candidate in _srcset.GetCandidates(SourceSet, Sizes))
             {
-                var request = this.CreateRequestFor(Url);
-                //TODO Implement with srcset etc. --> see:
-                // --> GetCandidatesFromSourceSet(SourceSet, Sizes);
-                //http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#update-the-image-data
-                this.LoadResource<IImageInfo>(request).ContinueWith(m =>
-                {
-                    if (m.IsFaulted == false)
-                        _img = m.Result;
-
-                    this.FireLoadOrErrorEvent(m);
-                });
+                GetImage(candidate.Source);
+                return;
             }
+
+            GetImage(Url.Create(Source));
         }
 
         #endregion
