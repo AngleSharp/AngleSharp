@@ -788,6 +788,18 @@
         }
 
         /// <summary>
+        /// Easy way of getting the current absolute url from attributes.
+        /// </summary>
+        /// <param name="name">The name of the attribute.</param>
+        /// <returns>The attribute's absolute url value.</returns>
+        protected String GetUrlAttribute(String name)
+        {
+            var value = GetOwnAttribute(name);
+            var url = value != null ? new Url(BaseUrl, value) : null;
+            return url != null && !url.IsInvalid ? url.Href : String.Empty;
+        }
+
+        /// <summary>
         /// Faster way of setting the (known) attribute.
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
