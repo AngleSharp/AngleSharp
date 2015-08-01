@@ -72,73 +72,6 @@
         }
 
         /// <summary>
-        /// Parses a list of image candidates, separated by commas.
-        /// </summary>
-        /// <param name="value">The value to parse.</param>
-        /// <returns>An iteration over all legal image candidates.</returns>
-        public static IEnumerable<Tuple<Url, Predicate<RenderDevice>>> ParseImageCandidates(this String value)
-        {
-            if (!String.IsNullOrEmpty(value))
-            {
-                var fail = false;
-                var values = value.SplitCommas();
-                var candidates = new Tuple<Url, Predicate<RenderDevice>>[values.Length];
-
-                for (int i = 0; fail == false && i < candidates.Length; i++)
-                {
-                    candidates[i] = values[i].ParseImageCandidate();
-                    fail = fail || candidates[i] == null;
-                }
-
-                if (fail == false)
-                    return candidates;
-            }
-
-            return new Tuple<Url, Predicate<RenderDevice>>[0];
-        }
-
-        /// <summary>
-        /// Parses a string that represents an image candidate.
-        /// </summary>
-        /// <param name="value">The value to convert.</param>
-        /// <returns>A valid image candidate or null.</returns>
-        public static Tuple<Url, Predicate<RenderDevice>> ParseImageCandidate(this String value)
-        {
-            var parts = value.Trim().SplitSpaces();
-
-            if (parts.Length == 2 || parts.Length == 1)
-            {
-                var url = new Url(parts[0]);
-                var pred = default(Predicate<RenderDevice>);
-
-                if (parts.Length == 2)
-                {
-                    var idx = parts[1].Length - 1;
-                    var chr = parts[1][idx];
-                    var dim = 0;
-
-                    if (Int32.TryParse(parts[1].Substring(0, idx), out dim))
-                    {
-                        if (chr == 'x')
-                            pred = rd => rd.Resolution / 72 >= dim;
-                        else if (chr == 'w')
-                            pred = rd => rd.ViewPortWidth >= dim;
-                        else
-                            return null;
-                    }
-                    else
-                        return null;
-                }
-                else
-                    pred = rd => true;
-
-                return Tuple.Create(url, pred);
-            }
-
-            return null;
-        }
-
-        /// <summary>
         /// Converts the given value to an enumeration value (or not).
         /// </summary>
         /// <param name="value">The value to convert.</param>
@@ -181,7 +114,7 @@
         {
             var converted = default(Int32);
 
-            if (!String.IsNullOrEmpty(value) && Int32.TryParse(value, out converted))
+            if (!String.IsNullOrEmpty(value) && Int32.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out converted))
                 return converted;
 
             return defaultValue;
@@ -197,7 +130,7 @@
         {
             var converted = default(UInt32);
 
-            if (!String.IsNullOrEmpty(value) && UInt32.TryParse(value, out converted))
+            if (!String.IsNullOrEmpty(value) && UInt32.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out converted))
                 return converted;
 
             return defaultValue;
