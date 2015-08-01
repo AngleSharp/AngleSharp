@@ -7,6 +7,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Services;
+    using AngleSharp.Services.Styling;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -147,6 +148,20 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Creates a new MediaQueryList object representing the parsed results
+        /// of the specified media query string.
+        /// </summary>
+        /// <param name="mediaText">The query string.</param>
+        /// <returns>The MediaQueryList instance.</returns>
+        public IMediaQueryList MatchMedia(String mediaText)
+        {
+            var config = _document.Options;
+            var options = new StyleOptions { Configuration = config };
+            var media = config.GetCssStyleEngine().ParseMedia(mediaText, options);
+            return new CssMediaQueryList(this, media);
+        }
 
         /// <summary>
         /// Gives the values of all the CSS properties of an element after
