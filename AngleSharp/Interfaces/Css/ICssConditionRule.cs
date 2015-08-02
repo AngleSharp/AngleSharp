@@ -8,6 +8,7 @@
     /// of a condition and a statement block.
     /// </summary>
     [DomName("CSSConditionRule")]
+    [DomNoInterfaceObject]
     public interface ICssConditionRule : ICssGroupingRule
     {
         /// <summary>
