@@ -1,18 +1,38 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Dom.Events;
     using System;
 
     sealed class CssMediaQueryList : EventTarget, IMediaQueryList
     {
         readonly IMediaList _media;
-        readonly IWindow _window;
+        Boolean _matched;
 
         public event DomEventHandler Changed;
 
         public CssMediaQueryList(IWindow window, IMediaList media)
         {
-            _window = window;
             _media = media;
+            _matched = ComputeMatched(window);
+            window.Resized += Resized;
+        }
+
+        Boolean ComputeMatched(IWindow window)
+        {
+            //TODO use Validate with RenderDevice
+            return false;
+        }
+
+        void Resized(Object sender, Event ev)
+        {
+            var window = (IWindow)sender;
+            var matched = ComputeMatched(window);
+
+            //TODO use MediaQueryListEvent
+            if (matched != _matched && Changed != null)
+                Changed(this, new Event());
+
+            _matched = matched;
         }
 
         public String MediaText
@@ -27,8 +47,7 @@
 
         public Boolean IsMatched
         {
-            //TODO use Validate with RenderDevice
-            get { return true; }
+            get { return _matched; }
         }
     }
 }
