@@ -25,11 +25,7 @@
         {
             if (Input.IsChecked)
             {
-                var value = Keywords.On;
-
-                if (!String.IsNullOrEmpty(Input.Value))
-                    value = Input.Value;
-
+                var value = Input.GetAttribute(AttributeNames.Value) ?? Keywords.On;
                 dataSet.Append(Input.Name, value, Input.Type);
             }
         }

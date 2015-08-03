@@ -54,9 +54,10 @@
         static async Task<IDocument> PostDocumentAsync(Action<IDocument, IHtmlFormElement> fill, Boolean fromButton = false)
         {
             var config = new Configuration().WithDefaultLoader();
-            var document = await BrowsingContext.New(config).OpenNewAsync(BaseUrl + "echo");
+            var document = await BrowsingContext.New(config).OpenNewAsync();
             var form = document.Body.AppendElement(document.CreateElement<IHtmlFormElement>());
             form.Method = "POST";
+            form.Action = BaseUrl + "echo";
             fill(document, form);
 
             if (fromButton)
@@ -481,6 +482,83 @@
                 Assert.AreEqual("Login", rows[2].QuerySelector("td").TextContent);
 
                 Assert.AreEqual("\nusername=foo&password=bar&login=Login\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostFormWithCheckboxArrayAndDefaultRadioValueShouldYieldStandardValues()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var source = @"<input name=name size=15 type=text value=abc /><TEXTAREA NAME=Address ROWS=3 COLS=30 >
+</TEXTAREA><select multiple=multiple name=colors>
+<option> RED </option>
+<option selected> GREEN </option>
+<option> YELLOW </option>
+<option> BLUE </option>
+<option> ORANGE </option>
+</select><input name=""color[]"" type=checkbox value=green checked /> green
+<input name=""color[]"" type=checkbox value=red checked /> red
+<input name=""color[]"" type=checkbox value=blue checked /> blue<input checked=checked name=answer type=radio /> True
+<input name=answer type=radio value=off /> False";
+                var result = await PostDocumentAsync(source);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(5, rows.Length);
+
+                Assert.AreEqual("name", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("abc", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("Address", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("colors", rows[2].QuerySelector("th").TextContent);
+                Assert.AreEqual("GREEN", rows[2].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("color[]", rows[3].QuerySelector("th").TextContent);
+                Assert.AreEqual("green,red,blue", rows[3].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("answer", rows[4].QuerySelector("th").TextContent);
+                Assert.AreEqual("on", rows[4].QuerySelector("td").TextContent);
+            }
+        }
+
+        [Test]
+        public async Task PostFormWithEmptyRadioElementValueShouldYieldEmptyValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var source = @"<input name=answer type=radio /> On
+<input checked=checked name=answer type=radio value='' /> Nothing
+<input name=answer type=radio value=false /> False";
+                var result = await PostDocumentAsync(source);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(1, rows.Length);
+
+                Assert.AreEqual("answer", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[0].QuerySelector("td").TextContent);
+            }
+        }
+
+        [Test]
+        public async Task PostFormWithEmptyCheckboxElementValueShouldYieldEmptyValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var source = @"<input checked name=answer type=checkbox /> On
+<input checked name=answer type=checkbox value='' /> Nothing
+<input name=answer type=checkbox value=false /> False";
+                var result = await PostDocumentAsync(source);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(1, rows.Length);
+
+                Assert.AreEqual("answer", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("on,", rows[0].QuerySelector("td").TextContent);
             }
         }
     }
