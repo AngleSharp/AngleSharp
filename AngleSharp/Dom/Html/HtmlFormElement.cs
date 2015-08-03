@@ -181,7 +181,7 @@
         /// </summary>
         public Task<IDocument> Submit(IHtmlElement sourceElement)
         {
-            return SubmitForm(sourceElement, false);
+            return SubmitForm(sourceElement ?? this, false);
         }
 
         /// <summary>
