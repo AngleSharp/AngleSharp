@@ -523,5 +523,24 @@
                 Assert.AreEqual("on", rows[4].QuerySelector("td").TextContent);
             }
         }
+
+        [Test]
+        public async Task PostFormWithEmptyRadioElementValueShouldYieldEmptyValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var source = @"<input name=answer type=radio /> On
+<input checked=checked name=answer type=radio value='' /> Nothing
+<input name=answer type=radio value=false /> False";
+                var result = await PostDocumentAsync(source);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(1, rows.Length);
+
+                Assert.AreEqual("answer", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[0].QuerySelector("td").TextContent);
+            }
+        }
     }
 }
