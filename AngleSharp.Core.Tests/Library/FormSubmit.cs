@@ -542,5 +542,24 @@
                 Assert.AreEqual("", rows[0].QuerySelector("td").TextContent);
             }
         }
+
+        [Test]
+        public async Task PostFormWithEmptyCheckboxElementValueShouldYieldEmptyValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var source = @"<input checked name=answer type=checkbox /> On
+<input checked name=answer type=checkbox value='' /> Nothing
+<input name=answer type=checkbox value=false /> False";
+                var result = await PostDocumentAsync(source);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(1, rows.Length);
+
+                Assert.AreEqual("answer", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("on,", rows[0].QuerySelector("td").TextContent);
+            }
+        }
     }
 }
