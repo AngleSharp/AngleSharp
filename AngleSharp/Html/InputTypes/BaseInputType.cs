@@ -55,6 +55,11 @@
 
         #region Methods
 
+        public virtual Boolean IsAppendingData(IHtmlElement submitter)
+        {
+            return true;
+        }
+
         public virtual void Check(ValidityState state)
         {
         }

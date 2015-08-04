@@ -490,7 +490,8 @@
         /// <param name="submitter">The given submitter.</param>
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
-            _type.ConstructDataSet(dataSet);
+            if (_type.IsAppendingData(submitter))
+                _type.ConstructDataSet(dataSet);
         }
 
         /// <summary>
