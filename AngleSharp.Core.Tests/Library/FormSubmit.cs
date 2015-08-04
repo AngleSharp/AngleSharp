@@ -561,5 +561,32 @@
                 Assert.AreEqual("on,", rows[0].QuerySelector("td").TextContent);
             }
         }
+
+        [Test]
+        public async Task PostFormWithNoFileShouldSendInputEmptyFileName()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var source = @"<input type=file name=image>";
+                var result = await PostDocumentAsync(source, encType: MimeTypes.MultipartForm);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(0, rows.Length);
+
+                var lines = raw.Split('\n');
+
+                Assert.AreEqual(8, lines.Length);
+
+                var emptyLines = new[] { 0, 4, 5, 7 };
+
+                foreach (var emptyLine in emptyLines)
+                    Assert.AreEqual(String.Empty, lines[emptyLine]);
+
+                Assert.AreEqual(lines[1] + "--", lines[lines.Length - 2]);
+                Assert.AreEqual("Content-Disposition: form-data; name=\"image\"; filename=\"\"", lines[2]);
+                Assert.AreEqual("Content-Type: application/octet-stream", lines[3]);
+            }
+        }
     }
 }
