@@ -62,7 +62,7 @@
             fill(document, form);
 
             if (fromButton)
-                return await form.Submit(form.QuerySelector<IHtmlButtonElement>("button"));
+                return await form.Submit(form.QuerySelector<IHtmlElement>("button") ?? form.QuerySelector<IHtmlElement>("input[type=submit]"));
 
             return await form.Submit();
         }
@@ -651,6 +651,66 @@
 
                 foreach (var emptyLine in emptyLines)
                     Assert.AreEqual(String.Empty, lines[emptyLine]);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithInitialInputSubmitShouldNotEchoTheInputValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var source = "<input type=text name=username value='foo'><input type=password name=password value='bar'><input type=submit name=login value=Login>";
+                var result = await PostDocumentAsync(source, fromButton: false);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(2, rows.Length);
+
+                Assert.AreEqual("username", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("foo", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("password", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("bar", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("\nusername=foo&password=bar\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeFromInputSubmitWithModifiedValueShouldEchoTheInputValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var result = await PostDocumentAsync((document, form) =>
+                {
+                    var user = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    var pass = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    var btn = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    user.Type = "text";
+                    user.Name = "username";
+                    user.Value = "foo";
+                    pass.Type = "password";
+                    pass.Name = "password";
+                    pass.Value = "bar";
+                    btn.Name = "login";
+                    btn.Type = "submit";
+                    btn.Value = "Login";
+                }, fromButton: true);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(3, rows.Length);
+
+                Assert.AreEqual("username", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("foo", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("password", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("bar", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("login", rows[2].QuerySelector("th").TextContent);
+                Assert.AreEqual("Login", rows[2].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("\nusername=foo&password=bar&login=Login\n", raw);
             }
         }
     }
