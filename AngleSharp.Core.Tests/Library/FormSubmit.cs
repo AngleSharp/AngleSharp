@@ -11,6 +11,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -586,6 +587,70 @@
                 Assert.AreEqual(lines[1] + "--", lines[lines.Length - 2]);
                 Assert.AreEqual("Content-Disposition: form-data; name=\"image\"; filename=\"\"", lines[2]);
                 Assert.AreEqual("Content-Type: application/octet-stream", lines[3]);
+            }
+        }
+
+        [Test]
+        public async Task PostFormWithSimpleFileShouldSendFileContent()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var content = Encoding.UTF8.GetBytes("test");
+                var result = await PostDocumentAsync((document, form) =>
+                {
+                    var input = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    form.Enctype = MimeTypes.MultipartForm;
+                    input.Name = "image";
+                    input.Type = "file";
+                    input.Files.Add(new FileEntry("test.txt", new MemoryStream(content)));
+                });
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(0, rows.Length);
+
+                var lines = raw.Split('\n');
+
+                Assert.AreEqual(8, lines.Length);
+
+                var emptyLines = new[] { 0, 4, 7 };
+
+                foreach (var emptyLine in emptyLines)
+                    Assert.AreEqual(String.Empty, lines[emptyLine]);
+
+                Assert.AreEqual(lines[1] + "--", lines[lines.Length - 2]);
+                Assert.AreEqual("Content-Disposition: form-data; name=\"image\"; filename=\"test.txt\"", lines[2]);
+                Assert.AreEqual("Content-Type: text/plain", lines[3]);
+                Assert.AreEqual("test", lines[5]);
+            }
+        }
+
+        [Test]
+        public async Task PostFormWithFileFieldWithoutNameShouldNotSendAnything()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var content = Encoding.UTF8.GetBytes("test");
+                var result = await PostDocumentAsync((document, form) =>
+                {
+                    var input = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    form.Enctype = MimeTypes.MultipartForm;
+                    input.Type = "file";
+                    input.Files.Add(new FileEntry("test.txt", new MemoryStream(content)));
+                });
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(0, rows.Length);
+
+                var lines = raw.Split('\n');
+
+                Assert.AreEqual(3, lines.Length);
+
+                var emptyLines = new[] { 0, 2 };
+
+                foreach (var emptyLine in emptyLines)
+                    Assert.AreEqual(String.Empty, lines[emptyLine]);
             }
         }
     }
