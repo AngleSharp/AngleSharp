@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom.Io;
     using AngleSharp.Extensions;
+    using AngleSharp.Network;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -382,6 +383,16 @@
                 get { return _value; }
             }
 
+            public String FileName
+            {
+                get { return _value != null ? _value.Name : String.Empty; }
+            }
+
+            public String ContentType
+            {
+                get { return _value != null ? _value.Type : MimeTypes.Binary; }
+            }
+
             public override Boolean Contains(String boundary, Encoding encoding)
             {
                 if (_value == null || _value.Body == null)
@@ -393,17 +404,28 @@
 
             public override void AsMultipart(StreamWriter stream)
             {
-                if (HasName && HasValue && HasValueBody)
+                if (!HasName)
+                    return;
+
+                var hasContent = HasValue && HasValueBody;
+
+                stream.WriteLine("Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"",
+                    Name.HtmlEncode(stream.Encoding), FileName.HtmlEncode(stream.Encoding));
+
+                stream.WriteLine("Content-Type: " + ContentType);
+
+                if (hasContent)
+                    stream.WriteLine("Content-Transfer-Encoding: binary");
+                
+                stream.WriteLine();
+
+                if (hasContent)
                 {
-                    stream.WriteLine("content-disposition: form-data; name=\"{0}\"; filename=\"{1}\"", 
-                        Name.HtmlEncode(stream.Encoding), _value.Name.HtmlEncode(stream.Encoding));
-                    stream.WriteLine("content-type: " + _value.Type);
-                    stream.WriteLine("content-transfer-encoding: binary");
-                    stream.WriteLine();
                     stream.Flush();
                     _value.Body.CopyTo(stream.BaseStream);
-                    stream.WriteLine();
                 }
+
+                stream.WriteLine();
             }
 
             public override void AsPlaintext(StreamWriter stream)
