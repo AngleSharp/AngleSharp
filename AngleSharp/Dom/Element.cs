@@ -788,6 +788,17 @@
         }
 
         /// <summary>
+        /// Faster way of checkinf for a (known) attribute.
+        /// </summary>
+        /// <param name="name">The name of the attribute.</param>
+        /// <returns>True if the attribute exists, otherwise false.</returns>
+        protected Boolean HasOwnAttribute(String name)
+        {
+            var attr = _attributes.GetNamedItem(null, name);
+            return attr != null;
+        }
+
+        /// <summary>
         /// Faster way of setting the (known) attribute.
         /// </summary>
         /// <param name="name">The name of the attribute.</param>

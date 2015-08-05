@@ -62,7 +62,7 @@
         /// </summary>
         public Boolean IsRequired
         {
-            get { return GetOwnAttribute(AttributeNames.Required) != null; }
+            get { return HasOwnAttribute(AttributeNames.Required); }
             set { SetOwnAttribute(AttributeNames.Required, value ? String.Empty : null); }
         }
 
@@ -123,7 +123,7 @@
         /// </summary>
         public Boolean IsMultiple
         {
-            get { return GetOwnAttribute(AttributeNames.Multiple) != null; }
+            get { return HasOwnAttribute(AttributeNames.Multiple); }
             set { SetOwnAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
         }
 

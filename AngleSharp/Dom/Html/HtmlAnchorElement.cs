@@ -282,7 +282,7 @@
 
         public override void DoFocus()
         {
-            if (GetOwnAttribute(AttributeNames.Href) != null)
+            if (HasOwnAttribute(AttributeNames.Href))
                 IsFocused = true;
         }
 

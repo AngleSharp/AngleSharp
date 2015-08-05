@@ -111,7 +111,7 @@
         /// </summary>
         public Boolean IsRequired
         {
-            get { return GetOwnAttribute(AttributeNames.Required) != null; }
+            get { return HasOwnAttribute(AttributeNames.Required); }
             set { SetOwnAttribute(AttributeNames.Required, value ? String.Empty : null); }
         }
 
@@ -120,7 +120,7 @@
         /// </summary>
         public Boolean IsReadOnly
         {
-            get { return GetOwnAttribute(AttributeNames.Readonly) != null; }
+            get { return HasOwnAttribute(AttributeNames.Readonly); }
             set { SetOwnAttribute(AttributeNames.Readonly, value ? String.Empty : null); }
         }
 

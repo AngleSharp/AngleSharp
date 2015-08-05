@@ -36,7 +36,7 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetOwnAttribute(AttributeNames.Disabled) != null; }
+            get { return HasOwnAttribute(AttributeNames.Disabled); }
             set { SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 

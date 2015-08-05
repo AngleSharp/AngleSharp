@@ -48,7 +48,7 @@
         /// </summary>
         public Boolean IsDefaultChecked
         {
-            get { return GetOwnAttribute(AttributeNames.Checked) != null; }
+            get { return HasOwnAttribute(AttributeNames.Checked); }
             set { SetOwnAttribute(AttributeNames.Checked, value ? String.Empty : null); }
         }
 
@@ -84,7 +84,7 @@
         /// </summary>
         public Boolean IsMultiple
         {
-            get { return GetOwnAttribute(AttributeNames.Multiple) != null; }
+            get { return HasOwnAttribute(AttributeNames.Multiple); }
             set { SetOwnAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
         }
 

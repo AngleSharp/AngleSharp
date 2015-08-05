@@ -54,7 +54,7 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetOwnAttribute(AttributeNames.Disabled) != null || IsFieldsetDisabled(); }
+            get { return HasOwnAttribute(AttributeNames.Disabled) || IsFieldsetDisabled(); }
             set { SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
@@ -64,7 +64,7 @@
         /// </summary>
         public Boolean Autofocus
         {
-            get { return GetOwnAttribute(AttributeNames.AutoFocus) != null; }
+            get { return HasOwnAttribute(AttributeNames.AutoFocus); }
             set { SetOwnAttribute(AttributeNames.AutoFocus, value ? String.Empty : null); }
         }
 

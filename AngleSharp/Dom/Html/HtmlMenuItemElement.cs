@@ -92,7 +92,7 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetOwnAttribute(AttributeNames.Disabled) != null; }
+            get { return HasOwnAttribute(AttributeNames.Disabled); }
             set { SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
@@ -101,7 +101,7 @@
         /// </summary>
         public Boolean IsChecked
         {
-            get { return GetOwnAttribute(AttributeNames.Checked) != null; }
+            get { return HasOwnAttribute(AttributeNames.Checked); }
             set { SetOwnAttribute(AttributeNames.Checked, value ? String.Empty : null); }
         }
 
@@ -110,7 +110,7 @@
         /// </summary>
         public Boolean IsDefault
         {
-            get { return GetOwnAttribute(AttributeNames.Default) != null; }
+            get { return HasOwnAttribute(AttributeNames.Default); }
             set { SetOwnAttribute(AttributeNames.Default, value ? String.Empty : null); }
         }
 
