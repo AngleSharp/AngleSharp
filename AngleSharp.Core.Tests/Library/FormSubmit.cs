@@ -713,5 +713,72 @@
                 Assert.AreEqual("\nusername=foo&password=bar&login=Login\n", raw);
             }
         }
+
+        [Test]
+        public async Task PostStandardTypeWithAttributeEmptyCheckboxValueShouldSendEmptyValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var result = await PostDocumentAsync((document, form) =>
+                {
+                    var check = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    check.Type = "checkbox";
+                    check.Name = "test";
+                    check.SetAttribute("checked", "");
+                    check.SetAttribute("value", "");
+                });
+                var rows = result.QuerySelectorAll("tr");
+
+                Assert.AreEqual(1, rows.Length);
+
+                Assert.AreEqual("test", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[0].QuerySelector("td").TextContent);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithSetNonEmptyCheckboxValueShouldSendNonEmptyValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var result = await PostDocumentAsync((document, form) =>
+                {
+                    var check = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    check.Type = "checkbox";
+                    check.Name = "test";
+                    check.SetAttribute("checked", "");
+                    check.Value = "foo";
+                });
+                var rows = result.QuerySelectorAll("tr");
+
+                Assert.AreEqual(1, rows.Length);
+
+                Assert.AreEqual("test", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("foo", rows[0].QuerySelector("td").TextContent);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithSetEmptyCheckboxValueShouldSendEmptyValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var result = await PostDocumentAsync((document, form) =>
+                {
+                    var check = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    check.Type = "checkbox";
+                    check.Name = "test";
+                    check.IsChecked = true;
+                    check.SetAttribute("value", "foo");
+                    check.Value = "";
+                });
+                var rows = result.QuerySelectorAll("tr");
+
+                Assert.AreEqual(1, rows.Length);
+
+                Assert.AreEqual("test", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[0].QuerySelector("td").TextContent);
+            }
+        }
     }
 }
