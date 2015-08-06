@@ -14,7 +14,6 @@
 
         Url _lastSource;
         IImageInfo _img;
-        SourceSet _srcset;
 
         #endregion
 
@@ -185,16 +184,7 @@
 
         void UpdateSource(String value)
         {
-            if (_srcset == null)
-                _srcset = new SourceSet(this);
-
-            foreach (var candidate in _srcset.GetCandidates(SourceSet, Sizes))
-            {
-                GetImage(candidate.Source);
-                return;
-            }
-
-            GetImage(Url.Create(Source));
+            GetImage(this.GetImageCandidate());
         }
 
         #endregion

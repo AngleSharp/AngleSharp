@@ -1,10 +1,8 @@
 ﻿namespace AngleSharp.Html
 {
-    using AngleSharp.Css;
+    using AngleSharp.Css.Values;
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
@@ -15,21 +13,14 @@
         static readonly Regex SizeParser = new Regex(@"(\([^)]+\))?\s*(.+)", RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
 
         readonly IDocument _document;
-        readonly IHtmlElement _element;
-        readonly CssParser _parser;
 
-        public SourceSet(IHtmlElement element)
+        public SourceSet(IDocument document)
         {
-            _parser = new CssParser();
-            _document = element.Owner;
-            _element = element;
+            _document = document;
         }
 
-        static IEnumerable<Candidate> ParseSourceSet(String srcset)
+        static IEnumerable<ImageCandidate> ParseSourceSet(String srcset)
         {
-            if (srcset == null)
-                yield break;
-
             var sources = srcset.Trim().SplitSpaces();
 
             for (var i = 0; i < sources.Length; i++)
@@ -58,7 +49,7 @@
                     }
                 }
 
-                yield return new Candidate
+                yield return new ImageCandidate
                 {
                     Url = url,
                     Descriptor = descriptor
@@ -101,8 +92,11 @@
 
         Double GetWidthFromLength(String length)
         {
-            var tokens = _parser.ParseValue(length);
-            var value = Converters.LengthOrPercentConverter.Convert(tokens);
+            var value = default(Length);
+
+            if (Length.TryParse(length, out value) == false)
+                return 0.0;
+
             //TODO Compute Value from RenderDevice
             return 0.0;
         }
@@ -128,33 +122,27 @@
             return GetWidthFromLength(FullWidth);
         }
 
-        public IEnumerable<ImageCandidate> GetCandidates(String srcset, String sizes)
+        public IEnumerable<Url> GetCandidates(String srcset, String sizes)
         {
-            foreach (var candidate in ParseSourceSet(srcset))
+            if (!String.IsNullOrEmpty(srcset))
             {
-                yield return new ImageCandidate
-                {
-                    Source = Url.Create(candidate.Url),
-                    Resolution = ParseDescriptor(candidate.Descriptor, sizes)
-                };
+                //Resolution = ParseDescriptor(candidate.Descriptor, sizes)
+                foreach (var candidate in ParseSourceSet(srcset))
+                    yield return Url.Create(candidate.Url);
             }
         }
 
-        public class ImageCandidate
-        {
-            public Url Source { get; set; }
-            public Double Resolution { get; set; }
-        }
-
-        class MediaSize
+        sealed class MediaSize
         {
             public String Media { get; set; }
+
             public String Length { get; set; }
         }
 
-        class Candidate
+        sealed class ImageCandidate
         {
             public String Url { get; set; }
+
             public String Descriptor { get; set; }
         }
     }

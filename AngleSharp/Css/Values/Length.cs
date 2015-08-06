@@ -165,6 +165,17 @@
         #region Methods
 
         /// <summary>
+        /// Tries to convert the given string to a Length.
+        /// </summary>
+        /// <param name="s">The string to convert.</param>
+        /// <param name="result">The reference to the result.</param>
+        /// <returns>True if successful, otherwise false.</returns>
+        public static Boolean TryParse(String s, out Length result)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Converts the length to a number of pixels, if possible. If the
         /// current unit is relative, then an exception will be thrown.
         /// </summary>

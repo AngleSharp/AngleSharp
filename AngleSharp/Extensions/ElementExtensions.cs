@@ -7,6 +7,7 @@
     using AngleSharp.Services;
     using AngleSharp.Services.Media;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
@@ -653,6 +654,30 @@
         }
 
         /// <summary>
+        /// Gets a suitable image candidate for the provided image element.
+        /// </summary>
+        /// <param name="img">The element to use.</param>
+        /// <returns>The possibly valid URL to the right candidate.</returns>
+        public static Url GetImageCandidate(this IHtmlImageElement img)
+        {
+            var srcset = new SourceSet(img.Owner);
+            var sources = img.GetSources();
+
+            while (sources.Count > 0)
+            {
+                var source = sources.Pop();
+
+                foreach (var candidate in srcset.GetCandidates(source.SourceSet, source.Sizes))
+                    return candidate;
+            }
+
+            foreach (var candidate in srcset.GetCandidates(img.SourceSet, img.Sizes))
+                return candidate;
+
+            return Url.Create(img.Source);
+        }
+
+        /// <summary>
         /// Tries to load the resource of the resource type from the request.
         /// </summary>
         /// <param name="element">The document to use.</param>
@@ -684,6 +709,25 @@
 
                 return default(TResource);
             });
+        }
+
+        static Stack<IHtmlSourceElement> GetSources(this IHtmlImageElement img)
+        {
+            var parent = img.ParentElement;
+            var sources = new Stack<IHtmlSourceElement>();
+
+            if (parent != null && parent.LocalName.Is(Tags.Picture))
+            {
+                var element = img.PreviousElementSibling as IHtmlSourceElement;
+
+                while (element != null)
+                {
+                    sources.Push(element);
+                    element = element.PreviousElementSibling as IHtmlSourceElement;
+                }
+            }
+
+            return sources;
         }
     }
 }
