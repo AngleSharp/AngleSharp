@@ -3,7 +3,6 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents an absolute length value.
@@ -174,24 +173,13 @@
         /// <returns>True if successful, otherwise false.</returns>
         public static Boolean TryParse(String s, out Length result)
         {
-            if (String.IsNullOrEmpty(s) == false)
+            var value = default(Single);
+            var unit = GetUnit(s.CssUnit(out value));
+
+            if (unit != Unit.None)
             {
-                var firstLetter = s.Length;
-
-                while (!s[firstLetter - 1].IsDigit() && --firstLetter > 0);
-
-                if (firstLetter > 0)
-                {
-                    var unit = GetUnit(s.Substring(firstLetter));
-                    var value = default(Single);
-
-                    if (unit != Unit.None && 
-                        Single.TryParse(s.Substring(0, firstLetter), NumberStyles.Any, CultureInfo.InvariantCulture, out value))
-                    {
-                        result = new Length(value, unit);
-                        return true;
-                    }
-                }
+                result = new Length(value, unit);
+                return true;
             }
 
             result = default(Length);

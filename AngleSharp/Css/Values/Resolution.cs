@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -75,6 +76,27 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Tries to convert the given string to a Resolution.
+        /// </summary>
+        /// <param name="s">The string to convert.</param>
+        /// <param name="result">The reference to the result.</param>
+        /// <returns>True if successful, otherwise false.</returns>
+        public static Boolean TryParse(String s, out Resolution result)
+        {
+            var value = default(Single);
+            var unit = GetUnit(s.CssUnit(out value));
+
+            if (unit != Unit.None)
+            {
+                result = new Resolution(value, unit);
+                return true;
+            }
+
+            result = default(Resolution);
+            return false;
+        }
 
         /// <summary>
         /// Gets the unit from the enumeration for the provided string.

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css.Values
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -42,11 +43,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of time in ms.
+        /// Gets the value of time.
         /// </summary>
         public Single Value
         {
-            get { return _unit == Unit.S ? _value * 1000f : _value; }
+            get { return _value; }
         }
 
         /// <summary>
@@ -89,12 +90,33 @@
         /// <returns>The number of milliseconds.</returns>
         public static explicit operator Single(Time time)
         {
-            return time.Value;
+            return time.ToMilliseconds();
         }
 
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Tries to convert the given string to a Time.
+        /// </summary>
+        /// <param name="s">The string to convert.</param>
+        /// <param name="result">The reference to the result.</param>
+        /// <returns>True if successful, otherwise false.</returns>
+        public static Boolean TryParse(String s, out Time result)
+        {
+            var value = default(Single);
+            var unit = GetUnit(s.CssUnit(out value));
+
+            if (unit != Unit.None)
+            {
+                result = new Time(value, unit);
+                return true;
+            }
+
+            result = default(Time);
+            return false;
+        }
 
         /// <summary>
         /// Gets the unit from the enumeration for the provided string.
@@ -112,13 +134,22 @@
         }
 
         /// <summary>
+        /// Converts the value to milliseconds.
+        /// </summary>
+        /// <returns>The number of milliseconds.</returns>
+        public Single ToMilliseconds()
+        {
+            return _unit == Unit.S ? _value * 1000f : _value;
+        }
+
+        /// <summary>
         /// Checks if the current time is equal to the other time.
         /// </summary>
         /// <param name="other">The time to compare to.</param>
         /// <returns>True if both represent the same value.</returns>
         public Boolean Equals(Time other)
         {
-            return Value == other.Value;
+            return ToMilliseconds() == other.ToMilliseconds();
         }
 
         #endregion
@@ -155,7 +186,7 @@
         /// <returns>The result of the comparison.</returns>
         public Int32 CompareTo(Time other)
         {
-            return Value.CompareTo(other.Value);
+            return ToMilliseconds().CompareTo(other.ToMilliseconds());
         }
 
         /// <summary>

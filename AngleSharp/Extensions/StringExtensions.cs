@@ -611,6 +611,32 @@
         }
 
         /// <summary>
+        /// Splits the string in a numeric value (result) and a unit. Returns
+        /// null if the provided string is ill-formatted.
+        /// </summary>
+        /// <param name="value">The value to split.</param>
+        /// <param name="result">The returned numeric value.</param>
+        /// <returns>The provided CSS unit or null.</returns>
+        public static String CssUnit(this String value, out Single result)
+        {
+            if (String.IsNullOrEmpty(value) == false)
+            {
+                var firstLetter = value.Length;
+
+                while (!value[firstLetter - 1].IsDigit() && --firstLetter > 0) ;
+
+                if (firstLetter > 0 &&
+                    Single.TryParse(value.Substring(0, firstLetter), NumberStyles.Any, CultureInfo.InvariantCulture, out result))
+                {
+                    return value.Substring(firstLetter);
+                }
+            }
+
+            result = default(Single);
+            return null;
+        }
+
+        /// <summary>
         /// Replaces characters in names and values that should not be in URL values.
         /// Replaces the bytes 0x20 (U+0020 SPACE if interpreted as ASCII) with a single 0x2B byte ("+" (U+002B)
         /// character if interpreted as ASCII).
