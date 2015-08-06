@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
+    using System.Globalization;
 
     /// <summary>
     /// Represents an absolute length value.
@@ -184,7 +185,8 @@
                     var unit = GetUnit(s.Substring(firstLetter));
                     var value = default(Single);
 
-                    if (unit != Unit.None && Single.TryParse(s.Substring(0, firstLetter), out value))
+                    if (unit != Unit.None && 
+                        Single.TryParse(s.Substring(0, firstLetter), NumberStyles.Any, CultureInfo.InvariantCulture, out value))
                     {
                         result = new Length(value, unit);
                         return true;
