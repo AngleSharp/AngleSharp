@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Css.Values
 {
-    using System;
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// Represents an absolute length value.
@@ -172,7 +173,55 @@
         /// <returns>True if successful, otherwise false.</returns>
         public static Boolean TryParse(String s, out Length result)
         {
-            throw new NotImplementedException();
+            if (String.IsNullOrEmpty(s) == false)
+            {
+                var firstLetter = s.Length;
+
+                while (!s[firstLetter - 1].IsDigit() && --firstLetter > 0);
+
+                if (firstLetter > 0)
+                {
+                    var unit = GetUnit(s.Substring(firstLetter));
+                    var value = default(Single);
+
+                    if (unit != Unit.None && Single.TryParse(s.Substring(0, firstLetter), out value))
+                    {
+                        result = new Length(value, unit);
+                        return true;
+                    }
+                }
+            }
+
+            result = default(Length);
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the unit from the enumeration for the provided string.
+        /// </summary>
+        /// <param name="s">The string to convert.</param>
+        /// <returns>A valid CSS unit or None.</returns>
+        public static Unit GetUnit(String s)
+        {
+            switch (s)
+            {
+                case "ch": return Unit.Ch;
+                case "cm": return Unit.Cm;
+                case "em": return Unit.Em;
+                case "ex": return Unit.Ex;
+                case "in": return Unit.In;
+                case "mm": return Unit.Mm;
+                case "pc": return Unit.Pc;
+                case "pt": return Unit.Pt;
+                case "px": return Unit.Px;
+                case "rem": return Unit.Rem;
+                case "vh": return Unit.Vh;
+                case "vmax": return Unit.Vmax;
+                case "vmin": return Unit.Vmin;
+                case "vw": return Unit.Vw;
+                case "%": return Unit.Percent;
+                default: return Unit.None;
+            }
         }
 
         /// <summary>
@@ -249,6 +298,10 @@
         /// </summary>
         public enum Unit : ushort
         {
+            /// <summary>
+            /// No valid unit.
+            /// </summary>
+            None,
             /// <summary>
             /// The value is a length (px).
             /// </summary>

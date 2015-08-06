@@ -261,39 +261,11 @@
             {
                 if (element.Type == CssTokenType.Dimension)
                 {
-                    var unit = (CssUnitToken)element;
+                    var token = (CssUnitToken)element;
+                    var unit = Length.GetUnit(token.Unit);
 
-                    switch (unit.Unit)
-                    {
-                        case "ch":
-                            return new Length(unit.Value, Length.Unit.Ch);
-                        case "cm":
-                            return new Length(unit.Value, Length.Unit.Cm);
-                        case "em":
-                            return new Length(unit.Value, Length.Unit.Em);
-                        case "ex":
-                            return new Length(unit.Value, Length.Unit.Ex);
-                        case "in":
-                            return new Length(unit.Value, Length.Unit.In);
-                        case "mm":
-                            return new Length(unit.Value, Length.Unit.Mm);
-                        case "pc":
-                            return new Length(unit.Value, Length.Unit.Pc);
-                        case "pt":
-                            return new Length(unit.Value, Length.Unit.Pt);
-                        case "px":
-                            return new Length(unit.Value, Length.Unit.Px);
-                        case "rem":
-                            return new Length(unit.Value, Length.Unit.Rem);
-                        case "vh":
-                            return new Length(unit.Value, Length.Unit.Vh);
-                        case "vmax":
-                            return new Length(unit.Value, Length.Unit.Vmax);
-                        case "vmin":
-                            return new Length(unit.Value, Length.Unit.Vmin);
-                        case "vw":
-                            return new Length(unit.Value, Length.Unit.Vw);
-                    }
+                    if (unit != Length.Unit.None)
+                        return new Length(token.Value, unit);
                 }
                 else if (element.Type == CssTokenType.Number && ((CssNumberToken)element).Value == 0f)
                 {
