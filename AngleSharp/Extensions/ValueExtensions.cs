@@ -215,19 +215,11 @@
 
             if (element != null && element.Type == CssTokenType.Dimension)
             {
-                var unit = (CssUnitToken)element;
+                var token = (CssUnitToken)element;
+                var unit = Angle.GetUnit(token.Unit);
 
-                switch (unit.Unit)
-                {
-                    case "deg":
-                        return new Angle(unit.Value, Angle.Unit.Deg);
-                    case "grad":
-                        return new Angle(unit.Value, Angle.Unit.Grad);
-                    case "turn":
-                        return new Angle(unit.Value, Angle.Unit.Turn);
-                    case "rad":
-                        return new Angle(unit.Value, Angle.Unit.Rad);
-                }
+                if (unit != Angle.Unit.None)
+                    return new Angle(token.Value, unit);
             }
 
             return null;
@@ -239,15 +231,11 @@
 
             if (element != null && element.Type == CssTokenType.Dimension)
             {
-                var unit = (CssUnitToken)element;
+                var token = (CssUnitToken)element;
+                var unit = Frequency.GetUnit(token.Unit);
 
-                switch (unit.Unit)
-                {
-                    case "hz":
-                        return new Frequency(unit.Value, Frequency.Unit.Hz);
-                    case "khz":
-                        return new Frequency(unit.Value, Frequency.Unit.Khz);
-                }
+                if (unit != Frequency.Unit.None)
+                    return new Frequency(token.Value, unit);
             }
 
             return null;
@@ -282,17 +270,11 @@
 
             if (element != null && element.Type == CssTokenType.Dimension)
             {
-                var unit = (CssUnitToken)element;
+                var token = (CssUnitToken)element;
+                var unit = Resolution.GetUnit(token.Unit);
 
-                switch (unit.Unit)
-                {
-                    case "dpcm":
-                        return new Resolution(unit.Value, Resolution.Unit.Dpcm);
-                    case "dpi":
-                        return new Resolution(unit.Value, Resolution.Unit.Dpi);
-                    case "dppx":
-                        return new Resolution(unit.Value, Resolution.Unit.Dppx);
-                }
+                if (unit != Resolution.Unit.None)
+                    return new Resolution(token.Value, unit);
             }
 
             return null;
@@ -304,15 +286,11 @@
 
             if (element != null && element.Type == CssTokenType.Dimension)
             {
-                var unit = (CssUnitToken)element;
+                var token = (CssUnitToken)element;
+                var unit = Time.GetUnit(token.Unit);
 
-                switch (unit.Unit)
-                {
-                    case "s":
-                        return new Time(unit.Value, Time.Unit.S);
-                    case "ms":
-                        return new Time(unit.Value, Time.Unit.Ms);
-                }
+                if (unit != Time.Unit.None)
+                    return new Time(token.Value, unit);
             }
 
             return null;

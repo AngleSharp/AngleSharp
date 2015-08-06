@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Css.Values
 {
-    using System;
     using AngleSharp.Css;
+    using System;
 
     /// <summary>
     /// Represents an angle value.
@@ -139,6 +139,23 @@
         #region Methods
 
         /// <summary>
+        /// Gets the unit from the enumeration for the provided string.
+        /// </summary>
+        /// <param name="s">The string to convert.</param>
+        /// <returns>A valid CSS unit or None.</returns>
+        public static Unit GetUnit(String s)
+        {
+            switch (s)
+            {
+                case "deg": return Unit.Deg;
+                case "grad": return Unit.Grad;
+                case "turn": return Unit.Turn;
+                case "rad": return Unit.Rad;
+                default: return Unit.None;
+            }
+        }
+
+        /// <summary>
         /// Computes the tangent of the given angle.
         /// </summary>
         /// <returns>The tangent.</returns>
@@ -184,6 +201,10 @@
         /// </summary>
         public enum Unit : ushort
         {
+            /// <summary>
+            /// No valid unit.
+            /// </summary>
+            None,
             /// <summary>
             /// The value is an angle (deg). There are 360 degrees in a full circle.
             /// </summary>

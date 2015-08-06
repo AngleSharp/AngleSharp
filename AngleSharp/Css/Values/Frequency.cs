@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Css.Values
 {
-    using System;
     using AngleSharp.Css;
+    using System;
 
     /// <summary>
     /// Represents a time value.
@@ -88,6 +88,21 @@
         #region Methods
 
         /// <summary>
+        /// Gets the unit from the enumeration for the provided string.
+        /// </summary>
+        /// <param name="s">The string to convert.</param>
+        /// <returns>A valid CSS unit or None.</returns>
+        public static Unit GetUnit(String s)
+        {
+            switch (s)
+            {
+                case "hz": return Unit.Hz;
+                case "khz": return Unit.Khz;
+                default: return Unit.None;
+            }
+        }
+
+        /// <summary>
         /// Checks for equality with the other frequency.
         /// </summary>
         /// <param name="other">The frequency to compare to.</param>
@@ -106,6 +121,10 @@
         /// </summary>
         public enum Unit
         {
+            /// <summary>
+            /// No valid unit.
+            /// </summary>
+            None,
             /// <summary>
             /// The value is a frequency (Hz).
             /// </summary>

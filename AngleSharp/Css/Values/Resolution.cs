@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Css.Values
 {
-    using System;
     using AngleSharp.Css;
+    using System;
 
     /// <summary>
     /// Represents a resolution value.
@@ -77,6 +77,22 @@
         #region Methods
 
         /// <summary>
+        /// Gets the unit from the enumeration for the provided string.
+        /// </summary>
+        /// <param name="s">The string to convert.</param>
+        /// <returns>A valid CSS unit or None.</returns>
+        public static Unit GetUnit(String s)
+        {
+            switch (s)
+            {
+                case "dpcm": return Unit.Dpcm;
+                case "dpi": return Unit.Dpi;
+                case "dppx": return Unit.Dppx;
+                default: return Unit.None;
+            }
+        }
+
+        /// <summary>
         /// Converts the resolution to a per pixel density.
         /// </summary>
         /// <returns>The density in dots per pixels.</returns>
@@ -126,6 +142,10 @@
         /// </summary>
         public enum Unit
         {
+            /// <summary>
+            /// No valid unit.
+            /// </summary>
+            None,
             /// <summary>
             /// The value is a resolution (dots per in).
             /// </summary>
