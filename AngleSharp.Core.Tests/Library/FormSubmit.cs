@@ -780,5 +780,52 @@
                 Assert.AreEqual("", rows[0].QuerySelector("td").TextContent);
             }
         }
+
+        [Test]
+        public async Task PostStandardTypeWithNamesButMissingValueShouldOmitRedundantAmpersand()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var content = "<input name=foo value><input name=nothing><input name=bar value>";
+                var result = await PostDocumentAsync(content);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(3, rows.Length);
+
+                Assert.AreEqual("foo", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("nothing", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("bar", rows[2].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[2].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("\nfoo=&nothing=&bar=\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithoutNamesShouldOmitRedundantAmpersand()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var content = "<input name=foo><input><input name=bar>";
+                var result = await PostDocumentAsync(content);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(2, rows.Length);
+
+                Assert.AreEqual("foo", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("bar", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("\nfoo=&bar=\n", raw);
+            }
+        }
     }
 }
