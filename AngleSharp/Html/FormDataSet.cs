@@ -56,29 +56,23 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsMultipart(Encoding encoding = null)
         {
-            encoding = encoding ?? TextEncoding.Utf8;
-            var ms = new MemoryStream();
-            CheckBoundaries(encoding);
-            ReplaceCharset(encoding);
-            var tw = new StreamWriter(ms, encoding);
-
-            var entryWriters = _entries.Select(m => m.AsMultipart(encoding)).
-                                        Where(m => m != null);
-
-            foreach (var entryWriter in entryWriters)
+            return Build(encoding, stream =>
             {
-                tw.Write("--");
-                tw.WriteLine(_boundary);
-                entryWriter(tw);
-            }
+                var enc = stream.Encoding;
+                var entryWriters = _entries.Select(m => m.AsMultipart(enc)).
+                                            Where(m => m != null);
 
-            tw.Write("--");
-            tw.Write(_boundary);
-            tw.Write("--");
+                foreach (var entryWriter in entryWriters)
+                {
+                    stream.Write("--");
+                    stream.WriteLine(_boundary);
+                    entryWriter(stream);
+                }
 
-            tw.Flush();
-            ms.Position = 0;
-            return ms;
+                stream.Write("--");
+                stream.Write(_boundary);
+                stream.Write("--");
+            });
         }
 
         /// <summary>
@@ -89,41 +83,35 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsUrlEncoded(Encoding encoding = null)
         {
-            encoding = encoding ?? TextEncoding.Utf8;
-            var charset = encoding.WebName;
-            var ms = new MemoryStream();
-            CheckBoundaries(encoding);
-            ReplaceCharset(encoding);
-            var tw = new StreamWriter(ms, encoding);
-            var offset = 0;
-
-            if (offset < _entries.Count && 
-                _entries[offset].HasName &&
-                _entries[offset].Name.Equals(Tags.IsIndex) &&
-                _entries[offset].Type.Equals(InputTypeNames.Text, StringComparison.OrdinalIgnoreCase))
+            return Build(encoding, stream =>
             {
-                tw.Write(((TextDataSetEntry)_entries[offset]).Value);
-                offset++;
-            }
+                var offset = 0;
+                var enc = stream.Encoding;
 
-            var list = _entries.Skip(offset).
-                                Select(m => m.AsUrlEncoded(encoding)).
-                                Where(m => m != null).
-                                ToArray();
+                if (offset < _entries.Count && 
+                    _entries[offset].HasName &&
+                    _entries[offset].Name.Equals(Tags.IsIndex) &&
+                    _entries[offset].Type.Equals(InputTypeNames.Text, StringComparison.OrdinalIgnoreCase))
+                {
+                    stream.Write(((TextDataSetEntry)_entries[offset]).Value);
+                    offset++;
+                }
 
-            for (int i = 0; i < list.Length; i++)
-            {
-                if (i > 0)
-                    tw.Write('&');
+                var list = _entries.Skip(offset).
+                                    Select(m => m.AsUrlEncoded(enc)).
+                                    Where(m => m != null).
+                                    ToArray();
 
-                tw.Write(list[i].Item1);
-                tw.Write('=');
-                tw.Write(list[i].Item2);
-            }
+                for (int i = 0; i < list.Length; i++)
+                {
+                    if (i > 0)
+                        stream.Write('&');
 
-            tw.Flush();
-            ms.Position = 0;
-            return ms;
+                    stream.Write(list[i].Item1);
+                    stream.Write('=');
+                    stream.Write(list[i].Item2);
+                }
+            });
         }
 
         /// <summary>
@@ -134,30 +122,22 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsPlaintext(Encoding encoding = null)
         {
-            encoding = encoding ?? TextEncoding.Utf8;
-            var charset = encoding.WebName;
-            var ms = new MemoryStream();
-            CheckBoundaries(encoding);
-            ReplaceCharset(encoding);
-            var tw = new StreamWriter(ms, encoding);
-
-            var list = _entries.Select(m => m.AsPlaintext()).
-                                Where(m => m != null).
-                                ToArray();
-
-            for (int i = 0; i < list.Length; i++)
+            return Build(encoding, stream =>
             {
-                if (i > 0)
-                    tw.Write("\r\n");
+                var list = _entries.Select(m => m.AsPlaintext()).
+                                    Where(m => m != null).
+                                    ToArray();
 
-                tw.Write(list[i].Item1);
-                tw.Write('=');
-                tw.Write(list[i].Item2);
-            }
+                for (int i = 0; i < list.Length; i++)
+                {
+                    if (i > 0)
+                        stream.Write("\r\n");
 
-            tw.Flush();
-            ms.Position = 0;
-            return ms;
+                    stream.Write(list[i].Item1);
+                    stream.Write('=');
+                    stream.Write(list[i].Item2);
+                }
+            });
         }
 
         public void Append(String name, String value, String type)
@@ -184,6 +164,25 @@
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Builds the specific request body / url.
+        /// </summary>
+        /// <param name="encoding">The encoding to use.</param>
+        /// <param name="process">The action to generate the content.</param>
+        /// <returns>The constructed stream.</returns>
+        Stream Build(Encoding encoding, Action<StreamWriter> process)
+        {
+            encoding = encoding ?? TextEncoding.Utf8;
+            var ms = new MemoryStream();
+            CheckBoundaries(encoding);
+            ReplaceCharset(encoding);
+            var tw = new StreamWriter(ms, encoding);
+            process(tw);
+            tw.Flush();
+            ms.Position = 0;
+            return ms;
+        }
 
         /// <summary>
         /// Replaces a charset field (if any) that is hidden with the given
