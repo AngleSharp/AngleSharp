@@ -62,14 +62,14 @@
             ReplaceCharset(encoding);
             var tw = new StreamWriter(ms, encoding);
 
-            foreach (var entry in _entries)
+            var entryWriters = _entries.Select(m => m.AsMultipart(encoding)).
+                                        Where(m => m != null);
+
+            foreach (var entryWriter in entryWriters)
             {
-                if (entry.HasName)
-                {
-                    tw.Write("--");
-                    tw.WriteLine(_boundary);
-                    entry.AsMultipart(tw);
-                }
+                tw.Write("--");
+                tw.WriteLine(_boundary);
+                entryWriter(tw);
             }
 
             tw.Write("--");
@@ -96,7 +96,6 @@
             ReplaceCharset(encoding);
             var tw = new StreamWriter(ms, encoding);
             var offset = 0;
-            var requireAmpersand = false;
 
             if (offset < _entries.Count && 
                 _entries[offset].HasName &&
@@ -107,18 +106,19 @@
                 offset++;
             }
 
-            while (offset < _entries.Count)
+            var list = _entries.Skip(offset).
+                                Select(m => m.AsUrlEncoded(encoding)).
+                                Where(m => m != null).
+                                ToArray();
+
+            for (int i = 0; i < list.Length; i++)
             {
-                if (_entries[offset].HasName)
-                {
-                    if (requireAmpersand)
-                        tw.Write('&');
+                if (i > 0)
+                    tw.Write('&');
 
-                    _entries[offset].AsUrlEncoded(tw);
-                    requireAmpersand = true;
-                }
-
-                offset++;
+                tw.Write(list[i].Item1);
+                tw.Write('=');
+                tw.Write(list[i].Item2);
             }
 
             tw.Flush();
@@ -140,16 +140,19 @@
             CheckBoundaries(encoding);
             ReplaceCharset(encoding);
             var tw = new StreamWriter(ms, encoding);
-            var newLine = String.Empty;
 
-            for (int i = 0; i < _entries.Count; i++)
+            var list = _entries.Select(m => m.AsPlaintext()).
+                                Where(m => m != null).
+                                ToArray();
+
+            for (int i = 0; i < list.Length; i++)
             {
-                if (_entries[i].HasName)
-                {
-                    tw.Write(newLine);
-                    _entries[i].AsPlaintext(tw);
-                    newLine = "\r\n";
-                }
+                if (i > 0)
+                    tw.Write("\r\n");
+
+                tw.Write(list[i].Item1);
+                tw.Write('=');
+                tw.Write(list[i].Item2);
             }
 
             tw.Flush();
@@ -286,11 +289,11 @@
                 get { return _type ?? InputTypeNames.Text; }
             }
 
-            public abstract void AsMultipart(StreamWriter stream);
+            public abstract Action<StreamWriter> AsMultipart(Encoding encoding);
 
-            public abstract void AsPlaintext(StreamWriter stream);
+            public abstract Tuple<String, String> AsPlaintext();
 
-            public abstract void AsUrlEncoded(StreamWriter stream);
+            public abstract Tuple<String, String> AsUrlEncoded(Encoding encoding);
 
             public abstract Boolean Contains(String boundary, Encoding encoding);
         }
@@ -329,35 +332,36 @@
                 return _value.Contains(boundary);
             }
 
-            public override void AsMultipart(StreamWriter stream)
+            public override Action<StreamWriter> AsMultipart(Encoding encoding)
             {
-                if (HasValue)
+                if (HasName && HasValue)
                 {
-                    stream.WriteLine(String.Concat("Content-Disposition: form-data; name=\"", 
-                        Name.HtmlEncode(stream.Encoding), "\""));
-                    stream.WriteLine();
-                    stream.WriteLine(_value.HtmlEncode(stream.Encoding));
+                    return stream =>
+                    {
+                        stream.WriteLine(String.Concat("Content-Disposition: form-data; name=\"",
+                            Name.HtmlEncode(encoding), "\""));
+                        stream.WriteLine();
+                        stream.WriteLine(_value.HtmlEncode(encoding));
+                    };
                 }
+
+                return null;
             }
 
-            public override void AsPlaintext(StreamWriter stream)
+            public override Tuple<String, String> AsPlaintext()
             {
-                if (HasValue)
-                {
-                    stream.Write(Name);
-                    stream.Write('=');
-                    stream.Write(_value);
-                }
+                if (HasName && HasValue)
+                    return Tuple.Create(Name, _value);
+
+                return null;
             }
 
-            public override void AsUrlEncoded(StreamWriter stream)
+            public override Tuple<String, String> AsUrlEncoded(Encoding encoding)
             {
-                if (HasValue)
-                {
-                    stream.Write(Name.UrlEncode(stream.Encoding));
-                    stream.Write('=');
-                    stream.Write(_value.UrlEncode(stream.Encoding));
-                }
+                if (HasName && HasValue)
+                    return Tuple.Create(Name.UrlEncode(encoding), _value.UrlEncode(encoding));
+
+                return null;
             }
         }
 
@@ -414,43 +418,47 @@
                 return false;
             }
 
-            public override void AsMultipart(StreamWriter stream)
+            public override Action<StreamWriter> AsMultipart(Encoding encoding)
             {
-                var hasContent = HasValue && HasValueBody;
-
-                stream.WriteLine("Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"",
-                    Name.HtmlEncode(stream.Encoding), FileName.HtmlEncode(stream.Encoding));
-
-                stream.WriteLine("Content-Type: " + ContentType);
-                stream.WriteLine();
-
-                if (hasContent)
+                if (HasName)
                 {
-                    stream.Flush();
-                    _value.Body.CopyTo(stream.BaseStream);
+                    return stream =>
+                    {
+                        var hasContent = HasValue && HasValueBody;
+
+                        stream.WriteLine("Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"",
+                            Name.HtmlEncode(encoding), FileName.HtmlEncode(encoding));
+
+                        stream.WriteLine("Content-Type: " + ContentType);
+                        stream.WriteLine();
+
+                        if (hasContent)
+                        {
+                            stream.Flush();
+                            _value.Body.CopyTo(stream.BaseStream);
+                        }
+
+                        stream.WriteLine();
+                    };
                 }
 
-                stream.WriteLine();
+                return null;
             }
 
-            public override void AsPlaintext(StreamWriter stream)
+            public override Tuple<String, String> AsPlaintext()
             {
-                if (HasValue)
-                {
-                    stream.Write(Name);
-                    stream.Write('=');
-                    stream.Write(_value.Name);
-                }
+                if (HasName && HasValue)
+                    return Tuple.Create(Name, _value.Name);
+
+                return null;
             }
 
-            public override void AsUrlEncoded(StreamWriter stream)
+            public override Tuple<String, String> AsUrlEncoded(Encoding encoding)
             {
-                if (HasValue)
-                {
-                    stream.Write(Name.UrlEncode(stream.Encoding));
-                    stream.Write('=');
-                    stream.Write(_value.Name.UrlEncode(stream.Encoding));
-                }
+                if (HasName && HasValue)
+                    return Tuple.Create(Name.UrlEncode(encoding), _value.Name.UrlEncode(encoding));
+
+                return null;
             }
         }
 
