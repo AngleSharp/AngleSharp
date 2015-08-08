@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Parser.Html
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
@@ -124,17 +123,6 @@
         public static void AddComment(this Node parent, HtmlToken token)
         {
             parent.AddNode(new Comment(parent.Owner, token.Data));
-        }
-
-        /// <summary>
-        /// Examines if the given element is one of the table elements (table, tbody, tfoot, thead, tr).
-        /// </summary>
-        /// <param name="node">The node to examine</param>
-        /// <returns>True if the element is equal to one of the elements, otherwise false.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean IsTableElement(this INode node)
-        {
-            return (node is IHtmlTableElement || node is IHtmlTableSectionElement || node is IHtmlTableRowElement);
         }
     }
 }
