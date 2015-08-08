@@ -34,14 +34,6 @@
         /// <summary>
         /// Creates a new element node.
         /// </summary>
-        public Element(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : this(owner, name, null, null, flags)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new element node.
-        /// </summary>
         public Element(Document owner, String localName, String prefix, String namespaceUri, NodeFlags flags = NodeFlags.None)
             : this(owner, prefix != null ? String.Concat(prefix, ":", localName) : localName, localName, prefix, namespaceUri, flags)
         {
