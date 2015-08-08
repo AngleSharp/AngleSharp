@@ -238,11 +238,11 @@
 
                 if (tagName.Is(Tags.Select))
                     _currentMode = HtmlTreeMode.InSelect;
-                else if (tagName.IsOneOf(Tags.Th, Tags.Td))
+                else if (Tags.AllTableCells.Contains(tagName))
                     _currentMode = last ? HtmlTreeMode.InBody : HtmlTreeMode.InCell;
                 else if (tagName.Is(Tags.Tr))
                     _currentMode = HtmlTreeMode.InRow;
-                else if (tagName.IsOneOf(Tags.Thead, Tags.Tfoot, Tags.Tbody))
+                else if (Tags.AllTableSections.Contains(tagName))
                     _currentMode = HtmlTreeMode.InTableBody;
                 else if (tagName.Is(Tags.Body))
                     _currentMode = HtmlTreeMode.InBody;
@@ -476,7 +476,7 @@
                 }                    
                 case HtmlTokenType.EndTag:
                 {
-                    if (token.Name.IsOneOf(Tags.Html, Tags.Body, Tags.Br, Tags.Head))
+                    if (Tags.AllBeforeHead.Contains(token.Name))
                         break;
 
                     RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
@@ -530,7 +530,7 @@
                 }
                 case HtmlTokenType.EndTag:
                 {
-                    if (token.Name.IsOneOf(Tags.Html, Tags.Body, Tags.Br, Tags.Head))
+                    if (Tags.AllBeforeHead.Contains(token.Name))
                         break;
 
                     RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
@@ -610,7 +610,7 @@
 
                         return;
                     }
-                    else if (tagName.IsOneOf(Tags.Link, Tags.Base, Tags.BaseFont, Tags.Bgsound))
+                    else if (Tags.AllHeadBase.Contains(tagName))
                     {
                         AddElement(token.AsTag(), true);
                         CloseCurrentNode();
@@ -819,7 +819,7 @@
                         _currentMode = HtmlTreeMode.InFrameset;
                         return;
                     }
-                    else if (tagName.IsOneOf(Tags.Link, Tags.Meta, Tags.Script, Tags.Style, Tags.Title) || tagName.IsOneOf(Tags.Base, Tags.BaseFont, Tags.Bgsound, Tags.NoFrames))
+                    else if (Tags.AllHeadNoTemplate.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.TagMustBeInHead, token);
                         var index = _openElements.Count;
@@ -999,11 +999,11 @@
                 _frameset = false;
                 _currentMode = HtmlTreeMode.InTable;
             }
-            else if (tagName.IsOneOf(Tags.Br, Tags.Area, Tags.Embed, Tags.Keygen, Tags.Wbr))
+            else if (Tags.AllBodyBreakrow.Contains(tagName))
             {
                 InBodyStartTagBreakrow(tag);
             }
-            else if (tagName.IsOneOf(Tags.MenuItem, Tags.Param, Tags.Source, Tags.Track))
+            else if (Tags.AllBodyClosed.Contains(tagName))
             {
                 AddElement(tag, true);
                 CloseCurrentNode();
@@ -1064,7 +1064,7 @@
                 _frameset = false;
                 RawtextAlgorithm(tag);
             }
-            else if (tagName.IsOneOf(Tags.Applet, Tags.Marquee, Tags.Object))
+            else if (Tags.AllBodyObsolete.Contains(tagName))
             {
                 ReconstructFormatting();
                 AddElement(tag);
@@ -1568,7 +1568,7 @@
                             CloseCurrentNode();
                         }
                     }
-                    else if (tagName.IsOneOf(Tags.Script, Tags.Style, Tags.Template))
+                    else if (Tags.AllTableHead.Contains(tagName))
                     {
                         InHead(token);
                     }
@@ -1658,7 +1658,7 @@
                     {
                         InCaptionEndTagCaption(token);
                     }
-                    else if (tagName.IsOneOf(Tags.Body, Tags.Th, Tags.Colgroup, Tags.Html) || Tags.AllTable.Contains(tagName))
+                    else if (Tags.AllCaptionStart.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
                     }
@@ -1678,7 +1678,7 @@
                 {
                     var tagName = token.Name;
 
-                    if (tagName.IsOneOf(Tags.Caption, Tags.Th, Tags.Colgroup) || Tags.AllTable.Contains(tagName))
+                    if (Tags.AllCaptionEnd.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.TagCannotStartHere, token);
 
@@ -1791,7 +1791,7 @@
                         AddElement(new HtmlTableRowElement(_document), token.AsTag());
                         _currentMode = HtmlTreeMode.InRow;
                     }
-                    else if (tagName.IsOneOf(Tags.Td, Tags.Th))
+                    else if (Tags.AllTableCells.Contains(tagName))
                     {
                         InTableBody(HtmlTagToken.Open(Tags.Tr));
                         InRow(token);
@@ -1844,7 +1844,7 @@
                 {
                     var tagName = token.Name;
 
-                    if (tagName.IsOneOf(Tags.Td, Tags.Th))
+                    if (Tags.AllTableCells.Contains(tagName))
                     {
                         ClearStackBackTo(Tags.Tr);
                         AddElement(token.AsTag());
@@ -1935,7 +1935,7 @@
                 {
                     var tagName = token.Name;
 
-                    if (tagName.IsOneOf(Tags.Td, Tags.Th))
+                    if (Tags.AllTableCells.Contains(tagName))
                     {
                         InCellEndTagCell(token);
                     }
@@ -2020,7 +2020,7 @@
                         RaiseErrorOccurred(HtmlParseError.SelectNesting, token);
                         InSelectEndTagSelect();
                     }
-                    else if (tagName.IsOneOf(Tags.Input, Tags.Keygen, Tags.Textarea))
+                    else if (Tags.AllInput.Contains(tagName))
                     {
                         RaiseErrorOccurred(HtmlParseError.IllegalElementInSelectDetected, token);
 
@@ -2139,7 +2139,7 @@
                         TemplateStep(token, HtmlTreeMode.InColumnGroup);
                     else if (tagName.Is(Tags.Tr))
                         TemplateStep(token, HtmlTreeMode.InTableBody);
-                    else if (tagName.IsOneOf(Tags.Td, Tags.Th))
+                    else if (Tags.AllTableCells.Contains(tagName))
                         TemplateStep(token, HtmlTreeMode.InRow);
                     else
                         TemplateStep(token, HtmlTreeMode.InBody);
@@ -2637,8 +2637,7 @@
                     break;
                 }
 
-                if (node.Flags.HasFlag(NodeFlags.Special) && 
-                    node.LocalName.IsOneOf(Tags.Address, Tags.Div, Tags.P) == false)
+                if (node.Flags.HasFlag(NodeFlags.Special) && !Tags.AllBasicBlocks.Contains(node.LocalName))
                     break;
                 
                 node = _openElements[--index];
@@ -2668,8 +2667,7 @@
                     break;
                 }
 
-                if (node.Flags.HasFlag(NodeFlags.Special) && 
-                    node.LocalName.IsOneOf(Tags.Address, Tags.Div, Tags.P) == false)
+                if (node.Flags.HasFlag(NodeFlags.Special) && !Tags.AllBasicBlocks.Contains(node.LocalName))
                     break;
 
                 node = _openElements[--index];
@@ -3063,7 +3061,7 @@
             {
                 GenerateImpliedEndTags();
 
-                if (!CurrentNode.LocalName.IsOneOf(Tags.Td, Tags.Th))
+                if (!Tags.AllTableCells.Contains(CurrentNode.LocalName))
                     RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, token);
 
                 ClearStackBackTo(Tags.AllTableCells);

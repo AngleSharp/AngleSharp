@@ -742,125 +742,167 @@
 
         public static readonly HashSet<String> AllForeignExceptions = new HashSet<String>
         {
-            Tags.B, Tags.Big, Tags.BlockQuote, Tags.Body, Tags.Br, Tags.Center,
-            Tags.Code, Tags.Dd, Tags.Div, Tags.Dl, Tags.Dt, Tags.Em,
-            Tags.Embed, Tags.Head, Tags.Hr, Tags.I, Tags.Img, Tags.Li, Tags.Ul,
-            Tags.H3, Tags.H2, Tags.H4, Tags.H1, Tags.H6, Tags.H5,
-            Tags.Listing, Tags.Menu, Tags.Meta, Tags.NoBr, Tags.Ol,
-            Tags.P, Tags.Pre, Tags.Ruby, Tags.S, Tags.Small, Tags.Span, Tags.Strike,
-            Tags.Strong, Tags.Sub, Tags.Sup, Tags.Table, Tags.Tt, Tags.U, Tags.Var
+            B, Big, BlockQuote, Body, Br, Center, Code, Dd, Div, Dl, Dt, Em, Embed, Head, 
+            Hr, I, Img, Li, Ul, H3, H2, H4, H1, H6, H5, Listing, Menu, Meta, NoBr, Ol, P, 
+            Pre, Ruby, S, Small, Span, Strike, Strong, Sub, Sup, Table, Tt, U, Var
+        };
+
+        public static readonly HashSet<String> AllBeforeHead = new HashSet<String>
+        {
+            Html, Body, Br, Head
         };
 
         public static readonly HashSet<String> AllHead = new HashSet<String>
         {
-            Tags.Style, Tags.Link,
-            Tags.Meta, Tags.Title, Tags.NoFrames, Tags.Template,
-            Tags.Base, Tags.BaseFont, Tags.Bgsound
+            Style, Link, Meta, Title, NoFrames, Template, Base, BaseFont, Bgsound
+        };
+
+        public static readonly HashSet<String> AllHeadNoTemplate = new HashSet<String>
+        {
+            Link, Meta, Script, Style, Title, Base, BaseFont, Bgsound, NoFrames
+        };
+
+        public static readonly HashSet<String> AllHeadBase = new HashSet<String>
+        {
+            Link, Base, BaseFont, Bgsound
+        };
+
+        public static readonly HashSet<String> AllBodyBreakrow = new HashSet<String>
+        {
+            Br, Area, Embed, Keygen, Wbr
+        };
+
+        public static readonly HashSet<String> AllBodyClosed = new HashSet<String>
+        {
+            MenuItem, Param, Source, Track
         };
 
         public static readonly HashSet<String> AllNoScript = new HashSet<String>
         {
-            Tags.Style, Tags.Link, Tags.BaseFont, Tags.Meta, Tags.NoFrames, Tags.Bgsound
+            Style, Link, BaseFont, Meta, NoFrames, Bgsound
         };
 
         public static readonly HashSet<String> AllHeadings = new HashSet<String>
         {
-            Tags.H3, Tags.H2, Tags.H4, Tags.H1, Tags.H6, Tags.H5
+            H3, H2, H4, H1, H6, H5
         };
 
         public static readonly HashSet<String> AllBlocks = new HashSet<String>
         {
-            Tags.Ol, Tags.Ul, Tags.Dl, Tags.Fieldset, Tags.Button,
-            Tags.Figcaption, Tags.Figure, Tags.Article, Tags.Aside, Tags.BlockQuote, Tags.Center,
-            Tags.Address, Tags.Dialog, Tags.Dir, Tags.Summary, Tags.Details, Tags.Listing,
-            Tags.Footer, Tags.Header, Tags.Nav, Tags.Section, Tags.Menu, Tags.Hgroup,
-            Tags.Main, Tags.Pre
+            Ol, Ul, Dl, Fieldset, Button, Figcaption, Figure, Article, Aside, BlockQuote, 
+            Center, Address, Dialog, Dir, Summary, Details, Listing, Footer, Header, Nav, 
+            Section, Menu, Hgroup, Main, Pre
         };
 
         public static readonly HashSet<String> AllBody = new HashSet<String>
         {
-            Tags.Ol, Tags.Dl, Tags.Fieldset,
-            Tags.Figcaption, Tags.Figure, Tags.Article, Tags.Aside, Tags.BlockQuote, Tags.Center,
-            Tags.Address, Tags.Dialog, Tags.Dir, Tags.Summary, Tags.Details, Tags.Main,
-            Tags.Footer, Tags.Header, Tags.Nav, Tags.Section, Tags.Menu, Tags.Hgroup
+            Ol, Dl, Fieldset, Figcaption, Figure, Article, Aside, BlockQuote, Center, Address, 
+            Dialog, Dir, Summary, Details, Main, Footer, Header, Nav, Section, Menu, Hgroup
+        };
+
+        public static readonly HashSet<String> AllBodyObsolete = new HashSet<String>
+        {
+            Applet, Marquee, Object
+        };
+
+        public static readonly HashSet<String> AllInput = new HashSet<String>
+        {
+            Input, Keygen, Textarea
+        };
+
+        public static readonly HashSet<String> AllBasicBlocks = new HashSet<String>
+        {
+            Address, Div, P
         };
 
         public static readonly HashSet<String> AllSemanticFormatting = new HashSet<String>
         {
-            Tags.B, Tags.Strong, Tags.Code, Tags.Em, Tags.U, Tags.I
+            B, Strong, Code, Em, U, I
         };
 
         public static readonly HashSet<String> AllClassicFormatting = new HashSet<String> 
         {
-            Tags.Font, Tags.S, Tags.Small, Tags.Strike, Tags.Big, Tags.Tt
+            Font, S, Small, Strike, Big, Tt
         };
 
         public static readonly HashSet<String> AllFormatting = new HashSet<String> 
         {
-            Tags.B, Tags.Strong, Tags.Code, Tags.Em, Tags.U, Tags.I,
-            Tags.NoBr, Tags.Font, Tags.S, Tags.Small, Tags.Strike, Tags.Big, Tags.Tt
+            B, Strong, Code, Em, U, I, NoBr, Font, S, Small, Strike, Big, Tt
         };
 
         public static readonly HashSet<String> AllNested = new HashSet<String>
         {
-            Tags.Tbody, Tags.Td, Tags.Tfoot, Tags.Th, Tags.Thead, Tags.Tr,
-            Tags.Caption, Tags.Col, Tags.Colgroup,
-            Tags.Frame, Tags.Head
+            Tbody, Td, Tfoot, Th, Thead, Tr, Caption, Col, Colgroup, Frame, Head
+        };
+
+        public static readonly HashSet<String> AllCaptionEnd = new HashSet<String>
+        {
+            Tbody, Col, Tfoot, Td, Thead, Caption, Th, Colgroup, Tr
+        };
+
+        public static readonly HashSet<String> AllCaptionStart = new HashSet<String>
+        {
+            Tbody, Col, Tfoot, Td, Thead, Tr, Body, Th, Colgroup, Html
         };
 
         public static readonly HashSet<String> AllTable = new HashSet<String>
         {
-            Tags.Tbody, Tags.Col, Tags.Tfoot, Tags.Td, Tags.Thead, Tags.Tr
+            Tbody, Col, Tfoot, Td, Thead, Tr
         };
 
         public static readonly HashSet<String> AllTableRoot = new HashSet<String>
         {
-            Tags.Caption, Tags.Colgroup, Tags.Tbody, Tags.Tfoot, Tags.Thead
+            Caption, Colgroup, Tbody, Tfoot, Thead
         };
 
         public static readonly HashSet<String> AllTableGeneral = new HashSet<String>
         {
-            Tags.Caption, Tags.Colgroup, Tags.Col, Tags.Tbody, Tags.Tfoot, Tags.Thead
+            Caption, Colgroup, Col, Tbody, Tfoot, Thead
         };
 
         public static readonly HashSet<String> AllTableSections = new HashSet<String>
         {
-            Tags.Tbody, Tags.Tfoot, Tags.Thead
+            Tbody, Tfoot, Thead
         };
 
         public static readonly HashSet<String> AllTableMajor = new HashSet<String>
         {
-            Tags.Tbody, Tags.Tfoot, Tags.Thead, Tags.Table, Tags.Tr
+            Tbody, Tfoot, Thead, Table, Tr
         };
 
         public static readonly HashSet<String> AllTableSpecial = new HashSet<String>
         {
-            Tags.Td, Tags.Th,  Tags.Body, Tags.Caption, Tags.Col, Tags.Colgroup, Tags.Html
+            Td, Th,  Body, Caption, Col, Colgroup, Html
         };
 
         public static readonly HashSet<String> AllTableCore = new HashSet<String>
         {
-            Tags.Tr, Tags.Table, Tags.Tbody, Tags.Tfoot, Tags.Thead
+            Tr, Table, Tbody, Tfoot, Thead
         };
 
         public static readonly HashSet<String> AllTableInner = new HashSet<String>
         {
-            Tags.Tbody, Tags.Tr, Tags.Thead, Tags.Th, Tags.Tfoot, Tags.Td
+            Tbody, Tr, Thead, Th, Tfoot, Td
         };
 
         public static readonly HashSet<String> AllTableSelects = new HashSet<String>
         {
-            Tags.Tr, Tags.Table, Tags.Tbody, Tags.Tfoot, Tags.Thead, Tags.Td, Tags.Th, Tags.Caption
+            Tr, Table, Tbody, Tfoot, Thead, Td, Th, Caption
         };
 
         public static readonly HashSet<String> AllTableCells = new HashSet<String>
         {
-            Tags.Td, Tags.Th
+            Td, Th
         };
 
         public static readonly HashSet<String> AllTableCellsRows = new HashSet<String>
         {
-            Tags.Tr, Tags.Td, Tags.Th
+            Tr, Td, Th
+        };
+
+        public static readonly HashSet<String> AllTableHead = new HashSet<String>
+        {
+            Script, Style, Template
         };
 
         #endregion
