@@ -658,14 +658,20 @@
         /// </summary>
         /// <param name="img">The element to use.</param>
         /// <returns>The possibly valid URL to the right candidate.</returns>
-        public static Url GetImageCandidate(this IHtmlImageElement img)
+        public static Url GetImageCandidate(this HtmlImageElement img)
         {
-            var srcset = new SourceSet(img.Owner);
+            var owner = img.Owner;
+            var srcset = new SourceSet(owner);
+            var options = owner.Options;
             var sources = img.GetSources();
 
             while (sources.Count > 0)
             {
                 var source = sources.Pop();
+                var type = source.Type;
+
+                if (!String.IsNullOrEmpty(type) && options.GetResourceService<IImageInfo>(type) == null)
+                    continue;
 
                 foreach (var candidate in srcset.GetCandidates(source.SourceSet, source.Sizes))
                     return new Url(img.BaseUrl, candidate);
@@ -696,14 +702,11 @@
                     if (response != null)
                     {
                         var options = document.Options;
-                        var services = options.GetServices<IResourceService<TResource>>();
                         var type = response.GetContentType();
+                        var service = options.GetResourceService<TResource>(type);
 
-                        foreach (var service in services)
-                        {
-                            if (service.SupportsType(type))
-                                return await service.CreateAsync(response, cancel).ConfigureAwait(false);
-                        }
+                        if (service != null)
+                            return await service.CreateAsync(response, cancel).ConfigureAwait(false);
                     }
                 }
 
