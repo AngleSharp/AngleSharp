@@ -379,7 +379,10 @@
         {
             _finished = size == 0;
             var charLength = _decoder.GetChars(_buffer, 0, size, _chars, 0);
-            _raw.Write(_buffer, 0, size);
+
+            if (_confidence != EncodingConfidence.Certain)
+                _raw.Write(_buffer, 0, size);
+
             _content.Append(_chars, 0, charLength);
         }
 
