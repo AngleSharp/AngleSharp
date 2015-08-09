@@ -668,11 +668,11 @@
                 var source = sources.Pop();
 
                 foreach (var candidate in srcset.GetCandidates(source.SourceSet, source.Sizes))
-                    return candidate;
+                    return new Url(img.BaseUrl, candidate);
             }
 
             foreach (var candidate in srcset.GetCandidates(img.SourceSet, img.Sizes))
-                return candidate;
+                return new Url(img.BaseUrl, candidate);
 
             return Url.Create(img.Source);
         }

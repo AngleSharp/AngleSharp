@@ -122,13 +122,13 @@
             return GetWidthFromLength(FullWidth);
         }
 
-        public IEnumerable<Url> GetCandidates(String srcset, String sizes)
+        public IEnumerable<String> GetCandidates(String srcset, String sizes)
         {
             if (!String.IsNullOrEmpty(srcset))
             {
                 //Resolution = ParseDescriptor(candidate.Descriptor, sizes)
                 foreach (var candidate in ParseSourceSet(srcset))
-                    yield return Url.Create(candidate.Url);
+                    yield return candidate.Url;
             }
         }
 
