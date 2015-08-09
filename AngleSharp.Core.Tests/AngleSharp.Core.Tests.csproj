@@ -129,6 +129,7 @@
     <Compile Include="Library\DOMTable.cs" />
     <Compile Include="Library\Error.cs" />
     <Compile Include="Library\FormReset.cs" />
+    <Compile Include="Library\ImageCandidates.cs" />
     <Compile Include="Library\MeterElement.cs" />
     <Compile Include="Library\MutationObserver.cs" />
     <Compile Include="Library\OptionWithLabel.cs" />
@@ -180,6 +181,7 @@
     <Compile Include="Mocks\MockRequester.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
     <Compile Include="Mocks\MockScriptService.cs" />
+    <Compile Include="Mocks\ResourceService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Library\CommonExtensions.cs" />
     <Compile Include="Html\HtmlTokenization.cs" />
