@@ -11,6 +11,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -61,7 +62,7 @@
             fill(document, form);
 
             if (fromButton)
-                return await form.Submit(form.QuerySelector<IHtmlButtonElement>("button"));
+                return await form.Submit(form.QuerySelector<IHtmlElement>("button") ?? form.QuerySelector<IHtmlElement>("input[type=submit]"));
 
             return await form.Submit();
         }
@@ -559,6 +560,224 @@
 
                 Assert.AreEqual("answer", rows[0].QuerySelector("th").TextContent);
                 Assert.AreEqual("on,", rows[0].QuerySelector("td").TextContent);
+            }
+        }
+
+        [Test]
+        public async Task PostFormWithNoFileShouldSendInputEmptyFileName()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var source = @"<input type=file name=image>";
+                var result = await PostDocumentAsync(source, encType: MimeTypes.MultipartForm);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(0, rows.Length);
+
+                var lines = raw.Split('\n');
+
+                Assert.AreEqual(8, lines.Length);
+
+                var emptyLines = new[] { 0, 4, 5, 7 };
+
+                foreach (var emptyLine in emptyLines)
+                    Assert.AreEqual(String.Empty, lines[emptyLine]);
+
+                Assert.AreEqual(lines[1] + "--", lines[lines.Length - 2]);
+                Assert.AreEqual("Content-Disposition: form-data; name=\"image\"; filename=\"\"", lines[2]);
+                Assert.AreEqual("Content-Type: application/octet-stream", lines[3]);
+            }
+        }
+
+        [Test]
+        public async Task PostFormWithSimpleFileShouldSendFileContent()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var content = Encoding.UTF8.GetBytes("test");
+                var result = await PostDocumentAsync((document, form) =>
+                {
+                    var input = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    form.Enctype = MimeTypes.MultipartForm;
+                    input.Name = "image";
+                    input.Type = "file";
+                    input.Files.Add(new FileEntry("test.txt", new MemoryStream(content)));
+                });
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(0, rows.Length);
+
+                var lines = raw.Split('\n');
+
+                Assert.AreEqual(8, lines.Length);
+
+                var emptyLines = new[] { 0, 4, 7 };
+
+                foreach (var emptyLine in emptyLines)
+                    Assert.AreEqual(String.Empty, lines[emptyLine]);
+
+                Assert.AreEqual(lines[1] + "--", lines[lines.Length - 2]);
+                Assert.AreEqual("Content-Disposition: form-data; name=\"image\"; filename=\"test.txt\"", lines[2]);
+                Assert.AreEqual("Content-Type: text/plain", lines[3]);
+                Assert.AreEqual("test", lines[5]);
+            }
+        }
+
+        [Test]
+        public async Task PostFormWithFileFieldWithoutNameShouldNotSendAnything()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var content = Encoding.UTF8.GetBytes("test");
+                var result = await PostDocumentAsync((document, form) =>
+                {
+                    var input = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    form.Enctype = MimeTypes.MultipartForm;
+                    input.Type = "file";
+                    input.Files.Add(new FileEntry("test.txt", new MemoryStream(content)));
+                });
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(0, rows.Length);
+
+                var lines = raw.Split('\n');
+
+                Assert.AreEqual(3, lines.Length);
+
+                var emptyLines = new[] { 0, 2 };
+
+                foreach (var emptyLine in emptyLines)
+                    Assert.AreEqual(String.Empty, lines[emptyLine]);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithInitialInputSubmitShouldNotEchoTheInputValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var source = "<input type=text name=username value='foo'><input type=password name=password value='bar'><input type=submit name=login value=Login>";
+                var result = await PostDocumentAsync(source, fromButton: false);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(2, rows.Length);
+
+                Assert.AreEqual("username", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("foo", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("password", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("bar", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("\nusername=foo&password=bar\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeFromInputSubmitWithModifiedValueShouldEchoTheInputValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var result = await PostDocumentAsync((document, form) =>
+                {
+                    var user = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    var pass = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    var btn = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    user.Type = "text";
+                    user.Name = "username";
+                    user.Value = "foo";
+                    pass.Type = "password";
+                    pass.Name = "password";
+                    pass.Value = "bar";
+                    btn.Name = "login";
+                    btn.Type = "submit";
+                    btn.Value = "Login";
+                }, fromButton: true);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(3, rows.Length);
+
+                Assert.AreEqual("username", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("foo", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("password", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("bar", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("login", rows[2].QuerySelector("th").TextContent);
+                Assert.AreEqual("Login", rows[2].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("\nusername=foo&password=bar&login=Login\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithAttributeEmptyCheckboxValueShouldSendEmptyValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var result = await PostDocumentAsync((document, form) =>
+                {
+                    var check = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    check.Type = "checkbox";
+                    check.Name = "test";
+                    check.SetAttribute("checked", "");
+                    check.SetAttribute("value", "");
+                });
+                var rows = result.QuerySelectorAll("tr");
+
+                Assert.AreEqual(1, rows.Length);
+
+                Assert.AreEqual("test", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[0].QuerySelector("td").TextContent);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithSetNonEmptyCheckboxValueShouldSendNonEmptyValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var result = await PostDocumentAsync((document, form) =>
+                {
+                    var check = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    check.Type = "checkbox";
+                    check.Name = "test";
+                    check.SetAttribute("checked", "");
+                    check.Value = "foo";
+                });
+                var rows = result.QuerySelectorAll("tr");
+
+                Assert.AreEqual(1, rows.Length);
+
+                Assert.AreEqual("test", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("foo", rows[0].QuerySelector("td").TextContent);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithSetEmptyCheckboxValueShouldSendEmptyValue()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var result = await PostDocumentAsync((document, form) =>
+                {
+                    var check = form.AppendElement(document.CreateElement<IHtmlInputElement>());
+                    check.Type = "checkbox";
+                    check.Name = "test";
+                    check.IsChecked = true;
+                    check.SetAttribute("value", "foo");
+                    check.Value = "";
+                });
+                var rows = result.QuerySelectorAll("tr");
+
+                Assert.AreEqual(1, rows.Length);
+
+                Assert.AreEqual("test", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[0].QuerySelector("td").TextContent);
             }
         }
     }

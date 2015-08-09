@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom.Io;
     using AngleSharp.Extensions;
+    using AngleSharp.Network;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -18,6 +19,8 @@
 
         readonly List<FormDataSetEntry> _entries;
         String _boundary;
+
+        static readonly String[] NewLines = new[] { "\r\n", "\r", "\n" };
 
         #endregion
 
@@ -61,9 +64,12 @@
 
             foreach (var entry in _entries)
             {
-                tw.Write("--");
-                tw.WriteLine(_boundary);
-                entry.AsMultipart(tw);
+                if (entry.HasName)
+                {
+                    tw.Write("--");
+                    tw.WriteLine(_boundary);
+                    entry.AsMultipart(tw);
+                }
             }
 
             tw.Write("--");
@@ -134,15 +140,15 @@
             CheckBoundaries(encoding);
             ReplaceCharset(encoding);
             var tw = new StreamWriter(ms, encoding);
+            var newLine = String.Empty;
 
-            if (_entries.Count > 0)
+            for (int i = 0; i < _entries.Count; i++)
             {
-                _entries[0].AsPlaintext(tw);
-
-                for (int i = 1; i < _entries.Count; i++)
+                if (_entries[i].HasName)
                 {
-                    tw.Write("\r\n");
+                    tw.Write(newLine);
                     _entries[i].AsPlaintext(tw);
+                    newLine = "\r\n";
                 }
             }
 
@@ -177,7 +183,8 @@
         #region Helpers
 
         /// <summary>
-        /// Replaces a charset field (if any) that is hidden with the given character encoding.
+        /// Replaces a charset field (if any) that is hidden with the given
+        /// character encoding.
         /// </summary>
         /// <param name="encoding">The encoding to use.</param>
         void ReplaceCharset(Encoding encoding)
@@ -195,9 +202,9 @@
         }
 
         /// <summary>
-        /// Checks the entries for boundary collisions. If a collision is detected, then a new
-        /// boundary string is generated. This algorithm will produce a boundary string that
-        /// satisfies all requirements.
+        /// Checks the entries for boundary collisions. If a collision is
+        /// detected, then a new boundary string is generated. This algorithm
+        /// will produce a boundary string that satisfies all requirements.
         /// </summary>
         /// <param name="encoding">The encoding to use.</param>
         void CheckBoundaries(Encoding encoding)
@@ -218,17 +225,23 @@
         }
 
         /// <summary>
-        /// Replaces every occurrence of a "CR" (U+000D) character not followed by a "LF" (U+000A)
-        /// character, and every occurrence of a "LF" (U+000A) character not preceded by a "CR"
-        /// (U+000D) character, by a two-character string consisting of a U+000D CARRIAGE RETURN
-        /// "CRLF" (U+000A) character pair.
+        /// Replaces every occurrence of a "CR" (U+000D) character not followed
+        /// by a "LF" (U+000A) character, and every occurrence of a "LF"
+        /// (U+000A) character not preceded by a "CR" (U+000D) character, by a
+        /// two-character string consisting of a U+000D CARRIAGE RETURN "CRLF"
+        /// (U+000A) character pair.
         /// </summary>
         /// <param name="value">The value to normalize.</param>
         /// <returns>The normalized string.</returns>
         static String Normalize(String value)
         {
-            var lines = value.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-            return String.Join("\r\n", lines);
+            if (!String.IsNullOrEmpty(value))
+            {
+                var lines = value.Split(NewLines, StringSplitOptions.None);
+                return String.Join("\r\n", lines);
+            }
+
+            return value;
         }
 
         #endregion
@@ -318,7 +331,7 @@
 
             public override void AsMultipart(StreamWriter stream)
             {
-                if (HasName && HasValue)
+                if (HasValue)
                 {
                     stream.WriteLine(String.Concat("Content-Disposition: form-data; name=\"", 
                         Name.HtmlEncode(stream.Encoding), "\""));
@@ -329,7 +342,7 @@
 
             public override void AsPlaintext(StreamWriter stream)
             {
-                if (HasName && HasValue)
+                if (HasValue)
                 {
                     stream.Write(Name);
                     stream.Write('=');
@@ -339,7 +352,7 @@
 
             public override void AsUrlEncoded(StreamWriter stream)
             {
-                if (HasName && HasValue)
+                if (HasValue)
                 {
                     stream.Write(Name.UrlEncode(stream.Encoding));
                     stream.Write('=');
@@ -382,6 +395,16 @@
                 get { return _value; }
             }
 
+            public String FileName
+            {
+                get { return _value != null ? _value.Name : String.Empty; }
+            }
+
+            public String ContentType
+            {
+                get { return _value != null ? _value.Type : MimeTypes.Binary; }
+            }
+
             public override Boolean Contains(String boundary, Encoding encoding)
             {
                 if (_value == null || _value.Body == null)
@@ -393,22 +416,26 @@
 
             public override void AsMultipart(StreamWriter stream)
             {
-                if (HasName && HasValue && HasValueBody)
+                var hasContent = HasValue && HasValueBody;
+
+                stream.WriteLine("Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"",
+                    Name.HtmlEncode(stream.Encoding), FileName.HtmlEncode(stream.Encoding));
+
+                stream.WriteLine("Content-Type: " + ContentType);
+                stream.WriteLine();
+
+                if (hasContent)
                 {
-                    stream.WriteLine("content-disposition: form-data; name=\"{0}\"; filename=\"{1}\"", 
-                        Name.HtmlEncode(stream.Encoding), _value.Name.HtmlEncode(stream.Encoding));
-                    stream.WriteLine("content-type: " + _value.Type);
-                    stream.WriteLine("content-transfer-encoding: binary");
-                    stream.WriteLine();
                     stream.Flush();
                     _value.Body.CopyTo(stream.BaseStream);
-                    stream.WriteLine();
                 }
+
+                stream.WriteLine();
             }
 
             public override void AsPlaintext(StreamWriter stream)
             {
-                if (HasName && HasValue)
+                if (HasValue)
                 {
                     stream.Write(Name);
                     stream.Write('=');
@@ -418,7 +445,7 @@
 
             public override void AsUrlEncoded(StreamWriter stream)
             {
-                if (HasName && HasValue)
+                if (HasValue)
                 {
                     stream.Write(Name.UrlEncode(stream.Encoding));
                     stream.Write('=');

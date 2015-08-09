@@ -151,7 +151,7 @@
         /// </summary>
         public Boolean NoValidate
         {
-            get { return GetOwnAttribute(AttributeNames.NoValidate) != null; }
+            get { return HasOwnAttribute(AttributeNames.NoValidate); }
             set { SetOwnAttribute(AttributeNames.NoValidate, value ? String.Empty : null); }
         }
 

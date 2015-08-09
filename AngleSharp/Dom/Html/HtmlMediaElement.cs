@@ -236,25 +236,25 @@
 
         public Boolean IsAutoplay
         {
-            get { return GetOwnAttribute(AttributeNames.Autoplay) != null; }
+            get { return HasOwnAttribute(AttributeNames.Autoplay); }
             set { SetOwnAttribute(AttributeNames.Autoplay, value ? String.Empty : null); }
         }
 
         public Boolean IsLoop
         {
-            get { return GetOwnAttribute(AttributeNames.Loop) != null; }
+            get { return HasOwnAttribute(AttributeNames.Loop); }
             set { SetOwnAttribute(AttributeNames.Loop, value ? String.Empty : null); }
         }
 
         public Boolean IsShowingControls
         {
-            get { return GetOwnAttribute(AttributeNames.Controls) != null; }
+            get { return HasOwnAttribute(AttributeNames.Controls); }
             set { SetOwnAttribute(AttributeNames.Controls, value ? String.Empty : null); }
         }
 
         public Boolean IsDefaultMuted
         {
-            get { return GetOwnAttribute(AttributeNames.Muted) != null; }
+            get { return HasOwnAttribute(AttributeNames.Muted); }
             set { SetOwnAttribute(AttributeNames.Muted, value ? String.Empty : null); }
         }
 

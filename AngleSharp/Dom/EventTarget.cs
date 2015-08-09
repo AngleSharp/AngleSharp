@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom
 {
+    using AngleSharp.Dom.Events;
+    using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using AngleSharp.Dom.Events;
-    using AngleSharp.Html;
 
     /// <summary>
     /// Event target base of all DOM nodes.
@@ -14,18 +14,15 @@
     {
         #region Fields
 
-        readonly List<RegisteredEventListener> _listeners;
+        List<RegisteredEventListener> _listeners;
 
         #endregion
 
-        #region ctor
+        #region Properties
 
-        /// <summary>
-        /// Creates a new event target in the DOM.
-        /// </summary>
-        public EventTarget()
+        List<RegisteredEventListener> Listeners
         {
-            _listeners = new List<RegisteredEventListener>();
+            get { return _listeners ?? (_listeners = new List<RegisteredEventListener>()); }
         }
 
         #endregion
@@ -55,7 +52,7 @@
             if (callback == null)
                 return;
 
-            _listeners.Add(new RegisteredEventListener
+            Listeners.Add(new RegisteredEventListener
             {
                 Type = type,
                 Callback = callback,
@@ -79,7 +76,7 @@
         /// </param>
         public void RemoveEventListener(String type, DomEventHandler callback = null, Boolean capture = false)
         {
-            if (callback == null)
+            if (callback == null || _listeners == null)
                 return;
 
             _listeners.Remove(new RegisteredEventListener
@@ -96,23 +93,26 @@
         /// <param name="ev">The event that asks for the listeners.</param>
         internal void CallEventListener(Event ev)
         {
-            var type = ev.Type;
-            var listeners = _listeners.ToArray();
-            var target = ev.CurrentTarget;
-            var phase = ev.Phase;
-
-            foreach (var listener in listeners)
+            if (_listeners != null)
             {
-                if (!_listeners.Contains(listener) || listener.Type != type)
-                    continue;
+                var type = ev.Type;
+                var listeners = _listeners.ToArray();
+                var target = ev.CurrentTarget;
+                var phase = ev.Phase;
 
-                if (ev.Flags.HasFlag(EventFlags.StopImmediatePropagation))
-                    break;
+                foreach (var listener in listeners)
+                {
+                    if (!_listeners.Contains(listener) || listener.Type != type)
+                        continue;
 
-                if ((listener.IsCaptured && phase == EventPhase.Bubbling) || (!listener.IsCaptured && phase == EventPhase.Capturing))
-                    continue;
+                    if (ev.Flags.HasFlag(EventFlags.StopImmediatePropagation))
+                        break;
 
-                listener.Callback(target, ev);
+                    if ((listener.IsCaptured && phase == EventPhase.Bubbling) || (!listener.IsCaptured && phase == EventPhase.Capturing))
+                        continue;
+
+                    listener.Callback(target, ev);
+                }
             }
         }
 
@@ -125,10 +125,13 @@
         /// </returns>
         internal Boolean HasEventListener(String type)
         {
-            foreach (var listener in _listeners)
+            if (_listeners != null)
             {
-                if (listener.Type == type)
-                    return true;
+                foreach (var listener in _listeners)
+                {
+                    if (listener.Type == type)
+                        return true;
+                }
             }
 
             return false;

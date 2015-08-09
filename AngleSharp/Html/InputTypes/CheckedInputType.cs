@@ -25,7 +25,7 @@
         {
             if (Input.IsChecked)
             {
-                var value = Input.GetAttribute(AttributeNames.Value) ?? Keywords.On;
+                var value = Input.HasValue ? Input.Value : Keywords.On;
                 dataSet.Append(Input.Name, value, Input.Type);
             }
         }

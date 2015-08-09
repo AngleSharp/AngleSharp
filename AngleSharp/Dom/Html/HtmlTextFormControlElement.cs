@@ -80,6 +80,14 @@
         }
 
         /// <summary>
+        /// Gets if the input field has a value (via attribute or directly).
+        /// </summary>
+        public Boolean HasValue
+        {
+            get { return _value != null || HasOwnAttribute(AttributeNames.Value); }
+        }
+
+        /// <summary>
         /// Gets or sets the current value in the control.
         /// </summary>
         public String Value
@@ -103,7 +111,7 @@
         /// </summary>
         public Boolean IsRequired
         {
-            get { return GetOwnAttribute(AttributeNames.Required) != null; }
+            get { return HasOwnAttribute(AttributeNames.Required); }
             set { SetOwnAttribute(AttributeNames.Required, value ? String.Empty : null); }
         }
 
@@ -112,7 +120,7 @@
         /// </summary>
         public Boolean IsReadOnly
         {
-            get { return GetOwnAttribute(AttributeNames.Readonly) != null; }
+            get { return HasOwnAttribute(AttributeNames.Readonly); }
             set { SetOwnAttribute(AttributeNames.Readonly, value ? String.Empty : null); }
         }
 

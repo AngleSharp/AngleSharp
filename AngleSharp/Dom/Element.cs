@@ -34,14 +34,6 @@
         /// <summary>
         /// Creates a new element node.
         /// </summary>
-        public Element(Document owner, String name, NodeFlags flags = NodeFlags.None)
-            : this(owner, name, null, null, flags)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new element node.
-        /// </summary>
         public Element(Document owner, String localName, String prefix, String namespaceUri, NodeFlags flags = NodeFlags.None)
             : this(owner, prefix != null ? String.Concat(prefix, ":", localName) : localName, localName, prefix, namespaceUri, flags)
         {
@@ -785,6 +777,17 @@
         {
             var attr = _attributes.GetNamedItem(null, name);
             return attr != null ? attr.Value : null;
+        }
+
+        /// <summary>
+        /// Faster way of checkinf for a (known) attribute.
+        /// </summary>
+        /// <param name="name">The name of the attribute.</param>
+        /// <returns>True if the attribute exists, otherwise false.</returns>
+        protected Boolean HasOwnAttribute(String name)
+        {
+            var attr = _attributes.GetNamedItem(null, name);
+            return attr != null;
         }
 
         /// <summary>

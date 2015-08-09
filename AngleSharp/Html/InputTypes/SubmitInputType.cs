@@ -13,5 +13,14 @@
         }
 
         #endregion
+
+        #region Methods
+
+        public override Boolean IsAppendingData(IHtmlElement submitter)
+        {
+            return Object.ReferenceEquals(submitter, Input);
+        }
+
+        #endregion
     }
 }

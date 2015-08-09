@@ -34,7 +34,7 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetOwnAttribute(AttributeNames.Disabled) != null; }
+            get { return HasOwnAttribute(AttributeNames.Disabled); }
             set { SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
@@ -104,7 +104,7 @@
         /// </summary>
         public Boolean IsDefaultSelected
         {
-            get { return GetOwnAttribute(AttributeNames.Selected) != null; }
+            get { return HasOwnAttribute(AttributeNames.Selected); }
             set { SetOwnAttribute(AttributeNames.Selected, value ? String.Empty : null); }
         }
 

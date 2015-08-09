@@ -37,7 +37,7 @@
         /// </summary>
         public Boolean IsScoped
         {
-            get { return GetOwnAttribute(AttributeNames.Scoped) != null; }
+            get { return HasOwnAttribute(AttributeNames.Scoped); }
             set { SetOwnAttribute(AttributeNames.Scoped, value ? String.Empty : null); }
         }
 

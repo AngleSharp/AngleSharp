@@ -57,7 +57,7 @@
         /// </summary>
         public Boolean TypeMustMatch
         {
-            get { return GetOwnAttribute(AttributeNames.TypeMustMatch) != null; }
+            get { return HasOwnAttribute(AttributeNames.TypeMustMatch); }
             set { SetOwnAttribute(AttributeNames.TypeMustMatch, value ? String.Empty : null); }
         }
 

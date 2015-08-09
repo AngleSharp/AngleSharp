@@ -73,7 +73,7 @@
         /// </summary>
         public Boolean IsDefault
         {
-            get { return GetOwnAttribute(AttributeNames.Default) != null; }
+            get { return HasOwnAttribute(AttributeNames.Default); }
             set { SetOwnAttribute(AttributeNames.Default, value ? String.Empty : null); }
         }
 

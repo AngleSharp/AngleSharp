@@ -153,7 +153,7 @@
         /// </summary>
         public Boolean IsMap
         {
-            get { return GetOwnAttribute(AttributeNames.IsMap) != null; }
+            get { return HasOwnAttribute(AttributeNames.IsMap); }
             set { SetOwnAttribute(AttributeNames.IsMap, value ? String.Empty : null); }
         }
 

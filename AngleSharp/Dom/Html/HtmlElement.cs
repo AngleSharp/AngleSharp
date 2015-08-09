@@ -50,7 +50,7 @@
         /// </summary>
         public Boolean IsHidden
         {
-            get { return GetOwnAttribute(AttributeNames.Hidden) != null; }
+            get { return HasOwnAttribute(AttributeNames.Hidden); }
             set { SetOwnAttribute(AttributeNames.Hidden, value ? String.Empty : null); }
         }
 

@@ -69,7 +69,7 @@
         /// </summary>
         public Boolean IsSeamless
         {
-            get { return GetOwnAttribute(AttributeNames.SrcDoc) != null; }
+            get { return HasOwnAttribute(AttributeNames.SrcDoc); }
             set { SetOwnAttribute(AttributeNames.SrcDoc, value ? String.Empty : null); }
         }
 
@@ -78,7 +78,7 @@
         /// </summary>
         public Boolean IsFullscreenAllowed
         {
-            get { return GetOwnAttribute(AttributeNames.AllowFullscreen) != null; }
+            get { return HasOwnAttribute(AttributeNames.AllowFullscreen); }
             set { SetOwnAttribute(AttributeNames.AllowFullscreen, value ? String.Empty : null); }
         }
 

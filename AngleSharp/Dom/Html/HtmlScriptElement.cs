@@ -119,7 +119,7 @@
         /// </summary>
         public Boolean IsDeferred
         {
-            get { return GetOwnAttribute(AttributeNames.Defer) != null; }
+            get { return HasOwnAttribute(AttributeNames.Defer); }
             set { SetOwnAttribute(AttributeNames.Defer, value ? String.Empty : null); }
         }
 
@@ -128,7 +128,7 @@
         /// </summary>
         public Boolean IsAsync
         {
-            get { return GetOwnAttribute(AttributeNames.Async) != null; }
+            get { return HasOwnAttribute(AttributeNames.Async); }
             set { SetOwnAttribute(AttributeNames.Async, value ? String.Empty : null); }
         }
 
