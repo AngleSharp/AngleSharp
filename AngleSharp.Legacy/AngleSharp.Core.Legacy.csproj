@@ -2381,6 +2381,9 @@
     <Compile Include="..\AngleSharp\Interfaces\ISettableTokenList.cs">
       <Link>Interfaces\ISettableTokenList.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IShadowRoot.cs">
+      <Link>Interfaces\IShadowRoot.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IStringList.cs">
       <Link>Interfaces\IStringList.cs</Link>
     </Compile>
