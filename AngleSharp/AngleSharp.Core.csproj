@@ -168,6 +168,7 @@
     <Compile Include="Foundation\TaskEx.cs" />
     <Compile Include="IBindable.cs" />
     <Compile Include="Interfaces\INamedNodeMap.cs" />
+    <Compile Include="Interfaces\IShadowRoot.cs" />
     <Compile Include="IStyleFormattable.cs" />
     <Compile Include="IStyleFormatter.cs" />
     <Compile Include="Parser\Css\CssBuilder.cs" />
