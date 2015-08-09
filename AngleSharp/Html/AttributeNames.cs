@@ -358,9 +358,9 @@
         public static readonly String AutoFocus = "autofocus";
 
         /// <summary>
-        /// The acceptcharset attribute.
+        /// The accept-charset attribute.
         /// </summary>
-        public static readonly String AcceptCharset = "acceptcharset";
+        public static readonly String AcceptCharset = "accept-charset";
 
         /// <summary>
         /// The enctype attribute.
