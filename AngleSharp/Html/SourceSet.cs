@@ -36,9 +36,9 @@
                     url = url.Remove(url.Length - 1);
                     descriptor = String.Empty;
                 }
-                else
+                else if (++i < sources.Length)
                 {
-                    descriptor = sources[++i];
+                    descriptor = sources[i];
                     var descpos = descriptor.IndexOf(Symbols.Comma);
 
                     if (descpos != -1)
