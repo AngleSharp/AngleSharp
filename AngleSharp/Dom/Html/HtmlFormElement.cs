@@ -346,12 +346,12 @@
 
             if (action.Href.Contains("%%%%"))
             {
-                result = result.UrlEncode(TextEncoding.UsAscii);
+                result = TextEncoding.UsAscii.GetBytes(result).UrlEncode();
                 action.Href = action.Href.ReplaceFirst("%%%%", result);
             }
             else if (action.Href.Contains("%%"))
             {
-                result = result.UrlEncode(TextEncoding.Utf8);
+                result = TextEncoding.Utf8.GetBytes(result).UrlEncode();
                 action.Href = action.Href.ReplaceFirst("%%", result);
             }
 
@@ -390,7 +390,7 @@
             using (var sr = new StreamReader(stream))
                 body = sr.ReadToEnd();
 
-            action.Query = "body=" + body.UrlEncode(encoding);
+            action.Query = "body=" + encoding.GetBytes(body).UrlEncode();
             return GetActionUrl(action);
         }
 

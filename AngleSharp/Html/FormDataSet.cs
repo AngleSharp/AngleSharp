@@ -354,9 +354,9 @@
             {
                 if (HasValue)
                 {
-                    stream.Write(Name.UrlEncode(stream.Encoding));
+                    stream.Write(stream.Encoding.GetBytes(Name).UrlEncode());
                     stream.Write('=');
-                    stream.Write(_value.UrlEncode(stream.Encoding));
+                    stream.Write(stream.Encoding.GetBytes(_value).UrlEncode());
                 }
             }
         }
@@ -447,9 +447,9 @@
             {
                 if (HasValue)
                 {
-                    stream.Write(Name.UrlEncode(stream.Encoding));
+                    stream.Write(stream.Encoding.GetBytes(Name).UrlEncode());
                     stream.Write('=');
-                    stream.Write(_value.Name.UrlEncode(stream.Encoding));
+                    stream.Write(stream.Encoding.GetBytes(_value.Name).UrlEncode());
                 }
             }
         }
