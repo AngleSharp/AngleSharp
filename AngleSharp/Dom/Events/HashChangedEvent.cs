@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a custom event that provides an additional details property.
@@ -26,27 +24,13 @@
         /// <param name="type">The type of the event.</param>
         /// <param name="bubbles">If the event is bubbling.</param>
         /// <param name="cancelable">If the event is cancelable.</param>
-        /// <param name="previousUrl">The previous URL.</param>
-        /// <param name="currentUrl">The current URL.</param>
-        public HashChangedEvent(String type, Boolean bubbles, Boolean cancelable, String previousUrl, String currentUrl)
-        {
-            Init(type, bubbles, cancelable, previousUrl, currentUrl);
-        }
-
-        /// <summary>
-        /// Creates a new event and initializes it.
-        /// </summary>
-        /// <param name="type">The type of the event.</param>
-        /// <param name="eventInitDict">
-        /// An optional dictionary with optional keys such as
-        /// bubbles (boolean) and cancelable (boolean).
-        /// </param>
+        /// <param name="oldURL">The previous URL.</param>
+        /// <param name="newURL">The current URL.</param>
         [DomConstructor]
-        public HashChangedEvent(String type, IDictionary<String, Object> eventInitDict = null)
-            : base(type, eventInitDict)
+        [DomInitDict(offset: 1, optional: true)]
+        public HashChangedEvent(String type, Boolean bubbles = false, Boolean cancelable = false, String oldURL = null, String newURL = null)
         {
-            PreviousUrl = (eventInitDict.TryGet("oldURL") ?? String.Empty).ToString();
-            CurrentUrl = (eventInitDict.TryGet("newURL") ?? String.Empty).ToString();
+            Init(type, bubbles, cancelable, oldURL ?? String.Empty, newURL ?? String.Empty);
         }
 
         #endregion

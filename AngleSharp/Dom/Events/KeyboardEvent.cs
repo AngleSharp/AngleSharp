@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the event arguments for a keyboard event.
@@ -38,27 +36,11 @@
         /// <param name="location">Sets the position of the originating keyboard.</param>
         /// <param name="modifiersList">A list with keyboard modifiers that have been pressed.</param>
         /// <param name="repeat">Sets if the key has been pressed again.</param>
-        public KeyboardEvent(String type, Boolean bubbles, Boolean cancelable, IWindow view, Int32 detail, String key, KeyboardLocation location, String modifiersList, Boolean repeat)
-        {
-            Init(type, bubbles, cancelable, view, detail, key, location, modifiersList, repeat);
-        }
-
-        /// <summary>
-        /// Creates a new event and initializes it.
-        /// </summary>
-        /// <param name="type">The type of the event.</param>
-        /// <param name="eventInitDict">
-        /// An optional dictionary with optional keys such as
-        /// bubbles (boolean) and cancelable (boolean).
-        /// </param>
         [DomConstructor]
-        public KeyboardEvent(String type, IDictionary<String, Object> eventInitDict = null)
-            : base(type, eventInitDict)
+        [DomInitDict(offset: 1, optional: true)]
+        public KeyboardEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow view = null, Int32 detail = 0, String key = null, KeyboardLocation location = KeyboardLocation.Standard, String modifiersList = null, Boolean repeat = false)
         {
-            Key = (eventInitDict.TryGet("key") ?? String.Empty).ToString();
-            Location = (KeyboardLocation)(eventInitDict.TryGet<Int32>("location") ?? 0);
-            IsRepeated = eventInitDict.TryGet<Boolean>("repeat") ?? false;
-            _modifiers = (eventInitDict.TryGet("code") ?? String.Empty).ToString();
+            Init(type, bubbles, cancelable, view, detail, key ?? String.Empty, location, modifiersList ?? String.Empty, repeat);
         }
 
         #endregion

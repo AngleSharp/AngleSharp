@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a custom event that provides an additional details property.
@@ -27,24 +25,11 @@
         /// <param name="bubbles">If the event is bubbling.</param>
         /// <param name="cancelable">If the event is cancelable.</param>
         /// <param name="details">Sets the details for the custom event.</param>
-        public CustomEvent(String type, Boolean bubbles, Boolean cancelable, Object details)
+        [DomConstructor]
+        [DomInitDict(offset: 1, optional: true)]
+        public CustomEvent(String type, Boolean bubbles = false, Boolean cancelable = false, Object details = null)
         {
             Init(type, bubbles, cancelable, details);
-        }
-
-        /// <summary>
-        /// Creates a new event and initializes it.
-        /// </summary>
-        /// <param name="type">The type of the event.</param>
-        /// <param name="eventInitDict">
-        /// An optional dictionary with optional keys such as
-        /// bubbles (boolean) and cancelable (boolean).
-        /// </param>
-        [DomConstructor]
-        public CustomEvent(String type, IDictionary<String, Object> eventInitDict = null)
-            : base(type, eventInitDict)
-        {
-            Details = eventInitDict.TryGet("detail");
         }
 
         #endregion

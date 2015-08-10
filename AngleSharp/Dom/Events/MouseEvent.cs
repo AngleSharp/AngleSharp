@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the event args for a mouse event.
@@ -37,34 +35,12 @@
         /// <param name="shiftKey">Sets if the shift key was pressed.</param>
         /// <param name="metaKey">Sets if the meta key was pressed.</param>
         /// <param name="button">Sets which button has been pressed.</param>
-        /// <param name="target">The target of the mouse event.</param>
-        public MouseEvent(String type, Boolean bubbles, Boolean cancelable, IWindow view, Int32 detail, Int32 screenX, Int32 screenY, Int32 clientX, Int32 clientY, Boolean ctrlKey, Boolean altKey, Boolean shiftKey, Boolean metaKey, MouseButton button, IEventTarget target)
-        {
-            Init(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, target);
-        }
-
-        /// <summary>
-        /// Creates a new event and initializes it.
-        /// </summary>
-        /// <param name="type">The type of the event.</param>
-        /// <param name="eventInitDict">
-        /// An optional dictionary with optional keys such as
-        /// bubbles (boolean) and cancelable (boolean).
-        /// </param>
+        /// <param name="relatedTarget">The target of the mouse event.</param>
         [DomConstructor]
-        public MouseEvent(String type, IDictionary<String, Object> eventInitDict = null)
-            : base(type, eventInitDict)
+        [DomInitDict(offset: 1, optional: true)]
+        public MouseEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, Boolean ctrlKey = false, Boolean altKey = false, Boolean shiftKey = false, Boolean metaKey = false, MouseButton button = MouseButton.Primary, IEventTarget relatedTarget = null)
         {
-            ScreenX = eventInitDict.TryGet<Int32>("screenX") ?? 0;
-            ScreenY = eventInitDict.TryGet<Int32>("screenY") ?? 0;
-            ClientX = eventInitDict.TryGet<Int32>("clientX") ?? 0;
-            ClientY = eventInitDict.TryGet<Int32>("clientY") ?? 0;
-            IsCtrlPressed = eventInitDict.TryGet<Boolean>("ctrlKey") ?? false;
-            IsMetaPressed = eventInitDict.TryGet<Boolean>("metaKey") ?? false;
-            IsShiftPressed = eventInitDict.TryGet<Boolean>("shiftKey") ?? false;
-            IsAltPressed = eventInitDict.TryGet<Boolean>("altKey") ?? false;
-            Button = (MouseButton)(eventInitDict.TryGet<Int32>("button") ?? 0);
-            Target = eventInitDict.TryGet("relatedTarget") as IEventTarget;
+            Init(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, ctrlKey, altKey, shiftKey, metaKey, button, relatedTarget);
         }
 
         #endregion
