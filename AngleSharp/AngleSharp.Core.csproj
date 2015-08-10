@@ -814,7 +814,6 @@
     <Compile Include="Network\MimeTypes.cs" />
     <Compile Include="Dom\MutationCallback.cs" />
     <Compile Include="Dom\MutationObserver.cs" />
-    <Compile Include="Dom\MutationObserverInit.cs" />
     <Compile Include="Dom\MutationRecord.cs" />
     <Compile Include="Html\Namespaces.cs" />
     <Compile Include="Dom\Css\Selector\ComplexSelector.cs" />

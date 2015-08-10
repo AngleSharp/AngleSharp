@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// MutationObserver provides developers a way to react to changes in a
@@ -101,7 +101,7 @@
         /// </summary>
         /// <param name="node">The node of interest.</param>
         /// <returns>The options set for the provided node.</returns>
-        internal MutationObserverInit ResolveOptions(INode node)
+        internal MutationOptions ResolveOptions(INode node)
         {
             foreach (var observing in _observing)
             {
@@ -109,7 +109,7 @@
                     return observing.Options;
             }
 
-            return null;
+            return default(MutationOptions);
         }
 
         /// <summary>
@@ -163,40 +163,62 @@
         /// <param name="target">
         /// The Node on which to observe DOM mutations.
         /// </param>
-        /// <param name="options">
-        /// Specifies which DOM mutations should be reported.
+        /// <param name="childList">
+        /// If additions and removals of the target node's child elements
+        /// (including text nodes) are to be observed.
         /// </param>
-        public void Connect(INode target, MutationObserverInit options)
+        /// <param name="subtree">
+        /// If mutations to not just target, but also target's descendants are
+        /// to be observed.
+        /// </param>
+        /// <param name="attributes">
+        /// If mutations to target's attributes are to be observed.
+        /// </param>
+        /// <param name="characterData">
+        /// If mutations to target's data are to be observed.
+        /// </param>
+        /// <param name="attributeOldValue">
+        /// If attributes is set to true and target's attribute value before
+        /// the mutation needs to be recorded.
+        /// </param>
+        /// <param name="characterDataOldValue">
+        /// If characterData is set to true and target's data before the
+        /// mutation needs to be recorded.
+        /// </param>
+        /// <param name="attributeFilter">
+        /// The attributes to observe. If this is not set, then all attributes
+        /// are being observed.
+        /// </param>
+        [DomName("observe")]
+        [DomInitDict(offset: 1)]
+        public void Connect(INode target, Boolean childList = false, Boolean subtree = false, Boolean? attributes = null, Boolean? characterData = null, Boolean? attributeOldValue = null, Boolean? characterDataOldValue = null, IEnumerable<String> attributeFilter = null)
         {
             var node = target as Node;
 
             if (node == null)
                 return;
-            else if (options == null)
-                options = new MutationObserverInit();
 
-            if (options.IsExaminingOldCharacterData.HasValue == false)
-                options.IsExaminingOldCharacterData = false;
+            var oldCharacterData = characterDataOldValue ?? false;
+            var oldAttributeValue = attributeOldValue ?? false;
 
-            if (options.IsExaminingOldAttributeValue.HasValue == false)
-                options.IsExaminingOldAttributeValue = false;
+            var options = new MutationOptions
+            {
+                IsObservingChildNodes = childList,
+                IsObservingSubtree = subtree,
+                IsExaminingOldCharacterData = oldCharacterData,
+                IsExaminingOldAttributeValue = oldAttributeValue,
+                IsObservingCharacterData = characterData ?? oldCharacterData,
+                IsObservingAttributes = attributes ?? (oldAttributeValue || attributeFilter != null),
+                AttributeFilters = attributeFilter
+            };
 
-            if (options.IsObservingAttributes.HasValue == false)
-                options.IsObservingAttributes = options.IsExaminingOldAttributeValue.Value || options.AttributeFilters != null;
-
-            if (options.IsObservingCharacterData.HasValue == false)
-                options.IsObservingCharacterData = options.IsExaminingOldCharacterData.HasValue && options.IsExaminingOldCharacterData.Value;
-
-            if (options.IsExaminingOldAttributeValue.Value && options.IsObservingAttributes.Value == false)
+            if (options.IsExaminingOldAttributeValue && !options.IsObservingAttributes)
                 throw new DomException(DomError.TypeMismatch);
-
-            if (options.AttributeFilters != null && options.IsObservingAttributes.Value == false)
+            else if (options.AttributeFilters != null && !options.IsObservingAttributes)
                 throw new DomException(DomError.TypeMismatch);
-
-            if (options.IsExaminingOldCharacterData.Value && options.IsObservingCharacterData.Value == false)
+            else if (options.IsExaminingOldCharacterData && !options.IsObservingCharacterData)
                 throw new DomException(DomError.TypeMismatch);
-
-            if (options.IsObservingChildNodes == false && options.IsObservingCharacterData.Value == false && options.IsObservingAttributes.Value == false)
+            else if (options.IsInvalid)
                 throw new DomException(DomError.Syntax);
 
             node.Owner.Mutations.Register(this);
@@ -209,34 +231,6 @@
             }
 
             _observing.Add(new MutationObserving(target, options));
-        }
-
-        /// <summary>
-        /// Registers the MutationObserver instance to receive notifications of
-        /// DOM mutations on the specified node.
-        /// </summary>
-        /// <param name="target">
-        /// The Node on which to observe DOM mutations.
-        /// </param>
-        /// <param name="options">A dictionary with options.</param>
-        [DomName("observe")]
-        public void Connect(INode target, IDictionary<String, Object> options)
-        {
-            if (options == null)
-                throw new ArgumentNullException("options");
-
-            var init = new MutationObserverInit
-            {
-                AttributeFilters = options.TryGet("attributeFilter") as IEnumerable<String>,
-                IsObservingAttributes = options.TryGet<Boolean>("attributes"),
-                IsObservingChildNodes = options.TryGet<Boolean>("childList") ?? false,
-                IsObservingCharacterData = options.TryGet<Boolean>("characterData"),
-                IsObservingSubtree = options.TryGet<Boolean>("subtree") ?? false,
-                IsExaminingOldAttributeValue = options.TryGet<Boolean>("attributeOldValue"),
-                IsExaminingOldCharacterData = options.TryGet<Boolean>("characterDataOldValue")
-            };
-
-            Connect(target, init);
         }
 
         /// <summary>
@@ -257,13 +251,29 @@
 
         #region Options
 
+        internal struct MutationOptions
+        {
+            public Boolean IsObservingChildNodes;
+            public Boolean IsObservingSubtree;
+            public Boolean IsObservingCharacterData;
+            public Boolean IsObservingAttributes;
+            public Boolean IsExaminingOldCharacterData;
+            public Boolean IsExaminingOldAttributeValue;
+            public IEnumerable<String> AttributeFilters;
+
+            public Boolean IsInvalid
+            {
+                get { return !IsObservingAttributes && !IsObservingCharacterData && !IsObservingChildNodes; }
+            }
+        }
+
         sealed class MutationObserving
         {
             readonly INode _target;
-            readonly MutationObserverInit _options;
+            readonly MutationOptions _options;
             readonly List<INode> _transientNodes;
 
-            public MutationObserving(INode target, MutationObserverInit options)
+            public MutationObserving(INode target, MutationOptions options)
             {
                 _target = target;
                 _options = options;
@@ -275,7 +285,7 @@
                 get { return _target; }
             }
 
-            public MutationObserverInit Options
+            public MutationOptions Options
             {
                 get { return _options; }
             }

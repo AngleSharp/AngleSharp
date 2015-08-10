@@ -115,23 +115,23 @@
                 {
                     var options = observer.ResolveOptions(node);
 
-                    if (options == null)
+                    if (options.IsInvalid)
                         continue;
                     else if (node != record.Target && options.IsObservingSubtree == false)
                         continue;
-                    else if (record.IsAttribute && options.IsObservingAttributes.Value == false)
+                    else if (record.IsAttribute && options.IsObservingAttributes == false)
                         continue;
                     else if (record.IsAttribute && options.AttributeFilters != null && (options.AttributeFilters.Contains(record.AttributeName) == false || record.AttributeNamespace != null))
                         continue;
-                    else if (record.IsCharacterData && options.IsObservingCharacterData.Value == false)
+                    else if (record.IsCharacterData && options.IsObservingCharacterData == false)
                         continue;
                     else if (record.IsChildList && options.IsObservingChildNodes == false)
                         continue;
 
                     if (clearPreviousValue.HasValue == false || clearPreviousValue.Value == true)
                     {
-                        clearPreviousValue = (record.IsAttribute && options.IsExaminingOldAttributeValue.Value == false) ||
-                            (record.IsCharacterData && options.IsExaminingOldCharacterData.Value == false);
+                        clearPreviousValue = (record.IsAttribute && options.IsExaminingOldAttributeValue == false) ||
+                            (record.IsCharacterData && options.IsExaminingOldCharacterData == false);
                     }
                 }
 
