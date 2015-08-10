@@ -30,11 +30,7 @@
 
             var document = Html("");
 
-            observer.Connect(document.Body, new MutationObserverInit
-            {
-                IsObservingChildNodes = true
-            });
-
+            observer.Connect(document.Body, childList: true);
             document.Body.AppendChild(document.CreateElement("span"));
             observer.TriggerWith(observer.Flush().ToArray());
             Assert.IsTrue(called);
@@ -57,10 +53,7 @@
 
             var document = Html("");
 
-            observer.Connect(document.Body, new MutationObserverInit
-            {
-                IsObservingAttributes = true
-            });
+            observer.Connect(document.Body, attributes: true);
 
             document.Body.SetAttribute(attrName, attrValue);
             observer.TriggerWith(observer.Flush().ToArray());
@@ -84,11 +77,7 @@
                 Assert.AreEqual(1, mut.Length);
             });
 
-            observer1.Connect(document.DocumentElement, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-                IsObservingSubtree = true
-            });
+            observer1.Connect(document.DocumentElement, attributes: true, subtree: true);
 
             var observer2 = new MutationObserver((mut, obs) =>
             {
@@ -96,11 +85,7 @@
                 Assert.AreEqual(0, mut.Length);
             });
 
-            observer2.Connect(document.DocumentElement, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-                IsObservingSubtree = false
-            });
+            observer2.Connect(document.DocumentElement, attributes: true, subtree: false);
 
             var observer3 = new MutationObserver((mut, obs) =>
             {
@@ -108,10 +93,7 @@
                 Assert.AreEqual(1, mut.Length);
             });
 
-            observer3.Connect(document.Body, new MutationObserverInit
-            {
-                IsObservingAttributes = true
-            });
+            observer3.Connect(document.Body, attributes: true);
 
             document.Body.SetAttribute(attrName, attrValue);
             observer1.TriggerWith(observer1.Flush().ToArray());
@@ -141,12 +123,7 @@
 
             var document = Html("");
 
-            observer.Connect(document.Body, new MutationObserverInit
-            {
-                IsObservingCharacterData = true,
-                IsObservingSubtree = true,
-                IsExaminingOldCharacterData = false
-            });
+            observer.Connect(document.Body, characterData: true, subtree: true, characterDataOldValue: false);
 
             document.Body.TextContent = text;
             var textNode = document.Body.ChildNodes[0] as TextNode;
@@ -174,12 +151,7 @@
 
             var document = Html("");
 
-            observer.Connect(document.Body, new MutationObserverInit
-            {
-                IsObservingCharacterData = true,
-                IsObservingSubtree = true,
-                IsExaminingOldCharacterData = true
-            });
+            observer.Connect(document.Body, characterData: true, subtree: true, characterDataOldValue: true);
 
             document.Body.TextContent = text;
             var textNode = document.Body.ChildNodes[0] as TextNode;
@@ -203,11 +175,7 @@
 
             var document = Html("");
 
-            observer.Connect(document.Body, new MutationObserverInit
-            {
-                IsObservingCharacterData = true,
-                IsObservingSubtree = false
-            });
+            observer.Connect(document.Body, characterData: true, subtree: false);
 
             document.Body.TextContent = text;
             var textNode = document.Body.ChildNodes[0] as TextNode;
@@ -232,11 +200,7 @@
 
             var document = Html("");
 
-            observer.Connect(document.Body, new MutationObserverInit
-            {
-                IsObservingSubtree = false,
-                IsObservingChildNodes = true
-            });
+            observer.Connect(document.Body, subtree: false, childList: true);
 
             document.Body.TextContent = text;
             observer.TriggerWith(observer.Flush().ToArray());
@@ -250,10 +214,7 @@
 
             var div = document.CreateElement("div");
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true
-            });
+            observer.Connect(div, attributes: true);
             div.SetAttribute("a", "A");
             div.SetAttribute("a", "B");
 
@@ -283,11 +244,7 @@
 
             var div = document.CreateElement("div");
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-                IsExaminingOldAttributeValue = true
-            });
+            observer.Connect(div, attributes: true, attributeOldValue: true);
             div.SetAttribute("a", "A");
             div.SetAttribute("a", "B");
 
@@ -322,10 +279,7 @@
             div.AppendChild(child);
 
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true
-            });
+            observer.Connect(div, attributes: true);
             child.SetAttribute("a", "A");
             child.SetAttribute("a", "B");
 
@@ -343,11 +297,7 @@
             div.AppendChild(child);
 
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-                IsObservingSubtree = true
-            });
+            observer.Connect(div, attributes: true, subtree: true);
             child.SetAttribute("a", "A");
             child.SetAttribute("a", "B");
 
@@ -375,18 +325,10 @@
             var div = document.CreateElement("div");
 
             var observer1 = new MutationObserver((obs, mut) => { });
-            observer1.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-                IsExaminingOldAttributeValue = true
-            });
+            observer1.Connect(div, attributes: true, attributeOldValue: true);
 
             var observer2 = new MutationObserver((obs, mut) => { });
-            observer2.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-                AttributeFilters = new[] { "b" }
-            });
+            observer2.Connect(div, attributes: true, attributeFilter: new []{ "b" });
             div.SetAttribute("a", "A");
             div.SetAttribute("a", "A2");
             div.SetAttribute("b", "B");
@@ -434,16 +376,8 @@
             div.AppendChild(child);
 
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(child, new MutationObserverInit
-            {
-                IsObservingAttributes = true
-            });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-                IsObservingSubtree = true,
-                IsExaminingOldAttributeValue = true
-            });
+            observer.Connect(child, attributes: true);
+            observer.Connect(div, attributes: true, subtree: true, attributeOldValue: true);
 
             child.SetAttribute("a", "A");
             child.SetAttribute("a", "A2");
@@ -479,16 +413,8 @@
             var document = Html("");
             var div = document.CreateElement("div");
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-                AttributeFilters = new[] { "a" }
-            });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-                AttributeFilters = new[] { "b" }
-            });
+            observer.Connect(div, attributes: true, attributeFilter: new[] { "a" });
+            observer.Connect(div, attributes: true, attributeFilter: new[] { "b" });
 
             div.SetAttribute("a", "A");
             div.SetAttribute("b", "B");
@@ -510,10 +436,7 @@
             var document = Html("");
             var div = document.CreateElement("div");
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-            });
+            observer.Connect(div, attributes: true);
 
             div.SetAttribute("a", "A");
             observer.Disconnect();
@@ -531,15 +454,9 @@
             var document = Html("");
             var div = document.CreateElement("div");
             var observer1 = new MutationObserver((obs, mut) => { });
-            observer1.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-            });
+            observer1.Connect(div, attributes: true);
             var observer2 = new MutationObserver((obs, mut) => { });
-            observer2.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-            });
+            observer2.Connect(div, attributes: true);
 
             div.SetAttribute("a", "A");
 
@@ -596,10 +513,7 @@
                 });
             });
 
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true
-            });
+            observer.Connect(div, attributes: true);
 
             div.SetAttribute("a", "A");
             div.SetAttribute("a", "B");
@@ -639,10 +553,7 @@
                 }
             });
 
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true
-            });
+            observer.Connect(div, attributes: true);
 
             div.SetAttribute("a", "A");
         }
@@ -654,10 +565,7 @@
 
             var text = document.CreateTextNode("abc");
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(text, new MutationObserverInit
-            {
-                IsObservingCharacterData = true
-            });
+            observer.Connect(text, characterData: true);
             text.TextContent = "def";
             text.TextContent = "ghi";
 
@@ -683,11 +591,7 @@
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var text = testDiv.AppendChild(document.CreateTextNode("abc"));
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(text, new MutationObserverInit
-            {
-                IsObservingCharacterData = true,
-                IsExaminingOldCharacterData = true
-            });
+            observer.Connect(text, characterData: true, characterDataOldValue: true);
             text.TextContent = "def";
             text.TextContent = "ghi";
 
@@ -715,10 +619,7 @@
             var div = document.CreateElement("div");
             var text = div.AppendChild(document.CreateTextNode("abc"));
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingCharacterData = true
-            });
+            observer.Connect(div, characterData: true);
             text.TextContent = "def";
             text.TextContent = "ghi";
 
@@ -733,11 +634,7 @@
             var div = document.CreateElement("div");
             var text = div.AppendChild(document.CreateTextNode("abc"));
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingCharacterData = true,
-                IsObservingSubtree = true
-            });
+            observer.Connect(div, characterData: true, subtree: true);
             text.TextContent = "def";
             text.TextContent = "ghi";
 
@@ -762,10 +659,7 @@
             var document = Html("");
             var div = document.CreateElement("div");
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingChildNodes = true
-            });
+            observer.Connect(div, childList: true);
             var a = document.CreateElement("a");
             var b = document.CreateElement("b");
 
@@ -803,10 +697,7 @@
             div.AppendChild(a);
 
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingChildNodes = true
-            });
+            observer.Connect(div, childList: true);
 
             div.InsertBefore(b, a);
             div.InsertBefore(c, a);
@@ -843,10 +734,7 @@
             var c = div.AppendChild(document.CreateElement("c"));
 
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingChildNodes = true
-            });
+            observer.Connect(div, childList: true);
 
             div.RemoveChild(b);
             div.RemoveChild(a);
@@ -879,10 +767,7 @@
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingChildNodes = true
-            });
+            observer.Connect(div, childList: true);
             var a = document.CreateElement("a");
             var b = document.CreateElement("b");
 
@@ -924,10 +809,7 @@
             var div = document.CreateElement("div");
             var child = div.AppendChild(document.CreateElement("div"));
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(child, new MutationObserverInit
-            {
-                IsObservingChildNodes = true
-            });
+            observer.Connect(child, childList: true);
             var a = document.CreateTextNode("a");
             var b = document.CreateTextNode("b");
 
@@ -969,15 +851,8 @@
             var div = document.CreateElement("div");
             var child = div.AppendChild(document.CreateElement("div"));
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingChildNodes = true,
-                IsObservingSubtree = true
-            });
-            observer.Connect(child, new MutationObserverInit
-            {
-                IsObservingChildNodes = true
-            });
+            observer.Connect(div, childList: true, subtree: true);
+            observer.Connect(child, childList: true);
 
             var a = document.CreateTextNode("a");
             var b = document.CreateTextNode("b");
@@ -1013,10 +888,7 @@
             var a = div.AppendChild(document.CreateTextNode("a"));
 
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingChildNodes = true
-            });
+            observer.Connect(div, childList: true);
 
             var df = document.CreateDocumentFragment();
             var b = df.AppendChild(document.CreateTextNode("b"));
@@ -1046,10 +918,7 @@
             var a = div.AppendChild(document.CreateTextNode("a"));
 
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingChildNodes = true
-            });
+            observer.Connect(div, childList: true);
 
             var df = document.CreateDocumentFragment();
             var b = df.AppendChild(document.CreateTextNode("b"));
@@ -1081,10 +950,7 @@
             var b = div.AppendChild(document.CreateTextNode("b"));
 
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingChildNodes = true
-            });
+            observer.Connect(div, childList: true);
 
             var df = document.CreateDocumentFragment();
             var c = df.AppendChild(document.CreateTextNode("c"));
@@ -1116,10 +982,7 @@
             var c = div.AppendChild(document.CreateTextNode("c"));
 
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingChildNodes = true
-            });
+            observer.Connect(div, childList: true);
 
             div.InnerHtml = "";
 
@@ -1146,10 +1009,7 @@
             var b = div.AppendChild(document.CreateTextNode("b"));
 
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingChildNodes = true
-            });
+            observer.Connect(div, childList: true);
 
             div.InnerHtml = "<c></c><d></d>";
 
@@ -1174,12 +1034,7 @@
             var div = document.CreateElement("div");
             var text = div.AppendChild(document.CreateTextNode("text"));
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-                IsObservingCharacterData = true,
-                IsObservingSubtree = true
-            });
+            observer.Connect(div, attributes: true, subtree: true, characterData: true);
 
             div.SetAttribute("a", "A");
             div.FirstChild.TextContent = "changed";
@@ -1210,11 +1065,7 @@
             var child = document.CreateElement("div");
             div.AppendChild(child);
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-                IsObservingSubtree = true
-            });
+            observer.Connect(div, attributes: true, subtree: true);
             div.RemoveChild(child);
             child.SetAttribute("a", "A");
 
@@ -1270,11 +1121,7 @@
                 Assert.AreEqual(0, records.Count());
             });
 
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-                IsObservingSubtree = true
-            });
+            observer.Connect(div, attributes: true, subtree: true);
 
             div.RemoveChild(child);
             child.SetAttribute("a", "A");
@@ -1304,11 +1151,7 @@
                 });
             });
 
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-                IsObservingSubtree = true
-            });
+            observer.Connect(div, subtree: true, attributes: true);
 
             div.RemoveChild(child);
             child.SetAttribute("a", "A");
@@ -1329,11 +1172,7 @@
                 });
             });
 
-            observer2.Connect(div2, new MutationObserverInit
-            {
-                IsObservingAttributes = true,
-                IsObservingSubtree = true,
-            });
+            observer2.Connect(div2, attributes: true, subtree: true);
 
             div2.AppendChild(child);
             child.SetAttribute("b", "B");
@@ -1347,11 +1186,7 @@
             var div = document.CreateElement("div");
             var child = div.AppendChild(document.CreateTextNode("text"));
             var observer = new MutationObserver((obs, mut) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingCharacterData = true,
-                IsObservingSubtree = true
-            });
+            observer.Connect(div, characterData: true, subtree: true);
             div.RemoveChild(child);
             child.TextContent = "changed";
 
@@ -1399,11 +1234,7 @@
                 records = obs.Flush().ToArray();
                 Assert.AreEqual(0, records.Count());
             });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingCharacterData = true,
-                IsObservingSubtree = true
-            });
+            observer.Connect(div, characterData: true, subtree: true);
             div.RemoveChild(child);
             child.TextContent = "changed";
             observer.Trigger();
@@ -1417,11 +1248,7 @@
             var div = testDiv.AppendChild(document.CreateElement("div"));
             var child = div.AppendChild(document.CreateElement("div"));
             var observer = new MutationObserver((mut, obs) => { });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingChildNodes = true,
-                IsObservingSubtree = true
-            });
+            observer.Connect(div, childList: true, subtree: true);
             div.RemoveChild(child);
             var grandChild = child.AppendChild(document.CreateElement("span"));
 
@@ -1489,11 +1316,7 @@
                 records = obs.Flush().ToArray();
                 Assert.AreEqual(0, records.Count());
             });
-            observer.Connect(div, new MutationObserverInit
-            {
-                IsObservingChildNodes = true,
-                IsObservingSubtree = true
-            });
+            observer.Connect(div, childList: true, subtree: true);
             div.RemoveChild(child);
             child.AppendChild(grandChild);
             observer.Trigger();
