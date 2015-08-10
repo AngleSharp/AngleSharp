@@ -80,6 +80,18 @@
             }
         }
 
+        /// <summary>
+        /// Gets the assigned slot of the current element, if any.
+        /// </summary>
+        public IElement AssignedSlot
+        {
+            get 
+            {
+                var element = ParentElement;
+                return element != null ? element.AssignedSlot : null;
+            }
+        }
+
         #endregion
 
         #region Methods

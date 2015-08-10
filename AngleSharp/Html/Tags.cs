@@ -752,6 +752,11 @@
             Html, Body, Br, Head
         };
 
+        public static readonly HashSet<String> AllNoShadowRoot = new HashSet<String>
+        {
+            Button, Details, Input, Marquee, Meter, Progress, Select, Textarea, Keygen
+        };
+
         public static readonly HashSet<String> AllHead = new HashSet<String>
         {
             Style, Link, Meta, Title, NoFrames, Template, Base, BaseFont, Bgsound

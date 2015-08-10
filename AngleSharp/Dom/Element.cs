@@ -10,6 +10,7 @@
     using System;
     using System.Diagnostics;
     using System.Linq;
+using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents an element node.
@@ -66,6 +67,31 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the assigned slot of the current element, if any.
+        /// </summary>
+        public IElement AssignedSlot
+        {
+            get { throw new NotImplementedException(); }//TODO
+        }
+
+        /// <summary>
+        /// Gets the value of the slot attribute.
+        /// </summary>
+        public String Slot
+        {
+            get { return GetOwnAttribute(AttributeNames.Slot); }
+            set { SetOwnAttribute(AttributeNames.Slot, value); }
+        }
+
+        /// <summary>
+        /// Gets the shadow root of the current element, if any.
+        /// </summary>
+        public IShadowRoot ShadowRoot
+        {
+            get { throw new NotImplementedException(); }//TODO
+        }
 
         /// <summary>
         /// Gets the namespace prefix of the specified node, if any.
@@ -362,6 +388,22 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Creates a new shadow root for the current element, if there is none
+        /// already.
+        /// </summary>
+        /// <param name="mode">The mode of the shadow root.</param>
+        /// <returns>The new shadow root.</returns>
+        public IShadowRoot AttachShadow(ShadowRootMode mode = ShadowRootMode.Open)
+        {
+            if (Tags.AllNoShadowRoot.Contains(_localName))
+                throw new DomException(DomError.NotSupported);
+            else if (ShadowRoot != null)
+                throw new DomException(DomError.InvalidState);
+
+            return null;
+        }
 
         /// <summary>
         /// Returns the first element within the document (using depth-first

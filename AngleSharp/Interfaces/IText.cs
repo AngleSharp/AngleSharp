@@ -30,6 +30,12 @@
         /// adjacent to this Node, concatenated in document order.
         /// </summary>
 		[DomName("wholeText")]
-		String Text { get; }
+        String Text { get; }
+
+        /// <summary>
+        /// Gets the assigned slot of the current text, if any.
+        /// </summary>
+        [DomName("assignedSlot")]
+        IElement AssignedSlot { get; }
 	}
 }
