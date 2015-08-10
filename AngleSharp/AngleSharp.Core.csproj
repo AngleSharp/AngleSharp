@@ -41,7 +41,9 @@
     <Compile Include="Attributes\DomAccessorAttribute.cs" />
     <Compile Include="Attributes\DomConstructorAttribute.cs" />
     <Compile Include="Attributes\DomDescriptionAttribute.cs" />
+    <Compile Include="Attributes\DomInitDictAttribute.cs" />
     <Compile Include="Attributes\DomLenientThisAttribute.cs" />
+    <Compile Include="Attributes\DomLiteralsAttribute.cs" />
     <Compile Include="Attributes\DomNoInterfaceObjectAttribute.cs" />
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Configuration.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="Dom\Collections\StyleCollection.cs" />
     <Compile Include="Dom\Constants\DomError.cs" />
     <Compile Include="Dom\Constants\Sandboxes.cs" />
+    <Compile Include="Dom\Constants\ShadowRootMode.cs" />
     <Compile Include="Dom\Constants\TableFrames.cs" />
     <Compile Include="Dom\Constants\TableRules.cs" />
     <Compile Include="Dom\Css\Constants\BlendMode.cs" />
