@@ -78,8 +78,14 @@
     <Compile Include="..\AngleSharp\Attributes\DomHistoricalAttribute.cs">
       <Link>Attributes\DomHistoricalAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Attributes\DomInitDictAttribute.cs">
+      <Link>Attributes\DomInitDictAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Attributes\DomLenientThisAttribute.cs">
       <Link>Attributes\DomLenientThisAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Attributes\DomLiteralsAttribute.cs">
+      <Link>Attributes\DomLiteralsAttribute.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Attributes\DomNameAttribute.cs">
       <Link>Attributes\DomNameAttribute.cs</Link>
@@ -541,6 +547,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Constants\Sandboxes.cs">
       <Link>Dom\Constants\Sandboxes.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Constants\ShadowRootMode.cs">
+      <Link>Dom\Constants\ShadowRootMode.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Constants\SimpleChoice.cs">
       <Link>Dom\Constants\SimpleChoice.cs</Link>
