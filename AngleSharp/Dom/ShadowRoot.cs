@@ -1,20 +1,23 @@
 ﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Dom.Collections;
-    using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html;
     using System;
     using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
-    /// Represents a document fragment.
+    /// Represents a shadow root.
     /// </summary>
     [DebuggerStepThrough]
-    sealed class DocumentFragment : Node, IDocumentFragment
+    sealed class ShadowRoot : Node, IShadowRoot
     {
         #region Fields
+
+        readonly Element _host;
+        readonly IStyleSheetList _styleSheets;
+        readonly ShadowRootMode _mode;
 
         HtmlElementCollection _elements;
 
@@ -23,43 +26,52 @@
         #region ctor
 
         /// <summary>
-        /// Creates a new document fragment.
+        /// Creates a new shadow root.
         /// </summary>
-        internal DocumentFragment(Document owner)
-            : base(owner, "#document-fragment", NodeType.DocumentFragment)
+        internal ShadowRoot(Element host, ShadowRootMode mode)
+            : base(host.Owner, "#shadow-root", NodeType.DocumentFragment)
         {
-        }
-
-        /// <summary>
-        /// Creates a new document fragment with the given nodelist as
-        /// children.
-        /// </summary>
-        /// <param name="context">The context for the fragment mode.</param>
-        /// <param name="html">The HTML source code to use.</param>
-        internal DocumentFragment(Element context, String html)
-            : this(context.Owner)
-        {
-            var source = new TextSource(html);
-            var document = new HtmlDocument(Owner.Context, source);
-            var parser = new HtmlDomBuilder(document);
-            var options = new HtmlParserOptions
-            {
-                IsEmbedded = false,
-                IsScripting = Owner.Options.IsScripting()
-            };
-            var root = parser.ParseFragment(options, context).DocumentElement;
-
-            while (root.HasChildNodes)
-            {
-                var child = root.FirstChild;
-                root.RemoveChild(child);
-                this.PreInsert(child, null);
-            }
+            _host = host;
+            _styleSheets = this.CreateStyleSheets();
+            _mode = mode;
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the currently focused element in the shadow tree, if any.
+        /// </summary>
+        public IElement ActiveElement
+        {
+            get { return null; }
+        }
+
+        /// <summary>
+        /// Gets the host element, which contains this shadow root.
+        /// </summary>
+        public IElement Host
+        {
+            get { return _host; }
+        }
+
+        /// <summary>
+        /// Gets the markup of the current shadow root's contents.
+        /// </summary>
+        public String InnerHtml
+        {
+            get { return ChildNodes.ToHtml(HtmlMarkupFormatter.Instance); }
+            set { ReplaceAll(new DocumentFragment(_host, value), false); }
+        }
+
+        /// <summary>
+        /// Gets the shadow root style sheets.
+        /// </summary>
+        public IStyleSheetList StyleSheets
+        {
+            get { return _styleSheets; }
+        }
 
         /// <summary>
         /// Gets the number of child elements.

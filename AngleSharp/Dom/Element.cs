@@ -10,7 +10,7 @@
     using System;
     using System.Diagnostics;
     using System.Linq;
-using System.Runtime.CompilerServices;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents an element node.
@@ -19,6 +19,8 @@ using System.Runtime.CompilerServices;
     class Element : Node, IElement
     {
         #region Fields
+
+        static readonly ConditionalWeakTable<Element, IShadowRoot> shadowRoots = new ConditionalWeakTable<Element, IShadowRoot>();
 
         readonly NamedNodeMap _attributes;
         readonly String _namespace;
@@ -73,7 +75,11 @@ using System.Runtime.CompilerServices;
         /// </summary>
         public IElement AssignedSlot
         {
-            get { throw new NotImplementedException(); }//TODO
+            get 
+            { 
+                //TODO
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>
@@ -90,7 +96,12 @@ using System.Runtime.CompilerServices;
         /// </summary>
         public IShadowRoot ShadowRoot
         {
-            get { throw new NotImplementedException(); }//TODO
+            get
+            {
+                var root = default(IShadowRoot);
+                shadowRoots.TryGetValue(this, out root);
+                return root;
+            }
         }
 
         /// <summary>
@@ -402,7 +413,9 @@ using System.Runtime.CompilerServices;
             else if (ShadowRoot != null)
                 throw new DomException(DomError.InvalidState);
 
-            return null;
+            var root = new ShadowRoot(this, mode);
+            shadowRoots.Add(this, root);
+            return root;
         }
 
         /// <summary>
