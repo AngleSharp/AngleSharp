@@ -1703,9 +1703,6 @@
     <Compile Include="..\AngleSharp\Dom\MutationObserver.cs">
       <Link>Dom\MutationObserver.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\MutationObserverInit.cs">
-      <Link>Dom\MutationObserverInit.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Dom\MutationRecord.cs">
       <Link>Dom\MutationRecord.cs</Link>
     </Compile>
