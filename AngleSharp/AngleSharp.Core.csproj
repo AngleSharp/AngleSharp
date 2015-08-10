@@ -170,6 +170,7 @@
     <Compile Include="Interfaces\INamedNodeMap.cs" />
     <Compile Include="IStyleFormattable.cs" />
     <Compile Include="IStyleFormatter.cs" />
+    <Compile Include="Network\Default\DataRequester.cs" />
     <Compile Include="Parser\Css\CssBuilder.cs" />
     <Compile Include="Parser\Css\CssParseMode.cs" />
     <Compile Include="Parser\Css\CssParserOptions.cs" />
