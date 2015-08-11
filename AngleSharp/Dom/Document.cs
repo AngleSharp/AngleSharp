@@ -710,8 +710,7 @@
         /// </summary>
         public IElement ActiveElement 
         {
-            get;
-            protected set;
+            get { return All.Where(m => m.IsFocused).FirstOrDefault(); }
         }
 
         /// <summary>

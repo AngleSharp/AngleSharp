@@ -45,7 +45,7 @@
         /// </summary>
         public IElement ActiveElement
         {
-            get { return null; }
+            get { return this.GetDescendants().OfType<Element>().Where(m => m.IsFocused).FirstOrDefault(); }
         }
 
         /// <summary>

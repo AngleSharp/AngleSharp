@@ -175,6 +175,11 @@
         public static readonly String Template = "template";
 
         /// <summary>
+        /// The slot tag.
+        /// </summary>
+        public static readonly String Slot = "slot";
+
+        /// <summary>
         /// The caption tag.
         /// </summary>
         public static readonly String Caption = "caption";

@@ -150,6 +150,7 @@
     <Compile Include="Dom\Html\HtmlPictureElement.cs" />
     <Compile Include="Dom\Html\HtmlRbElement.cs" />
     <Compile Include="Dom\Html\HtmlRtcElement.cs" />
+    <Compile Include="Dom\Html\HtmlSlotElement.cs" />
     <Compile Include="Dom\ShadowRoot.cs" />
     <Compile Include="Dom\Svg\SvgDocument.cs" />
     <Compile Include="Events\CssParseErrorEvent.cs" />
