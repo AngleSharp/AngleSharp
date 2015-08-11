@@ -1,8 +1,10 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents an HTML slot element.
@@ -32,7 +34,47 @@
 
         public IEnumerable<INode> GetDistributedNodes()
         {
-            throw new NotImplementedException();
+            var shadowRoot = this.GetAncestor<IShadowRoot>();
+
+            if (shadowRoot != null)
+            {
+                var host = shadowRoot.Host;
+                var list = new List<INode>();
+
+                foreach (var node in host.ChildNodes)
+                {
+                    if (Object.ReferenceEquals(GetAssignedSlot(node), this))
+                    {
+                        var otherSlot = node as HtmlSlotElement;
+
+                        if (otherSlot != null)
+                            list.AddRange(otherSlot.GetDistributedNodes());
+                        else
+                            list.Add(node);
+                    }
+                }
+
+                return list;
+            }
+
+            return Enumerable.Empty<INode>();
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static IElement GetAssignedSlot(INode node)
+        {
+            switch (node.NodeType)
+            {
+                case NodeType.Text:
+                    return ((IText)node).AssignedSlot;
+                case NodeType.Element:
+                    return ((IElement)node).AssignedSlot;
+                default:
+                    return default(IElement);
+            }
         }
 
         #endregion
