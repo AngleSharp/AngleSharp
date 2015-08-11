@@ -1562,6 +1562,9 @@
     <Compile Include="..\AngleSharp\Dom\Html\HtmlSemanticElement.cs">
       <Link>Dom\Html\HtmlSemanticElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlSlotElement.cs">
+      <Link>Dom\Html\HtmlSlotElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlSmallElement.cs">
       <Link>Dom\Html\HtmlSmallElement.cs</Link>
     </Compile>
@@ -2221,6 +2224,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlSelectElement.cs">
       <Link>Interfaces\Html\IHtmlSelectElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlSlotElement.cs">
+      <Link>Interfaces\Html\IHtmlSlotElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlSourceElement.cs">
       <Link>Interfaces\Html\IHtmlSourceElement.cs</Link>
