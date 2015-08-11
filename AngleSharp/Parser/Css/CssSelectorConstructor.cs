@@ -575,25 +575,31 @@
 
             if (combinators.Count > 1)
             {
-                var combinator = combinators.Pop();
+                var last = combinators.Pop();
+                var previous = combinators.Pop();
 
-                //Care about combinator combinations, such as >> and ||
-                if (combinator == CssCombinator.Child && combinators.Peek() == CssCombinator.Child)
+                //Care about combinator combinations, such as >>, >>> and ||
+                if (last == CssCombinator.Child && previous == CssCombinator.Child)
                 {
-                    combinators.Pop();
-                    combinator = CssCombinator.Descendent;
+                    if (combinators.Count == 0 || combinators.Peek() != CssCombinator.Child)
+                        last = CssCombinator.Descendent;
+                    else if (combinators.Pop() == CssCombinator.Child)
+                        last = CssCombinator.Deep;
                 }
-                else if (combinator == CssCombinator.Namespace && combinators.Peek() == CssCombinator.Namespace)
+                else if (last == CssCombinator.Namespace && previous == CssCombinator.Namespace)
                 {
-                    combinators.Pop();
-                    combinator = CssCombinator.Column;
+                    last = CssCombinator.Column;
+                }
+                else
+                {
+                    combinators.Push(previous);
                 }
 
                 //Remove all leading whitespaces, invalid if mixed
                 while (combinators.Count > 0)
                     valid = combinators.Pop() == CssCombinator.Descendent && valid;
 
-                return combinator;
+                return last;
             }
 
             return combinators.Pop();
