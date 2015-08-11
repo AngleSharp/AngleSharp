@@ -85,10 +85,17 @@
         /// </summary>
         public IElement AssignedSlot
         {
-            get 
+            get
             {
-                var element = ParentElement;
-                return element != null ? element.AssignedSlot : null;
+                var parent = ParentElement;
+
+                if (parent != null && parent.ShadowRoot != null)
+                {
+                    var tree = parent.ShadowRoot;
+                    return tree.GetAssignedSlot(null);
+                }
+
+                return null;
             }
         }
 

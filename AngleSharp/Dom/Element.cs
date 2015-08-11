@@ -77,8 +77,15 @@
         {
             get 
             { 
-                //TODO
-                throw new NotImplementedException();
+                var parent = ParentElement;
+
+                if (parent != null && parent.ShadowRoot != null)
+                {
+                    var tree = parent.ShadowRoot;
+                    return tree.GetAssignedSlot(Slot);
+                }
+
+                return null;
             }
         }
 
