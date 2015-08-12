@@ -95,6 +95,7 @@
             pseudoClassFunctions.Add(PseudoClassNames.Contains, () => new ContainsFunctionState());
             pseudoClassFunctions.Add(PseudoClassNames.Has, () => new HasFunctionState());
             pseudoClassFunctions.Add(PseudoClassNames.Matches, () => new MatchesFunctionState());
+            pseudoClassFunctions.Add(PseudoClassNames.HostContext, () => new HostContextFunctionState());
         }
 
         #endregion
@@ -941,6 +942,53 @@
 
                 var code = String.Concat(PseudoClassNames.Contains, "(", value, ")");
                 return SimpleSelector.PseudoClass(el => el.TextContent.Contains(value), code);
+            }
+        }
+
+        sealed class HostContextFunctionState : FunctionState
+        {
+            readonly CssSelectorConstructor _nested;
+
+            public HostContextFunctionState()
+            {
+                _nested = Pool.NewSelectorConstructor();
+            }
+
+            protected override Boolean OnToken(CssToken token)
+            {
+                if (token.Type != CssTokenType.RoundBracketClose || _nested.state != State.Data)
+                {
+                    _nested.Apply(token);
+                    return false;
+                }
+
+                return true;
+            }
+
+            public override ISelector Produce()
+            {
+                var sel = _nested.ToPool();
+
+                if (sel == null)
+                    return null;
+
+                return SimpleSelector.PseudoClass(el =>
+                {
+                    var host = default(IElement);
+
+                    if (el.Parent is IShadowRoot)
+                        host = ((IShadowRoot)el.Parent).Host;
+
+                    while (host != null)
+                    {
+                        if (sel.Match(host))
+                            return true;
+
+                        host = host.ParentElement;
+                    }
+
+                    return false;
+                }, String.Concat(PseudoClassNames.HostContext, "(", sel.Text, ")"));
             }
         }
 

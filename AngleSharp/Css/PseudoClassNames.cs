@@ -216,5 +216,10 @@
         /// The contains pseudo function.
         /// </summary>
         public static readonly String Contains = "contains";
+
+        /// <summary>
+        /// The host-context pseudo function.
+        /// </summary>
+        public static readonly String HostContext = "host-context";
     }
 }
