@@ -31,5 +31,10 @@
         /// The first-letter pseudo element.
         /// </summary>
         public static readonly String FirstLetter = "first-letter";
+
+        /// <summary>
+        /// The content pseudo element.
+        /// </summary>
+        public static readonly String Content = "content";
     }
 }

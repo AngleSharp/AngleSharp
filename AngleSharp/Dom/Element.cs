@@ -79,7 +79,7 @@
             { 
                 var parent = ParentElement;
 
-                if (parent != null && parent.ShadowRoot != null)
+                if (parent.IsShadow())
                 {
                     var tree = parent.ShadowRoot;
                     return tree.GetAssignedSlot(Slot);

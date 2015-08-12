@@ -158,6 +158,11 @@
         public static readonly String ReadWrite = "read-write";
 
         /// <summary>
+        /// The shadow pseudo class.
+        /// </summary>
+        public static readonly String Shadow = "shadow";
+
+        /// <summary>
         /// The dir pseudo function.
         /// </summary>
         public static readonly String Dir = "dir";
