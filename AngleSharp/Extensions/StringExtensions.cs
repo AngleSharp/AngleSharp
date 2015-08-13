@@ -8,6 +8,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
+    using System.IO;
     using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Text;
@@ -678,33 +679,64 @@
         }
 
         /// <summary>
-        /// Replaces characters in names and values that should not be in URL values.
-        /// Replaces the bytes 0x20 (U+0020 SPACE if interpreted as ASCII) with a single 0x2B byte ("+" (U+002B)
-        /// character if interpreted as ASCII).
-        /// If a byte is not in the range 0x2A, 0x2D, 0x2E, 0x30 to 0x39, 0x41 to 0x5A, 0x5F, 0x61 to 0x7A, it is
-        /// replaced with its hexadecimal value (zero-padded if necessary), starting with the percent sign.
+        /// Replaces characters in names and values that should not be in URL
+        /// values. Replaces the bytes 0x20 (U+0020 SPACE if interpreted as
+        /// ASCII) with a single 0x2B byte ("+" (U+002B) character if
+        /// interpreted as ASCII). If a byte is not in the range 0x2A, 0x2D,
+        /// 0x2E, 0x30 to 0x39, 0x41 to 0x5A, 0x5F, 0x61 to 0x7A, it is 
+        /// replaced with its hexadecimal value (zero-padded if necessary), 
+        /// starting with the percent sign.
         /// </summary>
-        /// <param name="value">The value to encode.</param>
-        /// <param name="encoding">The encoding to consider.</param>
+        /// <param name="content">The content to encode.</param>
         /// <returns>The encoded value.</returns>
-        public static String UrlEncode(this String value, Encoding encoding)
+        public static String UrlEncode(this Byte[] content)
         {
             var builder = Pool.NewStringBuilder();
-            var content = encoding.GetBytes(value);
 
-            foreach (var val in content)
+            for (int i = 0; i < content.Length; i++)
             {
-                var chr = (Char)val;
+                var chr = (Char)content[i];
 
                 if (chr == Symbols.Space)
                     builder.Append(Symbols.Plus);
                 else if (chr == Symbols.Asterisk || chr == Symbols.Minus || chr == Symbols.Dot || chr == Symbols.Underscore || chr == Symbols.Tilde || chr.IsAlphanumericAscii())
                     builder.Append(chr);
                 else
-                    builder.Append(Symbols.Percent).Append(val.ToString("X2"));
+                    builder.Append(Symbols.Percent).Append(content[i].ToString("X2"));
             }
 
             return builder.ToPool();
+        }
+
+        /// <summary>
+        /// Decodes the provided percent encoded string. An exception is thrown
+        /// in case of an invalid input value.
+        /// </summary>
+        /// <param name="value">The value to decode.</param>
+        /// <returns>The decoded content.</returns>
+        public static Byte[] UrlDecode(this String value)
+        {
+            var ms = new MemoryStream();
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                var chr = value[i];
+
+                if (chr == Symbols.Plus)
+                    ms.WriteByte((Byte)Symbols.Space);
+                else if (chr == Symbols.Percent)
+                {
+                    if (i + 2 >= value.Length)
+                        throw new FormatException();
+
+                    var code = 16 * value[++i].FromHex() + value[++i].FromHex();
+                    ms.WriteByte((Byte)code);
+                }
+                else
+                    ms.WriteByte((Byte)chr);
+            }
+
+            return ms.ToArray();
         }
     }
 }
