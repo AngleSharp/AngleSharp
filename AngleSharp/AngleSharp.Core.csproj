@@ -150,6 +150,9 @@
     <Compile Include="Dom\Svg\SvgDocument.cs" />
     <Compile Include="Events\CssParseErrorEvent.cs" />
     <Compile Include="Events\CssParseStartEvent.cs" />
+    <Compile Include="Events\Default\EventBroker.cs" />
+    <Compile Include="Events\Default\IEventBroker.cs" />
+    <Compile Include="Events\Default\SimpleEventAggregator.cs" />
     <Compile Include="Events\HtmlParseErrorEvent.cs" />
     <Compile Include="Events\HtmlParseStartEvent.cs" />
     <Compile Include="Events\IEventAggregator.cs" />
