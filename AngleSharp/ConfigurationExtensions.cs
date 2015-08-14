@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom.Css;
     using AngleSharp.Events;
+    using AngleSharp.Events.Default;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Network.Default;
@@ -82,6 +83,26 @@
                 throw new ArgumentNullException("configuration");
 
             return new Configuration(configuration.Services, events, configuration.Culture);
+        }
+
+        /// <summary>
+        /// Uses the currently active event aggregator or integrates a simple
+        /// default aggregator to add the subscriber.
+        /// </summary>
+        /// <typeparam name="T">The type of event to handle.</typeparam>
+        /// <param name="configuration">The configuration to extend.</param>
+        /// <param name="subscriber">The subscriber to add.</param>
+        /// <returns>The current instance, or a new instance.</returns>
+        public static IConfiguration SetHandler<T>(this IConfiguration configuration, ISubscriber<T> subscriber)
+        {
+            if (configuration == null)
+                throw new ArgumentNullException("configuration");
+
+            if (configuration.Events == null)
+                configuration = configuration.SetEvents(new SimpleEventAggregator());
+
+            configuration.Events.Subscribe(subscriber);
+            return configuration;
         }
 
         #endregion
