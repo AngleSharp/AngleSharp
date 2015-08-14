@@ -1745,6 +1745,15 @@
     <Compile Include="..\AngleSharp\Events\CssParseStartEvent.cs">
       <Link>Events\CssParseStartEvent.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Events\Default\EventBroker.cs">
+      <Link>Events\Default\EventBroker.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Events\Default\IEventBroker.cs">
+      <Link>Events\Default\IEventBroker.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Events\Default\SimpleEventAggregator.cs">
+      <Link>Events\Default\SimpleEventAggregator.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Events\HtmlParseErrorEvent.cs">
       <Link>Events\HtmlParseErrorEvent.cs</Link>
     </Compile>
