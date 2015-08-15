@@ -132,6 +132,7 @@
     <Compile Include="Library\MeterElement.cs" />
     <Compile Include="Library\MutationObserver.cs" />
     <Compile Include="Library\OptionWithLabel.cs" />
+    <Compile Include="Library\ShadowDom.cs" />
     <Compile Include="Library\SimpleEncoding.cs" />
     <Compile Include="Library\StringMap.cs" />
     <Compile Include="Helper.cs" />
