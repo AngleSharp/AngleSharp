@@ -40,9 +40,8 @@
                 Method = request.Method
             };
 
-            if (request.Headers != null)
-                foreach (var header in request.Headers)
-                    data.Headers[header.Key] = header.Value;
+            foreach (var header in request.Headers)
+                data.Headers[header.Key] = header.Value;
 
             var cookie = _context.Configuration.GetCookie(request.Target.Origin);
 

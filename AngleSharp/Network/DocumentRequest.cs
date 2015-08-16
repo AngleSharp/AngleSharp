@@ -11,10 +11,7 @@
     /// </summary>
     public class DocumentRequest
     {
-        private static Dictionary<String, String> HeadersTemplate
-        {
-            get { return new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase); }
-        }
+        #region ctor
 
         /// <summary>
         /// Creates a new document request for the given url.
@@ -25,11 +22,15 @@
             if (target == null)
                 throw new ArgumentNullException("target");
 
+            Headers = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
             Target = target;
             Method = HttpMethod.Get;
             Body = MemoryStream.Null;
-            Headers = HeadersTemplate;
         }
+
+        #endregion
+
+        #region Static Construction
 
         /// <summary>
         /// Creates a GET request for the given target from the optional source
@@ -118,6 +119,10 @@
             return Post(target, fds.AsUrlEncoded(), MimeTypes.UrlencodedForm);
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Gets or sets the source of the request, if any.
         /// </summary>
@@ -175,29 +180,33 @@
         }
 
         /// <summary>
-        /// Gets or sets a list of headers (key-values) that should be used.
+        /// Gets a list of headers (key-values) that should be used.
         /// </summary>
         public Dictionary<String, String> Headers
         {
             get;
-            set;
+            private set;
         }
 
-        private void SetHeader(string name, string value)
-        {
-            if (Headers == null)
-                Headers = HeadersTemplate;
+        #endregion
 
+        #region Helpers
+
+        void SetHeader(String name, String value)
+        {
             Headers[name] = value;
         }
 
-        private string GetHeader(string name)
+        String GetHeader(String name)
         {
-            String value;
-            if (Headers != null && Headers.TryGetValue(name, out value))
+            var value = default(String);
+
+            if (Headers.TryGetValue(name, out value))
                 return value;
 
             return null;
         }
+
+        #endregion
     }
 }
