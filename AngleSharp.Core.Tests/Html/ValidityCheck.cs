@@ -1,5 +1,3 @@
-using AngleSharp.Network;
-
 namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Dom;
@@ -30,7 +28,7 @@ namespace AngleSharp.Core.Tests.Html
             element.SetAttribute("maxLength", "4");
             element.Value = "abcde";
             element.IsDirty = true;
-            var fm = document.CreateElement("form") as HtmlFormElement;
+            var fm = document.CreateElement("form") as IHtmlFormElement;
             Assert.IsNotNull(fm);
             fm.AppendChild(element);
             document.Body.AppendChild(fm);
