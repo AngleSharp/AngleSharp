@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Network.Default
 {
-    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using System.Collections.Generic;
     using System.Threading;
@@ -41,16 +40,14 @@
                 Method = request.Method
             };
 
+            if (request.Headers != null)
+                foreach (var header in request.Headers)
+                    data.Headers[header.Key] = header.Value;
+
             var cookie = _context.Configuration.GetCookie(request.Target.Origin);
 
             if (cookie != null)
                 data.Headers[HeaderNames.Cookie] = cookie;
-
-            if (request.MimeType != null)
-                data.Headers[HeaderNames.ContentType] = request.MimeType;
-            
-            if (request.Referer != null)
-                data.Headers[HeaderNames.Referer] = request.Referer;
 
             return _requesters.LoadAsync(data, events, cancel);
         }

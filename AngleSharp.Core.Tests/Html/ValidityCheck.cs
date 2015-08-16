@@ -1,3 +1,5 @@
+using AngleSharp.Network;
+
 namespace AngleSharp.Core.Tests.Html
 {
     using AngleSharp.Dom;
@@ -16,6 +18,25 @@ namespace AngleSharp.Core.Tests.Html
         static IDocument Html(String code)
         {
             return code.ToHtmlDocument();
+        }
+
+        [Test]
+        public void GetSubmissionReturnsNullWithInvalidForm()
+        {
+            var document = Html("");
+            var element = document.CreateElement("input") as HtmlInputElement;
+            Assert.IsNotNull(element);
+            element.Type = "text";
+            element.SetAttribute("maxLength", "4");
+            element.Value = "abcde";
+            element.IsDirty = true;
+            var fm = document.CreateElement("form") as HtmlFormElement;
+            Assert.IsNotNull(fm);
+            fm.AppendChild(element);
+            document.Body.AppendChild(fm);
+            Assert.AreEqual(false, element.CheckValidity());
+            Assert.AreEqual(false, fm.CheckValidity());
+            Assert.IsNull(fm.GetSubmission(element));
         }
 
         [Test]
