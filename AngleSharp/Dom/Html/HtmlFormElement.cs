@@ -173,7 +173,7 @@
         /// </summary>
         public Task<IDocument> Submit()
         {
-            return SubmitForm(this, true);
+            return NavigateTo(GetSubmission());
         }
 
         /// <summary>
@@ -181,8 +181,26 @@
         /// </summary>
         public Task<IDocument> Submit(IHtmlElement sourceElement)
         {
+            return NavigateTo(GetSubmission(sourceElement));
+        }
+
+        /// <summary>
+        /// Gets the document request created from the form submitting itself.
+        /// </summary>
+        public DocumentRequest GetSubmission()
+        {
+            return SubmitForm(this, true);
+        }
+
+        /// <summary>
+        /// Gets the document request created from the form being submitted by another element.
+        /// </summary>
+        /// <param name="sourceElement">The form's submitter.</param>
+        public DocumentRequest GetSubmission(IHtmlElement sourceElement)
+        {
             return SubmitForm(sourceElement ?? this, false);
         }
+
 
         /// <summary>
         /// Resets the form to the previous (default) state.
@@ -262,7 +280,7 @@
 
         #region Helpers
 
-        Task<IDocument> SubmitForm(IHtmlElement from, Boolean submittedFromSubmitMethod)
+        DocumentRequest SubmitForm(IHtmlElement from, Boolean submittedFromSubmitMethod)
         {
             var owner = Owner;
 
@@ -270,7 +288,7 @@
             {
                 //Do nothing.
             }
-            else if (!submittedFromSubmitMethod && !from.HasAttribute(AttributeNames.FormNoValidate) && NoValidate && !CheckValidity())
+            else if (!submittedFromSubmitMethod && !from.HasAttribute(AttributeNames.FormNoValidate) && !NoValidate && !CheckValidity())
             {
                 this.FireSimpleEvent(EventNames.Invalid);
             }
@@ -295,10 +313,10 @@
                 return SubmitForm(method, scheme, action, from);
             }
 
-            return TaskEx.FromResult<IDocument>(owner);
+            return null;
         }
 
-        Task<IDocument> SubmitForm(HttpMethod method, String scheme, Url action, IHtmlElement submitter)
+        DocumentRequest SubmitForm(HttpMethod method, String scheme, Url action, IHtmlElement submitter)
         {
             if (scheme == KnownProtocols.Http || scheme == KnownProtocols.Https)
             {
@@ -333,7 +351,7 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-data-post
         /// </summary>
-        Task<IDocument> PostToData(Url action, IHtmlElement submitter)
+        DocumentRequest PostToData(Url action, IHtmlElement submitter)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
@@ -362,7 +380,7 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-headers
         /// </summary>
-        Task<IDocument> MailWithHeaders(Url action, IHtmlElement submitter)
+        DocumentRequest MailWithHeaders(Url action, IHtmlElement submitter)
         {
             var formDataSet = ConstructDataSet(submitter);
             var result = formDataSet.AsUrlEncoded(TextEncoding.UsAscii);
@@ -379,7 +397,7 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-body
         /// </summary>
-        Task<IDocument> MailAsBody(Url action, IHtmlElement submitter)
+        DocumentRequest MailAsBody(Url action, IHtmlElement submitter)
         {
             var formDataSet = ConstructDataSet(submitter);
             var enctype = Enctype;
@@ -398,16 +416,16 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-get-action
         /// </summary>
-        Task<IDocument> GetActionUrl(Url action)
+        DocumentRequest GetActionUrl(Url action)
         {
-            return NavigateTo(DocumentRequest.Get(action, source: this, referer: Owner.DocumentUri));
+            return DocumentRequest.Get(action, source: this, referer: Owner.DocumentUri);
         }
 
         /// <summary>
         /// Submits the body of the form.
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-body
         /// </summary>
-        Task<IDocument> SubmitAsEntityBody(Url target, IHtmlElement submitter)
+        DocumentRequest SubmitAsEntityBody(Url target, IHtmlElement submitter)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
@@ -417,8 +435,7 @@
             if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
                 enctype = String.Concat(MimeTypes.MultipartForm, "; boundary=", formDataSet.Boundary);
 
-            var request = DocumentRequest.Post(target, body, enctype, source: this, referer: Owner.DocumentUri);
-            return NavigateTo(request);
+            return DocumentRequest.Post(target, body, enctype, source: this, referer: Owner.DocumentUri);
         }
 
         /// <summary>
@@ -430,14 +447,18 @@
         Task<IDocument> NavigateTo(DocumentRequest request)
         {
             this.CancelTasks();
-            return this.CreateTask(cancel => Owner.Context.OpenAsync(request, cancel));
+
+            if (request == null)
+                return TaskEx.FromResult<IDocument>(Owner);
+            else
+                return this.CreateTask(cancel => Owner.Context.OpenAsync(request, cancel));
         }
 
         /// <summary>
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mutate-action
         /// </summary>
-        Task<IDocument> MutateActionUrl(Url action, IHtmlElement submitter)
+        DocumentRequest MutateActionUrl(Url action, IHtmlElement submitter)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Network;
     using System;
     using System.Threading.Tasks;
 
@@ -87,6 +88,17 @@
         /// </summary>
         /// <param name="sourceElement">The form's submitter.</param>
         Task<IDocument> Submit(IHtmlElement sourceElement);
+
+        /// <summary>
+        /// Gets the document request created from the form submitting itself.
+        /// </summary>
+        DocumentRequest GetSubmission();
+
+        /// <summary>
+        /// Gets the document request created from the form  by submitting by another element.
+        /// </summary>
+        /// <param name="sourceElement">The form's submitter.</param>
+        DocumentRequest GetSubmission(IHtmlElement sourceElement);
 
         /// <summary>
         /// Resets the form to the previous (default) state.

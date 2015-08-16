@@ -11,6 +11,11 @@
     /// </summary>
     public class DocumentRequest
     {
+        private static Dictionary<String, String> HeadersTemplate
+        {
+            get { return new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase); }
+        }
+
         /// <summary>
         /// Creates a new document request for the given url.
         /// </summary>
@@ -21,10 +26,9 @@
                 throw new ArgumentNullException("target");
 
             Target = target;
-            Referer = null;
             Method = HttpMethod.Get;
             Body = MemoryStream.Null;
-            MimeType = null;
+            Headers = HeadersTemplate;
         }
 
         /// <summary>
@@ -139,8 +143,8 @@
         /// </summary>
         public String Referer
         {
-            get;
-            set;
+            get { return GetHeader(HeaderNames.Referer); }
+            set { SetHeader(HeaderNames.Referer, value); }
         }
 
         /// <summary>
@@ -166,8 +170,34 @@
         /// </summary>
         public String MimeType
         {
+            get { return GetHeader(HeaderNames.ContentType); }
+            set { SetHeader(HeaderNames.ContentType, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a list of headers (key-values) that should be used.
+        /// </summary>
+        public Dictionary<String, String> Headers
+        {
             get;
             set;
+        }
+
+        private void SetHeader(string name, string value)
+        {
+            if (Headers == null)
+                Headers = HeadersTemplate;
+
+            Headers[name] = value;
+        }
+
+        private string GetHeader(string name)
+        {
+            String value;
+            if (Headers != null && Headers.TryGetValue(name, out value))
+                return value;
+
+            return null;
         }
     }
 }
