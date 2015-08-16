@@ -173,7 +173,7 @@
         /// </summary>
         public Task<IDocument> Submit()
         {
-            return NavigateTo(GetSubmission());
+            return this.NavigateTo(GetSubmission());
         }
 
         /// <summary>
@@ -181,7 +181,7 @@
         /// </summary>
         public Task<IDocument> Submit(IHtmlElement sourceElement)
         {
-            return NavigateTo(GetSubmission(sourceElement));
+            return this.NavigateTo(GetSubmission(sourceElement));
         }
 
         /// <summary>
@@ -200,7 +200,6 @@
         {
             return SubmitForm(sourceElement ?? this, false);
         }
-
 
         /// <summary>
         /// Resets the form to the previous (default) state.
@@ -436,22 +435,6 @@
                 enctype = String.Concat(MimeTypes.MultipartForm, "; boundary=", formDataSet.Boundary);
 
             return DocumentRequest.Post(target, body, enctype, source: this, referer: Owner.DocumentUri);
-        }
-
-        /// <summary>
-        /// Plan to navigate to an action using the specified method with the given
-        /// entity body of the mime type.
-        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#plan-to-navigate
-        /// </summary>
-        /// <param name="request">The request to issue.</param>
-        Task<IDocument> NavigateTo(DocumentRequest request)
-        {
-            this.CancelTasks();
-
-            if (request == null)
-                return TaskEx.FromResult<IDocument>(Owner);
-            else
-                return this.CreateTask(cancel => Owner.Context.OpenAsync(request, cancel));
         }
 
         /// <summary>

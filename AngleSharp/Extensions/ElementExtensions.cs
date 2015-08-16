@@ -685,5 +685,23 @@
                 return default(TResource);
             });
         }
+
+        /// <summary>
+        /// Plan to navigate to an action using the specified method with the given
+        /// entity body of the mime type.
+        /// http://www.w3.org/html/wg/drafts/html/master/forms.html#plan-to-navigate
+        /// </summary>
+        /// <param name="element">The element to navigate from.</param>
+        /// <param name="request">The request to issue.</param>
+        /// <returns>A task that will eventually result in a new document.</returns>
+        public static Task<IDocument> NavigateTo(this Element element, DocumentRequest request)
+        {
+            element.CancelTasks();
+
+            if (request == null)
+                return TaskEx.FromResult<IDocument>(element.Owner);
+            
+            return element.CreateTask(cancel => element.Owner.Context.OpenAsync(request, cancel));
+        }
     }
 }

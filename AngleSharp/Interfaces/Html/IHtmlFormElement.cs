@@ -90,14 +90,17 @@
         Task<IDocument> Submit(IHtmlElement sourceElement);
 
         /// <summary>
-        /// Gets the document request created from the form submitting itself.
+        /// Creates the document request from the form submitting itself.
         /// </summary>
+        /// <returns>The resulting document (e.g., HTTP) request.</returns>
         DocumentRequest GetSubmission();
 
         /// <summary>
-        /// Gets the document request created from the form  by submitting by another element.
+        /// Creates the document request from the form by submitting by
+        /// some element.
         /// </summary>
         /// <param name="sourceElement">The form's submitter.</param>
+        /// <returns>The resulting document (e.g., HTTP) request.</returns>
         DocumentRequest GetSubmission(IHtmlElement sourceElement);
 
         /// <summary>
