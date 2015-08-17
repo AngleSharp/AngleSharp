@@ -55,6 +55,7 @@
     <Compile Include="Css\CssNode.cs" />
     <Compile Include="Css\CssParseTree.cs" />
     <Compile Include="Css\CssStyleFormatter.cs" />
+    <Compile Include="Css\CssTrivia.cs" />
     <Compile Include="Css\DocumentFunctions\DomainFunction.cs" />
     <Compile Include="Css\DocumentFunctions\RegexpFunction.cs" />
     <Compile Include="Css\DocumentFunctions\UrlFunction.cs" />

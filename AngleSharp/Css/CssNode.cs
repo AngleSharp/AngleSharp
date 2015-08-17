@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a single node in the CSS AST.
     /// </summary>
-    public class CssNode
+    public abstract class CssNode
     {
         /// <summary>
         /// Creates a new Node for the CSS AST.
