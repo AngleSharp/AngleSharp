@@ -52,6 +52,7 @@
     <Compile Include="Css\Conditions\GroupCondition.cs" />
     <Compile Include="Css\Conditions\NotCondition.cs" />
     <Compile Include="Css\Conditions\OrCondition.cs" />
+    <Compile Include="Css\CssComment.cs" />
     <Compile Include="Css\CssNode.cs" />
     <Compile Include="Css\CssParseTree.cs" />
     <Compile Include="Css\CssStyleFormatter.cs" />
