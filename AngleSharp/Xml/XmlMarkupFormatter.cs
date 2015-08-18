@@ -79,7 +79,6 @@
                 switch (text[i])
                 {
                     case Symbols.Ampersand: temp.Append("&amp;"); break;
-                    case Symbols.GreaterThan: temp.Append("&gt;"); break;
                     case Symbols.LessThan: temp.Append("&lt;"); break;
                     default: temp.Append(text[i]); break;
                 }
@@ -99,7 +98,8 @@
             {
                 switch (value[i])
                 {
-                    case Symbols.SingleQuote: temp.Append("&apos;"); break;
+                    case Symbols.Ampersand: temp.Append("&amp;"); break;
+                    case Symbols.LessThan: temp.Append("&lt;"); break;
                     case Symbols.DoubleQuote: temp.Append("&quot;"); break;
                     default: temp.Append(value[i]); break;
                 }
