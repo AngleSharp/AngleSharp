@@ -52,11 +52,12 @@
     <Compile Include="Css\Conditions\GroupCondition.cs" />
     <Compile Include="Css\Conditions\NotCondition.cs" />
     <Compile Include="Css\Conditions\OrCondition.cs" />
-    <Compile Include="Css\CssComment.cs" />
-    <Compile Include="Css\CssNode.cs" />
+    <Compile Include="Css\Tree\CssCommentNode.cs" />
+    <Compile Include="Css\Tree\CssNode.cs" />
     <Compile Include="Css\CssParseTree.cs" />
     <Compile Include="Css\CssStyleFormatter.cs" />
-    <Compile Include="Css\CssTrivia.cs" />
+    <Compile Include="Css\Tree\CssTriviaNode.cs" />
+    <Compile Include="Css\Tree\CssUnknownNode.cs" />
     <Compile Include="Css\DocumentFunctions\DomainFunction.cs" />
     <Compile Include="Css\DocumentFunctions\RegexpFunction.cs" />
     <Compile Include="Css\DocumentFunctions\UrlFunction.cs" />

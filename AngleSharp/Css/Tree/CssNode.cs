@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.Css.Tree
 {
     /// <summary>
     /// Represents a single node in the CSS AST.

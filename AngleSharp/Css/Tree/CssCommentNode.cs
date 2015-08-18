@@ -1,30 +1,30 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.Css.Tree
 {
     using System;
 
     /// <summary>
-    /// Represents some trivia in the CSS AST.
+    /// Represents a comment in the CSS AST.
     /// </summary>
-    public class CssTrivia : CssNode
+    public class CssCommentNode : CssNode
     {
         /// <summary>
-        /// Creates a new trivia for the CSS AST.
+        /// Creates a new comment for the CSS AST.
         /// </summary>
         /// <param name="content">The contained content.</param>
         /// <param name="range">The covered range in the source.</param>
-        public CssTrivia(String content, TextRange range)
+        public CssCommentNode(String content, TextRange range)
             : base(range)
         {
             Content = content;
         }
 
         /// <summary>
-        /// Gets the associated trivia content.
+        /// Gets the associated comment.
         /// </summary>
-        public String Content 
-        { 
-            get; 
-            private set; 
+        public String Content
+        {
+            get;
+            private set;
         }
     }
 }
