@@ -53,6 +53,8 @@
     <Compile Include="Css\Conditions\NotCondition.cs" />
     <Compile Include="Css\Conditions\OrCondition.cs" />
     <Compile Include="Css\Tree\CssCommentNode.cs" />
+    <Compile Include="Css\Tree\CssDeclarationNode.cs" />
+    <Compile Include="Css\Tree\CssIdentifierNode.cs" />
     <Compile Include="Css\Tree\CssNode.cs" />
     <Compile Include="Css\CssParseTree.cs" />
     <Compile Include="Css\CssStyleFormatter.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="Css\RenderDevice.cs" />
     <Compile Include="Css\RenderStyle.cs" />
     <Compile Include="Css\Converters.cs" />
+    <Compile Include="Css\Tree\CssValueNode.cs" />
     <Compile Include="Css\ValueConverters\AnyValueConverter.cs" />
     <Compile Include="Css\ValueConverters\BorderRadiusConverter.cs" />
     <Compile Include="Css\ValueConverters\ConstraintValueConverter.cs" />
