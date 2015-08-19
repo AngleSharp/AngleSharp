@@ -248,9 +248,7 @@
             if (_parser.Options.IsIncludingUnknownRules)
             {
                 var unknown = new CssUnknownRule(current.Data, _parser);
-                _tokenizer.State = CssParseMode.Text;
                 unknown.Prelude = _tokenizer.Get().Data;
-                _tokenizer.State = CssParseMode.Selector;
                 var sb = Pool.NewStringBuilder();
                 var token = _tokenizer.Get();
                 sb.Append(token.ToValue());
@@ -281,7 +279,6 @@
                 }
 
                 unknown.Content = sb.ToPool();
-                _tokenizer.State = CssParseMode.Data;
                 return unknown;
             }
             else
@@ -694,7 +691,6 @@
         ISelector CreateSelector(ref CssToken token)
         {
             var selector = Pool.NewSelectorConstructor();
-            _tokenizer.State = CssParseMode.Selector;
             var start = token;
 
             while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketOpen, CssTokenType.CurlyBracketClose))
@@ -706,7 +702,6 @@
             if (selector.IsValid == false)
                 RaiseErrorOccurred(CssParseError.InvalidSelector, start);
 
-            _tokenizer.State = CssParseMode.Data;
             return selector.ToPool();
         }
 
@@ -716,7 +711,7 @@
         CssValue CreateValue(CssTokenType closing, ref CssToken token, out Boolean important)
         {
             var value = Pool.NewValueBuilder();
-            _tokenizer.State = CssParseMode.Value;
+            _tokenizer.IsInValue = true;
             token = _tokenizer.Get();
 
             while (token.Type != CssTokenType.Eof)
@@ -729,7 +724,7 @@
             }
 
             important = value.IsImportant;
-            _tokenizer.State = CssParseMode.Data;
+            _tokenizer.IsInValue = false;
 
             if (value.IsValid || _parser.Options.IsToleratingInvalidValues)
                 return value.ToPool();
@@ -818,7 +813,6 @@
 
             if (token.Type == CssTokenType.Colon)
             {
-                _tokenizer.State = CssParseMode.Value;
                 token = _tokenizer.Get();
 
                 while (token.Type != CssTokenType.RoundBracketClose || value.IsReady == false)
@@ -829,8 +823,6 @@
                     value.Apply(token);
                     token = _tokenizer.Get();
                 }
-
-                _tokenizer.State = CssParseMode.Data;
 
                 val = value.ToPool();
             }

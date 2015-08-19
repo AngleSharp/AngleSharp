@@ -2,7 +2,6 @@
 {
     using System;
     using System.Globalization;
-    using AngleSharp.Css.Values;
 
     /// <summary>
     /// Represents a CSS number token.
@@ -53,38 +52,6 @@
         public Single Value
         {
             get { return Single.Parse(Data, CultureInfo.InvariantCulture); }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Converts the number to a value. Uses an allocated value for the 0.
-        /// </summary>
-        /// <returns>The created value.</returns>
-        public Number ToNumber()
-        {
-            var value = Value;
-
-            if (value == 0f)
-                return Number.Zero;
-
-            var unit = IsInteger ? Number.Unit.Integer : Number.Unit.Float;
-            return new Number(value, unit);
-        }
-
-        #endregion
-
-        #region String representation
-
-        /// <summary>
-        /// Gets a string which represents the original value.
-        /// </summary>
-        /// <returns>The original value.</returns>
-        public override String ToValue()
-        {
-            return Data[0] == '.' ? "0" + Data : Data;
         }
 
         #endregion

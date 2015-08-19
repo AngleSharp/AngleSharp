@@ -52,14 +52,7 @@
     <Compile Include="Css\Conditions\GroupCondition.cs" />
     <Compile Include="Css\Conditions\NotCondition.cs" />
     <Compile Include="Css\Conditions\OrCondition.cs" />
-    <Compile Include="Css\Tree\CssCommentNode.cs" />
-    <Compile Include="Css\Tree\CssDeclarationNode.cs" />
-    <Compile Include="Css\Tree\CssIdentifierNode.cs" />
-    <Compile Include="Css\Tree\CssNode.cs" />
-    <Compile Include="Css\CssParseTree.cs" />
     <Compile Include="Css\CssStyleFormatter.cs" />
-    <Compile Include="Css\Tree\CssTriviaNode.cs" />
-    <Compile Include="Css\Tree\CssUnknownNode.cs" />
     <Compile Include="Css\DocumentFunctions\DomainFunction.cs" />
     <Compile Include="Css\DocumentFunctions\RegexpFunction.cs" />
     <Compile Include="Css\DocumentFunctions\UrlFunction.cs" />
@@ -80,7 +73,6 @@
     <Compile Include="Css\RenderDevice.cs" />
     <Compile Include="Css\RenderStyle.cs" />
     <Compile Include="Css\Converters.cs" />
-    <Compile Include="Css\Tree\CssValueNode.cs" />
     <Compile Include="Css\ValueConverters\AnyValueConverter.cs" />
     <Compile Include="Css\ValueConverters\BorderRadiusConverter.cs" />
     <Compile Include="Css\ValueConverters\ConstraintValueConverter.cs" />
@@ -183,7 +175,6 @@
     <Compile Include="IStyleFormatter.cs" />
     <Compile Include="Network\Default\DataRequester.cs" />
     <Compile Include="Parser\Css\CssBuilder.cs" />
-    <Compile Include="Parser\Css\CssParseMode.cs" />
     <Compile Include="Parser\Css\CssParserOptions.cs" />
     <Compile Include="Parser\Css\Tokens\CssFunctionToken.cs" />
     <Compile Include="Parser\Html\HtmlParser.cs" />

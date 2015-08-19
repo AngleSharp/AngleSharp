@@ -145,7 +145,6 @@
         public ISelector ParseSelector(String selectorText)
         {
             var tokenizer = CreateTokenizer(selectorText, _config);
-            tokenizer.State = CssParseMode.Selector;
             var creator = Pool.NewSelectorConstructor();
             var token = tokenizer.Get();
 

@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// Represents the CSS range token.
@@ -13,6 +13,8 @@
         #region Fields
 
         readonly String[] _range;
+        readonly String _start;
+        readonly String _end;
 
         #endregion
 
@@ -21,32 +23,29 @@
         /// <summary>
         /// Creates a new CSS range token.
         /// </summary>
-        /// <param name="start">The (hex-)string where to begin.</param>
-        /// <param name="end">The (hex-)string where to end.</param>
+        /// <param name="range">The selected range string.</param>
+        /// <param name="position">The token's position.</param>
+        public CssRangeToken(String range, TextPosition position)
+            : base(CssTokenType.Range, range, position)
+        {
+            _start = range.Replace(Symbols.QuestionMark, '0');
+            _end = range.Replace(Symbols.QuestionMark, 'F');
+            _range = GetRange();
+        }
+
+        /// <summary>
+        /// Creates a new CSS range token.
+        /// </summary>
+        /// <param name="start">The selected range's start.</param>
+        /// <param name="end">The selected range's end.</param>
         /// <param name="position">The token's position.</param>
         public CssRangeToken(String start, String end, TextPosition position)
-            : base(CssTokenType.Range, String.Empty, position)
+            : base(CssTokenType.Range, String.Concat(start, "-", end), position)
         {
-            var index = Int32.Parse(start, NumberStyles.HexNumber);
+            _start = start;
+            _end = end;
+            _range = GetRange();
 
-            if (index <= Symbols.MaximumCodepoint)
-            {
-                if (end != null)
-                {
-                    var list = new List<String>();
-                    var f = Int32.Parse(end, NumberStyles.HexNumber);
-
-                    if (f > Symbols.MaximumCodepoint)
-                        f = Symbols.MaximumCodepoint;
-
-                    for (; index <= f; index++)
-                        list.Add(index.ConvertFromUtf32());
-
-                    _range = list.ToArray();
-                }
-                else
-                    _range = new String[] { index.ConvertFromUtf32() };
-            }
         }
 
         #endregion
@@ -62,6 +61,22 @@
         }
 
         /// <summary>
+        /// Gets the range's start.
+        /// </summary>
+        public String Start
+        {
+            get { return _start; }
+        }
+
+        /// <summary>
+        /// Gets the range's end.
+        /// </summary>
+        public String End
+        {
+            get { return _end; }
+        }
+
+        /// <summary>
         /// Gets the content of the range token.
         /// </summary>
         public String[] SelectedRange
@@ -71,20 +86,32 @@
 
         #endregion
 
-        #region Methods
+        #region Helpers
 
-        /// <summary>
-        /// Gets a string which represents the original value.
-        /// </summary>
-        /// <returns>The original value.</returns>
-        public override String ToValue()
+        String[] GetRange()
         {
-            if (IsEmpty)
-                return String.Empty; 
-            else if (_range.Length == 1)
-                return "#" + _range[0].ConvertToUtf32(0).ToString("x");
+            var index = Int32.Parse(_start, NumberStyles.HexNumber);
 
-            return "#" + _range[0].ConvertToUtf32(0).ToString("x") + "-#" + _range[_range.Length - 1].ConvertToUtf32(0).ToString("x");
+            if (index <= Symbols.MaximumCodepoint)
+            {
+                if (_end != null)
+                {
+                    var list = new List<String>();
+                    var f = Int32.Parse(_end, NumberStyles.HexNumber);
+
+                    if (f > Symbols.MaximumCodepoint)
+                        f = Symbols.MaximumCodepoint;
+
+                    for (; index <= f; index++)
+                        list.Add(index.ConvertFromUtf32());
+
+                    return list.ToArray();
+                }
+
+                return new String[] { index.ConvertFromUtf32() };
+            }
+
+            return null;
         }
 
         #endregion

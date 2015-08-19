@@ -30,6 +30,10 @@
         /// </summary>
         Hash,
         /// <summary>
+        /// A comment token (/*...*/).
+        /// </summary>
+        Comment,
+        /// <summary>
         /// An @-keyword token (starts with @).
         /// </summary>
         AtKeyword,

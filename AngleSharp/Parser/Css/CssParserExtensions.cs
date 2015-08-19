@@ -4,6 +4,7 @@
     using AngleSharp.Css.DocumentFunctions;
     using AngleSharp.Extensions;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
 
     /// <summary>
@@ -12,6 +13,28 @@
     [DebuggerStepThrough]
     static class CssParserExtensions
     {
+        static readonly Dictionary<String, CssTokenType> functionTypes = new Dictionary<String, CssTokenType>(StringComparer.OrdinalIgnoreCase)
+        {
+            { FunctionNames.Url, CssTokenType.Url },
+            { FunctionNames.Domain, CssTokenType.Domain },
+            { FunctionNames.Url_Prefix, CssTokenType.UrlPrefix },
+        };
+
+        /// <summary>
+        /// Gets the corresponding token type for the function name.
+        /// </summary>
+        /// <param name="functionName">The name to match.</param>
+        /// <returns>The token type for the name.</returns>
+        public static CssTokenType GetTypeFromName(this String functionName)
+        {
+            var token = default(CssTokenType);
+
+            if (functionTypes.TryGetValue(functionName, out token))
+                return token;
+
+            return CssTokenType.Function;
+        }
+
         /// <summary>
         /// Retrieves a number describing the error of a given error code.
         /// </summary>
