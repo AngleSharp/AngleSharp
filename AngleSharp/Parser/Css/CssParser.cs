@@ -184,16 +184,10 @@
         internal ICssStyleSheet ParseStylesheet(CssStyleSheet sheet, TextSource source)
         {
             var tokenizer = CreateTokenizer(source, _config);
-            var token = tokenizer.Get();
             var builder = new CssBuilder(tokenizer, this);
 
-            do
-            {
-                var rule = builder.CreateRule(token);
+            foreach (var rule in builder.CreateRules())
                 sheet.AddRule(rule);
-                token = tokenizer.Get();
-            }
-            while (token.Type != CssTokenType.Eof);
 
             return sheet;
         }
