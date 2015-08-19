@@ -847,7 +847,7 @@
 
         static IValueConverter WithArgs(IValueConverter converter)
         {
-            return converter;
+            return new ArgumentsValueConverter(converter);
         }
 
         static IValueConverter WithArgs(params IValueConverter[] converters)
