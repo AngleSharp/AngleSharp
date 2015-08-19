@@ -101,6 +101,8 @@
                     case Symbols.Ampersand: temp.Append("&amp;"); break;
                     case Symbols.LessThan: temp.Append("&lt;"); break;
                     case Symbols.DoubleQuote: temp.Append("&quot;"); break;
+                    case Symbols.Ampersand: temp.Append("&amp;"); break;
+                    case Symbols.LessThan: temp.Append("&lt;"); break;
                     default: temp.Append(value[i]); break;
                 }
             }
