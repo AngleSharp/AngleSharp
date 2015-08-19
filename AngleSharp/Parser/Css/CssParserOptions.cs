@@ -42,5 +42,15 @@
             get;
             set;
         }
+
+        /// <summary>
+        /// Gets or sets if CSS trivia (whitespace, tabs, comments, ...) should
+        /// be stored.
+        /// </summary>
+        public Boolean IsStoringTrivia
+        {
+            get;
+            set;
+        }
     }
 }
