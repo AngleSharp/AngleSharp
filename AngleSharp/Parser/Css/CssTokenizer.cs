@@ -47,6 +47,10 @@
             set { _valueMode = value; }
         }
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Gets the next available token.
         /// </summary>
@@ -55,12 +59,8 @@
         {
             var current = GetNext();
             _position = GetCurrentPosition();
-            return current != Symbols.EndOfFile ? Data(current) : NewEof();
+            return Data(current);
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Fires an error occurred event.
