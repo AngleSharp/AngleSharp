@@ -83,6 +83,18 @@
 
         #region Internal Properties
 
+        internal TextPosition Start
+        {
+            get;
+            set;
+        }
+
+        internal TextPosition End
+        {
+            get;
+            set;
+        }
+
         internal CssParser Parser
         {
             get { return _parser; }
