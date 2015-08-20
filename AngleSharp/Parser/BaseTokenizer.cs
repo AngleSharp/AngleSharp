@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Parser
 {
+    using AngleSharp.Events;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Text;
-    using AngleSharp.Events;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// Common methods and variables of all tokenizers.
@@ -160,15 +160,6 @@
                 c = GetNext();
 
             return c;
-        }
-
-        /// <summary>
-        /// Advances to the character before the first non-space character.
-        /// </summary>
-        protected void SkipMostSpaces()
-        {
-            SkipSpaces();
-            Back();
         }
 
         #endregion

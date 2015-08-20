@@ -145,6 +145,7 @@
                 {
                     complex.ConcludeSelector(temp);
                     temp = complex;
+                    complex = null;
                 }
 
                 if (group == null || group.Length == 0)
@@ -201,7 +202,7 @@
                 default:
                     valid = false;
                     break;
-			}
+            }
         }
 
 		/// <summary>

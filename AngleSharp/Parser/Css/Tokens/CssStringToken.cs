@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using System;
     using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// Represents a CSS string token.
@@ -45,10 +45,6 @@
 
         #region String representation
 
-        /// <summary>
-        /// Gets a string which represents the original value.
-        /// </summary>
-        /// <returns>The original value.</returns>
         public override String ToValue()
         {
             switch (Type)
@@ -56,7 +52,9 @@
                 case CssTokenType.Url:
                     return Data.CssUrl();
                 case CssTokenType.Color:
-                    return Data.CssColor();
+                    return "#" + Data;
+                case CssTokenType.Comment:
+                    return String.Concat("/*", Data, "*/");
                 default:
                     return Data.CssString();
             }

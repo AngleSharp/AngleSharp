@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// Represents a CSS function token.
