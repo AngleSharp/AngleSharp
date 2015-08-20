@@ -429,7 +429,7 @@
         public KeyframeSelector CreateKeyframeSelector(ref CssToken token)
         {
             var keys = new List<Percent>();
-            var trivia = default(String);
+            var trivia = GetTrivia(ref token);
 
             while (token.Type != CssTokenType.Eof)
             {
@@ -636,20 +636,20 @@
 
         #region Helpers
 
-        String GetTrivia(ref CssToken token)
+        List<CssToken> GetTrivia(ref CssToken token)
         {
             var store = _parser.Options.IsStoringTrivia;
-            var sb = store ? Pool.NewStringBuilder() : null;
+            var list = default(List<CssToken>);
 
             while (token.Type == CssTokenType.Whitespace || token.Type == CssTokenType.Comment)
             {
                 if (store)
-                    sb.Append(token.ToValue());
+                    (list ?? (list = new List<CssToken>())).Add(token);
 
                 token = _tokenizer.Get();
             }
 
-            return store ? sb.ToPool() : String.Empty;
+            return list;
         }
 
         ICondition ExtractCondition(ref CssToken token)
