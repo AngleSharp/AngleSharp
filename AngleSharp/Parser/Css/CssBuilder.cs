@@ -294,21 +294,17 @@
             {
                 var rule = new CssUnknownRule(current.Data, _parser);
                 rule.Start = current.Position;
-                var sb = Pool.NewStringBuilder();
                 var token = _tokenizer.Get();
 
                 while (token.IsNot(CssTokenType.CurlyBracketOpen, CssTokenType.Semicolon, CssTokenType.Eof))
                 {
-                    sb.Append(token.ToValue());
+                    rule.Prelude.Add(token);
                     token = _tokenizer.Get();
                 }
 
-                rule.Prelude = sb.ToString();
-                sb.Clear();
-
                 if (token.Type != CssTokenType.Eof)
                 {
-                    sb.Append(token.ToValue());
+                    rule.Content.Add(token);
 
                     if (token.Type == CssTokenType.CurlyBracketOpen)
                     {
@@ -317,7 +313,7 @@
                         do
                         {
                             token = _tokenizer.Get();
-                            sb.Append(token.ToValue());
+                            rule.Content.Add(token);
 
                             switch (token.Type)
                             {
@@ -336,7 +332,6 @@
                     }
                 }
 
-                rule.Content = sb.ToPool();
                 rule.End = _tokenizer.GetCurrentPosition();
                 return rule;
             }

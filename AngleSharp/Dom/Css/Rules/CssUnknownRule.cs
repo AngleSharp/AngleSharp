@@ -2,6 +2,8 @@
 {
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents an unknown CSS rule.
@@ -11,8 +13,8 @@
         #region Fields
 
         readonly String _name;
-        String _prelude;
-        String _content;
+        readonly List<CssToken> _prelude;
+        readonly List<CssToken> _content;
 
         #endregion
 
@@ -25,8 +27,8 @@
             : base(CssRuleType.Unknown, parser)
         {
             _name = name;
-            _prelude = String.Empty;
-            _content = String.Empty;
+            _prelude = new List<CssToken>();
+            _content = new List<CssToken>();
         }
 
         #endregion
@@ -42,18 +44,19 @@
         }
 
         /// <summary>
-        /// Gets or sets the key text of the unknown rule.
+        /// Gets the key token list of the unknown rule.
         /// </summary>
-        public String Prelude
+        public List<CssToken> Prelude
         {
             get { return _prelude; }
-            set { _prelude = value; }
         }
 
-        public String Content
+        /// <summary>
+        /// Gets the content token list of the unknown rule.
+        /// </summary>
+        public List<CssToken> Content
         {
             get { return _content; }
-            set { _content = value; }
         }
 
         #endregion
@@ -62,14 +65,18 @@
 
         protected override void ReplaceWith(ICssRule rule)
         {
+            _prelude.Clear();
+            _content.Clear();
             var newRule = rule as CssUnknownRule;
-            _prelude = newRule._prelude;
-            _content = newRule._content;
+            _prelude.AddRange(newRule._prelude);
+            _content.AddRange(newRule._content);
         }
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            return formatter.Rule("@" + _name, _prelude.Trim(), _content.Trim());
+            var prelude = String.Join("", _prelude.Select(m => m.ToValue()));
+            var content = String.Join("", _content.Select(m => m.ToValue()));
+            return String.Concat("@", _name, prelude, content);
         }
 
         #endregion
