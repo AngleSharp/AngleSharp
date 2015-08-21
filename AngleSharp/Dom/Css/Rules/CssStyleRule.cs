@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS style rule.
@@ -66,6 +68,15 @@
         public CssStyleDeclaration Style
         {
             get { return _style; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            return _style.GetChildren();
         }
 
         #endregion

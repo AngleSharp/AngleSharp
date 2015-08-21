@@ -2,11 +2,12 @@
 {
     using AngleSharp.Parser.Css;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a node in the CSS parse tree.
     /// </summary>
-    public class CssNode
+    public abstract class CssNode
     {
         List<CssToken> _trivia;
         TextPosition _start;
@@ -37,6 +38,15 @@
         {
             get { return _end; }
             internal set { _end = value; }
+        }
+
+        /// <summary>
+        /// Gets the contained child nodes, if any.
+        /// </summary>
+        /// <returns>The iterator over the child nodes.</returns>
+        public virtual IEnumerable<CssNode> GetChildren()
+        {
+            return Enumerable.Empty<CssNode>();
         }
     }
 }

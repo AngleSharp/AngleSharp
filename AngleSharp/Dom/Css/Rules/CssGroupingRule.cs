@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the CSSGroupingRule interface.
@@ -78,6 +80,12 @@
         public void RemoveAt(Int32 index)
         {
             _rules.RemoveAt(index);
+        }
+
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            for (var i = 0; i < _rules.Length; i++)
+                yield return _rules[i];
         }
 
         #endregion

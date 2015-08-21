@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents an wrapper property for media feature instances.
@@ -33,6 +34,15 @@
         internal MediaFeature Feature
         {
             get { return _feature; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            yield return _feature;
         }
 
         #endregion

@@ -4,6 +4,7 @@
     using AngleSharp.Css.Conditions;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents an @supports rule.
@@ -62,6 +63,19 @@
         public Boolean IsSupported
         {
             get { return _condition.Check(); }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            if (_condition != null)
+                yield return _condition;
+
+            foreach (var child in base.GetChildren())
+                yield return child;
         }
 
         #endregion

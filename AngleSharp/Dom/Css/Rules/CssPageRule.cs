@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the @page rule.
@@ -25,6 +27,15 @@
         {
             _style = new CssStyleDeclaration(this);
             _selector = SimpleSelector.All;
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            return _style.GetChildren();
         }
 
         #endregion

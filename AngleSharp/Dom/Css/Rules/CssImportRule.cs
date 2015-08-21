@@ -1,9 +1,11 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS import rule.
@@ -67,6 +69,15 @@
         internal MediaList Media
         {
             get { return _media; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            yield return _media;
         }
 
         #endregion

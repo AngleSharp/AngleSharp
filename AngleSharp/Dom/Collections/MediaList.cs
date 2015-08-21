@@ -144,6 +144,11 @@
             throw new DomException(DomError.NotFound);
         }
 
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            return _media;
+        }
+
         #endregion
 
         #region Internal Methods

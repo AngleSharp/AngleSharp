@@ -4,6 +4,7 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS @media rule.
@@ -55,6 +56,18 @@
         internal MediaList Media
         {
             get { return _media; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            yield return _media;
+
+            foreach (var child in base.GetChildren())
+                yield return child;
         }
 
         #endregion

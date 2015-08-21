@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
@@ -24,6 +25,15 @@
         {
             _declarations = new List<CssProperty>();
             _name = name;
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            return _declarations;
         }
 
         #endregion

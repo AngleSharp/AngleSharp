@@ -2348,6 +2348,11 @@
 
         #region Methods
 
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            return _declarations;
+        }
+
         public void Update(String value)
         {
             if (IsReadOnly)

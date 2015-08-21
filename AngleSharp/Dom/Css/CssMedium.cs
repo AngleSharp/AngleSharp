@@ -92,6 +92,11 @@
 
         #region Methods
 
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            return _features;
+        }
+
         /// <summary>
         /// Validates the given medium against the provided rendering device.
         /// </summary>

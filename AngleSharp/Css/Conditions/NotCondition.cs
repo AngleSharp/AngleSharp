@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css.Conditions
 {
     using System;
+    using System.Collections.Generic;
 
     sealed class NotCondition : CssCondition
     {
@@ -20,6 +21,12 @@
         public override Boolean Check()
         {
             return !_content.Check();
+        }
+
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            if (_content != null)
+                yield return _content;
         }
     }
 }

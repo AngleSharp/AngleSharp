@@ -28,5 +28,10 @@
 
             return true;
         }
+
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            return _conditions;
+        }
     }
 }

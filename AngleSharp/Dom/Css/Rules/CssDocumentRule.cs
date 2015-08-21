@@ -75,6 +75,19 @@
 
         #endregion
 
+        #region Methods
+
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            foreach (var condition in _conditions)
+                yield return condition;
+
+            foreach (var child in base.GetChildren())
+                yield return child;
+        }
+
+        #endregion
+
         #region Internal Methods
 
         protected override void ReplaceWith(ICssRule rule)

@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom.Css;
     using System;
+    using System.Collections.Generic;
 
     sealed class DeclarationCondition : CssCondition
     {
@@ -24,6 +25,11 @@
         public override Boolean Check()
         {
             return (_property is CssUnknownProperty == false) && _property.TrySetValue(_value);
+        }
+
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            yield return _property;
         }
     }
 }
