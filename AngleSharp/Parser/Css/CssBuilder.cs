@@ -534,19 +534,14 @@
         public CssProperty CreateDeclarationWith(Func<String, CssProperty> createProperty, ref CssToken token)
         {
             var property = default(CssProperty);
-            var trivia = GetTrivia(ref token);
 
             if (token.Type == CssTokenType.Ident)
             {
                 var propertyName = token.Data;
                 token = _tokenizer.Get();
-                trivia = GetTrivia(ref token);
+                var trivia = GetTrivia(ref token);
 
-                if (token.Type != CssTokenType.Colon)
-                {
-                    RaiseErrorOccurred(CssParseError.ColonMissing, token);
-                }
-                else
+                if (token.Type == CssTokenType.Colon)
                 {
                     property = _parser.Options.IsIncludingUnknownDeclarations || _parser.Options.IsToleratingInvalidValues ?
                         new CssUnknownProperty(propertyName) : createProperty(propertyName);
@@ -561,16 +556,18 @@
                         RaiseErrorOccurred(CssParseError.ValueMissing, token);
                     else if (property != null && property.TrySetValue(val))
                         property.IsImportant = important;
-                }
 
-                trivia = GetTrivia(ref token);
+                    trivia = GetTrivia(ref token);
+                }
+                else
+                    RaiseErrorOccurred(CssParseError.ColonMissing, token);
+
                 _tokenizer.JumpToEndOfDeclaration();
                 token = _tokenizer.Get();
             }
             else if (token.Type != CssTokenType.Eof)
             {
                 RaiseErrorOccurred(CssParseError.IdentExpected, token);
-                trivia = GetTrivia(ref token);
                 _tokenizer.JumpToEndOfDeclaration();
                 token = _tokenizer.Get();
             }
@@ -586,6 +583,7 @@
         /// </summary>
         public CssProperty CreateDeclaration(ref CssToken token)
         {
+            var trivia = GetTrivia(ref token);
             return CreateDeclarationWith(Factory.Properties.Create, ref token);
         }
 
