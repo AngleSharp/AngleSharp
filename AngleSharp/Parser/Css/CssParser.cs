@@ -185,10 +185,7 @@
         {
             var tokenizer = CreateTokenizer(source, _config);
             var builder = new CssBuilder(tokenizer, this);
-
-            foreach (var rule in builder.CreateRules())
-                sheet.AddRule(rule);
-
+            builder.CreateRules(sheet);
             return sheet;
         }
 
@@ -231,7 +228,7 @@
         /// <summary>
         /// Takes a string and transforms it into supports condition.
         /// </summary>
-        internal ICondition ParseCondition(String conditionText)
+        internal CssCondition ParseCondition(String conditionText)
         {
             return Parse(conditionText, (b, t) => Tuple.Create(b.CreateCondition(ref t), t));
         }
@@ -240,7 +237,7 @@
         /// Takes a string and transforms it into an enumeration of special
         /// document functions and their arguments.
         /// </summary>
-        internal List<IDocumentFunction> ParseDocumentRules(String documentText)
+        internal List<CssDocumentFunction> ParseDocumentRules(String documentText)
         {
             return Parse(documentText, (b, t) => Tuple.Create(b.CreateFunctions(ref t), t));
         }

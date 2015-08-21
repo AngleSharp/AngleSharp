@@ -17,7 +17,7 @@
         {
             { FunctionNames.Url, CssTokenType.Url },
             { FunctionNames.Domain, CssTokenType.Domain },
-            { FunctionNames.Url_Prefix, CssTokenType.UrlPrefix },
+            { FunctionNames.UrlPrefix, CssTokenType.UrlPrefix },
         };
 
         /// <summary>
@@ -109,7 +109,7 @@
         /// </summary>
         /// <param name="token">The token to examine.</param>
         /// <returns>The created IDocumentFunction or null.</returns>
-        public static IDocumentFunction ToDocumentFunction(this CssToken token)
+        public static CssDocumentFunction ToDocumentFunction(this CssToken token)
         {
             switch (token.Type)
             {
