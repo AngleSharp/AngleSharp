@@ -15,7 +15,7 @@
     /// <summary>
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for details.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     sealed class CssBuilder
     {
         #region Fields
@@ -258,6 +258,23 @@
             return rule;
         }
 
+        public CssRule CreateSupports(CssToken current)
+        {
+            var token = _tokenizer.Get();
+            var rule = new CssSupportsRule(_parser);
+            rule.Start = current.Position;
+            CollectTrivia(rule, ref token);
+            rule.Condition = AggregateCondition(ref token);
+            CollectTrivia(rule, ref token);
+
+            if (token.Type != CssTokenType.CurlyBracketOpen)
+                return SkipDeclarations(token);
+
+            FillRules(rule);
+            rule.End = _tokenizer.GetCurrentPosition();
+            return rule;
+        }
+
         public CssRule CreateStyle(CssToken current)
         {
             var rule = new CssStyleRule(_parser);
@@ -270,36 +287,13 @@
             return rule.Selector != null ? rule : null;
         }
 
-        public CssRule CreateSupports(CssToken current)
-        {
-            var token = _tokenizer.Get();
-            var rule = new CssSupportsRule(_parser);
-            rule.Start = current.Position;
-            CollectTrivia(rule, ref token);
-            rule.Condition = CreateCondition(ref token);
-            CollectTrivia(rule, ref token);
-
-            if (token.Type != CssTokenType.CurlyBracketOpen)
-                return SkipDeclarations(token);
-
-            FillRules(rule);
-            rule.End = _tokenizer.GetCurrentPosition();
-            return rule;
-        }
-
-        public CssKeyframeRule CreateKeyframeRule(CssToken token)
+        public CssKeyframeRule CreateKeyframeRule(CssToken current)
         {
             var rule = new CssKeyframeRule(_parser);
-            CollectTrivia(rule, ref token);
-            rule.Key = CreateKeyframeSelector(ref token);
-            CollectTrivia(rule, ref token);
-
-            if (rule.Key == null)
-            {
-                _tokenizer.JumpToEndOfDeclaration();
-                return null;
-            }
-
+            rule.Start = current.Position;
+            CollectTrivia(rule, ref current);
+            rule.Key = CreateKeyframeSelector(ref current);
+            CollectTrivia(rule, ref current);
             FillDeclarations(rule.Style);
             return rule;
         }
@@ -378,7 +372,7 @@
         public List<CssMedium> CreateMedia(ref CssToken token)
         {
             var list = new List<CssMedium>();
-            CollectTrivia(null, ref token);
+            RemoveTrivia(ref token);
 
             while (token.Type != CssTokenType.Eof)
             {
@@ -419,30 +413,8 @@
         /// </summary>
         public CssCondition CreateCondition(ref CssToken token)
         {
-            CollectTrivia(null, ref token);
-            var condition = ExtractCondition(ref token);
-
-            if (condition != null)
-            {
-                CollectTrivia(condition, ref token);
-
-                if (token.Data.Isi(Keywords.And))
-                {
-                    token = _tokenizer.Get();
-                    CollectTrivia(condition, ref token);
-                    var conditions = MultipleConditions(condition, Keywords.And, ref token);
-                    return new AndCondition(conditions);
-                }
-                else if (token.Data.Isi(Keywords.Or))
-                {
-                    token = _tokenizer.Get();
-                    CollectTrivia(condition, ref token);
-                    var conditions = MultipleConditions(condition, Keywords.Or, ref token);
-                    return new OrCondition(conditions);
-                }
-            }
-
-            return condition;
+            RemoveTrivia(ref token);
+            return AggregateCondition(ref token);
         }
 
         /// <summary>
@@ -451,7 +423,10 @@
         public KeyframeSelector CreateKeyframeSelector(ref CssToken token)
         {
             var keys = new List<Percent>();
-            CollectTrivia(null, ref token);
+            var valid = true;
+            var start = token;
+            var selector = new KeyframeSelector(keys);
+            CollectTrivia(selector, ref token);
 
             while (token.Type != CssTokenType.Eof)
             {
@@ -460,10 +435,11 @@
                     if (token.Type == CssTokenType.CurlyBracketOpen)
                         break;
                     else if (token.Type != CssTokenType.Comma)
-                        return null;
+                        valid = false;
+                    else
+                        token = _tokenizer.Get();
 
-                    token = _tokenizer.Get();
-                    CollectTrivia(null, ref token);
+                    CollectTrivia(selector, ref token);
                 }
 
                 if (token.Type == CssTokenType.Percentage)
@@ -473,13 +449,16 @@
                 else if (token.Type == CssTokenType.Ident && token.Data.Is(Keywords.To))
                     keys.Add(Percent.Hundred);
                 else
-                    return null;
+                    valid = false;
 
                 token = _tokenizer.Get();
-                CollectTrivia(null, ref token);
+                CollectTrivia(selector, ref token);
             }
 
-            return new KeyframeSelector(keys);
+            if (!valid)
+                RaiseErrorOccurred(CssParseError.InvalidSelector, start);
+
+            return selector;
         }
 
         /// <summary>
@@ -488,7 +467,7 @@
         public List<CssDocumentFunction> CreateFunctions(ref CssToken token)
         {
             var list = new List<CssDocumentFunction>();
-            CollectTrivia(null, ref token);
+            RemoveTrivia(ref token);
             FillFunctions(list, ref token);
             return list;
         }
@@ -499,17 +478,20 @@
         public void FillDeclarations(CssStyleDeclaration style)
         {
             var token = _tokenizer.Get();
+            style.Start = token.Position;
             CollectTrivia(style, ref token);
 
             while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
             {
-                var property = CreateDeclaration(ref token);
+                var property = CreateDeclarationWith(Factory.Properties.Create, ref token);
 
                 if (property != null && property.HasValue)
                     style.SetProperty(property);
 
                 CollectTrivia(style, ref token);
             }
+
+            style.End = _tokenizer.GetCurrentPosition();
         }
 
         /// <summary>
@@ -527,6 +509,8 @@
 
                 if (property == null)
                     RaiseErrorOccurred(CssParseError.UnknownDeclarationName, token);
+                else
+                    property.Start = token.Position;
 
                 token = _tokenizer.Get();
                 CollectTrivia(property, ref token);
@@ -547,6 +531,10 @@
                     RaiseErrorOccurred(CssParseError.ColonMissing, token);
 
                 _tokenizer.JumpToEndOfDeclaration();
+
+                if (property != null)
+                    property.End = _tokenizer.GetCurrentPosition();
+
                 token = _tokenizer.Get();
             }
             else if (token.Type != CssTokenType.Eof)
@@ -567,7 +555,7 @@
         /// </summary>
         public CssProperty CreateDeclaration(ref CssToken token)
         {
-            CollectTrivia(null, ref token);
+            RemoveTrivia(ref token);
             return CreateDeclarationWith(Factory.Properties.Create, ref token);
         }
 
@@ -578,6 +566,7 @@
         {
             var medium = new CssMedium();
             CollectTrivia(medium, ref token);
+            medium.Start = token.Position;
 
             if (token.Type == CssTokenType.Ident)
             {
@@ -600,6 +589,7 @@
             if (token.Type == CssTokenType.Ident)
             {
                 medium.Type = token.Data;
+                medium.End = _tokenizer.GetCurrentPosition();
                 token = _tokenizer.Get();
                 CollectTrivia(medium, ref token);
 
@@ -622,6 +612,7 @@
                 if (token.Type != CssTokenType.RoundBracketClose)
                     return null;
 
+                medium.End = token.Position;
                 token = _tokenizer.Get();
                 CollectTrivia(medium, ref token);
 
@@ -656,22 +647,64 @@
             }
         }
 
+        void RemoveTrivia(ref CssToken token)
+        {
+            while (token.Type == CssTokenType.Whitespace || token.Type == CssTokenType.Comment)
+            {
+                token = _tokenizer.Get();
+            }
+        }
+
+        CssCondition AggregateCondition(ref CssToken token)
+        {
+            var condition = ExtractCondition(ref token);
+
+            if (condition != null)
+            {
+                CollectTrivia(condition, ref token);
+                var conjunction = token.Data;
+                var creator = conjunction.GetCreator();
+
+                if (creator != null)
+                {
+                    token = _tokenizer.Get();
+                    CollectTrivia(condition, ref token);
+                    var conditions = MultipleConditions(condition, conjunction, ref token);
+                    var group = creator(conditions);
+                    group.Start = condition.Start;
+                    group.End = token.Position;
+                    condition = group;
+                }
+            }
+
+            return condition;
+        }
+
         CssCondition ExtractCondition(ref CssToken token)
         {
             var condition = default(CssCondition);
 
             if (token.Type == CssTokenType.RoundBracketOpen)
             {
+                var group = new GroupCondition();
+                group.Start = token.Position;
                 token = _tokenizer.Get();
-                condition = CreateCondition(ref token);
+                CollectTrivia(null, ref token);
+                condition = AggregateCondition(ref token);
 
                 if (condition != null)
-                    condition = new GroupCondition(condition);
+                {
+                    group.Value = condition;
+                    condition = group;
+                }
                 else if (token.Type == CssTokenType.Ident)
                     condition = DeclarationCondition(ref token);
 
                 if (token.Type == CssTokenType.RoundBracketClose)
                 {
+                    if (condition != null)
+                        condition.End = token.Position;
+
                     token = _tokenizer.Get();
                     CollectTrivia(condition, ref token);
                 }
@@ -679,6 +712,7 @@
             else if (token.Data.Isi(Keywords.Not))
             {
                 var negate = new NotCondition();
+                negate.Start = token.Position;
                 token = _tokenizer.Get();
                 CollectTrivia(negate, ref token);
                 condition = ExtractCondition(ref token);
@@ -686,6 +720,7 @@
                 if (condition != null)
                 {
                     negate.Value = condition;
+                    negate.End = condition.End;
                     condition = negate;
                 }
             }
@@ -696,6 +731,7 @@
         CssCondition DeclarationCondition(ref CssToken token)
         {
             var property = Factory.Properties.Create(token.Data) ?? new CssUnknownProperty(token.Data);
+            var start = token.Position;
 
             token = _tokenizer.Get();
             CollectTrivia(property, ref token);
@@ -707,7 +743,12 @@
                 property.IsImportant = important;
 
                 if (result != null)
-                    return new DeclarationCondition(property, result);
+                {
+                    var condition = new DeclarationCondition(property, result);
+                    condition.Start = start;
+                    condition.End = token.Position;
+                    return condition;
+                }
             }
 
             return null;
@@ -747,8 +788,10 @@
                 if (function == null)
                     break;
 
+                function.Start = token.Position;
                 list.Add(function);
                 token = _tokenizer.Get();
+                function.End = token.Position;
                 CollectTrivia(function, ref token);
             }
             while (token.Type == CssTokenType.Comma);
@@ -819,7 +862,7 @@
                 token = _tokenizer.Get();
             }
 
-            if (selector.IsValid == false)
+            if (!selector.IsValid)
                 RaiseErrorOccurred(CssParseError.InvalidSelector, start);
 
             return selector.ToPool();
@@ -907,16 +950,18 @@
                 return false;
             }
 
-            var value = Pool.NewValueBuilder();
-            var featureName = token.Data;
             var val = CssValue.Empty;
             var feature = _parser.Options.IsToleratingInvalidConstraints ?
-                new UnknownMediaFeature(featureName) : Factory.MediaFeatures.Create(featureName);
+                new UnknownMediaFeature(token.Data) : Factory.MediaFeatures.Create(token.Data);
+
+            if (feature != null)
+                feature.Start = token.Position;
 
             token = _tokenizer.Get();
 
             if (token.Type == CssTokenType.Colon)
             {
+                var value = Pool.NewValueBuilder();
                 token = _tokenizer.Get();
 
                 while (token.Type != CssTokenType.RoundBracketClose || value.IsReady == false)
@@ -935,6 +980,7 @@
 
             if (feature != null && feature.TrySetValue(val))
             {
+                feature.End = token.Position;
                 medium.AddConstraint(feature);
                 return true;
             }

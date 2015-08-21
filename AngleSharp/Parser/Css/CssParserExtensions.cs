@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Parser.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Css.Conditions;
     using AngleSharp.Css.DocumentFunctions;
     using AngleSharp.Extensions;
     using System;
@@ -20,6 +21,12 @@
             { FunctionNames.UrlPrefix, CssTokenType.UrlPrefix },
         };
 
+        static readonly Dictionary<String, Func<IEnumerable<CssCondition>, CssCondition>> groupCreators = new Dictionary<String, Func<IEnumerable<CssCondition>, CssCondition>>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.And, conditions => new AndCondition(conditions) },
+            { Keywords.Or, conditions => new OrCondition(conditions) },
+        };
+
         /// <summary>
         /// Gets the corresponding token type for the function name.
         /// </summary>
@@ -33,6 +40,21 @@
                 return token;
 
             return CssTokenType.Function;
+        }
+
+        /// <summary>
+        /// Gets the corresponding conjunction creator, if there is any.
+        /// </summary>
+        /// <param name="conjunction">The conjunction to match.</param>
+        /// <returns>The creator for the conjunction, if any.</returns>
+        public static Func<IEnumerable<CssCondition>, CssCondition> GetCreator(this String conjunction)
+        {
+            var creator = default(Func<IEnumerable<CssCondition>, CssCondition>);
+
+            if (groupCreators.TryGetValue(conjunction, out creator))
+                return creator;
+
+            return null;
         }
 
         /// <summary>

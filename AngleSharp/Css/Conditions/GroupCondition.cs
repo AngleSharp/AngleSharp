@@ -4,11 +4,12 @@
 
     sealed class GroupCondition : CssCondition
     {
-        readonly CssCondition _content;
+        CssCondition _content;
 
-        public GroupCondition(CssCondition content)
+        public CssCondition Value
         {
-            _content = content;
+            get { return _content; }
+            internal set { _content = value; }
         }
 
         protected override String Serialize()

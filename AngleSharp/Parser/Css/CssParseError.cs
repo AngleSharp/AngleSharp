@@ -58,6 +58,11 @@
         [DomDescription("The provided selector is invalid.")]
         InvalidSelector = 0x30,
         /// <summary>
+        /// The provided keyframe selector is invalid.
+        /// </summary>
+        [DomDescription("The provided keyframe selector is invalid.")]
+        InvalidKeyframe = 0x31,
+        /// <summary>
         /// The value of the declaration could not be found.
         /// </summary>
         [DomDescription("The value of the declaration could not be found.")]
