@@ -1,13 +1,14 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Css;
+    using AngleSharp.Css.Values;
     using System;
     using System.Collections.Generic;
-    using AngleSharp.Css.Values;
 
     /// <summary>
     /// Represents the keyframe selector.
     /// </summary>
-    sealed class KeyframeSelector : IKeyframeSelector
+    sealed class KeyframeSelector : CssNode, IKeyframeSelector
     {
         #region Fields
 
@@ -17,9 +18,9 @@
 
         #region ctor
 
-        public KeyframeSelector(IEnumerable<Percent> stops)
+        public KeyframeSelector(List<Percent> stops)
         {
-            _stops = new List<Percent>(stops);
+            _stops = stops;
         }
 
         #endregion
