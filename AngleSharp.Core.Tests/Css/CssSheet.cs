@@ -878,7 +878,7 @@ font-weight:bold;}";
             var css = "@-ms-viewport{width:device-width} .dsip { display: block; }";
             var doc = ParseStyleSheet(css, options);
             var result = doc.CssText;
-            Assert.AreEqual("@-ms-viewport {width:device-width}\r\n.dsip { display: block; }", result);
+            Assert.AreEqual("@-ms-viewport{width:device-width}\r\n.dsip { display: block; }", result);
         }
 
         [Test]
