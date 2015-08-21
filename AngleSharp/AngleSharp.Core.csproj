@@ -52,13 +52,14 @@
     <Compile Include="Css\Conditions\GroupCondition.cs" />
     <Compile Include="Css\Conditions\NotCondition.cs" />
     <Compile Include="Css\Conditions\OrCondition.cs" />
+    <Compile Include="Css\CssNode.cs" />
     <Compile Include="Css\CssStyleFormatter.cs" />
     <Compile Include="Css\DocumentFunctions\DomainFunction.cs" />
     <Compile Include="Css\DocumentFunctions\RegexpFunction.cs" />
     <Compile Include="Css\DocumentFunctions\UrlFunction.cs" />
     <Compile Include="Css\DocumentFunctions\UrlPrefixFunction.cs" />
-    <Compile Include="Css\ICondition.cs" />
-    <Compile Include="Css\IDocumentFunction.cs" />
+    <Compile Include="Css\CssCondition.cs" />
+    <Compile Include="Css\CssDocumentFunction.cs" />
     <Compile Include="Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs" />
     <Compile Include="Css\MediaFeatures\DevicePixelRatioFeature.cs" />
     <Compile Include="Css\MediaFeatures\HoverMediaFeature.cs" />

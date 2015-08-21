@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a CSS rule.
     /// </summary>
-    abstract class CssRule : ICssRule
+    abstract class CssRule : CssNode, ICssRule
     {
         #region Fields
 
@@ -82,18 +82,6 @@
         #endregion
 
         #region Internal Properties
-
-        internal TextPosition Start
-        {
-            get;
-            set;
-        }
-
-        internal TextPosition End
-        {
-            get;
-            set;
-        }
 
         internal CssParser Parser
         {

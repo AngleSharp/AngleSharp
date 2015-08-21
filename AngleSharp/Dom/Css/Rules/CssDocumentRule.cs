@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        readonly List<IDocumentFunction> _conditions;
+        readonly List<CssDocumentFunction> _conditions;
 
         #endregion
 
@@ -23,7 +23,7 @@
         internal CssDocumentRule(CssParser parser)
             : base(CssRuleType.Document, parser)
         {
-            _conditions = new List<IDocumentFunction>();
+            _conditions = new List<CssDocumentFunction>();
         }
 
         #endregion
@@ -68,7 +68,7 @@
         /// <summary>
         /// Gets the list with the conditions.
         /// </summary>
-        public List<IDocumentFunction> Conditions
+        public List<CssDocumentFunction> Conditions
         {
             get { return _conditions; }
         }

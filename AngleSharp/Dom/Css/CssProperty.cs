@@ -1,14 +1,13 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// Fore more information about CSS properties see:
     /// http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
-    abstract class CssProperty : ICssProperty
+    abstract class CssProperty : CssNode, ICssProperty
     {
         #region Fields
 

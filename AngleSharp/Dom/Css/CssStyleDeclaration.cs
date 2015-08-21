@@ -10,7 +10,7 @@
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
-    sealed class CssStyleDeclaration : ICssStyleDeclaration, IBindable
+    sealed class CssStyleDeclaration : CssNode, ICssStyleDeclaration, IBindable
     {
         #region Fields
 

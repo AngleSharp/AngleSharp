@@ -15,7 +15,7 @@
         /// <summary>
         /// The url-prefix function.
         /// </summary>
-        public static readonly String Url_Prefix = "url-prefix";
+        public static readonly String UrlPrefix = "url-prefix";
 
         /// <summary>
         /// The domain function.

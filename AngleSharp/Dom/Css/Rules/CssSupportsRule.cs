@@ -12,9 +12,9 @@
     {
         #region Fields
 
-        ICondition _condition;
+        CssCondition _condition;
 
-        static readonly ICondition empty = new EmptyCondition();
+        static readonly CssCondition empty = new EmptyCondition();
 
         #endregion
 
@@ -50,7 +50,7 @@
         /// <summary>
         /// Gets or sets the condition of the supports rule.
         /// </summary>
-        public ICondition Condition
+        public CssCondition Condition
         {
             get { return _condition; }
             set { _condition = value ?? empty; }

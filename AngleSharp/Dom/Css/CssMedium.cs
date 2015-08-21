@@ -10,7 +10,7 @@
     /// Represents a medium rule. More information available at:
     /// http://www.w3.org/TR/css3-mediaqueries/
     /// </summary>
-    sealed class CssMedium : IEnumerable<MediaFeature>, IStyleFormattable
+    sealed class CssMedium : CssNode, IEnumerable<MediaFeature>, IStyleFormattable
     {
         #region Media Types and Features
 

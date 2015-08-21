@@ -10,7 +10,7 @@
     /// <summary>
     /// Represents a list of media elements.
     /// </summary>
-    sealed class MediaList : IMediaList
+    sealed class MediaList : CssNode, IMediaList
     {
         #region Fields
 
