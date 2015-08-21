@@ -5,22 +5,11 @@
     /// <summary>
     /// Take as domain.
     /// </summary>
-    sealed class DomainFunction : IDocumentFunction
+    sealed class DomainFunction : CssDocumentFunction
     {
         public DomainFunction(String url)
+            : base(FunctionNames.Domain, url)
         {
-            Data = url;
-        }
-
-        public String Name
-        {
-            get { return FunctionNames.Domain; }
-        }
-
-        public String Data
-        {
-            get;
-            private set;
         }
     }
 }

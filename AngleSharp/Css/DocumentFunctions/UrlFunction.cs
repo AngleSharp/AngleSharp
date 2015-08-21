@@ -5,22 +5,11 @@
     /// <summary>
     /// Take as url function.
     /// </summary>
-    sealed class UrlFunction : IDocumentFunction
+    sealed class UrlFunction : CssDocumentFunction
     {
         public UrlFunction(String url)
+            : base(FunctionNames.Url, url)
         {
-            Data = url;
-        }
-
-        public String Name
-        {
-            get { return FunctionNames.Url; }
-        }
-
-        public String Data
-        {
-            get;
-            private set;
         }
     }
 }

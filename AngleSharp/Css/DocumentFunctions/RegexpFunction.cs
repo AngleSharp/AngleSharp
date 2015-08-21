@@ -5,22 +5,11 @@
     /// <summary>
     /// Use regular expression function.
     /// </summary>
-    sealed class RegexpFunction : IDocumentFunction
+    sealed class RegexpFunction : CssDocumentFunction
     {
         public RegexpFunction(String url)
+            : base(FunctionNames.Regexp, url)
         {
-            Data = url;
-        }
-
-        public String Name
-        {
-            get { return FunctionNames.Regexp; }
-        }
-
-        public String Data
-        {
-            get;
-            private set;
         }
     }
 }
