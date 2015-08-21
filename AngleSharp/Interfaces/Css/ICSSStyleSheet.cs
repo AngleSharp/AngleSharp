@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the CSS style sheet for storing CSS styles.
