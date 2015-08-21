@@ -105,7 +105,6 @@
             if (token.Type == CssTokenType.String)
                 rule.CharacterSet = token.Data;
 
-            CollectTrivia(rule, ref token);
             _tokenizer.JumpToNextSemicolon();
             rule.End = _tokenizer.GetCurrentPosition();
             return rule;
@@ -117,7 +116,7 @@
             var rule = new CssDocumentRule(_parser);
             rule.Start = current.Position;
             CollectTrivia(rule, ref token);
-            FillFunctions(rule.Conditions, ref token);
+            FillFunctions(rule, ref token);
             CollectTrivia(rule, ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
@@ -466,10 +465,10 @@
         /// </summary>
         public List<CssDocumentFunction> CreateFunctions(ref CssToken token)
         {
-            var list = new List<CssDocumentFunction>();
+            var rule = new CssDocumentRule(_parser);
             RemoveTrivia(ref token);
-            FillFunctions(list, ref token);
-            return list;
+            FillFunctions(rule, ref token);
+            return rule.Conditions;
         }
 
         /// <summary>
@@ -636,14 +635,17 @@
 
         void CollectTrivia(CssNode node, ref CssToken token)
         {
-            var store = _parser.Options.IsStoringTrivia && node != null;
-
-            while (token.Type == CssTokenType.Whitespace || token.Type == CssTokenType.Comment)
+            if (_parser.Options.IsStoringTrivia)
             {
-                if (store)
+                while (token.Type == CssTokenType.Whitespace || token.Type == CssTokenType.Comment)
+                {
                     (node.Trivia ?? (node.Trivia = new List<CssToken>())).Add(token);
-
-                token = _tokenizer.Get();
+                    token = _tokenizer.Get();
+                }
+            }
+            else
+            {
+                RemoveTrivia(ref token);
             }
         }
 
@@ -779,7 +781,7 @@
             return list;
         }
 
-        void FillFunctions(List<CssDocumentFunction> list, ref CssToken token)
+        void FillFunctions(CssDocumentRule rule, ref CssToken token)
         {
             do
             {
@@ -789,12 +791,18 @@
                     break;
 
                 function.Start = token.Position;
-                list.Add(function);
+                function.End = _tokenizer.GetCurrentPosition();
+                rule.Conditions.Add(function);
                 token = _tokenizer.Get();
-                function.End = token.Position;
-                CollectTrivia(function, ref token);
+                CollectTrivia(rule, ref token);
+
+                if (token.Type != CssTokenType.Comma)
+                    break;
+
+                token = _tokenizer.Get();
+                CollectTrivia(rule, ref token);
             }
-            while (token.Type == CssTokenType.Comma);
+            while (token.Type == CssTokenType.Eof);
         }
 
         void FillKeyframeRules(CssKeyframesRule parentRule)
