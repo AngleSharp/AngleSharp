@@ -8,7 +8,7 @@
     /// Represents a feature expression within
     /// a media query.
     /// </summary>
-    public abstract class MediaFeature : IStyleFormattable
+    public abstract class MediaFeature : CssNode, IStyleFormattable
     {
         #region Fields
 
