@@ -2,21 +2,22 @@
 {
     using System;
 
-    sealed class NotCondition : ICondition
+    sealed class NotCondition : CssCondition
     {
-        readonly ICondition _content;
+        CssCondition _content;
 
-        public NotCondition(ICondition content)
+        public CssCondition Value 
         {
-            _content = content;
+            get { return _content; }
+            internal set { _content = value; }
+        }
+        
+        protected override String Serialize()
+        {
+            return String.Concat("not ", _content.Text);
         }
 
-        public String Text
-        {
-            get { return String.Concat("not ", _content.Text); }
-        }
-
-        public Boolean Check()
+        public override Boolean Check()
         {
             return !_content.Check();
         }

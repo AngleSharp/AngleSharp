@@ -2,14 +2,9 @@
 {
     using System;
 
-    sealed class EmptyCondition : ICondition
+    sealed class EmptyCondition : CssCondition
     {
-        public String Text
-        {
-            get { return String.Empty; }
-        }
-
-        public Boolean Check()
+        public override Boolean Check()
         {
             return true;
         }

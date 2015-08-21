@@ -3,7 +3,7 @@
     using AngleSharp.Dom.Css;
     using System;
 
-    sealed class DeclarationCondition : ICondition
+    sealed class DeclarationCondition : CssCondition
     {
         readonly CssProperty _property;
         readonly CssValue _value;
@@ -13,18 +13,15 @@
             _property = property;
             _value = value;
         }
-
-        public String Text
+        
+        protected override String Serialize()
         {
-            get
-            {
-                var important = _property.IsImportant ? " !important" : String.Empty;
-                var rest = String.Concat(_value.CssText, important, ")");
-                return String.Concat("(", _property.Name, ": ", rest);
-            }
+            var important = _property.IsImportant ? " !important" : String.Empty;
+            var rest = String.Concat(_value.CssText, important, ")");
+            return String.Concat("(", _property.Name, ": ", rest);
         }
 
-        public Boolean Check()
+        public override Boolean Check()
         {
             return (_property is CssUnknownProperty == false) && _property.TrySetValue(_value);
         }

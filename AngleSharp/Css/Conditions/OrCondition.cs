@@ -4,21 +4,21 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    sealed class OrCondition : ICondition
+    sealed class OrCondition : CssCondition
     {
-        readonly ICondition[] _conditions;
+        readonly CssCondition[] _conditions;
 
-        public OrCondition(IEnumerable<ICondition> conditions)
+        public OrCondition(IEnumerable<CssCondition> conditions)
         {
             _conditions = conditions.ToArray();
         }
-
-        public String Text
+        
+        protected override String Serialize()
         {
-            get { return String.Join(" or ", _conditions.Select(m => m.Text)); }
+            return String.Join(" or ", _conditions.Select(m => m.Text));
         }
 
-        public Boolean Check()
+        public override Boolean Check()
         {
             foreach (var condition in _conditions)
             {

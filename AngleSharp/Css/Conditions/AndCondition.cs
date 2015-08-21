@@ -4,21 +4,21 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    sealed class AndCondition : ICondition
+    sealed class AndCondition : CssCondition
     {
-        readonly ICondition[] _conditions;
+        readonly CssCondition[] _conditions;
 
-        public AndCondition(IEnumerable<ICondition> conditions)
+        public AndCondition(IEnumerable<CssCondition> conditions)
         {
             _conditions = conditions.ToArray();
         }
 
-        public String Text
+        protected override String Serialize()
         {
-            get { return String.Join(" and ", _conditions.Select(m => m.Text)); }
+            return String.Join(" and ", _conditions.Select(m => m.Text));
         }
 
-        public Boolean Check()
+        public override Boolean Check()
         {
             foreach (var condition in _conditions)
             {

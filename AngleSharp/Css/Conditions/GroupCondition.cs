@@ -2,21 +2,21 @@
 {
     using System;
 
-    sealed class GroupCondition : ICondition
+    sealed class GroupCondition : CssCondition
     {
-        readonly ICondition _content;
+        readonly CssCondition _content;
 
-        public GroupCondition(ICondition content)
+        public GroupCondition(CssCondition content)
         {
             _content = content;
         }
 
-        public String Text
+        protected override String Serialize()
         {
-            get { return String.Concat("(", _content.Text, ")"); }
+            return String.Concat("(", _content.Text, ")");
         }
 
-        public Boolean Check()
+        public override Boolean Check()
         {
             return _content.Check();
         }
