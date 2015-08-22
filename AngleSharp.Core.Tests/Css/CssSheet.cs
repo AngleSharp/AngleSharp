@@ -965,5 +965,37 @@ font-weight:bold;}";
             foreach (var comment in comments)
                 Assert.AreEqual("test", comment.Text);
         }
+
+        [Test]
+        public void CssStyleSheetWithCommentInRule()
+        {
+            var parser = new CssParser(new CssParserOptions
+            {
+                IsStoringTrivia = true
+            });
+            var source = ".foo { color: red; } @media print { /*test*/ #myid { color: green; } /*test*/ }";
+            var sheet = parser.ParseStylesheet(source);
+            var comments = sheet.GetComments();
+            Assert.AreEqual(2, comments.Count());
+
+            foreach (var comment in comments)
+                Assert.AreEqual("test", comment.Text);
+        }
+
+        [Test]
+        public void CssStyleSheetWithCommentInMedia()
+        {
+            var parser = new CssParser(new CssParserOptions
+            {
+                IsStoringTrivia = true
+            });
+            var source = ".foo { color: red; } @media all /*test*/ and /*test*/ (min-width: 701px) /*test*/ { #myid { color: green; } }";
+            var sheet = parser.ParseStylesheet(source);
+            var comments = sheet.GetComments();
+            Assert.AreEqual(3, comments.Count());
+
+            foreach (var comment in comments)
+                Assert.AreEqual("test", comment.Text);
+        }
     }
 }
