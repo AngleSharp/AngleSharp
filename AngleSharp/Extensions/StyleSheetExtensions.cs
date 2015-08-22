@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.Css;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -39,6 +41,34 @@
 
             var selectorText = selector.Text;
             return sheets.RulesOf<ICssStyleRule>().Where(m => m.SelectorText == selectorText);
+        }
+
+        /// <summary>
+        /// Gets the comments contained in the stylesheet, if any.
+        /// </summary>
+        /// <param name="sheet">The stylesheet to examine.</param>
+        /// <returns>An iterator over all comments.</returns>
+        public static IEnumerable<CssComment> GetComments(this ICssStyleSheet sheet)
+        {
+            var root = sheet as CssNode;
+
+            if (root != null)
+                return root.GetComments();
+
+            return Enumerable.Empty<CssComment>();
+        }
+
+        static IEnumerable<CssComment> GetComments(this CssNode node)
+        {
+            var tokens = node.Trivia;
+            var comments = Enumerable.Empty<CssComment>();
+
+            if (tokens != null)
+            {
+                comments = tokens.Where(m => m.Type == CssTokenType.Comment).Select(m => new CssComment(m.Data, m.Position));
+            }
+
+            return comments.Concat(node.GetChildren().SelectMany(m => m.GetComments()));
         }
     }
 }
