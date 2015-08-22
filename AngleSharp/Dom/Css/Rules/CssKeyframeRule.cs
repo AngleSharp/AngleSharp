@@ -83,8 +83,7 @@
             if (selector != null)
                 yield return selector;
 
-            foreach (var child in _style.GetChildren())
-                yield return child;
+            yield return _style;
         }
 
         #endregion

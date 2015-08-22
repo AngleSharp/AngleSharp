@@ -1,9 +1,11 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS Stylesheet.
@@ -89,6 +91,12 @@
         public override String ToCss(IStyleFormatter formatter)
         {
             return formatter.Sheet(_rules);
+        }
+
+        public override IEnumerable<CssNode> GetChildren()
+        {
+            for (int i = 0; i < _rules.Length; i++)
+                yield return _rules[i];
         }
 
         /// <summary>

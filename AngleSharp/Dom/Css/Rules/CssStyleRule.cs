@@ -76,7 +76,7 @@
 
         public override IEnumerable<CssNode> GetChildren()
         {
-            return _style.GetChildren();
+            yield return _style;
         }
 
         #endregion
