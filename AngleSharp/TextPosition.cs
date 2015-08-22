@@ -67,6 +67,44 @@
 
         #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// Returns a new text position that includes the given offset.
+        /// </summary>
+        /// <param name="columns">The number of columns to shift.</param>
+        /// <returns>The new text position.</returns>
+        public TextPosition Shift(Int32 columns)
+        {
+            return new TextPosition(_line, (UInt16)(_column + columns), _position + columns);
+        }
+
+        /// <summary>
+        /// Returns a new text position that is after the given string.
+        /// </summary>
+        /// <param name="str">The string to analyze.</param>
+        /// <returns>The new text position.</returns>
+        public TextPosition After(String str)
+        {
+            var line = _line;
+            var column = _column;
+
+            foreach (var chr in str)
+            {
+                if (chr == Symbols.LineFeed)
+                {
+                    line++;
+                    column = 0;
+                }
+
+                column++;
+            }
+
+            return new TextPosition(line, column, _position + str.Length);
+        }
+
+        #endregion
+
         #region Comparison
 
         /// <summary>
