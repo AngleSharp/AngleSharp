@@ -2,10 +2,12 @@
 {
     using AngleSharp.Core.Tests.Css;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using NUnit.Framework;
     using System;
     using System.IO;
+    using System.Linq;
 
     [TestFixture]
     public class CssSheetTests : CssConstructionFunctions
@@ -933,6 +935,35 @@ font-weight:bold;}";
             var s = new CssStyleSheet(parser);
             s.Insert("a {color: blue}", 0);
             Assert.AreEqual(s, s.Rules[0].Owner);
+        }
+
+        [Test]
+        public void CssStyleSheetWithoutCommentsButStoringTrivia()
+        {
+            var parser = new CssParser(new CssParserOptions
+            {
+                IsStoringTrivia = true
+            });
+            var source = ".foo { color: red; } @media print { #myid { color: green; } }";
+            var sheet = parser.ParseStylesheet(source);
+            var comments = sheet.GetComments();
+            Assert.AreEqual(0, comments.Count());
+        }
+
+        [Test]
+        public void CssStyleSheetWithCommentInDeclaration()
+        {
+            var parser = new CssParser(new CssParserOptions
+            {
+                IsStoringTrivia = true
+            });
+            var source = ".foo { /*test*/ color: red;/*test*/ } @media print { #myid { color: green; } }";
+            var sheet = parser.ParseStylesheet(source);
+            var comments = sheet.GetComments();
+            Assert.AreEqual(2, comments.Count());
+
+            foreach (var comment in comments)
+                Assert.AreEqual("test", comment.Text);
         }
     }
 }
