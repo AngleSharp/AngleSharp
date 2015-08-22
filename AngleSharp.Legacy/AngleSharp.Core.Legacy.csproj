@@ -126,6 +126,9 @@
     <Compile Include="..\AngleSharp\Css\Converters.cs">
       <Link>Css\Converters.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\CssComment.cs">
+      <Link>Css\CssComment.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\CssCondition.cs">
       <Link>Css\CssCondition.cs</Link>
     </Compile>
