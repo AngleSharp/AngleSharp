@@ -33,6 +33,12 @@
 
         #region Methods
 
+        public override String GetSource()
+        {
+            var source = String.Concat(_selector.Text, _style.GetSource());
+            return Decorate(source);
+        }
+
         public override IEnumerable<CssNode> GetChildren()
         {
             yield return _style;

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css
 {
+    using AngleSharp.Extensions;
     using System;
 
     abstract class CssDocumentFunction : CssNode
@@ -21,6 +22,11 @@
         public String Data
         {
             get { return _data; }
+        }
+
+        public override String GetSource()
+        {
+            return String.Concat(_name, "(", _data.CssString(), ")");
         }
     }
 }

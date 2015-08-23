@@ -40,15 +40,31 @@
         /// </summary>
         public String Text
         {
-            get
-            {
-                var stops = new String[_stops.Count];
+            get { return Serialize(", "); }
+        }
 
-                for (int i = 0; i < stops.Length; i++)
-                    stops[i] = _stops[i].ToString();
+        #endregion
 
-                return String.Join(", ", stops);
-            }
+        #region Methods
+
+        public override String GetSource()
+        {
+            var plain = Serialize(",");
+            return Decorate(plain);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        String Serialize(String separator)
+        {
+            var stops = new String[_stops.Count];
+
+            for (int i = 0; i < stops.Length; i++)
+                stops[i] = _stops[i].ToString();
+
+            return String.Join(separator, stops);
         }
 
         #endregion

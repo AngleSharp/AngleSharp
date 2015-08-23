@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
@@ -35,20 +34,7 @@
         /// </summary>
         public String ConditionText
         {
-            get 
-            {
-                var entries = new String[_conditions.Count];
-
-                for (int i = 0; i < entries.Length; i++)
-			    {
-                    var condition = _conditions[i];
-                    var name = condition.Name;
-                    var value = condition.Data.CssString();
-                    entries[i] = String.Concat(name, "(", value, ")");
-			    }
-
-                return String.Join(", ", entries); 
-            }
+            get { return Serialize(", "); }
             set
             {
                 var conditions = Parser.ParseDocumentRules(value);
@@ -77,6 +63,13 @@
 
         #region Methods
 
+        public override String GetSource()
+        {
+            var rules = base.GetSource();
+            var source = String.Concat("@document", Serialize(","), rules);
+            return Decorate(source);
+        }
+
         public override IEnumerable<CssNode> GetChildren()
         {
             foreach (var condition in _conditions)
@@ -101,6 +94,16 @@
         #endregion
 
         #region String representation
+
+        String Serialize(String separator)
+        {
+            var entries = new String[_conditions.Count];
+
+            for (int i = 0; i < entries.Length; i++)
+                entries[i] = _conditions[i].GetSource();
+
+            return String.Join(separator, entries);
+        }
 
         public override String ToCss(IStyleFormatter formatter)
         {

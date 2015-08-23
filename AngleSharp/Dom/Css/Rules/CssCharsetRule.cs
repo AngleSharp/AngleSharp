@@ -43,6 +43,12 @@
 
         #region String representation
 
+        public override String GetSource()
+        {
+            var source = String.Concat("@charset", CharacterSet.CssString());
+            return Decorate(source);
+        }
+
         public override String ToCss(IStyleFormatter formatter)
         {
             return formatter.Rule("@charset", CharacterSet.CssString());

@@ -62,6 +62,13 @@
 
         #region Methods
 
+        public override String GetSource()
+        {
+            var rules = base.GetSource();
+            var source = String.Concat("@media", _media.GetSource(), rules);
+            return Decorate(source);
+        }
+
         public override IEnumerable<CssNode> GetChildren()
         {
             yield return _media;

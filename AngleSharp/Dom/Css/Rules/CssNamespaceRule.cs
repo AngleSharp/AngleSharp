@@ -61,6 +61,16 @@
 
         #endregion
 
+        #region Methods
+
+        public override String GetSource()
+        {
+            var source = String.Concat("@namespace", _prefix ?? String.Empty, _namespaceUri.CssUrl());
+            return Decorate(source);
+        }
+
+        #endregion
+
         #region Internal Methods
 
         protected override void ReplaceWith(ICssRule rule)

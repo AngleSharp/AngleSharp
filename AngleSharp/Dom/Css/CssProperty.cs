@@ -180,6 +180,15 @@
 
         #region Methods
 
+        public override String GetSource()
+        {
+            var source = String.Concat(
+                Name, ":", 
+                Value, 
+                IsImportant ? "!important" : String.Empty);
+            return Decorate(source);
+        }
+
         public String ToCss()
         {
             return ToCss(CssStyleFormatter.Instance);

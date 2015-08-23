@@ -69,6 +69,13 @@
 
         #region Methods
 
+        public override String GetSource()
+        {
+            var rules = base.GetSource();
+            var source = String.Concat("@supports", _condition.GetSource(), rules);
+            return Decorate(source);
+        }
+
         public override IEnumerable<CssNode> GetChildren()
         {
             if (_condition != null)

@@ -77,7 +77,7 @@
         /// </summary>
         public String Constraints
         {
-            get
+            get 
             {
                 var constraints = new String[_features.Count];
 
@@ -95,6 +95,22 @@
         public override IEnumerable<CssNode> GetChildren()
         {
             return _features;
+        }
+
+        public override String GetSource()
+        {
+            var constraints = new String[_features.Count];
+
+            for (int i = 0; i < _features.Count; i++)
+                constraints[i] = _features[i].GetSource();
+
+            var source = String.Concat(
+                IsExclusive ? Keywords.Only : String.Empty,
+                IsInverse ? Keywords.Not : String.Empty,
+                Type ?? String.Empty,
+                String.Join(Keywords.And, constraints));
+
+            return Decorate(source);
         }
 
         /// <summary>

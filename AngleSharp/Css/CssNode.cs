@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css
 {
     using AngleSharp.Parser.Css;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -41,12 +42,48 @@
         }
 
         /// <summary>
+        /// Gets the original source code, if any.
+        /// </summary>
+        /// <returns>The restored source code.</returns>
+        public virtual String GetSource()
+        {
+            return String.Empty;
+        }
+
+        /// <summary>
         /// Gets the contained child nodes, if any.
         /// </summary>
         /// <returns>The iterator over the child nodes.</returns>
         public virtual IEnumerable<CssNode> GetChildren()
         {
             return Enumerable.Empty<CssNode>();
+        }
+
+        /// <summary>
+        /// Decorates the provided string with trivia, if any.
+        /// </summary>
+        /// <param name="text">The text to decorate.</param>
+        /// <returns>The decorated string.</returns>
+        protected String Decorate(String text)
+        {
+            var position = Start;
+            var index = 0;
+            var length = _trivia != null ? _trivia.Count : 0;
+
+            for (int i = 0; i < text.Length && index < length; i++)
+            {
+                if (_trivia[index].Position.Equals(position))
+                    text = text.Insert(i, _trivia[index++].ToValue());
+
+                position = position.After(text[i]);
+            }
+
+            while (index < length)
+            {
+                text += _trivia[index++].ToValue();
+            }
+
+            return text;
         }
     }
 }

@@ -99,6 +99,16 @@
                 yield return _rules[i];
         }
 
+        public override String GetSource()
+        {
+            var rules = new String[_rules.Length];
+
+            for (int i = 0; i < rules.Length; i++)
+                rules[i] = _rules[i].GetSource();
+
+            return Decorate(String.Join(String.Empty, rules));
+        }
+
         /// <summary>
         /// Removes a style rule from the current style sheet object.
         /// </summary>

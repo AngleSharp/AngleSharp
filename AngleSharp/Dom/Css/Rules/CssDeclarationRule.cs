@@ -36,9 +36,18 @@
             return _declarations;
         }
 
+        public override String GetSource()
+        {
+            var source = String.Concat(
+                "@" + _name, "{",
+                String.Join(";", _declarations.Select(m => m.GetSource())),
+                "}");
+            return Decorate(source);
+        }
+
         #endregion
 
-        #region Internal methods
+        #region Internal Methods
 
         internal void SetProperty(CssProperty property)
         {

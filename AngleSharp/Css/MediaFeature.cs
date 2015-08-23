@@ -89,6 +89,16 @@
         #region Methods
 
         /// <summary>
+        /// Gets the original source code, if any.
+        /// </summary>
+        /// <returns>The restored source code.</returns>
+        public override String GetSource()
+        {
+            var source = HasValue ? String.Concat(_name, ":", Value) : _name;
+            return Decorate(source);
+        }
+
+        /// <summary>
         /// Tries to set the given value.
         /// </summary>
         /// <param name="value">The value that should be used.</param>

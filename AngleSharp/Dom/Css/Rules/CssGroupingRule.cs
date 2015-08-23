@@ -82,6 +82,16 @@
             _rules.RemoveAt(index);
         }
 
+        public override String GetSource()
+        {
+            var rules = new String[_rules.Length];
+
+            for (int i = 0; i < rules.Length; i++)
+                rules[i] = _rules[i].GetSource();
+
+            return String.Concat("{", String.Join(String.Empty, rules), "}");
+        }
+
         public override IEnumerable<CssNode> GetChildren()
         {
             for (var i = 0; i < _rules.Length; i++)

@@ -75,6 +75,12 @@
 
         #region Methods
 
+        public override String GetSource()
+        {
+            var source = String.Concat("@import", _href.CssUrl(), _media.GetSource());
+            return Decorate(source);
+        }
+
         public override IEnumerable<CssNode> GetChildren()
         {
             yield return _media;
