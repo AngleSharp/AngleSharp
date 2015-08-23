@@ -80,6 +80,26 @@
         }
 
         /// <summary>
+        /// Returns a new text position that is after the given character.
+        /// </summary>
+        /// <param name="chr">The character to analyze.</param>
+        /// <returns>The new text position.</returns>
+        public TextPosition After(Char chr)
+        {
+            var line = _line;
+            var column = _column;
+
+            if (chr == Symbols.LineFeed)
+            {
+                line++;
+                column = 0;
+            }
+
+            column++;
+            return new TextPosition(line, column, _position + 1);
+        }
+
+        /// <summary>
         /// Returns a new text position that is after the given string.
         /// </summary>
         /// <param name="str">The string to analyze.</param>
