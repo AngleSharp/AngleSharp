@@ -12,6 +12,12 @@
             get { return _content; }
             internal set { _content = value; }
         }
+
+        public override String GetSource()
+        {
+            var source = String.Concat(Keywords.Not, _content.GetSource());
+            return Decorate(source);
+        }
         
         protected override String Serialize()
         {

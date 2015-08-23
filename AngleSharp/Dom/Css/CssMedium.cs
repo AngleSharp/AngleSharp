@@ -108,6 +108,7 @@
                 IsExclusive ? Keywords.Only : String.Empty,
                 IsInverse ? Keywords.Not : String.Empty,
                 Type ?? String.Empty,
+                String.IsNullOrEmpty(Type) ? String.Empty : Keywords.And,
                 String.Join(Keywords.And, constraints));
 
             return Decorate(source);

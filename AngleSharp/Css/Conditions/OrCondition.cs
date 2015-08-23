@@ -12,6 +12,12 @@
         {
             _conditions = conditions.ToArray();
         }
+
+        public override String GetSource()
+        {
+            var source = String.Join(Keywords.Or, _conditions.Select(m => m.GetSource()));
+            return Decorate(source);
+        }
         
         protected override String Serialize()
         {

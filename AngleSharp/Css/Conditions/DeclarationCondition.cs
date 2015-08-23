@@ -14,6 +14,12 @@
             _property = property;
             _value = value;
         }
+
+        public override String GetSource()
+        {
+            var source = String.Concat("(", _property.GetSource(), ")");
+            return Decorate(source);
+        }
         
         protected override String Serialize()
         {

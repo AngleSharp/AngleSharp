@@ -13,6 +13,12 @@
             internal set { _content = value; }
         }
 
+        public override String GetSource()
+        {
+            var source = String.Concat("(", _content.GetSource(), ")");
+            return Decorate(source);
+        }
+
         protected override String Serialize()
         {
             return String.Concat("(", _content.Text, ")");

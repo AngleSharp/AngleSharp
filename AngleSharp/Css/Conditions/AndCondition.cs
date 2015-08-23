@@ -13,6 +13,12 @@
             _conditions = conditions.ToArray();
         }
 
+        public override String GetSource()
+        {
+            var source = String.Join(Keywords.And, _conditions.Select(m => m.GetSource()));
+            return Decorate(source);
+        }
+
         protected override String Serialize()
         {
             return String.Join(" and ", _conditions.Select(m => m.Text));
