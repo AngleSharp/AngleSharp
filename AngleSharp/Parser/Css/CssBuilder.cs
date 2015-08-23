@@ -425,6 +425,7 @@
             var valid = true;
             var start = token;
             var selector = new KeyframeSelector(keys);
+            selector.Start = start.Position;
             CollectTrivia(selector, ref token);
 
             while (token.Type != CssTokenType.Eof)
@@ -453,6 +454,8 @@
                 token = _tokenizer.Get();
                 CollectTrivia(selector, ref token);
             }
+
+            selector.End = token.Position;
 
             if (!valid)
                 RaiseErrorOccurred(CssParseError.InvalidSelector, start);
