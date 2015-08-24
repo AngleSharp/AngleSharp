@@ -76,7 +76,7 @@
 
         public override String GetSource()
         {
-            var source = String.Concat(_selector.Text, _style.GetSource());
+            var source = String.Concat(_selector.Text, "{", _style.GetSource(), "}");
             return Decorate(source);
         }
 

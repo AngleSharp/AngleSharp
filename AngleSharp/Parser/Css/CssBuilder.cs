@@ -280,7 +280,6 @@
             rule.Start = current.Position;
             CollectTrivia(rule, ref current);
             rule.Selector = CreateSelector(ref current);
-            CollectTrivia(rule, ref current);
             FillDeclarations(rule.Style);
             rule.End = _tokenizer.GetCurrentPosition();
             return rule.Selector != null ? rule : null;
@@ -547,7 +546,7 @@
             }
 
             if (token.Type == CssTokenType.Semicolon)
-                token = _tokenizer.Get();
+                TokenToTrivia(property, ref token);
 
             return property;
         }
@@ -650,6 +649,14 @@
             {
                 RemoveTrivia(ref token);
             }
+        }
+
+        void TokenToTrivia(CssNode node, ref CssToken token)
+        {
+            if (node != null && _parser.Options.IsStoringTrivia)
+                (node.Trivia ?? (node.Trivia = new List<CssToken>())).Add(token);
+
+            token = _tokenizer.Get();
         }
 
         void RemoveTrivia(ref CssToken token)

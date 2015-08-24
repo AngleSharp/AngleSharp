@@ -2360,7 +2360,7 @@
             for (int i = 0; i < properties.Length; i++)
                 properties[i] = _declarations[i].GetSource();
 
-            var source = String.Concat("{", String.Join(";", properties), "}");
+            var source = String.Join(String.Empty, properties);
             return Decorate(source);
         }
 
