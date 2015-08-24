@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests
 {
     using AngleSharp.Core.Tests.Css;
+    using AngleSharp.Css;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
@@ -996,6 +997,20 @@ font-weight:bold;}";
 
             foreach (var comment in comments)
                 Assert.AreEqual("test", comment.Text);
+        }
+
+        [Test]
+        public void CssStyleSheetSimpleRoundtrip()
+        {
+            var parser = new CssParser(new CssParserOptions
+            {
+                IsStoringTrivia = true,
+                IsToleratingInvalidValues = true
+            });
+            var source = ".foo { color: red; } @media all /*test*/ and /*test*/ (min-width: 701px) /*test*/ { #myid { color: green; } }";
+            var sheet = parser.ParseStylesheet(source) as CssNode;
+            var roundtrip = sheet.GetSource();
+            Assert.AreEqual(source, roundtrip);
         }
     }
 }
