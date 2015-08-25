@@ -8,8 +8,14 @@
     /// </summary>
     public class CssNode
     {
+        #region Fields
+
         readonly List<CssToken> _tokens;
         readonly List<CssNode> _children;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new node in the CSS tree.
@@ -20,13 +26,9 @@
             _children = new List<CssNode>();
         }
 
-        /// <summary>
-        /// Gets the associated tokens.
-        /// </summary>
-        internal List<CssToken> Tokens
-        {
-            get { return _tokens; }
-        }
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the associated entity.
@@ -60,5 +62,19 @@
         {
             get { return _tokens.Count > 0 ? _tokens[_tokens.Count - 1].Position : TextPosition.Empty; }
         }
+
+        #endregion
+
+        #region Internal Properties
+
+        /// <summary>
+        /// Gets the associated tokens.
+        /// </summary>
+        internal List<CssToken> Tokens
+        {
+            get { return _tokens; }
+        }
+
+        #endregion
     }
 }
