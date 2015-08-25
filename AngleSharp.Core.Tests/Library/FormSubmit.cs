@@ -780,5 +780,74 @@
                 Assert.AreEqual("", rows[0].QuerySelector("td").TextContent);
             }
         }
+
+        [Test]
+        public async Task PostStandardTypeWithNamesButMissingValueShouldOmitRedundantAmpersand()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var content = "<input name=foo value><input name=nothing><input name=bar value>";
+                var result = await PostDocumentAsync(content);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(3, rows.Length);
+
+                Assert.AreEqual("foo", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("nothing", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("bar", rows[2].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[2].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("\nfoo=&nothing=&bar=\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithoutNamesShouldOmitRedundantAmpersand()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var content = "<input name=foo><input><input name=bar>";
+                var result = await PostDocumentAsync(content);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(2, rows.Length);
+
+                Assert.AreEqual("foo", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("bar", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("\nfoo=&bar=\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithoutFileShouldSkipRedundantAmpersand()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var content = "<input type=hidden name=status1 value=1><input type=file name=photo><input type=hidden name=status2 value=1>";
+                var result = await PostDocumentAsync(content);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(2, rows.Length);
+
+                Assert.AreEqual("status1", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("1", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("status2", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("1", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("\nstatus1=1&status2=1\n", raw);
+            }
+        }
     }
 }

@@ -56,29 +56,23 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsMultipart(Encoding encoding = null)
         {
-            encoding = encoding ?? TextEncoding.Utf8;
-            var ms = new MemoryStream();
-            CheckBoundaries(encoding);
-            ReplaceCharset(encoding);
-            var tw = new StreamWriter(ms, encoding);
-
-            foreach (var entry in _entries)
+            return Build(encoding, stream =>
             {
-                if (entry.HasName)
+                var enc = stream.Encoding;
+                var entryWriters = _entries.Select(m => m.AsMultipart(enc)).
+                                            Where(m => m != null);
+
+                foreach (var entryWriter in entryWriters)
                 {
-                    tw.Write("--");
-                    tw.WriteLine(_boundary);
-                    entry.AsMultipart(tw);
+                    stream.Write("--");
+                    stream.WriteLine(_boundary);
+                    entryWriter(stream);
                 }
-            }
 
-            tw.Write("--");
-            tw.Write(_boundary);
-            tw.Write("--");
-
-            tw.Flush();
-            ms.Position = 0;
-            return ms;
+                stream.Write("--");
+                stream.Write(_boundary);
+                stream.Write("--");
+            });
         }
 
         /// <summary>
@@ -89,41 +83,35 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsUrlEncoded(Encoding encoding = null)
         {
-            encoding = encoding ?? TextEncoding.Utf8;
-            var charset = encoding.WebName;
-            var ms = new MemoryStream();
-            CheckBoundaries(encoding);
-            ReplaceCharset(encoding);
-            var tw = new StreamWriter(ms, encoding);
-            var offset = 0;
-            var requireAmpersand = false;
-
-            if (offset < _entries.Count && 
-                _entries[offset].HasName &&
-                _entries[offset].Name.Equals(Tags.IsIndex) &&
-                _entries[offset].Type.Equals(InputTypeNames.Text, StringComparison.OrdinalIgnoreCase))
+            return Build(encoding, stream =>
             {
-                tw.Write(((TextDataSetEntry)_entries[offset]).Value);
-                offset++;
-            }
+                var offset = 0;
+                var enc = stream.Encoding;
 
-            while (offset < _entries.Count)
-            {
-                if (_entries[offset].HasName)
+                if (offset < _entries.Count && 
+                    _entries[offset].HasName &&
+                    _entries[offset].Name.Equals(Tags.IsIndex) &&
+                    _entries[offset].Type.Equals(InputTypeNames.Text, StringComparison.OrdinalIgnoreCase))
                 {
-                    if (requireAmpersand)
-                        tw.Write('&');
-
-                    _entries[offset].AsUrlEncoded(tw);
-                    requireAmpersand = true;
+                    stream.Write(((TextDataSetEntry)_entries[offset]).Value);
+                    offset++;
                 }
 
-                offset++;
-            }
+                var list = _entries.Skip(offset).
+                                    Select(m => m.AsUrlEncoded(enc)).
+                                    Where(m => m != null).
+                                    ToArray();
 
-            tw.Flush();
-            ms.Position = 0;
-            return ms;
+                for (int i = 0; i < list.Length; i++)
+                {
+                    if (i > 0)
+                        stream.Write('&');
+
+                    stream.Write(list[i].Item1);
+                    stream.Write('=');
+                    stream.Write(list[i].Item2);
+                }
+            });
         }
 
         /// <summary>
@@ -134,27 +122,22 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsPlaintext(Encoding encoding = null)
         {
-            encoding = encoding ?? TextEncoding.Utf8;
-            var charset = encoding.WebName;
-            var ms = new MemoryStream();
-            CheckBoundaries(encoding);
-            ReplaceCharset(encoding);
-            var tw = new StreamWriter(ms, encoding);
-            var newLine = String.Empty;
-
-            for (int i = 0; i < _entries.Count; i++)
+            return Build(encoding, stream =>
             {
-                if (_entries[i].HasName)
-                {
-                    tw.Write(newLine);
-                    _entries[i].AsPlaintext(tw);
-                    newLine = "\r\n";
-                }
-            }
+                var list = _entries.Select(m => m.AsPlaintext()).
+                                    Where(m => m != null).
+                                    ToArray();
 
-            tw.Flush();
-            ms.Position = 0;
-            return ms;
+                for (int i = 0; i < list.Length; i++)
+                {
+                    if (i > 0)
+                        stream.Write("\r\n");
+
+                    stream.Write(list[i].Item1);
+                    stream.Write('=');
+                    stream.Write(list[i].Item2);
+                }
+            });
         }
 
         public void Append(String name, String value, String type)
@@ -181,6 +164,25 @@
         #endregion
 
         #region Helpers
+
+        /// <summary>
+        /// Builds the specific request body / url.
+        /// </summary>
+        /// <param name="encoding">The encoding to use.</param>
+        /// <param name="process">The action to generate the content.</param>
+        /// <returns>The constructed stream.</returns>
+        Stream Build(Encoding encoding, Action<StreamWriter> process)
+        {
+            encoding = encoding ?? TextEncoding.Utf8;
+            var ms = new MemoryStream();
+            CheckBoundaries(encoding);
+            ReplaceCharset(encoding);
+            var tw = new StreamWriter(ms, encoding);
+            process(tw);
+            tw.Flush();
+            ms.Position = 0;
+            return ms;
+        }
 
         /// <summary>
         /// Replaces a charset field (if any) that is hidden with the given
@@ -286,11 +288,11 @@
                 get { return _type ?? InputTypeNames.Text; }
             }
 
-            public abstract void AsMultipart(StreamWriter stream);
+            public abstract Action<StreamWriter> AsMultipart(Encoding encoding);
 
-            public abstract void AsPlaintext(StreamWriter stream);
+            public abstract Tuple<String, String> AsPlaintext();
 
-            public abstract void AsUrlEncoded(StreamWriter stream);
+            public abstract Tuple<String, String> AsUrlEncoded(Encoding encoding);
 
             public abstract Boolean Contains(String boundary, Encoding encoding);
         }
@@ -329,35 +331,40 @@
                 return _value.Contains(boundary);
             }
 
-            public override void AsMultipart(StreamWriter stream)
+            public override Action<StreamWriter> AsMultipart(Encoding encoding)
             {
-                if (HasValue)
+                if (HasName && HasValue)
                 {
-                    stream.WriteLine(String.Concat("Content-Disposition: form-data; name=\"", 
-                        Name.HtmlEncode(stream.Encoding), "\""));
-                    stream.WriteLine();
-                    stream.WriteLine(_value.HtmlEncode(stream.Encoding));
+                    return stream =>
+                    {
+                        stream.WriteLine(String.Concat("Content-Disposition: form-data; name=\"",
+                            Name.HtmlEncode(encoding), "\""));
+                        stream.WriteLine();
+                        stream.WriteLine(_value.HtmlEncode(encoding));
+                    };
                 }
+
+                return null;
             }
 
-            public override void AsPlaintext(StreamWriter stream)
+            public override Tuple<String, String> AsPlaintext()
             {
-                if (HasValue)
-                {
-                    stream.Write(Name);
-                    stream.Write('=');
-                    stream.Write(_value);
-                }
+                if (HasName && HasValue)
+                    return Tuple.Create(Name, _value);
+
+                return null;
             }
 
-            public override void AsUrlEncoded(StreamWriter stream)
+            public override Tuple<String, String> AsUrlEncoded(Encoding encoding)
             {
-                if (HasValue)
+                if (HasName && HasValue)
                 {
-                    stream.Write(stream.Encoding.GetBytes(Name).UrlEncode());
-                    stream.Write('=');
-                    stream.Write(stream.Encoding.GetBytes(_value).UrlEncode());
+                    var name = encoding.GetBytes(Name);
+                    var value = encoding.GetBytes(_value);
+                    return Tuple.Create(name.UrlEncode(), value.UrlEncode());
                 }
+
+                return null;
             }
         }
 
@@ -414,43 +421,51 @@
                 return false;
             }
 
-            public override void AsMultipart(StreamWriter stream)
+            public override Action<StreamWriter> AsMultipart(Encoding encoding)
             {
-                var hasContent = HasValue && HasValueBody;
-
-                stream.WriteLine("Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"",
-                    Name.HtmlEncode(stream.Encoding), FileName.HtmlEncode(stream.Encoding));
-
-                stream.WriteLine("Content-Type: " + ContentType);
-                stream.WriteLine();
-
-                if (hasContent)
+                if (HasName)
                 {
-                    stream.Flush();
-                    _value.Body.CopyTo(stream.BaseStream);
+                    return stream =>
+                    {
+                        var hasContent = HasValue && HasValueBody;
+
+                        stream.WriteLine("Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"",
+                            Name.HtmlEncode(encoding), FileName.HtmlEncode(encoding));
+
+                        stream.WriteLine("Content-Type: " + ContentType);
+                        stream.WriteLine();
+
+                        if (hasContent)
+                        {
+                            stream.Flush();
+                            _value.Body.CopyTo(stream.BaseStream);
+                        }
+
+                        stream.WriteLine();
+                    };
                 }
 
-                stream.WriteLine();
+                return null;
             }
 
-            public override void AsPlaintext(StreamWriter stream)
+            public override Tuple<String, String> AsPlaintext()
             {
-                if (HasValue)
-                {
-                    stream.Write(Name);
-                    stream.Write('=');
-                    stream.Write(_value.Name);
-                }
+                if (HasName && HasValue)
+                    return Tuple.Create(Name, _value.Name);
+
+                return null;
             }
 
-            public override void AsUrlEncoded(StreamWriter stream)
+            public override Tuple<String, String> AsUrlEncoded(Encoding encoding)
             {
-                if (HasValue)
+                if (HasName && HasValue)
                 {
-                    stream.Write(stream.Encoding.GetBytes(Name).UrlEncode());
-                    stream.Write('=');
-                    stream.Write(stream.Encoding.GetBytes(_value.Name).UrlEncode());
+                    var name = encoding.GetBytes(Name);
+                    var value = encoding.GetBytes(_value.Name);
+                    return Tuple.Create(name.UrlEncode(), value.UrlEncode());
                 }
+
+                return null;
             }
         }
 
