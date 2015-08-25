@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests
 {
     using AngleSharp.Core.Tests.Css;
-    using AngleSharp.Css;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
