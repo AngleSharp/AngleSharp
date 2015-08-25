@@ -126,7 +126,7 @@
                 {
                     Selector = selector,
                     Transform = null,
-                    Delimiter = Symbols.Null
+                    Delimiter = null
                 });
                 IsReady = true;
             }
@@ -193,7 +193,7 @@
 
         struct CombinatorSelector
         {
-            public Char Delimiter;
+            public String Delimiter;
             public Func<IElement, IEnumerable<IElement>> Transform;
             public ISelector Selector;
         }

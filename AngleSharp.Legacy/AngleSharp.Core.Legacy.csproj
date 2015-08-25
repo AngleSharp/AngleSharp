@@ -78,8 +78,14 @@
     <Compile Include="..\AngleSharp\Attributes\DomHistoricalAttribute.cs">
       <Link>Attributes\DomHistoricalAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Attributes\DomInitDictAttribute.cs">
+      <Link>Attributes\DomInitDictAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Attributes\DomLenientThisAttribute.cs">
       <Link>Attributes\DomLenientThisAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Attributes\DomLiteralsAttribute.cs">
+      <Link>Attributes\DomLiteralsAttribute.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Attributes\DomNameAttribute.cs">
       <Link>Attributes\DomNameAttribute.cs</Link>
@@ -547,6 +553,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Constants\Sandboxes.cs">
       <Link>Dom\Constants\Sandboxes.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Constants\ShadowRootMode.cs">
+      <Link>Dom\Constants\ShadowRootMode.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Constants\SimpleChoice.cs">
       <Link>Dom\Constants\SimpleChoice.cs</Link>
@@ -1559,6 +1568,9 @@
     <Compile Include="..\AngleSharp\Dom\Html\HtmlSemanticElement.cs">
       <Link>Dom\Html\HtmlSemanticElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlSlotElement.cs">
+      <Link>Dom\Html\HtmlSlotElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlSmallElement.cs">
       <Link>Dom\Html\HtmlSmallElement.cs</Link>
     </Compile>
@@ -1685,9 +1697,6 @@
     <Compile Include="..\AngleSharp\Dom\MutationObserver.cs">
       <Link>Dom\MutationObserver.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\MutationObserverInit.cs">
-      <Link>Dom\MutationObserverInit.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Dom\MutationRecord.cs">
       <Link>Dom\MutationRecord.cs</Link>
     </Compile>
@@ -1705,6 +1714,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\PseudoElement.cs">
       <Link>Dom\PseudoElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\ShadowRoot.cs">
+      <Link>Dom\ShadowRoot.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\StyleSheet.cs">
       <Link>Dom\StyleSheet.cs</Link>
@@ -2228,6 +2240,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlSelectElement.cs">
       <Link>Interfaces\Html\IHtmlSelectElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlSlotElement.cs">
+      <Link>Interfaces\Html\IHtmlSlotElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlSourceElement.cs">
       <Link>Interfaces\Html\IHtmlSourceElement.cs</Link>
     </Compile>
@@ -2395,6 +2410,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ISettableTokenList.cs">
       <Link>Interfaces\ISettableTokenList.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IShadowRoot.cs">
+      <Link>Interfaces\IShadowRoot.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IStringList.cs">
       <Link>Interfaces\IStringList.cs</Link>

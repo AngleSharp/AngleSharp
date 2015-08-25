@@ -70,12 +70,15 @@
             pseudoClassSelectors.Add(PseudoClassNames.InRange, SimpleSelector.PseudoClass(el => el.IsInRange(), PseudoClassNames.InRange));
             pseudoClassSelectors.Add(PseudoClassNames.OutOfRange, SimpleSelector.PseudoClass(el => el.IsOutOfRange(), PseudoClassNames.OutOfRange));
             pseudoClassSelectors.Add(PseudoClassNames.Optional, SimpleSelector.PseudoClass(el => el.IsOptional(), PseudoClassNames.Optional));
+            pseudoClassSelectors.Add(PseudoClassNames.Shadow, SimpleSelector.PseudoClass(el => el.IsShadow(), PseudoClassNames.Shadow));
 
+            //TODO some lack implementation (selection, content, ...), some implementations are dubious (first-line, first-letter, ...)
             pseudoElementSelectors.Add(PseudoElementNames.Before, SimpleSelector.PseudoElement(el => el.IsPseudo("::" + PseudoElementNames.Before), PseudoElementNames.Before));
             pseudoElementSelectors.Add(PseudoElementNames.After, SimpleSelector.PseudoElement(el => el.IsPseudo("::" + PseudoElementNames.After), PseudoElementNames.After));
             pseudoElementSelectors.Add(PseudoElementNames.Selection, SimpleSelector.PseudoElement(el => false, PseudoElementNames.Selection));
             pseudoElementSelectors.Add(PseudoElementNames.FirstLine, SimpleSelector.PseudoElement(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text, PseudoElementNames.FirstLine));
             pseudoElementSelectors.Add(PseudoElementNames.FirstLetter, SimpleSelector.PseudoElement(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text && el.ChildNodes[0].TextContent.Length > 0, PseudoElementNames.FirstLetter));
+            pseudoElementSelectors.Add(PseudoElementNames.Content, SimpleSelector.PseudoElement(el => false, PseudoElementNames.Content));
 
             // LEGACY STYLE OF DEFINING PSEUDO ELEMENTS - AS PSEUDO CLASS!
             pseudoClassSelectors.Add(PseudoElementNames.Before, pseudoElementSelectors[PseudoElementNames.Before]);
@@ -95,6 +98,7 @@
             pseudoClassFunctions.Add(PseudoClassNames.Contains, () => new ContainsFunctionState());
             pseudoClassFunctions.Add(PseudoClassNames.Has, () => new HasFunctionState());
             pseudoClassFunctions.Add(PseudoClassNames.Matches, () => new MatchesFunctionState());
+            pseudoClassFunctions.Add(PseudoClassNames.HostContext, () => new HostContextFunctionState());
         }
 
         #endregion
@@ -576,25 +580,31 @@
 
             if (combinators.Count > 1)
             {
-                var combinator = combinators.Pop();
+                var last = combinators.Pop();
+                var previous = combinators.Pop();
 
-                //Care about combinator combinations, such as >> and ||
-                if (combinator == CssCombinator.Child && combinators.Peek() == CssCombinator.Child)
+                //Care about combinator combinations, such as >>, >>> and ||
+                if (last == CssCombinator.Child && previous == CssCombinator.Child)
                 {
-                    combinators.Pop();
-                    combinator = CssCombinator.Descendent;
+                    if (combinators.Count == 0 || combinators.Peek() != CssCombinator.Child)
+                        last = CssCombinator.Descendent;
+                    else if (combinators.Pop() == CssCombinator.Child)
+                        last = CssCombinator.Deep;
                 }
-                else if (combinator == CssCombinator.Namespace && combinators.Peek() == CssCombinator.Namespace)
+                else if (last == CssCombinator.Namespace && previous == CssCombinator.Namespace)
                 {
-                    combinators.Pop();
-                    combinator = CssCombinator.Column;
+                    last = CssCombinator.Column;
+                }
+                else
+                {
+                    combinators.Push(previous);
                 }
 
                 //Remove all leading whitespaces, invalid if mixed
                 while (combinators.Count > 0)
                     valid = combinators.Pop() == CssCombinator.Descendent && valid;
 
-                return combinator;
+                return last;
             }
 
             return combinators.Pop();
@@ -936,6 +946,53 @@
 
                 var code = String.Concat(PseudoClassNames.Contains, "(", value, ")");
                 return SimpleSelector.PseudoClass(el => el.TextContent.Contains(value), code);
+            }
+        }
+
+        sealed class HostContextFunctionState : FunctionState
+        {
+            readonly CssSelectorConstructor _nested;
+
+            public HostContextFunctionState()
+            {
+                _nested = Pool.NewSelectorConstructor();
+            }
+
+            protected override Boolean OnToken(CssToken token)
+            {
+                if (token.Type != CssTokenType.RoundBracketClose || _nested.state != State.Data)
+                {
+                    _nested.Apply(token);
+                    return false;
+                }
+
+                return true;
+            }
+
+            public override ISelector Produce()
+            {
+                var sel = _nested.ToPool();
+
+                if (sel == null)
+                    return null;
+
+                return SimpleSelector.PseudoClass(el =>
+                {
+                    var host = default(IElement);
+
+                    if (el.Parent is IShadowRoot)
+                        host = ((IShadowRoot)el.Parent).Host;
+
+                    while (host != null)
+                    {
+                        if (sel.Match(host))
+                            return true;
+
+                        host = host.ParentElement;
+                    }
+
+                    return false;
+                }, String.Concat(PseudoClassNames.HostContext, "(", sel.Text, ")"));
             }
         }
 

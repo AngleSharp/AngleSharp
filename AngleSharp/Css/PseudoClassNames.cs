@@ -158,6 +158,11 @@
         public static readonly String ReadWrite = "read-write";
 
         /// <summary>
+        /// The shadow pseudo class.
+        /// </summary>
+        public static readonly String Shadow = "shadow";
+
+        /// <summary>
         /// The dir pseudo function.
         /// </summary>
         public static readonly String Dir = "dir";
@@ -216,5 +221,10 @@
         /// The contains pseudo function.
         /// </summary>
         public static readonly String Contains = "contains";
+
+        /// <summary>
+        /// The host-context pseudo function.
+        /// </summary>
+        public static readonly String HostContext = "host-context";
     }
 }

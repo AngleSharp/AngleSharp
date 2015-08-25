@@ -128,6 +128,7 @@
             { Tags.Area, (document, prefix) => new HtmlAreaElement(document, prefix) },
             { Tags.Embed, (document, prefix) => new HtmlEmbedElement(document, prefix) },
             { Tags.MenuItem, (document, prefix) => new HtmlMenuItemElement(document, prefix) },
+            { Tags.Slot, (document, prefix) => new HtmlSlotElement(document, prefix) },
             { Tags.NoScript, (document, prefix) => new HtmlNoScriptElement(document, prefix) },
             { Tags.NoEmbed, (document, prefix) => new HtmlNoEmbedElement(document, prefix) },
             { Tags.NoFrames, (document, prefix) => new HtmlNoFramesElement(document, prefix) },
@@ -151,7 +152,7 @@
         /// <returns>The specialized HTMLElement instance.</returns>
         public HtmlElement Create(Document document, String localName, String prefix = null)
         {
-            Creator creator;
+            var creator = default(Creator);
 
             if (creators.TryGetValue(localName, out creator))
                 return creator(document, prefix);

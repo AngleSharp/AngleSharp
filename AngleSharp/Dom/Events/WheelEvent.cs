@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the event args for a mouse wheel event.
@@ -39,27 +37,11 @@
         /// <param name="deltaY">The mouse wheel delta in Y direction.</param>
         /// <param name="deltaZ">The mouse wheel delta in Z direction.</param>
         /// <param name="deltaMode">The delta mode for the wheel event.</param>
-        public WheelEvent(String type, Boolean bubbles, Boolean cancelable, IWindow view, Int32 detail, Int32 screenX, Int32 screenY, Int32 clientX, Int32 clientY, MouseButton button, IEventTarget target, String modifiersList, Double deltaX, Double deltaY, Double deltaZ, WheelMode deltaMode)
-        {
-            Init(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, button, target, modifiersList, deltaX, deltaY, deltaZ, deltaMode);
-        }
-
-        /// <summary>
-        /// Creates a new event and initializes it.
-        /// </summary>
-        /// <param name="type">The type of the event.</param>
-        /// <param name="eventInitDict">
-        /// An optional dictionary with optional keys such as
-        /// bubbles (boolean) and cancelable (boolean).
-        /// </param>
         [DomConstructor]
-        public WheelEvent(String type, IDictionary<String, Object> eventInitDict = null)
-            : base(type, eventInitDict)
+        [DomInitDict(offset: 1, optional: true)]
+        public WheelEvent(String type, Boolean bubbles = false, Boolean cancelable = false, IWindow view = null, Int32 detail = 0, Int32 screenX = 0, Int32 screenY = 0, Int32 clientX = 0, Int32 clientY = 0, MouseButton button = MouseButton.Primary, IEventTarget target = null, String modifiersList = null, Double deltaX = 0.0, Double deltaY = 0.0, Double deltaZ = 0.0, WheelMode deltaMode = WheelMode.Pixel)
         {
-            DeltaX = eventInitDict.TryGet<Double>("deltaX") ?? 0.0;
-            DeltaY = eventInitDict.TryGet<Double>("deltaY") ?? 0.0;
-            DeltaZ = eventInitDict.TryGet<Double>("deltaZ") ?? 0.0;
-            DeltaMode = (WheelMode)(eventInitDict.TryGet<Int32>("deltaMode") ?? 0);
+            Init(type, bubbles, cancelable, view, detail, screenX, screenY, clientX, clientY, button, target, modifiersList ?? String.Empty, deltaX, deltaY, deltaZ, deltaMode);
         }
 
         #endregion

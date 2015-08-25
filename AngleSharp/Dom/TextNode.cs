@@ -80,6 +80,25 @@
             }
         }
 
+        /// <summary>
+        /// Gets the assigned slot of the current element, if any.
+        /// </summary>
+        public IElement AssignedSlot
+        {
+            get
+            {
+                var parent = ParentElement;
+
+                if (parent.IsShadow())
+                {
+                    var tree = parent.ShadowRoot;
+                    return tree.GetAssignedSlot(null);
+                }
+
+                return null;
+            }
+        }
+
         #endregion
 
         #region Methods

@@ -456,6 +456,16 @@
         }
 
         /// <summary>
+        /// Checks if the element hosts a shadow tree.
+        /// </summary>
+        /// <param name="element">The element to check.</param>
+        /// <returns>True if the element hosts a shadow tree.</returns>
+        public static Boolean IsShadow(this IElement element)
+        {
+            return element != null && element.ShadowRoot != null;
+        }
+
+        /// <summary>
         /// Checks if the element is only optional and not required.
         /// </summary>
         /// <param name="element">The element to check.</param>

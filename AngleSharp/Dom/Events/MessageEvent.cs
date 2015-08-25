@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Extensions;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the event arguments when receiving a message.
@@ -31,28 +29,11 @@
         /// <param name="lastEventId">Sets the id of the last event.</param>
         /// <param name="source">Sets the source window of the message.</param>
         /// <param name="ports">The message ports to include.</param>
-        public MessageEvent(String type, Boolean bubbles, Boolean cancelable, Object data, String origin, String lastEventId, IWindow source, params IMessagePort[] ports)
-        {
-            Init(type, bubbles, cancelable, data, origin, lastEventId, source, ports);
-        }
-
-        /// <summary>
-        /// Creates a new event and initializes it.
-        /// </summary>
-        /// <param name="type">The type of the event.</param>
-        /// <param name="eventInitDict">
-        /// An optional dictionary with optional keys such as
-        /// bubbles (boolean) and cancelable (boolean).
-        /// </param>
         [DomConstructor]
-        public MessageEvent(String type, IDictionary<String, Object> eventInitDict = null)
-            : base(type, eventInitDict)
+        [DomInitDict(offset: 1, optional: true)]
+        public MessageEvent(String type, Boolean bubbles = false, Boolean cancelable = false, Object data = null, String origin = null, String lastEventId = null, IWindow source = null, params IMessagePort[] ports)
         {
-            Data = eventInitDict.TryGet("data");
-            Origin = (eventInitDict.TryGet("origin") ?? String.Empty).ToString();
-            LastEventId = (eventInitDict.TryGet("lastEventId") ?? String.Empty).ToString();
-            Source = eventInitDict.TryGet("source") as IWindow;
-            Ports = eventInitDict.TryGet("ports") as IMessagePort[] ?? new IMessagePort[0];
+            Init(type, bubbles, cancelable, data, origin ?? String.Empty, lastEventId ?? String.Empty, source, ports);
         }
 
         #endregion

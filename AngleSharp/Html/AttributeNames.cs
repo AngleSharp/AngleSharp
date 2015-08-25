@@ -741,5 +741,10 @@
         /// The optimum attribute.
         /// </summary>
         public static readonly String Optimum = "optimum";
+
+        /// <summary>
+        /// The slot attribute.
+        /// </summary>
+        public static readonly String Slot = "slot";
     }
 }

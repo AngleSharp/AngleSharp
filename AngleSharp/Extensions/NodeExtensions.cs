@@ -472,5 +472,16 @@
 
             return null;
         }
+
+        /// <summary>
+        /// Gets the assigned slot given by the shadow root and the slot name.
+        /// </summary>
+        /// <param name="root">The shadow tree hosting the slots.</param>
+        /// <param name="name">The name of the slot to target.</param>
+        /// <returns>The slot or default slot, if any.</returns>
+        public static IElement GetAssignedSlot(this IShadowRoot root, String name)
+        {
+            return root.GetDescendants().OfType<IHtmlSlotElement>().FirstOrDefault(m => m.Name == name);
+        }
     }
 }

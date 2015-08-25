@@ -53,6 +53,22 @@
 
         #region Properties
 
+        public IElement AssignedSlot
+        {
+            get { return _host.AssignedSlot; }
+        }
+
+        public String Slot
+        {
+            get { return _host.Slot; }
+            set { }
+        }
+
+        public IShadowRoot ShadowRoot
+        {
+            get { return _host.ShadowRoot; }
+        }
+
         public ICssStyleDeclaration CascadedStyle
         {
             get { return Owner.DefaultView.GetStyleCollection().ComputeCascadedStyle(this); }
@@ -247,6 +263,11 @@
         #endregion
 
         #region Methods
+
+        public IShadowRoot AttachShadow(ShadowRootMode mode = ShadowRootMode.Open)
+        {
+            return _host.AttachShadow(mode);
+        }
 
         public void Insert(AdjacentPosition position, String html)
         {

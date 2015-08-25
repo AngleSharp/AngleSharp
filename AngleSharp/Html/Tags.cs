@@ -175,6 +175,11 @@
         public static readonly String Template = "template";
 
         /// <summary>
+        /// The slot tag.
+        /// </summary>
+        public static readonly String Slot = "slot";
+
+        /// <summary>
         /// The caption tag.
         /// </summary>
         public static readonly String Caption = "caption";
@@ -750,6 +755,11 @@
         public static readonly HashSet<String> AllBeforeHead = new HashSet<String>
         {
             Html, Body, Br, Head
+        };
+
+        public static readonly HashSet<String> AllNoShadowRoot = new HashSet<String>
+        {
+            Button, Details, Input, Marquee, Meter, Progress, Select, Textarea, Keygen
         };
 
         public static readonly HashSet<String> AllHead = new HashSet<String>

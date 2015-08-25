@@ -41,7 +41,9 @@
     <Compile Include="Attributes\DomAccessorAttribute.cs" />
     <Compile Include="Attributes\DomConstructorAttribute.cs" />
     <Compile Include="Attributes\DomDescriptionAttribute.cs" />
+    <Compile Include="Attributes\DomInitDictAttribute.cs" />
     <Compile Include="Attributes\DomLenientThisAttribute.cs" />
+    <Compile Include="Attributes\DomLiteralsAttribute.cs" />
     <Compile Include="Attributes\DomNoInterfaceObjectAttribute.cs" />
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Configuration.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="Dom\Collections\StyleCollection.cs" />
     <Compile Include="Dom\Constants\DomError.cs" />
     <Compile Include="Dom\Constants\Sandboxes.cs" />
+    <Compile Include="Dom\Constants\ShadowRootMode.cs" />
     <Compile Include="Dom\Constants\TableFrames.cs" />
     <Compile Include="Dom\Constants\TableRules.cs" />
     <Compile Include="Dom\Css\Constants\BlendMode.cs" />
@@ -149,6 +152,8 @@
     <Compile Include="Dom\Html\HtmlPictureElement.cs" />
     <Compile Include="Dom\Html\HtmlRbElement.cs" />
     <Compile Include="Dom\Html\HtmlRtcElement.cs" />
+    <Compile Include="Dom\Html\HtmlSlotElement.cs" />
+    <Compile Include="Dom\ShadowRoot.cs" />
     <Compile Include="Dom\Svg\SvgDocument.cs" />
     <Compile Include="Events\CssParseErrorEvent.cs" />
     <Compile Include="Events\CssParseStartEvent.cs" />
@@ -172,7 +177,9 @@
     <Compile Include="Foundation\CancellableTasks.cs" />
     <Compile Include="Foundation\TaskEx.cs" />
     <Compile Include="IBindable.cs" />
+    <Compile Include="Interfaces\Html\IHtmlSlotElement.cs" />
     <Compile Include="Interfaces\INamedNodeMap.cs" />
+    <Compile Include="Interfaces\IShadowRoot.cs" />
     <Compile Include="IStyleFormattable.cs" />
     <Compile Include="IStyleFormatter.cs" />
     <Compile Include="Network\Default\DataRequester.cs" />
@@ -815,7 +822,6 @@
     <Compile Include="Network\MimeTypes.cs" />
     <Compile Include="Dom\MutationCallback.cs" />
     <Compile Include="Dom\MutationObserver.cs" />
-    <Compile Include="Dom\MutationObserverInit.cs" />
     <Compile Include="Dom\MutationRecord.cs" />
     <Compile Include="Html\Namespaces.cs" />
     <Compile Include="Dom\Css\Selector\ComplexSelector.cs" />

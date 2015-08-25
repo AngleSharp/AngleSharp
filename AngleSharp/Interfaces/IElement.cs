@@ -8,7 +8,7 @@
     /// </summary>
     [DomName("Element")]
     public interface IElement : INode, IParentNode, IChildNode, INonDocumentTypeChildNode
-    {        
+    {
         /// <summary>
         /// Gets the namespace prefix of this element.
         /// </summary>
@@ -239,6 +239,34 @@
         /// <returns>The created element or null, if not possible.</returns>
         [DomName("pseudo")]
         IPseudoElement Pseudo(String pseudoElement);
+
+        /// <summary>
+        /// Creates a new shadow root for the current element, if there is none
+        /// already.
+        /// </summary>
+        /// <param name="mode">The mode of the shadow root.</param>
+        /// <returns>The new shadow root.</returns>
+        [DomName("attachShadow")]
+        [DomInitDict]
+        IShadowRoot AttachShadow(ShadowRootMode mode = ShadowRootMode.Open);
+
+        /// <summary>
+        /// Gets the assigned slot of the current element, if any.
+        /// </summary>
+        [DomName("assignedSlot")]
+        IElement AssignedSlot { get; }
+
+        /// <summary>
+        /// Gets the value of the slot attribute.
+        /// </summary>
+        [DomName("slot")]
+        String Slot { get; set; }
+
+        /// <summary>
+        /// Gets the shadow root of the current element, if any.
+        /// </summary>
+        [DomName("shadowRoot")]
+        IShadowRoot ShadowRoot { get; }
 
         /// <summary>
         /// Gets if the element is currently focused.

@@ -20,7 +20,12 @@
         public static readonly CssCombinator Child = new ChildCombinator();
 
         /// <summary>
-        /// The descendent operator (space).
+        /// The deep combinator (>>>).
+        /// </summary>
+        public static readonly CssCombinator Deep = new DeepCombinator();
+
+        /// <summary>
+        /// The descendent operator (space, or alternatively >>).
         /// </summary>
         public static readonly CssCombinator Descendent = new DescendentCombinator();
 
@@ -60,7 +65,7 @@
         /// <summary>
         /// Gets the delimiter that represents the combinator.
         /// </summary>
-        public Char Delimiter
+        public String Delimiter
         {
             get;
             protected set;
@@ -100,8 +105,17 @@
         {
             public ChildCombinator()
             {
-                Delimiter = Symbols.GreaterThan;
+                Delimiter = ">";
                 Transform = el => Single(el.ParentElement);
+            }
+        }
+
+        sealed class DeepCombinator : CssCombinator
+        {
+            public DeepCombinator()
+            {
+                Delimiter = ">>>";
+                Transform = el => Single(el.Parent is IShadowRoot ? ((IShadowRoot)el.Parent).Host : null);
             }
         }
 
@@ -109,7 +123,7 @@
         {
             public DescendentCombinator()
             {
-                Delimiter = Symbols.Space;
+                Delimiter = " ";
                 Transform = el =>
                 {
                     var parents = new List<IElement>();
@@ -130,7 +144,7 @@
         {
             public AdjacentSiblingCombinator()
             {
-                Delimiter = Symbols.Plus;
+                Delimiter = "+";
                 Transform = el => Single(el.PreviousElementSibling);
             }
         }
@@ -139,7 +153,7 @@
         {
             public SiblingCombinator()
             {
-                Delimiter = Symbols.Tilde;
+                Delimiter = "~";
                 Transform = el =>
                 {
                     var parent = el.ParentElement;
@@ -170,7 +184,7 @@
         {
             public NamespaceCombinator()
             {
-                Delimiter = Symbols.Pipe;
+                Delimiter = "|";
                 Transform = el => Single(el);
             }
 
@@ -185,6 +199,7 @@
         {
             public ColumnCombinator()
             {
+                Delimiter = "||";
                 //TODO no real implementation yet
                 //see: http://dev.w3.org/csswg/selectors-4/#the-column-combinator
             }

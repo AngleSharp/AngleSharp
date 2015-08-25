@@ -10,6 +10,7 @@
     using System;
     using System.Diagnostics;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents an element node.
@@ -18,6 +19,8 @@
     class Element : Node, IElement
     {
         #region Fields
+
+        static readonly ConditionalWeakTable<Element, IShadowRoot> shadowRoots = new ConditionalWeakTable<Element, IShadowRoot>();
 
         readonly NamedNodeMap _attributes;
         readonly String _namespace;
@@ -66,6 +69,47 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the assigned slot of the current element, if any.
+        /// </summary>
+        public IElement AssignedSlot
+        {
+            get 
+            { 
+                var parent = ParentElement;
+
+                if (parent.IsShadow())
+                {
+                    var tree = parent.ShadowRoot;
+                    return tree.GetAssignedSlot(Slot);
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the value of the slot attribute.
+        /// </summary>
+        public String Slot
+        {
+            get { return GetOwnAttribute(AttributeNames.Slot); }
+            set { SetOwnAttribute(AttributeNames.Slot, value); }
+        }
+
+        /// <summary>
+        /// Gets the shadow root of the current element, if any.
+        /// </summary>
+        public IShadowRoot ShadowRoot
+        {
+            get
+            {
+                var root = default(IShadowRoot);
+                shadowRoots.TryGetValue(this, out root);
+                return root;
+            }
+        }
 
         /// <summary>
         /// Gets the namespace prefix of the specified node, if any.
@@ -362,6 +406,24 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Creates a new shadow root for the current element, if there is none
+        /// already.
+        /// </summary>
+        /// <param name="mode">The mode of the shadow root.</param>
+        /// <returns>The new shadow root.</returns>
+        public IShadowRoot AttachShadow(ShadowRootMode mode = ShadowRootMode.Open)
+        {
+            if (Tags.AllNoShadowRoot.Contains(_localName))
+                throw new DomException(DomError.NotSupported);
+            else if (ShadowRoot != null)
+                throw new DomException(DomError.InvalidState);
+
+            var root = new ShadowRoot(this, mode);
+            shadowRoots.Add(this, root);
+            return root;
+        }
 
         /// <summary>
         /// Returns the first element within the document (using depth-first
