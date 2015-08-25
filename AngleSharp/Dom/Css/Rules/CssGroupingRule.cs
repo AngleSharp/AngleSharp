@@ -86,8 +86,7 @@
 
         internal void AddRule(CssRule rule)
         {
-            if (rule != null)
-                _rules.Add(rule, Owner, this);
+            _rules.Add(rule, Owner, this);
         }
 
         protected override void ReplaceWith(ICssRule rule)

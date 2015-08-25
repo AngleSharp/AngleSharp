@@ -111,11 +111,14 @@
             value.Parent = parent;
         }
 
-        internal void Add(CssRule value, ICssStyleSheet owner, ICssRule parent)
+        internal void Add(CssRule rule, ICssStyleSheet owner, ICssRule parent)
         {
-            _rules.Add(value);
-            value.Owner = owner;
-            value.Parent = parent;
+            if (rule != null)
+            {
+                _rules.Add(rule);
+                rule.Owner = owner;
+                rule.Parent = parent;
+            }
         }
 
         #endregion

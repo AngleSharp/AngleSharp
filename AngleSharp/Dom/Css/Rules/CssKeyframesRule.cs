@@ -102,6 +102,11 @@
 
         #region Internal Methods
 
+        internal void AddRule(CssKeyframeRule rule)
+        {
+            _rules.Add(rule, Owner, this);
+        }
+
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = rule as CssKeyframesRule;
