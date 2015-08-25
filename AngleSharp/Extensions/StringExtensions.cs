@@ -636,14 +636,16 @@
 
             if (!String.IsNullOrEmpty(value))
             {
-                foreach (var character in value)
+                for (var i = 0; i < value.Length; i++)
                 {
+                    var character = value[i];
+
                     if (character == Symbols.Null)
                         throw new DomException(DomError.InvalidCharacter);
                     else if (character == Symbols.DoubleQuote || character == Symbols.ReverseSolidus)
                         builder.Append(Symbols.ReverseSolidus).Append(character);
                     else if (character.IsInRange((Int32)0x1, (Int32)0x1f) || character == (Char)0x7b)
-                        builder.Append(Symbols.ReverseSolidus).Append(character.ToHex()).Append(Symbols.Space);
+                        builder.Append(Symbols.ReverseSolidus).Append(character.ToHex()).Append(i + 1 != value.Length ? " " : "");
                     else
                         builder.Append(character);
                 }
