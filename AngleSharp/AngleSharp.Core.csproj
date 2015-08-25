@@ -33,8 +33,18 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\AngleSharp.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="Key.snk" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\Accessors.cs" />
