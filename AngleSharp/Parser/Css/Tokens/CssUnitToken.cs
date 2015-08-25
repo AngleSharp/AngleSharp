@@ -59,8 +59,7 @@
         /// <returns>The original value.</returns>
         public override String ToValue()
         {
-            var number = Data[0] == '.' ? "0" + Data : Data;
-            return number + _unit;
+            return Data + _unit;
         }
 
         #endregion
