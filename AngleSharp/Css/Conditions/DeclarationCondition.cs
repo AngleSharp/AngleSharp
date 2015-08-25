@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom.Css;
     using System;
-    using System.Collections.Generic;
 
     sealed class DeclarationCondition : CssCondition
     {
@@ -15,13 +14,7 @@
             _value = value;
         }
 
-        public override String GetSource()
-        {
-            var source = String.Concat("(", _property.GetSource(), ")");
-            return Decorate(source);
-        }
-        
-        protected override String Serialize()
+        public override String ToCss()
         {
             var important = _property.IsImportant ? " !important" : String.Empty;
             var rest = String.Concat(_value.CssText, important, ")");
@@ -31,11 +24,6 @@
         public override Boolean Check()
         {
             return (_property is CssUnknownProperty == false) && _property.TrySetValue(_value);
-        }
-
-        public override IEnumerable<CssNode> GetChildren()
-        {
-            yield return _property;
         }
     }
 }

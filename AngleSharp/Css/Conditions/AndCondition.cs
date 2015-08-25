@@ -13,15 +13,9 @@
             _conditions = conditions.ToArray();
         }
 
-        public override String GetSource()
+        public override String ToCss()
         {
-            var source = String.Join(Keywords.And, _conditions.Select(m => m.GetSource()));
-            return Decorate(source);
-        }
-
-        protected override String Serialize()
-        {
-            return String.Join(" and ", _conditions.Select(m => m.Text));
+            return String.Join(" and ", _conditions.Select(m => m.ToCss()));
         }
 
         public override Boolean Check()
@@ -33,11 +27,6 @@
             }
 
             return true;
-        }
-
-        public override IEnumerable<CssNode> GetChildren()
-        {
-            return _conditions;
         }
     }
 }

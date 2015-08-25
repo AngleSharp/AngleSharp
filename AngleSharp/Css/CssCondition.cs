@@ -2,18 +2,18 @@
 {
     using System;
 
-    abstract class CssCondition : CssNode
+    abstract class CssCondition : IStyleFormattable
     {
-        public String Text
-        {
-            get { return Serialize(); }
-        }
-
         public abstract Boolean Check();
 
-        protected virtual String Serialize()
+        public virtual String ToCss()
         {
             return String.Empty;
+        }
+
+        public String ToCss(IStyleFormatter formatter)
+        {
+            return ToCss();
         }
     }
 }

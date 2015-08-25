@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a CSS key text.
     /// </summary>
-    public interface IKeyframeSelector
+    public interface IKeyframeSelector : IStyleFormattable
     {
         /// <summary>
         /// Gets an enumeration over all stops.

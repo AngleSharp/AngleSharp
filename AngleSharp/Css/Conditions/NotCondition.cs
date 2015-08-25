@@ -1,38 +1,29 @@
 ﻿namespace AngleSharp.Css.Conditions
 {
     using System;
-    using System.Collections.Generic;
 
     sealed class NotCondition : CssCondition
     {
-        CssCondition _content;
+        readonly CssCondition _content;
+
+        public NotCondition(CssCondition content)
+        {
+            _content = content;
+        }
 
         public CssCondition Value 
         {
             get { return _content; }
-            internal set { _content = value; }
-        }
-
-        public override String GetSource()
-        {
-            var source = String.Concat(Keywords.Not, _content.GetSource());
-            return Decorate(source);
         }
         
-        protected override String Serialize()
+        public override String ToCss()
         {
-            return String.Concat("not ", _content.Text);
+            return String.Concat("not ", _content.ToCss());
         }
 
         public override Boolean Check()
         {
             return !_content.Check();
-        }
-
-        public override IEnumerable<CssNode> GetChildren()
-        {
-            if (_content != null)
-                yield return _content;
         }
     }
 }

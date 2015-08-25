@@ -1,38 +1,29 @@
 ﻿namespace AngleSharp.Css.Conditions
 {
     using System;
-    using System.Collections.Generic;
 
     sealed class GroupCondition : CssCondition
     {
-        CssCondition _content;
+        readonly CssCondition _content;
+
+        public GroupCondition(CssCondition content)
+        {
+            _content = content;
+        }
 
         public CssCondition Value
         {
             get { return _content; }
-            internal set { _content = value; }
         }
 
-        public override String GetSource()
+        public override String ToCss()
         {
-            var source = String.Concat("(", _content.GetSource(), ")");
-            return Decorate(source);
-        }
-
-        protected override String Serialize()
-        {
-            return String.Concat("(", _content.Text, ")");
+            return String.Concat("(", _content.ToCss(), ")");
         }
 
         public override Boolean Check()
         {
             return _content.Check();
-        }
-
-        public override IEnumerable<CssNode> GetChildren()
-        {
-            if (_content != null)
-                yield return _content;
         }
     }
 }
