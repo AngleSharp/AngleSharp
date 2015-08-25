@@ -10,7 +10,7 @@
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
-    sealed class CssStyleDeclaration : CssNode, ICssStyleDeclaration, IBindable
+    sealed class CssStyleDeclaration : ICssStyleDeclaration, IBindable
     {
         #region Fields
 
@@ -2347,23 +2347,7 @@
         #endregion
 
         #region Methods
-
-        public override IEnumerable<CssNode> GetChildren()
-        {
-            return _declarations;
-        }
-
-        public override String GetSource()
-        {
-            var properties = new String[_declarations.Count];
-
-            for (int i = 0; i < properties.Length; i++)
-                properties[i] = _declarations[i].GetSource();
-
-            var source = String.Join(String.Empty, properties);
-            return Decorate(source);
-        }
-
+        
         public void Update(String value)
         {
             if (IsReadOnly)

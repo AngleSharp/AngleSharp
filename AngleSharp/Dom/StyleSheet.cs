@@ -11,7 +11,7 @@
     /// Represent a stylesheet object.
     /// </summary>
     [DebuggerStepThrough]
-    abstract class StyleSheet : CssNode, IStyleSheet
+    abstract class StyleSheet : IStyleSheet
     {
         #region Fields
 

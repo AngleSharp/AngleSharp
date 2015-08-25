@@ -4,7 +4,6 @@
     using AngleSharp.Css.Conditions;
     using AngleSharp.Parser.Css;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents an @supports rule.
@@ -36,7 +35,7 @@
         /// </summary>
         public String ConditionText
         {
-            get { return _condition.Text; }
+            get { return _condition.ToCss(); }
             set
             {
                 var condition = Parser.ParseCondition(value);
@@ -67,26 +66,6 @@
 
         #endregion
 
-        #region Methods
-
-        public override String GetSource()
-        {
-            var rules = base.GetSource();
-            var source = String.Concat("@supports", _condition.GetSource(), rules);
-            return Decorate(source);
-        }
-
-        public override IEnumerable<CssNode> GetChildren()
-        {
-            if (_condition != null)
-                yield return _condition;
-
-            foreach (var child in base.GetChildren())
-                yield return child;
-        }
-
-        #endregion
-
         #region Internal Methods
 
         protected override void ReplaceWith(ICssRule rule)
@@ -103,7 +82,7 @@
 
         #endregion
 
-        #region String representation
+        #region String Representation
 
         public override String ToCss(IStyleFormatter formatter)
         {

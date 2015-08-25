@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -58,12 +56,6 @@
         #endregion
 
         #region Methods
-
-        public override IEnumerable<CssNode> GetChildren()
-        {
-            for (var i = 0; i < _rules.Length; i++)
-                yield return _rules[i];
-        }
 
         /// <summary>
         /// Inserts a new keyframe rule into the current CSSKeyframesRule.
@@ -120,7 +112,7 @@
 
         #endregion
 
-        #region String representation
+        #region String Representation
 
         public override String ToCss(IStyleFormatter formatter)
         {

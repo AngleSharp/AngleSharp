@@ -43,5 +43,10 @@
         /// Gets a CSS code representation of the stylesheet.
         /// </summary>
         String CssText { get; }
+
+        /// <summary>
+        /// Gets the CSS root node associated with the stylesheet.
+        /// </summary>
+        CssNode Root { get; }
     }
 }

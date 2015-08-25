@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Events;
     using AngleSharp.Extensions;
     using System;
@@ -83,75 +82,6 @@
         public void RaiseErrorOccurred(CssParseError code)
         {
             RaiseErrorOccurred(code, GetCurrentPosition());
-        }
-
-        public void JumpToEndOfDeclaration()
-        {
-            var scopes = 0;
-            var current = Current;
-
-            while (current != Symbols.EndOfFile)
-            {
-                if (current == Symbols.CurlyBracketOpen)
-                    scopes++;
-                else if (scopes <= 0 && (current == Symbols.CurlyBracketClose || current == Symbols.Semicolon))
-                    break;
-                else if (current == Symbols.CurlyBracketClose)
-                    scopes--;
-
-                current = GetNext();
-            }
-
-            Back();
-        }
-
-        public void JumpToNextSemicolon()
-        {
-            var current = Current;
-
-            while (current != Symbols.EndOfFile && current != Symbols.Semicolon)
-            {
-                current = GetNext();
-            }
-        }
-
-        public void JumpToClosedArguments()
-        {
-            var arguments = 0;
-            var current = Current;
-
-            while (current != Symbols.EndOfFile)
-            {
-                if (current == Symbols.RoundBracketOpen)
-                    arguments++;
-                else if (arguments <= 0 && (current == Symbols.RoundBracketClose))
-                    break;
-                else if (current == Symbols.RoundBracketClose)
-                    arguments--;
-
-                current = GetNext();
-            }
-
-            Back();
-        }
-
-        public void SkipUnknownRule()
-        {
-            var scopes = 0;
-            var current = Current;
-
-            while (current != Symbols.EndOfFile)
-            {
-                if (current == Symbols.CurlyBracketOpen)
-                    scopes++;
-                else if (current == Symbols.CurlyBracketClose)
-                    scopes--;
-
-                if (scopes <= 0 && (current == Symbols.Semicolon || current == Symbols.CurlyBracketClose))
-                    break;
-
-                current = GetNext();
-            }
         }
 
         #endregion

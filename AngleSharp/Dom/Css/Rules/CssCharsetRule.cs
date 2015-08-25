@@ -41,13 +41,7 @@
 
         #endregion
 
-        #region String representation
-
-        public override String GetSource()
-        {
-            var source = String.Concat("@charset", CharacterSet.CssString());
-            return Decorate(source);
-        }
+        #region String Representation
 
         public override String ToCss(IStyleFormatter formatter)
         {

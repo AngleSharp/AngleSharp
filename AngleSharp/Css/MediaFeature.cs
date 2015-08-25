@@ -8,7 +8,7 @@
     /// Represents a feature expression within
     /// a media query.
     /// </summary>
-    public abstract class MediaFeature : CssNode, IStyleFormattable
+    public abstract class MediaFeature : IStyleFormattable
     {
         #region Fields
 
@@ -26,18 +26,6 @@
             _name = name;
             _min = name.StartsWith("min-");
             _max = name.StartsWith("max-");
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets the used value converter.
-        /// </summary>
-        internal abstract IValueConverter Converter
-        {
-            get;
         }
 
         #endregion
@@ -86,17 +74,19 @@
 
         #endregion
 
-        #region Methods
+        #region Internal Properties
 
         /// <summary>
-        /// Gets the original source code, if any.
+        /// Gets the used value converter.
         /// </summary>
-        /// <returns>The restored source code.</returns>
-        public override String GetSource()
+        internal abstract IValueConverter Converter
         {
-            var source = HasValue ? String.Concat(_name, ":", Value) : _name;
-            return Decorate(source);
+            get;
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Tries to set the given value.

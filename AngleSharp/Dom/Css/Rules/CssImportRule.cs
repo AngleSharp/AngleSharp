@@ -1,11 +1,9 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS import rule.
@@ -73,21 +71,6 @@
 
         #endregion
 
-        #region Methods
-
-        public override String GetSource()
-        {
-            var source = String.Concat("@import", _href.CssUrl(), _media.GetSource());
-            return Decorate(source);
-        }
-
-        public override IEnumerable<CssNode> GetChildren()
-        {
-            yield return _media;
-        }
-
-        #endregion
-
         #region Internal Methods
 
         protected override void ReplaceWith(ICssRule rule)
@@ -100,7 +83,7 @@
 
         #endregion
 
-        #region String representation
+        #region String Representation
 
         public override String ToCss(IStyleFormatter formatter)
         {

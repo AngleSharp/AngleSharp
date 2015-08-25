@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css
 {
+    using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
@@ -7,18 +8,12 @@
     /// </summary>
     public sealed class CssComment : CssNode
     {
-        readonly String _text;
-
         /// <summary>
         /// Creates a new comment node.
         /// </summary>
-        /// <param name="text">The text of the comment.</param>
-        /// <param name="position">The comment's position.</param>
-        public CssComment(String text, TextPosition position)
+        internal CssComment(CssToken token)
         {
-            _text = text;
-            Start = position;
-            End = position.Shift(2).After(text).Shift(1);
+            Tokens.Add(token);
         }
 
         /// <summary>
@@ -26,7 +21,7 @@
         /// </summary>
         public String Text
         {
-            get { return _text; }
+            get { return Tokens[0].Data; }
         }
     }
 }

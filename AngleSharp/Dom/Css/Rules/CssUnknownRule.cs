@@ -63,14 +63,6 @@
 
         #region Methods
 
-        public override String GetSource()
-        {
-            var prelude = String.Join("", _prelude.Select(m => m.ToValue()));
-            var content = String.Join("", _content.Select(m => m.ToValue()));
-            var source = String.Concat("@", _name, prelude, content);
-            return Decorate(source);
-        }
-
         protected override void ReplaceWith(ICssRule rule)
         {
             _prelude.Clear();
@@ -82,7 +74,10 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            return GetSource();
+            var prelude = String.Join("", _prelude.Select(m => m.ToValue()));
+            var content = String.Join("", _content.Select(m => m.ToValue()));
+            var source = String.Concat("@", _name, prelude, content);
+            return source;
         }
 
         #endregion

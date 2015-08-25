@@ -5,7 +5,6 @@
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS Stylesheet.
@@ -37,6 +36,15 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the CSS root node associated with the stylesheet.
+        /// </summary>
+        public CssNode Root 
+        { 
+            get; 
+            set; 
+        }
 
         /// <summary>
         /// Gets the mime-type of the stylesheet, which is CSS.
@@ -91,22 +99,6 @@
         public override String ToCss(IStyleFormatter formatter)
         {
             return formatter.Sheet(_rules);
-        }
-
-        public override IEnumerable<CssNode> GetChildren()
-        {
-            for (int i = 0; i < _rules.Length; i++)
-                yield return _rules[i];
-        }
-
-        public override String GetSource()
-        {
-            var rules = new String[_rules.Length];
-
-            for (int i = 0; i < rules.Length; i++)
-                rules[i] = _rules[i].GetSource();
-
-            return Decorate(String.Join(String.Empty, rules));
         }
 
         /// <summary>

@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS @keyframe rule.
@@ -74,20 +72,6 @@
 
         #endregion
 
-        #region Methods
-
-        public override IEnumerable<CssNode> GetChildren()
-        {
-            var selector = _selector as KeyframeSelector;
-
-            if (selector != null)
-                yield return selector;
-
-            yield return _style;
-        }
-
-        #endregion
-
         #region Internal Methods
 
         protected override void ReplaceWith(ICssRule rule)
@@ -100,7 +84,7 @@
 
         #endregion
 
-        #region String representation
+        #region String Representation
 
         public override String ToCss(IStyleFormatter formatter)
         {

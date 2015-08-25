@@ -1,9 +1,8 @@
 ﻿namespace AngleSharp.Css
 {
-    using AngleSharp.Extensions;
     using System;
 
-    abstract class CssDocumentFunction : CssNode
+    abstract class CssDocumentFunction : IStyleFormattable
     {
         readonly String _name;
         readonly String _data;
@@ -24,9 +23,14 @@
             get { return _data; }
         }
 
-        public override String GetSource()
+        public String ToCss()
         {
-            return String.Concat(_name, "(", _data.CssString(), ")");
+            return String.Concat(_name, "(", _data, ")");
+        }
+
+        public String ToCss(IStyleFormatter formatter)
+        {
+            return ToCss();
         }
     }
 }

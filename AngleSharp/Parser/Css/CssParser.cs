@@ -186,6 +186,7 @@
             var tokenizer = CreateTokenizer(source, _config);
             var builder = new CssBuilder(tokenizer, this);
             builder.CreateRules(sheet);
+            sheet.Root = builder.Container;
             return sheet;
         }
 

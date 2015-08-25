@@ -7,7 +7,7 @@
     /// Fore more information about CSS properties see:
     /// http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
-    abstract class CssProperty : CssNode, ICssProperty
+    abstract class CssProperty : ICssProperty
     {
         #region Fields
 
@@ -30,67 +30,6 @@
         {
             _name = name;
             _flags = flags;
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets if the property has a value.
-        /// </summary>
-        internal Boolean HasValue
-        {
-            get { return _value != null; }
-        }
-
-        /// <summary>
-        /// Gets if the property supports hashless colors in quirksmode.
-        /// </summary>
-        internal Boolean CanBeHashless
-        {
-            get { return _flags.HasFlag(PropertyFlags.Hashless); }
-        }
-
-        /// <summary>
-        /// Gets if the property supports unitless lengths in quirksmode.
-        /// </summary>
-        internal Boolean CanBeUnitless
-        {
-            get { return _flags.HasFlag(PropertyFlags.Unitless); }
-        }
-
-        /// <summary>
-        /// Gets if the property can be inherited.
-        /// </summary>
-        internal Boolean CanBeInherited
-        {
-            get { return _flags.HasFlag(PropertyFlags.Inherited); }
-        }
-
-        /// <summary>
-        /// Gets if the property is actually only a shorthand.
-        /// </summary>
-        internal Boolean IsShorthand
-        {
-            get { return _flags.HasFlag(PropertyFlags.Shorthand); }
-        }
-
-        /// <summary>
-        /// Gets the used value converter.
-        /// </summary>
-        internal abstract IValueConverter Converter
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets or sets the declared value, if any.
-        /// </summary>
-        internal IPropertyValue DeclaredValue
-        {
-            get { return _value; }
-            set { _value = value; }
         }
 
         #endregion
@@ -156,6 +95,67 @@
 
         #endregion
 
+        #region Internal Properties
+
+        /// <summary>
+        /// Gets if the property has a value.
+        /// </summary>
+        internal Boolean HasValue
+        {
+            get { return _value != null; }
+        }
+
+        /// <summary>
+        /// Gets if the property supports hashless colors in quirksmode.
+        /// </summary>
+        internal Boolean CanBeHashless
+        {
+            get { return _flags.HasFlag(PropertyFlags.Hashless); }
+        }
+
+        /// <summary>
+        /// Gets if the property supports unitless lengths in quirksmode.
+        /// </summary>
+        internal Boolean CanBeUnitless
+        {
+            get { return _flags.HasFlag(PropertyFlags.Unitless); }
+        }
+
+        /// <summary>
+        /// Gets if the property can be inherited.
+        /// </summary>
+        internal Boolean CanBeInherited
+        {
+            get { return _flags.HasFlag(PropertyFlags.Inherited); }
+        }
+
+        /// <summary>
+        /// Gets if the property is actually only a shorthand.
+        /// </summary>
+        internal Boolean IsShorthand
+        {
+            get { return _flags.HasFlag(PropertyFlags.Shorthand); }
+        }
+
+        /// <summary>
+        /// Gets the used value converter.
+        /// </summary>
+        internal abstract IValueConverter Converter
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets or sets the declared value, if any.
+        /// </summary>
+        internal IPropertyValue DeclaredValue
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
+
+        #endregion
+
         #region Internal Methods
 
         /// <summary>
@@ -178,16 +178,7 @@
 
         #endregion
 
-        #region Methods
-
-        public override String GetSource()
-        {
-            var source = String.Concat(
-                Name, ":", 
-                Value, 
-                IsImportant ? "!important" : String.Empty);
-            return Decorate(source);
-        }
+        #region String Representation
 
         public String ToCss()
         {

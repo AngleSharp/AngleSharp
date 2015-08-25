@@ -10,7 +10,7 @@
     /// Represents a medium rule. More information available at:
     /// http://www.w3.org/TR/css3-mediaqueries/
     /// </summary>
-    sealed class CssMedium : CssNode, IEnumerable<MediaFeature>, IStyleFormattable
+    sealed class CssMedium : IEnumerable<MediaFeature>, IStyleFormattable
     {
         #region Media Types and Features
 
@@ -91,28 +91,6 @@
         #endregion
 
         #region Methods
-
-        public override IEnumerable<CssNode> GetChildren()
-        {
-            return _features;
-        }
-
-        public override String GetSource()
-        {
-            var constraints = new String[_features.Count];
-
-            for (int i = 0; i < _features.Count; i++)
-                constraints[i] = _features[i].GetSource();
-
-            var source = String.Concat(
-                IsExclusive ? Keywords.Only : String.Empty,
-                IsInverse ? Keywords.Not : String.Empty,
-                Type ?? String.Empty,
-                String.IsNullOrEmpty(Type) ? String.Empty : Keywords.And,
-                String.Join(Keywords.And, constraints));
-
-            return Decorate(source);
-        }
 
         /// <summary>
         /// Validates the given medium against the provided rendering device.

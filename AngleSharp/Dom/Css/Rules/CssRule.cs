@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a CSS rule.
     /// </summary>
-    abstract class CssRule : CssNode, ICssRule
+    abstract class CssRule : ICssRule
     {
         #region Fields
 

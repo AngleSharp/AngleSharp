@@ -34,7 +34,15 @@
         /// </summary>
         public String ConditionText
         {
-            get { return Serialize(", "); }
+            get
+            {
+                var entries = new String[_conditions.Count];
+
+                for (int i = 0; i < entries.Length; i++)
+                    entries[i] = _conditions[i].ToCss();
+
+                return String.Join(", ", entries); 
+            }
             set
             {
                 var conditions = Parser.ParseDocumentRules(value);
@@ -61,26 +69,6 @@
 
         #endregion
 
-        #region Methods
-
-        public override String GetSource()
-        {
-            var rules = base.GetSource();
-            var source = String.Concat("@document", Serialize(","), rules);
-            return Decorate(source);
-        }
-
-        public override IEnumerable<CssNode> GetChildren()
-        {
-            foreach (var condition in _conditions)
-                yield return condition;
-
-            foreach (var child in base.GetChildren())
-                yield return child;
-        }
-
-        #endregion
-
         #region Internal Methods
 
         protected override void ReplaceWith(ICssRule rule)
@@ -93,17 +81,7 @@
 
         #endregion
 
-        #region String representation
-
-        String Serialize(String separator)
-        {
-            var entries = new String[_conditions.Count];
-
-            for (int i = 0; i < entries.Length; i++)
-                entries[i] = _conditions[i].GetSource();
-
-            return String.Join(separator, entries);
-        }
+        #region String Representation
 
         public override String ToCss(IStyleFormatter formatter)
         {

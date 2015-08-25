@@ -10,7 +10,7 @@
     /// <summary>
     /// Represents a list of media elements.
     /// </summary>
-    sealed class MediaList : CssNode, IMediaList
+    sealed class MediaList : IMediaList
     {
         #region Fields
 
@@ -142,21 +142,6 @@
             }
 
             throw new DomException(DomError.NotFound);
-        }
-
-        public override String GetSource()
-        {
-            var parts = new String[_media.Count];
-
-            for (int i = 0; i < _media.Count; i++)
-                parts[i] = _media[i].GetSource();
-
-            return Decorate(String.Join(",", parts));
-        }
-
-        public override IEnumerable<CssNode> GetChildren()
-        {
-            return _media;
         }
 
         #endregion
