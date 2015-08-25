@@ -842,7 +842,7 @@
         }
 
         /// <summary>
-        /// Faster way of checkinf for a (known) attribute.
+        /// Faster way of checking for a (known) attribute.
         /// </summary>
         /// <param name="name">The name of the attribute.</param>
         /// <returns>True if the attribute exists, otherwise false.</returns>
@@ -850,6 +850,18 @@
         {
             var attr = _attributes.GetNamedItem(null, name);
             return attr != null;
+        }
+
+        /// <summary>
+        /// Easy way of getting the current absolute url from attributes.
+        /// </summary>
+        /// <param name="name">The name of the attribute.</param>
+        /// <returns>The attribute's absolute url value.</returns>
+        protected String GetUrlAttribute(String name)
+        {
+            var value = GetOwnAttribute(name);
+            var url = value != null ? new Url(BaseUrl, value) : null;
+            return url != null && !url.IsInvalid ? url.Href : String.Empty;
         }
 
         /// <summary>

@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Css.Values
 {
-    using System;
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// Represents a time value.
@@ -33,11 +34,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of frequency in Hz.
+        /// Gets the value of frequency.
         /// </summary>
         public Single Value
         {
-            get { return _unit == Unit.Khz ? _value * 1000f : _value; }
+            get { return _value; }
         }
 
         /// <summary>
@@ -74,18 +75,63 @@
         #region Casts
 
         /// <summary>
-        /// Converts the frequency to a single floating point.
+        /// Converts the frequency to a single floating point in Hz.
         /// </summary>
         /// <param name="frequency">The frequency.</param>
         /// <returns>The float value.</returns>
         public static explicit operator Single(Frequency frequency)
         {
-            return frequency.Value;
+            return frequency.ToHertz();
         }
 
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Tries to convert the given string to a Frequency.
+        /// </summary>
+        /// <param name="s">The string to convert.</param>
+        /// <param name="result">The reference to the result.</param>
+        /// <returns>True if successful, otherwise false.</returns>
+        public static Boolean TryParse(String s, out Frequency result)
+        {
+            var value = default(Single);
+            var unit = GetUnit(s.CssUnit(out value));
+
+            if (unit != Unit.None)
+            {
+                result = new Frequency(value, unit);
+                return true;
+            }
+
+            result = default(Frequency);
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the unit from the enumeration for the provided string.
+        /// </summary>
+        /// <param name="s">The string to convert.</param>
+        /// <returns>A valid CSS unit or None.</returns>
+        public static Unit GetUnit(String s)
+        {
+            switch (s)
+            {
+                case "hz": return Unit.Hz;
+                case "khz": return Unit.Khz;
+                default: return Unit.None;
+            }
+        }
+
+        /// <summary>
+        /// Converts the value to Hz.
+        /// </summary>
+        /// <returns>The value in Hz.</returns>
+        public Single ToHertz()
+        {
+            return _unit == Unit.Khz ? _value * 1000f : _value;
+        }
 
         /// <summary>
         /// Checks for equality with the other frequency.
@@ -107,6 +153,10 @@
         public enum Unit
         {
             /// <summary>
+            /// No valid unit.
+            /// </summary>
+            None,
+            /// <summary>
             /// The value is a frequency (Hz).
             /// </summary>
             Hz,
@@ -127,7 +177,7 @@
         /// <returns>The result of the comparison.</returns>
         public Int32 CompareTo(Frequency other)
         {
-            return Value.CompareTo(other.Value);
+            return ToHertz().CompareTo(other.ToHertz());
         }
 
         /// <summary>

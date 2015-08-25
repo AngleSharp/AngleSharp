@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Css.Values
 {
-    using System;
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// Represents an angle value.
@@ -62,27 +63,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets the value of angle in radians.
+        /// Gets the value of the angle.
         /// </summary>
         public Single Value
         {
-            get
-            {
-                switch (_unit)
-                {
-                    case Unit.Deg:
-                        return (Single)(Math.PI / 180.0 * _value);
-
-                    case Unit.Grad:
-                        return (Single)(Math.PI / 200.0 * _value);
-
-                    case Unit.Turn:
-                        return (Single)(2.0 * Math.PI * _value);
-
-                    default:
-                        return _value;
-                }
-            }
+            get { return _value; }
         }
 
         /// <summary>
@@ -131,7 +116,7 @@
         /// <returns>The number of radians.</returns>
         public static explicit operator Single(Angle angle)
         {
-            return angle.Value;
+            return angle.ToRadian();
         }
 
         #endregion
@@ -139,12 +124,72 @@
         #region Methods
 
         /// <summary>
+        /// Tries to convert the given string to an Angle.
+        /// </summary>
+        /// <param name="s">The string to convert.</param>
+        /// <param name="result">The reference to the result.</param>
+        /// <returns>True if successful, otherwise false.</returns>
+        public static Boolean TryParse(String s, out Angle result)
+        {
+            var value = default(Single);
+            var unit = GetUnit(s.CssUnit(out value));
+
+            if (unit != Unit.None)
+            {
+                result = new Angle(value, unit);
+                return true;
+            }
+
+            result = default(Angle);
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the unit from the enumeration for the provided string.
+        /// </summary>
+        /// <param name="s">The string to convert.</param>
+        /// <returns>A valid CSS unit or None.</returns>
+        public static Unit GetUnit(String s)
+        {
+            switch (s)
+            {
+                case "deg": return Unit.Deg;
+                case "grad": return Unit.Grad;
+                case "turn": return Unit.Turn;
+                case "rad": return Unit.Rad;
+                default: return Unit.None;
+            }
+        }
+
+        /// <summary>
+        /// Converts the contained value to rad.
+        /// </summary>
+        /// <returns>The value in rad.</returns>
+        public Single ToRadian()
+        {
+            switch (_unit)
+            {
+                case Unit.Deg:
+                    return (Single)(Math.PI / 180.0 * _value);
+
+                case Unit.Grad:
+                    return (Single)(Math.PI / 200.0 * _value);
+
+                case Unit.Turn:
+                    return (Single)(2.0 * Math.PI * _value);
+
+                default:
+                    return _value;
+            }
+        }
+
+        /// <summary>
         /// Computes the tangent of the given angle.
         /// </summary>
         /// <returns>The tangent.</returns>
         public Single Tan()
         {
-            return (Single)Math.Tan(Value);
+            return (Single)Math.Tan(ToRadian());
         }
 
         /// <summary>
@@ -153,7 +198,7 @@
         /// <returns>The cosine.</returns>
         public Single Cos()
         {
-            return (Single)Math.Cos(Value);
+            return (Single)Math.Cos(ToRadian());
         }
 
         /// <summary>
@@ -162,7 +207,7 @@
         /// <returns>The sine.</returns>
         public Single Sin()
         {
-            return (Single)Math.Sin(Value);
+            return (Single)Math.Sin(ToRadian());
         }
 
         /// <summary>
@@ -172,7 +217,7 @@
         /// <returns>True if both represent the same angle in rad.</returns>
         public Boolean Equals(Angle other)
         {
-            return Value == other.Value;
+            return ToRadian() == other.ToRadian();
         }
 
         #endregion
@@ -184,6 +229,10 @@
         /// </summary>
         public enum Unit : ushort
         {
+            /// <summary>
+            /// No valid unit.
+            /// </summary>
+            None,
             /// <summary>
             /// The value is an angle (deg). There are 360 degrees in a full circle.
             /// </summary>
@@ -213,7 +262,7 @@
         /// <returns>The result of the comparison.</returns>
         public Int32 CompareTo(Angle other)
         {
-            return Value.CompareTo(other.Value);
+            return ToRadian().CompareTo(other.ToRadian());
         }
 
         /// <summary>

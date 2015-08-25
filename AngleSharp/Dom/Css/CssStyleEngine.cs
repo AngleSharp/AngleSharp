@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Dom.Collections;
     using AngleSharp.Events;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
@@ -140,6 +141,22 @@
             var style = new CssStyleDeclaration(parser);
             style.Update(source);
             return style;
+        }
+
+        /// <summary>
+        /// Creates a media list for the given source.
+        /// </summary>
+        /// <param name="source">The media source.</param>
+        /// <param name="options">
+        /// The options with the parameters for evaluating the style.
+        /// </param>
+        /// <returns>The created media list.</returns>
+        public IMediaList ParseMedia(String source, StyleOptions options)
+        {
+            var parser = new CssParser(_options, options.Configuration);
+            var media = new MediaList(parser);
+            media.MediaText = source;
+            return media;
         }
 
         #endregion

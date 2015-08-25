@@ -683,6 +683,9 @@
     <Compile Include="..\AngleSharp\Dom\Css\Constants\Whitespace.cs">
       <Link>Dom\Css\Constants\Whitespace.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\CssMediaQueryList.cs">
+      <Link>Dom\Css\CssMediaQueryList.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\CssMedium.cs">
       <Link>Dom\Css\CssMedium.cs</Link>
     </Compile>
@@ -1973,6 +1976,9 @@
     <Compile Include="..\AngleSharp\Html\NodeFlags.cs">
       <Link>Html\NodeFlags.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Html\SourceSet.cs">
+      <Link>Html\SourceSet.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\Tags.cs">
       <Link>Html\Tags.cs</Link>
     </Compile>
@@ -2062,6 +2068,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\IMediaList.cs">
       <Link>Interfaces\Css\IMediaList.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\IMediaQueryList.cs">
+      <Link>Interfaces\Css\IMediaQueryList.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ISelector.cs">
       <Link>Interfaces\Css\ISelector.cs</Link>

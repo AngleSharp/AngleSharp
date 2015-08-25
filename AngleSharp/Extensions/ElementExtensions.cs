@@ -7,6 +7,7 @@
     using AngleSharp.Services;
     using AngleSharp.Services.Media;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
@@ -663,6 +664,36 @@
         }
 
         /// <summary>
+        /// Gets a suitable image candidate for the provided image element.
+        /// </summary>
+        /// <param name="img">The element to use.</param>
+        /// <returns>The possibly valid URL to the right candidate.</returns>
+        public static Url GetImageCandidate(this HtmlImageElement img)
+        {
+            var owner = img.Owner;
+            var srcset = new SourceSet(owner);
+            var options = owner.Options;
+            var sources = img.GetSources();
+
+            while (sources.Count > 0)
+            {
+                var source = sources.Pop();
+                var type = source.Type;
+
+                if (!String.IsNullOrEmpty(type) && options.GetResourceService<IImageInfo>(type) == null)
+                    continue;
+
+                foreach (var candidate in srcset.GetCandidates(source.SourceSet, source.Sizes))
+                    return new Url(img.BaseUrl, candidate);
+            }
+
+            foreach (var candidate in srcset.GetCandidates(img.SourceSet, img.Sizes))
+                return new Url(img.BaseUrl, candidate);
+
+            return Url.Create(img.Source);
+        }
+
+        /// <summary>
         /// Tries to load the resource of the resource type from the request.
         /// </summary>
         /// <param name="element">The document to use.</param>
@@ -681,14 +712,11 @@
                     if (response != null)
                     {
                         var options = document.Options;
-                        var services = options.GetServices<IResourceService<TResource>>();
                         var type = response.GetContentType();
+                        var service = options.GetResourceService<TResource>(type);
 
-                        foreach (var service in services)
-                        {
-                            if (service.SupportsType(type))
-                                return await service.CreateAsync(response, cancel).ConfigureAwait(false);
-                        }
+                        if (service != null)
+                            return await service.CreateAsync(response, cancel).ConfigureAwait(false);
                     }
                 }
 
@@ -712,6 +740,25 @@
                 return TaskEx.FromResult<IDocument>(element.Owner);
             
             return element.CreateTask(cancel => element.Owner.Context.OpenAsync(request, cancel));
+        }
+        
+        static Stack<IHtmlSourceElement> GetSources(this IHtmlImageElement img)
+        {
+            var parent = img.ParentElement;
+            var sources = new Stack<IHtmlSourceElement>();
+
+            if (parent != null && parent.LocalName.Is(Tags.Picture))
+            {
+                var element = img.PreviousElementSibling as IHtmlSourceElement;
+
+                while (element != null)
+                {
+                    sources.Push(element);
+                    element = element.PreviousElementSibling as IHtmlSourceElement;
+                }
+            }
+
+            return sources;
         }
     }
 }

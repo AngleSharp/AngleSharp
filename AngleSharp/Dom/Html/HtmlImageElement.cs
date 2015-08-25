@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        readonly BoundLocation _src;
+        Url _lastSource;
         IImageInfo _img;
 
         #endregion
@@ -25,8 +25,10 @@
         public HtmlImageElement(Document owner, String prefix = null)
             : base(owner, Tags.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _src = new BoundLocation(this, AttributeNames.Src);
             RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
+            RegisterAttributeObserver(AttributeNames.SrcSet, UpdateSource);
+            RegisterAttributeObserver(AttributeNames.Sizes, UpdateSource);
+            RegisterAttributeObserver(AttributeNames.CrossOrigin, UpdateSource);
         }
 
         #endregion
@@ -34,19 +36,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets the url of the link elements address.
-        /// </summary>
-        public Url Url
-        {
-            get { return new Url(Source); }
-        }
-
-        /// <summary>
         /// Gets the actual used image source.
         /// </summary>
         public String ActualSource
         {
-            get { return Source;  }
+            get { return _lastSource != null ? _lastSource.Href : null; }
         }
 
         /// <summary>
@@ -72,8 +66,8 @@
         /// </summary>
         public String Source
         {
-            get { return _src.Href; }
-            set { _src.Href = value; }
+            get { return GetUrlAttribute(AttributeNames.Src); }
+            set { SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -127,7 +121,7 @@
         /// </summary>
         public Int32 OriginalWidth
         {
-            get { return _img != null ? _img.Width : 0; }
+            get { return IsCompleted ? _img.Width : 0; }
         }
 
         /// <summary>
@@ -135,7 +129,7 @@
         /// </summary>
         public Int32 OriginalHeight
         {
-            get { return _img != null ? _img.Height : 0; }
+            get { return IsCompleted ? _img.Height : 0; }
         }
 
         /// <summary>
@@ -143,7 +137,7 @@
         /// </summary>
         public Boolean IsCompleted
         {
-            get { return _img == null; }
+            get { return _img != null; }
         }
 
         /// <summary>
@@ -161,23 +155,36 @@
 
         #region Methods
 
+        /// <summary>
+        /// For more information, see:
+        /// http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#update-the-image-data
+        /// </summary>
+        void GetImage(Url source)
+        {
+            if (source.IsInvalid)
+                source = null;
+            else if (_lastSource != null && source.Equals(_lastSource))
+                return;
+
+            this.CancelTasks();
+            _lastSource = source;
+
+            if (source == null)
+                return;
+
+            var request = this.CreateRequestFor(source);
+            this.LoadResource<IImageInfo>(request).ContinueWith(m =>
+            {
+                if (m.IsFaulted == false)
+                    _img = m.Result;
+
+                this.FireLoadOrErrorEvent(m);
+            });
+        }
+
         void UpdateSource(String value)
         {
-            this.CancelTasks();
-
-            if (!String.IsNullOrEmpty(value))
-            {
-                var request = this.CreateRequestFor(Url);
-                //TODO Implement with srcset etc. --> see:
-                //http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#update-the-image-data
-                this.LoadResource<IImageInfo>(request).ContinueWith(m =>
-                {
-                    if (m.IsFaulted == false)
-                        _img = m.Result;
-
-                    this.FireLoadOrErrorEvent(m);
-                });
-            }
+            GetImage(this.GetImageCandidate());
         }
 
         #endregion

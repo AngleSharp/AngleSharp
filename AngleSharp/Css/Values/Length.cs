@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Css.Values
 {
-    using System;
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// Represents an absolute length value.
@@ -165,6 +166,55 @@
         #region Methods
 
         /// <summary>
+        /// Tries to convert the given string to a Length.
+        /// </summary>
+        /// <param name="s">The string to convert.</param>
+        /// <param name="result">The reference to the result.</param>
+        /// <returns>True if successful, otherwise false.</returns>
+        public static Boolean TryParse(String s, out Length result)
+        {
+            var value = default(Single);
+            var unit = GetUnit(s.CssUnit(out value));
+
+            if (unit != Unit.None)
+            {
+                result = new Length(value, unit);
+                return true;
+            }
+
+            result = default(Length);
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the unit from the enumeration for the provided string.
+        /// </summary>
+        /// <param name="s">The string to convert.</param>
+        /// <returns>A valid CSS unit or None.</returns>
+        public static Unit GetUnit(String s)
+        {
+            switch (s)
+            {
+                case "ch": return Unit.Ch;
+                case "cm": return Unit.Cm;
+                case "em": return Unit.Em;
+                case "ex": return Unit.Ex;
+                case "in": return Unit.In;
+                case "mm": return Unit.Mm;
+                case "pc": return Unit.Pc;
+                case "pt": return Unit.Pt;
+                case "px": return Unit.Px;
+                case "rem": return Unit.Rem;
+                case "vh": return Unit.Vh;
+                case "vmax": return Unit.Vmax;
+                case "vmin": return Unit.Vmin;
+                case "vw": return Unit.Vw;
+                case "%": return Unit.Percent;
+                default: return Unit.None;
+            }
+        }
+
+        /// <summary>
         /// Converts the length to a number of pixels, if possible. If the
         /// current unit is relative, then an exception will be thrown.
         /// </summary>
@@ -238,6 +288,10 @@
         /// </summary>
         public enum Unit : ushort
         {
+            /// <summary>
+            /// No valid unit.
+            /// </summary>
+            None,
             /// <summary>
             /// The value is a length (px).
             /// </summary>

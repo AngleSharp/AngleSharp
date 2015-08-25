@@ -305,11 +305,7 @@
         public override Boolean Equals(Object obj)
         {
             var url = obj as Url;
-
-            if (url != null)
-                return Equals(url);
-
-            return false;
+            return url != null ? Equals(url) : false;
         }
 
         /// <summary>
@@ -324,20 +320,11 @@
         /// </returns>
         public Boolean Equals(Url other)
         {
-            return Compare(_fragment, other._fragment) &&
-                Compare(_query, other._query) &&
-                _path.Equals(other._path, StringComparison.Ordinal) &&
-                _scheme.Equals(other._scheme, StringComparison.OrdinalIgnoreCase) &&
-                _port.Equals(other._port, StringComparison.Ordinal) &&
-                _host.Equals(other._host, StringComparison.OrdinalIgnoreCase) &&
-                Compare(_username, other._username) &&
-                Compare(_password, other._password) &&
-                _schemeData.Equals(other._schemeData, StringComparison.Ordinal);
-        }
-
-        static Boolean Compare(String a, String b)
-        {
-            return Object.ReferenceEquals(a, b) || (a != null && b != null && a.Equals(b, StringComparison.Ordinal));
+            return _fragment.Is(other._fragment) && _query.Is(other._query) &&
+                _path.Is(other._path) && _scheme.Isi(other._scheme) &&
+                _port.Is(other._port) && _host.Isi(other._host) &&
+                _username.Is(other._username) && _password.Is(other._password) &&
+                _schemeData.Is(other._schemeData);
         }
 
         #endregion

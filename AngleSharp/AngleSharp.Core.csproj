@@ -122,6 +122,7 @@
     <Compile Include="Css\ValueConverters\RequiredValueConverter.cs" />
     <Compile Include="Dom\Css\Constants\ScriptingState.cs" />
     <Compile Include="Dom\Css\Constants\UpdateFrequency.cs" />
+    <Compile Include="Dom\Css\CssMediaQueryList.cs" />
     <Compile Include="Dom\Css\Properties\CssFeatureProperty.cs" />
     <Compile Include="Dom\Css\Properties\CssShorthandProperty.cs" />
     <Compile Include="Dom\Css\Properties\CssUnknownProperty.cs" />
@@ -176,8 +177,12 @@
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
     <Compile Include="Foundation\CancellableTasks.cs" />
     <Compile Include="Foundation\TaskEx.cs" />
+    <Compile Include="Html\SourceSet.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IBindable.cs" />
     <Compile Include="Interfaces\Html\IHtmlSlotElement.cs" />
+    <Compile Include="Interfaces\Css\IMediaQueryList.cs" />
     <Compile Include="Interfaces\INamedNodeMap.cs" />
     <Compile Include="Interfaces\IShadowRoot.cs" />
     <Compile Include="IStyleFormattable.cs" />

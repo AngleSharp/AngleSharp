@@ -465,16 +465,9 @@
 
         public String CanPlayType(String type)
         {
-            var services = Owner.Options.GetServices<IResourceService<TResource>>();
-
-            foreach (var service in services)
-            {
-                if (service.SupportsType(type))
-                    return "maybe";//Other option would be probably.
-            }
-
-            //Cannot be played.
-            return String.Empty;
+            var service = Owner.Options.GetResourceService<TResource>(type);
+            //Other option would be probably.
+            return service != null ? "maybe" : String.Empty;
         }
 
         public ITextTrack AddTextTrack(String kind, String label = null, String language = null)

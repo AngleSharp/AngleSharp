@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Network;
     using AngleSharp.Services;
+    using AngleSharp.Services.Media;
     using AngleSharp.Services.Scripting;
     using AngleSharp.Services.Styling;
     using System;
@@ -127,6 +128,33 @@
                 if (service is TService)
                     yield return (TService)service;
             }
+        }
+
+        /// <summary>
+        /// Gets a service for a specific resource type from the configuration.
+        /// </summary>
+        /// <typeparam name="TResource">
+        /// The type of the resource to get.
+        /// </typeparam>
+        /// <param name="configuration">
+        /// The configuration instance to use.
+        /// </param>
+        /// <param name="type">
+        /// The mime-type of the requested resource.
+        /// </param>
+        /// <returns>The service, if any.</returns>
+        public static IResourceService<TResource> GetResourceService<TResource>(this IConfiguration configuration, String type)
+            where TResource : IResourceInfo
+        {
+            var services = configuration.GetServices<IResourceService<TResource>>();
+
+            foreach (var service in services)
+            {
+                if (service.SupportsType(type))
+                    return service;
+            }
+
+            return default(IResourceService<TResource>);
         }
 
         #endregion
