@@ -263,5 +263,16 @@
                 Assert.Greater(end - start, TimeSpan.FromSeconds(1));
             }
         }
+
+        [Test]
+        public async Task ProxyShouldBeAvailableDuringLoading()
+        {
+            var windowIsNotNull = false;
+            var scripting = new CallbackScriptEngine(options => windowIsNotNull = options.Context.Proxy != null);
+            var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
+            var source = "<title>Some title</title><body><script type='c-sharp' src='foo.cs'></script>";
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+            Assert.IsTrue(windowIsNotNull);
+        }
     }
 }
