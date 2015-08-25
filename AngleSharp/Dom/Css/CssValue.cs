@@ -10,7 +10,7 @@
     /// <summary>
     /// Represents a CSS value.
     /// </summary>
-    sealed class CssValue : IEnumerable<CssToken>
+    sealed class CssValue : IEnumerable<CssToken>, IStyleFormattable
     {
         #region Fields
 
@@ -76,7 +76,21 @@
         /// </summary>
         public String CssText
         {
-            get { return _tokens.ToText(); }
+            get { return ToCss(); }
+        }
+
+        #endregion
+
+        #region String Representation
+
+        public String ToCss()
+        {
+            return _tokens.ToText();
+        }
+
+        public String ToCss(IStyleFormatter formatter)
+        {
+            return ToCss();
         }
 
         #endregion

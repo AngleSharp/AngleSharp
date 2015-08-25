@@ -1174,6 +1174,16 @@
             {
                 get { return Stringify(PseudoClassNames.NthChild); }
             }
+
+            public String ToCss()
+            {
+                return Text;
+            }
+
+            public String ToCss(IStyleFormatter formatter)
+            {
+                return ToCss();
+            }
         }
 
         /// <summary>
@@ -1213,6 +1223,16 @@
             public String Text
             {
                 get { return Stringify(PseudoClassNames.NthOfType); }
+            }
+
+            public String ToCss()
+            {
+                return Text;
+            }
+
+            public String ToCss(IStyleFormatter formatter)
+            {
+                return ToCss();
             }
         }
 
@@ -1262,6 +1282,16 @@
             {
                 get { return Stringify(PseudoClassNames.NthColumn); }
             }
+
+            public String ToCss()
+            {
+                return Text;
+            }
+
+            public String ToCss(IStyleFormatter formatter)
+            {
+                return ToCss();
+            }
         }
 
         /// <summary>
@@ -1302,6 +1332,16 @@
             {
                 get { return Stringify(PseudoClassNames.NthLastChild); }
             }
+
+            public String ToCss()
+            {
+                return Text;
+            }
+
+            public String ToCss(IStyleFormatter formatter)
+            {
+                return ToCss();
+            }
         }
 
         /// <summary>
@@ -1341,6 +1381,16 @@
             public String Text
             {
                 get { return Stringify(PseudoClassNames.NthLastOfType); }
+            }
+
+            public String ToCss()
+            {
+                return Text;
+            }
+
+            public String ToCss(IStyleFormatter formatter)
+            {
+                return ToCss();
             }
         }
 
@@ -1389,6 +1439,16 @@
             public String Text
             {
                 get { return Stringify(PseudoClassNames.NthLastColumn); }
+            }
+
+            public String ToCss()
+            {
+                return Text;
+            }
+
+            public String ToCss(IStyleFormatter formatter)
+            {
+                return ToCss();
             }
         }
 
