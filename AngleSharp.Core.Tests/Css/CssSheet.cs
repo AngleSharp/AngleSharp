@@ -947,7 +947,7 @@ font-weight:bold;}";
             });
             var source = ".foo { color: red; } @media print { #myid { color: green; } }";
             var sheet = parser.ParseStylesheet(source);
-            var comments = sheet.GetComments();
+            var comments = sheet.ParseTree.GetComments();
             Assert.AreEqual(0, comments.Count());
         }
 
@@ -960,7 +960,7 @@ font-weight:bold;}";
             });
             var source = ".foo { /*test*/ color: red;/*test*/ } @media print { #myid { color: green; } }";
             var sheet = parser.ParseStylesheet(source);
-            var comments = sheet.GetComments();
+            var comments = sheet.ParseTree.GetComments();
             Assert.AreEqual(2, comments.Count());
 
             foreach (var comment in comments)
@@ -976,7 +976,7 @@ font-weight:bold;}";
             });
             var source = ".foo { color: red; } @media print { /*test*/ #myid { color: green; } /*test*/ }";
             var sheet = parser.ParseStylesheet(source);
-            var comments = sheet.GetComments();
+            var comments = sheet.ParseTree.GetComments();
             Assert.AreEqual(2, comments.Count());
 
             foreach (var comment in comments)
@@ -992,7 +992,7 @@ font-weight:bold;}";
             });
             var source = ".foo { color: red; } @media all /*test*/ and /*test*/ (min-width: 701px) /*test*/ { #myid { color: green; } }";
             var sheet = parser.ParseStylesheet(source);
-            var comments = sheet.GetComments();
+            var comments = sheet.ParseTree.GetComments();
             Assert.AreEqual(3, comments.Count());
 
             foreach (var comment in comments)
@@ -1008,8 +1008,22 @@ font-weight:bold;}";
                 IsToleratingInvalidValues = true
             });
             var source = ".foo { color: red; } @media all /*test*/ and /*test*/ (min-width: 701px) /*test*/ { #myid { color: green; } }";
-            var sheet = parser.ParseStylesheet(source) as CssNode;
-            var roundtrip = sheet.GetSource();
+            var sheet = parser.ParseStylesheet(source);
+            var roundtrip = sheet.ParseTree.GetSource();
+            Assert.AreEqual(source, roundtrip);
+        }
+
+        [Test]
+        public void CssStyleSheetComplexRoundtrip()
+        {
+            var parser = new CssParser(new CssParserOptions
+            {
+                IsStoringTrivia = true,
+                IsToleratingInvalidValues = true
+            });
+            var source = CssStyleEngine.DefaultSource.Replace(Environment.NewLine, "\n").Replace("\\A", "\\a").Replace("'", "\"");
+            var sheet = parser.ParseStylesheet(source);
+            var roundtrip = sheet.ParseTree.GetSource();
             Assert.AreEqual(source, roundtrip);
         }
     }
