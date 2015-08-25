@@ -5,6 +5,7 @@
 
     /// <summary>
     /// The event that is published in case of starting HTML parsing.
+    /// This is also the same event for SVG or XML documents.
     /// </summary>
     public class HtmlParseStartEvent
     {

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Xml
 {
+    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Parser.Xml;
@@ -52,15 +53,22 @@
         /// <returns>The task that builds the document.</returns>
         internal async static Task<XmlDocument> LoadAsync(IBrowsingContext context, IResponse response, TextSource source, CancellationToken cancelToken)
         {
-            var contentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Xml);
             var document = new XmlDocument(context, source);
+            var evt = new HtmlParseStartEvent(document);
+            var events = context.Configuration.Events;
             var parser = new XmlDomBuilder(document);
-            document.ContentType = contentType;
+            document.ContentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Xml);
             document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
             document.DocumentUri = response.Address.Href;
             document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
             document.ReadyState = DocumentReadyState.Loading;
+            context.NavigateTo(document);
+
+            if (events != null)
+                events.Publish(evt);
+
             await parser.ParseAsync(default(XmlParserOptions), cancelToken).ConfigureAwait(false);
+            evt.FireEnd();
             return document;
         }
     }

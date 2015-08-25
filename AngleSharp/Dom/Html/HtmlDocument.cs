@@ -87,6 +87,7 @@
             document.DocumentUri = response.Address.Href;
             document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
             document.ReadyState = DocumentReadyState.Loading;
+            context.NavigateTo(document);
 
             if (events != null)
                 events.Publish(evt);

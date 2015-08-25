@@ -41,7 +41,7 @@
         /// <param name="response">The response to examine.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel)
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel)
         {
             if (response == null)
                 throw new ArgumentNullException("response");
@@ -50,9 +50,7 @@
                 context = BrowsingContext.New();
 
             var source = new TextSource(response.Content, context.Configuration.DefaultEncoding());
-            var document = await context.LoadDocumentAsync(response, source, cancel).ConfigureAwait(false);
-            context.NavigateTo(document);
-            return document;
+            return context.LoadDocumentAsync(response, source, cancel);
         }
 
         /// <summary>
@@ -106,7 +104,7 @@
         /// <param name="request">Callback with the response to setup.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel)
+        public static Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel)
         {
             if (request == null)
                 throw new ArgumentNullException("request");
@@ -118,9 +116,7 @@
             {
                 request(response);
                 var source = response.CreateSourceFor(context.Configuration);
-                var document = await context.LoadDocumentAsync(response, source, cancel).ConfigureAwait(false);
-                context.NavigateTo(document);
-                return document;
+                return context.LoadDocumentAsync(response, source, cancel);
             }
         }
 
