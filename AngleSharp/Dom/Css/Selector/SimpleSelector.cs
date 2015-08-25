@@ -395,5 +395,19 @@
         }
 
         #endregion
+
+        #region String Representation
+
+        public String ToCss()
+        {
+            return Text;
+        }
+
+        public String ToCss(IStyleFormatter formatter)
+        {
+            return ToCss();
+        }
+
+        #endregion
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Css.Values;
     using System;
     using System.Collections.Generic;
@@ -8,7 +7,7 @@
     /// <summary>
     /// Represents the keyframe selector.
     /// </summary>
-    sealed class KeyframeSelector : CssNode, IKeyframeSelector
+    sealed class KeyframeSelector : IKeyframeSelector
     {
         #region Fields
 
@@ -18,9 +17,9 @@
 
         #region ctor
 
-        public KeyframeSelector(List<Percent> stops)
+        public KeyframeSelector(IEnumerable<Percent> stops)
         {
-            _stops = stops;
+            _stops = new List<Percent>(stops);
         }
 
         #endregion
@@ -40,31 +39,26 @@
         /// </summary>
         public String Text
         {
-            get { return Serialize(", "); }
+            get { return ToCss(); }
         }
 
         #endregion
 
-        #region Methods
+        #region String Representation
 
-        public override String GetSource()
-        {
-            var plain = Serialize(",");
-            return Decorate(plain);
-        }
-
-        #endregion
-
-        #region Helpers
-
-        String Serialize(String separator)
+        public String ToCss()
         {
             var stops = new String[_stops.Count];
 
             for (int i = 0; i < stops.Length; i++)
                 stops[i] = _stops[i].ToString();
 
-            return String.Join(separator, stops);
+            return String.Join(", ", stops);
+        }
+
+        public String ToCss(IStyleFormatter formatter)
+        {
+            return ToCss();
         }
 
         #endregion

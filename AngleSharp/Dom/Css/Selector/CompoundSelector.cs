@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -62,7 +61,7 @@
         /// Returns a valid CSS string representing this selector.
         /// </summary>
         /// <returns>The CSS to create this selector.</returns>
-        protected override String ToCss()
+        public override String ToCss()
         {
             var sb = Pool.NewStringBuilder();
 
