@@ -40,7 +40,7 @@
         /// <summary>
         /// Gets the CSS root node associated with the stylesheet.
         /// </summary>
-        public CssNode Root 
+        public CssNode ParseTree 
         { 
             get; 
             set; 

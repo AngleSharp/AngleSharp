@@ -3,7 +3,6 @@
     using AngleSharp.Attributes;
     using AngleSharp.Css;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the CSS style sheet for storing CSS styles.
@@ -45,8 +44,8 @@
         String CssText { get; }
 
         /// <summary>
-        /// Gets the CSS root node associated with the stylesheet.
+        /// Gets the CSS root node associated with the stylesheet, if any.
         /// </summary>
-        CssNode Root { get; }
+        CssNode ParseTree { get; }
     }
 }
