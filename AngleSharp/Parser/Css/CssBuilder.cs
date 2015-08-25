@@ -366,16 +366,15 @@
 
             while (token.Type != CssTokenType.Eof)
             {
-                CreateNewNode(token);
+                CreateNewNode();
                 var medium = CreateMedium(ref token);
-                CloseNode(medium);
 
                 if (medium == null || token.IsNot(CssTokenType.Comma, CssTokenType.Eof))
                     throw new DomException(DomError.Syntax);
 
-                list.Add(medium);
                 token = NextToken();
                 CollectTrivia(ref token);
+                list.Add(CloseNode(medium));
             }
 
             return list;
@@ -392,12 +391,11 @@
 
             do
             {
-                CreateNewNode(token);
+                CreateNewNode();
                 var rule = CreateRule(token);
-                CloseNode(rule);
                 token = NextToken();
                 CollectTrivia(ref token);
-                sheet.AddRule(rule);
+                sheet.AddRule(CloseNode(rule));
             }
             while (token.Type != CssTokenType.Eof);
         }
@@ -419,6 +417,7 @@
             var keys = new List<Percent>();
             var valid = true;
             var start = token;
+            CreateNewNode();
             CollectTrivia(ref token);
 
             while (token.Type != CssTokenType.Eof)
@@ -451,7 +450,7 @@
             if (!valid)
                 RaiseErrorOccurred(CssParseError.InvalidSelector, start);
 
-            return new KeyframeSelector(keys);
+            return CloseNode(new KeyframeSelector(keys));
         }
 
         /// <summary>
@@ -490,6 +489,7 @@
         public CssProperty CreateDeclarationWith(Func<String, CssProperty> createProperty, ref CssToken token)
         {
             var property = default(CssProperty);
+            CreateNewNode();
 
             if (token.Type == CssTokenType.Ident)
             {
@@ -506,11 +506,11 @@
                 if (token.Type == CssTokenType.Colon)
                 {
                     var important = false;
-                    var val = CreateValue(CssTokenType.CurlyBracketClose, ref token, out important);
+                    var value = CreateValue(CssTokenType.CurlyBracketClose, ref token, out important);
 
-                    if (val == null)
+                    if (value == null)
                         RaiseErrorOccurred(CssParseError.ValueMissing, token);
-                    else if (property != null && property.TrySetValue(val))
+                    else if (property != null && property.TrySetValue(value))
                         property.IsImportant = important;
 
                     CollectTrivia(ref token);
@@ -529,7 +529,7 @@
             if (token.Type == CssTokenType.Semicolon)
                 token = NextToken();
 
-            return property;
+            return CloseNode(property);
         }
 
         /// <summary>
@@ -587,7 +587,8 @@
 
                 token = NextToken();
                 CollectTrivia(ref token);
-                var feature = CreateFeature(ref token);
+                CreateNewNode();
+                var feature = CloseNode(CreateFeature(ref token));
 
                 if (feature != null)
                     medium.AddConstraint(feature);
@@ -686,18 +687,22 @@
             return token;
         }
 
-        CssNode CreateNewNode(CssToken token)
+        CssNode CreateNewNode()
         {
             var node = default(CssNode);
 
             if (_parser.Options.IsStoringTrivia)
             {
+                var tokens = _nodes.Peek().Tokens;
                 node = new CssNode();
-                node.Tokens.Add(token);
 
-                if (_nodes.Count > 0)
-                    _nodes.Peek().Children.Add(node);
+                if (tokens.Count > 0)
+                {
+                    node.Tokens.Add(tokens[tokens.Count - 1]);
+                    tokens.RemoveAt(tokens.Count - 1);
+                }
 
+                _nodes.Peek().Children.Add(node);
                 _nodes.Push(node);
             }
 
@@ -708,7 +713,17 @@
             where T : IStyleFormattable
         {
             if (_nodes.Count > 0)
-                _nodes.Pop().Entity = entity;
+            {
+                var node = _nodes.Pop();
+                var tokens = node.Tokens;
+                node.Entity = entity;
+
+                if (tokens.Count > 0)
+                {
+                    _nodes.Peek().Tokens.Add(tokens[tokens.Count - 1]);
+                    tokens.RemoveAt(tokens.Count - 1);
+                }
+            }
 
             return entity;
 
@@ -732,8 +747,8 @@
 
             while (token.Type == CssTokenType.Whitespace || token.Type == CssTokenType.Comment)
             {
-                tokens.Add(token);
                 token = _tokenizer.Get();
+                tokens.Add(token);
             }
         }
 
@@ -775,8 +790,9 @@
                 {
                     token = NextToken();
                     CollectTrivia(ref token);
+                    CreateNewNode();
                     var conditions = MultipleConditions(condition, conjunction, ref token);
-                    condition = creator(conditions);
+                    condition = CloseNode(creator(conditions));
                 }
             }
 
@@ -786,6 +802,7 @@
         CssCondition ExtractCondition(ref CssToken token)
         {
             var condition = default(CssCondition);
+            CreateNewNode();
 
             if (token.Type == CssTokenType.RoundBracketOpen)
             {
@@ -814,13 +831,14 @@
                     condition = new NotCondition(condition);
             }
 
-            return condition;
+            return CloseNode(condition);
         }
 
         CssCondition DeclarationCondition(ref CssToken token)
         {
             var property = Factory.Properties.Create(token.Data) ?? new CssUnknownProperty(token.Data);
             var declaration = default(DeclarationCondition);
+            CreateNewNode();
             token = NextToken();
             CollectTrivia(ref token);
 
@@ -834,7 +852,7 @@
                     declaration = new DeclarationCondition(property, result);
             }
 
-            return declaration;
+            return CloseNode(declaration);
         }
 
         List<CssCondition> MultipleConditions(CssCondition condition, String connector, ref CssToken token)
@@ -870,14 +888,15 @@
         {
             do
             {
+                CreateNewNode();
                 var function = token.ToDocumentFunction();
 
                 if (function == null)
                     break;
 
-                functions.Add(function);
                 token = NextToken();
                 CollectTrivia(ref token);
+                functions.Add(CloseNode(function));
 
                 if (token.Type != CssTokenType.Comma)
                     break;
@@ -895,13 +914,11 @@
 
             while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
             {
+                CreateNewNode();
                 var rule = CreateKeyframeRule(token);
-
-                if (rule != null)
-                    parentRule.Rules.Add(rule, parentRule.Owner, parentRule);
-
                 token = NextToken();
                 CollectTrivia(ref token);
+                parentRule.AddRule(CloseNode(rule));
             }
         }
 
@@ -928,10 +945,11 @@
 
             while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
             {
+                CreateNewNode();
                 var rule = CreateRule(token);
-                group.AddRule(rule);
                 token = NextToken();
                 CollectTrivia(ref token);
+                group.AddRule(CloseNode(rule));
             }
         }
 
@@ -942,7 +960,8 @@
 
             while (token.Type != CssTokenType.Eof)
             {
-                var medium = CreateMedium(ref token);
+                CreateNewNode();
+                var medium = CloseNode(CreateMedium(ref token));
 
                 if (medium != null)
                     list.Add(medium);
@@ -973,6 +992,7 @@
         {
             var selector = Pool.NewSelectorConstructor();
             var start = token;
+            CreateNewNode();
 
             while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketOpen, CssTokenType.CurlyBracketClose))
             {
@@ -983,7 +1003,7 @@
             if (!selector.IsValid)
                 RaiseErrorOccurred(CssParseError.InvalidSelector, start);
 
-            return selector.ToPool();
+            return CloseNode(selector.ToPool());
         }
 
         CssValue CreateValue(CssTokenType closing, ref CssToken token, out Boolean important)
@@ -991,6 +1011,7 @@
             var value = Pool.NewValueBuilder();
             _tokenizer.IsInValue = true;
             token = NextToken();
+            CreateNewNode();
 
             while (token.Type != CssTokenType.Eof)
             {
@@ -1008,7 +1029,7 @@
             if (!value.IsValid && !_parser.Options.IsToleratingInvalidValues)
                 result = null;
 
-            return result;
+            return CloseNode(result);
         }
 
         String GetRuleName(ref CssToken token)
