@@ -138,6 +138,7 @@
     <Compile Include="Library\FormReset.cs" />
     <Compile Include="Library\ImageCandidates.cs" />
     <Compile Include="Library\MeterElement.cs" />
+    <Compile Include="Library\MimeType.cs" />
     <Compile Include="Library\MutationObserver.cs" />
     <Compile Include="Library\OptionWithLabel.cs" />
     <Compile Include="Library\ShadowDom.cs" />
