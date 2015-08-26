@@ -490,16 +490,30 @@
             var property = default(CssProperty);
             CreateNewNode();
 
-            if (token.Type == CssTokenType.Ident)
+            var sb = Pool.NewStringBuilder();
+
+            while (token.Type != CssTokenType.Eof &&
+                   token.Type != CssTokenType.Colon &&
+                   token.Type != CssTokenType.Whitespace &&
+                   token.Type != CssTokenType.Comment &&
+                   token.Type != CssTokenType.CurlyBracketOpen &&
+                   token.Type != CssTokenType.Semicolon)
             {
-                property = _parser.Options.IsIncludingUnknownDeclarations || _parser.Options.IsToleratingInvalidValues ?
-                    new CssUnknownProperty(token.Data) : 
-                    createProperty(token.Data);
+                sb.Append(token.ToValue());
+                token = NextToken();
+            }
+
+            var propertyName = sb.ToPool();
+
+            if (propertyName.Length > 0)
+            {
+                property = _parser.Options.IsIncludingUnknownDeclarations || 
+                           _parser.Options.IsToleratingInvalidValues ?
+                    new CssUnknownProperty(propertyName) : createProperty(propertyName);
 
                 if (property == null)
                     RaiseErrorOccurred(CssParseError.UnknownDeclarationName, token);
 
-                token = NextToken();
                 CollectTrivia(ref token);
 
                 if (token.Type == CssTokenType.Colon)
