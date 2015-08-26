@@ -1,6 +1,10 @@
 ﻿namespace AngleSharp.Core.Tests
 {
     using AngleSharp.Dom.Css;
+    using AngleSharp.Dom.Html;
+    using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
+    using AngleSharp.Parser.Html;
     using NUnit.Framework;
 
     [TestFixture]
@@ -41,6 +45,23 @@
             Assert.AreEqual("background-color", rule.Name);
             Assert.AreEqual(rule.Name, decl[0]);
             Assert.AreEqual("rgb(0, 128, 0)", rule.Value);
+        }
+
+        [Test]
+        public void ParsedCssCanHaveExtraWhitespace()
+        {
+            var html = "<div style=\"background-color: http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert('XSS');</SCRIPT><![endif]-->\">";
+            var parser = new HtmlParser(Configuration.Default.WithCss(e => e.Options = new CssParserOptions
+            {
+                IsIncludingUnknownDeclarations = true,
+                IsIncludingUnknownRules = true,
+                IsToleratingInvalidConstraints = true,
+                IsToleratingInvalidValues = true
+            }));
+            var dom = parser.Parse(html);
+            var div = dom.QuerySelector<IHtmlElement>("div");
+            Assert.AreEqual("http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert(\"XSS\")", div.Style["background-color"]);
+            Assert.AreEqual("background-color: http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert(\"XSS\");", div.Style.CssText);
         }
     }
 }
