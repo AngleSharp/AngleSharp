@@ -56,9 +56,9 @@
         public void RecycleSelectorConstructorReused()
         {
             var sc1 = Pool.NewSelectorConstructor();
-            Assert.AreEqual(SimpleSelector.All, sc1.Result);
+            Assert.AreEqual(SimpleSelector.All, sc1.GetResult());
             var sc2 = Pool.NewSelectorConstructor();
-            Assert.AreEqual(SimpleSelector.All, sc2.Result);
+            Assert.AreEqual(SimpleSelector.All, sc2.GetResult());
             Assert.AreNotEqual(sc1, sc2);
             sc1.ToPool();
             sc2.ToPool();
