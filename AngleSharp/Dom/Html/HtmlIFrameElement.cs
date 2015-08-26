@@ -6,6 +6,7 @@
     using AngleSharp.Html;
     using AngleSharp.Network;
     using System;
+using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML iframe element.
@@ -103,8 +104,16 @@
                 var url = this.HyperReference(src);
                 var request = DocumentRequest.Get(url, source: this, referer: Owner.DocumentUri);
                 this.CreateTask(cancel => _context.OpenAsync(request, cancel))
-                    .ContinueWith(m => this.FireLoadOrErrorEvent(m));
+                    .ContinueWith(Finished);
             }
+        }
+
+        void Finished(Task<IDocument> task)
+        {
+            if (!task.IsFaulted)
+                ContentDocument = task.Result;
+
+            this.FireLoadOrErrorEvent(task);
         }
 
         #endregion
