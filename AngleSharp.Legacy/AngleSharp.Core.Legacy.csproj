@@ -2339,9 +2339,6 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlVideoElement.cs">
       <Link>Interfaces\Html\IHtmlVideoElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Html\IRadioNodeList.cs">
-      <Link>Interfaces\Html\IRadioNodeList.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IValidation.cs">
       <Link>Interfaces\Html\IValidation.cs</Link>
     </Compile>
