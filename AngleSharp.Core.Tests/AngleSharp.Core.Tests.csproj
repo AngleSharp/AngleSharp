@@ -78,6 +78,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Assets.resx</DependentUpon>
     </Compile>
+    <Compile Include="Css\CssCases.cs" />
     <Compile Include="Css\CssConstructionFunctions.cs" />
     <Compile Include="Css\CssContentProperty.cs" />
     <Compile Include="Css\CssImportRule.cs" />
