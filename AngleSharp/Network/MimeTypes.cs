@@ -459,7 +459,7 @@
         };
 
         /// <summary>
-        /// Gets the mime type from a file extension .ext.
+        /// Gets the mime type from a file extension ".ext".
         /// </summary>
         /// <param name="extension">The extension (starting with a dot).</param>
         /// <returns>The mime-type of the given extension.</returns>

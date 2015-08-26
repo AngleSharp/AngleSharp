@@ -198,6 +198,7 @@
     <Compile Include="IStyleFormattable.cs" />
     <Compile Include="IStyleFormatter.cs" />
     <Compile Include="Network\Default\DataRequester.cs" />
+    <Compile Include="Network\MimeType.cs" />
     <Compile Include="Parser\Css\CssBuilder.cs" />
     <Compile Include="Parser\Css\CssParserOptions.cs" />
     <Compile Include="Parser\Css\Tokens\CssFunctionToken.cs" />
