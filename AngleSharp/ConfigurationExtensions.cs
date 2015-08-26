@@ -156,7 +156,7 @@
             if (configuration.GetServices<ILoaderService>().Any() == false)
             {
                 if (requesters == null)
-                    requesters = new[] { new HttpRequester() };
+                    requesters = new IRequester[] { new HttpRequester(), new DataRequester() };
 
                 var service = new LoaderService(requesters);
 
