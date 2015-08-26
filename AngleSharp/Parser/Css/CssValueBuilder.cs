@@ -121,6 +121,7 @@
 
                 default: // everything else is unexpected
                     _valid = false;
+                    Add(token);
                     break;
             }
         }
@@ -172,8 +173,8 @@
 
             if (_important)
                 _valid = false;
-            else if (_valid)
-                _values.Add(token);
+            
+            _values.Add(token);
         }
 
         static Boolean IsCommaOrSlash(CssToken token)
