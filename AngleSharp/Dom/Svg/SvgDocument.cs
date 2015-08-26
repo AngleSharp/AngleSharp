@@ -72,16 +72,17 @@
         /// </summary>
         /// <param name="context">The browsing context.</param>
         /// <param name="response">The response to consider.</param>
+        /// <param name="contentType">The content type of the response.</param>
         /// <param name="source">The source to use.</param>
         /// <param name="cancelToken">Token for cancellation.</param>
         /// <returns>The task that builds the document.</returns>
-        internal async static Task<SvgDocument> LoadAsync(IBrowsingContext context, IResponse response, TextSource source, CancellationToken cancelToken)
+        internal async static Task<SvgDocument> LoadAsync(IBrowsingContext context, IResponse response, MimeType contentType, TextSource source, CancellationToken cancelToken)
         {
             var document = new SvgDocument(context, source);
             var evt = new HtmlParseStartEvent(document);
             var events = context.Configuration.Events;
             var parser = new XmlDomBuilder(document);
-            document.ContentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Svg);
+            document.ContentType = contentType.Content;
             document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
             document.DocumentUri = response.Address.Href;
             document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);

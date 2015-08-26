@@ -184,17 +184,29 @@
         #region Resolving
 
         /// <summary>
-        /// Gets the content-type from the response's headers.
+        /// Gets the content-type from the response's headers. The default type
+        /// is derived from the file extension of the path, if any.
         /// </summary>
         /// <param name="response">The response to examine.</param>
         /// <returns>The provided or default content-type.</returns>
-        public static String GetContentType(this IResponse response)
+        public static MimeType GetContentType(this IResponse response)
         {
             var fileName = response.Address.Path;
             var index = fileName.LastIndexOf('.');
             var extension = index >= 0 ? fileName.Substring(index) : ".a";
             var defaultType = MimeTypes.FromExtension(MimeTypes.Binary);
-            return response.Headers.GetOrDefault(HeaderNames.ContentType, defaultType);
+            return response.GetContentType(defaultType);
+        }
+
+        /// <summary>
+        /// Gets the content-type from the response's headers.
+        /// </summary>
+        /// <param name="response">The response to examine.</param>
+        /// <param name="defaultType">The default type to apply.</param>
+        /// <returns>The provided or default content-type.</returns>
+        public static MimeType GetContentType(this IResponse response, String defaultType)
+        {
+            return new MimeType(response.Headers.GetOrDefault(HeaderNames.ContentType, defaultType));
         }
 
         #endregion

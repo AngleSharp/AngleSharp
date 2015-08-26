@@ -5,6 +5,7 @@
     using AngleSharp.Dom.Svg;
     using AngleSharp.Dom.Xml;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
@@ -49,8 +50,15 @@
             if (context == null)
                 context = BrowsingContext.New();
 
-            var source = new TextSource(response.Content, context.Configuration.DefaultEncoding());
-            return context.LoadDocumentAsync(response, source, cancel);
+            var contentType = response.GetContentType(MimeTypes.Html);
+            var encoding = context.Configuration.DefaultEncoding();
+            var charset = contentType.GetParameter(AttributeNames.Charset);
+
+            if (!String.IsNullOrEmpty(charset) && TextEncoding.IsSupported(charset))
+                encoding = TextEncoding.Resolve(charset);
+
+            var source = new TextSource(response.Content, encoding);
+            return context.LoadDocumentAsync(response, contentType, source, cancel);
         }
 
         /// <summary>
@@ -115,8 +123,9 @@
             using (var response = new VirtualResponse())
             {
                 request(response);
+                var contentType = response.GetContentType(MimeTypes.Html);
                 var source = response.CreateSourceFor(context.Configuration);
-                return context.LoadDocumentAsync(response, source, cancel);
+                return context.LoadDocumentAsync(response, contentType, source, cancel);
             }
         }
 
@@ -163,26 +172,14 @@
 
         #region Helpers
 
-        static async Task<IDocument> LoadDocumentAsync(this IBrowsingContext context, IResponse response, TextSource source, CancellationToken cancel)
+        static async Task<IDocument> LoadDocumentAsync(this IBrowsingContext context, IResponse response, MimeType contentType, TextSource source, CancellationToken cancel)
         {
-            var contentType = response.Headers.GetOrDefault(HeaderNames.ContentType, MimeTypes.Html);
+            if (contentType.Represents(MimeTypes.Xml) || contentType.Represents(MimeTypes.ApplicationXml))
+                return await XmlDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
+            else if (contentType.Represents(MimeTypes.Svg))
+                return await SvgDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
 
-            if (contentType.IndexOf(';') > 0)
-            {
-                contentType = contentType.Substring(0, contentType.IndexOf(';')).Trim();
-            }
-
-            if (contentType.Equals(MimeTypes.Xml, StringComparison.OrdinalIgnoreCase) ||
-                contentType.Equals(MimeTypes.ApplicationXml, StringComparison.OrdinalIgnoreCase))
-            {
-                return await XmlDocument.LoadAsync(context, response, source, cancel).ConfigureAwait(false);
-            }
-            else if (contentType.Equals(MimeTypes.Svg, StringComparison.OrdinalIgnoreCase))
-            {
-                return await SvgDocument.LoadAsync(context, response, source, cancel);
-            }
-
-            return await HtmlDocument.LoadAsync(context, response, source, cancel).ConfigureAwait(false);
+            return await HtmlDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
         }
 
         #endregion

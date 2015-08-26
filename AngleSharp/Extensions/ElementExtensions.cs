@@ -4,7 +4,6 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
     using AngleSharp.Network;
-    using AngleSharp.Services;
     using AngleSharp.Services.Media;
     using System;
     using System.Collections.Generic;
@@ -713,7 +712,7 @@
                     {
                         var options = document.Options;
                         var type = response.GetContentType();
-                        var service = options.GetResourceService<TResource>(type);
+                        var service = options.GetResourceService<TResource>(type.Content);
 
                         if (service != null)
                             return await service.CreateAsync(response, cancel).ConfigureAwait(false);
