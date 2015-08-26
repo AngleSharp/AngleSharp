@@ -5,28 +5,22 @@ AngleSharp
 
 AngleSharp is a .NET library that gives you the ability to parse angle bracket based hyper-texts like HTML, SVG, and MathML. XML without validation is also supported by the library. An important aspect of AngleSharp is that CSS can also be parsed. The parser is built upon the official W3C specification. This produces a perfectly portable HTML5 DOM representation of the given source code. Also current features such as `querySelector` or `querySelectorAll` work for tree traversal.
 
+Key features
+------------
+
+* **Portable** (designed as a portable class library)
+* **Standards conform** (works exactly as in all modern browsers)
+* **Great performance** (outperforms most other parsers in many cases)
+* **Extensible** (extend with your own services)
+* **Useful abstractions** (type helpers, jQuery like construction)
+* **Fully functional DOM** (all the lists, iterators and events you love)
+* **Form submission** (easily log in everywhere)
+* **Navigation** (a `BrowsingContext` is like a tab - control it from .NET!).
+* **LINQ enhanced** (use LINQ with DOM elements, naturally)
+
 The advantage over similar libraries like the HtmlAgilityPack is that e.g. CSS (including selectors) is already built-in. Also the parser uses the HTML 5.1 specification, which defines error handling and element correction. The AngleSharp library focuses on standards complience, interactivity and extensibility. It is therefore giving web developers, who are working with C#, all possibilities as they know from using the DOM in any modern browser.
 
 The performance of AngleSharp is quite close to the performance of browsers. Even very large pages can be processed within milliseconds. AngleSharp tries to minimize memory allocations and reuses elements internally to avoid unnecessary object creation.
-
-Supported platforms
--------------------
-
-AngleSharp has been created as a PCL (profile 259) that supports a wide range of platforms. The list includes, but is not limited to:
-
-* .NET Framework 4.5
-* Silverlight 5
-* Windows 8 
-* Windows Phone 8.1 / Windows Phone Silverlight
-* Xamarin.Android
-* Xamarin.iOS
-
-Additionally the NuGet package also comes with support for the following platforms:
-
-* Silverlight 5
-* .NET 4.0
-
-Please note, however, that those platforms have requirements (Microsoft.Bcl.Async), which are not needed by the platforms targeted from the original PCL version.
 
 Simple demo
 -----------
@@ -48,12 +42,32 @@ var cells = document.QuerySelectorAll(cellSelector);
 var titles = cells.Select(m => m.TextContent);
 ```
 
+Supported platforms
+-------------------
+
+AngleSharp has been created as a PCL (profile 259) that supports a wide range of platforms. The list includes, but is not limited to:
+
+* .NET Framework 4.5
+* Silverlight 5
+* Windows 8 
+* Windows Phone 8.1 / Windows Phone Silverlight
+* Xamarin.Android
+* Xamarin.iOS
+
+Additionally the NuGet package also comes with support for the following platforms:
+
+* Silverlight 5
+* .NET 4.0
+
+Please note, however, that those platforms have requirements (Microsoft.Bcl.Async), which are not needed by the platforms targeted from the original PCL version
+
 Every collection in AngleSharp supports LINQ statements. AngleSharp also provides many useful extension methods for element collections that cannot be found in the official DOM.
 
 Documentation
 -------------
 
 Documentation is available in form of the public Wiki here at GitHub. 
+
 * [Wiki Home](https://github.com/FlorianRappl/AngleSharp/wiki)
 * [Documentation](https://github.com/FlorianRappl/AngleSharp/wiki/Documentation)
 * [API](https://github.com/FlorianRappl/AngleSharp/wiki/Api)
@@ -84,6 +98,20 @@ Change log
 ----------
 
 A more detailed change log can be found in the wiki.
+
+**0.9.0**
+- Improved DOM algorithms and performance
+- Shadow DOM draft implemented
+- The `picture` element is now support (with `srcset`)
+- More neat helpers
+- Custom `MimeType`
+- `DocumentBuilder` removed
+- AngleSharp events aggregated in `IEventAggregator`
+- Non-validating XML parser reintegrated
+- CSSOM improved (also allows round-trip)
+- Included default cookie service
+- Deployed with strong name
+- Improved parser front-ends (`HtmlParser`, `CssParser`, ...)
 
 **0.8.0**
 - New CSS value model integrated
@@ -157,25 +185,16 @@ The roadmap presents a draft on what is about to be implemented, and when. The p
 
 The time estimates are speculative, which means that the project could be totally off those predictions. Finding talented (and motivated) collaborators would certainly speed up the project.
 
-(July 2015) **0.9.0**
-- (Simple?) XPath query support
-- Interface for rendering defined
-- CSS layout box
-- Improved DOM algorithms and performance
-- Parser token output
-- More neat helpers
-- CSS computation works with everything
-- MathML support improved
-- ShadowDOM 
-- AngleSharp.Scripting with generated JS bindings
-
-(October 2015) **1.0.0**
+(December 2015) **1.0.0**
 - Final release of the first version
-- MathML and SVG finalized (for HTML)
-- HTML5 parser at 100% with complete DOM
-- SVG document included
-- SVG DOM skeleton implemented
+- Split AngleSharp.Core into several libraries
+- Provide internal / external communication channel (best flexibility)
+- Provide `Task` based standard event loop
+- Service model rethought / improved / finalized
 - Most important SVG elements implemented
+- Potential (simple?) XPath query support
+- Interface for rendering defined
+- CSS layout box => layout computation works with everything
 
 The current schedule seems to be rather defensive, which does not mean the project will be "finished", i.e. released in version 1.0.0, before the given date. If there is time left, more unit tests will be written and the general code quality will be increased.
 
@@ -189,6 +208,8 @@ Use-cases
 - Querying document elements
 - Crawling information
 - Gathering statistics
+- Web automation
+- Tools with HTML / CSS support
 - Connection to page analytics
 - HTML / DOM Unit Tests
 - Automated JavaScript interaction
