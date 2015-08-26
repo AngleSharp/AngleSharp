@@ -3,7 +3,6 @@
     using AngleSharp.Dom.Media;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Services;
     using AngleSharp.Services.Media;
     using System;
 
@@ -15,7 +14,6 @@
     {
         #region Fields
 
-        readonly BoundLocation _src;
         protected MediaNetworkState _network;
         protected TResource _media;
 
@@ -116,7 +114,6 @@
         public HTMLMediaElement(Document owner, String name, String prefix)
             : base(owner, name, prefix)
         {
-            _src = new BoundLocation(this, AttributeNames.Src);
             _network = MediaNetworkState.Empty;
             RegisterAttributeObserver(AttributeNames.Src, value => Load());
         }
@@ -130,8 +127,8 @@
         /// </summary>
         public String Source
         {
-            get { return _src.Href; }
-            set { _src.Href = value; }
+            get { return GetUrlAttribute(AttributeNames.Src); }
+            set { SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>

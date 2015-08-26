@@ -1,25 +1,18 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents the base class for frame elements.
     /// </summary>
     abstract class HtmlFrameElementBase : HtmlFrameOwnerElement
     {
-        #region Fields
-
-        readonly BoundLocation _src;
-
-        #endregion
-
         #region ctor
 
         public HtmlFrameElementBase(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, flags | NodeFlags.Special)
         {
-            _src = new BoundLocation(this, AttributeNames.Src);
         }
 
         #endregion
@@ -40,8 +33,8 @@
         /// </summary>
         public String Source
         {
-            get { return _src.Href; }
-            set { _src.Href = value; }
+            get { return GetUrlAttribute(AttributeNames.Src); }
+            set { SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -54,7 +47,8 @@
         }
 
         /// <summary>
-        /// Gets the document this frame contains, if there is any and it is available, or null otherwise.
+        /// Gets the document this frame contains, if there is any and it is
+        /// available, or null otherwise.
         /// </summary>
         public IDocument ContentDocument
         {
@@ -63,7 +57,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the URL designating a long description of this image or frame.
+        /// Gets or sets the URL designating a long description of this image
+        /// or frame.
         /// </summary>
         public String LongDesc
         {

@@ -12,7 +12,6 @@
     {
         #region Fields
 
-        readonly BoundLocation _data;
         IObjectInfo _obj;
 
         #endregion
@@ -22,7 +21,6 @@
         public HtmlObjectElement(Document owner, String prefix = null)
             : base(owner, Tags.Object, prefix, NodeFlags.Scoped)
         {
-            _data = new BoundLocation(this, AttributeNames.Data);
             RegisterAttributeObserver(AttributeNames.Data, UpdateSource);
         }
 
@@ -35,8 +33,8 @@
         /// </summary>
         public String Source
         {
-            get { return _data.Href; }
-            set { _data.Href = value; }
+            get { return GetUrlAttribute(AttributeNames.Data); }
+            set { SetOwnAttribute(AttributeNames.Data, value); }
         }
 
         /// <summary>

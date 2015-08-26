@@ -13,7 +13,6 @@
     {
         #region Fields
 
-        readonly BoundLocation _poster;
         IVideoTrackList _videos;
 
         #endregion
@@ -26,7 +25,6 @@
         public HtmlVideoElement(Document owner, String prefix = null)
             : base(owner, Tags.Video, prefix)
         {
-            _poster = new BoundLocation(this, AttributeNames.Poster);
             _videos = null;
         }
 
@@ -78,8 +76,8 @@
         /// </summary>
         public String Poster
         {
-            get { return _poster.Href; }
-            set { _poster.Href = value; }
+            get { return GetUrlAttribute(AttributeNames.Poster); }
+            set { SetOwnAttribute(AttributeNames.Poster, value); }
         }
 
         #endregion

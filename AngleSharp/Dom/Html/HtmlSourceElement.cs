@@ -8,12 +8,6 @@
     /// </summary>
     sealed class HtmlSourceElement : HtmlElement, IHtmlSourceElement
     {
-        #region Fields
-
-        readonly BoundLocation _src;
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -22,7 +16,6 @@
         public HtmlSourceElement(Document owner, String prefix = null)
             : base(owner, Tags.Source, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _src = new BoundLocation(this, AttributeNames.Src);
         }
 
         #endregion
@@ -34,8 +27,8 @@
         /// </summary>
         public String Source
         {
-            get { return _src.Href; }
-            set { _src.Href = value; }
+            get { return GetUrlAttribute(AttributeNames.Src); }
+            set { SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
