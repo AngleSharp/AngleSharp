@@ -6,11 +6,13 @@
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// Defines a set of extension methods for style sheets.
     /// </summary>
+    [DebuggerStepThrough]
     public static class StyleSheetExtensions
     {
         /// <summary>
@@ -56,12 +58,78 @@
         }
 
         /// <summary>
+        /// Gets all descendents of the provided node.
+        /// </summary>
+        /// <param name="node">The node to examine.</param>
+        /// <returns>An iterator over all contained nodes.</returns>
+        public static IEnumerable<CssNode> GetAllDescendents(this CssNode node)
+        {
+            if (node == null)
+                throw new ArgumentNullException("node");
+
+            return node.Children.SelectMany(m => m.GetAllDescendents());
+        }
+
+        /// <summary>
+        /// Gets all descendents of the provided node.
+        /// </summary>
+        /// <param name="node">The node to examine.</param>
+        /// <returns>An iterator over all contained nodes.</returns>
+        public static IEnumerable<T> GetAll<T>(this CssNode node)
+            where T : IStyleFormattable
+        {
+            if (node == null)
+                throw new ArgumentNullException("node");
+
+            if (node.Entity is T)
+                yield return (T)node.Entity;
+
+            foreach (var entity in node.Children.SelectMany(m => m.GetAll<T>()))
+                yield return entity;
+        }
+
+        /// <summary>
+        /// Gets the associated for the provided entity, if any.
+        /// </summary>
+        /// <param name="node">The node to start the retrieval.</param>
+        /// <param name="entity">The entity to look for.</param>
+        /// <returns>The associated node, or null if there is none..</returns>
+        public static CssNode GetAssociatedNode(this CssNode node, IStyleFormattable entity)
+        {
+            if (node == null)
+                throw new ArgumentNullException("node");
+
+            if (entity == null)
+                throw new ArgumentNullException("entity");
+
+            var target = default(CssNode);
+
+            if (Object.ReferenceEquals(node.Entity, entity))
+            {
+                return node;
+            }
+
+            foreach (var child in node.Children)
+            {
+                target = child.GetAssociatedNode(entity);
+
+                if (target != null)
+                    break;
+            }
+
+            return target;
+        }
+
+        /// <summary>
         /// Gets the original source code of the CSS node.
         /// </summary>
         /// <param name="node">The node to examine.</param>
         /// <returns>The original text representation.</returns>
         public static String GetSource(this CssNode node)
         {
+            if (node == null)
+                throw new ArgumentNullException("node");
+
             var tokens = node.Tokens;
             var childs = node.Children;
             var total = tokens.Count + childs.Count;
