@@ -389,7 +389,7 @@
             var token = NextToken();
             CollectTrivia(ref token);
 
-            do
+            while (token.Type != CssTokenType.Eof)
             {
                 CreateNewNode();
                 var rule = CreateRule(token);
@@ -397,7 +397,6 @@
                 CollectTrivia(ref token);
                 sheet.AddRule(CloseNode(rule));
             }
-            while (token.Type != CssTokenType.Eof);
         }
 
         /// <summary>
