@@ -5,7 +5,6 @@
     using System;
     using System.IO;
 
-
     /// <summary>
     /// Represents the typedef for any rendering context.
     /// This is shown is the base interface for all rendering

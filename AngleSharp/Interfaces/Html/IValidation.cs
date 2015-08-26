@@ -6,6 +6,7 @@
     /// <summary>
     /// Implemented by elements that can be validated.
     /// </summary>
+    [DomNoInterfaceObject]
     public interface IValidation
     {
         /// <summary>
