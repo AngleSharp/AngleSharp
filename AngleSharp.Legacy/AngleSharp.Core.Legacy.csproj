@@ -2588,6 +2588,9 @@
     <Compile Include="..\AngleSharp\Network\KnownProtocols.cs">
       <Link>Network\KnownProtocols.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\MimeType.cs">
+      <Link>Network\MimeType.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\MimeTypes.cs">
       <Link>Network\MimeTypes.cs</Link>
     </Compile>
