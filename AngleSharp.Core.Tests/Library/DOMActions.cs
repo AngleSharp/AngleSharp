@@ -8,6 +8,7 @@
     using NUnit.Framework;
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class DOMActions
@@ -871,6 +872,45 @@
             Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubname4").WillValidate);
             Assert.IsFalse(document.QuerySelector<IHtmlInputElement>("#clubnum4").WillValidate);
             Assert.IsTrue(document.QuerySelector<IHtmlInputElement>("#club4").WillValidate);
+        }
+
+        [Test]
+        public async Task IframeWithDocumentViaDataSrc()
+        {
+            var cfg = Configuration.Default.WithDefaultLoader();
+            var html = @"<!doctype html><iframe id=myframe src='data:text/html,<span>Hello World!</span>'></iframe></script>";
+            var document = await BrowsingContext.New(cfg).OpenAsync(m => m.Content(html));
+            var iframe = document.QuerySelector<IHtmlInlineFrameElement>("#myframe");
+            Assert.IsNotNull(iframe);
+            Assert.IsNotNull(iframe.ContentDocument);
+            Assert.AreEqual("Hello World!", iframe.ContentDocument.Body.TextContent);
+            Assert.AreEqual(iframe.ContentDocument, iframe.ContentWindow.Document);
+        }
+
+        [Test]
+        public async Task IframeWithDocumentViaDocSrc()
+        {
+            var cfg = Configuration.Default.WithDefaultLoader();
+            var html = @"<!doctype html><iframe id=myframe srcdoc='<span>Hello World!</span>'></iframe></script>";
+            var document = await BrowsingContext.New(cfg).OpenAsync(m => m.Content(html));
+            var iframe = document.QuerySelector<IHtmlInlineFrameElement>("#myframe");
+            Assert.IsNotNull(iframe);
+            Assert.IsNotNull(iframe.ContentDocument);
+            Assert.AreEqual("Hello World!", iframe.ContentDocument.Body.TextContent);
+            Assert.AreEqual(iframe.ContentDocument, iframe.ContentWindow.Document);
+        }
+
+        [Test]
+        public async Task IframeWithDocumentPreferDocSrcToDataSrc()
+        {
+            var cfg = Configuration.Default.WithDefaultLoader();
+            var html = @"<!doctype html><iframe id=myframe srcdoc='Green' src='data:text/html,Red'></iframe></script>";
+            var document = await BrowsingContext.New(cfg).OpenAsync(m => m.Content(html));
+            var iframe = document.QuerySelector<IHtmlInlineFrameElement>("#myframe");
+            Assert.IsNotNull(iframe);
+            Assert.IsNotNull(iframe.ContentDocument);
+            Assert.AreEqual("Green", iframe.ContentDocument.Body.TextContent);
+            Assert.AreEqual(iframe.ContentDocument, iframe.ContentWindow.Document);
         }
     }
 }
