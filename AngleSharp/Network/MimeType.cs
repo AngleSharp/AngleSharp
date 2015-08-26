@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Network
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -7,7 +8,7 @@
     /// <summary>
     /// Represents an Internet media type.
     /// </summary>
-    public class MimeType
+    public class MimeType : IEquatable<MimeType>
     {
         #region Fields
 
@@ -50,6 +51,22 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the content part, i.e. everything without the parameters.
+        /// </summary>
+        public String Content 
+        {
+            get
+            {
+                if (_media.Length == 0 && _suffix.Length == 0)
+                    return _general;
+
+                var front = String.Concat(_general, "/", _media);
+                var back = _suffix.Length > 0 ? "+" + _suffix : String.Empty;
+                return String.Concat(front, back);
+            }
+        }
 
         /// <summary>
         /// Gets the general type.
@@ -118,6 +135,71 @@
             var back = _suffix.Length > 0 ? "+" + _suffix : String.Empty;
             var opt = _params.Length > 0 ? ";" + _params : String.Empty;
             return String.Concat(front, back, opt);
+        }
+
+        #endregion
+
+        #region Comparison
+
+        /// <summary>
+        /// Compares the MIME types without considering their parameters.
+        /// </summary>
+        /// <param name="other">The type to compare to.</param>
+        /// <returns>True if both types are equal, otherwise false.</returns>
+        public Boolean Equals(MimeType other)
+        {
+            return _general.Isi(other._general) && _media.Isi(other._media) && _suffix.Isi(other._suffix);
+        }
+
+        /// <summary>
+        /// Compares to the other object. It has to be a MIME type.
+        /// </summary>
+        /// <param name="obj">The object to compare to.</param>
+        /// <returns>True if both objects are equal, otherwise false.</returns>
+        public override Boolean Equals(Object obj)
+        {
+            if (!Object.ReferenceEquals(this, obj))
+            {
+                var type = obj as MimeType;
+
+                if (type == null)
+                    return false;
+
+                return Equals(type);
+            }
+            
+            return true;
+        }
+
+        /// <summary>
+        /// Computes the hash code for the MIME type.
+        /// </summary>
+        /// <returns>The computed hash code.</returns>
+        public override Int32 GetHashCode()
+        {
+            return (_general.GetHashCode() << 2) ^ (_media.GetHashCode() << 1) ^ (_suffix.GetHashCode());
+        }
+
+        /// <summary>
+        /// Runs the Equals method from a with b.
+        /// </summary>
+        /// <param name="a">The first MIME type.</param>
+        /// <param name="b">The MIME type to compare to.</param>
+        /// <returns>True if both are equal, otherwise false.</returns>
+        public static Boolean operator ==(MimeType a, MimeType b)
+        {
+            return a.Equals(b);
+        }
+
+        /// <summary>
+        /// Runs the negated Equals method from a with b.
+        /// </summary>
+        /// <param name="a">The first MIME type.</param>
+        /// <param name="b">The MIME type to compare to.</param>
+        /// <returns>True if both are not equal, otherwise false.</returns>
+        public static Boolean operator !=(MimeType a, MimeType b)
+        {
+            return !a.Equals(b);
         }
 
         #endregion

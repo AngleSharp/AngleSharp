@@ -578,6 +578,21 @@
             return false;
         }
 
+        /// <summary>
+        /// Checks if the given mime-type is equivalent to the provided string
+        /// representation.
+        /// </summary>
+        /// <param name="type">The type to check for.</param>
+        /// <param name="content">THe string representation.</param>
+        /// <returns>
+        /// True if both (type and representation) are equivalent, else false.
+        /// </returns>
+        public static Boolean Represents(this MimeType type, String content)
+        {
+            var other = new MimeType(content);
+            return type.Equals(other);
+        }
+
         #endregion
     }
 }
