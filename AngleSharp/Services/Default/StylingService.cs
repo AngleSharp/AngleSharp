@@ -1,8 +1,9 @@
 ﻿namespace AngleSharp.Services.Default
 {
+    using AngleSharp.Extensions;
+    using AngleSharp.Services.Styling;
     using System;
     using System.Collections.Generic;
-    using AngleSharp.Services.Styling;
 
     /// <summary>
     /// Provides the basic set of functionality for retrieving style engines.
@@ -46,7 +47,7 @@
         {
             foreach (var engine in _engines)
             {
-                if (engine.Type.Equals(mimeType, StringComparison.OrdinalIgnoreCase))
+                if (engine.Type.Isi(mimeType))
                     return engine;
             }
 
