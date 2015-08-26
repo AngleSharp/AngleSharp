@@ -1238,14 +1238,35 @@
     <Compile Include="..\AngleSharp\Dom\Css\Rules\CssViewportRule.cs">
       <Link>Dom\Css\Rules\CssViewportRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\Selector\ChildSelector.cs">
+      <Link>Dom\Css\Selector\ChildSelector.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Selector\ComplexSelector.cs">
       <Link>Dom\Css\Selector\ComplexSelector.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Selector\CompoundSelector.cs">
       <Link>Dom\Css\Selector\CompoundSelector.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\Selector\FirstChildSelector.cs">
+      <Link>Dom\Css\Selector\FirstChildSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\Selector\FirstColumnSelector.cs">
+      <Link>Dom\Css\Selector\FirstColumnSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\Selector\FirstTypeSelector.cs">
+      <Link>Dom\Css\Selector\FirstTypeSelector.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Selector\KeyframeSelector.cs">
       <Link>Dom\Css\Selector\KeyframeSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\Selector\LastChildSelector.cs">
+      <Link>Dom\Css\Selector\LastChildSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\Selector\LastColumnSelector.cs">
+      <Link>Dom\Css\Selector\LastColumnSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\Selector\LastTypeSelector.cs">
+      <Link>Dom\Css\Selector\LastTypeSelector.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Selector\ListSelector.cs">
       <Link>Dom\Css\Selector\ListSelector.cs</Link>
@@ -1255,6 +1276,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Selector\SimpleSelector.cs">
       <Link>Dom\Css\Selector\SimpleSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\Selector\UnknownSelector.cs">
+      <Link>Dom\Css\Selector\UnknownSelector.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Document.cs">
       <Link>Dom\Document.cs</Link>
