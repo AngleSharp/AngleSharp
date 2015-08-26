@@ -22,11 +22,13 @@
         static readonly Dictionary<String, ISelector> pseudoElementSelectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase);
         static readonly Dictionary<String, Func<FunctionState>> pseudoClassFunctions = new Dictionary<String, Func<FunctionState>>(StringComparer.OrdinalIgnoreCase);
 
+        readonly Stack<CssCombinator> combinators;
+        readonly List<CssToken> tokens;
+
 		State state;
         ISelector temp;
 		ListSelector group;
 		ComplexSelector complex;
-		Stack<CssCombinator> combinators;
 		String attrName;
 		String attrValue;
 		String attrOp;
@@ -86,12 +88,12 @@
             pseudoClassSelectors.Add(PseudoElementNames.FirstLine, pseudoElementSelectors[PseudoElementNames.FirstLine]);
             pseudoClassSelectors.Add(PseudoElementNames.FirstLetter, pseudoElementSelectors[PseudoElementNames.FirstLetter]);
 
-            pseudoClassFunctions.Add(PseudoClassNames.NthChild, () => new ChildFunctionState<NthFirstChildSelector>(withOptionalSelector: true));
-            pseudoClassFunctions.Add(PseudoClassNames.NthLastChild, () => new ChildFunctionState<NthLastChildSelector>(withOptionalSelector: true));
-            pseudoClassFunctions.Add(PseudoClassNames.NthOfType, () => new ChildFunctionState<NthFirstTypeSelector>(withOptionalSelector: false));
-            pseudoClassFunctions.Add(PseudoClassNames.NthLastOfType, () => new ChildFunctionState<NthLastTypeSelector>(withOptionalSelector: false));
-            pseudoClassFunctions.Add(PseudoClassNames.NthColumn, () => new ChildFunctionState<NthFirstColumnSelector>(withOptionalSelector: false));
-            pseudoClassFunctions.Add(PseudoClassNames.NthLastColumn, () => new ChildFunctionState<NthLastColumnSelector>(withOptionalSelector: false));
+            pseudoClassFunctions.Add(PseudoClassNames.NthChild, () => new ChildFunctionState<FirstChildSelector>(withOptionalSelector: true));
+            pseudoClassFunctions.Add(PseudoClassNames.NthLastChild, () => new ChildFunctionState<LastChildSelector>(withOptionalSelector: true));
+            pseudoClassFunctions.Add(PseudoClassNames.NthOfType, () => new ChildFunctionState<FirstTypeSelector>(withOptionalSelector: false));
+            pseudoClassFunctions.Add(PseudoClassNames.NthLastOfType, () => new ChildFunctionState<LastTypeSelector>(withOptionalSelector: false));
+            pseudoClassFunctions.Add(PseudoClassNames.NthColumn, () => new ChildFunctionState<FirstColumnSelector>(withOptionalSelector: false));
+            pseudoClassFunctions.Add(PseudoClassNames.NthLastColumn, () => new ChildFunctionState<LastColumnSelector>(withOptionalSelector: false));
             pseudoClassFunctions.Add(PseudoClassNames.Not, () => new NotFunctionState());
             pseudoClassFunctions.Add(PseudoClassNames.Dir, () => new DirFunctionState());
             pseudoClassFunctions.Add(PseudoClassNames.Lang, () => new LangFunctionState());
@@ -111,6 +113,7 @@
         public CssSelectorConstructor()
         {
             combinators = new Stack<CssCombinator>();
+            tokens = new List<CssToken>();
 			Reset();
         }
 
@@ -123,7 +126,7 @@
         /// </summary>
         public Boolean IsValid
         {
-            get { return valid; }
+            get { return valid && ready; }
         }
 
         /// <summary>
@@ -135,41 +138,52 @@
             private set;
         }
 
-        /// <summary>
-        /// Gets the currently formed selector.
-        /// </summary>
-        public ISelector Result
-        {
-            get
-            {
-                if (!valid || !ready)
-                    return null;
-
-                if (complex != null)
-                {
-                    complex.ConcludeSelector(temp);
-                    temp = complex;
-                    complex = null;
-                }
-
-                if (group == null || group.Length == 0)
-                    return temp ?? SimpleSelector.All;
-                else if (temp == null && group.Length == 1)
-                    return group[0];
-                
-				if (temp != null)
-                {
-                    group.Add(temp);
-                    temp = null;
-                }
-
-                return group;
-            }
-        }
-
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Gets the currently formed selector.
+        /// </summary>
+        public ISelector GetResult()
+        {
+            if (!IsValid)
+                return new UnknownSelector(Serialize());
+
+            if (complex != null)
+            {
+                complex.ConcludeSelector(temp);
+                temp = complex;
+                complex = null;
+            }
+
+            if (group == null || group.Length == 0)
+                return temp ?? SimpleSelector.All;
+            else if (temp == null && group.Length == 1)
+                return group[0];
+
+            if (temp != null)
+            {
+                group.Add(temp);
+                temp = null;
+            }
+
+            return group;
+        }
+
+        /// <summary>
+        /// Tries to serialize the current selector.
+        /// </summary>
+        /// <returns>The approximate selector text.</returns>
+        String Serialize()
+        {
+            var sb = Pool.NewStringBuilder();
+
+            foreach (var token in tokens)
+                sb.Append(token.ToValue());
+
+            return sb.ToPool();
+        }
 
         /// <summary>
         /// Picks a simple selector from the stream of tokens.
@@ -179,6 +193,8 @@
         {
             if (token.Type == CssTokenType.Comment)
                 return;
+
+            tokens.Add(token);
 
 			switch (state)
 			{
@@ -224,6 +240,7 @@
 			attrOp = String.Empty;
 			state = State.Data;
 			combinators.Clear();
+            tokens.Clear();
 			temp = null;
 			group = null;
 			complex = null;
@@ -782,9 +799,10 @@
 
             public override ISelector Produce()
             {
+                var valid = _nested.IsValid;
                 var sel = _nested.ToPool();
 
-                if (sel == null)
+                if (!valid)
                     return null;
 
                 return SimpleSelector.PseudoClass(el => !sel.Match(el), String.Concat(PseudoClassNames.Not, "(", sel.Text, ")"));
@@ -813,9 +831,10 @@
 
             public override ISelector Produce()
             {
+                var valid = _nested.IsValid;
                 var sel = _nested.ToPool();
 
-                if (sel == null)
+                if (!valid)
                     return null;
 
                 return SimpleSelector.PseudoClass(el => el.ChildNodes.QuerySelector(sel) != null, String.Concat(PseudoClassNames.Has, "(", sel.Text, ")"));
@@ -844,9 +863,10 @@
 
             public override ISelector Produce()
             {
+                var valid = _nested.IsValid;
                 var sel = _nested.ToPool();
 
-                if (sel == null)
+                if (!valid)
                     return null;
 
                 return SimpleSelector.PseudoClass(el => sel.Match(el), String.Concat(PseudoClassNames.Matches, "(", sel.Text, ")"));
@@ -974,9 +994,10 @@
 
             public override ISelector Produce()
             {
+                var valid = _nested.IsValid;
                 var sel = _nested.ToPool();
 
-                if (sel == null)
+                if (!valid)
                     return null;
 
                 return SimpleSelector.PseudoClass(el =>
@@ -1000,7 +1021,7 @@
         }
 
         sealed class ChildFunctionState<T> : FunctionState
-            where T : NthChildSelector, ISelector, new()
+            where T : ChildSelector, ISelector, new()
         {
             Boolean valid;
             Int32 step;
@@ -1020,16 +1041,13 @@
 
             public override ISelector Produce()
             {
+                var invalid = !valid || (nested != null && !nested.IsValid);
                 var sel = nested != null ? nested.ToPool() : SimpleSelector.All;
 
-                if (valid == false || (nested != null && nested.valid == false))
+                if (invalid)
                     return null;
 
-                var selector = new T();
-                selector.step = step;
-                selector.offset = offset;
-                selector.kind = sel;                
-                return selector;
+                return new T().With(step, offset, sel);
             }
 
             protected override Boolean OnToken(CssToken token)
@@ -1164,351 +1182,6 @@
                 Offset,
                 BeforeOf,
                 AfterOf
-            }
-        }
-
-        #endregion
-
-		#region Nested
-
-        abstract class NthChildSelector
-        {
-            public Int32 step;
-            public Int32 offset;
-            public ISelector kind;
-
-            public Priority Specifity
-            {
-                get { return Priority.OneClass; }
-            }
-
-            protected String Stringify(String name)
-            {
-                var a = step.ToString();
-                var b = String.Empty;
-
-                if (offset > 0)
-                    b = "+" + offset.ToString();
-                else if (offset < 0)
-                    b = offset.ToString();
-
-                return String.Format(":{0}({1}n{2})", name, a, b);
-            }
-        }
-
-		/// <summary>
-		/// The nth-child selector.
-		/// </summary>
-        sealed class NthFirstChildSelector : NthChildSelector, ISelector
-        {
-			public Boolean Match(IElement element)
-            {
-                var parent = element.ParentElement;
-
-                if (parent == null)
-                    return false;
-
-                var n = Math.Sign(step);
-                var k = 0;
-
-                for (var i = 0; i < parent.ChildNodes.Length; i++)
-                {
-                    var child = parent.ChildNodes[i] as IElement;
-
-                    if (child == null || kind.Match(child) == false)
-                        continue;
-
-                    k += 1;
-
-                    if (child == element)
-                    {
-                        var diff = k - offset;
-                        return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
-                    }
-                }
-
-                return false;
-            }
-
-            public String Text
-            {
-                get { return Stringify(PseudoClassNames.NthChild); }
-            }
-
-            public String ToCss()
-            {
-                return Text;
-            }
-
-            public String ToCss(IStyleFormatter formatter)
-            {
-                return ToCss();
-            }
-        }
-
-        /// <summary>
-        /// The nth-of-type selector.
-        /// </summary>
-        sealed class NthFirstTypeSelector : NthChildSelector, ISelector
-        {
-            public Boolean Match(IElement element)
-            {
-                var parent = element.ParentElement;
-
-                if (parent == null)
-                    return false;
-
-                var n = Math.Sign(step);
-                var k = 0;
-
-                for (var i = 0; i < parent.ChildNodes.Length; i++)
-                {
-                    var child = parent.ChildNodes[i] as IElement;
-
-                    if (child == null || child.NodeName != element.NodeName)
-                        continue;
-
-                    k += 1;
-
-                    if (child == element)
-                    {
-                        var diff = k - offset;
-                        return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
-                    }
-                }
-
-                return false;
-            }
-
-            public String Text
-            {
-                get { return Stringify(PseudoClassNames.NthOfType); }
-            }
-
-            public String ToCss()
-            {
-                return Text;
-            }
-
-            public String ToCss(IStyleFormatter formatter)
-            {
-                return ToCss();
-            }
-        }
-
-        /// <summary>
-        /// The nth-column selector.
-        /// </summary>
-        sealed class NthFirstColumnSelector : NthChildSelector, ISelector
-        {
-            public Boolean Match(IElement element)
-            {
-                var parent = element.ParentElement;
-
-                if (parent == null)
-                    return false;
-
-                var n = Math.Sign(step);
-                var k = 0;
-
-                for (var i = 0; i < parent.ChildNodes.Length; i++)
-                {
-                    var child = parent.ChildNodes[i] as IHtmlTableCellElement;
-
-                    if (child == null)
-                        continue;
-
-                    var span = child.ColumnSpan;
-                    k += span;
-
-                    if (child == element)
-                    {
-                        var diff = k - offset;
-
-                        for (int index = 0; index < span; index++, diff--)
-                        {
-                            if (diff == 0 || (Math.Sign(diff) == n && diff % step == 0))
-                                return true;
-                        }
-
-                        return false;
-                    }
-                }
-
-                return false;
-            }
-
-            public String Text
-            {
-                get { return Stringify(PseudoClassNames.NthColumn); }
-            }
-
-            public String ToCss()
-            {
-                return Text;
-            }
-
-            public String ToCss(IStyleFormatter formatter)
-            {
-                return ToCss();
-            }
-        }
-
-        /// <summary>
-        /// The nth-lastchild selector.
-        /// </summary>
-        sealed class NthLastChildSelector : NthChildSelector, ISelector
-        {
-            public Boolean Match(IElement element)
-            {
-                var parent = element.ParentElement;
-
-                if (parent == null)
-                    return false;
-
-                var n = Math.Sign(step);
-                var k = 0;
-
-                for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
-                {
-                    var child = parent.ChildNodes[i] as IElement;
-
-                    if (child == null || kind.Match(child) == false)
-                        continue;
-
-                    k += 1;
-
-                    if (child == element)
-                    {
-                        var diff = k - offset;
-                        return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
-                    }
-                }
-
-                return false;
-            }
-
-            public String Text
-            {
-                get { return Stringify(PseudoClassNames.NthLastChild); }
-            }
-
-            public String ToCss()
-            {
-                return Text;
-            }
-
-            public String ToCss(IStyleFormatter formatter)
-            {
-                return ToCss();
-            }
-        }
-
-        /// <summary>
-        /// The nth-last-of-type selector.
-        /// </summary>
-        sealed class NthLastTypeSelector : NthChildSelector, ISelector
-        {
-            public Boolean Match(IElement element)
-            {
-                var parent = element.ParentElement;
-
-                if (parent == null)
-                    return false;
-
-                var n = Math.Sign(step);
-                var k = 0;
-
-                for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
-                {
-                    var child = parent.ChildNodes[i] as IElement;
-
-                    if (child == null || child.NodeName != element.NodeName)
-                        continue;
-
-                    k += 1;
-
-                    if (child == element)
-                    {
-                        var diff = k - offset;
-                        return diff == 0 || (Math.Sign(diff) == n && diff % step == 0);
-                    }
-                }
-
-                return false;
-            }
-
-            public String Text
-            {
-                get { return Stringify(PseudoClassNames.NthLastOfType); }
-            }
-
-            public String ToCss()
-            {
-                return Text;
-            }
-
-            public String ToCss(IStyleFormatter formatter)
-            {
-                return ToCss();
-            }
-        }
-
-        /// <summary>
-        /// The nth-last-column selector.
-        /// </summary>
-        sealed class NthLastColumnSelector : NthChildSelector, ISelector
-        {
-            public Boolean Match(IElement element)
-            {
-                var parent = element.ParentElement;
-
-                if (parent == null)
-                    return false;
-
-                var n = Math.Sign(step);
-                var k = 0;
-
-                for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
-                {
-                    var child = parent.ChildNodes[i] as IHtmlTableCellElement;
-
-                    if (child == null)
-                        continue;
-
-                    var span = child.ColumnSpan;
-                    k += span;
-
-                    if (child == element)
-                    {
-                        var diff = k - offset;
-
-                        for (int index = 0; index < span; index++, diff--)
-                        {
-                            if (diff == 0 || (Math.Sign(diff) == n && diff % step == 0))
-                                return true;
-                        }
-
-                        return false;
-                    }
-                }
-
-                return false;
-            }
-
-            public String Text
-            {
-                get { return Stringify(PseudoClassNames.NthLastColumn); }
-            }
-
-            public String ToCss()
-            {
-                return Text;
-            }
-
-            public String ToCss(IStyleFormatter formatter)
-            {
-                return ToCss();
             }
         }
 

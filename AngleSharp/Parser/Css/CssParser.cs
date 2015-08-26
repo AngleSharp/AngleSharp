@@ -154,7 +154,9 @@
                 token = tokenizer.Get();
             }
 
-            return creator.ToPool();
+            var valid = creator.IsValid;
+            var result = creator.ToPool();
+            return valid || _options.IsToleratingInvalidSelectors ? result : null;
         }
 
         /// <summary>

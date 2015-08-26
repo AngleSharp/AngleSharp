@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Dom.Css;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using AngleSharp.Dom.Css;
 
     /// <summary>
     /// The class that is responsible for book-keeping information
@@ -46,14 +46,6 @@
         }
 
         /// <summary>
-        /// Gets the currently available result.
-        /// </summary>
-        public CssValue Result
-        {
-            get { return new CssValue(_values); }
-        }
-
-        /// <summary>
         /// Gets if the value is actually valid.
         /// </summary>
         public Boolean IsValid
@@ -72,6 +64,14 @@
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Gets the currently available result.
+        /// </summary>
+        public CssValue GetResult()
+        {
+            return new CssValue(_values);
+        }
 
         /// <summary>
         /// Applies the token to the currently build value.

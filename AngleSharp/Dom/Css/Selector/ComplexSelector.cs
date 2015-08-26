@@ -6,8 +6,8 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// Represents a complex selector.
-    /// One or more compound selectors separated by combinators.
+    /// Represents a complex selector, i.e. one or more compound selectors
+    /// separated by combinators.
     /// </summary>
     sealed class ComplexSelector : ISelector
     {

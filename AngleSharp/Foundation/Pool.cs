@@ -108,7 +108,7 @@
         /// <returns>The Selector that is created in the constructor.</returns>
 		public static ISelector ToPool(this CssSelectorConstructor ctor)
         {
-            var result = ctor.Result;
+            var result = ctor.GetResult();
 
 			lock (_lock)
 			{
@@ -126,7 +126,7 @@
         /// <returns>The value that is contained in the builder.</returns>
         public static CssValue ToPool(this CssValueBuilder vb)
         {
-            var result = vb.Result;
+            var result = vb.GetResult();
 
             lock (_lock)
             {

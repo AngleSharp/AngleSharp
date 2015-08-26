@@ -26,6 +26,15 @@
         }
 
         /// <summary>
+        /// Gets or sets if style rules with invalid selectors should included.
+        /// </summary>
+        public Boolean IsToleratingInvalidSelectors
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets if invalid values for declarations should be ignored.
         /// </summary>
         public Boolean IsToleratingInvalidValues

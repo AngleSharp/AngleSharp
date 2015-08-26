@@ -1013,10 +1013,15 @@
                 token = NextToken();
             }
 
-            if (!selector.IsValid)
-                RaiseErrorOccurred(CssParseError.InvalidSelector, start);
+            var result = selector.ToPool();
 
-            return CloseNode(selector.ToPool());
+            if (!selector.IsValid && !_parser.Options.IsToleratingInvalidValues)
+            {
+                RaiseErrorOccurred(CssParseError.InvalidSelector, start);
+                result = null;
+            }
+
+            return CloseNode(result);
         }
 
         CssValue CreateValue(CssTokenType closing, ref CssToken token, out Boolean important)
@@ -1024,6 +1029,7 @@
             var value = Pool.NewValueBuilder();
             _tokenizer.IsInValue = true;
             token = NextToken();
+            var start = token;
             CreateNewNode();
 
             while (token.Type != CssTokenType.Eof)
@@ -1040,7 +1046,10 @@
             var result = value.ToPool();
 
             if (!value.IsValid && !_parser.Options.IsToleratingInvalidValues)
+            {
+                RaiseErrorOccurred(CssParseError.InvalidValue, start);
                 result = null;
+            }
 
             return CloseNode(result);
         }

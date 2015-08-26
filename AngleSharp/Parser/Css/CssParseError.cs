@@ -68,6 +68,11 @@
         [DomDescription("The value of the declaration could not be found.")]
         ValueMissing = 0x40,
         /// <summary>
+        /// The value is invalid and cannot be used.
+        /// </summary>
+        [DomDescription("The value is invalid and cannot be used.")]
+        InvalidValue = 0x41,
+        /// <summary>
         /// The name of the declaration is unknown.
         /// </summary>
         [DomDescription("The name of the declaration is unknown.")]
