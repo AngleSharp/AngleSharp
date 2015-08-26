@@ -1025,5 +1025,26 @@ font-weight:bold;}";
             var roundtrip = sheet.ParseTree.GetSource();
             Assert.AreEqual(source, roundtrip);
         }
+
+        [Test]
+        public void CssStyleSheetSelectorsGetAll()
+        {
+            var parser = new CssParser(new CssParserOptions
+            {
+                IsStoringTrivia = true
+            });
+            var source = ".foo { } #bar { } @media all { div { } a > b { } @media print { script[type] { } } }";
+            var sheet = parser.ParseStylesheet(source);
+            var roundtrip = sheet.ParseTree.GetSource();
+            Assert.AreEqual(source, roundtrip);
+            var selectors = sheet.ParseTree.GetAll<ISelector>();
+            Assert.AreEqual(5, selectors.Count());
+            var mediaRules = sheet.ParseTree.GetAll<ICssMediaRule>();
+            Assert.AreEqual(2, mediaRules.Count());
+            var descendentSelector = selectors.Skip(3).First();
+            Assert.AreEqual("a>b", descendentSelector.Text);
+            var selectorNode = sheet.ParseTree.GetAssociatedNode(descendentSelector);
+            Assert.AreEqual("a > b ", selectorNode.GetSource());
+        }
     }
 }
