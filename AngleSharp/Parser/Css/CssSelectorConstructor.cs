@@ -177,6 +177,9 @@
         /// <param name="token">The stream of tokens to consider.</param>
         public void Apply(CssToken token)
         {
+            if (token.Type == CssTokenType.Comment)
+                return;
+
 			switch (state)
 			{
 				case State.Data:

@@ -115,6 +115,10 @@
                     Add(token);
                     break;
 
+                case CssTokenType.Comment:
+                    // Should not be considered.
+                    break;
+
                 default: // everything else is unexpected
                     _valid = false;
                     break;
