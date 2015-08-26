@@ -851,12 +851,27 @@ tobi loki jane {
 
 @page {
   font-size: 16pt;
+  color: #f00;
 }
 
 @page :left {
   margin-left: 5cm;
 }");
 			Assert.AreEqual(3, sheet.Rules.Length);
+
+            var page1 = sheet.Rules[0] as ICssPageRule;
+            var page2 = sheet.Rules[1] as ICssPageRule;
+            var page3 = sheet.Rules[2] as ICssPageRule;
+
+            Assert.AreEqual(1, page1.Style.Length);
+            Assert.AreEqual("green", page1.Style["color"]);
+
+            Assert.AreEqual(2, page2.Style.Length);
+            Assert.AreEqual("16pt", page2.Style["font-size"]);
+            Assert.AreEqual("#f00", page2.Style["color"]);
+
+            Assert.AreEqual(1, page3.Style.Length);
+            Assert.AreEqual("5cm", page3.Style["margin-left"]);
 		}
 	
 		[Test]
