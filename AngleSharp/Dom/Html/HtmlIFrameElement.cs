@@ -6,7 +6,7 @@
     using AngleSharp.Html;
     using AngleSharp.Network;
     using System;
-using System.Threading.Tasks;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML iframe element.
@@ -27,6 +27,7 @@ using System.Threading.Tasks;
         {
             _context = owner.NewChildContext(Sandboxes.None);
             RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
+            RegisterAttributeObserver(AttributeNames.SrcDoc, UpdateSource);
         }
 
         #endregion
@@ -43,7 +44,8 @@ using System.Threading.Tasks;
         }
 
         /// <summary>
-        /// Gets the content of the page that the nested browsing context is to contain.
+        /// Gets the content of the page that the nested browsing context is to
+        /// contain.
         /// </summary>
         public String ContentHtml
         {
@@ -51,6 +53,9 @@ using System.Threading.Tasks;
             set { SetOwnAttribute(AttributeNames.SrcDoc, value); }
         }
 
+        /// <summary>
+        /// Gets the sandbox security flags.
+        /// </summary>
         public ISettableTokenList Sandbox
         {
             get
@@ -95,11 +100,18 @@ using System.Threading.Tasks;
 
         #region Methods
 
-        void UpdateSource(String src)
+        void UpdateSource(String _)
         {
             this.CancelTasks();
+            var content = ContentHtml;
+            var src = Source;
 
-            if (!String.IsNullOrEmpty(src))
+            if (content != null)
+            {
+                this.CreateTask(cancel => _context.OpenAsync(m => m.Content(content).Address(Owner.DocumentUri), cancel))
+                    .ContinueWith(Finished);
+            }
+            else if (!String.IsNullOrEmpty(src))
             {
                 var url = this.HyperReference(src);
                 var request = DocumentRequest.Get(url, source: this, referer: Owner.DocumentUri);
