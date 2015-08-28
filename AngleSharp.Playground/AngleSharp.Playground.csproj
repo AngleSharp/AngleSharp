@@ -33,13 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AngleSharp, Version=0.8.7.41616, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="AngleSharp, Version=0.9.0.30946, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AngleSharp.0.8.7\lib\net45\AngleSharp.dll</HintPath>
+      <HintPath>..\packages\AngleSharp.0.9.0\lib\net45\AngleSharp.dll</HintPath>
     </Reference>
-    <Reference Include="AngleSharp.Scripting.JavaScript, Version=0.1.6.39665, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="AngleSharp.Scripting.JavaScript, Version=0.3.0.41391, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AngleSharp.Scripting.JavaScript.0.1.6\lib\net45\AngleSharp.Scripting.JavaScript.dll</HintPath>
+      <HintPath>..\packages\AngleSharp.Scripting.JavaScript.0.3.0\lib\net45\AngleSharp.Scripting.JavaScript.dll</HintPath>
     </Reference>
     <Reference Include="Jint">
       <HintPath>..\packages\Jint.2.5.0\lib\portable-net40+sl50+win+wpa81+wp80\Jint.dll</HintPath>
