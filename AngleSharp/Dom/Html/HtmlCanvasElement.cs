@@ -74,11 +74,10 @@
             if (renderService == null)
                 return null;
 
-            var context = renderService.CreateContext(contextId);
+            var context = renderService.CreateContext(this, contextId);
 
             if (context != null)
             {
-                context.Host = this;
                 _mode = GetModeFrom(contextId);
                 _current = context;
             }
@@ -107,8 +106,9 @@
                 throw new DomException(DomError.InvalidState);
             else if (context.IsFixed)
                 throw new DomException(DomError.InvalidState);
+            else if (context.Host != this)
+                throw new DomException(DomError.InUse);
 
-            context.Host = this;
             _current = context;
             _mode = ContextMode.Indirect;
         }

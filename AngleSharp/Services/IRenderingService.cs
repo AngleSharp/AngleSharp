@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Services
 {
+    using AngleSharp.Dom.Html;
     using AngleSharp.Dom.Media;
     using System;
 
@@ -18,8 +19,9 @@
         /// <summary>
         /// Creates the given context or returns null, if this is not possible.
         /// </summary>
+        /// <param name="host">The host the context.</param>
         /// <param name="contextId">The ID of the context.</param>
         /// <returns>The instance of the rendering context.</returns>
-        IRenderingContext CreateContext(String contextId);
+        IRenderingContext CreateContext(IHtmlCanvasElement host, String contextId);
     }
 }

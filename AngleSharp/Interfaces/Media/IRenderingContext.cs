@@ -3,7 +3,6 @@
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Html;
     using System;
-    using System.IO;
 
     /// <summary>
     /// Represents the typedef for any rendering context.
@@ -24,9 +23,9 @@
         Boolean IsFixed { get; }
 
         /// <summary>
-        /// Gets or sets the bound host of the context.
+        /// Gets the bound host of the context.
         /// </summary>
-        IHtmlCanvasElement Host { get; set; }
+        IHtmlCanvasElement Host { get; }
 
         /// <summary>
         /// Converts the current data to the given image format.
