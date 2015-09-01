@@ -111,7 +111,7 @@
                 this.CreateTask(cancel => _context.OpenAsync(m => m.Content(content).Address(Owner.DocumentUri), cancel))
                     .ContinueWith(Finished);
             }
-            else if (!String.IsNullOrEmpty(src))
+            else if (!String.IsNullOrEmpty(src) && !src.Is(BaseUri))
             {
                 var url = this.HyperReference(src);
                 var request = DocumentRequest.Get(url, source: this, referer: Owner.DocumentUri);
