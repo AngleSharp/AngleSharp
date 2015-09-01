@@ -1,26 +1,17 @@
 ﻿namespace AngleSharp.Services
 {
-    using System;
-    using System.Threading.Tasks;
+    using AngleSharp.Dom;
 
     /// <summary>
-    /// Represents an event loop.
-    /// See 7.1.4.2 Processing model.
+    /// Defines methods to create event loops.
     /// </summary>
-    public interface IEventService : IService, IDisposable
+    public interface IEventService : IService
     {
         /// <summary>
-        /// Enqueues a given task with the associated document.
+        /// Creates an IEventLoop object for the provided context.
         /// </summary>
-        /// <param name="task">The task to enqueue.</param>
-        void Enqueue(Task task);
-
-        /// <summary>
-        /// Executes the compound subtask by invoking the series of
-        /// steps from a microtask source.
-        /// </summary>
-        /// <param name="steps">The steps to run.</param>
-        /// <returns>An awaitable task.</returns>
-        Task Execute(Action steps);
+        /// <param name="context">The host context of the event loop.</param>
+        /// <returns>The IEventLoop for the context.</returns>
+        IEventLoop Create(IBrowsingContext context);
     }
 }

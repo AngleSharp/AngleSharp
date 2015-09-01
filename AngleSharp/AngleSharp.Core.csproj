@@ -201,6 +201,7 @@
     <Compile Include="IBindable.cs" />
     <Compile Include="Interfaces\Html\IHtmlSlotElement.cs" />
     <Compile Include="Interfaces\Css\IMediaQueryList.cs" />
+    <Compile Include="IEventLoop.cs" />
     <Compile Include="Interfaces\INamedNodeMap.cs" />
     <Compile Include="Interfaces\IShadowRoot.cs" />
     <Compile Include="IStyleFormattable.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="Services\Default\LocaleEncodingService.cs" />
     <Compile Include="Services\Default\MemoryCookieService.cs" />
     <Compile Include="Services\Default\StylingService.cs" />
+    <Compile Include="Foundation\TaskEventLoop.cs" />
     <Compile Include="Services\IClipboardService.cs" />
     <Compile Include="Services\IEncodingService.cs" />
     <Compile Include="Services\IHistoryService.cs" />
