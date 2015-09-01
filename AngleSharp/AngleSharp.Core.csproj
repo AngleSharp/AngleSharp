@@ -255,7 +255,7 @@
     <Compile Include="Html\InputTypes\BaseInputType.cs" />
     <Compile Include="Html\InputTypes\CheckedInputType.cs" />
     <Compile Include="Html\InputTypes\ColorInputType.cs" />
-    <Compile Include="Html\InputTypes\DatetimeInputType.cs" />
+    <Compile Include="Html\InputTypes\DateTimeInputType.cs" />
     <Compile Include="Html\InputTypes\DatetimeLocalInputType.cs" />
     <Compile Include="Html\InputTypes\TimeInputType.cs" />
     <Compile Include="Html\InputTypes\WeekInputType.cs" />
@@ -525,8 +525,8 @@
     <Compile Include="Css\Values\RadialGradient.cs" />
     <Compile Include="Css\Values\Shadow.cs" />
     <Compile Include="Attributes\DomHistoricalAttribute.cs" />
-    <Compile Include="Dom\Xml\XmlDocument.cs" />
-    <Compile Include="Dom\Xml\XmlElement.cs" />
+    <Compile Include="Dom\Xml\XMLDocument.cs" />
+    <Compile Include="Dom\Xml\XMLElement.cs" />
     <Compile Include="Css\Values\Angle.cs" />
     <Compile Include="Css\FeatureNames.cs" />
     <Compile Include="Css\Priority.cs" />
@@ -572,7 +572,7 @@
     <Compile Include="Interfaces\Css\ICssRuleList.cs" />
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
     <Compile Include="Interfaces\Css\ICssStyleRule.cs" />
-    <Compile Include="Interfaces\Css\ICssStyleSheet.cs" />
+    <Compile Include="Interfaces\Css\ICSSStyleSheet.cs" />
     <Compile Include="Interfaces\Css\ICssSupportsRule.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
     <Compile Include="Dom\Events\CompositionEvent.cs" />
@@ -804,8 +804,8 @@
     <Compile Include="Dom\Html\HtmlTemplateElement.cs" />
     <Compile Include="Dom\Html\HtmlUnderlineElement.cs" />
     <Compile Include="Dom\Html\HtmlAddressElement.cs" />
-    <Compile Include="Dom\Html\HtmlRpElement.cs" />
-    <Compile Include="Dom\Html\HtmlRtElement.cs" />
+    <Compile Include="Dom\Html\HtmlRPElement.cs" />
+    <Compile Include="Dom\Html\HtmlRTElement.cs" />
     <Compile Include="Dom\Html\HtmlRubyElement.cs" />
     <Compile Include="Dom\Mathml\MathAnnotationXmlElement.cs" />
     <Compile Include="Dom\Mathml\MathIdentifierElement.cs" />
@@ -921,7 +921,7 @@
     <Compile Include="Dom\Html\HtmlFrameElement.cs" />
     <Compile Include="Dom\Html\HtmlFrameSetElement.cs" />
     <Compile Include="Dom\Html\HtmlHeadingElement.cs" />
-    <Compile Include="Dom\Html\HtmlHrElement.cs" />
+    <Compile Include="Dom\Html\HtmlHRElement.cs" />
     <Compile Include="Dom\Html\HtmlIFrameElement.cs" />
     <Compile Include="Dom\Html\HtmlImageElement.cs" />
     <Compile Include="Dom\Html\HtmlInputElement.cs" />

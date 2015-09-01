@@ -160,7 +160,7 @@
     <Compile Include="Html\ScriptData.cs" />
     <Compile Include="Html\HtmlTable.cs" />
     <Compile Include="Html\HtmlWithMathML.cs" />
-    <Compile Include="Html\HtmlWithSvg.cs" />
+    <Compile Include="Html\HtmlWithSVG.cs" />
     <Compile Include="Html\FosterParenting.cs" />
     <Compile Include="Html\HtmlFormatting.cs" />
     <Compile Include="Html\HtmlTemplate.cs" />
