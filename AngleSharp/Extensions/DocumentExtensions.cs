@@ -64,12 +64,7 @@
         /// <param name="action">The action that should be invoked.</param>
         public static void QueueTask(this Document document, Action action)
         {
-            var eventLoop = document.Options.GetService<IEventService>();
-
-            if (eventLoop != null)
-                eventLoop.Enqueue(new Task(action));
-            else
-                action();
+            document.Context.Loop.Enqueue(new Task(action));
         }
 
         /// <summary>
@@ -81,12 +76,7 @@
         /// <param name="task">The task that should be run.</param>
         public static void QueueTask(this Document document, Task task)
         {
-            var eventLoop = document.Options.GetService<IEventService>();
-
-            if (eventLoop != null)
-                eventLoop.Enqueue(task);
-            else if (task.Status == TaskStatus.Created)
-                task.Start();
+            document.Context.Loop.Enqueue(task);
         }
 
         /// <summary>

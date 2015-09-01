@@ -3,13 +3,14 @@
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
+    using System;
     using System.Diagnostics;
 
     /// <summary>
     /// A simple and lightweight browsing context.
     /// </summary>
     [DebuggerStepThrough]
-    public sealed class BrowsingContext : IBrowsingContext
+    public sealed class BrowsingContext : IBrowsingContext, IDisposable
     {
         #region Fields
 
@@ -19,6 +20,7 @@
         readonly IDocument _creator;
         readonly IDocumentLoader _loader;
         readonly IHistory _history;
+        readonly IEventLoop _loop;
         IDocument _active;
 
         #endregion
@@ -31,6 +33,7 @@
             _security = security;
             _loader = this.CreateLoader();
             _history = this.CreateHistory();
+            _loop = this.CreateLoop();
         }
         
         internal BrowsingContext(IBrowsingContext parent, Sandboxes security)
@@ -71,6 +74,17 @@
             _active = document;
         }
 
+        void IDisposable.Dispose()
+        {
+            if (_active != null)
+            {
+                _active.Dispose();
+                _active = null;
+            }
+
+            _loop.Dispose();
+        }
+
         #endregion
 
         #region Properties
@@ -97,6 +111,14 @@
         public IConfiguration Configuration
         {
             get { return _configuration; }
+        }
+
+        /// <summary>
+        /// Gets the context's event loop.
+        /// </summary>
+        public IEventLoop Loop
+        {
+            get { return _loop; }
         }
 
         /// <summary>

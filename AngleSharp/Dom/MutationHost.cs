@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Extensions;
-    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -14,18 +12,18 @@
         #region Fields
 
         readonly List<MutationObserver> _observers;
-        readonly IConfiguration _configuration;
+        readonly IEventLoop _loop;
         Boolean _queued;
 
         #endregion
 
         #region ctor
 
-        public MutationHost(IConfiguration configuration)
+        public MutationHost(IEventLoop loop)
         {
             _observers = new List<MutationObserver>();
             _queued = false;
-            _configuration = configuration;
+            _loop = loop;
         }
 
         #endregion
@@ -53,34 +51,22 @@
                 _observers.Remove(observer);
         }
 
-        /// <summary>
-        /// Enqueues the flushing of the mutation observers in the event loop.
-        /// </summary>
         public void ScheduleCallback()
         {
-            var eventLoop = _configuration.GetService<IEventService>();
-
-            if (_queued || eventLoop == null)
-                return;
-
-            _queued = true;
-            eventLoop.Enqueue(new Task(DispatchCallback));
+            if (!_queued)
+            {
+                _queued = true;
+                _loop.Enqueue(new Task(DispatchCallback));
+            }
         }
 
-        /// <summary>
-        /// Notifies the registered observers with all registered changes.
-        /// </summary>
         void DispatchCallback()
         {
             var observers = _observers.ToArray();
-            var eventLoop = _configuration.GetService<IEventService>();
             _queued = false;
 
-            if (eventLoop == null)
-                return;
-
             foreach (var observer in observers)
-                eventLoop.Execute(observer.Trigger);
+                _loop.Execute(observer.Trigger);
         }
 
         #endregion

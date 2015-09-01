@@ -442,7 +442,7 @@
             _sandbox = Sandboxes.None;
             _quirksMode = QuirksMode.Off;
             _tasks = new CancellableTasks();
-            _mutations = new MutationHost(Options);
+            _mutations = new MutationHost(context.Loop);
             _loadingScripts = new Queue<HtmlScriptElement>();
             _location = new Location(AboutBlank);
             _ranges = new List<WeakReference<Range>>();

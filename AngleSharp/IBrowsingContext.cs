@@ -19,6 +19,11 @@
         IDocument Active { get; }
 
         /// <summary>
+        /// Gets the context's event loop.
+        /// </summary>
+        IEventLoop Loop { get; }
+
+        /// <summary>
         /// Gets the session history of the given browsing context.
         /// </summary>
         IHistory SessionHistory { get; }
