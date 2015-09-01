@@ -1922,6 +1922,9 @@
     <Compile Include="..\AngleSharp\Foundation\Symbols.cs">
       <Link>Foundation\Symbols.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\TaskEventLoop.cs">
+      <Link>Foundation\TaskEventLoop.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\AttributeNames.cs">
       <Link>Html\AttributeNames.cs</Link>
     </Compile>
@@ -2020,6 +2023,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\IConfiguration.cs">
       <Link>IConfiguration.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\IEventLoop.cs">
+      <Link>IEventLoop.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\IMarkupFormattable.cs">
       <Link>IMarkupFormattable.cs</Link>
