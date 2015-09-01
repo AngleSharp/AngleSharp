@@ -1,17 +1,19 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using System;
-    using System.Linq;
+    using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using NUnit.Framework;
+    using System;
+    using System.Linq;
 
     [TestFixture]
     public class MutationObserverTests
     {
         static IDocument Html(String code)
         {
-            return code.ToHtmlDocument();
+            var config = Configuration.Default.With(new StandingEventLoopService());
+            return code.ToHtmlDocument(config);
         }
 
         [Test]

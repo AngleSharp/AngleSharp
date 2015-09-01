@@ -194,6 +194,7 @@
     <Compile Include="Mocks\MockScriptService.cs" />
     <Compile Include="Mocks\MockSubscriber.cs" />
     <Compile Include="Mocks\ResourceService.cs" />
+    <Compile Include="Mocks\StandingEventLoopService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Library\CommonExtensions.cs" />
     <Compile Include="Html\HtmlTokenization.cs" />
