@@ -456,10 +456,11 @@
         FormDataSet ConstructDataSet(IHtmlElement submitter)
         {
             var formDataSet = new FormDataSet();
+            var fields = this.GetElements<HtmlFormControlElement>();
 
-            foreach (var field in Elements)
+            foreach (var field in fields)
             {
-                if (field.ParentElement is IHtmlDataListElement == false && field.IsDisabled == false)
+                if (!field.IsDisabled && field.ParentElement is IHtmlDataListElement == false && Object.ReferenceEquals(field.Form, this))
                     field.ConstructDataSet(formDataSet, submitter);
             }
 
