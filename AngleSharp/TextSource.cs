@@ -52,7 +52,7 @@
             : this(null, TextEncoding.Utf8)
         {
             _finished = true;
-            _content.Append(source.Replace("\r\n", "\n"));
+            _content.Append(source);
             _confidence = EncodingConfidence.Irrelevant;
         }
 
