@@ -1469,12 +1469,7 @@
                         break;
                 }
 
-                if (current == Symbols.CarriageReturn)
-                {
-                    current = GetNext();
-                    if (current != Symbols.LineFeed)
-                        Back();
-                } else if (!current.IsSpaceCharacter())
+                if (!current.IsSpaceCharacter())
                     Back();
 
                 var code = Int32.Parse(new String(escape, 0, length), NumberStyles.HexNumber);
