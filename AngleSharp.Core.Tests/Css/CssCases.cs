@@ -26,7 +26,7 @@ namespace AngleSharp.Core.Tests.Css
 			var sheet = ParseSheet(@"@namespace svg ""http://www.w3.org/2000/svg"";");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetCharsetLinebreak()
 		{
@@ -34,11 +34,11 @@ namespace AngleSharp.Core.Tests.Css
     ""UTF-8""
     ;");
 			Assert.AreEqual(1, sheet.Rules.Length);
-			
+
 			foreach (var rule in sheet.Rules)
 				Assert.AreEqual(@"UTF-8", ((ICssCharsetRule)rule).CharacterSet);
 		}
-	
+
 		[Test]
         public void StyleSheetCharset()
 		{
@@ -49,7 +49,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(@"UTF-8", ((ICssCharsetRule)sheet.Rules[0]).CharacterSet);
             Assert.AreEqual(@"iso-8859-15", ((ICssCharsetRule)sheet.Rules[1]).CharacterSet);
 		}
-	
+
 		[Test]
         public void StyleSheetColonSpace()
 		{
@@ -58,7 +58,7 @@ namespace AngleSharp.Core.Tests.Css
     padding : 0;
 }");
 			Assert.AreEqual(1, sheet.Rules.Length);
-			
+
 			foreach (var rule in sheet.Rules)
 			{
 				Assert.AreEqual(@"a", ((ICssStyleRule)rule).SelectorText);
@@ -66,7 +66,7 @@ namespace AngleSharp.Core.Tests.Css
 				Assert.AreEqual(@"0", ((ICssStyleRule)rule).Style["padding"]);
 			}
 		}
-	
+
 		[Test]
         public void StyleSheetCommaAttribute()
 		{
@@ -126,7 +126,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(@"#foo[foo=""""],#foo[bar="" ""],#foo[bar="",""],#foo[bar="", ""],#foo[bar="" ,""],#foo[bar="" , ""],#foo[baz=""""],#foo[qux="" ""],#foo[qux="",""],#foo[qux="", ""],#foo[qux="" ,""],#foo[qux="" , ""]", ((ICssStyleRule)sheet.Rules[4]).SelectorText);
             Assert.AreEqual(@"345", ((ICssStyleRule)sheet.Rules[4]).Style["foobar"]);
 		}
-	
+
 		[Test]
         public void StyleSheetCommaSelectorFunction()
 		{
@@ -150,7 +150,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(".foo:matches(.bar, .baz, .foobar),\n.foo:matches(.bar, .baz,),\n.foo:matches(, .bar, .baz) ", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
             Assert.AreEqual(@"anothervalue", ((ICssStyleRule)sheet.Rules[1]).Style["anotherprop"]);
 		}
-	
+
 		[Test]
         public void StyleSheetCommentIn()
 		{
@@ -168,7 +168,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(@"solid", ((ICssStyleRule)rule).Style["border"]);
             Assert.AreEqual("none\t", ((ICssStyleRule)rule).Style["border-top"]);
 		}
-	
+
 		[Test]
         public void StyleSheetCommentUrl()
 		{
@@ -184,7 +184,7 @@ foo { /*/*/
             Assert.AreEqual(@"foo", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
             Assert.AreEqual(@"baz", ((ICssStyleRule)sheet.Rules[0]).Style["bar"]);
 		}
-	
+
 		[Test]
         public void StyleSheetComment()
 		{
@@ -202,7 +202,7 @@ head, /* footer, */body/*, nav */ { /* 2 */
             Assert.AreEqual(@"head,body", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
             Assert.AreEqual(@"""bar""", ((ICssStyleRule)sheet.Rules[0]).Style["foo"]);
 		}
-	
+
 		[Test]
         public void StyleSheetCustomMediaLinebreak()
 		{
@@ -212,7 +212,7 @@ head, /* footer, */body/*, nav */ { /* 2 */
 ;");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetCustomMedia()
 		{
@@ -221,7 +221,7 @@ head, /* footer, */body/*, nav */ { /* 2 */
 ");
 			Assert.AreEqual(2, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetDocumentLinebreak()
 		{
@@ -236,7 +236,7 @@ head, /* footer, */body/*, nav */ { /* 2 */
     }");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetDocument()
 		{
@@ -253,14 +253,14 @@ head, /* footer, */body/*, nav */ { /* 2 */
 }");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
 		public void StyleSheetEmpty()
 		{
 			var sheet = ParseSheet(@"");
 			Assert.AreEqual(0, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetEscapes()
 		{
@@ -400,12 +400,12 @@ li{background:orange;}
             Assert.AreEqual(@"#f+o+o", ((ICssStyleRule)sheet.Rules[41]).SelectorText);
             Assert.AreEqual(@"lime", ((ICssStyleRule)sheet.Rules[41]).Style["background"]);
 		}
-	
+
 		[Test]
         public void StyleSheetFontFaceLinebreak()
 		{
 			var sheet = ParseSheet(@"@font-face
-  
+
        {
   font-family: ""Bitstream Vera Serif Bold"";
   src: url(""http://developer.mozilla.org/@api/deki/files/2934/=VeraSeBd.ttf"");
@@ -419,7 +419,7 @@ body {
             Assert.AreEqual(@"body", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
             Assert.AreEqual(@"""Bitstream Vera Serif Bold"", serif", ((ICssStyleRule)sheet.Rules[1]).Style["font-family"]);
 		}
-	
+
 		[Test]
         public void StyleSheetFontFace()
 		{
@@ -436,7 +436,7 @@ body {
             Assert.AreEqual(@"body", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
             Assert.AreEqual(@"""Bitstream Vera Serif Bold"", serif", ((ICssStyleRule)sheet.Rules[1]).Style["font-family"]);
 		}
-	
+
 		[Test]
         public void StyleSheetHostLinebreak()
 		{
@@ -446,7 +446,7 @@ body {
     }");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetHost()
 		{
@@ -457,7 +457,7 @@ body {
 }");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetImportLinebreak()
 		{
@@ -469,7 +469,7 @@ body {
 
             Assert.AreEqual(@"test.css", ((ICssImportRule)sheet.Rules[0]).Href);
 		}
-	
+
 		[Test]
         public void StyleSheetImportMessed()
 		{
@@ -497,7 +497,7 @@ body {
             Assert.AreEqual(@"landscape.css", ((ICssImportRule)sheet.Rules[4]).Href);
             Assert.AreEqual(@"screen and (orientation: landscape)", ((ICssImportRule)sheet.Rules[4]).Media.MediaText);
 		}
-	
+
 		[Test]
         public void StyleSheetImport()
 		{
@@ -523,7 +523,7 @@ body {
             Assert.AreEqual(@"landscape.css", ((ICssImportRule)sheet.Rules[4]).Href);
             Assert.AreEqual(@"screen and (orientation: landscape)", ((ICssImportRule)sheet.Rules[4]).Media.MediaText);
 		}
-	
+
 		[Test]
         public void StyleSheetKeyframesAdvanced()
 		{
@@ -542,7 +542,7 @@ body {
 }");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetKeyframesComplex()
 		{
@@ -556,7 +556,7 @@ body {
 }");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetKeyframesLinebreak()
 		{
@@ -569,7 +569,7 @@ body {
 ");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetKeyframesMessed()
 		{
@@ -581,7 +581,7 @@ to
      opacity: 1;}}");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetKeyframesVendor()
 		{
@@ -592,7 +592,7 @@ to
 ");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetKeyframes()
 		{
@@ -611,7 +611,7 @@ to
 }");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetMediaLinebreak()
 		{
@@ -633,12 +633,12 @@ to
             Assert.AreEqual(@".test", ((ICssStyleRule)subrule).SelectorText);
             Assert.AreEqual(@"100px", ((ICssStyleRule)subrule).Style["width"]);
 		}
-	
+
 		[Test]
         public void StyleSheetMediaMessed()
 		{
 			var sheet = ParseSheet(@"@media screen, projection{ html
-  
+
   {
 background: #fffef0;
     color:#300;
@@ -706,7 +706,7 @@ background: #fffef0;
                 }
             }
 		}
-	
+
 		[Test]
         public void StyleSheetMedia()
 		{
@@ -760,7 +760,7 @@ background: #fffef0;
             Assert.AreEqual(@"1in", ((ICssStyleRule)((ICssMediaRule)sheet.Rules[1]).Rules[1]).Style["padding"]);
             Assert.AreEqual(@"0.5pt solid #666", ((ICssStyleRule)((ICssMediaRule)sheet.Rules[1]).Rules[1]).Style["border"]);
 		}
-	
+
 		[Test]
         public void StyleSheetMessedUp()
 		{
@@ -793,7 +793,7 @@ background: #fffef0;
             Assert.AreEqual(@"bar", ((ICssStyleRule)sheet.Rules[2]).Style["foo"]);
             Assert.AreEqual(@"baz", ((ICssStyleRule)sheet.Rules[2]).Style["bar"]);
 		}
-	
+
 		[Test]
         public void StyleSheetNamespaceLinebreak()
 		{
@@ -802,7 +802,7 @@ background: #fffef0;
     ;");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetNamespace()
 		{
@@ -810,7 +810,7 @@ background: #fffef0;
 @namespace svg ""http://www.w3.org/2000/svg"";");
 			Assert.AreEqual(2, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetNoSemi()
 		{
@@ -820,7 +820,7 @@ tobi loki jane {
   the-species: called ""ferrets""
 }");
 			Assert.AreEqual(1, sheet.Rules.Length);
-			
+
 			foreach (var rule in sheet.Rules)
 			{
 				Assert.AreEqual(@"tobi loki jane", ((ICssStyleRule)rule).SelectorText);
@@ -828,7 +828,7 @@ tobi loki jane {
 				Assert.AreEqual(@"called ""ferrets""", ((ICssStyleRule)rule).Style["the-species"]);
 			}
 		}
-	
+
 		[Test]
         public void StyleSheetPageLinebreak()
 		{
@@ -839,7 +839,7 @@ tobi loki jane {
     }");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetPagedMedia()
 		{
@@ -873,7 +873,7 @@ tobi loki jane {
             Assert.AreEqual(1, page3.Style.Length);
             Assert.AreEqual("5cm", page3.Style["margin-left"]);
 		}
-	
+
 		[Test]
         public void StyleSheetProps()
 		{
@@ -890,7 +890,7 @@ tobi loki jane {
             Assert.AreEqual(@"called ""ferrets""", ((ICssStyleRule)sheet.Rules[0]).Style["the-species"]);
             Assert.AreEqual(@"""ie crap""", ((ICssStyleRule)sheet.Rules[0]).Style["*even"]);
 		}
-	
+
 		[Test]
         public void StyleSheetQuoteEscape()
 		{
@@ -901,7 +901,7 @@ tobi loki jane {
             Assert.AreEqual(@"p[qwe=""a\"",b""]", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
             Assert.AreEqual(@"red", ((ICssStyleRule)sheet.Rules[0]).Style["color"]);
 		}
-	
+
 		[Test]
         public void StyleSheetQuoted()
 		{
@@ -913,7 +913,7 @@ tobi loki jane {
             Assert.AreEqual(@"body", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
             Assert.AreEqual(@"url(""some;stuff;here"") 50% 50% no-repeat", ((ICssStyleRule)sheet.Rules[0]).Style["background"]);
 		}
-	
+
 		[Test]
         public void StyleSheetRule()
 		{
@@ -925,7 +925,7 @@ tobi loki jane {
             Assert.AreEqual(@"foo", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
             Assert.AreEqual(@"""baz""", ((ICssStyleRule)sheet.Rules[0]).Style["bar"]);
 		}
-	
+
 		[Test]
         public void StyleSheetRules()
 		{
@@ -948,7 +948,7 @@ loki {
             Assert.AreEqual(@"""loki""", ((ICssStyleRule)sheet.Rules[1]).Style["name"]);
             Assert.AreEqual(@"1", ((ICssStyleRule)sheet.Rules[1]).Style["age"]);
 		}
-	
+
 		[Test]
         public void StyleSheetSelectors()
 		{
@@ -962,7 +962,7 @@ baz {
             Assert.AreEqual(@"foo,bar,baz", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
             Assert.AreEqual(@"""black""", ((ICssStyleRule)sheet.Rules[0]).Style["color"]);
 		}
-	
+
 		[Test]
         public void StyleSheetSupportsLinebreak()
 		{
@@ -973,7 +973,7 @@ baz {
     }");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetSupports()
 		{
@@ -991,7 +991,7 @@ baz {
 }");
 			Assert.AreEqual(1, sheet.Rules.Length);
 		}
-	
+
 		[Test]
         public void StyleSheetWtf()
 		{
@@ -1001,7 +1001,7 @@ baz {
   #height: 18px;
 }");
 			Assert.AreEqual(1, sheet.Rules.Length);
-			
+
 			foreach (var rule in sheet.Rules)
 			{
 				Assert.AreEqual(@".wtf", ((ICssStyleRule)rule).SelectorText);
@@ -1010,5 +1010,13 @@ baz {
 				Assert.AreEqual(@"18px", ((ICssStyleRule)rule).Style["#height"]);
 			}
 		}
-	}
+
+        [Test]
+        public void StyleSheetUnicodeEscape()
+        {
+            var sheet = ParseSheet(@"h1 { background-color: \000062
+lack; }");
+            Assert.AreEqual(@"black", ((ICssStyleRule)sheet.Rules[0]).Style["background-color"]);
+        }
+    }
 }

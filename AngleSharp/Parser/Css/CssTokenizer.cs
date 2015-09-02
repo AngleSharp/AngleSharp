@@ -149,7 +149,7 @@
                     }
                     else
                         Back();
-                        
+
                     return NewDelimiter(current);
                 }
 
@@ -162,7 +162,7 @@
 
                     if (c.IsDigit())
                         return NumberStart(GetPrevious());
-                        
+
                     return NewDelimiter(GetPrevious());
                 }
 
@@ -189,7 +189,7 @@
                     }
                     else
                         Back();
-                        
+
                     return NewDelimiter(current);
                 }
 
@@ -198,7 +198,7 @@
 
                     if (current == Symbols.Asterisk)
                         return Comment();
-                        
+
                     return NewDelimiter(GetPrevious());
 
                 case Symbols.ReverseSolidus:
@@ -1469,12 +1469,17 @@
                         break;
                 }
 
-                if (current != Symbols.Space)
+                if (current == Symbols.CarriageReturn)
+                {
+                    current = GetNext();
+                    if (current != Symbols.LineFeed)
+                        Back();
+                } else if (!current.IsSpaceCharacter())
                     Back();
 
                 var code = Int32.Parse(new String(escape, 0, length), NumberStyles.HexNumber);
 
-                if (code.IsInvalid() == false)
+                if (!code.IsInvalid())
                     return code.ConvertFromUtf32();
 
                 current = Symbols.Replacement;
