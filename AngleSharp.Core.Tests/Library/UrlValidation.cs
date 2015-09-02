@@ -1840,7 +1840,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest110()
+		public void DocumentUrlShouldKeepProvidedFilePathWithThreeSlashes()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1858,7 +1858,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest111()
+		public void DocumentUrlShouldKeepProvidedFilePathWithTwoSlashes()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1876,7 +1876,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest112()
+		public void DocumentUrlShouldNormalizeCurrentDots()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1894,7 +1894,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest113()
+		public void DocumentUrlShouldNormalizeCurrentDot()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1912,7 +1912,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest114()
+        public void DocumentUrlShouldRemainInSameDirectoryNoExtraSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1930,7 +1930,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest115()
+		public void DocumentUrlShouldRemainInSameDirectoryWithExtraSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1948,7 +1948,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest116()
+		public void DocumentUrlShouldGoToParentDirectory()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1966,7 +1966,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest117()
+		public void DocumentUrlShouldGoToUpperDirectory()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1984,7 +1984,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest118()
+		public void DocumentUrlShouldPreserveTwoDotsIfLeading()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2002,7 +2002,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest119()
+		public void DocumentUrlShouldGoToAdjacentDirectory()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2020,7 +2020,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest120()
+		public void DocumentUrlShouldGoToTopDirectory()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2038,7 +2038,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest121()
+		public void DocumentUrlShouldStopGoingFurtherUpwards()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2056,7 +2056,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest122()
+		public void DocumentUrlShouldStopGoingFurtherAndThenGoDown()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2074,7 +2074,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest123()
+		public void DocumentUrlShouldResolveAndIgnoreCurrentDot()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2092,7 +2092,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest124()
+		public void DocumentUrlShouldKeepInvalidSequence()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2110,7 +2110,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest125()
+		public void DocumentUrlShouldActIfSomeDotsHaveBeenSeen()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2128,7 +2128,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest126()
+		public void DocumentUrlShouldUseTheDotsButKeepExtraSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2146,7 +2146,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest127()
+		public void DocumentUrlShouldGoUpwardsWithRespectToEmptyName()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2164,7 +2164,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest128()
+		public void DocumentUrlShouldLeaveEmptyDirectory()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -2182,7 +2182,7 @@ org");
 		}
 	
 		[Test]
-		public void DocumentUrlTest129()
+		public void DocumentUrlShouldJustRemainTheSame()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
