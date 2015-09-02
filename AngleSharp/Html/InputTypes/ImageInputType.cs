@@ -53,18 +53,21 @@
 
         #region Methods
 
+        public override Boolean IsAppendingData(IHtmlElement submitter)
+        {
+            return Object.ReferenceEquals(submitter, Input) && !String.IsNullOrEmpty(Input.Name);
+        }
+
         public override void ConstructDataSet(FormDataSet dataSet)
         {
-            if (!String.IsNullOrEmpty(Input.Name))
-            {
-                var name = String.Empty;
+            var name = Input.Name;
+            var value = Input.Value;
 
-                if (!String.IsNullOrEmpty(Input.Value))
-                    name = Input.Value + ".";
+            dataSet.Append(name + ".x", "0", Input.Type);
+            dataSet.Append(name + ".y", "0", Input.Type);
 
-                dataSet.Append(name + "x", "0", Input.Type);
-                dataSet.Append(name + "y", "0", Input.Type);
-            }
+            if (!String.IsNullOrEmpty(value))
+                dataSet.Append(name, value, Input.Type);
         }
 
         #endregion

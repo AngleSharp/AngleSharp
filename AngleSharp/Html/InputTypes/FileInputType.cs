@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom.Html;
     using AngleSharp.Dom.Io;
-    using AngleSharp.Network;
     using System;
 
     class FileInputType : BaseInputType
