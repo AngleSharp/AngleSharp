@@ -62,7 +62,12 @@
             fill(document, form);
 
             if (fromButton)
-                return await form.Submit(form.QuerySelector<IHtmlElement>("button") ?? form.QuerySelector<IHtmlElement>("input[type=submit]"));
+            {
+                var submitter = form.QuerySelector<IHtmlElement>("button") ??
+                    form.QuerySelector<IHtmlElement>("input[type=submit]") ??
+                    form.QuerySelector<IHtmlElement>("input[type=image]");
+                return await form.Submit(submitter);
+            }
 
             return await form.Submit();
         }
@@ -847,6 +852,54 @@
                 Assert.AreEqual("1", rows[1].QuerySelector("td").TextContent);
 
                 Assert.AreEqual("\nstatus1=1&status2=1\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithImageTypeNotPressedShouldSupressEverything()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var content = "<input type=image name=foo value=bar>";
+                var result = await PostDocumentAsync(content);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(0, rows.Length);
+
+                Assert.AreEqual("\n\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithImageTypePressedShouldShowEverything()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var content = "<input type=image name=foo value=bar>";
+                var result = await PostDocumentAsync(content, fromButton: true);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(3, rows.Length);
+
+                Assert.AreEqual("\nfoo.x=0&foo.y=0&foo=bar\n", raw);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeWithImageTypeWithoutValuePressedShouldShowXy()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var content = "<input type=image name=foo>";
+                var result = await PostDocumentAsync(content, fromButton: true);
+                var rows = result.QuerySelectorAll("tr");
+                var raw = result.QuerySelector("#input").TextContent;
+
+                Assert.AreEqual(2, rows.Length);
+
+                Assert.AreEqual("\nfoo.x=0&foo.y=0\n", raw);
             }
         }
     }
