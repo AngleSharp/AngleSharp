@@ -1012,11 +1012,21 @@ baz {
 		}
 
         [Test]
-        public void StyleSheetUnicodeEscape()
+        public void StyleSheetUnicodeEscapeLiteral()
         {
             var sheet = ParseSheet(@"h1 { background-color: \000062
 lack; }");
             Assert.AreEqual(@"black", ((ICssStyleRule)sheet.Rules[0]).Style["background-color"]);
+        }
+
+        [Test]
+        public void StyleSheetUnicodeEscapeVarious()
+        {
+            var sheet = ParseSheet("h1 { background-color: \\000062\r\nlack; color: \\000062\tlack; border-color: \\000062\nlack; outline-color: \\000062 lack }");
+            Assert.AreEqual(@"black", ((ICssStyleRule)sheet.Rules[0]).Style["background-color"]);
+            Assert.AreEqual(@"black", ((ICssStyleRule)sheet.Rules[0]).Style["color"]);
+            Assert.AreEqual(@"black", ((ICssStyleRule)sheet.Rules[0]).Style["border-color"]);
+            Assert.AreEqual(@"black", ((ICssStyleRule)sheet.Rules[0]).Style["outline-color"]);
         }
     }
 }
