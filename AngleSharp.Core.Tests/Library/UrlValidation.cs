@@ -34,7 +34,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/", anchor.Href);
+            Assert.AreEqual("http://example.org/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -52,7 +53,8 @@ org");
 			Assert.AreEqual("/bar;par", anchor.PathName);
 			Assert.AreEqual("?b", anchor.Search);
 			Assert.AreEqual("#c", anchor.Hash);
-			Assert.AreEqual("http://user:pass@foo:21/bar;par?b#c", anchor.Href);
+            Assert.AreEqual("http://user:pass@foo:21/bar;par?b#c", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -70,7 +72,8 @@ org");
 			Assert.AreEqual("/foo/foo.com", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/foo.com", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/foo.com", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -89,7 +92,8 @@ org");
 			Assert.AreEqual("/foo/:foo.com", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/:foo.com", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/:foo.com", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -107,7 +111,8 @@ org");
 			Assert.AreEqual("/foo/foo.com", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/foo.com", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/foo.com", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -125,7 +130,8 @@ org");
 			Assert.AreEqual(" foo.com", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("a: foo.com", anchor.Href);
+            Assert.AreEqual("a: foo.com", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -143,7 +149,8 @@ org");
 			Assert.AreEqual("/%20b%20", anchor.PathName);
 			Assert.AreEqual("?%20d%20", anchor.Search);
 			Assert.AreEqual("# e", anchor.Hash);
-			Assert.AreEqual("http://f:21/%20b%20?%20d%20# e", anchor.Href);
+            Assert.AreEqual("http://f:21/%20b%20?%20d%20# e", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -161,7 +168,8 @@ org");
 			Assert.AreEqual("/c", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://f/c", anchor.Href);
+            Assert.AreEqual("http://f/c", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -179,7 +187,8 @@ org");
 			Assert.AreEqual("/c", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://f:0/c", anchor.Href);
+            Assert.AreEqual("http://f:0/c", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -197,7 +206,8 @@ org");
 			Assert.AreEqual("/c", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://f:0/c", anchor.Href);
+            Assert.AreEqual("http://f:0/c", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -215,7 +225,8 @@ org");
 			Assert.AreEqual("/c", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://f/c", anchor.Href);
+            Assert.AreEqual("http://f/c", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -234,7 +245,8 @@ org");
 			Assert.AreEqual("/c", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://f/c", anchor.Href);
+            Assert.AreEqual("http://f/c", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -252,7 +264,8 @@ org");
 			Assert.AreEqual("/c", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://f:999999/c", anchor.Href);
+            Assert.AreEqual("http://f:999999/c", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -270,7 +283,8 @@ org");
 			Assert.AreEqual("/foo/bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/bar", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/bar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -288,7 +302,8 @@ org");
 			Assert.AreEqual("/foo/bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/bar", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/bar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -306,7 +321,8 @@ org");
 			Assert.AreEqual("/foo/:foo.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/:foo.com/", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/:foo.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -324,7 +340,8 @@ org");
 			Assert.AreEqual("/foo/:foo.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/:foo.com/", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/:foo.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -342,7 +359,8 @@ org");
 			Assert.AreEqual("/foo/:", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/:", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/:", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -360,7 +378,8 @@ org");
 			Assert.AreEqual("/foo/:a", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/:a", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/:a", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -378,7 +397,8 @@ org");
 			Assert.AreEqual("/foo/:/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/:/", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/:/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -396,7 +416,8 @@ org");
 			Assert.AreEqual("/foo/:/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/:/", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/:/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -414,7 +435,8 @@ org");
 			Assert.AreEqual("/foo/:", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/:#", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/:#", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -432,7 +454,8 @@ org");
 			Assert.AreEqual("/foo/bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/bar#", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/bar#", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -450,7 +473,8 @@ org");
 			Assert.AreEqual("/foo/bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("#/", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/bar#/", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/bar#/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -468,7 +492,8 @@ org");
 			Assert.AreEqual("/foo/bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual(@"#\", anchor.Hash);
-			Assert.AreEqual(@"http://example.org/foo/bar#\", anchor.Href);
+            Assert.AreEqual(@"http://example.org/foo/bar#\", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -486,7 +511,8 @@ org");
 			Assert.AreEqual("/foo/bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("#;?", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/bar#;?", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/bar#;?", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -504,7 +530,8 @@ org");
 			Assert.AreEqual("/foo/bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/bar?", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/bar?", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -522,7 +549,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/", anchor.Href);
+            Assert.AreEqual("http://example.org/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -540,7 +568,8 @@ org");
 			Assert.AreEqual("/foo/:23", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/:23", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/:23", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -558,7 +587,8 @@ org");
 			Assert.AreEqual("/:23", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/:23", anchor.Href);
+            Assert.AreEqual("http://example.org/:23", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -576,7 +606,8 @@ org");
 			Assert.AreEqual("/foo/::", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/::", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/::", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -594,7 +625,8 @@ org");
 			Assert.AreEqual("/foo/::23", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/::23", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/::23", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -612,7 +644,8 @@ org");
 			Assert.AreEqual("//", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("foo://", anchor.Href);
+            Assert.AreEqual("foo://", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -630,7 +663,8 @@ org");
 			Assert.AreEqual("/d", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://a:b@c:29/d", anchor.Href);
+            Assert.AreEqual("http://a:b@c:29/d", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -648,7 +682,8 @@ org");
 			Assert.AreEqual("/foo/:@c:29", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/:@c:29", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/:@c:29", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -666,7 +701,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://&a:foo(b]c@d:2/", anchor.Href);
+            Assert.AreEqual("http://&a:foo(b]c@d:2/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -684,7 +720,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://:%3A%40c@d:2/", anchor.Href);
+            Assert.AreEqual("http://:%3A%40c@d:2/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -702,7 +739,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://foo.com:b@d/", anchor.Href);
+            Assert.AreEqual("http://foo.com:b@d/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -720,7 +758,8 @@ org");
 			Assert.AreEqual("//@", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://foo.com//@", anchor.Href);
+            Assert.AreEqual("http://foo.com//@", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -738,7 +777,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://foo.com/", anchor.Href);
+            Assert.AreEqual("http://foo.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -756,7 +796,8 @@ org");
 			Assert.AreEqual("/b:c/d@foo.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://a/b:c/d@foo.com/", anchor.Href);
+            Assert.AreEqual("http://a/b:c/d@foo.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -774,7 +815,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("foo:/", anchor.Href);
+            Assert.AreEqual("foo:/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -792,7 +834,8 @@ org");
 			Assert.AreEqual("/bar.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("foo:/bar.com/", anchor.Href);
+            Assert.AreEqual("foo:/bar.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -810,7 +853,8 @@ org");
 			Assert.AreEqual("/////////", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("foo://///////", anchor.Href);
+            Assert.AreEqual("foo://///////", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -828,7 +872,8 @@ org");
 			Assert.AreEqual("/////////bar.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("foo://///////bar.com/", anchor.Href);
+            Assert.AreEqual("foo://///////bar.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -846,11 +891,12 @@ org");
 			Assert.AreEqual("////://///", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("foo:////://///", anchor.Href);
+            Assert.AreEqual("foo:////://///", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest51()
+		public void DocumentUrlFileProtocolNotGivenShouldBeUnknownProtocol()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -864,11 +910,12 @@ org");
 			Assert.AreEqual("/foo", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("c:/foo", anchor.Href);
+            Assert.AreEqual("c:/foo", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest52()
+		public void DocumentUrlProtocolRelativePathShouldBeHttp()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -882,11 +929,12 @@ org");
 			Assert.AreEqual("/bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://foo/bar", anchor.Href);
+            Assert.AreEqual("http://foo/bar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest53()
+		public void DocumentUrlDoubleQueryWithHashShouldBePreserved()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -900,11 +948,12 @@ org");
 			Assert.AreEqual("/path;a", anchor.PathName);
 			Assert.AreEqual("??e", anchor.Search);
 			Assert.AreEqual("#f#g", anchor.Hash);
-			Assert.AreEqual("http://foo/path;a??e#f#g", anchor.Href);
+            Assert.AreEqual("http://foo/path;a??e#f#g", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest54()
+		public void DocumentUrlDoubleQueryShouldBePreserved()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -918,11 +967,12 @@ org");
 			Assert.AreEqual("/abcd", anchor.PathName);
 			Assert.AreEqual("?efgh?ijkl", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://foo/abcd?efgh?ijkl", anchor.Href);
+            Assert.AreEqual("http://foo/abcd?efgh?ijkl", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest55()
+		public void DocumentUrlValidFullAddressWithSimpleHostname()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -936,11 +986,12 @@ org");
 			Assert.AreEqual("/abcd", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("#foo?bar", anchor.Hash);
-			Assert.AreEqual("http://foo/abcd#foo?bar", anchor.Href);
+            Assert.AreEqual("http://foo/abcd#foo?bar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest56()
+		public void DocumentUrlRangesCountedAsRelativePath()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -954,11 +1005,12 @@ org");
 			Assert.AreEqual("/foo/[61:24:74]:98", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/[61:24:74]:98", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/[61:24:74]:98", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest57()
+		public void DocumentUrlHttpWithNoSlahesShouldGetDoubleSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -972,11 +1024,12 @@ org");
 			Assert.AreEqual("/foo/[61:27]/:foo", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/[61:27]/:foo", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/[61:27]/:foo", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest62()
+		public void DocumentUrlHttpWithValidAddressShouldKeepIt()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -990,11 +1043,12 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://[2001::1]/", anchor.Href);
+            Assert.AreEqual("http://[2001::1]/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest63()
+		public void DocumentUrlHttpWithStandardPortShouldOmitPort()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1008,11 +1062,12 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://[2001::1]/", anchor.Href);
+            Assert.AreEqual("http://[2001::1]/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest64()
+		public void DocumentUrlHttpWithSingleSlashShouldGetSecondSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1026,11 +1081,12 @@ org");
 			Assert.AreEqual("/example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/example.com/", anchor.Href);
+            Assert.AreEqual("http://example.org/example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest65()
+		public void DocumentUrlFtpWithSingleSlashShouldGetSecondSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1044,11 +1100,12 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ftp://example.com/", anchor.Href);
+            Assert.AreEqual("ftp://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest66()
+		public void DocumentUrlHttpsWithSingleSlashShouldGetSecondSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1062,11 +1119,12 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("https://example.com/", anchor.Href);
+            Assert.AreEqual("https://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest67()
+		public void DocumentUrlCustomSchemeWithSingleSlashShouldBePreserved()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1080,11 +1138,12 @@ org");
 			Assert.AreEqual("/example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("madeupscheme:/example.com/", anchor.Href);
+            Assert.AreEqual("madeupscheme:/example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest68()
+		public void DocumentUrlFileWithSingleSlashShouldBeThreeSlashes()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1098,11 +1157,12 @@ org");
 			Assert.AreEqual("/example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file:///example.com/", anchor.Href);
+            Assert.AreEqual("file:///example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest69()
+		public void DocumentUrlUnknownFtpsShouldBePreservedAtSingleSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1116,11 +1176,12 @@ org");
 			Assert.AreEqual("/example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ftps:/example.com/", anchor.Href);
+            Assert.AreEqual("ftps:/example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest70()
+		public void DocumentUrlGopherWithSingleSlashShouldBeTwoSlashes()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1134,11 +1195,12 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("gopher://example.com/", anchor.Href);
+            Assert.AreEqual("gopher://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest71()
+		public void DocumentUrlWebSocketWithSingleSlashShouldBeTwoSlashes()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1152,11 +1214,12 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ws://example.com/", anchor.Href);
+            Assert.AreEqual("ws://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest72()
+		public void DocumentUrlSecureWebSocketWithSingleSlashShouldBeTwoSlashes()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1170,11 +1233,12 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("wss://example.com/", anchor.Href);
+            Assert.AreEqual("wss://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest73()
+		public void DocumentUrlDataShouldPreserveSingleSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1188,11 +1252,12 @@ org");
 			Assert.AreEqual("/example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("data:/example.com/", anchor.Href);
+            Assert.AreEqual("data:/example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest74()
+		public void DocumentUrlJavaScriptShouldPreserveSingleSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1206,11 +1271,12 @@ org");
 			Assert.AreEqual("/example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("javascript:/example.com/", anchor.Href);
+            Assert.AreEqual("javascript:/example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest75()
+		public void DocumentUrlMailtoShouldPreserveSingleSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1224,11 +1290,12 @@ org");
 			Assert.AreEqual("/example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("mailto:/example.com/", anchor.Href);
+            Assert.AreEqual("mailto:/example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest76()
+		public void DocumentUrlHttpWithNoSlashesShouldCountAsRelativePath()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1242,11 +1309,12 @@ org");
 			Assert.AreEqual("/foo/example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/example.com/", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest77()
+		public void DocumentUrlFtpWithNoSlashesShouldBeAbsoluteWithTwoSlashes()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1260,11 +1328,12 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ftp://example.com/", anchor.Href);
+            Assert.AreEqual("ftp://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest78()
+		public void DocumentUrlHttpsWithNoSlashesShouldBeAbsoluteWithTwoSlashes()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1278,11 +1347,12 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("https://example.com/", anchor.Href);
+            Assert.AreEqual("https://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest79()
+		public void DocumentUrlCustomProtocolWithNoSlashesShouldBePreserved()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1296,11 +1366,12 @@ org");
 			Assert.AreEqual("example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("madeupscheme:example.com/", anchor.Href);
+            Assert.AreEqual("madeupscheme:example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest80()
+		public void DocumentUrlFtpsWithNoSlashesShouldBePreserved()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1314,11 +1385,12 @@ org");
 			Assert.AreEqual("example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ftps:example.com/", anchor.Href);
+            Assert.AreEqual("ftps:example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest81()
+		public void DocumentUrlGopherProtocolShouldInsertDoubleSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1332,11 +1404,12 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("gopher://example.com/", anchor.Href);
+            Assert.AreEqual("gopher://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest82()
+		public void DocumentUrlWebSocketProtocolShouldInsertDoubleSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1350,11 +1423,12 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ws://example.com/", anchor.Href);
+            Assert.AreEqual("ws://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest83()
+		public void DocumentUrlSecureWebSocketProtocolShouldInsertDoubleSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1368,11 +1442,12 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("wss://example.com/", anchor.Href);
+            Assert.AreEqual("wss://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest84()
+		public void DocumentUrlDataProtocolShouldNotInsertSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1386,11 +1461,12 @@ org");
 			Assert.AreEqual("example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("data:example.com/", anchor.Href);
+            Assert.AreEqual("data:example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest85()
+		public void DocumentUrlJavaScriptProtocolShouldNotInsertSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1404,11 +1480,12 @@ org");
 			Assert.AreEqual("example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("javascript:example.com/", anchor.Href);
+            Assert.AreEqual("javascript:example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest86()
+		public void DocumentUrlMailToProtocolShouldNotInsertSlash()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1422,11 +1499,12 @@ org");
 			Assert.AreEqual("example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("mailto:example.com/", anchor.Href);
+            Assert.AreEqual("mailto:example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest87()
+		public void DocumentUrlRootedPathShouldBeAbsolute()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1440,11 +1518,12 @@ org");
 			Assert.AreEqual("/a/b/c", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/a/b/c", anchor.Href);
+            Assert.AreEqual("http://example.org/a/b/c", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest88()
+		public void DocumentUrlSpaceInPathShouldBeEscaped()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1458,11 +1537,12 @@ org");
 			Assert.AreEqual("/a/%20/c", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/a/%20/c", anchor.Href);
+            Assert.AreEqual("http://example.org/a/%20/c", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest89()
+		public void DocumentUrlEscapeSequenceInPathShouldBeEscapedAgain()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1476,11 +1556,12 @@ org");
 			Assert.AreEqual("/a%2fc", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/a%2fc", anchor.Href);
+            Assert.AreEqual("http://example.org/a%2fc", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest90()
+		public void DocumentUrlPureEscapedNameShouldBeEscapedAgain()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1494,11 +1575,12 @@ org");
 			Assert.AreEqual("/a/%2f/c", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.org/a/%2f/c", anchor.Href);
+            Assert.AreEqual("http://example.org/a/%2f/c", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
-		public void DocumentUrlTest91()
+		public void DocumentUrlSoloHashShouldBeTreatedAsRelativePath()
 		{
 			var document = Html("<base id=base>");
 			var element = document.GetElementById("base") as HtmlBaseElement;
@@ -1512,7 +1594,8 @@ org");
 			Assert.AreEqual("/foo/bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("#β", anchor.Hash);
-			Assert.AreEqual("http://example.org/foo/bar#β", anchor.Href);
+            Assert.AreEqual("http://example.org/foo/bar#β", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1531,6 +1614,7 @@ org");
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("#test", anchor.Hash);
 			Assert.AreEqual("data:text/html,test#test", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1548,7 +1632,8 @@ org");
 			Assert.AreEqual("/c:/foo/bar.html", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file:///c:/foo/bar.html", anchor.Href);
+            Assert.AreEqual("file:///c:/foo/bar.html", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1566,7 +1651,8 @@ org");
 			Assert.AreEqual("/c:////foo/bar.html", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file:///c:////foo/bar.html", anchor.Href);
+            Assert.AreEqual("file:///c:////foo/bar.html", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1584,7 +1670,8 @@ org");
 			Assert.AreEqual("/C:/foo/bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file:///C:/foo/bar", anchor.Href);
+            Assert.AreEqual("file:///C:/foo/bar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1602,7 +1689,8 @@ org");
 			Assert.AreEqual("/C:/foo/bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file:///C:/foo/bar", anchor.Href);
+            Assert.AreEqual("file:///C:/foo/bar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1620,7 +1708,8 @@ org");
 			Assert.AreEqual("/C:/foo/bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file:///C:/foo/bar", anchor.Href);
+            Assert.AreEqual("file:///C:/foo/bar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1638,7 +1727,8 @@ org");
 			Assert.AreEqual("/file", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file://server/file", anchor.Href);
+            Assert.AreEqual("file://server/file", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1656,7 +1746,8 @@ org");
 			Assert.AreEqual("/file", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file://server/file", anchor.Href);
+            Assert.AreEqual("file://server/file", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1674,7 +1765,8 @@ org");
 			Assert.AreEqual("/file", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file://server/file", anchor.Href);
+            Assert.AreEqual("file://server/file", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1692,7 +1784,8 @@ org");
 			Assert.AreEqual("/foo/bar.txt", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file:///foo/bar.txt", anchor.Href);
+            Assert.AreEqual("file:///foo/bar.txt", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1710,7 +1803,8 @@ org");
 			Assert.AreEqual("/home/me", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file:///home/me", anchor.Href);
+            Assert.AreEqual("file:///home/me", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1728,7 +1822,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file:///", anchor.Href);
+            Assert.AreEqual("file:///", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1746,7 +1841,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file:///", anchor.Href);
+            Assert.AreEqual("file:///", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1764,7 +1860,8 @@ org");
 			Assert.AreEqual("/test", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file:///test", anchor.Href);
+            Assert.AreEqual("file:///test", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1782,7 +1879,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file://test/", anchor.Href);
+            Assert.AreEqual("file://test/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1800,7 +1898,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file://localhost/", anchor.Href);
+            Assert.AreEqual("file://localhost/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1818,7 +1917,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file://localhost/", anchor.Href);
+            Assert.AreEqual("file://localhost/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1836,7 +1936,8 @@ org");
 			Assert.AreEqual("/test", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file://localhost/test", anchor.Href);
+            Assert.AreEqual("file://localhost/test", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1854,7 +1955,8 @@ org");
 			Assert.AreEqual("/tmp/mock/test", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file:///tmp/mock/test", anchor.Href);
+            Assert.AreEqual("file:///tmp/mock/test", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1872,7 +1974,8 @@ org");
 			Assert.AreEqual("/tmp/mock/test", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file:///tmp/mock/test", anchor.Href);
+            Assert.AreEqual("file:///tmp/mock/test", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1890,7 +1993,8 @@ org");
 			Assert.AreEqual("/foo", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo", anchor.Href);
+            Assert.AreEqual("http://example.com/foo", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1908,7 +2012,8 @@ org");
 			Assert.AreEqual("/.foo", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/.foo", anchor.Href);
+            Assert.AreEqual("http://example.com/.foo", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1926,7 +2031,8 @@ org");
 			Assert.AreEqual("/foo/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo/", anchor.Href);
+            Assert.AreEqual("http://example.com/foo/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1944,7 +2050,8 @@ org");
 			Assert.AreEqual("/foo/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo/", anchor.Href);
+            Assert.AreEqual("http://example.com/foo/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1962,7 +2069,8 @@ org");
 			Assert.AreEqual("/foo/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo/", anchor.Href);
+            Assert.AreEqual("http://example.com/foo/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1980,7 +2088,8 @@ org");
 			Assert.AreEqual("/foo/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo/", anchor.Href);
+            Assert.AreEqual("http://example.com/foo/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -1998,7 +2107,8 @@ org");
 			Assert.AreEqual("/foo/..bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo/..bar", anchor.Href);
+            Assert.AreEqual("http://example.com/foo/..bar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2016,7 +2126,8 @@ org");
 			Assert.AreEqual("/foo/ton", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo/ton", anchor.Href);
+            Assert.AreEqual("http://example.com/foo/ton", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2034,7 +2145,8 @@ org");
 			Assert.AreEqual("/a", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/a", anchor.Href);
+            Assert.AreEqual("http://example.com/a", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2052,7 +2164,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/", anchor.Href);
+            Assert.AreEqual("http://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2070,7 +2183,8 @@ org");
 			Assert.AreEqual("/ton", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/ton", anchor.Href);
+            Assert.AreEqual("http://example.com/ton", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2088,7 +2202,8 @@ org");
 			Assert.AreEqual("/foo/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo/", anchor.Href);
+            Assert.AreEqual("http://example.com/foo/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2106,7 +2221,8 @@ org");
 			Assert.AreEqual("/foo/%2e%2", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo/%2e%2", anchor.Href);
+            Assert.AreEqual("http://example.com/foo/%2e%2", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2124,7 +2240,8 @@ org");
 			Assert.AreEqual("/%2e.bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/%2e.bar", anchor.Href);
+            Assert.AreEqual("http://example.com/%2e.bar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2142,7 +2259,8 @@ org");
 			Assert.AreEqual("//", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com//", anchor.Href);
+            Assert.AreEqual("http://example.com//", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2160,7 +2278,8 @@ org");
 			Assert.AreEqual("/foo/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo/", anchor.Href);
+            Assert.AreEqual("http://example.com/foo/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2178,7 +2297,8 @@ org");
 			Assert.AreEqual("/foo/bar/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo/bar/", anchor.Href);
+            Assert.AreEqual("http://example.com/foo/bar/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2196,7 +2316,8 @@ org");
 			Assert.AreEqual("/foo", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo", anchor.Href);
+            Assert.AreEqual("http://example.com/foo", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2214,7 +2335,8 @@ org");
 			Assert.AreEqual("/%20foo", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/%20foo", anchor.Href);
+            Assert.AreEqual("http://example.com/%20foo", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2232,7 +2354,8 @@ org");
 			Assert.AreEqual("/foo%", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo%", anchor.Href);
+            Assert.AreEqual("http://example.com/foo%", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2250,7 +2373,8 @@ org");
 			Assert.AreEqual("/foo%2", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo%2", anchor.Href);
+            Assert.AreEqual("http://example.com/foo%2", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2268,7 +2392,8 @@ org");
 			Assert.AreEqual("/foo%2zbar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo%2zbar", anchor.Href);
+            Assert.AreEqual("http://example.com/foo%2zbar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2286,7 +2411,8 @@ org");
 			Assert.AreEqual("/foo%2%C3%82%C2%A9zbar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo%2%C3%82%C2%A9zbar", anchor.Href);
+            Assert.AreEqual("http://example.com/foo%2%C3%82%C2%A9zbar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2304,7 +2430,8 @@ org");
 			Assert.AreEqual("/foo%41%7a", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo%41%7a", anchor.Href);
+            Assert.AreEqual("http://example.com/foo%41%7a", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2322,7 +2449,8 @@ org");
 			Assert.AreEqual("/foo%C2%91%91", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo%C2%91%91", anchor.Href);
+            Assert.AreEqual("http://example.com/foo%C2%91%91", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2340,7 +2468,8 @@ org");
 			Assert.AreEqual("/foo%00%51", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foo%00%51", anchor.Href);
+            Assert.AreEqual("http://example.com/foo%00%51", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2358,7 +2487,8 @@ org");
 			Assert.AreEqual("/(%28:%3A%29)", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/(%28:%3A%29)", anchor.Href);
+            Assert.AreEqual("http://example.com/(%28:%3A%29)", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2376,7 +2506,8 @@ org");
 			Assert.AreEqual("/%3A%3a%3C%3c", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/%3A%3a%3C%3c", anchor.Href);
+            Assert.AreEqual("http://example.com/%3A%3a%3C%3c", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2394,7 +2525,8 @@ org");
 			Assert.AreEqual("/foobar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/foobar", anchor.Href);
+            Assert.AreEqual("http://example.com/foobar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2412,7 +2544,8 @@ org");
 			Assert.AreEqual("//foo//bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com//foo//bar", anchor.Href);
+            Assert.AreEqual("http://example.com//foo//bar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2430,7 +2563,8 @@ org");
 			Assert.AreEqual("/%7Ffp3%3Eju%3Dduvgw%3Dd", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/%7Ffp3%3Eju%3Dduvgw%3Dd", anchor.Href);
+            Assert.AreEqual("http://example.com/%7Ffp3%3Eju%3Dduvgw%3Dd", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2448,7 +2582,8 @@ org");
 			Assert.AreEqual("/@asdf%40", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/@asdf%40", anchor.Href);
+            Assert.AreEqual("http://example.com/@asdf%40", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2466,7 +2601,8 @@ org");
 			Assert.AreEqual("/%E4%BD%A0%E5%A5%BD%E4%BD%A0%E5%A5%BD", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/%E4%BD%A0%E5%A5%BD%E4%BD%A0%E5%A5%BD", anchor.Href);
+            Assert.AreEqual("http://example.com/%E4%BD%A0%E5%A5%BD%E4%BD%A0%E5%A5%BD", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2484,7 +2620,8 @@ org");
 			Assert.AreEqual("/%E2%80%A5/foo", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/%E2%80%A5/foo", anchor.Href);
+            Assert.AreEqual("http://example.com/%E2%80%A5/foo", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2502,7 +2639,8 @@ org");
 			Assert.AreEqual("/%EF%BB%BF/foo", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/%EF%BB%BF/foo", anchor.Href);
+            Assert.AreEqual("http://example.com/%EF%BB%BF/foo", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2520,7 +2658,8 @@ org");
 			Assert.AreEqual("/%E2%80%AE/foo/%E2%80%AD/bar", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/%E2%80%AE/foo/%E2%80%AD/bar", anchor.Href);
+            Assert.AreEqual("http://example.com/%E2%80%AE/foo/%E2%80%AD/bar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2538,7 +2677,8 @@ org");
 			Assert.AreEqual("/foo", anchor.PathName);
 			Assert.AreEqual("?bar=baz", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.google.com/foo?bar=baz#", anchor.Href);
+            Assert.AreEqual("http://www.google.com/foo?bar=baz#", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2556,7 +2696,8 @@ org");
 			Assert.AreEqual("/foo", anchor.PathName);
 			Assert.AreEqual("?bar=baz", anchor.Search);
 			Assert.AreEqual("# »", anchor.Hash);
-			Assert.AreEqual("http://www.google.com/foo?bar=baz# »", anchor.Href);
+            Assert.AreEqual("http://www.google.com/foo?bar=baz# »", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2574,7 +2715,8 @@ org");
 			Assert.AreEqual("test", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("# »", anchor.Hash);
-			Assert.AreEqual("data:test# »", anchor.Href);
+            Assert.AreEqual("data:test# »", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2592,7 +2734,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.google.com/", anchor.Href);
+            Assert.AreEqual("http://www.google.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		//TODO [Test]
@@ -2610,7 +2753,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://192.168.0.1/", anchor.Href);
+            Assert.AreEqual("http://192.168.0.1/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2628,7 +2772,8 @@ org");
 			Assert.AreEqual("/foo%2Ehtml", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www/foo%2Ehtml", anchor.Href);
+            Assert.AreEqual("http://www/foo%2Ehtml", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2646,7 +2791,8 @@ org");
 			Assert.AreEqual("/foo/html", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www/foo/html", anchor.Href);
+            Assert.AreEqual("http://www/foo/html", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2664,7 +2810,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://%25DOMAIN:foobar@foodomain.com/", anchor.Href);
+            Assert.AreEqual("http://%25DOMAIN:foobar@foodomain.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2682,7 +2829,8 @@ org");
 			Assert.AreEqual("/foo", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.google.com/foo", anchor.Href);
+            Assert.AreEqual("http://www.google.com/foo", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2700,7 +2848,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://foo/", anchor.Href);
+            Assert.AreEqual("http://foo/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2718,7 +2867,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://foo:81/", anchor.Href);
+            Assert.AreEqual("http://foo:81/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2736,7 +2886,8 @@ org");
 			Assert.AreEqual("//foo:80/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("httpa://foo:80/", anchor.Href);
+            Assert.AreEqual("httpa://foo:80/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2754,7 +2905,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("https://foo/", anchor.Href);
+            Assert.AreEqual("https://foo/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2772,7 +2924,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("https://foo:80/", anchor.Href);
+            Assert.AreEqual("https://foo:80/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2790,7 +2943,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ftp://foo/", anchor.Href);
+            Assert.AreEqual("ftp://foo/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2808,7 +2962,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ftp://foo:80/", anchor.Href);
+            Assert.AreEqual("ftp://foo:80/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2826,7 +2981,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("gopher://foo/", anchor.Href);
+            Assert.AreEqual("gopher://foo/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2844,7 +3000,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("gopher://foo:443/", anchor.Href);
+            Assert.AreEqual("gopher://foo:443/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2862,7 +3019,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ws://foo/", anchor.Href);
+            Assert.AreEqual("ws://foo/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2880,7 +3038,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ws://foo:81/", anchor.Href);
+            Assert.AreEqual("ws://foo:81/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2898,7 +3057,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ws://foo:443/", anchor.Href);
+            Assert.AreEqual("ws://foo:443/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2916,7 +3076,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ws://foo:815/", anchor.Href);
+            Assert.AreEqual("ws://foo:815/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2934,7 +3095,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("wss://foo:80/", anchor.Href);
+            Assert.AreEqual("wss://foo:80/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2952,7 +3114,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("wss://foo:81/", anchor.Href);
+            Assert.AreEqual("wss://foo:81/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2970,7 +3133,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("wss://foo/", anchor.Href);
+            Assert.AreEqual("wss://foo/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -2988,7 +3152,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("wss://foo:815/", anchor.Href);
+            Assert.AreEqual("wss://foo:815/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3006,7 +3171,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/", anchor.Href);
+            Assert.AreEqual("http://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3024,7 +3190,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ftp://example.com/", anchor.Href);
+            Assert.AreEqual("ftp://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3042,7 +3209,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("https://example.com/", anchor.Href);
+            Assert.AreEqual("https://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3060,7 +3228,8 @@ org");
 			Assert.AreEqual("/example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("madeupscheme:/example.com/", anchor.Href);
+            Assert.AreEqual("madeupscheme:/example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3078,7 +3247,8 @@ org");
 			Assert.AreEqual("/example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("file:///example.com/", anchor.Href);
+            Assert.AreEqual("file:///example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3096,7 +3266,8 @@ org");
 			Assert.AreEqual("/example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ftps:/example.com/", anchor.Href);
+            Assert.AreEqual("ftps:/example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3114,7 +3285,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("gopher://example.com/", anchor.Href);
+            Assert.AreEqual("gopher://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3132,7 +3304,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ws://example.com/", anchor.Href);
+            Assert.AreEqual("ws://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3150,7 +3323,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("wss://example.com/", anchor.Href);
+            Assert.AreEqual("wss://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3168,7 +3342,8 @@ org");
 			Assert.AreEqual("/example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("data:/example.com/", anchor.Href);
+            Assert.AreEqual("data:/example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3186,7 +3361,8 @@ org");
 			Assert.AreEqual("/example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("javascript:/example.com/", anchor.Href);
+            Assert.AreEqual("javascript:/example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3204,7 +3380,8 @@ org");
 			Assert.AreEqual("/example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("mailto:/example.com/", anchor.Href);
+            Assert.AreEqual("mailto:/example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3222,7 +3399,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/", anchor.Href);
+            Assert.AreEqual("http://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3240,7 +3418,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ftp://example.com/", anchor.Href);
+            Assert.AreEqual("ftp://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3258,7 +3437,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("https://example.com/", anchor.Href);
+            Assert.AreEqual("https://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3276,7 +3456,8 @@ org");
 			Assert.AreEqual("example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("madeupscheme:example.com/", anchor.Href);
+            Assert.AreEqual("madeupscheme:example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3294,7 +3475,8 @@ org");
 			Assert.AreEqual("example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ftps:example.com/", anchor.Href);
+            Assert.AreEqual("ftps:example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3312,7 +3494,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("gopher://example.com/", anchor.Href);
+            Assert.AreEqual("gopher://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3330,7 +3513,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("ws://example.com/", anchor.Href);
+            Assert.AreEqual("ws://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3348,7 +3532,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("wss://example.com/", anchor.Href);
+            Assert.AreEqual("wss://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3366,7 +3551,8 @@ org");
 			Assert.AreEqual("example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("data:example.com/", anchor.Href);
+            Assert.AreEqual("data:example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3384,7 +3570,8 @@ org");
 			Assert.AreEqual("example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("javascript:example.com/", anchor.Href);
+            Assert.AreEqual("javascript:example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3402,7 +3589,8 @@ org");
 			Assert.AreEqual("example.com/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("mailto:example.com/", anchor.Href);
+            Assert.AreEqual("mailto:example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3420,7 +3608,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example.com/", anchor.Href);
+            Assert.AreEqual("http://www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3438,7 +3627,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example.com/", anchor.Href);
+            Assert.AreEqual("http://www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3456,7 +3646,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example.com/", anchor.Href);
+            Assert.AreEqual("http://www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3474,7 +3665,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://a:b@www.example.com/", anchor.Href);
+            Assert.AreEqual("http://a:b@www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3492,7 +3684,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://a:b@www.example.com/", anchor.Href);
+            Assert.AreEqual("http://a:b@www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3510,7 +3703,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://a:b@www.example.com/", anchor.Href);
+            Assert.AreEqual("http://a:b@www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3528,7 +3722,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://pple.com/", anchor.Href);
+            Assert.AreEqual("http://pple.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3546,7 +3741,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://:b@www.example.com/", anchor.Href);
+            Assert.AreEqual("http://:b@www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3564,7 +3760,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://:b@www.example.com/", anchor.Href);
+            Assert.AreEqual("http://:b@www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3582,7 +3779,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://:b@www.example.com/", anchor.Href);
+            Assert.AreEqual("http://:b@www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3600,7 +3798,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://a:@www.example.com/", anchor.Href);
+            Assert.AreEqual("http://a:@www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3618,7 +3817,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://a:@www.example.com/", anchor.Href);
+            Assert.AreEqual("http://a:@www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3636,7 +3836,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://a:@www.example.com/", anchor.Href);
+            Assert.AreEqual("http://a:@www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3654,7 +3855,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.@pple.com/", anchor.Href);
+            Assert.AreEqual("http://www.@pple.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3672,7 +3874,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://:@www.example.com/", anchor.Href);
+            Assert.AreEqual("http://:@www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3690,7 +3893,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example.com/", anchor.Href);
+            Assert.AreEqual("http://www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3708,7 +3912,8 @@ org");
 			Assert.AreEqual("/test.txt", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example.com/test.txt", anchor.Href);
+            Assert.AreEqual("http://www.example.com/test.txt", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3726,7 +3931,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example.com/", anchor.Href);
+            Assert.AreEqual("http://www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3744,7 +3950,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example.com/", anchor.Href);
+            Assert.AreEqual("http://www.example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3762,7 +3969,8 @@ org");
 			Assert.AreEqual("/test.txt", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example.com/test.txt", anchor.Href);
+            Assert.AreEqual("http://www.example.com/test.txt", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3780,7 +3988,8 @@ org");
 			Assert.AreEqual("/test.txt", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example.com/test.txt", anchor.Href);
+            Assert.AreEqual("http://www.example.com/test.txt", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3798,7 +4007,8 @@ org");
 			Assert.AreEqual("/test.txt", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example.com/test.txt", anchor.Href);
+            Assert.AreEqual("http://www.example.com/test.txt", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3816,7 +4026,8 @@ org");
 			Assert.AreEqual("/aaa/test.txt", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example.com/aaa/test.txt", anchor.Href);
+            Assert.AreEqual("http://www.example.com/aaa/test.txt", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3834,7 +4045,8 @@ org");
 			Assert.AreEqual("/test.txt", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example.com/test.txt", anchor.Href);
+            Assert.AreEqual("http://www.example.com/test.txt", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3852,7 +4064,8 @@ org");
 			Assert.AreEqual("/%E4%B8%AD/test.txt", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example.com/%E4%B8%AD/test.txt", anchor.Href);
+            Assert.AreEqual("http://www.example.com/%E4%B8%AD/test.txt", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3870,7 +4083,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example2.com/", anchor.Href);
+            Assert.AreEqual("http://www.example2.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3888,7 +4102,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.example2.com/", anchor.Href);
+            Assert.AreEqual("http://www.example2.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -3906,7 +4121,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://example.com/", anchor.Href);
+            Assert.AreEqual("http://example.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 
         [Test]
@@ -3924,7 +4140,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://googoo.com/", anchor.Href);
+            Assert.AreEqual("http://googoo.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 
         [Test]
@@ -3942,7 +4159,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://www.foo.bar.com/", anchor.Href);
+            Assert.AreEqual("http://www.foo.bar.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 
         [Test]
@@ -3960,7 +4178,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://go.com/", anchor.Href);
+            Assert.AreEqual("http://go.com/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 
         //TODO [Test]
@@ -3978,7 +4197,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://xn--6qqa088eba/", anchor.Href);
+            Assert.AreEqual("http://xn--6qqa088eba/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 
         [Test]
@@ -3996,7 +4216,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://0xc0.0250.01/", anchor.Href);
+            Assert.AreEqual("http://0xc0.0250.01/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 
         [Test]
@@ -4014,7 +4235,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://0xc0.0250.01./", anchor.Href);
+            Assert.AreEqual("http://0xc0.0250.01./", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 
         [Test]
@@ -4032,7 +4254,8 @@ org");
 			Assert.AreEqual("/", anchor.PathName);
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
-			Assert.AreEqual("http://0xc0.0250.01/", anchor.Href);
+            Assert.AreEqual("http://0xc0.0250.01/", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	
 		[Test]
@@ -4051,6 +4274,7 @@ org");
 			Assert.AreEqual("", anchor.Search);
 			Assert.AreEqual("", anchor.Hash);
             Assert.AreEqual("http://foo:%F0%9F%92%A9@example.com/bar", anchor.Href);
+            Assert.IsNotNull(document);
 		}
 	}
 }
