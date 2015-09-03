@@ -5,6 +5,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Html;
     using NUnit.Framework;
+    using AngleSharp.Dom.Html;
 
     [TestFixture]
     public class LiveCollectionTests
@@ -186,6 +187,17 @@
                 Assert.IsNotNull(element.GetAttribute("href"));
                 Assert.IsTrue(element.GetTagName() == "a" || element.GetTagName() == "area");
             }
+        }
+
+        [Test]
+        public void HtmlFormLiveCollectionContainsNonChildAssignedElements()
+        {
+            var document = Html("<form id=main><input><input><input></form><input form=main>");
+            var form = document.QuerySelector("form") as IHtmlFormElement;
+            var elements = form.Elements;
+            Assert.AreEqual(4, elements.Length);
+            Assert.AreEqual("main", elements[3].GetAttribute("form"));
+            Assert.AreEqual(form, (elements[3] as IHtmlInputElement).Form);
         }
     }
 }
