@@ -233,7 +233,7 @@
         /// </summary>
         void AdvanceUnsafe()
         {
-            if (_current.IsLineBreak())
+            if (_current == Symbols.LineFeed)
             {
                 _columns.Push(_column);
                 _column = 0;
@@ -269,10 +269,8 @@
             if (_current == Symbols.CarriageReturn)
             {
                 BackUnsafe();
-                return;
             }
-
-            if (_current.IsLineBreak())
+            else if (_current == Symbols.LineFeed)
             {
                 _column = _columns.Count != 0 ? _columns.Pop() : (UInt16)1;
                 _row--;
