@@ -136,7 +136,7 @@
         /// Sets a custom validation error. If this is not the empty string,
         /// then the element is suffering from a custom validation error.
         /// </summary>
-        /// <param name="error"></param>
+        /// <param name="error">The custom error description.</param>
         public void SetCustomValidity(String error)
         {
             _vstate.IsCustomError = !String.IsNullOrEmpty(error);
