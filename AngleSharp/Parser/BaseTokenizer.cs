@@ -236,17 +236,15 @@
             if (_current == Symbols.LineFeed)
             {
                 _columns.Push(_column);
-                _column = 0;
+                _column = 1;
                 _row++;
             }
-
-            _column++;
-            _current = _source.ReadCharacter();
-
-            while (_current == Symbols.CarriageReturn)
+            else
             {
-                _current = _source.ReadCharacter();
+                _column++;
             }
+
+            _current = NormalizeForward(_source.ReadCharacter());
         }
 
         /// <summary>
@@ -264,21 +262,53 @@
                 return;
             }
 
-            _current = _source[_source.Index - 1];
+            var c = NormalizeBackward(_source[_source.Index - 1]);
 
-            if (_current == Symbols.CarriageReturn)
-            {
-                BackUnsafe();
-            }
-            else if (_current == Symbols.LineFeed)
+            if (c == Symbols.LineFeed)
             {
                 _column = _columns.Count != 0 ? _columns.Pop() : (UInt16)1;
                 _row--;
+                _current = c;
             }
-            else
+            else if (c != Symbols.Null)
             {
+                _current = c;
                 _column--;
             }
+        }
+
+        Char NormalizeForward(Char p)
+        {
+            if (p == Symbols.CarriageReturn)
+            {
+                var n = _source.ReadCharacter();
+
+                if (n == Symbols.LineFeed)
+                    return n;
+
+                _source.Index--;
+                return Symbols.LineFeed;
+            }
+
+            return p;
+        }
+
+        Char NormalizeBackward(Char p)
+        {
+            if (p == Symbols.CarriageReturn)
+            {
+                var n = _source[_source.Index];
+
+                if (n == Symbols.LineFeed)
+                {
+                    BackUnsafe();
+                    return Symbols.Null;
+                }
+
+                return Symbols.LineFeed;
+            }
+
+            return p;
         }
 
         #endregion
