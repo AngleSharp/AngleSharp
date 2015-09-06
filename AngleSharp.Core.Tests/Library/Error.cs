@@ -100,5 +100,16 @@
             div.Style.RemoveProperty("background");
             Assert.AreEqual(0, div.Style.Length);
         }
+
+        [Test]
+        public void MultipleCarriageReturnsShouldBeNewLines()
+        {
+            var html = "<!doctype html><div>a\r\r\r\n\rb</div>";
+            var parser = new HtmlParser();
+            var document = parser.Parse(html);
+            var div = document.QuerySelector<IHtmlElement>("div");
+            var content = div.TextContent;
+            Assert.AreEqual("a\n\n\n\nb", content);
+        }
     }
 }

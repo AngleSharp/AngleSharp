@@ -1028,5 +1028,12 @@ lack; }");
             Assert.AreEqual(@"black", ((ICssStyleRule)sheet.Rules[0]).Style["border-color"]);
             Assert.AreEqual(@"black", ((ICssStyleRule)sheet.Rules[0]).Style["outline-color"]);
         }
+
+        [Test]
+        public void StyleSheetUnicodeEscapeLeadingSingleCarriageReturn()
+        {
+            var sheet = ParseSheet("h1 { background-image: \\000075\r\r\nrl('foo') }");
+            Assert.AreEqual("u\nrl(\"foo\")", ((ICssStyleRule)sheet.Rules[0]).Style["background-image"]);
+        }
     }
 }
