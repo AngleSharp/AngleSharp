@@ -51,6 +51,7 @@
     <Compile Include="Attributes\DomAccessorAttribute.cs" />
     <Compile Include="Attributes\DomConstructorAttribute.cs" />
     <Compile Include="Attributes\DomDescriptionAttribute.cs" />
+    <Compile Include="Attributes\DomExposedAttribute.cs" />
     <Compile Include="Attributes\DomInitDictAttribute.cs" />
     <Compile Include="Attributes\DomLenientThisAttribute.cs" />
     <Compile Include="Attributes\DomLiteralsAttribute.cs" />
