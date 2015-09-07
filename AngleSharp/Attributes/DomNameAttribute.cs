@@ -10,8 +10,8 @@
     [AttributeUsage(
         AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | 
         AttributeTargets.Property | AttributeTargets.Event | AttributeTargets.Method | 
-        AttributeTargets.Field | AttributeTargets.Delegate | AttributeTargets.Enum, 
-        AllowMultiple = true)]
+        AttributeTargets.Field | AttributeTargets.Delegate | AttributeTargets.Enum,
+        AllowMultiple = true, Inherited = false)]
     public sealed class DomNameAttribute : Attribute
     {
         /// <summary>

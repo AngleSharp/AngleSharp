@@ -7,7 +7,7 @@
     /// It tells scripting engines that bags with objects should be provided,
     /// which have to be expanded to be used as arguments.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Constructor)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Constructor, Inherited = false)]
     public sealed class DomInitDictAttribute : Attribute
     {
         /// <summary>

@@ -9,7 +9,8 @@
     [AttributeUsage(
         AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | 
         AttributeTargets.Property | AttributeTargets.Event | AttributeTargets.Method | 
-        AttributeTargets.Field | AttributeTargets.Delegate)]
+        AttributeTargets.Field | AttributeTargets.Delegate,
+        AllowMultiple = true, Inherited = false)]
     public sealed class DomDescriptionAttribute : Attribute
     {
         /// <summary>

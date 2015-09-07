@@ -7,7 +7,7 @@
     /// or setter with a this value that is not an object that implements
     /// the interface on which the attribute appears will be ignored.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Event)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Event, Inherited = false)]
     public sealed class DomLenientThisAttribute : Attribute
     {
     }

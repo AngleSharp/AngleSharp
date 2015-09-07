@@ -7,7 +7,7 @@
     /// type. It indicates that assigning to the attribute will have specific
     /// behavior. Namely, the assignment is "forwarded" to the named attribute.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property, Inherited = false)]
     public sealed class DomPutForwardsAttribute : Attribute
     {
         /// <summary>
