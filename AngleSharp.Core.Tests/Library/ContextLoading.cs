@@ -274,5 +274,18 @@
             var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
             Assert.IsTrue(windowIsNotNull);
         }
+
+        [Test]
+        public async Task LoadTaobaoWithAllSubresources()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var address = "https://meadjohnson.world.tmall.com/search.htm?search=y&orderType=defaultSort&scene=taobao_shop";
+                var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
+                var context = BrowsingContext.New(config);
+                var document = await context.OpenAsync(address);
+                Assert.IsNotNull(document);
+            }
+        }
     }
 }
