@@ -174,6 +174,8 @@
 
                 if (result != null && result.StatusCode == HttpStatusCode.OK)
                     return result;
+                else if (result != null)
+                    result.Dispose();
             }
 
             throw new DomException(DomError.Network);
