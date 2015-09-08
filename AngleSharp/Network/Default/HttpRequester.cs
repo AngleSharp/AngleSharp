@@ -3,6 +3,7 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Reflection;
@@ -113,9 +114,6 @@
 
         sealed class RequestState
         {
-            TaskCompletionSource<Boolean> _completed;
-            HttpWebResponse _response;
-
             readonly CookieContainer _cookies;
             readonly HttpWebRequest _http;
             readonly IRequest _request;
@@ -130,7 +128,6 @@
                 _http.CookieContainer = _cookies;
                 _http.Method = request.Method.ToString().ToUpperInvariant();
                 _buffer = new Byte[BufferSize];
-                _completed = new TaskCompletionSource<Boolean>();
 
                 foreach (var header in headers)
                     AddHeader(header.Key, header.Value);
@@ -143,77 +140,64 @@
 
             public async Task<IResponse> RequestAsync(CancellationToken cancellationToken)
             {
+                cancellationToken.Register(_http.Abort);
+
                 if (_request.Method == HttpMethod.Post || _request.Method == HttpMethod.Put)
                 {
-                    _http.BeginGetRequestStream(SendRequest, _request);
-
-                    if (cancellationToken.IsCancellationRequested)
-                        return null;
-
-                    await _completed.Task.ConfigureAwait(false);
-                    _completed = new TaskCompletionSource<Boolean>();
+                    var target = await Task.Factory.FromAsync<Stream>(_http.BeginGetRequestStream, _http.EndGetRequestStream, null).ConfigureAwait(false);
+                    SendRequest(target);
                 }
 
-                if (cancellationToken.IsCancellationRequested)
-                    return null;
+                var response = default(WebResponse);
 
-                _http.BeginGetResponse(ReceiveResponse, null);
-                await _completed.Task.ConfigureAwait(false);
-
-                if (cancellationToken.IsCancellationRequested)
-                    return null;
-
-                return GetResponse();
-            }
-
-            void SendRequest(IAsyncResult ar)
-            {
-                var carrier = (IRequest)ar.AsyncState;
-                var source = carrier.Content;
-                var target = _http.EndGetRequestStream(ar);
-
-                if (source != null)
+                try
                 {
-                    while (source != null)
-                    {
-                        var length = source.Read(_buffer, 0, BufferSize);
-
-                        if (length == 0)
-                            break;
-
-                        target.Write(_buffer, 0, length);
-                    }
+                    response = await Task.Factory.FromAsync<WebResponse>(_http.BeginGetResponse, _http.EndGetResponse, null).ConfigureAwait(false);
+                }
+                catch (WebException ex)
+                {
+                    response = ex.Response;
                 }
 
-                _completed.SetResult(true);
+                return GetResponse(response as HttpWebResponse);
             }
 
-            void ReceiveResponse(IAsyncResult ar)
+            void SendRequest(Stream target)
             {
-                try { _response = (HttpWebResponse)_http.EndGetResponse(ar); }
-                catch (WebException ex) { _response = (HttpWebResponse)ex.Response; }
-                _completed.SetResult(true);
+                var source = _request.Content;
+
+                while (source != null)
+                {
+                    var length = source.Read(_buffer, 0, BufferSize);
+
+                    if (length == 0)
+                        break;
+
+                    target.Write(_buffer, 0, length);
+                }
             }
 
-            Response GetResponse()
+            Response GetResponse(HttpWebResponse response)
             {
-                if (_response == null)
-                    return null;
+                if (response != null)
+                {
+                    var result = new Response();
+                    var cookie = _cookies.GetCookieHeader(response.ResponseUri);
+                    var headers = response.Headers.AllKeys.Select(m => new { Key = m, Value = response.Headers[m] });
+                    result.Content = response.GetResponseStream();
+                    result.StatusCode = response.StatusCode;
+                    result.Address = Url.Convert(response.ResponseUri);
 
-                var result = new Response();
-                var cookie = _cookies.GetCookieHeader(_response.ResponseUri);
-                var headers = _response.Headers.AllKeys.Select(m => new { Key = m, Value = _response.Headers[m] });
-                result.Content = _response.GetResponseStream();
-                result.StatusCode = _response.StatusCode;
-                result.Address = Url.Convert(_response.ResponseUri);
+                    foreach (var header in headers)
+                        result.Headers.Add(header.Key, header.Value);
 
-                foreach (var header in headers)
-                    result.Headers.Add(header.Key, header.Value);
+                    if (cookie != null)
+                        result.Headers[HeaderNames.SetCookie] = cookie;
 
-                if (cookie != null)
-                    result.Headers[HeaderNames.SetCookie] = cookie;
+                    return result;
+                }
 
-                return result;
+                return null;
             }
 
             /// <summary>
