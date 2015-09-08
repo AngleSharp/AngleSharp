@@ -215,19 +215,19 @@
 
             if (task.IsCompleted && task.IsFaulted == false)
             {
-                if (engine != null && RelationList.Contains(Keywords.StyleSheet))
+                using (var response = task.Result)
                 {
-                    var options = new StyleOptions
+                    if (engine != null && RelationList.Contains(Keywords.StyleSheet))
                     {
-                        Element = this,
-                        Title = Title,
-                        IsDisabled = IsDisabled,
-                        IsAlternate = RelationList.Contains(Keywords.Alternate),
-                        Configuration = config
-                    };
+                        var options = new StyleOptions
+                        {
+                            Element = this,
+                            Title = Title,
+                            IsDisabled = IsDisabled,
+                            IsAlternate = RelationList.Contains(Keywords.Alternate),
+                            Configuration = config
+                        };
 
-                    using (var response = task.Result)
-                    {
                         if (response != null)
                         {
                             try { _sheet = engine.ParseStylesheet(response, options); }
