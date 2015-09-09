@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
+    using AngleSharp.Dom;
     using AngleSharp.Services;
     using System;
     using System.Threading.Tasks;
 
     class StandingEventLoopService : IEventService
     {
-        public IEventLoop Create(IBrowsingContext context)
+        public IEventLoop Create(IDocument document)
         {
             return new EventLoop();
         }
@@ -22,7 +23,7 @@
                 return Task.FromResult(false);
             }
 
-            public void Dispose()
+            public void Shutdown()
             {
             }
         }
