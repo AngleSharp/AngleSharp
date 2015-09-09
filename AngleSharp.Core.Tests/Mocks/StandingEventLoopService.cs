@@ -14,11 +14,12 @@
 
         sealed class EventLoop : IEventLoop
         {
-            public void Enqueue(Task task)
+            public Task Enqueue(Action task)
             {
+                return Task.FromResult(false);
             }
 
-            public Task Execute(Action steps)
+            public Task Execute(Action microtask)
             {
                 return Task.FromResult(false);
             }
