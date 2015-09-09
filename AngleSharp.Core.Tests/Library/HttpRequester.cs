@@ -1,12 +1,14 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using System.IO;
-    using System.Threading;
-    using System.Threading.Tasks;
     using AngleSharp;
+    using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Network;
     using AngleSharp.Network.Default;
     using NUnit.Framework;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class HttpRequesterTests
@@ -286,6 +288,32 @@
                     Assert.AreEqual("User-agent: *\nDisallow: /deny\n", content.ReadToEnd());
                 }
             }
+        }
+
+        [Test]
+        public async Task FilteringRequestsWork()
+        {
+            var requester = new MockRequester();
+            var requests = new List<IRequest>();
+            var filtered = new List<IRequest>();
+            requester.OnRequest = request => requests.Add(request);
+            var content = "<!doctype><html><link rel=stylesheet type=text/css href=test.css><div><img src=foo.jpg><iframe src=test.html></iframe></div>";
+            var config = Configuration.Default.WithDefaultLoader(setup =>
+            {
+                setup.IsResourceLoadingEnabled = true;
+                setup.Filter = request =>
+                {
+                    filtered.Add(request);
+                    return !request.Address.Href.EndsWith(".jpg");
+                };
+            }, new[] { requester });
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(m => m.Content(content).Address("http://localhost"));
+            Assert.IsNotNull(document);
+            Assert.AreEqual(2, requests.Count);
+            Assert.AreEqual(3, filtered.Count);
+            Assert.AreEqual("test.css", requests[0].Address.Path);
+            Assert.AreEqual("test.html", requests[1].Address.Path);
         }
     }
 }
