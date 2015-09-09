@@ -68,10 +68,7 @@
         /// </returns>
         public static Task<IResponse> SendAsync(this IDocumentLoader loader, DocumentRequest request, CancellationToken cancel)
         {
-            if (loader == null)
-                return DefaultResponse;
-
-            return loader.LoadAsync(request, cancel);
+            return loader != null ? loader.LoadAsync(request, cancel) : TaskEx.FromResult(default(IResponse));
         }
 
         #endregion
@@ -92,10 +89,7 @@
         /// </returns>
         public static Task<IResponse> FetchAsync(this IResourceLoader loader, ResourceRequest request, CancellationToken cancel)
         {
-            if (loader == null)
-                return DefaultResponse;
-
-            return loader.LoadAsync(request, cancel);
+            return loader != null ? loader.LoadAsync(request, cancel) : TaskEx.FromResult(default(IResponse));
         }
 
         /// <summary>
@@ -209,19 +203,6 @@
         public static MimeType GetContentType(this IResponse response, String defaultType)
         {
             return new MimeType(response.Headers.GetOrDefault(HeaderNames.ContentType, defaultType));
-        }
-
-        #endregion
-
-        #region Helpers
-
-        static readonly Task<IResponse> DefaultResponse = CreateDefaultResponse();
-
-        static Task<IResponse> CreateDefaultResponse()
-        {
-            var tcs = new TaskCompletionSource<IResponse>();
-            tcs.SetResult(null);
-            return tcs.Task;
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Network.Default
 {
     using AngleSharp.Extensions;
+    using System;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
@@ -12,16 +13,19 @@
     {
         readonly IEnumerable<IRequester> _requesters;
         readonly IBrowsingContext _context;
+        readonly Predicate<IRequest> _filter;
 
         /// <summary>
         /// Creates a new document loader.
         /// </summary>
         /// <param name="requesters">The requesters to use.</param>
         /// <param name="context">The context for the document loader.</param>
-        public DocumentLoader(IEnumerable<IRequester> requesters, IBrowsingContext context)
+        /// <param name="filter">The optional request filter to use.</param>
+        public DocumentLoader(IEnumerable<IRequester> requesters, IBrowsingContext context, Predicate<IRequest> filter = null)
         {
             _requesters = requesters;
             _context = context;
+            _filter = filter ?? (_ => true);
         }
 
         /// <summary>
@@ -48,7 +52,7 @@
             if (cookie != null)
                 data.Headers[HeaderNames.Cookie] = cookie;
 
-            return _requesters.LoadAsync(data, events, cancel);
+            return _filter(data) ? _requesters.LoadAsync(data, events, cancel) : TaskEx.FromResult(default(IResponse));
         }
     }
 }

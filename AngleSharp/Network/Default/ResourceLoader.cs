@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
+    using System;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
@@ -13,16 +14,19 @@
     {
         readonly IEnumerable<IRequester> _requesters;
         readonly IDocument _document;
+        readonly Predicate<IRequest> _filter;
 
         /// <summary>
         /// Creates a new resource loader.
         /// </summary>
         /// <param name="requesters">The requesters to use.</param>
         /// <param name="document">The document hosting the resources.</param>
-        public ResourceLoader(IEnumerable<IRequester> requesters, IDocument document)
+        /// <param name="filter">The optional request filter to use.</param>
+        public ResourceLoader(IEnumerable<IRequester> requesters, IDocument document, Predicate<IRequest> filter = null)
         {
             _requesters = requesters;
             _document = document;
+            _filter = filter ?? (_ => true);
         }
 
         /// <summary>
@@ -41,7 +45,7 @@
             };
 
             data.Headers[HeaderNames.Referer] = request.Source.Owner.DocumentUri;
-            return _requesters.LoadAsync(data, events, cancel);
+            return _filter(data) ? _requesters.LoadAsync(data, events, cancel) : TaskEx.FromResult(default(IResponse));
         }
     }
 }

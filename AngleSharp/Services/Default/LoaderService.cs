@@ -43,6 +43,15 @@
         }
 
         /// <summary>
+        /// Gets or sets the filter to use for outgoing requests.
+        /// </summary>
+        public Predicate<IRequest> Filter
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Creates the default document loader with the stored requesters.
         /// </summary>
         /// <param name="context">The context to use.</param>
@@ -52,7 +61,7 @@
             if (IsNavigationEnabled == false)
                 return null;
 
-            return new DocumentLoader(_requesters, context);
+            return new DocumentLoader(_requesters, context, Filter);
         }
 
         /// <summary>
@@ -65,7 +74,7 @@
             if (IsResourceLoadingEnabled == false)
                 return null;
 
-            return new ResourceLoader(_requesters, document);
+            return new ResourceLoader(_requesters, document, Filter);
         }
     }
 }
