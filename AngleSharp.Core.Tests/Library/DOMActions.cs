@@ -912,5 +912,52 @@
             Assert.AreEqual("Green", iframe.ContentDocument.Body.TextContent);
             Assert.AreEqual(iframe.ContentDocument, iframe.ContentWindow.Document);
         }
+
+        [Test]
+        public async Task WindowTimeoutIsWorkingOnce()
+        {
+            var cfg = Configuration.Default;
+            var count = 0;
+            var document = await BrowsingContext.New(cfg).OpenNewAsync();
+            document.DefaultView.SetTimeout(window => count++, 10);
+            await Task.Delay(100);
+            Assert.AreEqual(1, count);
+        }
+
+        [Test]
+        public async Task WindowTimeoutCanBeCancelled()
+        {
+            var cfg = Configuration.Default;
+            var count = 0;
+            var document = await BrowsingContext.New(cfg).OpenNewAsync();
+            var id = document.DefaultView.SetTimeout(window => count++, 10);
+            document.DefaultView.ClearTimeout(id);
+            await Task.Delay(100);
+            Assert.AreEqual(0, count);
+        }
+
+        [Test]
+        public async Task WindowIntervalIsWorkingMultipleTimes()
+        {
+            var cfg = Configuration.Default;
+            var count = 0;
+            var document = await BrowsingContext.New(cfg).OpenNewAsync();
+            var id = document.DefaultView.SetInterval(window => count++, 10);
+            await Task.Delay(100);
+            Assert.Greater(count, 1);
+            document.DefaultView.ClearInterval(id);
+        }
+
+        [Test]
+        public async Task WindowIntervalCanBeCancelled()
+        {
+            var cfg = Configuration.Default;
+            var count = 0;
+            var document = await BrowsingContext.New(cfg).OpenNewAsync();
+            var id = document.DefaultView.SetInterval(window => count++, 10);
+            document.DefaultView.ClearInterval(id);
+            await Task.Delay(100);
+            Assert.AreEqual(0, count);
+        }
     }
 }
