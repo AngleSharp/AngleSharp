@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Text;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Parser.Css;
 
     /// <summary>
     /// Provides a pool of used / recycled resources.

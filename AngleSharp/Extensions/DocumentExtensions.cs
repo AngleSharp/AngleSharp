@@ -64,7 +64,7 @@
         /// <param name="action">The action that should be invoked.</param>
         public static void QueueTask(this Document document, Action action)
         {
-            document.Context.Loop.Enqueue(new Task(action));
+            document.Loop.Enqueue(new Task(action));
         }
 
         /// <summary>
@@ -76,7 +76,7 @@
         /// <param name="task">The task that should be run.</param>
         public static void QueueTask(this Document document, Task task)
         {
-            document.Context.Loop.Enqueue(task);
+            document.Loop.Enqueue(task);
         }
 
         /// <summary>
@@ -335,6 +335,21 @@
                 return null;
 
             return loader.CreateResourceLoader(document);
+        }
+
+        /// <summary>
+        /// Gets the event loop for the given document.
+        /// </summary>
+        /// <param name="document">The document that requires an EventLoop.</param>
+        /// <returns>A proper event loop.</returns>
+        public static IEventLoop CreateLoop(this Document document)
+        {
+            var service = document.Options.GetService<IEventService>();
+
+            if (service == null)
+                return new TaskEventLoop();
+
+            return service.Create(document);
         }
     }
 }

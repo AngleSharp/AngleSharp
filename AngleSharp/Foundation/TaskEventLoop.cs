@@ -31,8 +31,9 @@
             return task;
         }
 
-        public void Dispose()
+        public void Shutdown()
         {
+            
         }
     }
 }

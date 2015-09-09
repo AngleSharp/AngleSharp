@@ -42,20 +42,5 @@
 
             return service.CreateHistory(context);
         }
-
-        /// <summary>
-        /// Gets the event loop for the given context.
-        /// </summary>
-        /// <param name="context">The context that requires a loop.</param>
-        /// <returns>A proper event loop.</returns>
-        public static IEventLoop CreateLoop(this IBrowsingContext context)
-        {
-            var service = context.Configuration.GetService<IEventService>();
-
-            if (service == null)
-                return new TaskEventLoop();
-
-            return service.Create(context);
-        }
     }
 }

@@ -8,10 +8,10 @@
     public interface IEventService : IService
     {
         /// <summary>
-        /// Creates an IEventLoop object for the provided context.
+        /// Creates an IEventLoop object for the document.
         /// </summary>
-        /// <param name="context">The host context of the event loop.</param>
-        /// <returns>The IEventLoop for the context.</returns>
-        IEventLoop Create(IBrowsingContext context);
+        /// <param name="document">The host of the event loop.</param>
+        /// <returns>The IEventLoop for the domain.</returns>
+        IEventLoop Create(IDocument document);
     }
 }

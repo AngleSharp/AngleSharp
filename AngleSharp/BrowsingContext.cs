@@ -20,7 +20,6 @@
         readonly IDocument _creator;
         readonly IDocumentLoader _loader;
         readonly IHistory _history;
-        readonly IEventLoop _loop;
         IDocument _active;
 
         #endregion
@@ -33,7 +32,6 @@
             _security = security;
             _loader = this.CreateLoader();
             _history = this.CreateHistory();
-            _loop = this.CreateLoop();
         }
         
         internal BrowsingContext(IBrowsingContext parent, Sandboxes security)
@@ -81,8 +79,6 @@
                 _active.Dispose();
                 _active = null;
             }
-
-            _loop.Dispose();
         }
 
         #endregion
@@ -111,14 +107,6 @@
         public IConfiguration Configuration
         {
             get { return _configuration; }
-        }
-
-        /// <summary>
-        /// Gets the context's event loop.
-        /// </summary>
-        public IEventLoop Loop
-        {
-            get { return _loop; }
         }
 
         /// <summary>

@@ -28,6 +28,7 @@
         readonly List<WeakReference<Range>> _ranges;
         readonly MutationHost _mutations;
         readonly IBrowsingContext _context;
+        readonly IEventLoop _loop;
         readonly IWindow _view;
         readonly IResourceLoader _loader;
         readonly Location _location;
@@ -442,7 +443,6 @@
             _sandbox = Sandboxes.None;
             _quirksMode = QuirksMode.Off;
             _tasks = new CancellableTasks();
-            _mutations = new MutationHost(context.Loop);
             _loadingScripts = new Queue<HtmlScriptElement>();
             _location = new Location(AboutBlank);
             _ranges = new List<WeakReference<Range>>();
@@ -450,11 +450,21 @@
             _styleSheets = this.CreateStyleSheets();
             _view = this.CreateWindow();
             _loader = this.CreateLoader();
+            _loop = this.CreateLoop();
+            _mutations = new MutationHost(_loop);
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the context's event loop.
+        /// </summary>
+        public IEventLoop Loop
+        {
+            get { return _loop; }
+        }
 
         /// <summary>
         /// Gets the currently outstanding requests.
@@ -1049,6 +1059,7 @@
         {
             //Important to fix #45
             ReplaceAll(null, true);
+            _loop.Shutdown();
             _tasks.Dispose();
             _loadingScripts.Clear();
             _source.Dispose();

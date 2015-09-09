@@ -7,7 +7,7 @@
     /// Represents the DOM event loop.
     /// See 7.1.4.2 Processing model.
     /// </summary>
-    public interface IEventLoop : IDisposable
+    public interface IEventLoop
     {
         /// <summary>
         /// Enqueues a given task with the associated document.
@@ -22,5 +22,10 @@
         /// <param name="steps">The steps to run.</param>
         /// <returns>An awaitable task.</returns>
         Task Execute(Action steps);
+
+        /// <summary>
+        /// Potentially closes the IEventLoop.
+        /// </summary>
+        void Shutdown();
     }
 }
