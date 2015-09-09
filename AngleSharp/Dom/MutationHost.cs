@@ -56,7 +56,7 @@
             if (!_queued)
             {
                 _queued = true;
-                _loop.Enqueue(new Task(DispatchCallback));
+                _loop.Enqueue(DispatchCallback);
             }
         }
 

@@ -683,25 +683,20 @@
             if (token.IsCancellationRequested)
                 return;
 
-            callback(this);
+            _document.QueueTask(() => callback(this));
         }
 
         async Task DoInterval(Action<IWindow> callback, Int32 timeout, CancellationToken token)
         {
-            await token.Delay(timeout).ConfigureAwait(false);
-
-            if (token.IsCancellationRequested)
-                return;
-
-            _document.QueueTask(DoInterval(callback, timeout, token));
-            callback(this);
+            while (!token.IsCancellationRequested)
+                await DoTimeout(callback, timeout, token).ConfigureAwait(false);
         }
 
         Int32 QueueTask(Func<Action<IWindow>, Int32, CancellationToken, Task> taskCreator, Action<IWindow> callback, Int32 timeout)
         {
             var id = _tasks.Count;
             var cts = new CancellationTokenSource();
-            _document.QueueTask(() => _document.QueueTask(taskCreator(callback, timeout, cts.Token)));
+            taskCreator(callback, timeout, cts.Token);
             _tasks.Add(cts);
             return id;
         }

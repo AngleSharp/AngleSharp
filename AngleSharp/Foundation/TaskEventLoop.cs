@@ -12,28 +12,19 @@
             _current = TaskEx.FromResult(false);
         }
 
-        public void Enqueue(Task task)
+        public Task Enqueue(Action task)
         {
-            if (task.Status == TaskStatus.Created)
-            {
-                _current = _current.ContinueWith(_ => task.Start());
-            }
-            else
-            {
-                _current = task;
-            }
+            _current = _current.ContinueWith(_ => task());
+            return _current;
         }
 
-        public Task Execute(Action steps)
+        public Task Execute(Action microtask)
         {
-            var task = new Task(steps);
-            Enqueue(task);
-            return task;
+            return Enqueue(microtask);
         }
 
         public void Shutdown()
         {
-            
         }
     }
 }

@@ -13,15 +13,16 @@
         /// Enqueues a given task with the associated document.
         /// </summary>
         /// <param name="task">The task to enqueue.</param>
-        void Enqueue(Task task);
+        /// <returns>An awaitable task.</returns>
+        Task Enqueue(Action task);
 
         /// <summary>
         /// Executes the compound subtask by invoking the series of
         /// steps from a microtask source.
         /// </summary>
-        /// <param name="steps">The steps to run.</param>
+        /// <param name="microtask">The steps to run.</param>
         /// <returns>An awaitable task.</returns>
-        Task Execute(Action steps);
+        Task Execute(Action microtask);
 
         /// <summary>
         /// Potentially closes the IEventLoop.
