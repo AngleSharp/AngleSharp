@@ -319,12 +319,12 @@
 
             public abstract Boolean Contains(String boundary, Encoding encoding);
 
-            protected static List<Step> ParseJSONPath(string path)
+            protected static List<Step> ParseJSONPath(String path)
             {
                 //1. Let path be the path we are to parse.
 
                 //2. Let original be a copy of path.
-                string original = path;
+                String original = path;
 
                 try
                 {
@@ -493,7 +493,7 @@
                 return new List<Step> { new Step { Key = original, Last = true, Type = StepType.Object } };
             }
 
-            protected static JsonElement JsonEncodeValue(JsonElement context, Step step, JsonElement currentValue, JsonElement entryValue, bool isFile)
+            protected static JsonElement JsonEncodeValue(JsonElement context, Step step, JsonElement currentValue, JsonElement entryValue, Boolean isFile)
             {
                 //1. Let context be the context this algorithm is called with.
                 //2. Let step be the step of the path this algorithm is called with.
@@ -872,22 +872,22 @@
 
             public override void WriteTo(StreamWriter writer)
             {
-                writer.Write(Value is string ? "\"" + Value + "\"" : Value.ToString());
+                writer.Write(Value is String ? "\"" + Value + "\"" : Value.ToString());
             }
 
-            public override string ToString()
+            public override String ToString()
             {
-                return Value is string ? "\"" + Value + "\"" : Value.ToString();
+                return Value is String ? "\"" + Value + "\"" : Value.ToString();
             }
         }
 
         class JsonObject : JsonElement
         {
-            public Dictionary<string, JsonElement> Properties { get; set; }
+            public Dictionary<String, JsonElement> Properties { get; set; }
 
             public JsonObject()
             {
-                Properties = new Dictionary<string, JsonElement>();
+                Properties = new Dictionary<String, JsonElement>();
             }
 
             public override JsonElement this[object key]
@@ -900,8 +900,8 @@
             public override void WriteTo(StreamWriter writer)
             {
                 writer.Write('{');
-                bool needsComma = false;
-                foreach (KeyValuePair<string, JsonElement> property in Properties)
+                Boolean needsComma = false;
+                foreach (KeyValuePair<String, JsonElement> property in Properties)
                 {
                     if (needsComma)
                     {
@@ -921,10 +921,10 @@
                 writer.Write('}');
             }
 
-            public override string ToString()
+            public override String ToString()
             {
                 StringBuilder sb = new StringBuilder("{");
-                foreach (KeyValuePair<string, JsonElement> property in Properties)
+                foreach (KeyValuePair<String, JsonElement> property in Properties)
                 {
                     sb.Append("\"").Append(property.Key).Append("\"").Append(":").Append(property.Value.ToString()).Append(",");
                 }
@@ -981,7 +981,7 @@
                 writer.Write(']');
             }
 
-            public override string ToString()
+            public override String ToString()
             {
                 StringBuilder sb = new StringBuilder("[");
                 foreach (JsonElement element in Elements)
@@ -999,13 +999,13 @@
 
         class Step
         {
-            public bool Append { get; internal set; }
+            public Boolean Append { get; internal set; }
             public object Key { get; internal set; }
-            public bool Last { get; internal set; }
+            public Boolean Last { get; internal set; }
             public StepType NextType { get; internal set; }
             public StepType Type { get; internal set; }
 
-            public override string ToString()
+            public override String ToString()
             {
                 return String.Format("{0} [{1}]", Key, Type);
             }
