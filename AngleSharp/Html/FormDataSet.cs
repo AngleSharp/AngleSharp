@@ -883,7 +883,12 @@
 
         class JsonObject : JsonElement
         {
-            public Dictionary<string, JsonElement> Properties { get; set; } = new Dictionary<string, JsonElement>();
+            public Dictionary<string, JsonElement> Properties { get; set; }
+
+            public JsonObject()
+            {
+                Properties = new Dictionary<string, JsonElement>();
+            }
 
             public override JsonElement this[object key]
             {
@@ -934,7 +939,12 @@
 
         class JsonArray : JsonElement
         {
-            public List<JsonElement> Elements { get; set; } = new List<JsonElement>();
+            public List<JsonElement> Elements { get; set; }
+
+            public JsonArray()
+            {
+                Elements = new List<JsonElement>();
+            }
 
             public override JsonElement this[object key]
             {
@@ -966,7 +976,7 @@
                         needsComma = true;
                     }
 
-                    writer.Write(element?.ToString() ?? "null");
+                    writer.Write(element != null ? element.ToString() : "null");
                 }
                 writer.Write(']');
             }
@@ -976,7 +986,7 @@
                 StringBuilder sb = new StringBuilder("[");
                 foreach (JsonElement element in Elements)
                 {
-                    sb.Append(element?.ToString() ?? "null").Append(",");
+                    sb.Append(element != null ? element.ToString() : "null").Append(",");
                 }
 
                 if (sb.Length > 1)
