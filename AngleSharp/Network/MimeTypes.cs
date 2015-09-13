@@ -513,6 +513,11 @@
         public static readonly String DefaultJavaScript = "text/javascript";
 
         /// <summary>
+        /// Gets the mime-type for JSON text: application/json.
+        /// </summary>
+        public static readonly String ApplicationJson = "application/json";
+
+        /// <summary>
         /// Gets the mime-type for XML applications: application/xml.
         /// </summary>
         public static readonly String ApplicationXml = "application/xml";
