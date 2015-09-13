@@ -930,7 +930,7 @@
             var result = await form.Submit();
             Assert.IsNotNull(request);
             Assert.AreEqual(HttpMethod.Post, request.Method);
-            Assert.AreEqual("{\"name\":\"Bender\",\"hind\":\"Bitable\",\"shiny\":\"true\"}", Utf8StreamToString(request.Content));
+            Assert.AreEqual("{\"name\":\"Bender\",\"hind\":\"Bitable\",\"shiny\":true}", Utf8StreamToString(request.Content));
         }
 
         [Test]
@@ -984,8 +984,7 @@
             var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
   <input name='hearbeat[0]' value='thunk'>
   <input name='hearbeat[2]' value='thunk'>
-</form>
-", url, onRequest);
+</form>", url, onRequest);
 
             var form = document.Forms[0] as HtmlFormElement;
             var result = await form.Submit();
