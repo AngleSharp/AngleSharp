@@ -53,5 +53,32 @@
             var token = tokenizer.Get();
             Assert.AreEqual(url, token.Data);
         }
+
+        [Test]
+        public void CssTokenizerOnlyCarriageReturn()
+        {
+            var teststring = "\r";
+            var tokenizer = new CssTokenizer(new TextSource(teststring), null);
+            var token = tokenizer.Get();
+            Assert.AreEqual("\n", token.Data);
+        }
+
+        [Test]
+        public void CssTokenizerCarriageReturnLineFeed()
+        {
+            var teststring = "\r\n";
+            var tokenizer = new CssTokenizer(new TextSource(teststring), null);
+            var token = tokenizer.Get();
+            Assert.AreEqual("\n", token.Data);
+        }
+
+        [Test]
+        public void CssTokenizerOnlyLineFeed()
+        {
+            var teststring = "\n";
+            var tokenizer = new CssTokenizer(new TextSource(teststring), null);
+            var token = tokenizer.Get();
+            Assert.AreEqual("\n", token.Data);
+        }
     }
 }
