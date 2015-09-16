@@ -281,12 +281,9 @@
         {
             if (p == Symbols.CarriageReturn)
             {
-                var n = _source.ReadCharacter();
+                if (_source.ReadCharacter() != Symbols.LineFeed)
+                    _source.Index--;
 
-                if (n == Symbols.LineFeed)
-                    return n;
-
-                _source.Index--;
                 return Symbols.LineFeed;
             }
 
@@ -297,9 +294,7 @@
         {
             if (p == Symbols.CarriageReturn)
             {
-                var n = _source[_source.Index];
-
-                if (n == Symbols.LineFeed)
+                if (_source.Index < _source.Length && _source[_source.Index] == Symbols.LineFeed)
                 {
                     BackUnsafe();
                     return Symbols.Null;
