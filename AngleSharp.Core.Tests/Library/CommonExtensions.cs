@@ -198,7 +198,7 @@
         public void StripLeadingTailingSpacesEmptyString()
         {
             var str = "";
-            var result = str.StripLeadingTailingSpaces();
+            var result = str.StripLeadingTrailingSpaces();
             Assert.AreEqual(str, result);
         }
 
@@ -206,7 +206,7 @@
         public void StripLeadingTailingSpacesSpaceString()
         {
             var str = "       ";
-            var result = str.StripLeadingTailingSpaces();
+            var result = str.StripLeadingTrailingSpaces();
             Assert.AreEqual(0, result.Length);
         }
 
@@ -214,7 +214,7 @@
         public void StripLeadingTailingSpacesNormalString()
         {
             var str = "Hello how are you";
-            var result = str.StripLeadingTailingSpaces();
+            var result = str.StripLeadingTrailingSpaces();
             Assert.AreEqual(str, result);
         }
 
@@ -222,7 +222,7 @@
         public void StripLeadingTailingSpacesLeadingSpacesString()
         {
             var str = "   What is that";
-            var result = str.StripLeadingTailingSpaces();
+            var result = str.StripLeadingTrailingSpaces();
             Assert.AreEqual("What is that", result);
         }
 
@@ -230,7 +230,7 @@
         public void StripLeadingTailingSpacesTailingSpacesString()
         {
             var str = "How are you   ";
-            var result = str.StripLeadingTailingSpaces();
+            var result = str.StripLeadingTrailingSpaces();
             Assert.AreEqual("How are you", result);
         }
 
@@ -238,7 +238,7 @@
         public void StripLeadingTailingSpacesBothKindOfSpacesString()
         {
             var str = "   Hello how are you    ";
-            var result = str.StripLeadingTailingSpaces();
+            var result = str.StripLeadingTrailingSpaces();
             Assert.AreEqual("Hello how are you", result);
         }
 
