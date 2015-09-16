@@ -104,6 +104,17 @@
         #region Methods
 
         /// <summary>
+        /// Gets the currently stored buffer text before clearing it.
+        /// </summary>
+        /// <returns>The content before the cleanup.</returns>
+        public String FlushBuffer()
+        {
+            var content = _stringBuffer.ToString();
+            _stringBuffer.Clear();
+            return content;
+        }
+
+        /// <summary>
         /// Disposes all disposable objects.
         /// </summary>
         public void Dispose()
