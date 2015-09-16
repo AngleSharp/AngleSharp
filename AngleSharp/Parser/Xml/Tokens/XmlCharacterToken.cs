@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        readonly Char _data;
+        readonly String _data;
 
         #endregion
 
@@ -20,15 +20,15 @@
         /// Creates a new character token.
         /// </summary>
         public XmlCharacterToken(TextPosition position)
-            : this(position, Symbols.Null)
+            : this(position, String.Empty)
         {
         }
 
         /// <summary>
         /// Creates a new character token with the given character.
         /// </summary>
-        public XmlCharacterToken(TextPosition position, Char data)
-            : base(XmlTokenType.Character, position, data.IsSpaceCharacter())
+        public XmlCharacterToken(TextPosition position, String data)
+            : base(XmlTokenType.Character, position)
         {
             _data = data;
         }
@@ -38,9 +38,17 @@
         #region Properties
 
         /// <summary>
+        /// Gets if the token only contains spaces.
+        /// </summary>
+        public override Boolean IsIgnorable
+        {
+            get { return _data.StripLeadingTrailingSpaces().Length == 0; }
+        }
+
+        /// <summary>
         /// Gets the data of the character token.
         /// </summary>
-        public Char Data
+        public String Data
         {
             get { return _data; }
         }
