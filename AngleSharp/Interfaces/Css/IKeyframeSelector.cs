@@ -1,13 +1,13 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Css.Values;
     using System;
     using System.Collections.Generic;
-    using AngleSharp.Css.Values;
     
     /// <summary>
     /// Represents a CSS key text.
     /// </summary>
-    public interface IKeyframeSelector : IStyleFormattable
+    public interface IKeyframeSelector : ICssNode
     {
         /// <summary>
         /// Gets an enumeration over all stops.

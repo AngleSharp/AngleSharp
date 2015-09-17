@@ -200,6 +200,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IBindable.cs" />
+    <Compile Include="Interfaces\Css\ICssNode.cs" />
     <Compile Include="Interfaces\Html\IHtmlSlotElement.cs" />
     <Compile Include="Interfaces\Css\IMediaQueryList.cs" />
     <Compile Include="IEventLoop.cs" />
