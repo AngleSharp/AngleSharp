@@ -18,14 +18,6 @@
         /// </summary>
         Color,
         /// <summary>
-        /// A URL-PREFIX token.
-        /// </summary>
-        UrlPrefix,
-        /// <summary>
-        /// A DOMAIN token.
-        /// </summary>
-        Domain,
-        /// <summary>
         /// A hash token (starts with #).
         /// </summary>
         Hash,

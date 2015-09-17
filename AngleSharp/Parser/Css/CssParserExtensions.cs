@@ -14,11 +14,11 @@
     [DebuggerStepThrough]
     static class CssParserExtensions
     {
-        static readonly Dictionary<String, CssTokenType> functionTypes = new Dictionary<String, CssTokenType>(StringComparer.OrdinalIgnoreCase)
+        static readonly Dictionary<String, Func<String, CssDocumentFunction>> functionTypes = new Dictionary<String, Func<String, CssDocumentFunction>>(StringComparer.OrdinalIgnoreCase)
         {
-            { FunctionNames.Url, CssTokenType.Url },
-            { FunctionNames.Domain, CssTokenType.Domain },
-            { FunctionNames.UrlPrefix, CssTokenType.UrlPrefix },
+            { FunctionNames.Url, str => new UrlFunction(str) },
+            { FunctionNames.Domain, str => new DomainFunction(str) },
+            { FunctionNames.UrlPrefix, str => new UrlPrefixFunction(str) },
         };
 
         static readonly Dictionary<String, Func<IEnumerable<CssCondition>, CssCondition>> groupCreators = new Dictionary<String, Func<IEnumerable<CssCondition>, CssCondition>>(StringComparer.OrdinalIgnoreCase)
@@ -34,12 +34,8 @@
         /// <returns>The token type for the name.</returns>
         public static CssTokenType GetTypeFromName(this String functionName)
         {
-            var token = default(CssTokenType);
-
-            if (functionTypes.TryGetValue(functionName, out token))
-                return token;
-
-            return CssTokenType.Function;
+            var creator = default(Func<String, CssDocumentFunction>);
+            return functionTypes.TryGetValue(functionName, out creator) ? CssTokenType.Url : CssTokenType.Function;
         }
 
         /// <summary>
@@ -133,26 +129,19 @@
         /// <returns>The created IDocumentFunction or null.</returns>
         public static CssDocumentFunction ToDocumentFunction(this CssToken token)
         {
-            switch (token.Type)
+            if (token.Type == CssTokenType.Url)
             {
-                case CssTokenType.Url:
-                    return new UrlFunction(token.Data);
+                var creator = default(Func<String, CssDocumentFunction>);
+                var functionName = ((CssUrlToken)token).FunctionName;
+                functionTypes.TryGetValue(functionName, out creator);
+                return creator(token.Data);
+            }
+            else if (token.Type == CssTokenType.Function && String.Compare(token.Data, FunctionNames.Regexp, StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                var str = ((CssFunctionToken)token).ToCssString();
 
-                case CssTokenType.UrlPrefix:
-                    return new UrlPrefixFunction(token.Data);
-
-                case CssTokenType.Domain:
-                    return new DomainFunction(token.Data);
-
-                case CssTokenType.Function:
-                    if (String.Compare(token.Data, FunctionNames.Regexp, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        var str = ((CssFunctionToken)token).ToCssString();
-
-                        if (str != null)
-                            return new RegexpFunction(str);
-                    }
-                    break;
+                if (str != null)
+                    return new RegexpFunction(str);
             }
 
             return null;

@@ -212,7 +212,10 @@
     <Compile Include="Network\MimeType.cs" />
     <Compile Include="Parser\Css\CssBuilder.cs" />
     <Compile Include="Parser\Css\CssParserOptions.cs" />
+    <Compile Include="Parser\Css\Tokens\CssColorToken.cs" />
+    <Compile Include="Parser\Css\Tokens\CssCommentToken.cs" />
     <Compile Include="Parser\Css\Tokens\CssFunctionToken.cs" />
+    <Compile Include="Parser\Css\Tokens\CssUrlToken.cs" />
     <Compile Include="Parser\Html\HtmlParser.cs" />
     <Compile Include="Parser\Html\HtmlParserOptions.cs" />
     <Compile Include="Parser\Xml\XmlParseError.cs" />

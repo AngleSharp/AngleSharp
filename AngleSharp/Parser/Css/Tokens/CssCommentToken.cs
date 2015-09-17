@@ -1,12 +1,11 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
-    /// Represents a CSS string token.
+    /// Represents a CSS comment token.
     /// </summary>
-    sealed class CssStringToken : CssToken
+    sealed class CssCommentToken : CssToken
     {
         #region Fields
 
@@ -17,13 +16,13 @@
         #region ctor
 
         /// <summary>
-        /// Creates a new CSS string token.
+        /// Creates a new CSS comment token.
         /// </summary>
         /// <param name="data">The string data.</param>
         /// <param name="bad">If the string was bad (optional).</param>
         /// <param name="position">The token's position.</param>
-        public CssStringToken(String data, Boolean bad, TextPosition position)
-            : base(CssTokenType.String, data, position)
+        public CssCommentToken(String data, Boolean bad, TextPosition position)
+            : base(CssTokenType.Comment, data, position)
         {
             _bad = bad;
         }
@@ -46,7 +45,8 @@
 
         public override String ToValue()
         {
-            return Data.CssString();
+            var trailing = _bad ? String.Empty : "*/";
+            return String.Concat("/*", Data, trailing);
         }
 
         #endregion

@@ -419,7 +419,7 @@
 
             if (element != null && element.Type == CssTokenType.Ident)
                 return Color.FromName(element.Data);
-            else if (element != null && element.Type == CssTokenType.Color && ((CssStringToken)element).IsBad == false)
+            else if (element != null && element.Type == CssTokenType.Color && ((CssColorToken)element).IsBad == false)
                 return Color.FromHex(element.Data);
 
             return null;
