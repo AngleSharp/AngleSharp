@@ -2075,6 +2075,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssNamespaceRule.cs">
       <Link>Interfaces\Css\ICssNamespaceRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssNode.cs">
+      <Link>Interfaces\Css\ICssNode.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssPageRule.cs">
       <Link>Interfaces\Css\ICssPageRule.cs</Link>
     </Compile>
