@@ -20,19 +20,19 @@
 
         static readonly Dictionary<String, Func<FunctionState>> pseudoClassFunctions = new Dictionary<String, Func<FunctionState>>(StringComparer.OrdinalIgnoreCase);
 
-        readonly Stack<CssCombinator> combinators;
-        readonly List<CssToken> tokens;
+        readonly Stack<CssCombinator> _combinators;
+        readonly List<CssToken> _tokens;
 
-		State state;
-        ISelector temp;
-		ListSelector group;
-		ComplexSelector complex;
-		String attrName;
-		String attrValue;
-		String attrOp;
-        String attrNs;
-        Boolean valid;
-        Boolean ready;
+		State _state;
+        ISelector _temp;
+		ListSelector _group;
+		ComplexSelector _complex;
+		String _attrName;
+		String _attrValue;
+		String _attrOp;
+        String _attrNs;
+        Boolean _valid;
+        Boolean _ready;
 
         #endregion
 
@@ -64,8 +64,8 @@
         /// </summary>
         public CssSelectorConstructor()
         {
-            combinators = new Stack<CssCombinator>();
-            tokens = new List<CssToken>();
+            _combinators = new Stack<CssCombinator>();
+            _tokens = new List<CssToken>();
 			Reset();
         }
 
@@ -78,7 +78,7 @@
         /// </summary>
         public Boolean IsValid
         {
-            get { return valid && ready; }
+            get { return _valid && _ready; }
         }
 
         /// <summary>
@@ -102,25 +102,25 @@
             if (!IsValid)
                 return new UnknownSelector(Serialize());
 
-            if (complex != null)
+            if (_complex != null)
             {
-                complex.ConcludeSelector(temp);
-                temp = complex;
-                complex = null;
+                _complex.ConcludeSelector(_temp);
+                _temp = _complex;
+                _complex = null;
             }
 
-            if (group == null || group.Length == 0)
-                return temp ?? SimpleSelector.All;
-            else if (temp == null && group.Length == 1)
-                return group[0];
+            if (_group == null || _group.Length == 0)
+                return _temp ?? SimpleSelector.All;
+            else if (_temp == null && _group.Length == 1)
+                return _group[0];
 
-            if (temp != null)
+            if (_temp != null)
             {
-                group.Add(temp);
-                temp = null;
+                _group.Add(_temp);
+                _temp = null;
             }
 
-            return group;
+            return _group;
         }
 
         /// <summary>
@@ -131,7 +131,7 @@
         {
             var sb = Pool.NewStringBuilder();
 
-            foreach (var token in tokens)
+            foreach (var token in _tokens)
                 sb.Append(token.ToValue());
 
             return sb.ToPool();
@@ -146,9 +146,9 @@
             if (token.Type == CssTokenType.Comment)
                 return;
 
-            tokens.Add(token);
+            _tokens.Add(token);
 
-			switch (state)
+			switch (_state)
 			{
 				case State.Data:
 					OnData(token);
@@ -175,7 +175,7 @@
 					OnPseudoElement(token);
                     break;
                 default:
-                    valid = false;
+                    _valid = false;
                     break;
             }
         }
@@ -186,19 +186,19 @@
 		/// <returns>The current instance.</returns>
 		public CssSelectorConstructor Reset()
 		{
-			attrName = null;
-			attrValue = null;
-            attrNs = null;
-			attrOp = String.Empty;
-			state = State.Data;
-			combinators.Clear();
-            tokens.Clear();
-			temp = null;
-			group = null;
-			complex = null;
-            valid = true;
+			_attrName = null;
+			_attrValue = null;
+            _attrNs = null;
+			_attrOp = String.Empty;
+			_state = State.Data;
+			_combinators.Clear();
+            _tokens.Clear();
+			_temp = null;
+			_group = null;
+			_complex = null;
+            _valid = true;
             IsNested = false;
-            ready = true;
+            _ready = true;
 			return this;
 		}
 
@@ -217,30 +217,30 @@
 			{
 				//Begin of attribute [A]
 				case CssTokenType.SquareBracketOpen:
-					attrName = null;
-					attrValue = null;
-					attrOp = String.Empty;
-                    attrNs = null;
-					state = State.Attribute;
-                    ready = false;
+					_attrName = null;
+					_attrValue = null;
+					_attrOp = String.Empty;
+                    _attrNs = null;
+					_state = State.Attribute;
+                    _ready = false;
 					break;
 
 				//Begin of Pseudo :P
 				case CssTokenType.Colon:
-					state = State.PseudoClass;
-                    ready = false;
+					_state = State.PseudoClass;
+                    _ready = false;
                     break;
 
                 //Begin of ID #I
                 case CssTokenType.Hash:
 					Insert(SimpleSelector.Id(token.Data));
-                    ready = true;
+                    _ready = true;
                     break;
 
                 //Begin of Type E
                 case CssTokenType.Ident:
 					Insert(SimpleSelector.Type(token.Data));
-                    ready = true;
+                    _ready = true;
                     break;
 
                 //Whitespace could be significant
@@ -255,11 +255,11 @@
 
 				case CssTokenType.Comma:
 					InsertOr();
-                    ready = false;
+                    _ready = false;
                     break;
 
                 default:
-                    valid = false;
+                    _valid = false;
                     break;
             }
 		}
@@ -275,23 +275,23 @@
             
 			if (token.Type == CssTokenType.Ident || token.Type == CssTokenType.String)
             {
-                state = State.AttributeOperator;
-                attrName = token.Data;
+                _state = State.AttributeOperator;
+                _attrName = token.Data;
             }
             else if (token.Type == CssTokenType.Delim && token.ToValue() == "|")
             {
-                state = State.Attribute;
-                attrNs = String.Empty;
+                _state = State.Attribute;
+                _attrNs = String.Empty;
             }
             else if (token.Type == CssTokenType.Delim && token.ToValue() == "*")
             {
-                state = State.AttributeOperator;
-                attrName = token.ToValue();
+                _state = State.AttributeOperator;
+                _attrName = token.ToValue();
             }
             else
             {
-                state = State.Data;
-                valid = false;
+                _state = State.Data;
+                _valid = false;
             }
 		}
 
@@ -306,26 +306,26 @@
 
 			if (token.Type == CssTokenType.SquareBracketClose)
             {
-                state = State.AttributeValue;
+                _state = State.AttributeValue;
                 OnAttributeEnd(token);
             }
             else if (token.Type == CssTokenType.Match || token.Type == CssTokenType.Delim)
             {
-                state = State.AttributeValue;
-                attrOp = token.ToValue();
+                _state = State.AttributeValue;
+                _attrOp = token.ToValue();
 
-                if (attrOp == "|")
+                if (_attrOp == "|")
                 {
-                    attrNs = attrName;
-                    attrName = null;
-                    attrOp = String.Empty;
-                    state = State.Attribute;
+                    _attrNs = _attrName;
+                    _attrName = null;
+                    _attrOp = String.Empty;
+                    _state = State.Attribute;
                 }
             }
             else
             {
-                state = State.AttributeEnd;
-                valid = false;
+                _state = State.AttributeEnd;
+                _valid = false;
             }
 		}
 
@@ -340,13 +340,13 @@
             
 			if (token.Type == CssTokenType.Ident || token.Type == CssTokenType.String || token.Type == CssTokenType.Number)
             {
-                state = State.AttributeEnd;
-                attrValue = token.Data;
+                _state = State.AttributeEnd;
+                _attrValue = token.Data;
             }
             else
             {
-                state = State.Data;
-                valid = false;
+                _state = State.Data;
+                _valid = false;
             }
 		}
 
@@ -359,8 +359,8 @@
 			if (token.Type == CssTokenType.Whitespace)
 				return;
 
-			state = State.Data;
-            ready = true;
+			_state = State.Data;
+            _ready = true;
 
             if (token.Type == CssTokenType.SquareBracketClose)
             {
@@ -368,7 +368,7 @@
                 Insert(selector);
             }
             else            
-                valid = false;
+                _valid = false;
         }
 
         /// <summary>
@@ -377,24 +377,24 @@
         /// <returns>The created selector.</returns>
         SimpleSelector CreateAttrSelector()
         {
-            switch (attrOp)
+            switch (_attrOp)
             {
                 case "=":
-                    return SimpleSelector.AttrMatch(attrName, attrValue, attrNs);
+                    return SimpleSelector.AttrMatch(_attrName, _attrValue, _attrNs);
                 case "~=":
-                    return SimpleSelector.AttrList(attrName, attrValue, attrNs);
+                    return SimpleSelector.AttrList(_attrName, _attrValue, _attrNs);
                 case "|=":
-                    return SimpleSelector.AttrHyphen(attrName, attrValue, attrNs);
+                    return SimpleSelector.AttrHyphen(_attrName, _attrValue, _attrNs);
                 case "^=":
-                    return SimpleSelector.AttrBegins(attrName, attrValue, attrNs);
+                    return SimpleSelector.AttrBegins(_attrName, _attrValue, _attrNs);
                 case "$=":
-                    return SimpleSelector.AttrEnds(attrName, attrValue, attrNs);
+                    return SimpleSelector.AttrEnds(_attrName, _attrValue, _attrNs);
                 case "*=":
-                    return SimpleSelector.AttrContains(attrName, attrValue, attrNs);
+                    return SimpleSelector.AttrContains(_attrName, _attrValue, _attrNs);
                 case "!=":
-                    return SimpleSelector.AttrNotMatch(attrName, attrValue, attrNs);
+                    return SimpleSelector.AttrNotMatch(_attrName, _attrValue, _attrNs);
                 default:
-                    return SimpleSelector.AttrAvailable(attrName, attrNs);
+                    return SimpleSelector.AttrAvailable(_attrName, _attrNs);
             }
         }
 
@@ -404,12 +404,12 @@
         /// <param name="token">The token.</param>
 		void OnPseudoClass(CssToken token)
 		{
-			state = State.Data;
-            ready = true;
+			_state = State.Data;
+            _ready = true;
 
             if (token.Type == CssTokenType.Colon)
             {
-                state = State.PseudoElement;
+                _state = State.PseudoElement;
                 return;
             }
             else if (token.Type == CssTokenType.Function)
@@ -433,7 +433,7 @@
                 }
             }
             
-            valid = false;
+            _valid = false;
 		}
 
 		/// <summary>
@@ -442,8 +442,8 @@
         /// <param name="token">The token.</param>
 		void OnPseudoElement(CssToken token)
         {
-            state = State.Data;
-            ready = true;
+            _state = State.Data;
+            _ready = true;
 
             if (token.Type == CssTokenType.Ident)
             {
@@ -452,14 +452,14 @@
                 if (sel != null)
                 {
                     if (IsNested)
-                        valid = false;
+                        _valid = false;
 
                     Insert(sel);
                     return;
                 }
             }
 
-            valid = false;
+            _valid = false;
 		}
 
 		/// <summary>
@@ -468,13 +468,13 @@
         /// <param name="token">The token.</param>
 		void OnClass(CssToken token)
 		{
-			state = State.Data;
-            ready = true;
+			_state = State.Data;
+            _ready = true;
 
             if (token.Type == CssTokenType.Ident)
                 Insert(SimpleSelector.Class(token.Data));
             else
-                valid = false;
+                _valid = false;
 		}
 
 		#endregion
@@ -486,21 +486,21 @@
         /// </summary>
         void InsertOr()
         {
-            if (temp != null)
+            if (_temp != null)
             {
-                if (group == null)
-                    group = new ListSelector();
+                if (_group == null)
+                    _group = new ListSelector();
 
-                if (complex != null)
+                if (_complex != null)
                 {
-                    complex.ConcludeSelector(temp);
-                    group.Add(complex);
-                    complex = null;
+                    _complex.ConcludeSelector(_temp);
+                    _group.Add(_complex);
+                    _complex = null;
                 }
                 else
-                    group.Add(temp);
+                    _group.Add(_temp);
 
-                temp = null;
+                _temp = null;
             }
         }
 
@@ -510,55 +510,55 @@
         /// <param name="selector">The selector to insert.</param>
         void Insert(ISelector selector)
         {
-            if (temp != null)
+            if (_temp != null)
             {
-                if (combinators.Count == 0)
+                if (_combinators.Count == 0)
                 {
-                    var compound = temp as CompoundSelector;
+                    var compound = _temp as CompoundSelector;
 
                     if (compound == null)
                     {
                         compound = new CompoundSelector();
-                        compound.Add(temp);
+                        compound.Add(_temp);
                     }
 
                     compound.Add(selector);
-                    temp = compound;
+                    _temp = compound;
                 }
                 else
                 {
-                    if (complex == null)
-                        complex = new ComplexSelector();
+                    if (_complex == null)
+                        _complex = new ComplexSelector();
 
                     var combinator = GetCombinator();
-                    complex.AppendSelector(temp, combinator);
-                    temp = selector;
+                    _complex.AppendSelector(_temp, combinator);
+                    _temp = selector;
                 }
             }
             else
             {
-                combinators.Clear();
-                temp = selector;
+                _combinators.Clear();
+                _temp = selector;
             }
         }
 
         CssCombinator GetCombinator()
         {
             //Remove all trailing whitespaces
-            while (combinators.Count > 1 && combinators.Peek() == CssCombinator.Descendent)
-                combinators.Pop();
+            while (_combinators.Count > 1 && _combinators.Peek() == CssCombinator.Descendent)
+                _combinators.Pop();
 
-            if (combinators.Count > 1)
+            if (_combinators.Count > 1)
             {
-                var last = combinators.Pop();
-                var previous = combinators.Pop();
+                var last = _combinators.Pop();
+                var previous = _combinators.Pop();
 
                 //Care about combinator combinations, such as >>, >>> and ||
                 if (last == CssCombinator.Child && previous == CssCombinator.Child)
                 {
-                    if (combinators.Count == 0 || combinators.Peek() != CssCombinator.Child)
+                    if (_combinators.Count == 0 || _combinators.Peek() != CssCombinator.Child)
                         last = CssCombinator.Descendent;
-                    else if (combinators.Pop() == CssCombinator.Child)
+                    else if (_combinators.Pop() == CssCombinator.Child)
                         last = CssCombinator.Deep;
                 }
                 else if (last == CssCombinator.Namespace && previous == CssCombinator.Namespace)
@@ -567,17 +567,17 @@
                 }
                 else
                 {
-                    combinators.Push(previous);
+                    _combinators.Push(previous);
                 }
 
                 //Remove all leading whitespaces, invalid if mixed
-                while (combinators.Count > 0)
-                    valid = combinators.Pop() == CssCombinator.Descendent && valid;
+                while (_combinators.Count > 0)
+                    _valid = _combinators.Pop() == CssCombinator.Descendent && _valid;
 
                 return last;
             }
 
-            return combinators.Pop();
+            return _combinators.Pop();
         }
 
         /// <summary>
@@ -586,7 +586,7 @@
         /// <param name="cssCombinator">The combinator to insert.</param>
         void Insert(CssCombinator cssCombinator)
         {
-            combinators.Push(cssCombinator);
+            _combinators.Push(cssCombinator);
         }
 
 		#endregion
@@ -604,44 +604,44 @@
 			{
 				case Symbols.Comma:
 					InsertOr();
-                    ready = false;
+                    _ready = false;
                     break;
 
                 case Symbols.GreaterThan:
 					Insert(CssCombinator.Child);
-                    ready = false;
+                    _ready = false;
                     break;
 
                 case Symbols.Plus:
 					Insert(CssCombinator.AdjacentSibling);
-                    ready = false;
+                    _ready = false;
                     break;
 
                 case Symbols.Tilde:
 					Insert(CssCombinator.Sibling);
-                    ready = false;
+                    _ready = false;
                     break;
 
                 case Symbols.Asterisk:
 					Insert(SimpleSelector.All);
-                    ready = true;
+                    _ready = true;
                     break;
 
                 case Symbols.Dot:
-					state = State.Class;
-                    ready = false;
+					_state = State.Class;
+                    _ready = false;
                     break;
 
                 case Symbols.Pipe:
-                    if (combinators.Count > 0 && combinators.Peek() == CssCombinator.Descendent)
+                    if (_combinators.Count > 0 && _combinators.Peek() == CssCombinator.Descendent)
                         Insert(SimpleSelector.Type(String.Empty));
 
                     Insert(CssCombinator.Namespace);
-                    ready = false;
+                    _ready = false;
                     break;
 
                 default:
-                    valid = false;
+                    _valid = false;
                     break;
             }
 		}
@@ -657,7 +657,7 @@
             if (pseudoClassFunctions.TryGetValue(arguments.Data, out creator))
             {
                 var function = creator();
-                ready = false;
+                _ready = false;
 
                 foreach (var token in arguments)
                 {
@@ -668,7 +668,7 @@
                         if (IsNested && function is NotFunctionState)
                             sel = null;
 
-                        ready = true;
+                        _ready = true;
                         return sel;
                     }
                 }
@@ -724,7 +724,7 @@
 
             protected override Boolean OnToken(CssToken token)
             {
-                if (token.Type != CssTokenType.RoundBracketClose || _nested.state != State.Data)
+                if (token.Type != CssTokenType.RoundBracketClose || _nested._state != State.Data)
                 {
                     _nested.Apply(token);
                     return false;
@@ -756,7 +756,7 @@
 
             protected override Boolean OnToken(CssToken token)
             {
-                if (token.Type != CssTokenType.RoundBracketClose || _nested.state != State.Data)
+                if (token.Type != CssTokenType.RoundBracketClose || _nested._state != State.Data)
                 {
                     _nested.Apply(token);
                     return false;
@@ -788,7 +788,7 @@
 
             protected override Boolean OnToken(CssToken token)
             {
-                if (token.Type != CssTokenType.RoundBracketClose || _nested.state != State.Data)
+                if (token.Type != CssTokenType.RoundBracketClose || _nested._state != State.Data)
                 {
                     _nested.Apply(token);
                     return false;
@@ -919,7 +919,7 @@
 
             protected override Boolean OnToken(CssToken token)
             {
-                if (token.Type != CssTokenType.RoundBracketClose || _nested.state != State.Data)
+                if (token.Type != CssTokenType.RoundBracketClose || _nested._state != State.Data)
                 {
                     _nested.Apply(token);
                     return false;
@@ -1037,7 +1037,7 @@
 
             Boolean OnAfter(CssToken token)
             {
-                if (token.Type != CssTokenType.RoundBracketClose || nested.state != State.Data)
+                if (token.Type != CssTokenType.RoundBracketClose || nested._state != State.Data)
                 {
                     nested.Apply(token);
                     return false;

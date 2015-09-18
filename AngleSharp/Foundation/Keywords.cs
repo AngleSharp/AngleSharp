@@ -1316,5 +1316,20 @@
         /// The currentColor keyword.
         /// </summary>
         public static readonly String CurrentColor = "currentColor";
+
+        /// <summary>
+        /// The PUBLIC keyword.
+        /// </summary>
+        public static readonly String Public = "PUBLIC";
+
+        /// <summary>
+        /// The SYSTEM keyword.
+        /// </summary>
+        public static readonly String System = "SYSTEM";
+
+        /// <summary>
+        /// The "[CDATA[" keyword.
+        /// </summary>
+        public static readonly String CData = "[CDATA[";
     }
 }

@@ -736,7 +736,7 @@
                 Advance(6);
                 return Doctype(GetNext());
             }
-            else if (_acceptsCharacterData && ContinuesWith("[CDATA[", ignoreCase: false))
+            else if (_acceptsCharacterData && ContinuesWith(Keywords.CData, ignoreCase: false))
             {
                 Advance(6);
                 return CharacterData(GetNext());
@@ -1111,12 +1111,12 @@
                 Back();
                 doctype.IsQuirksForced = true;
             }
-            else if (ContinuesWith("public"))
+            else if (ContinuesWith(Keywords.Public))
             {
                 Advance(5);
                 return DoctypePublic(doctype);
             }
-            else if (ContinuesWith("system"))
+            else if (ContinuesWith(Keywords.System))
             {
                 Advance(5);
                 return DoctypeSystem(doctype);
@@ -2062,7 +2062,7 @@
                 {
                     var name = _stringBuffer.ToString(offset, length);
 
-                    if (name.Equals(_lastStartTag, StringComparison.OrdinalIgnoreCase))
+                    if (name.Isi(_lastStartTag))
                     {
                         if (offset > 2)
                         {

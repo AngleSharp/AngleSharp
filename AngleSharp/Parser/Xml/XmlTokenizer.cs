@@ -13,16 +13,6 @@
     [DebuggerStepThrough]
     sealed class XmlTokenizer : BaseTokenizer
     {
-        #region Constants
-
-        static readonly String CDataOpening = "[CDATA[";
-        static readonly String PublicIdentifier = "PUBLIC";
-        static readonly String SystemIdentifier = "SYSTEM";
-        static readonly String YesIdentifier = "yes";
-        static readonly String NoIdentifier = "no";
-
-        #endregion
-
         #region Fields
 
         TextPosition _position;
@@ -328,7 +318,7 @@
                 Advance(6);
                 return Doctype(GetNext());
             }
-            else if (ContinuesWith(CDataOpening, false))
+            else if (ContinuesWith(Keywords.CData, false))
             {
                 Advance(6);
                 return CData(GetNext());
@@ -592,9 +582,9 @@
 
             var s = _stringBuffer.ToString();
 
-            if (s.Equals(YesIdentifier))
+            if (s.Is(Keywords.Yes))
                 decl.Standalone = true;
-            else if (s.Equals(NoIdentifier))
+            else if (s.Is(Keywords.No))
                 decl.Standalone = false;
             else
                 throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
@@ -692,12 +682,12 @@
             if (c == Symbols.GreaterThan)
                 return doctype;
 
-            if (ContinuesWith(PublicIdentifier, false))
+            if (ContinuesWith(Keywords.Public, false))
             {
                 Advance(5);
                 return DoctypePublic(GetNext(), doctype);
             }
-            else if (ContinuesWith(SystemIdentifier, false))
+            else if (ContinuesWith(Keywords.System, false))
             {
                 Advance(5);
                 return DoctypeSystem(GetNext(), doctype);
@@ -1041,7 +1031,7 @@
             pi.Target = _stringBuffer.ToString();
             _stringBuffer.Clear();
 
-            if (String.Compare(pi.Target, Tags.Xml, StringComparison.OrdinalIgnoreCase) == 0)
+            if (pi.Target.Isi(Tags.Xml))
                 throw XmlParseError.XmlInvalidPI.At(GetCurrentPosition());
 
             if (c == Symbols.QuestionMark)
