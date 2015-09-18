@@ -1907,6 +1907,12 @@
     <Compile Include="..\AngleSharp\Factories\MediaFeatureFactory.cs">
       <Link>Factories\MediaFeatureFactory.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Factories\PseudoClassSelectorFactory.cs">
+      <Link>Factories\PseudoClassSelectorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Factories\PseudoElementSelectorFactory.cs">
+      <Link>Factories\PseudoElementSelectorFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Factories\SvgElementFactory.cs">
       <Link>Factories\SvgElementFactory.cs</Link>
     </Compile>
