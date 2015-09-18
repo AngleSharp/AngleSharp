@@ -521,7 +521,6 @@ should be green.</div>";
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-177a.xml
         /// </summary>
         [Test]
-        [ExpectedException(typeof(DomException))]
         public void ParsingColonVsColonColonA()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">When you select this text, it shouldn't go red.</p>";
@@ -535,7 +534,6 @@ should be green.</div>";
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-177b.xml
         /// </summary>
         [Test]
-        [ExpectedException(typeof(DomException))]
         public void ParsingColonVsColonColonB()
         {
             var source = @"<div xmlns=""http://www.w3.org/1999/xhtml"">
@@ -572,7 +570,6 @@ should be green.</div>";
         /// Test taken from http://www.w3.org/Style/CSS/Test/CSS3/Selectors/current/xml/full/flat/css3-modsel-182.xml
         /// </summary>
         [Test]
-        [ExpectedException(typeof(DomException))]
         public void NamespacesAndInSelectors()
         {
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">
@@ -6520,11 +6517,8 @@ This div should have three addresses above it.</div>";
 	        var selector1 = doc.QuerySelectorAll("::selection");
 	        Assert.AreEqual(0, selector1.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector2 = doc.QuerySelectorAll(":selection");
-                Assert.AreEqual(0, selector2.Length);
-            });
+            var selector2 = doc.QuerySelectorAll(":selection");
+            Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>
@@ -6539,11 +6533,8 @@ This div should have three addresses above it.</div>";
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector2 = doc.QuerySelectorAll("p:subject");
-                Assert.AreEqual(0, selector2.Length);
-            });
+            var selector2 = doc.QuerySelectorAll("p:subject");
+            Assert.AreEqual(0, selector2.Length);
         }
 
         /// <summary>
@@ -6576,77 +6567,41 @@ This div should have three addresses above it.</div>";
 	        var selector5 = doc.QuerySelectorAll("p ~ *");
 	        Assert.AreEqual(2, selector5.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector6 = doc.QuerySelectorAll(":canvas");
-                Assert.AreEqual(0, selector6.Length);
-            });
+            var selector6 = doc.QuerySelectorAll(":canvas");
+            Assert.AreEqual(0, selector6.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector7 = doc.QuerySelectorAll(":viewport");
-                Assert.AreEqual(0, selector7.Length);
-            });
+            var selector7 = doc.QuerySelectorAll(":viewport");
+            Assert.AreEqual(0, selector7.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector8 = doc.QuerySelectorAll(":window");
-                Assert.AreEqual(0, selector8.Length);
-            });
+            var selector8 = doc.QuerySelectorAll(":window");
+            Assert.AreEqual(0, selector8.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector9 = doc.QuerySelectorAll(":menu");
-                Assert.AreEqual(0, selector9.Length);
-            });
+            var selector9 = doc.QuerySelectorAll(":menu");
+            Assert.AreEqual(0, selector9.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector10 = doc.QuerySelectorAll(":table");
-                Assert.AreEqual(0, selector10.Length);
-            });
+            var selector10 = doc.QuerySelectorAll(":table");
+            Assert.AreEqual(0, selector10.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector11 = doc.QuerySelectorAll(":select");
-                Assert.AreEqual(0, selector11.Length);
-            });
+            var selector11 = doc.QuerySelectorAll(":select");
+            Assert.AreEqual(0, selector11.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector12 = doc.QuerySelectorAll("::canvas");
-                Assert.AreEqual(0, selector12.Length);
-            });
+            var selector12 = doc.QuerySelectorAll("::canvas");
+            Assert.AreEqual(0, selector12.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector13 = doc.QuerySelectorAll("::viewport");
-                Assert.AreEqual(0, selector13.Length);
-            });
+            var selector13 = doc.QuerySelectorAll("::viewport");
+            Assert.AreEqual(0, selector13.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector14 = doc.QuerySelectorAll("::window");
-                Assert.AreEqual(0, selector14.Length);
-            });
+            var selector14 = doc.QuerySelectorAll("::window");
+            Assert.AreEqual(0, selector14.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector15 = doc.QuerySelectorAll("::menu");
-                Assert.AreEqual(0, selector15.Length);
-            });
+            var selector15 = doc.QuerySelectorAll("::menu");
+            Assert.AreEqual(0, selector15.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector16 = doc.QuerySelectorAll("::table");
-                Assert.AreEqual(0, selector16.Length);
-            });
+            var selector16 = doc.QuerySelectorAll("::table");
+            Assert.AreEqual(0, selector16.Length);
 
-            Assert.Catch<DomException>(() =>
-            {
-                var selector17 = doc.QuerySelectorAll("::select");
-                Assert.AreEqual(0, selector17.Length);
-            });
+            var selector17 = doc.QuerySelectorAll("::select");
+            Assert.AreEqual(0, selector17.Length);
         }
 
         /// <summary>
