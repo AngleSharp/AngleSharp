@@ -107,22 +107,6 @@
         }
 
         /// <summary>
-        /// Checks if the provided token is actually a match token.
-        /// </summary>
-        /// <param name="token">The token to examine.</param>
-        /// <returns>True if the type is matching, otherwise false.</returns>
-        public static Boolean IsMatchToken(this CssToken token)
-        {
-            var type = token.Type;
-            return type == CssTokenType.IncludeMatch ||
-                type == CssTokenType.DashMatch ||
-                type == CssTokenType.PrefixMatch ||
-                type == CssTokenType.SubstringMatch ||
-                type == CssTokenType.SuffixMatch ||
-                type == CssTokenType.NotMatch;
-        }
-
-        /// <summary>
         /// Tries to create an IDocumentFunction from the provided token.
         /// </summary>
         /// <param name="token">The token to examine.</param>

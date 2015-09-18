@@ -114,7 +114,7 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
-                        return NewSuffix();
+                        return NewMatch("$=");
 
                     return NewDelimiter(GetPrevious());
 
@@ -131,7 +131,7 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
-                        return NewSubstring();
+                        return NewMatch("*=");
 
                     return NewDelimiter(GetPrevious());
 
@@ -258,7 +258,7 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
-                        return NewPrefix();
+                        return NewMatch("^=");
 
                     return NewDelimiter(GetPrevious());
 
@@ -300,7 +300,7 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
-                        return NewDash();
+                        return NewMatch("|=");
                     else if (current == Symbols.Pipe)
                         return NewColumn();
 
@@ -310,7 +310,7 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
-                        return NewInclude();
+                        return NewMatch("~=");
 
                     return NewDelimiter(GetPrevious());
 
@@ -322,7 +322,7 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
-                        return NewNot();
+                        return NewMatch("!=");
 
                     return NewDelimiter(GetPrevious());
 
@@ -1185,24 +1185,14 @@
 
         #region Tokens
 
-        CssToken NewNot()
+        CssToken NewMatch(String match)
         {
-            return new CssToken(CssTokenType.NotMatch, "!=", _position);
-        }
-
-        CssToken NewInclude()
-        {
-            return new CssToken(CssTokenType.IncludeMatch, "~=", _position);
+            return new CssToken(CssTokenType.Match, match, _position);
         }
 
         CssToken NewColumn()
         {
             return new CssToken(CssTokenType.Column, "||", _position);
-        }
-
-        CssToken NewDash()
-        {
-            return new CssToken(CssTokenType.DashMatch, "|=", _position);
         }
 
         CssToken NewCloseCurly()
@@ -1213,11 +1203,6 @@
         CssToken NewOpenCurly()
         {
             return new CssToken(CssTokenType.CurlyBracketOpen, "{", _position);
-        }
-
-        CssToken NewPrefix()
-        {
-            return new CssToken(CssTokenType.PrefixMatch, "^=", _position);
         }
 
         CssToken NewCloseSquare()
@@ -1255,11 +1240,6 @@
             return new CssToken(CssTokenType.Comma, ",", _position);
         }
 
-        CssToken NewSubstring()
-        {
-            return new CssToken(CssTokenType.SubstringMatch, "*=", _position);
-        }
-
         CssToken NewCloseRound()
         {
             return new CssToken(CssTokenType.RoundBracketClose, ")", _position);
@@ -1268,11 +1248,6 @@
         CssToken NewOpenRound()
         {
             return new CssToken(CssTokenType.RoundBracketOpen, "(", _position);
-        }
-
-        CssToken NewSuffix()
-        {
-            return new CssToken(CssTokenType.SuffixMatch, "$=", _position);
         }
 
         CssToken NewString(String value, Boolean bad = false)

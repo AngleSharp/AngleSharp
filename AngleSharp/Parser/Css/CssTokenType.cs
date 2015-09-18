@@ -70,29 +70,9 @@
         /// </summary>
         Delim,
         /// <summary>
-        /// The include match ~= token (with attributes, i.e. spaces).
+        /// The match token (~=, |=, $=, ^=, *=, or !=).
         /// </summary>
-        IncludeMatch,
-        /// <summary>
-        /// The dash match |= token (with attributes, i.e. hyphen).
-        /// </summary>
-        DashMatch,
-        /// <summary>
-        /// The prefix match ^= token (with attributes, i.e. beginning).
-        /// </summary>
-        PrefixMatch,
-        /// <summary>
-        /// The suffix match $= token (with attributes, i.e. ending).
-        /// </summary>
-        SuffixMatch,
-        /// <summary>
-        /// The substring match *= token (with attributes, i.e. somewhere).
-        /// </summary>
-        SubstringMatch,
-        /// <summary>
-        /// The not match != token (with attributes, i.e. somewhere).
-        /// </summary>
-        NotMatch,
+        Match,
         /// <summary>
         /// The RoundBracketOpen ( ( ) token.
         /// </summary>
