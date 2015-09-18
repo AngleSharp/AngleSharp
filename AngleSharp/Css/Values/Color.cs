@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Css.Values
 {
-    using System;
-    using System.Runtime.InteropServices;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using System;
+    using System.Runtime.InteropServices;
 
     /// <summary>
     /// Represents a color value.
@@ -58,15 +58,15 @@
         #region Fields
 
         [FieldOffset(0)]
-        readonly Byte alpha;
+        readonly Byte _alpha;
         [FieldOffset(1)]
-        readonly Byte red;
+        readonly Byte _red;
         [FieldOffset(2)]
-        readonly Byte green;
+        readonly Byte _green;
         [FieldOffset(3)]
-        readonly Byte blue;
+        readonly Byte _blue;
         [FieldOffset(0)]
-        readonly Int32 hashcode;
+        readonly Int32 _hashcode;
 
         #endregion
 
@@ -80,11 +80,11 @@
         /// <param name="b">The blue value.</param>
         public Color(Byte r, Byte g, Byte b)
         {
-            hashcode = 0;
-            alpha = 255;
-            red = r;
-            blue = b;
-            green = g;
+            _hashcode = 0;
+            _alpha = 255;
+            _red = r;
+            _blue = b;
+            _green = g;
         }
 
         /// <summary>
@@ -96,11 +96,11 @@
         /// <param name="a">The alpha value.</param>
         public Color(Byte r, Byte g, Byte b, Byte a)
         {
-            hashcode = 0;
-            alpha = a;
-            red = r;
-            blue = b;
-            green = g;
+            _hashcode = 0;
+            _alpha = a;
+            _red = r;
+            _blue = b;
+            _green = g;
         }
 
         /// <summary>
@@ -112,11 +112,11 @@
         /// <param name="a">The alpha value between 0 and 1.</param>
         public Color(Byte r, Byte g, Byte b, Double a)
         {
-            hashcode = 0;
-            alpha = (Byte)Math.Max(Math.Min(Math.Ceiling(255 * a), 255), 0);
-            red = r;
-            blue = b;
-            green = g;
+            _hashcode = 0;
+            _alpha = (Byte)Math.Max(Math.Min(Math.Ceiling(255 * a), 255), 0);
+            _red = r;
+            _blue = b;
+            _green = g;
         }
 
         #endregion
@@ -168,28 +168,22 @@
         {
             if (color.Length == 3)
             {
-                int r = color[0].FromHex();
-                r += r * 16;
-                int g = color[1].FromHex();
-                g += g * 16;
-                int b = color[2].FromHex();
-                b += b * 16;
+                var r = color[0].FromHex() * 17; // (1 + 16)
+                var g = color[1].FromHex() * 17;
+                var b = color[2].FromHex() * 17;
 
                 return new Color((Byte)r, (Byte)g, (Byte)b);
             }
             else if (color.Length == 6)
             {
-                int r = 16 * color[0].FromHex();
-                int g = 16 * color[2].FromHex();
-                int b = 16 * color[4].FromHex();
-                r += color[1].FromHex();
-                g += color[3].FromHex();
-                b += color[5].FromHex();
+                var r = 16 * color[0].FromHex() + color[1].FromHex();
+                var g = 16 * color[2].FromHex() + color[3].FromHex();
+                var b = 16 * color[4].FromHex() + color[5].FromHex();
 
                 return new Color((Byte)r, (Byte)g, (Byte)b);
             }
 
-            return new Color();
+            return default(Color);
         }
 
         /// <summary>
@@ -201,40 +195,33 @@
         /// <returns>The status if the string can be converted.</returns>
         public static Boolean TryFromHex(String color, out Color value)
         {
-            value = new Color();
-
             if (color.Length == 3)
             {
-                if (!color[0].IsHex() || !color[1].IsHex() || !color[2].IsHex())
-                    return false; 
+                if (color[0].IsHex() && color[1].IsHex() && color[2].IsHex())
+                {
+                    var r = color[0].FromHex() * 17; // (1 + 16)
+                    var g = color[1].FromHex() * 17;
+                    var b = color[2].FromHex() * 17;
 
-                var r = color[0].FromHex();
-                r += r * 16;
-                var g = color[1].FromHex();
-                g += g * 16;
-                var b = color[2].FromHex();
-                b += b * 16;
-
-                value = new Color((Byte)r, (Byte)g, (Byte)b);
-                return true;
+                    value = new Color((Byte)r, (Byte)g, (Byte)b);
+                    return true;
+                }
             }
             else if (color.Length == 6)
             {
-                if (!color[0].IsHex() || !color[1].IsHex() || !color[2].IsHex() ||
-                    !color[3].IsHex() || !color[4].IsHex() || !color[5].IsHex())
-                    return false;
+                if (color[0].IsHex() && color[1].IsHex() && color[2].IsHex() &&
+                    color[3].IsHex() && color[4].IsHex() && color[5].IsHex())
+                {
+                    var r = 16 * color[0].FromHex() + color[1].FromHex();
+                    var g = 16 * color[2].FromHex() + color[3].FromHex();
+                    var b = 16 * color[4].FromHex() + color[5].FromHex();
 
-                var r = 16 * color[0].FromHex();
-                var g = 16 * color[2].FromHex();
-                var b = 16 * color[4].FromHex();
-                r += color[1].FromHex();
-                g += color[3].FromHex();
-                b += color[5].FromHex();
-
-                value = new Color((Byte)r, (Byte)g, (Byte)b);
-                return true;
+                    value = new Color((Byte)r, (Byte)g, (Byte)b);
+                    return true;
+                }
             }
 
+            value = default(Color);
             return false;
         }
 
@@ -247,13 +234,13 @@
         /// <returns>The CSS color.</returns>
         public static Color FromHsl(Single h, Single s, Single l)
         {
-            const Single third = 1f / 3f;
+            const Single oneThird = 1f / 3f;
 
             var m2 = l <= 0.5f ? (l * (s + 1f)) : (l + s - l * s);
             var m1 = 2f * l - m2;
-            var r = (Byte)Math.Round(255 * HueToRgb(m1, m2, h + third));
+            var r = (Byte)Math.Round(255 * HueToRgb(m1, m2, h + oneThird));
             var g = (Byte)Math.Round(255 * HueToRgb(m1, m2, h));
-            var b = (Byte)Math.Round(255 * HueToRgb(m1, m2, h - third));
+            var b = (Byte)Math.Round(255 * HueToRgb(m1, m2, h - oneThird));
             return new Color(r, g, b);
         }
 
@@ -267,13 +254,13 @@
         /// <returns>The CSS color.</returns>
         public static Color FromHsla(Single h, Single s, Single l, Single alpha)
         {
-            const Single third = 1f / 3f;
+            const Single oneThird = 1f / 3f;
 
             var m2 = l <= 0.5f ? (l * (s + 1f)) : (l + s - l * s);
             var m1 = 2f * l - m2;
-            var r = (Byte)Math.Round(255f * HueToRgb(m1, m2, h + third));
+            var r = (Byte)Math.Round(255f * HueToRgb(m1, m2, h + oneThird));
             var g = (Byte)Math.Round(255f * HueToRgb(m1, m2, h));
-            var b = (Byte)Math.Round(255f * HueToRgb(m1, m2, h - third));
+            var b = (Byte)Math.Round(255f * HueToRgb(m1, m2, h - oneThird));
             var a = (Byte)Math.Max(Math.Min(Math.Ceiling(255 * alpha), 255), 0);
             return new Color(r, g, b, a);
         }
@@ -287,7 +274,7 @@
         /// </summary>
         public Int32 Value
         {
-            get { return hashcode; }
+            get { return _hashcode; }
         }
 
         /// <summary>
@@ -295,7 +282,7 @@
         /// </summary>
         public Byte A
         {
-            get { return alpha; }
+            get { return _alpha; }
         }
 
         /// <summary>
@@ -303,7 +290,7 @@
         /// </summary>
         public Double Alpha
         {
-            get { return alpha / 255.0; }
+            get { return _alpha / 255.0; }
         }
 
         /// <summary>
@@ -311,7 +298,7 @@
         /// </summary>
         public Byte R
         {
-            get { return red; }
+            get { return _red; }
         }
 
         /// <summary>
@@ -319,7 +306,7 @@
         /// </summary>
         public Byte G
         {
-            get { return green; }
+            get { return _green; }
         }
 
         /// <summary>
@@ -327,7 +314,7 @@
         /// </summary>
         public Byte B
         {
-            get { return blue; }
+            get { return _blue; }
         }
 
         #endregion
@@ -342,7 +329,7 @@
         /// <returns>True if both colors are equal, otherwise false.</returns>
         public static Boolean operator ==(Color a, Color b)
         {
-            return a.hashcode == b.hashcode;
+            return a._hashcode == b._hashcode;
         }
 
         /// <summary>
@@ -353,7 +340,7 @@
         /// <returns>True if both colors are not equal, otherwise false.</returns>
         public static Boolean operator !=(Color a, Color b)
         {
-            return a.hashcode != b.hashcode;
+            return a._hashcode != b._hashcode;
         }
 
         /// <summary>
@@ -363,7 +350,7 @@
         /// <returns>True if both colors or equal, otherwise false.</returns>
         public Boolean Equals(Color other)
         {
-            return this.hashcode == other.hashcode;
+            return this._hashcode == other._hashcode;
         }
 
         /// <summary>
@@ -381,7 +368,7 @@
 
         Int32 IComparable<Color>.CompareTo(Color other)
         {
-            return hashcode - other.hashcode;
+            return _hashcode - other._hashcode;
         }
 
         /// <summary>
@@ -390,7 +377,7 @@
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode()
         {
-            return hashcode;
+            return _hashcode;
         }
 
         #endregion
@@ -432,20 +419,20 @@
 
         static Single HueToRgb(Single m1, Single m2, Single h)
         {
-            const Single sixth = 1f / 6f;
-            const Single third2 = 2f / 3f;
+            const Single oneSixth = 1f / 6f;
+            const Single twoThird = 2f / 3f;
 
             if (h < 0f)
                 h += 1f;
             else if (h > 1f)
                 h -= 1f;
 
-            if (h < sixth)
+            if (h < oneSixth)
                 return m1 + (m2 - m1) * h * 6f;
             else if (h < 0.5)
                 return m2;
-            else if (h < third2)
-                return m1 + (m2 - m1) * (third2 - h) * 6f;
+            else if (h < twoThird)
+                return m1 + (m2 - m1) * (twoThird - h) * 6f;
 
             return m1;
         }
@@ -460,7 +447,7 @@
         /// <returns>The ARGB string.</returns>
         public override String ToString()
         {
-            if (alpha == 255)
+            if (_alpha == 255)
             {
                 var arguments = String.Join(", ", new[]
                 {
@@ -491,7 +478,7 @@
         /// <returns>The unit string.</returns>
         public String ToString(String format, IFormatProvider formatProvider)
         {
-            if (alpha == 255)
+            if (_alpha == 255)
             {
                 var arguments = String.Join(", ", new[]
                 {
