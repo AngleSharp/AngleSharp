@@ -657,13 +657,9 @@
                 }
                 else if (current == Symbols.RoundBracketOpen)
                 {
-                    var fn = FlushBuffer();
-                    var type = fn.GetTypeFromName();
-
-                    if (type == CssTokenType.Function)
-                        return NewFunction(fn);
-
-                    return UrlStart(fn);
+                    var name = FlushBuffer();
+                    var type = name.GetTypeFromName();
+                    return type == CssTokenType.Function ? NewFunction(name) : UrlStart(name);
                 }
                 else
                 {
@@ -1311,13 +1307,11 @@
 
             while (token.Type != CssTokenType.Eof)
             {
-                if (token.Type == CssTokenType.RoundBracketClose)
-                {
-                    function.Close(token);
-                    break;
-                }
+                function.AddArgumentToken(token);
 
-                function.With(token);
+                if (token.Type == CssTokenType.RoundBracketClose)
+                    break;
+
                 token = Get();
             }
 
