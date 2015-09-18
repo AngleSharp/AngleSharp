@@ -1355,7 +1355,7 @@
 
         CssToken NewDelimiter(Char c)
         {
-            return new CssToken(CssTokenType.Delim, c, _position);
+            return new CssToken(CssTokenType.Delim, c.ToString(), _position);
         }
 
         CssToken NewColor(String text)
