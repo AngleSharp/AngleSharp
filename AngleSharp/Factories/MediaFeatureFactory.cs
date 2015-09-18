@@ -61,7 +61,7 @@
         /// <returns>The created feature.</returns>
         public MediaFeature Create(String name)
         {
-            Func<MediaFeature> creator;
+            var creator = default(Func<MediaFeature>);
 
             if (creators.TryGetValue(name, out creator))
                 return creator();

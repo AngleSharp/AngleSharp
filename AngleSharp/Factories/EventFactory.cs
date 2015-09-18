@@ -42,7 +42,7 @@
         /// <returns>The created event.</returns>
         public Event Create(String name)
         {
-            Func<Event> creator;
+            var creator = default(Func<Event>);
 
             if (creators.TryGetValue(name, out creator))
                 return creator();

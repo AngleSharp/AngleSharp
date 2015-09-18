@@ -346,7 +346,7 @@
         /// <returns>The created property.</returns>
         public CssProperty CreateFont(String name)
         {
-            LonghandCreator propertyCreator;
+            var propertyCreator = default(LonghandCreator);
 
             if (fonts.TryGetValue(name, out propertyCreator))
                 return propertyCreator();
@@ -372,7 +372,7 @@
         /// <returns>The created longhand property.</returns>
         public CssProperty CreateLonghand(String name)
         {
-            LonghandCreator createProperty;
+            var createProperty = default(LonghandCreator);
 
             if (longhands.TryGetValue(name, out createProperty))
                 return createProperty();
@@ -387,7 +387,7 @@
         /// <returns>The created shorthand property.</returns>
         public CssShorthandProperty CreateShorthand(String name)
         {
-            ShorthandCreator propertyCreator;
+            var propertyCreator = default(ShorthandCreator);
 
             if (shorthands.TryGetValue(name, out propertyCreator))
                 return propertyCreator();

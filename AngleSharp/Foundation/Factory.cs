@@ -41,5 +41,15 @@
         /// The CSS media feature factory.
         /// </summary>
         public static readonly MediaFeatureFactory MediaFeatures = new MediaFeatureFactory();
+
+        /// <summary>
+        /// The CSS pseudo element selector factory.
+        /// </summary>
+        public static readonly PseudoElementSelectorFactory PseudoElementSelector = new PseudoElementSelectorFactory();
+
+        /// <summary>
+        /// The CSS pseudo class selector factory.
+        /// </summary>
+        public static readonly PseudoClassSelectorFactory PseudoClassSelector = new PseudoClassSelectorFactory();
     }
 }

@@ -194,6 +194,8 @@
     <Compile Include="Extensions\EventTargetExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
+    <Compile Include="Factories\PseudoClassSelectorFactory.cs" />
+    <Compile Include="Factories\PseudoElementSelectorFactory.cs" />
     <Compile Include="Foundation\CancellableTasks.cs" />
     <Compile Include="Foundation\TaskEx.cs" />
     <Compile Include="Html\SourceSet.cs">

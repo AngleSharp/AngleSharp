@@ -32,7 +32,7 @@
         /// <returns>The specialized MathMLElement instance.</returns>
         public MathElement Create(Document document, String localName, String prefix = null)
         {
-            Creator creator;
+            var creator = default(Creator);
 
             if (creators.TryGetValue(localName, out creator))
                 return creator(document, prefix);

@@ -46,7 +46,7 @@
         /// <returns>The InputType provider or text, if the type is unknown.</returns>
         public BaseInputType Create(IHtmlInputElement input, String type)
         {
-            Func<IHtmlInputElement, BaseInputType> creator;
+            var creator = default(Func<IHtmlInputElement, BaseInputType>);
 
             if (String.IsNullOrEmpty(type))
                 type = InputTypeNames.Text;

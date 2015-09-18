@@ -71,7 +71,7 @@
         /// <returns>The specialized SVGElement instance.</returns>
         public SvgElement Create(Document document, String localName, String prefix = null)
         {
-            Creator creator;
+            var creator = default(Creator);
 
             if (creators.TryGetValue(localName, out creator))
                 return creator(document, prefix);
@@ -98,7 +98,7 @@
         /// <returns>The name with the correct capitalization.</returns>
         String SanatizeTag(String localName)
         {
-            String adjustedTagName;
+            var adjustedTagName = default(String);
 
             if (adjustedTagNames.TryGetValue(localName, out adjustedTagName))
                 return adjustedTagName;
