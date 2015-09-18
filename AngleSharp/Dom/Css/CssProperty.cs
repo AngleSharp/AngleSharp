@@ -2,6 +2,8 @@
 {
     using AngleSharp.Css;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Fore more information about CSS properties see:
@@ -35,6 +37,14 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the contained child nodes.
+        /// </summary>
+        public IEnumerable<ICssNode> Children
+        {
+            get { return Enumerable.Empty<ICssNode>(); }
+        }
 
         /// <summary>
         /// Gets the serialized value of the property.

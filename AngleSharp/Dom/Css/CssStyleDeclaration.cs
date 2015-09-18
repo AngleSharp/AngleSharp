@@ -67,6 +67,14 @@
         #region General Properties
 
         /// <summary>
+        /// Gets the contained CSS nodes.
+        /// </summary>
+        public IEnumerable<ICssNode> Children
+        {
+            get { return _declarations; }
+        }
+
+        /// <summary>
         /// Gets if unknown declarations are not allowed.
         /// </summary>
         public Boolean IsStrictMode

@@ -176,11 +176,17 @@
                         Back(2);
 
                         if (c1.IsDigit() || (c1 == Symbols.Dot && c2.IsDigit()))
+                        {
                             return NumberStart(current);
+                        }
                         else if (c1.IsNameStart())
+                        {
                             return IdentStart(current);
+                        }
                         else if (c1 == Symbols.ReverseSolidus && !c2.IsLineBreak() && c2 != Symbols.EndOfFile)
+                        {
                             return IdentStart(current);
+                        }
                         else if (c1 == Symbols.Minus && c2 == Symbols.GreaterThan)
                         {
                             Advance(2);

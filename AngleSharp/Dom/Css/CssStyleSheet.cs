@@ -5,6 +5,7 @@
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS Stylesheet.
@@ -36,6 +37,14 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the contained children.
+        /// </summary>
+        public IEnumerable<ICssNode> Children
+        {
+            get { return _rules; }
+        }
 
         /// <summary>
         /// Gets the CSS root node associated with the stylesheet.

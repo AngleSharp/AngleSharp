@@ -8,32 +8,6 @@
     /// </summary>
     sealed class ListSelector : Selectors, ISelector
     {
-        #region ctor
-
-        /// <summary>
-        /// Creates a new selector group.
-        /// </summary>
-        public ListSelector()
-        {
-        }
-
-        /// <summary>
-        /// Creates a new selector group with the given selectors.
-        /// </summary>
-        /// <param name="selectors">The selectors.</param>
-        /// <returns>The created list selector.</returns>
-        internal static ListSelector Create(params ISelector[] selectors)
-        {
-            var list = new ListSelector();
-
-            for (int i = 0; i < selectors.Length; i++)
-                list.selectors.Add(selectors[i]);
-
-            return list;
-        }
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -56,9 +30,9 @@
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
         public Boolean Match(IElement element)
         {
-            for (int i = 0; i < selectors.Count; i++)
+            for (int i = 0; i < _selectors.Count; i++)
             {
-                if (selectors[i].Match(element))
+                if (_selectors[i].Match(element))
                     return true;
             }
 
@@ -77,12 +51,12 @@
         {
             var sb = Pool.NewStringBuilder();
 
-            if (selectors.Count > 0)
+            if (_selectors.Count > 0)
             {
-                sb.Append(selectors[0].Text);
+                sb.Append(_selectors[0].Text);
 
-                for (int i = 1; i < selectors.Count; i++)
-                    sb.Append(Symbols.Comma).Append(selectors[i].Text);
+                for (int i = 1; i < _selectors.Count; i++)
+                    sb.Append(Symbols.Comma).Append(_selectors[i].Text);
             }
 
             return sb.ToPool();

@@ -2,6 +2,8 @@
 {
     using AngleSharp.Css;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents an unknown / invalid selector.
@@ -13,6 +15,11 @@
         public UnknownSelector(String text)
         {
             _text = text;
+        }
+
+        public IEnumerable<ICssNode> Children
+        {
+            get { return Enumerable.Empty<ICssNode>(); }
         }
 
         public Priority Specifity

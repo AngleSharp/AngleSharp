@@ -3,16 +3,16 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a simple selector (either a type selector, universal
     /// selector, attribute, class, id or pseudo-class selector).
     /// </summary>
-    class SimpleSelector : ISelector
+    sealed class SimpleSelector : ISelector
     {
         #region Fields
-
-        static readonly SimpleSelector _all = new SimpleSelector();
 
         readonly Predicate<IElement> _matches;
         readonly Priority _specifity;
@@ -63,9 +63,14 @@
         /// <summary>
         /// Gets a selector that matches all elements.
         /// </summary>
-        public static ISelector All
+        public static readonly SimpleSelector All = new SimpleSelector();
+
+        /// <summary>
+        /// Gets the contained children.
+        /// </summary>
+        public IEnumerable<ICssNode> Children
         {
-            get { return _all; }
+            get { return Enumerable.Empty<ICssNode>(); }
         }
 
         /// <summary>
@@ -108,15 +113,6 @@
         public static SimpleSelector PseudoClass(Predicate<IElement> action, String pseudoClass)
         {
             return new SimpleSelector(action, Priority.OneClass, ":" + pseudoClass);
-        }
-
-        /// <summary>
-        /// Gets a selector that matches all elements.
-        /// </summary>
-        /// <returns>The available universal selector.</returns>
-        public static SimpleSelector Universal()
-        {
-            return _all;
         }
 
         /// <summary>

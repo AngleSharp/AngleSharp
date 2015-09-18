@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        protected readonly List<ISelector> selectors;
+        protected readonly List<ISelector> _selectors;
 
         #endregion
 
@@ -23,12 +23,20 @@
         /// </summary>
         public Selectors()
         {
-            selectors = new List<ISelector>();
+            _selectors = new List<ISelector>();
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the children of this node.
+        /// </summary>
+        public IEnumerable<ICssNode> Children
+        {
+            get { return _selectors; }
+        }
 
         /// <summary>
         /// Gets the specifity index for this chain of selectors.
@@ -39,8 +47,8 @@
             {
                 var sum = new Priority();
 
-                for (int i = 0; i < selectors.Count; i++)
-                    sum += selectors[i].Specifity;
+                for (int i = 0; i < _selectors.Count; i++)
+                    sum += _selectors[i].Specifity;
 
                 return sum;
             }
@@ -59,7 +67,7 @@
         /// </summary>
         public Int32 Length 
         {
-            get { return selectors.Count; } 
+            get { return _selectors.Count; } 
         }
 
         /// <summary>
@@ -69,8 +77,8 @@
         /// <returns>The selector at the given index.</returns>
         public ISelector this[Int32 index]
         {
-            get { return selectors[index]; }
-            set { selectors[index] = value; }
+            get { return _selectors[index]; }
+            set { _selectors[index] = value; }
         }
 
         #endregion
@@ -83,7 +91,7 @@
         /// <param name="selector">The selector to append.</param>
         public void Add(ISelector selector)
         {
-            selectors.Add(selector);
+            _selectors.Add(selector);
         }
 
         /// <summary>
@@ -93,7 +101,7 @@
         /// <returns>The current group.</returns>
         public void Remove(ISelector selector)
         {
-            selectors.Remove(selector);
+            _selectors.Remove(selector);
         }
 
         /// <summary>
@@ -102,7 +110,7 @@
         /// <returns>The current group of selectors.</returns>
         public void Clear()
         {
-            selectors.Clear();
+            _selectors.Clear();
         }
 
         #endregion
@@ -115,7 +123,7 @@
         /// <returns>The specific enumerator.</returns>
         public IEnumerator<ISelector> GetEnumerator()
         {
-            return selectors.GetEnumerator();
+            return _selectors.GetEnumerator();
         }
 
         /// <summary>

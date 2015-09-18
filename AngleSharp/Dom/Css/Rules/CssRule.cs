@@ -3,6 +3,8 @@
     using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a CSS rule.
@@ -34,9 +36,11 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets the textual representation of the rule.
-        /// </summary>
+        public IEnumerable<ICssNode> Children
+        {
+            get { return Enumerable.Empty<ICssNode>(); }
+        }
+
         public String CssText
         {
             get { return ToCss(); }
@@ -53,27 +57,18 @@
             }
         }
 
-        /// <summary>
-        /// Gets the containing rule, otherwise null.
-        /// </summary>
         public ICssRule Parent
         {
             get { return _parentRule; }
             internal set { _parentRule = value; }
         }
 
-        /// <summary>
-        /// Gets the CSSStyleSheet object for the style sheet that contains this rule.
-        /// </summary>
         public ICssStyleSheet Owner
         {
             get { return _ownerSheet; }
             internal set { _ownerSheet = value; }
         }
 
-        /// <summary>
-        /// Gets the type constant indicating the type of CSS rule.
-        /// </summary>
         public CssRuleType Type
         {
             get { return _type; }

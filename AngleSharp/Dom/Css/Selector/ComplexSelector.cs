@@ -4,6 +4,7 @@
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a complex selector, i.e. one or more compound selectors
@@ -13,7 +14,7 @@
     {
         #region Fields
 
-        readonly List<CombinatorSelector> selectors;
+        readonly List<CombinatorSelector> _selectors;
 
         #endregion
 
@@ -24,12 +25,20 @@
         /// </summary>
         public ComplexSelector()
         {
-            selectors = new List<CombinatorSelector>();
+            _selectors = new List<CombinatorSelector>();
         }
 
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the contained nodes.
+        /// </summary>
+        public IEnumerable<ICssNode> Children
+        {
+            get { return _selectors.Select(m => m.Selector); }
+        }
 
         /// <summary>
         /// Gets the specifity index for this chain of selectors.
@@ -39,11 +48,11 @@
             get
             {
                 var sum = new Priority();
-                var n = selectors.Count;
+                var n = _selectors.Count;
 
                 for (int i = 0; i < n; i++)
                 {
-                    sum += selectors[i].Selector.Specifity;
+                    sum += _selectors[i].Selector.Specifity;
                 }
 
                 return sum;
@@ -59,16 +68,16 @@
             {
                 var sb = Pool.NewStringBuilder();
 
-                if (selectors.Count > 0)
+                if (_selectors.Count > 0)
                 {
-                    var n = selectors.Count - 1;
+                    var n = _selectors.Count - 1;
 
                     for (int i = 0; i < n; i++)
                     {
-                        sb.Append(selectors[i].Selector.Text).Append(selectors[i].Delimiter);
+                        sb.Append(_selectors[i].Selector.Text).Append(_selectors[i].Delimiter);
                     }
 
-                    sb.Append(selectors[n].Selector.Text);
+                    sb.Append(_selectors[n].Selector.Text);
                 }
 
                 return sb.ToPool();
@@ -80,7 +89,7 @@
         /// </summary>
         public Int32 Length
         {
-            get { return selectors.Count; }
+            get { return _selectors.Count; }
         }
 
         /// <summary>
@@ -103,9 +112,9 @@
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
         public Boolean Match(IElement element)
         {
-            var last = selectors.Count - 1;
+            var last = _selectors.Count - 1;
 
-            if (selectors[last].Selector.Match(element))
+            if (_selectors[last].Selector.Match(element))
             {
                 return last > 0 ? MatchCascade(last - 1, element) : true;
             }
@@ -122,7 +131,7 @@
         {
             if (!IsReady)
             {
-                selectors.Add(new CombinatorSelector
+                _selectors.Add(new CombinatorSelector
                 {
                     Selector = selector,
                     Transform = null,
@@ -145,7 +154,7 @@
             if (IsReady)
                 return this;
 
-            selectors.Add(new CombinatorSelector
+            _selectors.Add(new CombinatorSelector
             {
                 Selector = combinator.Change(selector),
                 Transform = combinator.Transform,
@@ -163,7 +172,7 @@
         public ComplexSelector ClearSelectors()
         {
             IsReady = false;
-            selectors.Clear();
+            _selectors.Clear();
             return this;
         }
 
@@ -173,11 +182,11 @@
 
         Boolean MatchCascade(Int32 pos, IElement element)
         {
-            var newElements = selectors[pos].Transform(element);
+            var newElements = _selectors[pos].Transform(element);
 
             foreach (var newElement in newElements)
             {
-                if (selectors[pos].Selector.Match(newElement))
+                if (_selectors[pos].Selector.Match(newElement))
                 {
                     if (pos == 0 || MatchCascade(pos - 1, newElement))
                         return true;

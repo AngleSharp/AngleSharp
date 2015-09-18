@@ -28,7 +28,7 @@
             var compound = new CompoundSelector();
 
             for (int i = 0; i < selectors.Length; i++)
-                compound.selectors.Add(selectors[i]);
+                compound._selectors.Add(selectors[i]);
 
             return compound;
         }
@@ -44,9 +44,9 @@
         /// <returns>True if the selector matches the given element, otherwise false.</returns>
         public Boolean Match(IElement element)
         {
-            for (int i = 0; i < selectors.Count; i++)
+            for (int i = 0; i < _selectors.Count; i++)
             {
-                if (!selectors[i].Match(element))
+                if (!_selectors[i].Match(element))
                     return false;
             }
 
@@ -65,8 +65,8 @@
         {
             var sb = Pool.NewStringBuilder();
 
-            for (int i = 0; i < selectors.Count; i++)
-                sb.Append(selectors[i].Text);
+            for (int i = 0; i < _selectors.Count; i++)
+                sb.Append(_selectors[i].Text);
 
             return sb.ToPool();
         }

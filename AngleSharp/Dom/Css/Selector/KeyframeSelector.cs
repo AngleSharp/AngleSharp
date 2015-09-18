@@ -3,6 +3,7 @@
     using AngleSharp.Css.Values;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents the keyframe selector.
@@ -25,6 +26,14 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the contained children.
+        /// </summary>
+        public IEnumerable<ICssNode> Children
+        {
+            get { return Enumerable.Empty<ICssNode>(); }
+        }
 
         /// <summary>
         /// Gets an enumeration over all stops.
