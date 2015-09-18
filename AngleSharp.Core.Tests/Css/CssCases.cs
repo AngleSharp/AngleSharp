@@ -147,7 +147,7 @@ namespace AngleSharp.Core.Tests.Css
             Assert.AreEqual(@".foo:matches(.bar,.baz),.foo:matches(.bar,.baz),.foo:matches(.bar,.baz),.foo:matches(.bar,.baz)", ((ICssStyleRule)sheet.Rules[0]).SelectorText);
             Assert.AreEqual(@"value", ((ICssStyleRule)sheet.Rules[0]).Style["prop"]);
 
-            Assert.AreEqual(".foo:matches(.bar, .baz, .foobar),\n.foo:matches(.bar, .baz,),\n.foo:matches(, .bar, .baz) ", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
+            Assert.AreEqual(".foo:matches(.bar,.baz,.foobar),\n.foo:matches(.bar, .baz,),\n.foo:matches(,.bar , .baz) ", ((ICssStyleRule)sheet.Rules[1]).SelectorText);
             Assert.AreEqual(@"anothervalue", ((ICssStyleRule)sheet.Rules[1]).Style["anotherprop"]);
 		}
 
