@@ -235,5 +235,10 @@
             { '２', '2' },
             { '５', '5' },
         };
+
+        /// <summary>
+        /// A list of possible newline characters or character combinations.
+        /// </summary>
+        public static readonly String[] NewLines = new[] { "\r\n", "\r", "\n" };
     }
 }

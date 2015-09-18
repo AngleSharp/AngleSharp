@@ -11,9 +11,15 @@
     /// </summary>
     public class DocumentLoader : IDocumentLoader
     {
+        #region Fields
+
         readonly IEnumerable<IRequester> _requesters;
         readonly IBrowsingContext _context;
         readonly Predicate<IRequest> _filter;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new document loader.
@@ -27,6 +33,10 @@
             _context = context;
             _filter = filter ?? (_ => true);
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Loads the data for the request asynchronously.
@@ -54,5 +64,7 @@
 
             return _filter(data) ? _requesters.LoadAsync(data, events, cancel) : TaskEx.FromResult(default(IResponse));
         }
+
+        #endregion
     }
 }

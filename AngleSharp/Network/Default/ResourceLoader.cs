@@ -12,9 +12,15 @@
     /// </summary>
     public class ResourceLoader : IResourceLoader
     {
+        #region Fields
+
         readonly IEnumerable<IRequester> _requesters;
         readonly IDocument _document;
         readonly Predicate<IRequest> _filter;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new resource loader.
@@ -28,6 +34,10 @@
             _document = document;
             _filter = filter ?? (_ => true);
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Loads the data for the request asynchronously.
@@ -47,5 +57,7 @@
             data.Headers[HeaderNames.Referer] = request.Source.Owner.DocumentUri;
             return _filter(data) ? _requesters.LoadAsync(data, events, cancel) : TaskEx.FromResult(default(IResponse));
         }
+
+        #endregion
     }
 }

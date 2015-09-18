@@ -12,7 +12,13 @@
     /// </summary>
     public sealed class DataRequester : IRequester
     {
+        #region Fields
+
         static readonly String Base64Section = ";base64";
+
+        #endregion
+
+        #region Methods
 
         /// <summary>Checks if the data protocol is given.</summary>
         /// <param name="protocol">The protocol to check for data.</param>
@@ -67,5 +73,7 @@
 
             return TaskEx.FromResult<IResponse>(response);
         }
+
+        #endregion
     }
 }

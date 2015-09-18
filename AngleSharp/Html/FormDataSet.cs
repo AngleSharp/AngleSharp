@@ -20,8 +20,6 @@
         readonly List<FormDataSetEntry> _entries;
         String _boundary;
 
-        static readonly String[] NewLines = new[] { "\r\n", "\r", "\n" };
-
         #endregion
 
         #region ctor
@@ -131,7 +129,9 @@
                 for (int i = 0; i < list.Length; i++)
                 {
                     if (i > 0)
-                        stream.Write("\r\n");
+                    {
+                        stream.Write(Symbols.NewLines[0]);
+                    }
 
                     stream.Write(list[i].Item1);
                     stream.Write('=');
@@ -239,8 +239,8 @@
         {
             if (!String.IsNullOrEmpty(value))
             {
-                var lines = value.Split(NewLines, StringSplitOptions.None);
-                return String.Join("\r\n", lines);
+                var lines = value.Split(Symbols.NewLines, StringSplitOptions.None);
+                return String.Join(Symbols.NewLines[0], lines);
             }
 
             return value;
