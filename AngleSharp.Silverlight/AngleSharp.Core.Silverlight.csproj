@@ -164,26 +164,11 @@
     <Compile Include="..\AngleSharp\Css\CssCondition.cs">
       <Link>Css\CssCondition.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\CssDocumentFunction.cs">
-      <Link>Css\CssDocumentFunction.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Css\CssNode.cs">
       <Link>Css\CssNode.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\CssStyleFormatter.cs">
       <Link>Css\CssStyleFormatter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\DocumentFunctions\DomainFunction.cs">
-      <Link>Css\DocumentFunctions\DomainFunction.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\DocumentFunctions\RegexpFunction.cs">
-      <Link>Css\DocumentFunctions\RegexpFunction.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\DocumentFunctions\UrlFunction.cs">
-      <Link>Css\DocumentFunctions\UrlFunction.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\DocumentFunctions\UrlPrefixFunction.cs">
-      <Link>Css\DocumentFunctions\UrlPrefixFunction.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\FeatureNames.cs">
       <Link>Css\FeatureNames.cs</Link>
@@ -667,6 +652,21 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CssValue.cs">
       <Link>Dom\Css\CssValue.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\DocumentFunction.cs">
+      <Link>Dom\Css\DocumentFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\DocumentFunctions\DomainFunction.cs">
+      <Link>Dom\Css\DocumentFunctions\DomainFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\DocumentFunctions\RegexpFunction.cs">
+      <Link>Dom\Css\DocumentFunctions\RegexpFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\DocumentFunctions\UrlFunction.cs">
+      <Link>Dom\Css\DocumentFunctions\UrlFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\DocumentFunctions\UrlPrefixFunction.cs">
+      <Link>Dom\Css\DocumentFunctions\UrlPrefixFunction.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\MediaFeature.cs">
       <Link>Dom\Css\MediaFeature.cs</Link>
