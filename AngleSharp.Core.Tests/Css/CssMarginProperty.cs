@@ -233,7 +233,7 @@
         public void CssMarginShouldBeRecombinedCorrectly()
         {
             var snippet = ".centered {margin-bottom: 1px; margin-top: 2px; margin-left: 3px; margin-right: 4px}";
-            var expected = ".centered { margin: 2px 4px 1px 3px; }";
+            var expected = ".centered { margin: 2px 4px 1px 3px }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
@@ -243,7 +243,7 @@
         public void CssMarginShouldBeSimplifiedCorrectly()
         {
             var snippet = ".centered {margin:0;margin-left:auto;margin-right:auto;text-align:left;}";
-            var expected = ".centered { margin: 0 auto; text-align: left; }";
+            var expected = ".centered { margin: 0 auto; text-align: left }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
@@ -253,7 +253,7 @@
         public void CssMarginShouldBeReducedCompletely()
         {
             var snippet = ".centered {margin-bottom: 0px; margin-top: 0; margin-left: 0px; margin-right: 0}";
-            var expected = ".centered { margin: 0; }";
+            var expected = ".centered { margin: 0 }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
@@ -263,7 +263,7 @@
         public void CssMarginReductionForPeriodicExpansion()
         {
             var snippet = "p { margin: 0 auto; }";
-            var expected = "p { margin: 0 auto; }";
+            var expected = "p { margin: 0 auto }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);

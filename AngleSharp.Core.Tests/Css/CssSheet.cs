@@ -39,9 +39,9 @@ h1 {
             ");
             var css = sheet.CssText;
             Assert.AreEqual(3, sheet.Rules.Length);
-            Assert.AreEqual(".dis-none { display: none; }", sheet.Rules[0].CssText);
-            Assert.AreEqual(".dis { display: block; }", sheet.Rules[1].CssText);
-            Assert.AreEqual(".dis2 { display: block; }", sheet.Rules[2].CssText);
+            Assert.AreEqual(".dis-none { display: none }", sheet.Rules[0].CssText);
+            Assert.AreEqual(".dis { display: block }", sheet.Rules[1].CssText);
+            Assert.AreEqual(".dis2 { display: block }", sheet.Rules[2].CssText);
         }
 
         [Test]
@@ -54,15 +54,15 @@ h1 {
             ");
             var css = sheet.CssText;
             Assert.AreEqual(2, sheet.Rules.Length);
-            Assert.AreEqual(".dis-none { display: none; }", sheet.Rules[0].CssText);
-            Assert.AreEqual(".dis { display: block; }", sheet.Rules[1].CssText);
+            Assert.AreEqual(".dis-none { display: none }", sheet.Rules[0].CssText);
+            Assert.AreEqual(".dis { display: block }", sheet.Rules[1].CssText);
         }
 
         [Test]
         public void CssSheetSerializeListStyleNone()
         {
             var cssSrc = ".T1 {list-style:NONE}";
-            var expected = ".T1 { list-style: none; }";
+            var expected = ".T1 { list-style: none }";
             var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.CssText;
             Assert.AreEqual(expected, cssText);
@@ -72,7 +72,7 @@ h1 {
         public void CssSheetSerializeBorder1pxOutset()
         {
             var cssSrc = ".T2 { border:1px  outset }";
-            var expected = ".T2 { border: 1px outset; }";
+            var expected = ".T2 { border: 1px outset }";
             var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.CssText;
             Assert.AreEqual(expected, cssText);
@@ -82,7 +82,7 @@ h1 {
         public void CssSheetSerializeBorder1pxSolidWithColor()
         {
             var cssSrc = "#rule1 { border: 1px solid #BBCCEB; border-top: none }";
-            var expected = "#rule1 { border-right: 1px solid rgb(187, 204, 235); border-bottom: 1px solid rgb(187, 204, 235); border-left: 1px solid rgb(187, 204, 235); border-top: none; }";
+            var expected = "#rule1 { border-right: 1px solid rgb(187, 204, 235); border-bottom: 1px solid rgb(187, 204, 235); border-left: 1px solid rgb(187, 204, 235); border-top: none }";
             var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.CssText;
             Assert.AreEqual(expected, cssText);
@@ -92,7 +92,7 @@ h1 {
         public void CssSheetSerializeBackgroundWithUrlPositionRepeatX()
         {
             var cssSrc = "#rule2 { background:url(/_static/img/bx_tile.gif) top left repeat-x; }";
-            var expected = "#rule2 { background: url(\"/_static/img/bx_tile.gif\") top left repeat-x; }";
+            var expected = "#rule2 { background: url(\"/_static/img/bx_tile.gif\") top left repeat-x }";
             var stylesheet = ParseStyleSheet(cssSrc);
             var cssText = stylesheet.CssText;
             Assert.AreEqual(expected, cssText);
@@ -122,7 +122,7 @@ h1 {
         [Test]
         public void CssSheetSimpleStyleRuleStringification()
         {
-            var css = @"html { font-family: sans-serif; }";
+            var css = @"html { font-family: sans-serif }";
             var stylesheet = ParseStyleSheet(css);
             Assert.AreEqual(1, stylesheet.Rules.Length);
             var rule = stylesheet.Rules[0];
@@ -864,7 +864,7 @@ font-weight:bold;}";
             var css = "@-ms-viewport{width:device-width} .dsip { display: block; }";
             var doc = ParseStyleSheet(css);
             var result = doc.CssText;
-            Assert.AreEqual(".dsip { display: block; }", result);
+            Assert.AreEqual(".dsip { display: block }", result);
         }
 
         [Test]
@@ -880,7 +880,7 @@ font-weight:bold;}";
             var css = "@-ms-viewport{width:device-width} .dsip { display: block; }";
             var doc = ParseStyleSheet(css, options);
             var result = doc.CssText;
-            Assert.AreEqual("@-ms-viewport{width:device-width}\r\n.dsip { display: block; }", result);
+            Assert.AreEqual("@-ms-viewport{width:device-width}\r\n.dsip { display: block }", result);
         }
 
         [Test]
@@ -889,7 +889,7 @@ font-weight:bold;}";
             var css = "@media screen and (max-width: 400px) {  @-ms-viewport { width: 320px; }  }  .dsip { display: block; }";
             var doc = ParseStyleSheet(css);
             var result = doc.CssText;
-            Assert.AreEqual("@media screen and (max-width: 400px) { }\r\n.dsip { display: block; }", result);
+            Assert.AreEqual("@media screen and (max-width: 400px) { }\r\n.dsip { display: block }", result);
         }
 
         [Test]
@@ -905,7 +905,7 @@ font-weight:bold;}";
             var css = "@media screen and (max-width: 400px) {  @-ms-viewport { width: 320px; }  }  .dsip { display: block; }";
             var doc = ParseStyleSheet(css, options);
             var result = doc.CssText;
-            Assert.AreEqual("@media screen and (max-width: 400px) { @-ms-viewport { width: 320px; } }\r\n.dsip { display: block; }", result);
+            Assert.AreEqual("@media screen and (max-width: 400px) { @-ms-viewport { width: 320px; } }\r\n.dsip { display: block }", result);
         }
 
         [Test]

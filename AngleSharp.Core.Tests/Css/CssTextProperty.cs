@@ -345,7 +345,7 @@
         public void CssTextDecorationExpansionAndRecombination()
         {
             var snippet = ".centered {text-decoration:underline;}";
-            var expected = ".centered { text-decoration: underline; }";
+            var expected = ".centered { text-decoration: underline }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);

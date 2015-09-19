@@ -162,7 +162,7 @@
         public void CssPaddingShouldBeRecombinedCorrectly()
         {
             var snippet = ".centered {padding-bottom: 2em; padding-top: 2.5em; padding-left: 0; padding-right: 0}";
-            var expected = ".centered { padding: 2.5em 0 2em; }";
+            var expected = ".centered { padding: 2.5em 0 2em }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);

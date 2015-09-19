@@ -61,7 +61,7 @@
             var dom = parser.Parse(html);
             var div = dom.QuerySelector<IHtmlElement>("div");
             Assert.AreEqual("http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert(\"XSS\")", div.Style["background-color"]);
-            Assert.AreEqual("background-color: http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert(\"XSS\");", div.Style.CssText);
+            Assert.AreEqual("background-color: http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert(\"XSS\")", div.Style.CssText);
         }
     }
 }
