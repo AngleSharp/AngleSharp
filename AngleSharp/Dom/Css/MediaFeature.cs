@@ -1,6 +1,6 @@
-﻿namespace AngleSharp.Css
+﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Dom.Css;
+    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@
     /// Represents a feature expression within
     /// a media query.
     /// </summary>
-    public abstract class MediaFeature : IMediaFeature
+    abstract class MediaFeature : IMediaFeature
     {
         #region Fields
 

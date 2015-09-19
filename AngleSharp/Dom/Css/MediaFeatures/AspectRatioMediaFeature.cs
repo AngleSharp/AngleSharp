@@ -1,13 +1,13 @@
-﻿namespace AngleSharp.Css.MediaFeatures
+﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css.Values;
+    using AngleSharp.Css;
     using System;
 
-    sealed class ResolutionMediaFeature : MediaFeature
+    sealed class AspectRatioMediaFeature : MediaFeature
     {
         #region ctor
 
-        public ResolutionMediaFeature(String name)
+        public AspectRatioMediaFeature(String name)
             : base(name)
         {
         }
@@ -18,8 +18,8 @@
 
         internal override IValueConverter Converter
         {
-            // Default: new Resolution(72f, Resolution.Unit.Dpi)
-            get { return Converters.ResolutionConverter; }
+            // Default: NOT Allowed
+            get { return Converters.RatioConverter; }
         }
 
         #endregion
@@ -28,15 +28,15 @@
 
         public override Boolean Validate(RenderDevice device)
         {
-            var res = new Resolution(72f, Resolution.Unit.Dpi);
-            var desired = res.To(Resolution.Unit.Dpi);
-            var available = (Single)device.Resolution;
+            var ratio = Tuple.Create(1f, 1f);
+            var desired = ratio.Item1 / ratio.Item2;
+            var available = (Single)device.ViewPortWidth / (Single)device.ViewPortHeight;
 
             if (IsMaximum)
                 return available <= desired;
             else if (IsMinimum)
                 return available >= desired;
-
+            
             return desired == available;
         }
 

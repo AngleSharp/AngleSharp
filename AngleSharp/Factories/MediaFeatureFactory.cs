@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Factories
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.MediaFeatures;
+    using AngleSharp.Dom.Css;
     using System;
     using System.Collections.Generic;
 

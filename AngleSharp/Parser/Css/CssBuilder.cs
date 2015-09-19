@@ -2,7 +2,6 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Conditions;
-    using AngleSharp.Css.MediaFeatures;
     using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;

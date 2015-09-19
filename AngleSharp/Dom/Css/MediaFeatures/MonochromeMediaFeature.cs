@@ -1,13 +1,14 @@
-﻿namespace AngleSharp.Css.MediaFeatures
+﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css.Values;
+    using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
-    sealed class DeviceHeightMediaFeature : MediaFeature
+    sealed class MonochromeMediaFeature : MediaFeature
     {
         #region ctor
 
-        public DeviceHeightMediaFeature(String name)
+        public MonochromeMediaFeature(String name)
             : base(name)
         {
         }
@@ -18,8 +19,12 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Allowed
-            get { return Converters.LengthConverter; }
+            get
+            {
+                return IsMinimum || IsMaximum ?
+                    Converters.NaturalIntegerConverter :
+                    Converters.NaturalIntegerConverter.Option(1);
+            }
         }
 
         #endregion
@@ -28,9 +33,9 @@
 
         public override Boolean Validate(RenderDevice device)
         {
-            var length = Length.Zero;
-            var desired = length.ToPixel();
-            var available = (Single)device.DeviceHeight;
+            var index = 0;
+            var desired = index;
+            var available = device.MonochromeBits;
 
             if (IsMaximum)
                 return available <= desired;

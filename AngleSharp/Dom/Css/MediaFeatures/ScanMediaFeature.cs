@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Css.MediaFeatures
+﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Css;
     using System;
 
     sealed class ScanMediaFeature : MediaFeature

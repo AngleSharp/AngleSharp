@@ -1,6 +1,6 @@
-﻿namespace AngleSharp.Css.MediaFeatures
+﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Dom.Css;
+    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
 

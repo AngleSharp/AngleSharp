@@ -1,21 +1,21 @@
-﻿namespace AngleSharp.Css.MediaFeatures
+﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Dom.Css;
+    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
 
-    sealed class HoverMediaFeature : MediaFeature
+    sealed class PointerMediaFeature : MediaFeature
     {
         #region Fields
 
-        static readonly IValueConverter TheConverter = Map.HoverAbilities.ToConverter();
+        static readonly IValueConverter TheConverter = Map.PointerAccuracies.ToConverter();
 
         #endregion
 
         #region ctor
 
-        public HoverMediaFeature()
-            : base(FeatureNames.Hover)
+        public PointerMediaFeature()
+            : base(FeatureNames.Pointer)
         {
         }
 
@@ -25,7 +25,7 @@
 
         internal override IValueConverter Converter
         {
-            // Default: HoverAbility.Hover
+            // Default: PointerAccuracy.Fine
             get { return TheConverter; }
         }
 
@@ -35,10 +35,10 @@
 
         public override Boolean Validate(RenderDevice device)
         {
-            var hover = HoverAbility.Hover;
-            var desired = hover;
+            var accuracy = PointerAccuracy.Fine;
+            var desired = accuracy;
             //Nothing yet, so we assume we have a headless browser
-            return desired == HoverAbility.None;
+            return desired == PointerAccuracy.None;
         }
 
         #endregion

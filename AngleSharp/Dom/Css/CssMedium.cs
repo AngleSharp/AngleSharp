@@ -13,7 +13,7 @@
     {
         #region Media Types and Features
 
-        readonly static String[] Types = 
+        readonly static String[] KnownTypes = 
         {
             // Intended for non-paged computer screens.
             Keywords.Screen,
@@ -114,7 +114,7 @@
         /// <returns>True if the constraints are satisfied, otherwise false.</returns>
         public Boolean Validate(RenderDevice device)
         {
-            if (!String.IsNullOrEmpty(Type) && Types.Contains(Type) == IsInverse)
+            if (!String.IsNullOrEmpty(Type) && KnownTypes.Contains(Type) == IsInverse)
                 return false;
 
             if (IsInvalid(device, Keywords.Screen, RenderDevice.Kind.Screen) ||
@@ -138,6 +138,15 @@
         internal void AddConstraint(MediaFeature feature)
         {
             _features.Add(feature);
+        }
+
+        /// <summary>
+        /// Removes a constraint from the list of constraints.
+        /// </summary>
+        /// <param name="feature">The feature to remove.</param>
+        internal void RemoveConstraint(MediaFeature feature)
+        {
+            _features.Remove(feature);
         }
 
         /// <summary>
@@ -203,7 +212,7 @@
 
         Boolean IsInvalid(RenderDevice device, String keyword, RenderDevice.Kind kind)
         {
-            return Type == keyword && (device.DeviceType == kind) == IsInverse;
+            return keyword.Is(Type) && (device.DeviceType == kind) == IsInverse;
         }
 
         #endregion

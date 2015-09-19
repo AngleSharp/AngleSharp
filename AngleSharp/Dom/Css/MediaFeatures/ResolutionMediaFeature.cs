@@ -1,13 +1,14 @@
-﻿namespace AngleSharp.Css.MediaFeatures
+﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Css.Values;
     using System;
 
-    sealed class DeviceWidthMediaFeature : MediaFeature
+    sealed class ResolutionMediaFeature : MediaFeature
     {
         #region ctor
 
-        public DeviceWidthMediaFeature(String name)
+        public ResolutionMediaFeature(String name)
             : base(name)
         {
         }
@@ -18,8 +19,8 @@
 
         internal override IValueConverter Converter
         {
-            // Default: Allowed
-            get { return Converters.LengthConverter; }
+            // Default: new Resolution(72f, Resolution.Unit.Dpi)
+            get { return Converters.ResolutionConverter; }
         }
 
         #endregion
@@ -28,9 +29,9 @@
 
         public override Boolean Validate(RenderDevice device)
         {
-            var length = Length.Zero;
-            var desired = length.ToPixel();
-            var available = (Single)device.DeviceWidth;
+            var res = new Resolution(72f, Resolution.Unit.Dpi);
+            var desired = res.To(Resolution.Unit.Dpi);
+            var available = (Single)device.Resolution;
 
             if (IsMaximum)
                 return available <= desired;

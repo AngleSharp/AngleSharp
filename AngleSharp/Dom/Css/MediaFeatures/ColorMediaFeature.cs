@@ -1,12 +1,14 @@
-﻿namespace AngleSharp.Css.MediaFeatures
+﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
-    sealed class DevicePixelRatioFeature : MediaFeature
+    sealed class ColorMediaFeature : MediaFeature
     {
         #region ctor
 
-        public DevicePixelRatioFeature(String name)
+        public ColorMediaFeature(String name)
             : base(name)
         {
         }
@@ -17,8 +19,12 @@
 
         internal override IValueConverter Converter
         {
-            // Default: 1f
-            get { return Converters.NaturalNumberConverter; }
+            get 
+            {
+                return IsMinimum || IsMaximum ? 
+                    Converters.PositiveIntegerConverter : 
+                    Converters.PositiveIntegerConverter.Option(1);
+            }
         }
 
         #endregion
@@ -27,9 +33,9 @@
 
         public override Boolean Validate(RenderDevice device)
         {
-            var value = 1f;
-            var desired = value;
-            var available = device.Resolution / 96f;
+            var color = 1;
+            var desired = color;
+            var available = Math.Pow(device.ColorBits, 2);
 
             if (IsMaximum)
                 return available <= desired;

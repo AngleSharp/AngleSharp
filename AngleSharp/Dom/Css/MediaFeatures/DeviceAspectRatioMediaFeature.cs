@@ -1,13 +1,13 @@
-﻿namespace AngleSharp.Css.MediaFeatures
+﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Extensions;
+    using AngleSharp.Css;
     using System;
 
-    sealed class ColorIndexMediaFeature : MediaFeature
+    sealed class DeviceAspectRatioMediaFeature : MediaFeature
     {
         #region ctor
 
-        public ColorIndexMediaFeature(String name)
+        public DeviceAspectRatioMediaFeature(String name)
             : base(name)
         {
         }
@@ -18,12 +18,8 @@
 
         internal override IValueConverter Converter
         {
-            get
-            {
-                return IsMinimum || IsMaximum ?
-                    Converters.NaturalIntegerConverter :
-                    Converters.NaturalIntegerConverter.Option(1);
-            }
+            // Default: NOT Allowed
+            get { return Converters.RatioConverter; }
         }
 
         #endregion
@@ -32,9 +28,9 @@
 
         public override Boolean Validate(RenderDevice device)
         {
-            var index = 0;
-            var desired = index;
-            var available = device.ColorBits;
+            var ratio = Tuple.Create(1f, 1f);
+            var desired = ratio.Item1 / ratio.Item2;
+            var available = (Single)device.DeviceWidth / (Single)device.DeviceHeight;
 
             if (IsMaximum)
                 return available <= desired;
