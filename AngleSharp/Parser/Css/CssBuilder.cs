@@ -129,7 +129,7 @@
             var rule = new CssDocumentRule(_parser);
             var token = NextToken();
             CollectTrivia(ref token);
-            FillFunctions(rule.Conditions, ref token);
+            FillFunctions(function => rule.AddCondition(function), ref token);
             CollectTrivia(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
@@ -458,7 +458,7 @@
         {
             var functions = new List<CssDocumentFunction>();
             CollectTrivia(ref token);
-            FillFunctions(functions, ref token);
+            FillFunctions(function => functions.Add(function), ref token);
             return functions;
         }
 
@@ -896,7 +896,7 @@
 
         #region Fill Inner
 
-        void FillFunctions(List<CssDocumentFunction> functions, ref CssToken token)
+        void FillFunctions(Action<CssDocumentFunction> add, ref CssToken token)
         {
             do
             {
@@ -908,7 +908,7 @@
 
                 token = NextToken();
                 CollectTrivia(ref token);
-                functions.Add(CloseNode(function));
+                add(CloseNode(function));
 
                 if (token.Type != CssTokenType.Comma)
                     break;

@@ -1,8 +1,12 @@
 ﻿namespace AngleSharp.Css
 {
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
-    abstract class CssDocumentFunction : IStyleFormattable
+    abstract class CssDocumentFunction : IDocumentFunction
     {
         readonly String _name;
         readonly String _data;
@@ -23,9 +27,16 @@
             get { return _data; }
         }
 
+        public IEnumerable<ICssNode> Children
+        {
+            get { return Enumerable.Empty<ICssNode>(); }
+        }
+
+        public abstract Boolean Matches(Url url);
+
         public String ToCss()
         {
-            return String.Concat(_name, "(", _data, ")");
+            return String.Concat(_name, "(", _data.CssString(), ")");
         }
 
         public String ToCss(IStyleFormatter formatter)

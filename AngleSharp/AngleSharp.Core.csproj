@@ -204,6 +204,7 @@
     <Compile Include="IBindable.cs" />
     <Compile Include="Interfaces\Css\ICssMedium.cs" />
     <Compile Include="Interfaces\Css\ICssNode.cs" />
+    <Compile Include="Interfaces\Css\IDocumentFunction.cs" />
     <Compile Include="Interfaces\Css\IMediaFeature.cs" />
     <Compile Include="Interfaces\Html\IHtmlSlotElement.cs" />
     <Compile Include="Interfaces\Css\IMediaQueryList.cs" />

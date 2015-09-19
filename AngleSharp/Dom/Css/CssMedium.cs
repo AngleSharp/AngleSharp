@@ -132,24 +132,6 @@
         }
 
         /// <summary>
-        /// Adds a constraint to the list of constraints.
-        /// </summary>
-        /// <param name="feature">The feature to add.</param>
-        internal void AddConstraint(MediaFeature feature)
-        {
-            _features.Add(feature);
-        }
-
-        /// <summary>
-        /// Removes a constraint from the list of constraints.
-        /// </summary>
-        /// <param name="feature">The feature to remove.</param>
-        internal void RemoveConstraint(MediaFeature feature)
-        {
-            _features.Remove(feature);
-        }
-
-        /// <summary>
         /// Determines whether the given object is the same.
         /// </summary>
         /// <param name="obj">The object to compare with.</param>
@@ -185,6 +167,28 @@
         public override Int32 GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        /// <summary>
+        /// Adds a constraint to the list of constraints.
+        /// </summary>
+        /// <param name="feature">The feature to add.</param>
+        internal void AddConstraint(MediaFeature feature)
+        {
+            _features.Add(feature);
+        }
+
+        /// <summary>
+        /// Removes a constraint from the list of constraints.
+        /// </summary>
+        /// <param name="feature">The feature to remove.</param>
+        internal void RemoveConstraint(MediaFeature feature)
+        {
+            _features.Remove(feature);
         }
 
         #endregion

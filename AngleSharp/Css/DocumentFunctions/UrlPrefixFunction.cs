@@ -11,5 +11,10 @@
             : base(FunctionNames.UrlPrefix, url)
         {
         }
+
+        public override Boolean Matches(Url url)
+        {
+            return url.Href.StartsWith(Data, StringComparison.OrdinalIgnoreCase);
+        }
     }
 }

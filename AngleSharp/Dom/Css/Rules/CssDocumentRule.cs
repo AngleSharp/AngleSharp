@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
@@ -13,7 +12,7 @@
     {
         #region Fields
 
-        readonly List<CssDocumentFunction> _conditions;
+        readonly List<IDocumentFunction> _conditions;
 
         #endregion
 
@@ -22,7 +21,7 @@
         internal CssDocumentRule(CssParser parser)
             : base(CssRuleType.Document, parser)
         {
-            _conditions = new List<CssDocumentFunction>();
+            _conditions = new List<IDocumentFunction>();
         }
 
         #endregion
@@ -55,14 +54,10 @@
             }
         }
 
-        #endregion
-
-        #region Internal Properties
-
         /// <summary>
-        /// Gets the list with the conditions.
+        /// Gets an enumerable with the conditions.
         /// </summary>
-        public List<CssDocumentFunction> Conditions
+        public IEnumerable<IDocumentFunction> Conditions
         {
             get { return _conditions; }
         }
@@ -77,6 +72,24 @@
             var newRule = rule as CssDocumentRule;
             _conditions.Clear();
             _conditions.AddRange(newRule._conditions);
+        }
+
+        /// <summary>
+        /// Adds a condition to the list of conditions.
+        /// </summary>
+        /// <param name="condition">The condition to add.</param>
+        internal void AddCondition(IDocumentFunction condition)
+        {
+            _conditions.Add(condition);
+        }
+
+        /// <summary>
+        /// Removes a condition from the list of conditions.
+        /// </summary>
+        /// <param name="condition">The condition to remove.</param>
+        internal void RemoveCondition(IDocumentFunction condition)
+        {
+            _conditions.Remove(condition);
         }
 
         #endregion
