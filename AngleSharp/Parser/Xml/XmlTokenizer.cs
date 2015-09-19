@@ -115,8 +115,8 @@
             {
                 if (c == Symbols.EndOfFile)
                     throw XmlParseError.EOF.At(GetCurrentPosition());
-                
-                if (c == Symbols.SquareBracketClose && ContinuesWith("]]>"))
+
+                if (c == Symbols.SquareBracketClose && ContinuesWithSensitive("]]>"))
                 {
                     Advance(2);
                     break;
@@ -199,7 +199,7 @@
             {
                 c = GetNext();
 
-                if (ContinuesWith(Tags.Xml, false))
+                if (ContinuesWithSensitive(Tags.Xml))
                 {
                     Advance(2);
                     return DeclarationStart(GetNext());
@@ -308,17 +308,17 @@
         /// <param name="c">The next input character.</param>
         XmlToken MarkupDeclaration(Char c)
         {
-            if (ContinuesWith("--"))
+            if (ContinuesWithSensitive("--"))
             {
                 Advance();
                 return CommentStart(GetNext());
             }
-            else if (ContinuesWith(Tags.Doctype, false))
+            else if (ContinuesWithSensitive(Tags.Doctype))
             {
                 Advance(6);
                 return Doctype(GetNext());
             }
-            else if (ContinuesWith(Keywords.CData, false))
+            else if (ContinuesWithSensitive(Keywords.CData))
             {
                 Advance(6);
                 return CData(GetNext());
@@ -347,7 +347,7 @@
             do c = GetNext();
             while (c.IsSpaceCharacter());
 
-            if (ContinuesWith(AttributeNames.Version, false))
+            if (ContinuesWithSensitive(AttributeNames.Version))
             {
                 Advance(6);
                 return DeclarationVersionAfterName(GetNext(), NewDeclaration());
@@ -427,12 +427,12 @@
             while (c.IsSpaceCharacter())
                 c = GetNext();
 
-            if (ContinuesWith(AttributeNames.Encoding, false))
+            if (ContinuesWithSensitive(AttributeNames.Encoding))
             {
                 Advance(7);
                 return DeclarationEncodingAfterName(GetNext(), decl);
             }
-            else if (ContinuesWith(AttributeNames.Standalone, false))
+            else if (ContinuesWithSensitive(AttributeNames.Standalone))
             {
                 Advance(9);
                 return DeclarationStandaloneAfterName(GetNext(), decl);
@@ -519,7 +519,7 @@
             while (c.IsSpaceCharacter())
                 c = GetNext();
 
-            if (ContinuesWith(AttributeNames.Standalone, false))
+            if (ContinuesWithSensitive(AttributeNames.Standalone))
             {
                 Advance(9);
                 return DeclarationStandaloneAfterName(GetNext(), decl);
@@ -682,12 +682,12 @@
             if (c == Symbols.GreaterThan)
                 return doctype;
 
-            if (ContinuesWith(Keywords.Public, false))
+            if (ContinuesWithSensitive(Keywords.Public))
             {
                 Advance(5);
                 return DoctypePublic(GetNext(), doctype);
             }
-            else if (ContinuesWith(Keywords.System, false))
+            else if (ContinuesWithSensitive(Keywords.System))
             {
                 Advance(5);
                 return DoctypeSystem(GetNext(), doctype);

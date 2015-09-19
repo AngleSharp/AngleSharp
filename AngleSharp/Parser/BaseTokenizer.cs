@@ -126,19 +126,42 @@
         }
 
         /// <summary>
-        /// Looks if the current character / next characters match a certain string.
+        /// Looks if the current character / next characters match a certain
+        /// string with ignored case.
         /// </summary>
-        /// <param name="s">The string to compare to.</param>
-        /// <param name="ignoreCase">Optional flag to set the case sensitivity.</param>
+        /// <param name="s">The string to compare to insensitive.</param>
         /// <returns>The status of the check.</returns>
-        protected Boolean ContinuesWith(String s, Boolean ignoreCase = true)
+        protected Boolean ContinuesWithInsensitive(String s)
         {
-            var casing = ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+            var content = PeekString(s.Length);
+            return content.Length == s.Length && content.Isi(s);
+        }
+
+        /// <summary>
+        /// Looks if the current character / next characters match a certain
+        /// string with respecting the case.
+        /// </summary>
+        /// <param name="s">The string to compare to sensitive.</param>
+        /// <returns>The status of the check.</returns>
+        protected Boolean ContinuesWithSensitive(String s)
+        {
+            var content = PeekString(s.Length);
+            return content.Length == s.Length && content.Isi(s);
+        }
+
+        /// <summary>
+        /// Gets the upcoming string starting at the current char with max.
+        /// length.
+        /// </summary>
+        /// <param name="length">The maximum length of the string.</param>
+        /// <returns>The peeked string.</returns>
+        protected String PeekString(Int32 length)
+        {
             var mark = _source.Index;
             _source.Index--;
-            var content = _source.ReadCharacters(s.Length);
+            var content = _source.ReadCharacters(length);
             _source.Index = mark;
-            return content.Length == s.Length && content.Equals(s, casing);
+            return content;
         }
 
         /// <summary>

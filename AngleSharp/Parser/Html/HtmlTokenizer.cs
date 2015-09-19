@@ -418,7 +418,7 @@
                     Back();
                     break;
                 }
-                else if (c == Symbols.SquareBracketClose && ContinuesWith("]]>"))
+                else if (c == Symbols.SquareBracketClose && ContinuesWithSensitive("]]>"))
                 {
                     Advance(2);
                     break;
@@ -726,17 +726,17 @@
         /// <param name="c">The next input character.</param>
         HtmlToken MarkupDeclaration(Char c)
         {
-            if (ContinuesWith("--"))
+            if (ContinuesWithSensitive("--"))
             {
                 Advance();
                 return CommentStart(GetNext());
             }
-            else if (ContinuesWith(Tags.Doctype))
+            else if (ContinuesWithInsensitive(Tags.Doctype))
             {
                 Advance(6);
                 return Doctype(GetNext());
             }
-            else if (_acceptsCharacterData && ContinuesWith(Keywords.CData, ignoreCase: false))
+            else if (_acceptsCharacterData && ContinuesWithSensitive(Keywords.CData))
             {
                 Advance(6);
                 return CharacterData(GetNext());
@@ -1111,12 +1111,12 @@
                 Back();
                 doctype.IsQuirksForced = true;
             }
-            else if (ContinuesWith(Keywords.Public))
+            else if (ContinuesWithInsensitive(Keywords.Public))
             {
                 Advance(5);
                 return DoctypePublic(doctype);
             }
-            else if (ContinuesWith(Keywords.System))
+            else if (ContinuesWithInsensitive(Keywords.System))
             {
                 Advance(5);
                 return DoctypeSystem(doctype);
