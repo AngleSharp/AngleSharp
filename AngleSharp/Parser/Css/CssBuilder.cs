@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.Conditions;
     using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
@@ -259,7 +258,7 @@
             var rule = new CssSupportsRule(_parser);
             var token = NextToken();
             CollectTrivia(ref token);
-            rule.Condition = AggregateCondition(ref token);
+            rule.SetCondition(AggregateCondition(ref token));
             CollectTrivia(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
@@ -401,7 +400,7 @@
         /// <summary>
         /// Called before any token in the value regime had been seen.
         /// </summary>
-        public CssCondition CreateCondition(ref CssToken token)
+        public IConditionFunction CreateCondition(ref CssToken token)
         {
             CollectTrivia(ref token);
             return AggregateCondition(ref token);
@@ -788,7 +787,7 @@
 
         #region Conditions
 
-        CssCondition AggregateCondition(ref CssToken token)
+        IConditionFunction AggregateCondition(ref CssToken token)
         {
             var condition = ExtractCondition(ref token);
 
@@ -811,9 +810,9 @@
             return condition;
         }
 
-        CssCondition ExtractCondition(ref CssToken token)
+        IConditionFunction ExtractCondition(ref CssToken token)
         {
-            var condition = default(CssCondition);
+            var condition = default(IConditionFunction);
             CreateNewNode();
 
             if (token.Type == CssTokenType.RoundBracketOpen)
@@ -846,7 +845,7 @@
             return CloseNode(condition);
         }
 
-        CssCondition DeclarationCondition(ref CssToken token)
+        IConditionFunction DeclarationCondition(ref CssToken token)
         {
             var property = Factory.Properties.Create(token.Data) ?? new CssUnknownProperty(token.Data);
             var declaration = default(DeclarationCondition);
@@ -867,9 +866,9 @@
             return CloseNode(declaration);
         }
 
-        List<CssCondition> MultipleConditions(CssCondition condition, String connector, ref CssToken token)
+        List<IConditionFunction> MultipleConditions(IConditionFunction condition, String connector, ref CssToken token)
         {
-            var list = new List<CssCondition>();
+            var list = new List<IConditionFunction>();
             CollectTrivia(ref token);
             list.Add(condition);
 

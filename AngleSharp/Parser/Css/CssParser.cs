@@ -231,7 +231,7 @@
         /// <summary>
         /// Takes a string and transforms it into supports condition.
         /// </summary>
-        internal CssCondition ParseCondition(String conditionText)
+        internal IConditionFunction ParseCondition(String conditionText)
         {
             return Parse(conditionText, (b, t) => Tuple.Create(b.CreateCondition(ref t), t));
         }

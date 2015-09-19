@@ -59,12 +59,12 @@
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="BrowsingContextExtensions.cs" />
-    <Compile Include="Css\Conditions\AndCondition.cs" />
-    <Compile Include="Css\Conditions\DeclarationCondition.cs" />
-    <Compile Include="Css\Conditions\EmptyCondition.cs" />
-    <Compile Include="Css\Conditions\GroupCondition.cs" />
-    <Compile Include="Css\Conditions\NotCondition.cs" />
-    <Compile Include="Css\Conditions\OrCondition.cs" />
+    <Compile Include="Dom\Css\ConditionFunctions\AndCondition.cs" />
+    <Compile Include="Dom\Css\ConditionFunctions\DeclarationCondition.cs" />
+    <Compile Include="Dom\Css\ConditionFunctions\EmptyCondition.cs" />
+    <Compile Include="Dom\Css\ConditionFunctions\GroupCondition.cs" />
+    <Compile Include="Dom\Css\ConditionFunctions\NotCondition.cs" />
+    <Compile Include="Dom\Css\ConditionFunctions\OrCondition.cs" />
     <Compile Include="Css\CssComment.cs" />
     <Compile Include="Css\CssNode.cs" />
     <Compile Include="Css\CssStyleFormatter.cs" />
@@ -72,7 +72,6 @@
     <Compile Include="Dom\Css\DocumentFunctions\RegexpFunction.cs" />
     <Compile Include="Dom\Css\DocumentFunctions\UrlFunction.cs" />
     <Compile Include="Dom\Css\DocumentFunctions\UrlPrefixFunction.cs" />
-    <Compile Include="Css\CssCondition.cs" />
     <Compile Include="Dom\Css\DocumentFunction.cs" />
     <Compile Include="Dom\Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs" />
     <Compile Include="Dom\Css\MediaFeatures\DevicePixelRatioFeature.cs" />
@@ -202,6 +201,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IBindable.cs" />
+    <Compile Include="Interfaces\Css\IConditionFunction.cs" />
     <Compile Include="Interfaces\Css\ICssMedium.cs" />
     <Compile Include="Interfaces\Css\ICssNode.cs" />
     <Compile Include="Interfaces\Css\IDocumentFunction.cs" />

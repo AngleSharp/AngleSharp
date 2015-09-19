@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.Conditions;
     using AngleSharp.Parser.Css;
     using System;
 
@@ -12,9 +11,7 @@
     {
         #region Fields
 
-        CssCondition _condition;
-
-        static readonly CssCondition empty = new EmptyCondition();
+        IConditionFunction _condition;
 
         #endregion
 
@@ -23,7 +20,7 @@
         internal CssSupportsRule(CssParser parser)
             : base(CssRuleType.Supports, parser)
         {
-            _condition = empty;
+            _condition = new EmptyCondition();
         }
 
         #endregion
@@ -35,7 +32,10 @@
         /// </summary>
         public String ConditionText
         {
-            get { return _condition.ToCss(); }
+            get 
+            {
+                return _condition.ToCss(); 
+            }
             set
             {
                 var condition = Parser.ParseCondition(value);
@@ -48,25 +48,24 @@
         }
 
         /// <summary>
-        /// Gets or sets the condition of the supports rule.
+        /// Gets the condition of the supports rule.
         /// </summary>
-        public CssCondition Condition
+        public IConditionFunction Condition
         {
             get { return _condition; }
-            set { _condition = value ?? empty; }
-        }
-
-        /// <summary>
-        /// Gets if the rule is used, i.e. if the condition is fulfilled.
-        /// </summary>
-        public Boolean IsSupported
-        {
-            get { return _condition.Check(); }
         }
 
         #endregion
 
         #region Internal Methods
+
+        internal void SetCondition(IConditionFunction condition)
+        {
+            if (condition != null)
+            {
+                _condition = condition;
+            }
+        }
 
         protected override void ReplaceWith(ICssRule rule)
         {
@@ -77,7 +76,7 @@
 
         internal override Boolean IsValid(RenderDevice device)
         {
-            return true;
+            return _condition.Check();
         }
 
         #endregion

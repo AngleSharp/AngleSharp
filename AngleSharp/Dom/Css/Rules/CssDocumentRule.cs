@@ -29,7 +29,7 @@
         #region Properties
 
         /// <summary>
-        /// Gets the condition text.
+        /// Gets or sets the condition text.
         /// </summary>
         public String ConditionText
         {

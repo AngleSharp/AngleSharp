@@ -8,5 +8,9 @@
     [DomName("CSSSupportsRule")]
     public interface ICssSupportsRule : ICssConditionRule
     {
+        /// <summary>
+        /// Gets the condition of the supports rule.
+        /// </summary>
+        IConditionFunction Condition { get; }
     }
 }
