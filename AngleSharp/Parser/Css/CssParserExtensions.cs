@@ -119,7 +119,7 @@
             }
             else if (token.Type == CssTokenType.Function && token.Data.Isi(FunctionNames.Regexp))
             {
-                var str = ((CssFunctionToken)token).ToCssString();
+                var str = ((CssFunctionToken)token).ArgumentTokens.ToCssString();
 
                 if (str != null)
                     return new RegexpFunction(str);

@@ -916,7 +916,7 @@
                 token = NextToken();
                 CollectTrivia(ref token);
             }
-            while (token.Type == CssTokenType.EndOfFile);
+            while (token.Type != CssTokenType.EndOfFile);
         }
 
         void FillKeyframeRules(CssKeyframesRule parentRule)
