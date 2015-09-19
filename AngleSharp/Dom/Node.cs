@@ -557,7 +557,7 @@
                 namespaceUri = null;
 
             var defaultNamespace = LocateNamespace(null);
-            return String.Equals(defaultNamespace, namespaceUri, StringComparison.Ordinal);
+            return namespaceUri.Is(defaultNamespace);
         }
 
         /// <summary>
@@ -567,9 +567,7 @@
         /// <returns>True if they are equal, otherwise false.</returns>
         public virtual Boolean Equals(INode otherNode)
         {
-            if (!String.Equals(BaseUri, otherNode.BaseUri, StringComparison.Ordinal) || 
-                !String.Equals(NodeName, otherNode.NodeName, StringComparison.Ordinal) || 
-                ChildNodes.Length != otherNode.ChildNodes.Length)
+            if (!BaseUri.Is(otherNode.BaseUri) || !NodeName.Is(otherNode.NodeName) || ChildNodes.Length != otherNode.ChildNodes.Length)
                 return false;
 
             for (int i = 0; i < _children.Length; i++)
@@ -616,9 +614,9 @@
             }
 
             if ((prefix != null && namespaceUri == null) ||
-                (String.Equals(prefix, Namespaces.XmlPrefix, StringComparison.Ordinal) && !String.Equals(namespaceUri, Namespaces.XmlUri, StringComparison.Ordinal)) ||
-                ((String.Equals(qualifiedName, Namespaces.XmlNsPrefix, StringComparison.Ordinal) || String.Equals(prefix, Namespaces.XmlNsPrefix, StringComparison.Ordinal)) && !String.Equals(namespaceUri, Namespaces.XmlNsUri, StringComparison.Ordinal)) ||
-                (String.Equals(namespaceUri, Namespaces.XmlNsUri, StringComparison.Ordinal) && (!String.Equals(qualifiedName, Namespaces.XmlNsPrefix, StringComparison.Ordinal) && !String.Equals(prefix, Namespaces.XmlNsPrefix, StringComparison.Ordinal))))
+                (prefix.Is(Namespaces.XmlPrefix) && !namespaceUri.Is(Namespaces.XmlUri)) ||
+                ((qualifiedName.Is(Namespaces.XmlNsPrefix) || prefix.Is(Namespaces.XmlNsPrefix)) && !namespaceUri.Is(Namespaces.XmlNsUri)) ||
+                (namespaceUri.Is(Namespaces.XmlNsUri) && (!qualifiedName.Is(Namespaces.XmlNsPrefix) && !prefix.Is(Namespaces.XmlNsPrefix))))
                 throw new DomException(DomError.Namespace);
         }
 

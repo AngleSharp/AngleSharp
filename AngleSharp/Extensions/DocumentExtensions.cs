@@ -223,11 +223,11 @@
         /// </returns>
         public static IBrowsingContext GetTarget(this Document document, String target)
         {
-            if (String.IsNullOrEmpty(target) || target.Equals("_self", StringComparison.Ordinal))
+            if (String.IsNullOrEmpty(target) || target.Is("_self"))
                 return document.Context;
-            else if (target.Equals("_parent", StringComparison.Ordinal))
+            else if (target.Is("_parent"))
                 return document.Context.Parent ?? document.Context;
-            else if (target.Equals("_top", StringComparison.Ordinal))
+            else if (target.Is("_top"))
                 return document.Context;
 
             return document.Options.FindContext(target);
@@ -245,7 +245,7 @@
         {
             var security = Sandboxes.None;
 
-            if (target.Equals("_blank", StringComparison.Ordinal))
+            if (target.Is("_blank"))
                 return document.Options.NewContext(security);
 
             return document.NewContext(target, security);

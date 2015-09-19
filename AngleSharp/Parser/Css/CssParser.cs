@@ -148,7 +148,7 @@
             var creator = Pool.NewSelectorConstructor();
             var token = tokenizer.Get();
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.Type != CssTokenType.EndOfFile)
             {
                 creator.Apply(token);
                 token = tokenizer.Get();
@@ -201,7 +201,7 @@
             var token = default(CssToken);
             var builder = new CssBuilder(tokenizer, this);
             var value = builder.CreateValue(ref token);
-            return token.Type == CssTokenType.Eof ? value : null;
+            return token.Type == CssTokenType.EndOfFile ? value : null;
         }
 
         /// <summary>
@@ -282,7 +282,7 @@
             var token = tokenizer.Get();
             var builder = new CssBuilder(tokenizer, this);
             var rule = create(builder, token);
-            return tokenizer.Get().Type == CssTokenType.Eof ? rule : default(T);
+            return tokenizer.Get().Type == CssTokenType.EndOfFile ? rule : default(T);
         }
 
         T Parse<T>(String source, Func<CssBuilder, CssToken, Tuple<T, CssToken>> create)
@@ -291,7 +291,7 @@
             var token = tokenizer.Get();
             var builder = new CssBuilder(tokenizer, this);
             var pair = create(builder, token);
-            return pair.Item2.Type == CssTokenType.Eof ? pair.Item1 : default(T);
+            return pair.Item2.Type == CssTokenType.EndOfFile ? pair.Item1 : default(T);
         }
 
         static CssTokenizer CreateTokenizer(String sourceCode, IConfiguration configuration)

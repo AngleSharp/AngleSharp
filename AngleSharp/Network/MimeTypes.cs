@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Network
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
 
@@ -571,7 +572,7 @@
         {
             foreach (var js in CommonJavaScriptTypes)
             {
-                if (type.Equals(js, StringComparison.OrdinalIgnoreCase))
+                if (type.Isi(js))
                     return true;
             }
 

@@ -38,7 +38,7 @@
         public static Boolean Is(this IEnumerable<CssToken> value, String expected)
         {
             var identifier = value.ToIdentifier();
-            return identifier != null && identifier.Equals(expected, StringComparison.OrdinalIgnoreCase);
+            return identifier != null && identifier.Isi(expected);
         }
 
         public static String ToUri(this IEnumerable<CssToken> value)
@@ -145,9 +145,7 @@
         {
             var identifier = value.ToIdentifier();
 
-            if (identifier != null && 
-                (identifier.Equals(Keywords.All, StringComparison.OrdinalIgnoreCase) || 
-                 Factory.Properties.IsAnimatable(identifier)))
+            if (identifier != null && (identifier.Isi(Keywords.All) || Factory.Properties.IsAnimatable(identifier)))
                 return identifier;
 
             return null;

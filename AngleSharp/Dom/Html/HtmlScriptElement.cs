@@ -212,17 +212,16 @@
                 if (eventAttr.EndsWith("()"))
                     eventAttr = eventAttr.Substring(0, eventAttr.Length - 2);
 
-                if (!forAttr.Equals(AttributeNames.Window, StringComparison.OrdinalIgnoreCase) || 
-                    !eventAttr.Equals("onload", StringComparison.OrdinalIgnoreCase))
+                if (!forAttr.Isi(AttributeNames.Window) || !eventAttr.Isi("onload"))
                     return false;
             }
 
             if (src != null)
             {
-                if (src == String.Empty)
-                    Owner.QueueTask(FireErrorEvent);
-                else
+                if (src.Length > 0)
                     return InvokeLoadingScript(this.HyperReference(src));
+                    
+                Owner.QueueTask(FireErrorEvent);
             }
             else if (_parserInserted && Owner.GetStyleSheetDownloads().Any())
             {

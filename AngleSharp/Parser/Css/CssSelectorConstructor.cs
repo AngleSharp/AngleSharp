@@ -838,7 +838,7 @@
                     return null;
 
                 var code = String.Concat(PseudoClassNames.Dir, "(", value, ")");
-                return SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Direction.Equals(value, StringComparison.OrdinalIgnoreCase), code);
+                return SimpleSelector.PseudoClass(el => el is IHtmlElement && value.Isi(((IHtmlElement)el).Direction), code);
             }
         }
 
@@ -1011,20 +1011,20 @@
                 if (token.Type == CssTokenType.Dimension)
                 {
                     var dim = (CssUnitToken)token;
-                    valid = valid && dim.Unit.Equals("n", StringComparison.OrdinalIgnoreCase) && Int32.TryParse(token.Data, out step);
+                    valid = valid && dim.Unit.Isi("n") && Int32.TryParse(token.Data, out step);
                     step *= sign;
                     sign = 1;
                     state = ParseState.Offset;
                     return false;
                 }
-                else if (token.Type == CssTokenType.Ident && token.Data.Equals("n", StringComparison.OrdinalIgnoreCase))
+                else if (token.Type == CssTokenType.Ident && token.Data.Isi("n"))
                 {
                     step = sign;
                     sign = 1;
                     state = ParseState.Offset;
                     return false;
                 }
-                else if (state == ParseState.Initial && token.Type == CssTokenType.Ident && token.Data.Equals("-n", StringComparison.OrdinalIgnoreCase))
+                else if (state == ParseState.Initial && token.Type == CssTokenType.Ident && token.Data.Isi("-n"))
                 {
                     step = -1;
                     state = ParseState.Offset;
@@ -1051,7 +1051,7 @@
                 if (token.Type == CssTokenType.Whitespace)
                     return false;
 
-                if (token.Data.Equals("of", StringComparison.OrdinalIgnoreCase))
+                if (token.Data.Isi("of"))
                 {
                     valid = allowOf;
                     state = ParseState.AfterOf;
@@ -1086,14 +1086,14 @@
                 if (token.Type == CssTokenType.Whitespace)
                     return false;
 
-                if (token.Data.Equals("odd", StringComparison.OrdinalIgnoreCase))
+                if (token.Data.Isi("odd"))
                 {
                     state = ParseState.BeforeOf;
                     step = 2;
                     offset = 1;
                     return false;
                 }
-                else if (token.Data.Equals("even", StringComparison.OrdinalIgnoreCase))
+                else if (token.Data.Isi("even"))
                 {
                     state = ParseState.BeforeOf;
                     step = 2;

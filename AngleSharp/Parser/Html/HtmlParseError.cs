@@ -5,13 +5,13 @@
     /// <summary>
     /// A collection of HTML parse error codes.
     /// </summary>
-    enum HtmlParseError
+    enum HtmlParseError : ushort
     {
         /// <summary>
         /// Unexpected end of file detected.
         /// </summary>
         [DomDescription("Unexpected end of the given file.")]
-        EOF = 0x00,
+        EOF = 0,
         /// <summary>
         /// NULL character replaced by repl. character.
         /// </summary>

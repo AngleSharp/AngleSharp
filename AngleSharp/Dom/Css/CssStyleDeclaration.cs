@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections;
@@ -2529,7 +2530,7 @@
             if (IsReadOnly)
                 throw new DomException(DomError.NoModificationAllowed);
 
-            if (!String.IsNullOrEmpty(priority) && !priority.Equals(Keywords.Important, StringComparison.OrdinalIgnoreCase))
+            if (!String.IsNullOrEmpty(priority) && !priority.Isi(Keywords.Important))
                 return;
 
             var important = !String.IsNullOrEmpty(priority);
@@ -2553,7 +2554,7 @@
 
             if (!String.IsNullOrEmpty(propertyValue))
             {
-                if (priority != null && !priority.Equals(Keywords.Important, StringComparison.OrdinalIgnoreCase))
+                if (priority != null && !priority.Isi(Keywords.Important))
                     return;
 
                 var value = _parser.ParseValue(propertyValue);
@@ -2597,7 +2598,7 @@
         {
             foreach (var declaration in _declarations)
             {
-                if (declaration.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                if (name.Isi(declaration.Name))
                     return declaration;
             }
 

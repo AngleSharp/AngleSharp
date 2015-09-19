@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Parser.Html
 {
     using AngleSharp.Dom;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
@@ -107,10 +108,7 @@
         /// <returns>The name with the correct capitalization.</returns>
         public static String AdjustToMathAttribute(this String attributeName)
         {
-            if (attributeName.Equals("definitionurl", StringComparison.Ordinal))
-                return "definitionURL";
-
-            return attributeName;
+            return attributeName.Is("definitionurl") ? "definitionURL" : attributeName;
         }
 
         /// <summary>
@@ -134,29 +132,28 @@
 
         static Boolean IsXmlNamespaceAttribute(String name)
         {
-            return name.Length > 4 &&
-                (name.Equals(Namespaces.XmlNsPrefix, StringComparison.Ordinal) ||
-                    name.Equals("xmlns:xlink", StringComparison.Ordinal));
+            return name.Length > 4 && (name.Is(Namespaces.XmlNsPrefix) || name.Is("xmlns:xlink"));
         }
 
         static Boolean IsXmlAttribute(String name)
         {
-            return (name.Length > 7 && String.Compare("xml:", 0, name, 0, 4, StringComparison.Ordinal) == 0) &&
-                (String.Compare(Tags.Base, 0, name, 4, 4, StringComparison.Ordinal) == 0 ||
-                    String.Compare(AttributeNames.Lang, 0, name, 4, 4, StringComparison.Ordinal) == 0 ||
-                    String.Compare(AttributeNames.Space, 0, name, 4, 5, StringComparison.Ordinal) == 0);
+            return (name.Length > 7 && "xml:".EqualsSubset(name, 0, 4)) &&
+                (Tags.Base.EqualsSubset(name, 4, 4) || AttributeNames.Lang.EqualsSubset(name, 4, 4) ||
+                 AttributeNames.Space.EqualsSubset(name, 4, 5));
         }
 
         static Boolean IsXLinkAttribute(String name)
         {
-            return (name.Length > 9 && String.Compare("xlink:", 0, name, 0, 6, StringComparison.Ordinal) == 0) &&
-                (String.Compare(AttributeNames.Actuate, 0, name, 6, 7, StringComparison.Ordinal) == 0 ||
-                    String.Compare(AttributeNames.Arcrole, 0, name, 6, 7, StringComparison.Ordinal) == 0 ||
-                    String.Compare(AttributeNames.Href, 0, name, 6, 4, StringComparison.Ordinal) == 0 ||
-                    String.Compare(AttributeNames.Role, 0, name, 6, 4, StringComparison.Ordinal) == 0 ||
-                    String.Compare(AttributeNames.Show, 0, name, 6, 4, StringComparison.Ordinal) == 0 ||
-                    String.Compare(AttributeNames.Type, 0, name, 6, 4, StringComparison.Ordinal) == 0 ||
-                    String.Compare(AttributeNames.Title, 0, name, 6, 5, StringComparison.Ordinal) == 0);
+            return (name.Length > 9 && "xlink:".EqualsSubset(name, 0, 6)) &&
+                (AttributeNames.Actuate.EqualsSubset(name, 6, 7) || AttributeNames.Arcrole.EqualsSubset(name, 6, 7) ||
+                 AttributeNames.Href.EqualsSubset(name, 6, 4) || AttributeNames.Role.EqualsSubset(name, 6, 4) ||
+                 AttributeNames.Show.EqualsSubset(name, 6, 4) || AttributeNames.Type.EqualsSubset(name, 6, 4) ||
+                 AttributeNames.Title.EqualsSubset(name, 6, 5));
+        }
+
+        static Boolean EqualsSubset(this String a, String b, Int32 index, Int32 length)
+        {
+            return String.Compare(a, 0, b, index, length, StringComparison.Ordinal) == 0;
         }
 
         #endregion

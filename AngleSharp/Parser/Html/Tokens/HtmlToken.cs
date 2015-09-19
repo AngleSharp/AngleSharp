@@ -167,7 +167,7 @@
         /// <returns>True if the token is indeed a start tag token with the given name, otherwise false.</returns>
         public Boolean IsStartTag(String name)
         {
-            return _type == HtmlTokenType.StartTag && _name.Equals(name);
+            return _type == HtmlTokenType.StartTag && _name.Is(name);
         }
 
         #endregion

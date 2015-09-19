@@ -335,7 +335,7 @@
         {
             foreach (var command in options.GetServices<ICommandService>())
             {
-                if (command.CommandId.Equals(commandId, StringComparison.OrdinalIgnoreCase))
+                if (commandId.Isi(command.CommandId))
                     return command;
             }
 

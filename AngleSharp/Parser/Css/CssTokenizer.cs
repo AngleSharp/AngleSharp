@@ -75,15 +75,6 @@
             }
         }
 
-        /// <summary>
-        /// Fires an error occurred event at the current position.
-        /// </summary>
-        /// <param name="code">The associated error code.</param>
-        public void RaiseErrorOccurred(CssParseError code)
-        {
-            RaiseErrorOccurred(code, GetCurrentPosition());
-        }
-
         #endregion
 
         #region States
@@ -1286,7 +1277,7 @@
             var function = new CssFunctionToken(value, _position);
             var token = Get();
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.Type != CssTokenType.EndOfFile)
             {
                 function.AddArgumentToken(token);
 
@@ -1346,7 +1337,7 @@
 
         CssToken NewEof()
         {
-            return new CssToken(CssTokenType.Eof, String.Empty, _position);
+            return new CssToken(CssTokenType.EndOfFile, String.Empty, _position);
         }
 
         #endregion
@@ -1472,6 +1463,15 @@
                 return false;
 
             return true;
+        }
+
+        /// <summary>
+        /// Fires an error occurred event at the current position.
+        /// </summary>
+        /// <param name="code">The associated error code.</param>
+        void RaiseErrorOccurred(CssParseError code)
+        {
+            RaiseErrorOccurred(code, GetCurrentPosition());
         }
 
         #endregion

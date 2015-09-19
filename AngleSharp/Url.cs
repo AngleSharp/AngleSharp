@@ -121,7 +121,7 @@
         {
             get
             {
-                if (_scheme.Equals(KnownProtocols.Blob))
+                if (_scheme.Is(KnownProtocols.Blob))
                 {
                     var url = new Url(_schemeData);
 
@@ -371,7 +371,7 @@
                 {
                     output.Append(Symbols.Solidus).Append(Symbols.Solidus);
 
-                    if (String.IsNullOrEmpty(_username) == false || _password != null)
+                    if (!String.IsNullOrEmpty(_username) || _password != null)
                     {
                         output.Append(_username);
 
@@ -410,7 +410,7 @@
         Boolean ParseUrl(String input, Url baseUrl = null)
         {
             Reset(baseUrl ?? DefaultBase);
-            return ParseScheme(input.Trim()) == false;
+            return !ParseScheme(input.Trim());
         }
 
         void Reset(Url baseUrl)
@@ -447,7 +447,7 @@
 
                         _relative = KnownProtocols.IsRelative(_scheme);
 
-                        if (_scheme == KnownProtocols.File)
+                        if (_scheme.Is(KnownProtocols.File))
                         {
                             _host = String.Empty;
                             _port = String.Empty;
@@ -460,7 +460,7 @@
                             _path = String.Empty;
                             return ParseSchemeData(input, index + 1);
                         }
-                        else if (originalScheme == _scheme)
+                        else if (_scheme.Is(originalScheme))
                         {
                             c = input[++index];
 
@@ -546,12 +546,12 @@
 
                     if (c == Symbols.Solidus || c == Symbols.ReverseSolidus)
                     {
-                        if (_scheme == KnownProtocols.File)
+                        if (_scheme.Is(KnownProtocols.File))
                             return ParseFileHost(input, index + 1);
 
                         return IgnoreSlashesState(input, index + 1);
                     }
-                    else if (_scheme == KnownProtocols.File)
+                    else if (_scheme.Is(KnownProtocols.File))
                     {
                         _host = String.Empty;
                         _port = String.Empty;
@@ -560,8 +560,9 @@
                     return ParsePath(input, index - 1);
             }
 
-            if (input[index].IsLetter() && _scheme == KnownProtocols.File && index + 1 < input.Length && (input[index + 1] == Symbols.Colon || input[index + 1] == Symbols.Solidus) &&
-                (index + 2 >= input.Length || input[index + 2] == Symbols.Solidus || input[index + 2] == Symbols.ReverseSolidus || input[index + 2] == Symbols.Num || input[index + 2] == Symbols.QuestionMark))
+            if (input[index].IsLetter() && _scheme.Is(KnownProtocols.File) && index + 1 < input.Length && 
+               (input[index + 1].IsOneOf(Symbols.Colon, Symbols.Solidus)) &&
+               (index + 2 >= input.Length || input[index + 2].IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus, Symbols.Num, Symbols.QuestionMark)))
             {
                 _host = String.Empty;
                 _path = String.Empty;
@@ -786,21 +787,21 @@
                     var close = false;
                     buffer.Clear();
 
-                    if (path.Equals("%2e", StringComparison.OrdinalIgnoreCase))
+                    if (path.Isi("%2e"))
                         path = currentDirectory;
-                    else if (path.Equals(".%2e", StringComparison.OrdinalIgnoreCase) || path.Equals("%2e.", StringComparison.OrdinalIgnoreCase) || path.Equals("%2e%2e", StringComparison.OrdinalIgnoreCase))
+                    else if (path.Isi(".%2e") || path.Isi("%2e.") || path.Isi("%2e%2e"))
                         path = upperDirectory;
 
-                    if (path.Equals(upperDirectory))
+                    if (path.Is(upperDirectory))
                     {
                         if (paths.Count > 0)
                             paths.RemoveAt(paths.Count - 1);
 
                         close = true;
                     }
-                    else if (!path.Equals(currentDirectory))
+                    else if (!path.Is(currentDirectory))
                     {
-                        if (_scheme == KnownProtocols.File && paths.Count == originalCount && path.Length == 2 && path[0].IsLetter() && path[1] == Symbols.Pipe)
+                        if (_scheme.Is(KnownProtocols.File) && paths.Count == originalCount && path.Length == 2 && path[0].IsLetter() && path[1] == Symbols.Pipe)
                         {
                             path = path.Replace(Symbols.Pipe, Symbols.Colon);
                             paths.Clear();
@@ -975,7 +976,7 @@
                         {
                             var l = i + 1 < n && Char.IsSurrogatePair(hostName, i) ? 2 : 1;
 
-                            if (l == 1 && hostName[i] != Symbols.Minus && Char.IsLetterOrDigit(hostName[i]) == false)
+                            if (l == 1 && hostName[i] != Symbols.Minus && !Char.IsLetterOrDigit(hostName[i]))
                                 break;
 
                             var bytes = TextEncoding.Utf8.GetBytes(hostName.Substring(i, l));

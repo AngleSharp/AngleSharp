@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
     using System;
@@ -90,7 +91,7 @@
             }
 
             var equiv = HttpEquivalent;
-            var shouldParseContent = equiv != null && equiv.Equals(HeaderNames.ContentType, StringComparison.OrdinalIgnoreCase);
+            var shouldParseContent = equiv != null && equiv.Isi(HeaderNames.ContentType);
             return shouldParseContent ? TextEncoding.Parse(Content ?? String.Empty) : null;
         }
 

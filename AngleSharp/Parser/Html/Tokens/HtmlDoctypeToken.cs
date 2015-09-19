@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Html
 {
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -106,7 +107,7 @@
             {
                 if (IsQuirksForced)
                     return true;
-                else if (Name == null || Name != "html")
+                else if (!Name.Is("html"))
                     return true;
                 else if (PublicIdentifier.StartsWith("+//Silmaril//dtd html Pro v0r11 19970101//", StringComparison.OrdinalIgnoreCase))
                     return true;
@@ -214,15 +215,15 @@
                     return true;
                 else if (PublicIdentifier.StartsWith("-//W3O//DTD W3 HTML 3.0//", StringComparison.OrdinalIgnoreCase))
                     return true;
-                else if (PublicIdentifier.Equals("-//W3O//DTD W3 HTML Strict 3.0//EN//", StringComparison.OrdinalIgnoreCase))
+                else if (PublicIdentifier.Isi("-//W3O//DTD W3 HTML Strict 3.0//EN//"))
                     return true;
                 else if (PublicIdentifier.StartsWith("-//WebTechs//DTD Mozilla HTML 2.0//", StringComparison.OrdinalIgnoreCase))
                     return true;
                 else if (PublicIdentifier.StartsWith("-//WebTechs//DTD Mozilla HTML//", StringComparison.OrdinalIgnoreCase))
                     return true;
-                else if (PublicIdentifier.Equals("-/W3C/DTD HTML 4.0 Transitional/EN", StringComparison.OrdinalIgnoreCase))
+                else if (PublicIdentifier.Isi("-/W3C/DTD HTML 4.0 Transitional/EN"))
                     return true;
-                else if (PublicIdentifier.Equals("HTML", StringComparison.OrdinalIgnoreCase))
+                else if (PublicIdentifier.Isi("HTML"))
                     return true;
                 else if (SystemIdentifier.Equals("http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd", StringComparison.OrdinalIgnoreCase))
                     return true;
@@ -242,18 +243,18 @@
         {
             get
             {
-                if (Name != null && Name == "html")
+                if (Name.Is("html"))
                 {
                     if (IsPublicIdentifierMissing)
-                        return IsSystemIdentifierMissing || SystemIdentifier.Equals("about:legacy-compat");
-                    else if (PublicIdentifier.Equals("-//W3C//DTD HTML 4.0//EN"))
-                        return IsSystemIdentifierMissing || SystemIdentifier.Equals("http://www.w3.org/TR/REC-html40/strict.dtd");
-                    else if (PublicIdentifier.Equals("-//W3C//DTD HTML 4.01//EN"))
-                        return IsSystemIdentifierMissing || SystemIdentifier.Equals("http://www.w3.org/TR/html4/strict.dtd");
-                    else if (PublicIdentifier.Equals("-//W3C//DTD XHTML 1.0 Strict//EN"))
-                        return SystemIdentifier.Equals("http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd");
-                    else if (PublicIdentifier.Equals("-//W3C//DTD XHTML 1.1//EN"))
-                        return SystemIdentifier.Equals("http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd");
+                        return IsSystemIdentifierMissing || SystemIdentifier.Is("about:legacy-compat");
+                    else if (PublicIdentifier.Is("-//W3C//DTD HTML 4.0//EN"))
+                        return IsSystemIdentifierMissing || SystemIdentifier.Is("http://www.w3.org/TR/REC-html40/strict.dtd");
+                    else if (PublicIdentifier.Is("-//W3C//DTD HTML 4.01//EN"))
+                        return IsSystemIdentifierMissing || SystemIdentifier.Is("http://www.w3.org/TR/html4/strict.dtd");
+                    else if (PublicIdentifier.Is("-//W3C//DTD XHTML 1.0 Strict//EN"))
+                        return SystemIdentifier.Is("http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd");
+                    else if (PublicIdentifier.Is("-//W3C//DTD XHTML 1.1//EN"))
+                        return SystemIdentifier.Is("http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd");
 
                     return false;
                 }

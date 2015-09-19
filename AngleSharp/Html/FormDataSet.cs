@@ -86,10 +86,7 @@
                 var offset = 0;
                 var enc = stream.Encoding;
 
-                if (offset < _entries.Count && 
-                    _entries[offset].HasName &&
-                    _entries[offset].Name.Equals(Tags.IsIndex) &&
-                    _entries[offset].Type.Equals(InputTypeNames.Text, StringComparison.OrdinalIgnoreCase))
+                if (offset < _entries.Count && _entries[offset].HasName && _entries[offset].Name.Is(Tags.IsIndex) && _entries[offset].Type.Isi(InputTypeNames.Text))
                 {
                     stream.Write(((TextDataSetEntry)_entries[offset]).Value);
                     offset++;
@@ -103,10 +100,12 @@
                 for (int i = 0; i < list.Length; i++)
                 {
                     if (i > 0)
-                        stream.Write('&');
+                    {
+                        stream.Write(Symbols.Ampersand);
+                    }
 
                     stream.Write(list[i].Item1);
-                    stream.Write('=');
+                    stream.Write(Symbols.Equality);
                     stream.Write(list[i].Item2);
                 }
             });
@@ -134,7 +133,7 @@
                     }
 
                     stream.Write(list[i].Item1);
-                    stream.Write('=');
+                    stream.Write(Symbols.Equality);
                     stream.Write(list[i].Item2);
                 }
             });
@@ -142,7 +141,7 @@
 
         public void Append(String name, String value, String type)
         {
-            if (String.Compare(type, Tags.Textarea, StringComparison.OrdinalIgnoreCase) == 0)
+            if (type.Isi(Tags.Textarea))
             {
                 name = Normalize(name);
                 value = Normalize(value);
@@ -153,7 +152,7 @@
 
         public void Append(String name, IFile value, String type)
         {
-            if (String.Compare(type, InputTypeNames.File, StringComparison.OrdinalIgnoreCase) == 0)
+            if (type.Isi(InputTypeNames.File))
             {
                 name = Normalize(name);
             }
@@ -195,8 +194,7 @@
             {
                 var entry = _entries[i];
 
-                if (!String.IsNullOrEmpty(entry.Name) && entry.Name.Equals("_charset_") && 
-                    entry.Type.Equals(InputTypeNames.Hidden, StringComparison.OrdinalIgnoreCase))
+                if (!String.IsNullOrEmpty(entry.Name) && entry.Name.Is("_charset_") && entry.Type.Isi(InputTypeNames.Hidden))
                 {
                     _entries[i] = new TextDataSetEntry(entry.Name, encoding.WebName, entry.Type);
                 }

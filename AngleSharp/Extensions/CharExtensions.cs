@@ -273,11 +273,44 @@
                    c.IsInRange(0xd0000, 0xdfffd) || c.IsInRange(0xe0000, 0xefffd) || c.IsInRange(0xf0000, 0xffffd) || c.IsInRange(0x100000, 0x10fffd);
         }
 
-
+        /// <summary>
+        /// Determines if the given character is invalid, i.e. zero, above the
+        /// max. codepoint or in an invalid range.
+        /// </summary>
+        /// <param name="c">The character to examine.</param>
+        /// <returns>The result of the test.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Boolean IsInvalid(this Int32 utf32)
+        public static Boolean IsInvalid(this Int32 c)
         {
-            return utf32 == 0 || utf32 > Symbols.MaximumCodepoint || (utf32 > 0xD800 && utf32 < 0xDFFF);
+            return c == 0 || c > Symbols.MaximumCodepoint || (c > 0xD800 && c < 0xDFFF);
+        }
+
+        /// <summary>
+        /// Determines if the given character is one of the two others.
+        /// </summary>
+        /// <param name="c">The character to test.</param>
+        /// <param name="a">The first option.</param>
+        /// <param name="b">The second option.</param>
+        /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean IsOneOf(this Char c, Char a, Char b)
+        {
+            return a == c || b == c;
+        }
+
+        /// <summary>
+        /// Determines if the given character is one of the four others.
+        /// </summary>
+        /// <param name="c">The character to test.</param>
+        /// <param name="o1">The first option.</param>
+        /// <param name="o2">The second option.</param>
+        /// <param name="o3">The third option.</param>
+        /// <param name="o4">The fourth option.</param>
+        /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean IsOneOf(this Char c, Char o1, Char o2, Char o3, Char o4)
+        {
+            return c == o1 || c == o2 || c == o3 || c == o4;
         }
     }
 }

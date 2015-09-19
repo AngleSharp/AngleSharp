@@ -112,7 +112,7 @@
 
             if (String.IsNullOrEmpty(step))
                 return GetDefaultStep() * GetStepScaleFactor();
-            else if (step.Equals(Keywords.Any, StringComparison.OrdinalIgnoreCase))
+            else if (step.Isi(Keywords.Any))
                 return 0.0;
 
             var num = ToNumber(step);

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Diagnostics;
     using System.IO;
@@ -129,7 +130,7 @@
                 var content = _encoding.GetString(raw, 0, raw.Length);
                 var index = Math.Min(_index, content.Length);
 
-                if (content.Substring(0, index).Equals(_content.ToString(0, index)))
+                if (content.Substring(0, index).Is(_content.ToString(0, index)))
                 {
                     //If everything seems to fit up to this point, do an
                     //instant switch

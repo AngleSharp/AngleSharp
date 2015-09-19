@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -16,7 +17,7 @@
         }
 
         public HtmlQuoteElement(Document owner, String name, String prefix = null)
-            : base(owner, name, prefix, name.Equals(Tags.BlockQuote) ? NodeFlags.Special : NodeFlags.None)
+            : base(owner, name, prefix, name.Is(Tags.BlockQuote) ? NodeFlags.Special : NodeFlags.None)
         {
         }
 

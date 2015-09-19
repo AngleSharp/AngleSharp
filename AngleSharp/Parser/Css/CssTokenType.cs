@@ -116,6 +116,6 @@
         /// <summary>
         /// The end-of-file marker.
         /// </summary>
-        Eof,
+        EndOfFile,
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
     using System.Linq;
@@ -95,7 +96,7 @@
         /// <returns>The keyframe or null.</returns>
         public ICssKeyframeRule Find(String key)
         {
-            return _rules.OfType<ICssKeyframeRule>().FirstOrDefault(m => m.KeyText.Equals(key, StringComparison.OrdinalIgnoreCase));
+            return _rules.OfType<ICssKeyframeRule>().FirstOrDefault(m => key.Isi(m.KeyText));
         }
 
         #endregion

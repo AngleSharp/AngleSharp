@@ -431,7 +431,7 @@
             var enctype = Enctype;
             var body = CreateBody(enctype, TextEncoding.Resolve(encoding), formDataSet);
 
-            if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
+            if (enctype.Isi(MimeTypes.MultipartForm))
                 enctype = String.Concat(MimeTypes.MultipartForm, "; boundary=", formDataSet.Boundary);
 
             return DocumentRequest.Post(target, body, enctype, source: this, referer: Owner.DocumentUri);
@@ -469,11 +469,11 @@
 
         static Stream CreateBody(String enctype, Encoding encoding, FormDataSet formDataSet)
         {
-            if (enctype.Equals(MimeTypes.UrlencodedForm, StringComparison.OrdinalIgnoreCase))
+            if (enctype.Isi(MimeTypes.UrlencodedForm))
                 return formDataSet.AsUrlEncoded(encoding);
-            else if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
+            else if (enctype.Isi(MimeTypes.MultipartForm))
                 return formDataSet.AsMultipart(encoding);
-            else if (enctype.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase))
+            else if (enctype.Isi(MimeTypes.Plain))
                 return formDataSet.AsPlaintext(encoding);
 
             return MemoryStream.Null;
@@ -481,11 +481,8 @@
 
         static String CheckEncType(String encType)
         {
-            if (!String.IsNullOrEmpty(encType) && (encType.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase) ||
-                                                   encType.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase)))
-            {
+            if (encType.Isi(MimeTypes.Plain) || encType.Isi(MimeTypes.MultipartForm))
                 return encType;
-            }
 
             return MimeTypes.UrlencodedForm;
         }

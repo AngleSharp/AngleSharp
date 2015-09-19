@@ -2263,7 +2263,7 @@
                 var hasLength = _stringBuffer.Length - offset == length;
 
                 if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()) && 
-                    _stringBuffer.ToString(offset, length).Equals(Tags.Script, StringComparison.OrdinalIgnoreCase))
+                    _stringBuffer.ToString(offset, length).Isi(Tags.Script))
                 {
                     Back(length + 3);
                     _stringBuffer.Remove(offset - 2, length + 2);
@@ -2293,7 +2293,7 @@
 
                 if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                 {
-                    var isscript = _stringBuffer.ToString(offset, length).Equals(Tags.Script, StringComparison.OrdinalIgnoreCase);
+                    var isscript = _stringBuffer.ToString(offset, length).Isi(Tags.Script);
                     _stringBuffer.Append(c);
                     return isscript ? ScriptDataEscapedDouble(GetNext()) : ScriptDataEscaped(GetNext());
                 }
@@ -2431,7 +2431,7 @@
 
                 if (hasLength && (c.IsSpaceCharacter() || c == Symbols.Solidus || c == Symbols.GreaterThan))
                 {
-                    var isscript = _stringBuffer.ToString(offset, length).Equals(Tags.Script, StringComparison.OrdinalIgnoreCase);
+                    var isscript = _stringBuffer.ToString(offset, length).Isi(Tags.Script);
                     _stringBuffer.Append(c);
                     return isscript ? ScriptDataEscaped(GetNext()) : ScriptDataEscapedDouble(GetNext());
                 }
@@ -2495,8 +2495,7 @@
             var isslash = c == Symbols.Solidus;
             var hasLength = _stringBuffer.Length == _lastStartTag.Length;
 
-            if (hasLength && (isspace || isclosed || isslash) && 
-                _stringBuffer.ToString().Equals(_lastStartTag, StringComparison.Ordinal))
+            if (hasLength && (isspace || isclosed || isslash) && _stringBuffer.ToString().Is(_lastStartTag))
             {
                 var tag = NewTagClose();
                 _stringBuffer.Clear();

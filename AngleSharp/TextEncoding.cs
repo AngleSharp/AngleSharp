@@ -653,7 +653,7 @@
                 else
                 {
                     // If it has some non-basic code points the input cannot start with xn--
-                    if (unicode.Length - iAfterLastDot >= AcePrefix.Length && unicode.Substring(iAfterLastDot, AcePrefix.Length).Equals(AcePrefix, StringComparison.OrdinalIgnoreCase))
+                    if (unicode.Length - iAfterLastDot >= AcePrefix.Length && unicode.Substring(iAfterLastDot, AcePrefix.Length).Isi(AcePrefix))
                         break;
 
                     // Need to do ACE encoding

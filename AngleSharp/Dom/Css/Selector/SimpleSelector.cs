@@ -38,7 +38,7 @@
         /// <param name="match">The type to match.</param>
         public SimpleSelector(String match)
         {
-            _matches = _ => _.LocalName.Equals(match, StringComparison.OrdinalIgnoreCase);
+            _matches = el => match.Isi(el.LocalName);
             _specifity = Priority.OneTag;
             _code = match;
         }

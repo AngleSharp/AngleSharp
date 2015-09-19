@@ -133,11 +133,12 @@
         /// <returns>The status of the check.</returns>
         protected Boolean ContinuesWith(String s, Boolean ignoreCase = true)
         {
+            var casing = ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
             var mark = _source.Index;
             _source.Index--;
             var content = _source.ReadCharacters(s.Length);
             _source.Index = mark;
-            return content.Length == s.Length && content.Equals(s, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+            return content.Length == s.Length && content.Equals(s, casing);
         }
 
         /// <summary>

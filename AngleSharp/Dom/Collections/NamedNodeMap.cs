@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Collections
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -121,7 +122,7 @@
         {
             for (int i = 0; i < _items.Count; i++)
             {
-                if (String.Equals(_items[i].Name, name, StringComparison.Ordinal))
+                if (name.Is(_items[i].Name))
                 {
                     var attr = _items[i];
                     _items.RemoveAt(i);
@@ -138,8 +139,7 @@
         {
             for (int i = 0; i < _items.Count; i++)
             {
-                if (String.Equals(_items[i].LocalName, localName, StringComparison.Ordinal) &&
-                    String.Equals(_items[i].NamespaceUri, namespaceUri, StringComparison.Ordinal))
+                if (localName.Is(_items[i].LocalName) && namespaceUri.Is(_items[i].NamespaceUri))
                 {
                     var attr = _items[i];
                     _items.RemoveAt(i);
@@ -160,7 +160,7 @@
         {
             for (int i = 0; i < _items.Count; i++)
             {
-                if (String.Equals(_items[i].Name, name, StringComparison.Ordinal))
+                if (name.Is(_items[i].Name))
                     return _items[i];
             }
 
@@ -171,8 +171,7 @@
         {
             for (int i = 0; i < _items.Count; i++)
             {
-                if (String.Equals(_items[i].LocalName, localName, StringComparison.Ordinal) &&
-                    String.Equals(_items[i].NamespaceUri, namespaceUri, StringComparison.Ordinal))
+                if (localName.Is(_items[i].LocalName) && namespaceUri.Is(_items[i].NamespaceUri))
                     return _items[i];
             }
 
@@ -189,7 +188,7 @@
 
                 for (int i = 0; i < _items.Count; i++)
                 {
-                    if (String.Equals(_items[i].Name, name, StringComparison.Ordinal))
+                    if (name.Is(_items[i].Name))
                     {
                         var attr = _items[i];
                         _items[i] = proposed;
@@ -216,8 +215,7 @@
 
                 for (int i = 0; i < _items.Count; i++)
                 {
-                    if (String.Equals(_items[i].LocalName, localName, StringComparison.Ordinal) &&
-                        String.Equals(_items[i].NamespaceUri, namespaceUri, StringComparison.Ordinal))
+                    if (localName.Is(_items[i].LocalName) && namespaceUri.Is(_items[i].NamespaceUri))
                     {
                         var attr = _items[i];
                         _items[i] = proposed;

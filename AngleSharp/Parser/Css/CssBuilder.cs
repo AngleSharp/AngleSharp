@@ -210,7 +210,7 @@
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
-                while (token.Type != CssTokenType.Eof)
+                while (token.Type != CssTokenType.EndOfFile)
                 {
                     if (token.Type == CssTokenType.Semicolon)
                         return null;
@@ -298,13 +298,13 @@
                 var token = NextToken();
                 rule = new CssUnknownRule(current.Data, _parser);
 
-                while (token.IsNot(CssTokenType.CurlyBracketOpen, CssTokenType.Semicolon, CssTokenType.Eof))
+                while (token.IsNot(CssTokenType.CurlyBracketOpen, CssTokenType.Semicolon, CssTokenType.EndOfFile))
                 {
                     rule.Prelude.Add(token);
                     token = NextToken();
                 }
 
-                if (token.Type != CssTokenType.Eof)
+                if (token.Type != CssTokenType.EndOfFile)
                 {
                     rule.Content.Add(token);
 
@@ -325,7 +325,7 @@
                                 case CssTokenType.CurlyBracketClose:
                                     curly--;
                                     break;
-                                case CssTokenType.Eof:
+                                case CssTokenType.EndOfFile:
                                     curly = 0;
                                     break;
                             }
@@ -364,12 +364,12 @@
             var list = new List<CssMedium>();
             CollectTrivia(ref token);
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.Type != CssTokenType.EndOfFile)
             {
                 CreateNewNode();
                 var medium = CreateMedium(ref token);
 
-                if (medium == null || token.IsNot(CssTokenType.Comma, CssTokenType.Eof))
+                if (medium == null || token.IsNot(CssTokenType.Comma, CssTokenType.EndOfFile))
                     throw new DomException(DomError.Syntax);
 
                 token = NextToken();
@@ -389,7 +389,7 @@
             var token = NextToken();
             CollectTrivia(ref token);
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.Type != CssTokenType.EndOfFile)
             {
                 CreateNewNode();
                 var rule = CreateRule(token);
@@ -419,7 +419,7 @@
             CreateNewNode();
             CollectTrivia(ref token);
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.Type != CssTokenType.EndOfFile)
             {
                 if (keys.Count > 0)
                 {
@@ -471,7 +471,7 @@
             var token = NextToken();
             CollectTrivia(ref token);
 
-            while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
+            while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
                 var property = CreateDeclarationWith(Factory.Properties.Create, ref token);
 
@@ -492,7 +492,7 @@
 
             var sb = Pool.NewStringBuilder();
 
-            while (token.Type != CssTokenType.Eof &&
+            while (token.Type != CssTokenType.EndOfFile &&
                    token.Type != CssTokenType.Colon &&
                    token.Type != CssTokenType.Whitespace &&
                    token.Type != CssTokenType.Comment &&
@@ -533,7 +533,7 @@
 
                 JumpToDeclEnd(ref token);
             }
-            else if (token.Type != CssTokenType.Eof)
+            else if (token.Type != CssTokenType.EndOfFile)
             {
                 RaiseErrorOccurred(CssParseError.IdentExpected, token);
                 JumpToDeclEnd(ref token);
@@ -621,7 +621,7 @@
                 token = NextToken();
                 CollectTrivia(ref token);
             }
-            while (token.Type != CssTokenType.Eof);
+            while (token.Type != CssTokenType.EndOfFile);
 
             return medium;
         }
@@ -634,7 +634,7 @@
         {
             var scopes = 0;
 
-            while (current.Type != CssTokenType.Eof)
+            while (current.Type != CssTokenType.EndOfFile)
             {
                 if (current.Type == CssTokenType.CurlyBracketOpen)
                     scopes++;
@@ -650,7 +650,7 @@
 
         void JumpToEnd(CssToken current)
         {
-            while (current.IsNot(CssTokenType.Eof, CssTokenType.Semicolon))
+            while (current.IsNot(CssTokenType.EndOfFile, CssTokenType.Semicolon))
             {
                 current = NextToken();
             }
@@ -660,7 +660,7 @@
         {
             var arguments = 0;
 
-            while (current.Type != CssTokenType.Eof)
+            while (current.Type != CssTokenType.EndOfFile)
             {
                 if (current.Type == CssTokenType.RoundBracketOpen)
                     arguments++;
@@ -677,7 +677,7 @@
         {
             var scopes = 0;
 
-            while (current.Type != CssTokenType.Eof)
+            while (current.Type != CssTokenType.EndOfFile)
             {
                 if (current.Type == CssTokenType.CurlyBracketOpen)
                     scopes++;
@@ -874,7 +874,7 @@
             CollectTrivia(ref token);
             list.Add(condition);
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.Type != CssTokenType.EndOfFile)
             {
                 condition = ExtractCondition(ref token);
 
@@ -917,7 +917,7 @@
                 token = NextToken();
                 CollectTrivia(ref token);
             }
-            while (token.Type == CssTokenType.Eof);
+            while (token.Type == CssTokenType.EndOfFile);
         }
 
         void FillKeyframeRules(CssKeyframesRule parentRule)
@@ -925,7 +925,7 @@
             var token = NextToken();
             CollectTrivia(ref token);
 
-            while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
+            while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
                 CreateNewNode();
                 var rule = CreateKeyframeRule(token);
@@ -940,7 +940,7 @@
             var token = NextToken();
             CollectTrivia(ref token);
 
-            while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
+            while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
                 var property = CreateDeclarationWith(createProperty, ref token);
 
@@ -956,7 +956,7 @@
             var token = NextToken();
             CollectTrivia(ref token);
 
-            while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
+            while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
                 CreateNewNode();
                 var rule = CreateRule(token);
@@ -971,7 +971,7 @@
             if (token.Type == end)
                 return;
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.Type != CssTokenType.EndOfFile)
             {
                 CreateNewNode();
                 var medium = CloseNode(CreateMedium(ref token));
@@ -1007,7 +1007,7 @@
             var start = token;
             CreateNewNode();
 
-            while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketOpen, CssTokenType.CurlyBracketClose))
+            while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketOpen, CssTokenType.CurlyBracketClose))
             {
                 selector.Apply(token);
                 token = NextToken();
@@ -1032,7 +1032,7 @@
             var start = token;
             CreateNewNode();
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.Type != CssTokenType.EndOfFile)
             {
                 if (token.Is(CssTokenType.Semicolon, closing))
                     break;
@@ -1084,7 +1084,7 @@
 
                     while (token.Type != CssTokenType.RoundBracketClose || value.IsReady == false)
                     {
-                        if (token.Type == CssTokenType.Eof)
+                        if (token.Type == CssTokenType.EndOfFile)
                             break;
 
                         value.Apply(token);
@@ -1093,7 +1093,7 @@
 
                     val = value.ToPool();
                 }
-                else if (token.Type == CssTokenType.Eof)
+                else if (token.Type == CssTokenType.EndOfFile)
                     return null;
 
                 if (feature != null && feature.TrySetValue(val))

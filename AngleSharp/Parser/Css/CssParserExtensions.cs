@@ -46,11 +46,8 @@
         public static Func<IEnumerable<CssCondition>, CssCondition> GetCreator(this String conjunction)
         {
             var creator = default(Func<IEnumerable<CssCondition>, CssCondition>);
-
-            if (groupCreators.TryGetValue(conjunction, out creator))
-                return creator;
-
-            return null;
+            groupCreators.TryGetValue(conjunction, out creator);
+            return creator;
         }
 
         /// <summary>
@@ -120,7 +117,7 @@
                 functionTypes.TryGetValue(functionName, out creator);
                 return creator(token.Data);
             }
-            else if (token.Type == CssTokenType.Function && String.Compare(token.Data, FunctionNames.Regexp, StringComparison.OrdinalIgnoreCase) == 0)
+            else if (token.Type == CssTokenType.Function && token.Data.Isi(FunctionNames.Regexp))
             {
                 var str = ((CssFunctionToken)token).ToCssString();
 

@@ -551,7 +551,7 @@
         /// <returns>The return value of true or false.</returns>
         public Boolean HasAttribute(String name)
         {
-            if (String.Equals(_namespace, Namespaces.HtmlUri, StringComparison.Ordinal))
+            if (_namespace.Is(Namespaces.HtmlUri))
                 name = name.ToLowerInvariant();
 
             return _attributes.GetNamedItem(name) != null;
@@ -586,7 +586,7 @@
         /// </returns>
         public String GetAttribute(String name)
         {
-            if (String.Equals(_namespace, Namespaces.HtmlUri, StringComparison.Ordinal))
+            if (_namespace.Is(Namespaces.HtmlUri))
                 name = name.ToLower();
 
             var attr = _attributes.GetNamedItem(name);
@@ -628,7 +628,7 @@
                 if (!name.IsXmlName())
                     throw new DomException(DomError.InvalidCharacter);
 
-                if (String.Equals(_namespace, Namespaces.HtmlUri, StringComparison.Ordinal))
+                if (_namespace.Is(Namespaces.HtmlUri))
                     name = name.ToLowerInvariant();
 
                 SetOwnAttribute(name, value);
@@ -668,7 +668,7 @@
         /// <returns>The current element.</returns>
         public void RemoveAttribute(String name)
         {
-            if (String.Equals(_namespace, Namespaces.HtmlUri, StringComparison.Ordinal))
+            if (_namespace.Is(Namespaces.HtmlUri))
                 name = name.ToLower();
 
             _attributes.RemoveNamedItemOrDefault(name);
@@ -716,7 +716,7 @@
 
             if (otherElement != null)
             {
-                return String.Equals(NamespaceUri, otherElement.NamespaceUri, StringComparison.Ordinal) &&
+                return NamespaceUri.Is(otherElement.NamespaceUri) &&
                     _attributes.AreEqual(otherElement.Attributes) && 
                     base.Equals(otherNode);
             }
@@ -1015,9 +1015,7 @@
                     var value = _parent.GetOwnAttribute(_attributeName) ?? String.Empty;
                     var baseUrl = _parent.BaseUrl;
 
-                    if (_location == null || 
-                        !baseUrl.Equals(_baseUrl) || 
-                        !String.Equals(value, _value, StringComparison.Ordinal))
+                    if (_location == null || !_baseUrl.Equals(baseUrl) || !_value.Is(value))
                     {
                         var url = new Url(baseUrl, value);
                         _baseUrl = baseUrl;
