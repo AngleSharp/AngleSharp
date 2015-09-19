@@ -2078,6 +2078,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssMediaRule.cs">
       <Link>Interfaces\Css\ICssMediaRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssMedium.cs">
+      <Link>Interfaces\Css\ICssMedium.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssNamespaceRule.cs">
       <Link>Interfaces\Css\ICssNamespaceRule.cs</Link>
     </Compile>
@@ -2113,6 +2116,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\IKeyframeSelector.cs">
       <Link>Interfaces\Css\IKeyframeSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\IMediaFeature.cs">
+      <Link>Interfaces\Css\IMediaFeature.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\IMediaList.cs">
       <Link>Interfaces\Css\IMediaList.cs</Link>
