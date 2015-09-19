@@ -183,66 +183,6 @@
     <Compile Include="..\AngleSharp\Css\Map.cs">
       <Link>Css\Map.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeature.cs">
-      <Link>Css\MediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\AspectRatioMediaFeature.cs">
-      <Link>Css\MediaFeatures\AspectRatioMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\ColorIndexMediaFeature.cs">
-      <Link>Css\MediaFeatures\ColorIndexMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\ColorMediaFeature.cs">
-      <Link>Css\MediaFeatures\ColorMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs">
-      <Link>Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\DeviceHeightMediaFeature.cs">
-      <Link>Css\MediaFeatures\DeviceHeightMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\DevicePixelRatioFeature.cs">
-      <Link>Css\MediaFeatures\DevicePixelRatioFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\DeviceWidthMediaFeature.cs">
-      <Link>Css\MediaFeatures\DeviceWidthMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\GridMediaFeature.cs">
-      <Link>Css\MediaFeatures\GridMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\HeightMediaFeature.cs">
-      <Link>Css\MediaFeatures\HeightMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\HoverMediaFeature.cs">
-      <Link>Css\MediaFeatures\HoverMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\MonochromeMediaFeature.cs">
-      <Link>Css\MediaFeatures\MonochromeMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\OrientationMediaFeature.cs">
-      <Link>Css\MediaFeatures\OrientationMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\PointerMediaFeature.cs">
-      <Link>Css\MediaFeatures\PointerMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\ResolutionMediaFeature.cs">
-      <Link>Css\MediaFeatures\ResolutionMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\ScanMediaFeature.cs">
-      <Link>Css\MediaFeatures\ScanMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\ScriptingMediaFeature.cs">
-      <Link>Css\MediaFeatures\ScriptingMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\UnknownMediaFeature.cs">
-      <Link>Css\MediaFeatures\UnknownMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\UpdateFrequencyMediaFeature.cs">
-      <Link>Css\MediaFeatures\UpdateFrequencyMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\WidthMediaFeature.cs">
-      <Link>Css\MediaFeatures\WidthMediaFeature.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Css\PrettyStyleFormatter.cs">
       <Link>Css\PrettyStyleFormatter.cs</Link>
     </Compile>
@@ -712,6 +652,66 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\CssValue.cs">
       <Link>Dom\Css\CssValue.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeature.cs">
+      <Link>Dom\Css\MediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\AspectRatioMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\AspectRatioMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\ColorIndexMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\ColorIndexMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\ColorMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\ColorMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\DeviceHeightMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\DeviceHeightMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\DevicePixelRatioFeature.cs">
+      <Link>Dom\Css\MediaFeatures\DevicePixelRatioFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\DeviceWidthMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\DeviceWidthMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\GridMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\GridMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\HeightMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\HeightMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\HoverMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\HoverMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\MonochromeMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\MonochromeMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\OrientationMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\OrientationMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\PointerMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\PointerMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\ResolutionMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\ResolutionMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\ScanMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\ScanMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\ScriptingMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\ScriptingMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\UnknownMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\UnknownMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\UpdateFrequencyMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\UpdateFrequencyMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\WidthMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\WidthMediaFeature.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Properties\Animation\CssAnimationDelayProperty.cs">
       <Link>Dom\Css\Properties\Animation\CssAnimationDelayProperty.cs</Link>
