@@ -562,7 +562,7 @@
 
             if (input[index].IsLetter() && _scheme.Is(KnownProtocols.File) && index + 1 < input.Length && 
                (input[index + 1].IsOneOf(Symbols.Colon, Symbols.Solidus)) &&
-               (index + 2 >= input.Length || input[index + 2].IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus, Symbols.Num, Symbols.QuestionMark)))
+               (index + 2 == input.Length || input[index + 2].IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus, Symbols.Num, Symbols.QuestionMark)))
             {
                 _host = String.Empty;
                 _path = String.Empty;
