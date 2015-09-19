@@ -353,13 +353,13 @@
                 {
                     case Symbols.DoubleQuote:
                     case Symbols.EndOfFile:
-                        return NewString(FlushBuffer());
+                        return NewString(FlushBuffer(), Symbols.DoubleQuote);
 
                     case Symbols.FormFeed:
                     case Symbols.LineFeed:
                         RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                         Back();
-                        return NewString(FlushBuffer(), bad: true);
+                        return NewString(FlushBuffer(), Symbols.DoubleQuote, bad: true);
 
                     case Symbols.ReverseSolidus:
                         current = GetNext();
@@ -376,7 +376,7 @@
                         {
                             RaiseErrorOccurred(CssParseError.EOF);
                             Back();
-                            return NewString(FlushBuffer(), bad: true);
+                            return NewString(FlushBuffer(), Symbols.DoubleQuote, bad: true);
                         }
 
                         break;
@@ -401,13 +401,13 @@
                 {
                     case Symbols.SingleQuote:
                     case Symbols.EndOfFile:
-                        return NewString(FlushBuffer());
+                        return NewString(FlushBuffer(), Symbols.SingleQuote);
 
                     case Symbols.FormFeed:
                     case Symbols.LineFeed:
                         RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                         Back();
-                        return NewString(FlushBuffer(), bad: true);
+                        return NewString(FlushBuffer(), Symbols.SingleQuote, bad: true);
 
                     case Symbols.ReverseSolidus:
                         current = GetNext();
@@ -424,7 +424,7 @@
                         {
                             RaiseErrorOccurred(CssParseError.EOF);
                             Back();
-                            return NewString(FlushBuffer(), bad: true);
+                            return NewString(FlushBuffer(), Symbols.SingleQuote, bad: true);
                         }
 
                         break;
@@ -1256,9 +1256,9 @@
             return new CssToken(CssTokenType.RoundBracketOpen, "(", _position);
         }
 
-        CssToken NewString(String value, Boolean bad = false)
+        CssToken NewString(String value, Char quote, Boolean bad = false)
         {
-            return new CssStringToken(value, bad, _position);
+            return new CssStringToken(value, bad, quote, _position);
         }
 
         CssToken NewHash(String value)
