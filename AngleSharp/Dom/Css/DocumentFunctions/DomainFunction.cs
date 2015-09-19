@@ -1,12 +1,13 @@
-﻿namespace AngleSharp.Css.DocumentFunctions
+﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
 
     /// <summary>
-    /// Take as domain.
+    /// Take a domain.
     /// </summary>
-    sealed class DomainFunction : CssDocumentFunction
+    sealed class DomainFunction : DocumentFunction
     {
         readonly String _subdomain;
 

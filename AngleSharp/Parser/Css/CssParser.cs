@@ -240,7 +240,7 @@
         /// Takes a string and transforms it into an enumeration of special
         /// document functions and their arguments.
         /// </summary>
-        internal List<CssDocumentFunction> ParseDocumentRules(String documentText)
+        internal List<DocumentFunction> ParseDocumentRules(String documentText)
         {
             return Parse(documentText, (b, t) => Tuple.Create(b.CreateFunctions(ref t), t));
         }

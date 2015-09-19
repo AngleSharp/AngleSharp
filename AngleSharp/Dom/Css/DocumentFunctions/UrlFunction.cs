@@ -1,11 +1,12 @@
-﻿namespace AngleSharp.Css.DocumentFunctions
+﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Css;
     using System;
 
     /// <summary>
-    /// Take as url function.
+    /// Take an url.
     /// </summary>
-    sealed class UrlFunction : CssDocumentFunction
+    sealed class UrlFunction : DocumentFunction
     {
         readonly Url _expected;
 

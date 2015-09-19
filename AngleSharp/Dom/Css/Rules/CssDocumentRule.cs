@@ -92,6 +92,22 @@
             _conditions.Remove(condition);
         }
 
+        /// <summary>
+        /// Checks if the rule should be active for the provided URL.
+        /// </summary>
+        /// <param name="url">The URL to examine.</param>
+        /// <returns>True if the URL matches one of the conditions.</returns>
+        internal Boolean IsValid(Url url)
+        {
+            foreach (var condition in _conditions)
+            {
+                if (condition.Matches(url))
+                    return true;
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region String Representation

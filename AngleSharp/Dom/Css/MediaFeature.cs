@@ -7,8 +7,7 @@
     using System.Linq;
 
     /// <summary>
-    /// Represents a feature expression within
-    /// a media query.
+    /// Represents a feature expression within a media query.
     /// </summary>
     abstract class MediaFeature : IMediaFeature
     {

@@ -1,12 +1,13 @@
-﻿namespace AngleSharp.Css.DocumentFunctions
+﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Css;
     using System;
     using System.Text.RegularExpressions;
 
     /// <summary>
-    /// Use regular expression function.
+    /// Take a regular expression.
     /// </summary>
-    sealed class RegexpFunction : CssDocumentFunction
+    sealed class RegexpFunction : DocumentFunction
     {
         readonly Regex _regex;
 

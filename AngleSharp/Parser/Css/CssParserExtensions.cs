@@ -2,7 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Css.Conditions;
-    using AngleSharp.Css.DocumentFunctions;
+    using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
@@ -14,7 +14,7 @@
     [DebuggerStepThrough]
     static class CssParserExtensions
     {
-        static readonly Dictionary<String, Func<String, CssDocumentFunction>> functionTypes = new Dictionary<String, Func<String, CssDocumentFunction>>(StringComparer.OrdinalIgnoreCase)
+        static readonly Dictionary<String, Func<String, DocumentFunction>> functionTypes = new Dictionary<String, Func<String, DocumentFunction>>(StringComparer.OrdinalIgnoreCase)
         {
             { FunctionNames.Url, str => new UrlFunction(str) },
             { FunctionNames.Domain, str => new DomainFunction(str) },
@@ -34,7 +34,7 @@
         /// <returns>The token type for the name.</returns>
         public static CssTokenType GetTypeFromName(this String functionName)
         {
-            var creator = default(Func<String, CssDocumentFunction>);
+            var creator = default(Func<String, DocumentFunction>);
             return functionTypes.TryGetValue(functionName, out creator) ? CssTokenType.Url : CssTokenType.Function;
         }
 
@@ -108,11 +108,11 @@
         /// </summary>
         /// <param name="token">The token to examine.</param>
         /// <returns>The created IDocumentFunction or null.</returns>
-        public static CssDocumentFunction ToDocumentFunction(this CssToken token)
+        public static DocumentFunction ToDocumentFunction(this CssToken token)
         {
             if (token.Type == CssTokenType.Url)
             {
-                var creator = default(Func<String, CssDocumentFunction>);
+                var creator = default(Func<String, DocumentFunction>);
                 var functionName = ((CssUrlToken)token).FunctionName;
                 functionTypes.TryGetValue(functionName, out creator);
                 return creator(token.Data);

@@ -68,12 +68,12 @@
     <Compile Include="Css\CssComment.cs" />
     <Compile Include="Css\CssNode.cs" />
     <Compile Include="Css\CssStyleFormatter.cs" />
-    <Compile Include="Css\DocumentFunctions\DomainFunction.cs" />
-    <Compile Include="Css\DocumentFunctions\RegexpFunction.cs" />
-    <Compile Include="Css\DocumentFunctions\UrlFunction.cs" />
-    <Compile Include="Css\DocumentFunctions\UrlPrefixFunction.cs" />
+    <Compile Include="Dom\Css\DocumentFunctions\DomainFunction.cs" />
+    <Compile Include="Dom\Css\DocumentFunctions\RegexpFunction.cs" />
+    <Compile Include="Dom\Css\DocumentFunctions\UrlFunction.cs" />
+    <Compile Include="Dom\Css\DocumentFunctions\UrlPrefixFunction.cs" />
     <Compile Include="Css\CssCondition.cs" />
-    <Compile Include="Css\CssDocumentFunction.cs" />
+    <Compile Include="Dom\Css\DocumentFunction.cs" />
     <Compile Include="Dom\Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs" />
     <Compile Include="Dom\Css\MediaFeatures\DevicePixelRatioFeature.cs" />
     <Compile Include="Dom\Css\MediaFeatures\HoverMediaFeature.cs" />

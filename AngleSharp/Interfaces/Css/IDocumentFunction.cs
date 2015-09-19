@@ -8,12 +8,12 @@
     public interface IDocumentFunction : ICssNode
     {
         /// <summary>
-        /// The name of the function.
+        /// Gets the name of the function.
         /// </summary>
         String Name { get; }
 
         /// <summary>
-        /// The function's data (argument).
+        /// Gets the function's data (argument).
         /// </summary>
         String Data { get; }
 

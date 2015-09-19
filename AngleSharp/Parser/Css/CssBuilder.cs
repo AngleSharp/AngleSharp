@@ -454,9 +454,9 @@
         /// <summary>
         /// Called when the document functions have to been found.
         /// </summary>
-        public List<CssDocumentFunction> CreateFunctions(ref CssToken token)
+        public List<DocumentFunction> CreateFunctions(ref CssToken token)
         {
-            var functions = new List<CssDocumentFunction>();
+            var functions = new List<DocumentFunction>();
             CollectTrivia(ref token);
             FillFunctions(function => functions.Add(function), ref token);
             return functions;
@@ -896,7 +896,7 @@
 
         #region Fill Inner
 
-        void FillFunctions(Action<CssDocumentFunction> add, ref CssToken token)
+        void FillFunctions(Action<DocumentFunction> add, ref CssToken token)
         {
             do
             {
