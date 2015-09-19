@@ -137,32 +137,11 @@
     <Compile Include="..\AngleSharp\Css\Colors.cs">
       <Link>Css\Colors.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\Conditions\AndCondition.cs">
-      <Link>Css\Conditions\AndCondition.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Conditions\DeclarationCondition.cs">
-      <Link>Css\Conditions\DeclarationCondition.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Conditions\EmptyCondition.cs">
-      <Link>Css\Conditions\EmptyCondition.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Conditions\GroupCondition.cs">
-      <Link>Css\Conditions\GroupCondition.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Conditions\NotCondition.cs">
-      <Link>Css\Conditions\NotCondition.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Conditions\OrCondition.cs">
-      <Link>Css\Conditions\OrCondition.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Css\Converters.cs">
       <Link>Css\Converters.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\CssComment.cs">
       <Link>Css\CssComment.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\CssCondition.cs">
-      <Link>Css\CssCondition.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\CssNode.cs">
       <Link>Css\CssNode.cs</Link>
@@ -529,6 +508,24 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Constants\WheelMode.cs">
       <Link>Dom\Constants\WheelMode.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\ConditionFunctions\AndCondition.cs">
+      <Link>Dom\Css\ConditionFunctions\AndCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\ConditionFunctions\DeclarationCondition.cs">
+      <Link>Dom\Css\ConditionFunctions\DeclarationCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\ConditionFunctions\EmptyCondition.cs">
+      <Link>Dom\Css\ConditionFunctions\EmptyCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\ConditionFunctions\GroupCondition.cs">
+      <Link>Dom\Css\ConditionFunctions\GroupCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\ConditionFunctions\NotCondition.cs">
+      <Link>Dom\Css\ConditionFunctions\NotCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\ConditionFunctions\OrCondition.cs">
+      <Link>Dom\Css\ConditionFunctions\OrCondition.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Constants\AnimationDirection.cs">
       <Link>Dom\Css\Constants\AnimationDirection.cs</Link>
@@ -2056,6 +2053,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\IMarkupFormatter.cs">
       <Link>IMarkupFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\IConditionFunction.cs">
+      <Link>Interfaces\Css\IConditionFunction.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssCharsetRule.cs">
       <Link>Interfaces\Css\ICssCharsetRule.cs</Link>
