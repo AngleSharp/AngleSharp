@@ -42,7 +42,7 @@
         String IStyleFormatter.Declaration(String name, String value, Boolean important)
         {
             var rest = String.Concat(value, important ? " !important" : String.Empty);
-            return String.Concat(name, ": ", rest, ";");
+            return String.Concat(name, ": ", rest);
         }
 
         String IStyleFormatter.Medium(Boolean exclusive, Boolean inverse, String type, String[] constraints)
@@ -87,7 +87,7 @@
 
         String IStyleFormatter.Declarations(IEnumerable<String> declarations)
         {
-            return String.Join(" ", declarations);
+            return String.Join("; ", declarations);
         }
 
         #endregion

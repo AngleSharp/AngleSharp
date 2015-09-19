@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents the an CSS3 markup formatter with inserted intends.
@@ -82,7 +83,7 @@
 
         String IStyleFormatter.Declarations(IEnumerable<String> declarations)
         {
-            return String.Join(_newLineString, declarations);
+            return String.Join(_newLineString, declarations.Select(m => m + ";"));
         }
 
         String IStyleFormatter.Medium(Boolean exclusive, Boolean inverse, String type, String[] constraints)
