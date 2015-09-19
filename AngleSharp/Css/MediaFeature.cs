@@ -3,12 +3,14 @@
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a feature expression within
     /// a media query.
     /// </summary>
-    public abstract class MediaFeature : IStyleFormattable
+    public abstract class MediaFeature : IMediaFeature
     {
         #region Fields
 
@@ -31,6 +33,14 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the contained nodes.
+        /// </summary>
+        public IEnumerable<ICssNode> Children
+        {
+            get { return Enumerable.Empty<ICssNode>(); }
+        }
 
         /// <summary>
         /// Gets the name of the feature.

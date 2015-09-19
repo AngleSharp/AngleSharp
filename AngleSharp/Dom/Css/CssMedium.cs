@@ -3,14 +3,13 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections;
     using System.Collections.Generic;
 
     /// <summary>
     /// Represents a medium rule. More information available at:
     /// http://www.w3.org/TR/css3-mediaqueries/
     /// </summary>
-    sealed class CssMedium : IEnumerable<MediaFeature>, IStyleFormattable
+    sealed class CssMedium : ICssMedium
     {
         #region Media Types and Features
 
@@ -44,6 +43,22 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets an enumerator over all included media features.
+        /// </summary>
+        public IEnumerable<IMediaFeature> Features
+        {
+            get { return _features; }
+        }
+
+        /// <summary>
+        /// Gets the contained CSS nodes.
+        /// </summary>
+        public IEnumerable<ICssNode> Children
+        {
+            get { return _features; }
+        }
 
         /// <summary>
         /// Gets the type of medium that is represented.
@@ -114,24 +129,6 @@
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Gets an enumerator over all included media features.
-        /// </summary>
-        /// <returns>The specialized enumerator.</returns>
-        public IEnumerator<MediaFeature> GetEnumerator()
-        {
-            return _features.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Gets a general enumerator over the included media features.
-        /// </summary>
-        /// <returns>The general enumerator.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         /// <summary>
