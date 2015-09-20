@@ -82,14 +82,18 @@
                 {
                     var baseUrl = Url.Create(Owner.Href ?? document.BaseUri);
                     var url = new Url(baseUrl, href);
-                    var request = Owner.OwnerNode.CreateRequestFor(url);
-                    var pendingRequest = document.Tasks.Add(this, cancel => document.Loader.FetchAsync(request, cancel));
 
-                    using (var response = await pendingRequest.ConfigureAwait(false))
+                    if (!IsRecursion(url))
                     {
-                        var sheet = new CssStyleSheet(this, response.Address.Href);
-                        var source = new TextSource(response.Content);
-                        _styleSheet = await Parser.ParseStylesheetAsync(sheet, source).ConfigureAwait(false);
+                        var request = Owner.OwnerNode.CreateRequestFor(url);
+                        var pendingRequest = document.Tasks.Add(this, cancel => document.Loader.FetchAsync(request, cancel));
+
+                        using (var response = await pendingRequest.ConfigureAwait(false))
+                        {
+                            var sheet = new CssStyleSheet(this, response.Address.Href);
+                            var source = new TextSource(response.Content);
+                            _styleSheet = await Parser.ParseStylesheetAsync(sheet, source).ConfigureAwait(false);
+                        }
                     }
                 }
             };
@@ -113,6 +117,21 @@
             var space = String.IsNullOrEmpty(media) ? String.Empty : " ";
             var value = String.Concat(_href.CssUrl(), space, media);
             return formatter.Rule("@import", value);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        Boolean IsRecursion(Url url)
+        {
+            var href = url.Href;
+            var owner = (IStyleSheet)Owner;
+
+            while (owner != null && !owner.Href.Is(href))
+                owner = owner.Parent;
+
+            return owner != null;
         }
 
         #endregion
