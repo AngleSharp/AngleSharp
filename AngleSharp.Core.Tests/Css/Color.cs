@@ -1,8 +1,8 @@
-﻿using AngleSharp.Css.Values;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Css.Values;
+    using NUnit.Framework;
+
     [TestFixture]
     public class ColorTests
     {
@@ -205,6 +205,62 @@ namespace AngleSharp.Core.Tests
         {
             var color = Color.FromHsl(210f / 360f, 0.25f, 0.25f);
             Assert.AreEqual(Color.FromRgb(48, 64, 80), color);
+        }
+
+        [Test]
+        public void ColorFlexHexOneLetter()
+        {
+            var color = Color.FromFlexHex("F");
+            Assert.AreEqual(Color.FromRgb(0xf, 0x0, 0x0), color);
+        }
+
+        [Test]
+        public void ColorFlexHexTwoLetters()
+        {
+            var color = Color.FromFlexHex("0F");
+            Assert.AreEqual(Color.FromRgb(0x0, 0xf, 0x0), color);
+        }
+
+        [Test]
+        public void ColorFlexHexFourLetters()
+        {
+            var color = Color.FromFlexHex("0F0F");
+            Assert.AreEqual(Color.FromRgb(0xf, 0xf, 0x0), color);
+        }
+
+        [Test]
+        public void ColorFlexHexSevenLetters()
+        {
+            var color = Color.FromFlexHex("0F0F0F0");
+            Assert.AreEqual(Color.FromRgb(0xf, 0xf0, 0x0), color);
+        }
+
+        [Test]
+        public void ColorFlexHexFifteenLetters()
+        {
+            var color = Color.FromFlexHex("1234567890ABCDE");
+            Assert.AreEqual(Color.FromRgb(0x12, 0x67, 0xab), color);
+        }
+
+        [Test]
+        public void ColorFlexHexExtremelyLong()
+        {
+            var color = Color.FromFlexHex("1234567890ABCDE1234567890ABCDE");
+            Assert.AreEqual(Color.FromRgb(0x34, 0xcd, 0x89), color);
+        }
+
+        [Test]
+        public void ColorFlexHexRandomString()
+        {
+            var color = Color.FromFlexHex("6db6ec49efd278cd0bc92d1e5e072d68");
+            Assert.AreEqual(Color.FromRgb(0x6e, 0xcd, 0xe0), color);
+        }
+
+        [Test]
+        public void ColorFlexHexSixLettersInvalid()
+        {
+            var color = Color.FromFlexHex("zqbttv");
+            Assert.AreEqual(Color.FromRgb(0x0, 0xb0, 0x0), color);
         }
     }
 }
