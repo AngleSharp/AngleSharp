@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Css
 {
+    using AngleSharp.Css.Values;
     using System;
     using System.Collections.Generic;
-    using AngleSharp.Css.Values;
 
     /// <summary>
     /// This class contains information about colors like their
@@ -219,7 +219,7 @@
         /// <returns>The color with the given name or null.</returns>
         public static Color? GetColor(String name)
         {
-            Color color;
+            var color = default(Color);
 
             if (_colors.TryGetValue(name, out color))
                 return color;
