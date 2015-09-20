@@ -194,6 +194,7 @@
     <Compile Include="Css\HtmlCssIntegration.cs" />
     <Compile Include="Mocks\MockScriptService.cs" />
     <Compile Include="Mocks\MockSubscriber.cs" />
+    <Compile Include="Mocks\TestServerRequester.cs" />
     <Compile Include="Mocks\ResourceService.cs" />
     <Compile Include="Mocks\StandingEventLoopService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,11 +1,15 @@
 ﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
     using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class HtmlCssIntegrationTests
@@ -62,6 +66,64 @@
             var div = dom.QuerySelector<IHtmlElement>("div");
             Assert.AreEqual("http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert(\"XSS\")", div.Style["background-color"]);
             Assert.AreEqual("background-color: http://www.codeplex.com?url=<!--[if gte IE 4]><SCRIPT>alert(\"XSS\")", div.Style.CssText);
+        }
+
+        [Test]
+        public async Task CssWithImportRuleShouldBeAbleToHandleNestedStylesheets()
+        {
+            var files = new Dictionary<String, String>
+            {
+                { "index.html", "<!doctype html><html><link rel=stylesheet href=origin.css type=text/css><style>@import url('linked2.css');</style>" },
+                { "origin.css", "@import url(linked1.css);" },
+                { "linked1.css", "" },
+                { "linked2.css", "@import url(\"linked3.css\"); @import 'linked4.css';" },
+                { "linked3.css", "" },
+                { "linked4.css", "" },
+            };
+            var requester = new TestServerRequester(files);
+            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new [] { requester }).WithCss();
+            var document = await BrowsingContext.New(config).OpenAsync("http://localhost/index.html");
+            var link = document.QuerySelector<IHtmlLinkElement>("link");
+            var style = document.QuerySelector<IHtmlStyleElement>("style");
+
+            await Task.Delay(100);
+
+            Assert.IsNotNull(link);
+            Assert.IsNotNull(style);
+
+            var origin = link.Sheet as ICssStyleSheet;
+            Assert.IsNotNull(origin);
+            Assert.AreEqual("http://localhost/origin.css", origin.Href);
+            Assert.AreEqual(1, origin.Rules.Length);
+            Assert.AreEqual(CssRuleType.Import, origin.Rules[0].Type);
+
+            var linked1 = (origin.Rules[0] as ICssImportRule).Sheet;
+            Assert.IsNotNull(linked1);
+            Assert.AreEqual("http://localhost/linked1.css", linked1.Href);
+            Assert.AreEqual(0, linked1.Rules.Length);
+
+            var styleSheet = style.Sheet as ICssStyleSheet;
+            Assert.IsNotNull(styleSheet);
+            Assert.AreEqual(null, styleSheet.Href);
+            Assert.AreEqual(1, styleSheet.Rules.Length);
+            Assert.AreEqual(CssRuleType.Import, styleSheet.Rules[0].Type);
+
+            var linked2 = (styleSheet.Rules[0] as ICssImportRule).Sheet;
+            Assert.IsNotNull(linked2);
+            Assert.AreEqual("http://localhost/linked2.css", linked2.Href);
+            Assert.AreEqual(2, linked2.Rules.Length);
+            Assert.AreEqual(CssRuleType.Import, linked2.Rules[0].Type);
+            Assert.AreEqual(CssRuleType.Import, linked2.Rules[1].Type);
+
+            var linked3 = (linked2.Rules[0] as ICssImportRule).Sheet;
+            Assert.IsNotNull(linked3);
+            Assert.AreEqual("http://localhost/linked3.css", linked3.Href);
+            Assert.AreEqual(0, linked3.Rules.Length);
+
+            var linked4 = (linked2.Rules[1] as ICssImportRule).Sheet;
+            Assert.IsNotNull(linked4);
+            Assert.AreEqual("http://localhost/linked4.css", linked4.Href);
+            Assert.AreEqual(0, linked4.Rules.Length);
         }
     }
 }
