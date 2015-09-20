@@ -80,7 +80,7 @@
             {
                 if (document != null && document.Loader != null)
                 {
-                    var baseUrl = Url.Create(Owner.Href);
+                    var baseUrl = Url.Create(Owner.Href ?? document.BaseUri);
                     var url = new Url(baseUrl, href);
                     var request = Owner.OwnerNode.CreateRequestFor(url);
                     var pendingRequest = document.Tasks.Add(this, cancel => document.Loader.FetchAsync(request, cancel));
