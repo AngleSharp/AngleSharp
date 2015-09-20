@@ -222,7 +222,6 @@
                         var options = new StyleOptions
                         {
                             Element = this,
-                            Title = Title,
                             IsDisabled = IsDisabled,
                             IsAlternate = RelationList.Contains(Keywords.Alternate),
                             Configuration = config

@@ -16,8 +16,7 @@
 
         readonly CssRuleList _rules;
         readonly CssParser _parser;
-
-        ICssRule _ownerRule;
+        readonly ICssRule _ownerRule;
 
         #endregion
 
@@ -28,10 +27,45 @@
         /// </summary>
         /// <param name="parser">The parser to use.</param>
         internal CssStyleSheet(CssParser parser)
-            : base(new MediaList(parser))
+            : this(parser, default(String), default(StyleSheet))
+        {
+        }
+
+        /// <summary>
+        /// Creates a new CSS Stylesheet.
+        /// </summary>
+        /// <param name="parser">The parser to use.</param>
+        /// <param name="url">The url of the stylesheet.</param>
+        /// <param name="owner">The owner element.</param>
+        internal CssStyleSheet(CssParser parser, String url, IElement owner)
+            : base(new MediaList(parser), url, owner)
         {
             _rules = new CssRuleList();
             _parser = parser;
+        }
+
+        /// <summary>
+        /// Creates a new CSS Stylesheet.
+        /// </summary>
+        /// <param name="parser">The parser to use.</param>
+        /// <param name="url">The url of the stylesheet.</param>
+        /// <param name="parent">The parent stylesheet.</param>
+        internal CssStyleSheet(CssParser parser, String url, IStyleSheet parent)
+            : base(new MediaList(parser), url, parent)
+        {
+            _rules = new CssRuleList();
+            _parser = parser;
+        }
+
+        /// <summary>
+        /// Creates a new CSS Stylesheet owned by the given rule.
+        /// </summary>
+        /// <param name="ownerRule">The parent of the sheet.</param>
+        /// <param name="url">The url of the stylesheet.</param>
+        internal CssStyleSheet(CssRule ownerRule, String url)
+            : this(ownerRule.Parser, url, ownerRule.Owner)
+        {
+            _ownerRule = ownerRule;
         }
 
         #endregion
@@ -78,15 +112,6 @@
         public ICssRule OwnerRule
         {
             get { return _ownerRule; }
-            internal set { _ownerRule = value; }
-        }
-
-        /// <summary>
-        /// Gets a CSS code representation of the stylesheet.
-        /// </summary>
-        public String CssText
-        {
-            get { return ToCss(); }
         }
 
         #endregion

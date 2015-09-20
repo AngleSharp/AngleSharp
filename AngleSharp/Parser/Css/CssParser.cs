@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -177,18 +177,24 @@
         internal ICssStyleSheet ParseStylesheet(TextSource source)
         {
             var sheet = new CssStyleSheet(this);
-            return ParseStylesheet(sheet, source);
+            var tokenizer = CreateTokenizer(source, _config);
+            var builder = new CssBuilder(tokenizer, this);
+            builder.CreateRules(sheet);
+            sheet.ParseTree = builder.Container;
+            return sheet;
         }
 
         /// <summary>
         /// Takes a text source and populate the provided CSS sheet.
         /// </summary>
-        internal ICssStyleSheet ParseStylesheet(CssStyleSheet sheet, TextSource source)
+        internal async Task<ICssStyleSheet> ParseStylesheetAsync(CssStyleSheet sheet, TextSource source)
         {
+            await source.PrefetchAll(CancellationToken.None).ConfigureAwait(false);
             var tokenizer = CreateTokenizer(source, _config);
             var builder = new CssBuilder(tokenizer, this);
             builder.CreateRules(sheet);
             sheet.ParseTree = builder.Container;
+            await builder.RunTasks(sheet.GetDocument()).ConfigureAwait(false);
             return sheet;
         }
 

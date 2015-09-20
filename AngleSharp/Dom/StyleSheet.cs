@@ -16,10 +16,9 @@
         #region Fields
 
         readonly MediaList _media;
-        String _url;
-        String _title;
-        IElement _owner;
-        IStyleSheet _parent;
+        readonly String _url;
+        readonly IElement _owner;
+        readonly IStyleSheet _parent;
 
         #endregion
 
@@ -29,9 +28,25 @@
         /// Creates a new style sheet.
         /// </summary>
         /// <param name="media">The media list to use.</param>
-        internal StyleSheet(MediaList media)
+        /// <param name="url">The url of the stylesheet.</param>
+        /// <param name="parent">The parent stylesheet.</param>
+        internal StyleSheet(MediaList media, String url, IStyleSheet parent)
+            : this(media, url, parent != null ? parent.OwnerNode : null)
+        {
+            _parent = parent;
+        }
+
+        /// <summary>
+        /// Creates a new style sheet.
+        /// </summary>
+        /// <param name="media">The media list to use.</param>
+        /// <param name="url">The url of the stylesheet.</param>
+        /// <param name="owner">The owner element.</param>
+        internal StyleSheet(MediaList media, String url, IElement owner)
         {
             _media = media;
+            _owner = owner;
+            _url = url;
         }
 
         #endregion
@@ -43,7 +58,7 @@
         /// </summary>
         public virtual String Type
         {
-            get { return _owner != null ? (_owner.GetAttribute(null, AttributeNames.Type) ?? String.Empty) : String.Empty; }
+            get { return _owner != null ? _owner.GetAttribute(AttributeNames.Type) : null; }
         }
 
         /// <summary>
@@ -59,13 +74,11 @@
         }
 
         /// <summary>
-        /// Gets the element that associates this style sheet with the 
-        /// document.
+        /// Gets the element that associates this style sheet with the document.
         /// </summary>
         public IElement OwnerNode
         {
             get { return _owner; }
-            internal set { _owner = value; }
         }
 
         /// <summary>
@@ -75,7 +88,6 @@
         public IStyleSheet Parent
         {
             get { return _parent; }
-            internal set { _parent = value; }
         }
 
         /// <summary>
@@ -85,17 +97,14 @@
         public String Href
         {
             get { return _url; }
-            internal set { _url = value; }
         }
 
         /// <summary>
-        /// Gets the advisory title. The title is often specified in the
-        /// ownerNode.
+        /// Gets the advisory title. The title is specified in the ownerNode.
         /// </summary>
         public String Title
         {
-            get { return _title; }
-            internal set { _title = value; }
+            get { return _owner != null ? _owner.GetAttribute(AttributeNames.Title) : null; }
         }
 
         /// <summary>

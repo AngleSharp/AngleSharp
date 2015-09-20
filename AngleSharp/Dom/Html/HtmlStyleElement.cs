@@ -127,7 +127,6 @@
             {
                 Element = this,
                 IsDisabled = IsDisabled,
-                Title = Title,
                 IsAlternate = false,
                 Configuration = config
             };

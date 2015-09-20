@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a CSS import rule.
@@ -40,7 +41,6 @@
         public String Href
         {
             get { return _href; }
-            set { _href = value; }
         }
 
         /// <summary>
@@ -57,7 +57,6 @@
         public ICssStyleSheet Sheet
         {
             get { return _styleSheet; }
-            set { _styleSheet = value; }
         }
 
         #endregion
@@ -72,6 +71,29 @@
         #endregion
 
         #region Internal Methods
+
+        internal Func<Document, Task> SetLink(String href)
+        {
+            _href = href;
+
+            return async document =>
+            {
+                if (document != null && document.Loader != null)
+                {
+                    var baseUrl = Url.Create(Owner.Href);
+                    var url = new Url(baseUrl, href);
+                    var request = Owner.OwnerNode.CreateRequestFor(url);
+                    var pendingRequest = document.Tasks.Add(this, cancel => document.Loader.FetchAsync(request, cancel));
+
+                    using (var response = await pendingRequest.ConfigureAwait(false))
+                    {
+                        var sheet = new CssStyleSheet(this, response.Address.Href);
+                        var source = new TextSource(response.Content);
+                        _styleSheet = await Parser.ParseStylesheetAsync(sheet, source).ConfigureAwait(false);
+                    }
+                }
+            };
+        }
 
         protected override void ReplaceWith(ICssRule rule)
         {

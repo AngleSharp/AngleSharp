@@ -9,6 +9,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for details.
@@ -21,6 +22,7 @@
         readonly CssTokenizer _tokenizer;
         readonly CssParser _parser;
         readonly Stack<CssNode> _nodes;
+        readonly List<Func<Document, Task>> _tasks;
 
         #endregion
 
@@ -31,6 +33,7 @@
             _tokenizer = tokenizer;
             _parser = parser;
             _nodes = new Stack<CssNode>();
+            _tasks = new List<Func<Document, Task>>();
 
             if (parser.Options.IsStoringTrivia)
                 _nodes.Push(new CssNode());
@@ -172,7 +175,7 @@
 
             if (token.Is(CssTokenType.String, CssTokenType.Url))
             {
-                rule.Href = token.Data;
+                _tasks.Add(rule.SetLink(token.Data));
                 token = NextToken();
                 CollectTrivia(ref token);
                 FillMediaList(rule.Media, CssTokenType.Semicolon, ref token);
@@ -344,6 +347,22 @@
         #endregion
 
         #region API
+
+        /// <summary>
+        /// Run the remaining actions for the provided document.
+        /// </summary>
+        /// <param name="document">The host of the stylesheet.</param>
+        /// <returns>An awaitable task.</returns>
+        public Task RunTasks(IDocument document)
+        {
+            var runningTasks = new Task[_tasks.Count];
+
+            for (int i = 0; i < _tasks.Count; i++)
+                runningTasks[i] = _tasks[i].Invoke(document as Document);
+
+            _tasks.Clear();
+            return TaskEx.WhenAll(runningTasks);
+        }
 
         /// <summary>
         /// Creates a single value. Does not care about the !important flag.

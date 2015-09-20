@@ -6,6 +6,7 @@
     using AngleSharp.Parser.Css;
     using AngleSharp.Services.Styling;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// The CSS style engine for creating CSSStyleSheet instances.
@@ -72,8 +73,8 @@
         {
             var parser = new CssParser(_options);
             var source = new TextSource(sourceCode);
-            var sheet = new CssStyleSheet(parser);
-            _default = Parse(parser, sheet, source);
+            var sheet = new CssStyleSheet(parser, default(String), default(IStyleSheet));
+            _default = Parse(parser, sheet, source).Result;
             return _default;
         }
 
@@ -90,14 +91,12 @@
         public IStyleSheet ParseStylesheet(String sourceCode, StyleOptions options)
         {
             var parser = new CssParser(_options, options.Configuration);
-            var sheet = new CssStyleSheet(parser) 
+            var sheet = new CssStyleSheet(parser, default(String), options.Element)
             {
-                OwnerNode = options.Element,
-                IsDisabled = options.IsDisabled,
-                Title = options.Title
+                IsDisabled = options.IsDisabled
             };
             var source = new TextSource(sourceCode);
-            return Parse(parser, sheet, source);
+            return Parse(parser, sheet, source).Result;
         }
 
         /// <summary>
@@ -114,15 +113,12 @@
         public IStyleSheet ParseStylesheet(IResponse response, StyleOptions options)
         {
             var parser = new CssParser(_options, options.Configuration);
-            var sheet = new CssStyleSheet(parser) 
+            var sheet = new CssStyleSheet(parser, response.Address.Href, options.Element) 
             { 
-                Href = response.Address.Href, 
-                OwnerNode = options.Element,
-                IsDisabled = options.IsDisabled,
-                Title = options.Title
+                IsDisabled = options.IsDisabled
             };
             var source = new TextSource(response.Content);
-            return Parse(parser, sheet, source);
+            return Parse(parser, sheet, source).Result;
         }
 
         /// <summary>
@@ -163,7 +159,7 @@
 
         #region Helper
 
-        CssStyleSheet Parse(CssParser parser, CssStyleSheet sheet, TextSource source)
+        async Task<CssStyleSheet> Parse(CssParser parser, CssStyleSheet sheet, TextSource source)
         {
             var evt = new CssParseStartEvent(sheet);
             var events = parser.Config.Events;
@@ -171,7 +167,7 @@
             if (events != null)
                 events.Publish(evt);
 
-            parser.ParseStylesheet(sheet, source);
+            await parser.ParseStylesheetAsync(sheet, source).ConfigureAwait(false);
             evt.FireEnd();
             return sheet;
         }

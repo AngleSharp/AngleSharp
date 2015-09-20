@@ -62,9 +62,9 @@
             for (var i = _rules.Count - 1; i >= 0; i--)
             {
                 var oldRule = _rules[i];
-                _rules.RemoveAt(i);
                 oldRule.Parent = null;
                 oldRule.Owner = null;
+                _rules.RemoveAt(i);
             }
         }
 
@@ -90,9 +90,9 @@
             if (oldRule.Type == CssRuleType.Namespace && _rules.Any(m => (m.Type != CssRuleType.Import && m.Type != CssRuleType.Charset && m.Type != CssRuleType.Namespace)))
                 throw new DomException(DomError.InvalidState);
 
-            _rules.RemoveAt(index);
             oldRule.Parent = null;
             oldRule.Owner = null;
+            _rules.RemoveAt(index);
         }
 
         internal void Insert(CssRule value, Int32 index, ICssStyleSheet owner, ICssRule parent)

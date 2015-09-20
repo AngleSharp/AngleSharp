@@ -46,6 +46,16 @@
         }
 
         /// <summary>
+        /// Gets the associated document of the sheet if any.
+        /// </summary>
+        /// <param name="sheet">The sheet.</param>
+        /// <returns>The associated document, if any.</returns>
+        public static IDocument GetDocument(this IStyleSheet sheet)
+        {
+            return sheet != null && sheet.OwnerNode != null ? sheet.OwnerNode.Owner : null;
+        }
+
+        /// <summary>
         /// Gets the comments contained in the CSS node, if any.
         /// </summary>
         /// <param name="node">The node to examine.</param>
