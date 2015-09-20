@@ -39,11 +39,6 @@
         void RemoveAt(Int32 index);
 
         /// <summary>
-        /// Gets a CSS code representation of the stylesheet.
-        /// </summary>
-        String CssText { get; }
-
-        /// <summary>
         /// Gets the CSS root node associated with the stylesheet, if any.
         /// </summary>
         CssNode ParseTree { get; }
