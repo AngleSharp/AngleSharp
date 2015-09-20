@@ -125,5 +125,38 @@
             Assert.AreEqual("http://localhost/linked4.css", linked4.Href);
             Assert.AreEqual(0, linked4.Rules.Length);
         }
+
+        [Test]
+        public async Task CssWithImportRuleShouldStopRecursion()
+        {
+            var files = new Dictionary<String, String>
+            {
+                { "index.html", "<!doctype html><html><link rel=stylesheet href=origin.css type=text/css>" },
+                { "origin.css", "@import url(linked.css);" },
+                { "linked.css", "@import url(origin.css);" },
+            };
+            var requester = new TestServerRequester(files);
+            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { requester }).WithCss();
+            var document = await BrowsingContext.New(config).OpenAsync("http://localhost/index.html");
+            var link = document.QuerySelector<IHtmlLinkElement>("link");
+
+            await Task.Delay(100);
+
+            Assert.IsNotNull(link);
+
+            var origin = link.Sheet as ICssStyleSheet;
+            Assert.IsNotNull(origin);
+            Assert.AreEqual("http://localhost/origin.css", origin.Href);
+            Assert.AreEqual(1, origin.Rules.Length);
+            Assert.AreEqual(CssRuleType.Import, origin.Rules[0].Type);
+
+            var linked = (origin.Rules[0] as ICssImportRule).Sheet;
+            Assert.IsNotNull(linked);
+            Assert.AreEqual("http://localhost/linked.css", linked.Href);
+            Assert.AreEqual(1, linked.Rules.Length);
+
+            var originAborted = (linked.Rules[0] as ICssImportRule).Sheet;
+            Assert.IsNull(originAborted);
+        }
     }
 }
