@@ -11,555 +11,589 @@
     /// </summary>
     static class Map
     {
-        #region Dictionaries
-
         /// <summary>
         /// Contains the string-Whitespace mapping.
         /// </summary>
-        public static readonly Dictionary<String, Whitespace> WhitespaceModes = new Dictionary<String, Whitespace>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, Whitespace> WhitespaceModes = new Dictionary<String, Whitespace>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Normal, Whitespace.Normal },
+            { Keywords.Pre, Whitespace.Pre },
+            { Keywords.Nowrap, Whitespace.NoWrap },
+            { Keywords.PreWrap, Whitespace.PreWrap },
+            { Keywords.PreLine, Whitespace.PreLine },
+        };
 
         /// <summary>
         /// Contains the string-TextTransform mapping.
         /// </summary>
-        public static readonly Dictionary<String, TextTransform> TextTransforms = new Dictionary<String, TextTransform>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, TextTransform> TextTransforms = new Dictionary<String, TextTransform>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.None, TextTransform.None },
+            { Keywords.Capitalize, TextTransform.Capitalize },
+            { Keywords.Uppercase, TextTransform.Uppercase },
+            { Keywords.Lowercase, TextTransform.Lowercase },
+            { Keywords.FullWidth, TextTransform.FullWidth },
+        };
 
         /// <summary>
         /// Contains the string-HorizontalAlignment mapping.
         /// </summary>
-        public static readonly Dictionary<String, HorizontalAlignment> HorizontalAlignments = new Dictionary<String, HorizontalAlignment>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, HorizontalAlignment> HorizontalAlignments = new Dictionary<String, HorizontalAlignment>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Left, HorizontalAlignment.Left },
+            { Keywords.Right, HorizontalAlignment.Right },
+            { Keywords.Center, HorizontalAlignment.Center },
+            { Keywords.Justify, HorizontalAlignment.Justify },
+        };
 
         /// <summary>
         /// Contains the string-VerticalAlignment mapping.
         /// </summary>
-        public static readonly Dictionary<String, VerticalAlignment> VerticalAlignments = new Dictionary<String, VerticalAlignment>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, VerticalAlignment> VerticalAlignments = new Dictionary<String, VerticalAlignment>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Baseline, VerticalAlignment.Baseline },
+            { Keywords.Sub, VerticalAlignment.Sub },
+            { Keywords.Super, VerticalAlignment.Super },
+            { Keywords.TextTop, VerticalAlignment.TextTop },
+            { Keywords.TextBottom, VerticalAlignment.TextBottom },
+            { Keywords.Middle, VerticalAlignment.Middle },
+            { Keywords.Top, VerticalAlignment.Top },
+            { Keywords.Bottom, VerticalAlignment.Bottom },
+        };
 
         /// <summary>
         /// Contains the string-LineStyle mapping.
         /// </summary>
-        public static readonly Dictionary<String, LineStyle> LineStyles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, LineStyle> LineStyles = new Dictionary<String, LineStyle>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.None, LineStyle.None },
+            { Keywords.Solid, LineStyle.Solid },
+            { Keywords.Double, LineStyle.Double },
+            { Keywords.Dotted, LineStyle.Dotted },
+            { Keywords.Dashed, LineStyle.Dashed },
+            { Keywords.Inset, LineStyle.Inset },
+            { Keywords.Outset, LineStyle.Outset },
+            { Keywords.Ridge, LineStyle.Ridge },
+            { Keywords.Groove, LineStyle.Groove },
+            { Keywords.Hidden, LineStyle.Hidden },
+        };
 
         /// <summary>
         /// Contains the string-BoxModel mapping.
         /// </summary>
-        public static readonly Dictionary<String, BoxModel> BoxModels = new Dictionary<String, BoxModel>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, BoxModel> BoxModels = new Dictionary<String, BoxModel>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.BorderBox, BoxModel.BorderBox },
+            { Keywords.PaddingBox, BoxModel.PaddingBox },
+            { Keywords.ContentBox, BoxModel.ContentBox },
+        };
 
         /// <summary>
         /// Contains the string-TimingFunction mapping.
         /// </summary>
-        public static readonly Dictionary<String, ITimingFunction> TimingFunctions = new Dictionary<String, ITimingFunction>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, ITimingFunction> TimingFunctions = new Dictionary<String, ITimingFunction>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Ease, new CubicBezierTimingFunction(0.25f, 0.1f, 0.25f, 1f) },
+            { Keywords.EaseIn, new CubicBezierTimingFunction(0.42f, 0f, 1f, 1f) },
+            { Keywords.EaseOut, new CubicBezierTimingFunction(0f, 0f, 0.58f, 1f) },
+            { Keywords.EaseInOut, new CubicBezierTimingFunction(0.42f, 0f, 0.58f, 1f) },
+            { Keywords.Linear, new CubicBezierTimingFunction(0f, 0f, 1f, 1f) },
+            { Keywords.StepStart, new StepsTimingFunction(1, true) },
+            { Keywords.StepEnd, new StepsTimingFunction(1, false) },
+        };
 
         /// <summary>
         /// Contains the string-AnimationFillStyle mapping.
         /// </summary>
-        public static readonly Dictionary<String, AnimationFillStyle> AnimationFillStyles = new Dictionary<String, AnimationFillStyle>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, AnimationFillStyle> AnimationFillStyles = new Dictionary<String, AnimationFillStyle>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.None, AnimationFillStyle.None },
+            { Keywords.Forwards, AnimationFillStyle.Forwards },
+            { Keywords.Backwards, AnimationFillStyle.Backwards },
+            { Keywords.Both, AnimationFillStyle.Both },
+        };
 
         /// <summary>
         /// Contains the string-AnimationDirection mapping.
         /// </summary>
-        public static readonly Dictionary<String, AnimationDirection> AnimationDirections = new Dictionary<String, AnimationDirection>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, AnimationDirection> AnimationDirections = new Dictionary<String, AnimationDirection>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Normal, AnimationDirection.Normal },
+            { Keywords.Reverse, AnimationDirection.Reverse },
+            { Keywords.Alternate, AnimationDirection.Alternate },
+            { Keywords.AlternateReverse, AnimationDirection.AlternateReverse },
+        };
 
         /// <summary>
         /// Contains the string-Visibility mapping.
         /// </summary>
-        public static readonly Dictionary<String, Visibility> Visibilities = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, Visibility> Visibilities = new Dictionary<String, Visibility>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Visible, Visibility.Visible },
+            { Keywords.Hidden, Visibility.Hidden },
+            { Keywords.Collapse, Visibility.Collapse },
+        };
 
         /// <summary>
         /// Contains the string-PlayState mapping.
         /// </summary>
-        public static readonly Dictionary<String, PlayState> PlayStates = new Dictionary<String, PlayState>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, PlayState> PlayStates = new Dictionary<String, PlayState>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Running, PlayState.Running },
+            { Keywords.Paused, PlayState.Paused },
+        };
 
         /// <summary>
         /// Contains the string-FontVariant mapping.
         /// </summary>
-        public static readonly Dictionary<String, FontVariant> FontVariants = new Dictionary<String, FontVariant>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, FontVariant> FontVariants = new Dictionary<String, FontVariant>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Normal, FontVariant.Normal },
+            { Keywords.SmallCaps, FontVariant.SmallCaps },
+        };
 
         /// <summary>
         /// Contains the string-DirectionMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, DirectionMode> DirectionModes = new Dictionary<String, DirectionMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, DirectionMode> DirectionModes = new Dictionary<String, DirectionMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Ltr, DirectionMode.Ltr },
+            { Keywords.Rtl, DirectionMode.Rtl },
+        };
 
         /// <summary>
         /// Contains the string-ListStyle mapping.
         /// </summary>
-        public static readonly Dictionary<String, ListStyle> ListStyles = new Dictionary<String, ListStyle>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, ListStyle> ListStyles = new Dictionary<String, ListStyle>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Disc, ListStyle.Disc },
+            { Keywords.Circle, ListStyle.Circle },
+            { Keywords.Square, ListStyle.Square },
+            { Keywords.Decimal, ListStyle.Decimal },
+            { Keywords.DecimalLeadingZero, ListStyle.DecimalLeadingZero },
+            { Keywords.LowerRoman, ListStyle.LowerRoman },
+            { Keywords.UpperRoman, ListStyle.UpperRoman },
+            { Keywords.LowerGreek, ListStyle.LowerGreek },
+            { Keywords.LowerLatin, ListStyle.LowerLatin },
+            { Keywords.UpperLatin, ListStyle.UpperLatin },
+            { Keywords.Armenian, ListStyle.Armenian },
+            { Keywords.Georgian, ListStyle.Georgian },
+            { Keywords.LowerAlpha, ListStyle.LowerLatin },
+            { Keywords.UpperAlpha, ListStyle.UpperLatin },
+            { Keywords.None, ListStyle.None },
+        };
 
         /// <summary>
         /// Contains the string-ListPosition mapping.
         /// </summary>
-        public static readonly Dictionary<String, ListPosition> ListPositions = new Dictionary<String, ListPosition>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, ListPosition> ListPositions = new Dictionary<String, ListPosition>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Inside, ListPosition.Inside },
+            { Keywords.Outside, ListPosition.Outside },
+        };
 
         /// <summary>
         /// Contains the string-whitespace mapping.
         /// </summary>
-        public static readonly Dictionary<String, FontSize> FontSizes = new Dictionary<String, FontSize>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, FontSize> FontSizes = new Dictionary<String, FontSize>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.XxSmall, FontSize.Tiny },
+            { Keywords.XSmall, FontSize.Little },
+            { Keywords.Small, FontSize.Small },
+            { Keywords.Medium, FontSize.Medium },
+            { Keywords.Large, FontSize.Large },
+            { Keywords.XLarge, FontSize.Big },
+            { Keywords.XxLarge, FontSize.Huge },
+            { Keywords.Larger, FontSize.Smaller },
+            { Keywords.Smaller, FontSize.Larger },
+        };
 
         /// <summary>
         /// Contains the string-TextDecorationStyle mapping.
         /// </summary>
-        public static readonly Dictionary<String, TextDecorationStyle> TextDecorationStyles = new Dictionary<String, TextDecorationStyle>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, TextDecorationStyle> TextDecorationStyles = new Dictionary<String, TextDecorationStyle>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Solid, TextDecorationStyle.Solid },
+            { Keywords.Double, TextDecorationStyle.Double },
+            { Keywords.Dotted, TextDecorationStyle.Dotted },
+            { Keywords.Dashed, TextDecorationStyle.Dashed },
+            { Keywords.Wavy, TextDecorationStyle.Wavy },
+        };
 
         /// <summary>
         /// Contains the string-TextDecorationLine mapping.
         /// </summary>
-        public static readonly Dictionary<String, TextDecorationLine> TextDecorationLines = new Dictionary<String, TextDecorationLine>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, TextDecorationLine> TextDecorationLines = new Dictionary<String, TextDecorationLine>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Underline, TextDecorationLine.Underline },
+            { Keywords.Overline, TextDecorationLine.Overline },
+            { Keywords.LineThrough, TextDecorationLine.LineThrough },
+            { Keywords.Blink, TextDecorationLine.Blink },
+        };
 
         /// <summary>
         /// Contains the string-BorderRepeat mapping.
         /// </summary>
-        public static readonly Dictionary<String, BorderRepeat> BorderRepeatModes = new Dictionary<String, BorderRepeat>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, BorderRepeat> BorderRepeatModes = new Dictionary<String, BorderRepeat>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Stretch, BorderRepeat.Stretch },
+            { Keywords.Repeat, BorderRepeat.Repeat },
+            { Keywords.Round, BorderRepeat.Round },
+        };
 
         /// <summary>
         /// Contains the string-whitespace mapping.
         /// </summary>
-        public static readonly Dictionary<String, String> DefaultFontFamilies = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, String> DefaultFontFamilies = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Serif, "Times New Roman" },
+            { Keywords.SansSerif, "Arial" },
+            { Keywords.Monospace, "Consolas" },
+            { Keywords.Cursive, "Cursive" },
+            { Keywords.Fantasy, "Comic Sans" },
+        };
 
         /// <summary>
         /// Contains the string-BackgroundAttachment mapping.
         /// </summary>
-        public static readonly Dictionary<String, BackgroundAttachment> BackgroundAttachments = new Dictionary<String, BackgroundAttachment>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, BackgroundAttachment> BackgroundAttachments = new Dictionary<String, BackgroundAttachment>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Fixed, BackgroundAttachment.Fixed },
+            { Keywords.Local, BackgroundAttachment.Local },
+            { Keywords.Scroll, BackgroundAttachment.Scroll },
+        };
 
         /// <summary>
         /// Contains the string-FontStyle mapping.
         /// </summary>
-        public static readonly Dictionary<String, FontStyle> FontStyles = new Dictionary<String, FontStyle>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, FontStyle> FontStyles = new Dictionary<String, FontStyle>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Normal, FontStyle.Normal },
+            { Keywords.Italic, FontStyle.Italic },
+            { Keywords.Oblique, FontStyle.Oblique },
+        };
 
         /// <summary>
         /// Contains the string-FontStretch mapping.
         /// </summary>
-        public static readonly Dictionary<String, FontStretch> FontStretches = new Dictionary<String, FontStretch>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, FontStretch> FontStretches = new Dictionary<String, FontStretch>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Normal, FontStretch.Normal },
+            { Keywords.UltraCondensed, FontStretch.UltraCondensed },
+            { Keywords.ExtraCondensed, FontStretch.ExtraCondensed },
+            { Keywords.Condensed, FontStretch.Condensed },
+            { Keywords.SemiCondensed, FontStretch.SemiCondensed },
+            { Keywords.SemiExpanded, FontStretch.SemiExpanded },
+            { Keywords.Expanded, FontStretch.Expanded },
+            { Keywords.ExtraExpanded, FontStretch.ExtraExpanded },
+            { Keywords.UltraExpanded, FontStretch.UltraExpanded },
+        };
 
         /// <summary>
         /// Contains the string-BreakMode (general) mapping.
         /// </summary>
-        public static readonly Dictionary<String, BreakMode> BreakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, BreakMode> BreakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Auto, BreakMode.Auto },
+            { Keywords.Always, BreakMode.Always },
+            { Keywords.Avoid, BreakMode.Avoid },
+            { Keywords.Left, BreakMode.Left },
+            { Keywords.Right, BreakMode.Right },
+            { Keywords.Page, BreakMode.Page },
+            { Keywords.Column, BreakMode.Column },
+            { Keywords.AvoidPage, BreakMode.AvoidPage },
+            { Keywords.AvoidColumn, BreakMode.AvoidColumn },
+        };
 
         /// <summary>
         /// Contains the string-BreakMode (page) mapping.
         /// </summary>
-        public static readonly Dictionary<String, BreakMode> PageBreakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, BreakMode> PageBreakModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Auto, BreakMode.Auto },
+            { Keywords.Always, BreakMode.Always },
+            { Keywords.Avoid, BreakMode.Avoid },
+            { Keywords.Left, BreakMode.Left },
+            { Keywords.Right, BreakMode.Right },
+        };
 
         /// <summary>
         /// Contains the string-BreakMode (inside) mapping.
         /// </summary>
-        public static readonly Dictionary<String, BreakMode> BreakInsideModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, BreakMode> BreakInsideModes = new Dictionary<String, BreakMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Auto, BreakMode.Auto },
+            { Keywords.Avoid, BreakMode.Avoid },
+            { Keywords.AvoidPage, BreakMode.AvoidPage },
+            { Keywords.AvoidColumn, BreakMode.AvoidColumn },
+            { Keywords.AvoidRegion, BreakMode.AvoidRegion },
+        };
 
         /// <summary>
         /// Contains the string-horizontal modes mapping.
         /// </summary>
-        public static readonly Dictionary<String, Single> HorizontalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, Single> HorizontalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Left, 0f },
+            { Keywords.Center, 0.5f },
+            { Keywords.Right, 1f },
+        };
 
         /// <summary>
         /// Contains the string-vertical modes mapping.
         /// </summary>
-        public static readonly Dictionary<String, Single> VerticalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, Single> VerticalModes = new Dictionary<String, Single>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Top, 0f },
+            { Keywords.Center, 0.5f },
+            { Keywords.Bottom, 1f },
+        };
 
         /// <summary>
         /// Contains the string-UnicodeMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, UnicodeMode> UnicodeModes = new Dictionary<String, UnicodeMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, UnicodeMode> UnicodeModes = new Dictionary<String, UnicodeMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Normal, UnicodeMode.Normal },
+            { Keywords.Embed, UnicodeMode.Embed },
+            { Keywords.Isolate, UnicodeMode.Isolate },
+            { Keywords.IsolateOverride, UnicodeMode.IsolateOverride },
+            { Keywords.BidiOverride, UnicodeMode.BidiOverride },
+            { Keywords.Plaintext, UnicodeMode.Plaintext },
+        };
 
         /// <summary>
         /// Contains the string-whitespace mapping.
         /// </summary>
-        public static readonly Dictionary<String, SystemCursor> Cursors = new Dictionary<String, SystemCursor>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, SystemCursor> Cursors = new Dictionary<String, SystemCursor>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Auto, SystemCursor.Auto },
+            { Keywords.Default, SystemCursor.Default },
+            { Keywords.None, SystemCursor.None },
+            { Keywords.ContextMenu, SystemCursor.ContextMenu },
+            { Keywords.Help, SystemCursor.Help },
+            { Keywords.Pointer, SystemCursor.Pointer },
+            { Keywords.Progress, SystemCursor.Progress },
+            { Keywords.Wait, SystemCursor.Wait },
+            { Keywords.Cell, SystemCursor.Cell },
+            { Keywords.Crosshair, SystemCursor.Crosshair },
+            { Keywords.Text, SystemCursor.Text },
+            { Keywords.VerticalText, SystemCursor.VerticalText },
+            { Keywords.Alias, SystemCursor.Alias },
+            { Keywords.Copy, SystemCursor.Copy },
+            { Keywords.Move, SystemCursor.Move },
+            { Keywords.NoDrop, SystemCursor.NoDrop },
+            { Keywords.NotAllowed, SystemCursor.NotAllowed },
+            { Keywords.EastResize, SystemCursor.EResize },
+            { Keywords.NorthResize, SystemCursor.NResize },
+            { Keywords.NorthEastResize, SystemCursor.NeResize },
+            { Keywords.NorthWestResize, SystemCursor.NwResize },
+            { Keywords.SouthResize, SystemCursor.SResize },
+            { Keywords.SouthEastResize, SystemCursor.SeResize },
+            { Keywords.SouthWestResize, SystemCursor.WResize },
+            { Keywords.WestResize, SystemCursor.WResize },
+            { Keywords.EastWestResize, SystemCursor.EwResize },
+            { Keywords.NorthSouthResize, SystemCursor.NsResize },
+            { Keywords.NorthEastSouthWestResize, SystemCursor.NeswResize },
+            { Keywords.NorthWestSouthEastResize, SystemCursor.NwseResize },
+            { Keywords.ColResize, SystemCursor.ColResize },
+            { Keywords.RowResize, SystemCursor.RowResize },
+            { Keywords.AllScroll, SystemCursor.AllScroll },
+            { Keywords.ZoomIn, SystemCursor.ZoomIn },
+            { Keywords.ZoomOut, SystemCursor.ZoomOut },
+            { Keywords.Grab, SystemCursor.Grab },
+            { Keywords.Grabbing, SystemCursor.Grabbing },
+        };
 
         /// <summary>
         /// Contains the string-PositionMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, PositionMode> PositionModes = new Dictionary<String, PositionMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, PositionMode> PositionModes = new Dictionary<String, PositionMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Static, PositionMode.Static },
+            { Keywords.Relative, PositionMode.Relative },
+            { Keywords.Absolute, PositionMode.Absolute },
+            { Keywords.Sticky, PositionMode.Sticky },
+            { Keywords.Fixed, PositionMode.Fixed },
+        };
 
         /// <summary>
         /// Contains the string-OverflowMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, OverflowMode> OverflowModes = new Dictionary<String, OverflowMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, OverflowMode> OverflowModes = new Dictionary<String, OverflowMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Visible, OverflowMode.Visible },
+            { Keywords.Hidden, OverflowMode.Hidden },
+            { Keywords.Scroll, OverflowMode.Scroll },
+            { Keywords.Auto, OverflowMode.Auto },
+        };
 
         /// <summary>
         /// Contains the string-Floating mapping.
         /// </summary>
-        public static readonly Dictionary<String, Floating> FloatingModes = new Dictionary<String, Floating>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, Floating> FloatingModes = new Dictionary<String, Floating>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.None, Floating.None },
+            { Keywords.Left, Floating.Left },
+            { Keywords.Right, Floating.Right },
+        };
 
         /// <summary>
         /// Contains the string-DisplayMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, DisplayMode> DisplayModes = new Dictionary<String, DisplayMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, DisplayMode> DisplayModes = new Dictionary<String, DisplayMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.None, DisplayMode.None },
+            { Keywords.Inline, DisplayMode.Inline },
+            { Keywords.Block, DisplayMode.Block },
+            { Keywords.InlineBlock, DisplayMode.InlineBlock },
+            { Keywords.ListItem, DisplayMode.ListItem },
+            { Keywords.InlineTable, DisplayMode.InlineTable },
+            { Keywords.Table, DisplayMode.Table },
+            { Keywords.TableCaption, DisplayMode.TableCaption },
+            { Keywords.TableCell, DisplayMode.TableCell },
+            { Keywords.TableColumn, DisplayMode.TableColumn },
+            { Keywords.TableColumnGroup, DisplayMode.TableColumnGroup },
+            { Keywords.TableFooterGroup, DisplayMode.TableFooterGroup },
+            { Keywords.TableHeaderGroup, DisplayMode.TableHeaderGroup },
+            { Keywords.TableRow, DisplayMode.TableRow },
+            { Keywords.TableRowGroup, DisplayMode.TableRowGroup },
+            { Keywords.Flex, DisplayMode.Flex },
+            { Keywords.InlineFlex, DisplayMode.InlineFlex },
+            { Keywords.Grid, DisplayMode.Grid },
+            { Keywords.InlineGrid, DisplayMode.InlineGrid },
+        };
 
         /// <summary>
         /// Contains the string-ClearMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, ClearMode> ClearModes = new Dictionary<String, ClearMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, ClearMode> ClearModes = new Dictionary<String, ClearMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.None, ClearMode.None },
+            { Keywords.Left, ClearMode.Left },
+            { Keywords.Right, ClearMode.Right },
+            { Keywords.Both, ClearMode.Both },
+        };
 
         /// <summary>
         /// Contains the string-BackgroundRepeat mapping.
         /// </summary>
-        public static readonly Dictionary<String, BackgroundRepeat> BackgroundRepeats = new Dictionary<String, BackgroundRepeat>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, BackgroundRepeat> BackgroundRepeats = new Dictionary<String, BackgroundRepeat>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.NoRepeat, BackgroundRepeat.NoRepeat },
+            { Keywords.Repeat, BackgroundRepeat.Repeat },
+            { Keywords.Round, BackgroundRepeat.Round },
+            { Keywords.Space, BackgroundRepeat.Space },
+        };
 
         /// <summary>
         /// Contains the string-BlendMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, BlendMode> BlendModes = new Dictionary<String, BlendMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, BlendMode> BlendModes = new Dictionary<String, BlendMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Color, BlendMode.Color },
+            { Keywords.ColorBurn, BlendMode.ColorBurn },
+            { Keywords.ColorDodge, BlendMode.ColorDodge },
+            { Keywords.Darken, BlendMode.Darken },
+            { Keywords.Difference, BlendMode.Difference },
+            { Keywords.Exclusion, BlendMode.Exclusion },
+            { Keywords.HardLight, BlendMode.HardLight },
+            { Keywords.Hue, BlendMode.Hue },
+            { Keywords.Lighten, BlendMode.Lighten },
+            { Keywords.Luminosity, BlendMode.Luminosity },
+            { Keywords.Multiply, BlendMode.Multiply },
+            { Keywords.Normal, BlendMode.Normal },
+            { Keywords.Overlay, BlendMode.Overlay },
+            { Keywords.Saturation, BlendMode.Saturation },
+            { Keywords.Screen, BlendMode.Screen },
+            { Keywords.SoftLight, BlendMode.SoftLight },
+        };
 
         /// <summary>
         /// Contains the string-UpdateFrequency mapping.
         /// </summary>
-        public static readonly Dictionary<String, UpdateFrequency> UpdateFrequencies = new Dictionary<String, UpdateFrequency>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, UpdateFrequency> UpdateFrequencies = new Dictionary<String, UpdateFrequency>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.None, UpdateFrequency.None },
+            { Keywords.Slow, UpdateFrequency.Slow },
+            { Keywords.Normal, UpdateFrequency.Normal },
+        };
 
         /// <summary>
         /// Contains the string-ScriptingState mapping.
         /// </summary>
-        public static readonly Dictionary<String, ScriptingState> ScriptingStates = new Dictionary<String, ScriptingState>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, ScriptingState> ScriptingStates = new Dictionary<String, ScriptingState>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.None, ScriptingState.None },
+            { Keywords.InitialOnly, ScriptingState.InitialOnly },
+            { Keywords.Enabled, ScriptingState.Enabled },
+        };
 
         /// <summary>
         /// Contains the string-PointerAccuracy mapping.
         /// </summary>
-        public static readonly Dictionary<String, PointerAccuracy> PointerAccuracies = new Dictionary<String, PointerAccuracy>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, PointerAccuracy> PointerAccuracies = new Dictionary<String, PointerAccuracy>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.None, PointerAccuracy.None },
+            { Keywords.Coarse, PointerAccuracy.Coarse },
+            { Keywords.Fine, PointerAccuracy.Fine },
+        };
 
         /// <summary>
         /// Contains the string-HoverAbility mapping.
         /// </summary>
-        public static readonly Dictionary<String, HoverAbility> HoverAbilities = new Dictionary<String, HoverAbility>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, HoverAbility> HoverAbilities = new Dictionary<String, HoverAbility>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.None, HoverAbility.None },
+            { Keywords.OnDemand, HoverAbility.OnDemand },
+            { Keywords.Hover, HoverAbility.Hover },
+        };
 
         /// <summary>
         /// Contains the string-SizeMode mapping.
         /// </summary>
-        public static readonly Dictionary<String, RadialGradient.SizeMode> RadialGradientSizeModes = new Dictionary<String, RadialGradient.SizeMode>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, RadialGradient.SizeMode> RadialGradientSizeModes = new Dictionary<String, RadialGradient.SizeMode>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.ClosestSide, RadialGradient.SizeMode.ClosestSide },
+            { Keywords.FarthestSide, RadialGradient.SizeMode.FarthestSide },
+            { Keywords.ClosestCorner, RadialGradient.SizeMode.ClosestCorner },
+            { Keywords.FarthestCorner, RadialGradient.SizeMode.FarthestCorner },
+        };
 
         /// <summary>
         /// Contains the string-ObjectFitting mapping.
         /// </summary>
-        public static readonly Dictionary<String, ObjectFitting> ObjectFittings = new Dictionary<String, ObjectFitting>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, ObjectFitting> ObjectFittings = new Dictionary<String, ObjectFitting>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.None, ObjectFitting.None },
+            { Keywords.Cover, ObjectFitting.Cover },
+            { Keywords.Contain, ObjectFitting.Contain },
+            { Keywords.Fill, ObjectFitting.Fill },
+            { Keywords.ScaleDown, ObjectFitting.ScaleDown },
+        };
 
         /// <summary>
         /// Contains the string-FontWeight mapping.
         /// </summary>
-        public static readonly Dictionary<String, FontWeight> FontWeights = new Dictionary<String, FontWeight>(StringComparer.OrdinalIgnoreCase);
+        public static readonly Dictionary<String, FontWeight> FontWeights = new Dictionary<String, FontWeight>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Keywords.Normal, FontWeight.Normal },
+            { Keywords.Bold, FontWeight.Bold },
+            { Keywords.Bolder, FontWeight.Bolder },
+            { Keywords.Lighter, FontWeight.Lighter },
+        };
 
         /// <summary>
         /// Contains the string-SystemFont mapping.
         /// </summary>
-        public static readonly Dictionary<String, SystemFont> SystemFonts = new Dictionary<String, SystemFont>(StringComparer.OrdinalIgnoreCase);
-
-        #endregion
-
-        #region Initial Population
-
-        static Map()
+        public static readonly Dictionary<String, SystemFont> SystemFonts = new Dictionary<String, SystemFont>(StringComparer.OrdinalIgnoreCase)
         {
-            LineStyles.Add(Keywords.None, LineStyle.None);
-            LineStyles.Add(Keywords.Solid, LineStyle.Solid);
-            LineStyles.Add(Keywords.Double, LineStyle.Double);
-            LineStyles.Add(Keywords.Dotted, LineStyle.Dotted);
-            LineStyles.Add(Keywords.Dashed, LineStyle.Dashed);
-            LineStyles.Add(Keywords.Inset, LineStyle.Inset);
-            LineStyles.Add(Keywords.Outset, LineStyle.Outset);
-            LineStyles.Add(Keywords.Ridge, LineStyle.Ridge);
-            LineStyles.Add(Keywords.Groove, LineStyle.Groove);
-            LineStyles.Add(Keywords.Hidden, LineStyle.Hidden);
-
-            BoxModels.Add(Keywords.BorderBox, BoxModel.BorderBox);
-            BoxModels.Add(Keywords.PaddingBox, BoxModel.PaddingBox);
-            BoxModels.Add(Keywords.ContentBox, BoxModel.ContentBox);
-
-            TimingFunctions.Add(Keywords.Ease, new CubicBezierTimingFunction(0.25f, 0.1f, 0.25f, 1f));
-            TimingFunctions.Add(Keywords.EaseIn, new CubicBezierTimingFunction(0.42f, 0f, 1f, 1f));
-            TimingFunctions.Add(Keywords.EaseOut, new CubicBezierTimingFunction(0f, 0f, 0.58f, 1f));
-            TimingFunctions.Add(Keywords.EaseInOut, new CubicBezierTimingFunction(0.42f, 0f, 0.58f, 1f));
-            TimingFunctions.Add(Keywords.Linear, new CubicBezierTimingFunction(0f, 0f, 1f, 1f));
-            TimingFunctions.Add(Keywords.StepStart, new StepsTimingFunction(1, true));
-            TimingFunctions.Add(Keywords.StepEnd, new StepsTimingFunction(1, false));
-
-            AnimationFillStyles.Add(Keywords.None, AnimationFillStyle.None);
-            AnimationFillStyles.Add(Keywords.Forwards, AnimationFillStyle.Forwards);
-            AnimationFillStyles.Add(Keywords.Backwards, AnimationFillStyle.Backwards);
-            AnimationFillStyles.Add(Keywords.Both, AnimationFillStyle.Both);
-
-            AnimationDirections.Add(Keywords.Normal, AnimationDirection.Normal);
-            AnimationDirections.Add(Keywords.Reverse, AnimationDirection.Reverse);
-            AnimationDirections.Add(Keywords.Alternate, AnimationDirection.Alternate);
-            AnimationDirections.Add(Keywords.AlternateReverse, AnimationDirection.AlternateReverse);
-
-            Visibilities.Add(Keywords.Visible, Visibility.Visible);
-            Visibilities.Add(Keywords.Hidden, Visibility.Hidden);
-            Visibilities.Add(Keywords.Collapse, Visibility.Collapse);
-
-            ListStyles.Add(Keywords.Disc, ListStyle.Disc);
-            ListStyles.Add(Keywords.Circle, ListStyle.Circle);
-            ListStyles.Add(Keywords.Square, ListStyle.Square);
-            ListStyles.Add(Keywords.Decimal, ListStyle.Decimal);
-            ListStyles.Add(Keywords.DecimalLeadingZero, ListStyle.DecimalLeadingZero);
-            ListStyles.Add(Keywords.LowerRoman, ListStyle.LowerRoman);
-            ListStyles.Add(Keywords.UpperRoman, ListStyle.UpperRoman);
-            ListStyles.Add(Keywords.LowerGreek, ListStyle.LowerGreek);
-            ListStyles.Add(Keywords.LowerLatin, ListStyle.LowerLatin);
-            ListStyles.Add(Keywords.UpperLatin, ListStyle.UpperLatin);
-            ListStyles.Add(Keywords.Armenian, ListStyle.Armenian);
-            ListStyles.Add(Keywords.Georgian, ListStyle.Georgian);
-            ListStyles.Add(Keywords.LowerAlpha, ListStyle.LowerLatin);
-            ListStyles.Add(Keywords.UpperAlpha, ListStyle.UpperLatin);
-            ListStyles.Add(Keywords.None, ListStyle.None);
-
-            ListPositions.Add(Keywords.Inside, ListPosition.Inside);
-            ListPositions.Add(Keywords.Outside, ListPosition.Outside);
-
-            FontSizes.Add(Keywords.XxSmall, FontSize.Tiny);
-            FontSizes.Add(Keywords.XSmall, FontSize.Little);
-            FontSizes.Add(Keywords.Small, FontSize.Small);
-            FontSizes.Add(Keywords.Medium, FontSize.Medium);
-            FontSizes.Add(Keywords.Large, FontSize.Large);
-            FontSizes.Add(Keywords.XLarge, FontSize.Big);
-            FontSizes.Add(Keywords.XxLarge, FontSize.Huge);
-            FontSizes.Add(Keywords.Larger, FontSize.Smaller);
-            FontSizes.Add(Keywords.Smaller, FontSize.Larger);
-
-            TextDecorationStyles.Add(Keywords.Solid, TextDecorationStyle.Solid);
-            TextDecorationStyles.Add(Keywords.Double, TextDecorationStyle.Double);
-            TextDecorationStyles.Add(Keywords.Dotted, TextDecorationStyle.Dotted);
-            TextDecorationStyles.Add(Keywords.Dashed, TextDecorationStyle.Dashed);
-            TextDecorationStyles.Add(Keywords.Wavy, TextDecorationStyle.Wavy);
-
-            TextDecorationLines.Add(Keywords.Underline, TextDecorationLine.Underline);
-            TextDecorationLines.Add(Keywords.Overline, TextDecorationLine.Overline);
-            TextDecorationLines.Add(Keywords.LineThrough, TextDecorationLine.LineThrough);
-            TextDecorationLines.Add(Keywords.Blink, TextDecorationLine.Blink);
-
-            BorderRepeatModes.Add(Keywords.Stretch, BorderRepeat.Stretch);
-            BorderRepeatModes.Add(Keywords.Repeat, BorderRepeat.Repeat);
-            BorderRepeatModes.Add(Keywords.Round, BorderRepeat.Round);
-
-            DefaultFontFamilies.Add(Keywords.Serif, "Times New Roman");
-            DefaultFontFamilies.Add(Keywords.SansSerif, "Arial");
-            DefaultFontFamilies.Add(Keywords.Monospace, "Consolas");
-            DefaultFontFamilies.Add(Keywords.Cursive, "Cursive");
-            DefaultFontFamilies.Add(Keywords.Fantasy, "Comic Sans");
-
-            BackgroundAttachments.Add(Keywords.Fixed, BackgroundAttachment.Fixed);
-            BackgroundAttachments.Add(Keywords.Local, BackgroundAttachment.Local);
-            BackgroundAttachments.Add(Keywords.Scroll, BackgroundAttachment.Scroll);
-
-            FontStyles.Add(Keywords.Normal, FontStyle.Normal);
-            FontStyles.Add(Keywords.Italic, FontStyle.Italic);
-            FontStyles.Add(Keywords.Oblique, FontStyle.Oblique);
-
-            FontStretches.Add(Keywords.Normal, FontStretch.Normal);
-            FontStretches.Add(Keywords.UltraCondensed, FontStretch.UltraCondensed);
-            FontStretches.Add(Keywords.ExtraCondensed, FontStretch.ExtraCondensed);
-            FontStretches.Add(Keywords.Condensed, FontStretch.Condensed);
-            FontStretches.Add(Keywords.SemiCondensed, FontStretch.SemiCondensed);
-            FontStretches.Add(Keywords.SemiExpanded, FontStretch.SemiExpanded);
-            FontStretches.Add(Keywords.Expanded, FontStretch.Expanded);
-            FontStretches.Add(Keywords.ExtraExpanded, FontStretch.ExtraExpanded);
-            FontStretches.Add(Keywords.UltraExpanded, FontStretch.UltraExpanded);
-
-            BreakModes.Add(Keywords.Auto, BreakMode.Auto);
-            BreakModes.Add(Keywords.Always, BreakMode.Always);
-            BreakModes.Add(Keywords.Avoid, BreakMode.Avoid);
-            BreakModes.Add(Keywords.Left, BreakMode.Left);
-            BreakModes.Add(Keywords.Right, BreakMode.Right);
-            BreakModes.Add(Keywords.Page, BreakMode.Page);
-            BreakModes.Add(Keywords.Column, BreakMode.Column);
-            BreakModes.Add(Keywords.AvoidPage, BreakMode.AvoidPage);
-            BreakModes.Add(Keywords.AvoidColumn, BreakMode.AvoidColumn);
-
-            PageBreakModes.Add(Keywords.Auto, BreakMode.Auto);
-            PageBreakModes.Add(Keywords.Always, BreakMode.Always);
-            PageBreakModes.Add(Keywords.Avoid, BreakMode.Avoid);
-            PageBreakModes.Add(Keywords.Left, BreakMode.Left);
-            PageBreakModes.Add(Keywords.Right, BreakMode.Right);
-
-            BreakInsideModes.Add(Keywords.Auto, BreakMode.Auto);
-            BreakInsideModes.Add(Keywords.Avoid, BreakMode.Avoid);
-            BreakInsideModes.Add(Keywords.AvoidPage, BreakMode.AvoidPage);
-            BreakInsideModes.Add(Keywords.AvoidColumn, BreakMode.AvoidColumn);
-            BreakInsideModes.Add(Keywords.AvoidRegion, BreakMode.AvoidRegion);
-
-            HorizontalModes.Add(Keywords.Left, 0f);
-            HorizontalModes.Add(Keywords.Center, 0.5f);
-            HorizontalModes.Add(Keywords.Right, 1f);
-
-            VerticalModes.Add(Keywords.Top, 0f);
-            VerticalModes.Add(Keywords.Center, 0.5f);
-            VerticalModes.Add(Keywords.Bottom, 1f);
-
-            UnicodeModes.Add(Keywords.Normal, UnicodeMode.Normal);
-            UnicodeModes.Add(Keywords.Embed, UnicodeMode.Embed);
-            UnicodeModes.Add(Keywords.Isolate, UnicodeMode.Isolate);
-            UnicodeModes.Add(Keywords.IsolateOverride, UnicodeMode.IsolateOverride);
-            UnicodeModes.Add(Keywords.BidiOverride, UnicodeMode.BidiOverride);
-            UnicodeModes.Add(Keywords.Plaintext, UnicodeMode.Plaintext);
-
-            Cursors.Add(Keywords.Auto, SystemCursor.Auto);
-            Cursors.Add(Keywords.Default, SystemCursor.Default);
-            Cursors.Add(Keywords.None, SystemCursor.None);
-            Cursors.Add(Keywords.ContextMenu, SystemCursor.ContextMenu);
-            Cursors.Add(Keywords.Help, SystemCursor.Help);
-            Cursors.Add(Keywords.Pointer, SystemCursor.Pointer);
-            Cursors.Add(Keywords.Progress, SystemCursor.Progress);
-            Cursors.Add(Keywords.Wait, SystemCursor.Wait);
-            Cursors.Add(Keywords.Cell, SystemCursor.Cell);
-            Cursors.Add(Keywords.Crosshair, SystemCursor.Crosshair);
-            Cursors.Add(Keywords.Text, SystemCursor.Text);
-            Cursors.Add(Keywords.VerticalText, SystemCursor.VerticalText);
-            Cursors.Add(Keywords.Alias, SystemCursor.Alias);
-            Cursors.Add(Keywords.Copy, SystemCursor.Copy);
-            Cursors.Add(Keywords.Move, SystemCursor.Move);
-            Cursors.Add(Keywords.NoDrop, SystemCursor.NoDrop);
-            Cursors.Add(Keywords.NotAllowed, SystemCursor.NotAllowed);
-            Cursors.Add(Keywords.EastResize, SystemCursor.EResize);
-            Cursors.Add(Keywords.NorthResize, SystemCursor.NResize);
-            Cursors.Add(Keywords.NorthEastResize, SystemCursor.NeResize);
-            Cursors.Add(Keywords.NorthWestResize, SystemCursor.NwResize);
-            Cursors.Add(Keywords.SouthResize, SystemCursor.SResize);
-            Cursors.Add(Keywords.SouthEastResize, SystemCursor.SeResize);
-            Cursors.Add(Keywords.SouthWestResize, SystemCursor.WResize);
-            Cursors.Add(Keywords.WestResize, SystemCursor.WResize);
-            Cursors.Add(Keywords.EastWestResize, SystemCursor.EwResize);
-            Cursors.Add(Keywords.NorthSouthResize, SystemCursor.NsResize);
-            Cursors.Add(Keywords.NorthEastSouthWestResize, SystemCursor.NeswResize);
-            Cursors.Add(Keywords.NorthWestSouthEastResize, SystemCursor.NwseResize);
-            Cursors.Add(Keywords.ColResize, SystemCursor.ColResize);
-            Cursors.Add(Keywords.RowResize, SystemCursor.RowResize);
-            Cursors.Add(Keywords.AllScroll, SystemCursor.AllScroll);
-            Cursors.Add(Keywords.ZoomIn, SystemCursor.ZoomIn);
-            Cursors.Add(Keywords.ZoomOut, SystemCursor.ZoomOut);
-            Cursors.Add(Keywords.Grab, SystemCursor.Grab);
-            Cursors.Add(Keywords.Grabbing, SystemCursor.Grabbing);
-
-            VerticalAlignments.Add(Keywords.Baseline, VerticalAlignment.Baseline);
-            VerticalAlignments.Add(Keywords.Sub, VerticalAlignment.Sub);
-            VerticalAlignments.Add(Keywords.Super, VerticalAlignment.Super);
-            VerticalAlignments.Add(Keywords.TextTop, VerticalAlignment.TextTop);
-            VerticalAlignments.Add(Keywords.TextBottom, VerticalAlignment.TextBottom);
-            VerticalAlignments.Add(Keywords.Middle, VerticalAlignment.Middle);
-            VerticalAlignments.Add(Keywords.Top, VerticalAlignment.Top);
-            VerticalAlignments.Add(Keywords.Bottom, VerticalAlignment.Bottom);
-
-            TextTransforms.Add(Keywords.None, TextTransform.None);
-            TextTransforms.Add(Keywords.Capitalize, TextTransform.Capitalize);
-            TextTransforms.Add(Keywords.Uppercase, TextTransform.Uppercase);
-            TextTransforms.Add(Keywords.Lowercase, TextTransform.Lowercase);
-            TextTransforms.Add(Keywords.FullWidth, TextTransform.FullWidth);
-
-            WhitespaceModes.Add(Keywords.Normal, Whitespace.Normal);
-            WhitespaceModes.Add(Keywords.Pre, Whitespace.Pre);
-            WhitespaceModes.Add(Keywords.Nowrap, Whitespace.NoWrap);
-            WhitespaceModes.Add(Keywords.PreWrap, Whitespace.PreWrap);
-            WhitespaceModes.Add(Keywords.PreLine, Whitespace.PreLine);
-
-            HorizontalAlignments.Add(Keywords.Left, HorizontalAlignment.Left);
-            HorizontalAlignments.Add(Keywords.Right, HorizontalAlignment.Right);
-            HorizontalAlignments.Add(Keywords.Center, HorizontalAlignment.Center);
-            HorizontalAlignments.Add(Keywords.Justify, HorizontalAlignment.Justify);
-
-            PositionModes.Add(Keywords.Static, PositionMode.Static);
-            PositionModes.Add(Keywords.Relative, PositionMode.Relative);
-            PositionModes.Add(Keywords.Absolute, PositionMode.Absolute);
-            PositionModes.Add(Keywords.Sticky, PositionMode.Sticky);
-            PositionModes.Add(Keywords.Fixed, PositionMode.Fixed);
-
-            OverflowModes.Add(Keywords.Visible, OverflowMode.Visible);
-            OverflowModes.Add(Keywords.Hidden, OverflowMode.Hidden);
-            OverflowModes.Add(Keywords.Scroll, OverflowMode.Scroll);
-            OverflowModes.Add(Keywords.Auto, OverflowMode.Auto);
-
-            FloatingModes.Add(Keywords.None, Floating.None);
-            FloatingModes.Add(Keywords.Left, Floating.Left);
-            FloatingModes.Add(Keywords.Right, Floating.Right);
-
-            DisplayModes.Add(Keywords.None, DisplayMode.None);
-            DisplayModes.Add(Keywords.Inline, DisplayMode.Inline);
-            DisplayModes.Add(Keywords.Block, DisplayMode.Block);
-            DisplayModes.Add(Keywords.InlineBlock, DisplayMode.InlineBlock);
-            DisplayModes.Add(Keywords.ListItem, DisplayMode.ListItem);
-            DisplayModes.Add(Keywords.InlineTable, DisplayMode.InlineTable);
-            DisplayModes.Add(Keywords.Table, DisplayMode.Table);
-            DisplayModes.Add(Keywords.TableCaption, DisplayMode.TableCaption);
-            DisplayModes.Add(Keywords.TableCell, DisplayMode.TableCell);
-            DisplayModes.Add(Keywords.TableColumn, DisplayMode.TableColumn);
-            DisplayModes.Add(Keywords.TableColumnGroup, DisplayMode.TableColumnGroup);
-            DisplayModes.Add(Keywords.TableFooterGroup, DisplayMode.TableFooterGroup);
-            DisplayModes.Add(Keywords.TableHeaderGroup, DisplayMode.TableHeaderGroup);
-            DisplayModes.Add(Keywords.TableRow, DisplayMode.TableRow);
-            DisplayModes.Add(Keywords.TableRowGroup, DisplayMode.TableRowGroup);
-            DisplayModes.Add(Keywords.Flex, DisplayMode.Flex);
-            DisplayModes.Add(Keywords.InlineFlex, DisplayMode.InlineFlex);
-            DisplayModes.Add(Keywords.Grid, DisplayMode.Grid);
-            DisplayModes.Add(Keywords.InlineGrid, DisplayMode.InlineGrid);
-
-            ClearModes.Add(Keywords.None, ClearMode.None);
-            ClearModes.Add(Keywords.Left, ClearMode.Left);
-            ClearModes.Add(Keywords.Right, ClearMode.Right);
-            ClearModes.Add(Keywords.Both, ClearMode.Both);
-
-            BackgroundRepeats.Add(Keywords.NoRepeat, BackgroundRepeat.NoRepeat);
-            BackgroundRepeats.Add(Keywords.Repeat, BackgroundRepeat.Repeat);
-            BackgroundRepeats.Add(Keywords.Round, BackgroundRepeat.Round);
-            BackgroundRepeats.Add(Keywords.Space, BackgroundRepeat.Space);
-
-            BlendModes.Add(Keywords.Color, BlendMode.Color);
-            BlendModes.Add(Keywords.ColorBurn, BlendMode.ColorBurn);
-            BlendModes.Add(Keywords.ColorDodge, BlendMode.ColorDodge);
-            BlendModes.Add(Keywords.Darken, BlendMode.Darken);
-            BlendModes.Add(Keywords.Difference, BlendMode.Difference);
-            BlendModes.Add(Keywords.Exclusion, BlendMode.Exclusion);
-            BlendModes.Add(Keywords.HardLight, BlendMode.HardLight);
-            BlendModes.Add(Keywords.Hue, BlendMode.Hue);
-            BlendModes.Add(Keywords.Lighten, BlendMode.Lighten);
-            BlendModes.Add(Keywords.Luminosity, BlendMode.Luminosity);
-            BlendModes.Add(Keywords.Multiply, BlendMode.Multiply);
-            BlendModes.Add(Keywords.Normal, BlendMode.Normal);
-            BlendModes.Add(Keywords.Overlay, BlendMode.Overlay);
-            BlendModes.Add(Keywords.Saturation, BlendMode.Saturation);
-            BlendModes.Add(Keywords.Screen, BlendMode.Screen);
-            BlendModes.Add(Keywords.SoftLight, BlendMode.SoftLight);
-
-            UpdateFrequencies.Add(Keywords.None, UpdateFrequency.None);
-            UpdateFrequencies.Add(Keywords.Slow, UpdateFrequency.Slow);
-            UpdateFrequencies.Add(Keywords.Normal, UpdateFrequency.Normal);
-
-            ScriptingStates.Add(Keywords.None, ScriptingState.None);
-            ScriptingStates.Add(Keywords.InitialOnly, ScriptingState.InitialOnly);
-            ScriptingStates.Add(Keywords.Enabled, ScriptingState.Enabled);
-
-            PointerAccuracies.Add(Keywords.None, PointerAccuracy.None);
-            PointerAccuracies.Add(Keywords.Coarse, PointerAccuracy.Coarse);
-            PointerAccuracies.Add(Keywords.Fine, PointerAccuracy.Fine);
-
-            HoverAbilities.Add(Keywords.None, HoverAbility.None);
-            HoverAbilities.Add(Keywords.OnDemand, HoverAbility.OnDemand);
-            HoverAbilities.Add(Keywords.Hover, HoverAbility.Hover);
-
-            RadialGradientSizeModes.Add(Keywords.ClosestSide, RadialGradient.SizeMode.ClosestSide);
-            RadialGradientSizeModes.Add(Keywords.FarthestSide, RadialGradient.SizeMode.FarthestSide);
-            RadialGradientSizeModes.Add(Keywords.ClosestCorner, RadialGradient.SizeMode.ClosestCorner);
-            RadialGradientSizeModes.Add(Keywords.FarthestCorner, RadialGradient.SizeMode.FarthestCorner);
-
-            ObjectFittings.Add(Keywords.None, ObjectFitting.None);
-            ObjectFittings.Add(Keywords.Cover, ObjectFitting.Cover);
-            ObjectFittings.Add(Keywords.Contain, ObjectFitting.Contain);
-            ObjectFittings.Add(Keywords.Fill, ObjectFitting.Fill);
-            ObjectFittings.Add(Keywords.ScaleDown, ObjectFitting.ScaleDown);
-
-            FontWeights.Add(Keywords.Normal, FontWeight.Normal);
-            FontWeights.Add(Keywords.Bold, FontWeight.Bold);
-            FontWeights.Add(Keywords.Bolder, FontWeight.Bolder);
-            FontWeights.Add(Keywords.Lighter, FontWeight.Lighter);
-            
-            SystemFonts.Add(Keywords.Caption, SystemFont.Caption);
-            SystemFonts.Add(Keywords.Icon, SystemFont.Icon);
-            SystemFonts.Add(Keywords.Menu, SystemFont.Menu);
-            SystemFonts.Add(Keywords.MessageBox, SystemFont.MessageBox);
-            SystemFonts.Add(Keywords.SmallCaption, SystemFont.SmallCaption);
-            SystemFonts.Add(Keywords.StatusBar, SystemFont.StatusBar);
-
-            PlayStates.Add(Keywords.Running, PlayState.Running);
-            PlayStates.Add(Keywords.Paused, PlayState.Paused);
-
-            FontVariants.Add(Keywords.Normal, FontVariant.Normal);
-            FontVariants.Add(Keywords.SmallCaps, FontVariant.SmallCaps);
-
-            DirectionModes.Add(Keywords.Ltr, DirectionMode.Ltr);
-            DirectionModes.Add(Keywords.Rtl, DirectionMode.Rtl);
-        }
-
-        #endregion
+            { Keywords.Caption, SystemFont.Caption },
+            { Keywords.Icon, SystemFont.Icon },
+            { Keywords.Menu, SystemFont.Menu },
+            { Keywords.MessageBox, SystemFont.MessageBox },
+            { Keywords.SmallCaption, SystemFont.SmallCaption },
+            { Keywords.StatusBar, SystemFont.StatusBar },
+        };
     }
 }
