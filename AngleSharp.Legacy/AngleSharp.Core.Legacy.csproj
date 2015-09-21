@@ -123,9 +123,6 @@
     <Compile Include="..\AngleSharp\Css\Converters.cs">
       <Link>Css\Converters.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\CssComment.cs">
-      <Link>Css\CssComment.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Css\CssNode.cs">
       <Link>Css\CssNode.cs</Link>
     </Compile>
@@ -613,6 +610,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Constants\Whitespace.cs">
       <Link>Dom\Css\Constants\Whitespace.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\CssComment.cs">
+      <Link>Dom\Css\CssComment.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\CssMediaQueryList.cs">
       <Link>Dom\Css\CssMediaQueryList.cs</Link>
@@ -2044,6 +2044,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssCharsetRule.cs">
       <Link>Interfaces\Css\ICssCharsetRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssComment.cs">
+      <Link>Interfaces\Css\ICssComment.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssConditionRule.cs">
       <Link>Interfaces\Css\ICssConditionRule.cs</Link>
