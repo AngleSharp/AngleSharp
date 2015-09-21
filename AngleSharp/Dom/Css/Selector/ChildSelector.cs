@@ -5,6 +5,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// Base class for all nth-child (or related) selectors.
+    /// </summary>
     abstract class ChildSelector : ISelector
     {
         #region Fields
