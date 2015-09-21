@@ -65,7 +65,7 @@
     <Compile Include="Dom\Css\ConditionFunctions\GroupCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\NotCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\OrCondition.cs" />
-    <Compile Include="Css\CssComment.cs" />
+    <Compile Include="Dom\Css\CssComment.cs" />
     <Compile Include="Css\CssNode.cs" />
     <Compile Include="Css\CssStyleFormatter.cs" />
     <Compile Include="Dom\Css\DocumentFunctions\DomainFunction.cs" />
@@ -202,6 +202,7 @@
     </Compile>
     <Compile Include="IBindable.cs" />
     <Compile Include="Interfaces\Css\IConditionFunction.cs" />
+    <Compile Include="Interfaces\Css\ICssComment.cs" />
     <Compile Include="Interfaces\Css\ICssMedium.cs" />
     <Compile Include="Interfaces\Css\ICssNode.cs" />
     <Compile Include="Interfaces\Css\IDocumentFunction.cs" />

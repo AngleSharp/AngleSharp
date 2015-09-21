@@ -60,10 +60,10 @@
         /// </summary>
         /// <param name="node">The node to examine.</param>
         /// <returns>An iterator over all comments.</returns>
-        public static IEnumerable<CssComment> GetComments(this CssNode node)
+        public static IEnumerable<ICssComment> GetComments(this CssNode node)
         {
             var tokens = node.Tokens;
-            var comments = tokens.Where(m => m.Type == CssTokenType.Comment).Select(m => new CssComment(m));
+            var comments = tokens.Where(m => m.Type == CssTokenType.Comment).Select(m => new CssComment(m.Data));
             return comments.Concat(node.Children.SelectMany(m => m.GetComments()));
         }
 
