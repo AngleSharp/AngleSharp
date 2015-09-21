@@ -165,9 +165,6 @@
     <Compile Include="..\AngleSharp\Css\RenderDevice.cs">
       <Link>Css\RenderDevice.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\RenderStyle.cs">
-      <Link>Css\RenderStyle.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Css\RuleNames.cs">
       <Link>Css\RuleNames.cs</Link>
     </Compile>
