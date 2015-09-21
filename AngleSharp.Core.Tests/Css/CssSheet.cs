@@ -963,7 +963,7 @@ font-weight:bold;}";
             Assert.AreEqual(2, comments.Count());
 
             foreach (var comment in comments)
-                Assert.AreEqual("test", comment.Text);
+                Assert.AreEqual("test", comment.Data);
         }
 
         [Test]
@@ -979,7 +979,7 @@ font-weight:bold;}";
             Assert.AreEqual(2, comments.Count());
 
             foreach (var comment in comments)
-                Assert.AreEqual("test", comment.Text);
+                Assert.AreEqual("test", comment.Data);
         }
 
         [Test]
@@ -995,7 +995,7 @@ font-weight:bold;}";
             Assert.AreEqual(3, comments.Count());
 
             foreach (var comment in comments)
-                Assert.AreEqual("test", comment.Text);
+                Assert.AreEqual("test", comment.Data);
         }
 
         [Test]
