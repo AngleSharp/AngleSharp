@@ -90,6 +90,11 @@
             return String.Join("; ", declarations);
         }
 
+        String IStyleFormatter.Comment(String data)
+        {
+            return String.Join("/* ", data, " */");
+        }
+
         #endregion
     }
 }

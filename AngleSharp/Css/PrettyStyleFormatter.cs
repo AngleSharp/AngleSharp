@@ -121,6 +121,11 @@
             return selector + " { }";
         }
 
+        String IStyleFormatter.Comment(String data)
+        {
+            return CssStyleFormatter.Instance.Comment(data);
+        }
+
         #endregion
 
         #region Helpers
