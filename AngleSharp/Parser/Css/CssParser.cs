@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using System;
@@ -192,9 +193,21 @@
             await source.PrefetchAll(CancellationToken.None).ConfigureAwait(false);
             var tokenizer = CreateTokenizer(source, _config);
             var builder = new CssBuilder(tokenizer, this);
+            var document = sheet.GetDocument() as Document;
             builder.CreateRules(sheet);
             sheet.ParseTree = builder.Container;
-            await builder.RunTasks(sheet.GetDocument()).ConfigureAwait(false);
+            
+            foreach (var rule in sheet.Rules)
+            {
+                if (rule.Type == CssRuleType.Charset)
+                    continue;
+                else if (rule.Type != CssRuleType.Import)
+                    break;
+
+                var import = (CssImportRule)rule;
+                await import.LoadStylesheetFrom(document).ConfigureAwait(false);
+            }
+
             return sheet;
         }
 
