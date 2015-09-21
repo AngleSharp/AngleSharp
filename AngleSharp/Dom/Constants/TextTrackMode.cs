@@ -6,7 +6,7 @@
     /// The modes of a text track.
     /// </summary>
     [DomName("TextTrackMode")]
-    public enum TextTrackMode
+    public enum TextTrackMode : ushort
     {
         /// <summary>
         /// The text track is disabled.

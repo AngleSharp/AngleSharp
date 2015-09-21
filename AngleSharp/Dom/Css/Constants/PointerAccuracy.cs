@@ -3,7 +3,7 @@
     /// <summary>
     /// Values for the accuracy of a pointer device.
     /// </summary>
-    public enum PointerAccuracy
+    public enum PointerAccuracy : ushort
     {
         /// <summary>
         /// Not actually a pointing device.

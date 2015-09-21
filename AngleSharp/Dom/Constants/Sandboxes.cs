@@ -7,7 +7,7 @@
     /// untrusted resources have.
     /// </summary>
     [Flags]
-    public enum Sandboxes
+    public enum Sandboxes : ushort
     {
         /// <summary>
         /// No flag is set, everything is accepted.

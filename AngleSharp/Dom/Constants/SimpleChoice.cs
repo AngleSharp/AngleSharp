@@ -3,7 +3,7 @@
     /// <summary>
     /// Contains simple choices.
     /// </summary>
-    enum SimpleChoice
+    enum SimpleChoice : ushort
     {
         /// <summary>
         /// Yes.

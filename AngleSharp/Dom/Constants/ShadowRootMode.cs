@@ -7,7 +7,7 @@
     /// </summary>
     [DomName("ShadowRootMode")]
     [DomLiterals]
-    public enum ShadowRootMode
+    public enum ShadowRootMode : ushort
     {
         /// <summary>
         /// Specifies open encapsulation mode.

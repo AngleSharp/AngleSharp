@@ -6,7 +6,7 @@
     /// An enumeration over the various playback states.
     /// </summary>
     [DomName("MediaControllerPlaybackState")]
-    public enum MediaControllerPlaybackState
+    public enum MediaControllerPlaybackState : ushort
     {
         /// <summary>
         /// Waiting for the media to be ready.
