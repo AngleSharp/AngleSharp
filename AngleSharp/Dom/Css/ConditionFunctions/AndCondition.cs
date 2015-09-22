@@ -29,14 +29,9 @@
             return true;
         }
 
-        public String ToCss()
+        public String ToCss(IStyleFormatter formatter)
         {
-            return String.Join(" and ", _conditions.Select(m => m.ToCss()));
-        }
-
-        public string ToCss(IStyleFormatter formatter)
-        {
-            return ToCss();
+            return String.Join(" and ", _conditions.Select(m => m.ToCss(formatter)));
         }
     }
 }

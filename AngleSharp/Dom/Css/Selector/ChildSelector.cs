@@ -42,7 +42,7 @@
 
         public String Text
         {
-            get { return ToCss(); }
+            get { return this.ToCss(); }
         }
 
         #endregion
@@ -63,7 +63,7 @@
 
         #region String Representation
 
-        public String ToCss()
+        public String ToCss(IStyleFormatter formatter)
         {
             var a = _step.ToString();
             var b = String.Empty;
@@ -74,11 +74,6 @@
                 b = _offset.ToString();
 
             return String.Format(":{0}({1}n{2})", _name, a, b);
-        }
-
-        public string ToCss(IStyleFormatter formatter)
-        {
-            return ToCss();
         }
 
         #endregion

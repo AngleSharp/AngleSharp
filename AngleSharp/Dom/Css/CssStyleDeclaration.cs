@@ -88,7 +88,7 @@
         /// </summary>
         public String CssText
         {
-            get { return ToCss(); }
+            get { return this.ToCss(); }
             set
             {
                 Update(value);
@@ -2366,11 +2366,6 @@
 
             if (!String.IsNullOrEmpty(value))
                 _parser.AppendDeclarations(this, value);
-        }
-
-        public String ToCss()
-        {
-            return ToCss(CssStyleFormatter.Instance);
         }
 
         public String ToCss(IStyleFormatter formatter)

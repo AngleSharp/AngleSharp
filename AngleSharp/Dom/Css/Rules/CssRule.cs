@@ -43,7 +43,7 @@
 
         public String CssText
         {
-            get { return ToCss(); }
+            get { return this.ToCss(); }
             set
             {
                 var rule = _parser.ParseRule(value);
@@ -86,11 +86,6 @@
         #endregion
 
         #region Methods
-
-        public String ToCss()
-        {
-            return ToCss(CssStyleFormatter.Instance);
-        }
 
         public abstract String ToCss(IStyleFormatter formatter);
 

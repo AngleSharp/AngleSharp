@@ -211,14 +211,9 @@
 
         #region String Representation
 
-        public String ToCss()
-        {
-            return Text;
-        }
-
         public String ToCss(IStyleFormatter formatter)
         {
-            return ToCss();
+            return Text;
         }
 
         #endregion

@@ -46,8 +46,9 @@
         /// <summary>
         /// Returns a valid CSS string representing this selector.
         /// </summary>
+        /// <param name="formatter">The formatter to use.</param>
         /// <returns>The CSS to create this selector.</returns>
-        public override String ToCss()
+        public override String ToCss(IStyleFormatter formatter)
         {
             var sb = Pool.NewStringBuilder();
 

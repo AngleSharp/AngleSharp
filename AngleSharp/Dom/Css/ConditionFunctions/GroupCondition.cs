@@ -22,14 +22,9 @@
             return _content.Check();
         }
 
-        public String ToCss()
-        {
-            return String.Concat("(", _content.ToCss(), ")");
-        }
-
         public String ToCss(IStyleFormatter formatter)
         {
-            return ToCss();
+            return String.Concat("(", _content.ToCss(formatter), ")");
         }
     }
 }

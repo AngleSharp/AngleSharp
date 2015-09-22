@@ -76,21 +76,16 @@
         /// </summary>
         public String CssText
         {
-            get { return ToCss(); }
+            get { return this.ToCss(); }
         }
 
         #endregion
 
         #region String Representation
 
-        public String ToCss()
-        {
-            return _tokens.ToText();
-        }
-
         public String ToCss(IStyleFormatter formatter)
         {
-            return ToCss();
+            return _tokens.ToText();
         }
 
         #endregion

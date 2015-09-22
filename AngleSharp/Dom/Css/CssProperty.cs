@@ -100,7 +100,7 @@
         /// </summary>
         public String CssText
         {
-            get { return ToCss(); }
+            get { return this.ToCss(); }
         }
 
         #endregion
@@ -190,11 +190,11 @@
 
         #region String Representation
 
-        public String ToCss()
-        {
-            return ToCss(CssStyleFormatter.Instance);
-        }
-
+        /// <summary>
+        /// Returns the serialization of the node guided by the formatter.
+        /// </summary>
+        /// <param name="formatter">The formatter to use.</param>
+        /// <returns>The source code snippet.</returns>
         public String ToCss(IStyleFormatter formatter)
         {
             return formatter.Declaration(Name, Value, IsImportant);

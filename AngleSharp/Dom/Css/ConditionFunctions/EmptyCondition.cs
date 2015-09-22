@@ -16,14 +16,9 @@
             get { return Enumerable.Empty<ICssNode>(); }
         }
 
-        public String ToCss()
-        {
-            return String.Empty;
-        }
-
         public String ToCss(IStyleFormatter formatter)
         {
-            return ToCss();
+            return String.Empty;
         }
     }
 }

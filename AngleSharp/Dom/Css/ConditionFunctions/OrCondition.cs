@@ -28,15 +28,10 @@
 
             return false;
         }
-        
-        public String ToCss()
-        {
-            return String.Join(" or ", _conditions.Select(m => m.ToCss()));
-        }
 
         public string ToCss(IStyleFormatter formatter)
         {
-            return ToCss();
+            return String.Join(" or ", _conditions.Select(m => m.ToCss(formatter)));
         }
     }
 }

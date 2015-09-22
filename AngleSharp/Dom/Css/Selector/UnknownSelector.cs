@@ -34,17 +34,12 @@
 
         public String Text
         {
-            get { return ToCss(); }
-        }
-
-        public String ToCss()
-        {
-            return _text;
+            get { return this.ToCss(); }
         }
 
         public String ToCss(IStyleFormatter formatter)
         {
-            return ToCss();
+            return _text;
         }
     }
 }

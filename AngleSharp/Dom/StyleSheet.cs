@@ -121,11 +121,11 @@
 
         #region Methods
 
-        public String ToCss()
-        {
-            return ToCss(CssStyleFormatter.Instance);
-        }
-
+        /// <summary>
+        /// Returns the serialization of the node guided by the formatter.
+        /// </summary>
+        /// <param name="formatter">The formatter to use.</param>
+        /// <returns>The source code snippet.</returns>
         public abstract String ToCss(IStyleFormatter formatter);
 
         #endregion

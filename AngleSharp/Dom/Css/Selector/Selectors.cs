@@ -59,7 +59,7 @@
         /// </summary>
         public String Text
         {
-            get { return ToCss(); }
+            get { return this.ToCss(); }
         }
 
         /// <summary>
@@ -139,12 +139,7 @@
 
         #region String Representation
 
-        public abstract String ToCss();
-
-        public String ToCss(IStyleFormatter formatter)
-        {
-            return ToCss();
-        }
+        public abstract String ToCss(IStyleFormatter formatter);
 
         #endregion
     }

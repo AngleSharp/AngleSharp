@@ -26,11 +26,6 @@
             return (_property is CssUnknownProperty == false) && _property.TrySetValue(_value);
         }
 
-        public String ToCss()
-        {
-            return ToCss(CssStyleFormatter.Instance);
-        }
-
         public String ToCss(IStyleFormatter formatter)
         {
             var content = formatter.Declaration(_property.Name, _value.CssText, _property.IsImportant);

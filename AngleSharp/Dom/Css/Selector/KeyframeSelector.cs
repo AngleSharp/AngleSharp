@@ -48,14 +48,19 @@
         /// </summary>
         public String Text
         {
-            get { return ToCss(); }
+            get { return this.ToCss(); }
         }
 
         #endregion
 
         #region String Representation
 
-        public String ToCss()
+        /// <summary>
+        /// Returns the serialization of the node guided by the formatter.
+        /// </summary>
+        /// <param name="formatter">The formatter to use.</param>
+        /// <returns>The source code snippet.</returns>
+        public String ToCss(IStyleFormatter formatter)
         {
             var stops = new String[_stops.Count];
 
@@ -63,11 +68,6 @@
                 stops[i] = _stops[i].ToString();
 
             return String.Join(", ", stops);
-        }
-
-        public String ToCss(IStyleFormatter formatter)
-        {
-            return ToCss();
         }
 
         #endregion
