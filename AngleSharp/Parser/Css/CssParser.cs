@@ -194,6 +194,7 @@
             var tokenizer = CreateTokenizer(source, _config);
             var builder = new CssBuilder(tokenizer, this);
             var document = sheet.GetDocument() as Document;
+            var tasks = new List<Task>();
             builder.CreateRules(sheet);
             sheet.ParseTree = builder.Container;
             
@@ -205,9 +206,10 @@
                     break;
 
                 var import = (CssImportRule)rule;
-                await import.LoadStylesheetFrom(document).ConfigureAwait(false);
+                tasks.Add(import.LoadStylesheetFrom(document));
             }
 
+            await TaskEx.WhenAll(tasks).ConfigureAwait(false);
             return sheet;
         }
 
