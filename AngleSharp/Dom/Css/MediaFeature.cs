@@ -124,6 +124,10 @@
         /// <returns>True if the constraints are satisfied, otherwise false.</returns>
         public abstract Boolean Validate(RenderDevice device);
 
+        #endregion
+
+        #region String Representation
+
         /// <summary>
         /// Returns the (complete) CSS style representation of the node.
         /// </summary>

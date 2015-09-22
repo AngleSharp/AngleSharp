@@ -35,7 +35,10 @@
 
         #region ctor
 
-        internal CssMedium()
+        /// <summary>
+        /// Creates a new CSS medium instance.
+        /// </summary>
+        public CssMedium()
         {
             _features = new List<MediaFeature>();
         }
@@ -195,11 +198,20 @@
 
         #region String Representation
 
+        /// <summary>
+        /// Returns the (complete) CSS style representation of the node.
+        /// </summary>
+        /// <returns>The source code snippet.</returns>
         public String ToCss()
         {
             return ToCss(CssStyleFormatter.Instance);
         }
 
+        /// <summary>
+        /// Returns the serialization of the node guided by the formatter.
+        /// </summary>
+        /// <param name="formatter">The formatter to use.</param>
+        /// <returns>The source code snippet.</returns>
         public String ToCss(IStyleFormatter formatter)
         {
             var constraints = new String[_features.Count];

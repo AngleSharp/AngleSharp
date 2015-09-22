@@ -130,6 +130,10 @@
 
         #region Methods
 
+        /// <summary>
+        /// Returns the (complete) CSS style representation of the sheet.
+        /// </summary>
+        /// <returns>The source code snippet.</returns>
         public override String ToCss(IStyleFormatter formatter)
         {
             return formatter.Sheet(_rules);

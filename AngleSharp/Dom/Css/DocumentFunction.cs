@@ -19,7 +19,12 @@
 
         #region ctor
 
-        internal DocumentFunction(String name, String data)
+        /// <summary>
+        /// Creates a new document function.
+        /// </summary>
+        /// <param name="name">The name of the function.</param>
+        /// <param name="data">The data for the function.</param>
+        public DocumentFunction(String name, String data)
         {
             _name = name;
             _data = data;
@@ -63,6 +68,10 @@
         /// <param name="url">The URL to evaluate.</param>
         /// <returns>True if the URL is matched, otherwise false.</returns>
         public abstract Boolean Matches(Url url);
+
+        #endregion
+
+        #region String Representation
 
         /// <summary>
         /// Returns the (complete) CSS style representation of the node.
