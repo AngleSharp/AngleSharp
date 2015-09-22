@@ -1,14 +1,29 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Dom.Events;
+    using AngleSharp.Html;
     using System;
 
     sealed class CssMediaQueryList : EventTarget, IMediaQueryList
     {
+        #region Fields
+
         readonly IMediaList _media;
         Boolean _matched;
 
-        public event DomEventHandler Changed;
+        #endregion
+
+        #region Events
+
+        public event DomEventHandler Changed
+        {
+            add { AddEventListener(EventNames.Change, value, false); }
+            remove { RemoveEventListener(EventNames.Change, value, false); }
+        }
+
+        #endregion
+
+        #region ctor
 
         public CssMediaQueryList(IWindow window, IMediaList media)
         {
@@ -17,23 +32,9 @@
             window.Resized += Resized;
         }
 
-        Boolean ComputeMatched(IWindow window)
-        {
-            //TODO use Validate with RenderDevice
-            return false;
-        }
+        #endregion
 
-        void Resized(Object sender, Event ev)
-        {
-            var window = (IWindow)sender;
-            var matched = ComputeMatched(window);
-
-            //TODO use MediaQueryListEvent
-            if (matched != _matched && Changed != null)
-                Changed(this, new Event());
-
-            _matched = matched;
-        }
+        #region Properties
 
         public String MediaText
         {
@@ -49,5 +50,29 @@
         {
             get { return _matched; }
         }
+
+        #endregion
+
+        #region Helpers
+
+        Boolean ComputeMatched(IWindow window)
+        {
+            //TODO use Validate with RenderDevice
+            return false;
+        }
+
+        void Resized(Object sender, Event ev)
+        {
+            var window = (IWindow)sender;
+            var matched = ComputeMatched(window);
+
+            //TODO use MediaQueryListEvent
+            if (matched != _matched)
+                Dispatch(new Event(EventNames.Change, false, false));
+
+            _matched = matched;
+        }
+
+        #endregion
     }
 }
