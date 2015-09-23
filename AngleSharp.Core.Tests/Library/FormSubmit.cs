@@ -72,9 +72,9 @@
             return await form.Submit();
         }
 
-        static Task<IDocument> LoadWithMockAsync(String content, String url)
+        static Task<IDocument> LoadWithMockAsync(String content, String url, Action<IRequest> onRequest = null)
         {
-            var config = Configuration.Default.WithDefaultLoader(requesters: new[] { new MockRequester() });
+            var config = Configuration.Default.WithDefaultLoader(requesters: new[] { new MockRequester { OnRequest = onRequest } });
             return BrowsingContext.New(config).OpenAsync(m => m.Content(content).Address(url));
         }
 
@@ -90,6 +90,13 @@
             var content = Enumerable.Range(0, index * 5 + 10).Select(m => (Byte)m).ToArray();
             var body = new MemoryStream(content);
             return new FileEntry(String.Format("Filename{0}.txt", index + 1), body);
+        }
+
+        static string Utf8StreamToString(Stream s)
+        {
+            byte[] data = new byte[s.Length];
+            s.Read(data, 0, data.Length);
+            return Encoding.UTF8.GetString(data);
         }
 
         [Test]
@@ -901,6 +908,213 @@
 
                 Assert.AreEqual("\nfoo.x=0&foo.y=0\n", raw);
             }
+        }
+
+        [Test]
+        public async Task AsJsonExample1BasicKeys()
+        {
+            IRequest request = null;
+            Action<IRequest> onRequest = r => request = r;
+            var url = "http://localhost/";
+
+            var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
+  <input name='name' value='Bender'>
+  <select name='hind'>
+    <option selected>Bitable</option>
+    <option>Kickable</option>
+  </select>
+  <input type='checkbox' name='shiny' checked>
+</form>", url, onRequest);
+
+            var form = document.Forms[0] as HtmlFormElement;
+            var result = await form.Submit();
+            Assert.IsNotNull(request);
+            Assert.AreEqual(HttpMethod.Post, request.Method);
+            Assert.AreEqual("{\"name\":\"Bender\",\"hind\":\"Bitable\",\"shiny\":true}", Utf8StreamToString(request.Content));
+        }
+
+        [Test]
+        public async Task AsJsonExample2MultipleValues()
+        {
+            IRequest request = null;
+            Action<IRequest> onRequest = r => request = r;
+            var url = "http://localhost/";
+
+            var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
+  <input type='number' name='bottle-on-wall' value='1'>
+  <input type='number' name='bottle-on-wall' value='2'>
+  <input type='number' name='bottle-on-wall' value='3'>
+</form>", url, onRequest);
+
+            var form = document.Forms[0] as HtmlFormElement;
+            var result = await form.Submit();
+            Assert.IsNotNull(request);
+            Assert.AreEqual(HttpMethod.Post, request.Method);
+            Assert.AreEqual("{\"bottle-on-wall\":[1,2,3]}", Utf8StreamToString(request.Content));
+        }
+
+        [Test]
+        public async Task AsJsonExample3DeeperStructure()
+        {
+            IRequest request = null;
+            Action<IRequest> onRequest = r => request = r;
+            var url = "http://localhost/";
+
+            var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
+  <input name='pet[species]' value='Dahut'>
+  <input name='pet[name]' value='Hypatia'>
+  <input name='kids[1]' value='Thelma'>
+  <input name='kids[0]' value='Ashley'>
+</form>", url, onRequest);
+
+            var form = document.Forms[0] as HtmlFormElement;
+            var result = await form.Submit();
+            Assert.IsNotNull(request);
+            Assert.AreEqual(HttpMethod.Post, request.Method);
+            Assert.AreEqual("{\"pet\":{\"species\":\"Dahut\",\"name\":\"Hypatia\"},\"kids\":[\"Ashley\",\"Thelma\"]}", Utf8StreamToString(request.Content));
+        }
+
+        [Test]
+        public async Task AsJsonExample4SparseArrays()
+        {
+            IRequest request = null;
+            Action<IRequest> onRequest = r => request = r;
+            var url = "http://localhost/";
+
+            var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
+  <input name='hearbeat[0]' value='thunk'>
+  <input name='hearbeat[2]' value='thunk'>
+</form>", url, onRequest);
+
+            var form = document.Forms[0] as HtmlFormElement;
+            var result = await form.Submit();
+            Assert.IsNotNull(request);
+            Assert.AreEqual(HttpMethod.Post, request.Method);
+            Assert.AreEqual("{\"hearbeat\":[\"thunk\",null,\"thunk\"]}", Utf8StreamToString(request.Content));
+        }
+
+        [Test]
+        public async Task AsJsonExample5EvenDeeper()
+        {
+            IRequest request = null;
+            Action<IRequest> onRequest = r => request = r;
+            var url = "http://localhost/";
+
+            var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
+  <input name='pet[0][species]' value='Dahut'>
+  <input name='pet[0][name]' value='Hypatia'>
+  <input name='pet[1][species]' value='Felis Stultus'>
+  <input name='pet[1][name]' value='Billie'>
+</form>", url, onRequest);
+
+            var form = document.Forms[0] as HtmlFormElement;
+            var result = await form.Submit();
+            Assert.IsNotNull(request);
+            Assert.AreEqual(HttpMethod.Post, request.Method);
+            Assert.AreEqual("{\"pet\":[{\"species\":\"Dahut\",\"name\":\"Hypatia\"},{\"species\":\"Felis Stultus\",\"name\":\"Billie\"}]}", Utf8StreamToString(request.Content));
+        }
+
+        [Test]
+        public async Task AsJsonExample6SuchDeep()
+        {
+            IRequest request = null;
+            Action<IRequest> onRequest = r => request = r;
+            var url = "http://localhost/";
+
+            var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
+  <input name='wow[such][deep][3][much][power][!]' value='Amaze'>
+</form>", url, onRequest);
+
+            var form = document.Forms[0] as HtmlFormElement;
+            var result = await form.Submit();
+            Assert.IsNotNull(request);
+            Assert.AreEqual(HttpMethod.Post, request.Method);
+            Assert.AreEqual("{\"wow\":{\"such\":{\"deep\":[null,null,null,{\"much\":{\"power\":{\"!\":\"Amaze\"}}}]}}}", Utf8StreamToString(request.Content));
+        }
+
+        [Test]
+        public async Task AsJsonExample7MergeBehaviour()
+        {
+            IRequest request = null;
+            Action<IRequest> onRequest = r => request = r;
+            var url = "http://localhost/";
+
+            var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
+  <input name='mix' value='scalar'>
+  <input name='mix[0]' value='array 1'>
+  <input name='mix[2]' value='array 2'>
+  <input name='mix[key]' value='key key'>
+  <input name='mix[car]' value='car key'>
+</form>", url, onRequest);
+
+            var form = document.Forms[0] as HtmlFormElement;
+            var result = await form.Submit();
+            Assert.IsNotNull(request);
+            Assert.AreEqual(HttpMethod.Post, request.Method);
+            Assert.AreEqual("{\"mix\":{\"\":\"scalar\",\"0\":\"array 1\",\"2\":\"array 2\",\"key\":\"key key\",\"car\":\"car key\"}}", Utf8StreamToString(request.Content));
+        }
+
+        [Test]
+        public async Task AsJsonExample8Append()
+        {
+            IRequest request = null;
+            Action<IRequest> onRequest = r => request = r;
+            var url = "http://localhost/";
+
+            var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
+  <input name='highlander[]' value='one'>
+</form>", url, onRequest);
+
+            var form = document.Forms[0] as HtmlFormElement;
+            var result = await form.Submit();
+            Assert.IsNotNull(request);
+            Assert.AreEqual(HttpMethod.Post, request.Method);
+            Assert.AreEqual("{\"highlander\":[\"one\"]}", Utf8StreamToString(request.Content));
+        }
+
+        [Test]
+        public async Task AsJsonExample9Files()
+        {
+            IRequest request = null;
+            Action<IRequest> onRequest = r => request = r;
+            var url = "http://localhost/";
+
+            var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
+  <input type='file' name='file' multiple>
+</form>", url, onRequest);
+
+            var form = document.Forms[0] as HtmlFormElement;
+            var file = form.Elements["file"] as HtmlInputElement;
+            Assert.IsNotNull(file);
+            Assert.AreEqual("file", file.Type);
+
+            var files = file.Files as FileList;
+            files.Add(new FileEntry("dahut.txt", new MemoryStream(Convert.FromBase64String("REFBQUFBQUFIVVVVVVVVVVVVVCEhIQo="))));
+            files.Add(new FileEntry("litany.txt", new MemoryStream(Convert.FromBase64String("SSBtdXN0IG5vdCBmZWFyLlxuRmVhciBpcyB0aGUgbWluZC1raWxsZXIuCg=="))));
+
+            var result = await form.Submit();
+            Assert.IsNotNull(request);
+            Assert.AreEqual(HttpMethod.Post, request.Method);
+            Assert.AreEqual("{\"file\":[{\"type\":\"text/plain\",\"name\":\"dahut.txt\",\"body\":\"REFBQUFBQUFIVVVVVVVVVVVVVCEhIQo=\"},{\"type\":\"text/plain\",\"name\":\"litany.txt\",\"body\":\"SSBtdXN0IG5vdCBmZWFyLlxuRmVhciBpcyB0aGUgbWluZC1raWxsZXIuCg==\"}]}", Utf8StreamToString(request.Content));
+        }
+
+        [Test]
+        public async Task AsJsonExample10BadInput()
+        {
+            IRequest request = null;
+            Action<IRequest> onRequest = r => request = r;
+            var url = "http://localhost/";
+
+            var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
+  <input name='error[good]' value='BOOM!'>
+  <input name='error[bad' value='BOOM BOOM!'>
+</form>", url, onRequest);
+
+            var form = document.Forms[0] as HtmlFormElement;
+            var result = await form.Submit();
+            Assert.IsNotNull(request);
+            Assert.AreEqual(HttpMethod.Post, request.Method);
+            Assert.AreEqual("{\"error\":{\"good\":\"BOOM!\"},\"error[bad\":\"BOOM BOOM!\"}", Utf8StreamToString(request.Content));
         }
     }
 }

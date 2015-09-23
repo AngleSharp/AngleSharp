@@ -475,6 +475,8 @@
                 return formDataSet.AsMultipart(encoding);
             else if (enctype.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase))
                 return formDataSet.AsPlaintext(encoding);
+            else if (enctype.Equals(MimeTypes.ApplicationJson, StringComparison.OrdinalIgnoreCase))
+                return formDataSet.AsJson();
 
             return MemoryStream.Null;
         }
@@ -482,7 +484,8 @@
         static String CheckEncType(String encType)
         {
             if (!String.IsNullOrEmpty(encType) && (encType.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase) ||
-                                                   encType.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase)))
+                                                   encType.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase) ||
+                                                   encType.Equals(MimeTypes.ApplicationJson, StringComparison.OrdinalIgnoreCase)))
             {
                 return encType;
             }
