@@ -196,9 +196,18 @@
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
     <Compile Include="Foundation\CancellableTasks.cs" />
     <Compile Include="Foundation\TaskEx.cs" />
+    <Compile Include="Html\FileDataSetEntry.cs" />
+    <Compile Include="Html\FormDataSetEntry.cs" />
+    <Compile Include="Html\Json\JsonArray.cs" />
+    <Compile Include="Html\Json\JsonElement.cs" />
+    <Compile Include="Html\Json\JsonObject.cs" />
+    <Compile Include="Html\Json\JsonStep.cs" />
+    <Compile Include="Html\Json\JsonValue.cs" />
+    <Compile Include="Html\Json\StepType.cs" />
     <Compile Include="Html\SourceSet.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Html\TextDataSetEntry.cs" />
     <Compile Include="IBindable.cs" />
     <Compile Include="Interfaces\Html\IHtmlSlotElement.cs" />
     <Compile Include="Interfaces\Css\IMediaQueryList.cs" />
