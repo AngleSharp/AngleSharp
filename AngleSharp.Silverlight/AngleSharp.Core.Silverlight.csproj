@@ -1955,11 +1955,17 @@
     <Compile Include="..\AngleSharp\Html\EventNames.cs">
       <Link>Html\EventNames.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Html\FileDataSetEntry.cs">
+      <Link>Html\FileDataSetEntry.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\FormControlState.cs">
       <Link>Html\FormControlState.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\FormDataSet.cs">
       <Link>Html\FormDataSet.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\FormDataSetEntry.cs">
+      <Link>Html\FormDataSetEntry.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\HtmlMarkupFormatter.cs">
       <Link>Html\HtmlMarkupFormatter.cs</Link>
@@ -2021,6 +2027,24 @@
     <Compile Include="..\AngleSharp\Html\InputTypes\WeekInputType.cs">
       <Link>Html\InputTypes\WeekInputType.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Html\Json\JsonArray.cs">
+      <Link>Html\Json\JsonArray.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Json\JsonElement.cs">
+      <Link>Html\Json\JsonElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Json\JsonObject.cs">
+      <Link>Html\Json\JsonObject.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Json\JsonStep.cs">
+      <Link>Html\Json\JsonStep.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Json\JsonValue.cs">
+      <Link>Html\Json\JsonValue.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Json\StepType.cs">
+      <Link>Html\Json\StepType.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\Namespaces.cs">
       <Link>Html\Namespaces.cs</Link>
     </Compile>
@@ -2032,6 +2056,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Html\Tags.cs">
       <Link>Html\Tags.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\TextDataSetEntry.cs">
+      <Link>Html\TextDataSetEntry.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\IBindable.cs">
       <Link>IBindable.cs</Link>
@@ -2938,7 +2965,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
