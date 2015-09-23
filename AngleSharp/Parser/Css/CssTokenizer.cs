@@ -1157,8 +1157,7 @@
 
                 if (current.IsHex())
                 {
-                    var start = _stringBuffer.ToString();
-                    _stringBuffer.Clear();
+                    var start = FlushBuffer();
 
                     for (int i = 0; i < 6; i++)
                     {
@@ -1381,13 +1380,6 @@
         #endregion
 
         #region Helpers
-
-        String FlushBuffer()
-        {
-            var tmp = _stringBuffer.ToString();
-            _stringBuffer.Clear();
-            return tmp;
-        }
 
         /// <summary>
         /// Substate of several Number states.
