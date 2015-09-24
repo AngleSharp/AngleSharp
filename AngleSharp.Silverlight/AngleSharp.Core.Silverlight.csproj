@@ -2048,9 +2048,6 @@
     <Compile Include="..\AngleSharp\Html\Json\JsonValue.cs">
       <Link>Html\Json\JsonValue.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Html\Json\StepType.cs">
-      <Link>Html\Json\StepType.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Html\Namespaces.cs">
       <Link>Html\Namespaces.cs</Link>
     </Compile>
