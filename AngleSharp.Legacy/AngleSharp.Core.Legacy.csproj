@@ -1955,6 +1955,9 @@
     <Compile Include="..\AngleSharp\Html\HtmlMarkupFormatter.cs">
       <Link>Html\HtmlMarkupFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Html\IFormDataSetVisitor.cs">
+      <Link>Html\IFormDataSetVisitor.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\InputTypeNames.cs">
       <Link>Html\InputTypeNames.cs</Link>
     </Compile>
@@ -2038,6 +2041,18 @@
     </Compile>
     <Compile Include="..\AngleSharp\Html\SourceSet.cs">
       <Link>Html\SourceSet.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\JsonFormDataSetVisitor.cs">
+      <Link>Html\Submitters\JsonFormDataSetVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\MultipartFormDataSetVisitor.cs">
+      <Link>Html\Submitters\MultipartFormDataSetVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\PlaintextFormDataSetVisitor.cs">
+      <Link>Html\Submitters\PlaintextFormDataSetVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\UrlEncodedFormDataSetVisitor.cs">
+      <Link>Html\Submitters\UrlEncodedFormDataSetVisitor.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\Tags.cs">
       <Link>Html\Tags.cs</Link>
