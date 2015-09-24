@@ -1700,6 +1700,9 @@
     <Compile Include="..\AngleSharp\Dom\Html\HtmlUnorderedListElement.cs">
       <Link>Dom\Html\HtmlUnorderedListElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlUrlBaseElement.cs">
+      <Link>Dom\Html\HtmlUrlBaseElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlVideoElement.cs">
       <Link>Dom\Html\HtmlVideoElement.cs</Link>
     </Compile>
