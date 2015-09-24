@@ -1958,6 +1958,9 @@
     <Compile Include="..\AngleSharp\Html\IFormDataSetVisitor.cs">
       <Link>Html\IFormDataSetVisitor.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Html\IFormSubmitter.cs">
+      <Link>Html\IFormSubmitter.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\InputTypeNames.cs">
       <Link>Html\InputTypeNames.cs</Link>
     </Compile>
