@@ -1,22 +1,33 @@
 ﻿namespace AngleSharp.Html.Submitters
 {
     using AngleSharp.Dom.Io;
+    using AngleSharp.Extensions;
     using AngleSharp.Html.Json;
     using System;
     using System.IO;
 
     sealed class JsonFormDataSetVisitor : IFormSubmitter
     {
+        #region Fields
+
         readonly JsonObject _context;
+
+        #endregion
+
+        #region ctor
 
         public JsonFormDataSetVisitor()
         {
             _context = new JsonObject();
         }
 
+        #endregion
+
+        #region Methods
+
         public void Text(FormDataSetEntry entry, String value)
         {
-            var item = new JsonValue(entry.Type, value);
+            var item = CreateValue(entry.Type, value);
             var steps = JsonStep.Parse(entry.Name);
             var context = (JsonElement)_context;
 
@@ -36,9 +47,9 @@
             var steps = JsonStep.Parse(entry.Name);
             var value = new JsonObject();
 
-            value["type"] = new JsonValue(InputTypeNames.Text, contentType);
-            value["name"] = new JsonValue(InputTypeNames.Text, fileName);
-            value["body"] = new JsonValue(InputTypeNames.Text, Convert.ToBase64String(data));
+            value["type"] = new JsonValue(contentType);
+            value["name"] = new JsonValue(fileName);
+            value["body"] = new JsonValue(Convert.ToBase64String(data));
 
             foreach (var step in steps)
             {
@@ -51,5 +62,21 @@
             var content = _context.ToString();
             stream.Write(content);
         }
+
+        #endregion
+
+        #region Helpers
+
+        static JsonValue CreateValue(String type, String value)
+        {
+            if (type.Is(InputTypeNames.Checkbox))
+                return new JsonValue(value.Is(Keywords.On));
+            else if (type.Is(InputTypeNames.Number))
+                return new JsonValue(value.ToDouble());
+
+            return new JsonValue(value);
+        }
+
+        #endregion
     }
 }

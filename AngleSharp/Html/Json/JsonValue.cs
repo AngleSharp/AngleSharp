@@ -2,35 +2,30 @@
 {
     using AngleSharp.Extensions;
     using System;
+    using System.Globalization;
 
     sealed class JsonValue : JsonElement
     {
-        public JsonValue(String type, String value)
+        readonly String _value;
+
+        public JsonValue(String value)
         {
-            Type = type;
-            Value = value;
+            _value = value.CssString();
         }
 
-        public String Type
+        public JsonValue(Double value)
         {
-            get;
-            private set;
+            _value = value.ToString(CultureInfo.InvariantCulture);
         }
 
-        public String Value
+        public JsonValue(Boolean value)
         {
-            get;
-            private set;
+            _value = value ? "true" : "false";
         }
 
         public override String ToString()
         {
-            if (Type.Is(InputTypeNames.Checkbox))
-                return Value.Is(Keywords.On) ? "true" : "false";
-            else if (Type.Is(InputTypeNames.Number))
-                return Value;
-
-            return Value.CssString();
+            return _value;
         }
     }
 }

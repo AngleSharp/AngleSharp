@@ -9,10 +9,16 @@
 
     sealed class UrlEncodedFormDataSetVisitor : IFormSubmitter
     {
+        #region Fields
+
         readonly Encoding _encoding;
         readonly List<String> _lines;
         Boolean _first;
         String _index;
+
+        #endregion
+
+        #region ctor
 
         public UrlEncodedFormDataSetVisitor(Encoding encoding)
         {
@@ -21,6 +27,10 @@
             _first = true;
             _index = String.Empty;
         }
+
+        #endregion
+
+        #region Methods
 
         public void Text(FormDataSetEntry entry, String value)
         {
@@ -50,16 +60,22 @@
             _first = false;
         }
 
-        void Add(Byte[] name, Byte[] value)
-        {
-            _lines.Add(String.Concat(name.UrlEncode(), "=", value.UrlEncode()));
-        }
-
         public void Serialize(StreamWriter stream)
         {
             var content = String.Join("&", _lines);
             stream.Write(_index);
             stream.Write(content);
         }
+
+        #endregion
+
+        #region Helpers
+
+        void Add(Byte[] name, Byte[] value)
+        {
+            _lines.Add(String.Concat(name.UrlEncode(), "=", value.UrlEncode()));
+        }
+
+        #endregion
     }
 }

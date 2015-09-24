@@ -205,7 +205,6 @@
     <Compile Include="Html\Json\JsonObject.cs" />
     <Compile Include="Html\Json\JsonStep.cs" />
     <Compile Include="Html\Json\JsonValue.cs" />
-    <Compile Include="Html\Json\StepType.cs" />
     <Compile Include="Html\SourceSet.cs">
       <SubType>Code</SubType>
     </Compile>

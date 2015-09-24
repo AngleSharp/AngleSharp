@@ -7,12 +7,22 @@
 
     sealed class PlaintextFormDataSetVisitor : IFormSubmitter
     {
+        #region Fields
+
         readonly List<String> _lines;
+
+        #endregion
+
+        #region ctor
 
         public PlaintextFormDataSetVisitor()
         {
             _lines = new List<String>();
         }
+
+        #endregion
+
+        #region Methods
 
         public void Text(FormDataSetEntry entry, String value)
         {
@@ -26,15 +36,21 @@
                 Add(entry.Name, content.Name);
         }
 
-        void Add(String name, String value)
-        {
-            _lines.Add(String.Concat(name, "=", value));
-        }
-
         public void Serialize(StreamWriter stream)
         {
             var content = String.Join("\r\n", _lines);
             stream.Write(content);
         }
+
+        #endregion
+
+        #region Helpers
+
+        void Add(String name, String value)
+        {
+            _lines.Add(String.Concat(name, "=", value));
+        }
+
+        #endregion
     }
 }

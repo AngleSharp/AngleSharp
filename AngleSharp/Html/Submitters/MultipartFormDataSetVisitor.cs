@@ -9,9 +9,15 @@
 
     sealed class MultipartFormDataSetVisitor : IFormSubmitter
     {
+        #region Fields
+
         readonly Encoding _encoding;
         readonly List<Action<StreamWriter>> _writers;
         readonly String _boundary;
+
+        #endregion
+
+        #region ctor
 
         public MultipartFormDataSetVisitor(Encoding encoding, String boundary)
         {
@@ -19,6 +25,10 @@
             _writers = new List<Action<StreamWriter>>();
             _boundary = boundary;
         }
+
+        #endregion
+
+        #region Methods
 
         public void Text(FormDataSetEntry entry, String value)
         {
@@ -71,5 +81,7 @@
             stream.Write(_boundary);
             stream.Write("--");
         }
+
+        #endregion
     }
 }
