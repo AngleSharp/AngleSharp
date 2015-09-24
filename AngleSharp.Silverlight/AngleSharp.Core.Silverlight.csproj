@@ -1970,6 +1970,9 @@
     <Compile Include="..\AngleSharp\Html\HtmlMarkupFormatter.cs">
       <Link>Html\HtmlMarkupFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Html\IFormDataSetVisitor.cs">
+      <Link>Html\IFormDataSetVisitor.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\InputTypeNames.cs">
       <Link>Html\InputTypeNames.cs</Link>
     </Compile>
@@ -2053,6 +2056,18 @@
     </Compile>
     <Compile Include="..\AngleSharp\Html\SourceSet.cs">
       <Link>Html\SourceSet.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\JsonFormDataSetVisitor.cs">
+      <Link>Html\Submitters\JsonFormDataSetVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\MultipartFormDataSetVisitor.cs">
+      <Link>Html\Submitters\MultipartFormDataSetVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\PlaintextFormDataSetVisitor.cs">
+      <Link>Html\Submitters\PlaintextFormDataSetVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\UrlEncodedFormDataSetVisitor.cs">
+      <Link>Html\Submitters\UrlEncodedFormDataSetVisitor.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\Tags.cs">
       <Link>Html\Tags.cs</Link>
@@ -2965,7 +2980,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" />
+      <UserProperties ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
