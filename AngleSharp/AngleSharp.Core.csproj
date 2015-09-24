@@ -199,6 +199,7 @@
     <Compile Include="Html\FileDataSetEntry.cs" />
     <Compile Include="Html\FormDataSetEntry.cs" />
     <Compile Include="Html\IFormDataSetVisitor.cs" />
+    <Compile Include="Html\IFormSubmitter.cs" />
     <Compile Include="Html\Json\JsonArray.cs" />
     <Compile Include="Html\Json\JsonElement.cs" />
     <Compile Include="Html\Json\JsonObject.cs" />

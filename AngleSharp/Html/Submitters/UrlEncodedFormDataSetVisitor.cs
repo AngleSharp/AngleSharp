@@ -7,7 +7,7 @@
     using System.IO;
     using System.Text;
 
-    sealed class UrlEncodedFormDataSetVisitor : IFormDataSetVisitor
+    sealed class UrlEncodedFormDataSetVisitor : IFormSubmitter
     {
         readonly Encoding _encoding;
         readonly List<String> _lines;

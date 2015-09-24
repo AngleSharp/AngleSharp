@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using System.IO;
 
-    sealed class PlaintextFormDataSetVisitor : IFormDataSetVisitor
+    sealed class PlaintextFormDataSetVisitor : IFormSubmitter
     {
         readonly List<String> _lines;
 

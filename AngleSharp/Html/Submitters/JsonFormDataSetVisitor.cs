@@ -5,7 +5,7 @@
     using System;
     using System.IO;
 
-    sealed class JsonFormDataSetVisitor : IFormDataSetVisitor
+    sealed class JsonFormDataSetVisitor : IFormSubmitter
     {
         readonly JsonObject _context;
 

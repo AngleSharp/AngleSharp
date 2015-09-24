@@ -13,7 +13,7 @@
     /// <summary>
     /// Bundles information stored in HTML forms.
     /// </summary>
-    sealed class FormDataSet : IEnumerable<String>
+    public sealed class FormDataSet : IEnumerable<String>
     {
         #region Fields
 
@@ -26,6 +26,9 @@
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new form data set with a randomly generated boundary.
+        /// </summary>
         public FormDataSet()
         {
             _boundary = Guid.NewGuid().ToString();
@@ -56,17 +59,7 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsMultipart(Encoding encoding = null)
         {
-            return Build(encoding, stream =>
-            {
-                var visitor = new MultipartFormDataSetVisitor(stream.Encoding, _boundary);
-
-                foreach (var entry in _entries)
-                {
-                    entry.Accept(visitor);
-                }
-
-                visitor.Serialize(stream);
-            });
+            return Build(encoding, stream => Connect(new MultipartFormDataSetVisitor(stream.Encoding, _boundary), stream));
         }
 
         /// <summary>
@@ -77,17 +70,7 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsUrlEncoded(Encoding encoding = null)
         {
-            return Build(encoding, stream =>
-            {
-                var visitor = new UrlEncodedFormDataSetVisitor(stream.Encoding);
-
-                foreach (var entry in _entries)
-                {
-                    entry.Accept(visitor);
-                }
-
-                visitor.Serialize(stream);
-            });
+            return Build(encoding, stream => Connect(new UrlEncodedFormDataSetVisitor(stream.Encoding), stream));
         }
 
         /// <summary>
@@ -98,17 +81,7 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsPlaintext(Encoding encoding = null)
         {
-            return Build(encoding, stream =>
-            {
-                var visitor = new PlaintextFormDataSetVisitor();
-
-                foreach (var entry in _entries)
-                {
-                    entry.Accept(visitor);
-                }
-
-                visitor.Serialize(stream);
-            });
+            return Build(encoding, stream => Connect(new PlaintextFormDataSetVisitor(), stream));
         }
 
         /// <summary>
@@ -118,17 +91,18 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsJson()
         {
-            return Build(TextEncoding.Utf8, stream =>
-            {
-                var visitor = new JsonFormDataSetVisitor();
+            return Build(TextEncoding.Utf8, stream => Connect(new JsonFormDataSetVisitor(), stream));
+        }
 
-                foreach (var entry in _entries)
-                {
-                    entry.Accept(visitor);
-                }
-
-                visitor.Serialize(stream);
-            });
+        /// <summary>
+        /// Applies the given submitter to serialize the form data set.
+        /// </summary>
+        /// <param name="submitter">The algorithm to use.</param>
+        /// <param name="encoding">(Optional) Explicit encoding.</param>
+        /// <returns>A stream containing the body.</returns>
+        public Stream As(IFormSubmitter submitter, Encoding encoding = null)
+        {
+            return Build(encoding, stream => Connect(submitter, stream));
         }
 
         /// <summary>
@@ -185,6 +159,21 @@
             tw.Flush();
             ms.Position = 0;
             return ms;
+        }
+
+        /// <summary>
+        /// Connects the selected submitter to the constructed stream.
+        /// </summary>
+        /// <param name="submitter">The submitter to use.</param>
+        /// <param name="stream">The utilized stream writer.</param>
+        void Connect(IFormSubmitter submitter, StreamWriter stream)
+        {
+            foreach (var entry in _entries)
+            {
+                entry.Accept(submitter);
+            }
+
+            submitter.Serialize(stream);
         }
 
         /// <summary>

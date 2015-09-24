@@ -7,7 +7,7 @@
     using System.IO;
     using System.Text;
 
-    sealed class MultipartFormDataSetVisitor : IFormDataSetVisitor
+    sealed class MultipartFormDataSetVisitor : IFormSubmitter
     {
         readonly Encoding _encoding;
         readonly List<Action<StreamWriter>> _writers;
