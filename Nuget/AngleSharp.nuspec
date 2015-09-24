@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
     <id>AngleSharp</id>
-    <version>0.9.0</version>
-    <authors>Florian Rappl</authors>
+    <version>0.9.2</version>
+    <authors>AngleSharp</authors>
     <owners>Florian Rappl</owners>
-    <licenseUrl>http://opensource.org/licenses/BSD-3-Clause</licenseUrl>
-    <projectUrl>http://github.com/FlorianRappl/AngleSharp</projectUrl>
-    <iconUrl>https://raw.github.com/FlorianRappl/AngleSharp/master/logo.png</iconUrl>
+    <licenseUrl>https://github.com/AngleSharp/AngleSharp/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://anglesharp.github.io</projectUrl>
+    <iconUrl>https://raw.github.com/AngleSharp/AngleSharp/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>AngleSharp is the ultimate angle brackets parser library. It currently parses HTML5 and CSS3 to construct a DOM based on the official W3C specification.</description>
-    <releaseNotes>For all changes see: https://github.com/FlorianRappl/AngleSharp/wiki/ChangeLog.</releaseNotes>
-    <copyright>Copyright 2015, Florian Rappl.</copyright>
-    <tags>html html5 css css3 dom dom4 parser engine hypertext markup language query selector attributes linq angle bracket web internet text</tags>
+    <description>AngleSharp is the ultimate angle brackets parser library. It parses HTML5, CSS3, and XML to construct a DOM based on the official W3C specification.</description>
+    <releaseNotes>For all changes see: https://github.com/AngleSharp/AngleSharp/wiki/ChangeLog.</releaseNotes>
+    <copyright>Copyright 2015, AngleSharp.</copyright>
+    <tags>html html5 css css3 xml dom dom4 parser engine hypertext markup language query selector attributes linq angle bracket web internet text headless browser</tags>
     <dependencies>
         <group targetFramework="portable-windows8+net45+windowsphone8+wpa">
         </group>

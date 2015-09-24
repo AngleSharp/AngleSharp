@@ -294,7 +294,7 @@
                 case XmlTokenType.Character:
                 {
                     var tok = (XmlCharacterToken)token;
-                    CurrentNode.AppendText(tok.Data.ToString());
+                    CurrentNode.AppendText(tok.Data);
                     break;
                 }
                 case XmlTokenType.EndOfFile:

@@ -1106,7 +1106,7 @@
             if (index >= 0)
                 type = type.Substring(0, index);
 
-            type = type.StripLeadingTailingSpaces();
+            type = type.StripLeadingTrailingSpaces();
             //TODO further steps needed.
             //see https://html.spec.whatwg.org/multipage/webappapis.html#dom-document-open
             _contentType = type;

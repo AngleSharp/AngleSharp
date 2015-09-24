@@ -171,6 +171,7 @@
     <Compile Include="Dom\Html\HtmlRbElement.cs" />
     <Compile Include="Dom\Html\HtmlRtcElement.cs" />
     <Compile Include="Dom\Html\HtmlSlotElement.cs" />
+    <Compile Include="Dom\Html\HtmlUrlBaseElement.cs" />
     <Compile Include="Dom\ShadowRoot.cs" />
     <Compile Include="Dom\Svg\SvgDocument.cs" />
     <Compile Include="Events\CssParseErrorEvent.cs" />
@@ -197,9 +198,23 @@
     <Compile Include="FormatExtensions.cs" />
     <Compile Include="Foundation\CancellableTasks.cs" />
     <Compile Include="Foundation\TaskEx.cs" />
+    <Compile Include="Html\FileDataSetEntry.cs" />
+    <Compile Include="Html\FormDataSetEntry.cs" />
+    <Compile Include="Html\IFormDataSetVisitor.cs" />
+    <Compile Include="Html\IFormSubmitter.cs" />
+    <Compile Include="Html\Json\JsonArray.cs" />
+    <Compile Include="Html\Json\JsonElement.cs" />
+    <Compile Include="Html\Json\JsonObject.cs" />
+    <Compile Include="Html\Json\JsonStep.cs" />
+    <Compile Include="Html\Json\JsonValue.cs" />
     <Compile Include="Html\SourceSet.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Html\Submitters\JsonFormDataSetVisitor.cs" />
+    <Compile Include="Html\Submitters\MultipartFormDataSetVisitor.cs" />
+    <Compile Include="Html\Submitters\PlaintextFormDataSetVisitor.cs" />
+    <Compile Include="Html\Submitters\UrlEncodedFormDataSetVisitor.cs" />
+    <Compile Include="Html\TextDataSetEntry.cs" />
     <Compile Include="IBindable.cs" />
     <Compile Include="Interfaces\Css\IConditionFunction.cs" />
     <Compile Include="Interfaces\Css\ICssComment.cs" />

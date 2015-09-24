@@ -475,13 +475,15 @@
                 return formDataSet.AsMultipart(encoding);
             else if (enctype.Isi(MimeTypes.Plain))
                 return formDataSet.AsPlaintext(encoding);
+            else if (enctype.Equals(MimeTypes.ApplicationJson, StringComparison.OrdinalIgnoreCase))
+                return formDataSet.AsJson();
 
             return MemoryStream.Null;
         }
 
         static String CheckEncType(String encType)
         {
-            if (encType.Isi(MimeTypes.Plain) || encType.Isi(MimeTypes.MultipartForm))
+            if (encType.Isi(MimeTypes.Plain) || encType.Isi(MimeTypes.MultipartForm) || encType.Isi(MimeTypes.ApplicationJson))
                 return encType;
 
             return MimeTypes.UrlencodedForm;

@@ -104,6 +104,17 @@
         #region Methods
 
         /// <summary>
+        /// Gets the currently stored buffer text before clearing it.
+        /// </summary>
+        /// <returns>The content before the cleanup.</returns>
+        public String FlushBuffer()
+        {
+            var content = _stringBuffer.ToString();
+            _stringBuffer.Clear();
+            return content;
+        }
+
+        /// <summary>
         /// Disposes all disposable objects.
         /// </summary>
         public void Dispose()
@@ -303,31 +314,25 @@
 
         Char NormalizeForward(Char p)
         {
-            if (p == Symbols.CarriageReturn)
-            {
-                if (_source.ReadCharacter() != Symbols.LineFeed)
-                    _source.Index--;
-
-                return Symbols.LineFeed;
-            }
-
-            return p;
+            if (p != Symbols.CarriageReturn)
+                return p;
+            else if (_source.ReadCharacter() != Symbols.LineFeed)
+                _source.Index--;
+            
+            return Symbols.LineFeed;
         }
 
         Char NormalizeBackward(Char p)
         {
-            if (p == Symbols.CarriageReturn)
+            if (p != Symbols.CarriageReturn)
+                return p;
+            else  if (_source.Index < _source.Length && _source[_source.Index] == Symbols.LineFeed)
             {
-                if (_source.Index < _source.Length && _source[_source.Index] == Symbols.LineFeed)
-                {
-                    BackUnsafe();
-                    return Symbols.Null;
-                }
-
-                return Symbols.LineFeed;
+                BackUnsafe();
+                return Symbols.Null;
             }
 
-            return p;
+            return Symbols.LineFeed;
         }
 
         #endregion
