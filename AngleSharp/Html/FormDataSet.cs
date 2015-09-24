@@ -2,7 +2,7 @@
 {
     using AngleSharp.Dom.Io;
     using AngleSharp.Extensions;
-    using AngleSharp.Network;
+    using AngleSharp.Html.Submitters;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -13,7 +13,7 @@
     /// <summary>
     /// Bundles information stored in HTML forms.
     /// </summary>
-    sealed class FormDataSet : IEnumerable<String>
+    public sealed class FormDataSet : IEnumerable<String>
     {
         #region Fields
 
@@ -26,6 +26,9 @@
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new form data set with a randomly generated boundary.
+        /// </summary>
         public FormDataSet()
         {
             _boundary = Guid.NewGuid().ToString();
@@ -56,23 +59,7 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsMultipart(Encoding encoding = null)
         {
-            return Build(encoding, stream =>
-            {
-                var enc = stream.Encoding;
-                var entryWriters = _entries.Select(m => m.AsMultipart(enc)).
-                                            Where(m => m != null);
-
-                foreach (var entryWriter in entryWriters)
-                {
-                    stream.Write("--");
-                    stream.WriteLine(_boundary);
-                    entryWriter(stream);
-                }
-
-                stream.Write("--");
-                stream.Write(_boundary);
-                stream.Write("--");
-            });
+            return Build(encoding, stream => Connect(new MultipartFormDataSetVisitor(stream.Encoding, _boundary), stream));
         }
 
         /// <summary>
@@ -83,35 +70,7 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsUrlEncoded(Encoding encoding = null)
         {
-            return Build(encoding, stream =>
-            {
-                var offset = 0;
-                var enc = stream.Encoding;
-
-                if (offset < _entries.Count && 
-                    _entries[offset].HasName &&
-                    _entries[offset].Name.Equals(Tags.IsIndex) &&
-                    _entries[offset].Type.Equals(InputTypeNames.Text, StringComparison.OrdinalIgnoreCase))
-                {
-                    stream.Write(((TextDataSetEntry)_entries[offset]).Value);
-                    offset++;
-                }
-
-                var list = _entries.Skip(offset).
-                                    Select(m => m.AsUrlEncoded(enc)).
-                                    Where(m => m != null).
-                                    ToArray();
-
-                for (int i = 0; i < list.Length; i++)
-                {
-                    if (i > 0)
-                        stream.Write('&');
-
-                    stream.Write(list[i].Item1);
-                    stream.Write('=');
-                    stream.Write(list[i].Item2);
-                }
-            });
+            return Build(encoding, stream => Connect(new UrlEncodedFormDataSetVisitor(stream.Encoding), stream));
         }
 
         /// <summary>
@@ -122,27 +81,39 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsPlaintext(Encoding encoding = null)
         {
-            return Build(encoding, stream =>
-            {
-                var list = _entries.Select(m => m.AsPlaintext()).
-                                    Where(m => m != null).
-                                    ToArray();
-
-                for (int i = 0; i < list.Length; i++)
-                {
-                    if (i > 0)
-                        stream.Write("\r\n");
-
-                    stream.Write(list[i].Item1);
-                    stream.Write('=');
-                    stream.Write(list[i].Item2);
-                }
-            });
+            return Build(encoding, stream => Connect(new PlaintextFormDataSetVisitor(), stream));
         }
 
+        /// <summary>
+        /// Applies the application json encoding algorithm.
+        /// https://darobin.github.io/formic/specs/json/#the-application-json-encoding-algorithm
+        /// </summary>
+        /// <returns>A stream containing the body.</returns>
+        public Stream AsJson()
+        {
+            return Build(TextEncoding.Utf8, stream => Connect(new JsonFormDataSetVisitor(), stream));
+        }
+
+        /// <summary>
+        /// Applies the given submitter to serialize the form data set.
+        /// </summary>
+        /// <param name="submitter">The algorithm to use.</param>
+        /// <param name="encoding">(Optional) Explicit encoding.</param>
+        /// <returns>A stream containing the body.</returns>
+        public Stream As(IFormSubmitter submitter, Encoding encoding = null)
+        {
+            return Build(encoding, stream => Connect(submitter, stream));
+        }
+
+        /// <summary>
+        /// Appends a text entry to the form data set.
+        /// </summary>
+        /// <param name="name">The name of the entry.</param>
+        /// <param name="value">The value of the entry.</param>
+        /// <param name="type">The type of the entry.</param>
         public void Append(String name, String value, String type)
         {
-            if (String.Compare(type, Tags.Textarea, StringComparison.OrdinalIgnoreCase) == 0)
+            if (type.Isi(Tags.Textarea))
             {
                 name = Normalize(name);
                 value = Normalize(value);
@@ -151,9 +122,15 @@
             _entries.Add(new TextDataSetEntry(name, value, type));
         }
 
+        /// <summary>
+        /// Appends a file entry to the form data set.
+        /// </summary>
+        /// <param name="name">The name of the entry.</param>
+        /// <param name="value">The value of the entry.</param>
+        /// <param name="type">The type of the entry.</param>
         public void Append(String name, IFile value, String type)
         {
-            if (String.Compare(type, InputTypeNames.File, StringComparison.OrdinalIgnoreCase) == 0)
+            if (type.Isi(InputTypeNames.File))
             {
                 name = Normalize(name);
             }
@@ -185,6 +162,21 @@
         }
 
         /// <summary>
+        /// Connects the selected submitter to the constructed stream.
+        /// </summary>
+        /// <param name="submitter">The submitter to use.</param>
+        /// <param name="stream">The utilized stream writer.</param>
+        void Connect(IFormSubmitter submitter, StreamWriter stream)
+        {
+            foreach (var entry in _entries)
+            {
+                entry.Accept(submitter);
+            }
+
+            submitter.Serialize(stream);
+        }
+
+        /// <summary>
         /// Replaces a charset field (if any) that is hidden with the given
         /// character encoding.
         /// </summary>
@@ -195,7 +187,7 @@
             {
                 var entry = _entries[i];
 
-                if (!String.IsNullOrEmpty(entry.Name) && entry.Name.Equals("_charset_") && 
+                if (!String.IsNullOrEmpty(entry.Name) && entry.Name.Equals("_charset_") &&
                     entry.Type.Equals(InputTypeNames.Hidden, StringComparison.OrdinalIgnoreCase))
                 {
                     _entries[i] = new TextDataSetEntry(entry.Name, encoding.WebName, entry.Type);
@@ -244,229 +236,6 @@
             }
 
             return value;
-        }
-
-        #endregion
-
-        #region Entry Class
-
-        /// <summary>
-        /// Encapsulates the data contained in an entry.
-        /// </summary>
-        abstract class FormDataSetEntry
-        {
-            readonly String _name;
-            readonly String _type;
-
-            public FormDataSetEntry(String name, String type)
-            {
-                _name = name;
-                _type = type;
-            }
-
-            /// <summary>
-            /// Gets if the name has been given.
-            /// </summary>
-            public Boolean HasName
-            {
-                get { return _name != null; }
-            }
-
-            /// <summary>
-            /// Gets the entry's name.
-            /// </summary>
-            public String Name
-            {
-                get { return _name ?? String.Empty; }
-            }
-
-            /// <summary>
-            /// Gets the entry's type.
-            /// </summary>
-            public String Type
-            {
-                get { return _type ?? InputTypeNames.Text; }
-            }
-
-            public abstract Action<StreamWriter> AsMultipart(Encoding encoding);
-
-            public abstract Tuple<String, String> AsPlaintext();
-
-            public abstract Tuple<String, String> AsUrlEncoded(Encoding encoding);
-
-            public abstract Boolean Contains(String boundary, Encoding encoding);
-        }
-
-        sealed class TextDataSetEntry : FormDataSetEntry
-        {
-            readonly String _value;
-
-            public TextDataSetEntry(String name, String value, String type)
-                : base(name, type)
-            {
-                _value = value;
-            }
-
-            /// <summary>
-            /// Gets if the value has been given.
-            /// </summary>
-            public Boolean HasValue
-            {
-                get { return _value != null; }
-            }
-
-            /// <summary>
-            /// Gets the entry's value.
-            /// </summary>
-            public String Value
-            {
-                get { return _value; }
-            }
-
-            public override Boolean Contains(String boundary, Encoding encoding)
-            {
-                if (_value == null)
-                    return false;
-
-                return _value.Contains(boundary);
-            }
-
-            public override Action<StreamWriter> AsMultipart(Encoding encoding)
-            {
-                if (HasName && HasValue)
-                {
-                    return stream =>
-                    {
-                        stream.WriteLine(String.Concat("Content-Disposition: form-data; name=\"",
-                            Name.HtmlEncode(encoding), "\""));
-                        stream.WriteLine();
-                        stream.WriteLine(_value.HtmlEncode(encoding));
-                    };
-                }
-
-                return null;
-            }
-
-            public override Tuple<String, String> AsPlaintext()
-            {
-                if (HasName && HasValue)
-                    return Tuple.Create(Name, _value);
-
-                return null;
-            }
-
-            public override Tuple<String, String> AsUrlEncoded(Encoding encoding)
-            {
-                if (HasName && HasValue)
-                {
-                    var name = encoding.GetBytes(Name);
-                    var value = encoding.GetBytes(_value);
-                    return Tuple.Create(name.UrlEncode(), value.UrlEncode());
-                }
-
-                return null;
-            }
-        }
-
-        sealed class FileDataSetEntry : FormDataSetEntry
-        {
-            readonly IFile _value;
-
-            public FileDataSetEntry(String name, IFile value, String type)
-                : base(name, type)
-            {
-                _value = value;
-            }
-
-            /// <summary>
-            /// Gets if the value has been given.
-            /// </summary>
-            public Boolean HasValue
-            {
-                get { return _value != null && _value.Name != null; }
-            }
-
-            /// <summary>
-            /// Gets if the value has a body and type.
-            /// </summary>
-            public Boolean HasValueBody
-            {
-                get { return _value != null && _value.Body != null && _value.Type != null; }
-            }
-
-            /// <summary>
-            /// Gets the entry's value.
-            /// </summary>
-            public IFile Value
-            {
-                get { return _value; }
-            }
-
-            public String FileName
-            {
-                get { return _value != null ? _value.Name : String.Empty; }
-            }
-
-            public String ContentType
-            {
-                get { return _value != null ? _value.Type : MimeTypes.Binary; }
-            }
-
-            public override Boolean Contains(String boundary, Encoding encoding)
-            {
-                if (_value == null || _value.Body == null)
-                    return false;
-                
-                //TODO boundary check required?
-                return false;
-            }
-
-            public override Action<StreamWriter> AsMultipart(Encoding encoding)
-            {
-                if (HasName)
-                {
-                    return stream =>
-                    {
-                        var hasContent = HasValue && HasValueBody;
-
-                        stream.WriteLine("Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"",
-                            Name.HtmlEncode(encoding), FileName.HtmlEncode(encoding));
-
-                        stream.WriteLine("Content-Type: " + ContentType);
-                        stream.WriteLine();
-
-                        if (hasContent)
-                        {
-                            stream.Flush();
-                            _value.Body.CopyTo(stream.BaseStream);
-                        }
-
-                        stream.WriteLine();
-                    };
-                }
-
-                return null;
-            }
-
-            public override Tuple<String, String> AsPlaintext()
-            {
-                if (HasName && HasValue)
-                    return Tuple.Create(Name, _value.Name);
-
-                return null;
-            }
-
-            public override Tuple<String, String> AsUrlEncoded(Encoding encoding)
-            {
-                if (HasName && HasValue)
-                {
-                    var name = encoding.GetBytes(Name);
-                    var value = encoding.GetBytes(_value.Name);
-                    return Tuple.Create(name.UrlEncode(), value.UrlEncode());
-                }
-
-                return null;
-            }
         }
 
         #endregion

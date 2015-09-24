@@ -239,6 +239,49 @@
         }
 
         /// <summary>
+        /// Returns the color of non-CSS colors in a special IE notation known
+        /// as "flex hex". Computes the part without the hash and possible color
+        /// names. More information can be found at:
+        /// http://scrappy-do.blogspot.de/2004/08/little-rant-about-microsoft-internet.html
+        /// </summary>
+        /// <param name="color">The color string to evaluate.</param>
+        /// <returns>The color for the color string.</returns>
+        public static Color FromFlexHex(String color)
+        {
+            var length = Math.Max(color.Length, 3);
+            var remaining = length % 3;
+
+            if (remaining != 0)
+                length += 3 - remaining;
+
+            var n = length / 3;
+            var d = Math.Min(2, n);
+            var s = Math.Max(n - 8, 0);
+            var chars = new Char[length];
+
+            for (int i = 0; i < color.Length; i++)
+                chars[i] = color[i].IsHex() ? color[i] : '0';
+
+            for (int i = color.Length; i < length; i++)
+                chars[i] = '0';
+
+            if (d == 1)
+            {
+                var r = chars[0 * n + s].FromHex();
+                var g = chars[1 * n + s].FromHex();
+                var b = chars[2 * n + s].FromHex();
+                return new Color((Byte)r, (Byte)g, (Byte)b);
+            }
+            else
+            {
+                var r = 16 * chars[0 * n + s + 0].FromHex() + chars[0 * n + s + 1].FromHex();
+                var g = 16 * chars[1 * n + s + 0].FromHex() + chars[1 * n + s + 1].FromHex();
+                var b = 16 * chars[2 * n + s + 0].FromHex() + chars[2 * n + s + 1].FromHex();
+                return new Color((Byte)r, (Byte)g, (Byte)b);
+            }
+        }
+
+        /// <summary>
         /// Returns the color that represents the given HSL values.
         /// </summary>
         /// <param name="h">The color angle (between 0 and 1).</param>

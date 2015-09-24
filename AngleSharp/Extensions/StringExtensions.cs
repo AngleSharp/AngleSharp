@@ -362,23 +362,23 @@
         }
 
         /// <summary>
-        /// Strips all leading and tailing space characters from the given string.
+        /// Strips all leading and trailing space characters from the given string.
         /// </summary>
         /// <param name="str">The string to examine.</param>
         /// <returns>A new string, which excludes the leading and tailing spaces.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static String StripLeadingTailingSpaces(this String str)
+        public static String StripLeadingTrailingSpaces(this String str)
         {
-            return StripLeadingTailingSpaces(str.ToCharArray());
+            return StripLeadingTrailingSpaces(str.ToCharArray());
         }
 
         /// <summary>
-        /// Strips all leading and tailing space characters from the given char array.
+        /// Strips all leading and trailing space characters from the given char array.
         /// </summary>
         /// <param name="array">The array of characters to examine.</param>
         /// <returns>A new string, which excludes the leading and tailing spaces.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static String StripLeadingTailingSpaces(this Char[] array)
+        public static String StripLeadingTrailingSpaces(this Char[] array)
         {
             var start = 0;
             var end = array.Length - 1;
@@ -473,7 +473,7 @@
                 {
                     if (buffer.Count > 0)
                     {
-                        var token = buffer.ToArray().StripLeadingTailingSpaces();
+                        var token = buffer.ToArray().StripLeadingTrailingSpaces();
 
                         if (token.Length != 0)
                             list.Add(token);
@@ -506,7 +506,7 @@
                 {
                     if (buffer.Count > 0)
                     {
-                        var token = buffer.ToArray().StripLeadingTailingSpaces();
+                        var token = buffer.ToArray().StripLeadingTrailingSpaces();
 
                         if (token.Length != 0)
                             list.Add(token);

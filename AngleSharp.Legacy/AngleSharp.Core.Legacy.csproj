@@ -1685,6 +1685,9 @@
     <Compile Include="..\AngleSharp\Dom\Html\HtmlUnorderedListElement.cs">
       <Link>Dom\Html\HtmlUnorderedListElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlUrlBaseElement.cs">
+      <Link>Dom\Html\HtmlUrlBaseElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlVideoElement.cs">
       <Link>Dom\Html\HtmlVideoElement.cs</Link>
     </Compile>
@@ -1940,14 +1943,26 @@
     <Compile Include="..\AngleSharp\Html\EventNames.cs">
       <Link>Html\EventNames.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Html\FileDataSetEntry.cs">
+      <Link>Html\FileDataSetEntry.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\FormControlState.cs">
       <Link>Html\FormControlState.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\FormDataSet.cs">
       <Link>Html\FormDataSet.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Html\FormDataSetEntry.cs">
+      <Link>Html\FormDataSetEntry.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\HtmlMarkupFormatter.cs">
       <Link>Html\HtmlMarkupFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\IFormDataSetVisitor.cs">
+      <Link>Html\IFormDataSetVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\IFormSubmitter.cs">
+      <Link>Html\IFormSubmitter.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\InputTypeNames.cs">
       <Link>Html\InputTypeNames.cs</Link>
@@ -2006,6 +2021,21 @@
     <Compile Include="..\AngleSharp\Html\InputTypes\WeekInputType.cs">
       <Link>Html\InputTypes\WeekInputType.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Html\Json\JsonArray.cs">
+      <Link>Html\Json\JsonArray.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Json\JsonElement.cs">
+      <Link>Html\Json\JsonElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Json\JsonObject.cs">
+      <Link>Html\Json\JsonObject.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Json\JsonStep.cs">
+      <Link>Html\Json\JsonStep.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Json\JsonValue.cs">
+      <Link>Html\Json\JsonValue.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\Namespaces.cs">
       <Link>Html\Namespaces.cs</Link>
     </Compile>
@@ -2015,8 +2045,23 @@
     <Compile Include="..\AngleSharp\Html\SourceSet.cs">
       <Link>Html\SourceSet.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\JsonFormDataSetVisitor.cs">
+      <Link>Html\Submitters\JsonFormDataSetVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\MultipartFormDataSetVisitor.cs">
+      <Link>Html\Submitters\MultipartFormDataSetVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\PlaintextFormDataSetVisitor.cs">
+      <Link>Html\Submitters\PlaintextFormDataSetVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\UrlEncodedFormDataSetVisitor.cs">
+      <Link>Html\Submitters\UrlEncodedFormDataSetVisitor.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\Tags.cs">
       <Link>Html\Tags.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\TextDataSetEntry.cs">
+      <Link>Html\TextDataSetEntry.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\IBindable.cs">
       <Link>IBindable.cs</Link>

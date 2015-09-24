@@ -226,5 +226,35 @@ namespace AngleSharp.Core.Tests
             Assert.IsFalse(d.IsSystemIdentifierMissing);
             Assert.AreEqual("DTD_location", d.SystemIdentifier);
         }
+
+        [Test]
+        public void TokenizationOnlyCarriageReturn()
+        {
+            var s = new TextSource("\r");
+            var t = new HtmlTokenizer(s, null);
+            var e = t.Get();
+            Assert.AreEqual(HtmlTokenType.Character, e.Type);
+            Assert.AreEqual("\n", e.Data);
+        }
+
+        [Test]
+        public void TokenizationOnlyLineFeed()
+        {
+            var s = new TextSource("\n");
+            var t = new HtmlTokenizer(s, null);
+            var e = t.Get();
+            Assert.AreEqual(HtmlTokenType.Character, e.Type);
+            Assert.AreEqual("\n", e.Data);
+        }
+
+        [Test]
+        public void TokenizationCarriageReturnLineFeed()
+        {
+            var s = new TextSource("\r\n");
+            var t = new HtmlTokenizer(s, null);
+            var e = t.Get();
+            Assert.AreEqual(HtmlTokenType.Character, e.Type);
+            Assert.AreEqual("\n", e.Data);
+        }
     }
 }

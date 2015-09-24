@@ -11,17 +11,15 @@
         
         readonly XmlTokenType _type;
         readonly TextPosition _position;
-        readonly Boolean _ignorable;
 
         #endregion
 
         #region ctor
 
-        public XmlToken(XmlTokenType type, TextPosition position, Boolean ignorable = false)
+        public XmlToken(XmlTokenType type, TextPosition position)
         {
             _type = type;
             _position = position;
-            _ignorable = ignorable;
         }
 
         #endregion
@@ -29,20 +27,19 @@
         #region Properties
 
         /// <summary>
+        /// Gets if the token can be ignored.
+        /// </summary>
+        public virtual Boolean IsIgnorable
+        {
+            get { return false; }
+        }
+
+        /// <summary>
         /// Gets the type of the token.
         /// </summary>
         public XmlTokenType Type
         {
             get { return _type; }
-        }
-
-        /// <summary>
-        /// Gets if the token is a character token and contains a
-        /// white-space character.
-        /// </summary>
-        public Boolean IsIgnorable
-        {
-            get { return _ignorable; }
         }
 
         /// <summary>
