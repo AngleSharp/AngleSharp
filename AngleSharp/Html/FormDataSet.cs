@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Html
 {
     using AngleSharp.Dom.Io;
-    using AngleSharp.Html.Json;
+    using AngleSharp.Extensions;
+    using AngleSharp.Html.Submitters;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -57,20 +58,14 @@
         {
             return Build(encoding, stream =>
             {
-                var enc = stream.Encoding;
-                var entryWriters = _entries.Select(m => m.AsMultipart(enc)).
-                                            Where(m => m != null);
+                var visitor = new MultipartFormDataSetVisitor(stream.Encoding, _boundary);
 
-                foreach (var entryWriter in entryWriters)
+                foreach (var entry in _entries)
                 {
-                    stream.Write("--");
-                    stream.WriteLine(_boundary);
-                    entryWriter(stream);
+                    entry.Accept(visitor);
                 }
 
-                stream.Write("--");
-                stream.Write(_boundary);
-                stream.Write("--");
+                visitor.Serialize(stream);
             });
         }
 
@@ -84,32 +79,14 @@
         {
             return Build(encoding, stream =>
             {
-                var offset = 0;
-                var enc = stream.Encoding;
+                var visitor = new UrlEncodedFormDataSetVisitor(stream.Encoding);
 
-                if (offset < _entries.Count &&
-                    _entries[offset].HasName &&
-                    _entries[offset].Name.Equals(Tags.IsIndex) &&
-                    _entries[offset].Type.Equals(InputTypeNames.Text, StringComparison.OrdinalIgnoreCase))
+                foreach (var entry in _entries)
                 {
-                    stream.Write(((TextDataSetEntry)_entries[offset]).Value);
-                    offset++;
+                    entry.Accept(visitor);
                 }
 
-                var list = _entries.Skip(offset).
-                                    Select(m => m.AsUrlEncoded(enc)).
-                                    Where(m => m != null).
-                                    ToArray();
-
-                for (int i = 0; i < list.Length; i++)
-                {
-                    if (i > 0)
-                        stream.Write('&');
-
-                    stream.Write(list[i].Item1);
-                    stream.Write('=');
-                    stream.Write(list[i].Item2);
-                }
+                visitor.Serialize(stream);
             });
         }
 
@@ -123,19 +100,14 @@
         {
             return Build(encoding, stream =>
             {
-                var list = _entries.Select(m => m.AsPlaintext()).
-                                    Where(m => m != null).
-                                    ToArray();
+                var visitor = new PlaintextFormDataSetVisitor();
 
-                for (int i = 0; i < list.Length; i++)
+                foreach (var entry in _entries)
                 {
-                    if (i > 0)
-                        stream.Write("\r\n");
-
-                    stream.Write(list[i].Item1);
-                    stream.Write('=');
-                    stream.Write(list[i].Item2);
+                    entry.Accept(visitor);
                 }
+
+                visitor.Serialize(stream);
             });
         }
 
@@ -146,23 +118,28 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsJson()
         {
-            //spec dictates utf8
             return Build(TextEncoding.Utf8, stream =>
             {
-                var resultingObject = new JsonObject();
+                var visitor = new JsonFormDataSetVisitor();
 
                 foreach (var entry in _entries)
                 {
-                    entry.AsJson(resultingObject);
+                    entry.Accept(visitor);
                 }
 
-                stream.Write(resultingObject.ToString());
+                visitor.Serialize(stream);
             });
         }
 
+        /// <summary>
+        /// Appends a text entry to the form data set.
+        /// </summary>
+        /// <param name="name">The name of the entry.</param>
+        /// <param name="value">The value of the entry.</param>
+        /// <param name="type">The type of the entry.</param>
         public void Append(String name, String value, String type)
         {
-            if (String.Compare(type, Tags.Textarea, StringComparison.OrdinalIgnoreCase) == 0)
+            if (type.Isi(Tags.Textarea))
             {
                 name = Normalize(name);
                 value = Normalize(value);
@@ -171,9 +148,15 @@
             _entries.Add(new TextDataSetEntry(name, value, type));
         }
 
+        /// <summary>
+        /// Appends a file entry to the form data set.
+        /// </summary>
+        /// <param name="name">The name of the entry.</param>
+        /// <param name="value">The value of the entry.</param>
+        /// <param name="type">The type of the entry.</param>
         public void Append(String name, IFile value, String type)
         {
-            if (String.Compare(type, InputTypeNames.File, StringComparison.OrdinalIgnoreCase) == 0)
+            if (type.Isi(InputTypeNames.File))
             {
                 name = Normalize(name);
             }
