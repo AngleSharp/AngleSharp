@@ -37,8 +37,8 @@
         /// </summary>
         public Boolean IsScoped
         {
-            get { return HasOwnAttribute(AttributeNames.Scoped); }
-            set { SetOwnAttribute(AttributeNames.Scoped, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Scoped); }
+            set { this.SetOwnAttribute(AttributeNames.Scoped, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -54,10 +54,10 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetOwnAttribute(AttributeNames.Disabled).ToBoolean(); }
+            get { return this.GetOwnAttribute(AttributeNames.Disabled).ToBoolean(); }
             set 
             {
-                SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null);
+                this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null);
 
                 if (_sheet != null) 
                     _sheet.IsDisabled = value; 
@@ -69,8 +69,8 @@
         /// </summary>
         public String Media
         {
-            get { return GetOwnAttribute(AttributeNames.Media); }
-            set { SetOwnAttribute(AttributeNames.Media, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Media); }
+            set { this.SetOwnAttribute(AttributeNames.Media, value); }
         }
 
         /// <summary>
@@ -78,8 +78,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetOwnAttribute(AttributeNames.Type); }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Type); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         #endregion

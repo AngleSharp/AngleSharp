@@ -33,8 +33,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetUrlAttribute(AttributeNames.Data); }
-            set { SetOwnAttribute(AttributeNames.Data, value); }
+            get { return this.GetUrlAttribute(AttributeNames.Data); }
+            set { this.SetOwnAttribute(AttributeNames.Data, value); }
         }
 
         /// <summary>
@@ -43,8 +43,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetOwnAttribute(AttributeNames.Type); }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Type); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -55,8 +55,8 @@
         /// </summary>
         public Boolean TypeMustMatch
         {
-            get { return HasOwnAttribute(AttributeNames.TypeMustMatch); }
-            set { SetOwnAttribute(AttributeNames.TypeMustMatch, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.TypeMustMatch); }
+            set { this.SetOwnAttribute(AttributeNames.TypeMustMatch, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -65,8 +65,8 @@
         /// </summary>
         public String UseMap
         {
-            get { return GetOwnAttribute(AttributeNames.UseMap); }
-            set { SetOwnAttribute(AttributeNames.UseMap, value); }
+            get { return this.GetOwnAttribute(AttributeNames.UseMap); }
+            set { this.SetOwnAttribute(AttributeNames.UseMap, value); }
         }
 
         /// <summary>
@@ -74,8 +74,8 @@
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
-            set { SetOwnAttribute(AttributeNames.Width, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
+            set { this.SetOwnAttribute(AttributeNames.Width, value.ToString()); }
         }
 
         /// <summary>
@@ -83,8 +83,8 @@
         /// </summary>
         public Int32 DisplayHeight
         {
-            get { return GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
-            set { SetOwnAttribute(AttributeNames.Height, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
+            set { this.SetOwnAttribute(AttributeNames.Height, value.ToString()); }
         }
 
         /// <summary>

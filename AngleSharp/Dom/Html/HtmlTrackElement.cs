@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Dom.Media;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -35,8 +36,8 @@
         /// </summary>
         public String Kind
         {
-            get { return GetOwnAttribute(AttributeNames.Kind); }
-            set { SetOwnAttribute(AttributeNames.Kind, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Kind); }
+            set { this.SetOwnAttribute(AttributeNames.Kind, value); }
         }
 
         /// <summary>
@@ -44,8 +45,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetUrlAttribute(AttributeNames.Src); }
-            set { SetOwnAttribute(AttributeNames.Src, value); }
+            get { return this.GetUrlAttribute(AttributeNames.Src); }
+            set { this.SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -53,8 +54,8 @@
         /// </summary>
         public String SourceLanguage
         {
-            get { return GetOwnAttribute(AttributeNames.SrcLang); }
-            set { SetOwnAttribute(AttributeNames.SrcLang, value); }
+            get { return this.GetOwnAttribute(AttributeNames.SrcLang); }
+            set { this.SetOwnAttribute(AttributeNames.SrcLang, value); }
         }
 
         /// <summary>
@@ -62,8 +63,8 @@
         /// </summary>
         public String Label
         {
-            get { return GetOwnAttribute(AttributeNames.Label); }
-            set { SetOwnAttribute(AttributeNames.Label, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Label); }
+            set { this.SetOwnAttribute(AttributeNames.Label, value); }
         }
 
         /// <summary>
@@ -71,8 +72,8 @@
         /// </summary>
         public Boolean IsDefault
         {
-            get { return HasOwnAttribute(AttributeNames.Default); }
-            set { SetOwnAttribute(AttributeNames.Default, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Default); }
+            set { this.SetOwnAttribute(AttributeNames.Default, value ? String.Empty : null); }
         }
 
         /// <summary>

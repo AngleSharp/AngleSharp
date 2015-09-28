@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -27,8 +28,8 @@
 
         public Boolean Open
         {
-            get { return HasOwnAttribute(AttributeNames.Open); }
-            set { SetOwnAttribute(AttributeNames.Open, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Open); }
+            set { this.SetOwnAttribute(AttributeNames.Open, value ? String.Empty : null); }
         }
 
         public String ReturnValue

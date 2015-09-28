@@ -34,8 +34,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return HasOwnAttribute(AttributeNames.Disabled); }
-            set { SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Disabled); }
+            set { this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -51,8 +51,8 @@
         /// </summary>
         public String Label
         {
-            get { return GetOwnAttribute(AttributeNames.Label) ?? Text; }
-            set { SetOwnAttribute(AttributeNames.Label, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Label) ?? Text; }
+            set { this.SetOwnAttribute(AttributeNames.Label, value); }
         }
 
         /// <summary>
@@ -60,8 +60,8 @@
         /// </summary>
         public String Value
         {
-            get { return GetOwnAttribute(AttributeNames.Value) ?? Text; }
-            set { SetOwnAttribute(AttributeNames.Value, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Value) ?? Text; }
+            set { this.SetOwnAttribute(AttributeNames.Value, value); }
         }
 
         /// <summary>
@@ -104,8 +104,8 @@
         /// </summary>
         public Boolean IsDefaultSelected
         {
-            get { return HasOwnAttribute(AttributeNames.Selected); }
-            set { SetOwnAttribute(AttributeNames.Selected, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Selected); }
+            set { this.SetOwnAttribute(AttributeNames.Selected, value ? String.Empty : null); }
         }
 
         /// <summary>

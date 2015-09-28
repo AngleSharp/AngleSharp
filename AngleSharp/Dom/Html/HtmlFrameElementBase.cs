@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -24,8 +25,8 @@
         /// </summary>
         public String Name
         {
-            get { return GetOwnAttribute(AttributeNames.Name); }
-            set { SetOwnAttribute(AttributeNames.Name, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Name); }
+            set { this.SetOwnAttribute(AttributeNames.Name, value); }
         }
 
         /// <summary>
@@ -33,8 +34,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetUrlAttribute(AttributeNames.Src); }
-            set { SetOwnAttribute(AttributeNames.Src, value); }
+            get { return this.GetUrlAttribute(AttributeNames.Src); }
+            set { this.SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -42,8 +43,8 @@
         /// </summary>
         public String Scrolling
         {
-            get { return GetOwnAttribute(AttributeNames.Scrolling); }
-            set { SetOwnAttribute(AttributeNames.Scrolling, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Scrolling); }
+            set { this.SetOwnAttribute(AttributeNames.Scrolling, value); }
         }
 
         /// <summary>
@@ -62,8 +63,8 @@
         /// </summary>
         public String LongDesc
         {
-            get { return GetOwnAttribute(AttributeNames.LongDesc); }
-            set { SetOwnAttribute(AttributeNames.LongDesc, value); }
+            get { return this.GetOwnAttribute(AttributeNames.LongDesc); }
+            set { this.SetOwnAttribute(AttributeNames.LongDesc, value); }
         }
 
         /// <summary>
@@ -71,8 +72,8 @@
         /// </summary>
         public String FrameBorder
         {
-            get { return GetOwnAttribute(AttributeNames.FrameBorder); }
-            set { SetOwnAttribute(AttributeNames.FrameBorder, value); }
+            get { return this.GetOwnAttribute(AttributeNames.FrameBorder); }
+            set { this.SetOwnAttribute(AttributeNames.FrameBorder, value); }
         }
 
         #endregion

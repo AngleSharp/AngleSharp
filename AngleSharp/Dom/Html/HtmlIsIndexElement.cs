@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents the HTML isindex element.
@@ -36,8 +37,8 @@
         /// </summary>
         public String Prompt
         {
-            get { return GetOwnAttribute(AttributeNames.Prompt); }
-            set { SetOwnAttribute(AttributeNames.Prompt, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Prompt); }
+            set { this.SetOwnAttribute(AttributeNames.Prompt, value); }
         }
 
         #endregion

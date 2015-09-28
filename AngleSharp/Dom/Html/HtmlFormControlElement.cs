@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
-    using System.Linq;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
+    using System.Linq;
 
     /// <summary>
     /// Represents the base class for all HTML form control elements.
@@ -37,8 +37,8 @@
         /// </summary>
         public String Name
         {
-            get { return GetOwnAttribute(AttributeNames.Name); }
-            set { SetOwnAttribute(AttributeNames.Name, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Name); }
+            set { this.SetOwnAttribute(AttributeNames.Name, value); }
         }
 
         /// <summary>
@@ -54,8 +54,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return HasOwnAttribute(AttributeNames.Disabled) || IsFieldsetDisabled(); }
-            set { SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Disabled) || IsFieldsetDisabled(); }
+            set { this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -64,8 +64,8 @@
         /// </summary>
         public Boolean Autofocus
         {
-            get { return HasOwnAttribute(AttributeNames.AutoFocus); }
-            set { SetOwnAttribute(AttributeNames.AutoFocus, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.AutoFocus); }
+            set { this.SetOwnAttribute(AttributeNames.AutoFocus, value ? String.Empty : null); }
         }
 
         /// <summary>

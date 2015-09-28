@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -27,8 +28,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetUrlAttribute(AttributeNames.Src); }
-            set { SetOwnAttribute(AttributeNames.Src, value); }
+            get { return this.GetUrlAttribute(AttributeNames.Src); }
+            set { this.SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -36,8 +37,8 @@
         /// </summary>
         public String Media
         {
-            get { return GetOwnAttribute(AttributeNames.Media); }
-            set { SetOwnAttribute(AttributeNames.Media, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Media); }
+            set { this.SetOwnAttribute(AttributeNames.Media, value); }
         }
 
         /// <summary>
@@ -45,8 +46,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetOwnAttribute(AttributeNames.Type); }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Type); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -54,8 +55,8 @@
         /// </summary>
         public String SourceSet
         {
-            get { return GetOwnAttribute(AttributeNames.SrcSet); }
-            set { SetOwnAttribute(AttributeNames.SrcSet, value); }
+            get { return this.GetOwnAttribute(AttributeNames.SrcSet); }
+            set { this.SetOwnAttribute(AttributeNames.SrcSet, value); }
         }
 
         /// <summary>
@@ -63,8 +64,8 @@
         /// </summary>
         public String Sizes
         {
-            get { return GetOwnAttribute(AttributeNames.Sizes); }
-            set { SetOwnAttribute(AttributeNames.Sizes, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Sizes); }
+            set { this.SetOwnAttribute(AttributeNames.Sizes, value); }
         }
 
         #endregion

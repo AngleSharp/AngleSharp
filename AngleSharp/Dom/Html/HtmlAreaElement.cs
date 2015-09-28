@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -27,8 +28,8 @@
         /// </summary>
         public String AlternativeText
         {
-            get { return GetOwnAttribute(AttributeNames.Alt); }
-            set { SetOwnAttribute(AttributeNames.Alt, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Alt); }
+            set { this.SetOwnAttribute(AttributeNames.Alt, value); }
         }
 
         /// <summary>
@@ -36,8 +37,8 @@
         /// </summary>
         public String Coordinates
         {
-            get { return GetOwnAttribute(AttributeNames.Coords); }
-            set { SetOwnAttribute(AttributeNames.Coords, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Coords); }
+            set { this.SetOwnAttribute(AttributeNames.Coords, value); }
         }
 
         /// <summary>
@@ -47,8 +48,8 @@
         /// </summary>
         public String Shape
         {
-            get { return GetOwnAttribute(AttributeNames.Shape); }
-            set { SetOwnAttribute(AttributeNames.Shape, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Shape); }
+            set { this.SetOwnAttribute(AttributeNames.Shape, value); }
         }
 
         #endregion

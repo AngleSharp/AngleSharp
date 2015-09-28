@@ -53,8 +53,8 @@
         /// </summary>
         public Int32 Size
         {
-            get { return GetOwnAttribute(AttributeNames.Size).ToInteger(0); }
-            set { SetOwnAttribute(AttributeNames.Size, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Size).ToInteger(0); }
+            set { this.SetOwnAttribute(AttributeNames.Size, value.ToString()); }
         }
 
         /// <summary>
@@ -62,8 +62,8 @@
         /// </summary>
         public Boolean IsRequired
         {
-            get { return HasOwnAttribute(AttributeNames.Required); }
-            set { SetOwnAttribute(AttributeNames.Required, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Required); }
+            set { this.SetOwnAttribute(AttributeNames.Required, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -123,8 +123,8 @@
         /// </summary>
         public Boolean IsMultiple
         {
-            get { return HasOwnAttribute(AttributeNames.Multiple); }
-            set { SetOwnAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Multiple); }
+            set { this.SetOwnAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
         }
 
         /// <summary>

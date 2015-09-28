@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -29,8 +30,8 @@
         /// </summary>
         public String Citation
         {
-            get { return GetOwnAttribute(AttributeNames.Cite); }
-            set { SetOwnAttribute(AttributeNames.Cite, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Cite); }
+            set { this.SetOwnAttribute(AttributeNames.Cite, value); }
         }
 
         #endregion

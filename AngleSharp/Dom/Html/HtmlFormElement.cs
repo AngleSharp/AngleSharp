@@ -64,8 +64,8 @@
         /// </summary>
         public String Name
         {
-            get { return GetOwnAttribute(AttributeNames.Name); }
-            set { SetOwnAttribute(AttributeNames.Name, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Name); }
+            set { this.SetOwnAttribute(AttributeNames.Name, value); }
         }
 
         /// <summary>
@@ -97,8 +97,8 @@
         /// </summary>
         public String AcceptCharset
         {
-            get { return GetOwnAttribute(AttributeNames.AcceptCharset); }
-            set { SetOwnAttribute(AttributeNames.AcceptCharset, value); }
+            get { return this.GetOwnAttribute(AttributeNames.AcceptCharset); }
+            set { this.SetOwnAttribute(AttributeNames.AcceptCharset, value); }
         }
 
         /// <summary>
@@ -106,8 +106,8 @@
         /// </summary>
         public String Action
         {
-            get { return GetOwnAttribute(AttributeNames.Action); }
-            set { SetOwnAttribute(AttributeNames.Action, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Action); }
+            set { this.SetOwnAttribute(AttributeNames.Action, value); }
         }
 
         /// <summary>
@@ -115,8 +115,8 @@
         /// </summary>
         public String Autocomplete
         {
-            get { return GetOwnAttribute(AttributeNames.AutoComplete); }
-            set { SetOwnAttribute(AttributeNames.AutoComplete, value); }
+            get { return this.GetOwnAttribute(AttributeNames.AutoComplete); }
+            set { this.SetOwnAttribute(AttributeNames.AutoComplete, value); }
         }
 
         /// <summary>
@@ -124,8 +124,8 @@
         /// </summary>
         public String Enctype
         {
-            get { return CheckEncType(GetOwnAttribute(AttributeNames.Enctype)); }
-            set { SetOwnAttribute(AttributeNames.Enctype, CheckEncType(value)); }
+            get { return CheckEncType(this.GetOwnAttribute(AttributeNames.Enctype)); }
+            set { this.SetOwnAttribute(AttributeNames.Enctype, CheckEncType(value)); }
         }
 
         /// <summary>
@@ -142,8 +142,8 @@
         /// </summary>
         public String Method
         {
-            get { return GetOwnAttribute(AttributeNames.Method) ?? String.Empty; }
-            set { SetOwnAttribute(AttributeNames.Method, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Method) ?? String.Empty; }
+            set { this.SetOwnAttribute(AttributeNames.Method, value); }
         }
 
         /// <summary>
@@ -151,8 +151,8 @@
         /// </summary>
         public Boolean NoValidate
         {
-            get { return HasOwnAttribute(AttributeNames.NoValidate); }
-            set { SetOwnAttribute(AttributeNames.NoValidate, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.NoValidate); }
+            set { this.SetOwnAttribute(AttributeNames.NoValidate, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -160,8 +160,8 @@
         /// </summary>
         public String Target
         {
-            get { return GetOwnAttribute(AttributeNames.Target); }
-            set { SetOwnAttribute(AttributeNames.Target, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Target); }
+            set { this.SetOwnAttribute(AttributeNames.Target, value); }
         }
 
         #endregion

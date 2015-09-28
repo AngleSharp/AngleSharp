@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents an HTML li, dd or dt tag.
@@ -29,8 +30,8 @@
 
         public Int32? Value
         {
-            get { var i = 0; return Int32.TryParse(GetOwnAttribute(AttributeNames.Value), out i) ? i : new Int32?(); }
-            set { SetOwnAttribute(AttributeNames.Value, value.HasValue ? value.Value.ToString() : null); }
+            get { var i = 0; return Int32.TryParse(this.GetOwnAttribute(AttributeNames.Value), out i) ? i : new Int32?(); }
+            set { this.SetOwnAttribute(AttributeNames.Value, value.HasValue ? value.Value.ToString() : null); }
         }
 
         #endregion

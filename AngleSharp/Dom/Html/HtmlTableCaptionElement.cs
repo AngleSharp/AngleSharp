@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -24,8 +25,8 @@
         /// </summary>
         public String Align
         {
-            get { return GetOwnAttribute(AttributeNames.Align) ?? Keywords.Top; }
-            set { SetOwnAttribute(AttributeNames.Align, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Align) ?? Keywords.Top; }
+            set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         #endregion

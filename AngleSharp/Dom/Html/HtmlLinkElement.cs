@@ -65,7 +65,7 @@
         /// </summary>
         public Url Url
         {
-            get { return this.HyperReference(GetOwnAttribute(AttributeNames.Href)); }
+            get { return this.HyperReference(this.GetOwnAttribute(AttributeNames.Href)); }
         }
 
         /// <summary>
@@ -74,7 +74,7 @@
         public String Href
         {
             get { return Url.Href; }
-            set { SetOwnAttribute(AttributeNames.Href, value); }
+            set { this.SetOwnAttribute(AttributeNames.Href, value); }
         }
 
         /// <summary>
@@ -82,8 +82,8 @@
         /// </summary>
         public String TargetLanguage
         {
-            get { return GetOwnAttribute(AttributeNames.HrefLang); }
-            set { SetOwnAttribute(AttributeNames.HrefLang, value); }
+            get { return this.GetOwnAttribute(AttributeNames.HrefLang); }
+            set { this.SetOwnAttribute(AttributeNames.HrefLang, value); }
         }
 
         /// <summary>
@@ -91,8 +91,8 @@
         /// </summary>
         public String Charset
         {
-            get { return GetOwnAttribute(AttributeNames.Charset); }
-            set { SetOwnAttribute(AttributeNames.Charset, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Charset); }
+            set { this.SetOwnAttribute(AttributeNames.Charset, value); }
         }
 
         /// <summary>
@@ -100,8 +100,8 @@
         /// </summary>
         public String Relation
         {
-            get { return GetOwnAttribute(AttributeNames.Rel); }
-            set { SetOwnAttribute(AttributeNames.Rel, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Rel); }
+            set { this.SetOwnAttribute(AttributeNames.Rel, value); }
         }
 
         /// <summary>
@@ -113,7 +113,7 @@
             {
                 if (_relList == null)
                 {
-                    _relList = new TokenList(GetOwnAttribute(AttributeNames.Rel));
+                    _relList = new TokenList(this.GetOwnAttribute(AttributeNames.Rel));
                     CreateBindings(_relList, AttributeNames.Rel);
                 }
 
@@ -130,7 +130,7 @@
             {
                 if (_sizes == null)
                 {
-                    _sizes = new SettableTokenList(GetOwnAttribute(AttributeNames.Sizes));
+                    _sizes = new SettableTokenList(this.GetOwnAttribute(AttributeNames.Sizes));
                     CreateBindings(_sizes, AttributeNames.Sizes);
                 }
 
@@ -143,8 +143,8 @@
         /// </summary>
         public String Rev
         {
-            get { return GetOwnAttribute(AttributeNames.Rev); }
-            set { SetOwnAttribute(AttributeNames.Rev, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Rev); }
+            set { this.SetOwnAttribute(AttributeNames.Rev, value); }
         }
 
         /// <summary>
@@ -152,8 +152,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetOwnAttribute(AttributeNames.Disabled).ToBoolean(); }
-            set { SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return this.GetOwnAttribute(AttributeNames.Disabled).ToBoolean(); }
+            set { this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -161,8 +161,8 @@
         /// </summary>
         public String Target
         {
-            get { return GetOwnAttribute(AttributeNames.Target); }
-            set { SetOwnAttribute(AttributeNames.Target, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Target); }
+            set { this.SetOwnAttribute(AttributeNames.Target, value); }
         }
 
         /// <summary>
@@ -170,8 +170,8 @@
         /// </summary>
         public String Media
         {
-            get { return GetOwnAttribute(AttributeNames.Media); }
-            set { SetOwnAttribute(AttributeNames.Media, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Media); }
+            set { this.SetOwnAttribute(AttributeNames.Media, value); }
         }
 
         /// <summary>
@@ -179,8 +179,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetOwnAttribute(AttributeNames.Type); }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Type); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>

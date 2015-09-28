@@ -740,6 +740,54 @@
             
             return element.CreateTask(cancel => element.Owner.Context.OpenAsync(request, cancel));
         }
+
+        /// <summary>
+        /// Faster way of getting the (known) attribute.
+        /// </summary>
+        /// <param name="element">The element to host the attribute.</param>
+        /// <param name="name">The name of the attribute.</param>
+        /// <returns>The attribute's value, if any.</returns>
+        public static String GetOwnAttribute(this Element element, String name)
+        {
+            var attr = element.Attributes.GetNamedItem(null, name);
+            return attr != null ? attr.Value : null;
+        }
+
+        /// <summary>
+        /// Faster way of checking for a (known) attribute.
+        /// </summary>
+        /// <param name="element">The element to host the attribute.</param>
+        /// <param name="name">The name of the attribute.</param>
+        /// <returns>True if the attribute exists, otherwise false.</returns>
+        public static Boolean HasOwnAttribute(this Element element, String name)
+        {
+            var attr = element.Attributes.GetNamedItem(null, name);
+            return attr != null;
+        }
+
+        /// <summary>
+        /// Easy way of getting the current absolute url from attributes.
+        /// </summary>
+        /// <param name="element">The element to host the attribute.</param>
+        /// <param name="name">The name of the attribute.</param>
+        /// <returns>The attribute's absolute url value.</returns>
+        public static String GetUrlAttribute(this Element element, String name)
+        {
+            var value = element.GetOwnAttribute(name);
+            var url = value != null ? new Url(element.BaseUrl, value) : null;
+            return url != null && !url.IsInvalid ? url.Href : String.Empty;
+        }
+
+        /// <summary>
+        /// Faster way of setting the (known) attribute.
+        /// </summary>
+        /// <param name="element">The element to host the attribute.</param>
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="value">The attribute's value.</param>
+        public static void SetOwnAttribute(this Element element, String name, String value)
+        {
+            element.Attributes.SetNamedItemWithNamespaceUri(new Attr(name, value));
+        }
         
         static Stack<IHtmlSourceElement> GetSources(this IHtmlImageElement img)
         {

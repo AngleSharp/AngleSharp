@@ -42,8 +42,8 @@
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
-            set { SetOwnAttribute(AttributeNames.Width, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
+            set { this.SetOwnAttribute(AttributeNames.Width, value.ToString()); }
         }
 
         /// <summary>
@@ -51,8 +51,8 @@
         /// </summary>
         public Int32 DisplayHeight
         {
-            get { return GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
-            set { SetOwnAttribute(AttributeNames.Height, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
+            set { this.SetOwnAttribute(AttributeNames.Height, value.ToString()); }
         }
 
         /// <summary>
@@ -76,8 +76,8 @@
         /// </summary>
         public String Poster
         {
-            get { return GetUrlAttribute(AttributeNames.Poster); }
-            set { SetOwnAttribute(AttributeNames.Poster, value); }
+            get { return this.GetUrlAttribute(AttributeNames.Poster); }
+            set { this.SetOwnAttribute(AttributeNames.Poster, value); }
         }
 
         #endregion

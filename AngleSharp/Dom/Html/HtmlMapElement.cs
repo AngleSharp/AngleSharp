@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Dom.Collections;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -32,8 +33,8 @@
         /// </summary>
         public String Name
         {
-            get { return GetOwnAttribute(AttributeNames.Name); }
-            set { SetOwnAttribute(AttributeNames.Name, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Name); }
+            set { this.SetOwnAttribute(AttributeNames.Name, value); }
         }
 
         /// <summary>

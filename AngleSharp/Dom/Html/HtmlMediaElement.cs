@@ -127,8 +127,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetUrlAttribute(AttributeNames.Src); }
-            set { SetOwnAttribute(AttributeNames.Src, value); }
+            get { return this.GetUrlAttribute(AttributeNames.Src); }
+            set { this.SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -136,8 +136,8 @@
         /// </summary>
         public String CrossOrigin
         {
-            get { return GetOwnAttribute(AttributeNames.CrossOrigin); }
-            set { SetOwnAttribute(AttributeNames.CrossOrigin, value); }
+            get { return this.GetOwnAttribute(AttributeNames.CrossOrigin); }
+            set { this.SetOwnAttribute(AttributeNames.CrossOrigin, value); }
         }
 
         /// <summary>
@@ -145,8 +145,8 @@
         /// </summary>
         public String Preload
         {
-            get { return GetOwnAttribute(AttributeNames.Preload); }
-            set { SetOwnAttribute(AttributeNames.Preload, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Preload); }
+            set { this.SetOwnAttribute(AttributeNames.Preload, value); }
         }
 
         /// <summary>
@@ -233,26 +233,26 @@
 
         public Boolean IsAutoplay
         {
-            get { return HasOwnAttribute(AttributeNames.Autoplay); }
-            set { SetOwnAttribute(AttributeNames.Autoplay, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Autoplay); }
+            set { this.SetOwnAttribute(AttributeNames.Autoplay, value ? String.Empty : null); }
         }
 
         public Boolean IsLoop
         {
-            get { return HasOwnAttribute(AttributeNames.Loop); }
-            set { SetOwnAttribute(AttributeNames.Loop, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Loop); }
+            set { this.SetOwnAttribute(AttributeNames.Loop, value ? String.Empty : null); }
         }
 
         public Boolean IsShowingControls
         {
-            get { return HasOwnAttribute(AttributeNames.Controls); }
-            set { SetOwnAttribute(AttributeNames.Controls, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Controls); }
+            set { this.SetOwnAttribute(AttributeNames.Controls, value ? String.Empty : null); }
         }
 
         public Boolean IsDefaultMuted
         {
-            get { return HasOwnAttribute(AttributeNames.Muted); }
-            set { SetOwnAttribute(AttributeNames.Muted, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Muted); }
+            set { this.SetOwnAttribute(AttributeNames.Muted, value ? String.Empty : null); }
         }
 
         public Boolean IsPaused
@@ -299,8 +299,8 @@
 
         public String MediaGroup
         {
-            get { return GetOwnAttribute(AttributeNames.MediaGroup); }
-            set { SetOwnAttribute(AttributeNames.MediaGroup, value); }
+            get { return this.GetOwnAttribute(AttributeNames.MediaGroup); }
+            set { this.SetOwnAttribute(AttributeNames.MediaGroup, value); }
         }
 
         public Double Volume

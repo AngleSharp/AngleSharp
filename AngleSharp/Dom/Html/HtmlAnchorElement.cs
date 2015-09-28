@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -27,8 +28,8 @@
         /// </summary>
         public String Charset
         {
-            get { return GetOwnAttribute(AttributeNames.Charset); }
-            set { SetOwnAttribute(AttributeNames.Charset, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Charset); }
+            set { this.SetOwnAttribute(AttributeNames.Charset, value); }
         }
 
         /// <summary>
@@ -36,8 +37,8 @@
         /// </summary>
         public String Name
         {
-            get { return GetOwnAttribute(AttributeNames.Name); }
-            set { SetOwnAttribute(AttributeNames.Name, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Name); }
+            set { this.SetOwnAttribute(AttributeNames.Name, value); }
         }
 
         /// <summary>
@@ -55,7 +56,7 @@
 
         public override void DoFocus()
         {
-            if (HasOwnAttribute(AttributeNames.Href))
+            if (this.HasOwnAttribute(AttributeNames.Href))
                 IsFocused = true;
         }
 

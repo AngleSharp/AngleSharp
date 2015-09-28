@@ -43,7 +43,7 @@
         {
             get
             {
-                var language = GetOwnAttribute(AttributeNames.Language);
+                var language = this.GetOwnAttribute(AttributeNames.Language);
                 return language != null ? "text/" + language : null;
             }
         }
@@ -74,8 +74,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetOwnAttribute(AttributeNames.Src); }
-            set { SetOwnAttribute(AttributeNames.Src, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Src); }
+            set { this.SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -83,8 +83,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetOwnAttribute(AttributeNames.Type); }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Type); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -92,8 +92,8 @@
         /// </summary>
         public String CharacterSet
         {
-            get { return GetOwnAttribute(AttributeNames.Charset); }
-            set { SetOwnAttribute(AttributeNames.Charset, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Charset); }
+            set { this.SetOwnAttribute(AttributeNames.Charset, value); }
         }
 
         /// <summary>
@@ -110,8 +110,8 @@
         /// </summary>
         public String CrossOrigin
         {
-            get { return GetOwnAttribute(AttributeNames.CrossOrigin); }
-            set { SetOwnAttribute(AttributeNames.CrossOrigin, value); }
+            get { return this.GetOwnAttribute(AttributeNames.CrossOrigin); }
+            set { this.SetOwnAttribute(AttributeNames.CrossOrigin, value); }
         }
 
         /// <summary>
@@ -119,8 +119,8 @@
         /// </summary>
         public Boolean IsDeferred
         {
-            get { return HasOwnAttribute(AttributeNames.Defer); }
-            set { SetOwnAttribute(AttributeNames.Defer, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Defer); }
+            set { this.SetOwnAttribute(AttributeNames.Defer, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -128,8 +128,8 @@
         /// </summary>
         public Boolean IsAsync
         {
-            get { return HasOwnAttribute(AttributeNames.Async); }
-            set { SetOwnAttribute(AttributeNames.Async, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Async); }
+            set { this.SetOwnAttribute(AttributeNames.Async, value ? String.Empty : null); }
         }
 
         #endregion
@@ -182,8 +182,8 @@
         internal Boolean Prepare()
         {
             var options = Owner.Options;
-            var eventAttr = GetOwnAttribute(AttributeNames.Event);
-            var forAttr = GetOwnAttribute(AttributeNames.For);
+            var eventAttr = this.GetOwnAttribute(AttributeNames.Event);
+            var forAttr = this.GetOwnAttribute(AttributeNames.For);
             var src = Source;
             var wasParserInserted = _parserInserted;
 

@@ -94,8 +94,8 @@
         /// </summary>
         public String Slot
         {
-            get { return GetOwnAttribute(AttributeNames.Slot); }
-            set { SetOwnAttribute(AttributeNames.Slot, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Slot); }
+            set { this.SetOwnAttribute(AttributeNames.Slot, value); }
         }
 
         /// <summary>
@@ -165,7 +165,7 @@
             {
                 if (_classList == null)
                 {
-                    _classList = new TokenList(GetOwnAttribute(AttributeNames.Class));
+                    _classList = new TokenList(this.GetOwnAttribute(AttributeNames.Class));
                     CreateBindings(_classList, AttributeNames.Class);
                 }
 
@@ -178,8 +178,8 @@
         /// </summary>
         public String ClassName
         {
-            get { return GetOwnAttribute(AttributeNames.Class); }
-            set { SetOwnAttribute(AttributeNames.Class, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Class); }
+            set { this.SetOwnAttribute(AttributeNames.Class, value); }
         }
 
         /// <summary>
@@ -187,8 +187,8 @@
         /// </summary>
         public String Id
         {
-            get { return GetOwnAttribute(AttributeNames.Id); }
-            set { SetOwnAttribute(AttributeNames.Id, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Id); }
+            set { this.SetOwnAttribute(AttributeNames.Id, value); }
         }
 
         /// <summary>
@@ -631,7 +631,7 @@
                 if (String.Equals(_namespace, Namespaces.HtmlUri, StringComparison.Ordinal))
                     name = name.ToLowerInvariant();
 
-                SetOwnAttribute(name, value);
+                this.SetOwnAttribute(name, value);
             }
             else
                 RemoveAttribute(name);
@@ -831,50 +831,6 @@
         #region Helpers
 
         /// <summary>
-        /// Faster way of getting the (known) attribute.
-        /// </summary>
-        /// <param name="name">The name of the attribute.</param>
-        /// <returns>The attribute's value, if any.</returns>
-        protected String GetOwnAttribute(String name)
-        {
-            var attr = _attributes.GetNamedItem(null, name);
-            return attr != null ? attr.Value : null;
-        }
-
-        /// <summary>
-        /// Faster way of checking for a (known) attribute.
-        /// </summary>
-        /// <param name="name">The name of the attribute.</param>
-        /// <returns>True if the attribute exists, otherwise false.</returns>
-        protected Boolean HasOwnAttribute(String name)
-        {
-            var attr = _attributes.GetNamedItem(null, name);
-            return attr != null;
-        }
-
-        /// <summary>
-        /// Easy way of getting the current absolute url from attributes.
-        /// </summary>
-        /// <param name="name">The name of the attribute.</param>
-        /// <returns>The attribute's absolute url value.</returns>
-        protected String GetUrlAttribute(String name)
-        {
-            var value = GetOwnAttribute(name);
-            var url = value != null ? new Url(BaseUrl, value) : null;
-            return url != null && !url.IsInvalid ? url.Href : String.Empty;
-        }
-
-        /// <summary>
-        /// Faster way of setting the (known) attribute.
-        /// </summary>
-        /// <param name="name">The name of the attribute.</param>
-        /// <param name="value">The attribute's value.</param>
-        protected void SetOwnAttribute(String name, String value)
-        {
-            _attributes.SetNamedItemWithNamespaceUri(new Attr(name, value));
-        }
-
-        /// <summary>
         /// Creates the style for the inline style declaration.
         /// </summary>
         /// <returns>The declaration representing the declarations.</returns>
@@ -885,7 +841,7 @@
 
             if (engine != null)
             {
-                var source = GetOwnAttribute(AttributeNames.Style);
+                var source = this.GetOwnAttribute(AttributeNames.Style);
                 var options = new StyleOptions { Element = this, Configuration = config };
                 var style = engine.ParseInline(source, options);
                 var bindable = style as IBindable;
@@ -913,7 +869,7 @@
         protected void UpdateAttribute(String name, String value)
         {
             var handler = _attributes.RemoveHandler(name);
-            SetOwnAttribute(name, value);
+            this.SetOwnAttribute(name, value);
             _attributes.SetHandler(name, handler);
         }
 

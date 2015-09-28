@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents the embed element.
@@ -24,26 +25,26 @@
 
         public String Source
         {
-            get { return GetOwnAttribute(AttributeNames.Src); }
-            set { SetOwnAttribute(AttributeNames.Src, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Src); }
+            set { this.SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         public String Type
         {
-            get { return GetOwnAttribute(AttributeNames.Type); }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Type); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         public String DisplayWidth
         {
-            get { return GetOwnAttribute(AttributeNames.Width); }
-            set { SetOwnAttribute(AttributeNames.Width, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Width); }
+            set { this.SetOwnAttribute(AttributeNames.Width, value); }
         }
 
         public String DisplayHeight
         {
-            get { return GetOwnAttribute(AttributeNames.Height); }
-            set { SetOwnAttribute(AttributeNames.Height, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Height); }
+            set { this.SetOwnAttribute(AttributeNames.Height, value); }
         }
 
         #endregion

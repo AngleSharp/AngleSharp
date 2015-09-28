@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -51,7 +52,7 @@
         {
             get
             {
-                var id = GetOwnAttribute(AttributeNames.Command);
+                var id = this.GetOwnAttribute(AttributeNames.Command);
 
                 if (!String.IsNullOrEmpty(id) && Owner != null)
                     return Owner.GetElementById(id) as IHtmlElement;
@@ -65,8 +66,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetOwnAttribute(AttributeNames.Type); }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Type); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -74,8 +75,8 @@
         /// </summary>
         public String Label
         {
-            get { return GetOwnAttribute(AttributeNames.Label); }
-            set { SetOwnAttribute(AttributeNames.Label, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Label); }
+            set { this.SetOwnAttribute(AttributeNames.Label, value); }
         }
 
         /// <summary>
@@ -83,8 +84,8 @@
         /// </summary>
         public String Icon
         {
-            get { return GetOwnAttribute(AttributeNames.Icon); }
-            set { SetOwnAttribute(AttributeNames.Icon, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Icon); }
+            set { this.SetOwnAttribute(AttributeNames.Icon, value); }
         }
 
         /// <summary>
@@ -92,8 +93,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return HasOwnAttribute(AttributeNames.Disabled); }
-            set { SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Disabled); }
+            set { this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -101,8 +102,8 @@
         /// </summary>
         public Boolean IsChecked
         {
-            get { return HasOwnAttribute(AttributeNames.Checked); }
-            set { SetOwnAttribute(AttributeNames.Checked, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Checked); }
+            set { this.SetOwnAttribute(AttributeNames.Checked, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -110,8 +111,8 @@
         /// </summary>
         public Boolean IsDefault
         {
-            get { return HasOwnAttribute(AttributeNames.Default); }
-            set { SetOwnAttribute(AttributeNames.Default, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Default); }
+            set { this.SetOwnAttribute(AttributeNames.Default, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -120,8 +121,8 @@
         /// </summary>
         public String RadioGroup
         {
-            get { return GetOwnAttribute(AttributeNames.Radiogroup); }
-            set { SetOwnAttribute(AttributeNames.Radiogroup, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Radiogroup); }
+            set { this.SetOwnAttribute(AttributeNames.Radiogroup, value); }
         }
 
         #endregion

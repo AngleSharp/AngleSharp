@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Dom.Collections;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -38,8 +39,8 @@
         /// </summary>
         public String Download
         {
-            get { return GetOwnAttribute(AttributeNames.Download); }
-            set { SetOwnAttribute(AttributeNames.Download, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Download); }
+            set { this.SetOwnAttribute(AttributeNames.Download, value); }
         }
 
         /// <summary>
@@ -47,7 +48,7 @@
         /// </summary>
         public String Href
         {
-            get { return GetUrlAttribute(AttributeNames.Href); }
+            get { return this.GetUrlAttribute(AttributeNames.Href); }
             set { SetAttribute(AttributeNames.Href, value); }
         }
 
@@ -149,8 +150,8 @@
         /// </summary>
         public String TargetLanguage
         {
-            get { return GetOwnAttribute(AttributeNames.HrefLang); }
-            set { SetOwnAttribute(AttributeNames.HrefLang, value); }
+            get { return this.GetOwnAttribute(AttributeNames.HrefLang); }
+            set { this.SetOwnAttribute(AttributeNames.HrefLang, value); }
         }
 
         /// <summary>
@@ -158,8 +159,8 @@
         /// </summary>
         public String Media
         {
-            get { return GetOwnAttribute(AttributeNames.Media); }
-            set { SetOwnAttribute(AttributeNames.Media, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Media); }
+            set { this.SetOwnAttribute(AttributeNames.Media, value); }
         }
 
         /// <summary>
@@ -168,8 +169,8 @@
         /// </summary>
         public String Relation
         {
-            get { return GetOwnAttribute(AttributeNames.Rel); }
-            set { SetOwnAttribute(AttributeNames.Rel, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Rel); }
+            set { this.SetOwnAttribute(AttributeNames.Rel, value); }
         }
 
         /// <summary>
@@ -182,7 +183,7 @@
             {
                 if (_relList == null)
                 {
-                    _relList = new TokenList(GetOwnAttribute(AttributeNames.Rel));
+                    _relList = new TokenList(this.GetOwnAttribute(AttributeNames.Rel));
                     CreateBindings(_relList, AttributeNames.Rel);
                 }
 
@@ -199,7 +200,7 @@
             {
                 if (_ping == null)
                 {
-                    _ping = new SettableTokenList(GetOwnAttribute(AttributeNames.Ping));
+                    _ping = new SettableTokenList(this.GetOwnAttribute(AttributeNames.Ping));
                     CreateBindings(_ping, AttributeNames.Ping);
                 }
 
@@ -213,8 +214,8 @@
         /// </summary>
         public String Target
         {
-            get { return GetOwnAttribute(AttributeNames.Target); }
-            set { SetOwnAttribute(AttributeNames.Target, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Target); }
+            set { this.SetOwnAttribute(AttributeNames.Target, value); }
         }
 
         /// <summary>
@@ -222,8 +223,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetOwnAttribute(AttributeNames.Type); }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Type); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         #endregion
@@ -254,7 +255,7 @@
 
         String GetLocationPart(Func<ILocation, String> getter)
         {
-            var href = GetOwnAttribute(AttributeNames.Href);
+            var href = this.GetOwnAttribute(AttributeNames.Href);
             var url = href != null ? new Url(BaseUrl, href) : null;
 
             if (url == null || url.IsInvalid)
@@ -266,7 +267,7 @@
 
         void SetLocationPart(Action<ILocation> setter)
         {
-            var href = GetOwnAttribute(AttributeNames.Href);
+            var href = this.GetOwnAttribute(AttributeNames.Href);
             var url = href != null ? new Url(BaseUrl, href) : null;
 
             if (url == null || url.IsInvalid)
@@ -274,7 +275,7 @@
 
             var location = new Location(url);
             setter(location);
-            SetOwnAttribute(AttributeNames.Href, location.Href);
+            this.SetOwnAttribute(AttributeNames.Href, location.Href);
         }
 
         #endregion

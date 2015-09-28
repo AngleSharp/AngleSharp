@@ -25,8 +25,8 @@
         /// </summary>
         public Boolean IsReversed
         {
-            get { return HasOwnAttribute(AttributeNames.Reversed); }
-            set { SetOwnAttribute(AttributeNames.Reversed, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Reversed); }
+            set { this.SetOwnAttribute(AttributeNames.Reversed, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -34,8 +34,8 @@
         /// </summary>
         public Int32 Start
         {
-            get { return GetOwnAttribute(AttributeNames.Start).ToInteger(1); }
-            set { SetOwnAttribute(AttributeNames.Start, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Start).ToInteger(1); }
+            set { this.SetOwnAttribute(AttributeNames.Start, value.ToString()); }
         }
 
         /// <summary>
@@ -43,8 +43,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetOwnAttribute(AttributeNames.Type); }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Type); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         #endregion

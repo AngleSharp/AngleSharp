@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -30,8 +31,8 @@
         /// </summary>
         public String Citation
         {
-            get { return GetOwnAttribute(AttributeNames.Cite); }
-            set { SetOwnAttribute(AttributeNames.Cite, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Cite); }
+            set { this.SetOwnAttribute(AttributeNames.Cite, value); }
         }
 
         /// <summary>
@@ -40,8 +41,8 @@
         /// </summary>
         public String DateTime
         {
-            get { return GetOwnAttribute(AttributeNames.Datetime); }
-            set { SetOwnAttribute(AttributeNames.Datetime, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Datetime); }
+            set { this.SetOwnAttribute(AttributeNames.Datetime, value); }
         }
 
         #endregion
