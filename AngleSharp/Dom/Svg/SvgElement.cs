@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Svg
 {
     using AngleSharp.Dom.Css;
-    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -29,7 +28,7 @@
                 var bindable = _style as IBindable;
 
                 if (String.IsNullOrEmpty(value))
-                    Attributes.RemoveNamedItem(AttributeNames.Style);
+                    RemoveAttribute(AttributeNames.Style);
 
                 if (bindable != null)
                     bindable.Update(value);
