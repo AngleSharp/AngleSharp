@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Parser.Html
 {
     using AngleSharp.Dom;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
@@ -97,7 +98,7 @@
             else if (IsXmlNamespaceAttribute(name))
                 element.SetAttribute(Namespaces.XmlNsUri, name, value);
             else
-                element.SetAttribute(name, value);
+                element.SetOwnAttribute(name, value);
         }
 
         /// <summary>
