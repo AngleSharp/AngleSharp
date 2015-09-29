@@ -227,5 +227,16 @@ bar]]>");
             Assert.AreEqual("", svg.GetAttribute("logo”"));
             Assert.AreEqual(10, svg.Attributes.Length);
         }
+
+        [Test]
+        public void HtmlParseSvgElementWithEmptyStyleShouldRemoveAttribute()
+        {
+            var doc = Html(@"<!DOCTYPE html><html><body><svg xmlns=""http://www.w3.org/2000/svg"" xmlns:xlink=""http://www.w3.org/1999/xlink"" version=""1.1"" focusable=""false"" baseProfile=""tiny"" id=""Layer_1"" x=""0px"" y=""0px"" viewBox=""0 0 8.5 4.9"" xml:space=""preserve"">
+<polyline fill-rule=""evenodd"" fill=""#747474"" points=""8.5,0.6 7.9,0 4.3,3.6 0.6,0 0,0.6 4.3,4.9 "" style=""""/>
+</svg></body></html>");
+            var polyline = doc.QuerySelector("polyline");
+            Assert.IsNull(polyline.GetAttribute("style"));
+            Assert.AreEqual(3, polyline.Attributes.Length);
+        }
     }
 }
