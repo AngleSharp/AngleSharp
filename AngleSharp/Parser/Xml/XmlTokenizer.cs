@@ -166,12 +166,16 @@
         /// <returns>The entity token.</returns>
         XmlEntityToken CharacterReference(Char c)
         {
-            if (c == Symbols.Num)
+            var start = _stringBuffer.Length;
+            var hex = false;
+            var numeric = c == Symbols.Num;
+
+            if (numeric)
             {
                 c = GetNext();
-                var isHex = c == 'x' || c == 'X';
+                hex = c == 'x' || c == 'X';
 
-                if (isHex)
+                if (hex)
                 {
                     c = GetNext();
 
@@ -189,9 +193,6 @@
                         c = GetNext();
                     }
                 }
-
-                if (_stringBuffer.Length > 0 && c == Symbols.Semicolon)
-                    return NewEntity(numeric: true, hex: isHex);
             }
             else if (c.IsXmlNameStart())
             {
@@ -201,9 +202,14 @@
                     c = GetNext();
                 }
                 while (c.IsXmlName());
+            }
 
-                if (c == Symbols.Semicolon)
-                    return NewEntity();
+            if (c == Symbols.Semicolon && _stringBuffer.Length > start)
+            {
+                var length = _stringBuffer.Length - start;
+                var content = _stringBuffer.ToString(start, length);
+                _stringBuffer.Remove(start, length);
+                return NewEntity(content, numeric: numeric, hex: hex);
             }
 
             throw XmlParseError.CharacterReferenceNotTerminated.At(GetCurrentPosition());
@@ -1191,9 +1197,8 @@
             return new XmlCDataToken(_position, content);
         }
 
-        XmlEntityToken NewEntity(Boolean numeric = false, Boolean hex = false)
+        XmlEntityToken NewEntity(String entity, Boolean numeric = false, Boolean hex = false)
         {
-            var entity = FlushBuffer();
             return new XmlEntityToken(_position, entity, numeric, hex);
         }
 
