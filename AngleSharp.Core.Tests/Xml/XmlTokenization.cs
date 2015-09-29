@@ -124,5 +124,37 @@
             Assert.AreEqual("test", ((XmlCharacterToken)test).Data);
             Assert.AreEqual(XmlTokenType.EndOfFile, end.Type);
         }
+
+        [Test]
+        public void XmlTokenizerSelfClosingTagWithAttribute()
+        {
+            var s = new TextSource("<foo bar=\"quz\" />");
+            var t = new XmlTokenizer(s, null);
+            var foo = t.Get() as XmlTagToken;
+
+            Assert.IsNotNull(foo);
+            Assert.AreEqual(XmlTokenType.StartTag, foo.Type);
+            Assert.IsTrue(foo.IsSelfClosing);
+            Assert.AreEqual("foo", foo.Name);
+            Assert.AreEqual(1, foo.Attributes.Count);
+            Assert.AreEqual("bar", foo.Attributes[0].Key);
+            Assert.AreEqual("quz", foo.Attributes[0].Value);
+        }
+
+        [Test]
+        public void XmlTokenizerTagWithAttributeContainingEntity()
+        {
+            var s = new TextSource("<foo bar=\"&quot;quz&quot;\">");
+            var t = new XmlTokenizer(s, null);
+            var foo = t.Get() as XmlTagToken;
+
+            Assert.IsNotNull(foo);
+            Assert.AreEqual(XmlTokenType.StartTag, foo.Type);
+            Assert.IsFalse(foo.IsSelfClosing);
+            Assert.AreEqual("foo", foo.Name);
+            Assert.AreEqual(1, foo.Attributes.Count);
+            Assert.AreEqual("bar", foo.Attributes[0].Key);
+            Assert.AreEqual("\"quz\"", foo.Attributes[0].Value);
+        }
     }
 }
