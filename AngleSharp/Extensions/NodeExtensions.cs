@@ -203,37 +203,6 @@
         }
 
         /// <summary>
-        /// Checks if the context node is before the provided node.
-        /// </summary>
-        /// <param name="before">The context node.</param>
-        /// <param name="after">The provided reference node.</param>
-        /// <returns>True if the context node is preceding the reference node in tree order.</returns>
-        public static Boolean IsPreceding(this INode before, INode after)
-        {
-            var parent = before.Parent;
-
-            if (parent == null)
-                return false;
-            else if (parent == after)
-                return true;
-            else if (parent == after.Parent)
-                return parent.IndexOf(before) < parent.IndexOf(after);
-
-            return parent.IsPreceding(after);
-        }
-
-        /// <summary>
-        /// Checks if the context node is after the provided node.
-        /// </summary>
-        /// <param name="after">The context node.</param>
-        /// <param name="before">The provided reference node.</param>
-        /// <returns>True if the context node is following the reference node in tree order.</returns>
-        public static Boolean IsFollowing(this INode after, INode before)
-        {
-            return before.IsPreceding(after);
-        }
-
-        /// <summary>
         /// Gets the associated host object, if any. This is mostly interesting for the HTML5 template tag.
         /// </summary>
         /// <param name="node">The node that probably has an host object</param>
