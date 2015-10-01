@@ -5,6 +5,7 @@
     using AngleSharp.Html;
     using System;
     using System.Diagnostics;
+    using System.Linq;
 
     /// <summary>
     /// Represents a node in the generated tree.
@@ -432,15 +433,12 @@
                 return DocumentPositions.Same;
 
             if (Owner != otherNode.Owner)
-                return DocumentPositions.Disconnected | DocumentPositions.ImplementationSpecific | (otherNode.GetHashCode() > GetHashCode() ? DocumentPositions.Following : DocumentPositions.Preceding);
-            else if (otherNode.IsAncestorOf(this))
-                return DocumentPositions.Contains | DocumentPositions.Preceding;
-            else if (otherNode.IsDescendantOf(this))
-                return DocumentPositions.ContainedBy | DocumentPositions.Following;
-            else if (otherNode.IsPreceding(this))
-                return DocumentPositions.Preceding;
+                return GetImplementationSpecificPosition(this, otherNode);
 
-            return DocumentPositions.Following;
+            if (Parent == otherNode.Parent)
+                return CompareChildPosition(Parent, this, otherNode);
+
+            return ComparePosition(this, otherNode);
         }
 
         /// <summary>
@@ -970,6 +968,77 @@
         public virtual String ToHtml(IMarkupFormatter formatter)
         {
             return TextContent;
+        }
+
+        static DocumentPositions ComparePosition(INode node1, INode node2)
+        {
+            var ancestors1 = node1.GetInclusiveAncestors().Reverse().ToList();
+            var ancestors2 = node2.GetInclusiveAncestors().Reverse().ToList();
+
+            INode commonAncestor = null;
+            INode uniqueAncestor1 = null;
+            INode uniqueAncestor2 = null;
+
+            for (int i = 0; i < ancestors1.Count && i < ancestors2.Count; i++)
+            {
+                if (ancestors1[i] == ancestors2[i])
+                {
+                    commonAncestor = ancestors1[i];
+                }
+                else
+                {
+                    uniqueAncestor1 = ancestors1[i];
+                    uniqueAncestor2 = ancestors2[i];
+                    break;
+                }
+            }
+
+            if (commonAncestor == null)
+            {
+                return GetImplementationSpecificPosition(node1, node2);
+            }
+
+            if (uniqueAncestor1 == null || uniqueAncestor2 == null)
+            {
+                if (ancestors1.Count < ancestors2.Count)
+                {
+                    return DocumentPositions.ContainedBy | DocumentPositions.Following;
+                }
+                if (ancestors1.Count > ancestors2.Count)
+                {
+                    return DocumentPositions.Contains | DocumentPositions.Preceding;
+                }
+                return DocumentPositions.Same;
+            }
+
+            return CompareChildPosition(commonAncestor, uniqueAncestor1, uniqueAncestor2);
+        }
+
+        static DocumentPositions CompareChildPosition(INode parent, INode child1, INode child2)
+        {
+            if (child1 == child2)
+            {
+                return DocumentPositions.Same;
+            }
+
+            foreach (var element in parent.ChildNodes)
+            {
+                if (element == child1)
+                {
+                    return DocumentPositions.Following;
+                }
+                if (element == child2)
+                {
+                    return DocumentPositions.Preceding;
+                }
+            }
+
+            return GetImplementationSpecificPosition(child1, child2);
+        }
+
+        static DocumentPositions GetImplementationSpecificPosition(INode node1, INode node2)
+        {
+            return DocumentPositions.Disconnected | DocumentPositions.ImplementationSpecific | (node2.GetHashCode() > node1.GetHashCode() ? DocumentPositions.Following : DocumentPositions.Preceding);
         }
 
         #endregion
