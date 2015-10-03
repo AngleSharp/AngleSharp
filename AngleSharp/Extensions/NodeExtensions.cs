@@ -47,7 +47,9 @@
         /// </summary>
         /// <param name="node">The descendant node to use.</param>
         /// <param name="parent">The possible parent to use.</param>
-        /// <returns>True if the given parent is actually an ancestor of the provided node.</returns>
+        /// <returns>
+        /// True if the given parent is actually an ancestor of the node.
+        /// </returns>
         public static Boolean IsDescendantOf(this INode node, INode parent)
         {
             if (node.Parent == null)
@@ -79,7 +81,10 @@
         /// </summary>
         /// <param name="node">The descendant node to use.</param>
         /// <param name="parent">The possible parent to use.</param>
-        /// <returns>True if the given parent is actually an inclusive ancestor of the provided node.</returns>
+        /// <returns>
+        /// True if the given parent is actually an inclusive ancestor of the
+        /// provided node.
+        /// </returns>
         public static Boolean IsInclusiveDescendantOf(this INode node, INode parent)
         {
             return node == parent || node.IsDescendantOf(parent);
@@ -90,7 +95,9 @@
         /// </summary>
         /// <param name="parent">The possible parent to use.</param>
         /// <param name="node">The node to check for being descendent.</param>
-        /// <returns>True if the given parent is actually an ancestor of the provided node.</returns>
+        /// <returns>
+        /// True if the given parent is actually an ancestor of the node.
+        /// </returns>
         public static Boolean IsAncestorOf(this INode parent, INode node)
         {
             return node.IsDescendantOf(parent);
@@ -108,10 +115,13 @@
         }
 
         /// <summary>
-        /// Gets the inclusive ancestor nodes of the provided node, in tree order.
+        /// Gets the inclusive ancestor nodes of the provided node, in tree
+        /// order.
         /// </summary>
         /// <param name="node">The child of the ancestors.</param>
-        /// <returns>An iterator over all ancestors including the given node.</returns>
+        /// <returns>
+        /// An iterator over all ancestors including the given node.
+        /// </returns>
         public static IEnumerable<INode> GetInclusiveAncestors(this INode node)
         {
             do
@@ -124,7 +134,10 @@
         /// </summary>
         /// <param name="parent">The possible parent to use.</param>
         /// <param name="node">The node to check for being descendent.</param>
-        /// <returns>True if the given parent is actually an inclusive ancestor of the provided node.</returns>
+        /// <returns>
+        /// True if the given parent is actually an inclusive ancestor of the
+        /// provided node.
+        /// </returns>
         public static Boolean IsInclusiveAncestorOf(this INode parent, INode node)
         {
             return node == parent || node.IsDescendantOf(parent);
@@ -151,7 +164,9 @@
         /// Checks if any parent is an HTML datalist element..
         /// </summary>
         /// <param name="child">The node to use as starting point.</param>
-        /// <returns>True if a datalist element is among the ancestors, otherwise false.</returns>
+        /// <returns>
+        /// True if a datalist element is among the ancestors, otherwise false.
+        /// </returns>
         public static Boolean HasDataListAncestor(this INode child)
         {
             return child.Ancestors<IHtmlDataListElement>().Any();
@@ -161,18 +176,24 @@
         /// Checks if the current node is a sibling of the specified element.
         /// </summary>
         /// <param name="node">The maybe sibling.</param>
-        /// <param name="element">The node to check for having the same parent.</param>
-        /// <returns>True if the parent is actually non-null and actually the same.</returns>
+        /// <param name="element">
+        /// The node to check for having the same parent.
+        /// </param>
+        /// <returns>
+        /// True if the parent is actually non-null and actually the same.
+        /// </returns>
         public static Boolean IsSiblingOf(this INode node, INode element)
         {
             return node.Parent != null && node.Parent == element.Parent;
         }
 
         /// <summary>
-        /// Gets the index of the provided node in the node's parent's collection.
+        /// Gets the index of the provided node in the parent's collection.
         /// </summary>
         /// <param name="node">The node which needs to know its index.</param>
-        /// <returns>The index of the node or -1 if the node is not a child of a parent.</returns>
+        /// <returns>
+        /// The index of the node or -1 if the node is not a child of a parent.
+        /// </returns>
         public static Int32 Index(this INode node)
         {
             return node.Parent.IndexOf(node);
@@ -183,7 +204,9 @@
         /// </summary>
         /// <param name="parent">The parent of the given node.</param>
         /// <param name="node">The node which needs to know its index.</param>
-        /// <returns>The index of the node or -1 if the node is not a child of the parent.</returns>
+        /// <returns>
+        /// The node's index or -1 if the node is not a child of the parent.
+        /// </returns>
         public static Int32 IndexOf(this INode parent, INode node)
         {
             var i = 0;
@@ -206,35 +229,56 @@
         /// Checks if the context node is before the provided node.
         /// </summary>
         /// <param name="before">The context node.</param>
-        /// <param name="after">The provided reference node.</param>
-        /// <returns>True if the context node is preceding the reference node in tree order.</returns>
+        /// <param name="after">The provided ref node.</param>
+        /// <returns>
+        /// True if the context node is preceding the ref node in tree order.
+        /// </returns>
         public static Boolean IsPreceding(this INode before, INode after)
         {
-            var parent = before.Parent;
+            var beforeNodes = new Queue<INode>(before.GetInclusiveAncestors());
+            var afterNodes = new Queue<INode>(after.GetInclusiveAncestors());
+            var skew = afterNodes.Count - beforeNodes.Count;
 
-            if (parent == null)
-                return false;
-            else if (parent == after)
-                return true;
-            else if (parent == after.Parent)
-                return parent.IndexOf(before) < parent.IndexOf(after);
+            if (skew != 0)
+            {
+                while (beforeNodes.Count > afterNodes.Count)
+                    beforeNodes.Dequeue();
 
-            return parent.IsPreceding(after);
+                while (afterNodes.Count > beforeNodes.Count)
+                    afterNodes.Dequeue();
+
+                if (afterNodes.Peek() == beforeNodes.Peek())
+                    return skew > 0;
+            }
+
+            while (beforeNodes.Count > 0)
+            {
+                before = beforeNodes.Dequeue();
+                after = afterNodes.Dequeue();
+
+                if (afterNodes.Peek() == beforeNodes.Peek())
+                    return before.Index() < after.Index();
+            }
+
+            return false;
         }
 
         /// <summary>
         /// Checks if the context node is after the provided node.
         /// </summary>
         /// <param name="after">The context node.</param>
-        /// <param name="before">The provided reference node.</param>
-        /// <returns>True if the context node is following the reference node in tree order.</returns>
+        /// <param name="before">The provided ref node.</param>
+        /// <returns>
+        /// True if the context node is following the ref node in tree order.
+        /// </returns>
         public static Boolean IsFollowing(this INode after, INode before)
         {
             return before.IsPreceding(after);
         }
 
         /// <summary>
-        /// Gets the associated host object, if any. This is mostly interesting for the HTML5 template tag.
+        /// Gets the associated host object, if any. This is mostly interesting
+        /// for the HTML5 template tag.
         /// </summary>
         /// <param name="node">The node that probably has an host object</param>
         /// <returns>The host object or null.</returns>
@@ -247,11 +291,15 @@
         }
 
         /// <summary>
-        /// Checks for an inclusive ancestor relationship or if the host (if any) has such a relationship.
+        /// Checks for an inclusive ancestor relationship or if the host (if
+        /// any) has such a relationship.
         /// </summary>
         /// <param name="parent">The possible parent to use.</param>
         /// <param name="node">The node to check for being descendent.</param>
-        /// <returns>True if the given parent is actually an inclusive ancestor (including the host) of the provided node.</returns>
+        /// <returns>
+        /// True if the given parent is actually an inclusive ancestor
+        /// (including the host) of the provided node.
+        /// </returns>
         public static Boolean IsHostIncludingInclusiveAncestor(this INode parent, INode node)
         {
             if (parent.IsInclusiveAncestorOf(node))
@@ -266,8 +314,8 @@
         }
 
         /// <summary>
-        /// Ensures the validity for inserting the given node at parent before the
-        /// provided child. Throws an error is the insertation is invalid.
+        /// Ensures the validity for inserting the given node at parent before 
+        /// the provided child. Throws an error is the insertation is invalid.
         /// </summary>
         /// <param name="parent">The origin that will be mutated.</param>
         /// <param name="node">The node to be inserted.</param>
@@ -361,7 +409,9 @@
         /// Checks if the node has any text node children.
         /// </summary>
         /// <param name="node">The parent of the potential text nodes.</param>
-        /// <returns>True if the node has any text nodes, otherwise false.</returns>
+        /// <returns>
+        /// True if the node has any text nodes, otherwise false.
+        /// </returns>
         public static Boolean HasTextNodes(this INode node)
         {
             return node.ChildNodes.OfType<IText>().Any();
@@ -371,7 +421,9 @@
         /// Checks if the given child is followed by a document type.
         /// </summary>
         /// <param name="child">The child that precedes the doctype.</param>
-        /// <returns>True if a doctype node is following the provided child, otherwise false.</returns>
+        /// <returns>
+        /// True if a doctype node is following the child, otherwise false.
+        /// </returns>
         public static Boolean IsFollowedByDoctype(this INode child)
         {
             if (child == null)
@@ -394,7 +446,9 @@
         /// Checks if the given child is preceded by an element node.
         /// </summary>
         /// <param name="child">The child that follows any element.</param>
-        /// <returns>True if an element node is preceded the provided child, otherwise false.</returns>
+        /// <returns>
+        /// True if an element node is preceded the child, otherwise false.
+        /// </returns>
         public static Boolean IsPrecededByElement(this INode child)
         {
             foreach (var node in child.Parent.ChildNodes)
