@@ -6,51 +6,127 @@
     [TestFixture]
     public class CompareDocumentPositionTests
     {
-        IDocument doc;
-
-        IElement parent1, parent2, child1, child2;
-
-        [SetUp]
-        public void SetUp()
+        [Test]
+        public void CompareDocumentPositionsWithSameParent()
         {
-            doc = "<!DOCTYPE html><html><head><title>Title</title></head><body><div id='parent-1'><span id='child-1'>1</span></div><div id='parent-2'><span id='child-2'>2</span></div></body></html>".ToHtmlDocument();
+            var doc = "<!DOCTYPE html><div id='parent-1'><span id='child-1'>1</span></div><div id='parent-2'><span id='child-2'>2</span></div>".ToHtmlDocument();
 
-            parent1 = doc.QuerySelector("#parent-1");
-            parent2 = doc.QuerySelector("#parent-2");
-            child1 = doc.QuerySelector("#child-1");
-            child2 = doc.QuerySelector("#child-2");
+            var parent1 = doc.QuerySelector("#parent-1");
+            var parent2 = doc.QuerySelector("#parent-2");
 
+            Assert.AreEqual(DocumentPositions.Following, parent1.CompareDocumentPosition(parent2));
+            Assert.AreEqual(DocumentPositions.Preceding, parent2.CompareDocumentPosition(parent1));
         }
 
         [Test]
-        public void SameParent()
+        public void CompareDocumentPositionsWithSameNodes()
         {
-            Assert.AreEqual(DocumentPositions.Following, parent1.CompareDocumentPosition(parent2), "Parent 2 follows parent 1.");
-            Assert.AreEqual(DocumentPositions.Preceding, parent2.CompareDocumentPosition(parent1), "Parent 1 precedes parent 2.");
+            var doc = "<!DOCTYPE html><div id='parent-1'><span id='child-1'>1</span></div><div id='parent-2'><span id='child-2'>2</span></div>".ToHtmlDocument();
+
+            var parent1 = doc.QuerySelector("#parent-1");
+            var child1 = doc.QuerySelector("#child-1");
+
+            Assert.AreEqual(DocumentPositions.Same, parent1.CompareDocumentPosition(parent1));
+            Assert.AreEqual(DocumentPositions.Same, child1.CompareDocumentPosition(child1));
         }
 
         [Test]
-        public void NestedChildren()
+        public void CompareDocumentPositionsWithDifferentTrees()
         {
-            Assert.AreEqual(DocumentPositions.Following, child1.CompareDocumentPosition(child2), "Child 2 follows child 1.");
-            Assert.AreEqual(DocumentPositions.Preceding, child2.CompareDocumentPosition(child1), "Child 1 precedes child 2.");
+            var doc1 = "<!DOCTYPE html><div id='parent-1'><span id='child-1'>1</span></div><div id='parent-2'><span id='child-2'>2</span></div>".ToHtmlDocument();
+            var doc2 = "<!DOCTYPE html><div id='parent-1'><span id='child-1'>1</span></div><div id='parent-2'><span id='child-2'>2</span></div>".ToHtmlDocument();
+
+            var parent1 = doc1.QuerySelector("#parent-1");
+            var parent2 = doc2.QuerySelector("#parent-1");
+
+            Assert.AreEqual(DocumentPositions.ImplementationSpecific | DocumentPositions.Disconnected | DocumentPositions.Preceding, parent1.CompareDocumentPosition(parent2));
+            Assert.AreEqual(DocumentPositions.ImplementationSpecific | DocumentPositions.Disconnected | DocumentPositions.Following, parent2.CompareDocumentPosition(parent1));
         }
 
         [Test]
-        public void Containing()
+        public void CompareDocumentPositionsWithNestedChildren()
         {
-            Assert.AreEqual(DocumentPositions.ContainedBy | DocumentPositions.Following, parent1.CompareDocumentPosition(child1), "Child 1 is contained by and follows parent 1.");
-            Assert.AreEqual(DocumentPositions.Contains | DocumentPositions.Preceding, child1.CompareDocumentPosition(parent1), "Parent 1 contains and precedes child 1.");
+            var doc = "<!DOCTYPE html><div id='parent-1'><span id='child-1'>1</span></div><div id='parent-2'><span id='child-2'>2</span></div>".ToHtmlDocument();
+
+            var child1 = doc.QuerySelector("#child-1");
+            var child2 = doc.QuerySelector("#child-2");
+
+            Assert.AreEqual(DocumentPositions.Following, child1.CompareDocumentPosition(child2));
+            Assert.AreEqual(DocumentPositions.Preceding, child2.CompareDocumentPosition(child1));
         }
 
         [Test]
-        public void DifferentLevels()
+        public void CompareDocumentPositionsWithContainingElements()
         {
-            Assert.AreEqual(DocumentPositions.Following, parent1.CompareDocumentPosition(child2), "Child 2 follows parent 1.");
-            Assert.AreEqual(DocumentPositions.Preceding, child2.CompareDocumentPosition(parent1), "Parent 1 precedes child 2.");
+            var doc = "<!DOCTYPE html><div id='parent-1'><span id='child-1'>1</span></div><div id='parent-2'><span id='child-2'>2</span></div>".ToHtmlDocument();
 
-            Assert.AreEqual(DocumentPositions.Following, child1.CompareDocumentPosition(parent2), "Parent 2 follows child 1.");
-            Assert.AreEqual(DocumentPositions.Preceding, parent2.CompareDocumentPosition(child1), "Child 1 precedes parent 2.");
+            var parent1 = doc.QuerySelector("#parent-1");
+            var child1 = doc.QuerySelector("#child-1");
+
+            Assert.AreEqual(DocumentPositions.ContainedBy | DocumentPositions.Following, parent1.CompareDocumentPosition(child1));
+
+            var parent2 = doc.QuerySelector("#parent-2");
+            var child2 = doc.QuerySelector("#child-2");
+
+            Assert.AreEqual(DocumentPositions.Contains | DocumentPositions.Preceding, child1.CompareDocumentPosition(parent1));
+        }
+
+        [Test]
+        public void CompareDocumentPositionsWithDifferentLevelsOfElements()
+        {
+            var doc = "<!DOCTYPE html><div id='parent-1'><span id='child-1'>1</span></div><div id='parent-2'><span id='child-2'>2</span></div>".ToHtmlDocument();
+
+            var parent1 = doc.QuerySelector("#parent-1");
+            var child2 = doc.QuerySelector("#child-2");
+
+            Assert.AreEqual(DocumentPositions.Following, parent1.CompareDocumentPosition(child2));
+            Assert.AreEqual(DocumentPositions.Preceding, child2.CompareDocumentPosition(parent1));
+
+            var parent2 = doc.QuerySelector("#parent-2");
+            var child1 = doc.QuerySelector("#child-1");
+
+            Assert.AreEqual(DocumentPositions.Following, child1.CompareDocumentPosition(parent2));
+            Assert.AreEqual(DocumentPositions.Preceding, parent2.CompareDocumentPosition(child1));
+        }
+
+        [Test]
+        public void CompareDocumentPositionsHeadBeforeBody()
+        {
+            var doc = "<!DOCTYPE html><div></div>".ToHtmlDocument();
+
+            var head = doc.Head;
+            var body = doc.Body;
+
+            Assert.AreEqual(DocumentPositions.Following, head.CompareDocumentPosition(body));
+        }
+
+        [Test]
+        public void CompareDocumentPositionsFromQuirksMode()
+        {
+            var doc = @"<div class=testHTML><p id=test class=testClass><b id=testB></b>.</p>
+<p id=test2 class=""nonsense testClass""></p>
+<p><ppk></ppk></p>
+<div id=test></div></div>".ToHtmlDocument();
+            var x = doc.QuerySelector("#test");
+            var y = doc.QuerySelector("#test2");
+            var z = doc.QuerySelector("#testB");
+
+            Assert.AreEqual(DocumentPositions.Following, x.CompareDocumentPosition(y));
+            Assert.AreEqual(DocumentPositions.Following | DocumentPositions.ContainedBy, x.CompareDocumentPosition(z));
+        }
+
+        [Test]
+        public void CompareDocumentPositionsShim()
+        {
+            var doc = "".ToHtmlDocument();
+            var docfrag = doc.CreateDocumentFragment();
+            var el = docfrag.AppendChild(doc.CreateElement("div"));
+            var txt = docfrag.AppendChild(doc.CreateTextNode("foo"));
+
+            Assert.AreEqual(DocumentPositions.Contains | DocumentPositions.Preceding, el.CompareDocumentPosition(docfrag));
+            Assert.AreEqual(DocumentPositions.ContainedBy | DocumentPositions.Following, docfrag.CompareDocumentPosition(el));
+            Assert.AreEqual(DocumentPositions.Same, el.CompareDocumentPosition(el));
+            Assert.AreEqual(DocumentPositions.Following, el.CompareDocumentPosition(txt));
         }
     }
 }
