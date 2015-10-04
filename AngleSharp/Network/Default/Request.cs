@@ -7,7 +7,7 @@
     /// <summary>
     /// The default HTTP request encapsulation type.
     /// </summary>
-    sealed class Request : IRequest
+    public sealed class Request : IRequest
     {
         #region ctor
 

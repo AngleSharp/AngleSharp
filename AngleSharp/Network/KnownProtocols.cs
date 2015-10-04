@@ -6,7 +6,7 @@
     /// <summary>
     /// Contains a list of known protocol names.
     /// </summary>
-    static class KnownProtocols
+    public static class KnownProtocols
     {
         /// <summary>
         /// The Hypertext Transfer Protocol.

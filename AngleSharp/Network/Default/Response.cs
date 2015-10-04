@@ -65,7 +65,7 @@
 
         #region Methods
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
             if (Content != null)
                 Content.Dispose();
