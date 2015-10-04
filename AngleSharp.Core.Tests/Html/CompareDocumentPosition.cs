@@ -39,8 +39,19 @@
             var parent1 = doc1.QuerySelector("#parent-1");
             var parent2 = doc2.QuerySelector("#parent-1");
 
-            Assert.AreEqual(DocumentPositions.ImplementationSpecific | DocumentPositions.Disconnected | DocumentPositions.Preceding, parent1.CompareDocumentPosition(parent2));
-            Assert.AreEqual(DocumentPositions.ImplementationSpecific | DocumentPositions.Disconnected | DocumentPositions.Following, parent2.CompareDocumentPosition(parent1));
+            var initial = parent1.CompareDocumentPosition(parent2);
+            var reverse = parent2.CompareDocumentPosition(parent1);
+
+            if ((initial & DocumentPositions.Preceding) == DocumentPositions.Preceding)
+            {
+                Assert.AreEqual(DocumentPositions.ImplementationSpecific | DocumentPositions.Disconnected | DocumentPositions.Preceding, initial);
+                Assert.AreEqual(DocumentPositions.ImplementationSpecific | DocumentPositions.Disconnected | DocumentPositions.Following, reverse);
+            }
+            else
+            {
+                Assert.AreEqual(DocumentPositions.ImplementationSpecific | DocumentPositions.Disconnected | DocumentPositions.Following, initial);
+                Assert.AreEqual(DocumentPositions.ImplementationSpecific | DocumentPositions.Disconnected | DocumentPositions.Preceding, reverse);
+            }
         }
 
         [Test]
