@@ -2951,6 +2951,9 @@
     <Compile Include="..\AngleSharp\Url.cs">
       <Link>Url.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Xml\Entities.cs">
+      <Link>Xml\Entities.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Xml\XmlMarkupFormatter.cs">
       <Link>Xml\XmlMarkupFormatter.cs</Link>
     </Compile>
