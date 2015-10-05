@@ -7,6 +7,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -51,7 +52,8 @@
         /// </param>
         internal HtmlDomBuilder(HtmlDocument document)
         {
-            _tokenizer = new HtmlTokenizer(document.Source, document.Options.Events);
+            var resolver = document.Options.GetService<IEntityService>() ?? HtmlEntityService.Resolver;
+            _tokenizer = new HtmlTokenizer(document.Source, document.Options.Events, resolver);
             _document = document;
             _openElements = new List<Element>();
             _templateModes = new Stack<HtmlTreeMode>();

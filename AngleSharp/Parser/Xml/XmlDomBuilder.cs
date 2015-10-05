@@ -2,6 +2,9 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Xml;
+    using AngleSharp.Extensions;
+    using AngleSharp.Services;
+    using AngleSharp.Xml;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -22,6 +25,7 @@
         readonly XmlTokenizer _tokenizer;
         readonly Document _document;
         readonly List<Element> _openElements;
+        readonly IEntityService _resolver;
 
         XmlParserOptions _options;
         XmlTreeMode _currentMode;
@@ -37,7 +41,8 @@
         /// <param name="document">The document instance to be filled.</param>
         internal XmlDomBuilder(Document document)
         {
-            _tokenizer = new XmlTokenizer(document.Source, document.Options.Events);
+            _resolver = document.Options.GetService<IEntityService>() ?? XmlEntityService.Resolver;
+            _tokenizer = new XmlTokenizer(document.Source, document.Options.Events, _resolver);
             _document = document;
             _standalone = false;
             _openElements = new List<Element>();
@@ -281,7 +286,7 @@
                 case XmlTokenType.Entity:
                 {
                     var tok = (XmlEntityToken)token;
-                    var str = tok.GetEntity();
+                    var str = tok.GetEntity(_resolver);
                     CurrentNode.AppendText(str);
                     break;
                 }

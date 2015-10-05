@@ -3,6 +3,7 @@
     using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -15,7 +16,8 @@
     sealed class HtmlTokenizer : BaseTokenizer
     {
         #region Fields
-        
+
+        readonly IEntityService _resolver;
         Boolean _acceptsCharacterData;
         String _lastStartTag;
         HtmlParseMode _state;
@@ -30,12 +32,14 @@
         /// </summary>
         /// <param name="source">The source code manager.</param>
         /// <param name="events">The event aggregator to use.</param>
-        public HtmlTokenizer(TextSource source, IEventAggregator events)
+        /// <param name="resolver">The entity resolver to use.</param>
+        public HtmlTokenizer(TextSource source, IEventAggregator events, IEntityService resolver)
             : base(source, events)
         {
             _state = HtmlParseMode.PCData;
             _acceptsCharacterData = false;
             _lastStartTag = String.Empty;
+            _resolver = resolver;
         }
 
         #endregion
@@ -498,27 +502,26 @@
                     Back();
                 }
 
-                if (Entities.IsInCharacterTable(num))
+                if (HtmlEntityService.IsInCharacterTable(num))
                 {
                     RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidCode);
-                    entity = Entities.GetSymbolFromTable(num);
+                    entity = HtmlEntityService.GetSymbolFromTable(num);
                 }
-                else if (Entities.IsInvalidNumber(num))
+                else if (HtmlEntityService.IsInvalidNumber(num))
                 {
                     RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidNumber);
                     entity = Symbols.Replacement.ToString();
                 }
                 else 
                 {
-                    if (Entities.IsInInvalidRange(num))
+                    if (HtmlEntityService.IsInInvalidRange(num))
                         RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidRange);
 
-                    entity = Entities.Convert(num);
+                    entity = num.ConvertFromUtf32();
                 }
             }
             else
             {
-                var consumed = 0;
                 var start = InsertionPoint - 1;
                 var reference = new Char[31];
                 var index = 0;
@@ -530,20 +533,31 @@
                         break;
 
                     reference[index++] = chr;
-                    var value = new String(reference, 0, index);
                     chr = GetNext();
-                    consumed++;
-                    value = chr == Symbols.Semicolon ? Entities.GetSymbol(value) : Entities.GetSymbolWithoutSemicolon(value);
-
-                    if (value != null)
-                    {
-                        consumed = 0;
-                        entity = value;
-                    }
                 }
                 while (chr != Symbols.EndOfFile && index < 31);
 
-                Back(consumed);
+                if (chr == Symbols.Semicolon)
+                {
+                    reference[index] = Symbols.Semicolon;
+                    var value = new String(reference, 0, index + 1);
+                    entity = _resolver.GetSymbol(value);
+
+                    if (entity != null)
+                        index = 0;
+                }
+
+                while (index > 0)
+                {
+                    var value = new String(reference, 0, index--);
+                    entity = _resolver.GetSymbol(value);
+
+                    if (entity != null)
+                        break;
+
+                    Back();
+                }
+
                 chr = Current;
 
                 if (chr != Symbols.Semicolon)

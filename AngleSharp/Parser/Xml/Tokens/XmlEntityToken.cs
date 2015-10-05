@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Parser.Xml
 {
     using AngleSharp.Extensions;
-    using AngleSharp.Xml;
+    using AngleSharp.Services;
     using System;
 
     /// <summary>
@@ -56,8 +56,9 @@
         /// <summary>
         /// Resolves the given entity token.
         /// </summary>
+        /// <param name="resolver">The resolver to use.</param>
         /// <returns>The string that is contained in the entity token.</returns>
-        public String GetEntity()
+        public String GetEntity(IEntityService resolver)
         {
             if (_numeric)
             {
@@ -70,7 +71,7 @@
             }
             else
             {
-                var entity = Entities.GetSymbol(_value);
+                var entity = resolver.GetSymbol(_value);
 
                 if (String.IsNullOrEmpty(entity))
                     throw XmlParseError.CharacterReferenceInvalidCode.At(Position);

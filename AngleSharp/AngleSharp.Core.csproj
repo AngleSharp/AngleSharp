@@ -261,6 +261,7 @@
     <Compile Include="Foundation\TaskEventLoop.cs" />
     <Compile Include="Services\IClipboardService.cs" />
     <Compile Include="Services\IEncodingService.cs" />
+    <Compile Include="Services\IEntityService.cs" />
     <Compile Include="Services\IHistoryService.cs" />
     <Compile Include="Services\ILoaderService.cs" />
     <Compile Include="Services\INavigatorService.cs" />
@@ -892,7 +893,7 @@
     <Compile Include="Html\Tags.cs" />
     <Compile Include="Parser\Html\HtmlParseMode.cs" />
     <Compile Include="Dom\Constants\CssRuleType.cs" />
-    <Compile Include="Html\Entities.cs" />
+    <Compile Include="Html\HtmlEntityService.cs" />
     <Compile Include="Dom\Constants\DocumentPositions.cs" />
     <Compile Include="Dom\Constants\NodeType.cs" />
     <Compile Include="Dom\Constants\QuirksMode.cs" />
@@ -1008,7 +1009,7 @@
     <Compile Include="Parser\Xml\Tokens\XmlPIToken.cs" />
     <Compile Include="Parser\Xml\Tokens\XmlTagToken.cs" />
     <Compile Include="Parser\Xml\Tokens\XmlToken.cs" />
-    <Compile Include="Xml\Entities.cs" />
+    <Compile Include="Xml\XmlEntityService.cs" />
     <Compile Include="Xml\XmlMarkupFormatter.cs" />
     <Compile Include="Parser\Xml\XmlDomBuilder.cs" />
     <Compile Include="Parser\Xml\XmlTokenizer.cs" />

@@ -3,6 +3,7 @@
     using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Services;
     using System;
     using System.Diagnostics;
 
@@ -25,6 +26,7 @@
 
         #region Fields
 
+        readonly IEntityService _resolver;
         TextPosition _position;
 
         #endregion
@@ -36,9 +38,11 @@
         /// </summary>
         /// <param name="source">The source code manager.</param>
         /// <param name="events">The event aggregator to use.</param>
-        public XmlTokenizer(TextSource source, IEventAggregator events)
+        /// <param name="resolver">The entity resolver to use.</param>
+        public XmlTokenizer(TextSource source, IEventAggregator events, IEntityService resolver)
             : base(source, events)
         {
+            _resolver = resolver;
         }
 
         #endregion
@@ -979,7 +983,7 @@
                     throw XmlParseError.EOF.At(GetCurrentPosition());
 
                 if (c == Symbols.Ampersand)
-                    _stringBuffer.Append(CharacterReference(GetNext()).GetEntity());
+                    _stringBuffer.Append(CharacterReference(GetNext()).GetEntity(_resolver));
                 else if (c == Symbols.LessThan)
                     throw XmlParseError.XmlLtInAttributeValue.At(GetCurrentPosition());
                 else 

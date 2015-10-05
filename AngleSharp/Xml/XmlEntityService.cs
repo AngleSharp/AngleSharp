@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Xml
 {
+    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -8,11 +9,11 @@
     /// Represents the list of all Xml entities.
     /// </summary>
     [DebuggerStepThrough]
-    static class Entities
+    sealed class XmlEntityService : IEntityService
     {
         #region Fields
 
-        static readonly Dictionary<String, String> _entities = new Dictionary<String, String>
+        readonly Dictionary<String, String> _entities = new Dictionary<String, String>
         {
             { "amp", "&" },
             { "lt", "<" },
@@ -23,17 +24,31 @@
 
         #endregion
 
+        #region Instance
+
+        /// <summary>
+        /// Gets the instance to resolve entities.
+        /// </summary>
+        public static readonly IEntityService Resolver = new XmlEntityService();
+
+        #endregion
+
+        #region ctor
+
+        private XmlEntityService()
+        {
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
-        /// Gets an symbol (that ended with a semicolon) specified by its entity
-        /// name.
+        /// Gets a symbol specified by its entity name.
         /// </summary>
-        /// <param name="name">
-        /// The name of the entity, specified by &amp;NAME; in the Xml code.
-        /// </param>
+        /// <param name="name">The name of the entity in the XML code.</param>
         /// <returns>The string with the symbol or null.</returns>
-        public static String GetSymbol(String name)
+        public String GetSymbol(String name)
         {
             var symbol = default(String);
 
