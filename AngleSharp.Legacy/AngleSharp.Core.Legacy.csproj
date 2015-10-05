@@ -1934,9 +1934,6 @@
     <Compile Include="..\AngleSharp\Html\AttributeNames.cs">
       <Link>Html\AttributeNames.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Html\Entities.cs">
-      <Link>Html\Entities.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Html\EventFlags.cs">
       <Link>Html\EventFlags.cs</Link>
     </Compile>
@@ -1954,6 +1951,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Html\FormDataSetEntry.cs">
       <Link>Html\FormDataSetEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\HtmlEntityService.cs">
+      <Link>Html\HtmlEntityService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\HtmlMarkupFormatter.cs">
       <Link>Html\HtmlMarkupFormatter.cs</Link>
@@ -2861,6 +2861,9 @@
     <Compile Include="..\AngleSharp\Services\IEncodingService.cs">
       <Link>Services\IEncodingService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\IEntityService.cs">
+      <Link>Services\IEntityService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\IEventService.cs">
       <Link>Services\IEventService.cs</Link>
     </Compile>
@@ -2951,8 +2954,8 @@
     <Compile Include="..\AngleSharp\Url.cs">
       <Link>Url.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Xml\Entities.cs">
-      <Link>Xml\Entities.cs</Link>
+    <Compile Include="..\AngleSharp\Xml\XmlEntityService.cs">
+      <Link>Xml\XmlEntityService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Xml\XmlMarkupFormatter.cs">
       <Link>Xml\XmlMarkupFormatter.cs</Link>
