@@ -99,17 +99,11 @@
         {
             var s = new TextSource("test&amp;string\r");
             var t = CreateTokenizer(s);
-            var test1 = t.Get();
-            var entity = t.Get();
-            var test2 = t.Get();
+            var test = t.Get();
             var end = t.Get();
-            Assert.AreEqual(XmlTokenType.Character, test1.Type);
-            Assert.AreEqual(XmlTokenType.Entity, entity.Type);
-            Assert.AreEqual(XmlTokenType.Character, test2.Type);
+            Assert.AreEqual(XmlTokenType.Character, test.Type);
             Assert.AreEqual(XmlTokenType.EndOfFile, end.Type);
-            Assert.AreEqual("test", ((XmlCharacterToken)test1).Data);
-            Assert.AreEqual("amp", ((XmlEntityToken)entity).Value);
-            Assert.AreEqual("string\n", ((XmlCharacterToken)test2).Data);
+            Assert.AreEqual("test&string\n", ((XmlCharacterToken)test).Data);
             Assert.AreEqual(XmlTokenType.EndOfFile, end.Type);
         }
 
