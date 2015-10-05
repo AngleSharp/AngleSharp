@@ -1,16 +1,22 @@
 ﻿namespace AngleSharp.Core.Tests.Xml
 {
     using AngleSharp.Parser.Xml;
+    using AngleSharp.Xml;
     using NUnit.Framework;
 
     [TestFixture]
     public class XmlTokenization
     {
+        static XmlTokenizer CreateTokenizer(TextSource source)
+        {
+            return new XmlTokenizer(source, null, XmlEntityService.Resolver);
+        }
+
         [Test]
         public void EmptyXmlDocumentTokenization()
         {
             var s = new TextSource("");
-            var t = new XmlTokenizer(s, null);
+            var t = CreateTokenizer(s);
             var e = t.Get();
             Assert.IsInstanceOf<XmlEndOfFileToken>(e);
         }
@@ -20,7 +26,7 @@
         {
             var c = "My comment";
             var s = new TextSource("<!--" + c + "-->");
-            var t = new XmlTokenizer(s, null);
+            var t = CreateTokenizer(s);
             var e = t.Get();
             Assert.AreEqual(XmlTokenType.Comment, e.Type);
             Assert.AreEqual(c, ((XmlCommentToken)e).Data);
@@ -30,7 +36,7 @@
         public void ValidXmlDeclarationOnlyVersion()
         {
             var s = new TextSource("<?xml version=\"1.0\"?>");
-            var t = new XmlTokenizer(s, null);
+            var t = CreateTokenizer(s);
             var e = t.Get();
             Assert.AreEqual(XmlTokenType.Declaration, e.Type);
             Assert.AreEqual("1.0", ((XmlDeclarationToken)e).Version);
@@ -40,7 +46,7 @@
         public void ValidXmlDeclarationVersionAndEncoding()
         {
             var s = new TextSource("<?xml version=\"1.1\" encoding=\"utf-8\" ?>");
-            var t = new XmlTokenizer(s, null);
+            var t = CreateTokenizer(s);
             var e = t.Get();
             Assert.AreEqual(XmlTokenType.Declaration, e.Type);
             var x = (XmlDeclarationToken)e;
@@ -53,7 +59,7 @@
         public void ValidXmlDeclarationEverything()
         {
             var s = new TextSource("<?xml version='1.0' encoding='ISO-8859-1' standalone=\"yes\" ?>");
-            var t = new XmlTokenizer(s, null);
+            var t = CreateTokenizer(s);
             var e = t.Get();
             Assert.AreEqual(XmlTokenType.Declaration, e.Type);
             var x = (XmlDeclarationToken)e;
@@ -67,7 +73,7 @@
         public void OneDoctypeInXmlDocument()
         {
             var s = new TextSource("<!DOCTYPE root_element SYSTEM \"DTD_location\">");
-            var t = new XmlTokenizer(s, null);
+            var t = CreateTokenizer(s);
             var e = t.Get();
             Assert.AreEqual(XmlTokenType.Doctype, e.Type);
             var d = (XmlDoctypeToken)e;
@@ -81,7 +87,7 @@
         public void XmlTokenizerStringToken()
         {
             var s = new TextSource("teststring\r");
-            var t = new XmlTokenizer(s, null);
+            var t = CreateTokenizer(s);
             var e = t.Get();
             Assert.AreEqual(XmlTokenType.Character, e.Type);
             var x = (XmlCharacterToken)e;
@@ -92,7 +98,7 @@
         public void XmlTokenizerStringAndEntityToken()
         {
             var s = new TextSource("test&amp;string\r");
-            var t = new XmlTokenizer(s, null);
+            var t = CreateTokenizer(s);
             var test1 = t.Get();
             var entity = t.Get();
             var test2 = t.Get();
@@ -111,7 +117,7 @@
         public void XmlTokenizerStringAndTagToken()
         {
             var s = new TextSource("<foo>test</bar>");
-            var t = new XmlTokenizer(s, null);
+            var t = CreateTokenizer(s);
             var foo = t.Get();
             var test = t.Get();
             var bar = t.Get();
@@ -129,7 +135,7 @@
         public void XmlTokenizerSelfClosingTagWithAttribute()
         {
             var s = new TextSource("<foo bar=\"quz\" />");
-            var t = new XmlTokenizer(s, null);
+            var t = CreateTokenizer(s);
             var foo = t.Get() as XmlTagToken;
 
             Assert.IsNotNull(foo);
@@ -145,7 +151,7 @@
         public void XmlTokenizerTagWithAttributeContainingEntity()
         {
             var s = new TextSource("<foo bar=\"&quot;quz&quot;\">");
-            var t = new XmlTokenizer(s, null);
+            var t = CreateTokenizer(s);
             var foo = t.Get() as XmlTagToken;
 
             Assert.IsNotNull(foo);
