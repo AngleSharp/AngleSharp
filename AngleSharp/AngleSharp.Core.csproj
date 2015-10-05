@@ -201,11 +201,11 @@
     <Compile Include="Html\FormDataSetEntry.cs" />
     <Compile Include="Html\IFormDataSetVisitor.cs" />
     <Compile Include="Html\IFormSubmitter.cs" />
-    <Compile Include="Html\Json\JsonArray.cs" />
-    <Compile Include="Html\Json\JsonElement.cs" />
-    <Compile Include="Html\Json\JsonObject.cs" />
-    <Compile Include="Html\Json\JsonStep.cs" />
-    <Compile Include="Html\Json\JsonValue.cs" />
+    <Compile Include="Html\Submitters\Json\JsonArray.cs" />
+    <Compile Include="Html\Submitters\Json\JsonElement.cs" />
+    <Compile Include="Html\Submitters\Json\JsonObject.cs" />
+    <Compile Include="Html\Submitters\Json\JsonStep.cs" />
+    <Compile Include="Html\Submitters\Json\JsonValue.cs" />
     <Compile Include="Html\SourceSet.cs">
       <SubType>Code</SubType>
     </Compile>

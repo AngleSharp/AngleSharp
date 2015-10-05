@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Json
+﻿namespace AngleSharp.Html.Submitters.Json
 {
     using AngleSharp.Extensions;
     using System;
