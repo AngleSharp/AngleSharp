@@ -2804,9 +2804,6 @@
     <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlEndOfFileToken.cs">
       <Link>Parser\Xml\Tokens\XmlEndOfFileToken.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlEntityToken.cs">
-      <Link>Parser\Xml\Tokens\XmlEntityToken.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlPIToken.cs">
       <Link>Parser\Xml\Tokens\XmlPIToken.cs</Link>
     </Compile>
