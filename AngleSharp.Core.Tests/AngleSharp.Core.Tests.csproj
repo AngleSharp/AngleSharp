@@ -190,6 +190,7 @@
     <Compile Include="Mocks\EnableScripting.cs" />
     <Compile Include="Mocks\EventReceiver.cs" />
     <Compile Include="Mocks\FileEntry.cs" />
+    <Compile Include="Mocks\MockEntityResolver.cs" />
     <Compile Include="Mocks\MockRequester.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
     <Compile Include="Mocks\MockScriptService.cs" />

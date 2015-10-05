@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Xml
 {
+    using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Parser.Xml;
     using AngleSharp.Xml;
     using NUnit.Framework;
@@ -95,15 +96,27 @@
         }
 
         [Test]
-        public void XmlTokenizerStringAndEntityToken()
+        public void XmlTokenizerStringAndStandardEntityToken()
         {
             var s = new TextSource("test&amp;string\r");
             var t = CreateTokenizer(s);
             var test = t.Get();
             var end = t.Get();
             Assert.AreEqual(XmlTokenType.Character, test.Type);
-            Assert.AreEqual(XmlTokenType.EndOfFile, end.Type);
             Assert.AreEqual("test&string\n", ((XmlCharacterToken)test).Data);
+            Assert.AreEqual(XmlTokenType.EndOfFile, end.Type);
+        }
+
+        [Test]
+        public void XmlTokenizerStringAndCustomEntityToken()
+        {
+            var resolver = new MockEntityResolver(str => str.Equals("bar") ? "foo" : null);
+            var s = new TextSource("test&bar;");
+            var t = new XmlTokenizer(s, null, resolver);
+            var test = t.Get();
+            var end = t.Get();
+            Assert.AreEqual(XmlTokenType.Character, test.Type);
+            Assert.AreEqual("testfoo", ((XmlCharacterToken)test).Data);
             Assert.AreEqual(XmlTokenType.EndOfFile, end.Type);
         }
 
