@@ -1005,7 +1005,6 @@
     <Compile Include="Parser\Xml\Tokens\XmlDeclarationToken.cs" />
     <Compile Include="Parser\Xml\Tokens\XmlDoctypeToken.cs" />
     <Compile Include="Parser\Xml\Tokens\XmlEndOfFileToken.cs" />
-    <Compile Include="Parser\Xml\Tokens\XmlEntityToken.cs" />
     <Compile Include="Parser\Xml\Tokens\XmlPIToken.cs" />
     <Compile Include="Parser\Xml\Tokens\XmlTagToken.cs" />
     <Compile Include="Parser\Xml\Tokens\XmlToken.cs" />

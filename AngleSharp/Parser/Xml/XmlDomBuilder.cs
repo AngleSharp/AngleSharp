@@ -25,7 +25,6 @@
         readonly XmlTokenizer _tokenizer;
         readonly Document _document;
         readonly List<Element> _openElements;
-        readonly IEntityService _resolver;
 
         XmlParserOptions _options;
         XmlTreeMode _currentMode;
@@ -41,8 +40,8 @@
         /// <param name="document">The document instance to be filled.</param>
         internal XmlDomBuilder(Document document)
         {
-            _resolver = document.Options.GetService<IEntityService>() ?? XmlEntityService.Resolver;
-            _tokenizer = new XmlTokenizer(document.Source, document.Options.Events, _resolver);
+            var resolver = document.Options.GetService<IEntityService>() ?? XmlEntityService.Resolver;
+            _tokenizer = new XmlTokenizer(document.Source, document.Options.Events, resolver);
             _document = document;
             _standalone = false;
             _openElements = new List<Element>();
@@ -281,13 +280,6 @@
                 case XmlTokenType.Comment:
                 {
                     InMisc(token);
-                    break;
-                }
-                case XmlTokenType.Entity:
-                {
-                    var tok = (XmlEntityToken)token;
-                    var str = tok.GetEntity(_resolver);
-                    CurrentNode.AppendText(str);
                     break;
                 }
                 case XmlTokenType.CData:

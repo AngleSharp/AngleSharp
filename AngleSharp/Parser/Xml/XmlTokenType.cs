@@ -38,10 +38,6 @@
         /// </summary>
         CharacterReference,
         /// <summary>
-        /// An entity token to mark entity elements.
-        /// </summary>
-        Entity,
-        /// <summary>
         /// A processing instruction token to mark such elements.
         /// </summary>
         ProcessingInstruction,

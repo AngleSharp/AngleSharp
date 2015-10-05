@@ -78,9 +78,6 @@
         {
             switch (c)
             {
-                case Symbols.Ampersand:
-                    return CharacterReference(GetNext());
-
                 case Symbols.LessThan:
                     return TagOpen(GetNext());
 
@@ -100,9 +97,13 @@
                 {
                     case Symbols.LessThan:
                     case Symbols.EndOfFile:
-                    case Symbols.Ampersand:
                         Back();
                         return NewCharacters();
+
+                    case Symbols.Ampersand:
+                        _stringBuffer.Append(CharacterReference(GetNext()));
+                        c = GetNext();
+                        break;
 
                     case Symbols.SquareBracketClose:
                         _stringBuffer.Append(c);
@@ -168,7 +169,7 @@
         /// </summary>
         /// <param name="c">The next character after the &amp; character.</param>
         /// <returns>The entity token.</returns>
-        XmlEntityToken CharacterReference(Char c)
+        String CharacterReference(Char c)
         {
             var start = _stringBuffer.Length;
             var hex = false;
@@ -213,7 +214,25 @@
                 var length = _stringBuffer.Length - start;
                 var content = _stringBuffer.ToString(start, length);
                 _stringBuffer.Remove(start, length);
-                return NewEntity(content, numeric: numeric, hex: hex);
+
+                if (numeric)
+                {
+                    var number = numeric ? content.FromHex() : content.FromDec();
+
+                    if (!number.IsValidAsCharRef())
+                        throw XmlParseError.CharacterReferenceInvalidNumber.At(_position);
+
+                    return number.ConvertFromUtf32();
+                }
+                else
+                {
+                    var entity = _resolver.GetSymbol(content);
+
+                    if (String.IsNullOrEmpty(entity))
+                        throw XmlParseError.CharacterReferenceInvalidCode.At(_position);
+
+                    return entity;
+                }
             }
 
             throw XmlParseError.CharacterReferenceNotTerminated.At(GetCurrentPosition());
@@ -983,7 +1002,7 @@
                     throw XmlParseError.EOF.At(GetCurrentPosition());
 
                 if (c == Symbols.Ampersand)
-                    _stringBuffer.Append(CharacterReference(GetNext()).GetEntity(_resolver));
+                    _stringBuffer.Append(CharacterReference(GetNext()));
                 else if (c == Symbols.LessThan)
                     throw XmlParseError.XmlLtInAttributeValue.At(GetCurrentPosition());
                 else 
@@ -1199,11 +1218,6 @@
         {
             var content = FlushBuffer();
             return new XmlCDataToken(_position, content);
-        }
-
-        XmlEntityToken NewEntity(String entity, Boolean numeric = false, Boolean hex = false)
-        {
-            return new XmlEntityToken(_position, entity, numeric, hex);
         }
 
         #endregion
