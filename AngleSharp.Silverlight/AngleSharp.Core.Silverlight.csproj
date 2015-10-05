@@ -2036,21 +2036,6 @@
     <Compile Include="..\AngleSharp\Html\InputTypes\WeekInputType.cs">
       <Link>Html\InputTypes\WeekInputType.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Html\Json\JsonArray.cs">
-      <Link>Html\Json\JsonArray.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\Json\JsonElement.cs">
-      <Link>Html\Json\JsonElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\Json\JsonObject.cs">
-      <Link>Html\Json\JsonObject.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\Json\JsonStep.cs">
-      <Link>Html\Json\JsonStep.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\Json\JsonValue.cs">
-      <Link>Html\Json\JsonValue.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Html\Namespaces.cs">
       <Link>Html\Namespaces.cs</Link>
     </Compile>
@@ -2062,6 +2047,21 @@
     </Compile>
     <Compile Include="..\AngleSharp\Html\Submitters\JsonFormDataSetVisitor.cs">
       <Link>Html\Submitters\JsonFormDataSetVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\Json\JsonArray.cs">
+      <Link>Html\Submitters\Json\JsonArray.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\Json\JsonElement.cs">
+      <Link>Html\Submitters\Json\JsonElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\Json\JsonObject.cs">
+      <Link>Html\Submitters\Json\JsonObject.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\Json\JsonStep.cs">
+      <Link>Html\Submitters\Json\JsonStep.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\Json\JsonValue.cs">
+      <Link>Html\Submitters\Json\JsonValue.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\Submitters\MultipartFormDataSetVisitor.cs">
       <Link>Html\Submitters\MultipartFormDataSetVisitor.cs</Link>
