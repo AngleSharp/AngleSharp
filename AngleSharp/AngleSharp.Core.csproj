@@ -1008,6 +1008,7 @@
     <Compile Include="Parser\Xml\Tokens\XmlPIToken.cs" />
     <Compile Include="Parser\Xml\Tokens\XmlTagToken.cs" />
     <Compile Include="Parser\Xml\Tokens\XmlToken.cs" />
+    <Compile Include="Xml\Entities.cs" />
     <Compile Include="Xml\XmlMarkupFormatter.cs" />
     <Compile Include="Parser\Xml\XmlDomBuilder.cs" />
     <Compile Include="Parser\Xml\XmlTokenizer.cs" />

@@ -1,27 +1,14 @@
 ﻿namespace AngleSharp.Parser.Xml
 {
     using AngleSharp.Extensions;
+    using AngleSharp.Xml;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// The entity token that defines an entity.
     /// </summary>
     sealed class XmlEntityToken : XmlToken
     {
-        #region Entities
-
-        static readonly Dictionary<String, String> DefaultEntities = new Dictionary<String, String>
-        {
-            { "amp", "&" },
-            { "lt", "<" },
-            { "gt", ">" },
-            { "apos", "'" },
-            { "quot", "\"" }
-        };
-
-        #endregion
-
         #region Fields
 
         readonly Boolean _numeric;
@@ -83,12 +70,12 @@
             }
             else
             {
-                var entity = default(String);
+                var entity = Entities.GetSymbol(_value);
 
-                if (!String.IsNullOrEmpty(_value) && DefaultEntities.TryGetValue(_value, out entity))
-                    return entity;
+                if (String.IsNullOrEmpty(entity))
+                    throw XmlParseError.CharacterReferenceInvalidCode.At(Position);
 
-                throw XmlParseError.CharacterReferenceInvalidCode.At(Position);
+                return entity;
             }
         }
 

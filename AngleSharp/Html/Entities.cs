@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Html
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using AngleSharp.Extensions;
 
     /// <summary>
     /// Represents the list of all Html entities.
@@ -16,11 +16,11 @@
         /// <summary>
         /// Strong entities always end with a semicolon.
         /// </summary>
-        static Dictionary<Char, Dictionary<String, String>> _strongEntities;
+        static readonly Dictionary<Char, Dictionary<String, String>> _strongEntities;
         /// <summary>
-        /// Weak entities do not end with a semicolon (there are much less weak entities).
+        /// Weak entities do not end with a semicolon.
         /// </summary>
-        static Dictionary<String, String> _weakEntities;
+        static readonly Dictionary<String, String> _weakEntities;
 
         #endregion
 
@@ -2556,9 +2556,12 @@
         #region Methods
 
         /// <summary>
-        /// Gets an symbol (that ended with a semicolon) specified by its entity name.
+        /// Gets an symbol (that ended with a semicolon) specified by its entity
+        /// name.
         /// </summary>
-        /// <param name="name">The name of the entity, specified by &amp;NAME; in the Html source code.</param>
+        /// <param name="name">
+        /// The name of the entity, specified by &amp;NAME; in the Html code.
+        /// </param>
         /// <returns>The string with the symbol or null.</returns>
         public static String GetSymbol(String name)
         {
@@ -2572,9 +2575,12 @@
         }
 
         /// <summary>
-        /// Gets an symbol (that did not end with a semicolon) specified by its entity name.
+        /// Gets an symbol (that did not end with a semicolon) specified by its
+        /// entity name.
         /// </summary>
-        /// <param name="name">The name of the entity, specified by &amp;NAME in the Html source code.</param>
+        /// <param name="name">
+        /// The name of the entity, specified by &amp;NAME in the Html code.
+        /// </param>
         /// <returns>The string with the symbol or null.</returns>
         public static String GetSymbolWithoutSemicolon(String name)
         {
@@ -2599,12 +2605,12 @@
         /// <summary>
         /// Converts a set of two numbers into their unicode characters.
         /// </summary>
-        /// <param name="leadingCode">The first (leading) character code.</param>
-        /// <param name="trailingCode">The second (trailing) character code.</param>
+        /// <param name="leading">The first (leading) character code.</param>
+        /// <param name="trailing">The second (trailing) character code.</param>
         /// <returns>The array containing the two characters.</returns>
-        public static String Convert(Int32 leadingCode, Int32 trailingCode)
+        public static String Convert(Int32 leading, Int32 trailing)
         {
-            return leadingCode.ConvertFromUtf32() + trailingCode.ConvertFromUtf32();
+            return leading.ConvertFromUtf32() + trailing.ConvertFromUtf32();
         }
 
         /// <summary>
@@ -2624,10 +2630,11 @@
         }
 
         /// <summary>
-        /// Determines if the given code is actually in the table of common redirections.
+        /// Determines if the given code is actually in the table of common
+        /// redirections.
         /// </summary>
         /// <param name="code">The code to examine.</param>
-        /// <returns>True if the code is in the table, otherwise false.</returns>
+        /// <returns>True if the code is in the table, else false.</returns>
         public static Boolean IsInCharacterTable(Int32 code)
         {
             /* 
@@ -2734,7 +2741,9 @@
         /// Determines if the code is within an invalid range.
         /// </summary>
         /// <param name="code">The code to examine.</param>
-        /// <returns>True if it is within an invalid range, false otherwise.</returns>
+        /// <returns>
+        /// True if it is within an invalid range, false otherwise.
+        /// </returns>
         public static Boolean IsInInvalidRange(Int32 code)
         {
             /*
