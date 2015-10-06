@@ -929,6 +929,27 @@ font-weight:bold;}";
         }
 
         [Test]
+        public void CssStyleSheetShouldIgnoreHtmlCommentTokens()
+        {
+            var parser = new CssParser();
+            var source = "<!-- body { font-family: Verdana } div.hidden { display: none } -->";
+            var sheet = parser.ParseStylesheet(source);
+            Assert.AreEqual(2, sheet.Rules.Length);
+
+            Assert.AreEqual(CssRuleType.Style, sheet.Rules[0].Type);
+            var body = sheet.Rules[0] as ICssStyleRule;
+            Assert.AreEqual("body", body.SelectorText);
+            Assert.AreEqual(1, body.Style.Length);
+            Assert.AreEqual("Verdana", body.Style.FontFamily);
+
+            Assert.AreEqual(CssRuleType.Style, sheet.Rules[1].Type);
+            var div = sheet.Rules[1] as ICssStyleRule;
+            Assert.AreEqual("div.hidden", div.SelectorText);
+            Assert.AreEqual(1, div.Style.Length);
+            Assert.AreEqual("none", div.Style.Display);
+        }
+
+        [Test]
         public void CssStyleSheetInsertShouldSetParentStyleSheetCorrectly()
         {
             var parser = new CssParser();
