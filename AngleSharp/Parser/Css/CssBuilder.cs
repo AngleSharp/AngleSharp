@@ -758,7 +758,7 @@
         {
             var tokens = _nodes.Peek().Tokens;
 
-            while (token.Type == CssTokenType.Whitespace || token.Type == CssTokenType.Comment)
+            while (token.Type == CssTokenType.Whitespace || token.Type == CssTokenType.Comment || token.Type == CssTokenType.Cdc || token.Type == CssTokenType.Cdo)
             {
                 token = _tokenizer.Get();
                 tokens.Add(token);
@@ -767,7 +767,7 @@
 
         void RemoveTrivia(ref CssToken token)
         {
-            while (token.Type == CssTokenType.Whitespace || token.Type == CssTokenType.Comment)
+            while (token.Type == CssTokenType.Whitespace || token.Type == CssTokenType.Comment || token.Type == CssTokenType.Cdc || token.Type == CssTokenType.Cdo)
             {
                 token = _tokenizer.Get();
             }
