@@ -10,7 +10,7 @@
     /// Represents the list of all Html entities.
     /// </summary>
     [DebuggerStepThrough]
-    sealed class HtmlEntityService : IEntityService
+    public sealed class HtmlEntityService : IEntityService
     {
         #region Fields
 

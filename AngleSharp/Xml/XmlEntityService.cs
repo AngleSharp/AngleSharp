@@ -9,7 +9,7 @@
     /// Represents the list of all Xml entities.
     /// </summary>
     [DebuggerStepThrough]
-    sealed class XmlEntityService : IEntityService
+    public sealed class XmlEntityService : IEntityService
     {
         #region Fields
 
