@@ -213,7 +213,7 @@
             var config = Owner.Options;
             var engine = config.GetStyleEngine(type);
 
-            if (task.IsCompleted && task.IsFaulted == false)
+            if (task.IsCompleted && !task.IsFaulted)
             {
                 using (var response = task.Result)
                 {
