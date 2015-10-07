@@ -27,7 +27,7 @@
                 var request = inp.CreateRequestFor(url);
                 inp.LoadResource<IImageInfo>(request).ContinueWith(m =>
                 {
-                    if (m.IsFaulted == false)
+                    if (m.IsCompleted && !m.IsFaulted)
                         _img = m.Result;
 
                     inp.FireLoadOrErrorEvent(m);

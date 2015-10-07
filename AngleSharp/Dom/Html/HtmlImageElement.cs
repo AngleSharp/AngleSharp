@@ -175,7 +175,7 @@
             var request = this.CreateRequestFor(source);
             this.LoadResource<IImageInfo>(request).ContinueWith(m =>
             {
-                if (m.IsFaulted == false)
+                if (m.IsCompleted && !m.IsFaulted)
                     _img = m.Result;
 
                 this.FireLoadOrErrorEvent(m);

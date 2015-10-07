@@ -140,7 +140,7 @@
                 var request = this.CreateRequestFor(url);
                 this.LoadResource<IObjectInfo>(request).ContinueWith(m =>
                 {
-                    if (m.IsFaulted == false)
+                    if (m.IsCompleted && !m.IsFaulted)
                         _obj = m.Result;
 
                     this.FireLoadOrErrorEvent(m);

@@ -425,13 +425,13 @@
                 _network = MediaNetworkState.Loading;
                 this.LoadResource<TResource>(request).ContinueWith(m =>
                 {
-                    if (m.IsFaulted || m.Result == null)
-                    {
-                        _media = default(TResource);
-                        _network = MediaNetworkState.NoSource;
-                    }
-                    else
+                    _media = default(TResource);
+
+                    if (m.IsCompleted && !m.IsFaulted)
                         _media = m.Result;
+
+                    if (_media == null)
+                        _network = MediaNetworkState.NoSource;
 
                     this.FireLoadOrErrorEvent(m);
                 });
