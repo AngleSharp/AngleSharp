@@ -4,6 +4,7 @@
     using AngleSharp.Html;
     using AngleSharp.Services.Media;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the image element.
@@ -12,7 +13,6 @@
     {
         #region Fields
 
-        Url _lastSource;
         IImageInfo _img;
 
         #endregion
@@ -40,7 +40,7 @@
         /// </summary>
         public String ActualSource
         {
-            get { return _lastSource != null ? _lastSource.Href : null; }
+            get { return _img != null && _img.Source != null ? _img.Source.Href : String.Empty; }
         }
 
         /// <summary>
@@ -163,23 +163,25 @@
         {
             if (source.IsInvalid)
                 source = null;
-            else if (_lastSource != null && source.Equals(_lastSource))
+            else if (_img != null && source.Equals(_img.Source))
                 return;
 
             this.CancelTasks();
-            _lastSource = source;
 
             if (source == null)
                 return;
 
             var request = this.CreateRequestFor(source);
-            this.LoadResource<IImageInfo>(request).ContinueWith(m =>
-            {
-                if (m.IsCompleted && !m.IsFaulted)
-                    _img = m.Result;
+            this.LoadResource<IImageInfo>(request).
+                 ContinueWith(FinishLoading);
+        }
 
-                this.FireLoadOrErrorEvent(m);
-            });
+        void FinishLoading(Task<IImageInfo> task)
+        {
+            if (task.IsCompleted && !task.IsFaulted)
+                _img = task.Result;
+
+            this.FireLoadOrErrorEvent(task);
         }
 
         void UpdateSource(String value)

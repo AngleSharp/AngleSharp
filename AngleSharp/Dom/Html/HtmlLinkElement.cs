@@ -247,8 +247,8 @@
             if (!String.IsNullOrEmpty(value))
             {
                 var request = this.CreateRequestFor(Url);
-                this.CreateTask(cancel => Owner.Loader.FetchAsync(request, cancel))
-                    .ContinueWith(m => FinishLoading(m));
+                this.CreateTask(cancel => Owner.Loader.FetchAsync(request, cancel)).
+                     ContinueWith(m => FinishLoading(m));
             }
         }
 

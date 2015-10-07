@@ -5,6 +5,7 @@
     using AngleSharp.Html;
     using AngleSharp.Services.Media;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the abstract base for HTML media (audio / video) elements.
@@ -412,30 +413,20 @@
         /// </summary>
         public void Load()
         {
-            var src = CurrentSource;
+            var source = CurrentSource;
             //TODO More complex check if something is already loading (what is loading, cancel?, ...)
             //see: https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-load
             this.CancelTasks();
 
-            if (src != null)
-            {
-                _network = MediaNetworkState.Idle;
-                var url = new Url(src);
-                var request = this.CreateRequestFor(url);
-                _network = MediaNetworkState.Loading;
-                this.LoadResource<TResource>(request).ContinueWith(m =>
-                {
-                    _media = default(TResource);
+            if (source == null)
+                return;
 
-                    if (m.IsCompleted && !m.IsFaulted)
-                        _media = m.Result;
-
-                    if (_media == null)
-                        _network = MediaNetworkState.NoSource;
-
-                    this.FireLoadOrErrorEvent(m);
-                });
-            }
+            _network = MediaNetworkState.Idle;
+            var url = new Url(source);
+            var request = this.CreateRequestFor(url);
+            _network = MediaNetworkState.Loading;
+            this.LoadResource<TResource>(request).
+                 ContinueWith(FinishLoading);
         }
 
         /// <summary>
@@ -471,6 +462,23 @@
         {
             //TODO
             return null;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void FinishLoading(Task<TResource> task)
+        {
+            _media = default(TResource);
+
+            if (task.IsCompleted && !task.IsFaulted)
+                _media = task.Result;
+
+            if (_media == null)
+                _network = MediaNetworkState.NoSource;
+
+            this.FireLoadOrErrorEvent(task);
         }
 
         #endregion

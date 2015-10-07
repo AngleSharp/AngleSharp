@@ -4,6 +4,7 @@
     using AngleSharp.Html;
     using AngleSharp.Services.Media;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML object element.
@@ -130,6 +131,10 @@
             return false;
         }
 
+        #endregion
+
+        #region Helpers
+
         void UpdateSource(String value)
         {
             this.CancelTasks();
@@ -138,14 +143,17 @@
             {
                 var url = new Url(Source);
                 var request = this.CreateRequestFor(url);
-                this.LoadResource<IObjectInfo>(request).ContinueWith(m =>
-                {
-                    if (m.IsCompleted && !m.IsFaulted)
-                        _obj = m.Result;
-
-                    this.FireLoadOrErrorEvent(m);
-                });
+                this.LoadResource<IObjectInfo>(request).
+                     ContinueWith(FinishLoading);
             }
+        }
+
+        void FinishLoading(Task<IObjectInfo> task)
+        {
+            if (task.IsCompleted && !task.IsFaulted)
+                _obj = task.Result;
+
+            this.FireLoadOrErrorEvent(task);
         }
 
         #endregion
