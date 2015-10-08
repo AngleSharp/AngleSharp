@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>AngleSharp</id>
-    <version>0.9.2</version>
+    <version>0.9.3</version>
     <authors>AngleSharp</authors>
     <owners>Florian Rappl</owners>
     <licenseUrl>https://github.com/AngleSharp/AngleSharp/blob/master/LICENSE</licenseUrl>
