@@ -153,28 +153,6 @@
                 _runScript();
         }
 
-        void RunFromResponse(IResponse response)
-        {
-            var options = CreateOptions();
-
-            try { Engine.Evaluate(response, options); }
-            catch { /* We omit failed 3rd party services */ }
-
-            FireAfterScriptExecuteEvent();
-            FireLoadEvent();
-        }
-
-        void RunFromSource()
-        {
-            var options = CreateOptions();
-
-            try { Engine.Evaluate(Text, options); }
-            catch { /* We omit failed 3rd party services */ }
-
-            FireAfterScriptExecuteEvent();
-            Owner.QueueTask(FireLoadEvent);
-        }
-
         /// <summary>
         /// More information available at:
         /// http://www.w3.org/TR/html5/scripting-1.html#prepare-a-script
@@ -237,6 +215,10 @@
             return false;
         }
 
+        #endregion
+
+        #region Helpers
+
         Boolean InvokeLoadingScript(Url url)
         {
             var fromParser = true;
@@ -272,9 +254,30 @@
             return fromParser;
         }
 
-        #endregion
+        void RunFromResponse(IResponse response)
+        {
+            Eval(options => Engine.Evaluate(response, options));
+            FireLoadEvent();
+        }
 
-        #region Helpers
+        void RunFromSource()
+        {
+            Eval(options => Engine.Evaluate(Text, options));
+            Owner.QueueTask(FireLoadEvent);
+        }
+
+        void Eval(Action<ScriptOptions> evaluateWith)
+        {
+            var options = CreateOptions();
+            var document = Owner;
+            var insert = document.Source.Index;
+
+            try { evaluateWith(options); }
+            catch { /* We omit failed 3rd party services */ }
+
+            document.Source.Index = insert;
+            FireAfterScriptExecuteEvent();
+        }
 
         void FireLoadEvent()
         {

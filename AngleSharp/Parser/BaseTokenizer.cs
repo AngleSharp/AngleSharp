@@ -44,12 +44,12 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets the insertion point.
+        /// Gets the insertion point.
         /// </summary>
         public Int32 InsertionPoint
         {
             get { return _source.Index; }
-            set
+            protected set
             {
                 var delta = _source.Index - value;
 
@@ -149,14 +149,6 @@
             var content = _source.ReadCharacters(s.Length);
             _source.Index = mark;
             return content.Length == s.Length && content.Equals(s, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
-        }
-
-        /// <summary>
-        /// Resets the insertion point to the end of the buffer.
-        /// </summary>
-        public void ResetInsertionPoint()
-        {
-            InsertionPoint = _source.Length;
         }
 
         /// <summary>

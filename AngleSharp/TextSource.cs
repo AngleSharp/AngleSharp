@@ -282,16 +282,18 @@
         }
 
         /// <summary>
-        /// Inserts the given content at the current insertation mark. The
-        /// insertation mark won't be changed.
+        /// Inserts the given content at the current insertation mark. Moves the
+        /// insertation mark.
         /// </summary>
         /// <param name="content">The content to insert.</param>
         public void InsertText(String content)
         {
-            if (_index < _content.Length)
+            if (_index >= 0 && _index < _content.Length)
                 _content.Insert(_index, content);
             else
                 _content.Append(content);
+
+            _index += content.Length;
         }
 
         #endregion
