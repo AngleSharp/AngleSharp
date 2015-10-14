@@ -1904,6 +1904,9 @@
     <Compile Include="..\AngleSharp\Factories\InputTypeFactory.cs">
       <Link>Factories\InputTypeFactory.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Factories\LinkRelationFactory.cs">
+      <Link>Factories\LinkRelationFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Factories\MathElementFactory.cs">
       <Link>Factories\MathElementFactory.cs</Link>
     </Compile>
@@ -2020,6 +2023,15 @@
     </Compile>
     <Compile Include="..\AngleSharp\Html\InputTypes\WeekInputType.cs">
       <Link>Html\InputTypes\WeekInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\LinkRelNames.cs">
+      <Link>Html\LinkRelNames.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\LinkRels\BaseLinkRelation.cs">
+      <Link>Html\LinkRels\BaseLinkRelation.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\LinkRels\StyleSheetLinkRelation.cs">
+      <Link>Html\LinkRels\StyleSheetLinkRelation.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\Namespaces.cs">
       <Link>Html\Namespaces.cs</Link>
