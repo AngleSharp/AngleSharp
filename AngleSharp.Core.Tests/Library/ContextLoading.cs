@@ -170,8 +170,6 @@
             var config = new Configuration().WithDefaultLoader(m => m.IsResourceLoadingEnabled = true, new[] { delayRequester });
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
-            Assert.AreEqual(1, document.Requests.Count());
-            await Task.WhenAll(document.Requests);
             Assert.AreEqual(0, document.Requests.Count());
         }
 
