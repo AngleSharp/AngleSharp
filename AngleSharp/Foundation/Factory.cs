@@ -41,5 +41,10 @@
         /// The CSS media feature factory.
         /// </summary>
         public static readonly MediaFeatureFactory MediaFeatures = new MediaFeatureFactory();
+
+        /// <summary>
+        /// The CSS media feature factory.
+        /// </summary>
+        public static readonly LinkRelationFactory LinkRelations = new LinkRelationFactory();
     }
 }

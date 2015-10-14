@@ -189,6 +189,7 @@
     <Compile Include="Extensions\ContextExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Factories\InputTypeFactory.cs" />
+    <Compile Include="Factories\LinkRelationFactory.cs" />
     <Compile Include="Factories\MediaFeatureFactory.cs" />
     <Compile Include="Dom\PseudoElement.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
@@ -201,6 +202,9 @@
     <Compile Include="Html\FormDataSetEntry.cs" />
     <Compile Include="Html\IFormDataSetVisitor.cs" />
     <Compile Include="Html\IFormSubmitter.cs" />
+    <Compile Include="Html\LinkRelNames.cs" />
+    <Compile Include="Html\LinkRels\BaseLinkRelation.cs" />
+    <Compile Include="Html\LinkRels\StyleSheetLinkRelation.cs" />
     <Compile Include="Html\Submitters\Json\JsonArray.cs" />
     <Compile Include="Html\Submitters\Json\JsonElement.cs" />
     <Compile Include="Html\Submitters\Json\JsonObject.cs" />
