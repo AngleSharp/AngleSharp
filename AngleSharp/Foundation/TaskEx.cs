@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp
 {
+    using System;
     using System.Collections.Generic;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -16,6 +18,15 @@
         public static Task WhenAll(params Task[] tasks)
         {
             return Task.WhenAll(tasks);
+        }
+
+        /// <summary>
+        /// Wrapper for Task.Delay, but also works with .NET 4 and SL due to
+        /// same naming as TaskEx in BCL.Async.
+        /// </summary>
+        public static Task Delay(Int32 millisecondsDelay, CancellationToken cancel)
+        {
+            return Task.Delay(millisecondsDelay, cancel);
         }
 
         /// <summary>
