@@ -174,12 +174,17 @@
 
         static async Task<IDocument> LoadDocumentAsync(this IBrowsingContext context, IResponse response, MimeType contentType, TextSource source, CancellationToken cancel)
         {
-            if (contentType.Represents(MimeTypes.Xml) || contentType.Represents(MimeTypes.ApplicationXml))
-                return await XmlDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
-            else if (contentType.Represents(MimeTypes.Svg))
-                return await SvgDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
+            var document = default(IDocument);
 
-            return await HtmlDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
+            if (contentType.Represents(MimeTypes.Xml) || contentType.Represents(MimeTypes.ApplicationXml))
+                document = await XmlDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
+            else if (contentType.Represents(MimeTypes.Svg))
+                document = await SvgDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
+            else
+                document = await HtmlDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
+
+            await TaskEx.WhenAll(document.Requests).ConfigureAwait(false);
+            return document;
         }
 
         #endregion
