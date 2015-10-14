@@ -171,6 +171,7 @@
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
             Assert.AreEqual(0, document.Requests.Count());
+            Assert.AreEqual(1, delayRequester.RequestCount);
         }
 
         [Test]
@@ -181,6 +182,7 @@
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
             Assert.AreEqual(0, document.Requests.Count());
+            Assert.AreEqual(0, delayRequester.RequestCount);
         }
 
         [Test]
