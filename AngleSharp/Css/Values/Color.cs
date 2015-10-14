@@ -166,30 +166,29 @@
         /// <returns>The CSS color value.</returns>
         public static Color FromHex(String color)
         {
-            if (color.Length == 3)
+            int r = 0, g = 0, b = 0, a = 255;
+
+            switch (color.Length)
             {
-                int r = color[0].FromHex();
-                r += r * 16;
-                int g = color[1].FromHex();
-                g += g * 16;
-                int b = color[2].FromHex();
-                b += b * 16;
-
-                return new Color((Byte)r, (Byte)g, (Byte)b);
-            }
-            else if (color.Length == 6)
-            {
-                int r = 16 * color[0].FromHex();
-                int g = 16 * color[2].FromHex();
-                int b = 16 * color[4].FromHex();
-                r += color[1].FromHex();
-                g += color[3].FromHex();
-                b += color[5].FromHex();
-
-                return new Color((Byte)r, (Byte)g, (Byte)b);
+                case 4:
+                    a = 17 * color[3].FromHex();
+                    goto case 3;
+                case 3:
+                    r = 17 * color[0].FromHex();
+                    g = 17 * color[1].FromHex();
+                    b = 17 * color[2].FromHex();
+                    break;
+                case 8:
+                    a = 16 * color[6].FromHex() + color[7].FromHex();
+                    goto case 6;
+                case 6:
+                    r = 16 * color[0].FromHex() + color[1].FromHex();
+                    g = 16 * color[2].FromHex() + color[3].FromHex();
+                    b = 16 * color[4].FromHex() + color[5].FromHex();
+                    break;
             }
 
-            return new Color();
+            return new Color((Byte)r, (Byte)g, (Byte)b, (Byte)a);
         }
 
         /// <summary>
@@ -201,40 +200,20 @@
         /// <returns>The status if the string can be converted.</returns>
         public static Boolean TryFromHex(String color, out Color value)
         {
+            if (color.Length == 6 || color.Length == 3 || color.Length == 8 || color.Length == 4)
+            {
+                for (int i = 0; i < color.Length; i++)
+                {
+                    if (!color[i].IsHex())
+                        goto fail;
+                }
+
+                value = FromHex(color);
+                return true;
+            }
+
+            fail:
             value = new Color();
-
-            if (color.Length == 3)
-            {
-                if (!color[0].IsHex() || !color[1].IsHex() || !color[2].IsHex())
-                    return false; 
-
-                var r = color[0].FromHex();
-                r += r * 16;
-                var g = color[1].FromHex();
-                g += g * 16;
-                var b = color[2].FromHex();
-                b += b * 16;
-
-                value = new Color((Byte)r, (Byte)g, (Byte)b);
-                return true;
-            }
-            else if (color.Length == 6)
-            {
-                if (!color[0].IsHex() || !color[1].IsHex() || !color[2].IsHex() ||
-                    !color[3].IsHex() || !color[4].IsHex() || !color[5].IsHex())
-                    return false;
-
-                var r = 16 * color[0].FromHex();
-                var g = 16 * color[2].FromHex();
-                var b = 16 * color[4].FromHex();
-                r += color[1].FromHex();
-                g += color[3].FromHex();
-                b += color[5].FromHex();
-
-                value = new Color((Byte)r, (Byte)g, (Byte)b);
-                return true;
-            }
-
             return false;
         }
 
