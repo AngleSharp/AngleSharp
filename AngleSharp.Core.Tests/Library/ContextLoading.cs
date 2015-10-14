@@ -215,8 +215,6 @@
 
             var config = new Configuration().WithPageRequester(enableResourceLoading: true).WithCss();
             var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(html));
-            Assert.AreEqual(0, document.StyleSheets.Length);
-            await document.WhenLoadFired<IHtmlLinkElement>();
             Assert.AreEqual(1, document.StyleSheets.Length);
         }
 
