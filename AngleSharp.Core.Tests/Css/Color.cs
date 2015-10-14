@@ -16,10 +16,20 @@
         }
 
         [Test]
-        public void ColorInvalidLengthString()
+        public void ColorValidFourLetterString()
         {
             Color hc;
             var color = "abcd";
+            var result = Color.TryFromHex(color, out hc);
+            Assert.AreEqual(new Color(170, 187, 204, 221), hc);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void ColorInvalidLengthString()
+        {
+            Color hc;
+            var color = "abcde";
             var result = Color.TryFromHex(color, out hc);
             Assert.IsFalse(result);
         }
@@ -90,6 +100,22 @@
             var color = "facc36";
             var result = Color.FromHex(color);
             Assert.AreEqual(Color.FromRgb(250, 204, 54), result);
+        }
+
+        [Test]
+        public void ColorMixedEightDigitLongStringTransparent()
+        {
+            var color = "facc3600";
+            var result = Color.FromHex(color);
+            Assert.AreEqual(Color.FromRgba(250, 204, 54, 0), result);
+        }
+
+        [Test]
+        public void ColorMixedEightDigitLongStringOpaque()
+        {
+            var color = "facc36ff";
+            var result = Color.FromHex(color);
+            Assert.AreEqual(Color.FromRgba(250, 204, 54, 1), result);
         }
 
         [Test]
