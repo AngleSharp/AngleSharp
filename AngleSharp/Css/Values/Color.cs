@@ -115,9 +115,9 @@
         /// <param name="b">The value for blue [0,255].</param>
         /// <param name="a">The value for alpha [0,1].</param>
         /// <returns>The CSS color value.</returns>
-        public static Color FromRgba(Byte r, Byte g, Byte b, Double a)
+        public static Color FromRgba(Byte r, Byte g, Byte b, Single a)
         {
-            return new Color(r, g, b, ConvertToByte(a));
+            return new Color(r, g, b, Normalize(a));
         }
 
         /// <summary>
@@ -128,9 +128,9 @@
         /// <param name="b">The value for blue [0,1].</param>
         /// <param name="a">The value for alpha [0,1].</param>
         /// <returns>The CSS color value.</returns>
-        public static Color FromRgba(Double r, Double g, Double b, Double a)
+        public static Color FromRgba(Single r, Single g, Single b, Single a)
         {
-            return new Color(ConvertToByte(r), ConvertToByte(g), ConvertToByte(b), ConvertToByte(a));
+            return new Color(Normalize(r), Normalize(g), Normalize(b), Normalize(a));
         }
 
         /// <summary>
@@ -139,20 +139,20 @@
         /// <param name="number">The value for each component [0,255].</param>
         /// <param name="alpha">The value for alpha [0,1].</param>
         /// <returns>The CSS color value.</returns>
-        public static Color FromGray(Byte number, Double alpha = 1.0)
+        public static Color FromGray(Byte number, Single alpha = 1f)
         {
-            return new Color(number, number, number, ConvertToByte(alpha));
+            return new Color(number, number, number, Normalize(alpha));
         }
 
         /// <summary>
         /// Returns the gray color from the given value.
         /// </summary>
-        /// <param name="number">The value for each component [0,1].</param>
+        /// <param name="value">The value for each component [0,1].</param>
         /// <param name="alpha">The value for alpha [0,1].</param>
         /// <returns>The CSS color value.</returns>
-        public static Color FromGray(Double value, Double alpha = 1.0)
+        public static Color FromGray(Single value, Single alpha = 1f)
         {
-            return FromGray(ConvertToByte(value), alpha);
+            return FromGray(Normalize(value), alpha);
         }
 
         /// <summary>
@@ -287,14 +287,7 @@
         /// <returns>The CSS color.</returns>
         public static Color FromHsl(Single h, Single s, Single l)
         {
-            const Single third = 1f / 3f;
-
-            var m2 = l <= 0.5f ? (l * (s + 1f)) : (l + s - l * s);
-            var m1 = 2f * l - m2;
-            var r = (Byte)Math.Round(255 * HueToRgb(m1, m2, h + third));
-            var g = (Byte)Math.Round(255 * HueToRgb(m1, m2, h));
-            var b = (Byte)Math.Round(255 * HueToRgb(m1, m2, h - third));
-            return new Color(r, g, b);
+            return FromHsla(h, s, l, 1f);
         }
 
         /// <summary>
@@ -311,11 +304,67 @@
 
             var m2 = l <= 0.5f ? (l * (s + 1f)) : (l + s - l * s);
             var m1 = 2f * l - m2;
-            var r = (Byte)Math.Round(255f * HueToRgb(m1, m2, h + third));
-            var g = (Byte)Math.Round(255f * HueToRgb(m1, m2, h));
-            var b = (Byte)Math.Round(255f * HueToRgb(m1, m2, h - third));
-            var a = (Byte)Math.Max(Math.Min(Math.Ceiling(255 * alpha), 255), 0);
-            return new Color(r, g, b, a);
+            var r = Convert(HueToRgb(m1, m2, h + third));
+            var g = Convert(HueToRgb(m1, m2, h));
+            var b = Convert(HueToRgb(m1, m2, h - third));
+            return new Color(r, g, b, Normalize(alpha));
+        }
+
+        /// <summary>
+        /// Returns the color that represents Hue-Whiteness-Blackness.
+        /// </summary>
+        /// <param name="h">The color angle [0,1].</param>
+        /// <param name="w">The whiteness [0,1].</param>
+        /// <param name="b">The blackness [0,1].</param>
+        /// <returns>The CSS color.</returns>
+        public static Color FromHwb(Single h, Single w, Single b)
+        {
+            return FromHwba(h, w, b, 1f);
+        }
+
+        /// <summary>
+        /// Returns the color that represents Hue-Whiteness-Blackness.
+        /// </summary>
+        /// <param name="h">The color angle [0,1].</param>
+        /// <param name="w">The whiteness [0,1].</param>
+        /// <param name="b">The blackness [0,1].</param>
+        /// <param name="alpha">The alpha value [0,1].</param>
+        /// <returns>The CSS color.</returns>
+        public static Color FromHwba(Single h, Single w, Single b, Single alpha)
+        {
+            var ratio = 1f / (w + b);
+            var red = 0f;
+            var green = 0f;
+            var blue = 0f;
+
+            if (ratio < 1f) 
+            {
+                w *= ratio;
+                b *= ratio;
+            }
+
+            var p = (Int32)(6 * h);
+            var f = 6 * h - p;
+
+            if ((p & 0x01) != 0)
+                f = 1 - f;
+
+            var v = 1 - b;
+            var n = w + f * (v - w);
+
+            switch (p) 
+            {
+                default:
+                case 6:
+                case 0: red = v; green = n; blue = w; break;
+                case 1: red = n; green = v; blue = w; break;
+                case 2: red = w; green = v; blue = n; break;
+                case 3: red = w; green = n; blue = v; break;
+                case 4: red = n; green = w; blue = v; break;
+                case 5: red = v; green = w; blue = n; break;
+            }
+
+            return FromRgba(red, green, blue, alpha);
         }
 
         #endregion
@@ -470,9 +519,14 @@
 
         #region Helpers
 
-        static Byte ConvertToByte(Double value)
+        static Byte Normalize(Single value)
         {
-            return (Byte)Math.Max(Math.Min(Math.Ceiling(255 * value), 255), 0);
+            return (Byte)Math.Max(Math.Min(Math.Round(255 * value), 255), 0);
+        }
+
+        static Byte Convert(Single value)
+        {
+            return (Byte)Math.Round(255f * value);
         }
 
         static Single HueToRgb(Single m1, Single m2, Single h)
