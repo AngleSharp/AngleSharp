@@ -1,13 +1,12 @@
 ﻿namespace AngleSharp.Css
 {
+    using AngleSharp.Css.Values;
     using System;
     using System.Collections.Generic;
-    using AngleSharp.Css.Values;
 
     /// <summary>
-    /// This class contains information about colors like their
-    /// given names or assignments of names to colors.
-    /// Most names are derived from
+    /// This class contains information about colors like their given names or
+    /// assignments of names to colors. Most names are derived from:
     /// http://en.wikipedia.org/wiki/X11_color_names
     /// </summary>
     public static class Colors
