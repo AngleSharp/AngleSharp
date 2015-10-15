@@ -288,5 +288,26 @@
             var color = Color.FromFlexHex("zqbttv");
             Assert.AreEqual(Color.FromRgb(0x0, 0xb0, 0x0), color);
         }
+
+        [Test]
+        public void ColorFromGraySimple()
+        {
+            var color = Color.FromGray(25);
+            Assert.AreEqual(Color.FromRgb(25, 25, 25), color);
+        }
+
+        [Test]
+        public void ColorFromGrayWithAlpha()
+        {
+            var color = Color.FromGray(25, 0.5);
+            Assert.AreEqual(Color.FromRgba(25, 25, 25, 0.5), color);
+        }
+
+        [Test]
+        public void ColorFromGrayPercent()
+        {
+            var color = Color.FromGray(0.5, 0.5);
+            Assert.AreEqual(Color.FromRgba(128, 128, 128, 0.5), color);
+        }
     }
 }
