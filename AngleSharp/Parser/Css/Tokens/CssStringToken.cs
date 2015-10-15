@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using System;
 
@@ -11,6 +12,7 @@
         #region Fields
 
         readonly Boolean _bad;
+        Color _color;
 
         #endregion
 
@@ -29,9 +31,24 @@
             _bad = bad;
         }
 
+        public static CssStringToken FromColor(String data, TextPosition position)
+        {
+            var value = default(Color);
+            var bad = !Color.TryFromHex(data, out value);
+            return new CssStringToken(CssTokenType.Color, data, bad, position) { _color = value };
+        }
+
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the string value, if any.
+        /// </summary>
+        public Color Color
+        {
+            get { return _color; }
+        }
 
         /// <summary>
         /// Gets if the data is bad.

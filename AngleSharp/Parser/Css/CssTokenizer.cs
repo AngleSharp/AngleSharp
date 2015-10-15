@@ -1368,8 +1368,7 @@
 
         CssToken NewColor(String text)
         {
-            var bad = text.Length != 3 && text.Length != 6;
-            return new CssStringToken(CssTokenType.Color, text, bad, _position);
+            return CssStringToken.FromColor(text, _position);
         }
 
         CssToken NewEof()
