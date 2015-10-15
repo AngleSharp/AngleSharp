@@ -299,15 +299,36 @@
         [Test]
         public void ColorFromGrayWithAlpha()
         {
-            var color = Color.FromGray(25, 0.5);
-            Assert.AreEqual(Color.FromRgba(25, 25, 25, 0.5), color);
+            var color = Color.FromGray(25, 0.5f);
+            Assert.AreEqual(Color.FromRgba(25, 25, 25, 0.5f), color);
         }
 
         [Test]
         public void ColorFromGrayPercent()
         {
-            var color = Color.FromGray(0.5, 0.5);
-            Assert.AreEqual(Color.FromRgba(128, 128, 128, 0.5), color);
+            var color = Color.FromGray(0.5f, 0.5f);
+            Assert.AreEqual(Color.FromRgba(128, 128, 128, 0.5f), color);
+        }
+
+        [Test]
+        public void ColorFromHwbRed()
+        {
+            var color = Color.FromHwb(0f, 0.2f, 0.2f);
+            Assert.AreEqual(Color.FromRgb(204, 51, 51), color);
+        }
+
+        [Test]
+        public void ColorFromHwbGreen()
+        {
+            var color = Color.FromHwb(1f / 3f, 0.2f, 0.6f);
+            Assert.AreEqual(Color.FromRgb(51, 102, 51), color);
+        }
+
+        [Test]
+        public void ColorFromHwbMagentaTransparent()
+        {
+            var color = Color.FromHwba(5f / 6f, 0.4f, 0.2f, 0.5f);
+            Assert.AreEqual(Color.FromRgba(204, 102, 204, 0.5f), color);
         }
     }
 }
