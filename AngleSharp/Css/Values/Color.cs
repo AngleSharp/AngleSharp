@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Css.Values
 {
-    using System;
-    using System.Runtime.InteropServices;
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using System;
+    using System.Runtime.InteropServices;
 
     /// <summary>
     /// Represents a color value.
