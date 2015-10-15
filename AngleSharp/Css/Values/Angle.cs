@@ -184,6 +184,28 @@
         }
 
         /// <summary>
+        /// Converts the contained value to turns.
+        /// </summary>
+        /// <returns>The value in turns.</returns>
+        public Single ToTurns()
+        {
+            switch (_unit)
+            {
+                case Unit.Deg:
+                    return (Single)(_value / 360.0);
+
+                case Unit.Grad:
+                    return (Single)(_value / 400.0);
+
+                case Unit.Rad:
+                    return (Single)(_value / (2.0 * Math.PI));
+
+                default:
+                    return _value;
+            }
+        }
+
+        /// <summary>
         /// Computes the tangent of the given angle.
         /// </summary>
         /// <returns>The tangent.</returns>
