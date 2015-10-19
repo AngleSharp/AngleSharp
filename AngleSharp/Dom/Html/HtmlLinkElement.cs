@@ -5,7 +5,6 @@
     using AngleSharp.Html;
     using AngleSharp.Html.LinkRels;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML link element.
@@ -214,9 +213,8 @@
         {
             get
             {
-                //var importRelation = _relation as ImportLinkRelation;
-                //return importRelation != null ? importRelation.Import : null;
-                return null;
+                var importRelation = _relation as ImportLinkRelation;
+                return importRelation != null ? importRelation.Import : null;
             }
         }
 

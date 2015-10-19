@@ -204,6 +204,7 @@
     <Compile Include="Html\IFormSubmitter.cs" />
     <Compile Include="Html\LinkRelNames.cs" />
     <Compile Include="Html\LinkRels\BaseLinkRelation.cs" />
+    <Compile Include="Html\LinkRels\ImportLinkRelation.cs" />
     <Compile Include="Html\LinkRels\StyleSheetLinkRelation.cs" />
     <Compile Include="Html\Submitters\Json\JsonArray.cs" />
     <Compile Include="Html\Submitters\Json\JsonElement.cs" />

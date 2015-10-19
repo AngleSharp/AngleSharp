@@ -15,7 +15,8 @@
 
         readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
-            { LinkRelNames.StyleSheet, link => new StyleSheetLinkRelation(link) }
+            { LinkRelNames.StyleSheet, link => new StyleSheetLinkRelation(link) },
+            { LinkRelNames.Import, link => new ImportLinkRelation(link) },
         };
 
         /// <summary>
