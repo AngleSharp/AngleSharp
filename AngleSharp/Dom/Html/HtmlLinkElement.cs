@@ -5,6 +5,7 @@
     using AngleSharp.Html;
     using AngleSharp.Html.LinkRels;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML link element.

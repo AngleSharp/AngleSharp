@@ -2045,6 +2045,9 @@
     <Compile Include="..\AngleSharp\Html\LinkRels\BaseLinkRelation.cs">
       <Link>Html\LinkRels\BaseLinkRelation.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Html\LinkRels\ImportLinkRelation.cs">
+      <Link>Html\LinkRels\ImportLinkRelation.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\LinkRels\StyleSheetLinkRelation.cs">
       <Link>Html\LinkRels\StyleSheetLinkRelation.cs</Link>
     </Compile>
