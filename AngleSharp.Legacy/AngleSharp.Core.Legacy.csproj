@@ -2462,6 +2462,9 @@
     <Compile Include="..\AngleSharp\Interfaces\ILabelabelElement.cs">
       <Link>Interfaces\ILabelabelElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\ILinkImport.cs">
+      <Link>Interfaces\ILinkImport.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ILinkStyle.cs">
       <Link>Interfaces\ILinkStyle.cs</Link>
     </Compile>
