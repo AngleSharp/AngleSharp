@@ -143,6 +143,7 @@
     <Compile Include="Library\MimeType.cs" />
     <Compile Include="Library\MutationObserver.cs" />
     <Compile Include="Library\OptionWithLabel.cs" />
+    <Compile Include="Library\PageImport.cs" />
     <Compile Include="Library\ShadowDom.cs" />
     <Compile Include="Library\SimpleEncoding.cs" />
     <Compile Include="Library\SimpleEventAggregator.cs" />
