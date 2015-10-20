@@ -5,6 +5,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Parser.Html;
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -40,6 +41,7 @@
         {
             var link = Link;
             var request = link.CreateRequestFor(Url);
+            var isasync = link.HasAttribute(AttributeNames.Async);
 
             using (var response = await loader.FetchAsync(request, cancel).ConfigureAwait(false))
             {
