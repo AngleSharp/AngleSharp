@@ -18,7 +18,7 @@
             requester.OnRequest = request => receivedRequest.SetResult(request.Address.Href);
             var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { requester });
 
-            var document = await BrowsingContext.New().OpenAsync(m => m.Content("<!doctype html><link rel=import href=http://example.com/test.html>"));
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content("<!doctype html><link rel=import href=http://example.com/test.html>"));
             var link = document.QuerySelector<IHtmlLinkElement>("link");
             var result = await receivedRequest.Task;
 
