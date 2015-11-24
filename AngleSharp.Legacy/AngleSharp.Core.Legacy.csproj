@@ -1919,6 +1919,9 @@
     <Compile Include="..\AngleSharp\Foundation\CancellableTasks.cs">
       <Link>Foundation\CancellableTasks.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\CreateDocumentOptions.cs">
+      <Link>Foundation\CreateDocumentOptions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Factory.cs">
       <Link>Foundation\Factory.cs</Link>
     </Compile>
