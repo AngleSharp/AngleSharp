@@ -1,9 +1,6 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Dom.Svg;
-    using AngleSharp.Dom.Xml;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
@@ -58,7 +55,13 @@
                 encoding = TextEncoding.Resolve(charset);
 
             var source = new TextSource(response.Content, encoding);
-            return context.LoadDocumentAsync(response, contentType, source, cancel);
+            var options = new CreateDocumentOptions
+            {
+                ContentType = contentType,
+                Response = response,
+                Source = source
+            };
+            return context.LoadDocumentAsync(options, cancel);
         }
 
         /// <summary>
@@ -125,7 +128,13 @@
                 request(response);
                 var contentType = response.GetContentType(MimeTypes.Html);
                 var source = response.CreateSourceFor(context.Configuration);
-                return context.LoadDocumentAsync(response, contentType, source, cancel);
+                var options = new CreateDocumentOptions
+                {
+                    ContentType = contentType,
+                    Response = response,
+                    Source = source
+                };
+                return context.LoadDocumentAsync(options, cancel);
             }
         }
 
@@ -172,17 +181,10 @@
 
         #region Helpers
 
-        static async Task<IDocument> LoadDocumentAsync(this IBrowsingContext context, IResponse response, MimeType contentType, TextSource source, CancellationToken cancel)
+        static async Task<IDocument> LoadDocumentAsync(this IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancel)
         {
-            var document = default(IDocument);
-
-            if (contentType.Represents(MimeTypes.Xml) || contentType.Represents(MimeTypes.ApplicationXml))
-                document = await XmlDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
-            else if (contentType.Represents(MimeTypes.Svg))
-                document = await SvgDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
-            else
-                document = await HtmlDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
-
+            var creator = options.FindCreator();
+            var document = await creator(context, options, cancel).ConfigureAwait(false);
             await TaskEx.WhenAll(document.Requests).ConfigureAwait(false);
             return document;
         }

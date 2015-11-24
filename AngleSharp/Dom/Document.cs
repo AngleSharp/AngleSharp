@@ -1788,6 +1788,15 @@
             }
         }
 
+        protected void Setup(CreateDocumentOptions options)
+        {
+            ContentType = options.ContentType.Content;
+            Referrer = options.Response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
+            DocumentUri = options.Response.Address.Href;
+            Cookie = options.Response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
+            ReadyState = DocumentReadyState.Loading;
+        }
+
         protected sealed override String LocateNamespace(String prefix)
         {
             return DocumentElement.LocateNamespace(prefix);
