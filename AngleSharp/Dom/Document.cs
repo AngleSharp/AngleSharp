@@ -459,6 +459,14 @@
         #region Properties
 
         /// <summary>
+        /// Gets the import ancestor, if any.
+        /// </summary>
+        public IDocument ImportAncestor
+        {
+            get { return null; }
+        }
+
+        /// <summary>
         /// Gets the context's event loop.
         /// </summary>
         public IEventLoop Loop
