@@ -4,7 +4,6 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
-    using AngleSharp.Parser.Html;
     using System;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
@@ -72,8 +71,9 @@
                 {
                     if (response != null)
                     {
-                        var parser = new HtmlParser(configuration);
-                        _import = await parser.ParseAsync(response.Content, cancel).ConfigureAwait(false);
+                        var context = new BrowsingContext(document.Context, Sandboxes.None);
+                        //TODO set import ancestor
+                        _import = await context.OpenAsync(response, cancel).ConfigureAwait(false);
                     }
                 }
             }
