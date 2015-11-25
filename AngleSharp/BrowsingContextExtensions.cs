@@ -47,21 +47,8 @@
             if (context == null)
                 context = BrowsingContext.New();
 
-            var contentType = response.GetContentType(MimeTypes.Html);
-            var encoding = context.Configuration.DefaultEncoding();
-            var charset = contentType.GetParameter(AttributeNames.Charset);
-
-            if (!String.IsNullOrEmpty(charset) && TextEncoding.IsSupported(charset))
-                encoding = TextEncoding.Resolve(charset);
-
-            var source = new TextSource(response.Content, encoding);
-            var options = new CreateDocumentOptions
-            {
-                ContentType = contentType,
-                Response = response,
-                Source = source
-            };
-            return context.LoadDocumentAsync(options, cancel);
+            var options = new CreateDocumentOptions(response, context.Configuration);
+            return context.OpenAsync(options, cancel);
         }
 
         /// <summary>
@@ -128,13 +115,8 @@
                 request(response);
                 var contentType = response.GetContentType(MimeTypes.Html);
                 var source = response.CreateSourceFor(context.Configuration);
-                var options = new CreateDocumentOptions
-                {
-                    ContentType = contentType,
-                    Response = response,
-                    Source = source
-                };
-                return context.LoadDocumentAsync(options, cancel);
+                var options = new CreateDocumentOptions(response, source);
+                return context.OpenAsync(options, cancel);
             }
         }
 
@@ -163,8 +145,8 @@
         }
 
         /// <summary>
-        /// Opens a new document loaded from the provided address
-        /// asynchronously in the given context.
+        /// Opens a new document loaded from the provided address asynchronously
+        /// in the given context.
         /// </summary>
         /// <param name="context">The browsing context to use.</param>
         /// <param name="address">The address to load.</param>
@@ -177,11 +159,15 @@
             return context.OpenAsync(Url.Create(address), CancellationToken.None);
         }
 
-        #endregion
-
-        #region Helpers
-
-        static async Task<IDocument> LoadDocumentAsync(this IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancel)
+        /// <summary>
+        /// Opens a new document created with the provided document options
+        /// asynchronously in the given context.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <param name="options">The creation options.</param>
+        /// <param name="cancel">The cancellation token.</param>
+        /// <returns>The task that creates the document.</returns>
+        internal static async Task<IDocument> OpenAsync(this IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancel)
         {
             var creator = options.FindCreator();
             var document = await creator(context, options, cancel).ConfigureAwait(false);

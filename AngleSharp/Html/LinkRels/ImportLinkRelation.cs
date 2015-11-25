@@ -72,7 +72,10 @@
                     if (response != null)
                     {
                         var context = new BrowsingContext(document.Context, Sandboxes.None);
-                        //TODO set import ancestor
+                        var options = new CreateDocumentOptions(response, configuration)
+                        {
+                            ImportAncestor = document
+                        };
                         _import = await context.OpenAsync(response, cancel).ConfigureAwait(false);
                     }
                 }
