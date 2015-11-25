@@ -16,9 +16,15 @@
     /// </summary>
     sealed class CreateDocumentOptions
     {
+        #region Fields
+
         readonly IResponse _response;
         readonly MimeType _contentType;
         readonly TextSource _source;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates new document creation options.
@@ -30,6 +36,12 @@
         {
         }
 
+        /// <summary>
+        /// Creates new document creation options. Selects the source from the
+        /// response by potentially using the encoding from the configuration.
+        /// </summary>
+        /// <param name="response">The response to hand over.</param>
+        /// <param name="configuration">The configuration to use.</param>
         public CreateDocumentOptions(IResponse response, IConfiguration configuration)
         {
             var contentType = response.GetContentType(MimeTypes.Html);
@@ -56,6 +68,10 @@
             _contentType = contentType;
             _source = source;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets or sets the response to handle.
@@ -84,7 +100,15 @@
         /// <summary>
         /// Gets or sets the import ancestor, if any.
         /// </summary>
-        public IDocument ImportAncestor { get; set; }
+        public IDocument ImportAncestor 
+        { 
+            get; 
+            set; 
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Tries to find the right creator, otherwise returns the HTML
@@ -104,5 +128,7 @@
 
             return HtmlDocument.LoadAsync;
         }
+
+        #endregion
     }
 }

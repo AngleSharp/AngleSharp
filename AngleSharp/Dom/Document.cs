@@ -58,6 +58,7 @@
         HtmlCollection<IHtmlEmbedElement> _plugins;
         HtmlElementCollection _commands;
         HtmlElementCollection _links;
+        IDocument _ancestor;
 
         #endregion
 
@@ -463,7 +464,8 @@
         /// </summary>
         public IDocument ImportAncestor
         {
-            get { return null; }
+            get { return _ancestor; }
+            private set { _ancestor = value; }
         }
 
         /// <summary>
@@ -1794,6 +1796,7 @@
             Referrer = options.Response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
             DocumentUri = options.Response.Address.Href;
             Cookie = options.Response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
+            ImportAncestor = options.ImportAncestor;
             ReadyState = DocumentReadyState.Loading;
         }
 
