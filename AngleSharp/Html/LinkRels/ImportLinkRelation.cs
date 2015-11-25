@@ -64,6 +64,7 @@
                 IsCycle = CheckCycle(document, location)
             };
             _isasync = link.HasAttribute(AttributeNames.Async);
+            list.Add(item);
             
             if (!item.IsCycle)
             {
@@ -76,12 +77,10 @@
                         {
                             ImportAncestor = document
                         };
-                        _import = await context.OpenAsync(response, cancel).ConfigureAwait(false);
+                        _import = await context.OpenAsync(options, cancel).ConfigureAwait(false);
                     }
                 }
             }
-
-            list.Add(item);
         }
 
         #endregion
@@ -100,7 +99,7 @@
                     return true;
                 }
 
-                ancestor = document.ImportAncestor;
+                ancestor = ancestor.ImportAncestor;
             }
 
             return false;
