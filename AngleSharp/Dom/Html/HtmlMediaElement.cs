@@ -418,15 +418,15 @@
             //see: https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-load
             this.CancelTasks();
 
-            if (source == null)
-                return;
-
-            _network = MediaNetworkState.Idle;
-            var url = new Url(source);
-            var request = this.CreateRequestFor(url);
-            _network = MediaNetworkState.Loading;
-            this.LoadResource<TResource>(request).
-                 ContinueWith(FinishLoading);
+            if (source != null)
+            {
+                _network = MediaNetworkState.Idle;
+                var url = new Url(source);
+                var request = this.CreateRequestFor(url);
+                _network = MediaNetworkState.Loading;
+                this.LoadResource<TResource>(request).
+                     ContinueWith(FinishLoading);
+            }
         }
 
         /// <summary>
