@@ -2,18 +2,27 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the base class for frame elements.
     /// </summary>
     abstract class HtmlFrameElementBase : HtmlFrameOwnerElement
     {
+        #region Fields
+
+        IBrowsingContext _context;
+
+        #endregion
+
         #region ctor
 
         public HtmlFrameElementBase(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, flags | NodeFlags.Special)
         {
+            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
         }
 
         #endregion
@@ -74,6 +83,51 @@
         {
             get { return this.GetOwnAttribute(AttributeNames.FrameBorder); }
             set { this.SetOwnAttribute(AttributeNames.FrameBorder, value); }
+        }
+
+        /// <summary>
+        /// Gets the nested context responsible for the content.
+        /// </summary>
+        protected IBrowsingContext NestedContext
+        {
+            get { return _context ?? (_context = Owner.NewChildContext(Sandboxes.None)); }
+        }
+
+        #endregion
+
+        #region Methods
+
+        protected virtual String GetContentHtml()
+        {
+            return null;
+        }
+
+        protected void UpdateSource(String _)
+        {
+            this.CancelTasks();
+            var content = GetContentHtml();
+            var src = Source;
+
+            if (content != null)
+            {
+                this.CreateTask(cancel => NestedContext.OpenAsync(m => m.Content(content).Address(Owner.DocumentUri), cancel))
+                    .ContinueWith(Finished);
+            }
+            else if (!String.IsNullOrEmpty(src) && !src.Is(BaseUri))
+            {
+                var url = this.HyperReference(src);
+                var request = DocumentRequest.Get(url, source: this, referer: Owner.DocumentUri);
+                this.CreateTask(cancel => NestedContext.OpenAsync(request, cancel))
+                    .ContinueWith(Finished);
+            }
+        }
+
+        protected void Finished(Task<IDocument> task)
+        {
+            if (!task.IsFaulted)
+                ContentDocument = task.Result;
+
+            this.FireLoadOrErrorEvent(task);
         }
 
         #endregion
