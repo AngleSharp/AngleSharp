@@ -31,7 +31,7 @@ The simple example will use the website of Wikipedia for data retrieval.
 // Setup the configuration to support document loading
 var config = Configuration.Default.WithDefaultLoader();
 // Load the names of all The Big Bang Theory episodes from Wikipedia
-var address = "http://en.wikipedia.org/wiki/List_of_The_Big_Bang_Theory_episodes";
+var address = "https://en.wikipedia.org/wiki/List_of_The_Big_Bang_Theory_episodes";
 // Asynchronously get the document in a new context using the configuration
 var document = await BrowsingContext.New(config).OpenAsync(address);
 // This CSS selector gets the desired content
@@ -68,11 +68,11 @@ Documentation
 
 Documentation is available in form of the public Wiki here at GitHub. 
 
-* [Wiki Home](https://github.com/FlorianRappl/AngleSharp/wiki)
-* [Documentation](https://github.com/FlorianRappl/AngleSharp/wiki/Documentation)
-* [API](https://github.com/FlorianRappl/AngleSharp/wiki/Api)
-* [Examples](https://github.com/FlorianRappl/AngleSharp/wiki/Examples)
-* [Performance](https://github.com/FlorianRappl/AngleSharp/wiki/Performance)
+* [Wiki Home](https://github.com/AngleSharp/AngleSharp/wiki)
+* [Documentation](https://github.com/AngleSharp/AngleSharp/wiki/Documentation)
+* [API](https://github.com/AngleSharp/AngleSharp/wiki/Api)
+* [Examples](https://github.com/AngleSharp/AngleSharp/wiki/Examples)
+* [Performance](https://github.com/AngleSharp/AngleSharp/wiki/Performance)
 
 The project's timeline, upcoming implementations, (currently) missing features and milestones is published and maintained in the Wiki as well. Issues should be reported on the GitHub's project page.
 
