@@ -467,14 +467,6 @@
         }
 
         /// <summary>
-        /// Gets the currently outstanding requests.
-        /// </summary>
-        public IEnumerable<Task> Requests
-        {
-            get { return _tasks; }
-        }
-
-        /// <summary>
         /// Gets or sets if the whole document is editable.
         /// </summary>
         public String DesignMode
@@ -1596,15 +1588,22 @@
             }
 
             this.QueueTask(RaiseDomContentLoaded);
+
+            //TODO Wait for all other stuff here !
+
             this.QueueTask(RaiseLoadedEvent);
 
             if (IsInBrowsingContext)
+            {
                 this.QueueTask(ShowPage);
+            }
 
             this.QueueTask(EmptyAppCache);
 
             if (IsToBePrinted)
+            {
                 Print();
+            }
         }
 
         /// <summary>
@@ -1625,7 +1624,9 @@
             }
 
             if (!_firedUnload)
+            {
                 window.FireSimpleEvent(EventNames.Unload);
+            }
 
             this.ReleaseStorageMutex();
 
