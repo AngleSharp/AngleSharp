@@ -3,7 +3,6 @@
     using AngleSharp.Attributes;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// MutationObserver provides developers a way to react to changes in a
@@ -83,7 +82,9 @@
             ClearTransients();
 
             if (records.Length != 0)
+            {
                 TriggerWith(records);
+            }
         }
 
         /// <summary>
