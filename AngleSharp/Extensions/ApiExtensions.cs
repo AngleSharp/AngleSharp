@@ -113,14 +113,12 @@
         /// <typeparam name="TElement">The event target type.</typeparam>
         /// <param name="document">The document that hosts the targets.</param>
         /// <returns>The awaitable task.</returns>
-        public static async Task WhenLoadFired<TElement>(this IDocument document)
+        public static Task WhenLoadFired<TElement>(this IDocument document)
             where TElement : IElement
         {
             var elements = document.QuerySelectorAll<TElement>("*");
             var tasks = elements.Select(m => m.AwaitEvent(EventNames.Load)).ToArray();
-
-            for (int i = 0; i < tasks.Length; i++)
-                await tasks[i].ConfigureAwait(false);
+            return TaskEx.WhenAll(tasks);
         }
 
         /// <summary>
