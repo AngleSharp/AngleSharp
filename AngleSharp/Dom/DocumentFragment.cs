@@ -92,7 +92,9 @@
                     var child = children[i] as IElement;
 
                     if (child != null)
+                    {
                         return child;
+                    }
                 }
 
                 return null;
@@ -113,7 +115,9 @@
                     var child = children[i] as IElement;
 
                     if (child != null)
+                    {
                         return child;
+                    }
                 }
 
                 return null;
@@ -127,7 +131,9 @@
                 var sb = Pool.NewStringBuilder();
 
                 foreach (var child in this.GetDescendants().OfType<IText>())
+                {
                     sb.Append(child.Data);
+                }
 
                 return sb.ToPool();
             }
