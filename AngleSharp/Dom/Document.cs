@@ -33,7 +33,6 @@
         readonly IResourceLoader _loader;
         readonly Location _location;
         readonly TextSource _source;
-        readonly CancellableTasks _tasks;
 
         QuirksMode _quirksMode;
         Sandboxes _sandbox;
@@ -442,7 +441,6 @@
             _ready = DocumentReadyState.Loading;
             _sandbox = Sandboxes.None;
             _quirksMode = QuirksMode.Off;
-            _tasks = new CancellableTasks();
             _loadingScripts = new Queue<HtmlScriptElement>();
             _location = new Location(AboutBlank);
             _ranges = new List<WeakReference<Range>>();
@@ -934,14 +932,6 @@
         #region Internal properties
 
         /// <summary>
-        /// Gets the document's outstanding tasks.
-        /// </summary>
-        internal CancellableTasks Tasks
-        {
-            get { return _tasks; }
-        }
-
-        /// <summary>
         /// Gets the document's associated ranges.
         /// </summary>
         internal IEnumerable<Range> Ranges
@@ -1052,7 +1042,6 @@
             //Important to fix #45
             ReplaceAll(null, true);
             _loop.Shutdown();
-            _tasks.Dispose();
             _loadingScripts.Clear();
             _source.Dispose();
         }
@@ -1555,7 +1544,8 @@
         /// </summary>
         internal IEnumerable<Task> GetScriptDownloads()
         {
-            return _tasks.OfOriginType<HtmlScriptElement>();
+            //return _tasks.OfOriginType<HtmlScriptElement>();
+            return Enumerable.Empty<Task>();
         }
 
         /// <summary>
@@ -1571,7 +1561,8 @@
         /// </summary>
         internal IEnumerable<Task> GetStyleSheetDownloads()
         {
-            return _tasks.OfOriginType<HtmlLinkElement>();
+            //return _tasks.OfOriginType<HtmlLinkElement>();
+            return Enumerable.Empty<Task>();
         }
 
         /// <summary>
