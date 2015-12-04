@@ -4,7 +4,6 @@
     using AngleSharp.Extensions;
     using AngleSharp.Services.Media;
     using System;
-    using System.Threading.Tasks;
 
     class ImageInputType : BaseInputType
     {
@@ -26,8 +25,8 @@
             {
                 var url = inp.HyperReference(src);
                 var request = inp.CreateRequestFor(url);
-                inp.LoadResource<IImageInfo>(request).
-                    ContinueWith(FinishLoading);
+                var download = inp.Owner.Loader.DownloadAsync(request);
+                var task = inp.ProcessResource<IImageInfo>(download, result => _img = result);
             }
         }
 
@@ -64,20 +63,6 @@
 
             if (!String.IsNullOrEmpty(value))
                 dataSet.Append(name, value, Input.Type);
-        }
-
-        #endregion
-
-        #region Helpers
-
-        void FinishLoading(Task<IImageInfo> m)
-        {
-            var inp = (HtmlInputElement)Input;
-
-            if (m.IsCompleted && !m.IsFaulted)
-                _img = m.Result;
-
-            inp.FireLoadOrErrorEvent(m);
         }
 
         #endregion

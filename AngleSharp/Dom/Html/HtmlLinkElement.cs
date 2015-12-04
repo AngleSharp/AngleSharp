@@ -18,6 +18,7 @@
         IStyleSheet _sheet;
         TokenList _relList;
         SettableTokenList _sizes;
+        IDownload _download;
 
         #endregion
 
@@ -31,7 +32,7 @@
         {
             RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
             RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);
-            RegisterAttributeObserver(AttributeNames.Href, value => UpdateSource(value));
+            RegisterAttributeObserver(AttributeNames.Href, UpdateSource);
         }
 
         #endregion
@@ -198,57 +199,57 @@
         void UpdateMedia(String value)
         {
             if (_sheet != null)
+            {
                 _sheet.Media.MediaText = value;
+            }
         }
 
         void UpdateDisabled(String value)
         {
             if (_sheet != null)
-                _sheet.IsDisabled = value != null;
-        }
-
-        void FinishLoading(Task<IResponse> task)
-        {
-            var type = Type ?? MimeTypes.Css;
-            var config = Owner.Options;
-            var engine = config.GetStyleEngine(type);
-
-            if (task.IsCompleted && !task.IsFaulted)
             {
-                using (var response = task.Result)
-                {
-                    if (engine != null && RelationList.Contains(Keywords.StyleSheet))
-                    {
-                        var options = new StyleOptions
-                        {
-                            Element = this,
-                            Title = Title,
-                            IsDisabled = IsDisabled,
-                            IsAlternate = RelationList.Contains(Keywords.Alternate),
-                            Configuration = config
-                        };
-
-                        if (response != null)
-                        {
-                            try { _sheet = engine.ParseStylesheet(response, options); }
-                            catch { /* Do not care here */ }
-                        }
-                    }
-                }
+                _sheet.IsDisabled = value != null;
             }
-
-            this.FireLoadOrErrorEvent(task);
         }
 
         void UpdateSource(String value)
         {
-            this.CancelTasks();
+            if (_download != null && !_download.IsCompleted)
+            {
+                _download.Cancel();
+            }
 
             if (!String.IsNullOrEmpty(value))
             {
-                var request = this.CreateRequestFor(Url);
-                this.CreateTask(cancel => Owner.Loader.FetchAsync(request, cancel)).
-                     ContinueWith(m => FinishLoading(m));
+                var loader = Owner.Loader;
+
+                if (loader != null)
+                {
+                    var request = this.CreateRequestFor(Url);
+                    var download = loader.DownloadAsync(request);
+                    var task = this.ProcessResponse(download, response =>
+                    {
+                        var type = Type ?? MimeTypes.Css;
+                        var config = Owner.Options;
+                        var engine = config.GetStyleEngine(type);
+
+                        if (engine != null && RelationList.Contains(Keywords.StyleSheet))
+                        {
+                            var options = new StyleOptions
+                            {
+                                Element = this,
+                                Title = Title,
+                                IsDisabled = IsDisabled,
+                                IsAlternate = RelationList.Contains(Keywords.Alternate),
+                                Configuration = config
+                            };
+
+                            try { _sheet = engine.ParseStylesheet(response, options); }
+                            catch { /* Do not care here */ }
+                        }
+                    });
+                    _download = download;
+                }
             }
         }
 

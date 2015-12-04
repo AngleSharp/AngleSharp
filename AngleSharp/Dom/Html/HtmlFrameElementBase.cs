@@ -4,6 +4,7 @@
     using AngleSharp.Html;
     using AngleSharp.Network;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -14,6 +15,7 @@
         #region Fields
 
         IBrowsingContext _context;
+        FrameElementRequest _download;
 
         #endregion
 
@@ -104,30 +106,72 @@
 
         protected void UpdateSource(String _)
         {
-            this.CancelTasks();
-            var content = GetContentHtml();
-            var src = Source;
-
-            if (content != null)
+            if (_download != null)
             {
-                this.CreateTask(cancel => NestedContext.OpenAsync(m => m.Content(content).Address(Owner.DocumentUri), cancel))
-                    .ContinueWith(Finished);
+                _download.Cancel();
             }
-            else if (!String.IsNullOrEmpty(src) && !src.Is(BaseUri))
+
+            var content = GetContentHtml();
+            var source = Source;
+
+            if (source != null && content != null)
             {
-                var url = this.HyperReference(src);
-                var request = DocumentRequest.Get(url, source: this, referer: Owner.DocumentUri);
-                this.CreateTask(cancel => NestedContext.OpenAsync(request, cancel))
-                    .ContinueWith(Finished);
+                var download = new FrameElementRequest(this, NestedContext, content, source);
+                var task = download.Perform(result => ContentDocument = result);
+                _download = download;
             }
         }
 
-        protected void Finished(Task<IDocument> task)
-        {
-            if (!task.IsFaulted)
-                ContentDocument = task.Result;
+        #endregion
 
-            this.FireLoadOrErrorEvent(task);
+        #region Request Wrapper
+
+        sealed class FrameElementRequest
+        {
+            readonly String _htmlContent;
+            readonly String _requestUrl;
+            readonly IBrowsingContext _context;
+            readonly HtmlFrameElementBase _element;
+            readonly CancellationTokenSource _cts;
+            IDownload _download;
+
+            public FrameElementRequest(HtmlFrameElementBase element, IBrowsingContext context, String htmlContent, String requestUrl)
+            {
+                _htmlContent = htmlContent;
+                _requestUrl = requestUrl;
+                _context = context;
+                _element = element;
+                _cts = new CancellationTokenSource();
+            }
+
+            public async Task Perform(Action<IDocument> callback)
+            {
+                var document = await GetDocumentAsync().ConfigureAwait(false);
+                callback(document);
+            }
+
+            public void Cancel()
+            {
+                _cts.Cancel();
+            }
+
+            async Task<IDocument> GetDocumentAsync()
+            {
+                var referer = _element.Owner.DocumentUri;
+
+                if (_htmlContent == null && !String.IsNullOrEmpty(_requestUrl) && !_requestUrl.Is(_element.BaseUri))
+                {
+                    var cancel = _cts.Token;
+                    var url = _element.HyperReference(_requestUrl);
+                    var request = DocumentRequest.Get(url, source: _element, referer: referer);
+                    _download = _context.Loader.DownloadAsync(request);
+                    cancel.Register(_download.Cancel);
+                    var response = await _download.Task.ConfigureAwait(false);
+                    return await _context.OpenAsync(response, cancel).ConfigureAwait(false);
+                }
+
+                return await _context.OpenAsync(m => m.Content(_htmlContent).Address(referer), _cts.Token).ConfigureAwait(false);
+            }
         }
 
         #endregion

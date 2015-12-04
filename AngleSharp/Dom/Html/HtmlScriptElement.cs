@@ -6,6 +6,7 @@
     using AngleSharp.Services.Scripting;
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents an HTML script element.
@@ -144,13 +145,15 @@
         
         internal void Run()
         {
-            if (_runScript == null)
-                return;
+            if (_runScript != null)
+            {
+                var cancelled = this.FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
 
-            var cancelled = this.FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
-
-            if (cancelled == false)
-                _runScript();
+                if (!cancelled)
+                {
+                    _runScript();
+                }
+            }
         }
 
         void RunFromResponse(IResponse response)
@@ -161,7 +164,6 @@
             catch { /* We omit failed 3rd party services */ }
 
             FireAfterScriptExecuteEvent();
-            FireLoadEvent();
         }
 
         void RunFromSource()
@@ -188,18 +190,28 @@
             var wasParserInserted = _parserInserted;
 
             if (_started)
+            {
                 return false;
+            }
             else if (wasParserInserted)
+            {
                 _forceAsync = !IsAsync;
+            }
 
             _parserInserted = false;
 
             if (String.IsNullOrEmpty(src) && String.IsNullOrEmpty(Text))
+            {
                 return false;
+            }
             else if (Engine == null)
+            {
                 return false;
-            else if (wasParserInserted) 
+            }
+            else if (wasParserInserted)
+            {
                 _forceAsync = false;
+            }
 
             _parserInserted = true;
             _started = true;
@@ -210,27 +222,36 @@
                 forAttr = forAttr.Trim();
 
                 if (eventAttr.EndsWith("()"))
+                {
                     eventAttr = eventAttr.Substring(0, eventAttr.Length - 2);
+                }
 
-                if (!forAttr.Equals(AttributeNames.Window, StringComparison.OrdinalIgnoreCase) || 
-                    !eventAttr.Equals("onload", StringComparison.OrdinalIgnoreCase))
+                var isWindow = forAttr.Equals(AttributeNames.Window, StringComparison.OrdinalIgnoreCase);
+                var isLoadEvent = eventAttr.Equals("onload", StringComparison.OrdinalIgnoreCase);
+
+                if (!isWindow || !isLoadEvent)
+                {
                     return false;
+                }
             }
 
             if (src != null)
             {
-                if (src == String.Empty)
-                    Owner.QueueTask(FireErrorEvent);
-                else
+                if (src.Length != 0)
+                {
                     return InvokeLoadingScript(this.HyperReference(src));
+                }
+                    
+                Owner.QueueTask(FireErrorEvent);
             }
-            else if (_parserInserted && Owner.GetStyleSheetDownloads().Any())
+            else 
             {
-                _runScript = RunFromSource;
-                return true;
-            }
-            else
-            {
+                if (_parserInserted && Owner.GetStyleSheetDownloads().Any())
+                {
+                    _runScript = RunFromSource;
+                    return true;
+                }
+
                 RunFromSource();
             }
 
@@ -248,26 +269,20 @@
                 fromParser = false;
             }
 
+            /*
             var request = this.CreateRequestFor(url);
             var setting = CrossOrigin.ToEnum(CorsSetting.None);
             var behavior = OriginBehavior.Taint;
-            this.CreateTask(async c =>
+            var task = this.CreateResourceTask(c => Owner.Loader.FetchWithCorsAsync(request, setting, behavior), response =>
             {
-                var response = await Owner.Loader.FetchWithCorsAsync(request, setting, behavior, c).ConfigureAwait(false);
-
-                if (response != null)
+                var completion = new TaskCompletionSource<Boolean>();
+                _runScript = () =>
                 {
-                    _runScript = () =>
-                    {
-                        RunFromResponse(response);
-                        response.Dispose();
-                    };
-                }
-                else
-                    FireErrorEvent();
-
-                return response;
-            });
+                    RunFromResponse(response);
+                    completion.SetResult(true);
+                };
+                return completion.Task;
+            });*/
 
             return fromParser;
         }
