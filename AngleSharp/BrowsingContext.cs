@@ -30,7 +30,7 @@
         {
             _configuration = configuration;
             _security = security;
-            _loader = this.CreateLoader();
+            _loader = this.CreateDocumentLoader();
             _history = this.CreateHistory();
         }
         

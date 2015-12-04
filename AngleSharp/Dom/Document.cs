@@ -449,7 +449,7 @@
             _location.Changed += LocationChanged;
             _styleSheets = this.CreateStyleSheets();
             _view = this.CreateWindow();
-            _loader = this.CreateLoader();
+            _loader = context.CreateResourceLoader();
             _loop = this.CreateLoop();
             _mutations = new MutationHost(_loop);
         }
