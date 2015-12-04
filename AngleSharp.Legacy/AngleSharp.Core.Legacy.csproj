@@ -1871,6 +1871,9 @@
     <Compile Include="..\AngleSharp\Extensions\RequesterExtensions.cs">
       <Link>Extensions\RequesterExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Extensions\ResponseExtensions.cs">
+      <Link>Extensions\ResponseExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Extensions\SelectorExtensions.cs">
       <Link>Extensions\SelectorExtensions.cs</Link>
     </Compile>
@@ -1915,9 +1918,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Factories\SvgElementFactory.cs">
       <Link>Factories\SvgElementFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Foundation\CancellableTasks.cs">
-      <Link>Foundation\CancellableTasks.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Factory.cs">
       <Link>Foundation\Factory.cs</Link>
