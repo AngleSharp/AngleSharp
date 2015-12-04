@@ -2627,11 +2627,17 @@
     <Compile Include="..\AngleSharp\IStyleFormatter.cs">
       <Link>IStyleFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\Default\BaseLoader.cs">
+      <Link>Network\Default\BaseLoader.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\Default\DataRequester.cs">
       <Link>Network\Default\DataRequester.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\Default\DocumentLoader.cs">
       <Link>Network\Default\DocumentLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\Default\Download.cs">
+      <Link>Network\Default\Download.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\Default\HttpRequester.cs">
       <Link>Network\Default\HttpRequester.cs</Link>
@@ -2656,6 +2662,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Network\IDocumentLoader.cs">
       <Link>Network\IDocumentLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\IDownload.cs">
+      <Link>Network\IDownload.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\ILoader.cs">
+      <Link>Network\ILoader.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\IRequest.cs">
       <Link>Network\IRequest.cs</Link>
