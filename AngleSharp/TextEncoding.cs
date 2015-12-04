@@ -423,22 +423,32 @@
                 for (int i = position; i < content.Length - 1; i++)
                 {
                     if (content[i].IsSpaceCharacter())
+                    {
                         position++;
+                    }
                     else
+                    {
                         break;
+                    }
                 }
 
                 if (content[position] != Symbols.Equality)
+                {
                     return Parse(content.Substring(position));
+                }
 
                 position++;
 
                 for (int i = position; i < content.Length; i++)
                 {
                     if (content[i].IsSpaceCharacter())
+                    {
                         position++;
+                    }
                     else
+                    {
                         break;
+                    }
                 }
 
                 if (position < content.Length)
@@ -449,7 +459,9 @@
                         var index = content.IndexOf(Symbols.DoubleQuote);
 
                         if (index != -1)
+                        {
                             encoding = content.Substring(0, index);
+                        }
                     }
                     else if (content[position] == Symbols.SingleQuote)
                     {
@@ -457,7 +469,9 @@
                         var index = content.IndexOf(Symbols.SingleQuote);
 
                         if (index != -1)
+                        {
                             encoding = content.Substring(0, index);
+                        }
                     }
                     else
                     {
@@ -466,12 +480,14 @@
 
                         for (int i = 0; i < content.Length; i++)
                         {
-                            if (content[i].IsSpaceCharacter())
+                            if (content[i].IsSpaceCharacter() || content[i] == Symbols.Semicolon)
+                            {
                                 break;
-                            else if (content[i] == ';')
-                                break;
+                            }
                             else
+                            {
                                 index++;
+                            }
                         }
 
                         encoding = content.Substring(0, index);
@@ -480,7 +496,9 @@
             }
 
             if (!IsSupported(encoding))
+            {
                 return null;
+            }
 
             return Resolve(encoding);
         }
@@ -510,7 +528,9 @@
             var encoding = default(Encoding);
 
             if (charset != null && encodings.TryGetValue(charset, out encoding))
+            {
                 return encoding;
+            }
 
             return Utf8;
         }
@@ -554,10 +574,12 @@
 
         static Boolean IsDot(Char c)
         {
-            for (int i = 0; i < PossibleDots.Length; i++)
+            for (var i = 0; i < PossibleDots.Length; i++)
             {
                 if (PossibleDots[i] == c)
+                {
                     return true;
+                }
             }
 
             return false;
@@ -565,18 +587,27 @@
 
         static Char EncodeDigit(Int32 d)
         {
-            // 26-35 map to ASCII 0-9
+            const Char NumberOffset = (Char)('0' - 26);
+            const Char LetterOffset = 'a';
+
             if (d > 25)
-                return (Char)(d - 26 + '0');
+            {
+                // 26-35 map to ASCII 0-9
+                return (Char)(d + NumberOffset);
+            }
 
             // 0-25 map to a-z or A-Z
-            return (Char)(d + 'a');
+            return (Char)(d + LetterOffset);
         }
 
         static Char EncodeBasic(Char bcp)
         {
+            const Char CaseDifference = (Char)('a' - 'A');
+
             if (Char.IsUpper(bcp))
-                bcp += (Char)('a' - 'A');
+            {
+                bcp += CaseDifference;
+            }
             
             return bcp;
         }
@@ -592,7 +623,9 @@
             delta += delta / numpoints;
 
             for (k = 0; delta > ((PunycodeBase - tmin) * tmax) / 2; k += PunycodeBase)
+            {
                 delta /= PunycodeBase - tmin;
+            }
 
             return (Int32)(k + (PunycodeBase - tmin + 1) * delta / (delta + Skew));
         }
@@ -607,7 +640,9 @@
 
             // 0 length strings aren't allowed
             if (unicode.Length == 0)
+            {
                 return unicode;
+            }
 
             var output = new StringBuilder(unicode.Length);
             var iNextDot = 0;
@@ -621,11 +656,15 @@
                 iNextDot = unicode.IndexOfAny(PossibleDots, iAfterLastDot);
 
                 if (iNextDot < 0)
+                {
                     iNextDot = unicode.Length;
+                }
 
                 // Only allowed to have empty . section at end (www.microsoft.com.)
                 if (iNextDot == iAfterLastDot)
+                {
                     break;
+                }
 
                 // We'll need an Ace prefix
                 output.Append(AcePrefix);
@@ -641,7 +680,9 @@
                         numProcessed++;
                     }
                     else if (Char.IsSurrogatePair(unicode, basicCount))
+                    {
                         basicCount++;
+                    }
                 }
 
                 var numBasicCodePoints = numProcessed;
@@ -654,14 +695,18 @@
                 {
                     // If it has some non-basic code points the input cannot start with xn--
                     if (unicode.Length - iAfterLastDot >= AcePrefix.Length && unicode.Substring(iAfterLastDot, AcePrefix.Length).Equals(AcePrefix, StringComparison.OrdinalIgnoreCase))
+                    {
                         break;
+                    }
 
                     // Need to do ACE encoding
                     var numSurrogatePairs = 0;
 
                     // Add a delimiter (-) if we had any basic code points (between basic and encoded pieces)
                     if (numBasicCodePoints > 0)
-                        output.Append('-');
+                    {
+                        output.Append(Symbols.Minus);
+                    }
 
                     // Initialize the state
                     var n = InitialNumber;
@@ -680,7 +725,9 @@
                             test = unicode.ConvertToUtf32(j);
 
                             if (test >= n && test < m)
+                            {
                                 m = test;
+                            }
                         }
 
                         // Increase delta enough to advance the decoder's 
@@ -697,19 +744,22 @@
                             // haven't been processed.
 
                             if (test < n)
+                            {
                                 delta++;
-
-                            if (test == n)
+                            }
+                            else if (test == n)
                             {
                                 // Represent delta as a generalized variable-length integer:
                                 int q, k;
 
                                 for (q = delta, k = PunycodeBase; ; k += PunycodeBase)
                                 {
-                                    int t = k <= bias ? tmin : k >= bias + tmax ? tmax : k - bias;
+                                    var t = k <= bias ? tmin : k >= bias + tmax ? tmax : k - bias;
 
                                     if (q < t)
+                                    {
                                         break;
+                                    }
 
                                     output.Append(EncodeDigit(t + (q - t) % (PunycodeBase - t)));
                                     q = (q - t) / (PunycodeBase - t);
@@ -735,11 +785,15 @@
 
                 // Make sure its not too big
                 if (output.Length - iOutputAfterLastDot > LabelLimit)
+                {
                     throw new ArgumentException();
+                }
 
                 // Done with this segment, add dot if necessary
                 if (iNextDot != unicode.Length)
+                {
                     output.Append(PossibleDots[0]);
+                }
 
                 iAfterLastDot = iNextDot + 1;
                 iOutputAfterLastDot = output.Length;
@@ -750,7 +804,9 @@
 
             // Throw if we're too long
             if (output.Length > maxlength)
+            {
                 output.Remove(maxlength, output.Length - maxlength);
+            }
 
             return output.ToString();
         }

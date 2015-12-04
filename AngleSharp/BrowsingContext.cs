@@ -54,7 +54,9 @@
         public static IBrowsingContext New(IConfiguration configuration = null)
         {
             if (configuration == null)
+            {
                 configuration = AngleSharp.Configuration.Default;
+            }
 
             return configuration.NewContext();
         }
@@ -67,7 +69,9 @@
         public void NavigateTo(IDocument document)
         {
             if (_history != null)
+            {
                 _history.PushState(document, document.Title, document.Url);
+            }
 
             _active = document;
         }
