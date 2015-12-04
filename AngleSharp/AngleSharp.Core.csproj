@@ -188,6 +188,7 @@
     <Compile Include="Events\RequestStartEvent.cs" />
     <Compile Include="Extensions\ContextExtensions.cs" />
     <Compile Include="Extensions\EventLoopExtensions.cs" />
+    <Compile Include="Extensions\ResponseExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Factories\InputTypeFactory.cs" />
     <Compile Include="Factories\MediaFeatureFactory.cs" />
@@ -196,7 +197,6 @@
     <Compile Include="Extensions\EventTargetExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
-    <Compile Include="Foundation\CancellableTasks.cs" />
     <Compile Include="Foundation\Punycode.cs" />
     <Compile Include="Foundation\TaskEx.cs" />
     <Compile Include="Foundation\TaskPriority.cs" />
