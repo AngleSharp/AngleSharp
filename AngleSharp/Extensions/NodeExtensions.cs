@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Html;
     using System;
     using System.Collections.Generic;
@@ -25,6 +26,44 @@
                 return node;
 
             return node.Parent.GetRoot();
+        }
+
+        /// <summary>
+        /// Creates a new node list or returns a static list for the given node.
+        /// </summary>
+        /// <param name="node">The node to host the list.</param>
+        /// <returns>The new or existing list.</returns>
+        public static NodeList CreateChildren(this INode node)
+        {
+            return node.IsEndPoint() ? NodeList.Empty : new NodeList();
+        }
+
+        /// <summary>
+        /// Checks if the provided node is an endpoint, i.e., does not host any
+        /// other node.
+        /// </summary>
+        /// <param name="node">The node that is checked.</param>
+        /// <returns>True if the node is an endpoint, otherwise false.</returns>
+        public static Boolean IsEndPoint(this INode node)
+        {
+            var type = node.NodeType;
+            return type != NodeType.Document &&
+                   type != NodeType.DocumentFragment &&
+                   type != NodeType.Element;
+        }
+
+        /// <summary>
+        /// Checks if the provided node can be inserted into some other node.
+        /// This excludes, e.g., documents from being inserted.
+        /// </summary>
+        /// <param name="node">The node that is checked.</param>
+        /// <returns>True if the node is insertable, otherwise false.</returns>
+        public static Boolean IsInsertable(this INode node)
+        {
+            var type = node.NodeType;
+            return type == NodeType.Element || type == NodeType.Comment ||
+                   type == NodeType.Text || type == NodeType.ProcessingInstruction ||
+                   type == NodeType.DocumentFragment || type == NodeType.DocumentType;
         }
         
         /// <summary>
