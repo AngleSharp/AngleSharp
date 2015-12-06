@@ -562,10 +562,5 @@
         /// Gets the browsing context to use.
         /// </summary>
         IBrowsingContext Context { get; }
-
-        /// <summary>
-        /// Gets the currently outstanding requests.
-        /// </summary>
-        IEnumerable<Task> Requests { get; }
     }
 }

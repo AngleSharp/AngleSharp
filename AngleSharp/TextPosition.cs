@@ -91,12 +91,11 @@
 
             if (chr == Symbols.LineFeed)
             {
-                line++;
+                ++line;
                 column = 0;
             }
 
-            column++;
-            return new TextPosition(line, column, _position + 1);
+            return new TextPosition(line, ++column, _position + 1);
         }
 
         /// <summary>
@@ -113,11 +112,11 @@
             {
                 if (chr == Symbols.LineFeed)
                 {
-                    line++;
+                    ++line;
                     column = 0;
                 }
 
-                column++;
+                ++column;
             }
 
             return new TextPosition(line, column, _position + str.Length);
@@ -177,7 +176,9 @@
         /// </returns>
         public Boolean Equals(TextPosition other)
         {
-            return this._position == other._position && this._column == other._column && this._line == other._line;
+            return this._position == other._position && 
+                   this._column == other._column && 
+                   this._line == other._line;
         }
 
         /// <summary>

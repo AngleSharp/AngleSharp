@@ -28,14 +28,18 @@
             where TElement : IElement
         {
             if (document == null)
+            {
                 throw new ArgumentNullException("document");
+            }
 
             var type = typeof(ApiExtensions).GetAssembly().GetTypes()
                 .Where(m => m.Implements<TElement>())
                 .FirstOrDefault(m => !m.IsAbstractClass());
 
             if (type == null)
+            {
                 return default(TElement);
+            }
 
             var ctors = type.GetConstructors();
 
@@ -73,12 +77,16 @@
         static IDocumentFragment CreateFromHtml(this IDocument document, String html)
         {
             if (document == null)
+            {
                 throw new ArgumentNullException("document");
+            }
 
             var body = document.Body as Element;
 
             if (body == null)
+            {
                 throw new ArgumentException("The provided document does not have a valid body element.");
+            }
 
             return new DocumentFragment(body, html ?? String.Empty);
         }
@@ -94,16 +102,27 @@
             where TEventTarget : IEventTarget
         {
             if (node == null)
+            {
                 throw new ArgumentNullException("node");
-            else if (eventName == null)
+            }
+
+            if (eventName == null)
+            {
                 throw new ArgumentNullException("eventName");
+            }
 
             var completion = new TaskCompletionSource<Event>();
             DomEventHandler handler = (s, ev) => completion.TrySetResult(ev);
             node.AddEventListener(eventName, handler);
 
-            try { return await completion.Task.ConfigureAwait(false); }
-            finally { node.RemoveEventListener(eventName, handler); }
+            try 
+            { 
+                return await completion.Task.ConfigureAwait(false); 
+            }
+            finally 
+            { 
+                node.RemoveEventListener(eventName, handler); 
+            }
         }
 
         /// <summary>
@@ -113,14 +132,12 @@
         /// <typeparam name="TElement">The event target type.</typeparam>
         /// <param name="document">The document that hosts the targets.</param>
         /// <returns>The awaitable task.</returns>
-        public static async Task WhenLoadFired<TElement>(this IDocument document)
+        public static Task WhenLoadFired<TElement>(this IDocument document)
             where TElement : IElement
         {
             var elements = document.QuerySelectorAll<TElement>("*");
             var tasks = elements.Select(m => m.AwaitEvent(EventNames.Load)).ToArray();
-
-            for (int i = 0; i < tasks.Length; i++)
-                await tasks[i].ConfigureAwait(false);
+            return TaskEx.WhenAll(tasks);
         }
 
         /// <summary>
@@ -134,7 +151,9 @@
             where TElement : class, IElement
         {
             if (parent == null)
+            {
                 throw new ArgumentNullException("parent");
+            }
 
             return parent.AppendChild(element) as TElement;
         }
@@ -153,7 +172,9 @@
             where TElement : class, IElement
         {
             if (parent == null)
+            {
                 throw new ArgumentNullException("parent");
+            }
 
             return parent.InsertBefore(newElement, referenceElement) as TElement;
         }
@@ -170,7 +191,9 @@
             where TElement : class, IElement
         {
             if (parent == null)
+            {
                 throw new ArgumentNullException("parent");
+            }
 
             return parent.RemoveChild(element) as TElement;
         }
@@ -187,9 +210,14 @@
             where TElement : class, IElement
         {
             if (parent == null)
+            {
                 throw new ArgumentNullException("parent");
-            else if (selectors == null)
+            }
+
+            if (selectors == null)
+            {
                 throw new ArgumentNullException("selectors");
+            }
 
             return parent.QuerySelector(selectors) as TElement;
         }
@@ -206,9 +234,14 @@
             where TElement : IElement
         {
             if (parent == null)
+            {
                 throw new ArgumentNullException("parent");
-            else if (selectors == null)
+            }
+
+            if (selectors == null)
+            {
                 throw new ArgumentNullException("selectors");
+            }
 
             return parent.QuerySelectorAll(selectors).OfType<TElement>();
         }
@@ -232,7 +265,9 @@
         public static IEnumerable<INode> Descendents(this INode parent)
         {
             if (parent == null)
+            {
                 throw new ArgumentNullException("parent");
+            }
 
             return parent.GetDescendants();
         }
@@ -256,7 +291,9 @@
         public static IEnumerable<INode> Ancestors(this INode child)
         {
             if (child == null)
+            {
                 throw new ArgumentNullException("child");
+            }
 
             return child.GetAncestors();
         }
@@ -289,7 +326,9 @@
             where TElement : IUrlUtilities, IElement
         {
             if (element == null)
+            {
                 throw new ArgumentNullException("element");
+            }
 
             var address = element.Href;
             var url = Url.Create(address);
@@ -318,10 +357,14 @@
         public static Task<IDocument> Submit(this IHtmlFormElement form, IDictionary<String, String> fields)
         {
             if (form == null)
+            {
                 throw new ArgumentNullException("form");
+            }
 
             if (fields == null)
+            {
                 throw new ArgumentNullException("fields");
+            }
 
             var elements = form.Elements;
 
@@ -330,7 +373,9 @@
                 var value = default(String);
 
                 if (fields.TryGetValue(element.Name ?? String.Empty, out value))
+                {
                     element.Value = value;
+                }
             }
 
             return form.Submit();
@@ -353,13 +398,19 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             if (attributeName == null)
+            {
                 throw new ArgumentNullException("attributeName");
+            }
 
             foreach (var element in elements)
+            {
                 element.SetAttribute(attributeName, attributeValue);
+            }
 
             return elements;
         }
@@ -378,15 +429,21 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             if (attributes == null)
+            {
                 throw new ArgumentNullException("attributes");
+            }
 
             foreach (var element in elements)
             {
                 foreach (var attribute in attributes)
+                {
                     element.SetAttribute(attribute.Key, attribute.Value);
+                }
             }
 
             return elements;
@@ -862,7 +919,9 @@
             where T : INode
         {
             if (element == null)
+            {
                 throw new ArgumentNullException("element");
+            }
 
             return element.TextContent;
         }
@@ -878,10 +937,14 @@
             where T : IEnumerable<INode>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             foreach (var element in elements)
+            {
                 element.TextContent = text;
+            }
 
             return elements;
         }
@@ -897,16 +960,20 @@
             where T : INode
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             if (item != null)
             {
-                int i = 0;
+                var i = 0;
 
                 foreach (var element in elements)
                 {
                     if (Object.ReferenceEquals(element, item))
+                    {
                         return i;
+                    }
 
                     i++;
                 }
@@ -927,7 +994,9 @@
         static IElement GetInnerMostElement(this IDocumentFragment fragment)
         {
             if (fragment.ChildElementCount != 1)
+            {
                 throw new InvalidOperationException("The provided HTML code did not result in any element.");
+            }
 
             var element = default(IElement);
             var child = fragment.FirstElementChild;

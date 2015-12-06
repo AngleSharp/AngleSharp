@@ -108,7 +108,9 @@
             do
             {
                 if (source.Length - source.Index < 1024)
+                {
                     await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
+                }
 
                 token = _tokenizer.Get();
                 Consume(token);
@@ -160,27 +162,41 @@
         public HtmlDocument ParseFragment(HtmlParserOptions options, Element context)
         {
             if (context == null)
+            {
                 throw new ArgumentNullException("context");
+            }
 
             var tagName = context.LocalName;
 
             if (tagName.IsOneOf(Tags.Title, Tags.Textarea))
+            {
                 _tokenizer.State = HtmlParseMode.RCData;
+            }
             else if (tagName.IsOneOf(Tags.Style, Tags.Xmp, Tags.Iframe, Tags.NoEmbed, Tags.NoFrames))
+            {
                 _tokenizer.State = HtmlParseMode.Rawtext;
+            }
             else if (tagName.Is(Tags.Script))
+            {
                 _tokenizer.State = HtmlParseMode.Script;
+            }
             else if (tagName.Is(Tags.Plaintext))
+            {
                 _tokenizer.State = HtmlParseMode.Plaintext;
+            }
             else if (tagName.Is(Tags.NoScript) && options.IsScripting)
+            {
                 _tokenizer.State = HtmlParseMode.Rawtext;
+            }
 
             var root = new HtmlHtmlElement(_document);
             _document.AddNode(root);
             _openElements.Add(root);
 
             if (context is HtmlTemplateElement)
+            {
                 _templateModes.Push(HtmlTreeMode.InTemplate);
+            }
 
             Reset(context);
 

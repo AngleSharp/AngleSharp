@@ -105,7 +105,9 @@
             set 
             {
                 if (_confidence != EncodingConfidence.Tentative)
+                {
                     return;
+                }
 
                 if (_encoding.IsUnicode())
                 {
@@ -114,7 +116,9 @@
                 }
 
                 if (value.IsUnicode())
+                {
                     value = TextEncoding.Utf8;
+                }
 
                 if (value == _encoding)
                 {
@@ -186,7 +190,9 @@
         public Char ReadCharacter()
         {
             if (_index < _content.Length)
+            {
                 return _content[_index++];
+            }
 
             ExpandBuffer(BufferSize);
             var index = _index++;
@@ -224,12 +230,14 @@
         /// <returns>The task resulting in the next character.</returns>
         public async Task<Char> ReadCharacterAsync(CancellationToken cancellationToken)
         {
-            if (_index < _content.Length)
-                return _content[_index++];
+            if (_index >= _content.Length)
+            {
+                await ExpandBufferAsync(BufferSize, cancellationToken).ConfigureAwait(false);
+                var index = _index++;
+                return index < _content.Length ? _content[index] : Symbols.EndOfFile;
+            }
 
-            await ExpandBufferAsync(BufferSize, cancellationToken).ConfigureAwait(false);
-            var index = _index++;
-            return index < _content.Length ? _content[index] : Symbols.EndOfFile;
+            return _content[_index++];
         }
 
         /// <summary>
@@ -275,10 +283,14 @@
         public async Task PrefetchAll(CancellationToken cancellationToken)
         {
             if (_content.Length == 0)
+            {
                 await DetectByteOrderMarkAsync(cancellationToken).ConfigureAwait(false);
+            }
 
             while (!_finished)
+            {
                 await ReadIntoBufferAsync(cancellationToken).ConfigureAwait(false);
+            }
         }
 
         /// <summary>
@@ -289,9 +301,13 @@
         public void InsertText(String content)
         {
             if (_index < _content.Length)
+            {
                 _content.Insert(_index, content);
+            }
             else
+            {
                 _content.Append(content);
+            }
         }
 
         #endregion
@@ -348,10 +364,14 @@
         async Task ExpandBufferAsync(Int64 size, CancellationToken cancellationToken)
         {
             if (!_finished && _content.Length == 0)
+            {
                 await DetectByteOrderMarkAsync(cancellationToken).ConfigureAwait(false);
+            }
 
             while (size + _index > _content.Length && !_finished)
+            {
                 await ReadIntoBufferAsync(cancellationToken).ConfigureAwait(false);
+            }
         }
 
         async Task ReadIntoBufferAsync(CancellationToken cancellationToken)
@@ -363,10 +383,14 @@
         void ExpandBuffer(Int64 size)
         {
             if (!_finished && _content.Length == 0)
+            {
                 DetectByteOrderMarkAsync(CancellationToken.None).Wait();
+            }
 
             while (size + _index > _content.Length && !_finished)
+            {
                 ReadIntoBuffer();
+            }
         }
 
         void ReadIntoBuffer()
@@ -381,7 +405,9 @@
             var charLength = _decoder.GetChars(_buffer, 0, size, _chars, 0);
 
             if (_confidence != EncodingConfidence.Certain)
+            {
                 _raw.Write(_buffer, 0, size);
+            }
 
             _content.Append(_chars, 0, charLength);
         }

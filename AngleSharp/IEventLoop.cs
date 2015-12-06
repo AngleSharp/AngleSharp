@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp
 {
     using System;
-    using System.Threading.Tasks;
+    using System.Threading;
 
     /// <summary>
-    /// Represents the DOM event loop.
+    /// Represents the DOM event loop processing stages and steps of algorithms.
     /// See 7.1.4.2 Processing model.
     /// </summary>
     public interface IEventLoop
@@ -12,20 +12,18 @@
         /// <summary>
         /// Enqueues a given task with the associated document.
         /// </summary>
-        /// <param name="task">The task to enqueue.</param>
-        /// <returns>An awaitable task.</returns>
-        Task Enqueue(Action task);
+        /// <param name="action">The continuation action to enqueue.</param>
+        /// <param name="priority">The priority to use.</param>
+        /// <returns>The created loop entry.</returns>
+        IEventLoopEntry Enqueue(Action<CancellationToken> action, TaskPriority priority);
 
         /// <summary>
-        /// Executes the compound subtask by invoking the series of
-        /// steps from a microtask source.
+        /// Spins the event loop.
         /// </summary>
-        /// <param name="microtask">The steps to run.</param>
-        /// <returns>An awaitable task.</returns>
-        Task Execute(Action microtask);
+        void Spin();
 
         /// <summary>
-        /// Potentially closes the IEventLoop.
+        /// Closes the IEventLoop by cancelling all running tasks.
         /// </summary>
         void Shutdown();
     }

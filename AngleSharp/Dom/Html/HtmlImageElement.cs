@@ -2,6 +2,7 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using AngleSharp.Services.Media;
     using System;
     using System.Threading.Tasks;
@@ -14,6 +15,7 @@
         #region Fields
 
         IImageInfo _img;
+        IDownload _download;
 
         #endregion
 
@@ -162,26 +164,31 @@
         void GetImage(Url source)
         {
             if (source.IsInvalid)
+            {
                 source = null;
+            }
             else if (_img != null && source.Equals(_img.Source))
+            {
                 return;
+            }
 
-            this.CancelTasks();
+            if (_download != null && !_download.IsCompleted)
+            {
+                _download.Cancel();
+            }
 
-            if (source == null)
-                return;
+            if (source != null)
+            {
+                var loader = Owner.Loader;
 
-            var request = this.CreateRequestFor(source);
-            this.LoadResource<IImageInfo>(request).
-                 ContinueWith(FinishLoading);
-        }
-
-        void FinishLoading(Task<IImageInfo> task)
-        {
-            if (task.IsCompleted && !task.IsFaulted)
-                _img = task.Result;
-
-            this.FireLoadOrErrorEvent(task);
+                if (loader != null)
+                {
+                    var request = this.CreateRequestFor(source);
+                    var download = Owner.Loader.DownloadAsync(request);
+                    this.ProcessResource<IImageInfo>(_download, result => _img = result);
+                    _download = download;
+                }
+            }
         }
 
         void UpdateSource(String value)

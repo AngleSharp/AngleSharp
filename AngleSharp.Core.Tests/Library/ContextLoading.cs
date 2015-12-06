@@ -158,7 +158,6 @@
             var address = "http://www.amazon.com";
             var config = new Configuration().WithPageRequester().WithCss();
             var document = await BrowsingContext.New(config).OpenAsync(address);
-            await Task.WhenAll(document.Requests);
             Assert.IsNotNull(document);
             Assert.AreNotEqual(0, document.Body.ChildElementCount);
         }
@@ -170,9 +169,8 @@
             var config = new Configuration().WithDefaultLoader(m => m.IsResourceLoadingEnabled = true, new[] { delayRequester });
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
-            Assert.AreEqual(1, document.Requests.Count());
-            await Task.WhenAll(document.Requests);
-            Assert.AreEqual(0, document.Requests.Count());
+            var img = document.QuerySelector<IHtmlImageElement>("img");
+            Assert.IsTrue(img.IsCompleted);
         }
 
         [Test]
@@ -182,7 +180,8 @@
             var config = new Configuration().WithDefaultLoader(requesters: new[] { delayRequester });
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
-            Assert.AreEqual(0, document.Requests.Count());
+            var img = document.QuerySelector<IHtmlImageElement>("img");
+            Assert.IsFalse(img.IsCompleted);
         }
 
         [Test]
@@ -215,8 +214,6 @@
 
             var config = new Configuration().WithPageRequester(enableResourceLoading: true).WithCss();
             var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(html));
-            Assert.AreEqual(0, document.StyleSheets.Length);
-            await document.WhenLoadFired<IHtmlLinkElement>();
             Assert.AreEqual(1, document.StyleSheets.Length);
         }
 

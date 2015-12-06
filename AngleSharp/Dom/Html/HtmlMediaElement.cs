@@ -3,6 +3,7 @@
     using AngleSharp.Dom.Media;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using AngleSharp.Services.Media;
     using System;
     using System.Threading.Tasks;
@@ -19,6 +20,7 @@
         protected TResource _media;
 
         ITextTrackList _texts;
+        IDownload _download;
 
         #endregion
 
@@ -416,16 +418,34 @@
             var source = CurrentSource;
             //TODO More complex check if something is already loading (what is loading, cancel?, ...)
             //see: https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-load
-            this.CancelTasks();
+
+            if (_download != null && !_download.IsCompleted)
+            {
+                _download.Cancel();
+            }
+
+            _network = MediaNetworkState.Idle;
 
             if (source != null)
             {
-                _network = MediaNetworkState.Idle;
-                var url = new Url(source);
-                var request = this.CreateRequestFor(url);
-                _network = MediaNetworkState.Loading;
-                this.LoadResource<TResource>(request).
-                     ContinueWith(FinishLoading);
+                var loader = Owner.Loader;
+
+                if (loader != null)
+                {
+                    var url = new Url(source);
+                    var request = this.CreateRequestFor(url);
+                    _network = MediaNetworkState.Loading;
+                    _download = loader.DownloadAsync(request);
+                    this.ProcessResource<TResource>(_download, result =>
+                    {
+                        _media = result;
+
+                        if (_media == null)
+                        {
+                            _network = MediaNetworkState.NoSource;
+                        }
+                    });
+                }
             }
         }
 
@@ -462,23 +482,6 @@
         {
             //TODO
             return null;
-        }
-
-        #endregion
-
-        #region Helpers
-
-        void FinishLoading(Task<TResource> task)
-        {
-            _media = default(TResource);
-
-            if (task.IsCompleted && !task.IsFaulted)
-                _media = task.Result;
-
-            if (_media == null)
-                _network = MediaNetworkState.NoSource;
-
-            this.FireLoadOrErrorEvent(task);
         }
 
         #endregion

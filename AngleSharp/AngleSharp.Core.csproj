@@ -187,6 +187,8 @@
     <Compile Include="Events\ISubscriber.cs" />
     <Compile Include="Events\RequestStartEvent.cs" />
     <Compile Include="Extensions\ContextExtensions.cs" />
+    <Compile Include="Extensions\EventLoopExtensions.cs" />
+    <Compile Include="Extensions\ResponseExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Factories\InputTypeFactory.cs" />
     <Compile Include="Factories\MediaFeatureFactory.cs" />
@@ -195,8 +197,9 @@
     <Compile Include="Extensions\EventTargetExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
-    <Compile Include="Foundation\CancellableTasks.cs" />
+    <Compile Include="Foundation\Punycode.cs" />
     <Compile Include="Foundation\TaskEx.cs" />
+    <Compile Include="Foundation\TaskPriority.cs" />
     <Compile Include="Html\FileDataSetEntry.cs" />
     <Compile Include="Html\FormDataSetEntry.cs" />
     <Compile Include="Html\IFormDataSetVisitor.cs" />
@@ -215,6 +218,7 @@
     <Compile Include="Html\Submitters\UrlEncodedFormDataSetVisitor.cs" />
     <Compile Include="Html\TextDataSetEntry.cs" />
     <Compile Include="IBindable.cs" />
+    <Compile Include="IEventLoopEntry.cs" />
     <Compile Include="Interfaces\Html\IHtmlSlotElement.cs" />
     <Compile Include="Interfaces\Css\IMediaQueryList.cs" />
     <Compile Include="IEventLoop.cs" />
@@ -222,7 +226,11 @@
     <Compile Include="Interfaces\IShadowRoot.cs" />
     <Compile Include="IStyleFormattable.cs" />
     <Compile Include="IStyleFormatter.cs" />
+    <Compile Include="Network\Default\BaseLoader.cs" />
     <Compile Include="Network\Default\DataRequester.cs" />
+    <Compile Include="Network\Default\Download.cs" />
+    <Compile Include="Network\IDownload.cs" />
+    <Compile Include="Network\ILoader.cs" />
     <Compile Include="Network\MimeType.cs" />
     <Compile Include="Parser\Css\CssBuilder.cs" />
     <Compile Include="Parser\Css\CssParserOptions.cs" />
