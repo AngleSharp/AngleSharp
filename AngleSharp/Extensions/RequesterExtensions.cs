@@ -66,9 +66,6 @@
         /// <param name="behavior">
         /// The default behavior in case it is undefined.
         /// </param>
-        /// <param name="cancel">
-        /// The token which can be used to cancel the request.
-        /// </param>
         /// <returns>
         /// The task which will eventually return the stream.
         /// </returns>
