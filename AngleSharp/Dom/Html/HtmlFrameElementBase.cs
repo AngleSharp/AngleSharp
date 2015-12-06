@@ -157,14 +157,16 @@
 
             async Task<IDocument> GetDocumentAsync()
             {
-                var referer = _element.Owner.DocumentUri;
+                var document = _element.Owner;
+                var referer = document.DocumentUri;
+                var loader = document.Loader;
 
-                if (_htmlContent == null && !String.IsNullOrEmpty(_requestUrl) && !_requestUrl.Is(_element.BaseUri))
+                if (_htmlContent == null && !String.IsNullOrEmpty(_requestUrl) && !_requestUrl.Is(_element.BaseUri) && loader != null)
                 {
                     var cancel = _cts.Token;
                     var url = _element.HyperReference(_requestUrl);
-                    var request = DocumentRequest.Get(url, source: _element, referer: referer);
-                    _download = _context.Loader.DownloadAsync(request);
+                    var request = _element.CreateRequestFor(url);
+                    _download = loader.DownloadAsync(request);
                     cancel.Register(_download.Cancel);
                     var response = await _download.Task.ConfigureAwait(false);
                     return await _context.OpenAsync(response, cancel).ConfigureAwait(false);
