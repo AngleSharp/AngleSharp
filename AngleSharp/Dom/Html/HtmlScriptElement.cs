@@ -6,7 +6,6 @@
     using AngleSharp.Services.Scripting;
     using System;
     using System.Linq;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents an HTML script element.
@@ -17,7 +16,6 @@
         #region Fields
 
         Boolean _started;
-        Boolean _parserInserted;
         Boolean _forceAsync;
         Action _runScript;
 
@@ -32,7 +30,6 @@
             : base(owner, Tags.Script, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
             _forceAsync = false;
-            _parserInserted = false;
             _started = false;
         }
 
@@ -137,10 +134,9 @@
 
         #region Internal Methods
 
-        internal void SetStarted(Boolean fragmentCase)
+        internal void SetStarted()
         {
-            _parserInserted = true;
-            _started = fragmentCase;
+            _started = true;
         }
         
         internal void Run()
@@ -187,7 +183,7 @@
             var eventAttr = this.GetOwnAttribute(AttributeNames.Event);
             var forAttr = this.GetOwnAttribute(AttributeNames.For);
             var src = Source;
-            var wasParserInserted = _parserInserted;
+            var wasParserInserted = IsParserInserted;
 
             if (_started)
             {
@@ -197,8 +193,6 @@
             {
                 _forceAsync = !IsAsync;
             }
-
-            _parserInserted = false;
 
             if (String.IsNullOrEmpty(src) && String.IsNullOrEmpty(Text))
             {
@@ -213,7 +207,6 @@
                 _forceAsync = false;
             }
 
-            _parserInserted = true;
             _started = true;
 
             if (!String.IsNullOrEmpty(eventAttr) && !String.IsNullOrEmpty(forAttr))
@@ -246,7 +239,7 @@
             }
             else 
             {
-                if (_parserInserted && Owner.GetStyleSheetDownloads().Any())
+                if (IsParserInserted && Owner.GetStyleSheetDownloads().Any())
                 {
                     _runScript = RunFromSource;
                     return true;
@@ -263,7 +256,7 @@
             var fromParser = true;
 
             //Just add to the (end of) set of scripts
-            if ((_parserInserted && IsDeferred && !IsAsync) || !_parserInserted || IsAsync)
+            if ((IsDeferred && !IsAsync) || IsAsync)
             {
                 Owner.AddScript(this);
                 fromParser = false;

@@ -653,8 +653,14 @@
                     else if (tagName.Is(Tags.Script))
                     {
                         var script = new HtmlScriptElement(_document);
+                        script.SetParserInserted();
                         AddElement(script, token.AsTag());
-                        script.SetStarted(IsFragmentCase);
+
+                        if (IsFragmentCase)
+                        {
+                            script.SetStarted();
+                        }
+
                         _tokenizer.State = HtmlParseMode.Script;
                         _previousMode = _currentMode;
                         _currentMode = HtmlTreeMode.Text;
@@ -3449,7 +3455,9 @@
                 _currentMode = _previousMode;
 
                 if (script.Prepare())
+                {
                     _waiting = RunScript(script);
+                }
             }
         }
 
@@ -3492,7 +3500,9 @@
             for (int i = 0; i < _openElements.Count; i++)
             {
                 if (_openElements[i].LocalName.Is(tagName))
+                {
                     return true;
+                }
             }
 
             return false;
@@ -3506,7 +3516,9 @@
             var temp = _tokenizer.Get();
 
             if (temp.Type == HtmlTokenType.Character)
+            {
                 temp.RemoveNewLine();
+            }
 
             Home(temp);
         }
@@ -3517,10 +3529,14 @@
         void End()
         {
             while (_openElements.Count != 0)
+            {
                 CloseCurrentNode();
+            }
 
             if (_document.ReadyState == DocumentReadyState.Loading)
+            {
                 _waiting = _document.FinishLoading();
+            }
         }
 
         #endregion

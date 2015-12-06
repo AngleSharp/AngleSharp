@@ -8,7 +8,6 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Globalization;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -60,7 +59,9 @@
             get
             {
                 if (_openElements.Count > 0)
+                {
                     return _openElements[_openElements.Count - 1];
+                }
                 
                 return _document;
             }
@@ -84,7 +85,9 @@
             do
             {
                 if (source.Length - source.Index < 1024)
+                {
                     await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
+                }
 
                 token = _tokenizer.Get();
                 Consume(token);
@@ -150,14 +153,18 @@
         {
             if (token.Type == XmlTokenType.Declaration)
             {
-                var tok = (XmlDeclarationToken)token;
-                _standalone = tok.Standalone;
+                var declarationToken = (XmlDeclarationToken)token;
+                _standalone = declarationToken.Standalone;
 
-                if (!tok.IsEncodingMissing)
-                    SetEncoding(tok.Encoding);
+                if (!declarationToken.IsEncodingMissing)
+                {
+                    SetEncoding(declarationToken.Encoding);
+                }
 
-                if (!CheckVersion(tok.Version) && _options.IsSuppressingErrors == false)
+                if (!CheckVersion(declarationToken.Version) && !_options.IsSuppressingErrors)
+                {
                     throw XmlParseError.XmlDeclarationVersionUnsupported.At(token.Position);
+                }
             }
             else
             {
@@ -177,12 +184,13 @@
             {
                 case XmlTokenType.Doctype:
                 {
-                    var tok = (XmlDoctypeToken)token;
-                    _document.AppendChild(new DocumentType(_document, tok.Name)
+                    var doctypeToken = (XmlDoctypeToken)token;
+                    var doctypeNode = new DocumentType(_document, doctypeToken.Name)
                     {
-                        SystemIdentifier = tok.SystemIdentifier,
-                        PublicIdentifier = tok.PublicIdentifier
-                    });
+                        SystemIdentifier = doctypeToken.SystemIdentifier,
+                        PublicIdentifier = doctypeToken.PublicIdentifier
+                    };
+                    _document.AppendChild(doctypeNode);
                     _currentMode = XmlTreeMode.Misc;
 
                     break;
@@ -205,16 +213,16 @@
             {
                 case XmlTokenType.Comment:
                 {
-                    var tok = (XmlCommentToken)token;
-                    var com = _document.CreateComment(tok.Data);
-                    CurrentNode.AppendChild(com);
+                    var commenToken = (XmlCommentToken)token;
+                    var commentNode = _document.CreateComment(commenToken.Data);
+                    CurrentNode.AppendChild(commentNode);
                     break;
                 }
                 case XmlTokenType.ProcessingInstruction:
                 {
-                    var tok = (XmlPIToken)token;
-                    var pi = _document.CreateProcessingInstruction(tok.Target, tok.Content);
-                    CurrentNode.AppendChild(pi);
+                    var piToken = (XmlPIToken)token;
+                    var piNode = _document.CreateProcessingInstruction(piToken.Target, piToken.Content);
+                    CurrentNode.AppendChild(piNode);
                     break;
                 }
                 case XmlTokenType.StartTag:
@@ -225,8 +233,10 @@
                 }
                 default:
                 {
-                    if (!token.IsIgnorable && _options.IsSuppressingErrors == false)
+                    if (!token.IsIgnorable && !_options.IsSuppressingErrors)
+                    {
                         throw XmlParseError.XmlMissingRoot.At(token.Position);
+                    }
 
                     break;
                 }
@@ -243,28 +253,39 @@
             {
                 case XmlTokenType.StartTag:
                 {
-                    var tok = (XmlTagToken)token;
-                    var tag = new XmlElement(_document, tok.Name);
-                    CurrentNode.AppendChild(tag);
+                    var tagToken = (XmlTagToken)token;
+                    var element = new XmlElement(_document, tagToken.Name);
+                    element.SetParserInserted();
+                    CurrentNode.AppendChild(element);
 
-                    if (!tok.IsSelfClosing)
-                        _openElements.Add(tag);
-                    else if(_openElements.Count == 0)
+                    if (!tagToken.IsSelfClosing)
+                    {
+                        _openElements.Add(element);
+                    }
+                    else if (_openElements.Count == 0)
+                    {
                         _currentMode = XmlTreeMode.After;
+                    }
 
-                    for (int i = 0; i < tok.Attributes.Count; i++)
-                        tag.SetAttribute(tok.Attributes[i].Key, tok.Attributes[i].Value.Trim());
+                    for (var i = 0; i < tagToken.Attributes.Count; i++)
+                    {
+                        var name = tagToken.Attributes[i].Key;
+                        var value = tagToken.Attributes[i].Value.Trim();
+                        element.SetAttribute(name, value);
+                    }
 
                     break;
                 }
                 case XmlTokenType.EndTag:
                 {
-                    var tok = (XmlTagToken)token;
+                    var tagToken = (XmlTagToken)token;
 
-                    if (CurrentNode.NodeName != tok.Name)
+                    if (!CurrentNode.NodeName.Is(tagToken.Name))
                     {
                         if (_options.IsSuppressingErrors)
+                        {
                             break;
+                        }
 
                         throw XmlParseError.TagClosingMismatch.At(token.Position);
                     }
@@ -272,7 +293,9 @@
                     _openElements.RemoveAt(_openElements.Count - 1);
 
                     if (_openElements.Count == 0)
+                    {
                         _currentMode = XmlTreeMode.After;
+                    }
 
                     break;
                 }
@@ -284,34 +307,40 @@
                 }
                 case XmlTokenType.CData:
                 {
-                    var tok = (XmlCDataToken)token;
-                    CurrentNode.AppendText(tok.Data);
+                    var cdataToken = (XmlCDataToken)token;
+                    CurrentNode.AppendText(cdataToken.Data);
                     break;
                 }
                 case XmlTokenType.Character:
                 {
-                    var tok = (XmlCharacterToken)token;
-                    CurrentNode.AppendText(tok.Data);
+                    var charToken = (XmlCharacterToken)token;
+                    CurrentNode.AppendText(charToken.Data);
                     break;
                 }
                 case XmlTokenType.EndOfFile:
                 {
                     if (_options.IsSuppressingErrors)
+                    {
                         break;
+                    }
 
                     throw XmlParseError.EOF.At(token.Position);
                 }
                 case XmlTokenType.Doctype:
                 {
                     if (_options.IsSuppressingErrors)
+                    {
                         break;
+                    }
 
                     throw XmlParseError.XmlDoctypeAfterContent.At(token.Position);
                 }
                 case XmlTokenType.Declaration:
                 {
                     if (_options.IsSuppressingErrors)
+                    {
                         break;
+                    }
 
                     throw XmlParseError.XmlDeclarationMisplaced.At(token.Position);
                 }
@@ -338,8 +367,10 @@
                 }
                 default:
                 {
-                    if (!token.IsIgnorable && _options.IsSuppressingErrors == false)
+                    if (!token.IsIgnorable && !_options.IsSuppressingErrors)
+                    {
                         throw XmlParseError.XmlMissingRoot.At(token.Position);
+                    }
 
                     break;
                 }
@@ -357,12 +388,8 @@
         /// <returns></returns>
         Boolean CheckVersion(String ver)
         {
-            var t = 0.0;
-
-            if (Double.TryParse(ver, NumberStyles.Any, CultureInfo.InvariantCulture, out t))
-                return t >= 1.0 && t < 2.0;
-
-            return false;
+            var t = ver.ToDouble(0.0);
+            return t >= 1.0 && t < 2.0;
         }
 
         /// <summary>

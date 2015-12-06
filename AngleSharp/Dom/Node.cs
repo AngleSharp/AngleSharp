@@ -22,7 +22,6 @@
         Url _baseUri;
         Node _parent;
         NodeList _children;
-        Boolean _parserInserted;
 
         #endregion
 
@@ -147,11 +146,6 @@
         public String NodeName
         {
             get { return _name; }
-        }
-
-        public Boolean IsParserInserted
-        {
-            get { return _parserInserted; }
         }
 
         #endregion
@@ -332,14 +326,6 @@
                 var node = new TextNode(Owner, s);
                 InsertNode(index, node);
             }
-        }
-
-        /// <summary>
-        /// Sets the parser inserted property to true.
-        /// </summary>
-        internal void SetParserInserted()
-        {
-            _parserInserted = true;
         }
 
         #endregion

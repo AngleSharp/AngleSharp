@@ -1356,7 +1356,9 @@
         public IProcessingInstruction CreateProcessingInstruction(String target, String data)
         {
             if (!target.IsXmlName() || data.Contains("?>"))
+            {
                 throw new DomException(DomError.InvalidCharacter);
+            }
 
             return new ProcessingInstruction(this, target) { Data = data };
         }
