@@ -30,7 +30,15 @@
                     _queues.Add(priority, entries);
                 }
 
-                entries.Enqueue(entry);
+                if (_current == null)
+                {
+                    _current = entry;
+                    RunCurrent();
+                }
+                else
+                {
+                    entries.Enqueue(entry);
+                }
             }
 
             return entry;
@@ -53,18 +61,8 @@
 
             if (_current != null)
             {
-                _current.Run();
+                RunCurrent();
             }
-        }
-
-        TaskEventLoopEntry Dequeue(TaskPriority priority)
-        {
-            if (_queues.ContainsKey(priority) && _queues[priority].Count != 0)
-            {
-                return _queues[priority].Dequeue();
-            }
-
-            return null;
         }
 
         public void Shutdown()
@@ -84,7 +82,34 @@
                 }
 
                 _queues.Clear();
+
+                if (_current != null)
+                {
+                    _current.Cancel();
+                }
             }
+        }
+
+        void RunCurrent()
+        {
+            _current.Run(() =>
+            {
+                lock (this)
+                {
+                    _current = null;
+                    Spin();
+                }
+            });
+        }
+
+        TaskEventLoopEntry Dequeue(TaskPriority priority)
+        {
+            if (_queues.ContainsKey(priority) && _queues[priority].Count != 0)
+            {
+                return _queues[priority].Dequeue();
+            }
+
+            return null;
         }
 
         sealed class TaskEventLoopEntry : IEventLoopEntry
@@ -111,12 +136,13 @@
                 }
             }
 
-            public void Run()
+            public void Run(Action callback)
             {
                 if (!_started)
                 {
                     _created = DateTime.Now;
                     _task.Start();
+                    _task.ContinueWith(_ => callback());
                     _started = true;
                 }
             }
