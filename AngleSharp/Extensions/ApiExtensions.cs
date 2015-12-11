@@ -411,6 +411,20 @@
         }
 
         /// <summary>
+        /// Gets the values of the specified attribute for all elements in the
+        /// given collection.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="attributeName">The name of the attribute.</param>
+        /// <returns>The attributes' values.</returns>
+        public static IEnumerable<String> Attr<T>(this T elements, String attributeName)
+            where T : IEnumerable<IElement>
+        {
+            return elements.Select(m => m.GetAttribute(attributeName));
+        }
+
+        /// <summary>
         /// Empties all provided elements.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
