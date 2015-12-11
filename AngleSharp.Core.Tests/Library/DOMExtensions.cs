@@ -282,7 +282,61 @@
         }
 
         [Test]
-        public void ExtensionAttrWithOneElement()
+        public void ExtensionAttrGetWithNoElement()
+        {
+            var document = Html("<ul><li id=foo>First element");
+            var ids = document.QuerySelectorAll("ol").Attr("id");
+            Assert.AreEqual(0, ids.Count());
+        }
+
+        [Test]
+        public void ExtensionAttrGetWithNoAttribute()
+        {
+            var document = Html("<ul><li>First element");
+            var ids = document.QuerySelectorAll("li").Attr("id");
+            Assert.AreEqual(1, ids.Count());
+
+            var id = ids.First();
+            Assert.AreEqual(null, id);
+        }
+
+        [Test]
+        public void ExtensionAttrGetDataAttribute()
+        {
+            var document = Html("<ul><li data-id=foo>First element");
+            var ids = document.QuerySelectorAll("li").Attr("data-id");
+            Assert.AreEqual(1, ids.Count());
+
+            var id = ids.First();
+            Assert.AreEqual("foo", id);
+        }
+
+        [Test]
+        public void ExtensionAttrGetWithOneElement()
+        {
+            var document = Html("<ul><li id=foo>First element");
+            var ids = document.QuerySelectorAll("li").Attr("id");
+            Assert.AreEqual(1, ids.Count());
+
+            var id = ids.First();
+            Assert.AreEqual("foo", id);
+        }
+
+        [Test]
+        public void ExtensionAttrGetWithManyElements()
+        {
+            var document = Html("<ul><li id=foo>First element<li id=bar>Second element<li>Third element<li id=baz>Last element");
+            var ids = document.QuerySelectorAll("li").Attr("id").ToArray();
+            Assert.AreEqual(4, ids.Length);
+
+            Assert.AreEqual("foo", ids[0]);
+            Assert.AreEqual("bar", ids[1]);
+            Assert.AreEqual(null, ids[2]);
+            Assert.AreEqual("baz", ids[3]);
+        }
+
+        [Test]
+        public void ExtensionAttrSetWithOneElement()
         {
             var document = Html("<ul><li>First element");
             var elements = document.QuerySelectorAll("li").Attr("test", "test");
