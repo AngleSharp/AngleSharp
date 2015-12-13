@@ -219,9 +219,11 @@
                 _download.Cancel();
             }
 
-            if (!String.IsNullOrEmpty(value))
+            var document = Owner;
+
+            if (!String.IsNullOrEmpty(value) && document != null)
             {
-                var loader = Owner.Loader;
+                var loader = document.Loader;
 
                 if (loader != null)
                 {
@@ -247,6 +249,7 @@
                             try { _sheet = engine.ParseStylesheet(response, options); }
                             catch { /* Do not care here */ }
                         }
+
                     });
                     _download = download;
                 }

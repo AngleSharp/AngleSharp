@@ -18,6 +18,7 @@
         Boolean _started;
         Boolean _forceAsync;
         Action _runScript;
+        Boolean _parserInserted;
 
         #endregion
 
@@ -138,6 +139,11 @@
         {
             _started = true;
         }
+
+        internal void SetParserInserted()
+        {
+            _parserInserted = true;
+        }
         
         internal void Run()
         {
@@ -183,7 +189,7 @@
             var eventAttr = this.GetOwnAttribute(AttributeNames.Event);
             var forAttr = this.GetOwnAttribute(AttributeNames.For);
             var src = Source;
-            var wasParserInserted = IsParserInserted;
+            var wasParserInserted = _parserInserted;
 
             if (_started)
             {
@@ -239,7 +245,7 @@
             }
             else 
             {
-                if (IsParserInserted && Owner.GetStyleSheetDownloads().Any())
+                if (_parserInserted && Owner.GetStyleSheetDownloads().Any())
                 {
                     _runScript = RunFromSource;
                     return true;

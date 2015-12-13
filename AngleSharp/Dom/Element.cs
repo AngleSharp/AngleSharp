@@ -29,7 +29,6 @@
 
         HtmlElementCollection _elements;
         TokenList _classList;
-        Boolean _parserInserted;
 
         #endregion
 
@@ -47,7 +46,6 @@
             _prefix = prefix;
             _namespace = namespaceUri;
             _attributes = new NamedNodeMap(this);
-            _parserInserted = false;
         }
 
         #endregion
@@ -65,11 +63,6 @@
         #endregion
 
         #region Properties
-
-        public Boolean IsParserInserted
-        {
-            get { return _parserInserted; }
-        }
 
         public IElement AssignedSlot
         {
@@ -610,18 +603,6 @@
 
             var close = formatter.CloseTag(this, selfClosing);
             return String.Concat(open, children, close);
-        }
-
-        #endregion
-
-        #region Internal Methods
-
-        /// <summary>
-        /// Sets the parser inserted property to true.
-        /// </summary>
-        internal void SetParserInserted()
-        {
-            _parserInserted = true;
         }
 
         #endregion

@@ -255,7 +255,6 @@
                 {
                     var tagToken = (XmlTagToken)token;
                     var element = new XmlElement(_document, tagToken.Name);
-                    element.SetParserInserted();
                     CurrentNode.AppendChild(element);
 
                     if (!tagToken.IsSelfClosing)
