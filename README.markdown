@@ -18,7 +18,7 @@ Key features
 * **Navigation** (a `BrowsingContext` is like a tab - control it from .NET!).
 * **LINQ enhanced** (use LINQ with DOM elements, naturally)
 
-The advantage over similar libraries like the HtmlAgilityPack is that e.g. CSS (including selectors) is already built-in. Also the parser uses the HTML 5.1 specification, which defines error handling and element correction. The AngleSharp library focuses on standards complience, interactivity and extensibility. It is therefore giving web developers, who are working with C#, all possibilities as they know from using the DOM in any modern browser.
+The advantage over similar libraries like the HtmlAgilityPack is that e.g. CSS (including selectors) is already built-in. Also the parser uses the HTML 5.1 specification, which defines error handling and element correction. The AngleSharp library focuses on standards compliance, interactivity and extensibility. It is therefore giving web developers, who are working with C#, all possibilities as they know from using the DOM in any modern browser.
 
 The performance of AngleSharp is quite close to the performance of browsers. Even very large pages can be processed within milliseconds. AngleSharp tries to minimize memory allocations and reuses elements internally to avoid unnecessary object creation.
 
