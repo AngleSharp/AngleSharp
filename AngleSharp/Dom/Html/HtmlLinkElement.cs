@@ -246,11 +246,10 @@
                                 Configuration = config
                             };
 
-                            try { _sheet = engine.ParseStylesheet(response, options); }
-                            catch { /* Do not care here */ }
+                            _sheet = engine.ParseStylesheet(response, options);
                         }
-
                     });
+                    document.DelayLoad(task);
                     _download = download;
                 }
             }

@@ -845,21 +845,31 @@
         /// <returns>The created task.</returns>
         public static async Task ProcessResponse(this Element element, IDownload download, Action<IResponse> callback)
         {
-            try
+            var response = await download.Task.ConfigureAwait(false);
+            
+            element.Owner.QueueTask(() => 
             {
-                using (var response = await download.Task.ConfigureAwait(false))
+                if (response != null)
                 {
-                    if (response != null)
+                    try
                     {
                         callback(response);
                         element.FireSimpleEvent(EventNames.Load);
                     }
+                    catch
+                    {
+                        element.FireSimpleEvent(EventNames.Error);
+                    }
+                    finally
+                    {
+                        response.Dispose();
+                    }
                 }
-            }
-            catch
-            {
-                element.FireSimpleEvent(EventNames.Error);
-            }
+                else
+                {
+                    element.FireSimpleEvent(EventNames.Error);
+                }
+            });
         }
 
         /// <summary>

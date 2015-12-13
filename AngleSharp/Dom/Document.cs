@@ -33,6 +33,7 @@
         readonly IResourceLoader _loader;
         readonly Location _location;
         readonly TextSource _source;
+        readonly List<Task> _subtasks;
 
         QuirksMode _quirksMode;
         Sandboxes _sandbox;
@@ -450,6 +451,7 @@
             _loader = context.CreateResourceLoader();
             _loop = this.CreateLoop();
             _mutations = new MutationHost(_loop);
+            _subtasks = new List<Task>();
         }
 
         #endregion
@@ -1533,6 +1535,15 @@
         #region Internal methods
 
         /// <summary>
+        /// Waits for the given task before raising the load event.
+        /// </summary>
+        /// <param name="task">The task to wait for.</param>
+        internal void DelayLoad(Task task)
+        {
+            _subtasks.Add(task);
+        }
+
+        /// <summary>
         /// Sets the focus to the provided element.
         /// </summary>
         /// <param name="element">The element to focus on.</param>
@@ -1582,7 +1593,7 @@
 
             this.QueueTask(RaiseDomContentLoaded);
 
-            //TODO Wait for all other stuff here !
+            await TaskEx.WhenAll(_subtasks.ToArray());
 
             this.QueueTask(RaiseLoadedEvent);
 
