@@ -512,7 +512,9 @@
                     new CssUnknownProperty(propertyName) : createProperty(propertyName);
 
                 if (property == null)
+                {
                     RaiseErrorOccurred(CssParseError.UnknownDeclarationName, token);
+                }
 
                 CollectTrivia(ref token);
 
@@ -522,14 +524,20 @@
                     var value = CreateValue(CssTokenType.CurlyBracketClose, ref token, out important);
 
                     if (value == null)
+                    {
                         RaiseErrorOccurred(CssParseError.ValueMissing, token);
+                    }
                     else if (property != null && property.TrySetValue(value))
+                    {
                         property.IsImportant = important;
+                    }
 
                     CollectTrivia(ref token);
                 }
                 else
+                {
                     RaiseErrorOccurred(CssParseError.ColonMissing, token);
+                }
 
                 JumpToDeclEnd(ref token);
             }
@@ -540,7 +548,9 @@
             }
 
             if (token.Type == CssTokenType.Semicolon)
+            {
                 token = NextToken();
+            }
 
             return CloseNode(property);
         }
