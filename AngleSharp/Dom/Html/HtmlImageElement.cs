@@ -5,7 +5,6 @@
     using AngleSharp.Network;
     using AngleSharp.Services.Media;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the image element.
@@ -177,15 +176,18 @@
                 _download.Cancel();
             }
 
-            if (source != null)
+            var document = Owner;
+
+            if (source != null && document != null)
             {
-                var loader = Owner.Loader;
+                var loader = document.Loader;
 
                 if (loader != null)
                 {
                     var request = this.CreateRequestFor(source);
-                    var download = Owner.Loader.DownloadAsync(request);
-                    this.ProcessResource<IImageInfo>(_download, result => _img = result);
+                    var download = loader.DownloadAsync(request);
+                    var task = this.ProcessResource<IImageInfo>(download, result => _img = result);
+                    document.DelayLoad(task);
                     _download = download;
                 }
             }
@@ -193,7 +195,8 @@
 
         void UpdateSource(String value)
         {
-            GetImage(this.GetImageCandidate());
+            var candidate = this.GetImageCandidate();
+            GetImage(candidate);
         }
 
         #endregion
