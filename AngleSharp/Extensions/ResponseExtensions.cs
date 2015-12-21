@@ -19,7 +19,7 @@
             var fileName = response.Address.Path;
             var index = fileName.LastIndexOf('.');
             var extension = index >= 0 ? fileName.Substring(index) : ".a";
-            var defaultType = MimeTypes.FromExtension(MimeTypes.Binary);
+            var defaultType = MimeTypes.FromExtension(extension);
             return response.GetContentType(defaultType);
         }
 
