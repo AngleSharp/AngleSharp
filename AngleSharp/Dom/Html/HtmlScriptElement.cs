@@ -6,6 +6,7 @@
     using AngleSharp.Services.Scripting;
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents an HTML script element.
@@ -252,19 +253,27 @@
         Boolean InvokeLoadingScript(Url url)
         {
             var fromParser = true;
+            var document = Owner;
 
             //Just add to the (end of) set of scripts
             if ((IsDeferred && !IsAsync) || IsAsync)
             {
-                Owner.AddScript(this);
+                document.AddScript(this);
                 fromParser = false;
             }
 
-            /*
             var request = this.CreateRequestFor(url);
+            var task = LoadScriptAsync(document.Loader, request);
+            document.DelayLoad(task);
+            return fromParser;
+        }
+
+        async Task LoadScriptAsync(IResourceLoader loader, ResourceRequest request)
+        {
             var setting = CrossOrigin.ToEnum(CorsSetting.None);
             var behavior = OriginBehavior.Taint;
-            var task = this.CreateResourceTask(c => Owner.Loader.FetchWithCorsAsync(request, setting, behavior), response =>
+
+            using (var response = await loader.FetchWithCorsAsync(request, setting, behavior).ConfigureAwait(false))
             {
                 var completion = new TaskCompletionSource<Boolean>();
                 _runScript = () =>
@@ -272,10 +281,8 @@
                     RunFromResponse(response);
                     completion.SetResult(true);
                 };
-                return completion.Task;
-            });*/
-
-            return fromParser;
+                await completion.Task.ConfigureAwait(false);
+            }
         }
 
         #endregion
