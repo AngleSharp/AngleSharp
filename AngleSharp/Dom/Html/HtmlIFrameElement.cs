@@ -103,29 +103,35 @@
         void UpdateSource(String _)
         {
             this.CancelTasks();
-            var content = ContentHtml;
-            var src = Source;
-
-            if (content != null)
+            this.CreateTask(async cancel =>
             {
-                this.CreateTask(cancel => _context.OpenAsync(m => m.Content(content).Address(Owner.DocumentUri), cancel))
-                    .ContinueWith(Finished);
-            }
-            else if (!String.IsNullOrEmpty(src) && !src.Is(BaseUri))
-            {
-                var url = this.HyperReference(src);
-                var request = DocumentRequest.Get(url, source: this, referer: Owner.DocumentUri);
-                this.CreateTask(cancel => _context.OpenAsync(request, cancel))
-                    .ContinueWith(Finished);
-            }
-        }
+                await TaskEx.Delay(1, cancel).ConfigureAwait(false);
+                var content = ContentHtml;
+                var src = Source;
+                var task = default(Task<IDocument>);
 
-        void Finished(Task<IDocument> task)
-        {
-            if (!task.IsFaulted)
-                ContentDocument = task.Result;
+                if (content != null)
+                {
+                    task = _context.OpenAsync(m => m.Content(content).Address(Owner.DocumentUri), cancel);
+                }
+                else if (!String.IsNullOrEmpty(src) && !src.Is(BaseUri))
+                {
+                    var url = this.HyperReference(src);
+                    var request = DocumentRequest.Get(url, source: this, referer: Owner.DocumentUri);
+                    task = _context.OpenAsync(request, cancel);
+                }
+                else
+                    return false;
 
-            this.FireLoadOrErrorEvent(task);
+                return await task.ContinueWith(t =>
+                {
+                    if (!t.IsFaulted)
+                        ContentDocument = t.Result;
+
+                    this.FireLoadOrErrorEvent(t);
+                    return true;
+                }).ConfigureAwait(false);
+            });
         }
 
         #endregion

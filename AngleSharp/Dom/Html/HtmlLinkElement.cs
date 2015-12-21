@@ -3,8 +3,7 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Network;
-    using AngleSharp.Services.Styling;
+    using AngleSharp.Html.LinkRels;
     using System;
     using System.Threading.Tasks;
 
@@ -15,7 +14,7 @@
     {
         #region Fields
 
-        IStyleSheet _sheet;
+        BaseLinkRelation _relation;
         TokenList _relList;
         SettableTokenList _sizes;
 
@@ -29,9 +28,30 @@
         public HtmlLinkElement(Document owner, String prefix = null)
             : base(owner, Tags.Link, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
-            RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);
-            RegisterAttributeObserver(AttributeNames.Href, value => UpdateSource(value));
+            RegisterAttributeObserver(AttributeNames.Rel, value =>
+            {
+                this.CancelTasks();
+                _relation = null;
+
+                if (value != null)
+                {
+                    this.CreateTask(async cancel =>
+                    {
+                        var document = Owner;
+                        _relation = Factory.LinkRelations.Create(this, value);
+
+                        if (_relation != null)
+                        {
+                            await TaskEx.Delay(1, cancel).ConfigureAwait(false);
+                            var task = _relation.LoadAsync(document.Options, document.Loader, cancel);
+                            await task.ContinueWith(m => this.FireLoadOrErrorEvent(m)).ConfigureAwait(false);
+                            return true;
+                        }
+
+                        return false;
+                    });
+                }
+            });
         }
 
         #endregion
@@ -61,19 +81,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets the url of the link elements address.
-        /// </summary>
-        public Url Url
-        {
-            get { return this.HyperReference(this.GetOwnAttribute(AttributeNames.Href)); }
-        }
-
-        /// <summary>
         /// Gets or sets the URI for the target resource.
         /// </summary>
         public String Href
         {
-            get { return Url.Href; }
+            get { return this.GetUrlAttribute(AttributeNames.Href); }
             set { this.SetOwnAttribute(AttributeNames.Href, value); }
         }
 
@@ -188,67 +200,10 @@
         /// </summary>
         public IStyleSheet Sheet
         {
-            get { return _sheet; }
-        }
-
-        #endregion
-
-        #region Helpers
-
-        void UpdateMedia(String value)
-        {
-            if (_sheet != null)
-                _sheet.Media.MediaText = value;
-        }
-
-        void UpdateDisabled(String value)
-        {
-            if (_sheet != null)
-                _sheet.IsDisabled = value != null;
-        }
-
-        void FinishLoading(Task<IResponse> task)
-        {
-            var type = Type ?? MimeTypes.Css;
-            var config = Owner.Options;
-            var engine = config.GetStyleEngine(type);
-
-            if (task.IsCompleted && !task.IsFaulted)
-            {
-                using (var response = task.Result)
-                {
-                    if (engine != null && RelationList.Contains(Keywords.StyleSheet))
-                    {
-                        var options = new StyleOptions
-                        {
-                            Element = this,
-                            Title = Title,
-                            IsDisabled = IsDisabled,
-                            IsAlternate = RelationList.Contains(Keywords.Alternate),
-                            Configuration = config
-                        };
-
-                        if (response != null)
-                        {
-                            try { _sheet = engine.ParseStylesheet(response, options); }
-                            catch { /* Do not care here */ }
-                        }
-                    }
-                }
-            }
-
-            this.FireLoadOrErrorEvent(task);
-        }
-
-        void UpdateSource(String value)
-        {
-            this.CancelTasks();
-
-            if (!String.IsNullOrEmpty(value))
-            {
-                var request = this.CreateRequestFor(Url);
-                this.CreateTask(cancel => Owner.Loader.FetchAsync(request, cancel)).
-                     ContinueWith(m => FinishLoading(m));
+            get 
+            { 
+                var sheetRelation = _relation as StyleSheetLinkRelation;
+                return sheetRelation != null ? sheetRelation.Sheet : null;
             }
         }
 

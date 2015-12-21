@@ -7,6 +7,7 @@
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -312,8 +313,8 @@
             Assert.IsNotNull(document);
             Assert.AreEqual(2, requests.Count);
             Assert.AreEqual(3, filtered.Count);
-            Assert.AreEqual("test.css", requests[0].Address.Path);
-            Assert.AreEqual("test.html", requests[1].Address.Path);
+            Assert.IsTrue(requests.Any(m => m.Address.Path == "test.css"));
+            Assert.IsTrue(requests.Any(m => m.Address.Path == "test.html"));
         }
     }
 }

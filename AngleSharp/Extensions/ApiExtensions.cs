@@ -107,23 +107,6 @@
         }
 
         /// <summary>
-        /// Returns a task that is completed once every element of the given
-        /// type fire the the load event.
-        /// </summary>
-        /// <typeparam name="TElement">The event target type.</typeparam>
-        /// <param name="document">The document that hosts the targets.</param>
-        /// <returns>The awaitable task.</returns>
-        public static async Task WhenLoadFired<TElement>(this IDocument document)
-            where TElement : IElement
-        {
-            var elements = document.QuerySelectorAll<TElement>("*");
-            var tasks = elements.Select(m => m.AwaitEvent(EventNames.Load)).ToArray();
-
-            for (int i = 0; i < tasks.Length; i++)
-                await tasks[i].ConfigureAwait(false);
-        }
-
-        /// <summary>
         /// Inserts a node as the last child node of this element.
         /// </summary>
         /// <typeparam name="TElement">The type of element to add.</typeparam>

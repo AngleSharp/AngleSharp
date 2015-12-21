@@ -1919,6 +1919,9 @@
     <Compile Include="..\AngleSharp\Factories\InputTypeFactory.cs">
       <Link>Factories\InputTypeFactory.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Factories\LinkRelationFactory.cs">
+      <Link>Factories\LinkRelationFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Factories\MathElementFactory.cs">
       <Link>Factories\MathElementFactory.cs</Link>
     </Compile>
@@ -2035,6 +2038,15 @@
     </Compile>
     <Compile Include="..\AngleSharp\Html\InputTypes\WeekInputType.cs">
       <Link>Html\InputTypes\WeekInputType.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\LinkRelNames.cs">
+      <Link>Html\LinkRelNames.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\LinkRels\BaseLinkRelation.cs">
+      <Link>Html\LinkRels\BaseLinkRelation.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\LinkRels\StyleSheetLinkRelation.cs">
+      <Link>Html\LinkRels\StyleSheetLinkRelation.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\Namespaces.cs">
       <Link>Html\Namespaces.cs</Link>
@@ -2986,7 +2998,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
