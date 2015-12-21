@@ -652,15 +652,8 @@
                     }
                     else if (tagName.Is(Tags.Script))
                     {
-                        var script = new HtmlScriptElement(_document);
-                        script.SetParserInserted();
+                        var script = new HtmlScriptElement(_document, parserInserted: true, started: IsFragmentCase);
                         AddElement(script, token.AsTag());
-
-                        if (IsFragmentCase)
-                        {
-                            script.SetStarted();
-                        }
-
                         _tokenizer.State = HtmlParseMode.Script;
                         _previousMode = _currentMode;
                         _currentMode = HtmlTreeMode.Text;

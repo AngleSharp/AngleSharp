@@ -15,10 +15,11 @@
     {
         #region Fields
 
+        readonly Boolean _parserInserted;
+
         Boolean _started;
         Boolean _forceAsync;
         Action _runScript;
-        Boolean _parserInserted;
 
         #endregion
 
@@ -27,11 +28,12 @@
         /// <summary>
         /// Creates a new HTML script element.
         /// </summary>
-        public HtmlScriptElement(Document owner, String prefix = null)
+        public HtmlScriptElement(Document owner, String prefix = null, Boolean parserInserted = false, Boolean started = false)
             : base(owner, Tags.Script, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
             _forceAsync = false;
-            _started = false;
+            _started = started;
+            _parserInserted = parserInserted;
         }
 
         #endregion
@@ -134,16 +136,6 @@
         #endregion
 
         #region Internal Methods
-
-        internal void SetStarted()
-        {
-            _started = true;
-        }
-
-        internal void SetParserInserted()
-        {
-            _parserInserted = true;
-        }
         
         internal void Run()
         {
