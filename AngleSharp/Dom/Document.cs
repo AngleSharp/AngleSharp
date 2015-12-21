@@ -58,6 +58,7 @@
         HtmlCollection<IHtmlEmbedElement> _plugins;
         HtmlElementCollection _commands;
         HtmlElementCollection _links;
+        IDocument _ancestor;
 
         #endregion
 
@@ -457,6 +458,15 @@
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the import ancestor, if any.
+        /// </summary>
+        public IDocument ImportAncestor
+        {
+            get { return _ancestor; }
+            private set { _ancestor = value; }
+        }
 
         /// <summary>
         /// Gets the context's event loop.
@@ -1778,6 +1788,16 @@
                 var request = DocumentRequest.Get(url, source: this, referer: DocumentUri);
                 await _context.OpenAsync(request, CancellationToken.None);
             }
+        }
+
+        protected void Setup(CreateDocumentOptions options)
+        {
+            ContentType = options.ContentType.Content;
+            Referrer = options.Response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
+            DocumentUri = options.Response.Address.Href;
+            Cookie = options.Response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
+            ImportAncestor = options.ImportAncestor;
+            ReadyState = DocumentReadyState.Loading;
         }
 
         protected sealed override String LocateNamespace(String prefix)

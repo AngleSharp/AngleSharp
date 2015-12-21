@@ -13,6 +13,11 @@
         public static readonly String StyleSheet = "stylesheet";
 
         /// <summary>
+        /// The import relation.
+        /// </summary>
+        public static readonly String Import = "import";
+
+        /// <summary>
         /// The author relation.
         /// </summary>
         public static readonly String Author = "author";

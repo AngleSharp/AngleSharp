@@ -1934,6 +1934,9 @@
     <Compile Include="..\AngleSharp\Foundation\CancellableTasks.cs">
       <Link>Foundation\CancellableTasks.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\CreateDocumentOptions.cs">
+      <Link>Factories\CreateDocumentOptions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Foundation\Factory.cs">
       <Link>Foundation\Factory.cs</Link>
     </Compile>
@@ -2044,6 +2047,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Html\LinkRels\BaseLinkRelation.cs">
       <Link>Html\LinkRels\BaseLinkRelation.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\LinkRels\ImportLinkRelation.cs">
+      <Link>Html\LinkRels\ImportLinkRelation.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\LinkRels\StyleSheetLinkRelation.cs">
       <Link>Html\LinkRels\StyleSheetLinkRelation.cs</Link>
@@ -2476,6 +2482,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ILabelabelElement.cs">
       <Link>Interfaces\ILabelabelElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\ILinkImport.cs">
+      <Link>Interfaces\ILinkImport.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ILinkStyle.cs">
       <Link>Interfaces\ILinkStyle.cs</Link>

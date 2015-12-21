@@ -1,11 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Dom.Svg;
-    using AngleSharp.Dom.Xml;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
@@ -50,15 +46,8 @@
             if (context == null)
                 context = BrowsingContext.New();
 
-            var contentType = response.GetContentType(MimeTypes.Html);
-            var encoding = context.Configuration.DefaultEncoding();
-            var charset = contentType.GetParameter(AttributeNames.Charset);
-
-            if (!String.IsNullOrEmpty(charset) && TextEncoding.IsSupported(charset))
-                encoding = TextEncoding.Resolve(charset);
-
-            var source = new TextSource(response.Content, encoding);
-            return context.LoadDocumentAsync(response, contentType, source, cancel);
+            var options = new CreateDocumentOptions(response, context.Configuration);
+            return context.OpenAsync(options, cancel);
         }
 
         /// <summary>
@@ -125,7 +114,8 @@
                 request(response);
                 var contentType = response.GetContentType(MimeTypes.Html);
                 var source = response.CreateSourceFor(context.Configuration);
-                return context.LoadDocumentAsync(response, contentType, source, cancel);
+                var options = new CreateDocumentOptions(response, source);
+                return context.OpenAsync(options, cancel);
             }
         }
 
@@ -154,8 +144,8 @@
         }
 
         /// <summary>
-        /// Opens a new document loaded from the provided address
-        /// asynchronously in the given context.
+        /// Opens a new document loaded from the provided address asynchronously
+        /// in the given context.
         /// </summary>
         /// <param name="context">The browsing context to use.</param>
         /// <param name="address">The address to load.</param>
@@ -168,21 +158,18 @@
             return context.OpenAsync(Url.Create(address), CancellationToken.None);
         }
 
-        #endregion
-
-        #region Helpers
-
-        static async Task<IDocument> LoadDocumentAsync(this IBrowsingContext context, IResponse response, MimeType contentType, TextSource source, CancellationToken cancel)
+        /// <summary>
+        /// Opens a new document created with the provided document options
+        /// asynchronously in the given context.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <param name="options">The creation options.</param>
+        /// <param name="cancel">The cancellation token.</param>
+        /// <returns>The task that creates the document.</returns>
+        internal static async Task<IDocument> OpenAsync(this IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancel)
         {
-            var document = default(IDocument);
-
-            if (contentType.Represents(MimeTypes.Xml) || contentType.Represents(MimeTypes.ApplicationXml))
-                document = await XmlDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
-            else if (contentType.Represents(MimeTypes.Svg))
-                document = await SvgDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
-            else
-                document = await HtmlDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
-
+            var creator = options.FindCreator();
+            var document = await creator(context, options, cancel).ConfigureAwait(false);
             await TaskEx.WhenAll(document.Requests).ConfigureAwait(false);
             return document;
         }

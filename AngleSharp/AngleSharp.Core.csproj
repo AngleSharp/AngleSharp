@@ -197,6 +197,7 @@
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
     <Compile Include="Foundation\CancellableTasks.cs" />
+    <Compile Include="Foundation\CreateDocumentOptions.cs" />
     <Compile Include="Foundation\TaskEx.cs" />
     <Compile Include="Html\FileDataSetEntry.cs" />
     <Compile Include="Html\FormDataSetEntry.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="Html\IFormSubmitter.cs" />
     <Compile Include="Html\LinkRelNames.cs" />
     <Compile Include="Html\LinkRels\BaseLinkRelation.cs" />
+    <Compile Include="Html\LinkRels\ImportLinkRelation.cs" />
     <Compile Include="Html\LinkRels\StyleSheetLinkRelation.cs" />
     <Compile Include="Html\Submitters\Json\JsonArray.cs" />
     <Compile Include="Html\Submitters\Json\JsonElement.cs" />
@@ -222,6 +224,7 @@
     <Compile Include="Interfaces\Html\IHtmlSlotElement.cs" />
     <Compile Include="Interfaces\Css\IMediaQueryList.cs" />
     <Compile Include="IEventLoop.cs" />
+    <Compile Include="Interfaces\ILinkImport.cs" />
     <Compile Include="Interfaces\INamedNodeMap.cs" />
     <Compile Include="Interfaces\IShadowRoot.cs" />
     <Compile Include="IStyleFormattable.cs" />

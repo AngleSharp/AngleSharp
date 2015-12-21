@@ -207,6 +207,18 @@
             }
         }
 
+        /// <summary>
+        /// Gets the associated import.
+        /// </summary>
+        public IDocument Import
+        {
+            get
+            {
+                var importRelation = _relation as ImportLinkRelation;
+                return importRelation != null ? importRelation.Import : null;
+            }
+        }
+
         #endregion
     }
 }
