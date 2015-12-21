@@ -203,10 +203,38 @@
             return element.HasValue && (element.Value == 0 || element.Value == 1) ? element : null;
         }
 
-        public static Byte? ToByte(this IEnumerable<CssToken> value)
+        public static Single? ToAlphaValue(this IEnumerable<CssToken> value)
+        {
+            var element = value.ToNaturalSingle();
+
+            if (!element.HasValue)
+            {
+                var percent = value.ToPercent();
+
+                if (!percent.HasValue)
+                    return null;
+
+                return percent.Value.NormalizedValue;
+            }
+
+            return Math.Min(element.Value, 1f);
+        }
+
+        public static Byte? ToRgbComponent(this IEnumerable<CssToken> value)
         {
             var element = value.ToNaturalInteger();
-            return element.HasValue ? (Byte?)Math.Min(element.Value, 255) : null;
+
+            if (!element.HasValue)
+            {
+                var percent = value.ToPercent();
+
+                if (!percent.HasValue)
+                    return null;
+
+                return (Byte)(255f * percent.Value.NormalizedValue);
+            }
+
+            return (Byte)Math.Min(element.Value, 255);
         }
 
         public static Angle? ToAngle(this IEnumerable<CssToken> value)
@@ -223,6 +251,23 @@
             }
 
             return null;
+        }
+
+        public static Angle? ToAngleNumber(this IEnumerable<CssToken> value)
+        {
+            var angle = value.ToAngle();
+
+            if (!angle.HasValue)
+            {
+                var number = value.ToSingle();
+
+                if (!number.HasValue)
+                    return null;
+
+                return new Angle(number.Value, Angle.Unit.Deg);
+            }
+
+            return angle.Value;
         }
 
         public static Frequency? ToFrequency(this IEnumerable<CssToken> value)
@@ -420,7 +465,7 @@
             if (element != null && element.Type == CssTokenType.Ident)
                 return Color.FromName(element.Data);
             else if (element != null && element.Type == CssTokenType.Color && ((CssStringToken)element).IsBad == false)
-                return Color.FromHex(element.Data);
+                return ((CssStringToken)element).Color;
 
             return null;
         }
