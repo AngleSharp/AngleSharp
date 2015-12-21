@@ -4,6 +4,8 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Events;
     using AngleSharp.Extensions;
+    using AngleSharp.Network;
+    using AngleSharp.Services.Media;
     using NUnit.Framework;
     using System;
     using System.IO;
@@ -166,7 +168,8 @@
         public async Task ContextLoadExternalResources()
         {
             var delayRequester = new DelayRequester(100);
-            var config = new Configuration().WithDefaultLoader(m => m.IsResourceLoadingEnabled = true, new[] { delayRequester });
+            var imageService = new ResourceService<IImageInfo>("image/jpeg", response => new MockImageInfo { Source = response.Address });
+            var config = new Configuration().WithDefaultLoader(m => m.IsResourceLoadingEnabled = true, new[] { delayRequester }).With(imageService);
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
             var img = document.QuerySelector<IHtmlImageElement>("img");
