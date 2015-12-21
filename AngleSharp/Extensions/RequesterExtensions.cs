@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Network;
+    using System;
     using System.Diagnostics;
     using System.Net;
     using System.Threading;
@@ -85,16 +86,11 @@
 
                     var result = await loader.DownloadAsync(data).Task.ConfigureAwait(false);
 
-                    if (result.StatusCode == HttpStatusCode.Redirect ||
-                        result.StatusCode == HttpStatusCode.RedirectKeepVerb ||
-                        result.StatusCode == HttpStatusCode.RedirectMethod ||
-                        result.StatusCode == HttpStatusCode.TemporaryRedirect ||
-                        result.StatusCode == HttpStatusCode.MovedPermanently ||
-                        result.StatusCode == HttpStatusCode.MultipleChoices)
+                    if (result.IsRedirected())
                     {
                         url = new Url(result.Headers.GetOrDefault(HeaderNames.Location, url.Href));
 
-                        if (request.Origin == url.Origin)
+                        if (request.Origin.Is(url.Origin))
                         {
                             request = new ResourceRequest(request.Source, url)
                             {
@@ -114,7 +110,9 @@
             else if (setting == CorsSetting.None)
             {
                 if (behavior == OriginBehavior.Fail)
+                {
                     throw new DomException(DomError.Network);
+                }
 
                 return await loader.DownloadAsync(request).Task.ConfigureAwait(false);
             }
@@ -124,12 +122,28 @@
                 var result = await loader.FetchAsync(request).ConfigureAwait(false);
 
                 if (result != null && result.StatusCode == HttpStatusCode.OK)
+                {
                     return result;
+                }
                 else if (result != null)
+                {
                     result.Dispose();
+                }
             }
 
             throw new DomException(DomError.Network);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static Boolean IsRedirected(this IResponse response)
+        {
+            var status = response.StatusCode;
+            return status == HttpStatusCode.Redirect || status == HttpStatusCode.RedirectKeepVerb ||
+                   status == HttpStatusCode.RedirectMethod || status == HttpStatusCode.TemporaryRedirect ||
+                   status == HttpStatusCode.MovedPermanently || status == HttpStatusCode.MultipleChoices;
         }
 
         #endregion

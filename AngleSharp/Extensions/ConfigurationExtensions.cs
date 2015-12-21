@@ -151,7 +151,9 @@
             foreach (var service in services)
             {
                 if (service.SupportsType(type))
+                {
                     return service;
+                }
             }
 
             return default(IResourceService<TResource>);
