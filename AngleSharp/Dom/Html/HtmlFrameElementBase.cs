@@ -113,11 +113,13 @@
 
             var content = GetContentHtml();
             var source = Source;
+            var document = Owner;
 
-            if (source != null && content != null)
+            if ((source != null || content != null) && document != null)
             {
-                var download = new FrameElementRequest(this, NestedContext, content, source);
+                var download = new FrameElementRequest(document, this, NestedContext, content, source);
                 var task = download.Perform(result => ContentDocument = result);
+                document.DelayLoad(task);
                 _download = download;
             }
         }
@@ -128,19 +130,21 @@
 
         sealed class FrameElementRequest
         {
+            readonly Document _document;
+            readonly HtmlFrameElementBase _element;
+            readonly IBrowsingContext _context;
             readonly String _htmlContent;
             readonly String _requestUrl;
-            readonly IBrowsingContext _context;
-            readonly HtmlFrameElementBase _element;
             readonly CancellationTokenSource _cts;
             IDownload _download;
 
-            public FrameElementRequest(HtmlFrameElementBase element, IBrowsingContext context, String htmlContent, String requestUrl)
+            public FrameElementRequest(Document document, HtmlFrameElementBase element, IBrowsingContext context, String htmlContent, String requestUrl)
             {
+                _document = document;
+                _element = element;
+                _context = context;
                 _htmlContent = htmlContent;
                 _requestUrl = requestUrl;
-                _context = context;
-                _element = element;
                 _cts = new CancellationTokenSource();
             }
 
@@ -157,9 +161,8 @@
 
             async Task<IDocument> GetDocumentAsync()
             {
-                var document = _element.Owner;
-                var referer = document.DocumentUri;
-                var loader = document.Loader;
+                var referer = _document.DocumentUri;
+                var loader = _document.Loader;
 
                 if (_htmlContent == null && !String.IsNullOrEmpty(_requestUrl) && !_requestUrl.Is(_element.BaseUri) && loader != null)
                 {
