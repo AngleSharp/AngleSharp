@@ -256,7 +256,7 @@
             var document = Owner;
 
             //Just add to the (end of) set of scripts
-            if ((IsDeferred && !IsAsync) || IsAsync)
+            if (!_parserInserted || IsDeferred || IsAsync)
             {
                 document.AddScript(this);
                 fromParser = false;
@@ -272,17 +272,15 @@
         {
             var setting = CrossOrigin.ToEnum(CorsSetting.None);
             var behavior = OriginBehavior.Taint;
-
-            using (var response = await loader.FetchWithCorsAsync(request, setting, behavior).ConfigureAwait(false))
+            var response = await loader.FetchWithCorsAsync(request, setting, behavior).ConfigureAwait(false);
+            var completion = new TaskCompletionSource<Boolean>();
+            _runScript = () =>
             {
-                var completion = new TaskCompletionSource<Boolean>();
-                _runScript = () =>
-                {
-                    RunFromResponse(response);
-                    completion.SetResult(true);
-                };
-                await completion.Task.ConfigureAwait(false);
-            }
+                RunFromResponse(response);
+                response.Dispose();
+                completion.SetResult(true);
+            };
+            await completion.Task.ConfigureAwait(false);
         }
 
         #endregion
