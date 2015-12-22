@@ -144,16 +144,19 @@
                 _download.Cancel();
             }
 
-            if (!String.IsNullOrEmpty(value))
+            var document = Owner;
+
+            if (!String.IsNullOrEmpty(value) && document != null)
             {
-                var loader = Owner.Loader;
+                var loader = document.Loader;
 
                 if (loader != null)
                 {
                     var url = new Url(Source);
                     var request = this.CreateRequestFor(url);
                     var download = loader.DownloadAsync(request);
-                    var task = this.ProcessResource<IObjectInfo>(_download, result => _obj = result);
+                    var task = this.ProcessResource<IObjectInfo>(download, result => _obj = result);
+                    document.DelayLoad(task);
                     _download = download;
                 }
             }

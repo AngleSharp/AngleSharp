@@ -424,11 +424,12 @@
                 _download.Cancel();
             }
 
+            var document = Owner;
             _network = MediaNetworkState.Idle;
 
-            if (source != null)
+            if (source != null && document != null)
             {
-                var loader = Owner.Loader;
+                var loader = document.Loader;
 
                 if (loader != null)
                 {
@@ -436,7 +437,7 @@
                     var request = this.CreateRequestFor(url);
                     _network = MediaNetworkState.Loading;
                     _download = loader.DownloadAsync(request);
-                    this.ProcessResource<TResource>(_download, result =>
+                    var task = this.ProcessResource<TResource>(_download, result =>
                     {
                         _media = result;
 
@@ -445,6 +446,7 @@
                             _network = MediaNetworkState.NoSource;
                         }
                     });
+                    document.DelayLoad(task);
                 }
             }
         }
