@@ -1070,24 +1070,34 @@
         /// </summary>
         public IDocument Open(String type = "text/html", String replace = null)
         {
-            if (!String.Equals(_contentType, MimeTypes.Html, StringComparison.Ordinal))
+            if (!_contentType.Is(MimeTypes.Html))
+            {
                 throw new DomException(DomError.InvalidState);
+            }
 
             if (IsInBrowsingContext && _context.Active != this)
+            {
                 return null;
+            }
 
             var shallReplace = Keywords.Replace.Equals(replace, StringComparison.OrdinalIgnoreCase);
 
             if (_loadingScripts.Count > 0)
+            {
                 return this;
+            }
 
             if (shallReplace)
+            {
                 type = MimeTypes.Html;
+            }
 
             var index = type.IndexOf(Symbols.Semicolon);
 
             if (index >= 0)
+            {
                 type = type.Substring(0, index);
+            }
 
             type = type.StripLeadingTrailingSpaces();
             //TODO further steps needed.
@@ -1112,7 +1122,9 @@
         void IDocument.Close()
         {
             if (ReadyState == DocumentReadyState.Loading)
+            {
                 FinishLoading().Wait();
+            }
         }
 
         /// <summary>
@@ -1125,11 +1137,14 @@
         {
             if (ReadyState == DocumentReadyState.Complete)
             {
-                var newDoc = Open();
-                newDoc.Write(content ?? String.Empty);
+                var source = content ?? String.Empty;
+                var newDocument = Open();
+                newDocument.Write(source);
             }
             else
+            {
                 _source.InsertText(content);
+            }
         }
 
         /// <summary>
@@ -1176,7 +1191,9 @@
         public INode Import(INode externalNode, Boolean deep = true)
         {
             if (externalNode.NodeType == NodeType.Document)
+            {
                 throw new DomException(DomError.NotSupported);
+            }
 
             return externalNode.Clone(deep);
         }
@@ -1196,7 +1213,9 @@
         public INode Adopt(INode externalNode)
         {
             if (externalNode.NodeType == NodeType.Document)
+            {
                 throw new DomException(DomError.NotSupported);
+            }
 
             this.AdoptNode(externalNode);
             return externalNode;
@@ -1214,7 +1233,9 @@
             var ev = Factory.Events.Create(type);
 
             if (ev == null)
+            {
                 throw new DomException(DomError.NotSupported);
+            }
 
             return ev;
         }
@@ -1294,7 +1315,9 @@
         public IElement CreateElement(String localName)
         {
             if (!localName.IsXmlName())
+            {
                 throw new DomException(DomError.InvalidCharacter);
+            }
 
             return Factory.HtmlElements.Create(this, localName);
         }
@@ -1509,7 +1532,9 @@
         public IAttr CreateAttribute(String localName)
         {
             if (!localName.IsXmlName())
+            {
                 throw new DomException(DomError.InvalidCharacter);
+            }
 
             return new Attr(localName);
         }
@@ -1553,32 +1578,6 @@
         }
 
         /// <summary>
-        /// Checks if the document is waiting for a script to finish preparing.
-        /// </summary>
-        internal IEnumerable<Task> GetScriptDownloads()
-        {
-            //return _tasks.OfOriginType<HtmlScriptElement>();
-            return Enumerable.Empty<Task>();
-        }
-
-        /// <summary>
-        /// Checks if the document has any active stylesheets that block the
-        /// scripts. A style sheet is blocking scripts if the responsible 
-        /// element was created by that Document's parser, and the element is
-        /// either a style element or a link element that was an external
-        /// resource link that contributes to the styling processing model when
-        /// the element was created by the parser, and the element's style
-        /// sheet was enabled when the element was created by the parser, and 
-        /// the element's style sheet ready flag is not yet set.
-        /// http://www.w3.org/html/wg/drafts/html/master/document-metadata.html#has-no-style-sheet-that-is-blocking-scripts
-        /// </summary>
-        internal IEnumerable<Task> GetStyleSheetDownloads()
-        {
-            //return _tasks.OfOriginType<HtmlLinkElement>();
-            return Enumerable.Empty<Task>();
-        }
-
-        /// <summary>
         /// Finishes writing to a document.
         /// </summary>
         internal async Task FinishLoading()
@@ -1593,7 +1592,7 @@
 
             this.QueueTask(RaiseDomContentLoaded);
 
-            await TaskEx.WhenAll(_subtasks.ToArray());
+            await TaskEx.WhenAll(_subtasks.ToArray()).ConfigureAwait(false);
 
             this.QueueTask(RaiseLoadedEvent);
 

@@ -5,6 +5,7 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Services;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
@@ -228,16 +229,66 @@
         }
 
         /// <summary>
+        /// Checks if the document is waiting for tasks from originator of type
+        /// T to finish downloading.
+        /// </summary>
+        /// <param name="document">The document to use.</param>
+        /// <returns>Enumerable of awaitable tasks.</returns>
+        public static IEnumerable<Task> GetDownloads<T>(this Document document)
+            where T : INode
+        {
+            var loader = document.Loader;
+
+            if (loader == null)
+            {
+                return Enumerable.Empty<Task>();
+            }
+
+            return loader.GetDownloads().Where(m => m.Originator is T).Select(m => m.Task);
+        }
+
+        /// <summary>
+        /// Checks if the document is waiting for a script to finish preparing.
+        /// </summary>
+        /// <param name="document">The document to use.</param>
+        /// <returns>Enumerable of awaitable tasks.</returns>
+        public static IEnumerable<Task> GetScriptDownloads(this Document document)
+        {
+            return document.GetDownloads<HtmlScriptElement>();
+        }
+
+        /// <summary>
+        /// Checks if the document has any active stylesheets that block the
+        /// scripts. A style sheet is blocking scripts if the responsible 
+        /// element was created by that Document's parser, and the element is
+        /// either a style element or a link element that was an external
+        /// resource link that contributes to the styling processing model when
+        /// the element was created by the parser, and the element's style
+        /// sheet was enabled when the element was created by the parser, and 
+        /// the element's style sheet ready flag is not yet set.
+        /// http://www.w3.org/html/wg/drafts/html/master/document-metadata.html#has-no-style-sheet-that-is-blocking-scripts
+        /// </summary>
+        /// <param name="document">The document to use.</param>
+        /// <returns>Enumerable of awaitable tasks.</returns>
+        public static IEnumerable<Task> GetStyleSheetDownloads(this Document document)
+        {
+            return document.GetDownloads<HtmlLinkElement>();
+        }
+
+        /// <summary>
         /// Spins the event loop until all stylesheets are downloaded (if
         /// required) and all scripts are ready to be parser executed.
         /// http://www.w3.org/html/wg/drafts/html/master/syntax.html#the-end
         /// (bullet 3)
         /// </summary>
         /// <param name="document">The document to use.</param>
+        /// <returns>Awaitable task.</returns>
         public static async Task WaitForReady(this Document document)
         {
-            await TaskEx.WhenAll(document.GetScriptDownloads()).ConfigureAwait(false);
-            await TaskEx.WhenAll(document.GetStyleSheetDownloads()).ConfigureAwait(false);
+            var scripts = document.GetScriptDownloads().ToArray();
+            await TaskEx.WhenAll(scripts).ConfigureAwait(false);
+            var styles = document.GetStyleSheetDownloads().ToArray();
+            await TaskEx.WhenAll(styles).ConfigureAwait(false);
         }
 
         /// <summary>
