@@ -21,8 +21,8 @@
 
         static readonly String _version = typeof(HttpRequester).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
         static readonly String _agentName = "AngleSharp/" + _version;
-        static readonly Dictionary<String, PropertyInfo> _propCache;
-        static readonly List<String> _restricted;
+        static readonly Dictionary<String, PropertyInfo> _propCache = new Dictionary<String, PropertyInfo>();
+        static readonly List<String> _restricted = new List<String>();
 
         #endregion
 
@@ -34,12 +34,6 @@
         #endregion
 
         #region ctor
-
-        static HttpRequester()
-        {
-            _propCache = new Dictionary<String, PropertyInfo>();
-            _restricted = new List<String>();
-        }
 
         /// <summary>
         /// Constructs a default HTTP requester with the information presented
@@ -242,13 +236,12 @@
             /// </param>
             void SetProperty(String name, Object value)
             {
-                if (!_propCache.ContainsKey(name))
+                lock (this)
                 {
-#if !SILVERLIGHT
-                    _propCache.Add(name, _http.GetType().GetTypeInfo().GetDeclaredProperty(name));
-#else
-                    _propCache.Add(name, _http.GetType().GetProperty(name));
-#endif
+                    if (!_propCache.ContainsKey(name))
+                    {
+                        _propCache.Add(name, _http.GetType().GetProperty(name));
+                    }
                 }
 
                 var property = _propCache[name];
