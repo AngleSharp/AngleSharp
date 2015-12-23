@@ -375,7 +375,7 @@
 
         void ReadIntoBuffer()
         {
-            var returned = _baseStream.ReadAsync(_buffer, 0, BufferSize).Result;
+            var returned = _baseStream.Read(_buffer, 0, BufferSize);
             AppendContentFromBuffer(returned);
         }
 
