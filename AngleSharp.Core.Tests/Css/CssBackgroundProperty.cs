@@ -170,7 +170,7 @@
             var concrete = (CssBackgroundColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("hsla(50, 33%, 25%, 0.75)", concrete.Value);
+            Assert.AreEqual("hsla(50deg, 33%, 25%, 0.75)", concrete.Value);
         }
 
         [Test]

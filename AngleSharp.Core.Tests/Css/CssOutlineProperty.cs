@@ -72,7 +72,7 @@
             var concrete = (CssOutlineColorProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
-            Assert.AreEqual("hsl(320, 80%, 50%)", concrete.Value);
+            Assert.AreEqual("hsl(320deg, 80%, 50%)", concrete.Value);
         }
 
         [Test]
