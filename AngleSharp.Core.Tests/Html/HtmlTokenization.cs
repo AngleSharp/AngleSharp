@@ -4,7 +4,11 @@
     using AngleSharp.Parser.Html;
     using NUnit.Framework;
     using System;
+    using System.IO;
+    using System.Linq;
     using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class HtmlTokenizationTests
@@ -261,6 +265,27 @@
             var e = t.Get();
             Assert.AreEqual(HtmlTokenType.Character, e.Type);
             Assert.AreEqual("\n", e.Data);
+        }
+
+        [Test]
+        public async Task TokenizationChangeEncodingWithMultibyteCharacter()
+        {
+            var phrase = "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ";  // 78 bytes
+            var content = String.Concat(Enumerable.Repeat(phrase, 53));    // x53 => 4134 bytes
+            var encoding = new UTF8Encoding(false);
+            using (var contentStm = new MemoryStream(encoding.GetBytes(content)))
+            {
+                var s = new TextSource(contentStm, encoding);
+                var t = CreateTokenizer(s);
+                // Read 4096 bytes to buffer
+                await s.Prefetch(100, CancellationToken.None);
+                // Change encoding utf-8 to utf-8. (Same, but different instance)
+                s.CurrentEncoding = TextEncoding.Utf8;
+                var token = t.Get();
+                Assert.IsTrue(s.CurrentEncoding == TextEncoding.Utf8);
+                Assert.IsTrue(s.CurrentEncoding != encoding);
+                Assert.AreEqual(content, token.Data);
+            }
         }
     }
 }
