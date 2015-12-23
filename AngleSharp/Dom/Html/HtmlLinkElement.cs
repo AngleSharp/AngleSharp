@@ -229,7 +229,7 @@
                 {
                     var request = this.CreateRequestFor(Url);
                     var download = loader.DownloadAsync(request);
-                    document.DelayLoad(this.ProcessResponse(download, response =>
+                    var task = this.ProcessResponse(download, response =>
                     {
                         var type = Type ?? MimeTypes.Css;
                         var config = Owner.Options;
@@ -248,7 +248,8 @@
 
                             _sheet = engine.ParseStylesheet(response, options);
                         }
-                    }));
+                    });
+                    document.DelayLoad(task);
                     _download = download;
                 }
             }

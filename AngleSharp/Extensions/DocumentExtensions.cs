@@ -244,7 +244,7 @@
                 return Enumerable.Empty<Task>();
             }
 
-            return loader.GetDownloads().Where(m => m.Originator is T).Select(m => m.Task);
+            return loader.GetDownloads().Where(m => m.Originator != null && m.Originator is T).Select(m => m.Task);
         }
 
         /// <summary>
