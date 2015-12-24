@@ -127,8 +127,8 @@
 
                 var raw = _raw.ToArray();
                 var raw_chars = new Char[_encoding.GetMaxCharCount(raw.Length)];
-                _decoder.GetChars(raw, 0, raw.Length, raw_chars, 0);
-                var content = new String(raw_chars);
+                var charLength = _decoder.GetChars(raw, 0, raw.Length, raw_chars, 0);
+                var content = new String(raw_chars, 0, charLength);
                 var index = Math.Min(_index, content.Length);
 
                 if (content.Substring(0, index).Equals(_content.ToString(0, index)))
