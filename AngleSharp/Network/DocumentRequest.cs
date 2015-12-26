@@ -20,7 +20,9 @@
         public DocumentRequest(Url target)
         {
             if (target == null)
+            {
                 throw new ArgumentNullException("target");
+            }
 
             Headers = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
             Target = target;
@@ -64,10 +66,14 @@
         public static DocumentRequest Post(Url target, Stream body, String type, INode source = null, String referer = null)
         {
             if (body == null)
+            {
                 throw new ArgumentNullException("body");
+            }
 
             if (type == null)
+            {
                 throw new ArgumentNullException("type");
+            }
 
             return new DocumentRequest(target)
             {
@@ -89,12 +95,16 @@
         public static DocumentRequest PostAsPlaintext(Url target, IDictionary<String, String> fields)
         {
             if (fields == null)
+            {
                 throw new ArgumentNullException("fields");
+            }
 
             var fds = new FormDataSet();
 
             foreach (var field in fields)
+            {
                 fds.Append(field.Key, field.Value, InputTypeNames.Text);
+            }
 
             return Post(target, fds.AsPlaintext(), MimeTypes.Plain);
         }
@@ -109,12 +119,16 @@
         public static DocumentRequest PostAsUrlencoded(Url target, IDictionary<String, String> fields)
         {
             if (fields == null)
+            {
                 throw new ArgumentNullException("fields");
+            }
 
             var fds = new FormDataSet();
 
             foreach (var field in fields)
+            {
                 fds.Append(field.Key, field.Value, InputTypeNames.Text);
+            }
 
             return Post(target, fds.AsUrlEncoded(), MimeTypes.UrlencodedForm);
         }
@@ -202,7 +216,9 @@
             var value = default(String);
 
             if (Headers.TryGetValue(name, out value))
+            {
                 return value;
+            }
 
             return null;
         }

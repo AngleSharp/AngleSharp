@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents the HTML frame element.

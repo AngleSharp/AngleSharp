@@ -2,9 +2,9 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using AngleSharp.Services.Media;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the image element.
@@ -14,6 +14,7 @@
         #region Fields
 
         IImageInfo _img;
+        IDownload _download;
 
         #endregion
 
@@ -162,31 +163,40 @@
         void GetImage(Url source)
         {
             if (source.IsInvalid)
+            {
                 source = null;
+            }
             else if (_img != null && source.Equals(_img.Source))
+            {
                 return;
+            }
 
-            this.CancelTasks();
+            if (_download != null && !_download.IsCompleted)
+            {
+                _download.Cancel();
+            }
 
-            if (source == null)
-                return;
+            var document = Owner;
 
-            var request = this.CreateRequestFor(source);
-            this.LoadResource<IImageInfo>(request).
-                 ContinueWith(FinishLoading);
-        }
+            if (source != null && document != null)
+            {
+                var loader = document.Loader;
 
-        void FinishLoading(Task<IImageInfo> task)
-        {
-            if (task.IsCompleted && !task.IsFaulted)
-                _img = task.Result;
-
-            this.FireLoadOrErrorEvent(task);
+                if (loader != null)
+                {
+                    var request = this.CreateRequestFor(source);
+                    var download = loader.DownloadAsync(request);
+                    var task = this.ProcessResource<IImageInfo>(download, result => _img = result);
+                    document.DelayLoad(task);
+                    _download = download;
+                }
+            }
         }
 
         void UpdateSource(String value)
         {
-            GetImage(this.GetImageCandidate());
+            var candidate = this.GetImageCandidate();
+            GetImage(candidate);
         }
 
         #endregion

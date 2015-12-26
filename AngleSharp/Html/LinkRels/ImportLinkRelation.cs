@@ -22,7 +22,7 @@
 
         #region ctor
 
-        public ImportLinkRelation(IHtmlLinkElement link)
+        public ImportLinkRelation(HtmlLinkElement link)
             : base(link)
         {
         }
@@ -51,7 +51,7 @@
         /// <summary>
         /// See http://www.w3.org/TR/html-imports/#dfn-import-request.
         /// </summary>
-        public override async Task LoadAsync(IConfiguration configuration, IResourceLoader loader, CancellationToken cancel)
+        public override async Task LoadAsync(IConfiguration configuration, IResourceLoader loader)
         {
             var link = Link;
             var document = link.Owner;
@@ -68,18 +68,20 @@
             
             if (!item.IsCycle)
             {
-                using (var response = await loader.FetchAsync(request, cancel).ConfigureAwait(false))
+                var nestedStatus = new TaskCompletionSource<Boolean>();
+                var download = loader.DownloadAsync(request);
+
+                await link.ProcessResponse(download, async response =>
                 {
-                    if (response != null)
+                    var context = new BrowsingContext(document.Context, Sandboxes.None);
+                    var options = new CreateDocumentOptions(response, configuration)
                     {
-                        var context = new BrowsingContext(document.Context, Sandboxes.None);
-                        var options = new CreateDocumentOptions(response, configuration)
-                        {
-                            ImportAncestor = document
-                        };
-                        _import = await context.OpenAsync(options, cancel).ConfigureAwait(false);
-                    }
-                }
+                        ImportAncestor = document
+                    };
+                    _import = await context.OpenAsync(options, CancellationToken.None).ConfigureAwait(false);
+                    nestedStatus.SetResult(true);
+                }).ConfigureAwait(false);
+                await nestedStatus.Task.ConfigureAwait(false);
             }
         }
 

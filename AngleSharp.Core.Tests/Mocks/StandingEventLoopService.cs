@@ -3,7 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Services;
     using System;
-    using System.Threading.Tasks;
+    using System.Threading;
 
     class StandingEventLoopService : IEventService
     {
@@ -14,18 +14,18 @@
 
         sealed class EventLoop : IEventLoop
         {
-            public Task Enqueue(Action task)
+            public IEventLoopEntry Enqueue(Action<CancellationToken> action, TaskPriority priority)
             {
-                return Task.FromResult(false);
+                return null;
             }
 
-            public Task Execute(Action microtask)
+            public void Spin()
             {
-                return Task.FromResult(false);
             }
 
             public void Shutdown()
             {
+                throw new NotImplementedException();
             }
         }
     }

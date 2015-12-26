@@ -46,10 +46,12 @@
         {
             var creator = default(Creator);
 
-            if (creators.TryGetValue(name, out creator))
+            if (name != null && creators.TryGetValue(name, out creator))
+            {
                 return creator();
+            }
 
-            return null;
+            return default(Event);
         }
     }
 }

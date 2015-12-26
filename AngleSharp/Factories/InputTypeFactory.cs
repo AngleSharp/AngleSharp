@@ -51,10 +51,14 @@
             var creator = default(Creator);
 
             if (String.IsNullOrEmpty(type))
+            {
                 type = InputTypeNames.Text;
+            }
 
             if (!creators.TryGetValue(type, out creator))
+            {
                 creator = creators[InputTypeNames.Text];
+            }
 
             return creator(input);
         }

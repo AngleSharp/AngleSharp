@@ -11,7 +11,7 @@
     /// </summary>
     sealed class LinkRelationFactory
     {
-        delegate BaseLinkRelation Creator(IHtmlLinkElement link);
+        delegate BaseLinkRelation Creator(HtmlLinkElement link);
 
         readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
@@ -25,14 +25,16 @@
         /// <param name="link">The link element.</param>
         /// <param name="rel">The current value of the rel attribute.</param>
         /// <returns>The LinkRel provider instance or null.</returns>
-        public BaseLinkRelation Create(IHtmlLinkElement link, String rel)
+        public BaseLinkRelation Create(HtmlLinkElement link, String rel)
         {
             var creator = default(Creator);
 
-            if (creators.TryGetValue(rel, out creator))
+            if (rel != null && creators.TryGetValue(rel, out creator))
+            {
                 return creator(link);
+            }
 
-            return null;
+            return default(BaseLinkRelation);
         }
     }
 }

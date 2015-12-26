@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom.Html;
     using AngleSharp.Network;
-    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -12,13 +11,14 @@
     {
         #region Fields
 
-        readonly IHtmlLinkElement _link;
+        readonly HtmlLinkElement _link;
+        IDownload _download;
 
         #endregion
 
         #region ctor
 
-        public BaseLinkRelation(IHtmlLinkElement link)
+        public BaseLinkRelation(HtmlLinkElement link)
         {
             _link = link;
         }
@@ -30,7 +30,7 @@
         /// <summary>
         /// Gets the link element.
         /// </summary>
-        public IHtmlLinkElement Link
+        public HtmlLinkElement Link
         {
             get { return _link; }
         }
@@ -48,13 +48,23 @@
         #region Methods
 
         /// <summary>
+        /// Cancels the outstanding download, if any.
+        /// </summary>
+        public void Cancel()
+        {
+            if (_download != null && !_download.IsCompleted)
+            {
+                _download.Cancel();
+            }
+        }
+
+        /// <summary>
         /// Loads the content of the relation asynchronously.
         /// </summary>
         /// <param name="configuration">The configuration to use.</param>
         /// <param name="loader">The optional loader to use.</param>
-        /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task, which loads the content.</returns>
-        public abstract Task LoadAsync(IConfiguration configuration, IResourceLoader loader, CancellationToken cancel);
+        public abstract Task LoadAsync(IConfiguration configuration, IResourceLoader loader);
 
         #endregion
     }

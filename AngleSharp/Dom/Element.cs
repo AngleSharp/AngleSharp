@@ -16,7 +16,7 @@
     /// Represents an element node.
     /// </summary>
     [DebuggerStepThrough]
-    class Element : Node, IElement
+    internal class Element : Node, IElement
     {
         #region Fields
 
@@ -34,17 +34,11 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new element node.
-        /// </summary>
         public Element(Document owner, String localName, String prefix, String namespaceUri, NodeFlags flags = NodeFlags.None)
             : this(owner, prefix != null ? String.Concat(prefix, ":", localName) : localName, localName, prefix, namespaceUri, flags)
         {
         }
 
-        /// <summary>
-        /// Creates a new element node.
-        /// </summary>
         public Element(Document owner, String name, String localName, String prefix, String namespaceUri, NodeFlags flags = NodeFlags.None)
             : base(owner, name, NodeType.Element, flags)
         {
@@ -70,9 +64,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets the assigned slot of the current element, if any.
-        /// </summary>
         public IElement AssignedSlot
         {
             get 
@@ -89,18 +80,12 @@
             }
         }
 
-        /// <summary>
-        /// Gets the value of the slot attribute.
-        /// </summary>
         public String Slot
         {
             get { return this.GetOwnAttribute(AttributeNames.Slot); }
             set { this.SetOwnAttribute(AttributeNames.Slot, value); }
         }
 
-        /// <summary>
-        /// Gets the shadow root of the current element, if any.
-        /// </summary>
         public IShadowRoot ShadowRoot
         {
             get
@@ -111,33 +96,21 @@
             }
         }
 
-        /// <summary>
-        /// Gets the namespace prefix of the specified node, if any.
-        /// </summary>
         public String Prefix
         {
             get { return _prefix; }
         }
 
-        /// <summary>
-        /// Gets the local part of the qualified name of this node.
-        /// </summary>
         public String LocalName
         {
             get { return _localName; }
         }
 
-        /// <summary>
-        /// Gets the namespace URI of this node, if any.
-        /// </summary>
         public String NamespaceUri
         {
             get { return _namespace; }
         }
 
-        /// <summary>
-        /// Gets or sets the text content of a node and its descendants.
-        /// </summary>
         public override String TextContent
         {
             get
@@ -145,7 +118,9 @@
                 var sb = Pool.NewStringBuilder();
 
                 foreach (var child in this.GetDescendants().OfType<IText>())
+                {
                     sb.Append(child.Data);
+                }
 
                 return sb.ToPool();
             }
@@ -156,9 +131,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets the list of class names.
-        /// </summary>
         public ITokenList ClassList
         {
             get
@@ -173,37 +145,23 @@
             }
         }
 
-        /// <summary>
-        /// Gets or sets the value of the class attribute.
-        /// </summary>
         public String ClassName
         {
             get { return this.GetOwnAttribute(AttributeNames.Class); }
             set { this.SetOwnAttribute(AttributeNames.Class, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the value of the id attribute.
-        /// </summary>
         public String Id
         {
             get { return this.GetOwnAttribute(AttributeNames.Id); }
             set { this.SetOwnAttribute(AttributeNames.Id, value); }
         }
 
-        /// <summary>
-        /// Gets the uppercase representation of the tag name.
-        /// </summary>
         public String TagName
         {
             get { return NodeName; }
         }
 
-        /// <summary>
-        /// Gets the element immediately preceding in this node's parent's list
-        /// of nodes, null if the current element is the first element in that
-        /// list.
-        /// </summary>
         public IElement PreviousElementSibling
         {
             get
@@ -214,12 +172,16 @@
                 {
                     var found = false;
 
-                    for (int i = parent.ChildNodes.Length - 1; i >= 0; i--)
+                    for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
                     {
-                        if (parent.ChildNodes[i] == this)
+                        if (Object.ReferenceEquals(parent.ChildNodes[i], this))
+                        {
                             found = true;
+                        }
                         else if (found && parent.ChildNodes[i] is IElement)
+                        {
                             return (IElement)parent.ChildNodes[i];
+                        }
                     }
                 }
 
@@ -227,11 +189,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets the element immediately following in this node's parent's list
-        /// of nodes, or null if the current element is the last element in
-        /// that list.
-        /// </summary>
         public IElement NextElementSibling
         {
             get
@@ -243,12 +200,16 @@
                     var n = parent.ChildNodes.Length;
                     var found = false;
 
-                    for (int i = 0; i < n; i++)
+                    for (var i = 0; i < n; i++)
                     {
-                        if (parent.ChildNodes[i] == this)
+                        if (Object.ReferenceEquals(parent.ChildNodes[i], this))
+                        {
                             found = true;
+                        }
                         else if (found && parent.ChildNodes[i] is IElement)
+                        {
                             return (IElement)parent.ChildNodes[i];
+                        }
                     }
                 }
 
@@ -256,9 +217,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets the number of child elements.
-        /// </summary>
         public Int32 ChildElementCount
         {
             get
@@ -267,27 +225,23 @@
                 var n = children.Length;
                 var count = 0;
 
-                for (int i = 0; i < n; i++)
+                for (var i = 0; i < n; i++)
                 {
                     if (children[i].NodeType == NodeType.Element)
+                    {
                         count++;
+                    }
                 }
 
                 return count;
             }
         }
 
-        /// <summary>
-        /// Gets the child elements.
-        /// </summary>
         public IHtmlCollection<IElement> Children
         {
             get { return _elements ?? (_elements = new HtmlElementCollection(this, deep: false)); }
         }
 
-        /// <summary>
-        /// Gets the first child element of this element.
-        /// </summary>
         public IElement FirstElementChild
         {
             get 
@@ -295,21 +249,20 @@
                 var children = ChildNodes;
                 var n = children.Length;
 
-                for (int i = 0; i < n; i++)
+                for (var i = 0; i < n; i++)
                 {
                     var child = children[i] as IElement;
 
                     if (child != null)
+                    {
                         return child;
+                    }
                 }
 
                 return null;
             }
         }
 
-        /// <summary>
-        /// Gets the last child element of this element.
-        /// </summary>
         public IElement LastElementChild
         {
             get
@@ -321,26 +274,21 @@
                     var child = children[i] as IElement;
 
                     if (child != null)
+                    {
                         return child;
+                    }
                 }
 
                 return null;
             }
         }
 
-        /// <summary>
-        /// Gets or sets the HTML syntax describing the element's descendants.
-        /// </summary>
         public String InnerHtml
         {
             get { return ChildNodes.ToHtml(HtmlMarkupFormatter.Instance); }
             set { ReplaceAll(new DocumentFragment(this, value), false); }
         }
 
-        /// <summary>
-        /// Gets or sets the HTML syntax describing the element including its
-        /// descendants. 
-        /// </summary>
         public String OuterHtml
         {
             get { return ToHtml(HtmlMarkupFormatter.Instance); }
@@ -348,57 +296,51 @@
             {
                 var parent = Parent;
 
-                if (parent != null)
+                if (parent == null)
                 {
-                    if (Owner != null && Owner.DocumentElement == this)
-                        throw new DomException(DomError.NoModificationAllowed);
-
-                    parent.InsertChild(parent.IndexOf(this), new DocumentFragment(this, value));
-                    parent.RemoveChild(this);
-                }
-                else
                     throw new DomException(DomError.NotSupported);
+                }
+
+                var document = Owner;
+
+                if (document != null && Object.ReferenceEquals(document.DocumentElement, this))
+                {
+                    throw new DomException(DomError.NoModificationAllowed);
+                }
+
+                parent.InsertChild(parent.IndexOf(this), new DocumentFragment(this, value));
+                parent.RemoveChild(this);
             }
         }
         
-        /// <summary>
-        /// Gets the sequence of associated attributes.
-        /// </summary>
         INamedNodeMap IElement.Attributes
         {
             get { return _attributes; }
         }
 
-        /// <summary>
-        /// Gets if the element is currently focused.
-        /// </summary>
         public Boolean IsFocused
         {
             get
             {
-                var owner = Owner;
-
-                if (owner == null)
-                    return false;
-
-                return owner.FocusElement == this;
+                var document = Owner;
+                return document != null ? Object.ReferenceEquals(document.FocusElement, this) : false;
             }
             protected set
             {
-                var owner = Owner;
+                var document = Owner;
 
-                if (owner == null)
-                    return;
-
-                if (value)
+                if (document != null)
                 {
-                    owner.SetFocus(this);
-                    this.Fire<FocusEvent>(m => m.Init(EventNames.Focus, false, false));
-                }
-                else
-                {
-                    owner.SetFocus(null);
-                    this.Fire<FocusEvent>(m => m.Init(EventNames.Blur, false, false));
+                    if (value)
+                    {
+                        document.SetFocus(this);
+                        this.Fire<FocusEvent>(m => m.Init(EventNames.Focus, false, false));
+                    }
+                    else
+                    {
+                        document.SetFocus(null);
+                        this.Fire<FocusEvent>(m => m.Init(EventNames.Blur, false, false));
+                    }
                 }
             }
         }
@@ -407,122 +349,52 @@
 
         #region Methods
 
-        /// <summary>
-        /// Creates a new shadow root for the current element, if there is none
-        /// already.
-        /// </summary>
-        /// <param name="mode">The mode of the shadow root.</param>
-        /// <returns>The new shadow root.</returns>
         public IShadowRoot AttachShadow(ShadowRootMode mode = ShadowRootMode.Open)
         {
             if (Tags.AllNoShadowRoot.Contains(_localName))
+            {
                 throw new DomException(DomError.NotSupported);
+            }
             else if (ShadowRoot != null)
+            {
                 throw new DomException(DomError.InvalidState);
+            }
 
             var root = new ShadowRoot(this, mode);
             shadowRoots.Add(this, root);
             return root;
         }
 
-        /// <summary>
-        /// Returns the first element within the document (using depth-first
-        /// pre-order traversal of the document's nodes) that matches the
-        /// specified group of selectors.
-        /// </summary>
-        /// <param name="selectors">
-        /// A string containing one or more CSS selectors separated by commas.
-        /// </param>
-        /// <returns>An element object.</returns>
         public IElement QuerySelector(String selectors)
         {
             return ChildNodes.QuerySelector(selectors);
         }
 
-        /// <summary>
-        /// Returns a list of the elements within the document (using
-        /// depth-first pre-order traversal of the document's nodes) that match
-        /// the specified group of selectors.
-        /// </summary>
-        /// <param name="selectors">
-        /// A string containing one or more CSS selectors separated by commas.
-        /// </param>
-        /// <returns>A collection of HTML elements.</returns>
         public IHtmlCollection<IElement> QuerySelectorAll(String selectors)
         {
             return ChildNodes.QuerySelectorAll(selectors);
         }
 
-        /// <summary>
-        /// Returns a set of elements which have all the given class names.
-        /// </summary>
-        /// <param name="classNames">
-        /// A string representing the list of class names to match; class names
-        /// are separated by whitespace.
-        /// </param>
-        /// <returns>A collection of HTML elements.</returns>
         public IHtmlCollection<IElement> GetElementsByClassName(String classNames)
         {
             return ChildNodes.GetElementsByClassName(classNames);
         }
 
-        /// <summary>
-        /// Returns a NodeList of elements with the given tag name. The
-        /// complete document is searched, including the root node.
-        /// </summary>
-        /// <param name="tagName">
-        /// A string representing the name of the elements. The special string
-        /// "*" represents all elements.
-        /// </param>
-        /// <returns>
-        /// A NodeList of found elements in the order they appear in the tree.
-        /// </returns>
         public IHtmlCollection<IElement> GetElementsByTagName(String tagName)
         {
             return ChildNodes.GetElementsByTagName(tagName);
         }
 
-        /// <summary>
-        /// Returns a list of elements with the given tag name belonging to the
-        /// given namespace. The complete document is searched, including the
-        /// root node.
-        /// </summary>
-        /// <param name="namespaceURI">
-        /// The namespace URI of elements to look for.
-        /// </param>
-        /// <param name="tagName">
-        /// Either the local name of elements to look for or the special value
-        /// "*", which matches all elements.
-        /// </param>
-        /// <returns>
-        /// A NodeList of found elements in the order they appear in the tree.
-        /// </returns>
         public IHtmlCollection<IElement> GetElementsByTagNameNS(String namespaceURI, String tagName)
         {
             return ChildNodes.GetElementsByTagName(namespaceURI, tagName);
         }
 
-        /// <summary>
-        /// Checks if the element is matched by the given selector.
-        /// </summary>
-        /// <param name="selectors">Represents the selector to test.</param>
-        /// <returns>
-        /// True if the element would be selected by the specified selector,
-        /// otherwise false.
-        /// </returns>
         public Boolean Matches(String selectors)
         {
             return CssParser.Default.ParseSelector(selectors).Match(this);
         }
 
-        /// <summary>
-        /// Returns a duplicate of the node on which this method was called.
-        /// </summary>
-        /// <param name="deep">
-        /// Optional value: true if the children of the node should also be
-        /// cloned, or false to clone only the specified node.
-        /// </param>
-        /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
             var node = new Element(Owner, LocalName, _prefix, _namespace, Flags);
@@ -531,96 +403,53 @@
             return node;
         }
 
-        /// <summary>
-        /// Creates a pseudo element for the current element.
-        /// </summary>
-        /// <param name="pseudoElement">
-        /// The element to create (e.g. ::after).
-        /// </param>
-        /// <returns>The created element or null, if not possible.</returns>
         public IPseudoElement Pseudo(String pseudoElement)
         {
             return PseudoElement.Create(this, pseudoElement);
         }
 
-        /// <summary>
-        /// Returns a boolean value indicating whether the specified element
-        /// has the specified attribute or not.
-        /// </summary>
-        /// <param name="name">The attributes name.</param>
-        /// <returns>The return value of true or false.</returns>
         public Boolean HasAttribute(String name)
         {
-            if (String.Equals(_namespace, Namespaces.HtmlUri, StringComparison.Ordinal))
+            if (_namespace.Is(Namespaces.HtmlUri))
+            {
                 name = name.ToLowerInvariant();
+            }
 
             return _attributes.GetNamedItem(name) != null;
         }
 
-        /// <summary>
-        /// Returns a boolean value indicating whether the specified element
-        /// has the specified attribute or not.
-        /// </summary>
-        /// <param name="namespaceUri">
-        /// A string specifying the namespace of the attribute.
-        /// </param>
-        /// <param name="localName">The attributes name.</param>
-        /// <returns>The return value of true or false.</returns>
         public Boolean HasAttribute(String namespaceUri, String localName)
         {
             if (String.IsNullOrEmpty(namespaceUri))
+            {
                 namespaceUri = null;
+            }
 
             return _attributes.GetNamedItem(namespaceUri, localName) != null;
         }
 
-        /// <summary>
-        /// Returns the value of the named attribute on the specified element.
-        /// </summary>
-        /// <param name="name">
-        /// The name of the attribute whose value you want to get.
-        /// </param>
-        /// <returns>
-        /// If the named attribute does not exist, the value returned will be
-        /// null, otherwise the attribute's value.
-        /// </returns>
         public String GetAttribute(String name)
         {
-            if (String.Equals(_namespace, Namespaces.HtmlUri, StringComparison.Ordinal))
+            if (_namespace.Is(Namespaces.HtmlUri))
+            {
                 name = name.ToLower();
+            }
 
             var attr = _attributes.GetNamedItem(name);
             return attr != null ? attr.Value : null;
         }
 
-        /// <summary>
-        /// Returns the value of the named attribute on the specified element.
-        /// </summary>
-        /// <param name="namespaceUri">
-        /// A string specifying the namespace of the attribute.
-        /// </param>
-        /// <param name="localName">
-        /// The name of the attribute whose value you want to get.
-        /// </param>
-        /// <returns>
-        /// If the named attribute does not exist, the value returned will be
-        /// null, otherwise the attribute's value.
-        /// </returns>
         public String GetAttribute(String namespaceUri, String localName)
         {
             if (String.IsNullOrEmpty(namespaceUri))
+            {
                 namespaceUri = null;
+            }
 
             var attr = _attributes.GetNamedItem(namespaceUri, localName);
             return attr != null ? attr.Value : null;
         }
 
-        /// <summary>
-        /// Adds a new attribute or changes the value of an existing attribute
-        /// on the specified element.
-        /// </summary>
-        /// <param name="name">The name of the attribute as a string.</param>
-        /// <param name="value">The desired new value of the attribute.</param>
         public void SetAttribute(String name, String value)
         {
             if (value != null)
@@ -634,20 +463,13 @@
                 this.SetOwnAttribute(name, value);
             }
             else
+            {
                 RemoveAttribute(name);
+            }
         }
 
-        /// <summary>
-        /// Adds a new attribute or changes the value of an existing attribute
-        /// on the specified element.
-        /// </summary>
-        /// <param name="namespaceUri">
-        /// A string specifying the namespace of the attribute.
-        /// </param>
-        /// <param name="name">The name of the attribute as a string.</param>
-        /// <param name="value">The desired new value of the attribute.</param>
         public void SetAttribute(String namespaceUri, String name, String value)
-        {            
+        {
             if (value != null)
             {
                 var prefix = default(String);
@@ -656,55 +478,36 @@
                 _attributes.SetNamedItem(new Attr(prefix, localName, value, namespaceUri));
             }
             else
+            {
                 RemoveAttribute(namespaceUri, name);
+            }
         }
 
-        /// <summary>
-        /// Removes an attribute from the specified element.
-        /// </summary>
-        /// <param name="name">
-        /// Is a string that names the attribute to be removed.
-        /// </param>
-        /// <returns>The current element.</returns>
         public void RemoveAttribute(String name)
         {
-            if (String.Equals(_namespace, Namespaces.HtmlUri, StringComparison.Ordinal))
+            if (_namespace.Is(Namespaces.HtmlUri))
+            {
                 name = name.ToLower();
+            }
 
             _attributes.RemoveNamedItemOrDefault(name);
         }
 
-        /// <summary>
-        /// Removes an attribute from the specified element.
-        /// </summary>
-        /// <param name="namespaceUri">
-        /// A string specifying the namespace of the attribute.
-        /// </param>
-        /// <param name="localName">
-        /// Is a string that names the attribute to be removed.
-        /// </param>
-        /// <returns>The current element.</returns>
         public void RemoveAttribute(String namespaceUri, String localName)
         {
             if (String.IsNullOrEmpty(namespaceUri))
+            {
                 namespaceUri = null;
+            }
 
             _attributes.RemoveNamedItemOrDefault(namespaceUri, localName);
         }
 
-        /// <summary>
-        /// Prepends nodes to the current node.
-        /// </summary>
-        /// <param name="nodes">The nodes to prepend.</param>
         public void Prepend(params INode[] nodes)
         {
             this.PrependNodes(nodes);
         }
 
-        /// <summary>
-        /// Appends nodes to current node.
-        /// </summary>
-        /// <param name="nodes">The nodes to append.</param>
         public void Append(params INode[] nodes)
         {
             this.AppendNodes(nodes);
@@ -716,7 +519,7 @@
 
             if (otherElement != null)
             {
-                return String.Equals(NamespaceUri, otherElement.NamespaceUri, StringComparison.Ordinal) &&
+                return NamespaceUri.Is(otherElement.NamespaceUri) &&
                     _attributes.AreEqual(otherElement.Attributes) && 
                     base.Equals(otherNode);
             }
@@ -724,49 +527,26 @@
             return false;
         }
 
-        /// <summary>
-        /// Inserts nodes before the current node.
-        /// </summary>
-        /// <param name="nodes">The nodes to insert before.</param>
-        /// <returns>The current element.</returns>
         public void Before(params INode[] nodes)
         {
             this.InsertBefore(nodes);
         }
 
-        /// <summary>
-        /// Inserts nodes after the current node.
-        /// </summary>
-        /// <param name="nodes">The nodes to insert after.</param>
-        /// <returns>The current element.</returns>
         public void After(params INode[] nodes)
         {
             this.InsertAfter(nodes);
         }
 
-        /// <summary>
-        /// Replaces the current node with the nodes.
-        /// </summary>
-        /// <param name="nodes">The nodes to replace.</param>
         public void Replace(params INode[] nodes)
         {
             this.ReplaceWith(nodes);
         }
 
-        /// <summary>
-        /// Removes the current element from the parent.
-        /// </summary>
         public void Remove()
         {
             this.RemoveFromParent();
         }
 
-        /// <summary>
-        /// Inserts new HTML elements specified by the given HTML string at a
-        /// position relative to the current element specified by the position.
-        /// </summary>
-        /// <param name="position">The relation to the current element.</param>
-        /// <param name="html">The HTML code to generate elements for.</param>
         public void Insert(AdjacentPosition position, String html)
         {
             var useThis = position == AdjacentPosition.BeforeBegin || position == AdjacentPosition.AfterEnd;
@@ -793,11 +573,6 @@
             }
         }
 
-        /// <summary>
-        /// Returns an HTML-code representation of the node.
-        /// </summary>
-        /// <param name="formatter">The formatter to use.</param>
-        /// <returns>A string containing the HTML code.</returns>
         public override String ToHtml(IMarkupFormatter formatter)
         {
             var selfClosing = Flags.HasFlag(NodeFlags.SelfClosing);
@@ -813,11 +588,15 @@
                     var text = (IText)FirstChild;
 
                     if (text.Data.Length > 0 && text.Data[0] == Symbols.LineFeed)
+                    {
                         sb.Append(Symbols.LineFeed);
+                    }
                 }
 
                 foreach (var child in ChildNodes)
+                {
                     sb.Append(child.ToHtml(formatter));
+                }
 
                 children = sb.ToPool();
             }

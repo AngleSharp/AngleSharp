@@ -87,10 +87,8 @@
         /// </returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is TextRange)
-                return Equals((TextRange)obj);
-
-            return false;
+            var other = obj as TextRange?;
+            return other.HasValue ? Equals(other.Value) : false;
         }
 
         /// <summary>
@@ -145,11 +143,17 @@
         public Int32 CompareTo(TextRange other)
         {
             if (this > other)
+            {
                 return 1;
+            }
             else if (other > this)
+            {
                 return -1;
-
-            return 0;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         #endregion

@@ -35,7 +35,9 @@
             var creator = default(Creator);
 
             if (creators.TryGetValue(localName, out creator))
+            {
                 return creator(document, prefix);
+            }
 
             return new MathElement(document, localName, prefix);
 

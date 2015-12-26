@@ -5,7 +5,6 @@
     using AngleSharp.Html;
     using AngleSharp.Html.LinkRels;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML link element.
@@ -28,30 +27,9 @@
         public HtmlLinkElement(Document owner, String prefix = null)
             : base(owner, Tags.Link, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            RegisterAttributeObserver(AttributeNames.Rel, value =>
-            {
-                this.CancelTasks();
-                _relation = null;
-
-                if (value != null)
-                {
-                    this.CreateTask(async cancel =>
-                    {
-                        var document = Owner;
-                        _relation = Factory.LinkRelations.Create(this, value);
-
-                        if (_relation != null)
-                        {
-                            await TaskEx.Delay(1, cancel).ConfigureAwait(false);
-                            var task = _relation.LoadAsync(document.Options, document.Loader, cancel);
-                            await task.ContinueWith(m => this.FireLoadOrErrorEvent(m)).ConfigureAwait(false);
-                            return true;
-                        }
-
-                        return false;
-                    });
-                }
-            });
+            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
+            RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);
+            RegisterAttributeObserver(AttributeNames.Href, UpdateSource);
         }
 
         #endregion
@@ -216,6 +194,59 @@
             {
                 var importRelation = _relation as ImportLinkRelation;
                 return importRelation != null ? importRelation.Import : null;
+            }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void UpdateMedia(String value)
+        {
+            var sheet = Sheet;
+
+            if (sheet != null)
+            {
+                sheet.Media.MediaText = value;
+            }
+        }
+
+        void UpdateDisabled(String value)
+        {
+            var sheet = Sheet;
+
+            if (sheet != null)
+            {
+                sheet.IsDisabled = value != null;
+            }
+        }
+
+        void UpdateSource(String value)
+        {
+            if (_relation != null)
+            {
+                _relation.Cancel();
+            }
+
+            var document = Owner;
+
+            if (document != null)
+            {
+                var relation = Factory.LinkRelations.Create(this, Relation);
+
+                if (relation != null)
+                {
+                    var config = document.Options;
+                    var loader = document.Loader;
+
+                    if (config != null && loader != null)
+                    {
+                        var task = relation.LoadAsync(config, loader);
+                        document.DelayLoad(task);
+                    }
+                }
+
+                _relation = relation;
             }
         }
 

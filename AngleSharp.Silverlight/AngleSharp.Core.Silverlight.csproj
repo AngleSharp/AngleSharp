@@ -1865,6 +1865,9 @@
     <Compile Include="..\AngleSharp\Extensions\ElementExtensions.cs">
       <Link>Extensions\ElementExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Extensions\EventLoopExtensions.cs">
+      <Link>Extensions\EventLoopExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Extensions\EventTargetExtensions.cs">
       <Link>Extensions\EventTargetExtensions.cs</Link>
     </Compile>
@@ -1882,6 +1885,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\RequesterExtensions.cs">
       <Link>Extensions\RequesterExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\ResponseExtensions.cs">
+      <Link>Extensions\ResponseExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\SelectorExtensions.cs">
       <Link>Extensions\SelectorExtensions.cs</Link>
@@ -1931,9 +1937,6 @@
     <Compile Include="..\AngleSharp\Factories\SvgElementFactory.cs">
       <Link>Factories\SvgElementFactory.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\CancellableTasks.cs">
-      <Link>Foundation\CancellableTasks.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\CreateDocumentOptions.cs">
       <Link>Factories\CreateDocumentOptions.cs</Link>
     </Compile>
@@ -1951,6 +1954,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\TaskEventLoop.cs">
       <Link>Foundation\TaskEventLoop.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\TaskPriority.cs">
+      <Link>Foundation\TaskPriority.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\AttributeNames.cs">
       <Link>Html\AttributeNames.cs</Link>
@@ -2107,6 +2113,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\IEventLoop.cs">
       <Link>IEventLoop.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\IEventLoopEntry.cs">
+      <Link>IEventLoopEntry.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\IMarkupFormattable.cs">
       <Link>IMarkupFormattable.cs</Link>
@@ -2654,11 +2663,17 @@
     <Compile Include="..\AngleSharp\IStyleFormatter.cs">
       <Link>IStyleFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\Default\BaseLoader.cs">
+      <Link>Network\Default\BaseLoader.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\Default\DataRequester.cs">
       <Link>Network\Default\DataRequester.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\Default\DocumentLoader.cs">
       <Link>Network\Default\DocumentLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\Default\Download.cs">
+      <Link>Network\Default\Download.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\Default\HttpRequester.cs">
       <Link>Network\Default\HttpRequester.cs</Link>
@@ -2683,6 +2698,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Network\IDocumentLoader.cs">
       <Link>Network\IDocumentLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\IDownload.cs">
+      <Link>Network\IDownload.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\ILoader.cs">
+      <Link>Network\ILoader.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\IRequest.cs">
       <Link>Network\IRequest.cs</Link>
@@ -3007,7 +3028,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" />
+      <UserProperties ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

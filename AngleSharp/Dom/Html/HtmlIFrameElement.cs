@@ -4,9 +4,7 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Network;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML iframe element.
@@ -15,7 +13,6 @@
     {
         #region Fields
 
-        readonly IBrowsingContext _context;
         SettableTokenList _sandbox;
         
         #endregion
@@ -25,8 +22,6 @@
         public HtmlIFrameElement(Document owner, String prefix = null)
             : base(owner, Tags.Iframe, prefix, NodeFlags.LiteralText)
         {
-            _context = owner.NewChildContext(Sandboxes.None);
-            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
             RegisterAttributeObserver(AttributeNames.SrcDoc, UpdateSource);
         }
 
@@ -93,45 +88,16 @@
         /// </summary>
         public IWindow ContentWindow
         {
-            get { return _context.Current; }
+            get { return NestedContext.Current; }
         }
 
         #endregion
 
         #region Methods
 
-        void UpdateSource(String _)
+        protected override String GetContentHtml()
         {
-            this.CancelTasks();
-            this.CreateTask(async cancel =>
-            {
-                await TaskEx.Delay(1, cancel).ConfigureAwait(false);
-                var content = ContentHtml;
-                var src = Source;
-                var task = default(Task<IDocument>);
-
-                if (content != null)
-                {
-                    task = _context.OpenAsync(m => m.Content(content).Address(Owner.DocumentUri), cancel);
-                }
-                else if (!String.IsNullOrEmpty(src) && !src.Is(BaseUri))
-                {
-                    var url = this.HyperReference(src);
-                    var request = DocumentRequest.Get(url, source: this, referer: Owner.DocumentUri);
-                    task = _context.OpenAsync(request, cancel);
-                }
-                else
-                    return false;
-
-                return await task.ContinueWith(t =>
-                {
-                    if (!t.IsFaulted)
-                        ContentDocument = t.Result;
-
-                    this.FireLoadOrErrorEvent(t);
-                    return true;
-                }).ConfigureAwait(false);
-            });
+            return ContentHtml;
         }
 
         #endregion

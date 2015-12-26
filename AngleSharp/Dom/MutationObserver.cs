@@ -3,7 +3,6 @@
     using AngleSharp.Attributes;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// MutationObserver provides developers a way to react to changes in a
@@ -30,7 +29,9 @@
         public MutationObserver(MutationCallback callback)
         {
             if (callback == null)
+            {
                 throw new ArgumentNullException("callback");
+            }
 
             _records = new Queue<IMutationRecord>();
             _callback = callback;
@@ -48,7 +49,9 @@
                 foreach (var observing in _observing)
                 {
                     if (Object.ReferenceEquals(observing.Target, node))
+                    {
                         return observing;
+                    }
                 }
 
                 return null;
@@ -83,7 +86,9 @@
             ClearTransients();
 
             if (records.Length != 0)
+            {
                 TriggerWith(records);
+            }
         }
 
         /// <summary>
@@ -106,7 +111,9 @@
             foreach (var observing in _observing)
             {
                 if (Object.ReferenceEquals(observing.Target, node) || observing.TransientNodes.Contains(node))
+                {
                     return observing.Options;
+                }
             }
 
             return default(MutationOptions);
@@ -127,7 +134,9 @@
             var obs = this[ancestor];
 
             if (obs != null && obs.Options.IsObservingSubtree)
+            {
                 obs.TransientNodes.Add(node);
+            }
         }
 
         /// <summary>
@@ -136,7 +145,9 @@
         internal void ClearTransients()
         {
             foreach (var observing in _observing)
+            {
                 observing.TransientNodes.Clear();
+            }
         }
 
         /// <summary>
@@ -196,7 +207,9 @@
             var node = target as Node;
 
             if (node == null)
+            {
                 return;
+            }
 
             var oldCharacterData = characterDataOldValue ?? false;
             var oldAttributeValue = attributeOldValue ?? false;
@@ -213,13 +226,21 @@
             };
 
             if (options.IsExaminingOldAttributeValue && !options.IsObservingAttributes)
+            {
                 throw new DomException(DomError.TypeMismatch);
+            }
             else if (options.AttributeFilters != null && !options.IsObservingAttributes)
+            {
                 throw new DomException(DomError.TypeMismatch);
+            }
             else if (options.IsExaminingOldCharacterData && !options.IsObservingCharacterData)
+            {
                 throw new DomException(DomError.TypeMismatch);
+            }
             else if (options.IsInvalid)
+            {
                 throw new DomException(DomError.Syntax);
+            }
 
             node.Owner.Mutations.Register(this);
             var existing = this[target];

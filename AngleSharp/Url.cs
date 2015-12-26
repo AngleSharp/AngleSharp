@@ -126,7 +126,9 @@
                     var url = new Url(_schemeData);
 
                     if (!url.IsInvalid)
+                    {
                         return url.Origin;
+                    }
                 }
                 else if (KnownProtocols.IsOriginable(_scheme))
                 {
@@ -135,12 +137,16 @@
                     if (!String.IsNullOrEmpty(_host))
                     {
                         if (!String.IsNullOrEmpty(_scheme))
+                        {
                             output.Append(_scheme).Append(Symbols.Colon);
+                        }
 
                         output.Append(Symbols.Solidus).Append(Symbols.Solidus).Append(_host);
 
                         if (!String.IsNullOrEmpty(_port))
+                        {
                             output.Append(Symbols.Colon).Append(_port);
+                        }
                     }
 
                     return output.ToPool();
@@ -210,9 +216,13 @@
             set
             {
                 if (value == null)
+                {
                     _fragment = null;
+                }
                 else
+                {
                     ParseFragment(value, 0);
+                }
             }
         }
 
@@ -363,7 +373,9 @@
             var output = Pool.NewStringBuilder();
 
             if (!String.IsNullOrEmpty(_scheme))
+            {
                 output.Append(_scheme).Append(Symbols.Colon);
+            }
 
             if (_relative)
             {
@@ -376,7 +388,9 @@
                         output.Append(_username);
 
                         if (_password != null)
+                        {
                             output.Append(Symbols.Colon).Append(_password);
+                        }
 
                         output.Append(Symbols.At);
                     }
@@ -384,7 +398,9 @@
                     output.Append(_host);
 
                     if (!String.IsNullOrEmpty(_port))
+                    {
                         output.Append(Symbols.Colon).Append(_port);
+                    }
 
                     output.Append(Symbols.Solidus);
                 }
@@ -392,13 +408,19 @@
                 output.Append(_path);
             }
             else
+            {
                 output.Append(_schemeData);
+            }
 
             if (_query != null)
+            {
                 output.Append(Symbols.QuestionMark).Append(_query);
+            }
 
             if (_fragment != null)
+            {
                 output.Append(Symbols.Num).Append(_fragment);
+            }
 
             return output.ToPool();
         }
@@ -864,12 +886,18 @@
                 fragment = !onlyQuery && input[index] == Symbols.Num;
 
                 if (fragment)
+                {
                     break;
+                }
 
                 if (c.IsNormalQueryCharacter())
+                {
                     buffer.Append(c);
+                }
                 else
+                {
                     buffer.Append(Symbols.Percent).Append(((Byte)c).ToString("X2"));
+                }
 
                 index++;
             }
@@ -916,7 +944,9 @@
             var bytes = TextEncoding.Utf8.GetBytes(source.Substring(index, length));
 
             for (var i = 0; i < bytes.Length; i++)
+            {
                 buffer.Append(Symbols.Percent).Append(bytes[i].ToString("X2"));
+            }
 
             return length - 1;
         }
@@ -924,12 +954,15 @@
         static String SanatizeHost(String hostName, Int32 start, Int32 length)
         {
             if (length > 1 && hostName[start] == Symbols.SquareBracketOpen && hostName[start + length - 1] == Symbols.SquareBracketClose)
+            {
                 return hostName.Substring(start, length);
+            }
 
             var chars = new Byte[4 * length];
             var count = 0;
+            var n = start + length;
 
-            for (int i = start, n = start + length; i < n; i++)
+            for (var i = start; i < n; i++)
             {
                 switch (hostName[i])
                 {
@@ -976,12 +1009,16 @@
                             var l = i + 1 < n && Char.IsSurrogatePair(hostName, i) ? 2 : 1;
 
                             if (l == 1 && hostName[i] != Symbols.Minus && Char.IsLetterOrDigit(hostName[i]) == false)
+                            {
                                 break;
+                            }
 
                             var bytes = TextEncoding.Utf8.GetBytes(hostName.Substring(i, l));
 
                             for (var j = 0; j < bytes.Length; j++)
+                            {
                                 chars[count++] = bytes[j];
+                            }
 
                             i += (l - 1);
                         }
@@ -1015,9 +1052,13 @@
                         break;
                     default:
                         if (count == 1 && chars[0] == '0')
+                        {
                             chars[0] = port[i];
+                        }
                         else
+                        {
                             chars[count++] = port[i];
+                        }
 
                         break;
                 }

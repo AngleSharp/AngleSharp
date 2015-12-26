@@ -108,7 +108,9 @@
             do
             {
                 if (source.Length - source.Index < 1024)
+                {
                     await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
+                }
 
                 token = _tokenizer.Get();
                 Consume(token);
@@ -160,27 +162,41 @@
         public HtmlDocument ParseFragment(HtmlParserOptions options, Element context)
         {
             if (context == null)
+            {
                 throw new ArgumentNullException("context");
+            }
 
             var tagName = context.LocalName;
 
             if (tagName.IsOneOf(Tags.Title, Tags.Textarea))
+            {
                 _tokenizer.State = HtmlParseMode.RCData;
+            }
             else if (tagName.IsOneOf(Tags.Style, Tags.Xmp, Tags.Iframe, Tags.NoEmbed, Tags.NoFrames))
+            {
                 _tokenizer.State = HtmlParseMode.Rawtext;
+            }
             else if (tagName.Is(Tags.Script))
+            {
                 _tokenizer.State = HtmlParseMode.Script;
+            }
             else if (tagName.Is(Tags.Plaintext))
+            {
                 _tokenizer.State = HtmlParseMode.Plaintext;
+            }
             else if (tagName.Is(Tags.NoScript) && options.IsScripting)
+            {
                 _tokenizer.State = HtmlParseMode.Rawtext;
+            }
 
             var root = new HtmlHtmlElement(_document);
             _document.AddNode(root);
             _openElements.Add(root);
 
             if (context is HtmlTemplateElement)
+            {
                 _templateModes.Push(HtmlTreeMode.InTemplate);
+            }
 
             Reset(context);
 
@@ -636,9 +652,8 @@
                     }
                     else if (tagName.Is(Tags.Script))
                     {
-                        var script = new HtmlScriptElement(_document);
+                        var script = new HtmlScriptElement(_document, parserInserted: true, started: IsFragmentCase);
                         AddElement(script, token.AsTag());
-                        script.SetStarted(IsFragmentCase);
                         _tokenizer.State = HtmlParseMode.Script;
                         _previousMode = _currentMode;
                         _currentMode = HtmlTreeMode.Text;
@@ -3432,8 +3447,10 @@
                 CloseCurrentNode();
                 _currentMode = _previousMode;
 
-                if (script.Prepare())
+                if (script.Prepare(_document))
+                {
                     _waiting = RunScript(script);
+                }
             }
         }
 
@@ -3476,7 +3493,9 @@
             for (int i = 0; i < _openElements.Count; i++)
             {
                 if (_openElements[i].LocalName.Is(tagName))
+                {
                     return true;
+                }
             }
 
             return false;
@@ -3490,7 +3509,9 @@
             var temp = _tokenizer.Get();
 
             if (temp.Type == HtmlTokenType.Character)
+            {
                 temp.RemoveNewLine();
+            }
 
             Home(temp);
         }
@@ -3501,10 +3522,14 @@
         void End()
         {
             while (_openElements.Count != 0)
+            {
                 CloseCurrentNode();
+            }
 
             if (_document.ReadyState == DocumentReadyState.Loading)
+            {
                 _waiting = _document.FinishLoading();
+            }
         }
 
         #endregion

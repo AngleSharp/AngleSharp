@@ -6,7 +6,6 @@
     using AngleSharp.Network;
     using AngleSharp.Services.Styling;
     using System;
-    using System.Threading;
     using System.Threading.Tasks;
 
     class StyleSheetLinkRelation : BaseLinkRelation
@@ -19,7 +18,7 @@
 
         #region ctor
 
-        public StyleSheetLinkRelation(IHtmlLinkElement link)
+        public StyleSheetLinkRelation(HtmlLinkElement link)
             : base(link)
         {
         }
@@ -37,14 +36,16 @@
 
         #region Methods
 
-        public override async Task LoadAsync(IConfiguration configuration, IResourceLoader loader, CancellationToken cancel)
+        public override Task LoadAsync(IConfiguration configuration, IResourceLoader loader)
         {
             var link = Link;
             var request = link.CreateRequestFor(Url);
+            var download = loader.DownloadAsync(request);
 
-            using (var response = await loader.FetchAsync(request, cancel).ConfigureAwait(false))
+            return link.ProcessResponse(download, response =>
             {
-                var engine = configuration.GetStyleEngine(link.Type ?? MimeTypes.Css);
+                var type = link.Type ?? MimeTypes.Css;
+                var engine = configuration.GetStyleEngine(type);
 
                 if (engine != null)
                 {
@@ -57,17 +58,10 @@
                         Configuration = configuration
                     };
 
-                    if (response != null)
-                    {
-                        try 
-                        {
-                            _sheet = engine.ParseStylesheet(response, options); 
-                            _sheet.Media.MediaText = link.Media ?? String.Empty;
-                        }
-                        catch { /* Do not care here */ }
-                    }
+                    _sheet = engine.ParseStylesheet(response, options);
+                    _sheet.Media.MediaText = link.Media ?? String.Empty;
                 }
-            }
+            });
         }
 
         #endregion

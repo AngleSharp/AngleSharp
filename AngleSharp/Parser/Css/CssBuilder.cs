@@ -60,25 +60,45 @@
         public CssRule CreateAtRule(CssToken token)
         {
             if (token.Data.Is(RuleNames.Media))
+            {
                 return CreateMedia(token);
+            }
             else if (token.Data.Is(RuleNames.FontFace))
+            {
                 return CreateFontFace(token);
+            }
             else if (token.Data.Is(RuleNames.Keyframes))
+            {
                 return CreateKeyframes(token);
+            }
             else if (token.Data.Is(RuleNames.Import))
+            {
                 return CreateImport(token);
+            }
             else if (token.Data.Is(RuleNames.Charset))
+            {
                 return CreateCharset(token);
+            }
             else if (token.Data.Is(RuleNames.Namespace))
+            {
                 return CreateNamespace(token);
+            }
             else if (token.Data.Is(RuleNames.Page))
+            {
                 return CreatePage(token);
+            }
             else if (token.Data.Is(RuleNames.Supports))
+            {
                 return CreateSupports(token);
+            }
             else if (token.Data.Is(RuleNames.ViewPort))
+            {
                 return CreateViewport(token);
+            }
             else if (token.Data.Is(RuleNames.Document))
+            {
                 return CreateDocument(token);
+            }
 
             return CreateUnknown(token);
         }
@@ -119,7 +139,9 @@
             CollectTrivia(ref token);
 
             if (token.Type == CssTokenType.String)
+            {
                 rule.CharacterSet = token.Data;
+            }
 
             JumpToEnd(token);
             return rule;
@@ -134,7 +156,9 @@
             CollectTrivia(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
+            {
                 return SkipDeclarations(token);
+            }
 
             FillRules(rule);
             return rule;
@@ -147,7 +171,9 @@
             CollectTrivia(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
+            {
                 return SkipDeclarations(token);
+            }
 
             FillDeclarations(rule, Factory.Properties.CreateViewport);
             return rule;
@@ -160,7 +186,9 @@
             CollectTrivia(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
+            {
                 return SkipDeclarations(token);
+            }
 
             FillDeclarations(rule, Factory.Properties.CreateFont);
             return rule;
@@ -194,7 +222,9 @@
             CollectTrivia(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
+            {
                 return SkipDeclarations(token);
+            }
 
             FillKeyframeRules(rule);
             return rule;
@@ -213,9 +243,13 @@
                 while (token.Type != CssTokenType.Eof)
                 {
                     if (token.Type == CssTokenType.Semicolon)
+                    {
                         return null;
+                    }
                     else if (token.Type == CssTokenType.CurlyBracketOpen)
+                    {
                         break;
+                    }
 
                     token = NextToken();
                 }
@@ -234,7 +268,9 @@
             CollectTrivia(ref token);
 
             if (token.Type == CssTokenType.Url)
+            {
                 rule.NamespaceUri = token.Data;
+            }
 
             JumpToEnd(token);
             return rule;
@@ -249,7 +285,9 @@
             CollectTrivia(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
+            {
                 return SkipDeclarations(token);
+            }
 
             FillDeclarations(rule.Style);
             return rule;
@@ -264,7 +302,9 @@
             CollectTrivia(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
+            {
                 return SkipDeclarations(token);
+            }
 
             FillRules(rule);
             return rule;
@@ -370,7 +410,9 @@
                 var medium = CreateMedium(ref token);
 
                 if (medium == null || token.IsNot(CssTokenType.Comma, CssTokenType.Eof))
+                {
                     throw new DomException(DomError.Syntax);
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
@@ -424,30 +466,46 @@
                 if (keys.Count > 0)
                 {
                     if (token.Type == CssTokenType.CurlyBracketOpen)
+                    {
                         break;
+                    }
                     else if (token.Type != CssTokenType.Comma)
+                    {
                         valid = false;
+                    }
                     else
+                    {
                         token = NextToken();
+                    }
 
                     CollectTrivia(ref token);
                 }
 
                 if (token.Type == CssTokenType.Percentage)
+                {
                     keys.Add(new Percent(((CssUnitToken)token).Value));
+                }
                 else if (token.Type == CssTokenType.Ident && token.Data.Is(Keywords.From))
+                {
                     keys.Add(Percent.Zero);
+                }
                 else if (token.Type == CssTokenType.Ident && token.Data.Is(Keywords.To))
+                {
                     keys.Add(Percent.Hundred);
+                }
                 else
+                {
                     valid = false;
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
             }
 
             if (!valid)
+            {
                 RaiseErrorOccurred(CssParseError.InvalidSelector, start);
+            }
 
             return CloseNode(new KeyframeSelector(keys));
         }
@@ -476,7 +534,9 @@
                 var property = CreateDeclarationWith(Factory.Properties.Create, ref token);
 
                 if (property != null && property.HasValue)
+                {
                     style.SetProperty(property);
+                }
 
                 CollectTrivia(ref token);
             }
@@ -512,7 +572,9 @@
                     new CssUnknownProperty(propertyName) : createProperty(propertyName);
 
                 if (property == null)
+                {
                     RaiseErrorOccurred(CssParseError.UnknownDeclarationName, token);
+                }
 
                 CollectTrivia(ref token);
 
@@ -522,14 +584,20 @@
                     var value = CreateValue(CssTokenType.CurlyBracketClose, ref token, out important);
 
                     if (value == null)
+                    {
                         RaiseErrorOccurred(CssParseError.ValueMissing, token);
+                    }
                     else if (property != null && property.TrySetValue(value))
+                    {
                         property.IsImportant = important;
+                    }
 
                     CollectTrivia(ref token);
                 }
                 else
+                {
                     RaiseErrorOccurred(CssParseError.ColonMissing, token);
+                }
 
                 JumpToDeclEnd(ref token);
             }
@@ -540,7 +608,9 @@
             }
 
             if (token.Type == CssTokenType.Semicolon)
+            {
                 token = NextToken();
+            }
 
             return CloseNode(property);
         }

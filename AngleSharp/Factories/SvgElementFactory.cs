@@ -74,7 +74,9 @@
             var creator = default(Creator);
 
             if (creators.TryGetValue(localName, out creator))
+            {
                 return creator(document, prefix);
+            }
 
             return new SvgElement(document, localName);
         }
@@ -101,7 +103,9 @@
             var adjustedTagName = default(String);
 
             if (adjustedTagNames.TryGetValue(localName, out adjustedTagName))
+            {
                 return adjustedTagName;
+            }
 
             return localName;
         }

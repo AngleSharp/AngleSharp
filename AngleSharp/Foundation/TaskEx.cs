@@ -1,9 +1,7 @@
-﻿namespace AngleSharp
+﻿namespace System.Threading.Tasks
 {
     using System;
     using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Simple wrapper for static methods of Task, which are missing in older

@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Couples the mutation events to mutation observers and the event loop.
@@ -66,7 +66,9 @@
             _queued = false;
 
             foreach (var observer in observers)
-                _loop.Execute(observer.Trigger);
+            {
+                _loop.Enqueue(observer.Trigger, TaskPriority.Microtask);
+            }
         }
 
         #endregion

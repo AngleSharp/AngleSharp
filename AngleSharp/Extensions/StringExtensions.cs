@@ -26,10 +26,14 @@
         /// <returns>The compatibility string.</returns>
         public static String GetCompatiblity(this QuirksMode mode)
         {
-            var attr = typeof(QuirksMode).GetTypeInfo().GetDeclaredField(mode.ToString()).GetCustomAttribute<DomDescriptionAttribute>();
+            var type = typeof(QuirksMode).GetTypeInfo();
+            var field = type.GetDeclaredField(mode.ToString());
+            var attr = field.GetCustomAttribute<DomDescriptionAttribute>();
 
             if (attr != null)
+            {
                 return attr.Description;
+            }
 
             return "CSS1Compat";
         }
@@ -46,28 +50,44 @@
             var output = Sandboxes.Navigation | Sandboxes.Plugins | Sandboxes.DocumentDomain;
 
             if (!values.Contains("allow-popups", StringComparison.OrdinalIgnoreCase))
+            {
                 output |= Sandboxes.AuxiliaryNavigation;
+            }
 
             if (!values.Contains("allow-top-navigation", StringComparison.OrdinalIgnoreCase))
+            {
                 output |= Sandboxes.TopLevelNavigation;
+            }
 
             if (!values.Contains("allow-same-origin", StringComparison.OrdinalIgnoreCase))
+            {
                 output |= Sandboxes.Origin;
+            }
 
             if (!values.Contains("allow-forms", StringComparison.OrdinalIgnoreCase))
+            {
                 output |= Sandboxes.Forms;
+            }
 
             if (!values.Contains("allow-pointer-lock", StringComparison.OrdinalIgnoreCase))
+            {
                 output |= Sandboxes.PointerLock;
+            }
 
             if (!values.Contains("allow-scripts", StringComparison.OrdinalIgnoreCase))
+            {
                 output |= Sandboxes.Scripts;
+            }
 
             if (!values.Contains("allow-scripts", StringComparison.OrdinalIgnoreCase))
+            {
                 output |= Sandboxes.AutomaticFeatures;
+            }
 
             if (!allowFullscreen)
+            {
                 output |= Sandboxes.Fullscreen;
+            }
 
             return output;
         }
@@ -84,7 +104,9 @@
             var converted = default(T);
 
             if (!String.IsNullOrEmpty(value) && Enum.TryParse(value, true, out converted))
+            {
                 return converted;
+            }
 
             return defaultValue;
         }
@@ -100,7 +122,9 @@
             var converted = default(Double);
 
             if (!String.IsNullOrEmpty(value) && Double.TryParse(value, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out converted))
+            {
                 return converted;
+            }
 
             return defaultValue;
         }
@@ -116,7 +140,9 @@
             var converted = default(Int32);
 
             if (!String.IsNullOrEmpty(value) && Int32.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out converted))
+            {
                 return converted;
+            }
 
             return defaultValue;
         }
@@ -132,7 +158,9 @@
             var converted = default(UInt32);
 
             if (!String.IsNullOrEmpty(value) && UInt32.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out converted))
+            {
                 return converted;
+            }
 
             return defaultValue;
         }
@@ -148,7 +176,9 @@
             var converted = default(Boolean);
 
             if (!String.IsNullOrEmpty(value) && Boolean.TryParse(value, out converted))
+            {
                 return converted;
+            }
 
             return defaultValue;
         }
@@ -165,7 +195,9 @@
             var pos = text.IndexOf(search);
 
             if (pos < 0)
+            {
                 return text;
+            }
 
             return String.Concat(text.Substring(0, pos), replace, text.Substring(pos + search.Length));
         }
@@ -181,15 +213,15 @@
             var hasSpace = true;
             var index = 0;
 
-            for (int i = 0; i < str.Length; i++)
+            for (var i = 0; i < str.Length; i++)
             {
                 if (str[i].IsSpaceCharacter())
                 {
-                    if (hasSpace)
-                        continue;
-
-                    hasSpace = true;
-                    chars[index++] = Symbols.Space;
+                    if (!hasSpace)
+                    {
+                        hasSpace = true;
+                        chars[index++] = Symbols.Space;
+                    }
                 }
                 else
                 {
@@ -199,7 +231,9 @@
             }
 
             if (hasSpace && index > 0)
+            {
                 index--;
+            }
 
             return new String(chars, 0, index);
         }
@@ -214,15 +248,15 @@
             var chars = new List<Char>();
             var hasSpace = false;
 
-            for (int i = 0; i < str.Length; i++)
+            for (var i = 0; i < str.Length; i++)
             {
                 if (str[i].IsSpaceCharacter())
                 {
-                    if (hasSpace)
-                        continue;
-
-                    chars.Add(Symbols.Space);
-                    hasSpace = true;
+                    if (!hasSpace)
+                    {
+                        chars.Add(Symbols.Space);
+                        hasSpace = true;
+                    }
                 }
                 else
                 {
@@ -243,10 +277,12 @@
         /// <returns>The status of the check.</returns>
         public static Boolean Contains(this String[] list, String element, StringComparison comparison = StringComparison.Ordinal)
         {
-            for (int i = 0; i < list.Length; i++)
+            for (var i = 0; i < list.Length; i++)
             {
                 if (list[i].Equals(element, comparison))
+                {
                     return true;
+                }
             }
 
             return false;
@@ -344,18 +380,21 @@
             var array = str.ToCharArray();
             var shift = 0;
             var length = array.Length;
+            var index = 0;
 
-            for (var i = 0; i < length; )
+            while (index < length)
             {
-                array[i] = array[i + shift];
+                array[index] = array[index + shift];
 
-                if (array[i].IsLineBreak())
+                if (array[index].IsLineBreak())
                 {
                     shift++;
                     length--;
                 }
                 else
-                    i++;
+                {
+                    index++;
+                }
             }
 
             return new String(array, 0, length);
@@ -384,10 +423,14 @@
             var end = array.Length - 1;
 
             while (start < array.Length && array[start].IsSpaceCharacter())
+            {
                 start++;
+            }
 
             while (end > start && array[end].IsSpaceCharacter())
+            {
                 end--;
+            }
 
             return new String(array, start, 1 + end - start);
         }
@@ -420,14 +463,18 @@
                 if (chars[i] == c)
                 {
                     if (i > index)
+                    {
                         list.Add(new String(chars, index, i - index));
+                    }
 
                     index = i + 1;
                 }
             }
 
             if (chars.Length > index)
+            {
                 list.Add(new String(chars, index, chars.Length - index));
+            }
 
             return list.ToArray();
         }
@@ -453,7 +500,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean HasHyphen(this String str, String value)
         {
-            return str.Is(value) || (str.Length > value.Length && str.StartsWith(value, StringComparison.Ordinal) && str[value.Length] == '-');
+            return str.Is(value) || (str.Length > value.Length && str.StartsWith(value, StringComparison.Ordinal) && str[value.Length] == Symbols.Minus);
         }
 
         /// <summary>
@@ -476,13 +523,17 @@
                         var token = buffer.ToArray().StripLeadingTrailingSpaces();
 
                         if (token.Length != 0)
+                        {
                             list.Add(token);
+                        }
 
                         buffer.Clear();
                     }
                 }
                 else
+                {
                     buffer.Add(chars[i]);
+                }
             }
 
             return list.ToArray();
@@ -509,13 +560,17 @@
                         var token = buffer.ToArray().StripLeadingTrailingSpaces();
 
                         if (token.Length != 0)
+                        {
                             list.Add(token);
+                        }
 
                         buffer.Clear();
                     }
                 }
                 else
+                {
                     buffer.Add(chars[i]);
+                }
             }
 
             return list.ToArray();
@@ -574,13 +629,21 @@
                     var character = value[i];
 
                     if (character == Symbols.Null)
+                    {
                         throw new DomException(DomError.InvalidCharacter);
+                    }
                     else if (character == Symbols.DoubleQuote || character == Symbols.ReverseSolidus)
+                    {
                         builder.Append(Symbols.ReverseSolidus).Append(character);
+                    }
                     else if (character.IsInRange((Int32)0x1, (Int32)0x1f) || character == (Char)0x7b)
+                    {
                         builder.Append(Symbols.ReverseSolidus).Append(character.ToHex()).Append(i + 1 != value.Length ? " " : "");
+                    }
                     else
+                    {
                         builder.Append(character);
+                    }
                 }
             }
 
@@ -608,7 +671,9 @@
             var color = default(Color);
 
             if (Color.TryFromHex(value, out color))
+            {
                 return color.ToString(null, CultureInfo.InvariantCulture);
+            }
 
             return value;
         }
@@ -622,14 +687,16 @@
         /// <returns>The provided CSS unit or null.</returns>
         public static String CssUnit(this String value, out Single result)
         {
-            if (String.IsNullOrEmpty(value) == false)
+            if (!String.IsNullOrEmpty(value))
             {
                 var firstLetter = value.Length;
 
-                while (!value[firstLetter - 1].IsDigit() && --firstLetter > 0) ;
+                while (!value[firstLetter - 1].IsDigit() && --firstLetter > 0)
+                {
+                    // Intentional empty.
+                }
 
-                if (firstLetter > 0 &&
-                    Single.TryParse(value.Substring(0, firstLetter), NumberStyles.Any, CultureInfo.InvariantCulture, out result))
+                if (firstLetter > 0 && Single.TryParse(value.Substring(0, firstLetter), NumberStyles.Any, CultureInfo.InvariantCulture, out result))
                 {
                     return value.Substring(firstLetter);
                 }
@@ -654,16 +721,22 @@
         {
             var builder = Pool.NewStringBuilder();
 
-            for (int i = 0; i < content.Length; i++)
+            for (var i = 0; i < content.Length; i++)
             {
                 var chr = (Char)content[i];
 
                 if (chr == Symbols.Space)
+                {
                     builder.Append(Symbols.Plus);
+                }
                 else if (chr == Symbols.Asterisk || chr == Symbols.Minus || chr == Symbols.Dot || chr == Symbols.Underscore || chr == Symbols.Tilde || chr.IsAlphanumericAscii())
+                {
                     builder.Append(chr);
+                }
                 else
+                {
                     builder.Append(Symbols.Percent).Append(content[i].ToString("X2"));
+                }
             }
 
             return builder.ToPool();
@@ -679,22 +752,31 @@
         {
             var ms = new MemoryStream();
 
-            for (int i = 0; i < value.Length; i++)
+            for (var i = 0; i < value.Length; i++)
             {
                 var chr = value[i];
 
                 if (chr == Symbols.Plus)
-                    ms.WriteByte((Byte)Symbols.Space);
+                {
+                    var b = (Byte)Symbols.Space;
+                    ms.WriteByte(b);
+                }
                 else if (chr == Symbols.Percent)
                 {
                     if (i + 2 >= value.Length)
+                    {
                         throw new FormatException();
+                    }
 
                     var code = 16 * value[++i].FromHex() + value[++i].FromHex();
-                    ms.WriteByte((Byte)code);
+                    var b = (Byte)code;
+                    ms.WriteByte(b);
                 }
                 else
-                    ms.WriteByte((Byte)chr);
+                {
+                    var b = (Byte)chr;
+                    ms.WriteByte(b);
+                }
             }
 
             return ms.ToArray();

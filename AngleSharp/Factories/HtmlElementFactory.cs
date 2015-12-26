@@ -155,7 +155,9 @@
             var creator = default(Creator);
 
             if (creators.TryGetValue(localName, out creator))
+            {
                 return creator(document, prefix);
+            }
 
             return new HtmlUnknownElement(document, localName.ToLowerInvariant(), prefix);
         }

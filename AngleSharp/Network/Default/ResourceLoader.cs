@@ -1,43 +1,31 @@
 ﻿namespace AngleSharp.Network.Default
 {
-    using AngleSharp.Dom;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the default resource loader. This class can be inherited.
     /// </summary>
-    public class ResourceLoader : IResourceLoader
+    public class ResourceLoader : BaseLoader, IResourceLoader
     {
-        readonly IEnumerable<IRequester> _requesters;
-        readonly IDocument _document;
-        readonly Predicate<IRequest> _filter;
-
         /// <summary>
         /// Creates a new resource loader.
         /// </summary>
         /// <param name="requesters">The requesters to use.</param>
-        /// <param name="document">The document hosting the resources.</param>
+        /// <param name="configuration">The associated configuration..</param>
         /// <param name="filter">The optional request filter to use.</param>
-        public ResourceLoader(IEnumerable<IRequester> requesters, IDocument document, Predicate<IRequest> filter = null)
+        public ResourceLoader(IEnumerable<IRequester> requesters, IConfiguration configuration, Predicate<IRequest> filter = null)
+            : base(requesters, configuration, filter)
         {
-            _requesters = requesters;
-            _document = document;
-            _filter = filter ?? (_ => true);
         }
 
         /// <summary>
         /// Loads the data for the request asynchronously.
         /// </summary>
         /// <param name="request">The issued request.</param>
-        /// <param name="cancel">The cancellation token.</param>
-        /// <returns>The task creating the response.</returns>
-        public virtual Task<IResponse> LoadAsync(ResourceRequest request, CancellationToken cancel)
+        /// <returns>The active download.</returns>
+        public virtual IDownload DownloadAsync(ResourceRequest request)
         {
-            var events = _document.Context.Configuration.Events;
             var data = new Request
             {
                 Address = request.Target,
@@ -45,7 +33,7 @@
             };
 
             data.Headers[HeaderNames.Referer] = request.Source.Owner.DocumentUri;
-            return _filter(data) ? _requesters.LoadAsync(data, events, cancel) : TaskEx.FromResult(default(IResponse));
+            return DownloadAsync(data, request.Source);
         }
     }
 }
