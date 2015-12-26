@@ -811,8 +811,8 @@
         /// <param name="element">The element to use.</param>
         /// <param name="download">The issued download.</param>
         /// <param name="callback">The callback handling the resource.</param>
-        /// <returns>The created task.</returns>
-        public static Task ProcessResource<TResource>(this Element element, IDownload download, Action<TResource> callback)
+        /// <returns>The created task waiting for a response status.</returns>
+        public static Task<Boolean> ProcessResource<TResource>(this Element element, IDownload download, Action<TResource> callback)
             where TResource : IResourceInfo
         {
             return element.ProcessResponse(download, async response =>
@@ -842,10 +842,11 @@
         /// <param name="element">The element to use.</param>
         /// <param name="download">The issued download.</param>
         /// <param name="callback">The callback handling the resource.</param>
-        /// <returns>The created task.</returns>
-        public static async Task ProcessResponse(this Element element, IDownload download, Action<IResponse> callback)
+        /// <returns>The created task waiting for a response status.</returns>
+        public static async Task<Boolean> ProcessResponse(this Element element, IDownload download, Action<IResponse> callback)
         {
             var response = await download.Task.ConfigureAwait(false);
+            var completionStatus = new TaskCompletionSource<Boolean>();
             
             element.Owner.QueueTask(() => 
             {
@@ -855,10 +856,12 @@
                     {
                         callback(response);
                         element.FireSimpleEvent(EventNames.Load);
+                        completionStatus.SetResult(true);
                     }
                     catch
                     {
                         element.FireSimpleEvent(EventNames.Error);
+                        completionStatus.SetResult(false);
                     }
                     finally
                     {
@@ -868,8 +871,11 @@
                 else
                 {
                     element.FireSimpleEvent(EventNames.Error);
+                    completionStatus.SetResult(false);
                 }
             });
+
+            return await completionStatus.Task.ConfigureAwait(false);
         }
 
         /// <summary>
