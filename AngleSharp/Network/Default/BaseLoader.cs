@@ -94,7 +94,10 @@
         /// <returns>The enumerable over all active downloads.</returns>
         public IEnumerable<IDownload> GetDownloads()
         {
-            return _downloads.ToArray();
+            lock (this)
+            {
+                return _downloads.ToArray();
+            }
         }
 
         /// <summary>
@@ -115,7 +118,9 @@
                     var evt = new RequestStartEvent(requester, request);
 
                     if (events != null)
+                    {
                         events.Publish(evt);
+                    }
 
                     var result = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
                     evt.FireEnd();

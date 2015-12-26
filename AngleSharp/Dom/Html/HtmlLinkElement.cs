@@ -6,7 +6,6 @@
     using AngleSharp.Network;
     using AngleSharp.Services.Styling;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML link element.

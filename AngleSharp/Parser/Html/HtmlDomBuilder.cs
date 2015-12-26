@@ -3447,7 +3447,7 @@
                 CloseCurrentNode();
                 _currentMode = _previousMode;
 
-                if (script.Prepare())
+                if (script.Prepare(_document))
                 {
                     _waiting = RunScript(script);
                 }

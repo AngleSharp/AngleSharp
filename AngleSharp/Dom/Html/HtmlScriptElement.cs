@@ -176,9 +176,9 @@
         /// More information available at:
         /// http://www.w3.org/TR/html5/scripting-1.html#prepare-a-script
         /// </summary>
-        internal Boolean Prepare()
+        internal Boolean Prepare(Document document)
         {
-            var options = Owner.Options;
+            var options = document.Options;
             var eventAttr = this.GetOwnAttribute(AttributeNames.Event);
             var forAttr = this.GetOwnAttribute(AttributeNames.For);
             var src = Source;
@@ -231,14 +231,14 @@
             {
                 if (src.Length != 0)
                 {
-                    return InvokeLoadingScript(this.HyperReference(src));
+                    return InvokeLoadingScript(document, this.HyperReference(src));
                 }
-                    
-                Owner.QueueTask(FireErrorEvent);
+
+                document.QueueTask(FireErrorEvent);
             }
             else 
             {
-                if (_parserInserted && Owner.GetStyleSheetDownloads().Any())
+                if (_parserInserted && document.GetStyleSheetDownloads().Any())
                 {
                     _runScript = RunFromSource;
                     return true;
@@ -250,10 +250,9 @@
             return false;
         }
 
-        Boolean InvokeLoadingScript(Url url)
+        Boolean InvokeLoadingScript(Document document, Url url)
         {
             var fromParser = true;
-            var document = Owner;
 
             //Just add to the (end of) set of scripts
             if (!_parserInserted || IsDeferred || IsAsync)
@@ -304,10 +303,13 @@
 
         ScriptOptions CreateOptions()
         {
+            var document = Owner;
+            var context = document != null ? document.DefaultView : null;
+
             return new ScriptOptions
             {
-                Context = Owner.DefaultView,
-                Document = Owner,
+                Context = context,
+                Document = document,
                 Element = this,
                 Encoding = TextEncoding.Resolve(CharacterSet)
             };
