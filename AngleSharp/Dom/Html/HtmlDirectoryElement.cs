@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Attributes;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents the HTML dir element.
@@ -11,13 +11,9 @@
     [DomHistorical]
     sealed class HtmlDirectoryElement : HtmlElement
     {
-        #region ctor
-
         public HtmlDirectoryElement(Document owner, String prefix = null)
             : base (owner, Tags.Dir, prefix, NodeFlags.Special)
         {
         }
-
-        #endregion
     }
 }

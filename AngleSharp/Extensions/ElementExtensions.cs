@@ -156,20 +156,20 @@
         {
             var parent = element.ParentElement;
 
-            if (parent == null)
+            if (parent != null)
             {
-                return false;
-            }
-
-            for (var i = 0; i < parent.ChildNodes.Length; i++)
-            {
-                if (parent.ChildNodes[i].NodeName.Is(element.NodeName) && parent.ChildNodes[i] != element)
+                for (var i = 0; i < parent.ChildNodes.Length; i++)
                 {
-                    return false;
+                    if (parent.ChildNodes[i].NodeName.Is(element.NodeName) && parent.ChildNodes[i] != element)
+                    {
+                        return false;
+                    }
                 }
+
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         /// <summary>
@@ -204,16 +204,14 @@
         {
             var parent = element.ParentElement;
 
-            if (parent == null)
+            if (parent != null)
             {
-                return false;
-            }
-
-            for (int i = parent.ChildNodes.Length - 1; i >= 0; i--)
-            {
-                if (parent.ChildNodes[i].NodeName.Is(element.NodeName))
+                for (int i = parent.ChildNodes.Length - 1; i >= 0; i--)
                 {
-                    return parent.ChildNodes[i] == element;
+                    if (parent.ChildNodes[i].NodeName.Is(element.NodeName))
+                    {
+                        return parent.ChildNodes[i] == element;
+                    }
                 }
             }
 
@@ -230,13 +228,13 @@
             var owner = element.Owner;
             var id = element.Id;
 
-            if (owner == null || id == null)
+            if (owner != null && id != null)
             {
-                return false;
+                var hash = owner.Location.Hash;
+                return String.Compare(id, 0, hash, hash.Length > 0 ? 1 : 0, Int32.MaxValue) == 0;
             }
 
-            var hash = owner.Location.Hash;
-            return String.Compare(id, 0, hash, hash.Length > 0 ? 1 : 0, Int32.MaxValue) == 0;
+            return false;
         }
 
         /// <summary>
@@ -544,10 +542,8 @@
                 var link = (HtmlLinkElement)element;
                 return !String.IsNullOrEmpty(href) && link.IsVisited;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         /// <summary>

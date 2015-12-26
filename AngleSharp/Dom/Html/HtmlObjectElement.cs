@@ -5,7 +5,6 @@
     using AngleSharp.Network;
     using AngleSharp.Services.Media;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML object element.
@@ -24,7 +23,6 @@
         public HtmlObjectElement(Document owner, String prefix = null)
             : base(owner, Tags.Object, prefix, NodeFlags.Scoped)
         {
-            RegisterAttributeObserver(AttributeNames.Data, UpdateSource);
         }
 
         #endregion
@@ -131,6 +129,23 @@
         protected override Boolean CanBeValidated()
         {
             return false;
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var data = this.GetOwnAttribute(AttributeNames.Data);
+            RegisterAttributeObserver(AttributeNames.Data, UpdateSource);
+
+            if (data != null)
+            {
+                UpdateSource(data);
+            }
         }
 
         #endregion

@@ -26,7 +26,6 @@
         public HtmlSelectElement(Document owner, String prefix = null)
             : base(owner, Tags.Select, prefix)
         {
-            RegisterAttributeObserver(AttributeNames.Value, value => Value = value);
         }
 
         #endregion
@@ -94,19 +93,16 @@
                 foreach (var option in options)
                 {
                     if (option.IsSelected)
+                    {
                         return option.Value;
+                    }
                 }
 
                 return null;
             }
             set
             {
-                var options = Options;
-
-                foreach (var option in options)
-                {
-                    option.IsSelected = option.Value == value;
-                }
+                UpdateValue(value);
             }
         }
 
@@ -189,36 +185,43 @@
 
         #endregion
 
-        #region Helpers
+        #region Internal Methods
 
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
             var options = Options;
 
-            for (int i = 0; i < options.Length; i++)
+            for (var i = 0; i < options.Length; i++)
             {
                 var option = options.GetOptionAt(i);
 
                 if (option.IsSelected && !option.IsDisabled)
+                {
                     dataSet.Append(Name, option.Value, Type);
+                }
             }
         }
 
-        protected override Boolean CanBeValidated()
+        internal override void SetupElement()
         {
-            return this.HasDataListAncestor() == false;
+            base.SetupElement();
+
+            var value = this.GetOwnAttribute(AttributeNames.Value);
+            RegisterAttributeObserver(AttributeNames.Value, UpdateValue);
+
+            if (value != null)
+            {
+                UpdateValue(value);
+            }
         }
 
-        /// <summary>
-        /// Resets the form control to its initial value.
-        /// </summary>
         internal override void Reset()
         {
             var options = Options;
             var selected = 0;
             var maxSelected = 0;
 
-            for (int i = 0; i < options.Length; i++)
+            for (var i = 0; i < options.Length; i++)
             {
                 var option = options.GetOptionAt(i);
                 option.IsSelected = option.IsDefaultSelected;
@@ -230,13 +233,35 @@
                 }
             }
 
-            if (selected != 1 && IsMultiple == false && options.Length > 0)
+            if (selected != 1 && !IsMultiple && options.Length > 0)
             {
                 foreach (var option in options)
+                {
                     option.IsSelected = false;
+                }
 
                 options[maxSelected].IsSelected = true;
             }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void UpdateValue(String value)
+        {
+            var options = Options;
+
+            foreach (var option in options)
+            {
+                var selected = option.Value.Isi(value);
+                option.IsSelected = selected;
+            }
+        }
+
+        protected override Boolean CanBeValidated()
+        {
+            return this.HasDataListAncestor() == false;
         }
 
         /// <summary>

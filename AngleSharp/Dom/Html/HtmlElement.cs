@@ -29,16 +29,6 @@
         public HtmlElement(Document owner, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, Combine(prefix, localName), localName, prefix, Namespaces.HtmlUri, flags | NodeFlags.HtmlMember)
         {
-            RegisterAttributeObserver(AttributeNames.Style, value =>
-            {
-                var bindable = _style as IBindable;
-
-                if (String.IsNullOrEmpty(value))
-                    RemoveAttribute(AttributeNames.Style);
-
-                if (bindable != null)
-                    bindable.Update(value);
-            });
         }
 
         #endregion
@@ -269,6 +259,19 @@
 
         #region Internal Methods
 
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var style = this.GetOwnAttribute(AttributeNames.Style);
+            RegisterAttributeObserver(AttributeNames.Style, UpdateStyle);
+
+            if (style != null)
+            {
+                UpdateStyle(style);
+            }
+        }
+
         /// <summary>
         /// Gets the assigned form if any (use only on selected elements).
         /// </summary>
@@ -277,11 +280,8 @@
         {
             var parent = Parent as INode;
 
-            while (parent is IHtmlFormElement == false)
+            while (parent != null && parent is IHtmlFormElement == false)
             {
-                if (parent == null)
-                    break;
-
                 parent = parent.ParentElement;
             }
             
@@ -290,10 +290,12 @@
                 var formid = this.GetOwnAttribute(AttributeNames.Form);
                 var owner = Owner;
 
-                if (owner != null && parent == null && !String.IsNullOrEmpty(formid))
-                    parent = owner.GetElementById(formid);
-                else
+                if (owner == null || parent != null || String.IsNullOrEmpty(formid))
+                {
                     return null;
+                }
+
+                parent = owner.GetElementById(formid);
             }
 
             return parent as IHtmlFormElement;
@@ -302,6 +304,21 @@
         #endregion
 
         #region Helpers
+
+        void UpdateStyle(String value)
+        {
+            var bindable = _style as IBindable;
+
+            if (String.IsNullOrEmpty(value))
+            {
+                RemoveAttribute(AttributeNames.Style);
+            }
+
+            if (bindable != null)
+            {
+                bindable.Update(value);
+            }
+        }
 
         String GetDefaultLanguage()
         {

@@ -26,7 +26,6 @@
         public HtmlEmbedElement(Document owner, String prefix = null)
             : base(owner, Tags.Embed, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
         }
 
         #endregion
@@ -55,6 +54,23 @@
         {
             get { return this.GetOwnAttribute(AttributeNames.Height); }
             set { this.SetOwnAttribute(AttributeNames.Height, value); }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var src = this.GetOwnAttribute(AttributeNames.Src);
+            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
+
+            if (src != null)
+            {
+                UpdateSource(src);
+            }
         }
 
         #endregion

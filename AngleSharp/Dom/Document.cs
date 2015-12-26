@@ -527,12 +527,14 @@
                 var children = ChildNodes;
                 var n = children.Length;
 
-                for (int i = 0; i < n; i++)
+                for (var i = 0; i < n; i++)
                 {
                     var child = children[i] as IElement;
 
                     if (child != null)
+                    {
                         return child;
+                    }
                 }
 
                 return null;
@@ -548,12 +550,14 @@
             {
                 var children = ChildNodes;
 
-                for (int i = children.Length - 1; i >= 0; i--)
+                for (var i = children.Length - 1; i >= 0; i--)
                 {
                     var child = children[i] as IElement;
 
                     if (child != null)
+                    {
                         return child;
+                    }
                 }
 
                 return null;
@@ -825,12 +829,16 @@
                         var body = child as HtmlBodyElement;
 
                         if (body != null)
+                        {
                             return body;
+                        }
 
                         var frameset = child as HtmlFrameSetElement;
 
                         if (frameset != null)
+                        {
                             return frameset;
+                        }
                     }
                 }
 
@@ -843,20 +851,24 @@
 
                 var body = Body;
 
-                if (body == value)
-                    return;
-                
-                if (body == null)
+                if (body != value)
                 {
-                    var root = DocumentElement;
+                    if (body == null)
+                    {
+                        var root = DocumentElement;
 
-                    if (root == null)
-                        throw new DomException(DomError.HierarchyRequest);
+                        if (root == null)
+                        {
+                            throw new DomException(DomError.HierarchyRequest);
+                        }
+                        
+                        root.AppendChild(value);
+                    }
                     else
-                        root.AppendChild(value); 
+                    {
+                        ReplaceChild(value, body);
+                    }
                 }
-                else
-                    ReplaceChild(value, body);
             }
         }
 
@@ -906,9 +918,13 @@
                 var others = _styleSheets.Where(m => !String.IsNullOrEmpty(m.Title) && !m.IsDisabled);
 
                 if (enabled.Count() == 1 && !others.Any(m => m.Title != enabledName))
+                {
                     return enabledName;
+                }
                 else if (others.Any())
+                {
                     return null;
+                }
 
                 return String.Empty;
             }
@@ -941,7 +957,7 @@
 
         #endregion
 
-        #region Internal properties
+        #region Internal Properties
 
         /// <summary>
         /// Gets the document's associated ranges.
@@ -1329,7 +1345,9 @@
                 throw new DomException(DomError.InvalidCharacter);
             }
 
-            return Factory.HtmlElements.Create(this, localName);
+            var element = Factory.HtmlElements.Create(this, localName);
+            element.SetupElement();
+            return element;
         }
 
         /// <summary>
@@ -1348,14 +1366,30 @@
             var prefix = default(String);
             GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out prefix, out localName);
 
-            if (String.Equals(namespaceUri, Namespaces.HtmlUri, StringComparison.Ordinal))
-                return Factory.HtmlElements.Create(this, localName, prefix);
-            else if (String.Equals(namespaceUri, Namespaces.SvgUri, StringComparison.Ordinal))
-                return Factory.SvgElements.Create(this, localName, prefix);
-            else if (String.Equals(namespaceUri, Namespaces.MathMlUri, StringComparison.Ordinal))
-                return Factory.MathElements.Create(this, localName, prefix);
-            
-            return new Element(this, localName, prefix, namespaceUri);
+            if (namespaceUri.Is(Namespaces.HtmlUri))
+            {
+                var element = Factory.HtmlElements.Create(this, localName, prefix);
+                element.SetupElement();
+                return element;
+            }
+            else if (namespaceUri.Is(Namespaces.SvgUri))
+            {
+                var element = Factory.SvgElements.Create(this, localName, prefix);
+                element.SetupElement();
+                return element;
+            }
+            else if (namespaceUri.Is(Namespaces.MathMlUri))
+            {
+                var element = Factory.MathElements.Create(this, localName, prefix);
+                element.SetupElement();
+                return element;
+            }
+            else
+            {
+                var element = new Element(this, localName, prefix, namespaceUri);
+                element.SetupElement();
+                return element;
+            }
         }
 
         /// <summary>
@@ -1567,7 +1601,7 @@
 
         #endregion
 
-        #region Internal methods
+        #region Internal Methods
 
         /// <summary>
         /// Waits for the given task before raising the load event.
@@ -1661,7 +1695,9 @@
             var command = Options.GetCommand(commandId);
 
             if (command != null)
+            {
                 return command.Execute(this, showUserInterface, value);
+            }
 
             return false;
         }
@@ -1671,7 +1707,9 @@
             var command = Options.GetCommand(commandId);
 
             if (command != null)
+            {
                 return command.IsEnabled(this);
+            }
 
             return false;
         }
@@ -1681,7 +1719,9 @@
             var command = Options.GetCommand(commandId);
 
             if (command != null)
+            {
                 return command.IsIndeterminate(this);
+            }
 
             return false;
         }
@@ -1691,7 +1731,9 @@
             var command = Options.GetCommand(commandId);
 
             if (command != null)
+            {
                 return command.IsExecuted(this);
+            }
 
             return false;
         }
@@ -1701,7 +1743,9 @@
             var command = Options.GetCommand(commandId);
 
             if (command != null)
+            {
                 return command.IsSupported(this);
+            }
 
             return false;
         }
@@ -1711,7 +1755,9 @@
             var command = Options.GetCommand(commandId);
 
             if (command != null)
+            {
                 return command.GetValue(this);
+            }
 
             return null;
         }
@@ -1727,12 +1773,13 @@
 
         static Boolean IsLink(IElement element)
         {
-            return (element is IHtmlAnchorElement || element is IHtmlAreaElement) && element.Attributes.Any(m => String.Equals(m.Name, AttributeNames.Href, StringComparison.Ordinal));
+            var isLinkElement = element is IHtmlAnchorElement || element is IHtmlAreaElement;
+            return isLinkElement && element.Attributes.Any(m => m.Name.Is(AttributeNames.Href));
         }
 
         static Boolean IsAnchor(IHtmlAnchorElement element)
         {
-            return element.Attributes.Any(m => String.Equals(m.Name, AttributeNames.Name, StringComparison.Ordinal));
+            return element.Attributes.Any(m => m.Name.Is(AttributeNames.Name));
         }
 
         void RaiseDomContentLoaded()
@@ -1770,11 +1817,11 @@
 
         void ShowPage()
         {
-            if (_shown || _view == null)
-                return;
-            
-            _shown = true;
-            this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view as EventTarget);
+            if (!_shown && _view != null)
+            {
+                _shown = true;
+                this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view as EventTarget);
+            }
         }
 
         async void LocationChanged(Object sender, Location.LocationChangedEventArgs e)

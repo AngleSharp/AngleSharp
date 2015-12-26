@@ -1159,40 +1159,30 @@
             {
                 var element = new MathElement(_document, tagName);
                 ReconstructFormatting();
-
-                for (int i = 0; i < tag.Attributes.Count; i++)
-                {
-                    var name = tag.Attributes[i].Key;
-                    var value = tag.Attributes[i].Value;
-                    element.AdjustAttribute(name.AdjustToMathAttribute(), value);
-                }
-
-                AddElement(element);
+                AddElement(element.Setup(tag));
 
                 if (tag.IsSelfClosing)
+                {
                     _openElements.Remove(element);
+                }
             }
             else if (tagName.Is(Tags.Svg))
             {
                 var element = new SvgElement(_document, tagName);
                 ReconstructFormatting();
-
-                for (int i = 0; i < tag.Attributes.Count; i++)
-                {
-                    var name = tag.Attributes[i].Key;
-                    var value = tag.Attributes[i].Value;
-                    element.AdjustAttribute(name.AdjustToSvgAttribute(), value);
-                }
-
-                AddElement(element);
+                AddElement(element.Setup(tag));
 
                 if (tag.IsSelfClosing)
+                {
                     _openElements.Remove(element);
+                }
             }
             else if (tagName.Is(Tags.Plaintext))
             {
                 if (IsInButtonScope())
+                {
                     InBodyEndTagParagraph(tag);
+                }
 
                 AddElement(tag);
                 _tokenizer.State = HtmlParseMode.Plaintext;
@@ -1206,7 +1196,9 @@
                     _openElements[1].RemoveFromParent();
 
                     while (_openElements.Count > 1)
+                    {
                         CloseCurrentNode();
+                    }
 
                     AddElement(new HtmlFrameSetElement(_document), tag);
                     _currentMode = HtmlTreeMode.InFrameset;
@@ -1217,7 +1209,9 @@
                 RaiseErrorOccurred(HtmlParseError.HtmlTagMisplaced, tag);
 
                 if (_templateModes.Count == 0)
+                {
                     _openElements[0].SetUniqueAttributes(tag.Attributes);
+                }
             }
             else if (tagName.Is(Tags.Body))
             {
@@ -3226,28 +3220,12 @@
             if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.MathMember))
             {
                 var node = Factory.MathElements.Create(_document, tag.Name);
-
-                for (int i = 0; i < tag.Attributes.Count; i++)
-                {
-                    var name = tag.Attributes[i].Key;
-                    var value = tag.Attributes[i].Value;
-                    node.AdjustAttribute(name.AdjustToMathAttribute(), value);
-                }
-
-                return node;
+                return node.Setup(tag);
             }
             else if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.SvgMember))
             {
                 var node = Factory.SvgElements.CreateSanatized(_document, tag.Name);
-
-                for (int i = 0; i < tag.Attributes.Count; i++)
-                {
-                    var name = tag.Attributes[i].Key;
-                    var value = tag.Attributes[i].Value;
-                    node.AdjustAttribute(name.AdjustToSvgAttribute(), value);
-                }
-
-                return node;
+                return node.Setup(tag);
             }
 
             return null;
@@ -3573,7 +3551,9 @@
         void SetupElement(Element element, HtmlTagToken tag, Boolean acknowledgeSelfClosing)
         {
             if (tag.IsSelfClosing && !acknowledgeSelfClosing)
+            {
                 RaiseErrorOccurred(HtmlParseError.TagCannotBeSelfClosed, tag);
+            }
 
             element.SetAttributes(tag.Attributes);
         }
@@ -3616,9 +3596,13 @@
             var node = CurrentNode;
 
             if (_foster && Tags.AllTableMajor.Contains(node.LocalName))
+            {
                 AddElementWithFoster(element);
+            }
             else
+            {
                 node.AddNode(element);
+            }
 
             _openElements.Add(element);
             _tokenizer.IsAcceptingCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
@@ -3678,9 +3662,13 @@
                 var node = CurrentNode;
 
                 if (_foster && Tags.AllTableMajor.Contains(node.LocalName))
+                {
                     AddCharactersWithFoster(text);
+                }
                 else
+                {
                     node.AppendText(text);
+                }
             }
         }
 

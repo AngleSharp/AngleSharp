@@ -24,7 +24,6 @@
         public HtmlFrameElementBase(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, flags | NodeFlags.Special)
         {
-            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
         }
 
         #endregion
@@ -121,6 +120,23 @@
                 var task = download.Perform(result => ContentDocument = result);
                 document.DelayLoad(task);
                 _download = download;
+            }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var src = this.GetOwnAttribute(AttributeNames.Src);
+            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
+
+            if (src != null)
+            {
+                UpdateSource(src);
             }
         }
 

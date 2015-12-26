@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents the HTML wbr (word-break-opportunity) element.
@@ -10,8 +10,6 @@
     /// </summary>
     sealed class HtmlWbrElement : HtmlElement
     {
-        #region ctor
-
         /// <summary>
         /// Creates a new HTML wbr element.
         /// </summary>
@@ -19,7 +17,5 @@
             : base(owner, Tags.Wbr, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
-
-        #endregion
     }
 }

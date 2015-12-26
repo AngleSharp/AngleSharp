@@ -14,7 +14,6 @@
         public HtmlDataElement(Document owner, String prefix = null)
             : base(owner, Tags.Data, prefix)
         {
-            Owner = owner;
         }
 
         #endregion

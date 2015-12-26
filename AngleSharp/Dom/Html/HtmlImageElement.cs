@@ -26,10 +26,6 @@
         public HtmlImageElement(Document owner, String prefix = null)
             : base(owner, Tags.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
-            RegisterAttributeObserver(AttributeNames.SrcSet, UpdateSource);
-            RegisterAttributeObserver(AttributeNames.Sizes, UpdateSource);
-            RegisterAttributeObserver(AttributeNames.CrossOrigin, UpdateSource);
         }
 
         #endregion
@@ -193,10 +189,26 @@
             }
         }
 
-        void UpdateSource(String value)
+        void UpdateSource()
         {
             var candidate = this.GetImageCandidate();
             GetImage(candidate);
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            RegisterAttributeObserver(AttributeNames.Src, value => UpdateSource());
+            RegisterAttributeObserver(AttributeNames.SrcSet, value => UpdateSource());
+            RegisterAttributeObserver(AttributeNames.Sizes, value => UpdateSource());
+            RegisterAttributeObserver(AttributeNames.CrossOrigin, value => UpdateSource());
+
+            UpdateSource();
         }
 
         #endregion

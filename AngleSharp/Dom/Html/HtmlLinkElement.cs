@@ -27,9 +27,6 @@
         public HtmlLinkElement(Document owner, String prefix = null)
             : base(owner, Tags.Link, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
-            RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);
-            RegisterAttributeObserver(AttributeNames.Href, UpdateSource);
         }
 
         #endregion
@@ -199,6 +196,26 @@
 
         #endregion
 
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var rel = this.GetOwnAttribute(AttributeNames.Rel);
+            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
+            RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);
+            RegisterAttributeObserver(AttributeNames.Href, UpdateSource);
+            RegisterAttributeObserver(AttributeNames.Rel, UpdateRelation);
+
+            if (rel != null)
+            {
+                UpdateRelation(rel);
+            }
+        }
+
+        #endregion
+
         #region Helpers
 
         void UpdateMedia(String value)
@@ -221,32 +238,33 @@
             }
         }
 
-        void UpdateSource(String value)
+        void UpdateRelation(String value)
         {
             if (_relation != null)
             {
                 _relation.Cancel();
             }
 
+            _relation = Factory.LinkRelations.Create(this, Relation);
+            UpdateSource(this.GetOwnAttribute(AttributeNames.Href));
+        }
+
+        void UpdateSource(String value)
+        {
             var document = Owner;
 
-            if (document != null)
+            if (_relation != null && document != null)
             {
-                var relation = Factory.LinkRelations.Create(this, Relation);
+                var config = document.Options;
+                var loader = document.Loader;
+                
+                _relation.Cancel();
 
-                if (relation != null)
+                if (config != null && loader != null)
                 {
-                    var config = document.Options;
-                    var loader = document.Loader;
-
-                    if (config != null && loader != null)
-                    {
-                        var task = relation.LoadAsync(config, loader);
-                        document.DelayLoad(task);
-                    }
+                    var task = _relation.LoadAsync(config, loader);
+                    document.DelayLoad(task);
                 }
-
-                _relation = relation;
             }
         }
 

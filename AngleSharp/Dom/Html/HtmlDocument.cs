@@ -13,6 +13,8 @@
     /// </summary>
     sealed class HtmlDocument : Document, IHtmlDocument
     {
+        #region ctor
+
         internal HtmlDocument(IBrowsingContext context, TextSource source)
             : base(context ?? BrowsingContext.New(), source)
         {
@@ -23,7 +25,11 @@
             : this(context, new TextSource(String.Empty))
         {
         }
-        
+
+        #endregion
+
+        #region Properties
+
         public override IElement DocumentElement
         {
             get { return this.FindChild<HtmlHtmlElement>(); }
@@ -36,7 +42,9 @@
                 var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
 
                 if (title != null)
+                {
                     return title.TextContent.CollapseAndStrip();
+                }
 
                 return String.Empty;
             }
@@ -49,7 +57,9 @@
                     var head = Head;
 
                     if (head == null)
+                    {
                         return;
+                    }
 
                     title = new HtmlTitleElement(this);
                     head.AppendChild(title);
@@ -58,6 +68,10 @@
                 title.TextContent = value;
             }
         }
+
+        #endregion
+
+        #region Methods
 
         public override INode Clone(Boolean deep = true)
         {
@@ -89,11 +103,15 @@
             context.NavigateTo(document);
 
             if (events != null)
+            {
                 events.Publish(evt);
+            }
 
             await parser.ParseAsync(parserOptions, cancelToken).ConfigureAwait(false);
             evt.FireEnd();
             return document;
         }
+
+        #endregion
     }
 }

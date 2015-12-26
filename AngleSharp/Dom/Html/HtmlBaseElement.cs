@@ -17,7 +17,6 @@
         public HtmlBaseElement(Document owner, String prefix = null)
             : base(owner, Tags.Base, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            RegisterAttributeObserver(AttributeNames.Href, UpdateUrl);
         }
 
         #endregion
@@ -49,6 +48,23 @@
         void UpdateUrl(String url)
         {
             Owner.BaseUrl = new Url(Owner.DocumentUrl, url ?? String.Empty);
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var href = this.GetOwnAttribute(AttributeNames.Href);
+            RegisterAttributeObserver(AttributeNames.Href, UpdateUrl);
+
+            if (href != null)
+            {
+                UpdateUrl(href);
+            }
         }
 
         #endregion

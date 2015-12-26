@@ -609,6 +609,19 @@
 
         #region Helpers
 
+        internal virtual void SetupElement()
+        {
+        }
+
+        internal void AttributeChanged(String localName, String namespaceUri, String oldValue)
+        {
+            Owner.QueueMutation(MutationRecord.Attributes(
+                target: this,
+                attributeName: localName,
+                attributeNamespace: namespaceUri,
+                previousValue: oldValue));
+        }
+
         /// <summary>
         /// Creates the style for the inline style declaration.
         /// </summary>
@@ -626,7 +639,9 @@
                 var bindable = style as IBindable;
 
                 if (bindable != null)
+                {
                     bindable.Changed += value => UpdateAttribute(AttributeNames.Style, value);
+                }
 
                 return style;
             }
@@ -650,15 +665,6 @@
             var handler = _attributes.RemoveHandler(name);
             this.SetOwnAttribute(name, value);
             _attributes.SetHandler(name, handler);
-        }
-
-        internal void AttributeChanged(String localName, String namespaceUri, String oldValue)
-        {
-            Owner.QueueMutation(MutationRecord.Attributes(
-                target: this,
-                attributeName: localName,
-                attributeNamespace: namespaceUri,
-                previousValue: oldValue));
         }
 
         /// <summary>

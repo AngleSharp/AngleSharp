@@ -6,7 +6,6 @@
     using AngleSharp.Network;
     using AngleSharp.Services.Media;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the abstract base for HTML media (audio / video) elements.
@@ -118,7 +117,6 @@
             : base(owner, name, prefix)
         {
             _network = MediaNetworkState.Empty;
-            RegisterAttributeObserver(AttributeNames.Src, value => Load());
         }
 
         #endregion
@@ -416,39 +414,7 @@
         public void Load()
         {
             var source = CurrentSource;
-            //TODO More complex check if something is already loading (what is loading, cancel?, ...)
-            //see: https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-load
-
-            if (_download != null && !_download.IsCompleted)
-            {
-                _download.Cancel();
-            }
-
-            var document = Owner;
-            _network = MediaNetworkState.Idle;
-
-            if (source != null && document != null)
-            {
-                var loader = document.Loader;
-
-                if (loader != null)
-                {
-                    var url = new Url(source);
-                    var request = this.CreateRequestFor(url);
-                    _network = MediaNetworkState.Loading;
-                    _download = loader.DownloadAsync(request);
-                    var task = this.ProcessResource<TResource>(_download, result =>
-                    {
-                        _media = result;
-
-                        if (_media == null)
-                        {
-                            _network = MediaNetworkState.NoSource;
-                        }
-                    });
-                    document.DelayLoad(task);
-                }
-            }
+            UpdateSource(source);
         }
 
         /// <summary>
@@ -484,6 +450,64 @@
         {
             //TODO
             return null;
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var src = this.GetOwnAttribute(AttributeNames.Src);
+            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
+
+            if (src != null)
+            {
+                UpdateSource(src);
+            }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void UpdateSource(String value)
+        {
+            //TODO More complex check if something is already loading (what is loading, cancel?, ...)
+            //see: https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-load
+
+            if (_download != null && !_download.IsCompleted)
+            {
+                _download.Cancel();
+            }
+
+            var document = Owner;
+            _network = MediaNetworkState.Idle;
+
+            if (value != null && document != null)
+            {
+                var loader = document.Loader;
+
+                if (loader != null)
+                {
+                    var url = new Url(value);
+                    var request = this.CreateRequestFor(url);
+                    _network = MediaNetworkState.Loading;
+                    _download = loader.DownloadAsync(request);
+                    var task = this.ProcessResource<TResource>(_download, result =>
+                    {
+                        _media = result;
+
+                        if (_media == null)
+                        {
+                            _network = MediaNetworkState.NoSource;
+                        }
+                    });
+                    document.DelayLoad(task);
+                }
+            }
         }
 
         #endregion

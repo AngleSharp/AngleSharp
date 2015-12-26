@@ -22,7 +22,6 @@
         public HtmlIFrameElement(Document owner, String prefix = null)
             : base(owner, Tags.Iframe, prefix, NodeFlags.LiteralText)
         {
-            RegisterAttributeObserver(AttributeNames.SrcDoc, UpdateSource);
         }
 
         #endregion
@@ -98,6 +97,23 @@
         protected override String GetContentHtml()
         {
             return ContentHtml;
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var srcDoc = this.GetOwnAttribute(AttributeNames.SrcDoc);
+            RegisterAttributeObserver(AttributeNames.SrcDoc, UpdateSource);
+
+            if (srcDoc != null)
+            {
+                UpdateSource(srcDoc);
+            }
         }
 
         #endregion

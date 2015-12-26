@@ -3,7 +3,6 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -36,31 +35,37 @@
                 .Where(m => m.Implements<TElement>())
                 .FirstOrDefault(m => !m.IsAbstractClass());
 
-            if (type == null)
+            if (type != null)
             {
-                return default(TElement);
-            }
+                var ctors = type.GetConstructors()
+                    .OrderBy(m => m.GetParameters().Length);
 
-            var ctors = type.GetConstructors();
-
-            foreach (var ctor in ctors.OrderBy(m => m.GetParameters().Length))
-            {
-                var parameters = ctor.GetParameters();
-                var arguments = new Object[parameters.Length];
-
-                for (var i = 0; i < parameters.Length; i++)
+                foreach (var ctor in ctors)
                 {
-                    var isDocument = parameters[i].ParameterType == typeof(Document);
-                    arguments[i] = isDocument ? document : parameters[i].DefaultValue;
-                }
+                    var parameters = ctor.GetParameters();
+                    var arguments = new Object[parameters.Length];
 
-                var obj = ctor.Invoke(arguments);
+                    for (var i = 0; i < parameters.Length; i++)
+                    {
+                        var isDocument = parameters[i].ParameterType == typeof(Document);
+                        arguments[i] = isDocument ? document : parameters[i].DefaultValue;
+                    }
 
-                if (obj != null)
-                {
-                    var element = (TElement)obj;
-                    document.Adopt(element);
-                    return element;
+                    var obj = ctor.Invoke(arguments);
+
+                    if (obj != null)
+                    {
+                        var element = (TElement)obj;
+                        var baseElement = element as Element;
+
+                        if (baseElement != null)
+                        {
+                            baseElement.SetupElement();
+                        }
+
+                        document.Adopt(element);
+                        return element;
+                    }
                 }
             }
 

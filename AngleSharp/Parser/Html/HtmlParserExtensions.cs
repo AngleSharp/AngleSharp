@@ -30,6 +30,8 @@
                 var item = new Attr(attribute.Key, attribute.Value);
                 container.FastAddItem(item);
             }
+
+            element.SetupElement();
         }
 
         /// <summary>
@@ -53,7 +55,9 @@
             for (int i = attributes.Count - 1; i >= 0; i--)
             {
                 if (element.HasAttribute(attributes[i].Key))
+                {
                     attributes.RemoveAt(i);
+                }
             }
 
             element.SetAttributes(attributes);
@@ -73,10 +77,12 @@
                 var format = formatting[i];
 
                 if (format == null)
+                {
                     break;
+                }
 
-                if (String.Equals(format.NodeName, element.NodeName, StringComparison.Ordinal) && 
-                    String.Equals(format.NamespaceUri, element.NamespaceUri, StringComparison.Ordinal) && 
+                if (format.NodeName.Is(element.NodeName) && 
+                    format.NamespaceUri.Is(element.NamespaceUri) && 
                     format.Attributes.AreEqual(element.Attributes) && ++count == 3)
                 {
                     formatting.RemoveAt(i);
@@ -100,7 +106,9 @@
                 formatting.RemoveAt(index);
 
                 if (entry == null)
+                {
                     break;
+                }
             }
         }
 

@@ -25,8 +25,19 @@
             {
                 var url = inp.HyperReference(src);
                 var request = inp.CreateRequestFor(url);
-                var download = inp.Owner.Loader.DownloadAsync(request);
-                var task = inp.ProcessResource<IImageInfo>(download, result => _img = result);
+                var document = inp.Owner;
+
+                if (document != null)
+                {
+                    var loader = document.Loader;
+
+                    if (loader != null)
+                    {
+                        var download = loader.DownloadAsync(request);
+                        var task = inp.ProcessResource<IImageInfo>(download, result => _img = result);
+                        document.DelayLoad(task);
+                    }
+                }
             }
         }
 
