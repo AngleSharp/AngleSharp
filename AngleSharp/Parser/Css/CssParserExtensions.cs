@@ -103,6 +103,21 @@
         }
 
         /// <summary>
+        /// Checks if the provided token is part of a declaration name.
+        /// </summary>
+        /// <param name="token">The token to examine.</param>
+        /// <returns>Result of the examination.</returns>
+        public static Boolean IsDeclarationName(this CssToken token)
+        {
+            return token.Type != CssTokenType.EndOfFile &&
+                      token.Type != CssTokenType.Colon &&
+                      token.Type != CssTokenType.Whitespace &&
+                      token.Type != CssTokenType.Comment &&
+                      token.Type != CssTokenType.CurlyBracketOpen &&
+                      token.Type != CssTokenType.Semicolon;
+        }
+
+        /// <summary>
         /// Tries to create an IDocumentFunction from the provided token.
         /// </summary>
         /// <param name="token">The token to examine.</param>
@@ -121,7 +136,9 @@
                 var str = ((CssFunctionToken)token).ArgumentTokens.ToCssString();
 
                 if (str != null)
+                {
                     return new RegexpFunction(str);
+                }
             }
 
             return null;

@@ -550,12 +550,7 @@
 
             var sb = Pool.NewStringBuilder();
 
-            while (token.Type != CssTokenType.EndOfFile &&
-                   token.Type != CssTokenType.Colon &&
-                   token.Type != CssTokenType.Whitespace &&
-                   token.Type != CssTokenType.Comment &&
-                   token.Type != CssTokenType.CurlyBracketOpen &&
-                   token.Type != CssTokenType.Semicolon)
+            while (token.IsDeclarationName())
             {
                 sb.Append(token.ToValue());
                 token = NextToken();
@@ -655,7 +650,9 @@
                 CollectTrivia(ref token);
 
                 if (token.Type != CssTokenType.Ident || !token.Data.Isi(Keywords.And))
+                {
                     return medium;
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
@@ -664,7 +661,9 @@
             do
             {
                 if (token.Type != CssTokenType.RoundBracketOpen)
+                {
                     return null;
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
@@ -672,19 +671,27 @@
                 var feature = CloseNode(CreateFeature(ref token));
 
                 if (feature != null)
+                {
                     medium.AddConstraint(feature);
+                }
 
                 if (token.Type != CssTokenType.RoundBracketClose)
+                {
                     return null;
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
 
                 if (feature == null)
+                {
                     return null;
+                }
 
                 if (token.Type != CssTokenType.Ident || !token.Data.Isi(Keywords.And))
+                {
                     break;
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
