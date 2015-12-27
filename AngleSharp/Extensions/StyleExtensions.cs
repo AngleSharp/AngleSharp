@@ -29,13 +29,18 @@
             var pseudoElement = PseudoElement.Create(element, pseudoSelector);
 
             if (pseudoElement != null)
+            {
                 element = pseudoElement;
+            }
 
             computedStyle.SetDeclarations(rules.ComputeCascadedStyle(element).Declarations);
             var htmlElement = element as IHtmlElement;
 
             if (htmlElement != null)
-                computedStyle.SetDeclarations(htmlElement.Style.OfType<CssProperty>());
+            {
+                var declarations = htmlElement.Style.OfType<CssProperty>();
+                computedStyle.SetDeclarations(declarations);
+            }
 
             var nodes = element.GetAncestors().OfType<IElement>();
 
@@ -62,7 +67,9 @@
                 var title = sheet.Title;
 
                 if (String.IsNullOrEmpty(title) || existing.Contains(title))
+                {
                     continue;
+                }
 
                 existing.Add(title);
                 yield return title;
@@ -83,9 +90,13 @@
                 var title = sheet.Title;
 
                 if (String.IsNullOrEmpty(title) || excluded.Contains(title))
+                {
                     continue;
+                }
                 else if (sheet.IsDisabled)
+                {
                     excluded.Add(title);
+                }
             }
 
             return sheets.GetAllStyleSheetSets().Except(excluded);
@@ -103,7 +114,9 @@
                 var title = sheet.Title;
 
                 if (!String.IsNullOrEmpty(title))
+                {
                     sheet.IsDisabled = title != name;
+                }
             }
         }
 
@@ -135,12 +148,16 @@
                         var sheet = linkStyle.Sheet;
 
                         if (sheet != null)
+                        {
                             yield return sheet;
+                        }
                     }
                     else
                     {
                         foreach (var sheet in child.GetStyleSheets())
+                        {
                             yield return sheet;
+                        }
                     }
                 }
             }
@@ -158,12 +175,16 @@
                 var css = sheet as CssStyleSheet;
 
                 if (sheet.IsDisabled || css == null)
+                {
                     continue;
+                }
 
                 foreach (var rule in css.Rules.OfType<CssNamespaceRule>())
                 {
-                    if (rule.Prefix == prefix)
+                    if (rule.Prefix.Is(prefix))
+                    {
                         return rule.NamespaceUri;
+                    }
                 }
             }
 

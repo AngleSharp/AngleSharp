@@ -7,6 +7,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -51,7 +52,8 @@
         /// </param>
         internal HtmlDomBuilder(HtmlDocument document)
         {
-            _tokenizer = new HtmlTokenizer(document.Source, document.Options.Events);
+            var resolver = document.Options.GetService<IEntityService>() ?? HtmlEntityService.Resolver;
+            _tokenizer = new HtmlTokenizer(document.Source, document.Options.Events, resolver);
             _document = document;
             _openElements = new List<Element>();
             _templateModes = new Stack<HtmlTreeMode>();
@@ -106,7 +108,9 @@
             do
             {
                 if (source.Length - source.Index < 1024)
+                {
                     await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
+                }
 
                 token = _tokenizer.Get();
                 Consume(token);
@@ -158,27 +162,41 @@
         public HtmlDocument ParseFragment(HtmlParserOptions options, Element context)
         {
             if (context == null)
+            {
                 throw new ArgumentNullException("context");
+            }
 
             var tagName = context.LocalName;
 
             if (tagName.IsOneOf(Tags.Title, Tags.Textarea))
+            {
                 _tokenizer.State = HtmlParseMode.RCData;
+            }
             else if (tagName.IsOneOf(Tags.Style, Tags.Xmp, Tags.Iframe, Tags.NoEmbed, Tags.NoFrames))
+            {
                 _tokenizer.State = HtmlParseMode.Rawtext;
+            }
             else if (tagName.Is(Tags.Script))
+            {
                 _tokenizer.State = HtmlParseMode.Script;
+            }
             else if (tagName.Is(Tags.Plaintext))
+            {
                 _tokenizer.State = HtmlParseMode.Plaintext;
+            }
             else if (tagName.Is(Tags.NoScript) && options.IsScripting)
+            {
                 _tokenizer.State = HtmlParseMode.Rawtext;
+            }
 
             var root = new HtmlHtmlElement(_document);
             _document.AddNode(root);
             _openElements.Add(root);
 
             if (context is HtmlTemplateElement)
+            {
                 _templateModes.Push(HtmlTreeMode.InTemplate);
+            }
 
             Reset(context);
 
@@ -634,9 +652,8 @@
                     }
                     else if (tagName.Is(Tags.Script))
                     {
-                        var script = new HtmlScriptElement(_document);
+                        var script = new HtmlScriptElement(_document, parserInserted: true, started: IsFragmentCase);
                         AddElement(script, token.AsTag());
-                        script.SetStarted(IsFragmentCase);
                         _tokenizer.State = HtmlParseMode.Script;
                         _previousMode = _currentMode;
                         _currentMode = HtmlTreeMode.Text;
@@ -1142,40 +1159,30 @@
             {
                 var element = new MathElement(_document, tagName);
                 ReconstructFormatting();
-
-                for (int i = 0; i < tag.Attributes.Count; i++)
-                {
-                    var name = tag.Attributes[i].Key;
-                    var value = tag.Attributes[i].Value;
-                    element.AdjustAttribute(name.AdjustToMathAttribute(), value);
-                }
-
-                AddElement(element);
+                AddElement(element.Setup(tag));
 
                 if (tag.IsSelfClosing)
+                {
                     _openElements.Remove(element);
+                }
             }
             else if (tagName.Is(Tags.Svg))
             {
                 var element = new SvgElement(_document, tagName);
                 ReconstructFormatting();
-
-                for (int i = 0; i < tag.Attributes.Count; i++)
-                {
-                    var name = tag.Attributes[i].Key;
-                    var value = tag.Attributes[i].Value;
-                    element.AdjustAttribute(name.AdjustToSvgAttribute(), value);
-                }
-
-                AddElement(element);
+                AddElement(element.Setup(tag));
 
                 if (tag.IsSelfClosing)
+                {
                     _openElements.Remove(element);
+                }
             }
             else if (tagName.Is(Tags.Plaintext))
             {
                 if (IsInButtonScope())
+                {
                     InBodyEndTagParagraph(tag);
+                }
 
                 AddElement(tag);
                 _tokenizer.State = HtmlParseMode.Plaintext;
@@ -1189,7 +1196,9 @@
                     _openElements[1].RemoveFromParent();
 
                     while (_openElements.Count > 1)
+                    {
                         CloseCurrentNode();
+                    }
 
                     AddElement(new HtmlFrameSetElement(_document), tag);
                     _currentMode = HtmlTreeMode.InFrameset;
@@ -1200,7 +1209,9 @@
                 RaiseErrorOccurred(HtmlParseError.HtmlTagMisplaced, tag);
 
                 if (_templateModes.Count == 0)
+                {
                     _openElements[0].SetUniqueAttributes(tag.Attributes);
+                }
             }
             else if (tagName.Is(Tags.Body))
             {
@@ -3209,28 +3220,12 @@
             if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.MathMember))
             {
                 var node = Factory.MathElements.Create(_document, tag.Name);
-
-                for (int i = 0; i < tag.Attributes.Count; i++)
-                {
-                    var name = tag.Attributes[i].Key;
-                    var value = tag.Attributes[i].Value;
-                    node.AdjustAttribute(name.AdjustToMathAttribute(), value);
-                }
-
-                return node;
+                return node.Setup(tag);
             }
             else if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.SvgMember))
             {
                 var node = Factory.SvgElements.CreateSanatized(_document, tag.Name);
-
-                for (int i = 0; i < tag.Attributes.Count; i++)
-                {
-                    var name = tag.Attributes[i].Key;
-                    var value = tag.Attributes[i].Value;
-                    node.AdjustAttribute(name.AdjustToSvgAttribute(), value);
-                }
-
-                return node;
+                return node.Setup(tag);
             }
 
             return null;
@@ -3430,8 +3425,10 @@
                 CloseCurrentNode();
                 _currentMode = _previousMode;
 
-                if (script.Prepare())
+                if (script.Prepare(_document))
+                {
                     _waiting = RunScript(script);
+                }
             }
         }
 
@@ -3474,7 +3471,9 @@
             for (int i = 0; i < _openElements.Count; i++)
             {
                 if (_openElements[i].LocalName.Is(tagName))
+                {
                     return true;
+                }
             }
 
             return false;
@@ -3488,7 +3487,9 @@
             var temp = _tokenizer.Get();
 
             if (temp.Type == HtmlTokenType.Character)
+            {
                 temp.RemoveNewLine();
+            }
 
             Home(temp);
         }
@@ -3499,10 +3500,14 @@
         void End()
         {
             while (_openElements.Count != 0)
+            {
                 CloseCurrentNode();
+            }
 
             if (_document.ReadyState == DocumentReadyState.Loading)
+            {
                 _waiting = _document.FinishLoading();
+            }
         }
 
         #endregion
@@ -3546,7 +3551,9 @@
         void SetupElement(Element element, HtmlTagToken tag, Boolean acknowledgeSelfClosing)
         {
             if (tag.IsSelfClosing && !acknowledgeSelfClosing)
+            {
                 RaiseErrorOccurred(HtmlParseError.TagCannotBeSelfClosed, tag);
+            }
 
             element.SetAttributes(tag.Attributes);
         }
@@ -3589,9 +3596,13 @@
             var node = CurrentNode;
 
             if (_foster && Tags.AllTableMajor.Contains(node.LocalName))
+            {
                 AddElementWithFoster(element);
+            }
             else
+            {
                 node.AddNode(element);
+            }
 
             _openElements.Add(element);
             _tokenizer.IsAcceptingCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
@@ -3651,9 +3662,13 @@
                 var node = CurrentNode;
 
                 if (_foster && Tags.AllTableMajor.Contains(node.LocalName))
+                {
                     AddCharactersWithFoster(text);
+                }
                 else
+                {
                     node.AppendText(text);
+                }
             }
         }
 

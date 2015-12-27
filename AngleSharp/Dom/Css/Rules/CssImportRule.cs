@@ -75,17 +75,19 @@
 
         internal async Task LoadStylesheetFrom(Document document)
         {
-            if (document != null && document.Loader != null)
+            if (document != null)
             {
+                var loader = document.Loader;
                 var baseUrl = Url.Create(Owner.Href ?? document.BaseUri);
                 var url = new Url(baseUrl, _href);
 
-                if (!IsRecursion(url))
+                if (!IsRecursion(url) && loader != null)
                 {
-                    var request = Owner.OwnerNode.CreateRequestFor(url);
-                    var pendingRequest = document.Tasks.Add(this, cancel => document.Loader.FetchAsync(request, cancel));
+                    var element = Owner.OwnerNode;
+                    var request = element.CreateRequestFor(url);
+                    var download = loader.DownloadAsync(request);
 
-                    using (var response = await pendingRequest.ConfigureAwait(false))
+                    using (var response = await download.Task.ConfigureAwait(false))
                     {
                         var sheet = new CssStyleSheet(this, response.Address.Href);
                         var source = new TextSource(response.Content);

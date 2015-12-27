@@ -11,13 +11,8 @@
     {
         #region ctor
 
-        public HtmlQuoteElement(Document owner)
-            : this(owner, Tags.Quote)
-        {
-        }
-
-        public HtmlQuoteElement(Document owner, String name, String prefix = null)
-            : base(owner, name, prefix, name.Is(Tags.BlockQuote) ? NodeFlags.Special : NodeFlags.None)
+        public HtmlQuoteElement(Document owner, String name = null, String prefix = null)
+            : base(owner, name ?? Tags.Quote, prefix, name.Is(Tags.BlockQuote) ? NodeFlags.Special : NodeFlags.None)
         {
         }
 
@@ -30,8 +25,8 @@
         /// </summary>
         public String Citation
         {
-            get { return GetOwnAttribute(AttributeNames.Cite); }
-            set { SetOwnAttribute(AttributeNames.Cite, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Cite); }
+            set { this.SetOwnAttribute(AttributeNames.Cite, value); }
         }
 
         #endregion

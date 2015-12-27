@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -27,8 +28,8 @@
         /// </summary>
         public String Challenge
         {
-            get { return GetOwnAttribute(AttributeNames.Challenge); }
-            set { SetOwnAttribute(AttributeNames.Challenge, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Challenge); }
+            set { this.SetOwnAttribute(AttributeNames.Challenge, value); }
         }
 
         /// <summary>
@@ -36,8 +37,8 @@
         /// </summary>
         public String KeyEncryption
         {
-            get { return GetOwnAttribute(AttributeNames.Keytype); }
-            set { SetOwnAttribute(AttributeNames.Keytype, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Keytype); }
+            set { this.SetOwnAttribute(AttributeNames.Keytype, value); }
         }
 
         /// <summary>

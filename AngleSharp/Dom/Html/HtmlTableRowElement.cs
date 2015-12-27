@@ -32,8 +32,8 @@
         /// </summary>
         public HorizontalAlignment Align
         {
-            get { return GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
-            set { SetOwnAttribute(AttributeNames.Align, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
+            set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         /// <summary>
@@ -41,8 +41,8 @@
         /// </summary>
         public VerticalAlignment VAlign
         {
-            get { return GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
-            set { SetOwnAttribute(AttributeNames.Valign, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
+            set { this.SetOwnAttribute(AttributeNames.Valign, value.ToString()); }
         }
 
         /// <summary>
@@ -50,8 +50,8 @@
         /// </summary>
         public String BgColor
         {
-            get { return GetOwnAttribute(AttributeNames.BgColor); }
-            set { SetOwnAttribute(AttributeNames.BgColor, value); }
+            get { return this.GetOwnAttribute(AttributeNames.BgColor); }
+            set { this.SetOwnAttribute(AttributeNames.BgColor, value); }
         }
 
         /// <summary>

@@ -25,7 +25,9 @@
             where TRule : ICssRule
         {
             if (sheets == null)
+            {
                 throw new ArgumentNullException("sheets");
+            }
 
             return sheets.Where(m => !m.IsDisabled).OfType<ICssStyleSheet>().SelectMany(m => m.Rules).OfType<TRule>();
         }
@@ -39,7 +41,9 @@
         public static IEnumerable<ICssStyleRule> StylesWith(this IEnumerable<IStyleSheet> sheets, ISelector selector)
         {
             if (selector == null)
+            {
                 throw new ArgumentNullException("selector");
+            }
 
             var selectorText = selector.Text;
             return sheets.RulesOf<ICssStyleRule>().Where(m => m.SelectorText == selectorText);
@@ -75,7 +79,9 @@
         public static IEnumerable<CssNode> GetAllDescendents(this CssNode node)
         {
             if (node == null)
+            {
                 throw new ArgumentNullException("node");
+            }
 
             return node.Children.SelectMany(m => m.GetAllDescendents());
         }
@@ -89,13 +95,19 @@
             where T : IStyleFormattable
         {
             if (node == null)
+            {
                 throw new ArgumentNullException("node");
+            }
 
             if (node.Entity is T)
+            {
                 yield return (T)node.Entity;
+            }
 
             foreach (var entity in node.Children.SelectMany(m => m.GetAll<T>()))
+            {
                 yield return entity;
+            }
         }
 
         /// <summary>
@@ -107,10 +119,14 @@
         public static CssNode GetAssociatedNode(this CssNode node, IStyleFormattable entity)
         {
             if (node == null)
+            {
                 throw new ArgumentNullException("node");
+            }
 
             if (entity == null)
+            {
                 throw new ArgumentNullException("entity");
+            }
 
             var target = default(CssNode);
 
@@ -124,7 +140,9 @@
                 target = child.GetAssociatedNode(entity);
 
                 if (target != null)
+                {
                     break;
+                }
             }
 
             return target;
@@ -138,7 +156,9 @@
         public static String GetSource(this CssNode node)
         {
             if (node == null)
+            {
                 throw new ArgumentNullException("node");
+            }
 
             var tokens = node.Tokens;
             var childs = node.Children;
@@ -160,7 +180,9 @@
                 for (int j = i - 1; j >= 0; j--)
                 {
                     if (pos[j] < pos[j + 1])
+                    {
                         break;
+                    }
 
                     Swap(pos, j);
                     Swap(str, j);

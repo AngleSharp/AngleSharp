@@ -65,6 +65,21 @@
         }
 
         [Test]
+        public async Task DocumentWriteConsecutiveWithCustomScriptEngine()
+        {
+            var scripting = new CallbackScriptEngine(options =>
+            {
+                options.Document.Write("foo");
+                options.Document.Write("bar");
+            });
+            var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
+            var source = "<title>Some title</title><body><script type='c-sharp' src='foo.cs'></script>";
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+
+            Assert.AreEqual("foobar", document.Body.TextContent);
+        }
+
+        [Test]
         public async Task DocumentWriteDynamicallyWithCustomScriptEngineAndSourceMultipleNested()
         {
             var index = 0;

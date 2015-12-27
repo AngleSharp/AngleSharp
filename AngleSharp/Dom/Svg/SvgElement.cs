@@ -24,16 +24,6 @@
         public SvgElement(Document owner, String name, String prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, Namespaces.SvgUri, flags | NodeFlags.SvgMember)
         {
-            RegisterAttributeObserver(AttributeNames.Style, value =>
-            {
-                var bindable = _style as IBindable;
-
-                if (String.IsNullOrEmpty(value))
-                    Attributes.RemoveNamedItem(AttributeNames.Style);
-
-                if (bindable != null)
-                    bindable.Update(value);
-            });
         }
 
         #endregion
@@ -67,6 +57,42 @@
             CopyProperties(this, node, deep);
             CopyAttributes(this, node);
             return node;
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var style = this.GetOwnAttribute(AttributeNames.Style);
+            RegisterAttributeObserver(AttributeNames.Style, UpdateStyle);
+
+            if (style != null)
+            {
+                UpdateStyle(style);
+            }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void UpdateStyle(String value)
+        {
+            var bindable = _style as IBindable;
+
+            if (String.IsNullOrEmpty(value))
+            {
+                RemoveAttribute(AttributeNames.Style);
+            }
+
+            if (bindable != null)
+            {
+                bindable.Update(value);
+            }
         }
 
         #endregion

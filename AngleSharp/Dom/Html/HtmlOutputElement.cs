@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Dom.Collections;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -65,7 +66,7 @@
             { 
                 if (_for == null)
                 {
-                    _for = new SettableTokenList(GetOwnAttribute(AttributeNames.For));
+                    _for = new SettableTokenList(this.GetOwnAttribute(AttributeNames.For));
                     CreateBindings(_for, AttributeNames.For);
                 }
 

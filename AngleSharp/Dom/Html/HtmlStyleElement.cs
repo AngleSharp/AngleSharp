@@ -25,7 +25,6 @@
         public HtmlStyleElement(Document owner, String prefix = null)
             : base(owner, Tags.Style, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
-            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
         }
 
         #endregion
@@ -37,8 +36,8 @@
         /// </summary>
         public Boolean IsScoped
         {
-            get { return HasOwnAttribute(AttributeNames.Scoped); }
-            set { SetOwnAttribute(AttributeNames.Scoped, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Scoped); }
+            set { this.SetOwnAttribute(AttributeNames.Scoped, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -54,10 +53,10 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetOwnAttribute(AttributeNames.Disabled).ToBoolean(); }
+            get { return this.GetOwnAttribute(AttributeNames.Disabled).ToBoolean(); }
             set 
             {
-                SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null);
+                this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null);
 
                 if (_sheet != null) 
                     _sheet.IsDisabled = value; 
@@ -69,8 +68,8 @@
         /// </summary>
         public String Media
         {
-            get { return GetOwnAttribute(AttributeNames.Media); }
-            set { SetOwnAttribute(AttributeNames.Media, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Media); }
+            set { this.SetOwnAttribute(AttributeNames.Media, value); }
         }
 
         /// <summary>
@@ -78,13 +77,26 @@
         /// </summary>
         public String Type
         {
-            get { return GetOwnAttribute(AttributeNames.Type); }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Type); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         #endregion
 
-        #region Internal methods
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var media = this.GetOwnAttribute(AttributeNames.Media);
+            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
+
+            if (media != null)
+            {
+                UpdateMedia(media);
+            }
+        }
 
         internal override void NodeIsInserted(Node newNode)
         {
@@ -105,13 +117,17 @@
         void UpdateMedia(String value)
         {
             if (_sheet != null)
+            {
                 _sheet.Media.MediaText = value;
+            }
         }
 
         void UpdateSheet()
         {
             if (_sheet != null)
+            {
                 _sheet = CreateSheet();
+            }
         }
 
         IStyleSheet CreateSheet()
@@ -120,17 +136,19 @@
             var type = Type ?? MimeTypes.Css;
             var engine = config.GetStyleEngine(type);
 
-            if (engine == null)
-                return null;
-
-            var options = new StyleOptions
+            if (engine != null)
             {
-                Element = this,
-                IsDisabled = IsDisabled,
-                IsAlternate = false,
-                Configuration = config
-            };
-            return engine.ParseStylesheet(TextContent, options);
+                var options = new StyleOptions
+                {
+                    Element = this,
+                    IsDisabled = IsDisabled,
+                    IsAlternate = false,
+                    Configuration = config
+                };
+                return engine.ParseStylesheet(TextContent, options);
+            }
+
+            return null;
         }
 
         #endregion

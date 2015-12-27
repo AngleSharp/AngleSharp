@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Factories
 {
-    using System;
-    using System.Collections.Generic;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Svg;
     using AngleSharp.Html;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Provides string to SVGElement instance creation mappings.
@@ -74,7 +74,9 @@
             var creator = default(Creator);
 
             if (creators.TryGetValue(localName, out creator))
+            {
                 return creator(document, prefix);
+            }
 
             return new SvgElement(document, localName);
         }
@@ -101,7 +103,9 @@
             var adjustedTagName = default(String);
 
             if (adjustedTagNames.TryGetValue(localName, out adjustedTagName))
+            {
                 return adjustedTagName;
+            }
 
             return localName;
         }

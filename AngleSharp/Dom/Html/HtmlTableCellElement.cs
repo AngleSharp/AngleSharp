@@ -54,8 +54,8 @@
         /// </summary>
         public HorizontalAlignment Align
         {
-            get { return GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
-            set { SetOwnAttribute(AttributeNames.Align, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
+            set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         /// <summary>
@@ -63,8 +63,8 @@
         /// </summary>
         public VerticalAlignment VAlign
         {
-            get { return GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
-            set { SetOwnAttribute(AttributeNames.Valign, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
+            set { this.SetOwnAttribute(AttributeNames.Valign, value.ToString()); }
         }
 
         /// <summary>
@@ -72,8 +72,8 @@
         /// </summary>
         public String BgColor
         {
-            get { return GetOwnAttribute(AttributeNames.BgColor); }
-            set { SetOwnAttribute(AttributeNames.BgColor, value); }
+            get { return this.GetOwnAttribute(AttributeNames.BgColor); }
+            set { this.SetOwnAttribute(AttributeNames.BgColor, value); }
         }
 
         /// <summary>
@@ -81,8 +81,8 @@
         /// </summary>
         public String Width
         {
-            get { return GetOwnAttribute(AttributeNames.Width); }
-            set { SetOwnAttribute(AttributeNames.Width, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Width); }
+            set { this.SetOwnAttribute(AttributeNames.Width, value); }
         }
 
         /// <summary>
@@ -90,8 +90,8 @@
         /// </summary>
         public String Height
         {
-            get { return GetOwnAttribute(AttributeNames.Height); }
-            set { SetOwnAttribute(AttributeNames.Height, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Height); }
+            set { this.SetOwnAttribute(AttributeNames.Height, value); }
         }
 
         /// <summary>
@@ -99,8 +99,8 @@
         /// </summary>
         public Int32 ColumnSpan
         {
-            get { return GetOwnAttribute(AttributeNames.ColSpan).ToInteger(0); }
-            set { SetOwnAttribute(AttributeNames.ColSpan, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.ColSpan).ToInteger(0); }
+            set { this.SetOwnAttribute(AttributeNames.ColSpan, value.ToString()); }
         }
 
         /// <summary>
@@ -108,8 +108,8 @@
         /// </summary>
         public Int32 RowSpan
         {
-            get { return GetOwnAttribute(AttributeNames.RowSpan).ToInteger(0); }
-            set { SetOwnAttribute(AttributeNames.RowSpan, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.RowSpan).ToInteger(0); }
+            set { this.SetOwnAttribute(AttributeNames.RowSpan, value.ToString()); }
         }
 
         /// <summary>
@@ -117,8 +117,8 @@
         /// </summary>
         public Boolean NoWrap
         {
-            get { return GetOwnAttribute(AttributeNames.NoWrap).ToBoolean(false); }
-            set { SetOwnAttribute(AttributeNames.NoWrap, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.NoWrap).ToBoolean(false); }
+            set { this.SetOwnAttribute(AttributeNames.NoWrap, value.ToString()); }
         }
 
         /// <summary>
@@ -126,8 +126,8 @@
         /// </summary>
         public String Abbr
         {
-            get { return GetOwnAttribute(AttributeNames.Abbr); }
-            set { SetOwnAttribute(AttributeNames.Abbr, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Abbr); }
+            set { this.SetOwnAttribute(AttributeNames.Abbr, value); }
         }
 
         /// <summary>
@@ -135,8 +135,8 @@
         /// </summary>
         public String Scope
         {
-            get { return GetOwnAttribute(AttributeNames.Scope); }
-            set { SetOwnAttribute(AttributeNames.Scope, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Scope); }
+            set { this.SetOwnAttribute(AttributeNames.Scope, value); }
         }
 
         /// <summary>
@@ -148,7 +148,7 @@
             { 
                 if (_headers == null)
                 {
-                    _headers = new SettableTokenList(GetOwnAttribute(AttributeNames.Headers));
+                    _headers = new SettableTokenList(this.GetOwnAttribute(AttributeNames.Headers));
                     CreateBindings(_headers, AttributeNames.Headers);
                 }
 
@@ -161,8 +161,8 @@
         /// </summary>
         public String Axis
         {
-            get { return GetOwnAttribute(AttributeNames.Axis); }
-            set { SetOwnAttribute(AttributeNames.Axis, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Axis); }
+            set { this.SetOwnAttribute(AttributeNames.Axis, value); }
         }
 
         #endregion

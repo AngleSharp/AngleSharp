@@ -1,15 +1,13 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents the hr element.
     /// </summary>
     sealed class HtmlHrElement : HtmlElement, IHtmlHrElement
     {
-        #region ctor
-
         /// <summary>
         /// Creates a new hr element.
         /// </summary>
@@ -17,7 +15,5 @@
             : base(owner, Tags.Hr, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
-
-        #endregion
     }
 }

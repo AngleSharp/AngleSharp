@@ -1859,6 +1859,9 @@
     <Compile Include="..\AngleSharp\Extensions\ElementExtensions.cs">
       <Link>Extensions\ElementExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Extensions\EventLoopExtensions.cs">
+      <Link>Extensions\EventLoopExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Extensions\EventTargetExtensions.cs">
       <Link>Extensions\EventTargetExtensions.cs</Link>
     </Compile>
@@ -1876,6 +1879,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\RequesterExtensions.cs">
       <Link>Extensions\RequesterExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\ResponseExtensions.cs">
+      <Link>Extensions\ResponseExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\SelectorExtensions.cs">
       <Link>Extensions\SelectorExtensions.cs</Link>
@@ -1913,6 +1919,9 @@
     <Compile Include="..\AngleSharp\Factories\InputTypeFactory.cs">
       <Link>Factories\InputTypeFactory.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Factories\LinkRelationFactory.cs">
+      <Link>Factories\LinkRelationFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Factories\MathElementFactory.cs">
       <Link>Factories\MathElementFactory.cs</Link>
     </Compile>
@@ -1931,8 +1940,8 @@
     <Compile Include="..\AngleSharp\FormatExtensions.cs">
       <Link>FormatExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\CancellableTasks.cs">
-      <Link>Foundation\CancellableTasks.cs</Link>
+    <Compile Include="..\AngleSharp\Foundation\CreateDocumentOptions.cs">
+      <Link>Factories\CreateDocumentOptions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Factory.cs">
       <Link>Foundation\Factory.cs</Link>
@@ -1949,11 +1958,11 @@
     <Compile Include="..\AngleSharp\Foundation\TaskEventLoop.cs">
       <Link>Foundation\TaskEventLoop.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Foundation\TaskPriority.cs">
+      <Link>Foundation\TaskPriority.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Html\AttributeNames.cs">
       <Link>Html\AttributeNames.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\Entities.cs">
-      <Link>Html\Entities.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\EventFlags.cs">
       <Link>Html\EventFlags.cs</Link>
@@ -1972,6 +1981,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Html\FormDataSetEntry.cs">
       <Link>Html\FormDataSetEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\HtmlEntityService.cs">
+      <Link>Html\HtmlEntityService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\HtmlMarkupFormatter.cs">
       <Link>Html\HtmlMarkupFormatter.cs</Link>
@@ -2039,20 +2051,17 @@
     <Compile Include="..\AngleSharp\Html\InputTypes\WeekInputType.cs">
       <Link>Html\InputTypes\WeekInputType.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Html\Json\JsonArray.cs">
-      <Link>Html\Json\JsonArray.cs</Link>
+    <Compile Include="..\AngleSharp\Html\LinkRelNames.cs">
+      <Link>Html\LinkRelNames.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Html\Json\JsonElement.cs">
-      <Link>Html\Json\JsonElement.cs</Link>
+    <Compile Include="..\AngleSharp\Html\LinkRels\BaseLinkRelation.cs">
+      <Link>Html\LinkRels\BaseLinkRelation.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Html\Json\JsonObject.cs">
-      <Link>Html\Json\JsonObject.cs</Link>
+    <Compile Include="..\AngleSharp\Html\LinkRels\ImportLinkRelation.cs">
+      <Link>Html\LinkRels\ImportLinkRelation.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Html\Json\JsonStep.cs">
-      <Link>Html\Json\JsonStep.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Html\Json\JsonValue.cs">
-      <Link>Html\Json\JsonValue.cs</Link>
+    <Compile Include="..\AngleSharp\Html\LinkRels\StyleSheetLinkRelation.cs">
+      <Link>Html\LinkRels\StyleSheetLinkRelation.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\Namespaces.cs">
       <Link>Html\Namespaces.cs</Link>
@@ -2065,6 +2074,21 @@
     </Compile>
     <Compile Include="..\AngleSharp\Html\Submitters\JsonFormDataSetVisitor.cs">
       <Link>Html\Submitters\JsonFormDataSetVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\Json\JsonArray.cs">
+      <Link>Html\Submitters\Json\JsonArray.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\Json\JsonElement.cs">
+      <Link>Html\Submitters\Json\JsonElement.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\Json\JsonObject.cs">
+      <Link>Html\Submitters\Json\JsonObject.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\Json\JsonStep.cs">
+      <Link>Html\Submitters\Json\JsonStep.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\Submitters\Json\JsonValue.cs">
+      <Link>Html\Submitters\Json\JsonValue.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\Submitters\MultipartFormDataSetVisitor.cs">
       <Link>Html\Submitters\MultipartFormDataSetVisitor.cs</Link>
@@ -2092,6 +2116,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\IEventLoop.cs">
       <Link>IEventLoop.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\IEventLoopEntry.cs">
+      <Link>IEventLoopEntry.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\IMarkupFormattable.cs">
       <Link>IMarkupFormattable.cs</Link>
@@ -2486,6 +2513,9 @@
     <Compile Include="..\AngleSharp\Interfaces\ILabelabelElement.cs">
       <Link>Interfaces\ILabelabelElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\ILinkImport.cs">
+      <Link>Interfaces\ILinkImport.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ILinkStyle.cs">
       <Link>Interfaces\ILinkStyle.cs</Link>
     </Compile>
@@ -2654,11 +2684,17 @@
     <Compile Include="..\AngleSharp\IStyleFormatter.cs">
       <Link>IStyleFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\Default\BaseLoader.cs">
+      <Link>Network\Default\BaseLoader.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\Default\DataRequester.cs">
       <Link>Network\Default\DataRequester.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\Default\DocumentLoader.cs">
       <Link>Network\Default\DocumentLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\Default\Download.cs">
+      <Link>Network\Default\Download.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\Default\HttpRequester.cs">
       <Link>Network\Default\HttpRequester.cs</Link>
@@ -2683,6 +2719,12 @@
     </Compile>
     <Compile Include="..\AngleSharp\Network\IDocumentLoader.cs">
       <Link>Network\IDocumentLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\IDownload.cs">
+      <Link>Network\IDownload.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\ILoader.cs">
+      <Link>Network\ILoader.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\IRequest.cs">
       <Link>Network\IRequest.cs</Link>
@@ -2834,9 +2876,6 @@
     <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlEndOfFileToken.cs">
       <Link>Parser\Xml\Tokens\XmlEndOfFileToken.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlEntityToken.cs">
-      <Link>Parser\Xml\Tokens\XmlEntityToken.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Parser\Xml\Tokens\XmlPIToken.cs">
       <Link>Parser\Xml\Tokens\XmlPIToken.cs</Link>
     </Compile>
@@ -2905,6 +2944,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Services\IEncodingService.cs">
       <Link>Services\IEncodingService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IEntityService.cs">
+      <Link>Services\IEntityService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Services\IEventService.cs">
       <Link>Services\IEventService.cs</Link>
@@ -2996,6 +3038,9 @@
     <Compile Include="..\AngleSharp\Url.cs">
       <Link>Url.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Xml\XmlEntityService.cs">
+      <Link>Xml\XmlEntityService.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Xml\XmlMarkupFormatter.cs">
       <Link>Xml\XmlMarkupFormatter.cs</Link>
     </Compile>
@@ -3013,7 +3058,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" />
+      <UserProperties ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

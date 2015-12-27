@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Mathml
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents an element of the MathML DOM.

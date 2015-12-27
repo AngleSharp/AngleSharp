@@ -6,6 +6,7 @@
     using AngleSharp.Services.Scripting;
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents an HTML script element.
@@ -15,8 +16,9 @@
     {
         #region Fields
 
+        readonly Boolean _parserInserted;
+
         Boolean _started;
-        Boolean _parserInserted;
         Boolean _forceAsync;
         Action _runScript;
 
@@ -27,12 +29,12 @@
         /// <summary>
         /// Creates a new HTML script element.
         /// </summary>
-        public HtmlScriptElement(Document owner, String prefix = null)
+        public HtmlScriptElement(Document owner, String prefix = null, Boolean parserInserted = false, Boolean started = false)
             : base(owner, Tags.Script, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
             _forceAsync = false;
-            _parserInserted = false;
-            _started = false;
+            _started = started;
+            _parserInserted = parserInserted;
         }
 
         #endregion
@@ -43,7 +45,7 @@
         {
             get
             {
-                var language = GetOwnAttribute(AttributeNames.Language);
+                var language = this.GetOwnAttribute(AttributeNames.Language);
                 return language != null ? "text/" + language : null;
             }
         }
@@ -74,8 +76,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetOwnAttribute(AttributeNames.Src); }
-            set { SetOwnAttribute(AttributeNames.Src, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Src); }
+            set { this.SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -83,8 +85,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetOwnAttribute(AttributeNames.Type); }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Type); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -92,8 +94,8 @@
         /// </summary>
         public String CharacterSet
         {
-            get { return GetOwnAttribute(AttributeNames.Charset); }
-            set { SetOwnAttribute(AttributeNames.Charset, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Charset); }
+            set { this.SetOwnAttribute(AttributeNames.Charset, value); }
         }
 
         /// <summary>
@@ -110,8 +112,8 @@
         /// </summary>
         public String CrossOrigin
         {
-            get { return GetOwnAttribute(AttributeNames.CrossOrigin); }
-            set { SetOwnAttribute(AttributeNames.CrossOrigin, value); }
+            get { return this.GetOwnAttribute(AttributeNames.CrossOrigin); }
+            set { this.SetOwnAttribute(AttributeNames.CrossOrigin, value); }
         }
 
         /// <summary>
@@ -119,8 +121,8 @@
         /// </summary>
         public Boolean IsDeferred
         {
-            get { return HasOwnAttribute(AttributeNames.Defer); }
-            set { SetOwnAttribute(AttributeNames.Defer, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Defer); }
+            set { this.SetOwnAttribute(AttributeNames.Defer, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -128,80 +130,61 @@
         /// </summary>
         public Boolean IsAsync
         {
-            get { return HasOwnAttribute(AttributeNames.Async); }
-            set { SetOwnAttribute(AttributeNames.Async, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Async); }
+            set { this.SetOwnAttribute(AttributeNames.Async, value ? String.Empty : null); }
         }
 
         #endregion
 
         #region Internal Methods
-
-        internal void SetStarted(Boolean fragmentCase)
-        {
-            _parserInserted = true;
-            _started = fragmentCase;
-        }
         
         internal void Run()
         {
-            if (_runScript == null)
-                return;
+            if (_runScript != null)
+            {
+                var cancelled = this.FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
 
-            var cancelled = this.FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
-
-            if (cancelled == false)
-                _runScript();
-        }
-
-        void RunFromResponse(IResponse response)
-        {
-            var options = CreateOptions();
-
-            try { Engine.Evaluate(response, options); }
-            catch { /* We omit failed 3rd party services */ }
-
-            FireAfterScriptExecuteEvent();
-            FireLoadEvent();
-        }
-
-        void RunFromSource()
-        {
-            var options = CreateOptions();
-
-            try { Engine.Evaluate(Text, options); }
-            catch { /* We omit failed 3rd party services */ }
-
-            FireAfterScriptExecuteEvent();
-            Owner.QueueTask(FireLoadEvent);
+                if (!cancelled)
+                {
+                    _runScript();
+                }
+            }
         }
 
         /// <summary>
         /// More information available at:
         /// http://www.w3.org/TR/html5/scripting-1.html#prepare-a-script
         /// </summary>
-        internal Boolean Prepare()
+        internal Boolean Prepare(Document document)
         {
-            var options = Owner.Options;
-            var eventAttr = GetOwnAttribute(AttributeNames.Event);
-            var forAttr = GetOwnAttribute(AttributeNames.For);
+            var options = document.Options;
+            var eventAttr = this.GetOwnAttribute(AttributeNames.Event);
+            var forAttr = this.GetOwnAttribute(AttributeNames.For);
             var src = Source;
             var wasParserInserted = _parserInserted;
 
             if (_started)
+            {
                 return false;
+            }
             else if (wasParserInserted)
+            {
                 _forceAsync = !IsAsync;
-
-            _parserInserted = false;
+            }
 
             if (String.IsNullOrEmpty(src) && String.IsNullOrEmpty(Text))
+            {
                 return false;
+            }
             else if (Engine == null)
+            {
                 return false;
-            else if (wasParserInserted) 
+            }
+            else if (wasParserInserted)
+            {
                 _forceAsync = false;
+            }
 
-            _parserInserted = true;
             _started = true;
 
             if (!String.IsNullOrEmpty(eventAttr) && !String.IsNullOrEmpty(forAttr))
@@ -210,70 +193,102 @@
                 forAttr = forAttr.Trim();
 
                 if (eventAttr.EndsWith("()"))
+                {
                     eventAttr = eventAttr.Substring(0, eventAttr.Length - 2);
+                }
 
-                if (!forAttr.Isi(AttributeNames.Window) || !eventAttr.Isi("onload"))
+                var isWindow = forAttr.Equals(AttributeNames.Window, StringComparison.OrdinalIgnoreCase);
+                var isLoadEvent = eventAttr.Equals("onload", StringComparison.OrdinalIgnoreCase);
+
+                if (!isWindow || !isLoadEvent)
+                {
                     return false;
+                }
             }
 
             if (src != null)
             {
-                if (src.Length > 0)
-                    return InvokeLoadingScript(this.HyperReference(src));
-                    
-                Owner.QueueTask(FireErrorEvent);
+                if (src.Length != 0)
+                {
+                    return InvokeLoadingScript(document, this.HyperReference(src));
+                }
+
+                document.QueueTask(FireErrorEvent);
             }
-            else if (_parserInserted && Owner.GetStyleSheetDownloads().Any())
+            else 
             {
-                _runScript = RunFromSource;
-                return true;
-            }
-            else
-            {
+                if (_parserInserted && document.GetStyleSheetDownloads().Any())
+                {
+                    _runScript = RunFromSource;
+                    return true;
+                }
+
                 RunFromSource();
             }
 
             return false;
         }
 
-        Boolean InvokeLoadingScript(Url url)
+        #endregion
+
+        #region Helpers
+
+        Boolean InvokeLoadingScript(Document document, Url url)
         {
             var fromParser = true;
 
             //Just add to the (end of) set of scripts
-            if ((_parserInserted && IsDeferred && !IsAsync) || !_parserInserted || IsAsync)
+            if (!_parserInserted || IsDeferred || IsAsync)
             {
-                Owner.AddScript(this);
+                document.AddScript(this);
                 fromParser = false;
             }
 
             var request = this.CreateRequestFor(url);
-            var setting = CrossOrigin.ToEnum(CorsSetting.None);
-            var behavior = OriginBehavior.Taint;
-            this.CreateTask(async c =>
-            {
-                var response = await Owner.Loader.FetchWithCorsAsync(request, setting, behavior, c).ConfigureAwait(false);
-
-                if (response != null)
-                {
-                    _runScript = () =>
-                    {
-                        RunFromResponse(response);
-                        response.Dispose();
-                    };
-                }
-                else
-                    FireErrorEvent();
-
-                return response;
-            });
-
+            var task = LoadScriptAsync(document.Loader, request);
+            document.DelayLoad(task);
             return fromParser;
         }
 
-        #endregion
+        async Task LoadScriptAsync(IResourceLoader loader, ResourceRequest request)
+        {
+            var setting = CrossOrigin.ToEnum(CorsSetting.None);
+            var behavior = OriginBehavior.Taint;
+            var response = await loader.FetchWithCorsAsync(request, setting, behavior).ConfigureAwait(false);
+            var completion = new TaskCompletionSource<Boolean>();
+            _runScript = () =>
+            {
+                RunFromResponse(response);
+                response.Dispose();
+                completion.SetResult(true);
+            };
+            await completion.Task.ConfigureAwait(false);
+        }
 
-        #region Helpers
+        void RunFromResponse(IResponse response)
+        {
+            Eval(options => Engine.Evaluate(response, options));
+            FireLoadEvent();
+        }
+
+        void RunFromSource()
+        {
+            Eval(options => Engine.Evaluate(Text, options));
+            Owner.QueueTask(FireLoadEvent);
+        }
+
+        void Eval(Action<ScriptOptions> evaluateWith)
+        {
+            var options = CreateOptions();
+            var document = Owner;
+            var insert = document.Source.Index;
+
+            try { evaluateWith(options); }
+            catch { /* We omit failed 3rd party services */ }
+
+            document.Source.Index = insert;
+            FireAfterScriptExecuteEvent();
+        }
 
         void FireLoadEvent()
         {
@@ -292,10 +307,13 @@
 
         ScriptOptions CreateOptions()
         {
+            var document = Owner;
+            var context = document != null ? document.DefaultView : null;
+
             return new ScriptOptions
             {
-                Context = Owner.DefaultView,
-                Document = Owner,
+                Context = context,
+                Document = document,
                 Element = this,
                 Encoding = TextEncoding.Resolve(CharacterSet)
             };

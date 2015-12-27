@@ -26,8 +26,6 @@
         public HtmlInputElement(Document owner, String prefix = null)
             : base(owner, Tags.Input, prefix, NodeFlags.SelfClosing)
         {
-            RegisterAttributeObserver(AttributeNames.Type, UpdateType);
-            UpdateType(null);
         }
 
         #endregion
@@ -39,8 +37,8 @@
         /// </summary>
         public override String DefaultValue
         {
-            get { return GetOwnAttribute(AttributeNames.Value) ?? String.Empty; }
-            set { SetOwnAttribute(AttributeNames.Value, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Value) ?? String.Empty; }
+            set { this.SetOwnAttribute(AttributeNames.Value, value); }
         }
 
         /// <summary>
@@ -48,8 +46,8 @@
         /// </summary>
         public Boolean IsDefaultChecked
         {
-            get { return HasOwnAttribute(AttributeNames.Checked); }
-            set { SetOwnAttribute(AttributeNames.Checked, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Checked); }
+            set { this.SetOwnAttribute(AttributeNames.Checked, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -67,7 +65,7 @@
         public String Type
         {
             get { return _type.Name; }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -84,8 +82,8 @@
         /// </summary>
         public Boolean IsMultiple
         {
-            get { return HasOwnAttribute(AttributeNames.Multiple); }
-            set { SetOwnAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Multiple); }
+            set { this.SetOwnAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -98,9 +96,13 @@
             set
             {
                 if (value == null)
+                {
                     Value = String.Empty;
+                }
                 else
+                {
                     Value = _type.ConvertFromDate(value.Value);
+                }
             }
         }
 
@@ -114,11 +116,18 @@
             set
             {
                 if (Double.IsInfinity(value))
+                {
                     throw new DomException(DomError.TypeMismatch);
-                else if (Double.IsNaN(value))
+                }
+
+                if (Double.IsNaN(value))
+                {
                     Value = String.Empty;
+                }
                 else
+                {
                     Value = _type.ConvertFromNumber(value);
+                }
             }
         }
 
@@ -178,8 +187,8 @@
         /// </summary>
         public String Accept
         {
-            get { return GetOwnAttribute(AttributeNames.Accept); }
-            set { SetOwnAttribute(AttributeNames.Accept, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Accept); }
+            set { this.SetOwnAttribute(AttributeNames.Accept, value); }
         }
 
         /// <summary>
@@ -187,8 +196,8 @@
         /// </summary>
         public Alignment Align
         {
-            get { return GetOwnAttribute(AttributeNames.Align).ToEnum(Alignment.Left); }
-            set { SetOwnAttribute(AttributeNames.Align, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Align).ToEnum(Alignment.Left); }
+            set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         /// <summary>
@@ -197,8 +206,8 @@
         /// </summary>
         public String AlternativeText
         {
-            get { return GetOwnAttribute(AttributeNames.Alt); }
-            set { SetOwnAttribute(AttributeNames.Alt, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Alt); }
+            set { this.SetOwnAttribute(AttributeNames.Alt, value); }
         }
 
         /// <summary>
@@ -210,8 +219,8 @@
         /// </summary>
         public String Autocomplete
         {
-            get { return GetOwnAttribute(AttributeNames.AutoComplete); }
-            set { SetOwnAttribute(AttributeNames.AutoComplete, value); }
+            get { return this.GetOwnAttribute(AttributeNames.AutoComplete); }
+            set { this.SetOwnAttribute(AttributeNames.AutoComplete, value); }
         }
 
         /// <summary>
@@ -224,7 +233,9 @@
                 var type = _type as FileInputType;
 
                 if (type != null)
+                {
                     return type.Files;
+                }
 
                 return null;
             }
@@ -243,7 +254,11 @@
                 var owner = Owner;
 
                 if (owner != null)
-                    return owner.GetElementById(GetOwnAttribute(AttributeNames.List)) as IHtmlDataListElement; 
+                {
+                    var list = this.GetOwnAttribute(AttributeNames.List);
+                    var element = owner.GetElementById(list);
+                    return element as IHtmlDataListElement;
+                }
 
                 return null;
             }
@@ -256,8 +271,8 @@
         /// </summary>
         public String Maximum
         {
-            get { return GetOwnAttribute(AttributeNames.Max); }
-            set { SetOwnAttribute(AttributeNames.Max, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Max); }
+            set { this.SetOwnAttribute(AttributeNames.Max, value); }
         }
 
         /// <summary>
@@ -267,8 +282,8 @@
         /// </summary>
         public String Minimum
         {
-            get { return GetOwnAttribute(AttributeNames.Min); }
-            set { SetOwnAttribute(AttributeNames.Min, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Min); }
+            set { this.SetOwnAttribute(AttributeNames.Min, value); }
         }
 
         /// <summary>
@@ -279,8 +294,8 @@
         /// </summary>
         public String Pattern
         {
-            get { return GetOwnAttribute(AttributeNames.Pattern); }
-            set { SetOwnAttribute(AttributeNames.Pattern, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Pattern); }
+            set { this.SetOwnAttribute(AttributeNames.Pattern, value); }
         }
 
         /// <summary>
@@ -291,8 +306,8 @@
         /// </summary>
         public Int32 Size
         {
-            get { return GetOwnAttribute(AttributeNames.Size).ToInteger(20); }
-            set { SetOwnAttribute(AttributeNames.Size, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Size).ToInteger(20); }
+            set { this.SetOwnAttribute(AttributeNames.Size, value.ToString()); }
         }
 
         /// <summary>
@@ -302,8 +317,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetOwnAttribute(AttributeNames.Src); }
-            set { SetOwnAttribute(AttributeNames.Src, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Src); }
+            set { this.SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -314,8 +329,8 @@
         /// </summary>
         public String Step
         {
-            get { return GetOwnAttribute(AttributeNames.Step); }
-            set { SetOwnAttribute(AttributeNames.Step, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Step); }
+            set { this.SetOwnAttribute(AttributeNames.Step, value); }
         }
 
         /// <summary>
@@ -323,8 +338,8 @@
         /// </summary>
         public String UseMap
         {
-            get { return GetOwnAttribute(AttributeNames.UseMap); }
-            set { SetOwnAttribute(AttributeNames.UseMap, value); }
+            get { return this.GetOwnAttribute(AttributeNames.UseMap); }
+            set { this.SetOwnAttribute(AttributeNames.UseMap, value); }
         }
 
         /// <summary>
@@ -333,8 +348,8 @@
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
-            set { SetOwnAttribute(AttributeNames.Width, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
+            set { this.SetOwnAttribute(AttributeNames.Width, value.ToString()); }
         }
 
         /// <summary>
@@ -344,8 +359,8 @@
         /// </summary>
         public Int32 DisplayHeight
         {
-            get { return GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
-            set { SetOwnAttribute(AttributeNames.Height, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
+            set { this.SetOwnAttribute(AttributeNames.Height, value.ToString()); }
         }
 
         /// <summary>
@@ -358,7 +373,9 @@
                 var type = _type as ImageInputType;
 
                 if (type != null)
+                {
                     return type.Width;
+                }
 
                 return 0;
             }
@@ -374,7 +391,9 @@
                 var type = _type as ImageInputType;
 
                 if (type != null)
+                {
                     return type.Height;
+                }
 
                 return 0;
             }
@@ -474,6 +493,15 @@
 
         #region Internal Methods
 
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var type = this.GetOwnAttribute(AttributeNames.Type);
+            RegisterAttributeObserver(AttributeNames.Type, UpdateType);
+            UpdateType(type);
+        }
+
         void UpdateType(String type)
         {
             _type = Factory.InputTypes.Create(this, type);
@@ -491,7 +519,9 @@
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
             if (_type.IsAppendingData(submitter))
+            {
                 _type.ConstructDataSet(dataSet);
+            }
         }
 
         /// <summary>

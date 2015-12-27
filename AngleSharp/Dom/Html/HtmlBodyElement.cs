@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -27,8 +28,8 @@
         /// </summary>
         public String ALink
         {
-            get { return GetOwnAttribute(AttributeNames.Alink); }
-            set { SetOwnAttribute(AttributeNames.Alink, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Alink); }
+            set { this.SetOwnAttribute(AttributeNames.Alink, value); }
         }
 
         /// <summary>
@@ -36,8 +37,8 @@
         /// </summary>
         public String Background
         {
-            get { return GetOwnAttribute(AttributeNames.Background); }
-            set { SetOwnAttribute(AttributeNames.Background, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Background); }
+            set { this.SetOwnAttribute(AttributeNames.Background, value); }
         }
 
         /// <summary>
@@ -45,8 +46,8 @@
         /// </summary>
         public String BgColor
         {
-            get { return GetOwnAttribute(AttributeNames.BgColor); }
-            set { SetOwnAttribute(AttributeNames.BgColor, value); }
+            get { return this.GetOwnAttribute(AttributeNames.BgColor); }
+            set { this.SetOwnAttribute(AttributeNames.BgColor, value); }
         }
 
         /// <summary>
@@ -54,8 +55,8 @@
         /// </summary>
         public String Link
         {
-            get { return GetOwnAttribute(AttributeNames.Link); }
-            set { SetOwnAttribute(AttributeNames.Link, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Link); }
+            set { this.SetOwnAttribute(AttributeNames.Link, value); }
         }
 
         /// <summary>
@@ -63,8 +64,8 @@
         /// </summary>
         public String Text
         {
-            get { return GetOwnAttribute(AttributeNames.Text); }
-            set { SetOwnAttribute(AttributeNames.Text, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Text); }
+            set { this.SetOwnAttribute(AttributeNames.Text, value); }
         }
 
         /// <summary>
@@ -72,8 +73,8 @@
         /// </summary>
         public String VLink
         {
-            get { return GetOwnAttribute(AttributeNames.Vlink); }
-            set { SetOwnAttribute(AttributeNames.Vlink, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Vlink); }
+            set { this.SetOwnAttribute(AttributeNames.Vlink, value); }
         }
 
         #endregion

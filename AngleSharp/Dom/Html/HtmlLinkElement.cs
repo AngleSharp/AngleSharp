@@ -3,10 +3,8 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Network;
-    using AngleSharp.Services.Styling;
+    using AngleSharp.Html.LinkRels;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML link element.
@@ -15,7 +13,7 @@
     {
         #region Fields
 
-        IStyleSheet _sheet;
+        BaseLinkRelation _relation;
         TokenList _relList;
         SettableTokenList _sizes;
 
@@ -29,9 +27,6 @@
         public HtmlLinkElement(Document owner, String prefix = null)
             : base(owner, Tags.Link, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
-            RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);
-            RegisterAttributeObserver(AttributeNames.Href, value => UpdateSource(value));
         }
 
         #endregion
@@ -61,20 +56,12 @@
         #region Properties
 
         /// <summary>
-        /// Gets the url of the link elements address.
-        /// </summary>
-        public Url Url
-        {
-            get { return this.HyperReference(GetOwnAttribute(AttributeNames.Href)); }
-        }
-
-        /// <summary>
         /// Gets or sets the URI for the target resource.
         /// </summary>
         public String Href
         {
-            get { return Url.Href; }
-            set { SetOwnAttribute(AttributeNames.Href, value); }
+            get { return this.GetUrlAttribute(AttributeNames.Href); }
+            set { this.SetOwnAttribute(AttributeNames.Href, value); }
         }
 
         /// <summary>
@@ -82,8 +69,8 @@
         /// </summary>
         public String TargetLanguage
         {
-            get { return GetOwnAttribute(AttributeNames.HrefLang); }
-            set { SetOwnAttribute(AttributeNames.HrefLang, value); }
+            get { return this.GetOwnAttribute(AttributeNames.HrefLang); }
+            set { this.SetOwnAttribute(AttributeNames.HrefLang, value); }
         }
 
         /// <summary>
@@ -91,8 +78,8 @@
         /// </summary>
         public String Charset
         {
-            get { return GetOwnAttribute(AttributeNames.Charset); }
-            set { SetOwnAttribute(AttributeNames.Charset, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Charset); }
+            set { this.SetOwnAttribute(AttributeNames.Charset, value); }
         }
 
         /// <summary>
@@ -100,8 +87,8 @@
         /// </summary>
         public String Relation
         {
-            get { return GetOwnAttribute(AttributeNames.Rel); }
-            set { SetOwnAttribute(AttributeNames.Rel, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Rel); }
+            set { this.SetOwnAttribute(AttributeNames.Rel, value); }
         }
 
         /// <summary>
@@ -113,7 +100,7 @@
             {
                 if (_relList == null)
                 {
-                    _relList = new TokenList(GetOwnAttribute(AttributeNames.Rel));
+                    _relList = new TokenList(this.GetOwnAttribute(AttributeNames.Rel));
                     CreateBindings(_relList, AttributeNames.Rel);
                 }
 
@@ -130,7 +117,7 @@
             {
                 if (_sizes == null)
                 {
-                    _sizes = new SettableTokenList(GetOwnAttribute(AttributeNames.Sizes));
+                    _sizes = new SettableTokenList(this.GetOwnAttribute(AttributeNames.Sizes));
                     CreateBindings(_sizes, AttributeNames.Sizes);
                 }
 
@@ -143,8 +130,8 @@
         /// </summary>
         public String Rev
         {
-            get { return GetOwnAttribute(AttributeNames.Rev); }
-            set { SetOwnAttribute(AttributeNames.Rev, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Rev); }
+            set { this.SetOwnAttribute(AttributeNames.Rev, value); }
         }
 
         /// <summary>
@@ -152,8 +139,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return GetOwnAttribute(AttributeNames.Disabled).ToBoolean(); }
-            set { SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return this.GetOwnAttribute(AttributeNames.Disabled).ToBoolean(); }
+            set { this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -161,8 +148,8 @@
         /// </summary>
         public String Target
         {
-            get { return GetOwnAttribute(AttributeNames.Target); }
-            set { SetOwnAttribute(AttributeNames.Target, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Target); }
+            set { this.SetOwnAttribute(AttributeNames.Target, value); }
         }
 
         /// <summary>
@@ -170,8 +157,8 @@
         /// </summary>
         public String Media
         {
-            get { return GetOwnAttribute(AttributeNames.Media); }
-            set { SetOwnAttribute(AttributeNames.Media, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Media); }
+            set { this.SetOwnAttribute(AttributeNames.Media, value); }
         }
 
         /// <summary>
@@ -179,8 +166,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetOwnAttribute(AttributeNames.Type); }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Type); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -188,7 +175,43 @@
         /// </summary>
         public IStyleSheet Sheet
         {
-            get { return _sheet; }
+            get 
+            { 
+                var sheetRelation = _relation as StyleSheetLinkRelation;
+                return sheetRelation != null ? sheetRelation.Sheet : null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the associated import.
+        /// </summary>
+        public IDocument Import
+        {
+            get
+            {
+                var importRelation = _relation as ImportLinkRelation;
+                return importRelation != null ? importRelation.Import : null;
+            }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var rel = this.GetOwnAttribute(AttributeNames.Rel);
+            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
+            RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);
+            RegisterAttributeObserver(AttributeNames.Href, UpdateSource);
+            RegisterAttributeObserver(AttributeNames.Rel, UpdateRelation);
+
+            if (rel != null)
+            {
+                UpdateRelation(rel);
+            }
         }
 
         #endregion
@@ -197,57 +220,51 @@
 
         void UpdateMedia(String value)
         {
-            if (_sheet != null)
-                _sheet.Media.MediaText = value;
+            var sheet = Sheet;
+
+            if (sheet != null)
+            {
+                sheet.Media.MediaText = value;
+            }
         }
 
         void UpdateDisabled(String value)
         {
-            if (_sheet != null)
-                _sheet.IsDisabled = value != null;
+            var sheet = Sheet;
+
+            if (sheet != null)
+            {
+                sheet.IsDisabled = value != null;
+            }
         }
 
-        void FinishLoading(Task<IResponse> task)
+        void UpdateRelation(String value)
         {
-            var type = Type ?? MimeTypes.Css;
-            var config = Owner.Options;
-            var engine = config.GetStyleEngine(type);
-
-            if (task.IsCompleted && task.IsFaulted == false)
+            if (_relation != null)
             {
-                using (var response = task.Result)
-                {
-                    if (engine != null && RelationList.Contains(Keywords.StyleSheet))
-                    {
-                        var options = new StyleOptions
-                        {
-                            Element = this,
-                            IsDisabled = IsDisabled,
-                            IsAlternate = RelationList.Contains(Keywords.Alternate),
-                            Configuration = config
-                        };
-
-                        if (response != null)
-                        {
-                            try { _sheet = engine.ParseStylesheet(response, options); }
-                            catch { /* Do not care here */ }
-                        }
-                    }
-                }
+                _relation.Cancel();
             }
 
-            this.FireLoadOrErrorEvent(task);
+            _relation = Factory.LinkRelations.Create(this, Relation);
+            UpdateSource(this.GetOwnAttribute(AttributeNames.Href));
         }
 
         void UpdateSource(String value)
         {
-            this.CancelTasks();
+            var document = Owner;
 
-            if (!String.IsNullOrEmpty(value))
+            if (_relation != null && document != null)
             {
-                var request = this.CreateRequestFor(Url);
-                this.CreateTask(cancel => Owner.Loader.FetchAsync(request, cancel))
-                    .ContinueWith(m => FinishLoading(m));
+                var config = document.Options;
+                var loader = document.Loader;
+                
+                _relation.Cancel();
+
+                if (config != null && loader != null)
+                {
+                    var task = _relation.LoadAsync(config, loader);
+                    document.DelayLoad(task);
+                }
             }
         }
 

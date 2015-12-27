@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
 
@@ -16,7 +17,6 @@
         public HtmlBaseElement(Document owner, String prefix = null)
             : base(owner, Tags.Base, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            RegisterAttributeObserver(AttributeNames.Href, UpdateUrl);
         }
 
         #endregion
@@ -28,8 +28,8 @@
         /// </summary>
         public String Href
         {
-            get { return GetOwnAttribute(AttributeNames.Href); }
-            set { SetOwnAttribute(AttributeNames.Href, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Href); }
+            set { this.SetOwnAttribute(AttributeNames.Href, value); }
         }
 
         /// <summary>
@@ -37,8 +37,8 @@
         /// </summary>
         public String Target
         {
-            get { return GetOwnAttribute(AttributeNames.Target); }
-            set { SetOwnAttribute(AttributeNames.Target, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Target); }
+            set { this.SetOwnAttribute(AttributeNames.Target, value); }
         }
 
         #endregion
@@ -48,6 +48,23 @@
         void UpdateUrl(String url)
         {
             Owner.BaseUrl = new Url(Owner.DocumentUrl, url ?? String.Empty);
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var href = this.GetOwnAttribute(AttributeNames.Href);
+            RegisterAttributeObserver(AttributeNames.Href, UpdateUrl);
+
+            if (href != null)
+            {
+                UpdateUrl(href);
+            }
         }
 
         #endregion

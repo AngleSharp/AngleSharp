@@ -17,14 +17,22 @@
         /// </summary>
         /// <param name="context">The context that hosts the loader.</param>
         /// <returns>A document loader or null.</returns>
-        public static IDocumentLoader CreateLoader(this IBrowsingContext context)
+        public static IDocumentLoader CreateDocumentLoader(this IBrowsingContext context)
         {
             var service = context.Configuration.GetService<ILoaderService>();
+            return service != null ? service.CreateDocumentLoader(context) : null;
+        }
 
-            if (service == null)
-                return null;
-
-            return service.CreateDocumentLoader(context);
+        /// <summary>
+        /// Gets the resource loader for the given document, by creating it if
+        /// possible.
+        /// </summary>
+        /// <param name="context">The context that hosts the loader.</param>
+        /// <returns>A resource loader or null.</returns>
+        public static IResourceLoader CreateResourceLoader(this IBrowsingContext context)
+        {
+            var loader = context.Configuration.GetService<ILoaderService>();
+            return loader != null ? loader.CreateResourceLoader(context) : null;
         }
 
         /// <summary>

@@ -1,15 +1,13 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents the HTML div element.
     /// </summary>
     sealed class HtmlDivElement : HtmlElement, IHtmlDivElement
     {
-        #region ctor
-
         /// <summary>
         /// Creates a new HTML div element.
         /// </summary>
@@ -17,7 +15,5 @@
             : base(owner, Tags.Div, prefix, NodeFlags.Special)
         {
         }
-
-        #endregion
     }
 }

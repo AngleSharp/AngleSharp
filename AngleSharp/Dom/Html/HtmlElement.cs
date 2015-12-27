@@ -29,16 +29,6 @@
         public HtmlElement(Document owner, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, Combine(prefix, localName), localName, prefix, Namespaces.HtmlUri, flags | NodeFlags.HtmlMember)
         {
-            RegisterAttributeObserver(AttributeNames.Style, value =>
-            {
-                var bindable = _style as IBindable;
-
-                if (String.IsNullOrEmpty(value))
-                    RemoveAttribute(AttributeNames.Style);
-
-                if (bindable != null)
-                    bindable.Update(value);
-            });
         }
 
         #endregion
@@ -50,8 +40,8 @@
         /// </summary>
         public Boolean IsHidden
         {
-            get { return HasOwnAttribute(AttributeNames.Hidden); }
-            set { SetOwnAttribute(AttributeNames.Hidden, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Hidden); }
+            set { this.SetOwnAttribute(AttributeNames.Hidden, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -63,7 +53,7 @@
             {
                 if (_menu == null)
                 {
-                    var id = GetOwnAttribute(AttributeNames.ContextMenu);
+                    var id = this.GetOwnAttribute(AttributeNames.ContextMenu);
 
                     if (!String.IsNullOrEmpty(id))
                         return Owner.GetElementById(id) as IHtmlMenuElement;
@@ -83,7 +73,7 @@
             { 
                 if (_dropZone == null)
                 {
-                    _dropZone = new SettableTokenList(GetOwnAttribute(AttributeNames.DropZone));
+                    _dropZone = new SettableTokenList(this.GetOwnAttribute(AttributeNames.DropZone));
                     CreateBindings(_dropZone, AttributeNames.DropZone);
                 }
 
@@ -96,8 +86,8 @@
         /// </summary>
         public Boolean IsDraggable
         {
-            get { return GetOwnAttribute(AttributeNames.Draggable).ToBoolean(false); }
-            set { SetOwnAttribute(AttributeNames.Draggable, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Draggable).ToBoolean(false); }
+            set { this.SetOwnAttribute(AttributeNames.Draggable, value.ToString()); }
         }
 
         /// <summary>
@@ -105,8 +95,8 @@
         /// </summary>
         public String AccessKey
         {
-            get { return GetOwnAttribute(AttributeNames.AccessKey) ?? String.Empty; }
-            set { SetOwnAttribute(AttributeNames.AccessKey, value); }
+            get { return this.GetOwnAttribute(AttributeNames.AccessKey) ?? String.Empty; }
+            set { this.SetOwnAttribute(AttributeNames.AccessKey, value); }
         }
 
         /// <summary>
@@ -122,8 +112,8 @@
         /// </summary>
         public String Language
         {
-            get { return GetOwnAttribute(AttributeNames.Lang) ?? GetDefaultLanguage(); }
-            set { SetOwnAttribute(AttributeNames.Lang, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Lang) ?? GetDefaultLanguage(); }
+            set { this.SetOwnAttribute(AttributeNames.Lang, value); }
         }
 
         /// <summary>
@@ -131,8 +121,8 @@
         /// </summary>
         public String Title
         {
-            get { return GetOwnAttribute(AttributeNames.Title); }
-            set { SetOwnAttribute(AttributeNames.Title, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Title); }
+            set { this.SetOwnAttribute(AttributeNames.Title, value); }
         }
 
         /// <summary>
@@ -140,8 +130,8 @@
         /// </summary>
         public String Direction
         {
-            get { return GetOwnAttribute(AttributeNames.Dir); }
-            set { SetOwnAttribute(AttributeNames.Dir, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Dir); }
+            set { this.SetOwnAttribute(AttributeNames.Dir, value); }
         }
 
         /// <summary>
@@ -149,8 +139,8 @@
         /// </summary>
         public Boolean IsSpellChecked
         {
-            get { return GetOwnAttribute(AttributeNames.Spellcheck).ToBoolean(false); }
-            set { SetOwnAttribute(AttributeNames.Spellcheck, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Spellcheck).ToBoolean(false); }
+            set { this.SetOwnAttribute(AttributeNames.Spellcheck, value.ToString()); }
         }
 
         /// <summary>
@@ -158,8 +148,8 @@
         /// </summary>
         public Int32 TabIndex
         {
-            get { return GetOwnAttribute(AttributeNames.TabIndex).ToInteger(0); }
-            set { SetOwnAttribute(AttributeNames.TabIndex, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.TabIndex).ToInteger(0); }
+            set { this.SetOwnAttribute(AttributeNames.TabIndex, value.ToString()); }
         }
 
         /// <summary>
@@ -186,8 +176,8 @@
         /// </summary>
         public String ContentEditable
         {
-            get { return GetOwnAttribute(AttributeNames.ContentEditable); }
-            set { SetOwnAttribute(AttributeNames.ContentEditable, value); }
+            get { return this.GetOwnAttribute(AttributeNames.ContentEditable); }
+            set { this.SetOwnAttribute(AttributeNames.ContentEditable, value); }
         }
 
         /// <summary>
@@ -216,8 +206,8 @@
         /// </summary>
         public Boolean IsTranslated
         {
-            get { return GetOwnAttribute(AttributeNames.Translate).ToEnum(SimpleChoice.Yes) == SimpleChoice.Yes; }
-            set { SetOwnAttribute(AttributeNames.Translate, value ? Keywords.Yes : Keywords.No); }
+            get { return this.GetOwnAttribute(AttributeNames.Translate).ToEnum(SimpleChoice.Yes) == SimpleChoice.Yes; }
+            set { this.SetOwnAttribute(AttributeNames.Translate, value ? Keywords.Yes : Keywords.No); }
         }
 
         #endregion
@@ -269,6 +259,19 @@
 
         #region Internal Methods
 
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var style = this.GetOwnAttribute(AttributeNames.Style);
+            RegisterAttributeObserver(AttributeNames.Style, UpdateStyle);
+
+            if (style != null)
+            {
+                UpdateStyle(style);
+            }
+        }
+
         /// <summary>
         /// Gets the assigned form if any (use only on selected elements).
         /// </summary>
@@ -277,23 +280,22 @@
         {
             var parent = Parent as INode;
 
-            while (parent is IHtmlFormElement == false)
+            while (parent != null && parent is IHtmlFormElement == false)
             {
-                if (parent == null)
-                    break;
-
                 parent = parent.ParentElement;
             }
             
             if (parent == null)
             {
-                var formid = GetOwnAttribute(AttributeNames.Form);
+                var formid = this.GetOwnAttribute(AttributeNames.Form);
                 var owner = Owner;
 
-                if (owner != null && parent == null && !String.IsNullOrEmpty(formid))
-                    parent = owner.GetElementById(formid);
-                else
+                if (owner == null || parent != null || String.IsNullOrEmpty(formid))
+                {
                     return null;
+                }
+
+                parent = owner.GetElementById(formid);
             }
 
             return parent as IHtmlFormElement;
@@ -302,6 +304,21 @@
         #endregion
 
         #region Helpers
+
+        void UpdateStyle(String value)
+        {
+            var bindable = _style as IBindable;
+
+            if (String.IsNullOrEmpty(value))
+            {
+                RemoveAttribute(AttributeNames.Style);
+            }
+
+            if (bindable != null)
+            {
+                bindable.Update(value);
+            }
+        }
 
         String GetDefaultLanguage()
         {

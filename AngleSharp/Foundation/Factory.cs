@@ -51,5 +51,9 @@
         /// The CSS pseudo class selector factory.
         /// </summary>
         public static readonly PseudoClassSelectorFactory PseudoClassSelector = new PseudoClassSelectorFactory();
+
+        /// The CSS media feature factory.
+        /// </summary>
+        public static readonly LinkRelationFactory LinkRelations = new LinkRelationFactory();
     }
 }

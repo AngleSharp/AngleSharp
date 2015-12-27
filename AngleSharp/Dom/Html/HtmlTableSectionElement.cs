@@ -18,13 +18,8 @@
 
         #region ctor
 
-        public HtmlTableSectionElement(Document owner)
-            : this(owner, Tags.Tbody)
-        {
-        }
-
-        public HtmlTableSectionElement(Document owner, String name, String prefix = null)
-            : base(owner, name, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.HtmlTableSectionScoped)
+        public HtmlTableSectionElement(Document owner, String name = null, String prefix = null)
+            : base(owner, name ?? Tags.Tbody, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.HtmlTableSectionScoped)
         {
         }
 
@@ -37,8 +32,8 @@
         /// </summary>
         public HorizontalAlignment Align
         {
-            get { return GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Center); }
-            set { SetOwnAttribute(AttributeNames.Align, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Center); }
+            set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         /// <summary>
@@ -54,8 +49,8 @@
         /// </summary>
         public VerticalAlignment VAlign
         {
-            get { return GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
-            set { SetOwnAttribute(AttributeNames.Valign, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
+            set { this.SetOwnAttribute(AttributeNames.Valign, value.ToString()); }
         }
 
         #endregion

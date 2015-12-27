@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
     
     /// <summary>
     /// Represents the HTML html element.
@@ -27,8 +28,8 @@
         /// </summary>
         public String Manifest 
         {
-            get { return GetOwnAttribute(AttributeNames.Manifest); }
-            set { SetOwnAttribute(AttributeNames.Manifest, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Manifest); }
+            set { this.SetOwnAttribute(AttributeNames.Manifest, value); }
         }
 
         #endregion

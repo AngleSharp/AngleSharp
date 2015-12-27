@@ -135,6 +135,7 @@
             { "plum", new Color(221, 160, 221) },
             { "powderblue", new Color(176, 224, 230) },
             { "purple", new Color(128, 0, 128) },
+            { "rebeccapurple", new Color(102, 51, 153) },
             { "red", new Color(255, 0, 0) },
             { "rosybrown", new Color(188, 143, 143) },
             { "royalblue", new Color(65, 105, 225) },

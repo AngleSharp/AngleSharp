@@ -2,6 +2,7 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using AngleSharp.Services.Media;
     using System;
 
@@ -13,6 +14,7 @@
         #region Fields
 
         IObjectInfo _obj;
+        IDownload _download;
 
         #endregion
 
@@ -21,7 +23,6 @@
         public HtmlObjectElement(Document owner, String prefix = null)
             : base(owner, Tags.Object, prefix, NodeFlags.Scoped)
         {
-            RegisterAttributeObserver(AttributeNames.Data, UpdateSource);
         }
 
         #endregion
@@ -33,8 +34,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetUrlAttribute(AttributeNames.Data); }
-            set { SetOwnAttribute(AttributeNames.Data, value); }
+            get { return this.GetUrlAttribute(AttributeNames.Data); }
+            set { this.SetOwnAttribute(AttributeNames.Data, value); }
         }
 
         /// <summary>
@@ -43,8 +44,8 @@
         /// </summary>
         public String Type
         {
-            get { return GetOwnAttribute(AttributeNames.Type); }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Type); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -55,8 +56,8 @@
         /// </summary>
         public Boolean TypeMustMatch
         {
-            get { return HasOwnAttribute(AttributeNames.TypeMustMatch); }
-            set { SetOwnAttribute(AttributeNames.TypeMustMatch, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.TypeMustMatch); }
+            set { this.SetOwnAttribute(AttributeNames.TypeMustMatch, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -65,8 +66,8 @@
         /// </summary>
         public String UseMap
         {
-            get { return GetOwnAttribute(AttributeNames.UseMap); }
-            set { SetOwnAttribute(AttributeNames.UseMap, value); }
+            get { return this.GetOwnAttribute(AttributeNames.UseMap); }
+            set { this.SetOwnAttribute(AttributeNames.UseMap, value); }
         }
 
         /// <summary>
@@ -74,8 +75,8 @@
         /// </summary>
         public Int32 DisplayWidth
         {
-            get { return GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
-            set { SetOwnAttribute(AttributeNames.Width, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Width).ToInteger(OriginalWidth); }
+            set { this.SetOwnAttribute(AttributeNames.Width, value.ToString()); }
         }
 
         /// <summary>
@@ -83,8 +84,8 @@
         /// </summary>
         public Int32 DisplayHeight
         {
-            get { return GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
-            set { SetOwnAttribute(AttributeNames.Height, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Height).ToInteger(OriginalHeight); }
+            set { this.SetOwnAttribute(AttributeNames.Height, value.ToString()); }
         }
 
         /// <summary>
@@ -130,21 +131,49 @@
             return false;
         }
 
+        #endregion
+
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var data = this.GetOwnAttribute(AttributeNames.Data);
+            RegisterAttributeObserver(AttributeNames.Data, UpdateSource);
+
+            if (data != null)
+            {
+                UpdateSource(data);
+            }
+        }
+
+        #endregion
+
+        #region Helpers
+
         void UpdateSource(String value)
         {
-            this.CancelTasks();
-
-            if (!String.IsNullOrEmpty(value))
+            if (_download != null && !_download.IsCompleted)
             {
-                var url = new Url(Source);
-                var request = this.CreateRequestFor(url);
-                this.LoadResource<IObjectInfo>(request).ContinueWith(m =>
-                {
-                    if (m.IsFaulted == false)
-                        _obj = m.Result;
+                _download.Cancel();
+            }
 
-                    this.FireLoadOrErrorEvent(m);
-                });
+            var document = Owner;
+
+            if (!String.IsNullOrEmpty(value) && document != null)
+            {
+                var loader = document.Loader;
+
+                if (loader != null)
+                {
+                    var url = new Url(Source);
+                    var request = this.CreateRequestFor(url);
+                    var download = loader.DownloadAsync(request);
+                    var task = this.ProcessResource<IObjectInfo>(download, result => _obj = result);
+                    document.DelayLoad(task);
+                    _download = download;
+                }
             }
         }
 

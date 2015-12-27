@@ -929,6 +929,27 @@ font-weight:bold;}";
         }
 
         [Test]
+        public void CssStyleSheetShouldIgnoreHtmlCommentTokens()
+        {
+            var parser = new CssParser();
+            var source = "<!-- body { font-family: Verdana } div.hidden { display: none } -->";
+            var sheet = parser.ParseStylesheet(source);
+            Assert.AreEqual(2, sheet.Rules.Length);
+
+            Assert.AreEqual(CssRuleType.Style, sheet.Rules[0].Type);
+            var body = sheet.Rules[0] as ICssStyleRule;
+            Assert.AreEqual("body", body.SelectorText);
+            Assert.AreEqual(1, body.Style.Length);
+            Assert.AreEqual("Verdana", body.Style.FontFamily);
+
+            Assert.AreEqual(CssRuleType.Style, sheet.Rules[1].Type);
+            var div = sheet.Rules[1] as ICssStyleRule;
+            Assert.AreEqual("div.hidden", div.SelectorText);
+            Assert.AreEqual(1, div.Style.Length);
+            Assert.AreEqual("none", div.Style.Display);
+        }
+
+        [Test]
         public void CssStyleSheetInsertShouldSetParentStyleSheetCorrectly()
         {
             var parser = new CssParser();
@@ -1045,6 +1066,61 @@ font-weight:bold;}";
             Assert.AreEqual("a>b", descendentSelector.Text);
             var selectorNode = sheet.ParseTree.GetAssociatedNode(descendentSelector);
             Assert.AreEqual("a > b ", selectorNode.GetSource());
+        }
+
+        [Test]
+        public void CssColorFunctionsMixAllShouldWork()
+        {
+            var parser = new CssParser();
+            var source = @"
+.rgbNumber { color: rgb(255, 128, 0); }
+.rgbPercent { color: rgb(100%, 50%, 0%); }
+.rgbaNumber { color: rgba(255, 128, 0, 0.0); }
+.rgbaPercent { color: rgba(100%, 50%, 0%, 0.0); }
+.hsl { color: hsl(120, 100%, 50%); }
+.hslAngle { color: hsl(120deg, 100%, 50%); }
+.hsla { color: hsla(120, 100%, 50%, 0.25); }
+.hslaAngle { color: hsla(120deg, 100%, 50%, 0.25); }
+.grayNumber { color: gray(128); }
+.grayPercent { color: gray(50%); }
+.grayPercentAlpha { color: gray(50%, 0.5); }
+.hwb { color: hwb(120, 60%, 20%); }
+.hwbAngle { color: hwb(120deg, 60%, 20%); }
+.hwbAlpha { color: hwb(120, 10%, 50%, 0.5); }
+.hwbAngleAlpha { color: hwb(120deg, 10%, 50%, 0.5); }";
+            var sheet = parser.ParseStylesheet(source);
+            Assert.AreEqual(15, sheet.Rules.Length);
+
+            var rgbNumber = (sheet.Rules[0] as ICssStyleRule).Style.Color;
+            var rgbPercent = (sheet.Rules[1] as ICssStyleRule).Style.Color;
+            var rgbaNumber = (sheet.Rules[2] as ICssStyleRule).Style.Color;
+            var rgbaPercent = (sheet.Rules[3] as ICssStyleRule).Style.Color;
+            var hsl = (sheet.Rules[4] as ICssStyleRule).Style.Color;
+            var hslAngle = (sheet.Rules[5] as ICssStyleRule).Style.Color;
+            var hsla = (sheet.Rules[6] as ICssStyleRule).Style.Color;
+            var hslaAngle = (sheet.Rules[7] as ICssStyleRule).Style.Color;
+            var grayNumber = (sheet.Rules[8] as ICssStyleRule).Style.Color;
+            var grayPercent = (sheet.Rules[9] as ICssStyleRule).Style.Color;
+            var grayPercentAlpha = (sheet.Rules[10] as ICssStyleRule).Style.Color;
+            var hwb = (sheet.Rules[11] as ICssStyleRule).Style.Color;
+            var hwbAngle = (sheet.Rules[12] as ICssStyleRule).Style.Color;
+            var hwbAlpha = (sheet.Rules[13] as ICssStyleRule).Style.Color;
+            var hwbAngleAlpha = (sheet.Rules[14] as ICssStyleRule).Style.Color;
+
+            Assert.IsNotNullOrEmpty(rgbNumber);
+            Assert.IsNotNullOrEmpty(rgbPercent);
+            Assert.IsNotNullOrEmpty(rgbaPercent);
+            Assert.IsNotNullOrEmpty(hsl);
+            Assert.IsNotNullOrEmpty(hslAngle);
+            Assert.IsNotNullOrEmpty(hsla);
+            Assert.IsNotNullOrEmpty(hslaAngle);
+            Assert.IsNotNullOrEmpty(grayNumber);
+            Assert.IsNotNullOrEmpty(grayPercent);
+            Assert.IsNotNullOrEmpty(grayPercentAlpha);
+            Assert.IsNotNullOrEmpty(hwb);
+            Assert.IsNotNullOrEmpty(hwbAngle);
+            Assert.IsNotNullOrEmpty(hwbAlpha);
+            Assert.IsNotNullOrEmpty(hwbAngleAlpha);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// The rp HTML element.

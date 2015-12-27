@@ -25,13 +25,19 @@
             {
                 var url = inp.HyperReference(src);
                 var request = inp.CreateRequestFor(url);
-                inp.LoadResource<IImageInfo>(request).ContinueWith(m =>
-                {
-                    if (m.IsFaulted == false)
-                        _img = m.Result;
+                var document = inp.Owner;
 
-                    inp.FireLoadOrErrorEvent(m);
-                });
+                if (document != null)
+                {
+                    var loader = document.Loader;
+
+                    if (loader != null)
+                    {
+                        var download = loader.DownloadAsync(request);
+                        var task = inp.ProcessResource<IImageInfo>(download, result => _img = result);
+                        document.DelayLoad(task);
+                    }
+                }
             }
         }
 

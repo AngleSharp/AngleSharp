@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents the base class for all HTML text form controls.
@@ -44,8 +44,8 @@
         /// </summary>
         public String DirectionName
         {
-            get { return GetOwnAttribute(AttributeNames.DirName); }
-            set { SetOwnAttribute(AttributeNames.DirName, value); }
+            get { return this.GetOwnAttribute(AttributeNames.DirName); }
+            set { this.SetOwnAttribute(AttributeNames.DirName, value); }
         }
 
         /// <summary>
@@ -55,8 +55,8 @@
         /// </summary>
         public Int32 MaxLength
         {
-            get { return GetOwnAttribute(AttributeNames.MaxLength).ToInteger(-1); }
-            set { SetOwnAttribute(AttributeNames.MaxLength, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.MaxLength).ToInteger(-1); }
+            set { this.SetOwnAttribute(AttributeNames.MaxLength, value.ToString()); }
         }
 
         /// <summary>
@@ -66,8 +66,8 @@
         /// </summary>
         public Int32 MinLength
         {
-            get { return GetOwnAttribute(AttributeNames.MinLength).ToInteger(0); }
-            set { SetOwnAttribute(AttributeNames.MinLength, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.MinLength).ToInteger(0); }
+            set { this.SetOwnAttribute(AttributeNames.MinLength, value.ToString()); }
         }
 
         /// <summary>
@@ -84,7 +84,7 @@
         /// </summary>
         public Boolean HasValue
         {
-            get { return _value != null || HasOwnAttribute(AttributeNames.Value); }
+            get { return _value != null || this.HasOwnAttribute(AttributeNames.Value); }
         }
 
         /// <summary>
@@ -102,8 +102,8 @@
         /// </summary>
         public String Placeholder
         {
-            get { return GetOwnAttribute(AttributeNames.Placeholder); }
-            set { SetOwnAttribute(AttributeNames.Placeholder, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Placeholder); }
+            set { this.SetOwnAttribute(AttributeNames.Placeholder, value); }
         }
 
         /// <summary>
@@ -111,8 +111,8 @@
         /// </summary>
         public Boolean IsRequired
         {
-            get { return HasOwnAttribute(AttributeNames.Required); }
-            set { SetOwnAttribute(AttributeNames.Required, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Required); }
+            set { this.SetOwnAttribute(AttributeNames.Required, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -120,8 +120,8 @@
         /// </summary>
         public Boolean IsReadOnly
         {
-            get { return HasOwnAttribute(AttributeNames.Readonly); }
-            set { SetOwnAttribute(AttributeNames.Readonly, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Readonly); }
+            set { this.SetOwnAttribute(AttributeNames.Readonly, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -248,7 +248,7 @@
         protected void ConstructDataSet(FormDataSet dataSet, String type)
         {
             dataSet.Append(Name, Value, type);
-            var dirname = GetOwnAttribute(AttributeNames.DirName);
+            var dirname = this.GetOwnAttribute(AttributeNames.DirName);
 
             if (!String.IsNullOrEmpty(dirname))
                 dataSet.Append(dirname, Direction.ToString().ToLowerInvariant(), "Direction");

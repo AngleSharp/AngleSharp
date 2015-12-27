@@ -31,10 +31,14 @@
         public static Configuration With(this IConfiguration configuration, IService service)
         {
             if (configuration == null)
+            {
                 throw new ArgumentNullException("configuration");
+            }
 
             if (service == null)
+            {
                 throw new ArgumentNullException("service");
+            }
 
             var services = configuration.Services.Concat(service);
             return new Configuration(services, configuration.Events, configuration.Culture);
@@ -50,7 +54,9 @@
         public static Configuration SetCulture(this IConfiguration configuration, String cultureName)
         {
             if (cultureName == null)
+            {
                 throw new ArgumentNullException("cultureName");
+            }
             
             return configuration.SetCulture(new CultureInfo(cultureName));
         }
@@ -65,7 +71,9 @@
         public static Configuration SetCulture(this IConfiguration configuration, CultureInfo culture)
         {
             if (configuration == null)
+            {
                 throw new ArgumentNullException("configuration");
+            }
 
             return new Configuration(configuration.Services, configuration.Events, culture);
         }
@@ -80,7 +88,9 @@
         public static Configuration SetEvents(this IConfiguration configuration, IEventAggregator events)
         {
             if (configuration == null)
+            {
                 throw new ArgumentNullException("configuration");
+            }
 
             return new Configuration(configuration.Services, events, configuration.Culture);
         }
@@ -96,10 +106,14 @@
         public static IConfiguration SetHandler<T>(this IConfiguration configuration, ISubscriber<T> subscriber)
         {
             if (configuration == null)
+            {
                 throw new ArgumentNullException("configuration");
+            }
 
             if (configuration.Events == null)
+            {
                 configuration = configuration.SetEvents(new SimpleEventAggregator());
+            }
 
             configuration.Events.Subscribe(subscriber);
             return configuration;
@@ -119,7 +133,9 @@
         public static IConfiguration WithCss(this IConfiguration configuration, Action<CssStyleEngine> setup = null)
         {
             if (configuration == null)
+            {
                 throw new ArgumentNullException("configuration");
+            }
             
             if (configuration.GetServices<IStylingService>().Any() == false)
             {
@@ -127,7 +143,9 @@
                 var engine = new CssStyleEngine();
 
                 if (setup != null)
+                {
                     setup(engine);
+                }
 
                 service.Register(engine);
                 return configuration.With(service);
@@ -151,17 +169,23 @@
         public static IConfiguration WithDefaultLoader(this IConfiguration configuration, Action<LoaderService> setup = null, IEnumerable<IRequester> requesters = null)
         {
             if (configuration == null)
+            {
                 throw new ArgumentNullException("configuration");
+            }
 
             if (configuration.GetServices<ILoaderService>().Any() == false)
             {
                 if (requesters == null)
+                {
                     requesters = new IRequester[] { new HttpRequester(), new DataRequester() };
+                }
 
                 var service = new LoaderService(requesters);
 
                 if (setup != null)
+                {
                     setup(service);
+                }
                 
                 return configuration.With(service);
             }
@@ -182,7 +206,9 @@
         public static IConfiguration WithLocaleBasedEncoding(this IConfiguration configuration)
         {
             if (configuration == null)
+            {
                 throw new ArgumentException("configuration");
+            }
 
             if (configuration.GetServices<IEncodingService>().Any() == false)
             {
@@ -206,7 +232,9 @@
         public static IConfiguration WithCookies(this IConfiguration configuration)
         {
             if (configuration == null)
+            {
                 throw new ArgumentNullException("configuration");
+            }
 
             if (configuration.GetServices<ICookieService>().Any() == false)
             {

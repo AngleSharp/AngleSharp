@@ -9,7 +9,9 @@
     /// </summary>
     sealed class EventFactory
     {
-        readonly Dictionary<String, Func<Event>> creators = new Dictionary<String, Func<Event>>(StringComparer.OrdinalIgnoreCase)
+        delegate Event Creator();
+
+        readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
             { "event", () => new Event() },
             { "uievent", () => new UiEvent() },
@@ -42,12 +44,14 @@
         /// <returns>The created event.</returns>
         public Event Create(String name)
         {
-            var creator = default(Func<Event>);
+            var creator = default(Creator);
 
-            if (creators.TryGetValue(name, out creator))
+            if (name != null && creators.TryGetValue(name, out creator))
+            {
                 return creator();
+            }
 
-            return null;
+            return default(Event);
         }
     }
 }

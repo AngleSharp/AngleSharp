@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using System;
 

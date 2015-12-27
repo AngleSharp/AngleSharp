@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents the HTML frame element.
@@ -25,8 +25,8 @@
         /// </summary>
         public Boolean NoResize
         {
-            get { return GetOwnAttribute(AttributeNames.NoResize).ToBoolean(false); }
-            set { SetOwnAttribute(AttributeNames.NoResize, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.NoResize).ToBoolean(false); }
+            set { this.SetOwnAttribute(AttributeNames.NoResize, value.ToString()); }
         }
 
         #endregion

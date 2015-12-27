@@ -25,8 +25,8 @@
         /// </summary>
         public HorizontalAlignment Align
         {
-            get { return GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Center); }
-            set { SetOwnAttribute(AttributeNames.Align, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Center); }
+            set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         /// <summary>
@@ -34,8 +34,8 @@
         /// </summary>
         public Int32 Span
         {
-            get { return GetOwnAttribute(AttributeNames.Span).ToInteger(0); }
-            set { SetOwnAttribute(AttributeNames.Span, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Span).ToInteger(0); }
+            set { this.SetOwnAttribute(AttributeNames.Span, value.ToString()); }
         }
 
         /// <summary>
@@ -43,8 +43,8 @@
         /// </summary>
         public VerticalAlignment VAlign
         {
-            get { return GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
-            set { SetOwnAttribute(AttributeNames.Valign, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
+            set { this.SetOwnAttribute(AttributeNames.Valign, value.ToString()); }
         }
 
         /// <summary>
@@ -52,8 +52,8 @@
         /// </summary>
         public String Width
         {
-            get { return GetOwnAttribute(AttributeNames.Width); }
-            set { SetOwnAttribute(AttributeNames.Width, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Width); }
+            set { this.SetOwnAttribute(AttributeNames.Width, value); }
         }
 
         #endregion

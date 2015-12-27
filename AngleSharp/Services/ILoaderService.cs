@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Services
 {
-    using AngleSharp.Dom;
     using AngleSharp.Network;
 
     /// <summary>
@@ -22,10 +21,10 @@
         /// Creates a loader for resources, such as images. Returning null will
         /// disable loading resources.
         /// </summary>
-        /// <param name="document">
+        /// <param name="context">
         /// The originator of the resource requests.
         /// </param>
         /// <returns>The new resource loader.</returns>
-        IResourceLoader CreateResourceLoader(IDocument document);
+        IResourceLoader CreateResourceLoader(IBrowsingContext context);
     }
 }

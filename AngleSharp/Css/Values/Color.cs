@@ -103,22 +103,6 @@
             _green = g;
         }
 
-        /// <summary>
-        /// Creates a CSS color type.
-        /// </summary>
-        /// <param name="r">The red value.</param>
-        /// <param name="g">The green value.</param>
-        /// <param name="b">The blue value.</param>
-        /// <param name="a">The alpha value between 0 and 1.</param>
-        public Color(Byte r, Byte g, Byte b, Double a)
-        {
-            _hashcode = 0;
-            _alpha = (Byte)Math.Max(Math.Min(Math.Ceiling(255 * a), 255), 0);
-            _red = r;
-            _blue = b;
-            _green = g;
-        }
-
         #endregion
 
         #region Static constructors
@@ -126,16 +110,50 @@
         /// <summary>
         /// Returns the color from the given primitives.
         /// </summary>
-        /// <param name="r">The value for red.</param>
-        /// <param name="g">The value for green.</param>
-        /// <param name="b">The value for blue.</param>
-        /// <param name="a">The value for alpha.</param>
+        /// <param name="r">The value for red [0,255].</param>
+        /// <param name="g">The value for green [0,255].</param>
+        /// <param name="b">The value for blue [0,255].</param>
+        /// <param name="a">The value for alpha [0,1].</param>
         /// <returns>The CSS color value.</returns>
-        public static Color FromRgba(Byte r, Byte g, Byte b, Double a)
+        public static Color FromRgba(Byte r, Byte g, Byte b, Single a)
         {
-            return new Color(r, g, b, a);
+            return new Color(r, g, b, Normalize(a));
         }
 
+        /// <summary>
+        /// Returns the color from the given primitives.
+        /// </summary>
+        /// <param name="r">The value for red [0,1].</param>
+        /// <param name="g">The value for green [0,1].</param>
+        /// <param name="b">The value for blue [0,1].</param>
+        /// <param name="a">The value for alpha [0,1].</param>
+        /// <returns>The CSS color value.</returns>
+        public static Color FromRgba(Single r, Single g, Single b, Single a)
+        {
+            return new Color(Normalize(r), Normalize(g), Normalize(b), Normalize(a));
+        }
+
+        /// <summary>
+        /// Returns the gray color from the given value.
+        /// </summary>
+        /// <param name="number">The value for each component [0,255].</param>
+        /// <param name="alpha">The value for alpha [0,1].</param>
+        /// <returns>The CSS color value.</returns>
+        public static Color FromGray(Byte number, Single alpha = 1f)
+        {
+            return new Color(number, number, number, Normalize(alpha));
+        }
+
+        /// <summary>
+        /// Returns the gray color from the given value.
+        /// </summary>
+        /// <param name="value">The value for each component [0,1].</param>
+        /// <param name="alpha">The value for alpha [0,1].</param>
+        /// <returns>The CSS color value.</returns>
+        public static Color FromGray(Single value, Single alpha = 1f)
+        {
+            return FromGray(Normalize(value), alpha);
+        }
 
         /// <summary>
         /// Returns the color with the given name.
@@ -148,11 +166,11 @@
         }
 
         /// <summary>
-        /// Returns the color from the given primitives without any alpha (non-transparent).
+        /// Returns the color from the given primitives without any alpha.
         /// </summary>
-        /// <param name="r">The value for red.</param>
-        /// <param name="g">The value for green.</param>
-        /// <param name="b">The value for blue.</param>
+        /// <param name="r">The value for red [0,255].</param>
+        /// <param name="g">The value for green [0,255].</param>
+        /// <param name="b">The value for blue [0,255].</param>
         /// <returns>The CSS color value.</returns>
         public static Color FromRgb(Byte r, Byte g, Byte b)
         {
@@ -166,24 +184,29 @@
         /// <returns>The CSS color value.</returns>
         public static Color FromHex(String color)
         {
-            if (color.Length == 3)
+            int r = 0, g = 0, b = 0, a = 255;
+
+            switch (color.Length)
             {
-                var r = color[0].FromHex() * 17; // (1 + 16)
-                var g = color[1].FromHex() * 17;
-                var b = color[2].FromHex() * 17;
-
-                return new Color((Byte)r, (Byte)g, (Byte)b);
+                case 4:
+                    a = 17 * color[3].FromHex();
+                    goto case 3;
+                case 3:
+                    r = 17 * color[0].FromHex();
+                    g = 17 * color[1].FromHex();
+                    b = 17 * color[2].FromHex();
+                    break;
+                case 8:
+                    a = 16 * color[6].FromHex() + color[7].FromHex();
+                    goto case 6;
+                case 6:
+                    r = 16 * color[0].FromHex() + color[1].FromHex();
+                    g = 16 * color[2].FromHex() + color[3].FromHex();
+                    b = 16 * color[4].FromHex() + color[5].FromHex();
+                    break;
             }
-            else if (color.Length == 6)
-            {
-                var r = 16 * color[0].FromHex() + color[1].FromHex();
-                var g = 16 * color[2].FromHex() + color[3].FromHex();
-                var b = 16 * color[4].FromHex() + color[5].FromHex();
 
-                return new Color((Byte)r, (Byte)g, (Byte)b);
-            }
-
-            return default(Color);
+            return new Color((Byte)r, (Byte)g, (Byte)b, (Byte)a);
         }
 
         /// <summary>
@@ -195,33 +218,20 @@
         /// <returns>The status if the string can be converted.</returns>
         public static Boolean TryFromHex(String color, out Color value)
         {
-            if (color.Length == 3)
+            if (color.Length == 6 || color.Length == 3 || color.Length == 8 || color.Length == 4)
             {
-                if (color[0].IsHex() && color[1].IsHex() && color[2].IsHex())
+                for (int i = 0; i < color.Length; i++)
                 {
-                    var r = color[0].FromHex() * 17; // (1 + 16)
-                    var g = color[1].FromHex() * 17;
-                    var b = color[2].FromHex() * 17;
-
-                    value = new Color((Byte)r, (Byte)g, (Byte)b);
-                    return true;
+                    if (!color[i].IsHex())
+                        goto fail;
                 }
-            }
-            else if (color.Length == 6)
-            {
-                if (color[0].IsHex() && color[1].IsHex() && color[2].IsHex() &&
-                    color[3].IsHex() && color[4].IsHex() && color[5].IsHex())
-                {
-                    var r = 16 * color[0].FromHex() + color[1].FromHex();
-                    var g = 16 * color[2].FromHex() + color[3].FromHex();
-                    var b = 16 * color[4].FromHex() + color[5].FromHex();
 
-                    value = new Color((Byte)r, (Byte)g, (Byte)b);
-                    return true;
-                }
+                value = FromHex(color);
+                return true;
             }
 
-            value = default(Color);
+            fail:
+            value = new Color();
             return false;
         }
 
@@ -261,9 +271,9 @@
             }
             else
             {
-                var r = 16 * chars[0 * n + s + 0].FromHex() + chars[0 * n + s + 1].FromHex();
-                var g = 16 * chars[1 * n + s + 0].FromHex() + chars[1 * n + s + 1].FromHex();
-                var b = 16 * chars[2 * n + s + 0].FromHex() + chars[2 * n + s + 1].FromHex();
+                var r = 16 * chars[0 * n + s].FromHex() + chars[0 * n + s + 1].FromHex();
+                var g = 16 * chars[1 * n + s].FromHex() + chars[1 * n + s + 1].FromHex();
+                var b = 16 * chars[2 * n + s].FromHex() + chars[2 * n + s + 1].FromHex();
                 return new Color((Byte)r, (Byte)g, (Byte)b);
             }
         }
@@ -271,41 +281,90 @@
         /// <summary>
         /// Returns the color that represents the given HSL values.
         /// </summary>
-        /// <param name="h">The color angle (between 0 and 1).</param>
-        /// <param name="s">The saturation (between 0 and 1).</param>
-        /// <param name="l">The light value (between 0 and 1).</param>
+        /// <param name="h">The color angle [0,1].</param>
+        /// <param name="s">The saturation [0,1].</param>
+        /// <param name="l">The light value [0,1].</param>
         /// <returns>The CSS color.</returns>
         public static Color FromHsl(Single h, Single s, Single l)
         {
-            const Single oneThird = 1f / 3f;
-
-            var m2 = l <= 0.5f ? (l * (s + 1f)) : (l + s - l * s);
-            var m1 = 2f * l - m2;
-            var r = (Byte)Math.Round(255 * HueToRgb(m1, m2, h + oneThird));
-            var g = (Byte)Math.Round(255 * HueToRgb(m1, m2, h));
-            var b = (Byte)Math.Round(255 * HueToRgb(m1, m2, h - oneThird));
-            return new Color(r, g, b);
+            return FromHsla(h, s, l, 1f);
         }
 
         /// <summary>
         /// Returns the color that represents the given HSL values.
         /// </summary>
-        /// <param name="h">The color angle (between 0 and 1).</param>
-        /// <param name="s">The saturation (between 0 and 1).</param>
-        /// <param name="l">The light value (between 0 and 1).</param>
-        /// <param name="alpha">The alpha value (between 0 and 1).</param>
+        /// <param name="h">The color angle [0,1].</param>
+        /// <param name="s">The saturation [0,1].</param>
+        /// <param name="l">The light value [0,1].</param>
+        /// <param name="alpha">The alpha value [0,1].</param>
         /// <returns>The CSS color.</returns>
         public static Color FromHsla(Single h, Single s, Single l, Single alpha)
         {
-            const Single oneThird = 1f / 3f;
+            const Single third = 1f / 3f;
 
             var m2 = l <= 0.5f ? (l * (s + 1f)) : (l + s - l * s);
             var m1 = 2f * l - m2;
-            var r = (Byte)Math.Round(255f * HueToRgb(m1, m2, h + oneThird));
-            var g = (Byte)Math.Round(255f * HueToRgb(m1, m2, h));
-            var b = (Byte)Math.Round(255f * HueToRgb(m1, m2, h - oneThird));
-            var a = (Byte)Math.Max(Math.Min(Math.Ceiling(255 * alpha), 255), 0);
-            return new Color(r, g, b, a);
+            var r = Convert(HueToRgb(m1, m2, h + third));
+            var g = Convert(HueToRgb(m1, m2, h));
+            var b = Convert(HueToRgb(m1, m2, h - third));
+            return new Color(r, g, b, Normalize(alpha));
+        }
+
+        /// <summary>
+        /// Returns the color that represents Hue-Whiteness-Blackness.
+        /// </summary>
+        /// <param name="h">The color angle [0,1].</param>
+        /// <param name="w">The whiteness [0,1].</param>
+        /// <param name="b">The blackness [0,1].</param>
+        /// <returns>The CSS color.</returns>
+        public static Color FromHwb(Single h, Single w, Single b)
+        {
+            return FromHwba(h, w, b, 1f);
+        }
+
+        /// <summary>
+        /// Returns the color that represents Hue-Whiteness-Blackness.
+        /// </summary>
+        /// <param name="h">The color angle [0,1].</param>
+        /// <param name="w">The whiteness [0,1].</param>
+        /// <param name="b">The blackness [0,1].</param>
+        /// <param name="alpha">The alpha value [0,1].</param>
+        /// <returns>The CSS color.</returns>
+        public static Color FromHwba(Single h, Single w, Single b, Single alpha)
+        {
+            var ratio = 1f / (w + b);
+            var red = 0f;
+            var green = 0f;
+            var blue = 0f;
+
+            if (ratio < 1f) 
+            {
+                w *= ratio;
+                b *= ratio;
+            }
+
+            var p = (Int32)(6 * h);
+            var f = 6 * h - p;
+
+            if ((p & 0x01) != 0)
+                f = 1 - f;
+
+            var v = 1 - b;
+            var n = w + f * (v - w);
+
+            switch (p) 
+            {
+                default:
+                case 6:
+                case 0: red = v; green = n; blue = w; break;
+                case 1: red = n; green = v; blue = w; break;
+                case 2: red = w; green = v; blue = n; break;
+                case 3: red = w; green = n; blue = v; break;
+                case 4: red = n; green = w; blue = v; break;
+                case 5: red = v; green = w; blue = n; break;
+            }
+
+            return FromRgba(red, green, blue, alpha);
         }
 
         #endregion
@@ -460,6 +519,16 @@
 
         #region Helpers
 
+        static Byte Normalize(Single value)
+        {
+            return (Byte)Math.Max(Math.Min(Math.Round(255 * value), 255), 0);
+        }
+
+        static Byte Convert(Single value)
+        {
+            return (Byte)Math.Round(255f * value);
+        }
+
         static Single HueToRgb(Single m1, Single m2, Single h)
         {
             const Single oneSixth = 1f / 6f;
@@ -523,7 +592,7 @@
         {
             if (_alpha == 255)
             {
-                var arguments = String.Join(", ", new[]
+                var arguments = String.Join(", ", new []
                 {
                     R.ToString(format, formatProvider),
                     G.ToString(format, formatProvider),
@@ -533,7 +602,7 @@
             }
             else
             {
-                var arguments = String.Join(", ", new[]
+                var arguments = String.Join(", ", new []
                 {
                     R.ToString(format, formatProvider),
                     G.ToString(format, formatProvider),

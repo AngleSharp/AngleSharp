@@ -13,6 +13,8 @@
     /// </summary>
     sealed class HtmlDocument : Document, IHtmlDocument
     {
+        #region ctor
+
         internal HtmlDocument(IBrowsingContext context, TextSource source)
             : base(context ?? BrowsingContext.New(), source)
         {
@@ -23,7 +25,11 @@
             : this(context, new TextSource(String.Empty))
         {
         }
-        
+
+        #endregion
+
+        #region Properties
+
         public override IElement DocumentElement
         {
             get { return this.FindChild<HtmlHtmlElement>(); }
@@ -36,7 +42,9 @@
                 var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
 
                 if (title != null)
+                {
                     return title.TextContent.CollapseAndStrip();
+                }
 
                 return String.Empty;
             }
@@ -49,7 +57,9 @@
                     var head = Head;
 
                     if (head == null)
+                    {
                         return;
+                    }
 
                     title = new HtmlTitleElement(this);
                     head.AppendChild(title);
@@ -58,6 +68,10 @@
                 title.TextContent = value;
             }
         }
+
+        #endregion
+
+        #region Methods
 
         public override INode Clone(Boolean deep = true)
         {
@@ -71,32 +85,33 @@
         /// Loads the document in the provided context from the given response.
         /// </summary>
         /// <param name="context">The browsing context.</param>
-        /// <param name="response">The response to consider.</param>
-        /// <param name="contentType">The content type of the response.</param>
-        /// <param name="source">The source to use.</param>
+        /// <param name="options">The creation options to consider.</param>
         /// <param name="cancelToken">Token for cancellation.</param>
         /// <returns>The task that builds the document.</returns>
-        internal async static Task<HtmlDocument> LoadAsync(IBrowsingContext context, IResponse response, MimeType contentType, TextSource source, CancellationToken cancelToken)
+        internal async static Task<IDocument> LoadAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancelToken)
         {
-            var document = new HtmlDocument(context, source);
+            var document = new HtmlDocument(context, options.Source);
             var evt = new HtmlParseStartEvent(document);
             var config = context.Configuration;
             var events = config.Events;
             var parser = new HtmlDomBuilder(document);
-            document.ContentType = contentType.Content;
-            document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
-            document.DocumentUri = response.Address.Href;
-            document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
-            document.ReadyState = DocumentReadyState.Loading;
+            var parserOptions = new HtmlParserOptions
+            {
+                IsScripting = config.IsScripting()
+            };
+            document.Setup(options);
             context.NavigateTo(document);
 
             if (events != null)
+            {
                 events.Publish(evt);
+            }
 
-            var options = new HtmlParserOptions { IsScripting = config.IsScripting() };
-            await parser.ParseAsync(options, cancelToken).ConfigureAwait(false);
+            await parser.ParseAsync(parserOptions, cancelToken).ConfigureAwait(false);
             evt.FireEnd();
             return document;
         }
+
+        #endregion
     }
 }

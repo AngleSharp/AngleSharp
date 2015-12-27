@@ -4,9 +4,7 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Network;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML iframe element.
@@ -15,7 +13,6 @@
     {
         #region Fields
 
-        readonly IBrowsingContext _context;
         SettableTokenList _sandbox;
         
         #endregion
@@ -25,9 +22,6 @@
         public HtmlIFrameElement(Document owner, String prefix = null)
             : base(owner, Tags.Iframe, prefix, NodeFlags.LiteralText)
         {
-            _context = owner.NewChildContext(Sandboxes.None);
-            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
-            RegisterAttributeObserver(AttributeNames.SrcDoc, UpdateSource);
         }
 
         #endregion
@@ -39,8 +33,8 @@
         /// </summary>
         public Alignment Align
         {
-            get { return GetOwnAttribute(AttributeNames.Align).ToEnum(Alignment.Bottom); }
-            set { SetOwnAttribute(AttributeNames.Align, value.ToString()); }
+            get { return this.GetOwnAttribute(AttributeNames.Align).ToEnum(Alignment.Bottom); }
+            set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
         }
 
         /// <summary>
@@ -49,8 +43,8 @@
         /// </summary>
         public String ContentHtml
         {
-            get { return GetOwnAttribute(AttributeNames.SrcDoc); }
-            set { SetOwnAttribute(AttributeNames.SrcDoc, value); }
+            get { return this.GetOwnAttribute(AttributeNames.SrcDoc); }
+            set { this.SetOwnAttribute(AttributeNames.SrcDoc, value); }
         }
 
         /// <summary>
@@ -62,7 +56,7 @@
             { 
                 if (_sandbox == null)
                 {
-                    _sandbox = new SettableTokenList(GetOwnAttribute(AttributeNames.Sandbox));
+                    _sandbox = new SettableTokenList(this.GetOwnAttribute(AttributeNames.Sandbox));
                     CreateBindings(_sandbox, AttributeNames.Sandbox);
                 }
 
@@ -75,8 +69,8 @@
         /// </summary>
         public Boolean IsSeamless
         {
-            get { return HasOwnAttribute(AttributeNames.SrcDoc); }
-            set { SetOwnAttribute(AttributeNames.SrcDoc, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.SrcDoc); }
+            set { this.SetOwnAttribute(AttributeNames.SrcDoc, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -84,8 +78,8 @@
         /// </summary>
         public Boolean IsFullscreenAllowed
         {
-            get { return HasOwnAttribute(AttributeNames.AllowFullscreen); }
-            set { SetOwnAttribute(AttributeNames.AllowFullscreen, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.AllowFullscreen); }
+            set { this.SetOwnAttribute(AttributeNames.AllowFullscreen, value ? String.Empty : null); }
         }
 
         /// <summary>
@@ -93,39 +87,33 @@
         /// </summary>
         public IWindow ContentWindow
         {
-            get { return _context.Current; }
+            get { return NestedContext.Current; }
         }
 
         #endregion
 
         #region Methods
 
-        void UpdateSource(String _)
+        protected override String GetContentHtml()
         {
-            this.CancelTasks();
-            var content = ContentHtml;
-            var src = Source;
-
-            if (content != null)
-            {
-                this.CreateTask(cancel => _context.OpenAsync(m => m.Content(content).Address(Owner.DocumentUri), cancel))
-                    .ContinueWith(Finished);
-            }
-            else if (!String.IsNullOrEmpty(src) && !src.Is(BaseUri))
-            {
-                var url = this.HyperReference(src);
-                var request = DocumentRequest.Get(url, source: this, referer: Owner.DocumentUri);
-                this.CreateTask(cancel => _context.OpenAsync(request, cancel))
-                    .ContinueWith(Finished);
-            }
+            return ContentHtml;
         }
 
-        void Finished(Task<IDocument> task)
-        {
-            if (!task.IsFaulted)
-                ContentDocument = task.Result;
+        #endregion
 
-            this.FireLoadOrErrorEvent(task);
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var srcDoc = this.GetOwnAttribute(AttributeNames.SrcDoc);
+            RegisterAttributeObserver(AttributeNames.SrcDoc, UpdateSource);
+
+            if (srcDoc != null)
+            {
+                UpdateSource(srcDoc);
+            }
         }
 
         #endregion

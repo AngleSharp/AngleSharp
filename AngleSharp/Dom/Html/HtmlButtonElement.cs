@@ -28,8 +28,8 @@
         /// </summary>
         public String Type
         {
-            get { return (GetOwnAttribute(AttributeNames.Type) ?? InputTypeNames.Submit).ToLower(); }
-            set { SetOwnAttribute(AttributeNames.Type, value); }
+            get { return (this.GetOwnAttribute(AttributeNames.Type) ?? InputTypeNames.Submit).ToLower(); }
+            set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
         /// <summary>
@@ -87,8 +87,8 @@
         /// </summary>
         public String Value
         {
-            get { return GetOwnAttribute(AttributeNames.Value) ?? String.Empty; }
-            set { SetOwnAttribute(AttributeNames.Value, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Value) ?? String.Empty; }
+            set { this.SetOwnAttribute(AttributeNames.Value, value); }
         }
 
         #endregion

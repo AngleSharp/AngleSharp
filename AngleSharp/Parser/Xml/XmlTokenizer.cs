@@ -3,6 +3,7 @@
     using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Services;
     using System;
     using System.Diagnostics;
 
@@ -15,6 +16,7 @@
     {
         #region Fields
 
+        readonly IEntityService _resolver;
         TextPosition _position;
 
         #endregion
@@ -26,9 +28,11 @@
         /// </summary>
         /// <param name="source">The source code manager.</param>
         /// <param name="events">The event aggregator to use.</param>
-        public XmlTokenizer(TextSource source, IEventAggregator events)
+        /// <param name="resolver">The entity resolver to use.</param>
+        public XmlTokenizer(TextSource source, IEventAggregator events, IEntityService resolver)
             : base(source, events)
         {
+            _resolver = resolver;
         }
 
         #endregion
@@ -64,9 +68,6 @@
         {
             switch (c)
             {
-                case Symbols.Ampersand:
-                    return CharacterReference(GetNext());
-
                 case Symbols.LessThan:
                     return TagOpen(GetNext());
 
@@ -86,9 +87,13 @@
                 {
                     case Symbols.LessThan:
                     case Symbols.EndOfFile:
-                    case Symbols.Ampersand:
                         Back();
                         return NewCharacters();
+
+                    case Symbols.Ampersand:
+                        _stringBuffer.Append(CharacterReference(GetNext()));
+                        c = GetNext();
+                        break;
 
                     case Symbols.SquareBracketClose:
                         _stringBuffer.Append(c);
@@ -154,14 +159,18 @@
         /// </summary>
         /// <param name="c">The next character after the &amp; character.</param>
         /// <returns>The entity token.</returns>
-        XmlEntityToken CharacterReference(Char c)
+        String CharacterReference(Char c)
         {
-            if (c == Symbols.Num)
+            var start = _stringBuffer.Length;
+            var hex = false;
+            var numeric = c == Symbols.Num;
+
+            if (numeric)
             {
                 c = GetNext();
-                var isHex = c == 'x' || c == 'X';
+                hex = c == 'x' || c == 'X';
 
-                if (isHex)
+                if (hex)
                 {
                     c = GetNext();
 
@@ -179,9 +188,6 @@
                         c = GetNext();
                     }
                 }
-
-                if (_stringBuffer.Length > 0 && c == Symbols.Semicolon)
-                    return NewEntity(numeric: true, hex: isHex);
             }
             else if (c.IsXmlNameStart())
             {
@@ -191,9 +197,32 @@
                     c = GetNext();
                 }
                 while (c.IsXmlName());
+            }
 
-                if (c == Symbols.Semicolon)
-                    return NewEntity();
+            if (c == Symbols.Semicolon && _stringBuffer.Length > start)
+            {
+                var length = _stringBuffer.Length - start;
+                var content = _stringBuffer.ToString(start, length);
+                _stringBuffer.Remove(start, length);
+
+                if (numeric)
+                {
+                    var number = numeric ? content.FromHex() : content.FromDec();
+
+                    if (!number.IsValidAsCharRef())
+                        throw XmlParseError.CharacterReferenceInvalidNumber.At(_position);
+
+                    return number.ConvertFromUtf32();
+                }
+                else
+                {
+                    var entity = _resolver.GetSymbol(content);
+
+                    if (String.IsNullOrEmpty(entity))
+                        throw XmlParseError.CharacterReferenceInvalidCode.At(_position);
+
+                    return entity;
+                }
             }
 
             throw XmlParseError.CharacterReferenceNotTerminated.At(GetCurrentPosition());
@@ -963,7 +992,7 @@
                     throw XmlParseError.EOF.At(GetCurrentPosition());
 
                 if (c == Symbols.Ampersand)
-                    _stringBuffer.Append(CharacterReference(GetNext()).GetEntity());
+                    _stringBuffer.Append(CharacterReference(GetNext()));
                 else if (c == Symbols.LessThan)
                     throw XmlParseError.XmlLtInAttributeValue.At(GetCurrentPosition());
                 else 
@@ -1179,12 +1208,6 @@
         {
             var content = FlushBuffer();
             return new XmlCDataToken(_position, content);
-        }
-
-        XmlEntityToken NewEntity(Boolean numeric = false, Boolean hex = false)
-        {
-            var entity = FlushBuffer();
-            return new XmlEntityToken(_position, entity, numeric, hex);
         }
 
         #endregion

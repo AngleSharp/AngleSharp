@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Parser.Html
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Mathml;
+    using AngleSharp.Dom.Svg;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
@@ -84,6 +86,48 @@
         #region Methods
 
         /// <summary>
+        /// Setups a new math element with the attributes from the token.
+        /// </summary>
+        /// <param name="element">The element to setup.</param>
+        /// <param name="tag">The tag token to use.</param>
+        /// <returns>The finished element.</returns>
+        public static MathElement Setup(this MathElement element, HtmlTagToken tag)
+        {
+            var count = tag.Attributes.Count;
+
+            for (var i = 0; i < count; i++)
+            {
+                var name = tag.Attributes[i].Key;
+                var value = tag.Attributes[i].Value;
+                element.AdjustAttribute(name.AdjustToMathAttribute(), value);
+            }
+
+            element.SetupElement();
+            return element;
+        }
+
+        /// <summary>
+        /// Setups a new SVG element with the attributes from the token.
+        /// </summary>
+        /// <param name="element">The element to setup.</param>
+        /// <param name="tag">The tag token to use.</param>
+        /// <returns>The finished element.</returns>
+        public static SvgElement Setup(this SvgElement element, HtmlTagToken tag)
+        {
+            var count = tag.Attributes.Count;
+
+            for (var i = 0; i < count; i++)
+            {
+                var name = tag.Attributes[i].Key;
+                var value = tag.Attributes[i].Value;
+                element.AdjustAttribute(name.AdjustToSvgAttribute(), value);
+            }
+
+            element.SetupElement();
+            return element;
+        }
+
+        /// <summary>
         /// Adds the attribute with the adjusted prefix, namespace and name.
         /// </summary>
         /// <param name="element">The element to host the attribute.</param>
@@ -92,13 +136,21 @@
         public static void AdjustAttribute(this Element element, String name, String value)
         {
             if (IsXLinkAttribute(name))
+            {
                 element.SetAttribute(Namespaces.XLinkUri, name.Substring(name.IndexOf(Symbols.Colon) + 1), value);
+            }
             else if (IsXmlAttribute(name))
+            {
                 element.SetAttribute(Namespaces.XmlUri, name, value);
+            }
             else if (IsXmlNamespaceAttribute(name))
+            {
                 element.SetAttribute(Namespaces.XmlNsUri, name, value);
+            }
             else
-                element.SetAttribute(name, value);
+            {
+                element.SetOwnAttribute(name, value);
+            }
         }
 
         /// <summary>
@@ -108,7 +160,12 @@
         /// <returns>The name with the correct capitalization.</returns>
         public static String AdjustToMathAttribute(this String attributeName)
         {
-            return attributeName.Is("definitionurl") ? "definitionURL" : attributeName;
+            if (attributeName.Is("definitionurl"))
+            {
+                return "definitionURL";
+            }
+
+            return attributeName;
         }
 
         /// <summary>
@@ -121,7 +178,9 @@
             var adjustedAttributeName = default(String);
 
             if (svgAttributeNames.TryGetValue(attributeName, out adjustedAttributeName))
+            {
                 return adjustedAttributeName;
+            }
 
             return attributeName;
         }

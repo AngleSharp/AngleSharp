@@ -30,8 +30,8 @@
         /// </summary>
         public String Content
         {
-            get { return GetOwnAttribute(AttributeNames.Content); }
-            set { SetOwnAttribute(AttributeNames.Content, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Content); }
+            set { this.SetOwnAttribute(AttributeNames.Content, value); }
         }
 
         /// <summary>
@@ -39,8 +39,8 @@
         /// </summary>
         public String Charset
         {
-            get { return GetOwnAttribute(AttributeNames.Charset); }
-            set { SetOwnAttribute(AttributeNames.Charset, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Charset); }
+            set { this.SetOwnAttribute(AttributeNames.Charset, value); }
         }
 
         /// <summary>
@@ -48,8 +48,8 @@
         /// </summary>
         public String HttpEquivalent
         {
-            get { return GetOwnAttribute(AttributeNames.HttpEquiv); }
-            set { SetOwnAttribute(AttributeNames.HttpEquiv, value); }
+            get { return this.GetOwnAttribute(AttributeNames.HttpEquiv); }
+            set { this.SetOwnAttribute(AttributeNames.HttpEquiv, value); }
         }
 
         /// <summary>
@@ -57,8 +57,8 @@
         /// </summary>
         public String Scheme
         {
-            get { return GetOwnAttribute(AttributeNames.Scheme); }
-            set { SetOwnAttribute(AttributeNames.Scheme, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Scheme); }
+            set { this.SetOwnAttribute(AttributeNames.Scheme, value); }
         }
 
         /// <summary>
@@ -66,8 +66,8 @@
         /// </summary>
         public String Name
         {
-            get { return GetOwnAttribute(AttributeNames.Name); }
-            set { SetOwnAttribute(AttributeNames.Name, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Name); }
+            set { this.SetOwnAttribute(AttributeNames.Name, value); }
         }
 
         #endregion

@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Factories
 {
-    using System;
-    using System.Collections.Generic;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Mathml;
     using AngleSharp.Html;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Provides string to MathElement instance creation mappings.
@@ -35,7 +35,9 @@
             var creator = default(Creator);
 
             if (creators.TryGetValue(localName, out creator))
+            {
                 return creator(document, prefix);
+            }
 
             return new MathElement(document, localName, prefix);
 

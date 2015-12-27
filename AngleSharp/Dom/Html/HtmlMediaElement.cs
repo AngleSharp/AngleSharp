@@ -3,6 +3,7 @@
     using AngleSharp.Dom.Media;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using AngleSharp.Services.Media;
     using System;
 
@@ -18,6 +19,7 @@
         protected TResource _media;
 
         ITextTrackList _texts;
+        IDownload _download;
 
         #endregion
 
@@ -115,7 +117,6 @@
             : base(owner, name, prefix)
         {
             _network = MediaNetworkState.Empty;
-            RegisterAttributeObserver(AttributeNames.Src, value => Load());
         }
 
         #endregion
@@ -127,8 +128,8 @@
         /// </summary>
         public String Source
         {
-            get { return GetUrlAttribute(AttributeNames.Src); }
-            set { SetOwnAttribute(AttributeNames.Src, value); }
+            get { return this.GetUrlAttribute(AttributeNames.Src); }
+            set { this.SetOwnAttribute(AttributeNames.Src, value); }
         }
 
         /// <summary>
@@ -136,8 +137,8 @@
         /// </summary>
         public String CrossOrigin
         {
-            get { return GetOwnAttribute(AttributeNames.CrossOrigin); }
-            set { SetOwnAttribute(AttributeNames.CrossOrigin, value); }
+            get { return this.GetOwnAttribute(AttributeNames.CrossOrigin); }
+            set { this.SetOwnAttribute(AttributeNames.CrossOrigin, value); }
         }
 
         /// <summary>
@@ -145,8 +146,8 @@
         /// </summary>
         public String Preload
         {
-            get { return GetOwnAttribute(AttributeNames.Preload); }
-            set { SetOwnAttribute(AttributeNames.Preload, value); }
+            get { return this.GetOwnAttribute(AttributeNames.Preload); }
+            set { this.SetOwnAttribute(AttributeNames.Preload, value); }
         }
 
         /// <summary>
@@ -233,26 +234,26 @@
 
         public Boolean IsAutoplay
         {
-            get { return HasOwnAttribute(AttributeNames.Autoplay); }
-            set { SetOwnAttribute(AttributeNames.Autoplay, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Autoplay); }
+            set { this.SetOwnAttribute(AttributeNames.Autoplay, value ? String.Empty : null); }
         }
 
         public Boolean IsLoop
         {
-            get { return HasOwnAttribute(AttributeNames.Loop); }
-            set { SetOwnAttribute(AttributeNames.Loop, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Loop); }
+            set { this.SetOwnAttribute(AttributeNames.Loop, value ? String.Empty : null); }
         }
 
         public Boolean IsShowingControls
         {
-            get { return HasOwnAttribute(AttributeNames.Controls); }
-            set { SetOwnAttribute(AttributeNames.Controls, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Controls); }
+            set { this.SetOwnAttribute(AttributeNames.Controls, value ? String.Empty : null); }
         }
 
         public Boolean IsDefaultMuted
         {
-            get { return HasOwnAttribute(AttributeNames.Muted); }
-            set { SetOwnAttribute(AttributeNames.Muted, value ? String.Empty : null); }
+            get { return this.HasOwnAttribute(AttributeNames.Muted); }
+            set { this.SetOwnAttribute(AttributeNames.Muted, value ? String.Empty : null); }
         }
 
         public Boolean IsPaused
@@ -299,8 +300,8 @@
 
         public String MediaGroup
         {
-            get { return GetOwnAttribute(AttributeNames.MediaGroup); }
-            set { SetOwnAttribute(AttributeNames.MediaGroup, value); }
+            get { return this.GetOwnAttribute(AttributeNames.MediaGroup); }
+            set { this.SetOwnAttribute(AttributeNames.MediaGroup, value); }
         }
 
         public Double Volume
@@ -412,30 +413,8 @@
         /// </summary>
         public void Load()
         {
-            var src = CurrentSource;
-            //TODO More complex check if something is already loading (what is loading, cancel?, ...)
-            //see: https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-load
-            this.CancelTasks();
-
-            if (src != null)
-            {
-                _network = MediaNetworkState.Idle;
-                var url = new Url(src);
-                var request = this.CreateRequestFor(url);
-                _network = MediaNetworkState.Loading;
-                this.LoadResource<TResource>(request).ContinueWith(m =>
-                {
-                    if (m.IsFaulted || m.Result == null)
-                    {
-                        _media = default(TResource);
-                        _network = MediaNetworkState.NoSource;
-                    }
-                    else
-                        _media = m.Result;
-
-                    this.FireLoadOrErrorEvent(m);
-                });
-            }
+            var source = CurrentSource;
+            UpdateSource(source);
         }
 
         /// <summary>
@@ -471,6 +450,64 @@
         {
             //TODO
             return null;
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var src = this.GetOwnAttribute(AttributeNames.Src);
+            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
+
+            if (src != null)
+            {
+                UpdateSource(src);
+            }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void UpdateSource(String value)
+        {
+            //TODO More complex check if something is already loading (what is loading, cancel?, ...)
+            //see: https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-load
+
+            if (_download != null && !_download.IsCompleted)
+            {
+                _download.Cancel();
+            }
+
+            var document = Owner;
+            _network = MediaNetworkState.Idle;
+
+            if (value != null && document != null)
+            {
+                var loader = document.Loader;
+
+                if (loader != null)
+                {
+                    var url = new Url(value);
+                    var request = this.CreateRequestFor(url);
+                    _network = MediaNetworkState.Loading;
+                    _download = loader.DownloadAsync(request);
+                    var task = this.ProcessResource<TResource>(_download, result =>
+                    {
+                        _media = result;
+
+                        if (_media == null)
+                        {
+                            _network = MediaNetworkState.NoSource;
+                        }
+                    });
+                    document.DelayLoad(task);
+                }
+            }
         }
 
         #endregion

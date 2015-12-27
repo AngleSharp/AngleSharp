@@ -33,7 +33,7 @@
         readonly IResourceLoader _loader;
         readonly Location _location;
         readonly TextSource _source;
-        readonly CancellableTasks _tasks;
+        readonly List<Task> _subtasks;
 
         QuirksMode _quirksMode;
         Sandboxes _sandbox;
@@ -58,6 +58,7 @@
         HtmlCollection<IHtmlEmbedElement> _plugins;
         HtmlElementCollection _commands;
         HtmlElementCollection _links;
+        IDocument _ancestor;
 
         #endregion
 
@@ -442,16 +443,16 @@
             _ready = DocumentReadyState.Loading;
             _sandbox = Sandboxes.None;
             _quirksMode = QuirksMode.Off;
-            _tasks = new CancellableTasks();
             _loadingScripts = new Queue<HtmlScriptElement>();
             _location = new Location(AboutBlank);
             _ranges = new List<WeakReference<Range>>();
             _location.Changed += LocationChanged;
             _styleSheets = this.CreateStyleSheets();
             _view = this.CreateWindow();
-            _loader = this.CreateLoader();
+            _loader = context.CreateResourceLoader();
             _loop = this.CreateLoop();
             _mutations = new MutationHost(_loop);
+            _subtasks = new List<Task>();
         }
 
         #endregion
@@ -459,19 +460,20 @@
         #region Properties
 
         /// <summary>
+        /// Gets the import ancestor, if any.
+        /// </summary>
+        public IDocument ImportAncestor
+        {
+            get { return _ancestor; }
+            private set { _ancestor = value; }
+        }
+
+        /// <summary>
         /// Gets the context's event loop.
         /// </summary>
         public IEventLoop Loop
         {
             get { return _loop; }
-        }
-
-        /// <summary>
-        /// Gets the currently outstanding requests.
-        /// </summary>
-        public IEnumerable<Task> Requests
-        {
-            get { return _tasks; }
         }
 
         /// <summary>
@@ -525,12 +527,14 @@
                 var children = ChildNodes;
                 var n = children.Length;
 
-                for (int i = 0; i < n; i++)
+                for (var i = 0; i < n; i++)
                 {
                     var child = children[i] as IElement;
 
                     if (child != null)
+                    {
                         return child;
+                    }
                 }
 
                 return null;
@@ -546,12 +550,14 @@
             {
                 var children = ChildNodes;
 
-                for (int i = children.Length - 1; i >= 0; i--)
+                for (var i = children.Length - 1; i >= 0; i--)
                 {
                     var child = children[i] as IElement;
 
                     if (child != null)
+                    {
                         return child;
+                    }
                 }
 
                 return null;
@@ -823,12 +829,16 @@
                         var body = child as HtmlBodyElement;
 
                         if (body != null)
+                        {
                             return body;
+                        }
 
                         var frameset = child as HtmlFrameSetElement;
 
                         if (frameset != null)
+                        {
                             return frameset;
+                        }
                     }
                 }
 
@@ -841,20 +851,24 @@
 
                 var body = Body;
 
-                if (body == value)
-                    return;
-                
-                if (body == null)
+                if (body != value)
                 {
-                    var root = DocumentElement;
+                    if (body == null)
+                    {
+                        var root = DocumentElement;
 
-                    if (root == null)
-                        throw new DomException(DomError.HierarchyRequest);
+                        if (root == null)
+                        {
+                            throw new DomException(DomError.HierarchyRequest);
+                        }
+                        
+                        root.AppendChild(value);
+                    }
                     else
-                        root.AppendChild(value); 
+                    {
+                        ReplaceChild(value, body);
+                    }
                 }
-                else
-                    ReplaceChild(value, body);
             }
         }
 
@@ -904,9 +918,13 @@
                 var others = _styleSheets.Where(m => !String.IsNullOrEmpty(m.Title) && !m.IsDisabled);
 
                 if (enabled.Count() == 1 && !others.Any(m => m.Title != enabledName))
+                {
                     return enabledName;
+                }
                 else if (others.Any())
+                {
                     return null;
+                }
 
                 return String.Empty;
             }
@@ -939,15 +957,7 @@
 
         #endregion
 
-        #region Internal properties
-
-        /// <summary>
-        /// Gets the document's outstanding tasks.
-        /// </summary>
-        internal CancellableTasks Tasks
-        {
-            get { return _tasks; }
-        }
+        #region Internal Properties
 
         /// <summary>
         /// Gets the document's associated ranges.
@@ -1060,7 +1070,6 @@
             //Important to fix #45
             ReplaceAll(null, true);
             _loop.Shutdown();
-            _tasks.Dispose();
             _loadingScripts.Clear();
             _source.Dispose();
         }
@@ -1088,23 +1097,33 @@
         public IDocument Open(String type = "text/html", String replace = null)
         {
             if (!_contentType.Is(MimeTypes.Html))
+            {
                 throw new DomException(DomError.InvalidState);
+            }
 
             if (IsInBrowsingContext && _context.Active != this)
+            {
                 return null;
+            }
 
             var shallReplace = replace.Isi(Keywords.Replace);
 
             if (_loadingScripts.Count > 0)
+            {
                 return this;
+            }
 
             if (shallReplace)
+            {
                 type = MimeTypes.Html;
+            }
 
             var index = type.IndexOf(Symbols.Semicolon);
 
             if (index >= 0)
+            {
                 type = type.Substring(0, index);
+            }
 
             type = type.StripLeadingTrailingSpaces();
             //TODO further steps needed.
@@ -1129,7 +1148,9 @@
         void IDocument.Close()
         {
             if (ReadyState == DocumentReadyState.Loading)
+            {
                 FinishLoading().Wait();
+            }
         }
 
         /// <summary>
@@ -1142,11 +1163,14 @@
         {
             if (ReadyState == DocumentReadyState.Complete)
             {
-                var newDoc = Open();
-                newDoc.Write(content ?? String.Empty);
+                var source = content ?? String.Empty;
+                var newDocument = Open();
+                newDocument.Write(source);
             }
             else
+            {
                 _source.InsertText(content);
+            }
         }
 
         /// <summary>
@@ -1193,7 +1217,9 @@
         public INode Import(INode externalNode, Boolean deep = true)
         {
             if (externalNode.NodeType == NodeType.Document)
+            {
                 throw new DomException(DomError.NotSupported);
+            }
 
             return externalNode.Clone(deep);
         }
@@ -1213,7 +1239,9 @@
         public INode Adopt(INode externalNode)
         {
             if (externalNode.NodeType == NodeType.Document)
+            {
                 throw new DomException(DomError.NotSupported);
+            }
 
             this.AdoptNode(externalNode);
             return externalNode;
@@ -1231,7 +1259,9 @@
             var ev = Factory.Events.Create(type);
 
             if (ev == null)
+            {
                 throw new DomException(DomError.NotSupported);
+            }
 
             return ev;
         }
@@ -1311,9 +1341,13 @@
         public IElement CreateElement(String localName)
         {
             if (!localName.IsXmlName())
+            {
                 throw new DomException(DomError.InvalidCharacter);
+            }
 
-            return Factory.HtmlElements.Create(this, localName);
+            var element = Factory.HtmlElements.Create(this, localName);
+            element.SetupElement();
+            return element;
         }
 
         /// <summary>
@@ -1333,13 +1367,29 @@
             GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out prefix, out localName);
 
             if (namespaceUri.Is(Namespaces.HtmlUri))
-                return Factory.HtmlElements.Create(this, localName, prefix);
+            {
+                var element = Factory.HtmlElements.Create(this, localName, prefix);
+                element.SetupElement();
+                return element;
+            }
             else if (namespaceUri.Is(Namespaces.SvgUri))
-                return Factory.SvgElements.Create(this, localName, prefix);
+            {
+                var element = Factory.SvgElements.Create(this, localName, prefix);
+                element.SetupElement();
+                return element;
+            }
             else if (namespaceUri.Is(Namespaces.MathMlUri))
-                return Factory.MathElements.Create(this, localName, prefix);
-            
-            return new Element(this, localName, prefix, namespaceUri);
+            {
+                var element = Factory.MathElements.Create(this, localName, prefix);
+                element.SetupElement();
+                return element;
+            }
+            else
+            {
+                var element = new Element(this, localName, prefix, namespaceUri);
+                element.SetupElement();
+                return element;
+            }
         }
 
         /// <summary>
@@ -1375,7 +1425,9 @@
         public IProcessingInstruction CreateProcessingInstruction(String target, String data)
         {
             if (!target.IsXmlName() || data.Contains("?>"))
+            {
                 throw new DomException(DomError.InvalidCharacter);
+            }
 
             return new ProcessingInstruction(this, target) { Data = data };
         }
@@ -1524,7 +1576,9 @@
         public IAttr CreateAttribute(String localName)
         {
             if (!localName.IsXmlName())
+            {
                 throw new DomException(DomError.InvalidCharacter);
+            }
 
             return new Attr(localName);
         }
@@ -1547,7 +1601,16 @@
 
         #endregion
 
-        #region Internal methods
+        #region Internal Methods
+
+        /// <summary>
+        /// Waits for the given task before raising the load event.
+        /// </summary>
+        /// <param name="task">The task to wait for.</param>
+        internal void DelayLoad(Task task)
+        {
+            _subtasks.Add(task);
+        }
 
         /// <summary>
         /// Sets the focus to the provided element.
@@ -1556,30 +1619,6 @@
         internal void SetFocus(IElement element)
         {
             _focus = element;
-        }
-
-        /// <summary>
-        /// Checks if the document is waiting for a script to finish preparing.
-        /// </summary>
-        internal IEnumerable<Task> GetScriptDownloads()
-        {
-            return _tasks.OfOriginType<HtmlScriptElement>();
-        }
-
-        /// <summary>
-        /// Checks if the document has any active stylesheets that block the
-        /// scripts. A style sheet is blocking scripts if the responsible 
-        /// element was created by that Document's parser, and the element is
-        /// either a style element or a link element that was an external
-        /// resource link that contributes to the styling processing model when
-        /// the element was created by the parser, and the element's style
-        /// sheet was enabled when the element was created by the parser, and 
-        /// the element's style sheet ready flag is not yet set.
-        /// http://www.w3.org/html/wg/drafts/html/master/document-metadata.html#has-no-style-sheet-that-is-blocking-scripts
-        /// </summary>
-        internal IEnumerable<Task> GetStyleSheetDownloads()
-        {
-            return _tasks.OfOriginType<HtmlLinkElement>();
         }
 
         /// <summary>
@@ -1596,15 +1635,22 @@
             }
 
             this.QueueTask(RaiseDomContentLoaded);
+
+            await TaskEx.WhenAll(_subtasks.ToArray()).ConfigureAwait(false);
+
             this.QueueTask(RaiseLoadedEvent);
 
             if (IsInBrowsingContext)
+            {
                 this.QueueTask(ShowPage);
+            }
 
             this.QueueTask(EmptyAppCache);
 
             if (IsToBePrinted)
+            {
                 Print();
+            }
         }
 
         /// <summary>
@@ -1625,7 +1671,9 @@
             }
 
             if (!_firedUnload)
+            {
                 window.FireSimpleEvent(EventNames.Unload);
+            }
 
             this.ReleaseStorageMutex();
 
@@ -1647,7 +1695,9 @@
             var command = Options.GetCommand(commandId);
 
             if (command != null)
+            {
                 return command.Execute(this, showUserInterface, value);
+            }
 
             return false;
         }
@@ -1657,7 +1707,9 @@
             var command = Options.GetCommand(commandId);
 
             if (command != null)
+            {
                 return command.IsEnabled(this);
+            }
 
             return false;
         }
@@ -1667,7 +1719,9 @@
             var command = Options.GetCommand(commandId);
 
             if (command != null)
+            {
                 return command.IsIndeterminate(this);
+            }
 
             return false;
         }
@@ -1677,7 +1731,9 @@
             var command = Options.GetCommand(commandId);
 
             if (command != null)
+            {
                 return command.IsExecuted(this);
+            }
 
             return false;
         }
@@ -1687,7 +1743,9 @@
             var command = Options.GetCommand(commandId);
 
             if (command != null)
+            {
                 return command.IsSupported(this);
+            }
 
             return false;
         }
@@ -1697,7 +1755,9 @@
             var command = Options.GetCommand(commandId);
 
             if (command != null)
+            {
                 return command.GetValue(this);
+            }
 
             return null;
         }
@@ -1713,7 +1773,8 @@
 
         static Boolean IsLink(IElement element)
         {
-            return (element is IHtmlAnchorElement || element is IHtmlAreaElement) && element.Attributes.Any(m => m.Name.Is(AttributeNames.Href));
+            var isLinkElement = element is IHtmlAnchorElement || element is IHtmlAreaElement;
+            return isLinkElement && element.Attributes.Any(m => m.Name.Is(AttributeNames.Href));
         }
 
         static Boolean IsAnchor(IHtmlAnchorElement element)
@@ -1756,11 +1817,11 @@
 
         void ShowPage()
         {
-            if (_shown || _view == null)
-                return;
-            
-            _shown = true;
-            this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view as EventTarget);
+            if (!_shown && _view != null)
+            {
+                _shown = true;
+                this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view as EventTarget);
+            }
         }
 
         async void LocationChanged(Object sender, Location.LocationChangedEventArgs e)
@@ -1778,6 +1839,16 @@
                 var request = DocumentRequest.Get(url, source: this, referer: DocumentUri);
                 await _context.OpenAsync(request, CancellationToken.None);
             }
+        }
+
+        protected void Setup(CreateDocumentOptions options)
+        {
+            ContentType = options.ContentType.Content;
+            Referrer = options.Response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
+            DocumentUri = options.Response.Address.Href;
+            Cookie = options.Response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
+            ImportAncestor = options.ImportAncestor;
+            ReadyState = DocumentReadyState.Loading;
         }
 
         protected sealed override String LocateNamespace(String prefix)

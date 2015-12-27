@@ -2,7 +2,7 @@
 {
     using AngleSharp.Dom.Io;
     using AngleSharp.Extensions;
-    using AngleSharp.Html.Json;
+    using AngleSharp.Html.Submitters.Json;
     using System;
     using System.IO;
 

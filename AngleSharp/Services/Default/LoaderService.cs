@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Services.Default
 {
-    using AngleSharp.Dom;
     using AngleSharp.Network;
     using AngleSharp.Network.Default;
     using System;
@@ -58,23 +57,27 @@
         /// <returns>The instantiated default document loader.</returns>
         public virtual IDocumentLoader CreateDocumentLoader(IBrowsingContext context)
         {
-            if (IsNavigationEnabled == false)
+            if (!IsNavigationEnabled)
+            {
                 return null;
+            }
 
-            return new DocumentLoader(_requesters, context, Filter);
+            return new DocumentLoader(_requesters, context.Configuration, Filter);
         }
 
         /// <summary>
         /// Creates the default resource loader with the stored requesters.
         /// </summary>
-        /// <param name="document">The document to use.</param>
+        /// <param name="context">The context to use.</param>
         /// <returns>The instantiated default resource loader.</returns>
-        public virtual IResourceLoader CreateResourceLoader(IDocument document)
+        public virtual IResourceLoader CreateResourceLoader(IBrowsingContext context)
         {
-            if (IsResourceLoadingEnabled == false)
+            if (!IsResourceLoadingEnabled)
+            {
                 return null;
+            }
 
-            return new ResourceLoader(_requesters, document, Filter);
+            return new ResourceLoader(_requesters, context.Configuration, Filter);
         }
     }
 }
