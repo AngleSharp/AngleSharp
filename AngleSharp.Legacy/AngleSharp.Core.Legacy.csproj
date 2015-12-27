@@ -173,8 +173,8 @@
       <SubType>
       </SubType>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\Units.cs">
-      <Link>Css\Units.cs</Link>
+    <Compile Include="..\AngleSharp\Css\UnitNames.cs">
+      <Link>Css\UnitNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\ValueConverters\AnyValueConverter.cs">
       <Link>Css\ValueConverters\AnyValueConverter.cs</Link>
@@ -2048,8 +2048,8 @@
     <Compile Include="..\AngleSharp\Html\LinkRels\StyleSheetLinkRelation.cs">
       <Link>Html\LinkRels\StyleSheetLinkRelation.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Html\Namespaces.cs">
-      <Link>Html\Namespaces.cs</Link>
+    <Compile Include="..\AngleSharp\Html\NamespaceNames.cs">
+      <Link>Html\NamespaceNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\NodeFlags.cs">
       <Link>Html\NodeFlags.cs</Link>
@@ -2084,8 +2084,8 @@
     <Compile Include="..\AngleSharp\Html\Submitters\UrlEncodedFormDataSetVisitor.cs">
       <Link>Html\Submitters\UrlEncodedFormDataSetVisitor.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Html\Tags.cs">
-      <Link>Html\Tags.cs</Link>
+    <Compile Include="..\AngleSharp\Html\TagNames.cs">
+      <Link>Html\TagNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\TextDataSetEntry.cs">
       <Link>Html\TextDataSetEntry.cs</Link>
@@ -2723,20 +2723,20 @@
     <Compile Include="..\AngleSharp\Network\IResponse.cs">
       <Link>Network\IResponse.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Network\KnownProtocols.cs">
-      <Link>Network\KnownProtocols.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Network\MimeType.cs">
       <Link>Network\MimeType.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Network\MimeTypes.cs">
-      <Link>Network\MimeTypes.cs</Link>
+    <Compile Include="..\AngleSharp\Network\MimeTypeNames.cs">
+      <Link>Network\MimeTypeNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\OriginBehavior.cs">
       <Link>Network\OriginBehavior.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\PortNumbers.cs">
       <Link>Network\PortNumbers.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\ProtocolNames.cs">
+      <Link>Network\ProtocolNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\ResourceRequest.cs">
       <Link>Network\ResourceRequest.cs</Link>
