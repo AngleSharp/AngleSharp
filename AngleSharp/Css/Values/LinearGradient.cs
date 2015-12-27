@@ -8,12 +8,12 @@
     /// Represents a linear gradient:
     /// http://dev.w3.org/csswg/css-images-3/#linear-gradients
     /// </summary>
-    sealed class LinearGradient : IGradient
+    public sealed class LinearGradient : IGradient
     {
         #region Fields
 
         readonly GradientStop[] _stops;
-        readonly Single _angle;
+        readonly Angle _angle;
         readonly Boolean _repeating;
 
         #endregion
@@ -26,7 +26,7 @@
         /// <param name="angle">The angle of the linear gradient.</param>
         /// <param name="stops">The stops to use.</param>
         /// <param name="repeating">Indicates if the gradient is repeating.</param>
-        public LinearGradient(Single angle, GradientStop[] stops, Boolean repeating = false)
+        public LinearGradient(Angle angle, GradientStop[] stops, Boolean repeating = false)
         {
             _stops = stops;
             _angle = angle;
@@ -38,9 +38,9 @@
         #region Properties
 
         /// <summary>
-        /// Gets the angle in radiant [0, 2pi].
+        /// Gets the angle of the linear gradient.
         /// </summary>
-        public Single Angle
+        public Angle Angle
         {
             get { return _angle; }
         }
