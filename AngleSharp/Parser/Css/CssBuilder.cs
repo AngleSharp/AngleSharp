@@ -113,7 +113,7 @@
 
                 case CssTokenType.CurlyBracketOpen:
                     RaiseErrorOccurred(CssParseError.InvalidBlockStart, token);
-                    SkipRule(token);
+                    JumpToRuleEnd(ref token);
                     return null;
 
                 case CssTokenType.String:
@@ -122,7 +122,7 @@
                 case CssTokenType.RoundBracketClose:
                 case CssTokenType.SquareBracketClose:
                     RaiseErrorOccurred(CssParseError.InvalidToken, token);
-                    SkipRule(token);
+                    JumpToRuleEnd(ref token);
                     return null;
 
                 default:
@@ -375,7 +375,7 @@
             else
             {
                 RaiseErrorOccurred(CssParseError.UnknownAtRule, current);
-                SkipRule(current);
+                JumpToRuleEnd(ref current);
             }
 
             return rule;
@@ -698,28 +698,34 @@
 
         #region Helpers
 
-        void SkipRule(CssToken current)
+        void JumpToEnd(CssToken current)
+        {
+            while (current.IsNot(CssTokenType.EndOfFile, CssTokenType.Semicolon))
+            {
+                current = NextToken();
+            }
+        }
+
+        void JumpToRuleEnd(ref CssToken current)
         {
             var scopes = 0;
 
             while (current.Type != CssTokenType.EndOfFile)
             {
                 if (current.Type == CssTokenType.CurlyBracketOpen)
+                {
                     scopes++;
+                }
                 else if (current.Type == CssTokenType.CurlyBracketClose)
+                {
                     scopes--;
-
-                if (scopes <= 0 && (current.Is(CssTokenType.Semicolon, CssTokenType.CurlyBracketClose)))
+                }
+                
+                if (scopes <= 0 && (current.Is(CssTokenType.CurlyBracketClose, CssTokenType.Semicolon)))
+                {
                     break;
+                }
 
-                current = NextToken();
-            }
-        }
-
-        void JumpToEnd(CssToken current)
-        {
-            while (current.IsNot(CssTokenType.EndOfFile, CssTokenType.Semicolon))
-            {
                 current = NextToken();
             }
         }
@@ -731,11 +737,17 @@
             while (current.Type != CssTokenType.EndOfFile)
             {
                 if (current.Type == CssTokenType.RoundBracketOpen)
+                {
                     arguments++;
-                else if (arguments <= 0 && (current.Type == CssTokenType.RoundBracketClose))
+                }
+                else if (arguments <= 0 && current.Type == CssTokenType.RoundBracketClose)
+                {
                     break;
+                }
                 else if (current.Type == CssTokenType.RoundBracketClose)
+                {
                     arguments--;
+                }
 
                 current = NextToken();
             }
@@ -748,11 +760,17 @@
             while (current.Type != CssTokenType.EndOfFile)
             {
                 if (current.Type == CssTokenType.CurlyBracketOpen)
+                {
                     scopes++;
+                }
                 else if (scopes <= 0 && (current.Is(CssTokenType.CurlyBracketClose, CssTokenType.Semicolon)))
+                {
                     break;
+                }
                 else if (current.Type == CssTokenType.CurlyBracketClose)
+                {
                     scopes--;
+                }
 
                 current = NextToken();
             }
@@ -763,7 +781,9 @@
             var token = _tokenizer.Get();
 
             if (_nodes.Count > 0)
+            {
                 _nodes.Peek().Tokens.Add(token);
+            }
 
             return token;
         }
@@ -844,7 +864,7 @@
         CssRule SkipDeclarations(CssToken token)
         {
             RaiseErrorOccurred(CssParseError.InvalidToken, token);
-            SkipRule(token);
+            JumpToRuleEnd(ref token);
             return default(CssRule);
         }
 

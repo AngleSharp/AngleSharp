@@ -11,7 +11,7 @@
     {
         #region Map File extensions to Mime types
 
-        static Dictionary<String, String> _extensions = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase)
+        static Dictionary<String, String> extensions = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase)
         {
             { ".3dm", "x-world/x-3dmf" },
             { ".3dmf", "x-world/x-3dmf" },
@@ -468,7 +468,7 @@
         {
             var mime = String.Empty;
 
-            if (_extensions.TryGetValue(extension, out mime))
+            if (extensions.TryGetValue(extension, out mime))
                 return mime;
 
             return Binary;
@@ -543,10 +543,7 @@
         /// </summary>
         public static readonly String MultipartForm = "multipart/form-data";
 
-        /// <summary>
-        /// Gets a list of mime-types that are recognized as JavaScript.
-        /// </summary>
-        static readonly String[] _commonJsTypes = new[] 
+        static readonly String[] commonJsTypes = new [] 
         { 
             "application/ecmascript",
             "application/javascript",
@@ -575,7 +572,7 @@
         /// </returns>
         public static Boolean IsJavaScript(String type)
         {
-            foreach (var commonJsType in _commonJsTypes)
+            foreach (var commonJsType in commonJsTypes)
             {
                 if (type.Isi(commonJsType))
                 {

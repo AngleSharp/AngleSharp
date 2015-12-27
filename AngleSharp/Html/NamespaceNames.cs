@@ -68,7 +68,7 @@
         /// </summary>
         public static readonly String MathMlPrefix = "mathml";
 
-        static readonly Dictionary<String, String> _namespaces = new Dictionary<String, String>
+        static readonly Dictionary<String, String> namespaces = new Dictionary<String, String>
         {
             { HtmlPrefix, HtmlUri },
             { XLinkPrefix, XLinkUri },
@@ -101,7 +101,7 @@
         public static String LookupNamespaceUri(String prefix)
         {
             var namespaceUri = default(String);
-            _namespaces.TryGetValue(prefix, out namespaceUri);
+            namespaces.TryGetValue(prefix, out namespaceUri);
             return namespaceUri;
         }
     }
