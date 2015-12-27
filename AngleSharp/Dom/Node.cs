@@ -900,11 +900,6 @@
             }
         }
 
-        public String ToHtml()
-        {
-            return ToHtml(HtmlMarkupFormatter.Instance);
-        }
-
         public virtual String ToHtml(IMarkupFormatter formatter)
         {
             return TextContent;
