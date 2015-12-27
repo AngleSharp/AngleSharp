@@ -17,7 +17,7 @@
         /// Creates a new HTML meta element.
         /// </summary>
         public HtmlMetaElement(Document owner, String prefix = null)
-            : base(owner, Tags.Meta, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Meta, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

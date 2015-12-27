@@ -12,7 +12,7 @@
         /// Creates a new HTML br element
         /// </summary>
         public HtmlBreakRowElement(Document owner, String prefix = null)
-            : base(owner, Tags.Br, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Br, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
     }

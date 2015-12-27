@@ -15,7 +15,7 @@
         /// Creates a new HTML menu element.
         /// </summary>
         public HtmlMenuElement(Document owner, String prefix = null)
-            : base(owner, Tags.Menu, prefix, NodeFlags.Special)
+            : base(owner, TagNames.Menu, prefix, NodeFlags.Special)
         {
         }
 

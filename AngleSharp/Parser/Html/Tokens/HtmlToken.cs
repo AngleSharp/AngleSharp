@@ -100,7 +100,7 @@
         /// </summary>
         public Boolean IsSvg
         {
-            get { return IsStartTag(Tags.Svg); }
+            get { return IsStartTag(TagNames.Svg); }
         }
 
         /// <summary>

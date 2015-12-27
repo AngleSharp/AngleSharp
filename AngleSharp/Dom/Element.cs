@@ -351,7 +351,7 @@
 
         public IShadowRoot AttachShadow(ShadowRootMode mode = ShadowRootMode.Open)
         {
-            if (Tags.AllNoShadowRoot.Contains(_localName))
+            if (TagNames.AllNoShadowRoot.Contains(_localName))
             {
                 throw new DomException(DomError.NotSupported);
             }
@@ -410,7 +410,7 @@
 
         public Boolean HasAttribute(String name)
         {
-            if (_namespace.Is(Namespaces.HtmlUri))
+            if (_namespace.Is(NamespaceNames.HtmlUri))
             {
                 name = name.ToLowerInvariant();
             }
@@ -430,7 +430,7 @@
 
         public String GetAttribute(String name)
         {
-            if (_namespace.Is(Namespaces.HtmlUri))
+            if (_namespace.Is(NamespaceNames.HtmlUri))
             {
                 name = name.ToLower();
             }
@@ -457,7 +457,7 @@
                 if (!name.IsXmlName())
                     throw new DomException(DomError.InvalidCharacter);
 
-                if (_namespace.Is(Namespaces.HtmlUri))
+                if (_namespace.Is(NamespaceNames.HtmlUri))
                     name = name.ToLowerInvariant();
 
                 this.SetOwnAttribute(name, value);
@@ -485,7 +485,7 @@
 
         public void RemoveAttribute(String name)
         {
-            if (_namespace.Is(Namespaces.HtmlUri))
+            if (_namespace.Is(NamespaceNames.HtmlUri))
             {
                 name = name.ToLower();
             }

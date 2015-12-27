@@ -79,7 +79,7 @@
         /// <returns>The name again.</returns>
         String Check(String name)
         {
-            if (name.StartsWith(Tags.Xml, StringComparison.OrdinalIgnoreCase))
+            if (name.StartsWith(TagNames.Xml, StringComparison.OrdinalIgnoreCase))
                 throw new DomException(DomError.Syntax);
             else if (name.IndexOf(Symbols.Semicolon) >= 0)
                 throw new DomException(DomError.Syntax);

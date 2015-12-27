@@ -111,7 +111,7 @@
         /// <param name="type">The type of the entry.</param>
         public void Append(String name, String value, String type)
         {
-            if (type.Isi(Tags.Textarea))
+            if (type.Isi(TagNames.Textarea))
             {
                 name = Normalize(name);
                 value = Normalize(value);

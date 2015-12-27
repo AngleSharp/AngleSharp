@@ -12,7 +12,7 @@
         #region ctor
 
         public HtmlDataElement(Document owner, String prefix = null)
-            : base(owner, Tags.Data, prefix)
+            : base(owner, TagNames.Data, prefix)
         {
         }
 

@@ -43,7 +43,7 @@
             _scheme = scheme;
             _host = host;
             _port = port;
-            _relative = KnownProtocols.IsRelative(_scheme);
+            _relative = ProtocolNames.IsRelative(_scheme);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@
         {
             get
             {
-                if (_scheme.Is(KnownProtocols.Blob))
+                if (_scheme.Is(ProtocolNames.Blob))
                 {
                     var url = new Url(_schemeData);
 
@@ -130,7 +130,7 @@
                         return url.Origin;
                     }
                 }
-                else if (KnownProtocols.IsOriginable(_scheme))
+                else if (ProtocolNames.IsOriginable(_scheme))
                 {
                     var output = Pool.NewStringBuilder();
 
@@ -442,7 +442,7 @@
             _host = baseUrl._host;
             _path = baseUrl._path;
             _port = baseUrl._port;
-            _relative = KnownProtocols.IsRelative(_scheme);
+            _relative = ProtocolNames.IsRelative(_scheme);
         }
 
         Boolean ParseScheme(String input, Boolean onlyScheme = false)
@@ -467,9 +467,9 @@
                         if (onlyScheme)
                             return true;
 
-                        _relative = KnownProtocols.IsRelative(_scheme);
+                        _relative = ProtocolNames.IsRelative(_scheme);
 
-                        if (_scheme.Is(KnownProtocols.File))
+                        if (_scheme.Is(ProtocolNames.File))
                         {
                             _host = String.Empty;
                             _port = String.Empty;
@@ -568,12 +568,12 @@
 
                     if (c == Symbols.Solidus || c == Symbols.ReverseSolidus)
                     {
-                        if (_scheme.Is(KnownProtocols.File))
+                        if (_scheme.Is(ProtocolNames.File))
                             return ParseFileHost(input, index + 1);
 
                         return IgnoreSlashesState(input, index + 1);
                     }
-                    else if (_scheme.Is(KnownProtocols.File))
+                    else if (_scheme.Is(ProtocolNames.File))
                     {
                         _host = String.Empty;
                         _port = String.Empty;
@@ -582,7 +582,7 @@
                     return ParsePath(input, index - 1);
             }
 
-            if (input[index].IsLetter() && _scheme.Is(KnownProtocols.File) && index + 1 < input.Length && 
+            if (input[index].IsLetter() && _scheme.Is(ProtocolNames.File) && index + 1 < input.Length && 
                (input[index + 1].IsOneOf(Symbols.Colon, Symbols.Solidus)) &&
                (index + 2 == input.Length || input[index + 2].IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus, Symbols.Num, Symbols.QuestionMark)))
             {
@@ -823,7 +823,7 @@
                     }
                     else if (!path.Is(currentDirectory))
                     {
-                        if (_scheme.Is(KnownProtocols.File) && paths.Count == originalCount && path.Length == 2 && path[0].IsLetter() && path[1] == Symbols.Pipe)
+                        if (_scheme.Is(ProtocolNames.File) && paths.Count == originalCount && path.Length == 2 && path[0].IsLetter() && path[1] == Symbols.Pipe)
                         {
                             path = path.Replace(Symbols.Pipe, Symbols.Colon);
                             paths.Clear();

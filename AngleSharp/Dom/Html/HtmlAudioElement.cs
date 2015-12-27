@@ -22,7 +22,7 @@
         /// Creates a new HTML audio element.
         /// </summary>
         public HtmlAudioElement(Document owner, String prefix = null)
-            : base(owner, Tags.Audio, prefix)
+            : base(owner, TagNames.Audio, prefix)
         {
             _audios = null;
         }

@@ -9,7 +9,7 @@
     sealed class MathOperatorElement : MathElement
     {
         public MathOperatorElement(Document owner, String prefix = null)
-            : base(owner, Tags.Mo, prefix, NodeFlags.Special | NodeFlags.MathTip | NodeFlags.Scoped)
+            : base(owner, TagNames.Mo, prefix, NodeFlags.Special | NodeFlags.MathTip | NodeFlags.Scoped)
 	    {
 	    }
     }

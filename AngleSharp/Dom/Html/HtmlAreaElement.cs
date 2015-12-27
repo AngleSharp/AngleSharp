@@ -15,7 +15,7 @@
         /// Creates a new area element.
         /// </summary>
         public HtmlAreaElement(Document owner, String prefix = null)
-            : base(owner, Tags.Area, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Area, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

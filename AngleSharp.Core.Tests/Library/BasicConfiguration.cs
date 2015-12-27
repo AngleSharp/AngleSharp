@@ -16,7 +16,7 @@
             var config = new Configuration().WithCss();
             var service = config.GetService<IStylingService>();
             Assert.IsNotNull(service);
-            var engine = service.GetEngine(MimeTypes.Css);
+            var engine = service.GetEngine(MimeTypeNames.Css);
             Assert.IsNotNull(engine);
             Assert.IsInstanceOf<CssStyleEngine>(engine);
         }

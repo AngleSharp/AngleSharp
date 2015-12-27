@@ -439,7 +439,7 @@
             _context = context;
             _source = source;
             _referrer = String.Empty;
-            _contentType = MimeTypes.ApplicationXml;
+            _contentType = MimeTypeNames.ApplicationXml;
             _ready = DocumentReadyState.Loading;
             _sandbox = Sandboxes.None;
             _quirksMode = QuirksMode.Off;
@@ -1096,7 +1096,7 @@
         /// </summary>
         public IDocument Open(String type = "text/html", String replace = null)
         {
-            if (!_contentType.Is(MimeTypes.Html))
+            if (!_contentType.Is(MimeTypeNames.Html))
             {
                 throw new DomException(DomError.InvalidState);
             }
@@ -1115,7 +1115,7 @@
 
             if (shallReplace)
             {
-                type = MimeTypes.Html;
+                type = MimeTypeNames.Html;
             }
 
             var index = type.IndexOf(Symbols.Semicolon);
@@ -1366,19 +1366,19 @@
             var prefix = default(String);
             GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out prefix, out localName);
 
-            if (namespaceUri.Is(Namespaces.HtmlUri))
+            if (namespaceUri.Is(NamespaceNames.HtmlUri))
             {
                 var element = Factory.HtmlElements.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
-            else if (namespaceUri.Is(Namespaces.SvgUri))
+            else if (namespaceUri.Is(NamespaceNames.SvgUri))
             {
                 var element = Factory.SvgElements.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
-            else if (namespaceUri.Is(Namespaces.MathMlUri))
+            else if (namespaceUri.Is(NamespaceNames.MathMlUri))
             {
                 var element = Factory.MathElements.Create(this, localName, prefix);
                 element.SetupElement();

@@ -9,7 +9,7 @@
     sealed class HtmlStrikeElement : HtmlElement
     {
         public HtmlStrikeElement(Document owner, String prefix = null)
-            : base(owner, Tags.Strike, prefix, NodeFlags.HtmlFormatting)
+            : base(owner, TagNames.Strike, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

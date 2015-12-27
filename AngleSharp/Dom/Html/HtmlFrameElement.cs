@@ -12,7 +12,7 @@
         #region ctor
 
         public HtmlFrameElement(Document owner, String prefix = null)
-            : base(owner, Tags.Frame, prefix, NodeFlags.SelfClosing)
+            : base(owner, TagNames.Frame, prefix, NodeFlags.SelfClosing)
         {
         }
 

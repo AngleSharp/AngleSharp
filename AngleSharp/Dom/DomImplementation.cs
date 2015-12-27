@@ -144,18 +144,18 @@
         public IDocument CreateHtmlDocument(String title)
         {
             var document = new HtmlDocument();
-            document.AppendChild(new DocumentType(document, Tags.Html));
-            document.AppendChild(document.CreateElement(Tags.Html));
-            document.DocumentElement.AppendChild(document.CreateElement(Tags.Head));
+            document.AppendChild(new DocumentType(document, TagNames.Html));
+            document.AppendChild(document.CreateElement(TagNames.Html));
+            document.DocumentElement.AppendChild(document.CreateElement(TagNames.Head));
 
             if (!String.IsNullOrEmpty(title))
             {
-                var titleElement = document.CreateElement(Tags.Title);
+                var titleElement = document.CreateElement(TagNames.Title);
                 titleElement.AppendChild(document.CreateTextNode(title));
                 document.Head.AppendChild(titleElement);
             }
 
-            document.DocumentElement.AppendChild(document.CreateElement(Tags.Body));
+            document.DocumentElement.AppendChild(document.CreateElement(TagNames.Body));
             document.BaseUrl = _owner.BaseUrl;
             return document;
         }

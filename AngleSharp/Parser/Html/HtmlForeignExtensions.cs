@@ -137,15 +137,15 @@
         {
             if (IsXLinkAttribute(name))
             {
-                element.SetAttribute(Namespaces.XLinkUri, name.Substring(name.IndexOf(Symbols.Colon) + 1), value);
+                element.SetAttribute(NamespaceNames.XLinkUri, name.Substring(name.IndexOf(Symbols.Colon) + 1), value);
             }
             else if (IsXmlAttribute(name))
             {
-                element.SetAttribute(Namespaces.XmlUri, name, value);
+                element.SetAttribute(NamespaceNames.XmlUri, name, value);
             }
             else if (IsXmlNamespaceAttribute(name))
             {
-                element.SetAttribute(Namespaces.XmlNsUri, name, value);
+                element.SetAttribute(NamespaceNames.XmlNsUri, name, value);
             }
             else
             {
@@ -191,13 +191,13 @@
 
         static Boolean IsXmlNamespaceAttribute(String name)
         {
-            return name.Length > 4 && (name.Is(Namespaces.XmlNsPrefix) || name.Is("xmlns:xlink"));
+            return name.Length > 4 && (name.Is(NamespaceNames.XmlNsPrefix) || name.Is("xmlns:xlink"));
         }
 
         static Boolean IsXmlAttribute(String name)
         {
             return (name.Length > 7 && "xml:".EqualsSubset(name, 0, 4)) &&
-                (Tags.Base.EqualsSubset(name, 4, 4) || AttributeNames.Lang.EqualsSubset(name, 4, 4) ||
+                (TagNames.Base.EqualsSubset(name, 4, 4) || AttributeNames.Lang.EqualsSubset(name, 4, 4) ||
                  AttributeNames.Space.EqualsSubset(name, 4, 5));
         }
 

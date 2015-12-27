@@ -19,7 +19,7 @@
         #region ctor
 
         public HtmlTableSectionElement(Document owner, String name = null, String prefix = null)
-            : base(owner, name ?? Tags.Tbody, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.HtmlTableSectionScoped)
+            : base(owner, name ?? TagNames.Tbody, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.HtmlTableSectionScoped)
         {
         }
 
@@ -72,7 +72,7 @@
         public IHtmlTableRowElement InsertRowAt(Int32 index = -1)
         {
             var row = Rows[index];
-            var newRow = Owner.CreateElement(Tags.Tr) as IHtmlTableRowElement;
+            var newRow = Owner.CreateElement(TagNames.Tr) as IHtmlTableRowElement;
 
             if (row != null)
                 InsertBefore(newRow, row);

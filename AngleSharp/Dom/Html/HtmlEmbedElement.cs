@@ -24,7 +24,7 @@
         /// Creates a new Embed element.
         /// </summary>
         public HtmlEmbedElement(Document owner, String prefix = null)
-            : base(owner, Tags.Embed, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Embed, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

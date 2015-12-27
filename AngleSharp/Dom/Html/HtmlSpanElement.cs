@@ -9,7 +9,7 @@
     sealed class HtmlSpanElement : HtmlElement, IHtmlSpanElement
     {
         public HtmlSpanElement(Document owner, String prefix = null)
-            : base(owner, Tags.Span, prefix)
+            : base(owner, TagNames.Span, prefix)
         {
             Owner = owner;
         }

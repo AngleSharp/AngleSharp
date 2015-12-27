@@ -74,7 +74,7 @@
         {
             var url = request.Target;
 
-            if (request.Origin == url.Origin || url.Scheme == KnownProtocols.Data || url.Href == "about:blank")
+            if (request.Origin == url.Origin || url.Scheme == ProtocolNames.Data || url.Href == "about:blank")
             {
                 while (true)
                 {

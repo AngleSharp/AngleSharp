@@ -15,11 +15,11 @@
 
         readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
-            { Tags.Svg, (document, prefix) => new SvgSvgElement(document, prefix) },
-            { Tags.Circle, (document, prefix) => new SvgCircleElement(document, prefix) },
-            { Tags.Desc, (document, prefix) => new SvgDescElement(document, prefix) },
-            { Tags.ForeignObject, (document, prefix) => new SvgForeignObjectElement(document, prefix) },
-            { Tags.Title, (document, prefix) => new SvgTitleElement(document, prefix) }
+            { TagNames.Svg, (document, prefix) => new SvgSvgElement(document, prefix) },
+            { TagNames.Circle, (document, prefix) => new SvgCircleElement(document, prefix) },
+            { TagNames.Desc, (document, prefix) => new SvgDescElement(document, prefix) },
+            { TagNames.ForeignObject, (document, prefix) => new SvgForeignObjectElement(document, prefix) },
+            { TagNames.Title, (document, prefix) => new SvgTitleElement(document, prefix) }
         };
 
         readonly Dictionary<String, String> adjustedTagNames = new Dictionary<String, String>(StringComparer.Ordinal)

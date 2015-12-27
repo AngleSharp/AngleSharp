@@ -232,7 +232,7 @@
         /// </returns>
         public static ICssStyleEngine GetCssStyleEngine(this IConfiguration configuration)
         {
-            return configuration.GetStyleEngine(MimeTypes.Css) as ICssStyleEngine;
+            return configuration.GetStyleEngine(MimeTypeNames.Css) as ICssStyleEngine;
         }
 
         /// <summary>

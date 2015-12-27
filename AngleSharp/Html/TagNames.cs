@@ -6,7 +6,7 @@
     /// <summary>
     /// The collection of (known / used) tags.
     /// </summary>
-    static class Tags
+    static class TagNames
     {
         #region General / Special
 

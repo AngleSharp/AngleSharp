@@ -45,7 +45,7 @@
 
             return link.ProcessResponse(download, response =>
             {
-                var type = link.Type ?? MimeTypes.Css;
+                var type = link.Type ?? MimeTypeNames.Css;
                 var engine = configuration.GetStyleEngine(type);
 
                 if (engine != null)

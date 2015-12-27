@@ -12,7 +12,7 @@
         #region ctor
 
         public HtmlOrderedListElement(Document owner, String prefix = null)
-            : base(owner, Tags.Ol, prefix, NodeFlags.Special | NodeFlags.HtmlListScoped)
+            : base(owner, TagNames.Ol, prefix, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
         }
 

@@ -9,7 +9,7 @@
     sealed class HtmlTableDataCellElement : HtmlTableCellElement, IHtmlTableDataCellElement
     {
         public HtmlTableDataCellElement(Document owner, String prefix = null)
-            : base(owner, Tags.Td, prefix)
+            : base(owner, TagNames.Td, prefix)
         {
         }
     }

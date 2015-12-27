@@ -62,7 +62,7 @@
         {
             get
             {
-                return MimeTypes.FromExtension(Path.GetExtension(_fileName));
+                return MimeTypeNames.FromExtension(Path.GetExtension(_fileName));
             }
         }
 

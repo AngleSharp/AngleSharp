@@ -24,7 +24,7 @@
         /// Creates a new image element.
         /// </summary>
         public HtmlImageElement(Document owner, String prefix = null)
-            : base(owner, Tags.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

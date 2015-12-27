@@ -742,7 +742,7 @@
                 Advance();
                 return CommentStart(GetNext());
             }
-            else if (ContinuesWithInsensitive(Tags.Doctype))
+            else if (ContinuesWithInsensitive(TagNames.Doctype))
             {
                 Advance(6);
                 return Doctype(GetNext());
@@ -2240,7 +2240,7 @@
         /// <param name="offset">The tag name's offset.</param>
         HtmlToken ScriptDataEscapedNameEndTag(HtmlTagToken tag, Int32 offset)
         {
-            var length = Tags.Script.Length;
+            var length = TagNames.Script.Length;
 
             while (true)
             {
@@ -2248,7 +2248,7 @@
                 var hasLength = _stringBuffer.Length - offset == length;
 
                 if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()) && 
-                    _stringBuffer.ToString(offset, length).Isi(Tags.Script))
+                    _stringBuffer.ToString(offset, length).Isi(TagNames.Script))
                 {
                     Back(length + 3);
                     _stringBuffer.Remove(offset - 2, length + 2);
@@ -2269,7 +2269,7 @@
         /// <param name="offset">The tag name's offset.</param>
         HtmlToken ScriptDataStartDoubleEscape(Int32 offset)
         {
-            var length = Tags.Script.Length;
+            var length = TagNames.Script.Length;
 
             while (true)
             {
@@ -2278,7 +2278,7 @@
 
                 if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                 {
-                    var isscript = _stringBuffer.ToString(offset, length).Isi(Tags.Script);
+                    var isscript = _stringBuffer.ToString(offset, length).Isi(TagNames.Script);
                     _stringBuffer.Append(c);
                     return isscript ? ScriptDataEscapedDouble(GetNext()) : ScriptDataEscaped(GetNext());
                 }
@@ -2407,7 +2407,7 @@
         /// <param name="offset">The tag name's offset.</param>
         HtmlToken ScriptDataEndDoubleEscape(Int32 offset)
         {
-            var length = Tags.Script.Length;
+            var length = TagNames.Script.Length;
 
             while (true)
             {
@@ -2416,7 +2416,7 @@
 
                 if (hasLength && (c.IsSpaceCharacter() || c == Symbols.Solidus || c == Symbols.GreaterThan))
                 {
-                    var isscript = _stringBuffer.ToString(offset, length).Isi(Tags.Script);
+                    var isscript = _stringBuffer.ToString(offset, length).Isi(TagNames.Script);
                     _stringBuffer.Append(c);
                     return isscript ? ScriptDataEscaped(GetNext()) : ScriptDataEscapedDouble(GetNext());
                 }

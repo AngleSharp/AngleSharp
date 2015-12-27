@@ -9,7 +9,7 @@
     sealed class HtmlHeadElement : HtmlElement, IHtmlHeadElement
     {
         public HtmlHeadElement(Document owner, String prefix = null)
-            : base(owner, Tags.Head, prefix, NodeFlags.Special)
+            : base(owner, TagNames.Head, prefix, NodeFlags.Special)
         {
         }
     }

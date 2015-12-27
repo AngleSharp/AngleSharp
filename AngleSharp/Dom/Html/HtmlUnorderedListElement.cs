@@ -9,7 +9,7 @@
     sealed class HtmlUnorderedListElement : HtmlElement, IHtmlUnorderedListElement
     {
         public HtmlUnorderedListElement(Document owner, String prefix = null)
-            : base(owner, Tags.Ul, prefix, NodeFlags.Special | NodeFlags.HtmlListScoped)
+            : base(owner, TagNames.Ul, prefix, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
         }
     }

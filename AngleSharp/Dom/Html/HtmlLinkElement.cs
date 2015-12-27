@@ -25,7 +25,7 @@
         /// Creates a new HTML link element.
         /// </summary>
         public HtmlLinkElement(Document owner, String prefix = null)
-            : base(owner, Tags.Link, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Link, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

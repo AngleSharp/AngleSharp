@@ -655,43 +655,43 @@
             Assert.IsNull(div.Prefix);
             Assert.AreEqual("DIV", div.NodeName);
             Assert.AreEqual("DIV", div.TagName);
-            Assert.AreEqual(Namespaces.HtmlUri, div.NamespaceUri);
+            Assert.AreEqual(NamespaceNames.HtmlUri, div.NamespaceUri);
         }
 
         [Test]
         public void XmlTagShouldBeEqualToNodeNameAndPreserveCase()
         {
             var document = String.Empty.ToHtmlDocument();
-            var myTag = document.CreateElement(Namespaces.XmlUri, "xml:myTag");
+            var myTag = document.CreateElement(NamespaceNames.XmlUri, "xml:myTag");
             Assert.AreEqual("myTag", myTag.LocalName);
             Assert.AreEqual("xml", myTag.Prefix);
             Assert.AreEqual("xml:myTag", myTag.NodeName);
             Assert.AreEqual("xml:myTag", myTag.TagName);
-            Assert.AreEqual(Namespaces.XmlUri, myTag.NamespaceUri);
+            Assert.AreEqual(NamespaceNames.XmlUri, myTag.NamespaceUri);
         }
 
         [Test]
         public void SvgTagShouldBeEqualToNodeNameAndLowercase()
         {
             var document = String.Empty.ToHtmlDocument();
-            var title = document.CreateElement(Namespaces.SvgUri, "title");
+            var title = document.CreateElement(NamespaceNames.SvgUri, "title");
             Assert.AreEqual("title", title.LocalName);
             Assert.IsNull(title.Prefix);
             Assert.AreEqual("title", title.NodeName);
             Assert.AreEqual("title", title.TagName);
-            Assert.AreEqual(Namespaces.SvgUri, title.NamespaceUri);
+            Assert.AreEqual(NamespaceNames.SvgUri, title.NamespaceUri);
         }
 
         [Test]
         public void MathMlTagShouldBeEqualToNodeNameAndLowercase()
         {
             var document = String.Empty.ToHtmlDocument();
-            var mi = document.CreateElement(Namespaces.MathMlUri, "mi");
+            var mi = document.CreateElement(NamespaceNames.MathMlUri, "mi");
             Assert.AreEqual("mi", mi.LocalName);
             Assert.IsNull(mi.Prefix);
             Assert.AreEqual("mi", mi.NodeName);
             Assert.AreEqual("mi", mi.TagName);
-            Assert.AreEqual(Namespaces.MathMlUri, mi.NamespaceUri);
+            Assert.AreEqual(NamespaceNames.MathMlUri, mi.NamespaceUri);
         }
 
         [Test]

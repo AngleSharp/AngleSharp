@@ -9,7 +9,7 @@
     sealed class HtmlXmpElement : HtmlElement
     {
         public HtmlXmpElement(Document owner, String prefix = null)
-            : base(owner, Tags.Xmp, prefix, NodeFlags.Special | NodeFlags.LiteralText)
+            : base(owner, TagNames.Xmp, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }
     }

@@ -6,31 +6,8 @@
     /// <summary>
     /// Contains a list of common namespaces.
     /// </summary>
-    static class Namespaces
+    static class NamespaceNames
     {
-        #region Fields
-
-        static readonly Dictionary<String, String> _namespaces;
-
-        #endregion
-
-        #region ctor
-
-        static Namespaces()
-        {
-            _namespaces = new Dictionary<String, String>();
-            _namespaces.Add(HtmlPrefix, HtmlUri);
-            _namespaces.Add(XLinkPrefix, XLinkUri);
-            _namespaces.Add(XmlPrefix, XmlUri);
-            _namespaces.Add(XmlNsPrefix, XmlNsUri);
-            _namespaces.Add(SvgPrefix, SvgUri);
-            _namespaces.Add(MathMlPrefix, MathMlUri);
-        }
-
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Gets the namespace for HTML elements.
         /// </summary>
@@ -91,9 +68,15 @@
         /// </summary>
         public static readonly String MathMlPrefix = "mathml";
 
-        #endregion
-
-        #region Methods
+        static readonly Dictionary<String, String> _namespaces = new Dictionary<String, String>
+        {
+            { HtmlPrefix, HtmlUri },
+            { XLinkPrefix, XLinkUri },
+            { XmlPrefix, XmlUri },
+            { XmlNsPrefix, XmlNsUri },
+            { SvgPrefix, SvgUri },
+            { MathMlPrefix, MathMlUri }
+        };
 
         /// <summary>
         /// Gets the declaration for the given prefix.
@@ -102,8 +85,10 @@
         /// <returns>The name for the declaration attribute.</returns>
         public static String DeclarationFor(String prefix)
         {
-            if(String.IsNullOrEmpty(prefix))
+            if (String.IsNullOrEmpty(prefix))
+            {
                 return XmlNsPrefix;
+            }
 
             return String.Concat(XmlNsPrefix, ":", prefix);
         }
@@ -115,12 +100,9 @@
         /// <returns>The namespace URI if any, otherwise NULL.</returns>
         public static String LookupNamespaceUri(String prefix)
         {
-            if (_namespaces.ContainsKey(prefix))
-                return _namespaces[prefix];
-
-            return null;
+            var namespaceUri = default(String);
+            _namespaces.TryGetValue(prefix, out namespaceUri);
+            return namespaceUri;
         }
-
-        #endregion
     }
 }

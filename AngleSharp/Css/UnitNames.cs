@@ -5,7 +5,7 @@
     /// <summary>
     /// A collection of units used in CSS.
     /// </summary>
-    static class Units
+    static class UnitNames
     {
         /// <summary>
         /// Kilohertz.

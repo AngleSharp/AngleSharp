@@ -15,7 +15,7 @@
         /// Creates a HTML base element.
         /// </summary>
         public HtmlBaseElement(Document owner, String prefix = null)
-            : base(owner, Tags.Base, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Base, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

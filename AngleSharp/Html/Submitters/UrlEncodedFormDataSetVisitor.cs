@@ -34,7 +34,7 @@
 
         public void Text(FormDataSetEntry entry, String value)
         {
-            if (_first && entry.HasName && entry.Name.Is(Tags.IsIndex) && entry.Type.Isi(InputTypeNames.Text))
+            if (_first && entry.HasName && entry.Name.Is(TagNames.IsIndex) && entry.Type.Isi(InputTypeNames.Text))
             {
                 _index = value ?? String.Empty;
             }

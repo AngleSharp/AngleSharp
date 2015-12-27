@@ -16,7 +16,7 @@
         internal SvgDocument(IBrowsingContext context, TextSource source)
             : base(context ?? BrowsingContext.New(), source)
         {
-            ContentType = MimeTypes.Svg;
+            ContentType = MimeTypeNames.Svg;
         }
 
         internal SvgDocument(IBrowsingContext context = null)

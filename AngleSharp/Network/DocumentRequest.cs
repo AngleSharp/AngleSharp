@@ -106,7 +106,7 @@
                 fds.Append(field.Key, field.Value, InputTypeNames.Text);
             }
 
-            return Post(target, fds.AsPlaintext(), MimeTypes.Plain);
+            return Post(target, fds.AsPlaintext(), MimeTypeNames.Plain);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@
                 fds.Append(field.Key, field.Value, InputTypeNames.Text);
             }
 
-            return Post(target, fds.AsUrlEncoded(), MimeTypes.UrlencodedForm);
+            return Post(target, fds.AsUrlEncoded(), MimeTypeNames.UrlencodedForm);
         }
 
         #endregion

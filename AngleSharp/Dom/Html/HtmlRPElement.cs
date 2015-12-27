@@ -9,7 +9,7 @@
     sealed class HtmlRpElement : HtmlElement
     {
         public HtmlRpElement(Document owner, String prefix = null)
-            : base(owner, Tags.Rp, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
+            : base(owner, TagNames.Rp, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
         }
     }

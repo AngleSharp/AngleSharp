@@ -245,7 +245,7 @@
             {
                 c = GetNext();
 
-                if (ContinuesWithSensitive(Tags.Xml))
+                if (ContinuesWithSensitive(TagNames.Xml))
                 {
                     Advance(2);
                     return DeclarationStart(GetNext());
@@ -356,7 +356,7 @@
                 Advance();
                 return CommentStart(GetNext());
             }
-            else if (ContinuesWithSensitive(Tags.Doctype))
+            else if (ContinuesWithSensitive(TagNames.Doctype))
             {
                 Advance(6);
                 return Doctype(GetNext());
@@ -382,7 +382,7 @@
         {
             if (!c.IsSpaceCharacter())
             {
-                _stringBuffer.Append(Tags.Xml);
+                _stringBuffer.Append(TagNames.Xml);
                 return ProcessingTarget(c, NewProcessing());
             }
 
@@ -1056,7 +1056,7 @@
 
             pi.Target = FlushBuffer();
 
-            if (pi.Target.Isi(Tags.Xml))
+            if (pi.Target.Isi(TagNames.Xml))
                 throw XmlParseError.XmlInvalidPI.At(GetCurrentPosition());
 
             if (c == Symbols.QuestionMark)

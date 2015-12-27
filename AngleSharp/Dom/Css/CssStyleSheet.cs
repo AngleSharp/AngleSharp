@@ -94,7 +94,7 @@
         /// </summary>
         public override String Type
         {
-            get { return MimeTypes.Css; }
+            get { return MimeTypeNames.Css; }
         }
 
         /// <summary>

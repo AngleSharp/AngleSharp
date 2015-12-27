@@ -24,7 +24,7 @@
         /// Creates a new HTML input element.
         /// </summary>
         public HtmlInputElement(Document owner, String prefix = null)
-            : base(owner, Tags.Input, prefix, NodeFlags.SelfClosing)
+            : base(owner, TagNames.Input, prefix, NodeFlags.SelfClosing)
         {
         }
 

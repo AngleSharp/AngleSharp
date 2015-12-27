@@ -41,7 +41,7 @@ bar]]>");
 
             var htmlbodysvg = htmlbody.ChildNodes[0] as Element;
             Assert.IsTrue(htmlbodysvg.Flags.HasFlag(NodeFlags.SvgMember));
-            Assert.AreEqual(Namespaces.SvgUri, htmlbodysvg.NamespaceUri);
+            Assert.AreEqual(NamespaceNames.SvgUri, htmlbodysvg.NamespaceUri);
             Assert.AreEqual(1, htmlbodysvg.ChildNodes.Length);
             Assert.AreEqual(0, htmlbodysvg.Attributes.Length);
             Assert.AreEqual(NodeType.Element, htmlbodysvg.NodeType);

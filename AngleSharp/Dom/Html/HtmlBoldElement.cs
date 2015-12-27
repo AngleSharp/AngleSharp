@@ -9,7 +9,7 @@
     sealed class HtmlBoldElement : HtmlElement
     {
         public HtmlBoldElement(Document owner, String prefix = null)
-            : base(owner, Tags.B, prefix, NodeFlags.HtmlFormatting)
+            : base(owner, TagNames.B, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

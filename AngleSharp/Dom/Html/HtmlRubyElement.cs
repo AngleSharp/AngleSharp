@@ -9,7 +9,7 @@
     sealed class HtmlRubyElement : HtmlElement
     {
         public HtmlRubyElement(Document owner, String prefix = null)
-            : base(owner, Tags.Ruby, prefix)
+            : base(owner, TagNames.Ruby, prefix)
         {
         }
     }

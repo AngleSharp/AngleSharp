@@ -22,7 +22,7 @@
         /// Creates a new SVG element.
         /// </summary>
         public SvgElement(Document owner, String name, String prefix = null, NodeFlags flags = NodeFlags.None)
-            : base(owner, name, prefix, Namespaces.SvgUri, flags | NodeFlags.SvgMember)
+            : base(owner, name, prefix, NamespaceNames.SvgUri, flags | NodeFlags.SvgMember)
         {
         }
 

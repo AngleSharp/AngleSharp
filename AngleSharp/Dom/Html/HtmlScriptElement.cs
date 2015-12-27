@@ -30,7 +30,7 @@
         /// Creates a new HTML script element.
         /// </summary>
         public HtmlScriptElement(Document owner, String prefix = null, Boolean parserInserted = false, Boolean started = false)
-            : base(owner, Tags.Script, prefix, NodeFlags.Special | NodeFlags.LiteralText)
+            : base(owner, TagNames.Script, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
             _forceAsync = false;
             _started = started;
@@ -67,7 +67,7 @@
             get
             {
                 var type = Type ?? AlternativeLanguage;
-                return String.IsNullOrEmpty(type) ? MimeTypes.DefaultJavaScript : type;
+                return String.IsNullOrEmpty(type) ? MimeTypeNames.DefaultJavaScript : type;
             }
         }
 

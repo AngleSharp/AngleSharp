@@ -12,7 +12,7 @@
         /// Creates a new HTML picture element.
         /// </summary>
         public HtmlPictureElement(Document owner, String prefix = null)
-            : base(owner, Tags.Picture, prefix)
+            : base(owner, TagNames.Picture, prefix)
         {
         }
     }

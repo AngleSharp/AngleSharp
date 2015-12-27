@@ -21,7 +21,7 @@
         #region ctor
 
         public HtmlObjectElement(Document owner, String prefix = null)
-            : base(owner, Tags.Object, prefix, NodeFlags.Scoped)
+            : base(owner, TagNames.Object, prefix, NodeFlags.Scoped)
         {
         }
 

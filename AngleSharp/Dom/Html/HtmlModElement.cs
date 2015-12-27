@@ -12,7 +12,7 @@
         #region ctor
 
         public HtmlModElement(Document owner, String name = null, String prefix = null)
-            : base(owner, name ?? Tags.Ins, prefix)
+            : base(owner, name ?? TagNames.Ins, prefix)
         {
         }
 

@@ -7,7 +7,7 @@
     /// <summary>
     /// Contains a list of common mime-types.
     /// </summary>
-    public static class MimeTypes
+    public static class MimeTypeNames
     {
         #region Map File extensions to Mime types
 
@@ -546,7 +546,7 @@
         /// <summary>
         /// Gets a list of mime-types that are recognized as JavaScript.
         /// </summary>
-        public static readonly String[] CommonJavaScriptTypes = new[] 
+        static readonly String[] _commonJsTypes = new[] 
         { 
             "application/ecmascript",
             "application/javascript",
@@ -575,10 +575,12 @@
         /// </returns>
         public static Boolean IsJavaScript(String type)
         {
-            foreach (var js in CommonJavaScriptTypes)
+            foreach (var commonJsType in _commonJsTypes)
             {
-                if (type.Isi(js))
+                if (type.Isi(commonJsType))
+                {
                     return true;
+                }
             }
 
             return false;

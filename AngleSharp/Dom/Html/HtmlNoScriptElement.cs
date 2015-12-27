@@ -9,7 +9,7 @@
     sealed class HtmlNoScriptElement : HtmlElement
     {
         public HtmlNoScriptElement(Document owner, String prefix = null)
-            : base(owner, Tags.NoScript, prefix, NodeFlags.Special | NodeFlags.LiteralText)
+            : base(owner, TagNames.NoScript, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }
     }

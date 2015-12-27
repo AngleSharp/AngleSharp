@@ -12,7 +12,7 @@
         /// Creates a new hr element.
         /// </summary>
         public HtmlHrElement(Document owner, String prefix = null)
-            : base(owner, Tags.Hr, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Hr, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
     }

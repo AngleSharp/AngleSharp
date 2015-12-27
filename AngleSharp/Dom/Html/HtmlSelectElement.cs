@@ -24,7 +24,7 @@
         /// Creates a new HTML select element.
         /// </summary>
         public HtmlSelectElement(Document owner, String prefix = null)
-            : base(owner, Tags.Select, prefix)
+            : base(owner, TagNames.Select, prefix)
         {
         }
 

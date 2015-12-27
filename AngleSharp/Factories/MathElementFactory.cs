@@ -15,12 +15,12 @@
 
         readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
-            { Tags.Mn, (document, prefix) => new MathNumberElement(document, prefix) },
-            { Tags.Mo, (document, prefix) => new MathOperatorElement(document, prefix) },
-            { Tags.Mi, (document, prefix) => new MathIdentifierElement(document, prefix) },
-            { Tags.Ms, (document, prefix) => new MathStringElement(document, prefix) },
-            { Tags.Mtext, (document, prefix) => new MathTextElement(document, prefix) },
-            { Tags.AnnotationXml, (document, prefix) => new MathAnnotationXmlElement(document, prefix) }
+            { TagNames.Mn, (document, prefix) => new MathNumberElement(document, prefix) },
+            { TagNames.Mo, (document, prefix) => new MathOperatorElement(document, prefix) },
+            { TagNames.Mi, (document, prefix) => new MathIdentifierElement(document, prefix) },
+            { TagNames.Ms, (document, prefix) => new MathStringElement(document, prefix) },
+            { TagNames.Mtext, (document, prefix) => new MathTextElement(document, prefix) },
+            { TagNames.AnnotationXml, (document, prefix) => new MathAnnotationXmlElement(document, prefix) }
         };
 
         /// <summary>

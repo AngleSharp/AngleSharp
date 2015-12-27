@@ -32,7 +32,7 @@
         /// <param name="response">The response to hand over.</param>
         /// <param name="source">The source of the document.</param>
         public CreateDocumentOptions(IResponse response, TextSource source)
-            : this(response, response.GetContentType(MimeTypes.Html), source)
+            : this(response, response.GetContentType(MimeTypeNames.Html), source)
         {
         }
 
@@ -44,7 +44,7 @@
         /// <param name="configuration">The configuration to use.</param>
         public CreateDocumentOptions(IResponse response, IConfiguration configuration)
         {
-            var contentType = response.GetContentType(MimeTypes.Html);
+            var contentType = response.GetContentType(MimeTypeNames.Html);
             var encoding = configuration.DefaultEncoding();
             var charset = contentType.GetParameter(AttributeNames.Charset);
 
@@ -117,11 +117,11 @@
         /// <returns>The delegate to create a new document instance.</returns>
         public Func<IBrowsingContext, CreateDocumentOptions, CancellationToken, Task<IDocument>> FindCreator()
         {
-            if (_contentType.Represents(MimeTypes.Xml) || _contentType.Represents(MimeTypes.ApplicationXml))
+            if (_contentType.Represents(MimeTypeNames.Xml) || _contentType.Represents(MimeTypeNames.ApplicationXml))
             {
                 return XmlDocument.LoadAsync;
             }
-            else if (_contentType.Represents(MimeTypes.Svg))
+            else if (_contentType.Represents(MimeTypeNames.Svg))
             {
                 return SvgDocument.LoadAsync;
             }

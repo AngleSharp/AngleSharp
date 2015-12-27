@@ -28,7 +28,7 @@
         /// Creates a new HTML canvas element.
         /// </summary>
         public HtmlCanvasElement(Document owner, String prefix = null)
-            : base(owner, Tags.Canvas, prefix)
+            : base(owner, TagNames.Canvas, prefix)
         {
             _mode = ContextMode.None;
         }
@@ -143,7 +143,7 @@
 
         Byte[] GetImageData(String type)
         {
-            return _current != null ? _current.ToImage(type ?? MimeTypes.Plain) : new Byte[0];
+            return _current != null ? _current.ToImage(type ?? MimeTypeNames.Plain) : new Byte[0];
         }
 
         static ContextMode GetModeFrom(String contextId)

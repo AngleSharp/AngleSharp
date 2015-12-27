@@ -83,7 +83,7 @@
         /// </returns>
         public Boolean SupportsProtocol(String protocol)
         {
-            return protocol.IsOneOf(KnownProtocols.Http, KnownProtocols.Https);
+            return protocol.IsOneOf(ProtocolNames.Http, ProtocolNames.Https);
         }
 
         /// <summary>

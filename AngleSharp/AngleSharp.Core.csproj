@@ -328,7 +328,7 @@
     <Compile Include="Dom\EventTarget.cs" />
     <Compile Include="Foundation\Keywords.cs" />
     <Compile Include="Css\PropertyFlags.cs" />
-    <Compile Include="Css\Units.cs" />
+    <Compile Include="Css\UnitNames.cs" />
     <Compile Include="Extensions\AttrExtensions.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Dom\Collections\HtmlAllCollection.cs" />
@@ -777,7 +777,7 @@
     <Compile Include="Services\Media\IVideoInfo.cs" />
     <Compile Include="Dom\Constants\CorsSetting.cs" />
     <Compile Include="Network\PortNumbers.cs" />
-    <Compile Include="Network\KnownProtocols.cs" />
+    <Compile Include="Network\ProtocolNames.cs" />
     <Compile Include="Css\Values\Frequency.cs" />
     <Compile Include="Css\Values\Number.cs" />
     <Compile Include="Css\Values\Percent.cs" />
@@ -886,11 +886,11 @@
     <Compile Include="Dom\Constants\RangePosition.cs" />
     <Compile Include="Dom\Constants\RangeType.cs" />
     <Compile Include="Extensions\ConfigurationExtensions.cs" />
-    <Compile Include="Network\MimeTypes.cs" />
+    <Compile Include="Network\MimeTypeNames.cs" />
     <Compile Include="Dom\MutationCallback.cs" />
     <Compile Include="Dom\MutationObserver.cs" />
     <Compile Include="Dom\MutationRecord.cs" />
-    <Compile Include="Html\Namespaces.cs" />
+    <Compile Include="Html\NamespaceNames.cs" />
     <Compile Include="Dom\Css\Selector\ComplexSelector.cs" />
     <Compile Include="Dom\Css\Selector\CompoundSelector.cs" />
     <Compile Include="Parser\Css\CssParser.cs" />
@@ -915,7 +915,7 @@
     <Compile Include="Dom\Html\HtmlMarqueeElement.cs" />
     <Compile Include="Dom\Html\HtmlNoEmbedElement.cs" />
     <Compile Include="Dom\Html\HtmlSemanticElement.cs" />
-    <Compile Include="Html\Tags.cs" />
+    <Compile Include="Html\TagNames.cs" />
     <Compile Include="Parser\Html\HtmlParseMode.cs" />
     <Compile Include="Dom\Constants\CssRuleType.cs" />
     <Compile Include="Html\HtmlEntityService.cs" />

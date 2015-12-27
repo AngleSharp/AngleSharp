@@ -14,7 +14,7 @@
         #region ctor
 
         public HtmlMarqueeElement(Document owner, String prefix = null)
-            : base(owner, Tags.Marquee, prefix, NodeFlags.Special | NodeFlags.Scoped)
+            : base(owner, TagNames.Marquee, prefix, NodeFlags.Special | NodeFlags.Scoped)
         {
         }
 

@@ -15,7 +15,7 @@
         /// Creates a new HTML html tag.
         /// </summary>
         public HtmlHtmlElement(Document owner, String prefix = null)
-            : base(owner, Tags.Html, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
+            : base(owner, TagNames.Html, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
         }
 

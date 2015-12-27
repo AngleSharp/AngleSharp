@@ -9,7 +9,7 @@
     sealed class HtmlDefinitionListElement : HtmlElement
     {
         public HtmlDefinitionListElement(Document owner, String prefix = null)
-            : base(owner, Tags.Dl, prefix, NodeFlags.Special)
+            : base(owner, TagNames.Dl, prefix, NodeFlags.Special)
         {
         }
     }

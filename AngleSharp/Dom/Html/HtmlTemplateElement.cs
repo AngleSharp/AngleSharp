@@ -17,7 +17,7 @@
         #region ctor
 
         public HtmlTemplateElement(Document owner, String prefix = null)
-            : base(owner, Tags.Template, prefix, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
+            : base(owner, TagNames.Template, prefix, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
             _content = new DocumentFragment(owner);
         }

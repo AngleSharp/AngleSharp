@@ -35,7 +35,7 @@
             Assert.AreEqual("C", live[2].TextContent);
             Assert.AreEqual("D", live[3].TextContent);
 
-            var newElement = document.CreateElement(Tags.Li);
+            var newElement = document.CreateElement(TagNames.Li);
             newElement.TextContent = "E";
             ul.AppendChild(newElement);
 
@@ -150,10 +150,10 @@
             var live = document.Plugins;
             Assert.AreEqual(1, live.Length);
 
-            var div = document.QuerySelector(Tags.Div);
+            var div = document.QuerySelector(TagNames.Div);
             Assert.IsNotNull(div);
 
-            var embed = document.CreateElement(Tags.Embed);
+            var embed = document.CreateElement(TagNames.Embed);
             div.AppendChild(embed);
 
             Assert.AreEqual(2, live.Length);
@@ -174,7 +174,7 @@
             var div = document.QuerySelector("body > div.container");
             Assert.IsNotNull(div);
 
-            var a = document.CreateElement(Tags.A);
+            var a = document.CreateElement(TagNames.A);
             div.AppendChild(a);
 
             Assert.AreEqual(2, live.Length);

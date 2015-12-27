@@ -68,10 +68,10 @@
                 switch (_unit)
                 {
                     case Unit.Ms:
-                        return Units.Ms;
+                        return UnitNames.Ms;
 
                     case Unit.S:
-                        return Units.S;
+                        return UnitNames.S;
 
                     default:
                         return String.Empty;

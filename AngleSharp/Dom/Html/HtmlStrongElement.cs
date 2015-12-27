@@ -9,7 +9,7 @@
     sealed class HtmlStrongElement : HtmlElement
     {
         public HtmlStrongElement(Document owner, String prefix = null)
-            : base(owner, Tags.Strong, prefix, NodeFlags.HtmlFormatting)
+            : base(owner, TagNames.Strong, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

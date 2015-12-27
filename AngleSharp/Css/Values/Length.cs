@@ -141,21 +141,21 @@
             {
                 switch (_unit)
                 {
-                    case Unit.Px: return Units.Px;
-                    case Unit.Em: return Units.Em;
-                    case Unit.Ex: return Units.Ex;
-                    case Unit.Cm: return Units.Cm;
-                    case Unit.Mm: return Units.Mm;
-                    case Unit.In: return Units.In;
-                    case Unit.Pt: return Units.Pt;
-                    case Unit.Pc: return Units.Pc;
-                    case Unit.Ch: return Units.Ch;
-                    case Unit.Rem: return Units.Rem;
-                    case Unit.Vw: return Units.Vw;
-                    case Unit.Vh: return Units.Vh;
-                    case Unit.Vmin: return Units.Vmin;
-                    case Unit.Vmax: return Units.Vmax;
-                    case Unit.Percent: return Units.Percent;
+                    case Unit.Px: return UnitNames.Px;
+                    case Unit.Em: return UnitNames.Em;
+                    case Unit.Ex: return UnitNames.Ex;
+                    case Unit.Cm: return UnitNames.Cm;
+                    case Unit.Mm: return UnitNames.Mm;
+                    case Unit.In: return UnitNames.In;
+                    case Unit.Pt: return UnitNames.Pt;
+                    case Unit.Pc: return UnitNames.Pc;
+                    case Unit.Ch: return UnitNames.Ch;
+                    case Unit.Rem: return UnitNames.Rem;
+                    case Unit.Vw: return UnitNames.Vw;
+                    case Unit.Vh: return UnitNames.Vh;
+                    case Unit.Vmin: return UnitNames.Vmin;
+                    case Unit.Vmax: return UnitNames.Vmax;
+                    case Unit.Percent: return UnitNames.Percent;
                     default: return String.Empty;
                 }
             }

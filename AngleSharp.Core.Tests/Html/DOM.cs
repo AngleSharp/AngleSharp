@@ -202,8 +202,8 @@
             var title = "My Title";
             document.Title = title;
             Assert.AreEqual("", document.Title);
-            var html = document.CreateElement(Tags.Html);
-            var head = document.CreateElement(Tags.Head);
+            var html = document.CreateElement(TagNames.Html);
+            var head = document.CreateElement(TagNames.Head);
             document.AppendChild(html);
             html.AppendChild(head);
             document.Title = title;

@@ -15,7 +15,7 @@
         /// Creates a new HTML optgroup element.
         /// </summary>
         public HtmlOptionsGroupElement(Document owner, String prefix = null)
-            : base(owner, Tags.Optgroup, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
+            : base(owner, TagNames.Optgroup, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
         }
 

@@ -15,7 +15,7 @@
         /// Creates a new item tag.
         /// </summary>
         public HtmlListItemElement(Document owner, String name = null, String prefix = null)
-            : base(owner, name ?? Tags.Li, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
+            : base(owner, name ?? TagNames.Li, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
         }
 

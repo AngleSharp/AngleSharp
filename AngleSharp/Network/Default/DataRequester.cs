@@ -25,7 +25,7 @@
         /// <returns>True if data is matched, otherwise false..</returns>
         public Boolean SupportsProtocol(String protocol)
         {
-            return protocol.Is(KnownProtocols.Data);
+            return protocol.Is(ProtocolNames.Data);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@
             var data = request.Address.Data;
 
             if (data.StartsWith(","))
-                data = MimeTypes.Plain + data;
+                data = MimeTypeNames.Plain + data;
 
             var parts = data.SplitCommas();
             var response = new Response

@@ -4,9 +4,9 @@
     using System;
 
     /// <summary>
-    /// Contains a list of known protocol names.
+    /// Contains the known protocol names.
     /// </summary>
-    public static class KnownProtocols
+    public static class ProtocolNames
     {
         /// <summary>
         /// The Hypertext Transfer Protocol.

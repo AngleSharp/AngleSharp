@@ -533,9 +533,9 @@
             }
 
             if ((prefix != null && namespaceUri == null) ||
-                (prefix.Is(Namespaces.XmlPrefix) && !namespaceUri.Is(Namespaces.XmlUri)) ||
-                ((qualifiedName.Is(Namespaces.XmlNsPrefix) || prefix.Is(Namespaces.XmlNsPrefix)) && !namespaceUri.Is(Namespaces.XmlNsUri)) ||
-                (namespaceUri.Is(Namespaces.XmlNsUri) && (!qualifiedName.Is(Namespaces.XmlNsPrefix) && !prefix.Is(Namespaces.XmlNsPrefix))))
+                (prefix.Is(NamespaceNames.XmlPrefix) && !namespaceUri.Is(NamespaceNames.XmlUri)) ||
+                ((qualifiedName.Is(NamespaceNames.XmlNsPrefix) || prefix.Is(NamespaceNames.XmlNsPrefix)) && !namespaceUri.Is(NamespaceNames.XmlNsUri)) ||
+                (namespaceUri.Is(NamespaceNames.XmlNsUri) && (!qualifiedName.Is(NamespaceNames.XmlNsPrefix) && !prefix.Is(NamespaceNames.XmlNsPrefix))))
             {
                 throw new DomException(DomError.Namespace);
             }

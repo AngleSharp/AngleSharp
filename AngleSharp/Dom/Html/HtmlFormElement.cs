@@ -27,7 +27,7 @@
         /// Creates a new HTML form element.
         /// </summary>
         public HtmlFormElement(Document owner, String prefix = null)
-            : base(owner, Tags.Form, prefix, NodeFlags.Special)
+            : base(owner, TagNames.Form, prefix, NodeFlags.Special)
         {
         }
 
@@ -329,7 +329,7 @@
 
         DocumentRequest SubmitForm(HttpMethod method, String scheme, Url action, IHtmlElement submitter)
         {
-            if (scheme == KnownProtocols.Http || scheme == KnownProtocols.Https)
+            if (scheme == ProtocolNames.Http || scheme == ProtocolNames.Https)
             {
                 if (method == HttpMethod.Get)
                 {
@@ -340,7 +340,7 @@
                     return SubmitAsEntityBody(action, submitter);
                 }
             }
-            else if (scheme == KnownProtocols.Data)
+            else if (scheme == ProtocolNames.Data)
             {
                 if (method == HttpMethod.Get)
                 {
@@ -351,7 +351,7 @@
                     return PostToData(action, submitter);
                 }
             }
-            else if (scheme == KnownProtocols.Mailto)
+            else if (scheme == ProtocolNames.Mailto)
             {
                 if (method == HttpMethod.Get)
                 {
@@ -362,7 +362,7 @@
                     return MailAsBody(action, submitter);
                 }
             }
-            else if (scheme == KnownProtocols.Ftp || scheme == KnownProtocols.JavaScript)
+            else if (scheme == ProtocolNames.Ftp || scheme == ProtocolNames.JavaScript)
             {
                 return GetActionUrl(action);
             }
@@ -461,9 +461,9 @@
             var enctype = Enctype;
             var body = CreateBody(enctype, TextEncoding.Resolve(encoding), formDataSet);
 
-            if (enctype.Isi(MimeTypes.MultipartForm))
+            if (enctype.Isi(MimeTypeNames.MultipartForm))
             {
-                enctype = String.Concat(MimeTypes.MultipartForm, "; boundary=", formDataSet.Boundary);
+                enctype = String.Concat(MimeTypeNames.MultipartForm, "; boundary=", formDataSet.Boundary);
             }
 
             return DocumentRequest.Post(target, body, enctype, source: this, referer: Owner.DocumentUri);
@@ -505,19 +505,19 @@
 
         static Stream CreateBody(String enctype, Encoding encoding, FormDataSet formDataSet)
         {
-            if (enctype.Isi(MimeTypes.UrlencodedForm))
+            if (enctype.Isi(MimeTypeNames.UrlencodedForm))
             {
                 return formDataSet.AsUrlEncoded(encoding);
             }
-            else if (enctype.Isi(MimeTypes.MultipartForm))
+            else if (enctype.Isi(MimeTypeNames.MultipartForm))
             {
                 return formDataSet.AsMultipart(encoding);
             }
-            else if (enctype.Isi(MimeTypes.Plain))
+            else if (enctype.Isi(MimeTypeNames.Plain))
             {
                 return formDataSet.AsPlaintext(encoding);
             }
-            else if (enctype.Isi(MimeTypes.ApplicationJson))
+            else if (enctype.Isi(MimeTypeNames.ApplicationJson))
             {
                 return formDataSet.AsJson();
             }
@@ -527,12 +527,12 @@
 
         static String CheckEncType(String encType)
         {
-            if (encType.Isi(MimeTypes.Plain) || encType.Isi(MimeTypes.MultipartForm) || encType.Isi(MimeTypes.ApplicationJson))
+            if (encType.Isi(MimeTypeNames.Plain) || encType.Isi(MimeTypeNames.MultipartForm) || encType.Isi(MimeTypeNames.ApplicationJson))
             {
                 return encType;
             }
 
-            return MimeTypes.UrlencodedForm;
+            return MimeTypeNames.UrlencodedForm;
         }
 
         #endregion

@@ -12,7 +12,7 @@
         #region ctor
 
         public HtmlTableColElement(Document owner, String prefix = null)
-            : base(owner, Tags.Col, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Col, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

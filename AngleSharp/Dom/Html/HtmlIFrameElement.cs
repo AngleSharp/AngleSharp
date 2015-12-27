@@ -20,7 +20,7 @@
         #region ctor
 
         public HtmlIFrameElement(Document owner, String prefix = null)
-            : base(owner, Tags.Iframe, prefix, NodeFlags.LiteralText)
+            : base(owner, TagNames.Iframe, prefix, NodeFlags.LiteralText)
         {
         }
 

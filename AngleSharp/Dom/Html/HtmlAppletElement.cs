@@ -11,7 +11,7 @@
     sealed class HtmlAppletElement : HtmlElement
     {
         public HtmlAppletElement(Document owner, String prefix = null)
-            : base(owner, Tags.Applet, prefix, NodeFlags.Special | NodeFlags.Scoped)
+            : base(owner, TagNames.Applet, prefix, NodeFlags.Special | NodeFlags.Scoped)
         {
         }
     }

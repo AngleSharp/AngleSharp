@@ -14,7 +14,7 @@
         /// Creates a new HTML title element.
         /// </summary>
         public HtmlTitleElement(Document owner, String prefix = null)
-            : base(owner, Tags.Title, prefix, NodeFlags.Special)
+            : base(owner, TagNames.Title, prefix, NodeFlags.Special)
         {
         }
 

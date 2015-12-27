@@ -27,7 +27,7 @@
         /// Creates a standard HTML element.
         /// </summary>
         public HtmlElement(Document owner, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
-            : base(owner, Combine(prefix, localName), localName, prefix, Namespaces.HtmlUri, flags | NodeFlags.HtmlMember)
+            : base(owner, Combine(prefix, localName), localName, prefix, NamespaceNames.HtmlUri, flags | NodeFlags.HtmlMember)
         {
         }
 

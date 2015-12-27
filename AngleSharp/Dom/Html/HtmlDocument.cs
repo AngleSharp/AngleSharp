@@ -18,7 +18,7 @@
         internal HtmlDocument(IBrowsingContext context, TextSource source)
             : base(context ?? BrowsingContext.New(), source)
         {
-            ContentType = MimeTypes.Html;
+            ContentType = MimeTypeNames.Html;
         }
 
         internal HtmlDocument(IBrowsingContext context = null)

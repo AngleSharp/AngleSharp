@@ -15,7 +15,7 @@
         /// Creates a new HTML menuitem element.
         /// </summary>
         public HtmlMenuItemElement(Document owner, String prefix = null)
-            : base(owner, Tags.MenuItem, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.MenuItem, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

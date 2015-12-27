@@ -88,16 +88,16 @@
                 switch (_unit)
                 {
                     case Unit.Deg:
-                        return Units.Deg;
+                        return UnitNames.Deg;
 
                     case Unit.Grad:
-                        return Units.Grad;
+                        return UnitNames.Grad;
 
                     case Unit.Turn:
-                        return Units.Turn;
+                        return UnitNames.Turn;
 
                     case Unit.Rad:
-                        return Units.Rad;
+                        return UnitNames.Rad;
 
                     default:
                         return String.Empty;

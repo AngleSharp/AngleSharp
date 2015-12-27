@@ -9,7 +9,7 @@
     sealed class HtmlNoFramesElement : HtmlElement
     {
         public HtmlNoFramesElement(Document owner, String prefix = null)
-            : base(owner, Tags.NoFrames, prefix, NodeFlags.Special | NodeFlags.LiteralText)
+            : base(owner, TagNames.NoFrames, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }
     }

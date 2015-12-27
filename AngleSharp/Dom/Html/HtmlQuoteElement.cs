@@ -12,7 +12,7 @@
         #region ctor
 
         public HtmlQuoteElement(Document owner, String name = null, String prefix = null)
-            : base(owner, name ?? Tags.Quote, prefix, name.Is(Tags.BlockQuote) ? NodeFlags.Special : NodeFlags.None)
+            : base(owner, name ?? TagNames.Quote, prefix, name.Is(TagNames.BlockQuote) ? NodeFlags.Special : NodeFlags.None)
         {
         }
 

@@ -23,7 +23,7 @@
         /// Creates an HTML style element.
         /// </summary>
         public HtmlStyleElement(Document owner, String prefix = null)
-            : base(owner, Tags.Style, prefix, NodeFlags.Special | NodeFlags.LiteralText)
+            : base(owner, TagNames.Style, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }
 
@@ -133,7 +133,7 @@
         IStyleSheet CreateSheet()
         {
             var config = Owner.Options;
-            var type = Type ?? MimeTypes.Css;
+            var type = Type ?? MimeTypeNames.Css;
             var engine = config.GetStyleEngine(type);
 
             if (engine != null)

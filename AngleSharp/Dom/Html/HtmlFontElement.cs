@@ -12,7 +12,7 @@
     sealed class HtmlFontElement : HtmlElement
     {
         public HtmlFontElement(Document owner, String prefix = null)
-            : base(owner, Tags.Font, prefix, NodeFlags.HtmlFormatting)
+            : base(owner, TagNames.Font, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

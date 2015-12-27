@@ -12,7 +12,7 @@
     sealed class HtmlDirectoryElement : HtmlElement
     {
         public HtmlDirectoryElement(Document owner, String prefix = null)
-            : base (owner, Tags.Dir, prefix, NodeFlags.Special)
+            : base (owner, TagNames.Dir, prefix, NodeFlags.Special)
         {
         }
     }

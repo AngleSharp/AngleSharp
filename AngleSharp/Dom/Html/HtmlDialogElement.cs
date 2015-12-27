@@ -18,7 +18,7 @@
         #region ctor
 
         public HtmlDialogElement(Document owner, String prefix = null)
-            : base(owner, Tags.Dialog, prefix)
+            : base(owner, TagNames.Dialog, prefix)
         {
         }
 

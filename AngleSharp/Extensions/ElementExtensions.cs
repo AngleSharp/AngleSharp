@@ -37,7 +37,7 @@
 
             foreach (var attr in element.Attributes)
             {
-                if (attr.Prefix.Is(Namespaces.XmlNsPrefix) && attr.Value.Is(namespaceUri))
+                if (attr.Prefix.Is(NamespaceNames.XmlNsPrefix) && attr.Value.Is(namespaceUri))
                 {
                     return attr.LocalName;
                 }
@@ -68,8 +68,8 @@
             }
 
             var predicate = prefix == null ? (Predicate<IAttr>)
-                (attr => (attr.NamespaceUri.Is(Namespaces.XmlNsUri) && attr.Prefix == null && attr.LocalName.Is(Namespaces.XmlNsPrefix))) :
-                (attr => (attr.NamespaceUri.Is(Namespaces.XmlNsUri) && attr.Prefix.Is(Namespaces.XmlNsPrefix) && attr.LocalName.Is(prefix)));
+                (attr => (attr.NamespaceUri.Is(NamespaceNames.XmlNsUri) && attr.Prefix == null && attr.LocalName.Is(NamespaceNames.XmlNsPrefix))) :
+                (attr => (attr.NamespaceUri.Is(NamespaceNames.XmlNsUri) && attr.Prefix.Is(NamespaceNames.XmlNsPrefix) && attr.LocalName.Is(prefix)));
 
             foreach (var attr in element.Attributes)
             {
@@ -115,7 +115,7 @@
                 return true;
             }
 
-            var nsUri = el.GetAttribute(Namespaces.XmlNsPrefix) ?? el.NamespaceUri;
+            var nsUri = el.GetAttribute(NamespaceNames.XmlNsPrefix) ?? el.NamespaceUri;
 
             if (prefix.Is(String.Empty))
             {
@@ -984,7 +984,7 @@
             var parent = img.ParentElement;
             var sources = new Stack<IHtmlSourceElement>();
 
-            if (parent != null && parent.LocalName.Is(Tags.Picture))
+            if (parent != null && parent.LocalName.Is(TagNames.Picture))
             {
                 var element = img.PreviousElementSibling as IHtmlSourceElement;
 

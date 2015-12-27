@@ -16,7 +16,7 @@
         internal XmlDocument(IBrowsingContext context, TextSource source)
             : base(context ?? BrowsingContext.New(), source)
         {
-            ContentType = MimeTypes.Xml;
+            ContentType = MimeTypeNames.Xml;
         }
 
         internal XmlDocument(IBrowsingContext context = null)

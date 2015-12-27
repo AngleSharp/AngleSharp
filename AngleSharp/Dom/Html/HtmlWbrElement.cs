@@ -14,7 +14,7 @@
         /// Creates a new HTML wbr element.
         /// </summary>
         public HtmlWbrElement(Document owner, String prefix = null)
-            : base(owner, Tags.Wbr, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Wbr, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
     }
