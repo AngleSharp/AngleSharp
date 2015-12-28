@@ -172,29 +172,29 @@
 
         #region Internal Methods
 
-        /// <summary>
-        /// Takes a text source and transforms it into a CSS sheet.
-        /// </summary>
         internal ICssStyleSheet ParseStylesheet(TextSource source)
         {
             var sheet = new CssStyleSheet(this);
             var tokenizer = CreateTokenizer(source, _config);
+            var start = tokenizer.GetCurrentPosition();
             var builder = new CssBuilder(tokenizer, this);
-            builder.CreateRules(sheet);
+            var end = builder.CreateRules(sheet);
+            var range = new TextRange(start, end);
+            sheet.SourceCode = new TextView(range, source);
             return sheet;
         }
 
-        /// <summary>
-        /// Takes a text source and populate the provided CSS sheet.
-        /// </summary>
         internal async Task<ICssStyleSheet> ParseStylesheetAsync(CssStyleSheet sheet, TextSource source)
         {
             await source.PrefetchAll(CancellationToken.None).ConfigureAwait(false);
             var tokenizer = CreateTokenizer(source, _config);
+            var start = tokenizer.GetCurrentPosition();
             var builder = new CssBuilder(tokenizer, this);
             var document = sheet.GetDocument() as Document;
             var tasks = new List<Task>();
-            builder.CreateRules(sheet);
+            var end = builder.CreateRules(sheet);
+            var range = new TextRange(start, end);
+            sheet.SourceCode = new TextView(range, source);
             
             foreach (var rule in sheet.Rules)
             {
@@ -217,9 +217,6 @@
             return sheet;
         }
 
-        /// <summary>
-        /// Takes a string and transforms it into a CSS value.
-        /// </summary>
         internal CssValue ParseValue(String valueText)
         {
             var tokenizer = CreateTokenizer(valueText, _config);
@@ -229,67 +226,41 @@
             return token.Type == CssTokenType.EndOfFile ? value : null;
         }
 
-        /// <summary>
-        /// Takes a string and transforms it into a CSS rule.
-        /// </summary>
         internal CssRule ParseRule(String ruleText)
         {
             return Parse(ruleText, (b, t) => b.CreateRule(t));
         }
 
-        /// <summary>
-        /// Takes a string and transforms it into a CSS declaration (property).
-        /// </summary>
         internal CssProperty ParseDeclaration(String declarationText)
         {
             return Parse(declarationText, (b, t) => Tuple.Create(b.CreateDeclaration(ref t), t));
         }
 
-        /// <summary>
-        /// Takes a string and transforms it into a stream of CSS media.
-        /// </summary>
         internal List<CssMedium> ParseMediaList(String mediaText)
         {
             return Parse(mediaText, (b, t) => Tuple.Create(b.CreateMedia(ref t), t));
         }
 
-        /// <summary>
-        /// Takes a string and transforms it into supports condition.
-        /// </summary>
         internal IConditionFunction ParseCondition(String conditionText)
         {
             return Parse(conditionText, (b, t) => Tuple.Create(b.CreateCondition(ref t), t));
         }
 
-        /// <summary>
-        /// Takes a string and transforms it into an enumeration of special
-        /// document functions and their arguments.
-        /// </summary>
         internal List<DocumentFunction> ParseDocumentRules(String documentText)
         {
             return Parse(documentText, (b, t) => Tuple.Create(b.CreateFunctions(ref t), t));
         }
 
-        /// <summary>
-        /// Takes a valid media string and parses the medium information.
-        /// </summary>
         internal CssMedium ParseMedium(String mediumText)
         {
             return Parse(mediumText, (b, t) => Tuple.Create(b.CreateMedium(ref t), t));
         }
 
-        /// <summary>
-        /// Takes a string and transforms it into a CSS keyframe rule.
-        /// </summary>
         internal CssKeyframeRule ParseKeyframeRule(String ruleText)
         {
             return Parse(ruleText, (b, t) => b.CreateKeyframeRule(t));
         }
 
-        /// <summary>
-        /// Takes a string and appends all rules to the given list of
-        /// properties.
-        /// </summary>
         internal void AppendDeclarations(CssStyleDeclaration style, String declarations)
         {
             var tokenizer = CreateTokenizer(declarations, _config);

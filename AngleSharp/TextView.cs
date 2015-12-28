@@ -41,7 +41,19 @@
         /// </summary>
         public String Text
         {
-            get { return _source.Text.Substring(_range.Start.Position, _range.End.Position - _range.Start.Position); }
+            get 
+            {
+                var start = _range.Start.Position;
+                var length = _range.End.Position - _range.Start.Position;
+                var text = _source.Text;
+
+                if (start + length > text.Length)
+                {
+                    length = text.Length - start;
+                }
+
+                return text.Substring(start, length);
+            }
         }
 
         #endregion
