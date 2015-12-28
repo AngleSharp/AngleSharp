@@ -123,9 +123,6 @@
     <Compile Include="..\AngleSharp\Css\Converters.cs">
       <Link>Css\Converters.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\CssNode.cs">
-      <Link>Css\CssNode.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Css\CssStyleFormatter.cs">
       <Link>Css\CssStyleFormatter.cs</Link>
     </Compile>
@@ -616,6 +613,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\CssMedium.cs">
       <Link>Dom\Css\CssMedium.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\CssNode.cs">
+      <Link>Dom\Css\CssNode.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\CssProperty.cs">
       <Link>Dom\Css\CssProperty.cs</Link>
@@ -3019,6 +3019,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\TextSource.cs">
       <Link>TextSource.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\TextView.cs">
+      <Link>TextView.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Url.cs">
       <Link>Url.cs</Link>
