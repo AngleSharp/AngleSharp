@@ -967,7 +967,7 @@ font-weight:bold;}";
             });
             var source = ".foo { color: red; } @media print { #myid { color: green; } }";
             var sheet = parser.ParseStylesheet(source);
-            var comments = sheet.ParseTree.GetComments();
+            var comments = sheet.GetComments();
             Assert.AreEqual(0, comments.Count());
         }
 
@@ -980,7 +980,7 @@ font-weight:bold;}";
             });
             var source = ".foo { /*test*/ color: red;/*test*/ } @media print { #myid { color: green; } }";
             var sheet = parser.ParseStylesheet(source);
-            var comments = sheet.ParseTree.GetComments();
+            var comments = sheet.GetComments();
             Assert.AreEqual(2, comments.Count());
 
             foreach (var comment in comments)
@@ -996,7 +996,7 @@ font-weight:bold;}";
             });
             var source = ".foo { color: red; } @media print { /*test*/ #myid { color: green; } /*test*/ }";
             var sheet = parser.ParseStylesheet(source);
-            var comments = sheet.ParseTree.GetComments();
+            var comments = sheet.GetComments();
             Assert.AreEqual(2, comments.Count());
 
             foreach (var comment in comments)
@@ -1012,7 +1012,7 @@ font-weight:bold;}";
             });
             var source = ".foo { color: red; } @media all /*test*/ and /*test*/ (min-width: 701px) /*test*/ { #myid { color: green; } }";
             var sheet = parser.ParseStylesheet(source);
-            var comments = sheet.ParseTree.GetComments();
+            var comments = sheet.GetComments();
             Assert.AreEqual(3, comments.Count());
 
             foreach (var comment in comments)
@@ -1029,7 +1029,7 @@ font-weight:bold;}";
             });
             var source = ".foo { color: red; } @media all /*test*/ and /*test*/ (min-width: 701px) /*test*/ { #myid { color: green; } }";
             var sheet = parser.ParseStylesheet(source);
-            var roundtrip = sheet.ParseTree.GetSource();
+            var roundtrip = sheet.SourceCode.Text;
             Assert.AreEqual(source, roundtrip);
         }
 
@@ -1043,7 +1043,7 @@ font-weight:bold;}";
             });
             var source = CssStyleEngine.DefaultSource.Replace(Environment.NewLine, "\n").Replace("\\A", "\\a").Replace("'", "\"");
             var sheet = parser.ParseStylesheet(source);
-            var roundtrip = sheet.ParseTree.GetSource();
+            var roundtrip = sheet.SourceCode.Text;
             Assert.AreEqual(source, roundtrip);
         }
 
@@ -1056,16 +1056,15 @@ font-weight:bold;}";
             });
             var source = ".foo { } #bar { } @media all { div { } a > b { } @media print { script[type] { } } }";
             var sheet = parser.ParseStylesheet(source);
-            var roundtrip = sheet.ParseTree.GetSource();
+            var roundtrip = sheet.SourceCode.Text;
             Assert.AreEqual(source, roundtrip);
-            var selectors = sheet.ParseTree.GetAll<ISelector>();
+            var selectors = sheet.GetAll<ISelector>();
             Assert.AreEqual(5, selectors.Count());
-            var mediaRules = sheet.ParseTree.GetAll<ICssMediaRule>();
+            var mediaRules = sheet.GetAll<ICssMediaRule>();
             Assert.AreEqual(2, mediaRules.Count());
             var descendentSelector = selectors.Skip(3).First();
             Assert.AreEqual("a>b", descendentSelector.Text);
-            var selectorNode = sheet.ParseTree.GetAssociatedNode(descendentSelector);
-            Assert.AreEqual("a > b ", selectorNode.GetSource());
+            Assert.AreEqual("a > b ", descendentSelector.SourceCode.Text);
         }
 
         [Test]
