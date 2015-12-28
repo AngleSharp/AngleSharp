@@ -11,5 +11,10 @@
         /// Gets the children of this node.
         /// </summary>
         IEnumerable<ICssNode> Children { get; }
+
+        /// <summary>
+        /// Gets the original source code, if any.
+        /// </summary>
+        TextView SourceCode { get; }
     }
 }

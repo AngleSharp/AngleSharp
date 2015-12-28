@@ -1,15 +1,12 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Represents a CSS rule.
     /// </summary>
-    abstract class CssRule : ICssRule
+    abstract class CssRule : CssNode, ICssRule
     {
         #region Fields
 
@@ -23,9 +20,6 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new CSS rule.
-        /// </summary>
         internal CssRule(CssRuleType type, CssParser parser)
         {
             _type = type;
@@ -36,11 +30,6 @@
 
         #region Properties
 
-        public IEnumerable<ICssNode> Children
-        {
-            get { return Enumerable.Empty<ICssNode>(); }
-        }
-
         public String CssText
         {
             get { return this.ToCss(); }
@@ -49,9 +38,13 @@
                 var rule = _parser.ParseRule(value);
 
                 if (rule == null)
+                {
                     throw new DomException(DomError.Syntax);
+                }
                 else if (rule.Type != _type)
+                {
                     throw new DomException(DomError.InvalidModification);
+                }
 
                 ReplaceWith(rule);
             }
@@ -85,19 +78,8 @@
 
         #endregion
 
-        #region Methods
-
-        public abstract String ToCss(IStyleFormatter formatter);
-
-        #endregion
-
         #region Internal Methods
 
-        /// <summary>
-        /// Replaces the current object with the given rule.
-        /// The types are equal.
-        /// </summary>
-        /// <param name="rule">The new rule.</param>
         protected abstract void ReplaceWith(ICssRule rule);
 
         #endregion

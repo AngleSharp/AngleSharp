@@ -1,20 +1,15 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using System;
-    using System.Collections.Generic;
 
-    sealed class NotCondition : IConditionFunction
+    sealed class NotCondition : CssNode, IConditionFunction
     {
         readonly IConditionFunction _content;
 
         public NotCondition(IConditionFunction content)
         {
             _content = content;
-        }
-
-        public IEnumerable<ICssNode> Children
-        {
-            get { return new[] { _content }; }
+            Children = new[] { _content };
         }
 
         public Boolean Check()
@@ -22,7 +17,7 @@
             return !_content.Check();
         }
 
-        public String ToCss(IStyleFormatter formatter)
+        public override String ToCss(IStyleFormatter formatter)
         {
             return String.Concat("not ", _content.ToCss(formatter));
         }

@@ -181,7 +181,6 @@
             var tokenizer = CreateTokenizer(source, _config);
             var builder = new CssBuilder(tokenizer, this);
             builder.CreateRules(sheet);
-            sheet.ParseTree = builder.Container;
             return sheet;
         }
 
@@ -196,17 +195,22 @@
             var document = sheet.GetDocument() as Document;
             var tasks = new List<Task>();
             builder.CreateRules(sheet);
-            sheet.ParseTree = builder.Container;
             
             foreach (var rule in sheet.Rules)
             {
                 if (rule.Type == CssRuleType.Charset)
+                {
                     continue;
+                }
                 else if (rule.Type != CssRuleType.Import)
+                {
                     break;
-
-                var import = (CssImportRule)rule;
-                tasks.Add(import.LoadStylesheetFrom(document));
+                }
+                else
+                {
+                    var import = (CssImportRule)rule;
+                    tasks.Add(import.LoadStylesheetFrom(document));
+                }
             }
 
             await TaskEx.WhenAll(tasks).ConfigureAwait(false);

@@ -2,13 +2,11 @@
 {
     using AngleSharp.Css;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Base class for all nth-child (or related) selectors.
     /// </summary>
-    abstract class ChildSelector : ISelector
+    abstract class ChildSelector : CssNode, ISelector
     {
         #region Fields
 
@@ -35,11 +33,6 @@
             get { return Priority.OneClass; }
         }
 
-        public IEnumerable<ICssNode> Children 
-        {
-            get { return Enumerable.Empty<ICssNode>(); }
-        }
-
         public String Text
         {
             get { return this.ToCss(); }
@@ -63,15 +56,19 @@
 
         #region String Representation
 
-        public String ToCss(IStyleFormatter formatter)
+        public override String ToCss(IStyleFormatter formatter)
         {
             var a = _step.ToString();
             var b = String.Empty;
 
             if (_offset > 0)
+            {
                 b = "+" + _offset.ToString();
+            }
             else if (_offset < 0)
+            {
                 b = _offset.ToString();
+            }
 
             return String.Format(":{0}({1}n{2})", _name, a, b);
         }

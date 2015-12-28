@@ -18,33 +18,35 @@
         {
             var parent = element.ParentElement;
 
-            if (parent == null)
-                return false;
-
-            var n = Math.Sign(_step);
-            var k = 0;
-
-            for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
+            if (parent != null)
             {
-                var child = parent.ChildNodes[i] as IHtmlTableCellElement;
+                var n = Math.Sign(_step);
+                var k = 0;
 
-                if (child == null)
-                    continue;
-
-                var span = child.ColumnSpan;
-                k += span;
-
-                if (child == element)
+                for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
                 {
-                    var diff = k - _offset;
+                    var child = parent.ChildNodes[i] as IHtmlTableCellElement;
 
-                    for (int index = 0; index < span; index++, diff--)
+                    if (child != null)
                     {
-                        if (diff == 0 || (Math.Sign(diff) == n && diff % _step == 0))
-                            return true;
-                    }
+                        var span = child.ColumnSpan;
+                        k += span;
 
-                    return false;
+                        if (child == element)
+                        {
+                            var diff = k - _offset;
+
+                            for (var index = 0; index < span; index++, diff--)
+                            {
+                                if (diff == 0 || (Math.Sign(diff) == n && diff % _step == 0))
+                                {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        }
+                    }
                 }
             }
 

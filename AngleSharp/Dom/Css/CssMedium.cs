@@ -9,7 +9,7 @@
     /// Represents a medium rule. More information available at:
     /// http://www.w3.org/TR/css3-mediaqueries/
     /// </summary>
-    sealed class CssMedium : ICssMedium
+    sealed class CssMedium : CssNode, ICssMedium
     {
         #region Media Types and Features
 
@@ -35,64 +35,39 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new CSS medium instance.
-        /// </summary>
         public CssMedium()
         {
             _features = new List<MediaFeature>();
+            Children = _features;
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets an enumerator over all included media features.
-        /// </summary>
         public IEnumerable<IMediaFeature> Features
         {
             get { return _features; }
         }
 
-        /// <summary>
-        /// Gets the contained CSS nodes.
-        /// </summary>
-        public IEnumerable<ICssNode> Children
-        {
-            get { return _features; }
-        }
-
-        /// <summary>
-        /// Gets the type of medium that is represented.
-        /// </summary>
         public String Type
         {
             get;
             internal set;
         }
 
-        /// <summary>
-        /// Gets if the medium has been created using the only keyword.
-        /// </summary>
         public Boolean IsExclusive
         {
             get;
             internal set;
         }
 
-        /// <summary>
-        /// Gets if the medium has been created using the not keyword.
-        /// </summary>
         public Boolean IsInverse
         {
             get;
             internal set;
         }
 
-        /// <summary>
-        /// Gets a string describing the covered constraints.
-        /// </summary>
         public String Constraints
         {
             get 
@@ -100,7 +75,9 @@
                 var constraints = new String[_features.Count];
 
                 for (int i = 0; i < _features.Count; i++)
+                {
                     constraints[i] = _features[i].ToCss();
+                }
 
                 return String.Join(" and ", constraints);
             }
@@ -110,51 +87,47 @@
 
         #region Methods
 
-        /// <summary>
-        /// Validates the given medium against the provided rendering device.
-        /// </summary>
-        /// <param name="device">The current render device.</param>
-        /// <returns>True if the constraints are satisfied, otherwise false.</returns>
         public Boolean Validate(RenderDevice device)
         {
             if (!String.IsNullOrEmpty(Type) && KnownTypes.Contains(Type) == IsInverse)
+            {
                 return false;
+            }
 
-            if (IsInvalid(device, Keywords.Screen, RenderDevice.Kind.Screen) ||
-                IsInvalid(device, Keywords.Speech, RenderDevice.Kind.Speech) ||
-                IsInvalid(device, Keywords.Print, RenderDevice.Kind.Printer))
+            if (IsInvalid(device))
+            {
                 return false;
+            }
 
             foreach (var feature in _features)
             {
                 if (feature.Validate(device) == IsInverse)
+                {
                     return false;
+                }
             }
 
             return true;
         }
 
-        /// <summary>
-        /// Determines whether the given object is the same.
-        /// </summary>
-        /// <param name="obj">The object to compare with.</param>
-        /// <returns>True if both are the same, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
             var other = obj as CssMedium;
 
             if (other != null && 
-                other.IsExclusive == this.IsExclusive && 
-                other.IsInverse == this.IsInverse && 
-                other.Type == this.Type && 
-                other._features.Count == this._features.Count)
+                other.IsExclusive == IsExclusive && 
+                other.IsInverse == IsInverse && 
+                other.Type == Type && 
+                other._features.Count == _features.Count)
             {
                 foreach (var feature in other._features)
                 {
-                    var shared = _features.Find(m => m.Name == feature.Name);
+                    var shared = _features.Find(m => m.Name.Is(feature.Name));
 
-                    if (shared == null || shared.Value != feature.Value)
+                    if (shared == null || !shared.Value.Is(feature.Value))
+                    {
                         return false;
+                    }
                 }
 
                 return true;
@@ -163,10 +136,6 @@
             return false;
         }
 
-        /// <summary>
-        /// Serves as the default hash function.
-        /// </summary>
-        /// <returns>The hash code of the object.</returns>
         public override Int32 GetHashCode()
         {
             return base.GetHashCode();
@@ -176,19 +145,11 @@
 
         #region Internal Methods
 
-        /// <summary>
-        /// Adds a constraint to the list of constraints.
-        /// </summary>
-        /// <param name="feature">The feature to add.</param>
         internal void AddConstraint(MediaFeature feature)
         {
             _features.Add(feature);
         }
 
-        /// <summary>
-        /// Removes a constraint from the list of constraints.
-        /// </summary>
-        /// <param name="feature">The feature to remove.</param>
         internal void RemoveConstraint(MediaFeature feature)
         {
             _features.Remove(feature);
@@ -198,17 +159,14 @@
 
         #region String Representation
 
-        /// <summary>
-        /// Returns the serialization of the node guided by the formatter.
-        /// </summary>
-        /// <param name="formatter">The formatter to use.</param>
-        /// <returns>The source code snippet.</returns>
-        public String ToCss(IStyleFormatter formatter)
+        public override String ToCss(IStyleFormatter formatter)
         {
             var constraints = new String[_features.Count];
 
             for (int i = 0; i < _features.Count; i++)
+            {
                 constraints[i] = _features[i].ToCss(formatter);
+            }
 
             return formatter.Medium(IsExclusive, IsInverse, Type, constraints);
         }
@@ -216,6 +174,13 @@
         #endregion
 
         #region Helpers
+
+        Boolean IsInvalid(RenderDevice device)
+        {
+            return IsInvalid(device, Keywords.Screen, RenderDevice.Kind.Screen) ||
+                IsInvalid(device, Keywords.Speech, RenderDevice.Kind.Speech) ||
+                IsInvalid(device, Keywords.Print, RenderDevice.Kind.Printer);
+        }
 
         Boolean IsInvalid(RenderDevice device, String keyword, RenderDevice.Kind kind)
         {

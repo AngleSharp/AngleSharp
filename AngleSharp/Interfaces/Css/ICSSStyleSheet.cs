@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Css;
     using System;
 
     /// <summary>
@@ -37,10 +36,5 @@
         /// <param name="index">The index representing the position to be removed.</param>
         [DomName("deleteRule")]
         void RemoveAt(Int32 index);
-
-        /// <summary>
-        /// Gets the CSS root node associated with the stylesheet, if any.
-        /// </summary>
-        CssNode ParseTree { get; }
     }
 }

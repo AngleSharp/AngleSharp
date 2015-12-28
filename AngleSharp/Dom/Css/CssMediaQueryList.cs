@@ -4,6 +4,9 @@
     using AngleSharp.Html;
     using System;
 
+    /// <summary>
+    /// Represents the class implementing a media query list for notifications.
+    /// </summary>
     sealed class CssMediaQueryList : EventTarget, IMediaQueryList
     {
         #region Fields
@@ -68,7 +71,9 @@
 
             //TODO use MediaQueryListEvent
             if (matched != _matched)
+            {
                 Dispatch(new Event(EventNames.Change, false, false));
+            }
 
             _matched = matched;
         }

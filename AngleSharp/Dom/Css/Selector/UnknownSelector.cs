@@ -2,24 +2,15 @@
 {
     using AngleSharp.Css;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Represents an unknown / invalid selector.
     /// </summary>
-    sealed class UnknownSelector : ISelector
+    sealed class UnknownSelector : CssNode, ISelector
     {
-        readonly String _text;
-
-        public UnknownSelector(String text)
+        public UnknownSelector(TextView source)
         {
-            _text = text;
-        }
-
-        public IEnumerable<ICssNode> Children
-        {
-            get { return Enumerable.Empty<ICssNode>(); }
+            SourceCode = source;
         }
 
         public Priority Specifity
@@ -37,9 +28,9 @@
             get { return this.ToCss(); }
         }
 
-        public String ToCss(IStyleFormatter formatter)
+        public override String ToCss(IStyleFormatter formatter)
         {
-            return _text;
+            return SourceCode.Text;
         }
     }
 }

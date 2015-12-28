@@ -21,7 +21,6 @@
         static readonly Dictionary<String, Func<FunctionState>> pseudoClassFunctions = new Dictionary<String, Func<FunctionState>>(StringComparer.OrdinalIgnoreCase);
 
         readonly Stack<CssCombinator> _combinators;
-        readonly List<CssToken> _tokens;
 
 		State _state;
         ISelector _temp;
@@ -65,7 +64,6 @@
         public CssSelectorConstructor()
         {
             _combinators = new Stack<CssCombinator>();
-            _tokens = new List<CssToken>();
 			Reset();
         }
 
@@ -100,7 +98,12 @@
         public ISelector GetResult()
         {
             if (!IsValid)
-                return new UnknownSelector(Serialize());
+            {
+                //TODO How to supply valid text view w/o text source ?
+                var range = new TextRange(TextPosition.Empty, TextPosition.Empty);
+                var view = new TextView(range, null);
+                return new UnknownSelector(view);
+            }
 
             if (_complex != null)
             {
@@ -110,9 +113,13 @@
             }
 
             if (_group == null || _group.Length == 0)
+            {
                 return _temp ?? SimpleSelector.All;
+            }
             else if (_temp == null && _group.Length == 1)
+            {
                 return _group[0];
+            }
 
             if (_temp != null)
             {
@@ -124,59 +131,43 @@
         }
 
         /// <summary>
-        /// Tries to serialize the current selector.
-        /// </summary>
-        /// <returns>The approximate selector text.</returns>
-        String Serialize()
-        {
-            var sb = Pool.NewStringBuilder();
-
-            foreach (var token in _tokens)
-                sb.Append(token.ToValue());
-
-            return sb.ToPool();
-        }
-
-        /// <summary>
         /// Picks a simple selector from the stream of tokens.
         /// </summary>
         /// <param name="token">The stream of tokens to consider.</param>
         public void Apply(CssToken token)
         {
-            if (token.Type == CssTokenType.Comment)
-                return;
-
-            _tokens.Add(token);
-
-			switch (_state)
-			{
-				case State.Data:
-					OnData(token);
-                    break;
-				case State.Class:
-					OnClass(token);
-                    break;
-                case State.Attribute:
-					OnAttribute(token);
-                    break;
-                case State.AttributeOperator:
-					OnAttributeOperator(token);
-                    break;
-                case State.AttributeValue:
-					OnAttributeValue(token);
-                    break;
-                case State.AttributeEnd:
-					OnAttributeEnd(token);
-                    break;
-                case State.PseudoClass:
-					OnPseudoClass(token);
-                    break;
-                case State.PseudoElement:
-					OnPseudoElement(token);
-                    break;
-                default:
-                    _valid = false;
-                    break;
+            if (token.Type != CssTokenType.Comment)
+            {
+                switch (_state)
+                {
+                    case State.Data:
+                        OnData(token);
+                        break;
+                    case State.Class:
+                        OnClass(token);
+                        break;
+                    case State.Attribute:
+                        OnAttribute(token);
+                        break;
+                    case State.AttributeOperator:
+                        OnAttributeOperator(token);
+                        break;
+                    case State.AttributeValue:
+                        OnAttributeValue(token);
+                        break;
+                    case State.AttributeEnd:
+                        OnAttributeEnd(token);
+                        break;
+                    case State.PseudoClass:
+                        OnPseudoClass(token);
+                        break;
+                    case State.PseudoElement:
+                        OnPseudoElement(token);
+                        break;
+                    default:
+                        _valid = false;
+                        break;
+                }
             }
         }
 
@@ -192,7 +183,6 @@
 			_attrOp = String.Empty;
 			_state = State.Data;
 			_combinators.Clear();
-            _tokens.Clear();
 			_temp = null;
 			_group = null;
 			_complex = null;
