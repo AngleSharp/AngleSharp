@@ -222,7 +222,9 @@
             var color = default(Color);
 
             if (_colors.TryGetValue(name, out color))
+            {
                 return color;
+            }
 
             return null;
         }
@@ -237,7 +239,9 @@
             foreach (var pair in _colors)
             {
                 if (pair.Value.Equals(color))
+                {
                     return pair.Key;
+                }
             }
 
             return null;

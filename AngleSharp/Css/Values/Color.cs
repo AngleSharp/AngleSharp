@@ -592,7 +592,7 @@
         {
             if (_alpha == 255)
             {
-                var arguments = String.Join(", ", new []
+                var arguments = String.Join(", ", new[]
                 {
                     R.ToString(format, formatProvider),
                     G.ToString(format, formatProvider),
@@ -602,7 +602,7 @@
             }
             else
             {
-                var arguments = String.Join(", ", new []
+                var arguments = String.Join(", ", new[]
                 {
                     R.ToString(format, formatProvider),
                     G.ToString(format, formatProvider),

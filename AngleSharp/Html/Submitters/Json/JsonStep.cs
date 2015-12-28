@@ -86,7 +86,7 @@
 
         static IEnumerable<JsonStep> FailedJsonSteps(String original)
         {
-            return new [] { new ObjectStep(original) };
+            return new[] { new ObjectStep(original) };
         }
 
         protected abstract JsonElement CreateElement();

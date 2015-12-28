@@ -543,7 +543,7 @@
         /// </summary>
         public static readonly String MultipartForm = "multipart/form-data";
 
-        static readonly String[] commonJsTypes = new [] 
+        static readonly String[] commonJsTypes = new[] 
         { 
             "application/ecmascript",
             "application/javascript",
