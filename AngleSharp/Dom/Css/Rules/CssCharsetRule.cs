@@ -20,9 +20,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets the encoding information set by this rule.
-        /// </summary>
         public String CharacterSet
         {
             get;

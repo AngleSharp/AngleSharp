@@ -22,51 +22,36 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new CSS import rule
-        /// </summary>
         internal CssImportRule(CssParser parser)
             : base(CssRuleType.Import, parser)
         {
             _media = new MediaList(parser);
+            Children = new[] { _media };
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets the location of the style sheet to be imported. 
-        /// </summary>
         public String Href
         {
             get { return _href; }
             set { _href = value; }
         }
 
-        /// <summary>
-        /// Gets a list of media types for which this style sheet may be used.
-        /// </summary>
+        public MediaList Media
+        {
+            get { return _media; }
+        }
+
         IMediaList ICssImportRule.Media
         {
             get { return _media; }
         }
 
-        /// <summary>
-        /// Gets the style sheet referred to by this rule, if it has been loaded. 
-        /// </summary>
         public ICssStyleSheet Sheet
         {
             get { return _styleSheet; }
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        internal MediaList Media
-        {
-            get { return _media; }
         }
 
         #endregion
@@ -127,7 +112,9 @@
             var owner = (IStyleSheet)Owner;
 
             while (owner != null && !owner.Href.Is(href))
+            {
                 owner = owner.Parent;
+            }
 
             return owner != null;
         }

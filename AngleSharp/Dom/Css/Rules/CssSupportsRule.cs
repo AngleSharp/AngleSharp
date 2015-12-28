@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents an @supports rule.
@@ -21,35 +22,29 @@
             : base(CssRuleType.Supports, parser)
         {
             _condition = new EmptyCondition();
+            Children = GetChildren();
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the text of the condition of the supports rule.
-        /// </summary>
         public String ConditionText
         {
-            get 
-            {
-                return _condition.ToCss(); 
-            }
+            get { return _condition.ToCss(); }
             set
             {
                 var condition = Parser.ParseCondition(value);
 
                 if (condition == null)
+                {
                     throw new DomException(DomError.Syntax);
+                }
 
                 _condition = condition;
             }
         }
 
-        /// <summary>
-        /// Gets the condition of the supports rule.
-        /// </summary>
         public IConditionFunction Condition
         {
             get { return _condition; }
@@ -67,6 +62,11 @@
             }
         }
 
+        internal override Boolean IsValid(RenderDevice device)
+        {
+            return _condition.Check();
+        }
+
         protected override void ReplaceWith(ICssRule rule)
         {
             base.ReplaceWith(rule);
@@ -74,9 +74,9 @@
             ConditionText = newRule.ConditionText;
         }
 
-        internal override Boolean IsValid(RenderDevice device)
+        IEnumerable<ICssNode> GetChildren()
         {
-            return _condition.Check();
+            yield return _condition;
         }
 
         #endregion

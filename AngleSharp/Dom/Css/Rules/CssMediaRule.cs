@@ -64,10 +64,7 @@
 
         IEnumerable<ICssNode> GetChildren()
         {
-            foreach (var medium in _media)
-            {
-                yield return medium;
-            }
+            yield return _media;
 
             foreach (var rule in Rules)
             {

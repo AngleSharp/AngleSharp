@@ -19,31 +19,23 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new @keyframes rule.
-        /// </summary>
         internal CssKeyframesRule(CssParser parser)
             : base(CssRuleType.Keyframes, parser)
         {
             _rules = new CssRuleList();
+            Children = _rules;
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the name of the animation, used by the animation-name property.
-        /// </summary>
         public String Name
         {
             get { return _name; }
             set { _name = value; }
         }
 
-        /// <summary>
-        /// Gets a CSSRuleList of the CSS rules in the media rule.
-        /// </summary>
         public CssRuleList Rules
         {
             get { return _rules; }
@@ -58,42 +50,29 @@
 
         #region Methods
 
-        /// <summary>
-        /// Inserts a new keyframe rule into the current CSSKeyframesRule.
-        /// </summary>
-        /// <param name="rule">A string containing a keyframe in the same format as an entry of a @keyframes at-rule.</param>
         public void Add(String rule)
         {
             var value = Parser.ParseKeyframeRule(rule);
             _rules.Insert(value, _rules.Length, Owner, this);
         }
 
-        /// <summary>
-        /// Deletes a keyframe rule from the current CSSKeyframesRule. 
-        /// </summary>
-        /// <param name="key">The index of the keyframe to be deleted, expressed as a string resolving as a number between 0 and 1.</param>
         public void Remove(String key)
         {
             var element = Find(key);
 
-            if (element == null)
-                return;
-
-            for (int i = 0; i < _rules.Length; i++)
+            if (element != null)
             {
-                if (element == _rules[i])
+                for (var i = 0; i < _rules.Length; i++)
                 {
-                    _rules.RemoveAt(i);
-                    break;
+                    if (element == _rules[i])
+                    {
+                        _rules.RemoveAt(i);
+                        break;
+                    }
                 }
             }
         }
 
-        /// <summary>
-        /// Returns a keyframe rule corresponding to the given key.
-        /// </summary>
-        /// <param name="key">A string containing an index of the keyframe to be returned, resolving to a number between 0 and 1.</param>
-        /// <returns>The keyframe or null.</returns>
         public ICssKeyframeRule Find(String key)
         {
             return _rules.OfType<ICssKeyframeRule>().FirstOrDefault(m => key.Isi(m.KeyText));

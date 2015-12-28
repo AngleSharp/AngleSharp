@@ -1,10 +1,14 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// Represents the base class for all style-rule similar rules.
+    /// </summary>
     abstract class CssDeclarationRule : CssRule
     {
         #region Fields
@@ -16,14 +20,12 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new @-rule storing declarations.
-        /// </summary>
         internal CssDeclarationRule(CssRuleType type, String name, CssParser parser)
             : base(type, parser)
         {
             _declarations = new List<CssProperty>();
             _name = name;
+            Children = _declarations;
         }
 
         #endregion
@@ -32,9 +34,9 @@
 
         internal void SetProperty(CssProperty property)
         {
-            for (int i = 0; i < _declarations.Count; i++)
+            for (var i = 0; i < _declarations.Count; i++)
             {
-                if (_declarations[i].Name == property.Name)
+                if (_declarations[i].Name.Is(property.Name))
                 {
                     _declarations[i] = property;
                     return;
@@ -70,8 +72,10 @@
         {
             foreach (var declaration in _declarations)
             {
-                if (declaration.HasValue && declaration.Name == propertyName)
+                if (declaration.HasValue && declaration.Name.Is(propertyName))
+                {
                     return declaration.Value;
+                }
             }
 
             return String.Empty;
@@ -81,7 +85,7 @@
         {
             foreach (var declaration in _declarations)
             {
-                if (declaration.Name == propertyName)
+                if (declaration.Name.Is(propertyName))
                 {
                     var value = Parser.ParseValue(valueText);
                     declaration.TrySetValue(value);

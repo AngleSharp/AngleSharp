@@ -18,9 +18,6 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new @namespace rule.
-        /// </summary>
         internal CssNamespaceRule(CssParser parser)
             : base(CssRuleType.Namespace, parser)
         {
@@ -30,10 +27,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets a string containing the text of the
-        /// URI of the given namespace.
-        /// </summary>
         public String NamespaceUri
         {
             get { return _namespaceUri; }
@@ -44,11 +37,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets or sets a string with the name of the prefix
-        /// associated to this namespace. If there is no such
-        /// prefix, returns null.
-        /// </summary>
         public String Prefix
         {
             get { return _prefix; }
@@ -72,7 +60,23 @@
 
         #endregion
 
+        #region String Representation
+
+        public override String ToCss(IStyleFormatter formatter)
+        {
+            var space = String.IsNullOrEmpty(_prefix) ? String.Empty : " ";
+            var value = String.Concat(_prefix, space, _namespaceUri.CssUrl());
+            return formatter.Rule("@namespace", value);
+        }
+
+        #endregion
+
         #region Helpers
+
+        static Boolean IsNotSupported(CssRuleType type)
+        {
+            return type != CssRuleType.Charset && type != CssRuleType.Import && type != CssRuleType.Namespace;
+        }
 
         void CheckValidity()
         {
@@ -83,21 +87,12 @@
             {
                 foreach (var entry in list)
                 {
-                    if (entry.Type != CssRuleType.Charset && entry.Type != CssRuleType.Import && entry.Type != CssRuleType.Namespace)
+                    if (IsNotSupported(entry.Type))
+                    {
                         throw new DomException(DomError.InvalidState);
+                    }
                 }
             }
-        }
-
-        #endregion
-
-        #region String Representation
-
-        public override String ToCss(IStyleFormatter formatter)
-        {
-            var space = String.IsNullOrEmpty(_prefix) ? String.Empty : " ";
-            var value = String.Concat(_prefix, space, _namespaceUri.CssUrl());
-            return formatter.Rule("@namespace", value);
         }
 
         #endregion
