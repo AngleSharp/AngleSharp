@@ -12,7 +12,7 @@
     /// Represents a list of media elements.
     /// </summary>
     [DebuggerStepThrough]
-    sealed class MediaList : IMediaList
+    sealed class MediaList : CssNode, IMediaList
     {
         #region Fields
 
@@ -27,6 +27,7 @@
         {
             _parser = parser;
             _media = new List<CssMedium>();
+            Children = _media;
         }
 
         #endregion
@@ -53,17 +54,7 @@
 
         public String MediaText
         {
-            get
-            {
-                var parts = new String[_media.Count];
-
-                for (var i = 0; i < _media.Count; i++)
-                {
-                    parts[i] = _media[i].ToCss();
-                }
-
-                return String.Join(", ", parts);
-            }
+            get { return this.ToCss(); }
             set
             {
                 _media.Clear();
@@ -83,6 +74,18 @@
         #endregion
 
         #region Methods
+
+        public override String ToCss(IStyleFormatter formatter)
+        {
+            var parts = new String[_media.Count];
+
+            for (var i = 0; i < _media.Count; i++)
+            {
+                parts[i] = _media[i].ToCss(formatter);
+            }
+
+            return String.Join(", ", parts);
+        }
 
         public Boolean Validate(RenderDevice device)
         {
