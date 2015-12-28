@@ -2,6 +2,7 @@
 {
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS style rule.
@@ -17,32 +18,24 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new CSS style rule.
-        /// </summary>
         internal CssStyleRule(CssParser parser)
             : base(CssRuleType.Style, parser)
         {
             _style = new CssStyleDeclaration(this);
             _selector = SimpleSelector.All;
+            Children = GetChildren();
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the selector for matching elements.
-        /// </summary>
         public ISelector Selector
         {
             get { return _selector; }
             set { _selector = value; }
         }
 
-        /// <summary>
-        /// Gets or sets the textual representation of the selector for this rule, e.g. "h1,h2".
-        /// </summary>
         public String SelectorText
         {
             get { return _selector.Text; }
@@ -55,9 +48,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets the CSSStyleDeclaration object for the rule.
-        /// </summary>
         ICssStyleDeclaration ICssStyleRule.Style
         {
             get { return _style; }
@@ -78,6 +68,12 @@
             _selector = newRule._selector;
             _style.Clear();
             _style.SetDeclarations(newRule._style.Declarations);
+        }
+
+        IEnumerable<ICssNode> GetChildren()
+        {
+            yield return _selector;
+            yield return _style;
         }
 
         #endregion

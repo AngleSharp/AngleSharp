@@ -4,6 +4,7 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS @media rule.
@@ -18,41 +19,29 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new CSS @media rule with a new media list.
-        /// </summary>
         internal CssMediaRule(CssParser parser)
             : base(CssRuleType.Media, parser)
         {
             _media = new MediaList(parser);
+            Children = GetChildren();
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the media condition.
-        /// </summary>
         public String ConditionText
         {
             get { return _media.MediaText; }
             set { _media.MediaText = value; }
         }
 
-        /// <summary>
-        /// Gets a list of media types for this rule.
-        /// </summary>
-        IMediaList ICssMediaRule.Media
+        public MediaList Media
         {
             get { return _media; }
         }
 
-        #endregion
-
-        #region Internal Properties
-
-        internal MediaList Media
+        IMediaList ICssMediaRule.Media
         {
             get { return _media; }
         }
@@ -71,6 +60,19 @@
         internal override Boolean IsValid(RenderDevice device)
         {
             return _media.Validate(device);
+        }
+
+        IEnumerable<ICssNode> GetChildren()
+        {
+            foreach (var medium in _media)
+            {
+                yield return medium;
+            }
+
+            foreach (var rule in Rules)
+            {
+                yield return rule;
+            }
         }
 
         #endregion

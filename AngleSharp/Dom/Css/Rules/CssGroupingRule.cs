@@ -16,22 +16,17 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new CSS grouping rule.
-        /// </summary>
         internal CssGroupingRule(CssRuleType type, CssParser parser)
             : base(type, parser)
         {
             _rules = new CssRuleList();
+            Children = _rules;
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets a list of all CSS rules contained within the grouping block.
-        /// </summary>
         public CssRuleList Rules
         {
             get { return _rules; }
@@ -46,22 +41,6 @@
 
         #region Methods
 
-        /// <summary>
-        /// Used to insert a new rule into the media block.
-        /// </summary>
-        /// <param name="rule">
-        /// The parsable text representing the rule. For rule sets this contains
-        /// both the selector and the style declaration. For at-rules, this
-        /// specifies both the at-identifier and the rule content.
-        /// </param>
-        /// <param name="index">
-        /// The index within the media block's rule collection of the rule before
-        /// which to insert the specified rule.
-        /// </param>
-        /// <returns>
-        /// The index within the media block's rule collection of the newly
-        /// inserted rule.
-        /// </returns>
         public Int32 Insert(String rule, Int32 index)
         {
             var value = Parser.ParseRule(rule);
@@ -69,12 +48,6 @@
             return index;    
         }
 
-        /// <summary>
-        /// Used to delete a rule from the media block.
-        /// </summary>
-        /// <param name="index">
-        /// The index within the media block's rule collection of the rule to remove.
-        /// </param>
         public void RemoveAt(Int32 index)
         {
             _rules.RemoveAt(index);
