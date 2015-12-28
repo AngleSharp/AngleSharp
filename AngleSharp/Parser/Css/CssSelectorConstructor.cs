@@ -18,7 +18,22 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, Func<FunctionState>> pseudoClassFunctions = new Dictionary<String, Func<FunctionState>>(StringComparer.OrdinalIgnoreCase);
+        static readonly Dictionary<String, Func<FunctionState>> pseudoClassFunctions = new Dictionary<String, Func<FunctionState>>(StringComparer.OrdinalIgnoreCase)
+        {
+            { PseudoClassNames.NthChild, () => new ChildFunctionState<FirstChildSelector>(withOptionalSelector: true) },
+            { PseudoClassNames.NthLastChild, () => new ChildFunctionState<LastChildSelector>(withOptionalSelector: true) },
+            { PseudoClassNames.NthOfType, () => new ChildFunctionState<FirstTypeSelector>(withOptionalSelector: false) },
+            { PseudoClassNames.NthLastOfType, () => new ChildFunctionState<LastTypeSelector>(withOptionalSelector: false) },
+            { PseudoClassNames.NthColumn, () => new ChildFunctionState<FirstColumnSelector>(withOptionalSelector: false) },
+            { PseudoClassNames.NthLastColumn, () => new ChildFunctionState<LastColumnSelector>(withOptionalSelector: false) },
+            { PseudoClassNames.Not, () => new NotFunctionState() },
+            { PseudoClassNames.Dir, () => new DirFunctionState() },
+            { PseudoClassNames.Lang, () => new LangFunctionState() },
+            { PseudoClassNames.Contains, () => new ContainsFunctionState() },
+            { PseudoClassNames.Has, () => new HasFunctionState() },
+            { PseudoClassNames.Matches, () => new MatchesFunctionState() },
+            { PseudoClassNames.HostContext, () => new HostContextFunctionState() },
+        };
 
         readonly Stack<CssCombinator> _combinators;
 
@@ -35,32 +50,8 @@
 
         #endregion
 
-        #region Initialization
-
-        static CssSelectorConstructor()
-        {
-            pseudoClassFunctions.Add(PseudoClassNames.NthChild, () => new ChildFunctionState<FirstChildSelector>(withOptionalSelector: true));
-            pseudoClassFunctions.Add(PseudoClassNames.NthLastChild, () => new ChildFunctionState<LastChildSelector>(withOptionalSelector: true));
-            pseudoClassFunctions.Add(PseudoClassNames.NthOfType, () => new ChildFunctionState<FirstTypeSelector>(withOptionalSelector: false));
-            pseudoClassFunctions.Add(PseudoClassNames.NthLastOfType, () => new ChildFunctionState<LastTypeSelector>(withOptionalSelector: false));
-            pseudoClassFunctions.Add(PseudoClassNames.NthColumn, () => new ChildFunctionState<FirstColumnSelector>(withOptionalSelector: false));
-            pseudoClassFunctions.Add(PseudoClassNames.NthLastColumn, () => new ChildFunctionState<LastColumnSelector>(withOptionalSelector: false));
-            pseudoClassFunctions.Add(PseudoClassNames.Not, () => new NotFunctionState());
-            pseudoClassFunctions.Add(PseudoClassNames.Dir, () => new DirFunctionState());
-            pseudoClassFunctions.Add(PseudoClassNames.Lang, () => new LangFunctionState());
-            pseudoClassFunctions.Add(PseudoClassNames.Contains, () => new ContainsFunctionState());
-            pseudoClassFunctions.Add(PseudoClassNames.Has, () => new HasFunctionState());
-            pseudoClassFunctions.Add(PseudoClassNames.Matches, () => new MatchesFunctionState());
-            pseudoClassFunctions.Add(PseudoClassNames.HostContext, () => new HostContextFunctionState());
-        }
-
-        #endregion
-
         #region ctor
 
-        /// <summary>
-        /// Creates a new constructor object.
-        /// </summary>
         public CssSelectorConstructor()
         {
             _combinators = new Stack<CssCombinator>();
@@ -71,17 +62,11 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets if the stored selector is valid.
-        /// </summary>
         public Boolean IsValid
         {
             get { return _valid && _ready; }
         }
 
-        /// <summary>
-        /// Gets if the stored selector is nested below another selector.
-        /// </summary>
         public Boolean IsNested
         {
             get;
@@ -92,17 +77,11 @@
 
         #region Methods
 
-        /// <summary>
-        /// Gets the currently formed selector.
-        /// </summary>
         public ISelector GetResult()
         {
             if (!IsValid)
             {
-                //TODO How to supply valid text view w/o text source ?
-                var range = new TextRange(TextPosition.Empty, TextPosition.Empty);
-                var view = new TextView(range, null);
-                return new UnknownSelector(view);
+                return new UnknownSelector();
             }
 
             if (_complex != null)
@@ -130,10 +109,6 @@
             return _group;
         }
 
-        /// <summary>
-        /// Picks a simple selector from the stream of tokens.
-        /// </summary>
-        /// <param name="token">The stream of tokens to consider.</param>
         public void Apply(CssToken token)
         {
             if (token.Type != CssTokenType.Comment)
@@ -171,10 +146,6 @@
             }
         }
 
-		/// <summary>
-		/// Resets the current state.
-		/// </summary>
-		/// <returns>The current instance.</returns>
 		public CssSelectorConstructor Reset()
 		{
 			_attrName = null;
@@ -196,11 +167,6 @@
 
 		#region States
 
-		/// <summary>
-		/// General state.
-		/// </summary>
-        /// <param name="token">The token to examine.</param>
-        /// <returns>True if no error occurred, otherwise false.</returns>
 		void OnData(CssToken token)
 		{
 			switch (token.Type)
@@ -254,117 +220,99 @@
             }
 		}
 
-		/// <summary>
-		/// Invoked once a square bracket has been found in the token enumerator.
-		/// </summary>
-        /// <param name="token">The token.</param>
 		void OnAttribute(CssToken token)
 		{
-			if (token.Type == CssTokenType.Whitespace)
-				return;
-            
-			if (token.Type == CssTokenType.Ident || token.Type == CssTokenType.String)
+			if (token.Type != CssTokenType.Whitespace)
             {
-                _state = State.AttributeOperator;
-                _attrName = token.Data;
-            }
-            else if (token.Type == CssTokenType.Delim && token.ToValue() == "|")
-            {
-                _state = State.Attribute;
-                _attrNs = String.Empty;
-            }
-            else if (token.Type == CssTokenType.Delim && token.ToValue() == "*")
-            {
-                _state = State.AttributeOperator;
-                _attrName = token.ToValue();
-            }
-            else
-            {
-                _state = State.Data;
-                _valid = false;
-            }
-		}
-
-		/// <summary>
-		/// Invoked once a square bracket has been found in the token enumerator.
-		/// </summary>
-        /// <param name="token">The token.</param>
-		void OnAttributeOperator(CssToken token)
-		{
-			if (token.Type == CssTokenType.Whitespace)
-				return;
-
-			if (token.Type == CssTokenType.SquareBracketClose)
-            {
-                _state = State.AttributeValue;
-                OnAttributeEnd(token);
-            }
-            else if (token.Type == CssTokenType.Match || token.Type == CssTokenType.Delim)
-            {
-                _state = State.AttributeValue;
-                _attrOp = token.ToValue();
-
-                if (_attrOp == "|")
+                if (token.Type == CssTokenType.Ident || token.Type == CssTokenType.String)
                 {
-                    _attrNs = _attrName;
-                    _attrName = null;
-                    _attrOp = String.Empty;
+                    _state = State.AttributeOperator;
+                    _attrName = token.Data;
+                }
+                else if (token.Type == CssTokenType.Delim && token.ToValue() == "|")
+                {
                     _state = State.Attribute;
+                    _attrNs = String.Empty;
+                }
+                else if (token.Type == CssTokenType.Delim && token.ToValue() == "*")
+                {
+                    _state = State.AttributeOperator;
+                    _attrName = token.ToValue();
+                }
+                else
+                {
+                    _state = State.Data;
+                    _valid = false;
                 }
             }
-            else
+		}
+
+		void OnAttributeOperator(CssToken token)
+		{
+            if (token.Type != CssTokenType.Whitespace)
             {
-                _state = State.AttributeEnd;
-                _valid = false;
+                if (token.Type == CssTokenType.SquareBracketClose)
+                {
+                    _state = State.AttributeValue;
+                    OnAttributeEnd(token);
+                }
+                else if (token.Type == CssTokenType.Match || token.Type == CssTokenType.Delim)
+                {
+                    _state = State.AttributeValue;
+                    _attrOp = token.ToValue();
+
+                    if (_attrOp == "|")
+                    {
+                        _attrNs = _attrName;
+                        _attrName = null;
+                        _attrOp = String.Empty;
+                        _state = State.Attribute;
+                    }
+                }
+                else
+                {
+                    _state = State.AttributeEnd;
+                    _valid = false;
+                }
             }
 		}
 
-		/// <summary>
-		/// Invoked once a square bracket has been found in the token enumerator.
-		/// </summary>
-        /// <param name="token">The token.</param>
 		void OnAttributeValue(CssToken token)
 		{
-			if (token.Type == CssTokenType.Whitespace)
-				return;
-            
-			if (token.Type == CssTokenType.Ident || token.Type == CssTokenType.String || token.Type == CssTokenType.Number)
+            if (token.Type != CssTokenType.Whitespace)
             {
-                _state = State.AttributeEnd;
-                _attrValue = token.Data;
-            }
-            else
-            {
-                _state = State.Data;
-                _valid = false;
+                if (token.Type == CssTokenType.Ident || token.Type == CssTokenType.String || token.Type == CssTokenType.Number)
+                {
+                    _state = State.AttributeEnd;
+                    _attrValue = token.Data;
+                }
+                else
+                {
+                    _state = State.Data;
+                    _valid = false;
+                }
             }
 		}
 
-		/// <summary>
-		/// Invoked once a square bracket has been found in the token enumerator.
-		/// </summary>
-        /// <param name="token">The token.</param>
 		void OnAttributeEnd(CssToken token)
 		{
-			if (token.Type == CssTokenType.Whitespace)
-				return;
-
-			_state = State.Data;
-            _ready = true;
-
-            if (token.Type == CssTokenType.SquareBracketClose)
+            if (token.Type != CssTokenType.Whitespace)
             {
-                var selector = CreateAttrSelector();
-                Insert(selector);
+                _state = State.Data;
+                _ready = true;
+
+                if (token.Type == CssTokenType.SquareBracketClose)
+                {
+                    var selector = CreateAttrSelector();
+                    Insert(selector);
+                }
+                else
+                {
+                    _valid = false;
+                }
             }
-            else            
-                _valid = false;
         }
 
-        /// <summary>
-        /// Creates an attribute selector using the current state.
-        /// </summary>
-        /// <returns>The created selector.</returns>
         SimpleSelector CreateAttrSelector()
         {
             switch (_attrOp)
@@ -388,10 +336,6 @@
             }
         }
 
-		/// <summary>
-		/// Invoked once a colon has been found in the token enumerator.
-		/// </summary>
-        /// <param name="token">The token.</param>
 		void OnPseudoClass(CssToken token)
 		{
 			_state = State.Data;
@@ -426,10 +370,6 @@
             _valid = false;
 		}
 
-		/// <summary>
-		/// Invoked once a colon has been found in the token enumerator.
-		/// </summary>
-        /// <param name="token">The token.</param>
 		void OnPseudoElement(CssToken token)
         {
             _state = State.Data;
@@ -441,9 +381,7 @@
 
                 if (sel != null)
                 {
-                    if (IsNested)
-                        _valid = false;
-
+                    _valid = _valid && !IsNested;
                     Insert(sel);
                     return;
                 }
@@ -452,34 +390,33 @@
             _valid = false;
 		}
 
-		/// <summary>
-		/// Invoked once a colon has been found in the token enumerator.
-		/// </summary>
-        /// <param name="token">The token.</param>
 		void OnClass(CssToken token)
 		{
 			_state = State.Data;
             _ready = true;
 
             if (token.Type == CssTokenType.Ident)
+            {
                 Insert(SimpleSelector.Class(token.Data));
+            }
             else
+            {
                 _valid = false;
+            }
 		}
 
 		#endregion
 
 		#region Insertations
 
-		/// <summary>
-        /// Inserts a comma.
-        /// </summary>
         void InsertOr()
         {
             if (_temp != null)
             {
                 if (_group == null)
+                {
                     _group = new ListSelector();
+                }
 
                 if (_complex != null)
                 {
@@ -488,16 +425,14 @@
                     _complex = null;
                 }
                 else
+                {
                     _group.Add(_temp);
+                }
 
                 _temp = null;
             }
         }
 
-        /// <summary>
-        /// Inserts the given selector.
-        /// </summary>
-        /// <param name="selector">The selector to insert.</param>
         void Insert(ISelector selector)
         {
             if (_temp != null)
@@ -518,7 +453,9 @@
                 else
                 {
                     if (_complex == null)
+                    {
                         _complex = new ComplexSelector();
+                    }
 
                     var combinator = GetCombinator();
                     _complex.AppendSelector(_temp, combinator);
@@ -536,7 +473,9 @@
         {
             //Remove all trailing whitespaces
             while (_combinators.Count > 1 && _combinators.Peek() == CssCombinator.Descendent)
+            {
                 _combinators.Pop();
+            }
 
             if (_combinators.Count > 1)
             {
@@ -547,9 +486,13 @@
                 if (last == CssCombinator.Child && previous == CssCombinator.Child)
                 {
                     if (_combinators.Count == 0 || _combinators.Peek() != CssCombinator.Child)
+                    {
                         last = CssCombinator.Descendent;
+                    }
                     else if (_combinators.Pop() == CssCombinator.Child)
+                    {
                         last = CssCombinator.Deep;
+                    }
                 }
                 else if (last == CssCombinator.Namespace && previous == CssCombinator.Namespace)
                 {
@@ -562,7 +505,9 @@
 
                 //Remove all leading whitespaces, invalid if mixed
                 while (_combinators.Count > 0)
+                {
                     _valid = _combinators.Pop() == CssCombinator.Descendent && _valid;
+                }
 
                 return last;
             }
@@ -570,10 +515,6 @@
             return _combinators.Pop();
         }
 
-        /// <summary>
-        /// Inserts the given combinator.
-        /// </summary>
-        /// <param name="cssCombinator">The combinator to insert.</param>
         void Insert(CssCombinator cssCombinator)
         {
             _combinators.Push(cssCombinator);
@@ -583,11 +524,6 @@
 
 		#region Substates
 
-		/// <summary>
-		/// Invoked once a delimiter has been found in the token enumerator.
-		/// </summary>
-        /// <param name="token">The token.</param>
-        /// <returns>True if no error occurred, otherwise false.</returns>
 		void OnDelim(CssToken token)
 		{
 			switch (token.Data[0])
@@ -624,7 +560,9 @@
 
                 case Symbols.Pipe:
                     if (_combinators.Count > 0 && _combinators.Peek() == CssCombinator.Descendent)
+                    {
                         Insert(SimpleSelector.Type(String.Empty));
+                    }
 
                     Insert(CssCombinator.Namespace);
                     _ready = false;
@@ -636,13 +574,9 @@
             }
 		}
 
-        /// <summary>
-        /// Invoked once a colon with an identifier has been found in the token enumerator.
-        /// </summary>
-        /// <returns>The created function state.</returns>
         ISelector GetPseudoFunction(CssFunctionToken arguments)
         {
-            Func<FunctionState> creator;
+            var creator = default(Func<FunctionState>);
 
             if (pseudoClassFunctions.TryGetValue(arguments.Data, out creator))
             {
@@ -656,7 +590,9 @@
                         var sel = function.Produce();
 
                         if (IsNested && function is NotFunctionState)
+                        {
                             sel = null;
+                        }
 
                         _ready = true;
                         return sel;
@@ -761,7 +697,9 @@
                 var sel = _nested.ToPool();
 
                 if (!valid)
+                {
                     return null;
+                }
 
                 return SimpleSelector.PseudoClass(el => el.ChildNodes.QuerySelector(sel) != null, String.Concat(PseudoClassNames.Has, "(", sel.Text, ")"));
             }
@@ -793,7 +731,9 @@
                 var sel = _nested.ToPool();
 
                 if (!valid)
+                {
                     return null;
+                }
 
                 return SimpleSelector.PseudoClass(el => sel.Match(el), String.Concat(PseudoClassNames.Matches, "(", sel.Text, ")"));
             }
@@ -813,11 +753,17 @@
             protected override Boolean OnToken(CssToken token)
             {
                 if (token.Type == CssTokenType.Ident)
+                {
                     value = token.Data;
+                }
                 else if (token.Type == CssTokenType.RoundBracketClose)
+                {
                     return true;
+                }
                 else if (token.Type != CssTokenType.Whitespace)
+                {
                     valid = false;
+                }
 
                 return false;
             }
@@ -825,7 +771,9 @@
             public override ISelector Produce()
             {
                 if (!valid || value == null)
+                {
                     return null;
+                }
 
                 var code = String.Concat(PseudoClassNames.Dir, "(", value, ")");
                 return SimpleSelector.PseudoClass(el => el is IHtmlElement && value.Isi(((IHtmlElement)el).Direction), code);
@@ -846,11 +794,17 @@
             protected override Boolean OnToken(CssToken token)
             {
                 if (token.Type == CssTokenType.Ident)
+                {
                     value = token.Data;
+                }
                 else if (token.Type == CssTokenType.RoundBracketClose)
+                {
                     return true;
+                }
                 else if (token.Type != CssTokenType.Whitespace)
+                {
                     valid = false;
+                }
 
                 return false;
             }
@@ -858,7 +812,9 @@
             public override ISelector Produce()
             {
                 if (!valid || value == null)
+                {
                     return null;
+                }
 
                 var code = String.Concat(PseudoClassNames.Lang, "(", value, ")");
                 return SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Language.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
@@ -879,11 +835,17 @@
             protected override Boolean OnToken(CssToken token)
             {
                 if (token.Type == CssTokenType.Ident || token.Type == CssTokenType.String)
+                {
                     value = token.Data;
+                }
                 else if (token.Type == CssTokenType.RoundBracketClose)
+                {
                     return true;
+                }
                 else if (token.Type != CssTokenType.Whitespace)
+                {
                     valid = false;
+                }
 
                 return false;
             }
@@ -891,7 +853,9 @@
             public override ISelector Produce()
             {
                 if (!valid || value == null)
+                {
                     return null;
+                }
 
                 var code = String.Concat(PseudoClassNames.Contains, "(", value, ")");
                 return SimpleSelector.PseudoClass(el => el.TextContent.Contains(value), code);
@@ -924,19 +888,26 @@
                 var sel = _nested.ToPool();
 
                 if (!valid)
+                {
                     return null;
+                }
 
                 return SimpleSelector.PseudoClass(el =>
                 {
                     var host = default(IElement);
+                    var shadowRoot = el.Parent as IShadowRoot;
 
-                    if (el.Parent is IShadowRoot)
-                        host = ((IShadowRoot)el.Parent).Host;
+                    if (shadowRoot != null)
+                    {
+                        host = shadowRoot.Host;
+                    }
 
                     while (host != null)
                     {
                         if (sel.Match(host))
+                        {
                             return true;
+                        }
 
                         host = host.ParentElement;
                     }
@@ -971,7 +942,9 @@
                 var sel = nested != null ? nested.ToPool() : SimpleSelector.All;
 
                 if (invalid)
+                {
                     return null;
+                }
 
                 return new T().With(step, offset, sel);
             }
@@ -996,7 +969,9 @@
             Boolean OnAfterInitialSign(CssToken token)
             {
                 if (token.Type == CssTokenType.Number)
+                {
                     return OnOffset(token);
+                }
 
                 if (token.Type == CssTokenType.Dimension)
                 {
@@ -1039,7 +1014,9 @@
             Boolean OnBeforeOf(CssToken token)
             {
                 if (token.Type == CssTokenType.Whitespace)
+                {
                     return false;
+                }
 
                 if (token.Data.Isi("of"))
                 {
@@ -1049,7 +1026,9 @@
                     return false;
                 }
                 else if (token.Type == CssTokenType.RoundBracketClose)
+                {
                     return true;
+                }
 
                 valid = false;
                 return false;
@@ -1058,7 +1037,9 @@
             Boolean OnOffset(CssToken token)
             {
                 if (token.Type == CssTokenType.Whitespace)
+                {
                     return false;
+                }
 
                 if (token.Type == CssTokenType.Number)
                 {
@@ -1074,7 +1055,9 @@
             Boolean OnInitial(CssToken token)
             {
                 if (token.Type == CssTokenType.Whitespace)
+                {
                     return false;
+                }
 
                 if (token.Data.Isi("odd"))
                 {

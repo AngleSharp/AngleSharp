@@ -8,11 +8,6 @@
     /// </summary>
     sealed class UnknownSelector : CssNode, ISelector
     {
-        public UnknownSelector(TextView source)
-        {
-            SourceCode = source;
-        }
-
         public Priority Specifity
         {
             get { return Priority.Zero; }
@@ -30,7 +25,7 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            return SourceCode.Text;
+            return SourceCode != null ? SourceCode.Text : String.Empty;
         }
     }
 }

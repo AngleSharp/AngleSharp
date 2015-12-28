@@ -35,9 +35,6 @@
 
         #region Create Rules
 
-        /// <summary>
-        /// Parses an @-rule with the given name, if there is any.
-        /// </summary>
         public CssRule CreateAtRule(CssToken token)
         {
             if (token.Data.Is(RuleNames.Media))
@@ -84,9 +81,6 @@
             return CreateUnknown(token);
         }
 
-        /// <summary>
-        /// Creates a rule with the enumeration of tokens.
-        /// </summary>
         public CssRule CreateRule(CssToken token)
         {
             switch (token.Type)
