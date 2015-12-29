@@ -22,7 +22,6 @@
         public Selectors()
         {
             _selectors = new List<ISelector>();
-            Children = _selectors;
         }
 
         #endregion

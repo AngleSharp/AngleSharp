@@ -23,7 +23,6 @@
         public ComplexSelector()
         {
             _selectors = new List<CombinatorSelector>();
-            Children = _selectors.Select(m => m.Selector);
         }
 
         #endregion
