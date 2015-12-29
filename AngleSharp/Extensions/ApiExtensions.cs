@@ -370,8 +370,12 @@
         /// </summary>
         /// <param name="form">The form to submit.</param>
         /// <param name="fields">The fields to use as values.</param>
+        /// <param name="createInputIfNoFound">What to do if some field/s have not found in the form. If true, then new input will be created.
+        /// If false, KeyNotFoundException will be thrown.
+        /// The default is false.
+        /// </param>
         /// <returns>The task eventually resulting in the response.</returns>
-        public static Task<IDocument> Submit(this IHtmlFormElement form, IDictionary<String, String> fields)
+        public static Task<IDocument> Submit(this IHtmlFormElement form, IDictionary<String, String> fields, bool createInputIfNoFound = false)
         {
             if (form == null)
                 throw new ArgumentNullException("form");
@@ -379,16 +383,7 @@
             if (fields == null)
                 throw new ArgumentNullException("fields");
 
-            var elements = form.Elements;
-
-            foreach (var element in elements.OfType<IHtmlInputElement>())
-            {
-                var value = default(String);
-
-                if (fields.TryGetValue(element.Name ?? String.Empty, out value))
-                    element.Value = value;
-            }
-
+            form.SetFieldsValues(fields, createInputIfNoFound);
             return form.Submit();
         }
 
