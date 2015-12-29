@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Dom.Collections;
+    using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using System;
@@ -8,10 +9,14 @@
     /// <summary>
     /// Represents a CSS Stylesheet.
     /// </summary>
-    sealed class CssStyleSheet : StyleSheet, ICssStyleSheet
+    sealed class CssStyleSheet : CssNode, ICssStyleSheet
     {
         #region Fields
 
+        readonly MediaList _media;
+        readonly String _url;
+        readonly IElement _owner;
+        readonly ICssStyleSheet _parent;
         readonly CssRuleList _rules;
         readonly CssParser _parser;
         readonly ICssRule _ownerRule;
@@ -21,23 +26,23 @@
         #region ctor
 
         internal CssStyleSheet(CssParser parser, String url, IElement owner)
-            : base(new MediaList(parser), url, owner)
         {
+            _media = new MediaList(parser);
+            _owner = owner;
+            _url = url;
             _rules = new CssRuleList();
             _parser = parser;
             Children = _rules;
         }
 
-        internal CssStyleSheet(CssParser parser, String url, IStyleSheet parent)
-            : base(new MediaList(parser), url, parent)
+        internal CssStyleSheet(CssParser parser, String url, ICssStyleSheet parent)
+            : this(parser, url, parent != null ? parent.OwnerNode : null)
         {
-            _rules = new CssRuleList();
-            _parser = parser;
-            Children = _rules;
+            _parent = parent;
         }
 
         internal CssStyleSheet(CssParser parser)
-            : this(parser, default(String), default(StyleSheet))
+            : this(parser, default(String), default(ICssStyleSheet))
         {
         }
 
@@ -51,9 +56,40 @@
 
         #region Properties
 
-        public override String Type
+        public String Type
         {
             get { return MimeTypeNames.Css; }
+        }
+
+        public Boolean IsDisabled
+        {
+            get;
+            set;
+        }
+
+        public IElement OwnerNode
+        {
+            get { return _owner; }
+        }
+
+        public ICssStyleSheet Parent
+        {
+            get { return _parent; }
+        }
+
+        public String Href
+        {
+            get { return _url; }
+        }
+
+        public String Title
+        {
+            get { return _owner != null ? _owner.GetAttribute(AttributeNames.Title) : null; }
+        }
+
+        public IMediaList Media
+        {
+            get { return _media; }
         }
 
         ICssRuleList ICssStyleSheet.Rules

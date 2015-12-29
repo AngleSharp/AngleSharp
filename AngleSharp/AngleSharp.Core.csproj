@@ -905,7 +905,6 @@
     <Compile Include="Dom\EntityReference.cs" />
     <Compile Include="Dom\Location.cs" />
     <Compile Include="Dom\ProcessingInstruction.cs" />
-    <Compile Include="Dom\StyleSheet.cs" />
     <Compile Include="Dom\Collections\TokenList.cs" />
     <Compile Include="Dom\Collections\MediaList.cs" />
     <Compile Include="Dom\Collections\StringList.cs" />

@@ -109,7 +109,7 @@
         Boolean IsRecursion(Url url)
         {
             var href = url.Href;
-            var owner = (IStyleSheet)Owner;
+            var owner = Owner;
 
             while (owner != null && !owner.Href.Is(href))
             {

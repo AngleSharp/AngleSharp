@@ -73,7 +73,7 @@
         {
             var parser = new CssParser(_options);
             var source = new TextSource(sourceCode);
-            var sheet = new CssStyleSheet(parser, default(String), default(IStyleSheet));
+            var sheet = new CssStyleSheet(parser, default(String), default(ICssStyleSheet));
             _default = Parse(parser, sheet, source).Result;
             return _default;
         }
