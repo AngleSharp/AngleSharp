@@ -122,7 +122,9 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
+                    {
                         return NewMatch("*=");
+                    }
 
                     return NewDelimiter(GetPrevious());
 
@@ -136,10 +138,14 @@
                         Back(2);
 
                         if (c1.IsDigit() || (c1 == Symbols.Dot && c2.IsDigit()))
+                        {
                             return NumberStart(current);
+                        }
                     }
                     else
+                    {
                         Back();
+                    }
 
                     return NewDelimiter(current);
                 }
@@ -152,7 +158,9 @@
                     var c = GetNext();
 
                     if (c.IsDigit())
+                    {
                         return NumberStart(GetPrevious());
+                    }
 
                     return NewDelimiter(GetPrevious());
                 }
@@ -185,7 +193,9 @@
                         }
                     }
                     else
+                    {
                         Back();
+                    }
 
                     return NewDelimiter(current);
                 }
@@ -194,7 +204,9 @@
                     current = GetNext();
 
                     if (current == Symbols.Asterisk)
+                    {
                         return Comment();
+                    }
 
                     return NewDelimiter(GetPrevious());
 
@@ -232,7 +244,9 @@
                             current = GetNext();
 
                             if (current == Symbols.Minus)
+                            {
                                 return NewOpenComment();
+                            }
 
                             current = GetPrevious();
                         }
@@ -255,7 +269,9 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
+                    {
                         return NewMatch("^=");
+                    }
 
                     return NewDelimiter(GetPrevious());
 
@@ -286,7 +302,9 @@
                         current = GetNext();
 
                         if (current.IsHex() || current == Symbols.QuestionMark)
+                        {
                             return UnicodeRange(current);
+                        }
 
                         current = GetPrevious();
                     }
@@ -297,9 +315,13 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
+                    {
                         return NewMatch("|=");
+                    }
                     else if (current == Symbols.Pipe)
+                    {
                         return NewColumn();
+                    }
 
                     return NewDelimiter(GetPrevious());
 
@@ -307,7 +329,9 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
+                    {
                         return NewMatch("~=");
+                    }
 
                     return NewDelimiter(GetPrevious());
 
@@ -315,17 +339,20 @@
                     return NewEof();
 
                 case Symbols.ExclamationMark:
-
                     current = GetNext();
 
                     if (current == Symbols.Equality)
+                    {
                         return NewMatch("!=");
+                    }
 
                     return NewDelimiter(GetPrevious());
 
                 default:
                     if (current.IsNameStart())
+                    {
                         return IdentStart(current);
+                    }
 
                     return NewDelimiter(current);
             }
@@ -521,7 +548,9 @@
                     current = GetNext();
 
                     if (current == Symbols.Solidus)
+                    {
                         return NewComment(FlushBuffer());
+                    }
 
                     _stringBuffer.Append(Symbols.Asterisk);
                 }
@@ -756,7 +785,9 @@
                     return Dimension(number);
                 }
                 else
+                {
                     break;
+                }
 
                 current = GetNext();
             }
@@ -818,7 +849,9 @@
                     return Dimension(number);
                 }
                 else
+                {
                     break;
+                }
 
                 current = GetNext();
             }
@@ -952,9 +985,13 @@
                         return NewUrl(functionName, FlushBuffer(), bad: true);
                     }
                     else if (current.IsLineBreak())
+                    {
                         _stringBuffer.AppendLine();
+                    }
                     else
+                    {
                         _stringBuffer.Append(ConsumeEscape(current));
+                    }
                 }
             }
         }
@@ -996,9 +1033,13 @@
                         return NewUrl(functionName, FlushBuffer(), bad: true);
                     }
                     else if (current.IsLineBreak())
+                    {
                         _stringBuffer.AppendLine();
+                    }
                     else
+                    {
                         _stringBuffer.Append(ConsumeEscape(current));
+                    }
                 }
             }
         }
@@ -1097,9 +1138,13 @@
                 else
                 {
                     if (current == Symbols.RoundBracketOpen)
+                    {
                         ++round;
+                    }
                     else if (curly == Symbols.CurlyBracketOpen)
+                    {
                         ++curly;
+                    }
 
                     _stringBuffer.Append(current);
                 }
@@ -1116,7 +1161,7 @@
         /// </summary>
         CssToken UnicodeRange(Char current)
         {
-            for (int i = 0; i < 6; i++)
+            for (var i = 0; i < 6; i++)
             {
                 if (!current.IsHex())
                     break;
@@ -1127,7 +1172,7 @@
 
             if (_stringBuffer.Length != 6)
             {
-                for (int i = 0; i < 6 - _stringBuffer.Length; i++)
+                for (var i = 0; i < 6 - _stringBuffer.Length; i++)
                 {
                     if (current != Symbols.QuestionMark)
                     {
@@ -1149,7 +1194,7 @@
                 {
                     var start = FlushBuffer();
 
-                    for (int i = 0; i < 6; i++)
+                    for (var i = 0; i < 6; i++)
                     {
                         if (!current.IsHex())
                         {

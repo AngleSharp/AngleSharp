@@ -33,7 +33,9 @@
             lock (_lock)
             {
                 if (_builder.Count == 0)
+                {
                     return new StringBuilder(1024);
+                }
 
                 return _builder.Pop().Clear();
             }
@@ -48,8 +50,10 @@
 		{
 			lock (_lock)
 			{
-				if (_selector.Count == 0)
-					return new CssSelectorConstructor();
+                if (_selector.Count == 0)
+                {
+                    return new CssSelectorConstructor();
+                }
 
 				return _selector.Pop().Reset();
 			}
@@ -64,7 +68,9 @@
             lock (_lock)
             {
                 if (_value.Count == 0)
+                {
                     return new CssValueBuilder();
+                }
 
                 return _value.Pop().Reset();
             }

@@ -1081,13 +1081,8 @@
             token = NextToken();
             var start = token;
 
-            while (token.Type != CssTokenType.EndOfFile)
+            while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.Semicolon, closing))
             {
-                if (token.Is(CssTokenType.Semicolon, closing))
-                {
-                    break;
-                }
-
                 value.Apply(token);
                 token = NextToken();
             }
