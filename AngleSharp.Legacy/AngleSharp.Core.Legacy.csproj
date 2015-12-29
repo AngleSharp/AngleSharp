@@ -1751,9 +1751,6 @@
     <Compile Include="..\AngleSharp\Dom\ShadowRoot.cs">
       <Link>Dom\ShadowRoot.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\StyleSheet.cs">
-      <Link>Dom\StyleSheet.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Dom\StyleSheetList.cs">
       <Link>Dom\StyleSheetList.cs</Link>
     </Compile>
