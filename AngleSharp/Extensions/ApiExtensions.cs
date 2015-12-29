@@ -3,7 +3,6 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -28,35 +27,45 @@
             where TElement : IElement
         {
             if (document == null)
+            {
                 throw new ArgumentNullException("document");
+            }
 
             var type = typeof(ApiExtensions).GetAssembly().GetTypes()
                 .Where(m => m.Implements<TElement>())
                 .FirstOrDefault(m => !m.IsAbstractClass());
 
-            if (type == null)
-                return default(TElement);
-
-            var ctors = type.GetConstructors();
-
-            foreach (var ctor in ctors.OrderBy(m => m.GetParameters().Length))
+            if (type != null)
             {
-                var parameters = ctor.GetParameters();
-                var arguments = new Object[parameters.Length];
+                var ctors = type.GetConstructors()
+                    .OrderBy(m => m.GetParameters().Length);
 
-                for (var i = 0; i < parameters.Length; i++)
+                foreach (var ctor in ctors)
                 {
-                    var isDocument = parameters[i].ParameterType == typeof(Document);
-                    arguments[i] = isDocument ? document : parameters[i].DefaultValue;
-                }
+                    var parameters = ctor.GetParameters();
+                    var arguments = new Object[parameters.Length];
 
-                var obj = ctor.Invoke(arguments);
+                    for (var i = 0; i < parameters.Length; i++)
+                    {
+                        var isDocument = parameters[i].ParameterType == typeof(Document);
+                        arguments[i] = isDocument ? document : parameters[i].DefaultValue;
+                    }
 
-                if (obj != null)
-                {
-                    var element = (TElement)obj;
-                    document.Adopt(element);
-                    return element;
+                    var obj = ctor.Invoke(arguments);
+
+                    if (obj != null)
+                    {
+                        var element = (TElement)obj;
+                        var baseElement = element as Element;
+
+                        if (baseElement != null)
+                        {
+                            baseElement.SetupElement();
+                        }
+
+                        document.Adopt(element);
+                        return element;
+                    }
                 }
             }
 
@@ -73,12 +82,16 @@
         static IDocumentFragment CreateFromHtml(this IDocument document, String html)
         {
             if (document == null)
+            {
                 throw new ArgumentNullException("document");
+            }
 
             var body = document.Body as Element;
 
             if (body == null)
+            {
                 throw new ArgumentException("The provided document does not have a valid body element.");
+            }
 
             return new DocumentFragment(body, html ?? String.Empty);
         }
@@ -94,33 +107,27 @@
             where TEventTarget : IEventTarget
         {
             if (node == null)
+            {
                 throw new ArgumentNullException("node");
-            else if (eventName == null)
+            }
+
+            if (eventName == null)
+            {
                 throw new ArgumentNullException("eventName");
+            }
 
             var completion = new TaskCompletionSource<Event>();
             DomEventHandler handler = (s, ev) => completion.TrySetResult(ev);
             node.AddEventListener(eventName, handler);
 
-            try { return await completion.Task.ConfigureAwait(false); }
-            finally { node.RemoveEventListener(eventName, handler); }
-        }
-
-        /// <summary>
-        /// Returns a task that is completed once every element of the given
-        /// type fire the the load event.
-        /// </summary>
-        /// <typeparam name="TElement">The event target type.</typeparam>
-        /// <param name="document">The document that hosts the targets.</param>
-        /// <returns>The awaitable task.</returns>
-        public static async Task WhenLoadFired<TElement>(this IDocument document)
-            where TElement : IElement
-        {
-            var elements = document.QuerySelectorAll<TElement>("*");
-            var tasks = elements.Select(m => m.AwaitEvent(EventNames.Load)).ToArray();
-
-            for (int i = 0; i < tasks.Length; i++)
-                await tasks[i].ConfigureAwait(false);
+            try 
+            { 
+                return await completion.Task.ConfigureAwait(false); 
+            }
+            finally 
+            { 
+                node.RemoveEventListener(eventName, handler); 
+            }
         }
 
         /// <summary>
@@ -134,7 +141,9 @@
             where TElement : class, IElement
         {
             if (parent == null)
+            {
                 throw new ArgumentNullException("parent");
+            }
 
             return parent.AppendChild(element) as TElement;
         }
@@ -153,7 +162,9 @@
             where TElement : class, IElement
         {
             if (parent == null)
+            {
                 throw new ArgumentNullException("parent");
+            }
 
             return parent.InsertBefore(newElement, referenceElement) as TElement;
         }
@@ -170,7 +181,9 @@
             where TElement : class, IElement
         {
             if (parent == null)
+            {
                 throw new ArgumentNullException("parent");
+            }
 
             return parent.RemoveChild(element) as TElement;
         }
@@ -187,9 +200,14 @@
             where TElement : class, IElement
         {
             if (parent == null)
+            {
                 throw new ArgumentNullException("parent");
-            else if (selectors == null)
+            }
+
+            if (selectors == null)
+            {
                 throw new ArgumentNullException("selectors");
+            }
 
             return parent.QuerySelector(selectors) as TElement;
         }
@@ -206,9 +224,14 @@
             where TElement : IElement
         {
             if (parent == null)
+            {
                 throw new ArgumentNullException("parent");
-            else if (selectors == null)
+            }
+
+            if (selectors == null)
+            {
                 throw new ArgumentNullException("selectors");
+            }
 
             return parent.QuerySelectorAll(selectors).OfType<TElement>();
         }
@@ -232,7 +255,9 @@
         public static IEnumerable<INode> Descendents(this INode parent)
         {
             if (parent == null)
+            {
                 throw new ArgumentNullException("parent");
+            }
 
             return parent.GetDescendants();
         }
@@ -256,65 +281,11 @@
         public static IEnumerable<INode> Ancestors(this INode child)
         {
             if (child == null)
+            {
                 throw new ArgumentNullException("child");
+            }
 
             return child.GetAncestors();
-        }
-
-        #endregion
-
-        #region Set values extensions
-
-        /// <summary>
-        /// Set the field values of given form by using the dictionary which contains name value pairs of input fields.
-        /// </summary>
-        /// <param name="form">The form to set</param>
-        /// <param name="fields">The fields to use as values.</param>
-        /// <param name="createInputIfNoFound">What to do if some field/s have not found in the form. If true, then new input will be created.
-        /// If false, KeyNotFoundException will be thrown.
-        /// The default is false.
-        /// </param>
-        public static void SetFieldValues(this IHtmlFormElement form, IDictionary<string, string> fields, bool createInputIfNoFound = false)
-        {
-            if (form == null)
-                throw new ArgumentNullException(nameof(form));
-
-            if (fields == null)
-                throw new ArgumentNullException(nameof(fields));
-
-            // The actual execution of these queries is deferred.
-            var inputs = form.Elements.OfType<IHtmlInputElement>();
-            var selects = form.Elements.OfType<IHtmlSelectElement>();
-
-            foreach (var field in fields)
-            {
-                // try to match to an input element.
-                var input = inputs.FirstOrDefault(e => e.Name == field.Key);
-                if (input != null)
-                {
-                    input.Value = field.Value;
-                    continue;
-                }
-
-                // try to match to an select element.
-                var select = selects.FirstOrDefault(s => s.Name == field.Key);
-                if (select != null)
-                {
-                    select.Value = field.Value;
-                    continue;
-                }
-
-                // if no match, create new element or throw an excpetion.
-                if (createInputIfNoFound)
-                {
-                    var newElementHtml = $@"<input type='hidden' name='{field.Key}' value='{field.Value}' />";
-                    form.Insert(AdjacentPosition.BeforeEnd, newElementHtml);
-                }
-                else
-                {
-                    throw new KeyNotFoundException($"Field {field.Key} not found");
-                }
-            }
         }
 
         #endregion
@@ -345,7 +316,9 @@
             where TElement : IUrlUtilities, IElement
         {
             if (element == null)
+            {
                 throw new ArgumentNullException("element");
+            }
 
             var address = element.Href;
             var url = Url.Create(address);
@@ -370,20 +343,31 @@
         /// </summary>
         /// <param name="form">The form to submit.</param>
         /// <param name="fields">The fields to use as values.</param>
-        /// <param name="createInputIfNoFound">What to do if some field/s have not found in the form. If true, then new input will be created.
-        /// If false, KeyNotFoundException will be thrown.
-        /// The default is false.
-        /// </param>
         /// <returns>The task eventually resulting in the response.</returns>
-        public static Task<IDocument> Submit(this IHtmlFormElement form, IDictionary<String, String> fields, bool createInputIfNoFound = false)
+        public static Task<IDocument> Submit(this IHtmlFormElement form, IDictionary<String, String> fields)
         {
             if (form == null)
+            {
                 throw new ArgumentNullException("form");
+            }
 
             if (fields == null)
+            {
                 throw new ArgumentNullException("fields");
+            }
 
-            form.SetFieldValues(fields, createInputIfNoFound);
+            var elements = form.Elements;
+
+            foreach (var element in elements.OfType<IHtmlInputElement>())
+            {
+                var value = default(String);
+
+                if (fields.TryGetValue(element.Name ?? String.Empty, out value))
+                {
+                    element.Value = value;
+                }
+            }
+
             return form.Submit();
         }
 
@@ -404,13 +388,19 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             if (attributeName == null)
+            {
                 throw new ArgumentNullException("attributeName");
+            }
 
             foreach (var element in elements)
+            {
                 element.SetAttribute(attributeName, attributeValue);
+            }
 
             return elements;
         }
@@ -429,15 +419,21 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             if (attributes == null)
+            {
                 throw new ArgumentNullException("attributes");
+            }
 
             foreach (var element in elements)
             {
                 foreach (var attribute in attributes)
+                {
                     element.SetAttribute(attribute.Key, attribute.Value);
+                }
             }
 
             return elements;
@@ -459,6 +455,20 @@
         {
             var realAttributes = attributes.ToDictionary();
             return elements.Attr(realAttributes);
+        }
+
+        /// <summary>
+        /// Gets the values of the specified attribute for all elements in the
+        /// given collection.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="attributeName">The name of the attribute.</param>
+        /// <returns>The attributes' values.</returns>
+        public static IEnumerable<String> Attr<T>(this T elements, String attributeName)
+            where T : IEnumerable<IElement>
+        {
+            return elements.Select(m => m.GetAttribute(attributeName));
         }
 
         /// <summary>
@@ -913,7 +923,9 @@
             where T : INode
         {
             if (element == null)
+            {
                 throw new ArgumentNullException("element");
+            }
 
             return element.TextContent;
         }
@@ -929,10 +941,14 @@
             where T : IEnumerable<INode>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             foreach (var element in elements)
+            {
                 element.TextContent = text;
+            }
 
             return elements;
         }
@@ -948,16 +964,20 @@
             where T : INode
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             if (item != null)
             {
-                int i = 0;
+                var i = 0;
 
                 foreach (var element in elements)
                 {
                     if (Object.ReferenceEquals(element, item))
+                    {
                         return i;
+                    }
 
                     i++;
                 }
@@ -978,7 +998,9 @@
         static IElement GetInnerMostElement(this IDocumentFragment fragment)
         {
             if (fragment.ChildElementCount != 1)
+            {
                 throw new InvalidOperationException("The provided HTML code did not result in any element.");
+            }
 
             var element = default(IElement);
             var child = fragment.FirstElementChild;
