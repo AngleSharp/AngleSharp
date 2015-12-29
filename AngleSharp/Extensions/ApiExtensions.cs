@@ -263,6 +263,62 @@
 
         #endregion
 
+        #region Set values extensions
+
+        /// <summary>
+        /// Set the field values of given form by using the dictionary which contains name value pairs of input fields.
+        /// </summary>
+        /// <param name="form">The form to set</param>
+        /// <param name="fields">The fields to use as values.</param>
+        /// <param name="createInputIfNoFound">What to do if some field/s have not found in the form. If true, then new input will be created.
+        /// If false, KeyNotFoundException will be thrown.
+        /// The default is false.
+        /// </param>
+        public static void SetFieldsValues(this IHtmlFormElement form, IDictionary<string, string> fields, bool createInputIfNoFound = false)
+        {
+            if (form == null)
+                throw new ArgumentNullException(nameof(form));
+
+            if (fields == null)
+                throw new ArgumentNullException(nameof(fields));
+
+            // The actual execution of these queries is deferred.
+            var inputs = form.Elements.OfType<IHtmlInputElement>();
+            var selects = form.Elements.OfType<IHtmlSelectElement>();
+
+            foreach (var field in fields)
+            {
+                // try to match to an input element.
+                var input = inputs.FirstOrDefault(e => e.Name == field.Key);
+                if (input != null)
+                {
+                    input.Value = field.Value;
+                    continue;
+                }
+
+                // try to match to an select element.
+                var select = selects.FirstOrDefault(s => s.Name == field.Key);
+                if (select != null)
+                {
+                    select.Value = field.Value;
+                    continue;
+                }
+
+                // if no match, create new element or throw an excpetion.
+                if (createInputIfNoFound)
+                {
+                    var newElementHtml = $@"<input type='hidden' name='{field.Key}' value='{field.Value}' />";
+                    form.Insert(AdjacentPosition.BeforeEnd, newElementHtml);
+                }
+                else
+                {
+                    throw new KeyNotFoundException($"Field {field.Key} not found");
+                }
+            }
+        }
+
+        #endregion
+
         #region Navigation extensions
 
         /// <summary>
