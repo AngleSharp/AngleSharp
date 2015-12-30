@@ -1,18 +1,19 @@
-﻿using AngleSharp.Dom.Html;
-using AngleSharp.Extensions;
-using AngleSharp.Parser.Html;
-using NUnit.Framework;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Dom.Html;
+    using AngleSharp.Extensions;
+    using AngleSharp.Parser.Html;
+    using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     [TestFixture]
     public sealed class FormSetFieldValues
     {
-        private static IHtmlDocument CreateSampleDocument()
+        static IHtmlDocument CreateSampleDocument()
         {
-            const string formHtml = @"
+            const String formHtml = @"
 <html>
 <body>
     <form>
@@ -41,13 +42,13 @@ namespace AngleSharp.Core.Tests.Library
         [Test]
         public void SetValueOfTextInput()
         {
-            const string inputId = "user";
-            const string myName = "yehudah";
+            const String inputId = "user";
+            const String myName = "yehudah";
 
             var document = CreateSampleDocument();
-            document.Forms[0].SetFieldValues(new Dictionary<string, string>()
+            document.Forms[0].SetFieldValues(new Dictionary<String, String>()
             {
-                [inputId] = myName
+                { inputId, myName }
             });
 
             var input = document.GetElementById(inputId) as IHtmlInputElement;
@@ -58,18 +59,17 @@ namespace AngleSharp.Core.Tests.Library
         public void SetValueOfSelect()
         {
             var document = CreateSampleDocument();
-            document.Forms[0].SetFieldValues(new Dictionary<string, string>()
+            document.Forms[0].SetFieldValues(new Dictionary<String, String>()
             {
-                ["city"] = "2"
+                { "city", "2" }
             });
 
             var jerusalemOption = document.GetElementById("cityOption0") as IHtmlOptionElement;
-            Assert.IsFalse(jerusalemOption.IsSelected);
-
             var newYorkOption = document.GetElementById("cityOption1") as IHtmlOptionElement;
-            Assert.IsFalse(newYorkOption.IsSelected);
-
             var londonOption = document.GetElementById("cityOption2") as IHtmlOptionElement;
+
+            Assert.IsFalse(jerusalemOption.IsSelected);
+            Assert.IsFalse(newYorkOption.IsSelected);
             Assert.IsTrue(londonOption.IsSelected);
         }
 
@@ -77,18 +77,17 @@ namespace AngleSharp.Core.Tests.Library
         public void SetValueOfRadioInput()
         {
             var document = CreateSampleDocument();
-            document.Forms[0].SetFieldValues(new Dictionary<string, string>()
+            document.Forms[0].SetFieldValues(new Dictionary<String, String>()
             {
-                ["userType"] = "Guest"
+                { "userType", "Guest" }
             });
 
             var guestOption = document.GetElementById("guestOption") as IHtmlInputElement;
-            Assert.IsTrue(guestOption.IsChecked);
-
             var memberOption = document.GetElementById("memberOption") as IHtmlInputElement;
-            Assert.IsFalse(memberOption.IsChecked);
-
             var managerOption = document.GetElementById("managerOption") as IHtmlInputElement;
+
+            Assert.IsTrue(guestOption.IsChecked);
+            Assert.IsFalse(memberOption.IsChecked);
             Assert.IsFalse(managerOption.IsChecked);
         }
 
@@ -97,22 +96,22 @@ namespace AngleSharp.Core.Tests.Library
         public void ThrowExcptionIfFieldNotFound()
         {
             var document = CreateSampleDocument();
-            document.Forms[0].SetFieldValues(new Dictionary<string, string>()
+            document.Forms[0].SetFieldValues(new Dictionary<String, String>()
             {
-                ["noExistName"] = "X"
+                { "noExistName", "X" }
             });
         }
 
         [Test]
         public void CreateNewInputIfFieldNotFound()
         {
-            const string newFieldName = "phone";
-            const string fieldValue = "1234";
+            const String newFieldName = "phone";
+            const String fieldValue = "1234";
 
             var document = CreateSampleDocument();
-            document.Forms[0].SetFieldValues(new Dictionary<string, string>()
+            document.Forms[0].SetFieldValues(new Dictionary<String, String>()
             {
-                [newFieldName] = fieldValue
+                { newFieldName, fieldValue }
             }, createInputIfNoFound: true);
 
             var newField = document.Forms[0]
