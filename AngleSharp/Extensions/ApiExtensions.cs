@@ -316,50 +316,56 @@
                 throw new ArgumentNullException("fields");
             }
 
-            var inputs = form.Elements.OfType<IHtmlInputElement>();
-            var selects = form.Elements.OfType<IHtmlSelectElement>();
+            var inputs = form.Elements.OfType<HtmlFormControlElement>();
 
             foreach (var field in fields)
             {
-                var targetInput = inputs.FirstOrDefault(e => e.Name == field.Key);
+                var targetInput = inputs.FirstOrDefault(e => e.Name.Is(field.Key));
 
                 if (targetInput != null)
                 {
-                    var isRadio = targetInput.Type.Is(InputTypeNames.Radio);
-
-                    if (isRadio)
+                    if (targetInput is IHtmlInputElement)
                     {
-                        var allOptins = inputs.Where(i => i.Name.Is(targetInput.Name));
+                        var input = (IHtmlInputElement)targetInput;
 
-                        foreach (var radio in allOptins)
+                        if (input.Type.Is(InputTypeNames.Radio))
                         {
-                            radio.IsChecked = radio.Value.Is(field.Value);
+                            var radios = inputs.OfType<IHtmlInputElement>().Where(i => i.Name.Is(targetInput.Name));
+
+                            foreach (var radio in radios)
+                            {
+                                radio.IsChecked = radio.Value.Is(field.Value);
+                            }
+                        }
+                        else
+                        {
+                            input.Value = field.Value;
                         }
                     }
-
+                    else if (targetInput is IHtmlTextAreaElement)
+                    {
+                        var textarea = (IHtmlTextAreaElement)targetInput;
+                        textarea.Value = field.Value;
+                    }
+                    else if (targetInput is IHtmlSelectElement)
+                    {
+                        var select = (IHtmlSelectElement)targetInput;
+                        select.Value = field.Value;
+                    }
                     else
                     {
-                        targetInput.Value = field.Value;
+                        //Silently ignore unsupported input type, e.g.,
+                        //no idea if modifying keygen fields is really
+                        //useful or how it is regulated.
                     }
-
-                    continue;
                 }
-
-                var targetSelect = selects.FirstOrDefault(s => s.Name.Is(field.Key));
-
-                if (targetSelect != null)
+                else if (createInputIfNoFound)
                 {
-                    targetSelect.Value = field.Value;
-                    continue;
-                }
-
-                if (createInputIfNoFound)
-                {
-                    var input = form.Owner.CreateElement<IHtmlInputElement>();
-                    input.Type = "hidden";
-                    input.Name = field.Key;
-                    input.Value = field.Value;
-                    form.AppendChild(input);
+                    var newInput = form.Owner.CreateElement<IHtmlInputElement>();
+                    newInput.Type = InputTypeNames.Hidden;
+                    newInput.Name = field.Key;
+                    newInput.Value = field.Value;
+                    form.AppendChild(newInput);
                 }
                 else
                 {
