@@ -43,8 +43,8 @@
         {
             get 
             {
-                var start = _range.Start.Position;
-                var length = _range.End.Position - _range.Start.Position;
+                var start = Math.Max(_range.Start.Position - 1, 0);
+                var length = _range.End.Position + 1 - _range.Start.Position;
                 var text = _source.Text;
 
                 if (start + length > text.Length)

@@ -13,13 +13,14 @@
     /// <summary>
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for details.
     /// </summary>
-    //[DebuggerStepThrough]
+    [DebuggerStepThrough]
     sealed class CssBuilder
     {
         #region Fields
 
         readonly CssTokenizer _tokenizer;
         readonly CssParser _parser;
+        readonly Stack<CssNode> _nodes;
 
         #endregion
 
@@ -29,6 +30,7 @@
         {
             _tokenizer = tokenizer;
             _parser = parser;
+            _nodes = new Stack<CssNode>();
         }
 
         #endregion
@@ -89,7 +91,7 @@
                     return CreateAtRule(token);
 
                 case CssTokenType.CurlyBracketOpen:
-                    RaiseErrorOccurred(CssParseError.InvalidBlockStart, token);
+                    RaiseErrorOccurred(CssParseError.InvalidBlockStart, token.Position);
                     JumpToRuleEnd(ref token);
                     return null;
 
@@ -98,7 +100,7 @@
                 case CssTokenType.CurlyBracketClose:
                 case CssTokenType.RoundBracketClose:
                 case CssTokenType.SquareBracketClose:
-                    RaiseErrorOccurred(CssParseError.InvalidToken, token);
+                    RaiseErrorOccurred(CssParseError.InvalidToken, token.Position);
                     JumpToRuleEnd(ref token);
                     return null;
 
@@ -112,6 +114,7 @@
             var rule = new CssCharsetRule(_parser);
             var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
 
             if (token.Type == CssTokenType.String)
@@ -121,6 +124,7 @@
 
             JumpToEnd(ref token);
             rule.SourceCode = CreateView(start, token.Position);
+            _nodes.Pop();
             return rule;
         }
 
@@ -129,6 +133,7 @@
             var rule = new CssDocumentRule(_parser);
             var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
             FillFunctions(function => rule.AppendChild(function), ref token);
             CollectTrivia(ref token);
@@ -137,9 +142,11 @@
             {
                 var end = FillRules(rule);
                 rule.SourceCode = CreateView(start, end);
+                _nodes.Pop();
                 return rule;
             }
 
+            _nodes.Pop();
             return SkipDeclarations(token);
         }
 
@@ -148,15 +155,18 @@
             var rule = new CssViewportRule(_parser);
             var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
 
             if (token.Type == CssTokenType.CurlyBracketOpen)
             {
                 var end = FillDeclarations(rule, Factory.Properties.CreateViewport);
                 rule.SourceCode = CreateView(start, end);
+                _nodes.Pop();
                 return rule;
             }
 
+            _nodes.Pop();
             return SkipDeclarations(token);
         }
 
@@ -165,15 +175,18 @@
             var rule = new CssFontFaceRule(_parser);
             var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
 
             if (token.Type == CssTokenType.CurlyBracketOpen)
             {
                 var end = FillDeclarations(rule, Factory.Properties.CreateFont);
                 rule.SourceCode = CreateView(start, end);
+                _nodes.Pop();
                 return rule;
             }
 
+            _nodes.Pop();
             return SkipDeclarations(token);
         }
 
@@ -182,6 +195,7 @@
             var rule = new CssImportRule(_parser);
             var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
 
             if (token.Is(CssTokenType.String, CssTokenType.Url))
@@ -195,6 +209,7 @@
             CollectTrivia(ref token);
             JumpToEnd(ref token);
             rule.SourceCode = CreateView(start, token.Position);
+            _nodes.Pop();
             return rule;
         }
 
@@ -203,6 +218,7 @@
             var rule = new CssKeyframesRule(_parser);
             var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
             rule.Name = GetRuleName(ref token);
             CollectTrivia(ref token);
@@ -211,9 +227,11 @@
             {
                 var end = FillKeyframeRules(rule);
                 rule.SourceCode = CreateView(start, end);
+                _nodes.Pop();
                 return rule;
             }
 
+            _nodes.Pop();
             return SkipDeclarations(token);
         }
 
@@ -222,6 +240,7 @@
             var rule = new CssMediaRule(_parser);
             var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
             FillMediaList(rule.Media, CssTokenType.CurlyBracketOpen, ref token);
             CollectTrivia(ref token);
@@ -232,6 +251,7 @@
                 {
                     if (token.Type == CssTokenType.Semicolon)
                     {
+                        _nodes.Pop();
                         return null;
                     }
                     else if (token.Type == CssTokenType.CurlyBracketOpen)
@@ -245,6 +265,7 @@
 
             var end = FillRules(rule);
             rule.SourceCode = CreateView(start, end);
+            _nodes.Pop();
             return rule;
         }
 
@@ -253,6 +274,7 @@
             var rule = new CssNamespaceRule(_parser);
             var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
             rule.Prefix = GetRuleName(ref token);
             CollectTrivia(ref token);
@@ -264,6 +286,7 @@
 
             JumpToEnd(ref token);
             rule.SourceCode = CreateView(start, token.Position);
+            _nodes.Pop();
             return rule;
         }
 
@@ -272,6 +295,7 @@
             var rule = new CssPageRule(_parser);
             var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
             rule.Selector = CreateSelector(ref token);
             CollectTrivia(ref token);
@@ -280,9 +304,11 @@
             {
                 var end = FillDeclarations(rule.Style);
                 rule.SourceCode = CreateView(start, end);
+                _nodes.Pop();
                 return rule;
             }
 
+            _nodes.Pop();
             return SkipDeclarations(token);
         }
 
@@ -291,6 +317,7 @@
             var rule = new CssSupportsRule(_parser);
             var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
             rule.Condition = AggregateCondition(ref token);
             CollectTrivia(ref token);
@@ -299,9 +326,11 @@
             {
                 var end = FillRules(rule);
                 rule.SourceCode = CreateView(start, end);
+                _nodes.Pop();
                 return rule;
             }
 
+            _nodes.Pop();
             return SkipDeclarations(token);
         }
 
@@ -309,10 +338,12 @@
         {
             var rule = new CssStyleRule(_parser);
             var start = current.Position;
+            _nodes.Push(rule);
             CollectTrivia(ref current);
             rule.Selector = CreateSelector(ref current);
             var end = FillDeclarations(rule.Style);
             rule.SourceCode = CreateView(start, end);
+            _nodes.Pop();
             return rule.Selector != null ? rule : null;
         }
 
@@ -320,20 +351,24 @@
         {
             var rule = new CssKeyframeRule(_parser);
             var start = current.Position;
+            _nodes.Push(rule);
             CollectTrivia(ref current);
             rule.Key = CreateKeyframeSelector(ref current);
             var end = FillDeclarations(rule.Style);
             rule.SourceCode = CreateView(start, end);
+            _nodes.Pop();
             return rule.Key != null ? rule : null;
         }
 
         public CssRule CreateUnknown(CssToken current)
         {
+            var start = current.Position;
+
             if (_parser.Options.IsIncludingUnknownRules)
             {
-                var start = current.Position;
                 var token = NextToken();
                 var rule = new CssUnknownRule(current.Data, _parser);
+                _nodes.Push(rule);
 
                 while (token.IsNot(CssTokenType.CurlyBracketOpen, CssTokenType.Semicolon, CssTokenType.EndOfFile))
                 {
@@ -365,11 +400,12 @@
                 }
 
                 rule.SourceCode = CreateView(start, token.Position);
+                _nodes.Pop();
                 return rule;
             }
             else
             {
-                RaiseErrorOccurred(CssParseError.UnknownAtRule, current);
+                RaiseErrorOccurred(CssParseError.UnknownAtRule, start);
                 JumpToRuleEnd(ref current);
                 return default(CssUnknownRule);
             }
@@ -421,6 +457,7 @@
         {
             var token = NextToken();
             CollectTrivia(ref token);
+            _nodes.Push(sheet);
 
             while (token.Type != CssTokenType.EndOfFile)
             {
@@ -430,6 +467,7 @@
                 sheet.Rules.Add(rule);
             }
 
+            _nodes.Pop();
             return token.Position;
         }
 
@@ -449,7 +487,7 @@
         {
             var keys = new List<Percent>();
             var valid = true;
-            var start = token;
+            var start = token.Position;
             CollectTrivia(ref token);
 
             while (token.Type != CssTokenType.EndOfFile)
@@ -519,6 +557,7 @@
         {
             var token = NextToken();
             CollectTrivia(ref token);
+            _nodes.Push(style);
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
@@ -532,6 +571,7 @@
                 CollectTrivia(ref token);
             }
 
+            _nodes.Pop();
             return token.Position;
         }
 
@@ -543,6 +583,7 @@
             var property = default(CssProperty);
 
             var sb = Pool.NewStringBuilder();
+            var start = token.Position;
 
             while (token.IsDeclarationName())
             {
@@ -560,7 +601,11 @@
 
                 if (property == null)
                 {
-                    RaiseErrorOccurred(CssParseError.UnknownDeclarationName, token);
+                    RaiseErrorOccurred(CssParseError.UnknownDeclarationName, start);
+                }
+                else
+                {
+                    _nodes.Push(property);
                 }
 
                 CollectTrivia(ref token);
@@ -572,7 +617,7 @@
 
                     if (value == null)
                     {
-                        RaiseErrorOccurred(CssParseError.ValueMissing, token);
+                        RaiseErrorOccurred(CssParseError.ValueMissing, token.Position);
                     }
                     else if (property != null && property.TrySetValue(value))
                     {
@@ -583,14 +628,19 @@
                 }
                 else
                 {
-                    RaiseErrorOccurred(CssParseError.ColonMissing, token);
+                    RaiseErrorOccurred(CssParseError.ColonMissing, token.Position);
                 }
 
                 JumpToDeclEnd(ref token);
+
+                if (property != null)
+                {
+                    _nodes.Pop();
+                }
             }
             else if (token.Type != CssTokenType.EndOfFile)
             {
-                RaiseErrorOccurred(CssParseError.IdentExpected, token);
+                RaiseErrorOccurred(CssParseError.IdentExpected, start);
                 JumpToDeclEnd(ref token);
             }
 
@@ -789,22 +839,34 @@
 
         void CollectTrivia(ref CssToken token)
         {
+            var storeComments = _parser.Options.IsStoringTrivia;
+
             while (token.Type == CssTokenType.Whitespace || token.Type == CssTokenType.Comment || token.Type == CssTokenType.Cdc || token.Type == CssTokenType.Cdo)
             {
+                if (storeComments && token.Type == CssTokenType.Comment)
+                {
+                    var current = _nodes.Peek();
+                    var comment = new CssComment(token.Data);
+                    var start = token.Position;
+                    var end = start.After(token.ToValue());
+                    comment.SourceCode = CreateView(start, end);
+                    current.AppendChild(comment);
+                }
+
                 token = _tokenizer.Get();
             }
         }   
 
         CssRule SkipDeclarations(CssToken token)
         {
-            RaiseErrorOccurred(CssParseError.InvalidToken, token);
+            RaiseErrorOccurred(CssParseError.InvalidToken, token.Position);
             JumpToRuleEnd(ref token);
             return default(CssRule);
         }
 
-        void RaiseErrorOccurred(CssParseError code, CssToken token)
+        void RaiseErrorOccurred(CssParseError code, TextPosition position)
         {
-            _tokenizer.RaiseErrorOccurred(code, token.Position);
+            _tokenizer.RaiseErrorOccurred(code, position);
         }
 
         #endregion
@@ -1007,6 +1069,8 @@
 
         void FillMediaList(MediaList list, CssTokenType end, ref CssToken token)
         {
+            _nodes.Push(list);
+
             if (token.Type != end)
             {
                 while (token.Type != CssTokenType.EndOfFile)
@@ -1037,6 +1101,8 @@
                     });
                 }
             }
+
+            _nodes.Pop();
         }
 
         #endregion
@@ -1046,7 +1112,7 @@
         ISelector CreateSelector(ref CssToken token)
         {
             var selector = Pool.NewSelectorConstructor();
-            var start = token;
+            var start = token.Position;
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketOpen, CssTokenType.CurlyBracketClose))
             {
@@ -1055,6 +1121,13 @@
             }
 
             var result = selector.ToPool();
+            var node = result as CssNode;
+
+            if (node != null)
+            {
+                var end = token.Position.Shift(-1);
+                node.SourceCode = CreateView(start, end);
+            }
 
             if (!selector.IsValid && !_parser.Options.IsToleratingInvalidValues)
             {
@@ -1070,7 +1143,7 @@
             var value = Pool.NewValueBuilder();
             _tokenizer.IsInValue = true;
             token = NextToken();
-            var start = token;
+            var start = token.Position;
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.Semicolon, closing))
             {
@@ -1081,6 +1154,13 @@
             important = value.IsImportant;
             _tokenizer.IsInValue = false;
             var result = value.ToPool();
+            var node = result as CssNode;
+
+            if (node != null)
+            {
+                var end = token.Position.Shift(-1);
+                node.SourceCode = CreateView(start, end);
+            }
 
             if (!value.IsValid && !_parser.Options.IsToleratingInvalidValues)
             {
@@ -1108,6 +1188,7 @@
         {
             if (token.Type == CssTokenType.Ident)
             {
+                var start = token.Position;
                 var val = CssValue.Empty;
                 var feature = _parser.Options.IsToleratingInvalidConstraints ?
                     new UnknownMediaFeature(token.Data) : Factory.MediaFeatures.Create(token.Data);
@@ -1134,6 +1215,14 @@
 
                 if (feature != null && feature.TrySetValue(val))
                 {
+                    var node = feature as CssNode;
+
+                    if (node != null)
+                    {
+                        var end = token.Position.Shift(-1);
+                        node.SourceCode = CreateView(start, end);
+                    }
+
                     return feature;
                 }
             }
