@@ -24,19 +24,11 @@ namespace AngleSharp.Core.Tests.Library
         <input type='radio' name='userType' id='managerOption' value='Manager' checked='checked' />
         <input type='radio' name='userType' id='guestOption' value='Guest' />
 
-        <!-- select single -->
-        <select name='city' id='city' multiple>
+        <!-- select -->
+        <select name='city' id='city'>
             <option value='0' id='cityOption0'>Jerusalem</option>
             <option value='1' id='cityOption1' selected='selected'>New york</option>
             <option value='2' id='cityOption2'>London</option>
-        </select>
-
-        <!-- select multiple -->
-        <select name='language' id='language' multiple>
-            <option value='0' id='langOption0'>Hebrew</option>
-            <option value='1' id='langOption1' selected='selected'>English</option>
-            <option value='2' id='langOption2' selected='selected'>French</option>
-            <option value='3' id='langOption3'>Russian</option>
         </select>
     </form>
 </body>
@@ -63,7 +55,7 @@ namespace AngleSharp.Core.Tests.Library
         }
 
         [Test]
-        public void SetValueOfSelectSinle()
+        public void SetValueOfSelect()
         {
             var document = CreateSampleDocument();
             document.Forms[0].SetFieldValues(new Dictionary<string, string>()
