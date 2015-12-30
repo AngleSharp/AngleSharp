@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
+    using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -293,40 +294,46 @@
         #region Set values extensions
 
         /// <summary>
-        /// Set the field values of given form by using the dictionary which contains name value pairs of input fields.
+        /// Set the field values of given form by using the dictionary which
+        /// contains name value pairs of input fields.
         /// </summary>
-        /// <param name="form">The form to set</param>
+        /// <param name="form">The form to set.</param>
         /// <param name="fields">The fields to use as values.</param>
-        /// <param name="createInputIfNoFound">What to do if some field/s have not found in the form. If true, then new input will be created.
-        /// If false, KeyNotFoundException will be thrown.
-        /// The default is false.
+        /// <param name="createInputIfNoFound">
+        /// What to do if some field(s) have not been found in the form. If
+        /// true, then new input will be created. Otherwise, an exception will
+        /// be thrown.
         /// </param>
-        public static void SetFieldValues(this IHtmlFormElement form, IDictionary<string, string> fields, bool createInputIfNoFound = false)
+        public static void SetFieldValues(this IHtmlFormElement form, IDictionary<String, String> fields, Boolean createInputIfNoFound = false)
         {
             if (form == null)
-                throw new ArgumentNullException(nameof(form));
+            {
+                throw new ArgumentNullException("form");
+            }
 
             if (fields == null)
-                throw new ArgumentNullException(nameof(fields));
+            {
+                throw new ArgumentNullException("fields");
+            }
 
-            // The actual execution of these queries is deferred.
             var inputs = form.Elements.OfType<IHtmlInputElement>();
             var selects = form.Elements.OfType<IHtmlSelectElement>();
 
             foreach (var field in fields)
             {
-                // try to match to an input element.
                 var targetInput = inputs.FirstOrDefault(e => e.Name == field.Key);
+
                 if (targetInput != null)
                 {
-                    var isRadio = targetInput.Type?.ToLower() == "radio";
+                    var isRadio = targetInput.Type.Is(InputTypeNames.Radio);
 
                     if (isRadio)
                     {
-                        var allOptins = inputs.Where(i => i.Name == targetInput.Name);
+                        var allOptins = inputs.Where(i => i.Name.Is(targetInput.Name));
+
                         foreach (var radio in allOptins)
                         {
-                            radio.IsChecked = (radio.Value == field.Value);
+                            radio.IsChecked = radio.Value.Is(field.Value);
                         }
                     }
 
@@ -338,23 +345,26 @@
                     continue;
                 }
 
-                // try to match to an select element.
-                var targetSelect = selects.FirstOrDefault(s => s.Name == field.Key);
+                var targetSelect = selects.FirstOrDefault(s => s.Name.Is(field.Key));
+
                 if (targetSelect != null)
                 {
                     targetSelect.Value = field.Value;
                     continue;
                 }
 
-                // if no match, create new element or throw an excpetion.
                 if (createInputIfNoFound)
                 {
-                    var newElementHtml = $@"<input type='hidden' name='{field.Key}' value='{field.Value}' />";
-                    form.Insert(AdjacentPosition.BeforeEnd, newElementHtml);
+                    var input = form.Owner.CreateElement<IHtmlInputElement>();
+                    input.Type = "hidden";
+                    input.Name = field.Key;
+                    input.Value = field.Value;
+                    form.AppendChild(input);
                 }
                 else
                 {
-                    throw new KeyNotFoundException($"Field {field.Key} not found");
+                    var message = String.Format("Field {0} not found.", field.Key);
+                    throw new KeyNotFoundException(message);
                 }
             }
         }
