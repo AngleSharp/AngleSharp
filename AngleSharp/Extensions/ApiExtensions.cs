@@ -316,14 +316,14 @@
             foreach (var field in fields)
             {
                 // try to match to an input element.
-                var input = inputs.FirstOrDefault(e => e.Name == field.Key);
-                if (input != null)
+                var targetInput = inputs.FirstOrDefault(e => e.Name == field.Key);
+                if (targetInput != null)
                 {
-                    var isRadio = input.Type?.ToLower() == "radio";
+                    var isRadio = targetInput.Type?.ToLower() == "radio";
 
                     if (isRadio)
                     {
-                        var allOptins = inputs.Where(i => i.Name == input.Name);
+                        var allOptins = inputs.Where(i => i.Name == targetInput.Name);
                         foreach (var radio in allOptins)
                         {
                             radio.IsChecked = (radio.Value == field.Value);
@@ -332,17 +332,17 @@
 
                     else
                     {
-                        input.Value = field.Value;
+                        targetInput.Value = field.Value;
                     }
 
                     continue;
                 }
 
                 // try to match to an select element.
-                var select = selects.FirstOrDefault(s => s.Name == field.Key);
-                if (select != null)
+                var targetSelect = selects.FirstOrDefault(s => s.Name == field.Key);
+                if (targetSelect != null)
                 {
-                    select.Value = field.Value;
+                    targetSelect.Value = field.Value;
                     continue;
                 }
 
