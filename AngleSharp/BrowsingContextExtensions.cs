@@ -1,11 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Dom.Svg;
-    using AngleSharp.Dom.Xml;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
@@ -45,20 +41,17 @@
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel)
         {
             if (response == null)
+            {
                 throw new ArgumentNullException("response");
+            }
 
             if (context == null)
+            {
                 context = BrowsingContext.New();
+            }
 
-            var contentType = response.GetContentType(MimeTypes.Html);
-            var encoding = context.Configuration.DefaultEncoding();
-            var charset = contentType.GetParameter(AttributeNames.Charset);
-
-            if (!String.IsNullOrEmpty(charset) && TextEncoding.IsSupported(charset))
-                encoding = TextEncoding.Resolve(charset);
-
-            var source = new TextSource(response.Content, encoding);
-            return context.LoadDocumentAsync(response, contentType, source, cancel);
+            var options = new CreateDocumentOptions(response, context.Configuration);
+            return context.OpenAsync(options, cancel);
         }
 
         /// <summary>
@@ -72,12 +65,16 @@
         public static async Task<IDocument> OpenAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel)
         {
             if (request == null)
+            {
                 throw new ArgumentNullException("request");
+            }
 
             using (var response = await context.Loader.SendAsync(request, cancel).ConfigureAwait(false))
             {
                 if (response != null)
+                {
                     return await context.OpenAsync(response, cancel).ConfigureAwait(false);
+                }
             }
 
             return await context.OpenNewAsync(request.Target.Href).ConfigureAwait(false);
@@ -94,12 +91,16 @@
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, Url url, CancellationToken cancel)
         {
             if (url == null)
+            {
                 throw new ArgumentNullException("url");
+            }
             
             var request = DocumentRequest.Get(url);
 
             if (context != null && context.Active != null)
+            {
                 request.Referer = context.Active.DocumentUri;
+            }
 
             return context.OpenAsync(request, cancel);
         }
@@ -115,17 +116,22 @@
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel)
         {
             if (request == null)
+            {
                 throw new ArgumentNullException("request");
+            }
 
             if (context == null)
+            {
                 context = BrowsingContext.New();
+            }
 
             using (var response = new VirtualResponse())
             {
                 request(response);
-                var contentType = response.GetContentType(MimeTypes.Html);
+                var contentType = response.GetContentType(MimeTypeNames.Html);
                 var source = response.CreateSourceFor(context.Configuration);
-                return context.LoadDocumentAsync(response, contentType, source, cancel);
+                var options = new CreateDocumentOptions(response, source);
+                return context.OpenAsync(options, cancel);
             }
         }
 
@@ -154,8 +160,8 @@
         }
 
         /// <summary>
-        /// Opens a new document loaded from the provided address
-        /// asynchronously in the given context.
+        /// Opens a new document loaded from the provided address asynchronously
+        /// in the given context.
         /// </summary>
         /// <param name="context">The browsing context to use.</param>
         /// <param name="address">The address to load.</param>
@@ -163,23 +169,25 @@
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, String address)
         {
             if (address == null)
+            {
                 throw new ArgumentNullException("address");
+            }
 
             return context.OpenAsync(Url.Create(address), CancellationToken.None);
         }
 
-        #endregion
-
-        #region Helpers
-
-        static async Task<IDocument> LoadDocumentAsync(this IBrowsingContext context, IResponse response, MimeType contentType, TextSource source, CancellationToken cancel)
+        /// <summary>
+        /// Opens a new document created with the provided document options
+        /// asynchronously in the given context.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <param name="options">The creation options.</param>
+        /// <param name="cancel">The cancellation token.</param>
+        /// <returns>The task that creates the document.</returns>
+        internal static Task<IDocument> OpenAsync(this IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancel)
         {
-            if (contentType.Represents(MimeTypes.Xml) || contentType.Represents(MimeTypes.ApplicationXml))
-                return await XmlDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
-            else if (contentType.Represents(MimeTypes.Svg))
-                return await SvgDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
-
-            return await HtmlDocument.LoadAsync(context, response, contentType, source, cancel).ConfigureAwait(false);
+            var creator = options.FindCreator();
+            return creator(context, options, cancel);
         }
 
         #endregion
@@ -352,9 +360,13 @@
             void Release()
             {
                 if (content != null && dispose)
+                {
                     content.Dispose();
+                }
                 else if (source != null)
+                {
                     source.Dispose();
+                }
 
                 dispose = false;
                 source = null;
@@ -369,11 +381,17 @@
             internal TextSource CreateSourceFor(IConfiguration configuration)
             {
                 if (source != null)
+                {
                     return source;
+                }
                 else if (content != null)
+                {
                     return new TextSource(content, configuration.DefaultEncoding());
-
-                return new TextSource(String.Empty);
+                }
+                else
+                {
+                    return new TextSource(String.Empty);
+                }
             }
         }
 

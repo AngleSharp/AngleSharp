@@ -9,7 +9,7 @@
     sealed class SvgDescElement : SvgElement
     {
         public SvgDescElement(Document owner, String prefix = null)
-            : base(owner, Tags.Desc, prefix, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
+            : base(owner, TagNames.Desc, prefix, NodeFlags.HtmlTip | NodeFlags.Special | NodeFlags.Scoped)
         {
         }
     }

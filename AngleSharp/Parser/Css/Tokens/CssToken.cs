@@ -20,11 +20,6 @@
 
         #region ctor
 
-        public CssToken(CssTokenType type, Char data, TextPosition position)
-            : this(type, data.ToString(), position)
-        {
-        }
-
         public CssToken(CssTokenType type, String data, TextPosition position)
         {
             _type = type;

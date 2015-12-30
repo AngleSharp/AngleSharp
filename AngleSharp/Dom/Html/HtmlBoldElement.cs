@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// The bold HTML element.
@@ -9,7 +9,7 @@
     sealed class HtmlBoldElement : HtmlElement
     {
         public HtmlBoldElement(Document owner, String prefix = null)
-            : base(owner, Tags.B, prefix, NodeFlags.HtmlFormatting)
+            : base(owner, TagNames.B, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

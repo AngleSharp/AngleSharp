@@ -17,7 +17,7 @@
         /// Creates a new HTML meta element.
         /// </summary>
         public HtmlMetaElement(Document owner, String prefix = null)
-            : base(owner, Tags.Meta, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Meta, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 
@@ -91,7 +91,7 @@
             }
 
             var equiv = HttpEquivalent;
-            var shouldParseContent = equiv != null && equiv.Equals(HeaderNames.ContentType, StringComparison.OrdinalIgnoreCase);
+            var shouldParseContent = equiv != null && equiv.Isi(HeaderNames.ContentType);
             return shouldParseContent ? TextEncoding.Parse(Content ?? String.Empty) : null;
         }
 

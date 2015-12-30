@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Dom.Collections;
+    using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using System;
@@ -9,84 +9,102 @@
     /// <summary>
     /// Represents a CSS Stylesheet.
     /// </summary>
-    sealed class CssStyleSheet : StyleSheet, ICssStyleSheet
+    sealed class CssStyleSheet : CssNode, ICssStyleSheet
     {
         #region Fields
 
+        readonly MediaList _media;
+        readonly String _url;
+        readonly IElement _owner;
+        readonly ICssStyleSheet _parent;
         readonly CssRuleList _rules;
         readonly CssParser _parser;
-
-        ICssRule _ownerRule;
+        readonly ICssRule _ownerRule;
 
         #endregion
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new CSS Stylesheet.
-        /// </summary>
-        /// <param name="parser">The parser to use.</param>
-        internal CssStyleSheet(CssParser parser)
-            : base(new MediaList(parser))
+        internal CssStyleSheet(CssParser parser, String url, IElement owner)
         {
-            _rules = new CssRuleList();
+            _media = new MediaList(parser);
+            _owner = owner;
+            _url = url;
+            _rules = new CssRuleList(this);
             _parser = parser;
+        }
+
+        internal CssStyleSheet(CssParser parser, String url, ICssStyleSheet parent)
+            : this(parser, url, parent != null ? parent.OwnerNode : null)
+        {
+            _parent = parent;
+        }
+
+        internal CssStyleSheet(CssParser parser)
+            : this(parser, default(String), default(ICssStyleSheet))
+        {
+        }
+
+        internal CssStyleSheet(CssRule ownerRule, String url)
+            : this(ownerRule.Parser, url, ownerRule.Owner)
+        {
+            _ownerRule = ownerRule;
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets the CSS root node associated with the stylesheet.
-        /// </summary>
-        public CssNode ParseTree 
-        { 
-            get; 
-            set; 
-        }
-
-        /// <summary>
-        /// Gets the mime-type of the stylesheet, which is CSS.
-        /// </summary>
-        public override String Type
+        public String Type
         {
-            get { return MimeTypes.Css; }
+            get { return MimeTypeNames.Css; }
         }
 
-        /// <summary>
-        /// Gets a CSSRuleList of the CSS rules in the style sheet.
-        /// </summary>
+        public Boolean IsDisabled
+        {
+            get;
+            set;
+        }
+
+        public IElement OwnerNode
+        {
+            get { return _owner; }
+        }
+
+        public ICssStyleSheet Parent
+        {
+            get { return _parent; }
+        }
+
+        public String Href
+        {
+            get { return _url; }
+        }
+
+        public String Title
+        {
+            get { return _owner != null ? _owner.GetAttribute(AttributeNames.Title) : null; }
+        }
+
+        public IMediaList Media
+        {
+            get { return _media; }
+        }
+
         ICssRuleList ICssStyleSheet.Rules
         {
             get { return _rules; }
         }
 
-        /// <summary>
-        /// Gets the @import rule if the stylesheet was importated otherwise
-        /// it returns null.
-        /// </summary>
         public ICssRule OwnerRule
         {
             get { return _ownerRule; }
-            internal set { _ownerRule = value; }
-        }
-
-        /// <summary>
-        /// Gets a CSS code representation of the stylesheet.
-        /// </summary>
-        public String CssText
-        {
-            get { return ToCss(); }
         }
 
         #endregion
 
         #region Internal Properties
 
-        /// <summary>
-        /// Gets a CSSRuleList of the CSS rules in the style sheet.
-        /// </summary>
         internal CssRuleList Rules
         {
             get { return _rules; }
@@ -101,44 +119,17 @@
             return formatter.Sheet(_rules);
         }
 
-        /// <summary>
-        /// Removes a style rule from the current style sheet object.
-        /// </summary>
-        /// <param name="index">
-        /// The index representing the position to be removed.
-        /// </param>
-        /// <returns>The current stylesheet.</returns>
         public void RemoveAt(Int32 index)
         {
             _rules.RemoveAt(index);
         }
 
-        /// <summary>
-        /// Inserts a new style rule into the current style sheet.
-        /// </summary>
-        /// <param name="rule">
-        /// A string containing the rule to be inserted (selector and 
-        /// declaration).
-        /// </param>
-        /// <param name="index">
-        /// The index representing the position to be inserted.
-        /// </param>
-        /// <returns>The current stylesheet.</returns>
-        public Int32 Insert(String rule, Int32 index)
+        public Int32 Insert(String ruleText, Int32 index)
         {
-            var value = _parser.ParseRule(rule);
-            _rules.Insert(value, index, this, null);
+            var rule = _parser.ParseRule(ruleText);
+            rule.Owner = this;
+            _rules.Insert(index, rule);
             return index;            
-        }
-
-        #endregion
-
-        #region Internal Methods
-
-        internal void AddRule(CssRule rule)
-        {
-            if (rule != null)
-                _rules.Add(rule, this, null);
         }
 
         #endregion

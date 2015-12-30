@@ -7,7 +7,7 @@
     /// Represents the base interface for a CSS rule.
     /// </summary>
     [DomName("CSSRule")]
-    public interface ICssRule : IStyleFormattable
+    public interface ICssRule : ICssNode
     {
         /// <summary>
         /// Gets the type constant indicating the type of CSS rule.

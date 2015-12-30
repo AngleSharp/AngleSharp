@@ -15,7 +15,7 @@
         /// Creates a new HTML button element.
         /// </summary>
         public HtmlButtonElement(Document owner, String prefix = null)
-            : base(owner, Tags.Button, prefix)
+            : base(owner, TagNames.Button, prefix)
         {
         }
 

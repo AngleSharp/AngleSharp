@@ -1,16 +1,23 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
+    using AngleSharp.Network;
+    using AngleSharp.Network.Default;
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-    using AngleSharp.Network;
-    using AngleSharp.Network.Default;
 
     public class MockRequester : IRequester
     {
         public Action<IRequest> OnRequest
+        {
+            get;
+            set;
+        }
+
+        public Func<IRequest, String> BuildResponse
         {
             get;
             set;
@@ -21,7 +28,10 @@
             if (OnRequest != null)
                 OnRequest(request);
 
-            return new Response { Address = request.Address, Content = new MemoryStream() };
+            var builder = BuildResponse ?? (_ => String.Empty);
+            var text = builder(request);
+            var content = new MemoryStream(Encoding.UTF8.GetBytes(text));
+            return new Response { Address = request.Address, Content = content };
         }
 
         public Task<IResponse> RequestAsync(IRequest request)

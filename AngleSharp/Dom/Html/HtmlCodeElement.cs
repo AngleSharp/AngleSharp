@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// The code HTML element.
@@ -9,7 +9,7 @@
     sealed class HtmlCodeElement : HtmlElement
     {
         public HtmlCodeElement(Document owner, String prefix = null)
-            : base(owner, Tags.Code, prefix, NodeFlags.HtmlFormatting)
+            : base(owner, TagNames.Code, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

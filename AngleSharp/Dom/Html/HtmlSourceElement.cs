@@ -15,7 +15,7 @@
         /// Creates a new HTML source element.
         /// </summary>
         public HtmlSourceElement(Document owner, String prefix = null)
-            : base(owner, Tags.Source, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Source, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
 

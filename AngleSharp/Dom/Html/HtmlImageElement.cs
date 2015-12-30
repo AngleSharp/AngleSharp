@@ -2,9 +2,9 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using AngleSharp.Services.Media;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the image element.
@@ -14,6 +14,7 @@
         #region Fields
 
         IImageInfo _img;
+        IDownload _download;
 
         #endregion
 
@@ -23,12 +24,8 @@
         /// Creates a new image element.
         /// </summary>
         public HtmlImageElement(Document owner, String prefix = null)
-            : base(owner, Tags.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
-            RegisterAttributeObserver(AttributeNames.SrcSet, UpdateSource);
-            RegisterAttributeObserver(AttributeNames.Sizes, UpdateSource);
-            RegisterAttributeObserver(AttributeNames.CrossOrigin, UpdateSource);
         }
 
         #endregion
@@ -162,31 +159,56 @@
         void GetImage(Url source)
         {
             if (source.IsInvalid)
+            {
                 source = null;
+            }
             else if (_img != null && source.Equals(_img.Source))
+            {
                 return;
+            }
 
-            this.CancelTasks();
+            if (_download != null && !_download.IsCompleted)
+            {
+                _download.Cancel();
+            }
 
-            if (source == null)
-                return;
+            var document = Owner;
 
-            var request = this.CreateRequestFor(source);
-            this.LoadResource<IImageInfo>(request).
-                 ContinueWith(FinishLoading);
+            if (source != null && document != null)
+            {
+                var loader = document.Loader;
+
+                if (loader != null)
+                {
+                    var request = this.CreateRequestFor(source);
+                    var download = loader.DownloadAsync(request);
+                    var task = this.ProcessResource<IImageInfo>(download, result => _img = result);
+                    document.DelayLoad(task);
+                    _download = download;
+                }
+            }
         }
 
-        void FinishLoading(Task<IImageInfo> task)
+        void UpdateSource()
         {
-            if (task.IsCompleted && !task.IsFaulted)
-                _img = task.Result;
-
-            this.FireLoadOrErrorEvent(task);
+            var candidate = this.GetImageCandidate();
+            GetImage(candidate);
         }
 
-        void UpdateSource(String value)
+        #endregion
+
+        #region Internal Methods
+
+        internal override void SetupElement()
         {
-            GetImage(this.GetImageCandidate());
+            base.SetupElement();
+
+            RegisterAttributeObserver(AttributeNames.Src, value => UpdateSource());
+            RegisterAttributeObserver(AttributeNames.SrcSet, value => UpdateSource());
+            RegisterAttributeObserver(AttributeNames.Sizes, value => UpdateSource());
+            RegisterAttributeObserver(AttributeNames.CrossOrigin, value => UpdateSource());
+
+            UpdateSource();
         }
 
         #endregion

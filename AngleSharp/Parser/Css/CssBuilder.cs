@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.Conditions;
-    using AngleSharp.Css.MediaFeatures;
     using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
@@ -33,59 +31,58 @@
             _tokenizer = tokenizer;
             _parser = parser;
             _nodes = new Stack<CssNode>();
-
-            if (parser.Options.IsStoringTrivia)
-                _nodes.Push(new CssNode());
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the token container.
-        /// </summary>
-        public CssNode Container
-        {
-            get { return _nodes.Count > 0 ? _nodes.Peek() : null; }
         }
 
         #endregion
 
         #region Create Rules
 
-        /// <summary>
-        /// Parses an @-rule with the given name, if there is any.
-        /// </summary>
         public CssRule CreateAtRule(CssToken token)
         {
             if (token.Data.Is(RuleNames.Media))
+            {
                 return CreateMedia(token);
+            }
             else if (token.Data.Is(RuleNames.FontFace))
+            {
                 return CreateFontFace(token);
+            }
             else if (token.Data.Is(RuleNames.Keyframes))
+            {
                 return CreateKeyframes(token);
+            }
             else if (token.Data.Is(RuleNames.Import))
+            {
                 return CreateImport(token);
+            }
             else if (token.Data.Is(RuleNames.Charset))
+            {
                 return CreateCharset(token);
+            }
             else if (token.Data.Is(RuleNames.Namespace))
+            {
                 return CreateNamespace(token);
+            }
             else if (token.Data.Is(RuleNames.Page))
+            {
                 return CreatePage(token);
+            }
             else if (token.Data.Is(RuleNames.Supports))
+            {
                 return CreateSupports(token);
+            }
             else if (token.Data.Is(RuleNames.ViewPort))
+            {
                 return CreateViewport(token);
+            }
             else if (token.Data.Is(RuleNames.Document))
+            {
                 return CreateDocument(token);
+            }
 
             return CreateUnknown(token);
         }
 
-        /// <summary>
-        /// Creates a rule with the enumeration of tokens.
-        /// </summary>
         public CssRule CreateRule(CssToken token)
         {
             switch (token.Type)
@@ -94,8 +91,8 @@
                     return CreateAtRule(token);
 
                 case CssTokenType.CurlyBracketOpen:
-                    RaiseErrorOccurred(CssParseError.InvalidBlockStart, token);
-                    SkipRule(token);
+                    RaiseErrorOccurred(CssParseError.InvalidBlockStart, token.Position);
+                    JumpToRuleEnd(ref token);
                     return null;
 
                 case CssTokenType.String:
@@ -103,8 +100,8 @@
                 case CssTokenType.CurlyBracketClose:
                 case CssTokenType.RoundBracketClose:
                 case CssTokenType.SquareBracketClose:
-                    RaiseErrorOccurred(CssParseError.InvalidToken, token);
-                    SkipRule(token);
+                    RaiseErrorOccurred(CssParseError.InvalidToken, token.Position);
+                    JumpToRuleEnd(ref token);
                     return null;
 
                 default:
@@ -115,61 +112,90 @@
         public CssRule CreateCharset(CssToken current)
         {
             var rule = new CssCharsetRule(_parser);
+            var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
 
             if (token.Type == CssTokenType.String)
+            {
                 rule.CharacterSet = token.Data;
+            }
 
-            JumpToEnd(token);
+            JumpToEnd(ref token);
+            rule.SourceCode = CreateView(start, token.Position);
+            _nodes.Pop();
             return rule;
         }
 
         public CssRule CreateDocument(CssToken current)
         {
             var rule = new CssDocumentRule(_parser);
+            var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
-            FillFunctions(rule.Conditions, ref token);
+            FillFunctions(function => rule.AppendChild(function), ref token);
             CollectTrivia(ref token);
 
-            if (token.Type != CssTokenType.CurlyBracketOpen)
-                return SkipDeclarations(token);
+            if (token.Type == CssTokenType.CurlyBracketOpen)
+            {
+                var end = FillRules(rule);
+                rule.SourceCode = CreateView(start, end);
+                _nodes.Pop();
+                return rule;
+            }
 
-            FillRules(rule);
-            return rule;
+            _nodes.Pop();
+            return SkipDeclarations(token);
         }
 
         public CssRule CreateViewport(CssToken current)
         {
             var rule = new CssViewportRule(_parser);
+            var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
 
-            if (token.Type != CssTokenType.CurlyBracketOpen)
-                return SkipDeclarations(token);
+            if (token.Type == CssTokenType.CurlyBracketOpen)
+            {
+                var end = FillDeclarations(rule, Factory.Properties.CreateViewport);
+                rule.SourceCode = CreateView(start, end);
+                _nodes.Pop();
+                return rule;
+            }
 
-            FillDeclarations(rule, Factory.Properties.CreateViewport);
-            return rule;
+            _nodes.Pop();
+            return SkipDeclarations(token);
         }
 
         public CssRule CreateFontFace(CssToken current)
         {
             var rule = new CssFontFaceRule(_parser);
+            var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
 
-            if (token.Type != CssTokenType.CurlyBracketOpen)
-                return SkipDeclarations(token);
+            if (token.Type == CssTokenType.CurlyBracketOpen)
+            {
+                var end = FillDeclarations(rule, Factory.Properties.CreateFont);
+                rule.SourceCode = CreateView(start, end);
+                _nodes.Pop();
+                return rule;
+            }
 
-            FillDeclarations(rule, Factory.Properties.CreateFont);
-            return rule;
+            _nodes.Pop();
+            return SkipDeclarations(token);
         }
 
         public CssRule CreateImport(CssToken current)
         {
             var rule = new CssImportRule(_parser);
+            var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
 
             if (token.Is(CssTokenType.String, CssTokenType.Url))
@@ -181,166 +207,208 @@
             }
 
             CollectTrivia(ref token);
-            JumpToEnd(token);
+            JumpToEnd(ref token);
+            rule.SourceCode = CreateView(start, token.Position);
+            _nodes.Pop();
             return rule;
         }
 
         public CssRule CreateKeyframes(CssToken current)
         {
             var rule = new CssKeyframesRule(_parser);
+            var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
             rule.Name = GetRuleName(ref token);
             CollectTrivia(ref token);
 
-            if (token.Type != CssTokenType.CurlyBracketOpen)
-                return SkipDeclarations(token);
+            if (token.Type == CssTokenType.CurlyBracketOpen)
+            {
+                var end = FillKeyframeRules(rule);
+                rule.SourceCode = CreateView(start, end);
+                _nodes.Pop();
+                return rule;
+            }
 
-            FillKeyframeRules(rule);
-            return rule;
+            _nodes.Pop();
+            return SkipDeclarations(token);
         }
 
         public CssRule CreateMedia(CssToken current)
         {
             var rule = new CssMediaRule(_parser);
+            var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
             FillMediaList(rule.Media, CssTokenType.CurlyBracketOpen, ref token);
             CollectTrivia(ref token);
 
             if (token.Type != CssTokenType.CurlyBracketOpen)
             {
-                while (token.Type != CssTokenType.Eof)
+                while (token.Type != CssTokenType.EndOfFile)
                 {
                     if (token.Type == CssTokenType.Semicolon)
+                    {
+                        _nodes.Pop();
                         return null;
+                    }
                     else if (token.Type == CssTokenType.CurlyBracketOpen)
+                    {
                         break;
+                    }
 
                     token = NextToken();
                 }
             }
 
-            FillRules(rule);
+            var end = FillRules(rule);
+            rule.SourceCode = CreateView(start, end);
+            _nodes.Pop();
             return rule;
         }
 
         public CssRule CreateNamespace(CssToken current)
         {
             var rule = new CssNamespaceRule(_parser);
+            var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
             rule.Prefix = GetRuleName(ref token);
             CollectTrivia(ref token);
 
             if (token.Type == CssTokenType.Url)
+            {
                 rule.NamespaceUri = token.Data;
+            }
 
-            JumpToEnd(token);
+            JumpToEnd(ref token);
+            rule.SourceCode = CreateView(start, token.Position);
+            _nodes.Pop();
             return rule;
         }
 
         public CssRule CreatePage(CssToken current)
         {
             var rule = new CssPageRule(_parser);
+            var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
             rule.Selector = CreateSelector(ref token);
             CollectTrivia(ref token);
 
-            if (token.Type != CssTokenType.CurlyBracketOpen)
-                return SkipDeclarations(token);
+            if (token.Type == CssTokenType.CurlyBracketOpen)
+            {
+                var end = FillDeclarations(rule.Style);
+                rule.SourceCode = CreateView(start, end);
+                _nodes.Pop();
+                return rule;
+            }
 
-            FillDeclarations(rule.Style);
-            return rule;
+            _nodes.Pop();
+            return SkipDeclarations(token);
         }
 
         public CssRule CreateSupports(CssToken current)
         {
             var rule = new CssSupportsRule(_parser);
+            var start = current.Position;
             var token = NextToken();
+            _nodes.Push(rule);
             CollectTrivia(ref token);
             rule.Condition = AggregateCondition(ref token);
             CollectTrivia(ref token);
 
-            if (token.Type != CssTokenType.CurlyBracketOpen)
-                return SkipDeclarations(token);
+            if (token.Type == CssTokenType.CurlyBracketOpen)
+            {
+                var end = FillRules(rule);
+                rule.SourceCode = CreateView(start, end);
+                _nodes.Pop();
+                return rule;
+            }
 
-            FillRules(rule);
-            return rule;
+            _nodes.Pop();
+            return SkipDeclarations(token);
         }
 
         public CssRule CreateStyle(CssToken current)
         {
             var rule = new CssStyleRule(_parser);
+            var start = current.Position;
+            _nodes.Push(rule);
             CollectTrivia(ref current);
             rule.Selector = CreateSelector(ref current);
-            FillDeclarations(rule.Style);
+            var end = FillDeclarations(rule.Style);
+            rule.SourceCode = CreateView(start, end);
+            _nodes.Pop();
             return rule.Selector != null ? rule : null;
         }
 
         public CssKeyframeRule CreateKeyframeRule(CssToken current)
         {
             var rule = new CssKeyframeRule(_parser);
+            var start = current.Position;
+            _nodes.Push(rule);
             CollectTrivia(ref current);
             rule.Key = CreateKeyframeSelector(ref current);
-            CollectTrivia(ref current);
-            FillDeclarations(rule.Style);
-            return rule;
+            var end = FillDeclarations(rule.Style);
+            rule.SourceCode = CreateView(start, end);
+            _nodes.Pop();
+            return rule.Key != null ? rule : null;
         }
 
         public CssRule CreateUnknown(CssToken current)
         {
-            var rule = default(CssUnknownRule);
+            var start = current.Position;
 
             if (_parser.Options.IsIncludingUnknownRules)
             {
                 var token = NextToken();
-                rule = new CssUnknownRule(current.Data, _parser);
+                var rule = new CssUnknownRule(current.Data, _parser);
+                _nodes.Push(rule);
 
-                while (token.IsNot(CssTokenType.CurlyBracketOpen, CssTokenType.Semicolon, CssTokenType.Eof))
+                while (token.IsNot(CssTokenType.CurlyBracketOpen, CssTokenType.Semicolon, CssTokenType.EndOfFile))
                 {
-                    rule.Prelude.Add(token);
                     token = NextToken();
                 }
 
-                if (token.Type != CssTokenType.Eof)
+                if (token.Type == CssTokenType.CurlyBracketOpen)
                 {
-                    rule.Content.Add(token);
+                    var curly = 1;
 
-                    if (token.Type == CssTokenType.CurlyBracketOpen)
+                    do
                     {
-                        var curly = 1;
+                        token = NextToken();
 
-                        do
+                        switch (token.Type)
                         {
-                            token = NextToken();
-                            rule.Content.Add(token);
-
-                            switch (token.Type)
-                            {
-                                case CssTokenType.CurlyBracketOpen:
-                                    curly++;
-                                    break;
-                                case CssTokenType.CurlyBracketClose:
-                                    curly--;
-                                    break;
-                                case CssTokenType.Eof:
-                                    curly = 0;
-                                    break;
-                            }
+                            case CssTokenType.CurlyBracketOpen:
+                                curly++;
+                                break;
+                            case CssTokenType.CurlyBracketClose:
+                                curly--;
+                                break;
+                            case CssTokenType.EndOfFile:
+                                curly = 0;
+                                break;
                         }
-                        while (curly != 0);
                     }
+                    while (curly != 0);
                 }
+
+                rule.SourceCode = CreateView(start, token.Position);
+                _nodes.Pop();
+                return rule;
             }
             else
             {
-                RaiseErrorOccurred(CssParseError.UnknownAtRule, current);
-                SkipRule(current);
+                RaiseErrorOccurred(CssParseError.UnknownAtRule, start);
+                JumpToRuleEnd(ref current);
+                return default(CssUnknownRule);
             }
-
-            return rule;
         }
 
         #endregion
@@ -364,17 +432,18 @@
             var list = new List<CssMedium>();
             CollectTrivia(ref token);
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.Type != CssTokenType.EndOfFile)
             {
-                CreateNewNode();
                 var medium = CreateMedium(ref token);
 
-                if (medium == null || token.IsNot(CssTokenType.Comma, CssTokenType.Eof))
+                if (medium == null || token.IsNot(CssTokenType.Comma, CssTokenType.EndOfFile))
+                {
                     throw new DomException(DomError.Syntax);
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
-                list.Add(CloseNode(medium));
+                list.Add(medium);
             }
 
             return list;
@@ -384,25 +453,28 @@
         /// Creates as many rules as possible.
         /// </summary>
         /// <returns>The found rules.</returns>
-        public void CreateRules(CssStyleSheet sheet)
+        public TextPosition CreateRules(CssStyleSheet sheet)
         {
             var token = NextToken();
             CollectTrivia(ref token);
+            _nodes.Push(sheet);
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.Type != CssTokenType.EndOfFile)
             {
-                CreateNewNode();
                 var rule = CreateRule(token);
                 token = NextToken();
                 CollectTrivia(ref token);
-                sheet.AddRule(CloseNode(rule));
+                sheet.Rules.Add(rule);
             }
+
+            _nodes.Pop();
+            return token.Position;
         }
 
         /// <summary>
         /// Called before any token in the value regime had been seen.
         /// </summary>
-        public CssCondition CreateCondition(ref CssToken token)
+        public IConditionFunction CreateCondition(ref CssToken token)
         {
             CollectTrivia(ref token);
             return AggregateCondition(ref token);
@@ -415,71 +487,92 @@
         {
             var keys = new List<Percent>();
             var valid = true;
-            var start = token;
-            CreateNewNode();
+            var start = token.Position;
             CollectTrivia(ref token);
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.Type != CssTokenType.EndOfFile)
             {
                 if (keys.Count > 0)
                 {
                     if (token.Type == CssTokenType.CurlyBracketOpen)
+                    {
                         break;
+                    }
                     else if (token.Type != CssTokenType.Comma)
+                    {
                         valid = false;
+                    }
                     else
+                    {
                         token = NextToken();
+                    }
 
                     CollectTrivia(ref token);
                 }
 
                 if (token.Type == CssTokenType.Percentage)
+                {
                     keys.Add(new Percent(((CssUnitToken)token).Value));
+                }
                 else if (token.Type == CssTokenType.Ident && token.Data.Is(Keywords.From))
+                {
                     keys.Add(Percent.Zero);
+                }
                 else if (token.Type == CssTokenType.Ident && token.Data.Is(Keywords.To))
+                {
                     keys.Add(Percent.Hundred);
+                }
                 else
+                {
                     valid = false;
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
             }
 
             if (!valid)
+            {
                 RaiseErrorOccurred(CssParseError.InvalidSelector, start);
+            }
 
-            return CloseNode(new KeyframeSelector(keys));
+            return new KeyframeSelector(keys);
         }
 
         /// <summary>
         /// Called when the document functions have to been found.
         /// </summary>
-        public List<CssDocumentFunction> CreateFunctions(ref CssToken token)
+        public List<DocumentFunction> CreateFunctions(ref CssToken token)
         {
-            var functions = new List<CssDocumentFunction>();
+            var functions = new List<DocumentFunction>();
             CollectTrivia(ref token);
-            FillFunctions(functions, ref token);
+            FillFunctions(function => functions.Add(function), ref token);
             return functions;
         }
 
         /// <summary>
         /// Fills the given parent style with declarations given by the tokens.
         /// </summary>
-        public void FillDeclarations(CssStyleDeclaration style)
+        public TextPosition FillDeclarations(CssStyleDeclaration style)
         {
             var token = NextToken();
             CollectTrivia(ref token);
+            _nodes.Push(style);
 
-            while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
+            while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
                 var property = CreateDeclarationWith(Factory.Properties.Create, ref token);
 
                 if (property != null && property.HasValue)
+                {
                     style.SetProperty(property);
+                }
 
                 CollectTrivia(ref token);
             }
+
+            _nodes.Pop();
+            return token.Position;
         }
 
         /// <summary>
@@ -488,16 +581,11 @@
         public CssProperty CreateDeclarationWith(Func<String, CssProperty> createProperty, ref CssToken token)
         {
             var property = default(CssProperty);
-            CreateNewNode();
 
             var sb = Pool.NewStringBuilder();
+            var start = token.Position;
 
-            while (token.Type != CssTokenType.Eof &&
-                   token.Type != CssTokenType.Colon &&
-                   token.Type != CssTokenType.Whitespace &&
-                   token.Type != CssTokenType.Comment &&
-                   token.Type != CssTokenType.CurlyBracketOpen &&
-                   token.Type != CssTokenType.Semicolon)
+            while (token.IsDeclarationName())
             {
                 sb.Append(token.ToValue());
                 token = NextToken();
@@ -512,7 +600,13 @@
                     new CssUnknownProperty(propertyName) : createProperty(propertyName);
 
                 if (property == null)
-                    RaiseErrorOccurred(CssParseError.UnknownDeclarationName, token);
+                {
+                    RaiseErrorOccurred(CssParseError.UnknownDeclarationName, start);
+                }
+                else
+                {
+                    _nodes.Push(property);
+                }
 
                 CollectTrivia(ref token);
 
@@ -522,27 +616,40 @@
                     var value = CreateValue(CssTokenType.CurlyBracketClose, ref token, out important);
 
                     if (value == null)
-                        RaiseErrorOccurred(CssParseError.ValueMissing, token);
+                    {
+                        RaiseErrorOccurred(CssParseError.ValueMissing, token.Position);
+                    }
                     else if (property != null && property.TrySetValue(value))
+                    {
                         property.IsImportant = important;
+                    }
 
                     CollectTrivia(ref token);
                 }
                 else
-                    RaiseErrorOccurred(CssParseError.ColonMissing, token);
+                {
+                    RaiseErrorOccurred(CssParseError.ColonMissing, token.Position);
+                }
 
                 JumpToDeclEnd(ref token);
+
+                if (property != null)
+                {
+                    _nodes.Pop();
+                }
             }
-            else if (token.Type != CssTokenType.Eof)
+            else if (token.Type != CssTokenType.EndOfFile)
             {
-                RaiseErrorOccurred(CssParseError.IdentExpected, token);
+                RaiseErrorOccurred(CssParseError.IdentExpected, start);
                 JumpToDeclEnd(ref token);
             }
 
             if (token.Type == CssTokenType.Semicolon)
+            {
                 token = NextToken();
+            }
 
-            return CloseNode(property);
+            return property;
         }
 
         /// <summary>
@@ -587,7 +694,9 @@
                 CollectTrivia(ref token);
 
                 if (token.Type != CssTokenType.Ident || !token.Data.Isi(Keywords.And))
+                {
                     return medium;
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
@@ -596,32 +705,41 @@
             do
             {
                 if (token.Type != CssTokenType.RoundBracketOpen)
+                {
                     return null;
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
-                CreateNewNode();
-                var feature = CloseNode(CreateFeature(ref token));
+                var feature = CreateFeature(ref token);
 
                 if (feature != null)
-                    medium.AddConstraint(feature);
+                {
+                    medium.AppendChild(feature);
+                }
 
                 if (token.Type != CssTokenType.RoundBracketClose)
+                {
                     return null;
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
 
                 if (feature == null)
+                {
                     return null;
+                }
 
                 if (token.Type != CssTokenType.Ident || !token.Data.Isi(Keywords.And))
+                {
                     break;
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
             }
-            while (token.Type != CssTokenType.Eof);
+            while (token.Type != CssTokenType.EndOfFile);
 
             return medium;
         }
@@ -630,28 +748,34 @@
 
         #region Helpers
 
-        void SkipRule(CssToken current)
+        void JumpToEnd(ref CssToken current)
         {
-            var scopes = 0;
-
-            while (current.Type != CssTokenType.Eof)
+            while (current.IsNot(CssTokenType.EndOfFile, CssTokenType.Semicolon))
             {
-                if (current.Type == CssTokenType.CurlyBracketOpen)
-                    scopes++;
-                else if (current.Type == CssTokenType.CurlyBracketClose)
-                    scopes--;
-
-                if (scopes <= 0 && (current.Is(CssTokenType.Semicolon, CssTokenType.CurlyBracketClose)))
-                    break;
-
                 current = NextToken();
             }
         }
 
-        void JumpToEnd(CssToken current)
+        void JumpToRuleEnd(ref CssToken current)
         {
-            while (current.IsNot(CssTokenType.Eof, CssTokenType.Semicolon))
+            var scopes = 0;
+
+            while (current.Type != CssTokenType.EndOfFile)
             {
+                if (current.Type == CssTokenType.CurlyBracketOpen)
+                {
+                    scopes++;
+                }
+                else if (current.Type == CssTokenType.CurlyBracketClose)
+                {
+                    scopes--;
+                }
+                
+                if (scopes <= 0 && (current.Is(CssTokenType.CurlyBracketClose, CssTokenType.Semicolon)))
+                {
+                    break;
+                }
+
                 current = NextToken();
             }
         }
@@ -660,14 +784,20 @@
         {
             var arguments = 0;
 
-            while (current.Type != CssTokenType.Eof)
+            while (current.Type != CssTokenType.EndOfFile)
             {
                 if (current.Type == CssTokenType.RoundBracketOpen)
+                {
                     arguments++;
-                else if (arguments <= 0 && (current.Type == CssTokenType.RoundBracketClose))
+                }
+                else if (arguments <= 0 && current.Type == CssTokenType.RoundBracketClose)
+                {
                     break;
+                }
                 else if (current.Type == CssTokenType.RoundBracketClose)
+                {
                     arguments--;
+                }
 
                 current = NextToken();
             }
@@ -677,14 +807,20 @@
         {
             var scopes = 0;
 
-            while (current.Type != CssTokenType.Eof)
+            while (current.Type != CssTokenType.EndOfFile)
             {
                 if (current.Type == CssTokenType.CurlyBracketOpen)
+                {
                     scopes++;
+                }
                 else if (scopes <= 0 && (current.Is(CssTokenType.CurlyBracketClose, CssTokenType.Semicolon)))
+                {
                     break;
+                }
                 else if (current.Type == CssTokenType.CurlyBracketClose)
+                {
                     scopes--;
+                }
 
                 current = NextToken();
             }
@@ -692,104 +828,52 @@
 
         CssToken NextToken()
         {
-            var token = _tokenizer.Get();
-
-            if (_nodes.Count > 0)
-                _nodes.Peek().Tokens.Add(token);
-
-            return token;
+            return _tokenizer.Get();
         }
 
-        CssNode CreateNewNode()
+        TextView CreateView(TextPosition start, TextPosition end)
         {
-            var node = default(CssNode);
-
-            if (_parser.Options.IsStoringTrivia)
-            {
-                var tokens = _nodes.Peek().Tokens;
-                node = new CssNode();
-
-                if (tokens.Count > 0)
-                {
-                    node.Tokens.Add(tokens[tokens.Count - 1]);
-                    tokens.RemoveAt(tokens.Count - 1);
-                }
-
-                _nodes.Peek().Children.Add(node);
-                _nodes.Push(node);
-            }
-
-            return node;
-        }
-
-        T CloseNode<T>(T entity)
-            where T : IStyleFormattable
-        {
-            if (_nodes.Count > 0)
-            {
-                var node = _nodes.Pop();
-                var tokens = node.Tokens;
-                node.Entity = entity;
-
-                if (tokens.Count > 0)
-                {
-                    _nodes.Peek().Tokens.Add(tokens[tokens.Count - 1]);
-                    tokens.RemoveAt(tokens.Count - 1);
-                }
-            }
-
-            return entity;
-
+            var range = new TextRange(start, end);
+            return new TextView(range, _tokenizer.Source);
         }
 
         void CollectTrivia(ref CssToken token)
         {
-            if (_nodes.Count > 0)
-            {
-                StoreTrivia(ref token);
-            }
-            else
-            {
-                RemoveTrivia(ref token);
-            }
-        }
-
-        void StoreTrivia(ref CssToken token)
-        {
-            var tokens = _nodes.Peek().Tokens;
+            var storeComments = _parser.Options.IsStoringTrivia;
 
             while (token.Type == CssTokenType.Whitespace || token.Type == CssTokenType.Comment || token.Type == CssTokenType.Cdc || token.Type == CssTokenType.Cdo)
             {
-                token = _tokenizer.Get();
-                tokens.Add(token);
-            }
-        }
+                if (storeComments && token.Type == CssTokenType.Comment)
+                {
+                    var current = _nodes.Peek();
+                    var comment = new CssComment(token.Data);
+                    var start = token.Position;
+                    var end = start.After(token.ToValue());
+                    comment.SourceCode = CreateView(start, end);
+                    current.AppendChild(comment);
+                }
 
-        void RemoveTrivia(ref CssToken token)
-        {
-            while (token.Type == CssTokenType.Whitespace || token.Type == CssTokenType.Comment || token.Type == CssTokenType.Cdc || token.Type == CssTokenType.Cdo)
-            {
                 token = _tokenizer.Get();
             }
-        }     
+        }   
 
         CssRule SkipDeclarations(CssToken token)
         {
-            RaiseErrorOccurred(CssParseError.InvalidToken, token);
-            SkipRule(token);
+            RaiseErrorOccurred(CssParseError.InvalidToken, token.Position);
+            JumpToRuleEnd(ref token);
             return default(CssRule);
         }
 
-        void RaiseErrorOccurred(CssParseError code, CssToken token)
+        void RaiseErrorOccurred(CssParseError code, TextPosition position)
         {
-            _tokenizer.RaiseErrorOccurred(code, token.Position);
+            _tokenizer.RaiseErrorOccurred(code, position);
         }
 
         #endregion
 
         #region Conditions
 
-        CssCondition AggregateCondition(ref CssToken token)
+        IConditionFunction AggregateCondition(ref CssToken token)
         {
             var condition = ExtractCondition(ref token);
 
@@ -803,55 +887,57 @@
                 {
                     token = NextToken();
                     CollectTrivia(ref token);
-                    CreateNewNode();
                     var conditions = MultipleConditions(condition, conjunction, ref token);
-                    condition = CloseNode(creator(conditions));
+                    condition = creator(conditions);
                 }
             }
 
             return condition;
         }
 
-        CssCondition ExtractCondition(ref CssToken token)
+        IConditionFunction ExtractCondition(ref CssToken token)
         {
-            var condition = default(CssCondition);
-            CreateNewNode();
-
             if (token.Type == CssTokenType.RoundBracketOpen)
             {
                 token = NextToken();
                 CollectTrivia(ref token);
-                condition = AggregateCondition(ref token);
+                var condition = AggregateCondition(ref token);
 
                 if (condition != null)
-                    condition = new GroupCondition(condition);
+                {
+                    var group = new GroupCondition();
+                    group.Content = condition;
+                    condition = group;
+                }
                 else if (token.Type == CssTokenType.Ident)
+                {
                     condition = DeclarationCondition(ref token);
+                }
 
                 if (token.Type == CssTokenType.RoundBracketClose)
                 {
                     token = NextToken();
                     CollectTrivia(ref token);
                 }
+
+                return condition;
             }
             else if (token.Data.Isi(Keywords.Not))
             {
+                var condition = new NotCondition();
                 token = NextToken();
                 CollectTrivia(ref token);
-                condition = ExtractCondition(ref token);
-
-                if (condition != null)
-                    condition = new NotCondition(condition);
+                condition.Content = ExtractCondition(ref token);
+                return condition;
             }
 
-            return CloseNode(condition);
+            return null;
         }
 
-        CssCondition DeclarationCondition(ref CssToken token)
+        IConditionFunction DeclarationCondition(ref CssToken token)
         {
             var property = Factory.Properties.Create(token.Data) ?? new CssUnknownProperty(token.Data);
             var declaration = default(DeclarationCondition);
-            CreateNewNode();
             token = NextToken();
             CollectTrivia(ref token);
 
@@ -862,29 +948,35 @@
                 property.IsImportant = important;
 
                 if (result != null)
+                {
                     declaration = new DeclarationCondition(property, result);
+                }
             }
 
-            return CloseNode(declaration);
+            return declaration;
         }
 
-        List<CssCondition> MultipleConditions(CssCondition condition, String connector, ref CssToken token)
+        List<IConditionFunction> MultipleConditions(IConditionFunction condition, String connector, ref CssToken token)
         {
-            var list = new List<CssCondition>();
+            var list = new List<IConditionFunction>();
             CollectTrivia(ref token);
             list.Add(condition);
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.Type != CssTokenType.EndOfFile)
             {
                 condition = ExtractCondition(ref token);
 
                 if (condition == null)
+                {
                     break;
+                }
 
                 list.Add(condition);
 
                 if (!token.Data.Isi(connector))
+                {
                     break;
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
@@ -897,104 +989,120 @@
 
         #region Fill Inner
 
-        void FillFunctions(List<CssDocumentFunction> functions, ref CssToken token)
+        void FillFunctions(Action<DocumentFunction> add, ref CssToken token)
         {
             do
             {
-                CreateNewNode();
                 var function = token.ToDocumentFunction();
 
                 if (function == null)
+                {
                     break;
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
-                functions.Add(CloseNode(function));
+                add(function);
 
                 if (token.Type != CssTokenType.Comma)
+                {
                     break;
+                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
             }
-            while (token.Type == CssTokenType.Eof);
+            while (token.Type != CssTokenType.EndOfFile);
         }
 
-        void FillKeyframeRules(CssKeyframesRule parentRule)
+        TextPosition FillKeyframeRules(CssKeyframesRule parentRule)
         {
             var token = NextToken();
             CollectTrivia(ref token);
 
-            while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
+            while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
-                CreateNewNode();
                 var rule = CreateKeyframeRule(token);
                 token = NextToken();
                 CollectTrivia(ref token);
-                parentRule.AddRule(CloseNode(rule));
+                parentRule.Rules.Add(rule);
             }
+
+            return token.Position;
         }
 
-        void FillDeclarations(CssDeclarationRule rule, Func<String, CssProperty> createProperty)
+        TextPosition FillDeclarations(CssDeclarationRule rule, Func<String, CssProperty> createProperty)
         {
             var token = NextToken();
             CollectTrivia(ref token);
 
-            while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
+            while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
                 var property = CreateDeclarationWith(createProperty, ref token);
 
                 if (property != null && property.HasValue)
+                {
                     rule.SetProperty(property);
+                }
 
                 CollectTrivia(ref token);
             }
+
+            return token.Position;
         }
 
-        void FillRules(CssGroupingRule group)
+        TextPosition FillRules(CssGroupingRule group)
         {
             var token = NextToken();
             CollectTrivia(ref token);
 
-            while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketClose))
+            while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
-                CreateNewNode();
                 var rule = CreateRule(token);
                 token = NextToken();
                 CollectTrivia(ref token);
-                group.AddRule(CloseNode(rule));
+                group.Rules.Add(rule);
             }
+
+            return token.Position;
         }
 
         void FillMediaList(MediaList list, CssTokenType end, ref CssToken token)
         {
-            if (token.Type == end)
-                return;
+            _nodes.Push(list);
 
-            while (token.Type != CssTokenType.Eof)
+            if (token.Type != end)
             {
-                CreateNewNode();
-                var medium = CloseNode(CreateMedium(ref token));
+                while (token.Type != CssTokenType.EndOfFile)
+                {
+                    var medium = CreateMedium(ref token);
 
-                if (medium != null)
-                    list.Add(medium);
+                    if (medium != null)
+                    {
+                        list.AppendChild(medium);
+                    }
 
-                if (token.Type != CssTokenType.Comma)
-                    break;
+                    if (token.Type != CssTokenType.Comma)
+                    {
+                        break;
+                    }
 
-                token = NextToken();
-                CollectTrivia(ref token);
+                    token = NextToken();
+                    CollectTrivia(ref token);
+                }
+
+                if (token.Type != end || list.Length == 0)
+                {
+                    list.Clear();
+                    list.AppendChild(new CssMedium
+                    {
+                        IsInverse = true,
+                        Type = Keywords.All
+                    });
+                }
             }
 
-            if (token.Type == end && list.Length > 0)
-                return;
-
-            list.Clear();
-            list.Add(new CssMedium
-            {
-                IsInverse = true,
-                Type = Keywords.All
-            });
+            _nodes.Pop();
         }
 
         #endregion
@@ -1004,16 +1112,22 @@
         ISelector CreateSelector(ref CssToken token)
         {
             var selector = Pool.NewSelectorConstructor();
-            var start = token;
-            CreateNewNode();
+            var start = token.Position;
 
-            while (token.IsNot(CssTokenType.Eof, CssTokenType.CurlyBracketOpen, CssTokenType.CurlyBracketClose))
+            while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketOpen, CssTokenType.CurlyBracketClose))
             {
                 selector.Apply(token);
                 token = NextToken();
             }
 
             var result = selector.ToPool();
+            var node = result as CssNode;
+
+            if (node != null)
+            {
+                var end = token.Position.Shift(-1);
+                node.SourceCode = CreateView(start, end);
+            }
 
             if (!selector.IsValid && !_parser.Options.IsToleratingInvalidValues)
             {
@@ -1021,7 +1135,7 @@
                 result = null;
             }
 
-            return CloseNode(result);
+            return result;
         }
 
         CssValue CreateValue(CssTokenType closing, ref CssToken token, out Boolean important)
@@ -1029,14 +1143,10 @@
             var value = Pool.NewValueBuilder();
             _tokenizer.IsInValue = true;
             token = NextToken();
-            var start = token;
-            CreateNewNode();
+            var start = token.Position;
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.Semicolon, closing))
             {
-                if (token.Is(CssTokenType.Semicolon, closing))
-                    break;
-
                 value.Apply(token);
                 token = NextToken();
             }
@@ -1044,6 +1154,13 @@
             important = value.IsImportant;
             _tokenizer.IsInValue = false;
             var result = value.ToPool();
+            var node = result as CssNode;
+
+            if (node != null)
+            {
+                var end = token.Position.Shift(-1);
+                node.SourceCode = CreateView(start, end);
+            }
 
             if (!value.IsValid && !_parser.Options.IsToleratingInvalidValues)
             {
@@ -1051,7 +1168,7 @@
                 result = null;
             }
 
-            return CloseNode(result);
+            return result;
         }
 
         String GetRuleName(ref CssToken token)
@@ -1071,6 +1188,7 @@
         {
             if (token.Type == CssTokenType.Ident)
             {
+                var start = token.Position;
                 var val = CssValue.Empty;
                 var feature = _parser.Options.IsToleratingInvalidConstraints ?
                     new UnknownMediaFeature(token.Data) : Factory.MediaFeatures.Create(token.Data);
@@ -1082,25 +1200,36 @@
                     var value = Pool.NewValueBuilder();
                     token = NextToken();
 
-                    while (token.Type != CssTokenType.RoundBracketClose || value.IsReady == false)
+                    while (token.IsNot(CssTokenType.RoundBracketClose, CssTokenType.EndOfFile) || !value.IsReady)
                     {
-                        if (token.Type == CssTokenType.Eof)
-                            break;
-
                         value.Apply(token);
                         token = NextToken();
                     }
 
                     val = value.ToPool();
                 }
-                else if (token.Type == CssTokenType.Eof)
+                else if (token.Type == CssTokenType.EndOfFile)
+                {
                     return null;
+                }
 
                 if (feature != null && feature.TrySetValue(val))
+                {
+                    var node = feature as CssNode;
+
+                    if (node != null)
+                    {
+                        var end = token.Position.Shift(-1);
+                        node.SourceCode = CreateView(start, end);
+                    }
+
                     return feature;
+                }
             }
             else
+            {
                 JumpToArgEnd(ref token);
+            }
 
             return null;
         }

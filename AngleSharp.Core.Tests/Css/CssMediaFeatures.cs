@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.MediaFeatures;
+    using AngleSharp.Dom.Css;
     using NUnit.Framework;
 
     [TestFixture]

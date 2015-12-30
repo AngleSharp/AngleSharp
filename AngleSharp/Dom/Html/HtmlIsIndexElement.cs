@@ -15,7 +15,7 @@
         /// Creates a new isindex element.
         /// </summary>
         public HtmlIsIndexElement(Document owner, String prefix = null)
-            : base(owner, Tags.IsIndex, prefix, NodeFlags.Special)
+            : base(owner, TagNames.IsIndex, prefix, NodeFlags.Special)
         {
         }
 

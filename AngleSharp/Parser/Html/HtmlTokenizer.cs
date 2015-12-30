@@ -422,7 +422,7 @@
                     Back();
                     break;
                 }
-                else if (c == Symbols.SquareBracketClose && ContinuesWith("]]>"))
+                else if (c == Symbols.SquareBracketClose && ContinuesWithSensitive("]]>"))
                 {
                     Advance(2);
                     break;
@@ -737,17 +737,17 @@
         /// <param name="c">The next input character.</param>
         HtmlToken MarkupDeclaration(Char c)
         {
-            if (ContinuesWith("--"))
+            if (ContinuesWithSensitive("--"))
             {
                 Advance();
                 return CommentStart(GetNext());
             }
-            else if (ContinuesWith(Tags.Doctype))
+            else if (ContinuesWithInsensitive(TagNames.Doctype))
             {
                 Advance(6);
                 return Doctype(GetNext());
             }
-            else if (_acceptsCharacterData && ContinuesWith("[CDATA[", ignoreCase: false))
+            else if (_acceptsCharacterData && ContinuesWithSensitive(Keywords.CData))
             {
                 Advance(6);
                 return CharacterData(GetNext());
@@ -1119,12 +1119,12 @@
                 Back();
                 doctype.IsQuirksForced = true;
             }
-            else if (ContinuesWith("public"))
+            else if (ContinuesWithInsensitive(Keywords.Public))
             {
                 Advance(5);
                 return DoctypePublic(doctype);
             }
-            else if (ContinuesWith("system"))
+            else if (ContinuesWithInsensitive(Keywords.System))
             {
                 Advance(5);
                 return DoctypeSystem(doctype);
@@ -2047,7 +2047,7 @@
                 {
                     var name = _stringBuffer.ToString(offset, length);
 
-                    if (name.Equals(_lastStartTag, StringComparison.OrdinalIgnoreCase))
+                    if (name.Isi(_lastStartTag))
                     {
                         if (offset > 2)
                         {
@@ -2240,7 +2240,7 @@
         /// <param name="offset">The tag name's offset.</param>
         HtmlToken ScriptDataEscapedNameEndTag(HtmlTagToken tag, Int32 offset)
         {
-            var length = Tags.Script.Length;
+            var length = TagNames.Script.Length;
 
             while (true)
             {
@@ -2248,7 +2248,7 @@
                 var hasLength = _stringBuffer.Length - offset == length;
 
                 if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()) && 
-                    _stringBuffer.ToString(offset, length).Equals(Tags.Script, StringComparison.OrdinalIgnoreCase))
+                    _stringBuffer.ToString(offset, length).Isi(TagNames.Script))
                 {
                     Back(length + 3);
                     _stringBuffer.Remove(offset - 2, length + 2);
@@ -2269,7 +2269,7 @@
         /// <param name="offset">The tag name's offset.</param>
         HtmlToken ScriptDataStartDoubleEscape(Int32 offset)
         {
-            var length = Tags.Script.Length;
+            var length = TagNames.Script.Length;
 
             while (true)
             {
@@ -2278,7 +2278,7 @@
 
                 if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
                 {
-                    var isscript = _stringBuffer.ToString(offset, length).Equals(Tags.Script, StringComparison.OrdinalIgnoreCase);
+                    var isscript = _stringBuffer.ToString(offset, length).Isi(TagNames.Script);
                     _stringBuffer.Append(c);
                     return isscript ? ScriptDataEscapedDouble(GetNext()) : ScriptDataEscaped(GetNext());
                 }
@@ -2407,7 +2407,7 @@
         /// <param name="offset">The tag name's offset.</param>
         HtmlToken ScriptDataEndDoubleEscape(Int32 offset)
         {
-            var length = Tags.Script.Length;
+            var length = TagNames.Script.Length;
 
             while (true)
             {
@@ -2416,7 +2416,7 @@
 
                 if (hasLength && (c.IsSpaceCharacter() || c == Symbols.Solidus || c == Symbols.GreaterThan))
                 {
-                    var isscript = _stringBuffer.ToString(offset, length).Equals(Tags.Script, StringComparison.OrdinalIgnoreCase);
+                    var isscript = _stringBuffer.ToString(offset, length).Isi(TagNames.Script);
                     _stringBuffer.Append(c);
                     return isscript ? ScriptDataEscaped(GetNext()) : ScriptDataEscapedDouble(GetNext());
                 }
@@ -2478,8 +2478,7 @@
             var isslash = c == Symbols.Solidus;
             var hasLength = _stringBuffer.Length == _lastStartTag.Length;
 
-            if (hasLength && (isspace || isclosed || isslash) && 
-                _stringBuffer.ToString().Equals(_lastStartTag, StringComparison.Ordinal))
+            if (hasLength && (isspace || isclosed || isslash) && _stringBuffer.ToString().Is(_lastStartTag))
             {
                 var tag = NewTagClose();
                 _stringBuffer.Clear();

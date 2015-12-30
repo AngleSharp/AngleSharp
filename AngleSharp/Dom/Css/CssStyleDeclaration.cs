@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections;
@@ -10,11 +11,10 @@
     /// <summary>
     /// Represents a single CSS declaration block.
     /// </summary>
-    sealed class CssStyleDeclaration : ICssStyleDeclaration, IBindable
+    sealed class CssStyleDeclaration : CssNode, ICssStyleDeclaration, IBindable
     {
         #region Fields
 
-        readonly List<CssProperty> _declarations;
         readonly CssRule _parent;
         readonly CssParser _parser;
 
@@ -32,31 +32,18 @@
         {
             _parent = parent;
             _parser = parser;
-            _declarations = new List<CssProperty>();
         }
 
-        /// <summary>
-        /// Creates a new CSS style declaration with no parent, which has a
-        /// parser and is therefore not read-only.
-        /// </summary>
-        /// <param name="parser">The used parser.</param>
         internal CssStyleDeclaration(CssParser parser)
             : this(null, parser)
         {
         }
 
-        /// <summary>
-        /// Creates a new read-only CSS style declaration.
-        /// </summary>
         internal CssStyleDeclaration()
             : this(null, null)
         {
         }
 
-        /// <summary>
-        /// Creates a new CSS style declaration.
-        /// </summary>
-        /// <param name="parent">The parent of the style declaration.</param>
         internal CssStyleDeclaration(CssRule parent)
             : this(parent, parent.Parser)
         {
@@ -66,83 +53,45 @@
 
         #region General Properties
 
-        /// <summary>
-        /// Gets if unknown declarations are not allowed.
-        /// </summary>
+        public IEnumerable<CssProperty> Declarations
+        {
+            get { return Children.OfType<CssProperty>(); }
+        }
+
         public Boolean IsStrictMode
         {
             get { return IsReadOnly || _parser.Options.IsIncludingUnknownDeclarations == false; }
         }
 
-        /// <summary>
-        /// Gets or sets the textual representation of the declaration block.
-        /// </summary>
         public String CssText
         {
-            get { return ToCss(); }
-            set
-            {
-                Update(value);
-                RaiseChanged();
-            }
+            get { return this.ToCss(); }
+            set { Update(value); RaiseChanged(); }
         }
 
-        /// <summary>
-        /// Gets if the style declaration is read-only and must not be 
-        /// modified.
-        /// </summary>
         public Boolean IsReadOnly
         {
             get { return _parser == null; }
         }
 
-        /// <summary>
-        /// Gets the number of properties in the declaration.
-        /// </summary>
         public Int32 Length
         {
-            get { return _declarations.Count; }
+            get { return Declarations.Count(); }
         }
 
-        /// <summary>
-        /// Gets the containing CSSRule.
-        /// </summary>
         public ICssRule Parent
         {
             get { return _parent; }
         }
 
-        /// <summary>
-        /// Gets the name of the property at the given index.
-        /// </summary>
-        /// <param name="index">The index of the property to get.</param>
-        /// <returns>
-        /// The name of the property at the given index or null.
-        /// </returns>
         public String this[Int32 index]
         {
-            get
-            {
-                if (index >= 0 && index < _declarations.Count)
-                    return _declarations[index].Name;
-
-                return null;
-            }
+            get { return Declarations.Skip(index).Select(m => m.Name).FirstOrDefault(); }
         }
 
-        /// <summary>
-        /// Gets the value of the property with the given name.
-        /// </summary>
-        /// <param name="name">The name of the property to get.</param>
-        /// <returns>The value of the property.</returns>
         public String this[String name]
         {
             get { return GetPropertyValue(name); }
-        }
-
-        internal IEnumerable<CssProperty> Declarations 
-        {
-            get { return _declarations; }
         }
 
         #endregion
@@ -2351,38 +2300,39 @@
         public void Update(String value)
         {
             if (IsReadOnly)
+            {
                 throw new DomException(DomError.NoModificationAllowed);
+            }
 
-            _declarations.Clear();
+            Clear();
 
             if (!String.IsNullOrEmpty(value))
+            {
                 _parser.AppendDeclarations(this, value);
+            }
         }
 
-        public String ToCss()
-        {
-            return ToCss(CssStyleFormatter.Instance);
-        }
-
-        public String ToCss(IStyleFormatter formatter)
+        public override String ToCss(IStyleFormatter formatter)
         {
             var list = new List<String>();
             var serialized = new List<String>();
 
-            foreach (var declaration in _declarations)
+            foreach (var declaration in Declarations)
             {
                 var property = declaration.Name;
 
                 if (IsStrictMode)
                 {
                     if (serialized.Contains(property))
+                    {
                         continue;
+                    }
 
                     var shorthands = Factory.Properties.GetShorthands(property);
 
                     if (shorthands.Any())
                     {
-                        var longhands = _declarations.Where(m => !serialized.Contains(m.Name)).ToList();
+                        var longhands = Declarations.Where(m => !serialized.Contains(m.Name)).ToList();
 
                         foreach (var shorthand in shorthands.OrderByDescending(m => Factory.Properties.GetLonghands(m).Count()))
                         {
@@ -2391,20 +2341,28 @@
                             var currentLonghands = longhands.Where(m => properties.Contains(m.Name)).ToArray();
 
                             if (currentLonghands.Length == 0)
+                            {
                                 continue;
+                            }
 
                             var important = currentLonghands.Count(m => m.IsImportant);
 
                             if (important > 0 && important != currentLonghands.Length)
+                            {
                                 continue;
+                            }
 
                             if (properties.Length != currentLonghands.Length)
+                            {
                                 continue;
+                            }
 
                             var value = rule.Stringify(currentLonghands);
 
                             if (String.IsNullOrEmpty(value))
+                            {
                                 continue;
+                            }
 
                             list.Add(CssStyleFormatter.Instance.Declaration(shorthand, value, important != 0));
 
@@ -2417,7 +2375,9 @@
                     }
 
                     if (serialized.Contains(property))
+                    {
                         continue;
+                    }
 
                     serialized.Add(property);
                 }
@@ -2431,7 +2391,9 @@
         public String RemoveProperty(String propertyName)
         {
             if (IsReadOnly)
+            {
                 throw new DomException(DomError.NoModificationAllowed);
+            }
 
             var value = GetPropertyValue(propertyName);
             RemovePropertyByName(propertyName);
@@ -2441,11 +2403,11 @@
 
         void RemovePropertyByName(String propertyName)
         {
-            for (int i = _declarations.Count - 1; i >= 0; i--)
+            foreach (var declaration in Declarations)
             {
-                if (_declarations[i].Name == propertyName)
+                if (declaration.Name.Is(propertyName))
                 {
-                    _declarations.RemoveAt(i);
+                    RemoveChild(declaration);
                     break;
                 }
             }
@@ -2455,7 +2417,9 @@
                 var longhands = Factory.Properties.GetLonghands(propertyName);
 
                 foreach (var longhand in longhands)
+                {
                     RemovePropertyByName(longhand);
+                }
             }
         }
 
@@ -2464,7 +2428,9 @@
             var property = GetProperty(propertyName);
 
             if (property != null && property.IsImportant)
+            {
                 return Keywords.Important;
+            }
 
             if (IsStrictMode && Factory.Properties.IsShorthand(propertyName))
             {
@@ -2472,8 +2438,10 @@
 
                 foreach (var longhand in longhands)
                 {
-                    if (GetPropertyPriority(longhand) != Keywords.Important)
+                    if (!GetPropertyPriority(longhand).Isi(Keywords.Important))
+                    {
                         return String.Empty;
+                    }
                 }
 
                 return Keywords.Important;
@@ -2487,7 +2455,9 @@
             var property = GetProperty(propertyName);
 
             if (property != null)
+            {
                 return property.Value;
+            }
 
             if (IsStrictMode && Factory.Properties.IsShorthand(propertyName))
             {
@@ -2500,7 +2470,9 @@
                     property = GetProperty(declaration);
 
                     if (property == null)
+                    {
                         return String.Empty;
+                    }
 
                     properties.Add(property);
                 }
@@ -2519,10 +2491,14 @@
         public void SetPropertyPriority(String propertyName, String priority)
         {
             if (IsReadOnly)
+            {
                 throw new DomException(DomError.NoModificationAllowed);
+            }
 
-            if (!String.IsNullOrEmpty(priority) && !priority.Equals(Keywords.Important, StringComparison.OrdinalIgnoreCase))
+            if (!String.IsNullOrEmpty(priority) && !priority.Isi(Keywords.Important))
+            {
                 return;
+            }
 
             var important = !String.IsNullOrEmpty(priority);
             var mappings = IsStrictMode && Factory.Properties.IsShorthand(propertyName) ? 
@@ -2534,36 +2510,42 @@
                 var property = GetProperty(mapping);
 
                 if (property != null)
+                {
                     property.IsImportant = important;
+                }
             }
         }
 
         public void SetProperty(String propertyName, String propertyValue, String priority = null)
         {
             if (IsReadOnly)
+            {
                 throw new DomException(DomError.NoModificationAllowed);
+            }
 
             if (!String.IsNullOrEmpty(propertyValue))
             {
-                if (priority != null && !priority.Equals(Keywords.Important, StringComparison.OrdinalIgnoreCase))
-                    return;
-
-                var value = _parser.ParseValue(propertyValue);
-
-                if (value == null)
-                    return;
-
-                var property = CreateProperty(propertyName);
-
-                if (property != null && property.TrySetValue(value))
+                if (priority == null || priority.Isi(Keywords.Important))
                 {
-                    property.IsImportant = priority != null;
-                    SetProperty(property);
-                    RaiseChanged();
+                    var value = _parser.ParseValue(propertyValue);
+
+                    if (value != null)
+                    {
+                        var property = CreateProperty(propertyName);
+
+                        if (property != null && property.TrySetValue(value))
+                        {
+                            property.IsImportant = priority != null;
+                            SetProperty(property);
+                            RaiseChanged();
+                        }
+                    }
                 }
             }
             else
+            {
                 RemoveProperty(propertyName);
+            }
         }
 
         #endregion
@@ -2575,33 +2557,35 @@
             var property = GetProperty(propertyName);
 
             if (property != null)
+            {
                 return property;
+            }
                 
             property = Factory.Properties.Create(propertyName);
 
             if (property != null || IsStrictMode)
+            {
                 return property;
+            }
 
             return new CssUnknownProperty(propertyName);
         }
 
         internal CssProperty GetProperty(String name)
         {
-            foreach (var declaration in _declarations)
-            {
-                if (declaration.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
-                    return declaration;
-            }
-
-            return null;
+            return Declarations.Where(m => m.Name.Isi(name)).FirstOrDefault();
         }
 
         internal void SetProperty(CssProperty property)
         {
             if (property is CssShorthandProperty)
+            {
                 SetShorthand((CssShorthandProperty)property);
+            }
             else
+            {
                 SetLonghand(property);
+            }
         }
 
         internal void SetDeclarations(IEnumerable<CssProperty> decls)
@@ -2612,11 +2596,6 @@
         internal void UpdateDeclarations(IEnumerable<CssProperty> decls)
         {
             ChangeDeclarations(decls, m => !m.CanBeInherited, (o, n) => o.IsInherited);
-        }
-
-        internal void Clear()
-        {
-            _declarations.Clear();
         }
 
         #endregion
@@ -2631,42 +2610,47 @@
             {
                 var skip = defaultSkip(newdecl);
 
-                foreach (var olddecl in _declarations)
+                foreach (var olddecl in Declarations)
                 {
-                    if (olddecl.Name == newdecl.Name)
+                    if (olddecl.Name.Is(newdecl.Name))
                     {
                         if (removeExisting(olddecl, newdecl))
-                            _declarations.Remove(olddecl);
+                        {
+                            RemoveChild(olddecl);
+                        }
                         else
+                        {
                             skip = true;
+                        }
 
                         break;
                     }
                 }
 
                 if (!skip)
+                {
                     declarations.Add(newdecl);
+                }
             }
 
-            _declarations.AddRange(declarations);
+            foreach (var declaration in declarations)
+            {
+                AppendChild(declaration);
+            }
         }
 
         void SetLonghand(CssProperty property)
         {
-            for (int i = 0; i < _declarations.Count; i++)
+            foreach (var declaration in Declarations)
             {
-                if (_declarations[i].Name == property.Name)
+                if (declaration.Name.Is(property.Name))
                 {
-                    _declarations.RemoveAt(i);
+                    RemoveChild(declaration);
                     break;
-                }
-                else if (_declarations[i] == property)
-                {
-                    return;
                 }
             }
 
-            _declarations.Add(property);
+            AppendChild(property);
         }
 
         void SetShorthand(CssShorthandProperty shorthand)
@@ -2675,32 +2659,28 @@
             shorthand.Export(properties);
 
             foreach (var property in properties)
+            {
                 SetLonghand(property);
+            }
         }
 
         void RaiseChanged()
         {
             if (Changed != null)
+            {
                 Changed(CssText);
+            }
         }
 
         #endregion
 
         #region Interface implementation
 
-        /// <summary>
-        /// Returns an ienumerator that enumerates over all entries.
-        /// </summary>
-        /// <returns>The iterator.</returns>
         public IEnumerator<ICssProperty> GetEnumerator()
         {
-            return _declarations.GetEnumerator();
+            return Declarations.GetEnumerator();
         }
 
-        /// <summary>
-        /// Returns a common ienumerator to enumerate all entries.
-        /// </summary>
-        /// <returns>The iterator.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

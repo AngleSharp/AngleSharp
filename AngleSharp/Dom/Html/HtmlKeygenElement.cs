@@ -15,7 +15,7 @@
         /// Creates a new HTML keygen element.
         /// </summary>
         public HtmlKeygenElement(Document owner, String prefix = null)
-            : base(owner, Tags.Keygen, prefix, NodeFlags.SelfClosing)
+            : base(owner, TagNames.Keygen, prefix, NodeFlags.SelfClosing)
         {
         }
 
@@ -46,7 +46,7 @@
         /// </summary>
         public String Type
         {
-            get { return Tags.Keygen; }
+            get { return TagNames.Keygen; }
         }
 
         #endregion

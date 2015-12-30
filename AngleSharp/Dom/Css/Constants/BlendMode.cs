@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration over all possible blend-mode values.
     /// </summary>
-    public enum BlendMode
+    public enum BlendMode : ushort
     {
         /// <summary>
         /// Indicates that no blending will happen: the selected color is the

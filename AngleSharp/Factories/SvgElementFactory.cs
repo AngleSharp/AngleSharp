@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Factories
 {
-    using System;
-    using System.Collections.Generic;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Svg;
     using AngleSharp.Html;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Provides string to SVGElement instance creation mappings.
@@ -15,11 +15,11 @@
 
         readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
-            { Tags.Svg, (document, prefix) => new SvgSvgElement(document, prefix) },
-            { Tags.Circle, (document, prefix) => new SvgCircleElement(document, prefix) },
-            { Tags.Desc, (document, prefix) => new SvgDescElement(document, prefix) },
-            { Tags.ForeignObject, (document, prefix) => new SvgForeignObjectElement(document, prefix) },
-            { Tags.Title, (document, prefix) => new SvgTitleElement(document, prefix) }
+            { TagNames.Svg, (document, prefix) => new SvgSvgElement(document, prefix) },
+            { TagNames.Circle, (document, prefix) => new SvgCircleElement(document, prefix) },
+            { TagNames.Desc, (document, prefix) => new SvgDescElement(document, prefix) },
+            { TagNames.ForeignObject, (document, prefix) => new SvgForeignObjectElement(document, prefix) },
+            { TagNames.Title, (document, prefix) => new SvgTitleElement(document, prefix) }
         };
 
         readonly Dictionary<String, String> adjustedTagNames = new Dictionary<String, String>(StringComparer.Ordinal)
@@ -71,10 +71,12 @@
         /// <returns>The specialized SVGElement instance.</returns>
         public SvgElement Create(Document document, String localName, String prefix = null)
         {
-            Creator creator;
+            var creator = default(Creator);
 
             if (creators.TryGetValue(localName, out creator))
+            {
                 return creator(document, prefix);
+            }
 
             return new SvgElement(document, localName);
         }
@@ -98,10 +100,12 @@
         /// <returns>The name with the correct capitalization.</returns>
         String SanatizeTag(String localName)
         {
-            String adjustedTagName;
+            var adjustedTagName = default(String);
 
             if (adjustedTagNames.TryGetValue(localName, out adjustedTagName))
+            {
                 return adjustedTagName;
+            }
 
             return localName;
         }

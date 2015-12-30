@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using System;
 
@@ -11,6 +12,7 @@
         #region Fields
 
         readonly Boolean _bad;
+        readonly Char _quote;
 
         #endregion
 
@@ -19,14 +21,15 @@
         /// <summary>
         /// Creates a new CSS string token.
         /// </summary>
-        /// <param name="type">The exact type.</param>
         /// <param name="data">The string data.</param>
-        /// <param name="bad">If the string was bad (optional).</param>
+        /// <param name="bad">Was the string ended prematurely.</param>
+        /// <param name="quote">The used quote symbol.</param>
         /// <param name="position">The token's position.</param>
-        public CssStringToken(CssTokenType type, String data, Boolean bad, TextPosition position)
-            : base(type, data, position)
+        public CssStringToken(String data, Boolean bad, Char quote, TextPosition position)
+            : base(CssTokenType.String, data, position)
         {
             _bad = bad;
+            _quote = quote;
         }
 
         #endregion
@@ -41,23 +44,21 @@
             get { return _bad; }
         }
 
+        /// <summary>
+        /// Gets the used quote symbol.
+        /// </summary>
+        public Char Quote
+        {
+            get { return _quote; }
+        }
+
         #endregion
 
         #region String representation
 
         public override String ToValue()
         {
-            switch (Type)
-            {
-                case CssTokenType.Url:
-                    return Data.CssUrl();
-                case CssTokenType.Color:
-                    return "#" + Data;
-                case CssTokenType.Comment:
-                    return String.Concat("/*", Data, "*/");
-                default:
-                    return Data.CssString();
-            }
+            return Data.CssString();
         }
 
         #endregion

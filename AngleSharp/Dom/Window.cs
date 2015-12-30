@@ -662,14 +662,14 @@
             Clear(handle);
         }
 
-        Int32 IWindowTimers.SetInterval(Action<IWindow> handler, Int32 timeout)
-        {
-            return QueueTask(DoInterval, handler, timeout);
-        }
-
         void IWindowTimers.ClearInterval(Int32 handle)
         {
             Clear(handle);
+        }
+
+        Int32 IWindowTimers.SetInterval(Action<IWindow> handler, Int32 timeout)
+        {
+            return QueueTask(DoInterval, handler, timeout);
         }
 
         #endregion
@@ -680,16 +680,18 @@
         {
             await token.Delay(timeout).ConfigureAwait(false);
 
-            if (token.IsCancellationRequested)
-                return;
-
-            _document.QueueTask(() => callback(this));
+            if (!token.IsCancellationRequested)
+            {
+                _document.QueueTask(() => callback(this));
+            }
         }
 
         async Task DoInterval(Action<IWindow> callback, Int32 timeout, CancellationToken token)
         {
             while (!token.IsCancellationRequested)
+            {
                 await DoTimeout(callback, timeout, token).ConfigureAwait(false);
+            }
         }
 
         Int32 QueueTask(Func<Action<IWindow>, Int32, CancellationToken, Task> taskCreator, Action<IWindow> callback, Int32 timeout)
@@ -703,8 +705,10 @@
 
         void Clear(Int32 handle)
         {
-            if (_tasks.Count > handle && _tasks[handle].IsCancellationRequested == false)
+            if (_tasks.Count > handle && !_tasks[handle].IsCancellationRequested)
+            {
                 _tasks[handle].Cancel();
+            }
         }
 
         INavigator CreateNavigator()
@@ -712,7 +716,9 @@
             var service = _document.Options.GetService<INavigatorService>();
 
             if (service != null)
+            {
                 return service.Create(this);
+            }
 
             return null;
         }

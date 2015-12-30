@@ -81,6 +81,7 @@
     <Compile Include="Css\CssCases.cs" />
     <Compile Include="Css\CssConstructionFunctions.cs" />
     <Compile Include="Css\CssContentProperty.cs" />
+    <Compile Include="Css\CssDocumentFunction.cs" />
     <Compile Include="Css\CssImportRule.cs" />
     <Compile Include="Css\CssObjectSizing.cs" />
     <Compile Include="Css\CssProperty.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="Library\MimeType.cs" />
     <Compile Include="Library\MutationObserver.cs" />
     <Compile Include="Library\OptionWithLabel.cs" />
+    <Compile Include="Library\PageImport.cs" />
     <Compile Include="Library\ShadowDom.cs" />
     <Compile Include="Library\SimpleEncoding.cs" />
     <Compile Include="Library\SimpleEventAggregator.cs" />
@@ -191,10 +193,12 @@
     <Compile Include="Mocks\EventReceiver.cs" />
     <Compile Include="Mocks\FileEntry.cs" />
     <Compile Include="Mocks\MockEntityResolver.cs" />
+    <Compile Include="Mocks\MockImageInfo.cs" />
     <Compile Include="Mocks\MockRequester.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
     <Compile Include="Mocks\MockScriptService.cs" />
     <Compile Include="Mocks\MockSubscriber.cs" />
+    <Compile Include="Mocks\TestServerRequester.cs" />
     <Compile Include="Mocks\ResourceService.cs" />
     <Compile Include="Mocks\StandingEventLoopService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

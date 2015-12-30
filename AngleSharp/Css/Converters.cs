@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Css
 {
-    using System;
-    using System.Linq;
     using AngleSharp.Css.ValueConverters;
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
+    using System;
+    using System.Linq;
 
     /// <summary>
     /// A set of already constructed CSS value converters.
@@ -127,10 +127,16 @@
         public static readonly IValueConverter PercentConverter = new StructValueConverter<Percent>(ValueExtensions.ToPercent);
 
         /// <summary>
-        /// Represents an integer object reduced to [0, 255].
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/integer
+        /// Represents an integer object reduced to [0, 255] or percent.
+        /// https://drafts.csswg.org/css-color/#rgb-functions
         /// </summary>
-        public static readonly IValueConverter ByteConverter = new StructValueConverter<Byte>(ValueExtensions.ToByte);
+        public static readonly IValueConverter RgbComponentConverter = new StructValueConverter<Byte>(ValueExtensions.ToRgbComponent);
+
+        /// <summary>
+        /// Represents an number reduced to [0, 1] or percent.
+        /// https://drafts.csswg.org/css-color/#rgb-functions
+        /// </summary>
+        public static readonly IValueConverter AlphaValueConverter = new StructValueConverter<Single>(ValueExtensions.ToAlphaValue);
 
         /// <summary>
         /// Represents an color object (usually hex or name).
@@ -142,6 +148,11 @@
         /// Represents a distance object (either Length or Percent).
         /// </summary>
         public static readonly IValueConverter LengthOrPercentConverter = new StructValueConverter<Length>(ValueExtensions.ToDistance);
+
+        /// <summary>
+        /// Represents an number object that is a valid angle number.
+        /// </summary>
+        public static readonly IValueConverter AngleNumberConverter = new StructValueConverter<Angle>(ValueExtensions.ToAngleNumber);
 
         #endregion
 
@@ -258,8 +269,8 @@
         /// </summary>
         public static readonly IValueConverter RgbColorConverter = Construct(() =>
         {
-            var value = ByteConverter.Required();
-            return new FunctionValueConverter(FunctionNames.Rgb, WithArgs(value, value, value));
+            var number = RgbComponentConverter.Required();
+            return new FunctionValueConverter(FunctionNames.Rgb, WithArgs(number, number, number));
         });
 
         /// <summary>
@@ -268,9 +279,9 @@
         /// </summary>
         public static readonly IValueConverter RgbaColorConverter = Construct(() =>
         {
-            var value = ByteConverter.Required();
-            var number = NumberConverter.Required();
-            return new FunctionValueConverter(FunctionNames.Rgba, WithArgs(value, value, value, number));
+            var value = RgbComponentConverter.Required();
+            var alpha = AlphaValueConverter.Required();
+            return new FunctionValueConverter(FunctionNames.Rgba, WithArgs(value, value, value, alpha));
         });
 
         /// <summary>
@@ -279,9 +290,9 @@
         /// </summary>
         public static readonly IValueConverter HslColorConverter = Construct(() =>
         {
+            var hue = AngleNumberConverter.Required();
             var percent = PercentConverter.Required();
-            var number = NumberConverter.Required();
-            return new FunctionValueConverter(FunctionNames.Hsl, WithArgs(number, percent, percent));
+            return new FunctionValueConverter(FunctionNames.Hsl, WithArgs(hue, percent, percent));
         });
 
         /// <summary>
@@ -290,13 +301,37 @@
         /// </summary>
         public static readonly IValueConverter HslaColorConverter = Construct(() =>
         {
+            var hue = AngleNumberConverter.Required();
             var percent = PercentConverter.Required();
-            var number = NumberConverter.Required();
-            return new FunctionValueConverter(FunctionNames.Hsla, WithArgs(number, percent, percent, number));
+            var alpha = AlphaValueConverter.Required();
+            return new FunctionValueConverter(FunctionNames.Hsla, WithArgs(hue, percent, percent, alpha));
         });
 
         /// <summary>
-        /// A perspective for 3D transformations.s
+        /// Represents a color object (GRAY function).
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+        /// </summary>
+        public static readonly IValueConverter GrayColorConverter = Construct(() =>
+        {
+            var value = RgbComponentConverter.Required();
+            var alpha = AlphaValueConverter.Option(1f);
+            return new FunctionValueConverter(FunctionNames.Gray, WithArgs(value, alpha));
+        });
+
+        /// <summary>
+        /// Represents a color object (HWB function).
+        /// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+        /// </summary>
+        public static readonly IValueConverter HwbColorConverter = Construct(() =>
+        {
+            var hue = AngleNumberConverter.Required();
+            var percent = PercentConverter.Required();
+            var alpha = AlphaValueConverter.Option(1f);
+            return new FunctionValueConverter(FunctionNames.Hwb, WithArgs(hue, percent, percent, alpha));
+        });
+
+        /// <summary>
+        /// A perspective for 3D transformations.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-perspective
         /// </summary>
         public static readonly IValueConverter PerspectiveConverter = Construct(() =>
@@ -305,7 +340,7 @@
         });
 
         /// <summary>
-        /// Sets the transformation matrix explicitely.
+        /// Sets the transformation matrix explicitly.
         /// http://www.w3.org/TR/css3-transforms/#funcdef-matrix3d
         /// </summary>
         public static readonly IValueConverter MatrixTransformConverter = Construct(() =>
@@ -641,7 +676,8 @@
         /// </summary>
         public static readonly IValueConverter ColorConverter = PureColorConverter.Or(
             RgbColorConverter.Or(RgbaColorConverter)).Or(
-            HslColorConverter.Or(HslaColorConverter));
+            HslColorConverter.Or(HslaColorConverter)).Or(
+            GrayColorConverter.Or(HwbColorConverter));
 
         /// <summary>
         /// Represents a color object or, alternatively, the current color.

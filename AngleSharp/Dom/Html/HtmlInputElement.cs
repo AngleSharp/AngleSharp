@@ -24,10 +24,8 @@
         /// Creates a new HTML input element.
         /// </summary>
         public HtmlInputElement(Document owner, String prefix = null)
-            : base(owner, Tags.Input, prefix, NodeFlags.SelfClosing)
+            : base(owner, TagNames.Input, prefix, NodeFlags.SelfClosing)
         {
-            RegisterAttributeObserver(AttributeNames.Type, UpdateType);
-            UpdateType(null);
         }
 
         #endregion
@@ -98,9 +96,13 @@
             set
             {
                 if (value == null)
+                {
                     Value = String.Empty;
+                }
                 else
+                {
                     Value = _type.ConvertFromDate(value.Value);
+                }
             }
         }
 
@@ -114,11 +116,18 @@
             set
             {
                 if (Double.IsInfinity(value))
+                {
                     throw new DomException(DomError.TypeMismatch);
-                else if (Double.IsNaN(value))
+                }
+
+                if (Double.IsNaN(value))
+                {
                     Value = String.Empty;
+                }
                 else
+                {
                     Value = _type.ConvertFromNumber(value);
+                }
             }
         }
 
@@ -224,7 +233,9 @@
                 var type = _type as FileInputType;
 
                 if (type != null)
+                {
                     return type.Files;
+                }
 
                 return null;
             }
@@ -243,7 +254,11 @@
                 var owner = Owner;
 
                 if (owner != null)
-                    return owner.GetElementById(this.GetOwnAttribute(AttributeNames.List)) as IHtmlDataListElement; 
+                {
+                    var list = this.GetOwnAttribute(AttributeNames.List);
+                    var element = owner.GetElementById(list);
+                    return element as IHtmlDataListElement;
+                }
 
                 return null;
             }
@@ -358,7 +373,9 @@
                 var type = _type as ImageInputType;
 
                 if (type != null)
+                {
                     return type.Width;
+                }
 
                 return 0;
             }
@@ -374,7 +391,9 @@
                 var type = _type as ImageInputType;
 
                 if (type != null)
+                {
                     return type.Height;
+                }
 
                 return 0;
             }
@@ -474,6 +493,15 @@
 
         #region Internal Methods
 
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var type = this.GetOwnAttribute(AttributeNames.Type);
+            RegisterAttributeObserver(AttributeNames.Type, UpdateType);
+            UpdateType(type);
+        }
+
         void UpdateType(String type)
         {
             _type = Factory.InputTypes.Create(this, type);
@@ -491,7 +519,9 @@
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
             if (_type.IsAppendingData(submitter))
+            {
                 _type.ConstructDataSet(dataSet);
+            }
         }
 
         /// <summary>

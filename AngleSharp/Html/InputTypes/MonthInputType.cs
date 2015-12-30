@@ -56,7 +56,7 @@
 
         public override String ConvertFromNumber(Double value)
         {
-            var dt = OriginTime.AddMonths((Int32)value);
+            var dt = UnixEpoch.AddMonths((Int32)value);
             return ConvertFromDate(dt);
         }
 

@@ -23,9 +23,8 @@
         /// Creates an HTML style element.
         /// </summary>
         public HtmlStyleElement(Document owner, String prefix = null)
-            : base(owner, Tags.Style, prefix, NodeFlags.Special | NodeFlags.LiteralText)
+            : base(owner, TagNames.Style, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
-            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
         }
 
         #endregion
@@ -84,7 +83,20 @@
 
         #endregion
 
-        #region Internal methods
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var media = this.GetOwnAttribute(AttributeNames.Media);
+            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
+
+            if (media != null)
+            {
+                UpdateMedia(media);
+            }
+        }
 
         internal override void NodeIsInserted(Node newNode)
         {
@@ -105,33 +117,38 @@
         void UpdateMedia(String value)
         {
             if (_sheet != null)
+            {
                 _sheet.Media.MediaText = value;
+            }
         }
 
         void UpdateSheet()
         {
             if (_sheet != null)
+            {
                 _sheet = CreateSheet();
+            }
         }
 
         IStyleSheet CreateSheet()
         {
             var config = Owner.Options;
-            var type = Type ?? MimeTypes.Css;
+            var type = Type ?? MimeTypeNames.Css;
             var engine = config.GetStyleEngine(type);
 
-            if (engine == null)
-                return null;
-
-            var options = new StyleOptions
+            if (engine != null)
             {
-                Element = this,
-                IsDisabled = IsDisabled,
-                Title = Title,
-                IsAlternate = false,
-                Configuration = config
-            };
-            return engine.ParseStylesheet(TextContent, options);
+                var options = new StyleOptions
+                {
+                    Element = this,
+                    IsDisabled = IsDisabled,
+                    IsAlternate = false,
+                    Configuration = config
+                };
+                return engine.ParseStylesheet(TextContent, options);
+            }
+
+            return null;
         }
 
         #endregion

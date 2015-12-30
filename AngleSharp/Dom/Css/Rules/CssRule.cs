@@ -1,13 +1,12 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
 
     /// <summary>
     /// Represents a CSS rule.
     /// </summary>
-    abstract class CssRule : ICssRule
+    abstract class CssRule : CssNode, ICssRule
     {
         #region Fields
 
@@ -21,9 +20,6 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new CSS rule.
-        /// </summary>
         internal CssRule(CssRuleType type, CssParser parser)
         {
             _type = type;
@@ -34,46 +30,46 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets the textual representation of the rule.
-        /// </summary>
         public String CssText
         {
-            get { return ToCss(); }
+            get { return this.ToCss(); }
             set
             {
                 var rule = _parser.ParseRule(value);
 
                 if (rule == null)
+                {
                     throw new DomException(DomError.Syntax);
+                }
                 else if (rule.Type != _type)
+                {
                     throw new DomException(DomError.InvalidModification);
+                }
 
                 ReplaceWith(rule);
             }
         }
 
-        /// <summary>
-        /// Gets the containing rule, otherwise null.
-        /// </summary>
         public ICssRule Parent
         {
             get { return _parentRule; }
-            internal set { _parentRule = value; }
+            internal set 
+            { 
+                _parentRule = value; 
+
+                if (value != null)
+                {
+                    _ownerSheet = _parentRule.Owner;
+                }
+            }
         }
 
-        /// <summary>
-        /// Gets the CSSStyleSheet object for the style sheet that contains this rule.
-        /// </summary>
         public ICssStyleSheet Owner
         {
             get { return _ownerSheet; }
             internal set { _ownerSheet = value; }
         }
 
-        /// <summary>
-        /// Gets the type constant indicating the type of CSS rule.
-        /// </summary>
         public CssRuleType Type
         {
             get { return _type; }
@@ -90,25 +86,31 @@
 
         #endregion
 
-        #region Methods
-
-        public String ToCss()
-        {
-            return ToCss(CssStyleFormatter.Instance);
-        }
-
-        public abstract String ToCss(IStyleFormatter formatter);
-
-        #endregion
-
         #region Internal Methods
 
-        /// <summary>
-        /// Replaces the current object with the given rule.
-        /// The types are equal.
-        /// </summary>
-        /// <param name="rule">The new rule.</param>
-        protected abstract void ReplaceWith(ICssRule rule);
+        protected virtual void ReplaceWith(ICssRule rule)
+        {
+            ReplaceAll(rule);
+        }
+
+        protected void ReplaceSingle(ICssNode oldNode, ICssNode newNode)
+        {
+            if (oldNode != null)
+            {
+                if (newNode != null)
+                {
+                    ReplaceChild(oldNode, newNode);
+                }
+                else
+                {
+                    RemoveChild(oldNode);
+                }
+            }
+            else if (newNode != null)
+            {
+                AppendChild(newNode);
+            }
+        }
 
         #endregion
     }

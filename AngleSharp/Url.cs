@@ -43,7 +43,7 @@
             _scheme = scheme;
             _host = host;
             _port = port;
-            _relative = KnownProtocols.IsRelative(_scheme);
+            _relative = ProtocolNames.IsRelative(_scheme);
         }
 
         /// <summary>
@@ -121,26 +121,32 @@
         {
             get
             {
-                if (_scheme.Equals(KnownProtocols.Blob))
+                if (_scheme.Is(ProtocolNames.Blob))
                 {
                     var url = new Url(_schemeData);
 
                     if (!url.IsInvalid)
+                    {
                         return url.Origin;
+                    }
                 }
-                else if (KnownProtocols.IsOriginable(_scheme))
+                else if (ProtocolNames.IsOriginable(_scheme))
                 {
                     var output = Pool.NewStringBuilder();
 
                     if (!String.IsNullOrEmpty(_host))
                     {
                         if (!String.IsNullOrEmpty(_scheme))
+                        {
                             output.Append(_scheme).Append(Symbols.Colon);
+                        }
 
                         output.Append(Symbols.Solidus).Append(Symbols.Solidus).Append(_host);
 
                         if (!String.IsNullOrEmpty(_port))
+                        {
                             output.Append(Symbols.Colon).Append(_port);
+                        }
                     }
 
                     return output.ToPool();
@@ -210,9 +216,13 @@
             set
             {
                 if (value == null)
+                {
                     _fragment = null;
+                }
                 else
+                {
                     ParseFragment(value, 0);
+                }
             }
         }
 
@@ -363,7 +373,9 @@
             var output = Pool.NewStringBuilder();
 
             if (!String.IsNullOrEmpty(_scheme))
+            {
                 output.Append(_scheme).Append(Symbols.Colon);
+            }
 
             if (_relative)
             {
@@ -371,12 +383,14 @@
                 {
                     output.Append(Symbols.Solidus).Append(Symbols.Solidus);
 
-                    if (String.IsNullOrEmpty(_username) == false || _password != null)
+                    if (!String.IsNullOrEmpty(_username) || _password != null)
                     {
                         output.Append(_username);
 
                         if (_password != null)
+                        {
                             output.Append(Symbols.Colon).Append(_password);
+                        }
 
                         output.Append(Symbols.At);
                     }
@@ -384,7 +398,9 @@
                     output.Append(_host);
 
                     if (!String.IsNullOrEmpty(_port))
+                    {
                         output.Append(Symbols.Colon).Append(_port);
+                    }
 
                     output.Append(Symbols.Solidus);
                 }
@@ -392,13 +408,19 @@
                 output.Append(_path);
             }
             else
+            {
                 output.Append(_schemeData);
+            }
 
             if (_query != null)
+            {
                 output.Append(Symbols.QuestionMark).Append(_query);
+            }
 
             if (_fragment != null)
+            {
                 output.Append(Symbols.Num).Append(_fragment);
+            }
 
             return output.ToPool();
         }
@@ -410,7 +432,7 @@
         Boolean ParseUrl(String input, Url baseUrl = null)
         {
             Reset(baseUrl ?? DefaultBase);
-            return ParseScheme(input.Trim()) == false;
+            return !ParseScheme(input.Trim());
         }
 
         void Reset(Url baseUrl)
@@ -420,7 +442,7 @@
             _host = baseUrl._host;
             _path = baseUrl._path;
             _port = baseUrl._port;
-            _relative = KnownProtocols.IsRelative(_scheme);
+            _relative = ProtocolNames.IsRelative(_scheme);
         }
 
         Boolean ParseScheme(String input, Boolean onlyScheme = false)
@@ -445,9 +467,9 @@
                         if (onlyScheme)
                             return true;
 
-                        _relative = KnownProtocols.IsRelative(_scheme);
+                        _relative = ProtocolNames.IsRelative(_scheme);
 
-                        if (_scheme == KnownProtocols.File)
+                        if (_scheme.Is(ProtocolNames.File))
                         {
                             _host = String.Empty;
                             _port = String.Empty;
@@ -460,7 +482,7 @@
                             _path = String.Empty;
                             return ParseSchemeData(input, index + 1);
                         }
-                        else if (originalScheme == _scheme)
+                        else if (_scheme.Is(originalScheme))
                         {
                             c = input[++index];
 
@@ -546,12 +568,12 @@
 
                     if (c == Symbols.Solidus || c == Symbols.ReverseSolidus)
                     {
-                        if (_scheme == KnownProtocols.File)
+                        if (_scheme.Is(ProtocolNames.File))
                             return ParseFileHost(input, index + 1);
 
                         return IgnoreSlashesState(input, index + 1);
                     }
-                    else if (_scheme == KnownProtocols.File)
+                    else if (_scheme.Is(ProtocolNames.File))
                     {
                         _host = String.Empty;
                         _port = String.Empty;
@@ -560,8 +582,9 @@
                     return ParsePath(input, index - 1);
             }
 
-            if (input[index].IsLetter() && _scheme == KnownProtocols.File && index + 1 < input.Length && (input[index + 1] == Symbols.Colon || input[index + 1] == Symbols.Solidus) &&
-                (index + 2 >= input.Length || input[index + 2] == Symbols.Solidus || input[index + 2] == Symbols.ReverseSolidus || input[index + 2] == Symbols.Num || input[index + 2] == Symbols.QuestionMark))
+            if (input[index].IsLetter() && _scheme.Is(ProtocolNames.File) && index + 1 < input.Length && 
+               (input[index + 1].IsOneOf(Symbols.Colon, Symbols.Solidus)) &&
+               (index + 2 == input.Length || input[index + 2].IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus, Symbols.Num, Symbols.QuestionMark)))
             {
                 _host = String.Empty;
                 _path = String.Empty;
@@ -786,21 +809,21 @@
                     var close = false;
                     buffer.Clear();
 
-                    if (path.Equals("%2e", StringComparison.OrdinalIgnoreCase))
+                    if (path.Isi("%2e"))
                         path = currentDirectory;
-                    else if (path.Equals(".%2e", StringComparison.OrdinalIgnoreCase) || path.Equals("%2e.", StringComparison.OrdinalIgnoreCase) || path.Equals("%2e%2e", StringComparison.OrdinalIgnoreCase))
+                    else if (path.Isi(".%2e") || path.Isi("%2e.") || path.Isi("%2e%2e"))
                         path = upperDirectory;
 
-                    if (path.Equals(upperDirectory))
+                    if (path.Is(upperDirectory))
                     {
                         if (paths.Count > 0)
                             paths.RemoveAt(paths.Count - 1);
 
                         close = true;
                     }
-                    else if (!path.Equals(currentDirectory))
+                    else if (!path.Is(currentDirectory))
                     {
-                        if (_scheme == KnownProtocols.File && paths.Count == originalCount && path.Length == 2 && path[0].IsLetter() && path[1] == Symbols.Pipe)
+                        if (_scheme.Is(ProtocolNames.File) && paths.Count == originalCount && path.Length == 2 && path[0].IsLetter() && path[1] == Symbols.Pipe)
                         {
                             path = path.Replace(Symbols.Pipe, Symbols.Colon);
                             paths.Clear();
@@ -864,12 +887,18 @@
                 fragment = !onlyQuery && input[index] == Symbols.Num;
 
                 if (fragment)
+                {
                     break;
+                }
 
                 if (c.IsNormalQueryCharacter())
+                {
                     buffer.Append(c);
+                }
                 else
+                {
                     buffer.Append(Symbols.Percent).Append(((Byte)c).ToString("X2"));
+                }
 
                 index++;
             }
@@ -916,7 +945,9 @@
             var bytes = TextEncoding.Utf8.GetBytes(source.Substring(index, length));
 
             for (var i = 0; i < bytes.Length; i++)
+            {
                 buffer.Append(Symbols.Percent).Append(bytes[i].ToString("X2"));
+            }
 
             return length - 1;
         }
@@ -924,12 +955,15 @@
         static String SanatizeHost(String hostName, Int32 start, Int32 length)
         {
             if (length > 1 && hostName[start] == Symbols.SquareBracketOpen && hostName[start + length - 1] == Symbols.SquareBracketClose)
+            {
                 return hostName.Substring(start, length);
+            }
 
             var chars = new Byte[4 * length];
             var count = 0;
+            var n = start + length;
 
-            for (int i = start, n = start + length; i < n; i++)
+            for (var i = start; i < n; i++)
             {
                 switch (hostName[i])
                 {
@@ -975,13 +1009,17 @@
                         {
                             var l = i + 1 < n && Char.IsSurrogatePair(hostName, i) ? 2 : 1;
 
-                            if (l == 1 && hostName[i] != Symbols.Minus && Char.IsLetterOrDigit(hostName[i]) == false)
+                            if (l == 1 && hostName[i] != Symbols.Minus && !Char.IsLetterOrDigit(hostName[i]))
+                            {
                                 break;
+                            }
 
                             var bytes = TextEncoding.Utf8.GetBytes(hostName.Substring(i, l));
 
                             for (var j = 0; j < bytes.Length; j++)
+                            {
                                 chars[count++] = bytes[j];
+                            }
 
                             i += (l - 1);
                         }
@@ -1015,9 +1053,13 @@
                         break;
                     default:
                         if (count == 1 && chars[0] == '0')
+                        {
                             chars[0] = port[i];
+                        }
                         else
+                        {
                             chars[count++] = port[i];
+                        }
 
                         break;
                 }

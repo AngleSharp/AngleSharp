@@ -12,15 +12,15 @@
         #region Fields
 
         [FieldOffset(0)]
-        Byte tags;
+        readonly Byte _tags;
         [FieldOffset(1)]
-        Byte classes;
+        readonly Byte _classes;
         [FieldOffset(2)]
-        Byte ids;
+        readonly Byte _ids;
         [FieldOffset(3)]
-        Byte inlines;
+        readonly Byte _inlines;
         [FieldOffset(0)]
-        UInt32 priority;
+        readonly UInt32 _priority;
 
         #endregion
 
@@ -61,8 +61,8 @@
         /// <param name="priority">The hashcode to use.</param>
         public Priority(UInt32 priority)
         {
-            this.inlines = this.ids = this.classes = this.tags = 0;
-            this.priority = priority;
+            _inlines = _ids = _classes = _tags = 0;
+            _priority = priority;
         }
 
         /// <summary>
@@ -74,11 +74,11 @@
         /// <param name="tags">The number of tags.</param>
         public Priority(Byte inlines, Byte ids, Byte classes, Byte tags)
         {
-            this.priority = 0;
-            this.inlines = inlines;
-            this.ids = ids;
-            this.classes = classes;
-            this.tags = tags;
+            _priority = 0;
+            _inlines = inlines;
+            _ids = ids;
+            _classes = classes;
+            _tags = tags;
         }
 
         #endregion
@@ -90,7 +90,7 @@
         /// </summary>
         public Byte Tags
         {
-            get { return tags; }
+            get { return _tags; }
         }
 
         /// <summary>
@@ -98,7 +98,7 @@
         /// </summary>
         public Byte Classes
         {
-            get { return classes; }
+            get { return _classes; }
         }
 
         /// <summary>
@@ -106,7 +106,7 @@
         /// </summary>
         public Byte Ids
         {
-            get { return ids; }
+            get { return _ids; }
         }
 
         /// <summary>
@@ -114,7 +114,7 @@
         /// </summary>
         public Byte Inlines
         {
-            get { return inlines; }
+            get { return _inlines; }
         }
 
         #endregion
@@ -129,7 +129,7 @@
         /// <returns>The result of adding the two priorities.</returns>
         public static Priority operator +(Priority a, Priority b)
         {
-            return new Priority(a.priority + b.priority);
+            return new Priority(a._priority + b._priority);
         }
 
         #endregion
@@ -144,7 +144,7 @@
         /// <returns>True if both priorities are equal, otherwise false.</returns>
         public static Boolean operator ==(Priority a, Priority b)
         {
-            return a.priority == b.priority;
+            return a._priority == b._priority;
         }
 
         /// <summary>
@@ -155,7 +155,7 @@
         /// <returns>True if the first priority is higher, otherwise false.</returns>
         public static Boolean operator >(Priority a, Priority b)
         {
-            return a.priority > b.priority;
+            return a._priority > b._priority;
         }
 
         /// <summary>
@@ -166,7 +166,7 @@
         /// <returns>True if the first priority is higher or equal, otherwise false.</returns>
         public static Boolean operator >=(Priority a, Priority b)
         {
-            return a.priority >= b.priority;
+            return a._priority >= b._priority;
         }
 
         /// <summary>
@@ -177,7 +177,7 @@
         /// <returns>True if the second priority is higher, otherwise false.</returns>
         public static Boolean operator <(Priority a, Priority b)
         {
-            return a.priority < b.priority;
+            return a._priority < b._priority;
         }
 
         /// <summary>
@@ -188,7 +188,7 @@
         /// <returns>True if the second priority is higher or equal, otherwise false.</returns>
         public static Boolean operator <=(Priority a, Priority b)
         {
-            return a.priority <= b.priority;
+            return a._priority <= b._priority;
         }
 
         /// <summary>
@@ -199,7 +199,7 @@
         /// <returns>True if both priorities are not equal, otherwise false.</returns>
         public static Boolean operator !=(Priority a, Priority b)
         {
-            return a.priority != b.priority;
+            return a._priority != b._priority;
         }
 
         /// <summary>
@@ -209,7 +209,7 @@
         /// <returns>True if both priorities or equal, otherwise false.</returns>
         public Boolean Equals(Priority other)
         {
-            return this.priority == other.priority;
+            return this._priority == other._priority;
         }
 
         /// <summary>
@@ -231,7 +231,7 @@
         /// <returns>The integer value of the hashcode.</returns>
         public override Int32 GetHashCode()
         {
-            return (Int32)priority;
+            return (Int32)_priority;
         }
 
         /// <summary>
@@ -254,7 +254,7 @@
         /// <returns>The string representation.</returns>
         public override String ToString()
         {
-            return String.Format("({0}, {1}, {2}, {3})", inlines, ids, classes, tags);
+            return String.Format("({0}, {1}, {2}, {3})", _inlines, _ids, _classes, _tags);
         }
 
         #endregion

@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Html
 {
+    using AngleSharp.Dom;
     using System;
     using System.Linq;
-    using AngleSharp.Dom;
 
     /// <summary>
     /// Represents the an HTML5 markup formatter with inserted intends.
@@ -81,7 +81,8 @@
 
         String IMarkupFormatter.Text(String text)
         {
-            return HtmlMarkupFormatter.Instance.Text(text.Replace("\n", ""));
+            var singleLine = text.Replace(Symbols.LineFeed, Symbols.Space);
+            return HtmlMarkupFormatter.Instance.Text(singleLine);
         }
 
         String IMarkupFormatter.OpenTag(IElement element, Boolean selfClosing)

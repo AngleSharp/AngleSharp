@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// The small HTML element.
@@ -9,7 +9,7 @@
     sealed class HtmlSmallElement : HtmlElement
     {
         public HtmlSmallElement(Document owner, String prefix = null)
-            : base(owner, Tags.Small, prefix, NodeFlags.HtmlFormatting)
+            : base(owner, TagNames.Small, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

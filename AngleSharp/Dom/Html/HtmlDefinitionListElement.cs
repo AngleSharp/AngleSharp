@@ -1,20 +1,16 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents the HTML dl element.
     /// </summary>
     sealed class HtmlDefinitionListElement : HtmlElement
     {
-        #region ctor
-
         public HtmlDefinitionListElement(Document owner, String prefix = null)
-            : base(owner, Tags.Dl, prefix, NodeFlags.Special)
+            : base(owner, TagNames.Dl, prefix, NodeFlags.Special)
         {
         }
-
-        #endregion
     }
 }

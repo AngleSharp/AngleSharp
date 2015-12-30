@@ -3,7 +3,7 @@
     /// <summary>
     /// Available device update frequencies.
     /// </summary>
-    public enum UpdateFrequency
+    public enum UpdateFrequency : ushort
     {
         /// <summary>
         /// Once it has been rendered, the layout can no longer

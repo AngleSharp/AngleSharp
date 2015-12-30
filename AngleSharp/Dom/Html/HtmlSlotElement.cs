@@ -14,7 +14,7 @@
         #region ctor
 
         public HtmlSlotElement(Document owner, String prefix = null)
-            : base(owner, Tags.Slot, prefix)
+            : base(owner, TagNames.Slot, prefix)
         {
         }
 

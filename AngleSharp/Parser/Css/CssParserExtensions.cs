@@ -1,8 +1,7 @@
 ﻿namespace AngleSharp.Parser.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.Conditions;
-    using AngleSharp.Css.DocumentFunctions;
+    using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
@@ -14,18 +13,42 @@
     [DebuggerStepThrough]
     static class CssParserExtensions
     {
-        static readonly Dictionary<String, CssTokenType> functionTypes = new Dictionary<String, CssTokenType>(StringComparer.OrdinalIgnoreCase)
+        static readonly Dictionary<String, Func<String, DocumentFunction>> functionTypes = new Dictionary<String, Func<String, DocumentFunction>>(StringComparer.OrdinalIgnoreCase)
         {
-            { FunctionNames.Url, CssTokenType.Url },
-            { FunctionNames.Domain, CssTokenType.Domain },
-            { FunctionNames.UrlPrefix, CssTokenType.UrlPrefix },
+            { FunctionNames.Url, str => new UrlFunction(str) },
+            { FunctionNames.Domain, str => new DomainFunction(str) },
+            { FunctionNames.UrlPrefix, str => new UrlPrefixFunction(str) },
         };
 
-        static readonly Dictionary<String, Func<IEnumerable<CssCondition>, CssCondition>> groupCreators = new Dictionary<String, Func<IEnumerable<CssCondition>, CssCondition>>(StringComparer.OrdinalIgnoreCase)
+        static readonly Dictionary<String, Func<IEnumerable<IConditionFunction>, IConditionFunction>> groupCreators = new Dictionary<String, Func<IEnumerable<IConditionFunction>, IConditionFunction>>(StringComparer.OrdinalIgnoreCase)
         {
-            { Keywords.And, conditions => new AndCondition(conditions) },
-            { Keywords.Or, conditions => new OrCondition(conditions) },
+            { Keywords.And, CreateAndCondition },
+            { Keywords.Or, CreateOrCondition },
         };
+
+        static IConditionFunction CreateAndCondition(IEnumerable<IConditionFunction> conditions)
+        {
+            var andCondition = new AndCondition();
+
+            foreach (var condition in conditions)
+            {
+                andCondition.AppendChild(condition);
+            }
+
+            return andCondition;
+        }
+
+        static IConditionFunction CreateOrCondition(IEnumerable<IConditionFunction> conditions)
+        {
+            var orCondition = new OrCondition();
+
+            foreach (var condition in conditions)
+            {
+                orCondition.AppendChild(condition);
+            }
+
+            return orCondition;
+        }
 
         /// <summary>
         /// Gets the corresponding token type for the function name.
@@ -34,12 +57,8 @@
         /// <returns>The token type for the name.</returns>
         public static CssTokenType GetTypeFromName(this String functionName)
         {
-            var token = default(CssTokenType);
-
-            if (functionTypes.TryGetValue(functionName, out token))
-                return token;
-
-            return CssTokenType.Function;
+            var creator = default(Func<String, DocumentFunction>);
+            return functionTypes.TryGetValue(functionName, out creator) ? CssTokenType.Url : CssTokenType.Function;
         }
 
         /// <summary>
@@ -47,14 +66,11 @@
         /// </summary>
         /// <param name="conjunction">The conjunction to match.</param>
         /// <returns>The creator for the conjunction, if any.</returns>
-        public static Func<IEnumerable<CssCondition>, CssCondition> GetCreator(this String conjunction)
+        public static Func<IEnumerable<IConditionFunction>, IConditionFunction> GetCreator(this String conjunction)
         {
-            var creator = default(Func<IEnumerable<CssCondition>, CssCondition>);
-
-            if (groupCreators.TryGetValue(conjunction, out creator))
-                return creator;
-
-            return null;
+            var creator = default(Func<IEnumerable<IConditionFunction>, IConditionFunction>);
+            groupCreators.TryGetValue(conjunction, out creator);
+            return creator;
         }
 
         /// <summary>
@@ -111,19 +127,18 @@
         }
 
         /// <summary>
-        /// Checks if the provided token is actually a match token.
+        /// Checks if the provided token is part of a declaration name.
         /// </summary>
         /// <param name="token">The token to examine.</param>
-        /// <returns>True if the type is matching, otherwise false.</returns>
-        public static Boolean IsMatchToken(this CssToken token)
+        /// <returns>Result of the examination.</returns>
+        public static Boolean IsDeclarationName(this CssToken token)
         {
-            var type = token.Type;
-            return type == CssTokenType.IncludeMatch ||
-                type == CssTokenType.DashMatch ||
-                type == CssTokenType.PrefixMatch ||
-                type == CssTokenType.SubstringMatch ||
-                type == CssTokenType.SuffixMatch ||
-                type == CssTokenType.NotMatch;
+            return token.Type != CssTokenType.EndOfFile &&
+                      token.Type != CssTokenType.Colon &&
+                      token.Type != CssTokenType.Whitespace &&
+                      token.Type != CssTokenType.Comment &&
+                      token.Type != CssTokenType.CurlyBracketOpen &&
+                      token.Type != CssTokenType.Semicolon;
         }
 
         /// <summary>
@@ -131,28 +146,23 @@
         /// </summary>
         /// <param name="token">The token to examine.</param>
         /// <returns>The created IDocumentFunction or null.</returns>
-        public static CssDocumentFunction ToDocumentFunction(this CssToken token)
+        public static DocumentFunction ToDocumentFunction(this CssToken token)
         {
-            switch (token.Type)
+            if (token.Type == CssTokenType.Url)
             {
-                case CssTokenType.Url:
-                    return new UrlFunction(token.Data);
+                var creator = default(Func<String, DocumentFunction>);
+                var functionName = ((CssUrlToken)token).FunctionName;
+                functionTypes.TryGetValue(functionName, out creator);
+                return creator(token.Data);
+            }
+            else if (token.Type == CssTokenType.Function && token.Data.Isi(FunctionNames.Regexp))
+            {
+                var str = ((CssFunctionToken)token).ArgumentTokens.ToCssString();
 
-                case CssTokenType.UrlPrefix:
-                    return new UrlPrefixFunction(token.Data);
-
-                case CssTokenType.Domain:
-                    return new DomainFunction(token.Data);
-
-                case CssTokenType.Function:
-                    if (String.Compare(token.Data, FunctionNames.Regexp, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        var str = ((CssFunctionToken)token).ToCssString();
-
-                        if (str != null)
-                            return new RegexpFunction(str);
-                    }
-                    break;
+                if (str != null)
+                {
+                    return new RegexpFunction(str);
+                }
             }
 
             return null;

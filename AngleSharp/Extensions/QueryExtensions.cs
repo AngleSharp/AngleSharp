@@ -237,7 +237,7 @@
 
                 if (element != null)
                 {
-                    if (tagName == null || element.LocalName.Equals(tagName, StringComparison.OrdinalIgnoreCase))
+                    if (tagName == null || tagName.Isi(element.LocalName))
                         result.Add(element);
 
                     if (element.ChildElementCount != 0)
@@ -262,7 +262,7 @@
 
                 if (element != null)
                 {
-                    if (element.NamespaceUri == namespaceUri && (localName == null || element.LocalName.Equals(localName, StringComparison.OrdinalIgnoreCase)))
+                    if (element.NamespaceUri == namespaceUri && (localName == null || localName.Isi(element.LocalName)))
                         result.Add(element);
 
                     if (element.ChildElementCount != 0)

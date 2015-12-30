@@ -37,11 +37,11 @@ h1 {
             /*common css*/
             .dis2 { display: block; }
             ");
-            var css = sheet.CssText;
+            var css = sheet.ToCss();
             Assert.AreEqual(3, sheet.Rules.Length);
-            Assert.AreEqual(".dis-none { display: none; }", sheet.Rules[0].CssText);
-            Assert.AreEqual(".dis { display: block; }", sheet.Rules[1].CssText);
-            Assert.AreEqual(".dis2 { display: block; }", sheet.Rules[2].CssText);
+            Assert.AreEqual(".dis-none { display: none }", sheet.Rules[0].CssText);
+            Assert.AreEqual(".dis { display: block }", sheet.Rules[1].CssText);
+            Assert.AreEqual(".dis2 { display: block }", sheet.Rules[2].CssText);
         }
 
         [Test]
@@ -52,19 +52,19 @@ h1 {
             .dis-none { display: none;}
             .dis { display: block; }
             ");
-            var css = sheet.CssText;
+            var css = sheet.ToCss();
             Assert.AreEqual(2, sheet.Rules.Length);
-            Assert.AreEqual(".dis-none { display: none; }", sheet.Rules[0].CssText);
-            Assert.AreEqual(".dis { display: block; }", sheet.Rules[1].CssText);
+            Assert.AreEqual(".dis-none { display: none }", sheet.Rules[0].CssText);
+            Assert.AreEqual(".dis { display: block }", sheet.Rules[1].CssText);
         }
 
         [Test]
         public void CssSheetSerializeListStyleNone()
         {
             var cssSrc = ".T1 {list-style:NONE}";
-            var expected = ".T1 { list-style: none; }";
+            var expected = ".T1 { list-style: none }";
             var stylesheet = ParseStyleSheet(cssSrc);
-            var cssText = stylesheet.CssText;
+            var cssText = stylesheet.ToCss();
             Assert.AreEqual(expected, cssText);
         }
 
@@ -72,9 +72,9 @@ h1 {
         public void CssSheetSerializeBorder1pxOutset()
         {
             var cssSrc = ".T2 { border:1px  outset }";
-            var expected = ".T2 { border: 1px outset; }";
+            var expected = ".T2 { border: 1px outset }";
             var stylesheet = ParseStyleSheet(cssSrc);
-            var cssText = stylesheet.CssText;
+            var cssText = stylesheet.ToCss();
             Assert.AreEqual(expected, cssText);
         }
 
@@ -82,9 +82,9 @@ h1 {
         public void CssSheetSerializeBorder1pxSolidWithColor()
         {
             var cssSrc = "#rule1 { border: 1px solid #BBCCEB; border-top: none }";
-            var expected = "#rule1 { border-right: 1px solid rgb(187, 204, 235); border-bottom: 1px solid rgb(187, 204, 235); border-left: 1px solid rgb(187, 204, 235); border-top: none; }";
+            var expected = "#rule1 { border-right: 1px solid rgb(187, 204, 235); border-bottom: 1px solid rgb(187, 204, 235); border-left: 1px solid rgb(187, 204, 235); border-top: none }";
             var stylesheet = ParseStyleSheet(cssSrc);
-            var cssText = stylesheet.CssText;
+            var cssText = stylesheet.ToCss();
             Assert.AreEqual(expected, cssText);
         }
 
@@ -92,9 +92,9 @@ h1 {
         public void CssSheetSerializeBackgroundWithUrlPositionRepeatX()
         {
             var cssSrc = "#rule2 { background:url(/_static/img/bx_tile.gif) top left repeat-x; }";
-            var expected = "#rule2 { background: url(\"/_static/img/bx_tile.gif\") top left repeat-x; }";
+            var expected = "#rule2 { background: url(\"/_static/img/bx_tile.gif\") top left repeat-x }";
             var stylesheet = ParseStyleSheet(cssSrc);
-            var cssText = stylesheet.CssText;
+            var cssText = stylesheet.ToCss();
             Assert.AreEqual(expected, cssText);
         }
 
@@ -122,7 +122,7 @@ h1 {
         [Test]
         public void CssSheetSimpleStyleRuleStringification()
         {
-            var css = @"html { font-family: sans-serif; }";
+            var css = @"html { font-family: sans-serif }";
             var stylesheet = ParseStyleSheet(css);
             Assert.AreEqual(1, stylesheet.Rules.Length);
             var rule = stylesheet.Rules[0];
@@ -773,9 +773,9 @@ p.info span::after {
 	content: ': ';
 }";
             var initialSheet = originalSourceCode.ToCssStylesheet();
-            var initialSourceCode = initialSheet.CssText;
+            var initialSourceCode = initialSheet.ToCss();
             var finalSheet = initialSourceCode.ToCssStylesheet();
-            var finalSourceCode = finalSheet.CssText;
+            var finalSourceCode = finalSheet.ToCss();
             Assert.AreEqual(initialSourceCode, finalSourceCode);
             Assert.AreEqual(initialSheet.Rules.Length, finalSheet.Rules.Length);
         }
@@ -863,8 +863,8 @@ font-weight:bold;}";
         {
             var css = "@-ms-viewport{width:device-width} .dsip { display: block; }";
             var doc = ParseStyleSheet(css);
-            var result = doc.CssText;
-            Assert.AreEqual(".dsip { display: block; }", result);
+            var result = doc.ToCss();
+            Assert.AreEqual(".dsip { display: block }", result);
         }
 
         [Test]
@@ -879,8 +879,8 @@ font-weight:bold;}";
             };
             var css = "@-ms-viewport{width:device-width} .dsip { display: block; }";
             var doc = ParseStyleSheet(css, options);
-            var result = doc.CssText;
-            Assert.AreEqual("@-ms-viewport{width:device-width}\r\n.dsip { display: block; }", result);
+            var result = doc.ToCss();
+            Assert.AreEqual("@-ms-viewport{width:device-width}\r\n.dsip { display: block }", result);
         }
 
         [Test]
@@ -888,8 +888,8 @@ font-weight:bold;}";
         {
             var css = "@media screen and (max-width: 400px) {  @-ms-viewport { width: 320px; }  }  .dsip { display: block; }";
             var doc = ParseStyleSheet(css);
-            var result = doc.CssText;
-            Assert.AreEqual("@media screen and (max-width: 400px) { }\r\n.dsip { display: block; }", result);
+            var result = doc.ToCss();
+            Assert.AreEqual("@media screen and (max-width: 400px) { }\r\n.dsip { display: block }", result);
         }
 
         [Test]
@@ -904,8 +904,8 @@ font-weight:bold;}";
             };
             var css = "@media screen and (max-width: 400px) {  @-ms-viewport { width: 320px; }  }  .dsip { display: block; }";
             var doc = ParseStyleSheet(css, options);
-            var result = doc.CssText;
-            Assert.AreEqual("@media screen and (max-width: 400px) { @-ms-viewport { width: 320px; } }\r\n.dsip { display: block; }", result);
+            var result = doc.ToCss();
+            Assert.AreEqual("@media screen and (max-width: 400px) { @-ms-viewport { width: 320px; } }\r\n.dsip { display: block }", result);
         }
 
         [Test]
@@ -967,7 +967,7 @@ font-weight:bold;}";
             });
             var source = ".foo { color: red; } @media print { #myid { color: green; } }";
             var sheet = parser.ParseStylesheet(source);
-            var comments = sheet.ParseTree.GetComments();
+            var comments = sheet.GetComments();
             Assert.AreEqual(0, comments.Count());
         }
 
@@ -980,11 +980,11 @@ font-weight:bold;}";
             });
             var source = ".foo { /*test*/ color: red;/*test*/ } @media print { #myid { color: green; } }";
             var sheet = parser.ParseStylesheet(source);
-            var comments = sheet.ParseTree.GetComments();
+            var comments = sheet.GetComments();
             Assert.AreEqual(2, comments.Count());
 
             foreach (var comment in comments)
-                Assert.AreEqual("test", comment.Text);
+                Assert.AreEqual("test", comment.Data);
         }
 
         [Test]
@@ -996,11 +996,11 @@ font-weight:bold;}";
             });
             var source = ".foo { color: red; } @media print { /*test*/ #myid { color: green; } /*test*/ }";
             var sheet = parser.ParseStylesheet(source);
-            var comments = sheet.ParseTree.GetComments();
+            var comments = sheet.GetComments();
             Assert.AreEqual(2, comments.Count());
 
             foreach (var comment in comments)
-                Assert.AreEqual("test", comment.Text);
+                Assert.AreEqual("test", comment.Data);
         }
 
         [Test]
@@ -1012,11 +1012,11 @@ font-weight:bold;}";
             });
             var source = ".foo { color: red; } @media all /*test*/ and /*test*/ (min-width: 701px) /*test*/ { #myid { color: green; } }";
             var sheet = parser.ParseStylesheet(source);
-            var comments = sheet.ParseTree.GetComments();
+            var comments = sheet.GetComments();
             Assert.AreEqual(3, comments.Count());
 
             foreach (var comment in comments)
-                Assert.AreEqual("test", comment.Text);
+                Assert.AreEqual("test", comment.Data);
         }
 
         [Test]
@@ -1029,7 +1029,7 @@ font-weight:bold;}";
             });
             var source = ".foo { color: red; } @media all /*test*/ and /*test*/ (min-width: 701px) /*test*/ { #myid { color: green; } }";
             var sheet = parser.ParseStylesheet(source);
-            var roundtrip = sheet.ParseTree.GetSource();
+            var roundtrip = sheet.SourceCode.Text;
             Assert.AreEqual(source, roundtrip);
         }
 
@@ -1043,7 +1043,7 @@ font-weight:bold;}";
             });
             var source = CssStyleEngine.DefaultSource.Replace(Environment.NewLine, "\n").Replace("\\A", "\\a").Replace("'", "\"");
             var sheet = parser.ParseStylesheet(source);
-            var roundtrip = sheet.ParseTree.GetSource();
+            var roundtrip = sheet.SourceCode.Text;
             Assert.AreEqual(source, roundtrip);
         }
 
@@ -1056,16 +1056,70 @@ font-weight:bold;}";
             });
             var source = ".foo { } #bar { } @media all { div { } a > b { } @media print { script[type] { } } }";
             var sheet = parser.ParseStylesheet(source);
-            var roundtrip = sheet.ParseTree.GetSource();
+            var roundtrip = sheet.SourceCode.Text;
             Assert.AreEqual(source, roundtrip);
-            var selectors = sheet.ParseTree.GetAll<ISelector>();
+            var selectors = sheet.GetAll<ISelector>();
             Assert.AreEqual(5, selectors.Count());
-            var mediaRules = sheet.ParseTree.GetAll<ICssMediaRule>();
+            var mediaRules = sheet.GetAll<ICssMediaRule>();
             Assert.AreEqual(2, mediaRules.Count());
             var descendentSelector = selectors.Skip(3).First();
             Assert.AreEqual("a>b", descendentSelector.Text);
-            var selectorNode = sheet.ParseTree.GetAssociatedNode(descendentSelector);
-            Assert.AreEqual("a > b ", selectorNode.GetSource());
+            Assert.AreEqual("a > b ", descendentSelector.SourceCode.Text);
+        }
+
+        [Test]
+        public void CssColorFunctionsMixAllShouldWork()
+        {
+            var parser = new CssParser();
+            var source = @"
+.rgbNumber { color: rgb(255, 128, 0); }
+.rgbPercent { color: rgb(100%, 50%, 0%); }
+.rgbaNumber { color: rgba(255, 128, 0, 0.0); }
+.rgbaPercent { color: rgba(100%, 50%, 0%, 0.0); }
+.hsl { color: hsl(120, 100%, 50%); }
+.hslAngle { color: hsl(120deg, 100%, 50%); }
+.hsla { color: hsla(120, 100%, 50%, 0.25); }
+.hslaAngle { color: hsla(120deg, 100%, 50%, 0.25); }
+.grayNumber { color: gray(128); }
+.grayPercent { color: gray(50%); }
+.grayPercentAlpha { color: gray(50%, 0.5); }
+.hwb { color: hwb(120, 60%, 20%); }
+.hwbAngle { color: hwb(120deg, 60%, 20%); }
+.hwbAlpha { color: hwb(120, 10%, 50%, 0.5); }
+.hwbAngleAlpha { color: hwb(120deg, 10%, 50%, 0.5); }";
+            var sheet = parser.ParseStylesheet(source);
+            Assert.AreEqual(15, sheet.Rules.Length);
+
+            var rgbNumber = (sheet.Rules[0] as ICssStyleRule).Style.Color;
+            var rgbPercent = (sheet.Rules[1] as ICssStyleRule).Style.Color;
+            var rgbaNumber = (sheet.Rules[2] as ICssStyleRule).Style.Color;
+            var rgbaPercent = (sheet.Rules[3] as ICssStyleRule).Style.Color;
+            var hsl = (sheet.Rules[4] as ICssStyleRule).Style.Color;
+            var hslAngle = (sheet.Rules[5] as ICssStyleRule).Style.Color;
+            var hsla = (sheet.Rules[6] as ICssStyleRule).Style.Color;
+            var hslaAngle = (sheet.Rules[7] as ICssStyleRule).Style.Color;
+            var grayNumber = (sheet.Rules[8] as ICssStyleRule).Style.Color;
+            var grayPercent = (sheet.Rules[9] as ICssStyleRule).Style.Color;
+            var grayPercentAlpha = (sheet.Rules[10] as ICssStyleRule).Style.Color;
+            var hwb = (sheet.Rules[11] as ICssStyleRule).Style.Color;
+            var hwbAngle = (sheet.Rules[12] as ICssStyleRule).Style.Color;
+            var hwbAlpha = (sheet.Rules[13] as ICssStyleRule).Style.Color;
+            var hwbAngleAlpha = (sheet.Rules[14] as ICssStyleRule).Style.Color;
+
+            Assert.IsNotNullOrEmpty(rgbNumber);
+            Assert.IsNotNullOrEmpty(rgbPercent);
+            Assert.IsNotNullOrEmpty(rgbaPercent);
+            Assert.IsNotNullOrEmpty(hsl);
+            Assert.IsNotNullOrEmpty(hslAngle);
+            Assert.IsNotNullOrEmpty(hsla);
+            Assert.IsNotNullOrEmpty(hslaAngle);
+            Assert.IsNotNullOrEmpty(grayNumber);
+            Assert.IsNotNullOrEmpty(grayPercent);
+            Assert.IsNotNullOrEmpty(grayPercentAlpha);
+            Assert.IsNotNullOrEmpty(hwb);
+            Assert.IsNotNullOrEmpty(hwbAngle);
+            Assert.IsNotNullOrEmpty(hwbAlpha);
+            Assert.IsNotNullOrEmpty(hwbAngleAlpha);
         }
     }
 }

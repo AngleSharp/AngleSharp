@@ -15,8 +15,6 @@
     [DebuggerStepThrough]
     static class ValueConverterExtensions
     {
-        #region Methods
-
         public static IPropertyValue ConvertDefault(this IValueConverter converter)
         {
             return converter.Convert(Enumerable.Empty<CssToken>());
@@ -175,7 +173,5 @@
         {
             return converter.Or(Keywords.CurrentColor, Color.Transparent);
         }
-
-        #endregion
     }
 }

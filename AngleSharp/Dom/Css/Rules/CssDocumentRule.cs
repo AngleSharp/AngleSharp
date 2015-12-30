@@ -1,46 +1,31 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
-    /// Contains the rules specified by a
-    /// @document { /* ... */ } rule.
+    /// Contains the rules specified by a @document { /* ... */ } rule.
     /// </summary>
     sealed class CssDocumentRule : CssGroupingRule, ICssDocumentRule
     {
-        #region Fields
-
-        readonly List<CssDocumentFunction> _conditions;
-
-        #endregion
-
         #region ctor
 
         internal CssDocumentRule(CssParser parser)
             : base(CssRuleType.Document, parser)
         {
-            _conditions = new List<CssDocumentFunction>();
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets the condition text.
-        /// </summary>
         public String ConditionText
         {
             get
             {
-                var entries = new String[_conditions.Count];
-
-                for (int i = 0; i < entries.Length; i++)
-                    entries[i] = _conditions[i].ToCss();
-
+                var entries = Conditions.Select(m => m.ToCss());
                 return String.Join(", ", entries); 
             }
             set
@@ -48,35 +33,31 @@
                 var conditions = Parser.ParseDocumentRules(value);
 
                 if (conditions == null)
+                {
                     throw new DomException(DomError.Syntax);
+                }
 
-                _conditions.Clear();
-                _conditions.AddRange(conditions);
+                Clear();
+
+                foreach (var condition in conditions)
+                {
+                    AppendChild(condition);
+                }
             }
         }
 
-        #endregion
-
-        #region Internal Properties
-
-        /// <summary>
-        /// Gets the list with the conditions.
-        /// </summary>
-        public List<CssDocumentFunction> Conditions
+        public IEnumerable<IDocumentFunction> Conditions
         {
-            get { return _conditions; }
+            get { return Children.OfType<IDocumentFunction>(); }
         }
 
         #endregion
 
         #region Internal Methods
 
-        protected override void ReplaceWith(ICssRule rule)
+        internal Boolean IsValid(Url url)
         {
-            base.ReplaceWith(rule);
-            var newRule = rule as CssDocumentRule;
-            _conditions.Clear();
-            _conditions.AddRange(newRule._conditions);
+            return Conditions.Any(m => m.Matches(url));
         }
 
         #endregion

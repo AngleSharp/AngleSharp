@@ -4,6 +4,8 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Events;
     using AngleSharp.Extensions;
+    using AngleSharp.Network;
+    using AngleSharp.Services.Media;
     using NUnit.Framework;
     using System;
     using System.IO;
@@ -158,7 +160,6 @@
             var address = "http://www.amazon.com";
             var config = new Configuration().WithPageRequester().WithCss();
             var document = await BrowsingContext.New(config).OpenAsync(address);
-            await Task.WhenAll(document.Requests);
             Assert.IsNotNull(document);
             Assert.AreNotEqual(0, document.Body.ChildElementCount);
         }
@@ -167,12 +168,13 @@
         public async Task ContextLoadExternalResources()
         {
             var delayRequester = new DelayRequester(100);
-            var config = new Configuration().WithDefaultLoader(m => m.IsResourceLoadingEnabled = true, new[] { delayRequester });
+            var imageService = new ResourceService<IImageInfo>("image/jpeg", response => new MockImageInfo { Source = response.Address });
+            var config = new Configuration().WithDefaultLoader(m => m.IsResourceLoadingEnabled = true, new[] { delayRequester }).With(imageService);
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
-            Assert.AreEqual(1, document.Requests.Count());
-            await Task.WhenAll(document.Requests);
-            Assert.AreEqual(0, document.Requests.Count());
+            var img = document.QuerySelector<IHtmlImageElement>("img");
+            Assert.AreEqual(1, delayRequester.RequestCount);
+            Assert.IsTrue(img.IsCompleted);
         }
 
         [Test]
@@ -182,7 +184,9 @@
             var config = new Configuration().WithDefaultLoader(requesters: new[] { delayRequester });
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
-            Assert.AreEqual(0, document.Requests.Count());
+            var img = document.QuerySelector<IHtmlImageElement>("img");
+            Assert.AreEqual(0, delayRequester.RequestCount);
+            Assert.IsFalse(img.IsCompleted);
         }
 
         [Test]
@@ -215,8 +219,6 @@
 
             var config = new Configuration().WithPageRequester(enableResourceLoading: true).WithCss();
             var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(html));
-            Assert.AreEqual(0, document.StyleSheets.Length);
-            await document.WhenLoadFired<IHtmlLinkElement>();
             Assert.AreEqual(1, document.StyleSheets.Length);
         }
 

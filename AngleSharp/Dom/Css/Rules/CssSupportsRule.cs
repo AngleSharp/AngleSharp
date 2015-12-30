@@ -1,83 +1,62 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.Conditions;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Linq;
 
     /// <summary>
     /// Represents an @supports rule.
     /// </summary>
     sealed class CssSupportsRule : CssConditionRule, ICssSupportsRule
     {
-        #region Fields
-
-        CssCondition _condition;
-
-        static readonly CssCondition empty = new EmptyCondition();
-
-        #endregion
-
         #region ctor
 
         internal CssSupportsRule(CssParser parser)
             : base(CssRuleType.Supports, parser)
         {
-            _condition = empty;
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the text of the condition of the supports rule.
-        /// </summary>
         public String ConditionText
         {
-            get { return _condition.ToCss(); }
+            get { return Condition.ToCss(); }
             set
             {
                 var condition = Parser.ParseCondition(value);
 
                 if (condition == null)
+                {
                     throw new DomException(DomError.Syntax);
+                }
 
-                _condition = condition;
+                Condition = condition;
             }
         }
 
-        /// <summary>
-        /// Gets or sets the condition of the supports rule.
-        /// </summary>
-        public CssCondition Condition
+        public IConditionFunction Condition
         {
-            get { return _condition; }
-            set { _condition = value ?? empty; }
-        }
-
-        /// <summary>
-        /// Gets if the rule is used, i.e. if the condition is fulfilled.
-        /// </summary>
-        public Boolean IsSupported
-        {
-            get { return _condition.Check(); }
+            get { return Children.OfType<IConditionFunction>().FirstOrDefault() ?? new EmptyCondition(); }
+            set
+            {
+                if (value != null)
+                {
+                    RemoveChild(Condition);
+                    AppendChild(value);
+                }
+            }
         }
 
         #endregion
 
         #region Internal Methods
 
-        protected override void ReplaceWith(ICssRule rule)
-        {
-            base.ReplaceWith(rule);
-            var newRule = rule as CssSupportsRule;
-            ConditionText = newRule.ConditionText;
-        }
-
         internal override Boolean IsValid(RenderDevice device)
         {
-            return true;
+            return Condition.Check();
         }
 
         #endregion

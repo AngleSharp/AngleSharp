@@ -66,7 +66,7 @@
             if (time == null)
                 return null;
 
-            return OriginTime.Add(time.Value.Subtract(new DateTime()));
+            return UnixEpoch.Add(time.Value.Subtract(new DateTime()));
         }
 
         public override String ConvertFromDate(DateTime value)

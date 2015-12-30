@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// The plaintext HTML element.
@@ -9,7 +9,7 @@
     sealed class HtmlPlaintextElement : HtmlElement
     {
         public HtmlPlaintextElement(Document owner, String prefix)
-            : base(owner, Tags.Plaintext, prefix, NodeFlags.Special | NodeFlags.LiteralText)
+            : base(owner, TagNames.Plaintext, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
         }
     }

@@ -3,18 +3,18 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
-    using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a medium rule. More information available at:
     /// http://www.w3.org/TR/css3-mediaqueries/
     /// </summary>
-    sealed class CssMedium : IEnumerable<MediaFeature>, IStyleFormattable
+    sealed class CssMedium : CssNode, ICssMedium
     {
         #region Media Types and Features
 
-        readonly static String[] Types = 
+        readonly static String[] KnownTypes = 
         {
             // Intended for non-paged computer screens.
             Keywords.Screen,
@@ -28,62 +28,41 @@
 
         #endregion
 
-        #region Fields
-
-        readonly List<MediaFeature> _features;
-
-        #endregion
-
-        #region ctor
-
-        internal CssMedium()
-        {
-            _features = new List<MediaFeature>();
-        }
-
-        #endregion
-
         #region Properties
 
-        /// <summary>
-        /// Gets the type of medium that is represented.
-        /// </summary>
+        public IEnumerable<MediaFeature> Features
+        {
+            get { return Children.OfType<MediaFeature>(); }
+        }
+
+        IEnumerable<IMediaFeature> ICssMedium.Features
+        {
+            get { return Features; }
+        }
+
         public String Type
         {
             get;
             internal set;
         }
 
-        /// <summary>
-        /// Gets if the medium has been created using the only keyword.
-        /// </summary>
         public Boolean IsExclusive
         {
             get;
             internal set;
         }
 
-        /// <summary>
-        /// Gets if the medium has been created using the not keyword.
-        /// </summary>
         public Boolean IsInverse
         {
             get;
             internal set;
         }
 
-        /// <summary>
-        /// Gets a string describing the covered constraints.
-        /// </summary>
         public String Constraints
         {
             get 
             {
-                var constraints = new String[_features.Count];
-
-                for (int i = 0; i < _features.Count; i++)
-                    constraints[i] = _features[i].ToCss();
-
+                var constraints = Features.Select(m => m.ToCss());
                 return String.Join(" and ", constraints);
             }
         }
@@ -92,78 +71,39 @@
 
         #region Methods
 
-        /// <summary>
-        /// Validates the given medium against the provided rendering device.
-        /// </summary>
-        /// <param name="device">The current render device.</param>
-        /// <returns>True if the constraints are satisfied, otherwise false.</returns>
         public Boolean Validate(RenderDevice device)
         {
-            if (!String.IsNullOrEmpty(Type) && Types.Contains(Type) == IsInverse)
-                return false;
-
-            if (IsInvalid(device, Keywords.Screen, RenderDevice.Kind.Screen) ||
-                IsInvalid(device, Keywords.Speech, RenderDevice.Kind.Speech) ||
-                IsInvalid(device, Keywords.Print, RenderDevice.Kind.Printer))
-                return false;
-
-            foreach (var feature in _features)
+            if (!String.IsNullOrEmpty(Type) && KnownTypes.Contains(Type) == IsInverse)
             {
-                if (feature.Validate(device) == IsInverse)
-                    return false;
+                return false;
             }
 
-            return true;
+            if (IsInvalid(device))
+            {
+                return false;
+            }
+
+            return !Features.Any(m => m.Validate(device) == IsInverse);
         }
 
-        /// <summary>
-        /// Gets an enumerator over all included media features.
-        /// </summary>
-        /// <returns>The specialized enumerator.</returns>
-        public IEnumerator<MediaFeature> GetEnumerator()
-        {
-            return _features.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Gets a general enumerator over the included media features.
-        /// </summary>
-        /// <returns>The general enumerator.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        /// <summary>
-        /// Adds a constraint to the list of constraints.
-        /// </summary>
-        /// <param name="feature">The feature to add.</param>
-        internal void AddConstraint(MediaFeature feature)
-        {
-            _features.Add(feature);
-        }
-
-        /// <summary>
-        /// Determines whether the given object is the same.
-        /// </summary>
-        /// <param name="obj">The object to compare with.</param>
-        /// <returns>True if both are the same, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
             var other = obj as CssMedium;
 
             if (other != null && 
-                other.IsExclusive == this.IsExclusive && 
-                other.IsInverse == this.IsInverse && 
-                other.Type == this.Type && 
-                other._features.Count == this._features.Count)
+                other.IsExclusive == IsExclusive && 
+                other.IsInverse == IsInverse && 
+                other.Type == Type && 
+                other.Features.Count() == Features.Count())
             {
-                foreach (var feature in other._features)
+                foreach (var feature in other.Features)
                 {
-                    var shared = _features.Find(m => m.Name == feature.Name);
+                    var isShared = Features.Any(m => m.Name.Is(feature.Name) && m.Value.Is(feature.Value));
 
-                    if (shared == null || shared.Value != feature.Value)
+                    if (!isShared)
+                    {
                         return false;
+                    }
                 }
 
                 return true;
@@ -172,10 +112,6 @@
             return false;
         }
 
-        /// <summary>
-        /// Serves as the default hash function.
-        /// </summary>
-        /// <returns>The hash code of the object.</returns>
         public override Int32 GetHashCode()
         {
             return base.GetHashCode();
@@ -185,18 +121,9 @@
 
         #region String Representation
 
-        public String ToCss()
+        public override String ToCss(IStyleFormatter formatter)
         {
-            return ToCss(CssStyleFormatter.Instance);
-        }
-
-        public String ToCss(IStyleFormatter formatter)
-        {
-            var constraints = new String[_features.Count];
-
-            for (int i = 0; i < _features.Count; i++)
-                constraints[i] = _features[i].ToCss(formatter);
-
+            var constraints = Features.Select(m => m.ToCss(formatter)).ToArray();
             return formatter.Medium(IsExclusive, IsInverse, Type, constraints);
         }
 
@@ -204,9 +131,16 @@
 
         #region Helpers
 
+        Boolean IsInvalid(RenderDevice device)
+        {
+            return IsInvalid(device, Keywords.Screen, RenderDevice.Kind.Screen) ||
+                IsInvalid(device, Keywords.Speech, RenderDevice.Kind.Speech) ||
+                IsInvalid(device, Keywords.Print, RenderDevice.Kind.Printer);
+        }
+
         Boolean IsInvalid(RenderDevice device, String keyword, RenderDevice.Kind kind)
         {
-            return Type == keyword && (device.DeviceType == kind) == IsInverse;
+            return keyword.Is(Type) && (device.DeviceType == kind) == IsInverse;
         }
 
         #endregion

@@ -9,7 +9,7 @@
     /// Represents a radial gradient:
     /// http://dev.w3.org/csswg/css-images-3/#radial-gradients
     /// </summary>
-    sealed class RadialGradient : IImageSource
+    public sealed class RadialGradient : IImageSource
     {
         #region Fields
 
@@ -67,33 +67,25 @@
         }
 
         /// <summary>
-        /// Gets the x-position.
+        /// Gets the position of the radial gradient.
         /// </summary>
-        public Length X
+        public Point Position
         {
-            get { return _pt.X; }
+            get { return _pt; }
         }
 
         /// <summary>
-        /// Gets the y-position.
+        /// Gets the horizontal radius.
         /// </summary>
-        public Length Y
-        {
-            get { return _pt.Y; }
-        }
-
-        /// <summary>
-        /// Gets the width.
-        /// </summary>
-        public Length Width
+        public Length MajorRadius
         {
             get { return _width; }
         }
 
         /// <summary>
-        /// Gets the height.
+        /// Gets the vertical radius.
         /// </summary>
-        public Length Height
+        public Length MinorRadius
         {
             get { return _height; }
         }

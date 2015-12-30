@@ -85,5 +85,12 @@
         /// <param name="rules">The plain rules contained in the style.</param>
         /// <returns>The serialization of the style rule.</returns>
         String Style(String selector, String rules);
+
+        /// <summary>
+        /// Creates a serialization of a comment with the provided data.
+        /// </summary>
+        /// <param name="data">The data of the comment.</param>
+        /// <returns>The serialization of the comment.</returns>
+        String Comment(String data);
     }
 }

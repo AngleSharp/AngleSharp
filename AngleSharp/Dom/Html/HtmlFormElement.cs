@@ -27,7 +27,7 @@
         /// Creates a new HTML form element.
         /// </summary>
         public HtmlFormElement(Document owner, String prefix = null)
-            : base(owner, Tags.Form, prefix, NodeFlags.Special)
+            : base(owner, TagNames.Form, prefix, NodeFlags.Special)
         {
         }
 
@@ -173,7 +173,8 @@
         /// </summary>
         public Task<IDocument> Submit()
         {
-            return this.NavigateTo(GetSubmission());
+            var request = GetSubmission();
+            return this.NavigateTo(request);
         }
 
         /// <summary>
@@ -181,7 +182,8 @@
         /// </summary>
         public Task<IDocument> Submit(IHtmlElement sourceElement)
         {
-            return this.NavigateTo(GetSubmission(sourceElement));
+            var request = GetSubmission(sourceElement);
+            return this.NavigateTo(request);
         }
 
         /// <summary>
@@ -207,7 +209,9 @@
         public void Reset()
         {
             foreach (var element in Elements)
+            {
                 element.Reset();
+            }
         }
 
         /// <summary>
@@ -221,8 +225,10 @@
 
             foreach (var control in controls)
             {
-                if (control.FireSimpleEvent(EventNames.Invalid, false, true) == false)
+                if (!control.FireSimpleEvent(EventNames.Invalid, false, true))
+                {
                     result = false;
+                }
             }
 
             return result;
@@ -237,8 +243,10 @@
         {
             foreach (var element in Elements)
             {
-                if (element.WillValidate && element.CheckValidity() == false)
+                if (element.WillValidate && !element.CheckValidity())
+                {
                     yield return element;
+                }
             }
         }
 
@@ -251,9 +259,11 @@
             foreach (var control in controls)
             {
                 if (control.FireSimpleEvent(EventNames.Invalid, false, true))
+                {
                     continue;
+                }
 
-                if (hasfocused == false)
+                if (!hasfocused)
                 {
                     //TODO Report Problems (interactively, e.g. via UI specific event)
                     control.DoFocus();
@@ -303,7 +313,9 @@
                     targetBrowsingContext = owner.GetTarget(target);
 
                     if (createdBrowsingContext = (targetBrowsingContext == null))
+                    {
                         targetBrowsingContext = owner.CreateTarget(target);
+                    }
                 }
 
                 var replace = createdBrowsingContext || owner.ReadyState != DocumentReadyState.Complete;
@@ -317,28 +329,40 @@
 
         DocumentRequest SubmitForm(HttpMethod method, String scheme, Url action, IHtmlElement submitter)
         {
-            if (scheme == KnownProtocols.Http || scheme == KnownProtocols.Https)
+            if (scheme == ProtocolNames.Http || scheme == ProtocolNames.Https)
             {
                 if (method == HttpMethod.Get)
+                {
                     return MutateActionUrl(action, submitter);
+                }
                 else if (method == HttpMethod.Post)
+                {
                     return SubmitAsEntityBody(action, submitter);
+                }
             }
-            else if (scheme == KnownProtocols.Data)
+            else if (scheme == ProtocolNames.Data)
             {
                 if (method == HttpMethod.Get)
+                {
                     return GetActionUrl(action);
+                }
                 else if (method == HttpMethod.Post)
+                {
                     return PostToData(action, submitter);
+                }
             }
-            else if (scheme == KnownProtocols.Mailto)
+            else if (scheme == ProtocolNames.Mailto)
             {
                 if (method == HttpMethod.Get)
+                {
                     return MailWithHeaders(action, submitter);
+                }
                 else if (method == HttpMethod.Post)
+                {
                     return MailAsBody(action, submitter);
+                }
             }
-            else if (scheme == KnownProtocols.Ftp || scheme == KnownProtocols.JavaScript)
+            else if (scheme == ProtocolNames.Ftp || scheme == ProtocolNames.JavaScript)
             {
                 return GetActionUrl(action);
             }
@@ -359,7 +383,9 @@
             var stream = CreateBody(enctype, TextEncoding.Resolve(encoding), formDataSet);
 
             using (var sr = new StreamReader(stream))
+            {
                 result = sr.ReadToEnd();
+            }
 
             if (action.Href.Contains("%%%%"))
             {
@@ -386,7 +412,9 @@
             var headers = String.Empty;
 
             using (var sr = new StreamReader(result))
+            {
                 headers = sr.ReadToEnd();
+            }
 
             action.Query = headers.Replace("+", "%20");
             return GetActionUrl(action);
@@ -405,7 +433,9 @@
             var body = String.Empty;
 
             using (var sr = new StreamReader(stream))
+            {
                 body = sr.ReadToEnd();
+            }
 
             action.Query = "body=" + encoding.GetBytes(body).UrlEncode();
             return GetActionUrl(action);
@@ -431,8 +461,10 @@
             var enctype = Enctype;
             var body = CreateBody(enctype, TextEncoding.Resolve(encoding), formDataSet);
 
-            if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
-                enctype = String.Concat(MimeTypes.MultipartForm, "; boundary=", formDataSet.Boundary);
+            if (enctype.Isi(MimeTypeNames.MultipartForm))
+            {
+                enctype = String.Concat(MimeTypeNames.MultipartForm, "; boundary=", formDataSet.Boundary);
+            }
 
             return DocumentRequest.Post(target, body, enctype, source: this, referer: Owner.DocumentUri);
         }
@@ -448,7 +480,9 @@
             var result = formDataSet.AsUrlEncoded(TextEncoding.Resolve(encoding));
 
             using (var sr = new StreamReader(result))
+            {
                 action.Query = sr.ReadToEnd();
+            }
 
             return GetActionUrl(action);
         }
@@ -461,7 +495,9 @@
             foreach (var field in fields)
             {
                 if (!field.IsDisabled && field.ParentElement is IHtmlDataListElement == false && Object.ReferenceEquals(field.Form, this))
+                {
                     field.ConstructDataSet(formDataSet, submitter);
+                }
             }
 
             return formDataSet;
@@ -469,28 +505,34 @@
 
         static Stream CreateBody(String enctype, Encoding encoding, FormDataSet formDataSet)
         {
-            if (enctype.Equals(MimeTypes.UrlencodedForm, StringComparison.OrdinalIgnoreCase))
+            if (enctype.Isi(MimeTypeNames.UrlencodedForm))
+            {
                 return formDataSet.AsUrlEncoded(encoding);
-            else if (enctype.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase))
+            }
+            else if (enctype.Isi(MimeTypeNames.MultipartForm))
+            {
                 return formDataSet.AsMultipart(encoding);
-            else if (enctype.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase))
+            }
+            else if (enctype.Isi(MimeTypeNames.Plain))
+            {
                 return formDataSet.AsPlaintext(encoding);
-            else if (enctype.Equals(MimeTypes.ApplicationJson, StringComparison.OrdinalIgnoreCase))
+            }
+            else if (enctype.Isi(MimeTypeNames.ApplicationJson))
+            {
                 return formDataSet.AsJson();
+            }
 
             return MemoryStream.Null;
         }
 
         static String CheckEncType(String encType)
         {
-            if (!String.IsNullOrEmpty(encType) && (encType.Equals(MimeTypes.Plain, StringComparison.OrdinalIgnoreCase) ||
-                                                   encType.Equals(MimeTypes.MultipartForm, StringComparison.OrdinalIgnoreCase) ||
-                                                   encType.Equals(MimeTypes.ApplicationJson, StringComparison.OrdinalIgnoreCase)))
+            if (encType.Isi(MimeTypeNames.Plain) || encType.Isi(MimeTypeNames.MultipartForm) || encType.Isi(MimeTypeNames.ApplicationJson))
             {
                 return encType;
             }
 
-            return MimeTypes.UrlencodedForm;
+            return MimeTypeNames.UrlencodedForm;
         }
 
         #endregion

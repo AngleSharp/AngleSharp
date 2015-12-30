@@ -20,8 +20,6 @@
         readonly List<FormDataSetEntry> _entries;
         String _boundary;
 
-        static readonly String[] NewLines = new[] { "\r\n", "\r", "\n" };
-
         #endregion
 
         #region ctor
@@ -113,7 +111,7 @@
         /// <param name="type">The type of the entry.</param>
         public void Append(String name, String value, String type)
         {
-            if (type.Isi(Tags.Textarea))
+            if (type.Isi(TagNames.Textarea))
             {
                 name = Normalize(name);
                 value = Normalize(value);
@@ -187,8 +185,7 @@
             {
                 var entry = _entries[i];
 
-                if (!String.IsNullOrEmpty(entry.Name) && entry.Name.Equals("_charset_") &&
-                    entry.Type.Equals(InputTypeNames.Hidden, StringComparison.OrdinalIgnoreCase))
+                if (!String.IsNullOrEmpty(entry.Name) && entry.Name.Is("_charset_") && entry.Type.Isi(InputTypeNames.Hidden))
                 {
                     _entries[i] = new TextDataSetEntry(entry.Name, encoding.WebName, entry.Type);
                 }
@@ -231,8 +228,8 @@
         {
             if (!String.IsNullOrEmpty(value))
             {
-                var lines = value.Split(NewLines, StringSplitOptions.None);
-                return String.Join("\r\n", lines);
+                var lines = value.Split(Symbols.NewLines, StringSplitOptions.None);
+                return String.Join(Symbols.NewLines[0], lines);
             }
 
             return value;

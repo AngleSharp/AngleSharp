@@ -16,7 +16,7 @@
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual(String.Empty, supports.ConditionText);
-            Assert.IsTrue(supports.IsSupported);
+            Assert.IsTrue(supports.Condition.Check());
         }
 
         [Test]
@@ -28,7 +28,7 @@
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("(background-color: red)", supports.ConditionText);
-            Assert.IsTrue(supports.IsSupported);
+            Assert.IsTrue(supports.Condition.Check());
         }
 
         [Test]
@@ -40,7 +40,7 @@
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("((background-color: red) and (color: blue))", supports.ConditionText);
-            Assert.IsTrue(supports.IsSupported);
+            Assert.IsTrue(supports.Condition.Check());
         }
 
         [Test]
@@ -52,7 +52,7 @@
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("(not (background-transparency: half))", supports.ConditionText);
-            Assert.IsTrue(supports.IsSupported);
+            Assert.IsTrue(supports.Condition.Check());
         }
 
         [Test]
@@ -64,7 +64,7 @@
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("((background-transparency: zero))", supports.ConditionText);
-            Assert.IsFalse(supports.IsSupported);
+            Assert.IsFalse(supports.Condition.Check());
         }
 
         [Test]
@@ -76,7 +76,7 @@
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("(background: red !important)", supports.ConditionText);
-            Assert.IsTrue(supports.IsSupported);
+            Assert.IsTrue(supports.Condition.Check());
         }
 
         [Test]
@@ -88,7 +88,7 @@
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("((padding-top: 0) or (padding-left: 0))", supports.ConditionText);
-            Assert.IsTrue(supports.IsSupported);
+            Assert.IsTrue(supports.Condition.Check());
         }
 
         [Test]
@@ -100,7 +100,7 @@
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("(((padding-top: 0) or (padding-left: 0)) and ((padding-bottom: 0) or (padding-right: 0)))", supports.ConditionText);
-            Assert.IsTrue(supports.IsSupported);
+            Assert.IsTrue(supports.Condition.Check());
         }
 
         [Test]
@@ -112,7 +112,7 @@
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("(display: flex !important)", supports.ConditionText);
-            Assert.IsTrue(supports.IsSupported);
+            Assert.IsTrue(supports.Condition.Check());
         }
 
         [Test]
@@ -132,7 +132,7 @@
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("((display: flex))", supports.ConditionText);
-            Assert.IsTrue(supports.IsSupported);
+            Assert.IsTrue(supports.Condition.Check());
         }
 
         [Test]
@@ -146,7 +146,7 @@
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg))", supports.ConditionText);
-            Assert.IsTrue(supports.IsSupported);
+            Assert.IsTrue(supports.Condition.Check());
         }
 
         [Test]
@@ -160,7 +160,7 @@
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("(transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg)))", supports.ConditionText);
-            Assert.IsTrue(supports.IsSupported);
+            Assert.IsTrue(supports.Condition.Check());
         }
 
         [Test]
@@ -175,7 +175,7 @@
             Assert.IsInstanceOf<CssSupportsRule>(sheet.Rules[0]);
             var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual("(box-shadow: 0 0 2px black) or (-moz-box-shadow: 0 0 2px black) or (-webkit-box-shadow: 0 0 2px black) or (-o-box-shadow: 0 0 2px black)", supports.ConditionText);
-            Assert.IsTrue(supports.IsSupported);
+            Assert.IsTrue(supports.Condition.Check());
         }
 
         [Test]
@@ -192,7 +192,7 @@
             var supports = sheet.Rules[0] as CssSupportsRule;
             Assert.AreEqual(3, supports.Rules.Length);
             Assert.AreEqual("not (display: flex)", supports.ConditionText);
-            Assert.IsFalse(supports.IsSupported);
+            Assert.IsFalse(supports.Condition.Check());
         }
     }
 }

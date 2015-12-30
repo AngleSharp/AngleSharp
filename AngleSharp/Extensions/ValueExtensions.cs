@@ -38,7 +38,7 @@
         public static Boolean Is(this IEnumerable<CssToken> value, String expected)
         {
             var identifier = value.ToIdentifier();
-            return identifier != null && identifier.Equals(expected, StringComparison.OrdinalIgnoreCase);
+            return identifier != null && identifier.Isi(expected);
         }
 
         public static String ToUri(this IEnumerable<CssToken> value)
@@ -46,7 +46,9 @@
             var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Url)
+            {
                 return element.Data;
+            }
 
             return null;
         }
@@ -56,7 +58,9 @@
             var percent = value.ToPercent();
 
             if (percent.HasValue)
+            {
                 return new Length(percent.Value.Value, Length.Unit.Percent);
+            }
 
             return value.ToLength();
         }
@@ -91,7 +95,9 @@
             var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Percentage)
+            {
                 return new Percent(((CssUnitToken)element).Value);
+            }
 
             return null;
         }
@@ -101,7 +107,9 @@
             var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.String)
+            {
                 return element.Data;
+            }
 
             return null;
         }
@@ -115,13 +123,17 @@
             {
                 do
                 {
-                    if (it.Current.Type == CssTokenType.Ident)
-                        elements.Add(it.Current.Data);
-                    else
+                    if (it.Current.Type != CssTokenType.Ident)
+                    {
                         return null;
+                    }
+
+                    elements.Add(it.Current.Data);
 
                     if (it.MoveNext() && it.Current.Type != CssTokenType.Whitespace)
+                    {
                         return null;
+                    }
                 }
                 while (it.MoveNext());
 
@@ -136,7 +148,9 @@
             var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Ident)
+            {
                 return element.Data.ToLowerInvariant();
+            }
 
             return null;
         }
@@ -145,10 +159,10 @@
         {
             var identifier = value.ToIdentifier();
 
-            if (identifier != null && 
-                (identifier.Equals(Keywords.All, StringComparison.OrdinalIgnoreCase) || 
-                 Factory.Properties.IsAnimatable(identifier)))
+            if (identifier != null && (identifier.Isi(Keywords.All) || Factory.Properties.IsAnimatable(identifier)))
+            {
                 return identifier;
+            }
 
             return null;
         }
@@ -158,7 +172,9 @@
             var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Number)
+            {
                 return ((CssNumberToken)element).Value;
+            }
 
             return null;
         }
@@ -174,7 +190,9 @@
             var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Number && ((CssNumberToken)element).IsInteger)
+            {
                 return ((CssNumberToken)element).IntegerValue;
+            }
 
             return null;
         }
@@ -203,10 +221,42 @@
             return element.HasValue && (element.Value == 0 || element.Value == 1) ? element : null;
         }
 
-        public static Byte? ToByte(this IEnumerable<CssToken> value)
+        public static Single? ToAlphaValue(this IEnumerable<CssToken> value)
+        {
+            var element = value.ToNaturalSingle();
+
+            if (!element.HasValue)
+            {
+                var percent = value.ToPercent();
+
+                if (!percent.HasValue)
+                {
+                    return null;
+                }
+
+                return percent.Value.NormalizedValue;
+            }
+
+            return Math.Min(element.Value, 1f);
+        }
+
+        public static Byte? ToRgbComponent(this IEnumerable<CssToken> value)
         {
             var element = value.ToNaturalInteger();
-            return element.HasValue ? (Byte?)Math.Min(element.Value, 255) : null;
+
+            if (!element.HasValue)
+            {
+                var percent = value.ToPercent();
+
+                if (!percent.HasValue)
+                {
+                    return null;
+                }
+
+                return (Byte)(255f * percent.Value.NormalizedValue);
+            }
+
+            return (Byte)Math.Min(element.Value, 255);
         }
 
         public static Angle? ToAngle(this IEnumerable<CssToken> value)
@@ -219,10 +269,31 @@
                 var unit = Angle.GetUnit(token.Unit);
 
                 if (unit != Angle.Unit.None)
+                {
                     return new Angle(token.Value, unit);
+                }
             }
 
             return null;
+        }
+
+        public static Angle? ToAngleNumber(this IEnumerable<CssToken> value)
+        {
+            var angle = value.ToAngle();
+
+            if (!angle.HasValue)
+            {
+                var number = value.ToSingle();
+
+                if (!number.HasValue)
+                {
+                    return null;
+                }
+
+                return new Angle(number.Value, Angle.Unit.Deg);
+            }
+
+            return angle.Value;
         }
 
         public static Frequency? ToFrequency(this IEnumerable<CssToken> value)
@@ -235,7 +306,9 @@
                 var unit = Frequency.GetUnit(token.Unit);
 
                 if (unit != Frequency.Unit.None)
+                {
                     return new Frequency(token.Value, unit);
+                }
             }
 
             return null;
@@ -253,7 +326,9 @@
                     var unit = Length.GetUnit(token.Unit);
 
                     if (unit != Length.Unit.None)
+                    {
                         return new Length(token.Value, unit);
+                    }
                 }
                 else if (element.Type == CssTokenType.Number && ((CssNumberToken)element).Value == 0f)
                 {
@@ -274,7 +349,9 @@
                 var unit = Resolution.GetUnit(token.Unit);
 
                 if (unit != Resolution.Unit.None)
+                {
                     return new Resolution(token.Value, unit);
+                }
             }
 
             return null;
@@ -290,7 +367,9 @@
                 var unit = Time.GetUnit(token.Unit);
 
                 if (unit != Time.Unit.None)
+                {
                     return new Time(token.Value, unit);
+                }
             }
 
             return null;
@@ -301,13 +380,21 @@
             var length = value.ToLength();
 
             if (length != null)
+            {
                 return length;
+            }
             else if (value.Is(Keywords.Thin))
+            {
                 return Length.Thin;
+            }
             else if (value.Is(Keywords.Medium))
+            {
                 return Length.Medium;
+            }
             else if (value.Is(Keywords.Thick))
+            {
                 return Length.Thick;
+            }
 
             return length;
         }
@@ -333,7 +420,9 @@
                     }
 
                     if (whitespace)
+                    {
                         continue;
+                    }
                 }
                 else if (token.Type == CssTokenType.RoundBracketOpen)
                 {
@@ -358,11 +447,17 @@
             while (begin < end)
             {
                 if (value[begin].Type == CssTokenType.Whitespace)
+                {
                     begin++;
+                }
                 else if (value[end].Type == CssTokenType.Whitespace)
+                {
                     end--;
+                }
                 else
+                {
                     break;
+                }
             }
 
             value.RemoveRange(++end, value.Count - end);
@@ -418,9 +513,13 @@
             var element = value.OnlyOrDefault();
 
             if (element != null && element.Type == CssTokenType.Ident)
+            {
                 return Color.FromName(element.Data);
-            else if (element != null && element.Type == CssTokenType.Color && ((CssStringToken)element).IsBad == false)
+            }
+            else if (element != null && element.Type == CssTokenType.Color && !((CssColorToken)element).IsBad)
+            {
                 return Color.FromHex(element.Data);
+            }
 
             return null;
         }

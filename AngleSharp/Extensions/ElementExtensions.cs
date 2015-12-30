@@ -26,15 +26,21 @@
         public static String LocatePrefix(this IElement element, String namespaceUri)
         {
             if (element == null)
+            {
                 return null;
+            }
 
-            if (element.NamespaceUri == namespaceUri && element.Prefix != null)
+            if (element.NamespaceUri.Is(namespaceUri) && element.Prefix != null)
+            {
                 return element.Prefix;
+            }
 
             foreach (var attr in element.Attributes)
             {
-                if (attr.Prefix == Namespaces.XmlNsPrefix && attr.Value == namespaceUri)
+                if (attr.Prefix.Is(NamespaceNames.XmlNsPrefix) && attr.Value.Is(namespaceUri))
+                {
                     return attr.LocalName;
+                }
             }
 
             return element.ParentElement.LocatePrefix(namespaceUri);
@@ -49,17 +55,21 @@
         public static String LocateNamespace(this IElement element, String prefix)
         {
             if (element == null)
+            {
                 return null;
+            }
 
             var ns = element.NamespaceUri;
             var px = element.Prefix;
 
-            if (!String.IsNullOrEmpty(ns) && px == prefix)
+            if (!String.IsNullOrEmpty(ns) && px.Is(prefix))
+            {
                 return ns;
+            }
 
             var predicate = prefix == null ? (Predicate<IAttr>)
-                (attr => (attr.NamespaceUri == Namespaces.XmlNsUri && attr.Prefix == null && attr.LocalName == Namespaces.XmlNsPrefix)) :
-                (attr => (attr.NamespaceUri == Namespaces.XmlNsUri && attr.Prefix == Namespaces.XmlNsPrefix && attr.LocalName == prefix));
+                (attr => (attr.NamespaceUri.Is(NamespaceNames.XmlNsUri) && attr.Prefix == null && attr.LocalName.Is(NamespaceNames.XmlNsPrefix))) :
+                (attr => (attr.NamespaceUri.Is(NamespaceNames.XmlNsUri) && attr.Prefix.Is(NamespaceNames.XmlNsPrefix) && attr.LocalName.Is(prefix)));
 
             foreach (var attr in element.Attributes)
             {
@@ -68,7 +78,9 @@
                     var value = attr.Value;
 
                     if (String.IsNullOrEmpty(value))
+                    {
                         value = null;
+                    }
 
                     return value;
                 }
@@ -98,15 +110,19 @@
         /// <returns>True if the namespace is matched, else false.</returns>
         public static Boolean MatchesCssNamespace(this IElement el, String prefix)
         {
-            if (prefix == "*")
+            if (prefix.Is("*"))
+            {
                 return true;
+            }
 
-            var nsUri = el.GetAttribute(Namespaces.XmlNsPrefix) ?? el.NamespaceUri;
+            var nsUri = el.GetAttribute(NamespaceNames.XmlNsPrefix) ?? el.NamespaceUri;
 
-            if (prefix == String.Empty)
-                return nsUri == String.Empty;
+            if (prefix.Is(String.Empty))
+            {
+                return nsUri.Is(String.Empty);
+            }
 
-            return nsUri == GetCssNamespace(el, prefix);
+            return nsUri.Is(GetCssNamespace(el, prefix));
         }
 
         /// <summary>
@@ -140,16 +156,20 @@
         {
             var parent = element.ParentElement;
 
-            if (parent == null)
-                return false;
-
-            for (int i = 0; i < parent.ChildNodes.Length; i++)
+            if (parent != null)
             {
-                if (parent.ChildNodes[i].NodeName == element.NodeName && parent.ChildNodes[i] != element)
-                    return false;
+                for (var i = 0; i < parent.ChildNodes.Length; i++)
+                {
+                    if (parent.ChildNodes[i].NodeName.Is(element.NodeName) && parent.ChildNodes[i] != element)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         /// <summary>
@@ -161,13 +181,15 @@
         {
             var parent = element.ParentElement;
 
-            if (parent == null)
-                return false;
-
-            for (int i = 0; i < parent.ChildNodes.Length; i++)
+            if (parent != null)
             {
-                if (parent.ChildNodes[i].NodeName == element.NodeName)
-                    return parent.ChildNodes[i] == element;
+                for (int i = 0; i < parent.ChildNodes.Length; i++)
+                {
+                    if (parent.ChildNodes[i].NodeName.Is(element.NodeName))
+                    {
+                        return parent.ChildNodes[i] == element;
+                    }
+                }
             }
 
             return false;
@@ -182,13 +204,15 @@
         {
             var parent = element.ParentElement;
 
-            if (parent == null)
-                return false;
-
-            for (int i = parent.ChildNodes.Length - 1; i >= 0; i--)
+            if (parent != null)
             {
-                if (parent.ChildNodes[i].NodeName == element.NodeName)
-                    return parent.ChildNodes[i] == element;
+                for (int i = parent.ChildNodes.Length - 1; i >= 0; i--)
+                {
+                    if (parent.ChildNodes[i].NodeName.Is(element.NodeName))
+                    {
+                        return parent.ChildNodes[i] == element;
+                    }
+                }
             }
 
             return false;
@@ -204,11 +228,13 @@
             var owner = element.Owner;
             var id = element.Id;
 
-            if (owner == null || id == null)
-                return false;
+            if (owner != null && id != null)
+            {
+                var hash = owner.Location.Hash;
+                return String.Compare(id, 0, hash, hash.Length > 0 ? 1 : 0, Int32.MaxValue) == 0;
+            }
 
-            var hash = owner.Location.Hash;
-            return String.Compare(id, 0, hash, hash.Length > 0 ? 1 : 0, Int32.MaxValue) == 0;
+            return false;
         }
 
         /// <summary>
@@ -219,19 +245,33 @@
         public static Boolean IsEnabled(this IElement element)
         {
             if (element is HtmlAnchorElement || element is HtmlAreaElement || element is HtmlLinkElement)
+            {
                 return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href));
+            }
             else if (element is HtmlButtonElement)
+            {
                 return !((HtmlButtonElement)element).IsDisabled;
+            }
             else if (element is HtmlInputElement)
+            {
                 return !((HtmlInputElement)element).IsDisabled;
+            }
             else if (element is HtmlSelectElement)
+            {
                 return !((HtmlSelectElement)element).IsDisabled;
+            }
             else if (element is HtmlTextAreaElement)
+            {
                 return !((HtmlTextAreaElement)element).IsDisabled;
+            }
             else if (element is HtmlOptionElement)
+            {
                 return !((HtmlOptionElement)element).IsDisabled;
+            }
             else if (element is HtmlOptionsGroupElement || element is HtmlMenuItemElement || element is HtmlFieldSetElement)
+            {
                 return String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Disabled));
+            }
 
             return false;
         }
@@ -244,17 +284,29 @@
         public static Boolean IsDisabled(this IElement element)
         {
             if (element is HtmlButtonElement)
+            {
                 return ((HtmlButtonElement)element).IsDisabled;
+            }
             else if (element is HtmlInputElement)
+            {
                 return ((HtmlInputElement)element).IsDisabled;
+            }
             else if (element is HtmlSelectElement)
+            {
                 return ((HtmlSelectElement)element).IsDisabled;
+            }
             else if (element is HtmlTextAreaElement)
+            {
                 return ((HtmlTextAreaElement)element).IsDisabled;
+            }
             else if (element is HtmlOptionElement)
+            {
                 return ((HtmlOptionElement)element).IsDisabled;
+            }
             else if (element is HtmlOptionsGroupElement || element is HtmlMenuItemElement || element is HtmlFieldSetElement)
+            {
                 return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Disabled));
+            }
 
             return false;
         }
@@ -271,8 +323,11 @@
                 var bt = (HtmlButtonElement)element;
                 var form = bt.Form;
 
-                if (form != null)//TODO Check if button is form def. button
+                //TODO Check if button is form def. button
+                if (form != null)
+                {
                     return true;
+                }
             }
             else if (element is HtmlInputElement)
             {
@@ -283,8 +338,11 @@
                 {
                     var form = input.Form;
 
-                    if (form != null)//TODO Check if input is form def. button
+                    //TODO Check if input is form def. button
+                    if (form != null)
+                    {
                         return true;
+                    }
                 }
                 else
                 {
@@ -292,7 +350,10 @@
                 }
             }
             else if (element is HtmlOptionElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Selected));
+            {
+                var value = element.GetAttribute(null, AttributeNames.Selected);
+                return !String.IsNullOrEmpty(value);
+            }
 
             return false;
         }
@@ -306,7 +367,7 @@
         public static Boolean IsPseudo(this IElement element, String name)
         {
             var pseudoElement = element as PseudoElement;
-            return pseudoElement != null && pseudoElement.PseudoName == name;
+            return pseudoElement != null && pseudoElement.PseudoName.Is(name);
         }
 
         /// <summary>
@@ -318,20 +379,23 @@
         {
             if (element is HtmlInputElement)
             {
-                var inp = (HtmlInputElement)element;
-                var type = inp.Type;
-
-                return (type == InputTypeNames.Checkbox || type == InputTypeNames.Radio) && inp.IsChecked;
+                var input = (HtmlInputElement)element;
+                var type = input.Type;
+                var canBeChecked = type == InputTypeNames.Checkbox || type == InputTypeNames.Radio;
+                return canBeChecked && input.IsChecked;
             }
             else if (element is HtmlMenuItemElement)
             {
-                var mi = (HtmlMenuItemElement)element;
-                var type = mi.Type;
-
-                return (type == InputTypeNames.Checkbox || type == InputTypeNames.Radio) && mi.IsChecked;
+                var menuItem = (HtmlMenuItemElement)element;
+                var type = menuItem.Type;
+                var canBeChecked = type == InputTypeNames.Checkbox || type == InputTypeNames.Radio;
+                return canBeChecked && menuItem.IsChecked;
             }
             else if (element is HtmlOptionElement)
-                return ((HtmlOptionElement)element).IsSelected;
+            {
+                var option = ((HtmlOptionElement)element);
+                return option.IsSelected;
+            }
 
             return false;
         }
@@ -345,11 +409,15 @@
         {
             if (element is HtmlInputElement)
             {
-                var inp = (HtmlInputElement)element;
-                return inp.Type == InputTypeNames.Checkbox && inp.IsIndeterminate;
+                var input = (HtmlInputElement)element;
+                var isCheckbox = input.Type == InputTypeNames.Checkbox;
+                return isCheckbox && input.IsIndeterminate;
             }
             else if (element is HtmlProgressElement)
-                return String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Value));
+            {
+                var value = element.GetAttribute(null, AttributeNames.Value);
+                return String.IsNullOrEmpty(value);
+            }
 
             return false;
         }
@@ -364,7 +432,11 @@
             var input = element as HtmlInputElement;
 
             if (input != null)
-                return !String.IsNullOrEmpty(input.Placeholder) && String.IsNullOrEmpty(input.Value);
+            {
+                var containsPlaceholder = !String.IsNullOrEmpty(input.Placeholder);
+                var isEmpty = String.IsNullOrEmpty(input.Value);
+                return containsPlaceholder && isEmpty;
+            }
 
             return false;
         }
@@ -378,18 +450,23 @@
         {
             if (element is HtmlInputElement)
             {
-                var inp = (HtmlInputElement)element;
-                var type = inp.Type;
-                return (type == InputTypeNames.Checkbox || type == InputTypeNames.Radio) && !inp.IsChecked;
+                var input = (HtmlInputElement)element;
+                var type = input.Type;
+                var canBeChecked = type == InputTypeNames.Checkbox || type == InputTypeNames.Radio;
+                return canBeChecked && !input.IsChecked;
             }
             else if (element is HtmlMenuItemElement)
             {
-                var mi = (HtmlMenuItemElement)element;
-                var type = mi.Type;
-                return (type == InputTypeNames.Checkbox || type == InputTypeNames.Radio) && !mi.IsChecked;
+                var menuItem = (HtmlMenuItemElement)element;
+                var type = menuItem.Type;
+                var canBeChecked = type == InputTypeNames.Checkbox || type == InputTypeNames.Radio;
+                return canBeChecked && !menuItem.IsChecked;
             }
             else if (element is HtmlOptionElement)
-                return !((HtmlOptionElement)element).IsSelected;
+            {
+                var option = (HtmlOptionElement)element;
+                return !option.IsSelected;
+            }
 
             return false;
         }
@@ -402,21 +479,40 @@
         public static Boolean IsActive(this IElement element)
         {
             if (element is HtmlAnchorElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && ((HtmlAnchorElement)element).IsActive;
+            {
+                var anchor = (HtmlAnchorElement)element;
+                var href = element.GetAttribute(null, AttributeNames.Href);
+                return !String.IsNullOrEmpty(href) && anchor.IsActive;
+            }
             else if (element is HtmlAreaElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && ((HtmlAreaElement)element).IsActive;
+            {
+                var area = (HtmlAreaElement)element;
+                var href = element.GetAttribute(null, AttributeNames.Href);
+                return !String.IsNullOrEmpty(href) && area.IsActive;
+            }
             else if (element is HtmlLinkElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && ((HtmlLinkElement)element).IsActive;
+            {
+                var link = (HtmlLinkElement)element;
+                var href = element.GetAttribute(null, AttributeNames.Href);
+                return !String.IsNullOrEmpty(href) && link.IsActive;
+            }
             else if (element is HtmlButtonElement)
-                return !((HtmlButtonElement)element).IsDisabled && ((HtmlButtonElement)element).IsActive;
+            {
+                var button = (HtmlButtonElement)element;
+                return !button.IsDisabled && button.IsActive;
+            }
             else if (element is HtmlInputElement)
             {
-                var inp = (HtmlInputElement)element;
-                var type = inp.Type;
-                return (type == InputTypeNames.Submit || type == InputTypeNames.Image || type == InputTypeNames.Reset || type == InputTypeNames.Button) && inp.IsActive;
+                var input = (HtmlInputElement)element;
+                var type = input.Type;
+                var canBeSubmitted = type == InputTypeNames.Submit || type == InputTypeNames.Image || type == InputTypeNames.Reset || type == InputTypeNames.Button;
+                return canBeSubmitted && input.IsActive;
             }
             else if (element is HtmlMenuItemElement)
-                return string.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Disabled)) && ((HtmlMenuItemElement)element).IsActive;
+            {
+                var menuItem = (HtmlMenuItemElement)element;
+                return !menuItem.IsDisabled && menuItem.IsActive;
+            }
 
             return false;
         }
@@ -429,11 +525,23 @@
         public static Boolean IsVisited(this IElement element)
         {
             if (element is HtmlAnchorElement)
-                return !String.IsNullOrEmpty(element.GetAttribute( null, AttributeNames.Href)) && ((HtmlAnchorElement)element).IsVisited;
+            {
+                var href = element.GetAttribute(null, AttributeNames.Href);
+                var anchor = (HtmlAnchorElement)element;
+                return !String.IsNullOrEmpty(href) && anchor.IsVisited;
+            }
             else if (element is HtmlAreaElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && ((HtmlAreaElement)element).IsVisited;
+            {
+                var href = element.GetAttribute(null, AttributeNames.Href);
+                var area = (HtmlAreaElement)element;
+                return !String.IsNullOrEmpty(href) && area.IsVisited;
+            }
             else if (element is HtmlLinkElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && ((HtmlLinkElement)element).IsVisited;
+            {
+                var href = element.GetAttribute(null, AttributeNames.Href);
+                var link = (HtmlLinkElement)element;
+                return !String.IsNullOrEmpty(href) && link.IsVisited;
+            }
 
             return false;
         }
@@ -446,11 +554,23 @@
         public static Boolean IsLink(this IElement element)
         {
             if (element is HtmlAnchorElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && !((HtmlAnchorElement)element).IsVisited;
+            {
+                var href = element.GetAttribute(null, AttributeNames.Href);
+                var anchor = (HtmlAnchorElement)element;
+                return !String.IsNullOrEmpty(href) && !anchor.IsVisited;
+            }
             else if (element is HtmlAreaElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && !((HtmlAreaElement)element).IsVisited;
+            {
+                var href = element.GetAttribute(null, AttributeNames.Href);
+                var area = (HtmlAreaElement)element;
+                return !String.IsNullOrEmpty(href) && !area.IsVisited;
+            }
             else if (element is HtmlLinkElement)
-                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href)) && !((HtmlLinkElement)element).IsVisited;
+            {
+                var href = element.GetAttribute(null, AttributeNames.Href);
+                var link = (HtmlLinkElement)element;
+                return !String.IsNullOrEmpty(href) && !link.IsVisited;
+            }
 
             return false;
         }
@@ -473,11 +593,20 @@
         public static Boolean IsOptional(this IElement element)
         {
             if (element is HtmlInputElement)
-                return !((HtmlInputElement)element).IsRequired;
+            {
+                var input = (HtmlInputElement)element;
+                return !input.IsRequired;
+            }
             else if (element is HtmlSelectElement)
-                return !((HtmlSelectElement)element).IsRequired;
+            {
+                var select = (HtmlSelectElement)element;
+                return !select.IsRequired;
+            }
             else if (element is HtmlTextAreaElement)
-                return !((HtmlTextAreaElement)element).IsRequired;
+            {
+                var area = (HtmlTextAreaElement)element;
+                return !area.IsRequired;
+            }
 
             return false;
         }
@@ -490,11 +619,20 @@
         public static Boolean IsRequired(this IElement element)
         {
             if (element is HtmlInputElement)
-                return ((HtmlInputElement)element).IsRequired;
+            {
+                var input = (HtmlInputElement)element;
+                return input.IsRequired;
+            }
             else if (element is HtmlSelectElement)
-                return ((HtmlSelectElement)element).IsRequired;
+            {
+                var select = (HtmlSelectElement)element;
+                return select.IsRequired;
+            }
             else if (element is HtmlTextAreaElement)
-                return ((HtmlTextAreaElement)element).IsRequired;
+            {
+                var textArea = (HtmlTextAreaElement)element;
+                return textArea.IsRequired;
+            }
 
             return false;
         }
@@ -507,9 +645,15 @@
         public static Boolean IsInvalid(this IElement element)
         {
             if (element is IValidation)
-                return !((IValidation)element).CheckValidity();
+            {
+                var validator = (IValidation)element;
+                return !validator.CheckValidity();
+            }
             else if (element is HtmlFormElement)
-                return !((HtmlFormElement)element).CheckValidity();
+            {
+                var form = (HtmlFormElement)element;
+                return !form.CheckValidity();
+            }
 
             return false;
         }
@@ -522,9 +666,15 @@
         public static Boolean IsValid(this IElement element)
         {
             if (element is IValidation)
-                return ((IValidation)element).CheckValidity();
+            {
+                var validator = (IValidation)element;
+                return validator.CheckValidity();
+            }
             else if (element is HtmlFormElement)
-                return ((HtmlFormElement)element).CheckValidity();
+            {
+                var form = (HtmlFormElement)element;
+                return form.CheckValidity();
+            }
 
             return false;
         }
@@ -537,11 +687,20 @@
         public static Boolean IsReadOnly(this IElement element)
         {
             if (element is HtmlInputElement)
-                return !((HtmlInputElement)element).IsMutable;
+            {
+                var input = (HtmlInputElement)element;
+                return !input.IsMutable;
+            }
             else if (element is HtmlTextAreaElement)
-                return !((HtmlTextAreaElement)element).IsMutable;
+            {
+                var textArea = (HtmlTextAreaElement)element;
+                return !textArea.IsMutable;
+            }
             else if (element is IHtmlElement)
-                return !((IHtmlElement)element).IsContentEditable;
+            {
+                var general = (IHtmlElement)element;
+                return !general.IsContentEditable;
+            }
 
             return true;
         }
@@ -554,11 +713,20 @@
         public static Boolean IsEditable(this IElement element)
         {
             if (element is HtmlInputElement)
-                return ((HtmlInputElement)element).IsMutable;
+            {
+                var input = (HtmlInputElement)element;
+                return input.IsMutable;
+            }
             else if (element is HtmlTextAreaElement)
-                return ((HtmlTextAreaElement)element).IsMutable;
+            {
+                var textArea = (HtmlTextAreaElement)element;
+                return textArea.IsMutable;
+            }
             else if (element is IHtmlElement)
-                return ((IHtmlElement)element).IsContentEditable;
+            {
+                var general = (IHtmlElement)element;
+                return general.IsContentEditable;
+            }
 
             return false;
         }
@@ -633,33 +801,77 @@
         }
 
         /// <summary>
-        /// Creates a task from the provided element with the construction
-        /// function.
+        /// Creates a task to load the resource of the resource type from the
+        /// request.
         /// </summary>
-        /// <typeparam name="T">The type of the  task's result.</typeparam>
-        /// <param name="element">The originator of the task.</param>
-        /// <param name="creator">The creation function.</param>
-        /// <returns>The created task.</returns>
-        public static Task<T> CreateTask<T>(this Element element, Func<CancellationToken, Task<T>> creator)
+        /// <param name="element">The element to use.</param>
+        /// <param name="download">The issued download.</param>
+        /// <param name="callback">The callback handling the resource.</param>
+        /// <returns>The created task waiting for a response status.</returns>
+        public static Task<Boolean> ProcessResource<TResource>(this Element element, IDownload download, Action<TResource> callback)
+            where TResource : IResourceInfo
         {
-            var document = element.Owner;
+            return element.ProcessResponse(download, async response =>
+            {
+                var document = element.Owner;
 
-            if (document != null)
-                return document.Tasks.Add(element, creator);
+                if (document != null)
+                {
+                    var options = document.Options;
+                    var type = response.GetContentType();
+                    var service = options.GetResourceService<TResource>(type.Content);
 
-            return TaskEx.FromResult(default(T));
+                    if (service != null)
+                    {
+                        var cancel = CancellationToken.None;
+                        var result = await service.CreateAsync(response, cancel).ConfigureAwait(false);
+                        callback(result);
+                    }
+                }
+            });
         }
 
         /// <summary>
-        /// Cancels all outstanding tasks from the given element.
+        /// Creates a task to load the resource of the resource type from the
+        /// request.
         /// </summary>
-        /// <param name="element">The originator of the tasks.</param>
-        public static void CancelTasks(this Element element)
+        /// <param name="element">The element to use.</param>
+        /// <param name="download">The issued download.</param>
+        /// <param name="callback">The callback handling the resource.</param>
+        /// <returns>The created task waiting for a response status.</returns>
+        public static async Task<Boolean> ProcessResponse(this Element element, IDownload download, Action<IResponse> callback)
         {
-            var document = element.Owner;
+            var response = await download.Task.ConfigureAwait(false);
+            var completionStatus = new TaskCompletionSource<Boolean>();
+            
+            element.Owner.QueueTask(() => 
+            {
+                if (response != null)
+                {
+                    try
+                    {
+                        callback(response);
+                        element.FireSimpleEvent(EventNames.Load);
+                        completionStatus.SetResult(true);
+                    }
+                    catch
+                    {
+                        element.FireSimpleEvent(EventNames.Error);
+                        completionStatus.SetResult(false);
+                    }
+                    finally
+                    {
+                        response.Dispose();
+                    }
+                }
+                else
+                {
+                    element.FireSimpleEvent(EventNames.Error);
+                    completionStatus.SetResult(false);
+                }
+            });
 
-            if (document != null)
-                document.Tasks.CancelAll(element);
+            return await completionStatus.Task.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -680,47 +892,22 @@
                 var type = source.Type;
 
                 if (!String.IsNullOrEmpty(type) && options.GetResourceService<IImageInfo>(type) == null)
+                {
                     continue;
+                }
 
                 foreach (var candidate in srcset.GetCandidates(source.SourceSet, source.Sizes))
+                {
                     return new Url(img.BaseUrl, candidate);
+                }
             }
 
             foreach (var candidate in srcset.GetCandidates(img.SourceSet, img.Sizes))
+            {
                 return new Url(img.BaseUrl, candidate);
+            }
 
             return Url.Create(img.Source);
-        }
-
-        /// <summary>
-        /// Tries to load the resource of the resource type from the request.
-        /// </summary>
-        /// <param name="element">The document to use.</param>
-        /// <param name="request">The issued request.</param>
-        /// <returns>A task that will end with a resource or null.</returns>
-        public static Task<TResource> LoadResource<TResource>(this Element element, ResourceRequest request)
-            where TResource : IResourceInfo
-        {
-            var document = element.Owner;
-            var loader = document.Loader;
-
-            return element.CreateTask(async (cancel) =>
-            {
-                using (var response = await loader.FetchAsync(request, cancel).ConfigureAwait(false))
-                {
-                    if (response != null)
-                    {
-                        var options = document.Options;
-                        var type = response.GetContentType();
-                        var service = options.GetResourceService<TResource>(type.Content);
-
-                        if (service != null)
-                            return await service.CreateAsync(response, cancel).ConfigureAwait(false);
-                    }
-                }
-
-                return default(TResource);
-            });
         }
 
         /// <summary>
@@ -731,14 +918,12 @@
         /// <param name="element">The element to navigate from.</param>
         /// <param name="request">The request to issue.</param>
         /// <returns>A task that will eventually result in a new document.</returns>
-        public static Task<IDocument> NavigateTo(this Element element, DocumentRequest request)
+        public static async Task<IDocument> NavigateTo(this Element element, DocumentRequest request)
         {
-            element.CancelTasks();
-
-            if (request == null)
-                return TaskEx.FromResult<IDocument>(element.Owner);
-            
-            return element.CreateTask(cancel => element.Owner.Context.OpenAsync(request, cancel));
+            var download = element.Owner.Context.Loader.DownloadAsync(request);
+            var response = await download.Task.ConfigureAwait(false);
+            var cancel = CancellationToken.None;
+            return await element.Owner.Context.OpenAsync(response, cancel).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -789,12 +974,17 @@
             element.Attributes.SetNamedItemWithNamespaceUri(new Attr(name, value));
         }
         
+        /// <summary>
+        /// Gathers the source elements for the provided image element.
+        /// </summary>
+        /// <param name="img">The image to extend.</param>
+        /// <returns>The stack of source elements.</returns>
         static Stack<IHtmlSourceElement> GetSources(this IHtmlImageElement img)
         {
             var parent = img.ParentElement;
             var sources = new Stack<IHtmlSourceElement>();
 
-            if (parent != null && parent.LocalName.Is(Tags.Picture))
+            if (parent != null && parent.LocalName.Is(TagNames.Picture))
             {
                 var element = img.PreviousElementSibling as IHtmlSourceElement;
 

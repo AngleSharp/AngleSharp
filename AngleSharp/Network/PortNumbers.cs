@@ -10,15 +10,15 @@
     {
         static readonly Dictionary<String, String> ports = new Dictionary<String, String>
         {
-            { KnownProtocols.Http, "80" },
-            { KnownProtocols.Https, "443" },
-            { KnownProtocols.Ftp, "21" },
-            { KnownProtocols.File, "" },
-            { KnownProtocols.Ws, "80" },
-            { KnownProtocols.Wss, "443" },
-            { KnownProtocols.Gopher, "70" },
-            { KnownProtocols.Telnet, "23" },
-            { KnownProtocols.Ssh, "22" },
+            { ProtocolNames.Http, "80" },
+            { ProtocolNames.Https, "443" },
+            { ProtocolNames.Ftp, "21" },
+            { ProtocolNames.File, "" },
+            { ProtocolNames.Ws, "80" },
+            { ProtocolNames.Wss, "443" },
+            { ProtocolNames.Gopher, "70" },
+            { ProtocolNames.Telnet, "23" },
+            { ProtocolNames.Ssh, "22" },
         };
 
         /// <summary>
@@ -32,12 +32,9 @@
         /// </returns>
         public static String GetDefaultPort(String protocol)
         {
-            var value = String.Empty;
-
-            if (ports.TryGetValue(protocol, out value))
-                return value;
-
-            return null;
+            var value = default(String);
+            ports.TryGetValue(protocol, out value);
+            return value;
         }
     }
 }

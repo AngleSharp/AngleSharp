@@ -14,16 +14,6 @@
     [DebuggerStepThrough]
     sealed class XmlTokenizer : BaseTokenizer
     {
-        #region Constants
-
-        static readonly String CDataOpening = "[CDATA[";
-        static readonly String PublicIdentifier = "PUBLIC";
-        static readonly String SystemIdentifier = "SYSTEM";
-        static readonly String YesIdentifier = "yes";
-        static readonly String NoIdentifier = "no";
-
-        #endregion
-
         #region Fields
 
         readonly IEntityService _resolver;
@@ -150,8 +140,8 @@
             {
                 if (c == Symbols.EndOfFile)
                     throw XmlParseError.EOF.At(GetCurrentPosition());
-                
-                if (c == Symbols.SquareBracketClose && ContinuesWith("]]>"))
+
+                if (c == Symbols.SquareBracketClose && ContinuesWithSensitive("]]>"))
                 {
                     Advance(2);
                     break;
@@ -255,7 +245,7 @@
             {
                 c = GetNext();
 
-                if (ContinuesWith(Tags.Xml, false))
+                if (ContinuesWithSensitive(TagNames.Xml))
                 {
                     Advance(2);
                     return DeclarationStart(GetNext());
@@ -361,17 +351,17 @@
         /// <param name="c">The next input character.</param>
         XmlToken MarkupDeclaration(Char c)
         {
-            if (ContinuesWith("--"))
+            if (ContinuesWithSensitive("--"))
             {
                 Advance();
                 return CommentStart(GetNext());
             }
-            else if (ContinuesWith(Tags.Doctype, false))
+            else if (ContinuesWithSensitive(TagNames.Doctype))
             {
                 Advance(6);
                 return Doctype(GetNext());
             }
-            else if (ContinuesWith(CDataOpening, false))
+            else if (ContinuesWithSensitive(Keywords.CData))
             {
                 Advance(6);
                 return CData(GetNext());
@@ -392,14 +382,14 @@
         {
             if (!c.IsSpaceCharacter())
             {
-                _stringBuffer.Append(Tags.Xml);
+                _stringBuffer.Append(TagNames.Xml);
                 return ProcessingTarget(c, NewProcessing());
             }
 
             do c = GetNext();
             while (c.IsSpaceCharacter());
 
-            if (ContinuesWith(AttributeNames.Version, false))
+            if (ContinuesWithSensitive(AttributeNames.Version))
             {
                 Advance(6);
                 return DeclarationVersionAfterName(GetNext(), NewDeclaration());
@@ -476,12 +466,12 @@
             while (c.IsSpaceCharacter())
                 c = GetNext();
 
-            if (ContinuesWith(AttributeNames.Encoding, false))
+            if (ContinuesWithSensitive(AttributeNames.Encoding))
             {
                 Advance(7);
                 return DeclarationEncodingAfterName(GetNext(), decl);
             }
-            else if (ContinuesWith(AttributeNames.Standalone, false))
+            else if (ContinuesWithSensitive(AttributeNames.Standalone))
             {
                 Advance(9);
                 return DeclarationStandaloneAfterName(GetNext(), decl);
@@ -567,7 +557,7 @@
             while (c.IsSpaceCharacter())
                 c = GetNext();
 
-            if (ContinuesWith(AttributeNames.Standalone, false))
+            if (ContinuesWithSensitive(AttributeNames.Standalone))
             {
                 Advance(9);
                 return DeclarationStandaloneAfterName(GetNext(), decl);
@@ -627,9 +617,9 @@
 
             var s = FlushBuffer();
 
-            if (s.Equals(YesIdentifier))
+            if (s.Is(Keywords.Yes))
                 decl.Standalone = true;
-            else if (s.Equals(NoIdentifier))
+            else if (s.Is(Keywords.No))
                 decl.Standalone = false;
             else
                 throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
@@ -725,12 +715,12 @@
             if (c == Symbols.GreaterThan)
                 return doctype;
 
-            if (ContinuesWith(PublicIdentifier, false))
+            if (ContinuesWithSensitive(Keywords.Public))
             {
                 Advance(5);
                 return DoctypePublic(GetNext(), doctype);
             }
-            else if (ContinuesWith(SystemIdentifier, false))
+            else if (ContinuesWithSensitive(Keywords.System))
             {
                 Advance(5);
                 return DoctypeSystem(GetNext(), doctype);
@@ -1066,7 +1056,7 @@
 
             pi.Target = FlushBuffer();
 
-            if (String.Compare(pi.Target, Tags.Xml, StringComparison.OrdinalIgnoreCase) == 0)
+            if (pi.Target.Isi(TagNames.Xml))
                 throw XmlParseError.XmlInvalidPI.At(GetCurrentPosition());
 
             if (c == Symbols.QuestionMark)

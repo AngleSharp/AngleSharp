@@ -14,8 +14,8 @@
     {
         #region Fields
 
-        protected static readonly DateTime OriginTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-        static readonly Regex number = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$");
+        protected static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        protected static readonly Regex Number = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$");
 
         readonly IHtmlInputElement _input;
         readonly Boolean _validate;
@@ -112,7 +112,7 @@
 
             if (String.IsNullOrEmpty(step))
                 return GetDefaultStep() * GetStepScaleFactor();
-            else if (step.Equals(Keywords.Any, StringComparison.OrdinalIgnoreCase))
+            else if (step.Isi(Keywords.Any))
                 return 0.0;
 
             var num = ToNumber(step);
@@ -174,7 +174,7 @@
 
         protected static Double? ToNumber(String value)
         {
-            if (!String.IsNullOrEmpty(value) && number.IsMatch(value))
+            if (!String.IsNullOrEmpty(value) && Number.IsMatch(value))
                 return Double.Parse(value);
 
             return null;

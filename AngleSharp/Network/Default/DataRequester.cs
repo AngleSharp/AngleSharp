@@ -12,14 +12,20 @@
     /// </summary>
     public sealed class DataRequester : IRequester
     {
+        #region Fields
+
         static readonly String Base64Section = ";base64";
+
+        #endregion
+
+        #region Methods
 
         /// <summary>Checks if the data protocol is given.</summary>
         /// <param name="protocol">The protocol to check for data.</param>
         /// <returns>True if data is matched, otherwise false..</returns>
         public Boolean SupportsProtocol(String protocol)
         {
-            return protocol.Is(KnownProtocols.Data);
+            return protocol.Is(ProtocolNames.Data);
         }
 
         /// <summary>
@@ -36,7 +42,7 @@
             var data = request.Address.Data;
 
             if (data.StartsWith(","))
-                data = MimeTypes.Plain + data;
+                data = MimeTypeNames.Plain + data;
 
             var parts = data.SplitCommas();
             var response = new Response
@@ -67,5 +73,7 @@
 
             return TaskEx.FromResult<IResponse>(response);
         }
+
+        #endregion
     }
 }

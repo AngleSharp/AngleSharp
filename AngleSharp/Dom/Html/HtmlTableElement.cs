@@ -22,7 +22,7 @@
         #region ctor
 
         public HtmlTableElement(Document owner, String prefix = null)
-            : base(owner, Tags.Table, prefix, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
+            : base(owner, TagNames.Table, prefix, NodeFlags.Special | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
         }
 
@@ -35,7 +35,7 @@
         /// </summary>
         public IHtmlTableCaptionElement Caption
         {
-            get { return ChildNodes.OfType<IHtmlTableCaptionElement>().FirstOrDefault(m => m.LocalName == Tags.Caption); }
+            get { return ChildNodes.OfType<IHtmlTableCaptionElement>().FirstOrDefault(m => m.LocalName == TagNames.Caption); }
             set { DeleteCaption(); InsertChild(0, value); }
         }
 
@@ -44,7 +44,7 @@
         /// </summary>
         public IHtmlTableSectionElement Head
         {
-            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName == Tags.Thead); }
+            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName == TagNames.Thead); }
             set { DeleteHead(); AppendChild(value); }
         }
 
@@ -53,7 +53,7 @@
         /// </summary>
         public IHtmlCollection<IHtmlTableSectionElement> Bodies
         {
-            get { return _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this, deep: false, predicate: m => m.LocalName == Tags.Tbody)); }
+            get { return _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this, deep: false, predicate: m => m.LocalName == TagNames.Tbody)); }
         }
 
         /// <summary>
@@ -61,7 +61,7 @@
         /// </summary>
         public IHtmlTableSectionElement Foot
         {
-            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName == Tags.Tfoot); }
+            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName == TagNames.Tfoot); }
             set { DeleteFoot(); AppendChild(value); }
         }
 
@@ -72,8 +72,8 @@
         {
             get
             {
-                var heads = ChildNodes.OfType<IHtmlTableSectionElement>().Where(m => m.LocalName == Tags.Thead);
-                var foots = ChildNodes.OfType<IHtmlTableSectionElement>().Where(m => m.LocalName == Tags.Tfoot);
+                var heads = ChildNodes.OfType<IHtmlTableSectionElement>().Where(m => m.LocalName == TagNames.Thead);
+                var foots = ChildNodes.OfType<IHtmlTableSectionElement>().Where(m => m.LocalName == TagNames.Tfoot);
 
                 foreach (var head in heads)
                 {
@@ -87,7 +87,7 @@
                     {
                         var body = (IHtmlTableSectionElement)child;
 
-                        if (body.LocalName == Tags.Tbody)
+                        if (body.LocalName == TagNames.Tbody)
                         {
                             foreach (var row in body.Rows)
                                 yield return row;
@@ -217,7 +217,7 @@
         public IHtmlTableRowElement InsertRowAt(Int32 index = -1)
         {
             var rows = Rows;
-            var newRow = Owner.CreateElement(Tags.Tr) as IHtmlTableRowElement;
+            var newRow = Owner.CreateElement(TagNames.Tr) as IHtmlTableRowElement;
 
             if (index >= 0 && index < rows.Length)
             {
@@ -230,7 +230,7 @@
 
                 if (bodies.Length == 0)
                 {
-                    var tbody = Owner.CreateElement(Tags.Tbody);
+                    var tbody = Owner.CreateElement(TagNames.Tbody);
                     AppendChild(tbody);
                 }
 
@@ -271,7 +271,7 @@
 
             if (head == null)
             {
-                head = Owner.CreateElement(Tags.Thead) as IHtmlTableSectionElement;
+                head = Owner.CreateElement(TagNames.Thead) as IHtmlTableSectionElement;
                 AppendChild(head);
             }
 
@@ -285,7 +285,7 @@
         public IHtmlTableSectionElement CreateBody()
         {
             var lastBody = Bodies.LastOrDefault();
-            var body = Owner.CreateElement(Tags.Tbody) as IHtmlTableSectionElement;
+            var body = Owner.CreateElement(TagNames.Tbody) as IHtmlTableSectionElement;
             var index = lastBody != null ? lastBody.Index() + 1 : ChildNodes.Length;
             InsertChild(index, body);
             return body;
@@ -312,7 +312,7 @@
 
             if (foot == null)
             {
-                foot = Owner.CreateElement(Tags.Tfoot) as IHtmlTableSectionElement;
+                foot = Owner.CreateElement(TagNames.Tfoot) as IHtmlTableSectionElement;
                 AppendChild(foot);
             }
 
@@ -340,7 +340,7 @@
 
             if (caption == null)
             {
-                caption = Owner.CreateElement(Tags.Caption) as IHtmlTableCaptionElement;
+                caption = Owner.CreateElement(TagNames.Caption) as IHtmlTableCaptionElement;
                 InsertChild(0, caption);
             }
 

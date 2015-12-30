@@ -15,7 +15,7 @@
         /// Creates a new anchor element.
         /// </summary>
         public HtmlAnchorElement(Document owner, String prefix = null)
-            : base(owner, Tags.A, prefix, NodeFlags.HtmlFormatting)
+            : base(owner, TagNames.A, prefix, NodeFlags.HtmlFormatting)
         {
         }
 

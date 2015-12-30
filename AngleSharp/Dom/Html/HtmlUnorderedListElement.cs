@@ -1,20 +1,16 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// The DOM Object representing the unordered list.
     /// </summary>
     sealed class HtmlUnorderedListElement : HtmlElement, IHtmlUnorderedListElement
     {
-        #region ctor
-
         public HtmlUnorderedListElement(Document owner, String prefix = null)
-            : base(owner, Tags.Ul, prefix, NodeFlags.Special | NodeFlags.HtmlListScoped)
+            : base(owner, TagNames.Ul, prefix, NodeFlags.Special | NodeFlags.HtmlListScoped)
         {
         }
-
-        #endregion
     }
 }

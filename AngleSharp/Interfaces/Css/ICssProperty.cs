@@ -8,7 +8,7 @@
     /// </summary>
     [DomName("CSSProperty")]
     [DomNoInterfaceObject]
-    public interface ICssProperty : IStyleFormattable
+    public interface ICssProperty : ICssNode
     {
         /// <summary>
         /// Gets the name of the property.

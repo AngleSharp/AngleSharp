@@ -49,14 +49,14 @@
             var dt = ConvertFromDateTime(value);
 
             if (dt.HasValue)
-                return dt.Value.Subtract(OriginTime).TotalMilliseconds;
+                return dt.Value.Subtract(UnixEpoch).TotalMilliseconds;
 
             return null;
         }
 
         public override String ConvertFromNumber(Double value)
         {
-            var dt = OriginTime.AddMilliseconds(value);
+            var dt = UnixEpoch.AddMilliseconds(value);
             return ConvertFromDate(dt);
         }
 

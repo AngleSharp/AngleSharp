@@ -31,14 +31,6 @@
         IElement OwnerNode { get; }
 
         /// <summary>
-        /// Gets the parent stylesheet for style sheet languages that support
-        /// the
-        /// concept of style sheet inclusion.
-        /// </summary>
-        [DomName("parentStyleSheet")]
-        IStyleSheet Parent { get; }
-
-        /// <summary>
         /// Gets the advisory title. The title is often specified in the
         /// ownerNode.
         /// </summary>

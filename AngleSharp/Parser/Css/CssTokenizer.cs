@@ -75,15 +75,6 @@
             }
         }
 
-        /// <summary>
-        /// Fires an error occurred event at the current position.
-        /// </summary>
-        /// <param name="code">The associated error code.</param>
-        public void RaiseErrorOccurred(CssParseError code)
-        {
-            RaiseErrorOccurred(code, GetCurrentPosition());
-        }
-
         #endregion
 
         #region States
@@ -114,7 +105,7 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
-                        return NewSuffix();
+                        return NewMatch("$=");
 
                     return NewDelimiter(GetPrevious());
 
@@ -131,7 +122,9 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
-                        return NewSubstring();
+                    {
+                        return NewMatch("*=");
+                    }
 
                     return NewDelimiter(GetPrevious());
 
@@ -145,10 +138,14 @@
                         Back(2);
 
                         if (c1.IsDigit() || (c1 == Symbols.Dot && c2.IsDigit()))
+                        {
                             return NumberStart(current);
+                        }
                     }
                     else
+                    {
                         Back();
+                    }
 
                     return NewDelimiter(current);
                 }
@@ -161,7 +158,9 @@
                     var c = GetNext();
 
                     if (c.IsDigit())
+                    {
                         return NumberStart(GetPrevious());
+                    }
 
                     return NewDelimiter(GetPrevious());
                 }
@@ -176,11 +175,17 @@
                         Back(2);
 
                         if (c1.IsDigit() || (c1 == Symbols.Dot && c2.IsDigit()))
+                        {
                             return NumberStart(current);
+                        }
                         else if (c1.IsNameStart())
+                        {
                             return IdentStart(current);
+                        }
                         else if (c1 == Symbols.ReverseSolidus && !c2.IsLineBreak() && c2 != Symbols.EndOfFile)
+                        {
                             return IdentStart(current);
+                        }
                         else if (c1 == Symbols.Minus && c2 == Symbols.GreaterThan)
                         {
                             Advance(2);
@@ -188,7 +193,9 @@
                         }
                     }
                     else
+                    {
                         Back();
+                    }
 
                     return NewDelimiter(current);
                 }
@@ -197,7 +204,9 @@
                     current = GetNext();
 
                     if (current == Symbols.Asterisk)
+                    {
                         return Comment();
+                    }
 
                     return NewDelimiter(GetPrevious());
 
@@ -235,7 +244,9 @@
                             current = GetNext();
 
                             if (current == Symbols.Minus)
+                            {
                                 return NewOpenComment();
+                            }
 
                             current = GetPrevious();
                         }
@@ -258,7 +269,9 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
-                        return NewPrefix();
+                    {
+                        return NewMatch("^=");
+                    }
 
                     return NewDelimiter(GetPrevious());
 
@@ -289,7 +302,9 @@
                         current = GetNext();
 
                         if (current.IsHex() || current == Symbols.QuestionMark)
+                        {
                             return UnicodeRange(current);
+                        }
 
                         current = GetPrevious();
                     }
@@ -300,9 +315,13 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
-                        return NewDash();
+                    {
+                        return NewMatch("|=");
+                    }
                     else if (current == Symbols.Pipe)
+                    {
                         return NewColumn();
+                    }
 
                     return NewDelimiter(GetPrevious());
 
@@ -310,7 +329,9 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
-                        return NewInclude();
+                    {
+                        return NewMatch("~=");
+                    }
 
                     return NewDelimiter(GetPrevious());
 
@@ -318,17 +339,20 @@
                     return NewEof();
 
                 case Symbols.ExclamationMark:
-
                     current = GetNext();
 
                     if (current == Symbols.Equality)
-                        return NewNot();
+                    {
+                        return NewMatch("!=");
+                    }
 
                     return NewDelimiter(GetPrevious());
 
                 default:
                     if (current.IsNameStart())
+                    {
                         return IdentStart(current);
+                    }
 
                     return NewDelimiter(current);
             }
@@ -347,13 +371,13 @@
                 {
                     case Symbols.DoubleQuote:
                     case Symbols.EndOfFile:
-                        return NewString(FlushBuffer());
+                        return NewString(FlushBuffer(), Symbols.DoubleQuote);
 
                     case Symbols.FormFeed:
                     case Symbols.LineFeed:
                         RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                         Back();
-                        return NewString(FlushBuffer(), bad: true);
+                        return NewString(FlushBuffer(), Symbols.DoubleQuote, bad: true);
 
                     case Symbols.ReverseSolidus:
                         current = GetNext();
@@ -370,7 +394,7 @@
                         {
                             RaiseErrorOccurred(CssParseError.EOF);
                             Back();
-                            return NewString(FlushBuffer(), bad: true);
+                            return NewString(FlushBuffer(), Symbols.DoubleQuote, bad: true);
                         }
 
                         break;
@@ -395,13 +419,13 @@
                 {
                     case Symbols.SingleQuote:
                     case Symbols.EndOfFile:
-                        return NewString(FlushBuffer());
+                        return NewString(FlushBuffer(), Symbols.SingleQuote);
 
                     case Symbols.FormFeed:
                     case Symbols.LineFeed:
                         RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                         Back();
-                        return NewString(FlushBuffer(), bad: true);
+                        return NewString(FlushBuffer(), Symbols.SingleQuote, bad: true);
 
                     case Symbols.ReverseSolidus:
                         current = GetNext();
@@ -418,7 +442,7 @@
                         {
                             RaiseErrorOccurred(CssParseError.EOF);
                             Back();
-                            return NewString(FlushBuffer(), bad: true);
+                            return NewString(FlushBuffer(), Symbols.SingleQuote, bad: true);
                         }
 
                         break;
@@ -524,7 +548,9 @@
                     current = GetNext();
 
                     if (current == Symbols.Solidus)
+                    {
                         return NewComment(FlushBuffer());
+                    }
 
                     _stringBuffer.Append(Symbols.Asterisk);
                 }
@@ -657,16 +683,9 @@
                 }
                 else if (current == Symbols.RoundBracketOpen)
                 {
-                    var fn = FlushBuffer();
-                    var type = fn.GetTypeFromName();
-
-                    switch (type)
-                    {
-                        case CssTokenType.Function:
-                            return NewFunction(fn);
-                        default:
-                            return UrlStart(type);
-                    }
+                    var name = FlushBuffer();
+                    var type = name.GetTypeFromName();
+                    return type == CssTokenType.Function ? NewFunction(name) : UrlStart(name);
                 }
                 else
                 {
@@ -766,7 +785,9 @@
                     return Dimension(number);
                 }
                 else
+                {
                     break;
+                }
 
                 current = GetNext();
             }
@@ -828,7 +849,9 @@
                     return Dimension(number);
                 }
                 else
+                {
                     break;
+                }
 
                 current = GetNext();
             }
@@ -901,7 +924,7 @@
         /// <summary>
         /// 4.4.17. URL state
         /// </summary>
-        CssToken UrlStart(CssTokenType type)
+        CssToken UrlStart(String functionName)
         {
             var current = SkipSpaces();
 
@@ -909,26 +932,26 @@
             {
                 case Symbols.EndOfFile:
                     RaiseErrorOccurred(CssParseError.EOF);
-                    return NewUrl(type, String.Empty, bad: true);
+                    return NewUrl(functionName, String.Empty, bad: true);
 
                 case Symbols.DoubleQuote:
-                    return UrlDQ(type);
+                    return UrlDQ(functionName);
 
                 case Symbols.SingleQuote:
-                    return UrlSQ(type);
+                    return UrlSQ(functionName);
 
                 case Symbols.RoundBracketClose:
-                    return NewUrl(type, String.Empty, bad: false);
+                    return NewUrl(functionName, String.Empty, bad: false);
 
                 default:
-                    return UrlUQ(current, type);
+                    return UrlUQ(current, functionName);
             }
         }
 
         /// <summary>
         /// 4.4.18. URL-double-quoted state
         /// </summary>
-        CssToken UrlDQ(CssTokenType type)
+        CssToken UrlDQ(String functionName)
         {
             while (true)
             {
@@ -937,15 +960,15 @@
                 if (current.IsLineBreak())
                 {
                     RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
-                    return UrlBad(type);
+                    return UrlBad(functionName);
                 }
                 else if (Symbols.EndOfFile == current)
                 {
-                    return NewUrl(type, FlushBuffer());
+                    return NewUrl(functionName, FlushBuffer());
                 }
                 else if (current == Symbols.DoubleQuote)
                 {
-                    return UrlEnd(type);
+                    return UrlEnd(functionName);
                 }
                 else if (current != Symbols.ReverseSolidus)
                 {
@@ -959,12 +982,16 @@
                     {
                         Back(2);
                         RaiseErrorOccurred(CssParseError.EOF);
-                        return NewUrl(type, FlushBuffer(), bad: true);
+                        return NewUrl(functionName, FlushBuffer(), bad: true);
                     }
                     else if (current.IsLineBreak())
+                    {
                         _stringBuffer.AppendLine();
+                    }
                     else
+                    {
                         _stringBuffer.Append(ConsumeEscape(current));
+                    }
                 }
             }
         }
@@ -972,7 +999,7 @@
         /// <summary>
         /// 4.4.19. URL-single-quoted state
         /// </summary>
-        CssToken UrlSQ(CssTokenType type)
+        CssToken UrlSQ(String functionName)
         {
             while (true)
             {
@@ -981,15 +1008,15 @@
                 if (current.IsLineBreak())
                 {
                     RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
-                    return UrlBad(type);
+                    return UrlBad(functionName);
                 }
                 else if (Symbols.EndOfFile == current)
                 {
-                    return NewUrl(type, FlushBuffer());
+                    return NewUrl(functionName, FlushBuffer());
                 }
                 else if (current == Symbols.SingleQuote)
                 {
-                    return UrlEnd(type);
+                    return UrlEnd(functionName);
                 }
                 else if (current != Symbols.ReverseSolidus)
                 {
@@ -1003,12 +1030,16 @@
                     {
                         Back(2);
                         RaiseErrorOccurred(CssParseError.EOF);
-                        return NewUrl(type, FlushBuffer(), bad: true);
+                        return NewUrl(functionName, FlushBuffer(), bad: true);
                     }
                     else if (current.IsLineBreak())
+                    {
                         _stringBuffer.AppendLine();
+                    }
                     else
+                    {
                         _stringBuffer.Append(ConsumeEscape(current));
+                    }
                 }
             }
         }
@@ -1016,22 +1047,22 @@
         /// <summary>
         /// 4.4.21. URL-unquoted state
         /// </summary>
-        CssToken UrlUQ(Char current, CssTokenType type)
+        CssToken UrlUQ(Char current, String functionName)
         {
             while (true)
             {
                 if (current.IsSpaceCharacter())
                 {
-                    return UrlEnd(type);
+                    return UrlEnd(functionName);
                 }
                 else if (current == Symbols.RoundBracketClose || current == Symbols.EndOfFile)
                 {
-                    return NewUrl(type, FlushBuffer());
+                    return NewUrl(functionName, FlushBuffer());
                 }
                 else if (current == Symbols.DoubleQuote || current == Symbols.SingleQuote || current == Symbols.RoundBracketOpen || current.IsNonPrintable())
                 {
                     RaiseErrorOccurred(CssParseError.InvalidCharacter);
-                    return UrlBad(type);
+                    return UrlBad(functionName);
                 }
                 else if (current != Symbols.ReverseSolidus)
                 {
@@ -1045,7 +1076,7 @@
                 else
                 {
                     RaiseErrorOccurred(CssParseError.InvalidCharacter);
-                    return UrlBad(type);
+                    return UrlBad(functionName);
                 }
 
                 current = GetNext();
@@ -1055,7 +1086,7 @@
         /// <summary>
         /// 4.4.20. URL-end state
         /// </summary>
-        CssToken UrlEnd(CssTokenType type)
+        CssToken UrlEnd(String functionName)
         {
             while (true)
             {
@@ -1063,13 +1094,13 @@
 
                 if (current == Symbols.RoundBracketClose)
                 {
-                    return NewUrl(type, FlushBuffer());
+                    return NewUrl(functionName, FlushBuffer());
                 }
                 else if (!current.IsSpaceCharacter())
                 {
                     RaiseErrorOccurred(CssParseError.InvalidCharacter);
                     Back();
-                    return UrlBad(type);
+                    return UrlBad(functionName);
                 }
             }
         }
@@ -1077,7 +1108,7 @@
         /// <summary>
         /// 4.4.22. Bad URL state
         /// </summary>
-        CssToken UrlBad(CssTokenType type)
+        CssToken UrlBad(String functionName)
         {
             var current = Current;
             var curly = 0;
@@ -1088,16 +1119,16 @@
                 if (current == Symbols.Semicolon)
                 {
                     Back();
-                    return NewUrl(type, FlushBuffer(), true);
+                    return NewUrl(functionName, FlushBuffer(), true);
                 }
                 else if (current == Symbols.CurlyBracketClose && --curly == -1)
                 {
                     Back();
-                    return NewUrl(type, FlushBuffer(), true);
+                    return NewUrl(functionName, FlushBuffer(), true);
                 }
                 else if (current == Symbols.RoundBracketClose && --round == 0)
                 {
-                    return NewUrl(type, FlushBuffer(), true);
+                    return NewUrl(functionName, FlushBuffer(), true);
                 }
                 else if (IsValidEscape(current))
                 {
@@ -1107,9 +1138,13 @@
                 else
                 {
                     if (current == Symbols.RoundBracketOpen)
+                    {
                         ++round;
+                    }
                     else if (curly == Symbols.CurlyBracketOpen)
+                    {
                         ++curly;
+                    }
 
                     _stringBuffer.Append(current);
                 }
@@ -1118,7 +1153,7 @@
             }
 
             RaiseErrorOccurred(CssParseError.EOF);
-            return NewUrl(type, FlushBuffer(), bad: true);
+            return NewUrl(functionName, FlushBuffer(), bad: true);
         }
 
         /// <summary>
@@ -1126,7 +1161,7 @@
         /// </summary>
         CssToken UnicodeRange(Char current)
         {
-            for (int i = 0; i < 6; i++)
+            for (var i = 0; i < 6; i++)
             {
                 if (!current.IsHex())
                     break;
@@ -1137,7 +1172,7 @@
 
             if (_stringBuffer.Length != 6)
             {
-                for (int i = 0; i < 6 - _stringBuffer.Length; i++)
+                for (var i = 0; i < 6 - _stringBuffer.Length; i++)
                 {
                     if (current != Symbols.QuestionMark)
                     {
@@ -1159,7 +1194,7 @@
                 {
                     var start = FlushBuffer();
 
-                    for (int i = 0; i < 6; i++)
+                    for (var i = 0; i < 6; i++)
                     {
                         if (!current.IsHex())
                         {
@@ -1191,24 +1226,14 @@
 
         #region Tokens
 
-        CssToken NewNot()
+        CssToken NewMatch(String match)
         {
-            return new CssToken(CssTokenType.NotMatch, "!=", _position);
-        }
-
-        CssToken NewInclude()
-        {
-            return new CssToken(CssTokenType.IncludeMatch, "~=", _position);
+            return new CssToken(CssTokenType.Match, match, _position);
         }
 
         CssToken NewColumn()
         {
             return new CssToken(CssTokenType.Column, "||", _position);
-        }
-
-        CssToken NewDash()
-        {
-            return new CssToken(CssTokenType.DashMatch, "|=", _position);
         }
 
         CssToken NewCloseCurly()
@@ -1219,11 +1244,6 @@
         CssToken NewOpenCurly()
         {
             return new CssToken(CssTokenType.CurlyBracketOpen, "{", _position);
-        }
-
-        CssToken NewPrefix()
-        {
-            return new CssToken(CssTokenType.PrefixMatch, "^=", _position);
         }
 
         CssToken NewCloseSquare()
@@ -1261,11 +1281,6 @@
             return new CssToken(CssTokenType.Comma, ",", _position);
         }
 
-        CssToken NewSubstring()
-        {
-            return new CssToken(CssTokenType.SubstringMatch, "*=", _position);
-        }
-
         CssToken NewCloseRound()
         {
             return new CssToken(CssTokenType.RoundBracketClose, ")", _position);
@@ -1276,14 +1291,9 @@
             return new CssToken(CssTokenType.RoundBracketOpen, "(", _position);
         }
 
-        CssToken NewSuffix()
+        CssToken NewString(String value, Char quote, Boolean bad = false)
         {
-            return new CssToken(CssTokenType.SuffixMatch, "$=", _position);
-        }
-
-        CssToken NewString(String value, Boolean bad = false)
-        {
-            return new CssStringToken(CssTokenType.String, value, bad, _position);
+            return new CssStringToken(value, bad, quote, _position);
         }
 
         CssToken NewHash(String value)
@@ -1293,7 +1303,7 @@
 
         CssToken NewComment(String value, Boolean bad = false)
         {
-            return new CssStringToken(CssTokenType.Comment, value, bad, _position);
+            return new CssCommentToken(value, bad, _position);
         }
 
         CssToken NewAtKeyword(String value)
@@ -1311,15 +1321,13 @@
             var function = new CssFunctionToken(value, _position);
             var token = Get();
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.Type != CssTokenType.EndOfFile)
             {
-                if (token.Type == CssTokenType.RoundBracketClose)
-                {
-                    function.Close(token);
-                    break;
-                }
+                function.AddArgumentToken(token);
 
-                function.With(token);
+                if (token.Type == CssTokenType.RoundBracketClose)
+                    break;
+
                 token = Get();
             }
 
@@ -1336,9 +1344,9 @@
             return new CssUnitToken(CssTokenType.Dimension, value, unit, _position);
         }
 
-        CssToken NewUrl(CssTokenType type, String data, Boolean bad = false)
+        CssToken NewUrl(String functionName, String data, Boolean bad = false)
         {
-            return new CssStringToken(type, data, bad, _position);
+            return new CssUrlToken(functionName, data, bad, _position);
         }
 
         CssToken NewRange(String range)
@@ -1363,18 +1371,17 @@
 
         CssToken NewDelimiter(Char c)
         {
-            return new CssToken(CssTokenType.Delim, c, _position);
+            return new CssToken(CssTokenType.Delim, c.ToString(), _position);
         }
 
         CssToken NewColor(String text)
         {
-            var bad = text.Length != 3 && text.Length != 6;
-            return new CssStringToken(CssTokenType.Color, text, bad, _position);
+            return new CssColorToken(text, _position);
         }
 
         CssToken NewEof()
         {
-            return new CssToken(CssTokenType.Eof, String.Empty, _position);
+            return new CssToken(CssTokenType.EndOfFile, String.Empty, _position);
         }
 
         #endregion
@@ -1493,6 +1500,15 @@
                 return false;
 
             return true;
+        }
+
+        /// <summary>
+        /// Fires an error occurred event at the current position.
+        /// </summary>
+        /// <param name="code">The associated error code.</param>
+        void RaiseErrorOccurred(CssParseError code)
+        {
+            RaiseErrorOccurred(code, GetCurrentPosition());
         }
 
         #endregion

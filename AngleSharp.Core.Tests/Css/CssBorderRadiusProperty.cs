@@ -299,7 +299,7 @@
         public void CssBorderRadiusCircleShouldBeExpandedAndRecombinedCorrectly()
         {
             var snippet = ".centered { border-radius: 5px; }";
-            var expected = ".centered { border-radius: 5px; }";
+            var expected = ".centered { border-radius: 5px }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
@@ -309,7 +309,7 @@
         public void CssBorderRadiusEllipseShouldBeExpandedAndRecombinedCorrectly()
         {
             var snippet = ".centered { border-radius: 5px/3px; }";
-            var expected = ".centered { border-radius: 5px / 3px; }";
+            var expected = ".centered { border-radius: 5px / 3px }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
@@ -319,7 +319,7 @@
         public void CssBorderRadiusSimplificationShouldWork()
         {
             var snippet = ".centered { border-top-left-radius: 0 1px; border-bottom-left-radius: 1px 2px; border-top-right-radius: 0 3px; border-bottom-right-radius: 1px 4px; }";
-            var expected = ".centered { border-radius: 0 0 1px 1px / 1px 3px 4px 2px; }";
+            var expected = ".centered { border-radius: 0 0 1px 1px / 1px 3px 4px 2px }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
@@ -329,7 +329,7 @@
         public void CssBorderRadiusRecombinationAndReductionCheck()
         {
             var snippet = ".centered { border-top-left-radius: 0 1px; border-bottom-left-radius: 0 1px; border-top-right-radius: 1px 1px; border-bottom-right-radius: 0 1px; }";
-            var expected = ".centered { border-radius: 0 1px 0 0 / 1px; }";
+            var expected = ".centered { border-radius: 0 1px 0 0 / 1px }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
@@ -339,7 +339,7 @@
         public void CssBorderRadiusPureCircleRecombination()
         {
             var snippet = ".test { border-top-left-radius:15px;border-bottom-left-radius:15px;border-bottom-right-radius:0;border-top-right-radius:0;}";
-            var expected = ".test { border-radius: 15px 0 0 15px; }";
+            var expected = ".test { border-radius: 15px 0 0 15px }";
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);

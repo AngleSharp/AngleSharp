@@ -20,7 +20,7 @@
         #region ctor
 
         public HtmlMapElement(Document owner, String prefix = null)
-            : base(owner, Tags.Map, prefix)
+            : base(owner, TagNames.Map, prefix)
         {
         }
 

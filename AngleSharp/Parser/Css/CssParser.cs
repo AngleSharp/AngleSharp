@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Css;
+    using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -148,7 +149,7 @@
             var creator = Pool.NewSelectorConstructor();
             var token = tokenizer.Get();
 
-            while (token.Type != CssTokenType.Eof)
+            while (token.Type != CssTokenType.EndOfFile)
             {
                 creator.Apply(token);
                 token = tokenizer.Get();
@@ -171,100 +172,95 @@
 
         #region Internal Methods
 
-        /// <summary>
-        /// Takes a text source and transforms it into a CSS sheet.
-        /// </summary>
         internal ICssStyleSheet ParseStylesheet(TextSource source)
         {
             var sheet = new CssStyleSheet(this);
-            return ParseStylesheet(sheet, source);
-        }
-
-        /// <summary>
-        /// Takes a text source and populate the provided CSS sheet.
-        /// </summary>
-        internal ICssStyleSheet ParseStylesheet(CssStyleSheet sheet, TextSource source)
-        {
             var tokenizer = CreateTokenizer(source, _config);
+            var start = tokenizer.GetCurrentPosition();
             var builder = new CssBuilder(tokenizer, this);
-            builder.CreateRules(sheet);
-            sheet.ParseTree = builder.Container;
+            var end = builder.CreateRules(sheet);
+            var range = new TextRange(start, end);
+            sheet.SourceCode = new TextView(range, source);
             return sheet;
         }
 
-        /// <summary>
-        /// Takes a string and transforms it into a CSS value.
-        /// </summary>
+        internal async Task<CssStyleSheet> ParseStylesheetAsync(CssStyleSheet sheet, TextSource source)
+        {
+            await source.PrefetchAll(CancellationToken.None).ConfigureAwait(false);
+            var tokenizer = CreateTokenizer(source, _config);
+            var start = tokenizer.GetCurrentPosition();
+            var builder = new CssBuilder(tokenizer, this);
+            var document = sheet.GetDocument() as Document;
+            var tasks = new List<Task>();
+            var end = builder.CreateRules(sheet);
+            var range = new TextRange(start, end);
+            sheet.SourceCode = new TextView(range, source);
+            
+            foreach (var rule in sheet.Rules)
+            {
+                if (rule.Type == CssRuleType.Charset)
+                {
+                    continue;
+                }
+                else if (rule.Type != CssRuleType.Import)
+                {
+                    break;
+                }
+                else
+                {
+                    var import = (CssImportRule)rule;
+                    tasks.Add(import.LoadStylesheetFrom(document));
+                }
+            }
+
+            await TaskEx.WhenAll(tasks).ConfigureAwait(false);
+            return sheet;
+        }
+
         internal CssValue ParseValue(String valueText)
         {
             var tokenizer = CreateTokenizer(valueText, _config);
             var token = default(CssToken);
             var builder = new CssBuilder(tokenizer, this);
             var value = builder.CreateValue(ref token);
-            return token.Type == CssTokenType.Eof ? value : null;
+            return token.Type == CssTokenType.EndOfFile ? value : null;
         }
 
-        /// <summary>
-        /// Takes a string and transforms it into a CSS rule.
-        /// </summary>
         internal CssRule ParseRule(String ruleText)
         {
             return Parse(ruleText, (b, t) => b.CreateRule(t));
         }
 
-        /// <summary>
-        /// Takes a string and transforms it into a CSS declaration (property).
-        /// </summary>
         internal CssProperty ParseDeclaration(String declarationText)
         {
             return Parse(declarationText, (b, t) => Tuple.Create(b.CreateDeclaration(ref t), t));
         }
 
-        /// <summary>
-        /// Takes a string and transforms it into a stream of CSS media.
-        /// </summary>
         internal List<CssMedium> ParseMediaList(String mediaText)
         {
             return Parse(mediaText, (b, t) => Tuple.Create(b.CreateMedia(ref t), t));
         }
 
-        /// <summary>
-        /// Takes a string and transforms it into supports condition.
-        /// </summary>
-        internal CssCondition ParseCondition(String conditionText)
+        internal IConditionFunction ParseCondition(String conditionText)
         {
             return Parse(conditionText, (b, t) => Tuple.Create(b.CreateCondition(ref t), t));
         }
 
-        /// <summary>
-        /// Takes a string and transforms it into an enumeration of special
-        /// document functions and their arguments.
-        /// </summary>
-        internal List<CssDocumentFunction> ParseDocumentRules(String documentText)
+        internal List<DocumentFunction> ParseDocumentRules(String documentText)
         {
             return Parse(documentText, (b, t) => Tuple.Create(b.CreateFunctions(ref t), t));
         }
 
-        /// <summary>
-        /// Takes a valid media string and parses the medium information.
-        /// </summary>
         internal CssMedium ParseMedium(String mediumText)
         {
             return Parse(mediumText, (b, t) => Tuple.Create(b.CreateMedium(ref t), t));
         }
 
-        /// <summary>
-        /// Takes a string and transforms it into a CSS keyframe rule.
-        /// </summary>
         internal CssKeyframeRule ParseKeyframeRule(String ruleText)
         {
             return Parse(ruleText, (b, t) => b.CreateKeyframeRule(t));
         }
 
-        /// <summary>
-        /// Takes a string and appends all rules to the given list of
-        /// properties.
-        /// </summary>
         internal void AppendDeclarations(CssStyleDeclaration style, String declarations)
         {
             var tokenizer = CreateTokenizer(declarations, _config);
@@ -282,7 +278,7 @@
             var token = tokenizer.Get();
             var builder = new CssBuilder(tokenizer, this);
             var rule = create(builder, token);
-            return tokenizer.Get().Type == CssTokenType.Eof ? rule : default(T);
+            return tokenizer.Get().Type == CssTokenType.EndOfFile ? rule : default(T);
         }
 
         T Parse<T>(String source, Func<CssBuilder, CssToken, Tuple<T, CssToken>> create)
@@ -291,7 +287,7 @@
             var token = tokenizer.Get();
             var builder = new CssBuilder(tokenizer, this);
             var pair = create(builder, token);
-            return pair.Item2.Type == CssTokenType.Eof ? pair.Item1 : default(T);
+            return pair.Item2.Type == CssTokenType.EndOfFile ? pair.Item1 : default(T);
         }
 
         static CssTokenizer CreateTokenizer(String sourceCode, IConfiguration configuration)

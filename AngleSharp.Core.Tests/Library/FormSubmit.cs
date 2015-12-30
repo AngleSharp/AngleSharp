@@ -319,7 +319,7 @@
                     { "bar", "this is some longer text" },
                     { "yeti", "0" },
                 };
-                var result = await PostDocumentAsync(fields, MimeTypes.Plain);
+                var result = await PostDocumentAsync(fields, MimeTypeNames.Plain);
                 var rows = result.QuerySelectorAll("tr");
                 var raw = result.QuerySelector("#input").TextContent;
 
@@ -339,7 +339,7 @@
                     { "bar", "this is some longer text" },
                     { "yeti", "0" },
                 };
-                var result = await PostDocumentAsync(fields, MimeTypes.MultipartForm);
+                var result = await PostDocumentAsync(fields, MimeTypeNames.MultipartForm);
                 var rows = result.QuerySelectorAll("tr");
                 var raw = result.QuerySelector("#input").TextContent;
 
@@ -581,7 +581,7 @@
             if (Helper.IsNetworkAvailable())
             {
                 var source = @"<input type=file name=image>";
-                var result = await PostDocumentAsync(source, encType: MimeTypes.MultipartForm);
+                var result = await PostDocumentAsync(source, encType: MimeTypeNames.MultipartForm);
                 var rows = result.QuerySelectorAll("tr");
                 var raw = result.QuerySelector("#input").TextContent;
 
@@ -611,7 +611,7 @@
                 var result = await PostDocumentAsync((document, form) =>
                 {
                     var input = form.AppendElement(document.CreateElement<IHtmlInputElement>());
-                    form.Enctype = MimeTypes.MultipartForm;
+                    form.Enctype = MimeTypeNames.MultipartForm;
                     input.Name = "image";
                     input.Type = "file";
                     input.Files.Add(new FileEntry("test.txt", new MemoryStream(content)));
@@ -646,7 +646,7 @@
                 var result = await PostDocumentAsync((document, form) =>
                 {
                     var input = form.AppendElement(document.CreateElement<IHtmlInputElement>());
-                    form.Enctype = MimeTypes.MultipartForm;
+                    form.Enctype = MimeTypeNames.MultipartForm;
                     input.Type = "file";
                     input.Files.Add(new FileEntry("test.txt", new MemoryStream(content)));
                 });

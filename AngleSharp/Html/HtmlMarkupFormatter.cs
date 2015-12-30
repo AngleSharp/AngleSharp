@@ -89,11 +89,11 @@
 
             if (String.IsNullOrEmpty(namespaceUri))
                 temp.Append(localName);
-            else if (namespaceUri == Namespaces.XmlUri)
-                temp.Append(Namespaces.XmlPrefix).Append(Symbols.Colon).Append(localName);
-            else if (namespaceUri == Namespaces.XLinkUri)
-                temp.Append(Namespaces.XLinkPrefix).Append(Symbols.Colon).Append(localName);
-            else if (namespaceUri == Namespaces.XmlNsUri)
+            else if (namespaceUri == NamespaceNames.XmlUri)
+                temp.Append(NamespaceNames.XmlPrefix).Append(Symbols.Colon).Append(localName);
+            else if (namespaceUri == NamespaceNames.XLinkUri)
+                temp.Append(NamespaceNames.XLinkPrefix).Append(Symbols.Colon).Append(localName);
+            else if (namespaceUri == NamespaceNames.XmlNsUri)
                 temp.Append(XmlNamespaceLocalName(localName));
             else
                 temp.Append(attr.Name);
@@ -132,7 +132,7 @@
 
         static String XmlNamespaceLocalName(String name)
         {
-            return name != Namespaces.XmlNsPrefix ? String.Concat(Namespaces.XmlNsPrefix, ":") : name;
+            return name != NamespaceNames.XmlNsPrefix ? String.Concat(NamespaceNames.XmlNsPrefix, ":") : name;
         }
 
         #endregion

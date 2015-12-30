@@ -46,10 +46,10 @@
             var data = content.ToArray();
             var steps = JsonStep.Parse(entry.Name);
             var value = new JsonObject();
-
-            value["type"] = new JsonValue(contentType);
-            value["name"] = new JsonValue(fileName);
-            value["body"] = new JsonValue(Convert.ToBase64String(data));
+            
+            value[AttributeNames.Type] = new JsonValue(contentType);
+            value[AttributeNames.Name] = new JsonValue(fileName);
+            value[AttributeNames.Body] = new JsonValue(Convert.ToBase64String(data));
 
             foreach (var step in steps)
             {

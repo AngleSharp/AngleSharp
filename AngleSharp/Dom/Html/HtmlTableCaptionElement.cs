@@ -12,7 +12,7 @@
         #region ctor
 
         public HtmlTableCaptionElement(Document owner, String prefix = null)
-            : base(owner, Tags.Caption, prefix, NodeFlags.Special | NodeFlags.Scoped)
+            : base(owner, TagNames.Caption, prefix, NodeFlags.Special | NodeFlags.Scoped)
         {
         }
 

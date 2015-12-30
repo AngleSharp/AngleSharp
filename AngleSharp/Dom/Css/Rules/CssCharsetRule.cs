@@ -20,9 +20,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets the encoding information set by this rule.
-        /// </summary>
         public String CharacterSet
         {
             get;
@@ -37,6 +34,7 @@
         {
             var newRule = rule as CssCharsetRule;
             CharacterSet = newRule.CharacterSet;
+            base.ReplaceWith(rule);
         }
 
         #endregion

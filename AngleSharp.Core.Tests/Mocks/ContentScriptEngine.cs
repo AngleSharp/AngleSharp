@@ -14,7 +14,7 @@
         public ContentScriptEngine(String type = null)
         {
             _requests = new List<Tuple<String, ScriptOptions>>();
-            _type = type ?? MimeTypes.DefaultJavaScript;
+            _type = type ?? MimeTypeNames.DefaultJavaScript;
         }
 
         public String Type

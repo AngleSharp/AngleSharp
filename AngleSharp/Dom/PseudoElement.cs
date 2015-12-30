@@ -394,11 +394,6 @@
             return _host.ReplaceChild(newChild, oldChild);
         }
 
-        public String ToHtml()
-        {
-            return _host.ToHtml();
-        }
-
         public void AddEventListener(String type, DomEventHandler callback = null, Boolean capture = false)
         {
             _host.AddEventListener(type, callback, capture);

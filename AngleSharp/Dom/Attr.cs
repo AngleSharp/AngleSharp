@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Dom.Collections;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
     using System.Diagnostics;
@@ -151,9 +152,7 @@
         /// </returns>
         public Boolean Equals(IAttr other)
         {
-            return (String.Equals(Prefix, other.Prefix, StringComparison.Ordinal) &&
-                    String.Equals(NamespaceUri, other.NamespaceUri, StringComparison.Ordinal) &&
-                    String.Equals(Value, other.Value, StringComparison.Ordinal));
+            return Prefix.Is(other.Prefix) && NamespaceUri.Is(other.NamespaceUri) && Value.Is(other.Value);
         }
 
         /// <summary>

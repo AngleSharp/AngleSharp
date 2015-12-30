@@ -23,7 +23,7 @@
         /// Creates a new HTML video element.
         /// </summary>
         public HtmlVideoElement(Document owner, String prefix = null)
-            : base(owner, Tags.Video, prefix)
+            : base(owner, TagNames.Video, prefix)
         {
             _videos = null;
         }

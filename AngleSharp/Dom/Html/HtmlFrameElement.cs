@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents the HTML frame element.
@@ -12,7 +12,7 @@
         #region ctor
 
         public HtmlFrameElement(Document owner, String prefix = null)
-            : base(owner, Tags.Frame, prefix, NodeFlags.SelfClosing)
+            : base(owner, TagNames.Frame, prefix, NodeFlags.SelfClosing)
         {
         }
 

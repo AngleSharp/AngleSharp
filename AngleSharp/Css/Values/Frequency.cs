@@ -59,10 +59,10 @@
                 switch (_unit)
                 {
                     case Unit.Khz:
-                        return Units.Khz;
+                        return UnitNames.Khz;
 
                     case Unit.Hz:
-                        return Units.Hz;
+                        return UnitNames.Hz;
 
                     default:
                         return String.Empty;

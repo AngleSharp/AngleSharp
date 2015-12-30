@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Factories
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.MediaFeatures;
+    using AngleSharp.Dom.Css;
     using System;
     using System.Collections.Generic;
 
@@ -10,7 +10,9 @@
     /// </summary>
     sealed class MediaFeatureFactory
     {
-        readonly Dictionary<String, Func<MediaFeature>> creators = new Dictionary<String, Func<MediaFeature>>(StringComparer.OrdinalIgnoreCase)
+        delegate MediaFeature Creator();
+
+        readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
             { FeatureNames.MinWidth, () => new WidthMediaFeature(FeatureNames.MinWidth) },
             { FeatureNames.MaxWidth, () => new WidthMediaFeature(FeatureNames.MaxWidth) },
@@ -61,12 +63,14 @@
         /// <returns>The created feature.</returns>
         public MediaFeature Create(String name)
         {
-            Func<MediaFeature> creator;
+            var creator = default(Creator);
 
             if (creators.TryGetValue(name, out creator))
+            {
                 return creator();
+            }
 
-            return null;
+            return default(MediaFeature);
         }
     }
 }

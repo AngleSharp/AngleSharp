@@ -21,7 +21,7 @@
         #region ctor
 
         public HtmlOutputElement(Document owner, String prefix = null)
-            : base(owner, Tags.Output, prefix)
+            : base(owner, TagNames.Output, prefix)
         {
         }
 
@@ -79,7 +79,7 @@
         /// </summary>
         public String Type
         {
-            get { return Tags.Output; }
+            get { return TagNames.Output; }
         }
 
         #endregion

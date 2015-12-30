@@ -1,20 +1,26 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents the title element.
     /// </summary>
     sealed class HtmlTitleElement : HtmlElement, IHtmlTitleElement
     {
+        #region ctor
+
         /// <summary>
         /// Creates a new HTML title element.
         /// </summary>
         public HtmlTitleElement(Document owner, String prefix = null)
-            : base(owner, Tags.Title, prefix, NodeFlags.Special)
+            : base(owner, TagNames.Title, prefix, NodeFlags.Special)
         {
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets or sets the text of the title.
@@ -24,5 +30,7 @@
             get { return TextContent; }
             set { TextContent = value; }
         }
+
+        #endregion
     }
 }

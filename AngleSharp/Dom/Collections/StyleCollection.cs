@@ -64,7 +64,7 @@
                 {
                     var media = (CssMediaRule)rule;
 
-                    if (media.IsValid(_device) == false)
+                    if (!media.IsValid(_device))
                         continue;
 
                     var subrules = GetRules(media.Rules);
@@ -76,7 +76,7 @@
                 {
                     var support = (CssSupportsRule)rule;
 
-                    if (support.IsSupported == false)
+                    if (!support.IsValid(_device))
                         continue;
 
                     var subrules = GetRules(support.Rules);

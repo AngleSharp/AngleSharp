@@ -11,7 +11,7 @@
     sealed class HtmlBgsoundElement : HtmlElement
     {
         public HtmlBgsoundElement(Document owner, String prefix = null)
-            : base(owner, Tags.Bgsound, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Bgsound, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
         }
     }

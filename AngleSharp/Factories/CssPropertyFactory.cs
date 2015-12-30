@@ -319,10 +319,14 @@
             longhands.Add(name, creator);
 
             if (animatable)
+            {
                 animatables.Add(name);
+            }
 
             if (font)
+            {
                 fonts.Add(name, creator);
+            }
         }
 
         #endregion
@@ -346,10 +350,12 @@
         /// <returns>The created property.</returns>
         public CssProperty CreateFont(String name)
         {
-            LonghandCreator propertyCreator;
+            var propertyCreator = default(LonghandCreator);
 
             if (fonts.TryGetValue(name, out propertyCreator))
+            {
                 return propertyCreator();
+            }
 
             return null;
         }
@@ -372,10 +378,12 @@
         /// <returns>The created longhand property.</returns>
         public CssProperty CreateLonghand(String name)
         {
-            LonghandCreator createProperty;
+            var createProperty = default(LonghandCreator);
 
             if (longhands.TryGetValue(name, out createProperty))
+            {
                 return createProperty();
+            }
 
             return null;
         }
@@ -387,10 +395,12 @@
         /// <returns>The created shorthand property.</returns>
         public CssShorthandProperty CreateShorthand(String name)
         {
-            ShorthandCreator propertyCreator;
+            var propertyCreator = default(ShorthandCreator);
 
             if (shorthands.TryGetValue(name, out propertyCreator))
+            {
                 return propertyCreator();
+            }
 
             return null;
         }
@@ -406,7 +416,9 @@
             var properties = new List<CssProperty>();
 
             foreach (var propertyName in propertyNames)
+            {
                 properties.Add(CreateLonghand(propertyName));
+            }
 
             return properties.ToArray();
         }
@@ -443,12 +455,16 @@
         public Boolean IsAnimatable(String name)
         {
             if (IsLonghand(name))
+            {
                 return animatables.Contains(name);
+            }
 
             foreach (var longhand in GetLonghands(name))
             {
                 if (animatables.Contains(name))
+                {
                     return true;
+                }
             }
 
             return false;
@@ -462,7 +478,9 @@
         public String[] GetLonghands(String name)
         {
             if (mappings.ContainsKey(name))
+            {
                 return mappings[name];
+            }
             
             return new String[0];
         }
@@ -477,7 +495,9 @@
             foreach (var mapping in mappings)
             {
                 if (mapping.Value.Contains(name, StringComparison.OrdinalIgnoreCase))
+                {
                     yield return mapping.Key;
+                }
             }
         }
 

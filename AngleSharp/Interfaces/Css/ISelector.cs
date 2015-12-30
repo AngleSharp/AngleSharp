@@ -7,7 +7,7 @@
     /// Represents a CSS selector for matching elements.
     /// More information: http://dev.w3.org/csswg/selectors4/
     /// </summary>
-    public interface ISelector : IStyleFormattable
+    public interface ISelector : ICssNode
     {
         /// <summary>
         /// Gets the specifity of the given selector.

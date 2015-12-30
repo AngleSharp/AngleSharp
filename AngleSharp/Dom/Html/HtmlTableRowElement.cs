@@ -19,7 +19,7 @@
         #region ctor
 
         public HtmlTableRowElement(Document owner, String prefix = null)
-            : base(owner, Tags.Tr, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
+            : base(owner, TagNames.Tr, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
         {
         }
 
@@ -110,7 +110,7 @@
         public IHtmlTableCellElement InsertCellAt(Int32 index = -1)
         {
             var cell = Cells[index];
-            var newCell = Owner.CreateElement(Tags.Td) as IHtmlTableCellElement;
+            var newCell = Owner.CreateElement(TagNames.Td) as IHtmlTableCellElement;
 
             if (cell != null)
                 InsertBefore(newCell, cell);

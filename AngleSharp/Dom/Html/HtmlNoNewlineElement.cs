@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// The nobr HTML element.
@@ -9,7 +9,7 @@
     sealed class HtmlNoNewlineElement : HtmlElement
     {
         public HtmlNoNewlineElement(Document owner, String prefix = null)
-            : base(owner, Tags.NoBr, prefix, NodeFlags.HtmlFormatting)
+            : base(owner, TagNames.NoBr, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

@@ -1,13 +1,11 @@
 ﻿namespace AngleSharp.Dom
 {
+    using AngleSharp.Dom.Html;
     using AngleSharp.Dom.Xml;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
-    using AngleSharp.Dom.Html;
-
 
     /// <summary>
     /// Provides a number of methods for performing operations that are
@@ -80,14 +78,24 @@
         public IDocumentType CreateDocumentType(String qualifiedName, String publicId, String systemId)
         {
             if (qualifiedName == null)
+            {
                 throw new ArgumentNullException("qualifiedName");
+            }
 
             if (!qualifiedName.IsXmlName())
+            {
                 throw new DomException(DomError.InvalidCharacter);
+            }
             else if (!qualifiedName.IsQualifiedName())
+            {
                 throw new DomException(DomError.Namespace);
+            }
 
-            return new DocumentType(_owner, qualifiedName) { PublicIdentifier = publicId, SystemIdentifier = systemId };
+            return new DocumentType(_owner, qualifiedName) 
+            { 
+                PublicIdentifier = publicId, 
+                SystemIdentifier = systemId 
+            };
         }
 
         /// <summary>
@@ -109,14 +117,18 @@
             var doc = new XmlDocument();
 
             if (doctype != null)
+            {
                 doc.AppendChild(doctype);
+            }
 
             if (!String.IsNullOrEmpty(qualifiedName))
             {
                 var element = doc.CreateElement(namespaceUri, qualifiedName);
 
                 if (element != null)
+                {
                     doc.AppendChild(element);
+                }
             }
 
             doc.BaseUrl = _owner.BaseUrl;
@@ -132,18 +144,18 @@
         public IDocument CreateHtmlDocument(String title)
         {
             var document = new HtmlDocument();
-            document.AppendChild(new DocumentType(document, Tags.Html));
-            document.AppendChild(document.CreateElement(Tags.Html));
-            document.DocumentElement.AppendChild(document.CreateElement(Tags.Head));
+            document.AppendChild(new DocumentType(document, TagNames.Html));
+            document.AppendChild(document.CreateElement(TagNames.Html));
+            document.DocumentElement.AppendChild(document.CreateElement(TagNames.Head));
 
             if (!String.IsNullOrEmpty(title))
             {
-                var titleElement = document.CreateElement(Tags.Title);
+                var titleElement = document.CreateElement(TagNames.Title);
                 titleElement.AppendChild(document.CreateTextNode(title));
                 document.Head.AppendChild(titleElement);
             }
 
-            document.DocumentElement.AppendChild(document.CreateElement(Tags.Body));
+            document.DocumentElement.AppendChild(document.CreateElement(TagNames.Body));
             document.BaseUrl = _owner.BaseUrl;
             return document;
         }
@@ -167,13 +179,16 @@
         public Boolean HasFeature(String feature, String version = null)
         {
             if (feature == null)
+            {
                 throw new ArgumentNullException("feature");
+            }
 
-            version = version ?? String.Empty;
-            String[] versions;
+            var versions = default(String[]);
 
             if (_features.TryGetValue(feature, out versions))
-                return versions.Contains(version, StringComparison.OrdinalIgnoreCase);
+            {
+                return versions.Contains(version ?? String.Empty, StringComparison.OrdinalIgnoreCase);
+            }
 
             return false;
         }

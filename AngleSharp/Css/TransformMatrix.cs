@@ -39,15 +39,21 @@
             : this()
         {
             if (values == null)
+            {
                 throw new ArgumentNullException("values");
+            }
 
             if (values.Length != 16)
+            {
                 throw new ArgumentException("You need to provide 16 (4x4) values.", "values");
+            }
 
             for (int i = 0, k = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++, k++)
+                {
                     _matrix[j, i] = values[k];
+                }
             }
         }
 
@@ -214,7 +220,9 @@
                 for (int j = 0; j < 4; j++)
                 {
                     if (A[i, j] != B[i, j])
+                    {
                         return false;
+                    }
                 }
             }
 
@@ -232,10 +240,8 @@
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is TransformMatrix)
-                return this.Equals((TransformMatrix)obj);
-
-            return false;
+            var other = obj as TransformMatrix;
+            return other != null ? Equals(other) : false;
         }
 
         /// <summary>
@@ -247,8 +253,12 @@
             var sum = 0f;
 
             for (int i = 0; i < 4; i++)
+            {
                 for (int j = 0; j < 4; j++)
+                {
                     sum += _matrix[i, j] * (4 * i + j);
+                }
+            }
 
             return (Int32)(sum);
         }

@@ -4,6 +4,8 @@
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a CSS import rule.
@@ -12,73 +14,79 @@
     {
         #region Fields
 
-        readonly MediaList _media;
-
         String _href;
-        ICssStyleSheet _styleSheet;
+        CssStyleSheet _styleSheet;
 
         #endregion
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new CSS import rule
-        /// </summary>
         internal CssImportRule(CssParser parser)
             : base(CssRuleType.Import, parser)
         {
-            _media = new MediaList(parser);
+            AppendChild(new MediaList(parser));
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets the location of the style sheet to be imported. 
-        /// </summary>
         public String Href
         {
             get { return _href; }
             set { _href = value; }
         }
 
-        /// <summary>
-        /// Gets a list of media types for which this style sheet may be used.
-        /// </summary>
-        IMediaList ICssImportRule.Media
+        public MediaList Media
         {
-            get { return _media; }
+            get { return Children.OfType<MediaList>().FirstOrDefault(); }
         }
 
-        /// <summary>
-        /// Gets the style sheet referred to by this rule, if it has been loaded. 
-        /// </summary>
+        IMediaList ICssImportRule.Media
+        {
+            get { return Media; }
+        }
+
         public ICssStyleSheet Sheet
         {
             get { return _styleSheet; }
-            set { _styleSheet = value; }
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        internal MediaList Media
-        {
-            get { return _media; }
         }
 
         #endregion
 
         #region Internal Methods
 
+        internal async Task LoadStylesheetFrom(Document document)
+        {
+            if (document != null)
+            {
+                var loader = document.Loader;
+                var baseUrl = Url.Create(Owner.Href ?? document.BaseUri);
+                var url = new Url(baseUrl, _href);
+
+                if (!IsRecursion(url) && loader != null)
+                {
+                    var element = Owner.OwnerNode;
+                    var request = element.CreateRequestFor(url);
+                    var download = loader.DownloadAsync(request);
+
+                    using (var response = await download.Task.ConfigureAwait(false))
+                    {
+                        var sheet = new CssStyleSheet(this, response.Address.Href);
+                        var source = new TextSource(response.Content);
+                        _styleSheet = await Parser.ParseStylesheetAsync(sheet, source).ConfigureAwait(false);
+                    }
+                }
+            }
+        }
+
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = rule as CssImportRule;
             _href = newRule._href;
-            _media.Import(newRule._media);
-            _styleSheet = newRule._styleSheet;
+            _styleSheet = null;
+            //TODO Load New StyleSheet
+            base.ReplaceWith(rule);
         }
 
         #endregion
@@ -87,10 +95,27 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            var media = _media.MediaText;
+            var media = Media.MediaText;
             var space = String.IsNullOrEmpty(media) ? String.Empty : " ";
             var value = String.Concat(_href.CssUrl(), space, media);
             return formatter.Rule("@import", value);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        Boolean IsRecursion(Url url)
+        {
+            var href = url.Href;
+            var owner = Owner;
+
+            while (owner != null && !owner.Href.Is(href))
+            {
+                owner = owner.Parent;
+            }
+
+            return owner != null;
         }
 
         #endregion

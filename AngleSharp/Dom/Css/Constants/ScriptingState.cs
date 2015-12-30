@@ -3,7 +3,7 @@
     /// <summary>
     /// Enumeration to describe the current scripting state.
     /// </summary>
-    public enum ScriptingState
+    public enum ScriptingState : ushort
     {
         /// <summary>
         /// Scripts will not run for this document; either it doesn't

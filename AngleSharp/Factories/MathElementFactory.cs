@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Factories
 {
-    using System;
-    using System.Collections.Generic;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Mathml;
     using AngleSharp.Html;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Provides string to MathElement instance creation mappings.
@@ -15,12 +15,12 @@
 
         readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
-            { Tags.Mn, (document, prefix) => new MathNumberElement(document, prefix) },
-            { Tags.Mo, (document, prefix) => new MathOperatorElement(document, prefix) },
-            { Tags.Mi, (document, prefix) => new MathIdentifierElement(document, prefix) },
-            { Tags.Ms, (document, prefix) => new MathStringElement(document, prefix) },
-            { Tags.Mtext, (document, prefix) => new MathTextElement(document, prefix) },
-            { Tags.AnnotationXml, (document, prefix) => new MathAnnotationXmlElement(document, prefix) }
+            { TagNames.Mn, (document, prefix) => new MathNumberElement(document, prefix) },
+            { TagNames.Mo, (document, prefix) => new MathOperatorElement(document, prefix) },
+            { TagNames.Mi, (document, prefix) => new MathIdentifierElement(document, prefix) },
+            { TagNames.Ms, (document, prefix) => new MathStringElement(document, prefix) },
+            { TagNames.Mtext, (document, prefix) => new MathTextElement(document, prefix) },
+            { TagNames.AnnotationXml, (document, prefix) => new MathAnnotationXmlElement(document, prefix) }
         };
 
         /// <summary>
@@ -32,10 +32,12 @@
         /// <returns>The specialized MathMLElement instance.</returns>
         public MathElement Create(Document document, String localName, String prefix = null)
         {
-            Creator creator;
+            var creator = default(Creator);
 
             if (creators.TryGetValue(localName, out creator))
+            {
                 return creator(document, prefix);
+            }
 
             return new MathElement(document, localName, prefix);
 

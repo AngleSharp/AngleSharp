@@ -22,7 +22,7 @@
 
         public String ContentType
         {
-            get { return _value != null ? _value.Type : MimeTypes.Binary; }
+            get { return _value != null ? _value.Type : MimeTypeNames.Binary; }
         }
 
         public override Boolean Contains(String boundary, Encoding encoding)

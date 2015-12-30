@@ -22,7 +22,7 @@
         /// Creates a new HTML track element.
         /// </summary>
         public HtmlTrackElement(Document owner, String prefix = null)
-            : base(owner, Tags.Track, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Track, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
             _ready = TrackReadyState.None;
         }

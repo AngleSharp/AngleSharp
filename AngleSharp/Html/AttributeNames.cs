@@ -746,5 +746,10 @@
         /// The slot attribute.
         /// </summary>
         public static readonly String Slot = "slot";
+
+        /// <summary>
+        /// The body attribute.
+        /// </summary>
+        public static readonly String Body = "body";
     }
 }

@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the keyframe selector.
     /// </summary>
-    sealed class KeyframeSelector : IKeyframeSelector
+    sealed class KeyframeSelector : CssNode, IKeyframeSelector
     {
         #region Fields
 
@@ -26,39 +26,30 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets an enumeration over all stops.
-        /// </summary>
         public IEnumerable<Percent> Stops
         {
             get { return _stops; }
         }
 
-        /// <summary>
-        /// Gets the text representation of the keyframe selector.
-        /// </summary>
         public String Text
         {
-            get { return ToCss(); }
+            get { return this.ToCss(); }
         }
 
         #endregion
 
         #region String Representation
 
-        public String ToCss()
+        public override String ToCss(IStyleFormatter formatter)
         {
             var stops = new String[_stops.Count];
 
-            for (int i = 0; i < stops.Length; i++)
+            for (var i = 0; i < stops.Length; i++)
+            {
                 stops[i] = _stops[i].ToString();
+            }
 
             return String.Join(", ", stops);
-        }
-
-        public String ToCss(IStyleFormatter formatter)
-        {
-            return ToCss();
         }
 
         #endregion

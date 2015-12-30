@@ -564,8 +564,8 @@
         IBrowsingContext Context { get; }
 
         /// <summary>
-        /// Gets the currently outstanding requests.
+        /// Gets the import ancestor, if any.
         /// </summary>
-        IEnumerable<Task> Requests { get; }
+        IDocument ImportAncestor { get; }
     }
 }

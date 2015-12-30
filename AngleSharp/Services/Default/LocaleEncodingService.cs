@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Services.Default
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -55,9 +56,9 @@
 
                 if (suggestions.TryGetValue(locale.Substring(0, 2), out encoding))
                     return encoding;
-                else if (locale.Equals("zh-cn", StringComparison.OrdinalIgnoreCase))
+                else if (locale.Isi("zh-cn"))
                     return TextEncoding.Gb18030;
-                else if (locale.Equals("zh-tw", StringComparison.OrdinalIgnoreCase))
+                else if (locale.Isi("zh-tw"))
                     return TextEncoding.Big5;
             }
 

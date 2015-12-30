@@ -6,15 +6,8 @@
     /// <summary>
     /// Represents an unknown / invalid selector.
     /// </summary>
-    sealed class UnknownSelector : ISelector
+    sealed class UnknownSelector : CssNode, ISelector
     {
-        readonly String _text;
-
-        public UnknownSelector(String text)
-        {
-            _text = text;
-        }
-
         public Priority Specifity
         {
             get { return Priority.Zero; }
@@ -27,17 +20,12 @@
 
         public String Text
         {
-            get { return ToCss(); }
+            get { return this.ToCss(); }
         }
 
-        public String ToCss()
+        public override String ToCss(IStyleFormatter formatter)
         {
-            return _text;
-        }
-
-        public String ToCss(IStyleFormatter formatter)
-        {
-            return ToCss();
+            return SourceCode != null ? SourceCode.Text : String.Empty;
         }
     }
 }

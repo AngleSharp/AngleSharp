@@ -28,7 +28,7 @@
         /// Creates a new HTML canvas element.
         /// </summary>
         public HtmlCanvasElement(Document owner, String prefix = null)
-            : base(owner, Tags.Canvas, prefix)
+            : base(owner, TagNames.Canvas, prefix)
         {
             _mode = ContextMode.None;
         }
@@ -66,7 +66,7 @@
         /// <returns>An object that defines the drawing context.</returns>
         public IRenderingContext GetContext(String contextId)
         {
-            if (_current != null && _current.ContextId.Equals(contextId, StringComparison.OrdinalIgnoreCase))
+            if (_current != null && contextId.Isi(_current.ContextId))
                 return _current;
 
             var renderService = Owner.Options.GetService<IRenderingService>();
@@ -143,14 +143,14 @@
 
         Byte[] GetImageData(String type)
         {
-            return _current != null ? _current.ToImage(type ?? MimeTypes.Plain) : new Byte[0];
+            return _current != null ? _current.ToImage(type ?? MimeTypeNames.Plain) : new Byte[0];
         }
 
         static ContextMode GetModeFrom(String contextId)
         {
-            if (contextId.Equals("2d", StringComparison.OrdinalIgnoreCase))
+            if (contextId.Isi("2d"))
                 return ContextMode.Direct2d;
-            else if (contextId.Equals("webgl", StringComparison.OrdinalIgnoreCase))
+            else if (contextId.Isi("webgl"))
                 return ContextMode.DirectWebGl;
 
             return ContextMode.None;

@@ -21,7 +21,7 @@
         /// Creates a new HTML option element.
         /// </summary>
         public HtmlOptionElement(Document owner, String prefix = null)
-            : base(owner, Tags.Option, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
+            : base(owner, TagNames.Option, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
         }
 

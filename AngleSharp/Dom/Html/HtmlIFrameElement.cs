@@ -4,9 +4,7 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Network;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML iframe element.
@@ -15,7 +13,6 @@
     {
         #region Fields
 
-        readonly IBrowsingContext _context;
         SettableTokenList _sandbox;
         
         #endregion
@@ -23,11 +20,8 @@
         #region ctor
 
         public HtmlIFrameElement(Document owner, String prefix = null)
-            : base(owner, Tags.Iframe, prefix, NodeFlags.LiteralText)
+            : base(owner, TagNames.Iframe, prefix, NodeFlags.LiteralText)
         {
-            _context = owner.NewChildContext(Sandboxes.None);
-            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
-            RegisterAttributeObserver(AttributeNames.SrcDoc, UpdateSource);
         }
 
         #endregion
@@ -93,39 +87,33 @@
         /// </summary>
         public IWindow ContentWindow
         {
-            get { return _context.Current; }
+            get { return NestedContext.Current; }
         }
 
         #endregion
 
         #region Methods
 
-        void UpdateSource(String _)
+        protected override String GetContentHtml()
         {
-            this.CancelTasks();
-            var content = ContentHtml;
-            var src = Source;
-
-            if (content != null)
-            {
-                this.CreateTask(cancel => _context.OpenAsync(m => m.Content(content).Address(Owner.DocumentUri), cancel))
-                    .ContinueWith(Finished);
-            }
-            else if (!String.IsNullOrEmpty(src) && !src.Is(BaseUri))
-            {
-                var url = this.HyperReference(src);
-                var request = DocumentRequest.Get(url, source: this, referer: Owner.DocumentUri);
-                this.CreateTask(cancel => _context.OpenAsync(request, cancel))
-                    .ContinueWith(Finished);
-            }
+            return ContentHtml;
         }
 
-        void Finished(Task<IDocument> task)
-        {
-            if (!task.IsFaulted)
-                ContentDocument = task.Result;
+        #endregion
 
-            this.FireLoadOrErrorEvent(task);
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var srcDoc = this.GetOwnAttribute(AttributeNames.SrcDoc);
+            RegisterAttributeObserver(AttributeNames.SrcDoc, UpdateSource);
+
+            if (srcDoc != null)
+            {
+                UpdateSource(srcDoc);
+            }
         }
 
         #endregion

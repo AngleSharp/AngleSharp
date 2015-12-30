@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -17,25 +18,25 @@
         {
             var parent = element.ParentElement;
 
-            if (parent == null)
-                return false;
-
-            var n = Math.Sign(_step);
-            var k = 0;
-
-            for (var i = 0; i < parent.ChildNodes.Length; i++)
+            if (parent != null)
             {
-                var child = parent.ChildNodes[i] as IElement;
+                var n = Math.Sign(_step);
+                var k = 0;
 
-                if (child == null || child.NodeName != element.NodeName)
-                    continue;
-
-                k += 1;
-
-                if (child == element)
+                for (var i = 0; i < parent.ChildNodes.Length; i++)
                 {
-                    var diff = k - _offset;
-                    return diff == 0 || (Math.Sign(diff) == n && diff % _step == 0);
+                    var child = parent.ChildNodes[i] as IElement;
+
+                    if (child != null && child.NodeName.Is(element.NodeName))
+                    {
+                        k += 1;
+
+                        if (child == element)
+                        {
+                            var diff = k - _offset;
+                            return diff == 0 || (Math.Sign(diff) == n && diff % _step == 0);
+                        }
+                    }
                 }
             }
 

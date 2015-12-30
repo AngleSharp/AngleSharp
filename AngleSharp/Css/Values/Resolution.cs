@@ -59,13 +59,13 @@
                 switch (_unit)
                 {
                     case Unit.Dpcm:
-                        return Units.Dpcm;
+                        return UnitNames.Dpcm;
 
                     case Unit.Dpi:
-                        return Units.Dpi;
+                        return UnitNames.Dpi;
 
                     case Unit.Dppx:
-                        return Units.Dppx;
+                        return UnitNames.Dppx;
 
                     default:
                         return String.Empty;

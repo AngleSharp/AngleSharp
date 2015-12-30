@@ -11,7 +11,9 @@
     /// </summary>
     sealed class InputTypeFactory
     {
-        readonly Dictionary<String, Func<IHtmlInputElement, BaseInputType>> creators = new Dictionary<String, Func<IHtmlInputElement, BaseInputType>>(StringComparer.OrdinalIgnoreCase)
+        delegate BaseInputType Creator(IHtmlInputElement input);
+
+        readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
             { InputTypeNames.Text, input => new TextInputType(input, InputTypeNames.Text) },
             { InputTypeNames.Date, input => new DateInputType(input, InputTypeNames.Date) },
@@ -43,16 +45,20 @@
         /// </summary>
         /// <param name="input">The input element.</param>
         /// <param name="type">The current value of the type attribute.</param>
-        /// <returns>The InputType provider or text, if the type is unknown.</returns>
+        /// <returns>The InputType provider instance.</returns>
         public BaseInputType Create(IHtmlInputElement input, String type)
         {
-            Func<IHtmlInputElement, BaseInputType> creator;
+            var creator = default(Creator);
 
             if (String.IsNullOrEmpty(type))
+            {
                 type = InputTypeNames.Text;
+            }
 
             if (!creators.TryGetValue(type, out creator))
+            {
                 creator = creators[InputTypeNames.Text];
+            }
 
             return creator(input);
         }

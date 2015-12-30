@@ -9,7 +9,7 @@
     sealed class SvgSvgElement : SvgElement
     {
         public SvgSvgElement(Document owner, String prefix = null)
-            : base(owner, prefix, Tags.Svg)
+            : base(owner, prefix, TagNames.Svg)
         {
         }
     }

@@ -16,7 +16,7 @@
         internal XmlDocument(IBrowsingContext context, TextSource source)
             : base(context ?? BrowsingContext.New(), source)
         {
-            ContentType = MimeTypes.Xml;
+            ContentType = MimeTypeNames.Xml;
         }
 
         internal XmlDocument(IBrowsingContext context = null)
@@ -47,22 +47,16 @@
         /// Loads the document in the provided context from the given response.
         /// </summary>
         /// <param name="context">The browsing context.</param>
-        /// <param name="response">The response to consider.</param>
-        /// <param name="contentType">The content type of the response.</param>
-        /// <param name="source">The source to use.</param>
+        /// <param name="options">The creation options to consider.</param>
         /// <param name="cancelToken">Token for cancellation.</param>
         /// <returns>The task that builds the document.</returns>
-        internal async static Task<XmlDocument> LoadAsync(IBrowsingContext context, IResponse response, MimeType contentType, TextSource source, CancellationToken cancelToken)
+        internal async static Task<IDocument> LoadAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancelToken)
         {
-            var document = new XmlDocument(context, source);
+            var document = new XmlDocument(context, options.Source);
             var evt = new HtmlParseStartEvent(document);
             var events = context.Configuration.Events;
             var parser = new XmlDomBuilder(document);
-            document.ContentType = contentType.Content;
-            document.Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
-            document.DocumentUri = response.Address.Href;
-            document.Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
-            document.ReadyState = DocumentReadyState.Loading;
+            document.Setup(options);
             context.NavigateTo(document);
 
             if (events != null)

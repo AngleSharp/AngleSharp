@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Attributes;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// Represents a font element.
@@ -12,7 +12,7 @@
     sealed class HtmlFontElement : HtmlElement
     {
         public HtmlFontElement(Document owner, String prefix = null)
-            : base(owner, Tags.Font, prefix, NodeFlags.HtmlFormatting)
+            : base(owner, TagNames.Font, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

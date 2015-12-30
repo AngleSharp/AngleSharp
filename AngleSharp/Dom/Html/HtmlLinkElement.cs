@@ -3,10 +3,8 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Network;
-    using AngleSharp.Services.Styling;
+    using AngleSharp.Html.LinkRels;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML link element.
@@ -15,7 +13,7 @@
     {
         #region Fields
 
-        IStyleSheet _sheet;
+        BaseLinkRelation _relation;
         TokenList _relList;
         SettableTokenList _sizes;
 
@@ -27,11 +25,8 @@
         /// Creates a new HTML link element.
         /// </summary>
         public HtmlLinkElement(Document owner, String prefix = null)
-            : base(owner, Tags.Link, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
+            : base(owner, TagNames.Link, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
-            RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);
-            RegisterAttributeObserver(AttributeNames.Href, value => UpdateSource(value));
         }
 
         #endregion
@@ -61,19 +56,11 @@
         #region Properties
 
         /// <summary>
-        /// Gets the url of the link elements address.
-        /// </summary>
-        public Url Url
-        {
-            get { return this.HyperReference(this.GetOwnAttribute(AttributeNames.Href)); }
-        }
-
-        /// <summary>
         /// Gets or sets the URI for the target resource.
         /// </summary>
         public String Href
         {
-            get { return Url.Href; }
+            get { return this.GetUrlAttribute(AttributeNames.Href); }
             set { this.SetOwnAttribute(AttributeNames.Href, value); }
         }
 
@@ -188,7 +175,43 @@
         /// </summary>
         public IStyleSheet Sheet
         {
-            get { return _sheet; }
+            get 
+            { 
+                var sheetRelation = _relation as StyleSheetLinkRelation;
+                return sheetRelation != null ? sheetRelation.Sheet : null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the associated import.
+        /// </summary>
+        public IDocument Import
+        {
+            get
+            {
+                var importRelation = _relation as ImportLinkRelation;
+                return importRelation != null ? importRelation.Import : null;
+            }
+        }
+
+        #endregion
+
+        #region Internal Methods
+
+        internal override void SetupElement()
+        {
+            base.SetupElement();
+
+            var rel = this.GetOwnAttribute(AttributeNames.Rel);
+            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
+            RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);
+            RegisterAttributeObserver(AttributeNames.Href, UpdateSource);
+            RegisterAttributeObserver(AttributeNames.Rel, UpdateRelation);
+
+            if (rel != null)
+            {
+                UpdateRelation(rel);
+            }
         }
 
         #endregion
@@ -197,58 +220,51 @@
 
         void UpdateMedia(String value)
         {
-            if (_sheet != null)
-                _sheet.Media.MediaText = value;
+            var sheet = Sheet;
+
+            if (sheet != null)
+            {
+                sheet.Media.MediaText = value;
+            }
         }
 
         void UpdateDisabled(String value)
         {
-            if (_sheet != null)
-                _sheet.IsDisabled = value != null;
+            var sheet = Sheet;
+
+            if (sheet != null)
+            {
+                sheet.IsDisabled = value != null;
+            }
         }
 
-        void FinishLoading(Task<IResponse> task)
+        void UpdateRelation(String value)
         {
-            var type = Type ?? MimeTypes.Css;
-            var config = Owner.Options;
-            var engine = config.GetStyleEngine(type);
-
-            if (task.IsCompleted && !task.IsFaulted)
+            if (_relation != null)
             {
-                using (var response = task.Result)
-                {
-                    if (engine != null && RelationList.Contains(Keywords.StyleSheet))
-                    {
-                        var options = new StyleOptions
-                        {
-                            Element = this,
-                            Title = Title,
-                            IsDisabled = IsDisabled,
-                            IsAlternate = RelationList.Contains(Keywords.Alternate),
-                            Configuration = config
-                        };
-
-                        if (response != null)
-                        {
-                            try { _sheet = engine.ParseStylesheet(response, options); }
-                            catch { /* Do not care here */ }
-                        }
-                    }
-                }
+                _relation.Cancel();
             }
 
-            this.FireLoadOrErrorEvent(task);
+            _relation = Factory.LinkRelations.Create(this, Relation);
+            UpdateSource(this.GetOwnAttribute(AttributeNames.Href));
         }
 
         void UpdateSource(String value)
         {
-            this.CancelTasks();
+            var document = Owner;
 
-            if (!String.IsNullOrEmpty(value))
+            if (_relation != null && document != null)
             {
-                var request = this.CreateRequestFor(Url);
-                this.CreateTask(cancel => Owner.Loader.FetchAsync(request, cancel)).
-                     ContinueWith(m => FinishLoading(m));
+                var config = document.Options;
+                var loader = document.Loader;
+                
+                _relation.Cancel();
+
+                if (config != null && loader != null)
+                {
+                    var task = _relation.LoadAsync(config, loader);
+                    document.DelayLoad(task);
+                }
             }
         }
 

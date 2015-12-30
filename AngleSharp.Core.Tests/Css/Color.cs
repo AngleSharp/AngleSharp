@@ -16,10 +16,20 @@
         }
 
         [Test]
-        public void ColorInvalidLengthString()
+        public void ColorValidFourLetterString()
         {
             Color hc;
             var color = "abcd";
+            var result = Color.TryFromHex(color, out hc);
+            Assert.AreEqual(new Color(170, 187, 204, 221), hc);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void ColorInvalidLengthString()
+        {
+            Color hc;
+            var color = "abcde";
             var result = Color.TryFromHex(color, out hc);
             Assert.IsFalse(result);
         }
@@ -90,6 +100,22 @@
             var color = "facc36";
             var result = Color.FromHex(color);
             Assert.AreEqual(Color.FromRgb(250, 204, 54), result);
+        }
+
+        [Test]
+        public void ColorMixedEightDigitLongStringTransparent()
+        {
+            var color = "facc3600";
+            var result = Color.FromHex(color);
+            Assert.AreEqual(Color.FromRgba(250, 204, 54, 0), result);
+        }
+
+        [Test]
+        public void ColorMixedEightDigitLongStringOpaque()
+        {
+            var color = "facc36ff";
+            var result = Color.FromHex(color);
+            Assert.AreEqual(Color.FromRgba(250, 204, 54, 1), result);
         }
 
         [Test]
@@ -261,6 +287,48 @@
         {
             var color = Color.FromFlexHex("zqbttv");
             Assert.AreEqual(Color.FromRgb(0x0, 0xb0, 0x0), color);
+        }
+
+        [Test]
+        public void ColorFromGraySimple()
+        {
+            var color = Color.FromGray(25);
+            Assert.AreEqual(Color.FromRgb(25, 25, 25), color);
+        }
+
+        [Test]
+        public void ColorFromGrayWithAlpha()
+        {
+            var color = Color.FromGray(25, 0.5f);
+            Assert.AreEqual(Color.FromRgba(25, 25, 25, 0.5f), color);
+        }
+
+        [Test]
+        public void ColorFromGrayPercent()
+        {
+            var color = Color.FromGray(0.5f, 0.5f);
+            Assert.AreEqual(Color.FromRgba(128, 128, 128, 0.5f), color);
+        }
+
+        [Test]
+        public void ColorFromHwbRed()
+        {
+            var color = Color.FromHwb(0f, 0.2f, 0.2f);
+            Assert.AreEqual(Color.FromRgb(204, 51, 51), color);
+        }
+
+        [Test]
+        public void ColorFromHwbGreen()
+        {
+            var color = Color.FromHwb(1f / 3f, 0.2f, 0.6f);
+            Assert.AreEqual(Color.FromRgb(51, 102, 51), color);
+        }
+
+        [Test]
+        public void ColorFromHwbMagentaTransparent()
+        {
+            var color = Color.FromHwba(5f / 6f, 0.4f, 0.2f, 0.5f);
+            Assert.AreEqual(Color.FromRgba(204, 102, 204, 0.5f), color);
         }
     }
 }

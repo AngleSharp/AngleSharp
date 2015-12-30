@@ -11,6 +11,8 @@
     {
         #region Fields
 
+        static readonly String DashDash = "--";
+
         readonly Encoding _encoding;
         readonly List<Action<StreamWriter>> _writers;
         readonly String _boundary;
@@ -36,7 +38,7 @@
             {
                 _writers.Add(stream =>
                 {
-                    stream.WriteLine(String.Concat("Content-Disposition: form-data; name=\"", entry.Name.HtmlEncode(_encoding), "\""));
+                    stream.WriteLine("Content-Disposition: form-data; name=\"{0}\"", entry.Name.HtmlEncode(_encoding));
                     stream.WriteLine();
                     stream.WriteLine(value.HtmlEncode(_encoding));
                 });
@@ -53,8 +55,7 @@
 
                     stream.WriteLine("Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"",
                         entry.Name.HtmlEncode(_encoding), fileName.HtmlEncode(_encoding));
-
-                    stream.WriteLine("Content-Type: " + contentType);
+                    stream.WriteLine("Content-Type: {0}", contentType);
                     stream.WriteLine();
 
                     if (hasContent)
@@ -72,14 +73,14 @@
         {
             foreach (var writer in _writers)
             {
-                stream.Write("--");
+                stream.Write(DashDash);
                 stream.WriteLine(_boundary);
                 writer(stream);
             }
 
-            stream.Write("--");
+            stream.Write(DashDash);
             stream.Write(_boundary);
-            stream.Write("--");
+            stream.Write(DashDash);
         }
 
         #endregion

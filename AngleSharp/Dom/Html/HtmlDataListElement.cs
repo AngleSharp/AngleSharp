@@ -21,7 +21,7 @@
         /// Creates a new datalist element.
         /// </summary>
         public HtmlDataListElement(Document owner, String prefix = null)
-            : base(owner, Tags.Datalist, prefix)
+            : base(owner, TagNames.Datalist, prefix)
         {
         }
 

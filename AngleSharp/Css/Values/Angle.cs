@@ -88,16 +88,16 @@
                 switch (_unit)
                 {
                     case Unit.Deg:
-                        return Units.Deg;
+                        return UnitNames.Deg;
 
                     case Unit.Grad:
-                        return Units.Grad;
+                        return UnitNames.Grad;
 
                     case Unit.Turn:
-                        return Units.Turn;
+                        return UnitNames.Turn;
 
                     case Unit.Rad:
-                        return Units.Rad;
+                        return UnitNames.Rad;
 
                     default:
                         return String.Empty;
@@ -177,6 +177,28 @@
 
                 case Unit.Turn:
                     return (Single)(2.0 * Math.PI * _value);
+
+                default:
+                    return _value;
+            }
+        }
+
+        /// <summary>
+        /// Converts the contained value to turns.
+        /// </summary>
+        /// <returns>The value in turns.</returns>
+        public Single ToTurns()
+        {
+            switch (_unit)
+            {
+                case Unit.Deg:
+                    return (Single)(_value / 360.0);
+
+                case Unit.Grad:
+                    return (Single)(_value / 400.0);
+
+                case Unit.Rad:
+                    return (Single)(_value / (2.0 * Math.PI));
 
                 default:
                     return _value;

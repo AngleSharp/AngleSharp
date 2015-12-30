@@ -137,53 +137,11 @@
     <Compile Include="..\AngleSharp\Css\Colors.cs">
       <Link>Css\Colors.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\Conditions\AndCondition.cs">
-      <Link>Css\Conditions\AndCondition.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Conditions\DeclarationCondition.cs">
-      <Link>Css\Conditions\DeclarationCondition.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Conditions\EmptyCondition.cs">
-      <Link>Css\Conditions\EmptyCondition.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Conditions\GroupCondition.cs">
-      <Link>Css\Conditions\GroupCondition.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Conditions\NotCondition.cs">
-      <Link>Css\Conditions\NotCondition.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\Conditions\OrCondition.cs">
-      <Link>Css\Conditions\OrCondition.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Css\Converters.cs">
       <Link>Css\Converters.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\CssComment.cs">
-      <Link>Css\CssComment.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\CssCondition.cs">
-      <Link>Css\CssCondition.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\CssDocumentFunction.cs">
-      <Link>Css\CssDocumentFunction.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\CssNode.cs">
-      <Link>Css\CssNode.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Css\CssStyleFormatter.cs">
       <Link>Css\CssStyleFormatter.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\DocumentFunctions\DomainFunction.cs">
-      <Link>Css\DocumentFunctions\DomainFunction.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\DocumentFunctions\RegexpFunction.cs">
-      <Link>Css\DocumentFunctions\RegexpFunction.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\DocumentFunctions\UrlFunction.cs">
-      <Link>Css\DocumentFunctions\UrlFunction.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\DocumentFunctions\UrlPrefixFunction.cs">
-      <Link>Css\DocumentFunctions\UrlPrefixFunction.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\FeatureNames.cs">
       <Link>Css\FeatureNames.cs</Link>
@@ -199,66 +157,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Css\Map.cs">
       <Link>Css\Map.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeature.cs">
-      <Link>Css\MediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\AspectRatioMediaFeature.cs">
-      <Link>Css\MediaFeatures\AspectRatioMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\ColorIndexMediaFeature.cs">
-      <Link>Css\MediaFeatures\ColorIndexMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\ColorMediaFeature.cs">
-      <Link>Css\MediaFeatures\ColorMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs">
-      <Link>Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\DeviceHeightMediaFeature.cs">
-      <Link>Css\MediaFeatures\DeviceHeightMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\DevicePixelRatioFeature.cs">
-      <Link>Css\MediaFeatures\DevicePixelRatioFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\DeviceWidthMediaFeature.cs">
-      <Link>Css\MediaFeatures\DeviceWidthMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\GridMediaFeature.cs">
-      <Link>Css\MediaFeatures\GridMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\HeightMediaFeature.cs">
-      <Link>Css\MediaFeatures\HeightMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\HoverMediaFeature.cs">
-      <Link>Css\MediaFeatures\HoverMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\MonochromeMediaFeature.cs">
-      <Link>Css\MediaFeatures\MonochromeMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\OrientationMediaFeature.cs">
-      <Link>Css\MediaFeatures\OrientationMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\PointerMediaFeature.cs">
-      <Link>Css\MediaFeatures\PointerMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\ResolutionMediaFeature.cs">
-      <Link>Css\MediaFeatures\ResolutionMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\ScanMediaFeature.cs">
-      <Link>Css\MediaFeatures\ScanMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\ScriptingMediaFeature.cs">
-      <Link>Css\MediaFeatures\ScriptingMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\UnknownMediaFeature.cs">
-      <Link>Css\MediaFeatures\UnknownMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\UpdateFrequencyMediaFeature.cs">
-      <Link>Css\MediaFeatures\UpdateFrequencyMediaFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Css\MediaFeatures\WidthMediaFeature.cs">
-      <Link>Css\MediaFeatures\WidthMediaFeature.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\PrettyStyleFormatter.cs">
       <Link>Css\PrettyStyleFormatter.cs</Link>
@@ -281,17 +179,14 @@
     <Compile Include="..\AngleSharp\Css\RenderDevice.cs">
       <Link>Css\RenderDevice.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\RenderStyle.cs">
-      <Link>Css\RenderStyle.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Css\RuleNames.cs">
       <Link>Css\RuleNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\TransformMatrix.cs">
       <Link>Css\TransformMatrix.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Css\Units.cs">
-      <Link>Css\Units.cs</Link>
+    <Compile Include="..\AngleSharp\Css\UnitNames.cs">
+      <Link>Css\UnitNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Css\ValueConverters\AnyValueConverter.cs">
       <Link>Css\ValueConverters\AnyValueConverter.cs</Link>
@@ -605,6 +500,24 @@
     <Compile Include="..\AngleSharp\Dom\Constants\WheelMode.cs">
       <Link>Dom\Constants\WheelMode.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\ConditionFunctions\AndCondition.cs">
+      <Link>Dom\Css\ConditionFunctions\AndCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\ConditionFunctions\DeclarationCondition.cs">
+      <Link>Dom\Css\ConditionFunctions\DeclarationCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\ConditionFunctions\EmptyCondition.cs">
+      <Link>Dom\Css\ConditionFunctions\EmptyCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\ConditionFunctions\GroupCondition.cs">
+      <Link>Dom\Css\ConditionFunctions\GroupCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\ConditionFunctions\NotCondition.cs">
+      <Link>Dom\Css\ConditionFunctions\NotCondition.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\ConditionFunctions\OrCondition.cs">
+      <Link>Dom\Css\ConditionFunctions\OrCondition.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Constants\AnimationDirection.cs">
       <Link>Dom\Css\Constants\AnimationDirection.cs</Link>
     </Compile>
@@ -707,11 +620,17 @@
     <Compile Include="..\AngleSharp\Dom\Css\Constants\Whitespace.cs">
       <Link>Dom\Css\Constants\Whitespace.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\CssComment.cs">
+      <Link>Dom\Css\CssComment.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\CssMediaQueryList.cs">
       <Link>Dom\Css\CssMediaQueryList.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\CssMedium.cs">
       <Link>Dom\Css\CssMedium.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\CssNode.cs">
+      <Link>Dom\Css\CssNode.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\CssProperty.cs">
       <Link>Dom\Css\CssProperty.cs</Link>
@@ -727,6 +646,81 @@
     </Compile>
     <Compile Include="..\AngleSharp\DOM\Css\CssValue.cs">
       <Link>Dom\Css\CssValue.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\DocumentFunction.cs">
+      <Link>Dom\Css\DocumentFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\DocumentFunctions\DomainFunction.cs">
+      <Link>Dom\Css\DocumentFunctions\DomainFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\DocumentFunctions\RegexpFunction.cs">
+      <Link>Dom\Css\DocumentFunctions\RegexpFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\DocumentFunctions\UrlFunction.cs">
+      <Link>Dom\Css\DocumentFunctions\UrlFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\DocumentFunctions\UrlPrefixFunction.cs">
+      <Link>Dom\Css\DocumentFunctions\UrlPrefixFunction.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeature.cs">
+      <Link>Dom\Css\MediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\AspectRatioMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\AspectRatioMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\ColorIndexMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\ColorIndexMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\ColorMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\ColorMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\DeviceAspectRatioMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\DeviceHeightMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\DeviceHeightMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\DevicePixelRatioFeature.cs">
+      <Link>Dom\Css\MediaFeatures\DevicePixelRatioFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\DeviceWidthMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\DeviceWidthMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\GridMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\GridMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\HeightMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\HeightMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\HoverMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\HoverMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\MonochromeMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\MonochromeMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\OrientationMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\OrientationMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\PointerMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\PointerMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\ResolutionMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\ResolutionMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\ScanMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\ScanMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\ScriptingMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\ScriptingMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\UnknownMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\UnknownMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\UpdateFrequencyMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\UpdateFrequencyMediaFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Css\MediaFeatures\WidthMediaFeature.cs">
+      <Link>Dom\Css\MediaFeatures\WidthMediaFeature.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Css\Properties\Animation\CssAnimationDelayProperty.cs">
       <Link>Dom\Css\Properties\Animation\CssAnimationDelayProperty.cs</Link>
@@ -1772,9 +1766,6 @@
     <Compile Include="..\AngleSharp\Dom\ShadowRoot.cs">
       <Link>Dom\ShadowRoot.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\StyleSheet.cs">
-      <Link>Dom\StyleSheet.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Dom\StyleSheetList.cs">
       <Link>Dom\StyleSheetList.cs</Link>
     </Compile>
@@ -1865,6 +1856,9 @@
     <Compile Include="..\AngleSharp\Extensions\ElementExtensions.cs">
       <Link>Extensions\ElementExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Extensions\EventLoopExtensions.cs">
+      <Link>Extensions\EventLoopExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Extensions\EventTargetExtensions.cs">
       <Link>Extensions\EventTargetExtensions.cs</Link>
     </Compile>
@@ -1882,6 +1876,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\RequesterExtensions.cs">
       <Link>Extensions\RequesterExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Extensions\ResponseExtensions.cs">
+      <Link>Extensions\ResponseExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\SelectorExtensions.cs">
       <Link>Extensions\SelectorExtensions.cs</Link>
@@ -1919,17 +1916,29 @@
     <Compile Include="..\AngleSharp\Factories\InputTypeFactory.cs">
       <Link>Factories\InputTypeFactory.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Factories\LinkRelationFactory.cs">
+      <Link>Factories\LinkRelationFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Factories\MathElementFactory.cs">
       <Link>Factories\MathElementFactory.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Factories\MediaFeatureFactory.cs">
       <Link>Factories\MediaFeatureFactory.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Factories\PseudoClassSelectorFactory.cs">
+      <Link>Factories\PseudoClassSelectorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Factories\PseudoElementSelectorFactory.cs">
+      <Link>Factories\PseudoElementSelectorFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Factories\SvgElementFactory.cs">
       <Link>Factories\SvgElementFactory.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Foundation\CancellableTasks.cs">
-      <Link>Foundation\CancellableTasks.cs</Link>
+    <Compile Include="..\AngleSharp\FormatExtensions.cs">
+      <Link>FormatExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\CreateDocumentOptions.cs">
+      <Link>Factories\CreateDocumentOptions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\Factory.cs">
       <Link>Foundation\Factory.cs</Link>
@@ -1945,6 +1954,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\TaskEventLoop.cs">
       <Link>Foundation\TaskEventLoop.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Foundation\TaskPriority.cs">
+      <Link>Foundation\TaskPriority.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\AttributeNames.cs">
       <Link>Html\AttributeNames.cs</Link>
@@ -2036,8 +2048,20 @@
     <Compile Include="..\AngleSharp\Html\InputTypes\WeekInputType.cs">
       <Link>Html\InputTypes\WeekInputType.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Html\Namespaces.cs">
-      <Link>Html\Namespaces.cs</Link>
+    <Compile Include="..\AngleSharp\Html\LinkRelNames.cs">
+      <Link>Html\LinkRelNames.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\LinkRels\BaseLinkRelation.cs">
+      <Link>Html\LinkRels\BaseLinkRelation.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\LinkRels\ImportLinkRelation.cs">
+      <Link>Html\LinkRels\ImportLinkRelation.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\LinkRels\StyleSheetLinkRelation.cs">
+      <Link>Html\LinkRels\StyleSheetLinkRelation.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Html\NamespaceNames.cs">
+      <Link>Html\NamespaceNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\NodeFlags.cs">
       <Link>Html\NodeFlags.cs</Link>
@@ -2072,8 +2096,8 @@
     <Compile Include="..\AngleSharp\Html\Submitters\UrlEncodedFormDataSetVisitor.cs">
       <Link>Html\Submitters\UrlEncodedFormDataSetVisitor.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Html\Tags.cs">
-      <Link>Html\Tags.cs</Link>
+    <Compile Include="..\AngleSharp\Html\TagNames.cs">
+      <Link>Html\TagNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Html\TextDataSetEntry.cs">
       <Link>Html\TextDataSetEntry.cs</Link>
@@ -2090,14 +2114,23 @@
     <Compile Include="..\AngleSharp\IEventLoop.cs">
       <Link>IEventLoop.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\IEventLoopEntry.cs">
+      <Link>IEventLoopEntry.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\IMarkupFormattable.cs">
       <Link>IMarkupFormattable.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\IMarkupFormatter.cs">
       <Link>IMarkupFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\IConditionFunction.cs">
+      <Link>Interfaces\Css\IConditionFunction.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssCharsetRule.cs">
       <Link>Interfaces\Css\ICssCharsetRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssComment.cs">
+      <Link>Interfaces\Css\ICssComment.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssConditionRule.cs">
       <Link>Interfaces\Css\ICssConditionRule.cs</Link>
@@ -2132,8 +2165,14 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssMediaRule.cs">
       <Link>Interfaces\Css\ICssMediaRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssMedium.cs">
+      <Link>Interfaces\Css\ICssMedium.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssNamespaceRule.cs">
       <Link>Interfaces\Css\ICssNamespaceRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssNode.cs">
+      <Link>Interfaces\Css\ICssNode.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssPageRule.cs">
       <Link>Interfaces\Css\ICssPageRule.cs</Link>
@@ -2159,11 +2198,17 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssSupportsRule.cs">
       <Link>Interfaces\Css\ICssSupportsRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\IDocumentFunction.cs">
+      <Link>Interfaces\Css\IDocumentFunction.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\IElementCssInlineStyle.cs">
       <Link>Interfaces\Css\IElementCssInlineStyle.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\IKeyframeSelector.cs">
       <Link>Interfaces\Css\IKeyframeSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\IMediaFeature.cs">
+      <Link>Interfaces\Css\IMediaFeature.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\IMediaList.cs">
       <Link>Interfaces\Css\IMediaList.cs</Link>
@@ -2465,6 +2510,9 @@
     <Compile Include="..\AngleSharp\Interfaces\ILabelabelElement.cs">
       <Link>Interfaces\ILabelabelElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\ILinkImport.cs">
+      <Link>Interfaces\ILinkImport.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ILinkStyle.cs">
       <Link>Interfaces\ILinkStyle.cs</Link>
     </Compile>
@@ -2633,11 +2681,17 @@
     <Compile Include="..\AngleSharp\IStyleFormatter.cs">
       <Link>IStyleFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\Default\BaseLoader.cs">
+      <Link>Network\Default\BaseLoader.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\Default\DataRequester.cs">
       <Link>Network\Default\DataRequester.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\Default\DocumentLoader.cs">
       <Link>Network\Default\DocumentLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\Default\Download.cs">
+      <Link>Network\Default\Download.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\Default\HttpRequester.cs">
       <Link>Network\Default\HttpRequester.cs</Link>
@@ -2663,6 +2717,12 @@
     <Compile Include="..\AngleSharp\Network\IDocumentLoader.cs">
       <Link>Network\IDocumentLoader.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\IDownload.cs">
+      <Link>Network\IDownload.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\ILoader.cs">
+      <Link>Network\ILoader.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\IRequest.cs">
       <Link>Network\IRequest.cs</Link>
     </Compile>
@@ -2675,20 +2735,20 @@
     <Compile Include="..\AngleSharp\Network\IResponse.cs">
       <Link>Network\IResponse.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Network\KnownProtocols.cs">
-      <Link>Network\KnownProtocols.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Network\MimeType.cs">
       <Link>Network\MimeType.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Network\MimeTypes.cs">
-      <Link>Network\MimeTypes.cs</Link>
+    <Compile Include="..\AngleSharp\Network\MimeTypeNames.cs">
+      <Link>Network\MimeTypeNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\OriginBehavior.cs">
       <Link>Network\OriginBehavior.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\PortNumbers.cs">
       <Link>Network\PortNumbers.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\ProtocolNames.cs">
+      <Link>Network\ProtocolNames.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\ResourceRequest.cs">
       <Link>Network\ResourceRequest.cs</Link>
@@ -2726,6 +2786,12 @@
     <Compile Include="..\AngleSharp\Parser\Css\CssValueBuilder.cs">
       <Link>Parser\Css\CssValueBuilder.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssColorToken.cs">
+      <Link>Parser\Css\Tokens\CssColorToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssCommentToken.cs">
+      <Link>Parser\Css\Tokens\CssCommentToken.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssFunctionToken.cs">
       <Link>Parser\Css\Tokens\CssFunctionToken.cs</Link>
     </Compile>
@@ -2746,6 +2812,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssUnitToken.cs">
       <Link>Parser\Css\Tokens\CssUnitToken.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Parser\Css\Tokens\CssUrlToken.cs">
+      <Link>Parser\Css\Tokens\CssUrlToken.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\Html\HtmlDomBuilder.cs">
       <Link>Parser\Html\HtmlDomBuilder.cs</Link>
@@ -2963,6 +3032,9 @@
     <Compile Include="..\AngleSharp\TextSource.cs">
       <Link>TextSource.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\TextView.cs">
+      <Link>TextView.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Url.cs">
       <Link>Url.cs</Link>
     </Compile>
@@ -2986,7 +3058,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
+      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

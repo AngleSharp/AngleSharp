@@ -216,5 +216,15 @@
         /// The perspective function.
         /// </summary>
         public static readonly String Perspective = "perspective";
+
+        /// <summary>
+        /// The gray function.
+        /// </summary>
+        public static readonly String Gray = "gray";
+
+        /// <summary>
+        /// The hwb function.
+        /// </summary>
+        public static readonly String Hwb = "hwb";
     }
 }

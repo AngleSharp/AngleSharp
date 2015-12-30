@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// The strong HTML element.
@@ -9,7 +9,7 @@
     sealed class HtmlStrongElement : HtmlElement
     {
         public HtmlStrongElement(Document owner, String prefix = null)
-            : base(owner, Tags.Strong, prefix, NodeFlags.HtmlFormatting)
+            : base(owner, TagNames.Strong, prefix, NodeFlags.HtmlFormatting)
         {
         }
     }

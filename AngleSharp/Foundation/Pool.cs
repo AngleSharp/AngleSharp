@@ -15,22 +15,10 @@
     {
         #region Fields
 
-		static readonly Stack<StringBuilder> _builder;
-        static readonly Stack<CssSelectorConstructor> _selector;
-        static readonly Stack<CssValueBuilder> _value;
-        static readonly Object _lock;
-
-        #endregion
-
-        #region ctor
-
-        static Pool()
-        {
-            _builder = new Stack<StringBuilder>();
-			_selector = new Stack<CssSelectorConstructor>();
-            _value = new Stack<CssValueBuilder>();
-            _lock = new Object();
-        }
+        static readonly Stack<StringBuilder> _builder = new Stack<StringBuilder>();
+        static readonly Stack<CssSelectorConstructor> _selector = new Stack<CssSelectorConstructor>();
+        static readonly Stack<CssValueBuilder> _value = new Stack<CssValueBuilder>();
+        static readonly Object _lock = new Object();
 
         #endregion
 
@@ -45,7 +33,9 @@
             lock (_lock)
             {
                 if (_builder.Count == 0)
+                {
                     return new StringBuilder(1024);
+                }
 
                 return _builder.Pop().Clear();
             }
@@ -60,8 +50,10 @@
 		{
 			lock (_lock)
 			{
-				if (_selector.Count == 0)
-					return new CssSelectorConstructor();
+                if (_selector.Count == 0)
+                {
+                    return new CssSelectorConstructor();
+                }
 
 				return _selector.Pop().Reset();
 			}
@@ -76,7 +68,9 @@
             lock (_lock)
             {
                 if (_value.Count == 0)
+                {
                     return new CssValueBuilder();
+                }
 
                 return _value.Pop().Reset();
             }

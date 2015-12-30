@@ -4,88 +4,57 @@
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a complex selector, i.e. one or more compound selectors
     /// separated by combinators.
     /// </summary>
-    sealed class ComplexSelector : ISelector
+    sealed class ComplexSelector : CssNode, ISelector
     {
         #region Fields
 
-        readonly List<CombinatorSelector> selectors;
+        readonly List<CombinatorSelector> _selectors;
 
         #endregion
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new complex selector.
-        /// </summary>
         public ComplexSelector()
         {
-            selectors = new List<CombinatorSelector>();
+            _selectors = new List<CombinatorSelector>();
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets the specifity index for this chain of selectors.
-        /// </summary>
         public Priority Specifity
         {
             get
             {
                 var sum = new Priority();
-                var n = selectors.Count;
+                var n = _selectors.Count;
 
                 for (int i = 0; i < n; i++)
                 {
-                    sum += selectors[i].Selector.Specifity;
+                    sum += _selectors[i].Selector.Specifity;
                 }
 
                 return sum;
             }
         }
 
-        /// <summary>
-        /// Gets the string representation of the selector.
-        /// </summary>
         public String Text
         {
-            get
-            {
-                var sb = Pool.NewStringBuilder();
-
-                if (selectors.Count > 0)
-                {
-                    var n = selectors.Count - 1;
-
-                    for (int i = 0; i < n; i++)
-                    {
-                        sb.Append(selectors[i].Selector.Text).Append(selectors[i].Delimiter);
-                    }
-
-                    sb.Append(selectors[n].Selector.Text);
-                }
-
-                return sb.ToPool();
-            }
+            get { return this.ToCss(); }
         }
 
-        /// <summary>
-        /// Gets the number of selectors in this group.
-        /// </summary>
         public Int32 Length
         {
-            get { return selectors.Count; }
+            get { return _selectors.Count; }
         }
 
-        /// <summary>
-        /// Gets if the selector has already been finalized.
-        /// </summary>
         public Boolean IsReady
         {
             get;
@@ -96,16 +65,11 @@
 
         #region Methods
 
-        /// <summary>
-        /// Determines if the given object is matched by this selector.
-        /// </summary>
-        /// <param name="element">The element to be matched.</param>
-        /// <returns>True if the selector matches the given element, otherwise false.</returns>
         public Boolean Match(IElement element)
         {
-            var last = selectors.Count - 1;
+            var last = _selectors.Count - 1;
 
-            if (selectors[last].Selector.Match(element))
+            if (_selectors[last].Selector.Match(element))
             {
                 return last > 0 ? MatchCascade(last - 1, element) : true;
             }
@@ -113,16 +77,11 @@
             return false;
         }
 
-        /// <summary>
-        /// Appends the LAST selector to the complex of selectors.
-        /// </summary>
-        /// <param name="selector">The (final) selector to append.</param>
-        /// <returns>The current complex selector.</returns>
-        public ComplexSelector ConcludeSelector(ISelector selector)
+        public void ConcludeSelector(ISelector selector)
         {
             if (!IsReady)
             {
-                selectors.Add(new CombinatorSelector
+                _selectors.Add(new CombinatorSelector
                 {
                     Selector = selector,
                     Transform = null,
@@ -130,41 +89,19 @@
                 });
                 IsReady = true;
             }
-
-            return this;
         }
 
-        /// <summary>
-        /// Appends a selector to the complex of selectors.
-        /// </summary>
-        /// <param name="selector">The selector to append.</param>
-        /// <param name="combinator">The combinator to use.</param>
-        /// <returns>The current complex selector.</returns>
-        public ComplexSelector AppendSelector(ISelector selector, CssCombinator combinator)
+        public void AppendSelector(ISelector selector, CssCombinator combinator)
         {
-            if (IsReady)
-                return this;
-
-            selectors.Add(new CombinatorSelector
+            if (!IsReady)
             {
-                Selector = combinator.Change(selector),
-                Transform = combinator.Transform,
-                Delimiter = combinator.Delimiter
-            });
-
-            return this;
-        }
-
-
-        /// <summary>
-        /// Clears the list of selectors.
-        /// </summary>
-        /// <returns>The current complex selector.</returns>
-        public ComplexSelector ClearSelectors()
-        {
-            IsReady = false;
-            selectors.Clear();
-            return this;
+                _selectors.Add(new CombinatorSelector
+                {
+                    Selector = combinator.Change(selector),
+                    Transform = combinator.Transform,
+                    Delimiter = combinator.Delimiter
+                });
+            }
         }
 
         #endregion
@@ -173,14 +110,16 @@
 
         Boolean MatchCascade(Int32 pos, IElement element)
         {
-            var newElements = selectors[pos].Transform(element);
+            var newElements = _selectors[pos].Transform(element);
 
             foreach (var newElement in newElements)
             {
-                if (selectors[pos].Selector.Match(newElement))
+                if (_selectors[pos].Selector.Match(newElement))
                 {
                     if (pos == 0 || MatchCascade(pos - 1, newElement))
+                    {
                         return true;
+                    }
                 }
             }
 
@@ -189,27 +128,37 @@
 
         #endregion
 
-        #region Nested
+        #region String Representation
+
+        public override String ToCss(IStyleFormatter formatter)
+        {
+            var sb = Pool.NewStringBuilder();
+
+            if (_selectors.Count > 0)
+            {
+                var n = _selectors.Count - 1;
+
+                for (int i = 0; i < n; i++)
+                {
+                    sb.Append(_selectors[i].Selector.Text)
+                      .Append(_selectors[i].Delimiter);
+                }
+
+                sb.Append(_selectors[n].Selector.Text);
+            }
+
+            return sb.ToPool();
+        }
+
+        #endregion
+
+        #region Nested Structure
 
         struct CombinatorSelector
         {
             public String Delimiter;
             public Func<IElement, IEnumerable<IElement>> Transform;
             public ISelector Selector;
-        }
-
-        #endregion
-
-        #region String Representation
-
-        public String ToCss()
-        {
-            return Text;
-        }
-
-        public String ToCss(IStyleFormatter formatter)
-        {
-            return ToCss();
         }
 
         #endregion

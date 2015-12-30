@@ -9,7 +9,7 @@
     sealed class HtmlAddressElement : HtmlElement
     {
         public HtmlAddressElement(Document owner, String prefix = null)
-            : base(owner, Tags.Address, prefix, NodeFlags.Special)
+            : base(owner, TagNames.Address, prefix, NodeFlags.Special)
         {
         }
     }

@@ -21,7 +21,7 @@
         /// Creates a new HTML fieldset element.
         /// </summary>
         public HtmlFieldSetElement(Document owner, String prefix = null)
-            : base(owner, Tags.Fieldset, prefix)
+            : base(owner, TagNames.Fieldset, prefix)
         {
         }
 
@@ -34,7 +34,7 @@
         /// </summary>
         public String Type
         {
-            get { return Tags.Fieldset; }
+            get { return TagNames.Fieldset; }
         }
 
         /// <summary>

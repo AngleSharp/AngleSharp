@@ -15,7 +15,7 @@
         /// Creates a new HTML details element.
         /// </summary>
         public HtmlDetailsElement(Document owner, String prefix = null)
-            : base(owner, Tags.Details, prefix, NodeFlags.Special)
+            : base(owner, TagNames.Details, prefix, NodeFlags.Special)
         {
         }
 

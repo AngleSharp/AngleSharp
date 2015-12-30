@@ -151,7 +151,9 @@
             foreach (var service in services)
             {
                 if (service.SupportsType(type))
+                {
                     return service;
+                }
             }
 
             return default(IResourceService<TResource>);
@@ -230,7 +232,7 @@
         /// </returns>
         public static ICssStyleEngine GetCssStyleEngine(this IConfiguration configuration)
         {
-            return configuration.GetStyleEngine(MimeTypes.Css) as ICssStyleEngine;
+            return configuration.GetStyleEngine(MimeTypeNames.Css) as ICssStyleEngine;
         }
 
         /// <summary>
@@ -335,7 +337,7 @@
         {
             foreach (var command in options.GetServices<ICommandService>())
             {
-                if (command.CommandId.Equals(commandId, StringComparison.OrdinalIgnoreCase))
+                if (commandId.Isi(command.CommandId))
                     return command;
             }
 
