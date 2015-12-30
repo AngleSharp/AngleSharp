@@ -120,13 +120,13 @@
             DomEventHandler handler = (s, ev) => completion.TrySetResult(ev);
             node.AddEventListener(eventName, handler);
 
-            try 
-            { 
-                return await completion.Task.ConfigureAwait(false); 
+            try
+            {
+                return await completion.Task.ConfigureAwait(false);
             }
-            finally 
-            { 
-                node.RemoveEventListener(eventName, handler); 
+            finally
+            {
+                node.RemoveEventListener(eventName, handler);
             }
         }
 
@@ -319,7 +319,22 @@
                 var input = inputs.FirstOrDefault(e => e.Name == field.Key);
                 if (input != null)
                 {
-                    input.Value = field.Value;
+                    var isRadio = input.Type?.ToLower() == "radio";
+
+                    if (isRadio)
+                    {
+                        var allOptins = inputs.Where(i => i.Name == input.Name);
+                        foreach (var radio in allOptins)
+                        {
+                            radio.IsChecked = (radio.Value == field.Value);
+                        }
+                    }
+
+                    else
+                    {
+                        input.Value = field.Value;
+                    }
+
                     continue;
                 }
 
