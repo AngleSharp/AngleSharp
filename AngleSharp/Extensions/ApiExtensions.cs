@@ -120,13 +120,13 @@
             DomEventHandler handler = (s, ev) => completion.TrySetResult(ev);
             node.AddEventListener(eventName, handler);
 
-            try 
-            { 
-                return await completion.Task.ConfigureAwait(false); 
+            try
+            {
+                return await completion.Task.ConfigureAwait(false);
             }
-            finally 
-            { 
-                node.RemoveEventListener(eventName, handler); 
+            finally
+            {
+                node.RemoveEventListener(eventName, handler);
             }
         }
 
@@ -290,6 +290,77 @@
 
         #endregion
 
+        #region Set values extensions
+
+        /// <summary>
+        /// Set the field values of given form by using the dictionary which contains name value pairs of input fields.
+        /// </summary>
+        /// <param name="form">The form to set</param>
+        /// <param name="fields">The fields to use as values.</param>
+        /// <param name="createInputIfNoFound">What to do if some field/s have not found in the form. If true, then new input will be created.
+        /// If false, KeyNotFoundException will be thrown.
+        /// The default is false.
+        /// </param>
+        public static void SetFieldValues(this IHtmlFormElement form, IDictionary<string, string> fields, bool createInputIfNoFound = false)
+        {
+            if (form == null)
+                throw new ArgumentNullException(nameof(form));
+
+            if (fields == null)
+                throw new ArgumentNullException(nameof(fields));
+
+            // The actual execution of these queries is deferred.
+            var inputs = form.Elements.OfType<IHtmlInputElement>();
+            var selects = form.Elements.OfType<IHtmlSelectElement>();
+
+            foreach (var field in fields)
+            {
+                // try to match to an input element.
+                var targetInput = inputs.FirstOrDefault(e => e.Name == field.Key);
+                if (targetInput != null)
+                {
+                    var isRadio = targetInput.Type?.ToLower() == "radio";
+
+                    if (isRadio)
+                    {
+                        var allOptins = inputs.Where(i => i.Name == targetInput.Name);
+                        foreach (var radio in allOptins)
+                        {
+                            radio.IsChecked = (radio.Value == field.Value);
+                        }
+                    }
+
+                    else
+                    {
+                        targetInput.Value = field.Value;
+                    }
+
+                    continue;
+                }
+
+                // try to match to an select element.
+                var targetSelect = selects.FirstOrDefault(s => s.Name == field.Key);
+                if (targetSelect != null)
+                {
+                    targetSelect.Value = field.Value;
+                    continue;
+                }
+
+                // if no match, create new element or throw an excpetion.
+                if (createInputIfNoFound)
+                {
+                    var newElementHtml = $@"<input type='hidden' name='{field.Key}' value='{field.Value}' />";
+                    form.Insert(AdjacentPosition.BeforeEnd, newElementHtml);
+                }
+                else
+                {
+                    throw new KeyNotFoundException($"Field {field.Key} not found");
+                }
+            }
+        }
+
+        #endregion
+
         #region Navigation extensions
 
         /// <summary>
@@ -343,31 +414,20 @@
         /// </summary>
         /// <param name="form">The form to submit.</param>
         /// <param name="fields">The fields to use as values.</param>
+        /// <param name="createInputIfNoFound">What to do if some field/s have not found in the form. If true, then new input will be created.
+        /// If false, KeyNotFoundException will be thrown.
+        /// The default is false.
+        /// </param>
         /// <returns>The task eventually resulting in the response.</returns>
-        public static Task<IDocument> Submit(this IHtmlFormElement form, IDictionary<String, String> fields)
+        public static Task<IDocument> Submit(this IHtmlFormElement form, IDictionary<String, String> fields, bool createInputIfNoFound = false)
         {
             if (form == null)
-            {
                 throw new ArgumentNullException("form");
-            }
 
             if (fields == null)
-            {
                 throw new ArgumentNullException("fields");
-            }
 
-            var elements = form.Elements;
-
-            foreach (var element in elements.OfType<IHtmlInputElement>())
-            {
-                var value = default(String);
-
-                if (fields.TryGetValue(element.Name ?? String.Empty, out value))
-                {
-                    element.Value = value;
-                }
-            }
-
+            form.SetFieldValues(fields, createInputIfNoFound);
             return form.Submit();
         }
 

@@ -139,6 +139,7 @@
     <Compile Include="Library\DOMTable.cs" />
     <Compile Include="Library\Error.cs" />
     <Compile Include="Library\FormReset.cs" />
+    <Compile Include="Library\FormSetFieldValues.cs" />
     <Compile Include="Library\ImageCandidates.cs" />
     <Compile Include="Library\MeterElement.cs" />
     <Compile Include="Library\MimeType.cs" />
