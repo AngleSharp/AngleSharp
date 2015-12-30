@@ -34,6 +34,7 @@
         {
             var newRule = rule as CssCharsetRule;
             CharacterSet = newRule.CharacterSet;
+            base.ReplaceWith(rule);
         }
 
         #endregion

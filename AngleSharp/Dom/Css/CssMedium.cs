@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a medium rule. More information available at:
@@ -27,27 +28,16 @@
 
         #endregion
 
-        #region Fields
-
-        readonly List<MediaFeature> _features;
-
-        #endregion
-
-        #region ctor
-
-        public CssMedium()
-        {
-            _features = new List<MediaFeature>();
-            Children = _features;
-        }
-
-        #endregion
-
         #region Properties
 
-        public IEnumerable<IMediaFeature> Features
+        public IEnumerable<MediaFeature> Features
         {
-            get { return _features; }
+            get { return Children.OfType<MediaFeature>(); }
+        }
+
+        IEnumerable<IMediaFeature> ICssMedium.Features
+        {
+            get { return Features; }
         }
 
         public String Type
@@ -72,13 +62,7 @@
         {
             get 
             {
-                var constraints = new String[_features.Count];
-
-                for (int i = 0; i < _features.Count; i++)
-                {
-                    constraints[i] = _features[i].ToCss();
-                }
-
+                var constraints = Features.Select(m => m.ToCss());
                 return String.Join(" and ", constraints);
             }
         }
@@ -99,15 +83,7 @@
                 return false;
             }
 
-            foreach (var feature in _features)
-            {
-                if (feature.Validate(device) == IsInverse)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return !Features.Any(m => m.Validate(device) == IsInverse);
         }
 
         public override Boolean Equals(Object obj)
@@ -118,13 +94,13 @@
                 other.IsExclusive == IsExclusive && 
                 other.IsInverse == IsInverse && 
                 other.Type == Type && 
-                other._features.Count == _features.Count)
+                other.Features.Count() == Features.Count())
             {
-                foreach (var feature in other._features)
+                foreach (var feature in other.Features)
                 {
-                    var shared = _features.Find(m => m.Name.Is(feature.Name));
+                    var isShared = Features.Any(m => m.Name.Is(feature.Name) && m.Value.Is(feature.Value));
 
-                    if (shared == null || !shared.Value.Is(feature.Value))
+                    if (!isShared)
                     {
                         return false;
                     }
@@ -143,31 +119,11 @@
 
         #endregion
 
-        #region Internal Methods
-
-        internal void AddConstraint(MediaFeature feature)
-        {
-            _features.Add(feature);
-        }
-
-        internal void RemoveConstraint(MediaFeature feature)
-        {
-            _features.Remove(feature);
-        }
-
-        #endregion
-
         #region String Representation
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            var constraints = new String[_features.Count];
-
-            for (int i = 0; i < _features.Count; i++)
-            {
-                constraints[i] = _features[i].ToCss(formatter);
-            }
-
+            var constraints = Features.Select(m => m.ToCss(formatter)).ToArray();
             return formatter.Medium(IsExclusive, IsInverse, Type, constraints);
         }
 

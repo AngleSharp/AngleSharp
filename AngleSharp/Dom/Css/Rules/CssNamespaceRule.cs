@@ -56,6 +56,7 @@
             var newRule = rule as CssNamespaceRule;
             _namespaceUri = newRule._namespaceUri;
             _prefix = newRule._prefix;
+            base.ReplaceWith(rule);
         }
 
         #endregion

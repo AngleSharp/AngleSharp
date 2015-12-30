@@ -81,7 +81,8 @@
         {
             if (!IsValid)
             {
-                return new UnknownSelector();
+                var selector = new UnknownSelector();
+                return selector;
             }
 
             if (_complex != null)

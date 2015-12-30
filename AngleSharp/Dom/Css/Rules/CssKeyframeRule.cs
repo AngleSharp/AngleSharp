@@ -2,27 +2,19 @@
 {
     using AngleSharp.Parser.Css;
     using System;
-    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents a CSS @keyframe rule.
     /// </summary>
     sealed class CssKeyframeRule : CssRule, ICssKeyframeRule
     {
-        #region Fields
-
-        readonly CssStyleDeclaration _style;
-        IKeyframeSelector _selector;
-
-        #endregion
-
         #region ctor
 
         internal CssKeyframeRule(CssParser parser)
             : base(CssRuleType.Keyframe, parser)
         {
-            _style = new CssStyleDeclaration(this);
-            Children = GetChildren();
+            AppendChild(new CssStyleDeclaration(this));
         }
 
         #endregion
@@ -31,7 +23,7 @@
 
         public String KeyText
         {
-            get { return _selector.Text; }
+            get { return Key.Text; }
             set
             {
                 var selector = Parser.ParseKeyframeSelector(value);
@@ -41,42 +33,24 @@
                     throw new DomException(DomError.Syntax);
                 }
 
-                _selector = selector;
+                Key = selector;
             }
         }
 
         public IKeyframeSelector Key
         {
-            get { return _selector; }
-            set { _selector = value; }
+            get { return Children.OfType<IKeyframeSelector>().FirstOrDefault(); }
+            set { ReplaceSingle(Key, value); }
         }
 
         ICssStyleDeclaration ICssKeyframeRule.Style
         {
-            get { return _style; }
+            get { return Style; }
         }
 
         public CssStyleDeclaration Style
         {
-            get { return _style; }
-        }
-
-        #endregion
-
-        #region Internal Methods
-
-        protected override void ReplaceWith(ICssRule rule)
-        {
-            var newRule = (CssKeyframeRule)rule;
-            _selector = newRule._selector;
-            _style.Clear();
-            _style.SetDeclarations(newRule._style.Declarations);
-        }
-
-        IEnumerable<ICssNode> GetChildren()
-        {
-            yield return _selector;
-            yield return _style;
+            get { return Children.OfType<CssStyleDeclaration>().FirstOrDefault(); }
         }
 
         #endregion
@@ -85,7 +59,7 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            var rules = _style.ToCss(formatter);
+            var rules = Style.ToCss(formatter);
             return formatter.Style(KeyText, rules);
         }
 

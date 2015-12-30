@@ -7,6 +7,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
 
     /// <summary>
     /// Represents a list of media elements.
@@ -17,7 +18,6 @@
         #region Fields
 
         readonly CssParser _parser;
-        readonly List<CssMedium> _media;
 
         #endregion
 
@@ -26,30 +26,25 @@
         internal MediaList(CssParser parser)
         {
             _parser = parser;
-            _media = new List<CssMedium>();
-            Children = _media;
         }
 
         #endregion
 
         #region Properties
 
+        public IEnumerable<CssMedium> Media
+        {
+            get { return Children.OfType<CssMedium>(); }
+        }
+
         public String this[Int32 index]
         {
-            get
-            {
-                if (index < 0 || index >= _media.Count)
-                {
-                    return null;
-                }
-
-                return _media[index].ToCss();
-            }
+            get { return Media.Skip(index).Select(m => m.ToCss()).FirstOrDefault(); }
         }
 
         public Int32 Length
         {
-            get { return _media.Count; }
+            get { return Media.Count(); }
         }
 
         public String MediaText
@@ -57,7 +52,7 @@
             get { return this.ToCss(); }
             set
             {
-                _media.Clear();
+                Clear();
 
                 foreach (var medium in _parser.ParseMediaList(value))
                 {
@@ -66,7 +61,7 @@
                         throw new DomException(DomError.Syntax);
                     }
 
-                    _media.Add(medium);
+                    AppendChild(medium);
                 }
             }
         }
@@ -77,27 +72,13 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            var parts = new String[_media.Count];
-
-            for (var i = 0; i < _media.Count; i++)
-            {
-                parts[i] = _media[i].ToCss(formatter);
-            }
-
+            var parts = Media.Select(m => m.ToCss(formatter));
             return String.Join(", ", parts);
         }
 
         public Boolean Validate(RenderDevice device)
         {
-            foreach (var media in _media)
-            {
-                if (!media.Validate(device))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return !Media.Any(m => !m.Validate(device));
         }
 
         public void Add(String newMedium)
@@ -109,7 +90,7 @@
                 throw new DomException(DomError.Syntax);
             }
 
-            _media.Add(medium);
+            AppendChild(medium);
         }
 
         public void Remove(String oldMedium)
@@ -121,11 +102,11 @@
                 throw new DomException(DomError.Syntax);
             }
 
-            foreach (var item in _media)
+            foreach (var item in Media)
             {
                 if (item.Equals(medium))
                 {
-                    _media.Remove(item);
+                    RemoveChild(item);
                     return;
                 }
             }
@@ -135,31 +116,11 @@
 
         #endregion
 
-        #region Internal Methods
-
-        public void Add(CssMedium medium)
-        {
-            _media.Add(medium);
-        }
-
-        public void Clear()
-        {
-            _media.Clear();
-        }
-
-        public void Import(MediaList list)
-        {
-            _media.Clear();
-            _media.AddRange(list._media);
-        }
-
-        #endregion
-
         #region IEnumerable implementation
 
         public IEnumerator<ICssMedium> GetEnumerator()
         {
-            return _media.GetEnumerator();
+            return Media.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

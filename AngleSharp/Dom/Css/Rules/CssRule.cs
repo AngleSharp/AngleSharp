@@ -53,7 +53,15 @@
         public ICssRule Parent
         {
             get { return _parentRule; }
-            internal set { _parentRule = value; }
+            internal set 
+            { 
+                _parentRule = value; 
+
+                if (value != null)
+                {
+                    _ownerSheet = _parentRule.Owner;
+                }
+            }
         }
 
         public ICssStyleSheet Owner
@@ -80,7 +88,29 @@
 
         #region Internal Methods
 
-        protected abstract void ReplaceWith(ICssRule rule);
+        protected virtual void ReplaceWith(ICssRule rule)
+        {
+            ReplaceAll(rule);
+        }
+
+        protected void ReplaceSingle(ICssNode oldNode, ICssNode newNode)
+        {
+            if (oldNode != null)
+            {
+                if (newNode != null)
+                {
+                    ReplaceChild(oldNode, newNode);
+                }
+                else
+                {
+                    RemoveChild(oldNode);
+                }
+            }
+            else if (newNode != null)
+            {
+                AppendChild(newNode);
+            }
+        }
 
         #endregion
     }

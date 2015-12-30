@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -13,10 +14,8 @@
     {
         #region Fields
 
-        readonly MediaList _media;
-
         String _href;
-        ICssStyleSheet _styleSheet;
+        CssStyleSheet _styleSheet;
 
         #endregion
 
@@ -25,8 +24,7 @@
         internal CssImportRule(CssParser parser)
             : base(CssRuleType.Import, parser)
         {
-            _media = new MediaList(parser);
-            Children = new[] { _media };
+            AppendChild(new MediaList(parser));
         }
 
         #endregion
@@ -41,12 +39,12 @@
 
         public MediaList Media
         {
-            get { return _media; }
+            get { return Children.OfType<MediaList>().FirstOrDefault(); }
         }
 
         IMediaList ICssImportRule.Media
         {
-            get { return _media; }
+            get { return Media; }
         }
 
         public ICssStyleSheet Sheet
@@ -86,8 +84,9 @@
         {
             var newRule = rule as CssImportRule;
             _href = newRule._href;
-            _media.Import(newRule._media);
-            _styleSheet = newRule._styleSheet;
+            _styleSheet = null;
+            //TODO Load New StyleSheet
+            base.ReplaceWith(rule);
         }
 
         #endregion
@@ -96,7 +95,7 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            var media = _media.MediaText;
+            var media = Media.MediaText;
             var space = String.IsNullOrEmpty(media) ? String.Empty : " ";
             var value = String.Concat(_href.CssUrl(), space, media);
             return formatter.Rule("@import", value);

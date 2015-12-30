@@ -30,9 +30,8 @@
             _media = new MediaList(parser);
             _owner = owner;
             _url = url;
-            _rules = new CssRuleList();
+            _rules = new CssRuleList(this);
             _parser = parser;
-            Children = _rules;
         }
 
         internal CssStyleSheet(CssParser parser, String url, ICssStyleSheet parent)
@@ -125,23 +124,12 @@
             _rules.RemoveAt(index);
         }
 
-        public Int32 Insert(String rule, Int32 index)
+        public Int32 Insert(String ruleText, Int32 index)
         {
-            var value = _parser.ParseRule(rule);
-            _rules.Insert(value, index, this, null);
+            var rule = _parser.ParseRule(ruleText);
+            rule.Owner = this;
+            _rules.Insert(index, rule);
             return index;            
-        }
-
-        #endregion
-
-        #region Internal Methods
-
-        internal void AddRule(CssRule rule)
-        {
-            if (rule != null)
-            {
-                _rules.Add(rule, this, null);
-            }
         }
 
         #endregion

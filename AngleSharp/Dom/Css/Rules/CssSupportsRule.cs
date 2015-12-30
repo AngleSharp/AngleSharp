@@ -3,26 +3,18 @@
     using AngleSharp.Css;
     using AngleSharp.Parser.Css;
     using System;
-    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Represents an @supports rule.
     /// </summary>
     sealed class CssSupportsRule : CssConditionRule, ICssSupportsRule
     {
-        #region Fields
-
-        IConditionFunction _condition;
-
-        #endregion
-
         #region ctor
 
         internal CssSupportsRule(CssParser parser)
             : base(CssRuleType.Supports, parser)
         {
-            _condition = new EmptyCondition();
-            Children = GetChildren();
         }
 
         #endregion
@@ -31,7 +23,7 @@
 
         public String ConditionText
         {
-            get { return _condition.ToCss(); }
+            get { return Condition.ToCss(); }
             set
             {
                 var condition = Parser.ParseCondition(value);
@@ -41,42 +33,30 @@
                     throw new DomException(DomError.Syntax);
                 }
 
-                _condition = condition;
+                Condition = condition;
             }
         }
 
         public IConditionFunction Condition
         {
-            get { return _condition; }
+            get { return Children.OfType<IConditionFunction>().FirstOrDefault() ?? new EmptyCondition(); }
+            set
+            {
+                if (value != null)
+                {
+                    RemoveChild(Condition);
+                    AppendChild(value);
+                }
+            }
         }
 
         #endregion
 
         #region Internal Methods
 
-        internal void SetCondition(IConditionFunction condition)
-        {
-            if (condition != null)
-            {
-                _condition = condition;
-            }
-        }
-
         internal override Boolean IsValid(RenderDevice device)
         {
-            return _condition.Check();
-        }
-
-        protected override void ReplaceWith(ICssRule rule)
-        {
-            base.ReplaceWith(rule);
-            var newRule = rule as CssSupportsRule;
-            ConditionText = newRule.ConditionText;
-        }
-
-        IEnumerable<ICssNode> GetChildren()
-        {
-            yield return _condition;
+            return Condition.Check();
         }
 
         #endregion

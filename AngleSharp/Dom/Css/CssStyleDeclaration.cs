@@ -15,7 +15,6 @@
     {
         #region Fields
 
-        readonly List<CssProperty> _declarations;
         readonly CssRule _parent;
         readonly CssParser _parser;
 
@@ -33,8 +32,6 @@
         {
             _parent = parent;
             _parser = parser;
-            _declarations = new List<CssProperty>();
-            Children = _declarations;
         }
 
         internal CssStyleDeclaration(CssParser parser)
@@ -56,6 +53,11 @@
 
         #region General Properties
 
+        public IEnumerable<CssProperty> Declarations
+        {
+            get { return Children.OfType<CssProperty>(); }
+        }
+
         public Boolean IsStrictMode
         {
             get { return IsReadOnly || _parser.Options.IsIncludingUnknownDeclarations == false; }
@@ -64,11 +66,7 @@
         public String CssText
         {
             get { return this.ToCss(); }
-            set
-            {
-                Update(value);
-                RaiseChanged();
-            }
+            set { Update(value); RaiseChanged(); }
         }
 
         public Boolean IsReadOnly
@@ -78,7 +76,7 @@
 
         public Int32 Length
         {
-            get { return _declarations.Count; }
+            get { return Declarations.Count(); }
         }
 
         public ICssRule Parent
@@ -88,25 +86,12 @@
 
         public String this[Int32 index]
         {
-            get
-            {
-                if (index >= 0 && index < _declarations.Count)
-                {
-                    return _declarations[index].Name;
-                }
-
-                return null;
-            }
+            get { return Declarations.Skip(index).Select(m => m.Name).FirstOrDefault(); }
         }
 
         public String this[String name]
         {
             get { return GetPropertyValue(name); }
-        }
-
-        internal IEnumerable<CssProperty> Declarations 
-        {
-            get { return _declarations; }
         }
 
         #endregion
@@ -2319,7 +2304,7 @@
                 throw new DomException(DomError.NoModificationAllowed);
             }
 
-            _declarations.Clear();
+            Clear();
 
             if (!String.IsNullOrEmpty(value))
             {
@@ -2332,7 +2317,7 @@
             var list = new List<String>();
             var serialized = new List<String>();
 
-            foreach (var declaration in _declarations)
+            foreach (var declaration in Declarations)
             {
                 var property = declaration.Name;
 
@@ -2347,7 +2332,7 @@
 
                     if (shorthands.Any())
                     {
-                        var longhands = _declarations.Where(m => !serialized.Contains(m.Name)).ToList();
+                        var longhands = Declarations.Where(m => !serialized.Contains(m.Name)).ToList();
 
                         foreach (var shorthand in shorthands.OrderByDescending(m => Factory.Properties.GetLonghands(m).Count()))
                         {
@@ -2418,11 +2403,11 @@
 
         void RemovePropertyByName(String propertyName)
         {
-            for (var i = _declarations.Count - 1; i >= 0; i--)
+            foreach (var declaration in Declarations)
             {
-                if (_declarations[i].Name == propertyName)
+                if (declaration.Name.Is(propertyName))
                 {
-                    _declarations.RemoveAt(i);
+                    RemoveChild(declaration);
                     break;
                 }
             }
@@ -2588,15 +2573,7 @@
 
         internal CssProperty GetProperty(String name)
         {
-            foreach (var declaration in _declarations)
-            {
-                if (name.Isi(declaration.Name))
-                {
-                    return declaration;
-                }
-            }
-
-            return null;
+            return Declarations.Where(m => m.Name.Isi(name)).FirstOrDefault();
         }
 
         internal void SetProperty(CssProperty property)
@@ -2621,11 +2598,6 @@
             ChangeDeclarations(decls, m => !m.CanBeInherited, (o, n) => o.IsInherited);
         }
 
-        internal void Clear()
-        {
-            _declarations.Clear();
-        }
-
         #endregion
 
         #region Helpers
@@ -2638,13 +2610,13 @@
             {
                 var skip = defaultSkip(newdecl);
 
-                foreach (var olddecl in _declarations)
+                foreach (var olddecl in Declarations)
                 {
                     if (olddecl.Name.Is(newdecl.Name))
                     {
                         if (removeExisting(olddecl, newdecl))
                         {
-                            _declarations.Remove(olddecl);
+                            RemoveChild(olddecl);
                         }
                         else
                         {
@@ -2661,25 +2633,24 @@
                 }
             }
 
-            _declarations.AddRange(declarations);
+            foreach (var declaration in declarations)
+            {
+                AppendChild(declaration);
+            }
         }
 
         void SetLonghand(CssProperty property)
         {
-            for (var i = 0; i < _declarations.Count; i++)
+            foreach (var declaration in Declarations)
             {
-                if (_declarations[i].Name.Is(property.Name))
+                if (declaration.Name.Is(property.Name))
                 {
-                    _declarations.RemoveAt(i);
+                    RemoveChild(declaration);
                     break;
-                }
-                else if (_declarations[i] == property)
-                {
-                    return;
                 }
             }
 
-            _declarations.Add(property);
+            AppendChild(property);
         }
 
         void SetShorthand(CssShorthandProperty shorthand)
@@ -2707,7 +2678,7 @@
 
         public IEnumerator<ICssProperty> GetEnumerator()
         {
-            return _declarations.GetEnumerator();
+            return Declarations.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

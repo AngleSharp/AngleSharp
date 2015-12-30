@@ -22,9 +22,33 @@
 
         static readonly Dictionary<String, Func<IEnumerable<IConditionFunction>, IConditionFunction>> groupCreators = new Dictionary<String, Func<IEnumerable<IConditionFunction>, IConditionFunction>>(StringComparer.OrdinalIgnoreCase)
         {
-            { Keywords.And, conditions => new AndCondition(conditions) },
-            { Keywords.Or, conditions => new OrCondition(conditions) },
+            { Keywords.And, CreateAndCondition },
+            { Keywords.Or, CreateOrCondition },
         };
+
+        static IConditionFunction CreateAndCondition(IEnumerable<IConditionFunction> conditions)
+        {
+            var andCondition = new AndCondition();
+
+            foreach (var condition in conditions)
+            {
+                andCondition.AppendChild(condition);
+            }
+
+            return andCondition;
+        }
+
+        static IConditionFunction CreateOrCondition(IEnumerable<IConditionFunction> conditions)
+        {
+            var orCondition = new OrCondition();
+
+            foreach (var condition in conditions)
+            {
+                orCondition.AppendChild(condition);
+            }
+
+            return orCondition;
+        }
 
         /// <summary>
         /// Gets the corresponding token type for the function name.

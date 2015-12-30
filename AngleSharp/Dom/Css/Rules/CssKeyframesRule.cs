@@ -22,8 +22,7 @@
         internal CssKeyframesRule(CssParser parser)
             : base(CssRuleType.Keyframes, parser)
         {
-            _rules = new CssRuleList();
-            Children = _rules;
+            _rules = new CssRuleList(this);
         }
 
         #endregion
@@ -50,49 +49,37 @@
 
         #region Methods
 
-        public void Add(String rule)
+        public void Add(String ruleText)
         {
-            var value = Parser.ParseKeyframeRule(rule);
-            _rules.Insert(value, _rules.Length, Owner, this);
+            var rule = Parser.ParseKeyframeRule(ruleText);
+            _rules.Add(rule);
         }
 
         public void Remove(String key)
         {
             var element = Find(key);
-
-            if (element != null)
-            {
-                for (var i = 0; i < _rules.Length; i++)
-                {
-                    if (element == _rules[i])
-                    {
-                        _rules.RemoveAt(i);
-                        break;
-                    }
-                }
-            }
+            _rules.Remove(element);
         }
 
-        public ICssKeyframeRule Find(String key)
+        public CssKeyframeRule Find(String key)
         {
-            return _rules.OfType<ICssKeyframeRule>().FirstOrDefault(m => key.Isi(m.KeyText));
+            return _rules.OfType<CssKeyframeRule>().FirstOrDefault(m => key.Isi(m.KeyText));
+        }
+
+        ICssKeyframeRule ICssKeyframesRule.Find(String key)
+        {
+            return Find(key);
         }
 
         #endregion
 
         #region Internal Methods
 
-        internal void AddRule(CssKeyframeRule rule)
-        {
-            _rules.Add(rule, Owner, this);
-        }
-
         protected override void ReplaceWith(ICssRule rule)
         {
             var newRule = rule as CssKeyframesRule;
             _name = newRule._name;
-            _rules.Clear();
-            _rules.Import(newRule._rules, Owner, Parent);
+            base.ReplaceWith(rule);
         }
 
         #endregion

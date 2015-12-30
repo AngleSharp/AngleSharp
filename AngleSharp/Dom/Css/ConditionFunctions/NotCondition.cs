@@ -4,22 +4,35 @@
 
     sealed class NotCondition : CssNode, IConditionFunction
     {
-        readonly IConditionFunction _content;
+        IConditionFunction _content;
 
-        public NotCondition(IConditionFunction content)
+        public IConditionFunction Content
         {
-            _content = content;
-            Children = new[] { _content };
+            get { return _content ?? new EmptyCondition(); }
+            set 
+            { 
+                if (_content != null)
+                {
+                    RemoveChild(_content);
+                }
+
+                _content = value;
+
+                if (value != null)
+                {
+                    AppendChild(_content);
+                }
+            }
         }
 
         public Boolean Check()
         {
-            return !_content.Check();
+            return !Content.Check();
         }
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            return String.Concat("not ", _content.ToCss(formatter));
+            return String.Concat("not ", Content.ToCss(formatter));
         }
     }
 }

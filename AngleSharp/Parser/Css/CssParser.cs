@@ -184,7 +184,7 @@
             return sheet;
         }
 
-        internal async Task<ICssStyleSheet> ParseStylesheetAsync(CssStyleSheet sheet, TextSource source)
+        internal async Task<CssStyleSheet> ParseStylesheetAsync(CssStyleSheet sheet, TextSource source)
         {
             await source.PrefetchAll(CancellationToken.None).ConfigureAwait(false);
             var tokenizer = CreateTokenizer(source, _config);

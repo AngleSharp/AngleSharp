@@ -13,7 +13,6 @@
     {
         #region Fields
 
-        readonly List<CssProperty> _declarations;
         readonly String _name;
 
         #endregion
@@ -23,9 +22,16 @@
         internal CssDeclarationRule(CssRuleType type, String name, CssParser parser)
             : base(type, parser)
         {
-            _declarations = new List<CssProperty>();
             _name = name;
-            Children = _declarations;
+        }
+
+        #endregion
+
+        #region Properties
+
+        public IEnumerable<CssProperty> Declarations
+        {
+            get { return Children.OfType<CssProperty>(); }
         }
 
         #endregion
@@ -34,33 +40,25 @@
 
         internal void SetProperty(CssProperty property)
         {
-            for (var i = 0; i < _declarations.Count; i++)
+            foreach (var declaration in Declarations)
             {
-                if (_declarations[i].Name.Is(property.Name))
+                if (declaration.Name.Is(property.Name))
                 {
-                    _declarations[i] = property;
+                    ReplaceChild(declaration, property);
                     return;
                 }
             }
 
-            _declarations.Add(property);
-        }
-
-        protected override void ReplaceWith(ICssRule rule)
-        {
-            var newRule = (CssDeclarationRule)rule;
-            _declarations.Clear();
-            _declarations.AddRange(newRule._declarations);
-            newRule._declarations.Clear();
+            AppendChild(property);
         }
 
         #endregion
 
-        #region String representation
+        #region String Representation
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            var rules = formatter.Block(_declarations.Where(m => m.HasValue));
+            var rules = formatter.Block(Declarations.Where(m => m.HasValue));
             return formatter.Rule("@" + _name, null, rules);
         }
 
@@ -70,7 +68,7 @@
 
         protected String GetValue(String propertyName)
         {
-            foreach (var declaration in _declarations)
+            foreach (var declaration in Declarations)
             {
                 if (declaration.HasValue && declaration.Name.Is(propertyName))
                 {
@@ -83,7 +81,7 @@
 
         protected void SetValue(String propertyName, String valueText)
         {
-            foreach (var declaration in _declarations)
+            foreach (var declaration in Declarations)
             {
                 if (declaration.Name.Is(propertyName))
                 {
