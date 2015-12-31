@@ -27,17 +27,11 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets the link element.
-        /// </summary>
         public HtmlLinkElement Link
         {
             get { return _link; }
         }
 
-        /// <summary>
-        /// Gets the url of the link element's address.
-        /// </summary>
         public Url Url
         {
             get { return new Url(_link.Href); }
@@ -47,9 +41,6 @@
 
         #region Methods
 
-        /// <summary>
-        /// Cancels the outstanding download, if any.
-        /// </summary>
         public void Cancel()
         {
             if (_download != null && !_download.IsCompleted)
@@ -58,12 +49,6 @@
             }
         }
 
-        /// <summary>
-        /// Loads the content of the relation asynchronously.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="loader">The optional loader to use.</param>
-        /// <returns>The task, which loads the content.</returns>
         public abstract Task LoadAsync(IConfiguration configuration, IResourceLoader loader);
 
         protected void SetDownload(IDownload download)

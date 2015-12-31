@@ -61,7 +61,9 @@
             var selector = default(ISelector);
 
             if (selectors.TryGetValue(name, out selector))
+            {
                 return selector;
+            }
 
             return SimpleSelector.PseudoClass(el => false, name);
         }

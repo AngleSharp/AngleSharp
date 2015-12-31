@@ -36,9 +36,6 @@
             get { return _import; }
         }
 
-        /// <summary>
-        /// Gets if scripts should be blocked (async = nope).
-        /// </summary>
         public Boolean IsAsync
         {
             get { return _isasync; }
