@@ -5,6 +5,9 @@
     using System;
     using System.Text;
 
+    /// <summary>
+    /// A file entry in a form.
+    /// </summary>
     sealed class FileDataSetEntry : FormDataSetEntry
     {
         readonly IFile _value;

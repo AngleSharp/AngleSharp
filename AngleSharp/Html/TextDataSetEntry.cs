@@ -3,6 +3,9 @@
     using System;
     using System.Text;
 
+    /// <summary>
+    /// A text entry in a form.
+    /// </summary>
     sealed class TextDataSetEntry : FormDataSetEntry
     {
         readonly String _value;

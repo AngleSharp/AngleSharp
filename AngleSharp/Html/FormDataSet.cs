@@ -57,7 +57,7 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsMultipart(Encoding encoding = null)
         {
-            return Build(encoding, stream => Connect(new MultipartFormDataSetVisitor(stream.Encoding, _boundary), stream));
+            return BuildRequestContent(encoding, stream => Connect(new MultipartFormDataSetVisitor(stream.Encoding, _boundary), stream));
         }
 
         /// <summary>
@@ -68,7 +68,7 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsUrlEncoded(Encoding encoding = null)
         {
-            return Build(encoding, stream => Connect(new UrlEncodedFormDataSetVisitor(stream.Encoding), stream));
+            return BuildRequestContent(encoding, stream => Connect(new UrlEncodedFormDataSetVisitor(stream.Encoding), stream));
         }
 
         /// <summary>
@@ -79,7 +79,7 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsPlaintext(Encoding encoding = null)
         {
-            return Build(encoding, stream => Connect(new PlaintextFormDataSetVisitor(), stream));
+            return BuildRequestContent(encoding, stream => Connect(new PlaintextFormDataSetVisitor(), stream));
         }
 
         /// <summary>
@@ -89,7 +89,7 @@
         /// <returns>A stream containing the body.</returns>
         public Stream AsJson()
         {
-            return Build(TextEncoding.Utf8, stream => Connect(new JsonFormDataSetVisitor(), stream));
+            return BuildRequestContent(TextEncoding.Utf8, stream => Connect(new JsonFormDataSetVisitor(), stream));
         }
 
         /// <summary>
@@ -100,7 +100,7 @@
         /// <returns>A stream containing the body.</returns>
         public Stream As(IFormSubmitter submitter, Encoding encoding = null)
         {
-            return Build(encoding, stream => Connect(submitter, stream));
+            return BuildRequestContent(encoding, stream => Connect(submitter, stream));
         }
 
         /// <summary>
@@ -113,8 +113,8 @@
         {
             if (type.Isi(TagNames.Textarea))
             {
-                name = Normalize(name);
-                value = Normalize(value);
+                name = name.NormalizeLineEndings();
+                value = value.NormalizeLineEndings();
             }
 
             _entries.Add(new TextDataSetEntry(name, value, type));
@@ -130,7 +130,7 @@
         {
             if (type.Isi(InputTypeNames.File))
             {
-                name = Normalize(name);
+                name = name.NormalizeLineEndings();
             }
 
             _entries.Add(new FileDataSetEntry(name, value, type));
@@ -140,17 +140,11 @@
 
         #region Helpers
 
-        /// <summary>
-        /// Builds the specific request body / url.
-        /// </summary>
-        /// <param name="encoding">The encoding to use.</param>
-        /// <param name="process">The action to generate the content.</param>
-        /// <returns>The constructed stream.</returns>
-        Stream Build(Encoding encoding, Action<StreamWriter> process)
+        Stream BuildRequestContent(Encoding encoding, Action<StreamWriter> process)
         {
             encoding = encoding ?? TextEncoding.Utf8;
             var ms = new MemoryStream();
-            CheckBoundaries(encoding);
+            FixPotentialBoundaryCollisions(encoding);
             ReplaceCharset(encoding);
             var tw = new StreamWriter(ms, encoding);
             process(tw);
@@ -159,11 +153,6 @@
             return ms;
         }
 
-        /// <summary>
-        /// Connects the selected submitter to the constructed stream.
-        /// </summary>
-        /// <param name="submitter">The submitter to use.</param>
-        /// <param name="stream">The utilized stream writer.</param>
         void Connect(IFormSubmitter submitter, StreamWriter stream)
         {
             foreach (var entry in _entries)
@@ -174,11 +163,6 @@
             submitter.Serialize(stream);
         }
 
-        /// <summary>
-        /// Replaces a charset field (if any) that is hidden with the given
-        /// character encoding.
-        /// </summary>
-        /// <param name="encoding">The encoding to use.</param>
         void ReplaceCharset(Encoding encoding)
         {
             for (int i = 0; i < _entries.Count; i++ )
@@ -192,13 +176,7 @@
             }
         }
 
-        /// <summary>
-        /// Checks the entries for boundary collisions. If a collision is
-        /// detected, then a new boundary string is generated. This algorithm
-        /// will produce a boundary string that satisfies all requirements.
-        /// </summary>
-        /// <param name="encoding">The encoding to use.</param>
-        void CheckBoundaries(Encoding encoding)
+        void FixPotentialBoundaryCollisions(Encoding encoding)
         {
             var found = false;
 
@@ -213,26 +191,6 @@
                     }
                 }
             } while (found);
-        }
-
-        /// <summary>
-        /// Replaces every occurrence of a "CR" (U+000D) character not followed
-        /// by a "LF" (U+000A) character, and every occurrence of a "LF"
-        /// (U+000A) character not preceded by a "CR" (U+000D) character, by a
-        /// two-character string consisting of a U+000D CARRIAGE RETURN "CRLF"
-        /// (U+000A) character pair.
-        /// </summary>
-        /// <param name="value">The value to normalize.</param>
-        /// <returns>The normalized string.</returns>
-        static String Normalize(String value)
-        {
-            if (!String.IsNullOrEmpty(value))
-            {
-                var lines = value.Split(Symbols.NewLines, StringSplitOptions.None);
-                return String.Join(Symbols.NewLines[0], lines);
-            }
-
-            return value;
         }
 
         #endregion
