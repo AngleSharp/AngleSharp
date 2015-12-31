@@ -216,9 +216,7 @@
     <Compile Include="Html\Submitters\Json\JsonObject.cs" />
     <Compile Include="Html\Submitters\Json\JsonStep.cs" />
     <Compile Include="Html\Submitters\Json\JsonValue.cs" />
-    <Compile Include="Html\SourceSet.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Html\SourceSet.cs" />
     <Compile Include="Html\Submitters\JsonFormDataSetVisitor.cs" />
     <Compile Include="Html\Submitters\MultipartFormDataSetVisitor.cs" />
     <Compile Include="Html\Submitters\PlaintextFormDataSetVisitor.cs" />
@@ -617,7 +615,7 @@
     <Compile Include="Interfaces\Css\ICssRuleList.cs" />
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
     <Compile Include="Interfaces\Css\ICssStyleRule.cs" />
-    <Compile Include="Interfaces\Css\ICSSStyleSheet.cs" />
+    <Compile Include="Interfaces\Css\ICssStyleSheet.cs" />
     <Compile Include="Interfaces\Css\ICssSupportsRule.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
     <Compile Include="Dom\Events\CompositionEvent.cs" />
