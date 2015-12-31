@@ -19,7 +19,7 @@
 
         public override Boolean IsAppendingData(IHtmlElement submitter)
         {
-            return Name.Is(InputTypeNames.Reset) == false || Object.ReferenceEquals(submitter, Input);
+            return !Name.Is(InputTypeNames.Reset) || Object.ReferenceEquals(submitter, Input);
         }
 
         #endregion

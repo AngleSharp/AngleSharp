@@ -73,7 +73,9 @@
             dataSet.Append(name + ".y", "0", Input.Type);
 
             if (!String.IsNullOrEmpty(value))
+            {
                 dataSet.Append(name, value, Input.Type);
+            }
         }
 
         #endregion

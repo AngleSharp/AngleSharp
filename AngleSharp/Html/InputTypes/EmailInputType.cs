@@ -43,14 +43,16 @@
 
                 foreach (var mail in mails)
                 {
-                    if (email.IsMatch(mail.Trim()) == false)
+                    if (!email.IsMatch(mail.Trim()))
+                    {
                         return true;
+                    }
                 }
 
                 return false;
             }
 
-            return email.IsMatch(value.Trim()) == false;
+            return !email.IsMatch(value.Trim());
         }
 
         #endregion

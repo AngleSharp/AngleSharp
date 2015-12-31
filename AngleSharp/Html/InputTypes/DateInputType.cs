@@ -49,7 +49,9 @@
             var dt = ConvertFromDate(value);
 
             if (dt.HasValue)
+            {
                 return dt.Value.Subtract(UnixEpoch).TotalMilliseconds;
+            }
 
             return null;
         }
@@ -80,8 +82,10 @@
                 var min = ConvertFromDate(Input.Minimum);
                 var max = ConvertFromDate(Input.Maximum);
 
-                if ((min.HasValue == false || min.Value <= date) && (max.HasValue == false || max.Value >= date))
+                if ((!min.HasValue || min.Value <= date) && (!max.HasValue || max.Value >= date))
+                {
                     Input.ValueAsDate = date;
+                }
             }
         }
 
@@ -110,41 +114,35 @@
 
         protected static DateTime? ConvertFromDate(String value)
         {
-            if (String.IsNullOrEmpty(value))
-                return null;
-
-            var position = 0;
-            var year = 0;
-            var month = 0;
-            var day = 0;
-
-            while (position < value.Length)
+            if (!String.IsNullOrEmpty(value))
             {
-                if (value[position].IsDigit())
-                    position++;
-                else
-                    break;
+                var position = FetchDigits(value);
+
+                if (IsLegalPosition(value, position))
+                {
+                    var year = Int32.Parse(value.Substring(0, position));
+                    var month = Int32.Parse(value.Substring(position + 1, 2));
+                    var day = Int32.Parse(value.Substring(position + 4, 2));
+
+                    if (IsLegalDay(day, month, year))
+                    {
+                        return new DateTime(year, month, day, 0, 0, 0, 0, DateTimeKind.Utc);
+                    }
+                }
             }
 
-            if (position < 4 ||
-                position != value.Length - 6 ||
-                value[position + 0] != Symbols.Minus ||
-                value[position + 1].IsDigit() == false ||
-                value[position + 2].IsDigit() == false ||
-                value[position + 3] != Symbols.Minus ||
-                value[position + 4].IsDigit() == false ||
-                value[position + 5].IsDigit() == false)
-                return null;
+            return null;
+        }
 
-            year = Int32.Parse(value.Substring(0, position));
-            month = Int32.Parse(value.Substring(position + 1, 2));
-            day = Int32.Parse(value.Substring(position + 4, 2));
-            var cal = CultureInfo.InvariantCulture.Calendar;
-
-            if (year < 0 || year > 9999 || month < 1 || month > 12 || day < 1 || day > cal.GetDaysInMonth(year, month))
-                return null;
-
-            return new DateTime(year, month, day, 0, 0, 0, 0, DateTimeKind.Utc);
+        static Boolean IsLegalPosition(String value, Int32 position)
+        {
+            return position >= 4 && position == value.Length - 6 &&
+                    value[position + 0] == Symbols.Minus &&
+                    value[position + 1].IsDigit() &&
+                    value[position + 2].IsDigit() &&
+                    value[position + 3] == Symbols.Minus &&
+                    value[position + 4].IsDigit() &&
+                    value[position + 5].IsDigit();
         }
 
         #endregion

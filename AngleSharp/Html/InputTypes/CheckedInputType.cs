@@ -18,7 +18,7 @@
 
         public override void Check(ValidityState state)
         {
-            state.IsValueMissing = Input.IsRequired && Input.IsChecked == false;
+            state.IsValueMissing = Input.IsRequired && !Input.IsChecked;
         }
 
         public override void ConstructDataSet(FormDataSet dataSet)
