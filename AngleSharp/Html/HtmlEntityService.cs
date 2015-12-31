@@ -2755,7 +2755,7 @@
                     (code == 0x5FFFF || code == 0x6FFFE) ||
                     (code == 0x6FFFF || code == 0x7FFFE) ||
                     (code == 0x7FFFF || code == 0x8FFFE) ||
-                    (code == 0x8FFFE || code == 0x9FFFF) ||
+                    (code == 0x8FFFF || code == 0x9FFFE) ||
                     (code == 0x9FFFF || code == 0xAFFFE) ||
                     (code == 0xAFFFF || code == 0xBFFFE) ||
                     (code == 0xBFFFF || code == 0xCFFFE) ||
