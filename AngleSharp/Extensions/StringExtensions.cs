@@ -795,8 +795,33 @@
         {
             if (!String.IsNullOrEmpty(value))
             {
-                var lines = value.Split(Symbols.NewLines, StringSplitOptions.None);
-                return String.Join(Symbols.NewLines[0], lines);
+                var builder = Pool.NewStringBuilder();
+                var isCR = false;
+
+                for (var i = 0; i < value.Length; i++)
+                {
+                    var current = value[i];
+                    var isLF = current == Symbols.LineFeed;
+
+                    if (isCR && !isLF)
+                    {
+                        builder.Append(Symbols.LineFeed);
+                    }
+                    else if (!isCR && isLF)
+                    {
+                        builder.Append(Symbols.CarriageReturn);
+                    }
+
+                    isCR = current == Symbols.CarriageReturn;
+                    builder.Append(current);
+                }
+
+                if (isCR)
+                {
+                    builder.Append(Symbols.LineFeed);
+                }
+
+                return builder.ToPool();
             }
 
             return value;
