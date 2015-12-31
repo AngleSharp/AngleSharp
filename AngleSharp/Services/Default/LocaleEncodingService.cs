@@ -35,7 +35,7 @@
             { "he", TextEncoding.Windows1255 },
             { "lv", TextEncoding.Latin13 },
             { "ja", TextEncoding.Utf8 }, //  Windows-31J ???? Replaced by something better anyway
-            { "ko", TextEncoding.GetEncoding("ks_c_5601-1987") },
+            { "ko", TextEncoding.Korean },
             { "lt", TextEncoding.Windows1257 },
             { "sk", TextEncoding.Windows1250 },
             { "th", TextEncoding.Windows874 }
@@ -48,18 +48,25 @@
         /// The locale defined by the BCP 47 language tag.
         /// </param>
         /// <returns>The suggested encoding.</returns>
-        public Encoding Suggest(String locale)
+        public virtual Encoding Suggest(String locale)
         {
             if (!String.IsNullOrEmpty(locale) && locale.Length > 1)
             {
+                var name = locale.Substring(0, 2);
                 var encoding = default(Encoding);
 
-                if (suggestions.TryGetValue(locale.Substring(0, 2), out encoding))
+                if (suggestions.TryGetValue(name, out encoding))
+                {
                     return encoding;
+                }
                 else if (locale.Isi("zh-cn"))
+                {
                     return TextEncoding.Gb18030;
+                }
                 else if (locale.Isi("zh-tw"))
+                {
                     return TextEncoding.Big5;
+                }
             }
 
             return TextEncoding.Windows1252;
