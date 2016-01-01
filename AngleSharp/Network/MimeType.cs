@@ -30,17 +30,23 @@
             var slash = 0;
 
             while (slash < value.Length && value[slash] != '/')
+            {
                 slash++;
+            }
 
             var plus = slash;
 
             while (plus < value.Length && value[plus] != '+')
+            {
                 plus++;
+            }
 
             var semicolon = plus < value.Length ? plus : slash;
 
             while (semicolon < value.Length && value[semicolon] != ';')
+            {
                 semicolon++;
+            }
 
             _general = value.Substring(0, slash);
             _media = slash < value.Length ? value.Substring(slash + 1, Math.Min(plus, semicolon) - slash - 1) : String.Empty;
@@ -59,12 +65,14 @@
         {
             get
             {
-                if (_media.Length == 0 && _suffix.Length == 0)
-                    return _general;
+                if (_media.Length != 0 || _suffix.Length != 0)
+                {
+                    var front = String.Concat(_general, "/", _media);
+                    var back = _suffix.Length > 0 ? "+" + _suffix : String.Empty;
+                    return String.Concat(front, back);
+                }
 
-                var front = String.Concat(_general, "/", _media);
-                var back = _suffix.Length > 0 ? "+" + _suffix : String.Empty;
-                return String.Concat(front, back);
+                return _general;
             }
         }
 
@@ -99,9 +107,8 @@
         {
             get
             {
-                return _params.Split(';').
-                               Where(m => !String.IsNullOrEmpty(m)).
-                               Select(m => m.IndexOf('=') >= 0 ? m.Substring(0, m.IndexOf('=')) : m);
+                return _params.Split(';').Where(m => !String.IsNullOrEmpty(m))
+                              .Select(m => m.IndexOf('=') >= 0 ? m.Substring(0, m.IndexOf('=')) : m);
             }
         }
 
@@ -116,10 +123,9 @@
         /// <returns>The value of the parameter or null.</returns>
         public String GetParameter(String key)
         {
-            return _params.Split(';').
-                           Where(m => m.StartsWith(key + "=")).
-                           Select(m => m.Substring(m.IndexOf('=') + 1)).
-                           FirstOrDefault();
+            return _params.Split(';').Where(m => m.StartsWith(key + "="))
+                          .Select(m => m.Substring(m.IndexOf('=') + 1))
+                          .FirstOrDefault();
         }
 
         /// <summary>
@@ -128,13 +134,15 @@
         /// <returns>The currently stored MIME type.</returns>
         public override String ToString()
         {
-            if (_media.Length == 0 && _suffix.Length == 0 && _params.Length == 0)
-                return _general;
+            if (_media.Length != 0 || _suffix.Length != 0 || _params.Length != 0)
+            {
+                var front = String.Concat(_general, "/", _media);
+                var back = _suffix.Length > 0 ? "+" + _suffix : String.Empty;
+                var opt = _params.Length > 0 ? ";" + _params : String.Empty;
+                return String.Concat(front, back, opt);
+            }
 
-            var front = String.Concat(_general, "/", _media);
-            var back = _suffix.Length > 0 ? "+" + _suffix : String.Empty;
-            var opt = _params.Length > 0 ? ";" + _params : String.Empty;
-            return String.Concat(front, back, opt);
+            return _general;
         }
 
         #endregion
@@ -148,7 +156,9 @@
         /// <returns>True if both types are equal, otherwise false.</returns>
         public Boolean Equals(MimeType other)
         {
-            return _general.Isi(other._general) && _media.Isi(other._media) && _suffix.Isi(other._suffix);
+            return _general.Isi(other._general) && 
+                   _media.Isi(other._media) && 
+                   _suffix.Isi(other._suffix);
         }
 
         /// <summary>
@@ -162,10 +172,12 @@
             {
                 var type = obj as MimeType;
 
-                if (type == null)
-                    return false;
+                if (type != null)
+                {
+                    return Equals(type);
+                }
 
-                return Equals(type);
+                return false;
             }
             
             return true;
@@ -177,7 +189,9 @@
         /// <returns>The computed hash code.</returns>
         public override Int32 GetHashCode()
         {
-            return (_general.GetHashCode() << 2) ^ (_media.GetHashCode() << 1) ^ (_suffix.GetHashCode());
+            return (_general.GetHashCode() << 2) ^ 
+                   (_media.GetHashCode() << 1) ^ 
+                   (_suffix.GetHashCode());
         }
 
         /// <summary>

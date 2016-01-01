@@ -26,7 +26,7 @@
         public override void Check(ValidityState state)
         {
             var value = Input.Value ?? String.Empty;
-            state.IsBadInput = color.IsMatch(value) == false;
+            state.IsBadInput = !color.IsMatch(value);
             state.IsValueMissing = Input.IsRequired && state.IsBadInput;
         }
 

@@ -49,7 +49,9 @@
             var dt = ConvertFromMonth(value);
 
             if (dt.HasValue)
+            {
                 return (dt.Value.Year - 1970) * 12 + dt.Value.Month - 1;
+            }
 
             return null;
         }
@@ -80,8 +82,10 @@
                 var min = ConvertFromMonth(Input.Minimum);
                 var max = ConvertFromMonth(Input.Maximum);
 
-                if ((min.HasValue == false || min.Value <= date) && (max.HasValue == false || max.Value >= date))
+                if ((!min.HasValue || min.Value <= date) && (!max.HasValue || max.Value >= date))
+                {
                     Input.ValueAsDate = date;
+                }
             }
         }
 
@@ -110,35 +114,31 @@
 
         protected static DateTime? ConvertFromMonth(String value)
         {
-            if (String.IsNullOrEmpty(value))
-                return null;
-
-            var position = 0;
-            var year = 0;
-            var month = 0;
-
-            while (position < value.Length)
+            if (!String.IsNullOrEmpty(value))
             {
-                if (value[position].IsDigit())
-                    position++;
-                else
-                    break;
+                var position = FetchDigits(value);
+
+                if (IsLegalPosition(value, position))
+                {
+                    var year = Int32.Parse(value.Substring(0, position));
+                    var month = Int32.Parse(value.Substring(position + 1));
+
+                    if (IsLegalDay(1, month, year))
+                    {
+                        return new DateTime(year, month, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                    }
+                }
             }
 
-            if (position < 4 ||
-                position != value.Length - 3 ||
-                value[position + 0] != Symbols.Minus ||
-                value[position + 1].IsDigit() == false ||
-                value[position + 2].IsDigit() == false)
-                return null;
+            return null;
+        }
 
-            year = Int32.Parse(value.Substring(0, position));
-            month = Int32.Parse(value.Substring(position + 1));
-
-            if (year < 0 || year > 9999 || month < 1 || month > 12)
-                return null;
-
-            return new DateTime(year, month, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        static Boolean IsLegalPosition(String value, Int32 position)
+        {
+            return position >= 4 && position == value.Length - 3 &&
+                    value[position + 0] == Symbols.Minus &&
+                    value[position + 1].IsDigit() &&
+                    value[position + 2].IsDigit();
         }
 
         #endregion

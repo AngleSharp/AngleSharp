@@ -49,7 +49,9 @@
             var dt = ConvertFromWeek(value);
 
             if (dt.HasValue)
+            {
                 return dt.Value.Subtract(UnixEpoch).TotalMilliseconds;
+            }
 
             return null;
         }
@@ -81,8 +83,10 @@
                 var min = ConvertFromWeek(Input.Minimum);
                 var max = ConvertFromWeek(Input.Maximum);
 
-                if ((min.HasValue == false || min.Value <= date) && (max.HasValue == false || max.Value >= date))
+                if ((!min.HasValue || min.Value <= date) && (!max.HasValue || max.Value >= date))
+                {
                     Input.ValueAsDate = date;
+                }
             }
         }
 
@@ -109,57 +113,46 @@
 
         #region Helper
 
-        static Int32 GetWeekOfYear(DateTime value)
-        {
-            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(value, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
-        }
-
         protected static DateTime? ConvertFromWeek(String value)
         {
-            if (String.IsNullOrEmpty(value))
-                return null;
-
-            var position = 0;
-            var year = 0;
-            var week = 0;
-
-            while (position < value.Length)
+            if (!String.IsNullOrEmpty(value))
             {
-                if (value[position].IsDigit())
-                    position++;
-                else
-                    break;
+                var position = FetchDigits(value);
+
+                if (IsLegalPosition(value, position))
+                {
+                    var year = Int32.Parse(value.Substring(0, position));
+                    var week = Int32.Parse(value.Substring(position + 2)) - 1;
+
+                    if (IsLegalWeek(week, year))
+                    {
+                        var startOfYear = new DateTime(year, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                        var day = startOfYear.DayOfWeek;
+
+                        if (day == DayOfWeek.Sunday)
+                        {
+                            startOfYear = startOfYear.AddDays(-6);
+                        }
+                        else if (day > DayOfWeek.Monday)
+                        {
+                            startOfYear = startOfYear.AddDays(1 - (Int32)day);
+                        }
+
+                        return startOfYear.AddDays(7 * week);
+                    }
+                }
             }
 
-            if (position < 4 ||
-                position != value.Length - 4 ||
-                value[position + 0] != Symbols.Minus ||
-                value[position + 1] != 'W' ||
-                value[position + 2].IsDigit() == false ||
-                value[position + 3].IsDigit() == false)
-                return null;
+            return null;
+        }
 
-            year = Int32.Parse(value.Substring(0, position));
-            week = Int32.Parse(value.Substring(position + 2)) - 1;
-
-            if (year < 0 || year > 9999)
-                return null;
-
-            var endOfYear = new DateTime(year, 12, 31, 0, 0, 0, 0, DateTimeKind.Utc);
-            var numOfWeeks = GetWeekOfYear(endOfYear);
-
-            if (week < 0 || week >= numOfWeeks)
-                return null;
-
-            var startOfYear = new DateTime(year, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            var day = startOfYear.DayOfWeek;
-
-            if (day == DayOfWeek.Sunday)
-                startOfYear = startOfYear.AddDays(-6);
-            else if (day > DayOfWeek.Monday)
-                startOfYear = startOfYear.AddDays(1 - (Int32)day);
-
-            return startOfYear.AddDays(7 * week);
+        static Boolean IsLegalPosition(String value, Int32 position)
+        {
+            return position >= 4 && position == value.Length - 4 &&
+                    value[position + 0] == Symbols.Minus &&
+                    value[position + 1] == 'W' &&
+                    value[position + 2].IsDigit() &&
+                    value[position + 3].IsDigit();
         }
 
         #endregion

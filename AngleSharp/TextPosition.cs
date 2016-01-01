@@ -160,8 +160,12 @@
         /// </returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is TextPosition)
-                return Equals((TextPosition)obj);
+            var other = obj as TextPosition?;
+
+            if (other != null)
+            {
+                return Equals(other.Value);
+            }
 
             return false;
         }

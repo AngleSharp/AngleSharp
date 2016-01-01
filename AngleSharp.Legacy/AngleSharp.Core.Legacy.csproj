@@ -1466,8 +1466,8 @@
     <Compile Include="..\AngleSharp\Dom\Html\HtmlHeadingElement.cs">
       <Link>Dom\Html\HtmlHeadingElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\Html\HtmlHRElement.cs">
-      <Link>Dom\Html\HtmlHRElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlHrElement.cs">
+      <Link>Dom\Html\HtmlHrElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlHtmlElement.cs">
       <Link>Dom\Html\HtmlHtmlElement.cs</Link>
@@ -1577,14 +1577,14 @@
     <Compile Include="..\AngleSharp\Dom\Html\HtmlRbElement.cs">
       <Link>Dom\Html\HtmlRbElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\Html\HtmlRPElement.cs">
-      <Link>Dom\Html\HtmlRPElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlRpElement.cs">
+      <Link>Dom\Html\HtmlRpElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlRtcElement.cs">
       <Link>Dom\Html\HtmlRtcElement.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\Html\HtmlRTElement.cs">
-      <Link>Dom\Html\HtmlRTElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Html\HtmlRtElement.cs">
+      <Link>Dom\Html\HtmlRtElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Html\HtmlRubyElement.cs">
       <Link>Dom\Html\HtmlRubyElement.cs</Link>
@@ -2177,8 +2177,8 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssStyleRule.cs">
       <Link>Interfaces\Css\ICssStyleRule.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\Css\ICSSStyleSheet.cs">
-      <Link>Interfaces\Css\ICSSStyleSheet.cs</Link>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssStyleSheet.cs">
+      <Link>Interfaces\Css\ICssStyleSheet.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssSupportsRule.cs">
       <Link>Interfaces\Css\ICssSupportsRule.cs</Link>

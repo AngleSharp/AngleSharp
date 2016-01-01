@@ -5,6 +5,9 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// The default event loop.
+    /// </summary>
     sealed class TaskEventLoop : IEventLoop
     {
         readonly Dictionary<TaskPriority, Queue<TaskEventLoopEntry>> _queues;

@@ -36,10 +36,14 @@
         public override void ConstructDataSet(FormDataSet dataSet)
         {
             if (_files.Length == 0)
+            {
                 dataSet.Append(Input.Name, default(IFile), Input.Type);
+            }
 
             foreach (var file in _files)
+            {
                 dataSet.Append(Input.Name, file, Input.Type);
+            }
         }
 
         #endregion
