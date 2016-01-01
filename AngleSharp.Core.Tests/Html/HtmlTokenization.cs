@@ -287,5 +287,27 @@
                 Assert.AreEqual(content, token.Data);
             }
         }
+
+        [Test]
+        public void TokenizationLongestLegalCharacterReference()
+        {
+            var content = "&CounterClockwiseContourIntegral;";
+            var s = new TextSource(content);
+            var t = CreateTokenizer(s);
+            var token = t.Get();
+            Assert.AreEqual(HtmlTokenType.Character, token.Type);
+            Assert.AreEqual("∳", token.Data);
+        }
+
+        [Test]
+        public void TokenizationLongestIllegalCharacterReference()
+        {
+            var content = "&CounterClockwiseContourIntegralWithWrongName;";
+            var s = new TextSource(content);
+            var t = CreateTokenizer(s);
+            var token = t.Get();
+            Assert.AreEqual(HtmlTokenType.Character, token.Type);
+            Assert.AreEqual("&CounterClockwiseContourIntegralWithWrongName;", token.Data);
+        }
     }
 }

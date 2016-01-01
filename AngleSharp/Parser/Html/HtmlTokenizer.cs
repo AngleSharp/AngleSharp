@@ -467,7 +467,9 @@
                     exp = 16;
 
                     while ((c = GetNext()).IsHex())
+                    {
                         nums.Add(c.FromHex());
+                    }
                 }
                 else
                 {
@@ -489,7 +491,9 @@
                     Back(2);
 
                     if (isHex)
+                    {
                         Back();
+                    }
 
                     RaiseErrorOccurred(HtmlParseError.CharacterReferenceWrongNumber);
                     _stringBuffer.Append(Symbols.Ampersand);
@@ -515,7 +519,9 @@
                 else 
                 {
                     if (HtmlEntityService.IsInInvalidRange(num))
+                    {
                         RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidRange);
+                    }
 
                     entity = num.ConvertFromUtf32();
                 }
@@ -523,14 +529,16 @@
             else
             {
                 var start = InsertionPoint - 1;
-                var reference = new Char[31];
+                var reference = new Char[32];
                 var index = 0;
                 var chr = Current;
 
                 do
                 {
                     if (chr == Symbols.Semicolon || !chr.IsName())
+                    {
                         break;
+                    }
 
                     reference[index++] = chr;
                     chr = GetNext();
@@ -544,7 +552,9 @@
                     entity = _resolver.GetSymbol(value);
 
                     if (entity != null)
+                    {
                         index = 0;
+                    }
                 }
 
                 while (index > 0)
@@ -553,7 +563,9 @@
                     entity = _resolver.GetSymbol(value);
 
                     if (entity != null)
+                    {
                         break;
+                    }
 
                     Back();
                 }
@@ -565,7 +577,9 @@
                     if (allowedCharacter != Symbols.Null && (chr == Symbols.Equality || chr.IsAlphanumericAscii()))
                     {
                         if (chr == Symbols.Equality)
+                        {
                             RaiseErrorOccurred(HtmlParseError.CharacterReferenceAttributeEqualsFound);
+                        }
 
                         InsertionPoint = start;
                         _stringBuffer.Append(Symbols.Ampersand);
