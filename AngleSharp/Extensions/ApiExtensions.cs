@@ -299,12 +299,12 @@
         /// </summary>
         /// <param name="form">The form to set.</param>
         /// <param name="fields">The fields to use as values.</param>
-        /// <param name="createInputIfNoFound">
+        /// <param name="createInputIfNotFound">
         /// What to do if some field(s) have not been found in the form. If
         /// true, then new input will be created. Otherwise, an exception will
         /// be thrown.
         /// </param>
-        public static void SetFieldValues(this IHtmlFormElement form, IDictionary<String, String> fields, Boolean createInputIfNoFound = false)
+        public static void SetFieldValues(this IHtmlFormElement form, IDictionary<String, String> fields, Boolean createInputIfNotFound = false)
         {
             if (form == null)
             {
@@ -359,7 +359,7 @@
                         //useful or how it is regulated.
                     }
                 }
-                else if (createInputIfNoFound)
+                else if (createInputIfNotFound)
                 {
                     var newInput = form.Owner.CreateElement<IHtmlInputElement>();
                     newInput.Type = InputTypeNames.Hidden;
@@ -430,21 +430,128 @@
         /// </summary>
         /// <param name="form">The form to submit.</param>
         /// <param name="fields">The fields to use as values.</param>
-        /// <param name="createInputIfNoFound">What to do if some field/s have not found in the form. If true, then new input will be created.
-        /// If false, KeyNotFoundException will be thrown.
-        /// The default is false.
+        /// <param name="createInputIfNotFound">
+        /// What to do if some field(s) have not been found in the form. If
+        /// true, then new input will be created. Otherwise, an exception will
+        /// be thrown.
         /// </param>
         /// <returns>The task eventually resulting in the response.</returns>
-        public static Task<IDocument> Submit(this IHtmlFormElement form, IDictionary<String, String> fields, bool createInputIfNoFound = false)
+        public static Task<IDocument> Submit(this IHtmlFormElement form, IDictionary<String, String> fields, Boolean createInputIfNotFound = false)
         {
-            if (form == null)
-                throw new ArgumentNullException("form");
-
-            if (fields == null)
-                throw new ArgumentNullException("fields");
-
-            form.SetFieldValues(fields, createInputIfNoFound);
+            form.SetFieldValues(fields, createInputIfNotFound);
             return form.Submit();
+        }
+
+        #endregion
+
+        #region Query Extensions
+
+        /// <summary>
+        /// Reduces the elements to the one at the given index, if any.
+        /// </summary>
+        /// <typeparam name="T">The type of element.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="index">The index of the element.</param>
+        /// <returns>The element, or its default value.</returns>
+        public static T Eq<T>(this IEnumerable<T> elements, Int32 index)
+            where T : IElement
+        {
+            if (elements == null)
+            {
+                throw new ArgumentNullException("elements");
+            }
+
+            return elements.Skip(index).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Reduces the elements to the ones above the given index.
+        /// </summary>
+        /// <typeparam name="T">The type of element.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="index">The minimum exclusive index.</param>
+        /// <returns>The remaining elements.</returns>
+        public static IEnumerable<T> Gt<T>(this IEnumerable<T> elements, Int32 index)
+            where T : IElement
+        {
+            if (elements == null)
+            {
+                throw new ArgumentNullException("elements");
+            }
+
+            return elements.Skip(index + 1);
+        }
+
+        /// <summary>
+        /// Reduces the elements to the ones below the given index.
+        /// </summary>
+        /// <typeparam name="T">The type of element.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <param name="index">The maximum exclusive index.</param>
+        /// <returns>The remaining elements.</returns>
+        public static IEnumerable<T> Lt<T>(this IEnumerable<T> elements, Int32 index)
+            where T : IElement
+        {
+            if (elements == null)
+            {
+                throw new ArgumentNullException("elements");
+            }
+
+            return elements.Take(index);
+        }
+
+        /// <summary>
+        /// Reduces the elements to the ones with even index.
+        /// </summary>
+        /// <typeparam name="T">The type of element.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <returns>The remaining elements.</returns>
+        public static IEnumerable<T> Even<T>(this IEnumerable<T> elements)
+            where T : IElement
+        {
+            if (elements == null)
+            {
+                throw new ArgumentNullException("elements");
+            }
+
+            var even = true;
+
+            foreach (var element in elements)
+            {
+                if (even)
+                {
+                    yield return element;
+                }
+
+                even = !even;
+            }
+        }
+
+        /// <summary>
+        /// Reduces the elements to the ones with odd index.
+        /// </summary>
+        /// <typeparam name="T">The type of element.</typeparam>
+        /// <param name="elements">The collection.</param>
+        /// <returns>The remaining elements.</returns>
+        public static IEnumerable<T> Odd<T>(this IEnumerable<T> elements)
+            where T : IElement
+        {
+            if (elements == null)
+            {
+                throw new ArgumentNullException("elements");
+            }
+
+            var odd = false;
+
+            foreach (var element in elements)
+            {
+                if (odd)
+                {
+                    yield return element;
+                }
+
+                odd = !odd;
+            }
         }
 
         #endregion
@@ -557,10 +664,14 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             foreach (var element in elements)
+            {
                 element.InnerHtml = String.Empty;
+            }
 
             return elements;
         }
@@ -580,13 +691,19 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             if (propertyName == null)
+            {
                 throw new ArgumentNullException("propertyName");
+            }
 
             foreach (var element in elements.OfType<IHtmlElement>())
+            {
                 element.Style.SetProperty(propertyName, propertyValue);
+            }
 
             return elements;
         }
@@ -605,15 +722,21 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             if (properties == null)
+            {
                 throw new ArgumentNullException("properties");
+            }
 
             foreach (var element in elements.OfType<IHtmlElement>())
             {
                 foreach (var property in properties)
+                {
                     element.Style.SetProperty(property.Key, property.Value);
+                }
             }
 
             return elements;
@@ -647,7 +770,9 @@
             where T : IElement
         {
             if (element == null)
+            {
                 throw new ArgumentNullException("element");
+            }
 
             return element.InnerHtml;
         }
@@ -665,10 +790,14 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             foreach (var element in elements)
+            {
                 element.InnerHtml = html;
+            }
 
             return elements;
         }
@@ -685,15 +814,21 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             if (className == null)
+            {
                 throw new ArgumentNullException("className");
+            }
 
             var classes = className.SplitSpaces();
 
             foreach (var element in elements)
+            {
                 element.ClassList.Add(classes);
+            }
 
             return elements;
         }
@@ -710,15 +845,21 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             if (className == null)
+            {
                 throw new ArgumentNullException("className");
+            }
 
             var classes = className.SplitSpaces();
 
             foreach (var element in elements)
+            {
                 element.ClassList.Remove(classes);
+            }
 
             return elements;
         }
@@ -735,17 +876,23 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             if (className == null)
+            {
                 throw new ArgumentNullException("className");
+            }
 
             var classes = className.SplitSpaces();
 
             foreach (var element in elements)
             {
                 foreach (var @class in classes)
+                {
                     element.ClassList.Toggle(@class);
+                }
             }
 
             return elements;
@@ -765,17 +912,20 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             if (className == null)
+            {
                 throw new ArgumentNullException("className");
+            }
 
-            var found = false;
             var classes = className.SplitSpaces();
 
             foreach (var element in elements)
             {
-                found = true;
+                var found = true;
 
                 foreach (var @class in classes)
                 {
@@ -787,10 +937,12 @@
                 }
 
                 if (found)
-                    break;
+                {
+                    return true;
+                }
             }
 
-            return found;
+            return false;
         }
 
         /// <summary>
@@ -805,7 +957,9 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             foreach (var element in elements)
             {
@@ -833,7 +987,9 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             foreach (var element in elements)
             {
@@ -861,7 +1017,9 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             foreach (var element in elements)
             {
@@ -884,7 +1042,9 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             foreach (var element in elements)
             {
@@ -907,7 +1067,9 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             foreach (var element in elements)
             {
@@ -916,7 +1078,9 @@
                 var parent = element.Parent;
 
                 if (parent != null)
+                {
                     parent.InsertBefore(fragment, element);
+                }
 
                 newParent.AppendChild(element);
             }
@@ -936,7 +1100,9 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             foreach (var element in elements)
             {
@@ -944,7 +1110,10 @@
                 var newParent = fragment.GetInnerMostElement();
 
                 while (element.ChildNodes.Length > 0)
-                    newParent.AppendChild(element.ChildNodes[0]);
+                {
+                    var child = element.ChildNodes[0];
+                    newParent.AppendChild(child);
+                }
 
                 element.AppendChild(fragment);
             }
@@ -965,7 +1134,9 @@
             where T : IEnumerable<IElement>
         {
             if (elements == null)
+            {
                 throw new ArgumentNullException("elements");
+            }
 
             var element = elements.FirstOrDefault();
 
@@ -976,10 +1147,14 @@
                 var parent = element.Parent;
 
                 if (parent != null)
+                {
                     parent.InsertBefore(fragment, element);
+                }
 
                 foreach (var child in elements)
+                {
                     newParent.AppendChild(child);
+                }
             }
 
             return elements;
@@ -1068,7 +1243,9 @@
 
         static IDocumentFragment CreateFragment(this IElement context, String html)
         {
-            return new DocumentFragment(context as Element, html ?? String.Empty);
+            var contextElement = context as Element;
+            var content = html ?? String.Empty;
+            return new DocumentFragment(contextElement, content);
         }
 
         static IElement GetInnerMostElement(this IDocumentFragment fragment)
