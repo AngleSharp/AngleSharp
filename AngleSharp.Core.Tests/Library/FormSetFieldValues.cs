@@ -112,7 +112,7 @@
             document.Forms[0].SetFieldValues(new Dictionary<String, String>()
             {
                 { newFieldName, fieldValue }
-            }, createInputIfNoFound: true);
+            }, createInputIfNotFound: true);
 
             var newField = document.Forms[0]
                 .GetElements<IHtmlInputElement>()
