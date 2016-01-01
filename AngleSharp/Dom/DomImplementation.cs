@@ -15,29 +15,22 @@
     {
         #region Features
 
-        static readonly Dictionary<String, String[]> _features = new Dictionary<String, String[]>(StringComparer.OrdinalIgnoreCase);
-
-        static DomImplementation()
+        static readonly Dictionary<String, String[]> features = new Dictionary<String, String[]>(StringComparer.OrdinalIgnoreCase)
         {
-            AddFeature("XML", "1.0", "2.0");
-            AddFeature("HTML", "1.0", "2.0");
-            AddFeature("Core", "2.0");
-            AddFeature("Views", "2.0");
-            AddFeature("StyleSheets", "2.0");
-            AddFeature("CSS", "2.0");
-            AddFeature("CSS2", "2.0");
-            AddFeature("Traversal", "2.0");
-            AddFeature("Events", "2.0");
-            AddFeature("UIEvents", "2.0");
-            AddFeature("HTMLEvents", "2.0");
-            AddFeature("Range", "2.0");
-            AddFeature("MutationEvents", "2.0");
-        }
-
-        static void AddFeature(String feature, params String[] versions)
-        {
-            _features.Add(feature, versions);
-        }
+            { "XML", new[] { "1.0", "2.0" } },
+            { "HTML", new[] { "1.0", "2.0" } },
+            { "Core", new[] { "2.0" } },
+            { "Views", new[] { "2.0" } },
+            { "StyleSheets", new[] { "2.0" } },
+            { "CSS", new[] { "2.0" } },
+            { "CSS2", new[] { "2.0" } },
+            { "Traversal", new[] { "2.0" } },
+            { "Events", new[] { "2.0" } },
+            { "UIEvents", new[] { "2.0" } },
+            { "HTMLEvents", new[] { "2.0" } },
+            { "Range", new[] { "2.0" } },
+            { "MutationEvents", new[] { "2.0" } },
+        };
 
         #endregion
 
@@ -185,7 +178,7 @@
 
             var versions = default(String[]);
 
-            if (_features.TryGetValue(feature, out versions))
+            if (features.TryGetValue(feature, out versions))
             {
                 return versions.Contains(version ?? String.Empty, StringComparison.OrdinalIgnoreCase);
             }
