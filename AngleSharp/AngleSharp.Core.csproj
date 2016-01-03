@@ -59,6 +59,7 @@
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="BrowsingContextExtensions.cs" />
+    <Compile Include="Css\CombinatorSymbols.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\AndCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\DeclarationCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\EmptyCondition.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="Extensions\EventLoopExtensions.cs" />
     <Compile Include="Extensions\ResponseExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
+    <Compile Include="Factories\AttributeSelectorFactory.cs" />
     <Compile Include="Factories\InputTypeFactory.cs" />
     <Compile Include="Factories\LinkRelationFactory.cs" />
     <Compile Include="Factories\MediaFeatureFactory.cs" />

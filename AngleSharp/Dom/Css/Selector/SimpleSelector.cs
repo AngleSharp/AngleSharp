@@ -83,11 +83,12 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, Keywords.Pipe, match);
-                match = Bundle(prefix, match);
+                front = FormFront(prefix, match);
+                match = FormMatch(prefix, match);
             }
 
-            return new SimpleSelector(_ => _.HasAttribute(match), Priority.OneClass, String.Concat("[", front, "]"));
+            var code = FormCode(front);
+            return new SimpleSelector(_ => _.HasAttribute(match), Priority.OneClass, code);
         }
 
         public static SimpleSelector AttrMatch(String match, String value, String prefix = null)
@@ -96,11 +97,11 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, Keywords.Pipe, match);
-                match = Bundle(prefix, match);
+                front = FormFront(prefix, match);
+                match = FormMatch(prefix, match);
             }
 
-            var code = String.Format("[{0}={1}]", front, value.CssString());
+            var code = FormCode(front, "=", value.CssString());
             return new SimpleSelector(_ => _.GetAttribute(match).Is(value), Priority.OneClass, code);
         }
 
@@ -110,11 +111,11 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, Keywords.Pipe, match);
-                match = Bundle(prefix, match);
+                front = FormFront(prefix, match);
+                match = FormMatch(prefix, match);
             }
 
-            var code = String.Format("[{0}!={1}]", front, value.CssString());
+            var code = FormCode(front, "!=", value.CssString());
             return new SimpleSelector(_ => _.GetAttribute(match) != value, Priority.OneClass, code);
         }
 
@@ -124,11 +125,11 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, Keywords.Pipe, match);
-                match = Bundle(prefix, match);
+                front = FormFront(prefix, match);
+                match = FormMatch(prefix, match);
             }
 
-            var code = String.Format("[{0}~={1}]", front, value.CssString());
+            var code = FormCode(front, "~=", value.CssString());
             var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).SplitSpaces().Contains(value));
             return new SimpleSelector(matches, Priority.OneClass, code);
         }
@@ -139,11 +140,11 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, Keywords.Pipe, match);
-                match = Bundle(prefix, match);
+                front = FormFront(prefix, match);
+                match = FormMatch(prefix, match);
             }
 
-            var code = String.Format("[{0}^={1}]", front, value.CssString());
+            var code = FormCode(front, "^=", value.CssString());
             var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).StartsWith(value));
             return new SimpleSelector(matches, Priority.OneClass, code);
         }
@@ -154,11 +155,11 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, Keywords.Pipe, match);
-                match = Bundle(prefix, match);
+                front = FormFront(prefix, match);
+                match = FormMatch(prefix, match);
             }
 
-            var code = String.Format("[{0}$={1}]", front, value.CssString());
+            var code = FormCode(front, "$=", value.CssString());
             var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).EndsWith(value));
             return new SimpleSelector(matches, Priority.OneClass, code);
         }
@@ -169,11 +170,11 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, Keywords.Pipe, match);
-                match = Bundle(prefix, match);
+                front = FormFront(prefix, match);
+                match = FormMatch(prefix, match);
             }
 
-            var code = String.Format("[{0}*={1}]", front, value.CssString());
+            var code = FormCode(front, "*=", value.CssString());
             var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).Contains(value));
             return new SimpleSelector(matches, Priority.OneClass, code);
         }
@@ -184,11 +185,11 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, Keywords.Pipe, match);
-                match = Bundle(prefix, match);
+                front = FormFront(prefix, match);
+                match = FormMatch(prefix, match);
             }
-
-            var code = String.Format("[{0}|={1}]", front, value.CssString());
+            
+            var code = FormCode(front, "|=", value.CssString());
             var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).HasHyphen(value));
             return new SimpleSelector(matches, Priority.OneClass, code);
         }
@@ -225,9 +226,25 @@
             return String.IsNullOrEmpty(value) ? (_ => false) : predicate;
         }
 
-        static String Bundle(String prefix, String match)
+        static String FormCode(String content)
         {
-            return prefix.Is(Keywords.Asterisk) ? match : String.Concat(prefix, ":", match);
+            return String.Concat("[", content, "]");
+        }
+
+        static String FormCode(String name, String op, String value)
+        {
+            var content = String.Concat(name, op, value);
+            return FormCode(content);
+        }
+
+        static String FormFront(String prefix, String match)
+        {
+            return String.Concat(prefix, CombinatorSymbols.Pipe, match);
+        }
+
+        static String FormMatch(String prefix, String match)
+        {
+            return prefix.Is(Keywords.Asterisk) ? match : String.Concat(prefix, PseudoClassNames.Separator, match);
         }
 
         #endregion

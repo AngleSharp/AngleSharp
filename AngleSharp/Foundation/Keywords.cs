@@ -1343,11 +1343,6 @@
         public static readonly String Asterisk = "*";
 
         /// <summary>
-        /// The | keyword.
-        /// </summary>
-        public static readonly String Pipe = "|";
-
-        /// <summary>
         /// The odd keyword.
         /// </summary>
         public static readonly String Odd = "odd";

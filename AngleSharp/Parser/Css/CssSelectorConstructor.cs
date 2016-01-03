@@ -230,7 +230,7 @@
                     _state = State.AttributeOperator;
                     _attrName = token.Data;
                 }
-                else if (token.Type == CssTokenType.Delim && token.Data.Is(Keywords.Pipe))
+                else if (token.Type == CssTokenType.Delim && token.Data.Is(CombinatorSymbols.Pipe))
                 {
                     _state = State.Attribute;
                     _attrNs = String.Empty;
@@ -262,7 +262,7 @@
                     _state = State.AttributeValue;
                     _attrOp = token.ToValue();
 
-                    if (_attrOp == Keywords.Pipe)
+                    if (_attrOp == CombinatorSymbols.Pipe)
                     {
                         _attrNs = _attrName;
                         _attrName = null;
@@ -304,36 +304,13 @@
 
                 if (token.Type == CssTokenType.SquareBracketClose)
                 {
-                    var selector = CreateAttrSelector();
+                    var selector = Factory.AttributeSelector.Create(_attrOp, _attrName, _attrValue, _attrNs);
                     Insert(selector);
                 }
                 else
                 {
                     _valid = false;
                 }
-            }
-        }
-
-        SimpleSelector CreateAttrSelector()
-        {
-            switch (_attrOp)
-            {
-                case "=":
-                    return SimpleSelector.AttrMatch(_attrName, _attrValue, _attrNs);
-                case "~=":
-                    return SimpleSelector.AttrList(_attrName, _attrValue, _attrNs);
-                case "|=":
-                    return SimpleSelector.AttrHyphen(_attrName, _attrValue, _attrNs);
-                case "^=":
-                    return SimpleSelector.AttrBegins(_attrName, _attrValue, _attrNs);
-                case "$=":
-                    return SimpleSelector.AttrEnds(_attrName, _attrValue, _attrNs);
-                case "*=":
-                    return SimpleSelector.AttrContains(_attrName, _attrValue, _attrNs);
-                case "!=":
-                    return SimpleSelector.AttrNotMatch(_attrName, _attrValue, _attrNs);
-                default:
-                    return SimpleSelector.AttrAvailable(_attrName, _attrNs);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Events;
     using AngleSharp.Extensions;
     using System;
@@ -105,7 +106,9 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
-                        return NewMatch("$=");
+                    {
+                        return NewMatch(CombinatorSymbols.Ends);
+                    }
 
                     return NewDelimiter(GetPrevious());
 
@@ -123,7 +126,7 @@
 
                     if (current == Symbols.Equality)
                     {
-                        return NewMatch("*=");
+                        return NewMatch(CombinatorSymbols.InText);
                     }
 
                     return NewDelimiter(GetPrevious());
@@ -270,7 +273,7 @@
 
                     if (current == Symbols.Equality)
                     {
-                        return NewMatch("^=");
+                        return NewMatch(CombinatorSymbols.Begins);
                     }
 
                     return NewDelimiter(GetPrevious());
@@ -316,7 +319,7 @@
 
                     if (current == Symbols.Equality)
                     {
-                        return NewMatch("|=");
+                        return NewMatch(CombinatorSymbols.InToken);
                     }
                     else if (current == Symbols.Pipe)
                     {
@@ -330,7 +333,7 @@
 
                     if (current == Symbols.Equality)
                     {
-                        return NewMatch("~=");
+                        return NewMatch(CombinatorSymbols.InList);
                     }
 
                     return NewDelimiter(GetPrevious());
@@ -343,7 +346,7 @@
 
                     if (current == Symbols.Equality)
                     {
-                        return NewMatch("!=");
+                        return NewMatch(CombinatorSymbols.Unlike);
                     }
 
                     return NewDelimiter(GetPrevious());
@@ -726,7 +729,7 @@
         {
             while (true)
             {
-                if (current == Symbols.Plus || current == Symbols.Minus)
+                if (current.IsOneOf(Symbols.Plus, Symbols.Minus))
                 {
                     _stringBuffer.Append(current);
                     current = GetNext();
@@ -1055,11 +1058,11 @@
                 {
                     return UrlEnd(functionName);
                 }
-                else if (current == Symbols.RoundBracketClose || current == Symbols.EndOfFile)
+                else if (current.IsOneOf(Symbols.RoundBracketClose, Symbols.EndOfFile))
                 {
                     return NewUrl(functionName, FlushBuffer());
                 }
-                else if (current == Symbols.DoubleQuote || current == Symbols.SingleQuote || current == Symbols.RoundBracketOpen || current.IsNonPrintable())
+                else if (current.IsOneOf(Symbols.DoubleQuote, Symbols.SingleQuote, Symbols.RoundBracketOpen) || current.IsNonPrintable())
                 {
                     RaiseErrorOccurred(CssParseError.InvalidCharacter);
                     return UrlBad(functionName);
@@ -1161,11 +1164,8 @@
         /// </summary>
         CssToken UnicodeRange(Char current)
         {
-            for (var i = 0; i < 6; i++)
+            for (var i = 0; i < 6 && current.IsHex(); i++)
             {
-                if (!current.IsHex())
-                    break;
-
                 _stringBuffer.Append(current);
                 current = GetNext();
             }
@@ -1233,7 +1233,7 @@
 
         CssToken NewColumn()
         {
-            return new CssToken(CssTokenType.Column, "||", _position);
+            return new CssToken(CssTokenType.Column, CombinatorSymbols.Column, _position);
         }
 
         CssToken NewCloseCurly()

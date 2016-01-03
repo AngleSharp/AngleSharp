@@ -7,7 +7,7 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// Provides string to CSS psuedo class selector instance mappings.
+    /// Provides string to CSS pseudo class selector instance mappings.
     /// </summary>
     sealed class PseudoClassSelectorFactory
     {
