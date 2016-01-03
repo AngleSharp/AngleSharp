@@ -90,11 +90,6 @@
 
         #region Helpers
 
-        /// <summary>
-        /// Constucts the data set (called from a form).
-        /// </summary>
-        /// <param name="dataSet">The dataset to construct.</param>
-        /// <param name="submitter">The given submitter.</param>
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
             ConstructDataSet(dataSet, Type);
@@ -107,8 +102,10 @@
 
         internal override void RestoreFormControlState(FormControlState state)
         {
-            if (state.Type == Type && state.Name == Name)
+            if (state.Type.Is(Type) && state.Name.Is(Name))
+            {
                 Value = state.Value;
+            }
         }
 
         #endregion

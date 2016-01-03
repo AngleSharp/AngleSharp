@@ -35,7 +35,7 @@
         /// </summary>
         public IHtmlTableCaptionElement Caption
         {
-            get { return ChildNodes.OfType<IHtmlTableCaptionElement>().FirstOrDefault(m => m.LocalName == TagNames.Caption); }
+            get { return ChildNodes.OfType<IHtmlTableCaptionElement>().FirstOrDefault(m => m.LocalName.Is(TagNames.Caption)); }
             set { DeleteCaption(); InsertChild(0, value); }
         }
 
@@ -44,7 +44,7 @@
         /// </summary>
         public IHtmlTableSectionElement Head
         {
-            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName == TagNames.Thead); }
+            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName.Is(TagNames.Thead)); }
             set { DeleteHead(); AppendChild(value); }
         }
 
@@ -53,7 +53,7 @@
         /// </summary>
         public IHtmlCollection<IHtmlTableSectionElement> Bodies
         {
-            get { return _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this, deep: false, predicate: m => m.LocalName == TagNames.Tbody)); }
+            get { return _bodies ?? (_bodies = new HtmlCollection<IHtmlTableSectionElement>(this, deep: false, predicate: m => m.LocalName.Is(TagNames.Tbody))); }
         }
 
         /// <summary>
@@ -61,7 +61,7 @@
         /// </summary>
         public IHtmlTableSectionElement Foot
         {
-            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName == TagNames.Tfoot); }
+            get { return ChildNodes.OfType<IHtmlTableSectionElement>().FirstOrDefault(m => m.LocalName.Is(TagNames.Tfoot)); }
             set { DeleteFoot(); AppendChild(value); }
         }
 
@@ -72,13 +72,15 @@
         {
             get
             {
-                var heads = ChildNodes.OfType<IHtmlTableSectionElement>().Where(m => m.LocalName == TagNames.Thead);
-                var foots = ChildNodes.OfType<IHtmlTableSectionElement>().Where(m => m.LocalName == TagNames.Tfoot);
+                var heads = ChildNodes.OfType<IHtmlTableSectionElement>().Where(m => m.LocalName.Is(TagNames.Thead));
+                var foots = ChildNodes.OfType<IHtmlTableSectionElement>().Where(m => m.LocalName.Is(TagNames.Tfoot));
 
                 foreach (var head in heads)
                 {
                     foreach (var row in head.Rows)
+                    {
                         yield return row;
+                    }
                 }
 
                 foreach (var child in ChildNodes)
@@ -87,20 +89,26 @@
                     {
                         var body = (IHtmlTableSectionElement)child;
 
-                        if (body.LocalName == TagNames.Tbody)
+                        if (body.LocalName.Is(TagNames.Tbody))
                         {
                             foreach (var row in body.Rows)
+                            {
                                 yield return row;
+                            }
                         }
                     }
                     else if (child is IHtmlTableRowElement)
+                    {
                         yield return (IHtmlTableRowElement)child;
+                    }
                 }
 
                 foreach (var foot in foots)
                 {
                     foreach (var row in foot.Rows)
+                    {
                         yield return row;
+                    }
                 }
             }
         }
@@ -258,7 +266,9 @@
             var rows = Rows;
 
             if (index >= 0 && index < rows.Length)
+            {
                 rows[index].Remove();
+            }
         }
 
         /// <summary>
@@ -299,7 +309,9 @@
             var head = Head;
 
             if (head != null)
+            {
                 head.Remove();
+            }
         }
 
         /// <summary>
@@ -327,7 +339,9 @@
             var foot = Foot;
 
             if (foot != null)
+            {
                 foot.Remove();
+            }
         }
 
         /// <summary>
@@ -355,7 +369,9 @@
             var caption = Caption;
 
             if (caption != null)
+            {
                 caption.Remove();
+            }
         }
 
 

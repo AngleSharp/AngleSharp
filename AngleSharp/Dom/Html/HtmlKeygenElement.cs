@@ -60,8 +60,10 @@
 
         internal override void RestoreFormControlState(FormControlState state)
         {
-            if (state.Type == Type && state.Name == Name)
+            if (state.Type.Is(Type) && state.Name.Is(Name))
+            {
                 Challenge = state.Value;
+            }
         }
 
         protected override Boolean CanBeValidated()

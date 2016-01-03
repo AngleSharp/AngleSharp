@@ -329,7 +329,7 @@
 
         DocumentRequest SubmitForm(HttpMethod method, String scheme, Url action, IHtmlElement submitter)
         {
-            if (scheme == ProtocolNames.Http || scheme == ProtocolNames.Https)
+            if (scheme.IsOneOf(ProtocolNames.Http, ProtocolNames.Https))
             {
                 if (method == HttpMethod.Get)
                 {
@@ -340,7 +340,7 @@
                     return SubmitAsEntityBody(action, submitter);
                 }
             }
-            else if (scheme == ProtocolNames.Data)
+            else if (scheme.Is(ProtocolNames.Data))
             {
                 if (method == HttpMethod.Get)
                 {
@@ -351,7 +351,7 @@
                     return PostToData(action, submitter);
                 }
             }
-            else if (scheme == ProtocolNames.Mailto)
+            else if (scheme.Is(ProtocolNames.Mailto))
             {
                 if (method == HttpMethod.Get)
                 {
@@ -362,7 +362,7 @@
                     return MailAsBody(action, submitter);
                 }
             }
-            else if (scheme == ProtocolNames.Ftp || scheme == ProtocolNames.JavaScript)
+            else if (scheme.IsOneOf(ProtocolNames.Ftp, ProtocolNames.JavaScript))
             {
                 return GetActionUrl(action);
             }

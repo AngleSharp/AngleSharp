@@ -184,7 +184,7 @@
         {
             public NamespaceCombinator()
             {
-                Delimiter = "|";
+                Delimiter = Keywords.Pipe;
                 Transform = el => Single(el);
             }
 

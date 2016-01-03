@@ -31,25 +31,16 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets the position of the token.
-        /// </summary>
         public TextPosition Position
         {
             get { return _position; }
         }
 
-        /// <summary>
-        /// Gets the type of the token.
-        /// </summary>
         public CssTokenType Type
         {
             get { return _type; }
         }
 
-        /// <summary>
-        /// Gets the data of the token.
-        /// </summary>
         public String Data
         {
             get { return _data; }
@@ -59,10 +50,6 @@
 
         #region Methods
 
-        /// <summary>
-        /// Gets a string which represents the original value.
-        /// </summary>
-        /// <returns>The original value.</returns>
         public virtual String ToValue()
         {
             return _data;

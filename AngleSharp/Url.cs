@@ -561,25 +561,29 @@
 
                 case Symbols.Solidus:
                 case Symbols.ReverseSolidus:
-                    if (index == input.Length - 1)
-                        return ParsePath(input, index);
-
-                    var c = input[++index];
-
-                    if (c == Symbols.Solidus || c == Symbols.ReverseSolidus)
+                    if (index != input.Length - 1)
                     {
-                        if (_scheme.Is(ProtocolNames.File))
-                            return ParseFileHost(input, index + 1);
+                        var c = input[++index];
 
-                        return IgnoreSlashesState(input, index + 1);
-                    }
-                    else if (_scheme.Is(ProtocolNames.File))
-                    {
-                        _host = String.Empty;
-                        _port = String.Empty;
+                        if (c.IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus))
+                        {
+                            if (_scheme.Is(ProtocolNames.File))
+                            {
+                                return ParseFileHost(input, index + 1);
+                            }
+
+                            return IgnoreSlashesState(input, index + 1);
+                        }
+                        else if (_scheme.Is(ProtocolNames.File))
+                        {
+                            _host = String.Empty;
+                            _port = String.Empty;
+                        }
+
+                        return ParsePath(input, index - 1);
                     }
 
-                    return ParsePath(input, index - 1);
+                    return ParsePath(input, index);
             }
 
             if (input[index].IsLetter() && _scheme.Is(ProtocolNames.File) && index + 1 < input.Length && 
@@ -598,8 +602,10 @@
         {
             while (index < input.Length)
             {
-                if (input[index] != Symbols.ReverseSolidus && input[index] != Symbols.Solidus)
+                if (!input[index].IsOneOf(Symbols.ReverseSolidus, Symbols.Solidus))
+                {
                     return ParseAuthority(input, index);
+                }
 
                 index++;
             }
@@ -621,9 +627,13 @@
                 if (c == Symbols.At)
                 {
                     if (user == null)
+                    {
                         user = buffer.ToString();
+                    }
                     else
+                    {
                         pass = buffer.ToString();
+                    }
 
                     _username = user;
                     _password = pass;
@@ -640,11 +650,11 @@
                 {
                     buffer.Append(input[index++]).Append(input[index++]).Append(input[index]);
                 }
-                else if (c == Symbols.Tab || c == Symbols.LineFeed || c == Symbols.CarriageReturn)
+                else if (c.IsOneOf(Symbols.Tab, Symbols.LineFeed, Symbols.CarriageReturn))
                 {
                     // Parse Error
                 }
-                else if (c == Symbols.Solidus || c == Symbols.ReverseSolidus || c == Symbols.Num || c == Symbols.QuestionMark)
+                else if (c.IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus, Symbols.Num, Symbols.QuestionMark))
                 {
                     break;
                 }
@@ -1042,8 +1052,9 @@
         {
             var chars = new Char[length];
             var count = 0;
+            var n = start + length;
 
-            for (int i = start, n = start + length; i < n; i++)
+            for (var i = start; i < n; i++)
             {
                 switch (port[i])
                 {

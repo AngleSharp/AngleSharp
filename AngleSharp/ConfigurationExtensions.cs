@@ -137,7 +137,7 @@
                 throw new ArgumentNullException("configuration");
             }
             
-            if (configuration.GetServices<IStylingService>().Any() == false)
+            if (!configuration.GetServices<IStylingService>().Any())
             {
                 var service = new StylingService();
                 var engine = new CssStyleEngine();
@@ -173,7 +173,7 @@
                 throw new ArgumentNullException("configuration");
             }
 
-            if (configuration.GetServices<ILoaderService>().Any() == false)
+            if (!configuration.GetServices<ILoaderService>().Any())
             {
                 if (requesters == null)
                 {
@@ -210,7 +210,7 @@
                 throw new ArgumentException("configuration");
             }
 
-            if (configuration.GetServices<IEncodingService>().Any() == false)
+            if (!configuration.GetServices<IEncodingService>().Any())
             {
                 var service = new LocaleEncodingService();
                 return configuration.With(service);
@@ -236,7 +236,7 @@
                 throw new ArgumentNullException("configuration");
             }
 
-            if (configuration.GetServices<ICookieService>().Any() == false)
+            if (!configuration.GetServices<ICookieService>().Any())
             {
                 var service = new MemoryCookieService();
                 return configuration.With(service);

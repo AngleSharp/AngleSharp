@@ -40,7 +40,9 @@
             var available = ScriptingState.None;
 
             if (options != null && options.IsScripting())
+            {
                 available = device.DeviceType == RenderDevice.Kind.Screen ? ScriptingState.Enabled : ScriptingState.InitialOnly;
+            }
 
             return state == available;
         }

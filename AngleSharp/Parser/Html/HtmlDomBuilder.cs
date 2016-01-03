@@ -3636,7 +3636,7 @@
 
             if (table && _openElements[index].Parent != null)
             {
-                for (int i = 0; i < foster.ChildNodes.Length; i++)
+                for (var i = 0; i < foster.ChildNodes.Length; i++)
 			    {
                     if (foster.ChildNodes[i] == _openElements[index])
                     {
@@ -3699,7 +3699,7 @@
 
             if (table && _openElements[index].Parent != null)
             {
-                for (int i = 0; i < foster.ChildNodes.Length; i++)
+                for (var i = 0; i < foster.ChildNodes.Length; i++)
                 {
                     if (foster.ChildNodes[i] == _openElements[index])
                     {
@@ -3740,8 +3740,7 @@
         {
             var node = CurrentNode;
 
-            while (tags.Contains(node.LocalName) == false &&
-                   node.LocalName.IsOneOf(TagNames.Html, TagNames.Template) == false)
+            while (!tags.Contains(node.LocalName) && !node.LocalName.IsOneOf(TagNames.Html, TagNames.Template))
             {
                 CloseCurrentNode();
                 node = CurrentNode;
@@ -3770,7 +3769,9 @@
         void GenerateImpliedEndTags()
         {
             while (CurrentNode.Flags.HasFlag(NodeFlags.ImpliedEnd))
+            {
                 CloseCurrentNode();
+            }
         }
 
         #endregion

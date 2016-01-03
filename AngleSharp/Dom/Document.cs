@@ -917,7 +917,7 @@
                 var enabledName = enabled.FirstOrDefault();
                 var others = _styleSheets.Where(m => !String.IsNullOrEmpty(m.Title) && !m.IsDisabled);
 
-                if (enabled.Count() == 1 && !others.Any(m => m.Title != enabledName))
+                if (enabled.Count() == 1 && !others.Any(m => !m.Title.Is(enabledName)))
                 {
                     return enabledName;
                 }

@@ -230,12 +230,12 @@
                     _state = State.AttributeOperator;
                     _attrName = token.Data;
                 }
-                else if (token.Type == CssTokenType.Delim && token.ToValue() == "|")
+                else if (token.Type == CssTokenType.Delim && token.Data.Is(Keywords.Pipe))
                 {
                     _state = State.Attribute;
                     _attrNs = String.Empty;
                 }
-                else if (token.Type == CssTokenType.Delim && token.ToValue() == "*")
+                else if (token.Type == CssTokenType.Delim && token.Data.Is(Keywords.Asterisk))
                 {
                     _state = State.AttributeOperator;
                     _attrName = token.ToValue();
@@ -262,7 +262,7 @@
                     _state = State.AttributeValue;
                     _attrOp = token.ToValue();
 
-                    if (_attrOp == "|")
+                    if (_attrOp == Keywords.Pipe)
                     {
                         _attrNs = _attrName;
                         _attrName = null;
@@ -666,9 +666,12 @@
                 var sel = _nested.ToPool();
 
                 if (!valid)
+                {
                     return null;
+                }
 
-                return SimpleSelector.PseudoClass(el => !sel.Match(el), String.Concat(PseudoClassNames.Not, "(", sel.Text, ")"));
+                var code = PseudoClassNames.Not.CssFunction(sel.Text);
+                return SimpleSelector.PseudoClass(el => !sel.Match(el), code);
             }
         }
 
@@ -702,7 +705,8 @@
                     return null;
                 }
 
-                return SimpleSelector.PseudoClass(el => el.ChildNodes.QuerySelector(sel) != null, String.Concat(PseudoClassNames.Has, "(", sel.Text, ")"));
+                var code = PseudoClassNames.Has.CssFunction(sel.Text);
+                return SimpleSelector.PseudoClass(el => el.ChildNodes.QuerySelector(sel) != null, code);
             }
         }
 
@@ -736,7 +740,8 @@
                     return null;
                 }
 
-                return SimpleSelector.PseudoClass(el => sel.Match(el), String.Concat(PseudoClassNames.Matches, "(", sel.Text, ")"));
+                var code = PseudoClassNames.Matches.CssFunction(sel.Text);
+                return SimpleSelector.PseudoClass(el => sel.Match(el), code);
             }
         }
 
@@ -776,7 +781,8 @@
                     return null;
                 }
 
-                var code = String.Concat(PseudoClassNames.Dir, "(", value, ")");
+                
+                var code = PseudoClassNames.Dir.CssFunction(value);
                 return SimpleSelector.PseudoClass(el => el is IHtmlElement && value.Isi(((IHtmlElement)el).Direction), code);
             }
         }
@@ -817,7 +823,7 @@
                     return null;
                 }
 
-                var code = String.Concat(PseudoClassNames.Lang, "(", value, ")");
+                var code = PseudoClassNames.Lang.CssFunction(value);
                 return SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Language.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
             }
         }
@@ -858,7 +864,7 @@
                     return null;
                 }
 
-                var code = String.Concat(PseudoClassNames.Contains, "(", value, ")");
+                var code = PseudoClassNames.Contains.CssFunction(value);
                 return SimpleSelector.PseudoClass(el => el.TextContent.Contains(value), code);
             }
         }
@@ -893,6 +899,7 @@
                     return null;
                 }
 
+                var code = PseudoClassNames.HostContext.CssFunction(sel.Text);
                 return SimpleSelector.PseudoClass(el =>
                 {
                     var host = default(IElement);
@@ -914,7 +921,7 @@
                     }
 
                     return false;
-                }, String.Concat(PseudoClassNames.HostContext, "(", sel.Text, ")"));
+                }, code);
             }
         }
 
@@ -1019,7 +1026,7 @@
                     return false;
                 }
 
-                if (token.Data.Isi("of"))
+                if (token.Data.Isi(Keywords.Of))
                 {
                     valid = allowOf;
                     state = ParseState.AfterOf;
@@ -1060,21 +1067,21 @@
                     return false;
                 }
 
-                if (token.Data.Isi("odd"))
+                if (token.Data.Isi(Keywords.Odd))
                 {
                     state = ParseState.BeforeOf;
                     step = 2;
                     offset = 1;
                     return false;
                 }
-                else if (token.Data.Isi("even"))
+                else if (token.Data.Isi(Keywords.Even))
                 {
                     state = ParseState.BeforeOf;
                     step = 2;
                     offset = 0;
                     return false;
                 }
-                else if (token.Type == CssTokenType.Delim && (token.Data == "+" || token.Data == "-"))
+                else if (token.Type == CssTokenType.Delim && token.Data.IsOneOf("+", "-"))
                 {
                     sign = token.Data == "-" ? -1 : +1;
                     state = ParseState.AfterInitialSign;

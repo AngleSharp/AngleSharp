@@ -21,7 +21,7 @@
         #region ctor
 
         public SimpleSelector()
-            : this(_ => true, Priority.Zero, "*")
+            : this(_ => true, Priority.Zero, Keywords.Asterisk)
         {
         }
 
@@ -59,12 +59,12 @@
 
         public static SimpleSelector PseudoElement(Predicate<IElement> action, String pseudoElement)
         {
-            return new SimpleSelector(action, Priority.OneTag, "::" + pseudoElement);
+            return new SimpleSelector(action, Priority.OneTag, PseudoElementNames.Separator + pseudoElement);
         }
 
         public static SimpleSelector PseudoClass(Predicate<IElement> action, String pseudoClass)
         {
-            return new SimpleSelector(action, Priority.OneClass, ":" + pseudoClass);
+            return new SimpleSelector(action, Priority.OneClass, PseudoClassNames.Separator + pseudoClass);
         }
 
         public static SimpleSelector Class(String match)
@@ -74,7 +74,7 @@
 
         public static SimpleSelector Id(String match)
         {
-            return new SimpleSelector(_ => _.Id == match, Priority.OneId, "#" + match);
+            return new SimpleSelector(_ => _.Id.Is(match), Priority.OneId, "#" + match);
         }
 
         public static SimpleSelector AttrAvailable(String match, String prefix = null)
@@ -83,7 +83,7 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, "|", match);
+                front = String.Concat(prefix, Keywords.Pipe, match);
                 match = Bundle(prefix, match);
             }
 
@@ -96,12 +96,12 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, "|", match);
+                front = String.Concat(prefix, Keywords.Pipe, match);
                 match = Bundle(prefix, match);
             }
 
             var code = String.Format("[{0}={1}]", front, value.CssString());
-            return new SimpleSelector(_ => _.GetAttribute(match) == value, Priority.OneClass, code);
+            return new SimpleSelector(_ => _.GetAttribute(match).Is(value), Priority.OneClass, code);
         }
 
         public static SimpleSelector AttrNotMatch(String match, String value, String prefix = null)
@@ -110,7 +110,7 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, "|", match);
+                front = String.Concat(prefix, Keywords.Pipe, match);
                 match = Bundle(prefix, match);
             }
 
@@ -124,7 +124,7 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, "|", match);
+                front = String.Concat(prefix, Keywords.Pipe, match);
                 match = Bundle(prefix, match);
             }
 
@@ -139,7 +139,7 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, "|", match);
+                front = String.Concat(prefix, Keywords.Pipe, match);
                 match = Bundle(prefix, match);
             }
 
@@ -154,7 +154,7 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, "|", match);
+                front = String.Concat(prefix, Keywords.Pipe, match);
                 match = Bundle(prefix, match);
             }
 
@@ -169,7 +169,7 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, "|", match);
+                front = String.Concat(prefix, Keywords.Pipe, match);
                 match = Bundle(prefix, match);
             }
 
@@ -184,7 +184,7 @@
 
             if (!String.IsNullOrEmpty(prefix))
             {
-                front = String.Concat(prefix, "|", match);
+                front = String.Concat(prefix, Keywords.Pipe, match);
                 match = Bundle(prefix, match);
             }
 
@@ -227,7 +227,7 @@
 
         static String Bundle(String prefix, String match)
         {
-            return prefix.Is("*") ? match : String.Concat(prefix, ":", match);
+            return prefix.Is(Keywords.Asterisk) ? match : String.Concat(prefix, ":", match);
         }
 
         #endregion

@@ -1,10 +1,11 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Parser.Css;
 
     sealed class StartsWithValueConverter : IValueConverter
     {
@@ -40,22 +41,21 @@
         {
             var enumerator = values.GetEnumerator();
 
-            while (enumerator.MoveNext())
+            while (enumerator.MoveNext() && enumerator.Current.Type == CssTokenType.Whitespace)
             {
-                if (enumerator.Current.Type != CssTokenType.Whitespace)
-                    break;
+                //Empty on purpose.
             }
 
-            if (enumerator.Current.Type == _type && enumerator.Current.Data.Equals(_data, StringComparison.OrdinalIgnoreCase))
+            if (enumerator.Current.Type == _type && enumerator.Current.Data.Isi(_data))
             {
                 var list = new List<CssToken>();
 
                 while (enumerator.MoveNext())
                 {
-                    if (enumerator.Current.Type == CssTokenType.Whitespace && list.Count == 0)
-                        continue;
-
-                    list.Add(enumerator.Current);
+                    if (enumerator.Current.Type != CssTokenType.Whitespace || list.Count != 0)
+                    {
+                        list.Add(enumerator.Current);
+                    }
                 }
 
                 return list;

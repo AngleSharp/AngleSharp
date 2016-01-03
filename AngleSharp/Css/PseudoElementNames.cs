@@ -36,5 +36,10 @@
         /// The content pseudo element.
         /// </summary>
         public static readonly String Content = "content";
+
+        /// <summary>
+        /// The separating double-colon.
+        /// </summary>
+        public static readonly String Separator = "::";
     }
 }

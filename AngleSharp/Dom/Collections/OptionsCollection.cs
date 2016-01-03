@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Collections
 {
     using AngleSharp.Dom.Html;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -39,16 +40,20 @@
         {
             get 
             {
-                if (String.IsNullOrEmpty(name))
-                    return null;
-
-                foreach (var option in _options)
+                if (!String.IsNullOrEmpty(name))
                 {
-                    if (option.Id == name)
-                        return option;
+                    foreach (var option in _options)
+                    {
+                        if (option.Id.Is(name))
+                        {
+                            return option;
+                        }
+                    }
+
+                    return _parent.Children[name] as IHtmlOptionElement;
                 }
 
-                return _parent.Children[name] as IHtmlOptionElement;
+                return null;
             }
         }
 

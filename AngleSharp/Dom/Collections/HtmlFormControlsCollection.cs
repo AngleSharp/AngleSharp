@@ -24,7 +24,9 @@
         public HtmlFormControlsCollection(IElement form, IElement root = null)
         {
             if (root == null)
+            {
                 root = form.Owner.DocumentElement;
+            }
 
             _elements = root.GetElements<HtmlFormControlElement>().Where(m =>
             {
@@ -32,8 +34,10 @@
                 {
                     var input = m as IHtmlInputElement;
 
-                    if (input == null || input.Type != InputTypeNames.Image)
+                    if (input == null || !input.Type.Is(InputTypeNames.Image))
+                    {
                         return true;
+                    }
                 }
 
                 return false;

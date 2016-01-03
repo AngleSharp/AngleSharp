@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     sealed class PeriodicValueConverter : IValueConverter
     {
@@ -24,14 +24,18 @@
             var options = new IPropertyValue[4];
 
             if (list.Count == 0)
+            {
                 return null;
+            }
 
-            for (int i = 0; i < options.Length && list.Count != 0; i++)
+            for (var i = 0; i < options.Length && list.Count != 0; i++)
             {
                 options[i] = _converter.VaryStart(list);
 
                 if (options[i] == null)
+                {
                     return null;
+                }
             }
 
             return list.Count == 0 ? new PeriodicValue(options, value, _labels) : null;
@@ -81,11 +85,11 @@
                     var bottom = _bottom.CssText;
                     var left = _left.CssText;
 
-                    if (right == left)
+                    if (right.Is(left))
                     {
-                        if (top == bottom)
+                        if (top.Is(bottom))
                         {
-                            if (right == top)
+                            if (right.Is(top))
                             {
                                 return new[] { top };
                             }
@@ -112,14 +116,22 @@
 
             public CssValue ExtractFor(String name)
             {
-                if (name == _labels[0])
+                if (name.Is(_labels[0]))
+                {
                     return _top.Original;
-                else if (name == _labels[1])
+                }
+                else if (name.Is(_labels[1]))
+                {
                     return _right.Original;
-                else if (name == _labels[2])
+                }
+                else if (name.Is(_labels[2]))
+                {
                     return _bottom.Original;
-                else if (name == _labels[3])
+                }
+                else if (name.Is(_labels[3]))
+                {
                     return _left.Original;
+                }
 
                 return null;
             }
