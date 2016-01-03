@@ -456,8 +456,8 @@
         public TextPosition CreateRules(CssStyleSheet sheet)
         {
             var token = NextToken();
-            CollectTrivia(ref token);
             _nodes.Push(sheet);
+            CollectTrivia(ref token);
 
             while (token.Type != CssTokenType.EndOfFile)
             {
@@ -556,8 +556,8 @@
         public TextPosition FillDeclarations(CssStyleDeclaration style)
         {
             var token = NextToken();
-            CollectTrivia(ref token);
             _nodes.Push(style);
+            CollectTrivia(ref token);
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketClose))
             {
