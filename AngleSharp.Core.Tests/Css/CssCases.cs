@@ -4,6 +4,7 @@ namespace AngleSharp.Core.Tests.Css
     using AngleSharp.Parser.Css;
     using NUnit.Framework;
     using System;
+    using System.Linq;
 
 	[TestFixture]
 	public class CssCasesTests : CssConstructionFunctions
@@ -1034,6 +1035,21 @@ lack; }");
         {
             var sheet = ParseSheet("h1 { background-image: \\000075\r\r\nrl('foo') }");
             Assert.AreEqual("u\nrl(\"foo\")", ((ICssStyleRule)sheet.Rules[0]).Style["background-image"]);
+        }
+
+        [Test]
+        public void StyleSheetWithInitialCommentShouldWorkWithTriviaActive()
+        {
+            var options = new CssParserOptions
+            {
+                IsStoringTrivia = true
+            };
+            var parser = new CssParser(options);
+            var document = parser.ParseStylesheet(@"/* Comment at the start */ body { font-size: 10pt; }");
+            var comment = document.Children.First();
+
+            Assert.IsInstanceOf<ICssComment>(comment);
+            Assert.AreEqual(" Comment at the start ", ((ICssComment)comment).Data);
         }
     }
 }
