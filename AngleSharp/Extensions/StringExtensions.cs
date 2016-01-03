@@ -20,6 +20,20 @@
     static class StringExtensions
     {
         /// <summary>
+        /// Checks if the given string has a certain character at a specific
+        /// index. The index is optional (default is 0).
+        /// </summary>
+        /// <param name="value">The value to examine.</param>
+        /// <param name="chr">The character to look for.</param>
+        /// <param name="index">The index of the character.</param>
+        /// <returns>True if the value has the char, otherwise false.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean Has(this String value, Char chr, Int32 index = 0)
+        {
+            return value != null && value.Length > index && value[index] == chr;
+        }
+
+        /// <summary>
         /// Retrieves a string describing the compatibility mode of the given quirksmode.
         /// </summary>
         /// <param name="mode">A specific quriks mode.</param>

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Diagnostics;
 
@@ -78,7 +79,7 @@
 
                 if (value != null)
                 {
-                    if (value.Length > 0 && value[0] == Symbols.Num)
+                    if (value.Has(Symbols.Num))
                     {
                         value = value.Substring(1);
                     }

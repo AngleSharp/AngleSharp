@@ -65,7 +65,7 @@
 
             if (!String.IsNullOrEmpty(usemap))
             {
-                var name = usemap[0] == '#' ? '#' + Name : Name;
+                var name = usemap.Has(Symbols.Num) ? "#" + Name : Name;
                 return usemap.Is(name);
             }
 
