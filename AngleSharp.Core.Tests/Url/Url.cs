@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests
 {
     using NUnit.Framework;
 
@@ -70,6 +70,16 @@
             Assert.IsFalse(result.IsInvalid);
             Assert.AreEqual(address, result.Href);
             Assert.AreEqual("example-domain.com", result.HostName);
+        }
+
+        [Test]
+        public void UrlQueryWithEmDashCharacter()
+        {
+            var address = "http://test/?hi—there";
+            var result = new Url(address);
+            Assert.IsFalse(result.IsInvalid);
+            Assert.AreEqual("http://test/?hi%E2%80%94there", result.Href);
+            Assert.AreEqual("hi%E2%80%94there", result.Query);
         }
     }
 }
