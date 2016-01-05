@@ -897,7 +897,7 @@
                 }
                 else
                 {
-                    buffer.Append(Symbols.Percent).Append(((Byte)c).ToString("X2"));
+                    index += Utf8PercentEncode(buffer, input, index);
                 }
 
                 index++;
