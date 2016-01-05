@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests
 {
     using AngleSharp.Network;
     using NUnit.Framework;
