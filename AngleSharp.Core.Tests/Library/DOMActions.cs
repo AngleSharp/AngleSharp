@@ -125,13 +125,11 @@
             var othree = document.CreateElement<IHtmlInputElement>();
             othree.Name = "03";
             form.AppendChild(othree);
-            Assert.IsNull(form.Elements[-1]);
             Assert.IsNull(form.Elements["-1"]);
             Assert.AreEqual(two, form.Elements[0]);
             Assert.AreEqual(othree, form.Elements[1]);
-            Assert.IsNull(form.Elements[2]);
+            Assert.AreEqual(2, form.Elements.Length);
             Assert.AreEqual(two, form.Elements["2"]);
-            Assert.IsNull(form.Elements[03]);
             Assert.AreEqual(othree, form.Elements["03"]);
             CollectionAssert.AreEqual(new IHtmlElement[] { two, othree }, form.Elements.ToArray());
             form.RemoveChild(two);
