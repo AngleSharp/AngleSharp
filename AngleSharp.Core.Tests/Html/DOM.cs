@@ -521,7 +521,7 @@
         {
             var context = BrowsingContext.New(new Configuration().WithCss());
             var document = new HtmlDocument(context);
-            var element = new HtmlSpanElement(document);
+            var element = document.CreateElement<IHtmlSpanElement>();
             var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
             element.Style.CssText = text;
             Assert.AreEqual(text, element.GetAttribute("style"));
