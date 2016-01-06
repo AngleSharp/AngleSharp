@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Dom.Collections;
-    using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
@@ -14,7 +13,6 @@
     {
         #region Fields
 
-        ICssStyleDeclaration _style;
         StringMap _dataset;
         IHtmlMenuElement _menu;
         SettableTokenList _dropZone;
@@ -23,9 +21,6 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a standard HTML element.
-        /// </summary>
         public HtmlElement(Document owner, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, Combine(prefix, localName), localName, prefix, NamespaceNames.HtmlUri, flags | NodeFlags.HtmlMember)
         {
@@ -35,18 +30,12 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets if the element is hidden.
-        /// </summary>
         public Boolean IsHidden
         {
             get { return this.HasOwnAttribute(AttributeNames.Hidden); }
             set { this.SetOwnAttribute(AttributeNames.Hidden, value ? String.Empty : null); }
         }
 
-        /// <summary>
-        /// Gets or sets the assigned context menu.
-        /// </summary>
         public IHtmlMenuElement ContextMenu
         {
             get
@@ -56,7 +45,9 @@
                     var id = this.GetOwnAttribute(AttributeNames.ContextMenu);
 
                     if (!String.IsNullOrEmpty(id))
+                    {
                         return Owner.GetElementById(id) as IHtmlMenuElement;
+                    }
                 }
 
                 return _menu;
@@ -64,9 +55,6 @@
             set { _menu = value; }
         }
 
-        /// <summary>
-        /// Gets the dropzone for this element.
-        /// </summary>
         public ISettableTokenList DropZone
         {
             get
@@ -81,129 +69,86 @@
             }
         }
 
-        /// <summary>
-        /// Gets or sets if the element is draggable.
-        /// </summary>
         public Boolean IsDraggable
         {
             get { return this.GetOwnAttribute(AttributeNames.Draggable).ToBoolean(false); }
             set { this.SetOwnAttribute(AttributeNames.Draggable, value.ToString()); }
         }
 
-        /// <summary>
-        /// Gets or sets the access key assigned to the element.
-        /// </summary>
         public String AccessKey
         {
             get { return this.GetOwnAttribute(AttributeNames.AccessKey) ?? String.Empty; }
             set { this.SetOwnAttribute(AttributeNames.AccessKey, value); }
         }
 
-        /// <summary>
-        /// Gets the element's assigned access key.
-        /// </summary>
         public String AccessKeyLabel
         {
             get { return AccessKey; }
         }
 
-        /// <summary>
-        /// Gets or sets the value of the lang attribute.
-        /// </summary>
         public String Language
         {
             get { return this.GetOwnAttribute(AttributeNames.Lang) ?? GetDefaultLanguage(); }
             set { this.SetOwnAttribute(AttributeNames.Lang, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the value of the title attribute.
-        /// </summary>
         public String Title
         {
             get { return this.GetOwnAttribute(AttributeNames.Title); }
             set { this.SetOwnAttribute(AttributeNames.Title, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the value of the dir attribute.
-        /// </summary>
         public String Direction
         {
             get { return this.GetOwnAttribute(AttributeNames.Dir); }
             set { this.SetOwnAttribute(AttributeNames.Dir, value); }
         }
 
-        /// <summary>
-        /// Gets or sets if spell-checking is activated.
-        /// </summary>
         public Boolean IsSpellChecked
         {
             get { return this.GetOwnAttribute(AttributeNames.Spellcheck).ToBoolean(false); }
             set { this.SetOwnAttribute(AttributeNames.Spellcheck, value.ToString()); }
         }
 
-        /// <summary>
-        /// Gets or sets the position of the element in the tabbing order.
-        /// </summary>
         public Int32 TabIndex
         {
             get { return this.GetOwnAttribute(AttributeNames.TabIndex).ToInteger(0); }
             set { this.SetOwnAttribute(AttributeNames.TabIndex, value.ToString()); }
         }
 
-        /// <summary>
-        /// Gets access to all the custom data attributes (data-*) set on the element. It is a map of DOMString,
-        /// one entry for each custom data attribute.
-        /// </summary>
         public IStringMap Dataset
         {
             get { return _dataset ?? (_dataset = new StringMap("data-", this)); }
         }
 
-        /// <summary>
-        /// Gets an object representing the declarations of an element's style
-        /// attributes.
-        /// </summary>
-        public ICssStyleDeclaration Style
-        {
-            get { return _style ?? (_style = CreateStyle()); }
-        }
-
-        /// <summary>
-        /// Gets or sets whether or not the element is editable. This enumerated
-        /// attribute can have the values true, false and inherited.
-        /// </summary>
         public String ContentEditable
         {
             get { return this.GetOwnAttribute(AttributeNames.ContentEditable); }
             set { this.SetOwnAttribute(AttributeNames.ContentEditable, value); }
         }
 
-        /// <summary>
-        /// Gets if the element is currently contenteditable.
-        /// </summary>
         public Boolean IsContentEditable
         {
             get
             {
                 var value = ContentEditable.ToEnum(ContentEditableMode.Inherited);
 
-                if (value == ContentEditableMode.True)
-                    return true;
-                
-                var parent = ParentElement as IHtmlElement;
+                if (value != ContentEditableMode.True)
+                {
+                    var parent = ParentElement as IHtmlElement;
 
-                if (value == ContentEditableMode.Inherited && parent != null)
-                    return parent.IsContentEditable;
+                    if (value == ContentEditableMode.Inherited && parent != null)
+                    {
+                        return parent.IsContentEditable;
+                    }
 
-                return false;
+                    return false;
+                }
+
+                return true;
             }
         }
 
-        /// <summary>
-        /// Gets or sets if the element should be translated.
-        /// </summary>
         public Boolean IsTranslated
         {
             get { return this.GetOwnAttribute(AttributeNames.Translate).ToEnum(SimpleChoice.Yes) == SimpleChoice.Yes; }
@@ -242,11 +187,6 @@
             //Only certain elements can be focused
         }
 
-        /// <summary>
-        /// Returns a duplicate of the node on which this method was called.
-        /// </summary>
-        /// <param name="deep">Optional value: true if the children of the node should also be cloned, or false to clone only the specified node.</param>
-        /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
             var node = Factory.HtmlElements.Create(Owner, LocalName, Prefix);
@@ -272,10 +212,11 @@
             }
         }
 
-        /// <summary>
-        /// Gets the assigned form if any (use only on selected elements).
-        /// </summary>
-        /// <returns>The parent form OR assigned form if any.</returns>
+        protected Boolean IsClickedCancelled()
+        {
+            return this.Fire<MouseEvent>(m => m.Init(EventNames.Click, true, true, Owner.DefaultView, 0, 0, 0, 0, 0, false, false, false, false, MouseButton.Primary, this));
+        }
+
         protected IHtmlFormElement GetAssignedForm()
         {
             var parent = Parent as INode;
@@ -305,30 +246,10 @@
 
         #region Helpers
 
-        void UpdateStyle(String value)
-        {
-            var bindable = _style as IBindable;
-
-            if (String.IsNullOrEmpty(value))
-            {
-                RemoveAttribute(AttributeNames.Style);
-            }
-
-            if (bindable != null)
-            {
-                bindable.Update(value);
-            }
-        }
-
         String GetDefaultLanguage()
         {
             var parent = ParentElement as IHtmlElement;
             return parent != null ? parent.Language : Owner.Options.GetLanguage();
-        }
-
-        protected Boolean IsClickedCancelled()
-        {
-            return this.Fire<MouseEvent>(m => m.Init(EventNames.Click, true, true, Owner.DefaultView, 0, 0, 0, 0, 0, false, false, false, false, MouseButton.Primary, this));
         }
 
         static String Combine(String prefix, String localName)

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Dom.Css;
     using System;
 
     /// <summary>
@@ -9,7 +8,7 @@
     /// implement this interface, other implement it via an interface that inherit it.
     /// </summary>
     [DomName("HTMLElement")]
-    public interface IHtmlElement : IElement, IElementCssInlineStyle
+    public interface IHtmlElement : IElement
     {
         /// <summary>
         /// Gets or sets the value of the lang attribute.
