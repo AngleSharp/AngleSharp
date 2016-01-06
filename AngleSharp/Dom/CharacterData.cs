@@ -57,18 +57,22 @@
             get
             {
                 var parent = Parent;
-                
-                if (parent == null)
-                    return null;
 
-                var found = false;
-
-                for (int i = parent.ChildNodes.Length - 1; i >= 0; i--)
+                if (parent != null)
                 {
-                    if (parent.ChildNodes[i] == this)
-                        found = true;
-                    else if (found && parent.ChildNodes[i] is IElement)
-                        return (IElement)parent.ChildNodes[i];
+                    var found = false;
+
+                    for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
+                    {
+                        if (Object.ReferenceEquals(parent.ChildNodes[i], this))
+                        {
+                            found = true;
+                        }
+                        else if (found && parent.ChildNodes[i] is IElement)
+                        {
+                            return (IElement)parent.ChildNodes[i];
+                        }
+                    }
                 }
 
                 return null;
@@ -86,18 +90,22 @@
             {
                 var parent = Parent;
                 
-                if (parent == null)
-                    return null;
-
-                var n = parent.ChildNodes.Length;
-                var found = false;
-
-                for (int i = 0; i < n; i++)
+                if (parent != null)
                 {
-                    if (parent.ChildNodes[i] == this)
-                        found = true;
-                    else if (found && parent.ChildNodes[i] is IElement)
-                        return (IElement)parent.ChildNodes[i];
+                    var n = parent.ChildNodes.Length;
+                    var found = false;
+
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (Object.ReferenceEquals(parent.ChildNodes[i], this))
+                        {
+                            found = true;
+                        }
+                        else if (found && parent.ChildNodes[i] is IElement)
+                        {
+                            return (IElement)parent.ChildNodes[i];
+                        }
+                    }
                 }
 
                 return null;

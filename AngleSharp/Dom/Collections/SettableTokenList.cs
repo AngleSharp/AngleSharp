@@ -9,10 +9,6 @@
     {
         #region ctor
 
-        /// <summary>
-        /// Creates a new list of tokens.
-        /// </summary>
-        /// <param name="value">The initial value, if any.</param>
         internal SettableTokenList(String value)
             : base(value)
         {
@@ -22,9 +18,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the value of the token list.
-        /// </summary>
         public String Value
         {
             get { return ToString(); }

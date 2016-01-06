@@ -50,6 +50,32 @@
         }
 
         /// <summary>
+        /// Gets an item from the enumerable by its index. Throws an exception
+        /// if the provided index is invalid.
+        /// </summary>
+        /// <typeparam name="T">The type of enumerable.</typeparam>
+        /// <param name="items">The items to iterate over.</param>
+        /// <param name="index">The index to look for.</param>
+        /// <returns>The item at the specified index.</returns>
+        public static T GetItemByIndex<T>(this IEnumerable<T> items, Int32 index)
+        {
+            if (index >= 0)
+            {
+                var i = 0;
+
+                foreach (var item in items)
+                {
+                    if (i++ == index)
+                    {
+                        return item;
+                    }
+                }
+            }
+
+            throw new ArgumentOutOfRangeException("index");
+        }
+
+        /// <summary>
         /// Gets an element by its ID.
         /// </summary>
         /// <param name="children">The nodelist to investigate.</param>

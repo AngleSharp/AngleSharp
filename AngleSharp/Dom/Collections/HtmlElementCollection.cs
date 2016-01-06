@@ -19,24 +19,28 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new live collection for the given parent.
-        /// </summary>
-        /// <param name="parent">The parent of this collection.</param>
-        /// <param name="deep">[Optional] Determines if recursive search is activated.</param>
-        /// <param name="predicate">[Optional] The predicate function for picking elements.</param>
         public HtmlElementCollection(INode parent, Boolean deep = true, Predicate<IElement> predicate = null)
         {
             _elements = parent.GetElements<IElement>(deep, predicate);
         }
 
-        /// <summary>
-        /// Creates a new list of elements.
-        /// </summary>
-        /// <param name="elements">The elements to use.</param>
         public HtmlElementCollection(IEnumerable<IElement> elements)
         {
             _elements = elements;
+        }
+
+        #endregion
+
+        #region Index
+
+        public IElement this[Int32 index]
+        {
+            get { return _elements.GetItemByIndex(index); }
+        }
+
+        public IElement this[String id]
+        {
+            get { return _elements.GetElementById(id); }
         }
 
         #endregion
@@ -50,21 +54,7 @@
 
         #endregion
 
-        #region Index
-
-        public IElement this[Int32 index]
-        {
-            get { return index >= 0 ? _elements.Skip(index).FirstOrDefault() : null; }
-        }
-
-        public IElement this[String id]
-        {
-            get { return _elements.GetElementById(id); }
-        }
-
-        #endregion
-
-        #region Methods
+        #region IEnumerable Implementation
 
         public IEnumerator<IElement> GetEnumerator()
         {

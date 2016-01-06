@@ -74,10 +74,14 @@
             do
             {
                 if (!beforeNode)
+                {
                     node = _iterator.SkipWhile(m => m != node).Skip(1).FirstOrDefault();
+                }
 
                 if (node == null)
+                {
                     return null;
+                }
 
                 beforeNode = false;
             }
@@ -96,10 +100,14 @@
             do
             {
                 if (beforeNode)
+                {
                     node = _iterator.TakeWhile(m => m != node).LastOrDefault();
+                }
 
                 if (node == null)
+                {
                     return null;
+                }
 
                 beforeNode = true;
             }

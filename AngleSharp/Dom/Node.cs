@@ -152,10 +152,6 @@
 
         #region Internal Properties
 
-        /// <summary>
-        /// Gets the node immediately preceding this node's parent's list of
-        /// nodes, null if the specified node is the first in that list.
-        /// </summary>
         internal Node PreviousSibling
         {
             get
@@ -177,10 +173,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets the node immediately following this node's parent's list of
-        /// nodes, or null if the current node is the last node in that list.
-        /// </summary>
         internal Node NextSibling
         {
             get
@@ -202,52 +194,33 @@
             }
         }
 
-        /// <summary>
-        /// Gets the first child node of this node.
-        /// </summary>
         internal Node FirstChild
         {
             get { return _children.Length > 0 ? _children[0] : null; }
         }
 
-        /// <summary>
-        /// Gets the last child node of this node.
-        /// </summary>
         internal Node LastChild
         {
             get { return _children.Length > 0 ? _children[_children.Length - 1] : null; }
         }
 
-        /// <summary>
-        /// Gets the flags of this node.
-        /// </summary>
         internal NodeFlags Flags
         {
             get { return _flags; }
         }
 
-        /// <summary>
-        /// Gets or sets the children of this node.
-        /// </summary>
         internal NodeList ChildNodes
         {
             get { return _children; }
             set { _children = value; }
         }
 
-        /// <summary>
-        /// Gets the parent node of this node, which is either an Element node,
-        /// a Document node, or a DocumentFragment node.
-        /// </summary>
         internal Node Parent
         {
             get { return _parent; }
             set { _parent = value; }
         }
 
-        /// <summary>
-        /// Gets the owner document of the node.
-        /// </summary>
         internal Document Owner
         {
             get
@@ -286,10 +259,6 @@
 
         #region Internal Methods
 
-        /// <summary>
-        /// Appends the given characters to the node.
-        /// </summary>
-        /// <param name="s">The characters to append.</param>
         internal void AppendText(String s)
         {
             var lastChild = LastChild as TextNode;
@@ -304,11 +273,6 @@
             }
         }
 
-        /// <summary>
-        /// Inserts the given character in the node.
-        /// </summary>
-        /// <param name="index">The index where to insert.</param>
-        /// <param name="s">The characters to append.</param>
         internal void InsertText(Int32 index, String s)
         {
             if (index > 0 && index <= _children.Length && _children[index - 1].NodeType == NodeType.Text)
@@ -624,8 +588,10 @@
                 document.AdoptNode(node);
             }
 
-            var removedNodes = new NodeList(_children);
+            var removedNodes = new NodeList();
             var addedNodes = new NodeList();
+
+            removedNodes.AddRange(_children);
             
             if (node != null)
             {
@@ -729,7 +695,7 @@
                 document.QueueMutation(MutationRecord.ChildList(
                     target: this,
                     addedNodes: addedNodes,
-                    previousSibling: _children[n - 1],
+                    previousSibling: n > 0 ? _children[n - 1] : null,
                     nextSibling: referenceElement));
             }
 

@@ -19,13 +19,23 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new live collection for the given document.
-        /// </summary>
-        /// <param name="document">The parent of this collection.</param>
         public HtmlAllCollection(IDocument document)
         {
             _elements = document.GetElements<IElement>();
+        }
+
+        #endregion
+
+        #region Index
+
+        public IElement this[Int32 index]
+        {
+            get { return _elements.GetItemByIndex(index); }
+        }
+
+        public IElement this[String id]
+        {
+            get { return _elements.GetElementById(id); }
         }
 
         #endregion
@@ -39,21 +49,7 @@
 
         #endregion
 
-        #region Index
-
-        public IElement this[Int32 index]
-        {
-            get { return index >= 0 ? _elements.Skip(index).FirstOrDefault() : null; }
-        }
-
-        public IElement this[String id]
-        {
-            get { return _elements.GetElementById(id); }
-        }
-
-        #endregion
-
-        #region Methods
+        #region IEnumerable Implementation
 
         public IEnumerator<IElement> GetEnumerator()
         {

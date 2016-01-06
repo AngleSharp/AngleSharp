@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -25,6 +26,20 @@
 
         #endregion
 
+        #region Index
+
+        public CssRule this[Int32 index]
+        {
+            get { return Nodes.GetItemByIndex(index); }
+        }
+
+        ICssRule ICssRuleList.this[Int32 index]
+        {
+            get { return this[index]; }
+        }
+
+        #endregion
+
         #region Properties
 
         public Boolean HasDeclarativeRules
@@ -42,36 +57,26 @@
             get { return Nodes.Count(); }
         }
 
-        public CssRule this[Int32 index]
-        {
-            get { return Nodes.Skip(index).FirstOrDefault(); }
-        }
-
-        ICssRule ICssRuleList.this[Int32 index]
-        {
-            get { return this[index]; }
-        }
-
         #endregion
 
         #region Internal Methods
 
         internal void RemoveAt(Int32 index)
         {
-            var rule = this[index];
-            
-            if (rule == null)
+            if (index < 0 || index >= Length)
             {
                 throw new DomException(DomError.IndexSizeError);
             }
-            else if (rule.Type == CssRuleType.Namespace && HasDeclarativeRules)
+
+            var rule = this[index];
+
+
+            if (rule.Type == CssRuleType.Namespace && HasDeclarativeRules)
             {
                 throw new DomException(DomError.InvalidState);
             }
-            else
-            {
-                Remove(rule);
-            }
+
+            Remove(rule);
         }
 
         internal void Remove(CssRule rule)
@@ -92,13 +97,17 @@
             {
                 throw new DomException(DomError.Syntax);
             }
-            else if (index > Length)
+            else if (index > Length || index < 0)
             {
                 throw new DomException(DomError.IndexSizeError);
             }
             else if (rule.Type == CssRuleType.Namespace && HasDeclarativeRules)
             {
                 throw new DomException(DomError.InvalidState);
+            }
+            else if (index == Length)
+            {
+                _parent.AppendChild(rule);
             }
             else
             {
