@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Collections
 {
     using AngleSharp.Extensions;
-    using System;
 
     /// <summary>
     /// The treewalker for walking through the DOM tree.
@@ -89,7 +88,9 @@
                 }
 
                 if (node == _root)
+                {
                     break;
+                }
 
                 result = Check(node);
 
@@ -130,12 +131,16 @@
                 }
 
                 if (node == _root)
+                {
                     break;
+                }
 
                 var parent = node.Parent;
 
                 if (parent == null)
+                {
                     break;
+                }
 
                 if (Check(node) == FilterResult.Accept)
                 {
@@ -202,7 +207,10 @@
                     var parent = node.Parent;
 
                     if (parent == null || parent == _root || parent == _current)
-                        return null;
+                    {
+                        node = null;
+                        break;
+                    }
 
                     node = parent;
                 }
@@ -248,7 +256,10 @@
                     var parent = node.Parent;
 
                     if (parent == null || parent == _root || parent == _current)
-                        return null;
+                    {
+                        node = null;
+                        break;
+                    }
 
                     node = parent;
                 }
@@ -261,34 +272,38 @@
         {
             var node = _current;
 
-            if (node == _root)
-                return null;
-
-            while (node != null)
+            if (node != _root)
             {
-                var sibling = node.PreviousSibling;
-
-                while (sibling != null)
+                while (node != null)
                 {
-                    node = sibling;
-                    var result = Check(node);
+                    var sibling = node.PreviousSibling;
 
-                    if (result == FilterResult.Accept)
+                    while (sibling != null)
                     {
-                        _current = node;
-                        return node;
+                        node = sibling;
+                        var result = Check(node);
+
+                        if (result == FilterResult.Accept)
+                        {
+                            _current = node;
+                            return node;
+                        }
+
+                        sibling = node.LastChild;
+
+                        if (result == FilterResult.Reject || sibling == null)
+                        {
+                            sibling = node.PreviousSibling;
+                        }
                     }
 
-                    sibling = node.LastChild;
+                    node = node.Parent;
 
-                    if (result == FilterResult.Reject || sibling == null)
-                        sibling = node.PreviousSibling;
+                    if (node == null || node == _root || Check(node) == FilterResult.Accept)
+                    {
+                        break;
+                    }
                 }
-
-                node = node.Parent;
-
-                if (node == null || node == _root || Check(node) == FilterResult.Accept)
-                    break;
             }
 
             return null;
@@ -298,34 +313,38 @@
         {
             var node = _current;
 
-            if (node == _root)
-                return null;
-
-            while (node != null)
+            if (node != _root)
             {
-                var sibling = node.NextSibling;
-
-                while (sibling != null)
+                while (node != null)
                 {
-                    node = sibling;
-                    var result = Check(node);
+                    var sibling = node.NextSibling;
 
-                    if (result == FilterResult.Accept)
+                    while (sibling != null)
                     {
-                        _current = node;
-                        return node;
+                        node = sibling;
+                        var result = Check(node);
+
+                        if (result == FilterResult.Accept)
+                        {
+                            _current = node;
+                            return node;
+                        }
+
+                        sibling = node.FirstChild;
+
+                        if (result == FilterResult.Reject || sibling == null)
+                        {
+                            sibling = node.NextSibling;
+                        }
                     }
 
-                    sibling = node.FirstChild;
+                    node = node.Parent;
 
-                    if (result == FilterResult.Reject || sibling == null)
-                        sibling = node.NextSibling;
+                    if (node == null || node == _root || Check(node) == FilterResult.Accept)
+                    {
+                        break;
+                    }
                 }
-
-                node = node.Parent;
-
-                if (node == null || node == _root || Check(node) == FilterResult.Accept)
-                    break;
             }
 
             return null;
@@ -338,7 +357,9 @@
         FilterResult Check(INode node)
         {
             if (!_settings.Accepts(node))
+            {
                 return FilterResult.Skip;
+            }
 
             return _filter(node);
         }

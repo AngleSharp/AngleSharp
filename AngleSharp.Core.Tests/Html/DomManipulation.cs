@@ -184,7 +184,7 @@
             var head = doc.GetElementsByTagName("head")[0];
             Assert.IsNotNull(head);
             head.Parent.RemoveChild(head);
-            Assert.IsNull(doc.GetElementsByTagName("head")[0]);
+            Assert.AreEqual(0, doc.GetElementsByTagName("head").Length);
             doc.Title = "FAIL";
             Assert.AreEqual("", doc.Title);
         }

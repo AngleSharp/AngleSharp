@@ -40,5 +40,10 @@
         /// True if the file was part of the list, otherwise false.
         /// </returns>
         Boolean Remove(IFile file);
+
+        /// <summary>
+        /// Resets the list of file entries.
+        /// </summary>
+        void Clear();
     }
 }

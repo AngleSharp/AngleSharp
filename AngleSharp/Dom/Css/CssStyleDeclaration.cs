@@ -51,6 +51,20 @@
 
         #endregion
 
+        #region Index
+
+        public String this[Int32 index]
+        {
+            get { return Declarations.GetItemByIndex(index).Name; }
+        }
+
+        public String this[String name]
+        {
+            get { return GetPropertyValue(name); }
+        }
+
+        #endregion
+
         #region General Properties
 
         public IEnumerable<CssProperty> Declarations
@@ -82,16 +96,6 @@
         public ICssRule Parent
         {
             get { return _parent; }
-        }
-
-        public String this[Int32 index]
-        {
-            get { return Declarations.Skip(index).Select(m => m.Name).FirstOrDefault(); }
-        }
-
-        public String this[String name]
-        {
-            get { return GetPropertyValue(name); }
         }
 
         #endregion
