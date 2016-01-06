@@ -14,7 +14,7 @@
         /// <summary>
         /// Gets a zero pixel length value.
         /// </summary>
-        public static readonly Length Zero = new Length();
+        public static readonly Length Zero = new Length(0f, Unit.Px);
 
         /// <summary>
         /// Gets the half relative length, i.e. 50%.
@@ -66,32 +66,6 @@
         {
             _value = value;
             _unit = unit;
-        }
-
-        #endregion
-
-        #region Operators
-
-        /// <summary>
-        /// Checks the equality of the two given lengths.
-        /// </summary>
-        /// <param name="a">The left length.</param>
-        /// <param name="b">The right length.</param>
-        /// <returns>True if both lengths are equal, otherwise false.</returns>
-        public static Boolean operator ==(Length a, Length b)
-        {
-            return a.Equals(b);
-        }
-
-        /// <summary>
-        /// Checks the inequality of the two given lengths.
-        /// </summary>
-        /// <param name="a">The left length.</param>
-        /// <param name="b">The right length.</param>
-        /// <returns>True if both lengths are not equal, otherwise false.</returns>
-        public static Boolean operator !=(Length a, Length b)
-        {
-            return !a.Equals(b);
         }
 
         #endregion
@@ -159,6 +133,63 @@
                     default: return String.Empty;
                 }
             }
+        }
+
+        #endregion
+
+        #region Comparison
+
+        /// <summary>
+        /// Compares the magnitude of two lengths.
+        /// </summary>
+        public static Boolean operator >=(Length a, Length b)
+        {
+            var result = a.CompareTo(b);
+            return result == 0 || result == 1;
+        }
+
+        /// <summary>
+        /// Compares the magnitude of two lengths.
+        /// </summary>
+        public static Boolean operator >(Length a, Length b)
+        {
+            return a.CompareTo(b) == 1;
+        }
+
+        /// <summary>
+        /// Compares the magnitude of two lengths.
+        /// </summary>
+        public static Boolean operator <=(Length a, Length b)
+        {
+            var result = a.CompareTo(b);
+            return result == 0 || result == -1;
+        }
+
+        /// <summary>
+        /// Compares the magnitude of two lengths.
+        /// </summary>
+        public static Boolean operator <(Length a, Length b)
+        {
+            return a.CompareTo(b) == -1;
+        }
+
+        /// <summary>
+        /// Compares the current length against the given one.
+        /// </summary>
+        /// <param name="other">The length to compare to.</param>
+        /// <returns>The result of the comparison.</returns>
+        public Int32 CompareTo(Length other)
+        {
+            if (_unit == other._unit)
+            {
+                return _value.CompareTo(other._value);
+            }
+            else if (IsAbsolute && other.IsAbsolute)
+            {
+                return ToPixel().CompareTo(other.ToPixel());
+            }
+
+            return 0;
         }
 
         #endregion
@@ -364,18 +395,25 @@
         #region Equality
 
         /// <summary>
-        /// Compares the current length against the given one.
+        /// Checks the equality of the two given lengths.
         /// </summary>
-        /// <param name="other">The length to compare to.</param>
-        /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Length other)
+        /// <param name="a">The left length.</param>
+        /// <param name="b">The right length.</param>
+        /// <returns>True if both lengths are equal, otherwise false.</returns>
+        public static Boolean operator ==(Length a, Length b)
         {
-            if (IsAbsolute && other.IsAbsolute)
-                return ToPixel().CompareTo(other.ToPixel());
-            else if (_unit == other._unit)
-                return _value.CompareTo(other._value);
+            return a.Equals(b);
+        }
 
-            return 0;
+        /// <summary>
+        /// Checks the inequality of the two given lengths.
+        /// </summary>
+        /// <param name="a">The left length.</param>
+        /// <param name="b">The right length.</param>
+        /// <returns>True if both lengths are not equal, otherwise false.</returns>
+        public static Boolean operator !=(Length a, Length b)
+        {
+            return !a.Equals(b);
         }
 
         /// <summary>
@@ -385,8 +423,12 @@
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is Length)
-                return this.Equals((Length)obj);
+            var other = obj as Length?;
+
+            if (other != null)
+            {
+                return Equals(other.Value);
+            }
 
             return false;
         }

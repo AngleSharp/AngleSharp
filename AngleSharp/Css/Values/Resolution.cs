@@ -121,9 +121,13 @@
         public Single ToDotsPerPixel()
         {
             if (_unit == Unit.Dpi)
+            {
                 return _value / 96f;
+            }
             else if (_unit == Unit.Dpcm)
+            {
                 return _value * 127f / (50f * 96f);
+            }
 
             return _value;
         }
@@ -138,9 +142,13 @@
             var value = ToDotsPerPixel();
 
             if (unit == Unit.Dpi)
+            {
                 return value * 96f;
+            }
             else if (unit == Unit.Dpcm)
+            {
                 return value * 50f * 96f / 127f;
+            }
 
             return value;
         }
@@ -203,8 +211,12 @@
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is Resolution)
-                return this.Equals((Resolution)obj);
+            var other = obj as Resolution?;
+
+            if (other != null)
+            {
+                return Equals(other.Value);
+            }
 
             return false;
         }

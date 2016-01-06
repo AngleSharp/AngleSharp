@@ -14,7 +14,7 @@
         /// <summary>
         /// Gets the zero time.
         /// </summary>
-        public static readonly Time Zero = new Time(0f, Unit.S);
+        public static readonly Time Zero = new Time(0f, Unit.Ms);
 
         #endregion
 
@@ -81,16 +81,50 @@
 
         #endregion
 
-        #region Casts
+        #region Comparison
 
         /// <summary>
-        /// Converts the time to the number of milliseconds.
+        /// Compares the magnitude of two times.
         /// </summary>
-        /// <param name="time">The time to convert.</param>
-        /// <returns>The number of milliseconds.</returns>
-        public static explicit operator Single(Time time)
+        public static Boolean operator >=(Time a, Time b)
         {
-            return time.ToMilliseconds();
+            var result = a.CompareTo(b);
+            return result == 0 || result == 1;
+        }
+
+        /// <summary>
+        /// Compares the magnitude of two times.
+        /// </summary>
+        public static Boolean operator >(Time a, Time b)
+        {
+            return a.CompareTo(b) == 1;
+        }
+
+        /// <summary>
+        /// Compares the magnitude of two times.
+        /// </summary>
+        public static Boolean operator <=(Time a, Time b)
+        {
+            var result = a.CompareTo(b);
+            return result == 0 || result == -1;
+        }
+
+        /// <summary>
+        /// Compares the magnitude of two times.
+        /// </summary>
+        public static Boolean operator <(Time a, Time b)
+        {
+            return a.CompareTo(b) == -1;
+        }
+
+        /// <summary>
+        /// Compares the current time against the given one.
+        /// </summary>
+        /// <param name="other">The time to compare to.</param>
+        /// <returns>The result of the comparison.</returns>
+        public Int32 CompareTo(Time other)
+        {
+            return ToMilliseconds().CompareTo(other.ToMilliseconds());
         }
 
         #endregion
@@ -180,13 +214,19 @@
         #region Equality
 
         /// <summary>
-        /// Compares the current time against the given one.
+        /// Checks for equality of two times.
         /// </summary>
-        /// <param name="other">The time to compare to.</param>
-        /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Time other)
+        public static Boolean operator ==(Time a, Time b)
         {
-            return ToMilliseconds().CompareTo(other.ToMilliseconds());
+            return a.Equals(b);
+        }
+
+        /// <summary>
+        /// Checks for inequality of two times.
+        /// </summary>
+        public static Boolean operator !=(Time a, Time b)
+        {
+            return !a.Equals(b);
         }
 
         /// <summary>
@@ -196,8 +236,12 @@
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is Length)
-                return this.Equals((Length)obj);
+            var other = obj as Time?;
+
+            if (other != null)
+            {
+                return Equals(other.Value);
+            }
 
             return false;
         }

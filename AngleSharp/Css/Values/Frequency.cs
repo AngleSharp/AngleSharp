@@ -72,16 +72,50 @@
 
         #endregion
 
-        #region Casts
+        #region Comparison
 
         /// <summary>
-        /// Converts the frequency to a single floating point in Hz.
+        /// Compares the magnitude of two frequencies.
         /// </summary>
-        /// <param name="frequency">The frequency.</param>
-        /// <returns>The float value.</returns>
-        public static explicit operator Single(Frequency frequency)
+        public static Boolean operator >=(Frequency a, Frequency b)
         {
-            return frequency.ToHertz();
+            var result = a.CompareTo(b);
+            return result == 0 || result == 1;
+        }
+
+        /// <summary>
+        /// Compares the magnitude of two frequencies.
+        /// </summary>
+        public static Boolean operator >(Frequency a, Frequency b)
+        {
+            return a.CompareTo(b) == 1;
+        }
+
+        /// <summary>
+        /// Compares the magnitude of two frequencies.
+        /// </summary>
+        public static Boolean operator <=(Frequency a, Frequency b)
+        {
+            var result = a.CompareTo(b);
+            return result == 0 || result == -1;
+        }
+
+        /// <summary>
+        /// Compares the magnitude of two frequencies.
+        /// </summary>
+        public static Boolean operator <(Frequency a, Frequency b)
+        {
+            return a.CompareTo(b) == -1;
+        }
+
+        /// <summary>
+        /// Compares the current frequency against the given one.
+        /// </summary>
+        /// <param name="other">The frequency to compare to.</param>
+        /// <returns>The result of the comparison.</returns>
+        public Int32 CompareTo(Frequency other)
+        {
+            return ToHertz().CompareTo(other.ToHertz());
         }
 
         #endregion
@@ -171,13 +205,19 @@
         #region Equality
 
         /// <summary>
-        /// Compares the current frequency against the given one.
+        /// Checks for equality of two frequencies.
         /// </summary>
-        /// <param name="other">The frequency to compare to.</param>
-        /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Frequency other)
+        public static Boolean operator ==(Frequency a, Frequency b)
         {
-            return ToHertz().CompareTo(other.ToHertz());
+            return a.Equals(b);
+        }
+
+        /// <summary>
+        /// Checks for inequality of two frequencies.
+        /// </summary>
+        public static Boolean operator !=(Frequency a, Frequency b)
+        {
+            return !a.Equals(b);
         }
 
         /// <summary>
@@ -187,8 +227,12 @@
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is Frequency)
-                return this.Equals((Frequency)obj);
+            var other = obj as Frequency?;
+
+            if (other != null)
+            {
+                return Equals(other.Value);
+            }
 
             return false;
         }
