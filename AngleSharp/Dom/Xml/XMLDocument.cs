@@ -13,6 +13,8 @@
     /// </summary>
     sealed class XmlDocument : Document, IXmlDocument
     {
+        #region ctor
+
         internal XmlDocument(IBrowsingContext context, TextSource source)
             : base(context ?? BrowsingContext.New(), source)
         {
@@ -23,6 +25,10 @@
             : this(context, new TextSource(String.Empty))
         {
         }
+
+        #endregion
+
+        #region Properties
 
         public override IElement DocumentElement
         {
@@ -35,6 +41,10 @@
             set { }
         }
 
+        #endregion
+
+        #region Methods
+
         public override INode Clone(Boolean deep = true)
         {
             var node = new XmlDocument(Context, new TextSource(Source.Text));
@@ -43,13 +53,6 @@
             return node;
         }
 
-        /// <summary>
-        /// Loads the document in the provided context from the given response.
-        /// </summary>
-        /// <param name="context">The browsing context.</param>
-        /// <param name="options">The creation options to consider.</param>
-        /// <param name="cancelToken">Token for cancellation.</param>
-        /// <returns>The task that builds the document.</returns>
         internal async static Task<IDocument> LoadAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancelToken)
         {
             var document = new XmlDocument(context, options.Source);
@@ -66,5 +69,7 @@
             evt.FireEnd();
             return document;
         }
+
+        #endregion
     }
 }

@@ -53,6 +53,11 @@
 
         #region Properties
 
+        public ICssStyleDeclaration Style
+        {
+            get { return _host.Style; }
+        }
+
         public IElement AssignedSlot
         {
             get { return _host.AssignedSlot; }

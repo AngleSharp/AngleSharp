@@ -462,8 +462,12 @@
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is Color)
-                return this.Equals((Color)obj);
+            var other = obj as Color?;
+
+            if (other != null)
+            {
+                return Equals(other.Value);
+            }
 
             return false;
         }

@@ -14,7 +14,7 @@
         /// <summary>
         /// The zero angle.
         /// </summary>
-        public static readonly Angle Zero = new Angle();
+        public static readonly Angle Zero = new Angle(0f, Angle.Unit.Rad);
 
         /// <summary>
         /// The 45° angle.
@@ -107,16 +107,50 @@
 
         #endregion
 
-        #region Casts
+        #region Comparison
 
         /// <summary>
-        /// Converts the angle to a number representing radians.
+        /// Compares the magnitude of two angles.
         /// </summary>
-        /// <param name="angle">The angle to convert.</param>
-        /// <returns>The number of radians.</returns>
-        public static explicit operator Single(Angle angle)
+        public static Boolean operator >=(Angle a, Angle b)
         {
-            return angle.ToRadian();
+            var result = a.CompareTo(b);
+            return result == 0 || result == 1;
+        }
+
+        /// <summary>
+        /// Compares the magnitude of two angles.
+        /// </summary>
+        public static Boolean operator >(Angle a, Angle b)
+        {
+            return a.CompareTo(b) == 1;
+        }
+
+        /// <summary>
+        /// Compares the magnitude of two angles.
+        /// </summary>
+        public static Boolean operator <=(Angle a, Angle b)
+        {
+            var result = a.CompareTo(b);
+            return result == 0 || result == -1;
+        }
+
+        /// <summary>
+        /// Compares the magnitude of two angles.
+        /// </summary>
+        public static Boolean operator <(Angle a, Angle b)
+        {
+            return a.CompareTo(b) == -1;
+        }
+
+        /// <summary>
+        /// Compares the current angle against the given one.
+        /// </summary>
+        /// <param name="other">The angle to compare to.</param>
+        /// <returns>The result of the comparison.</returns>
+        public Int32 CompareTo(Angle other)
+        {
+            return ToRadian().CompareTo(other.ToRadian());
         }
 
         #endregion
@@ -206,33 +240,6 @@
         }
 
         /// <summary>
-        /// Computes the tangent of the given angle.
-        /// </summary>
-        /// <returns>The tangent.</returns>
-        public Single Tan()
-        {
-            return (Single)Math.Tan(ToRadian());
-        }
-
-        /// <summary>
-        /// Computes the cosine of the given angle.
-        /// </summary>
-        /// <returns>The cosine.</returns>
-        public Single Cos()
-        {
-            return (Single)Math.Cos(ToRadian());
-        }
-
-        /// <summary>
-        /// Computes the sine of the given angle.
-        /// </summary>
-        /// <returns>The sine.</returns>
-        public Single Sin()
-        {
-            return (Single)Math.Sin(ToRadian());
-        }
-
-        /// <summary>
         /// Checks for equality with the other angle.
         /// </summary>
         /// <param name="other">The angle to compare with.</param>
@@ -278,13 +285,19 @@
         #region Equality
 
         /// <summary>
-        /// Compares the current angle against the given one.
+        /// Checks for equality of two angles.
         /// </summary>
-        /// <param name="other">The angle to compare to.</param>
-        /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Angle other)
+        public static Boolean operator ==(Angle a, Angle b)
         {
-            return ToRadian().CompareTo(other.ToRadian());
+            return a.Equals(b);
+        }
+
+        /// <summary>
+        /// Checks for inequality of two angles.
+        /// </summary>
+        public static Boolean operator !=(Angle a, Angle b)
+        {
+            return !a.Equals(b);
         }
 
         /// <summary>
@@ -294,8 +307,12 @@
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is Angle)
-                return this.Equals((Angle)obj);
+            var other = obj as Angle?;
+
+            if (other != null)
+            {
+                return Equals(other.Value);
+            }
 
             return false;
         }

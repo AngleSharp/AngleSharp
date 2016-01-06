@@ -101,6 +101,11 @@
             _attributeHandlers[name] = handler;
         }
 
+        internal Boolean HasHandler(String name)
+        {
+            return _attributeHandlers.ContainsKey(name);
+        }
+
         internal void AddHandler(String name, Action<String> handler)
         {
             if (handler != null)

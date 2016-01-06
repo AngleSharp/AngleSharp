@@ -28,6 +28,7 @@
         readonly String _localName;
 
         HtmlElementCollection _elements;
+        ICssStyleDeclaration _style;
         TokenList _classList;
 
         #endregion
@@ -63,6 +64,11 @@
         #endregion
 
         #region Properties
+
+        public ICssStyleDeclaration Style
+        {
+            get { return _style ?? (_style = CreateStyle()); }
+        }
 
         public IElement AssignedSlot
         {
@@ -622,28 +628,27 @@
                 previousValue: oldValue));
         }
 
-        /// <summary>
-        /// Creates the style for the inline style declaration.
-        /// </summary>
-        /// <returns>The declaration representing the declarations.</returns>
         protected ICssStyleDeclaration CreateStyle()
         {
-            var config = Owner.Options;
-            var engine = config.GetCssStyleEngine();
-
-            if (engine != null)
+            if (_attributes.HasHandler(AttributeNames.Style))
             {
-                var source = this.GetOwnAttribute(AttributeNames.Style);
-                var options = new StyleOptions { Element = this, Configuration = config };
-                var style = engine.ParseInline(source, options);
-                var bindable = style as IBindable;
+                var config = Owner.Options;
+                var engine = config.GetCssStyleEngine();
 
-                if (bindable != null)
+                if (engine != null)
                 {
-                    bindable.Changed += value => UpdateAttribute(AttributeNames.Style, value);
-                }
+                    var source = this.GetOwnAttribute(AttributeNames.Style);
+                    var options = new StyleOptions { Element = this, Configuration = config };
+                    var style = engine.ParseInline(source, options);
+                    var bindable = style as IBindable;
 
-                return style;
+                    if (bindable != null)
+                    {
+                        bindable.Changed += value => UpdateAttribute(AttributeNames.Style, value);
+                    }
+
+                    return style;
+                }
             }
 
             return null;
@@ -655,11 +660,21 @@
             RegisterAttributeObserver(attributeName, value => bindable.Update(value));
         }
 
-        /// <summary>
-        /// Updates an attribute's value without notifying the observers.
-        /// </summary>
-        /// <param name="name">The name of the attribute to update.</param>
-        /// <param name="value">The value of the attribute to set.</param>
+        protected void UpdateStyle(String value)
+        {
+            var bindable = _style as IBindable;
+
+            if (String.IsNullOrEmpty(value))
+            {
+                RemoveAttribute(AttributeNames.Style);
+            }
+
+            if (bindable != null)
+            {
+                bindable.Update(value);
+            }
+        }
+
         protected void UpdateAttribute(String name, String value)
         {
             var handler = _attributes.RemoveHandler(name);
@@ -667,38 +682,16 @@
             _attributes.SetHandler(name, handler);
         }
 
-        /// <summary>
-        /// Locates the namespace of the given prefix.
-        /// </summary>
-        /// <param name="prefix">The prefix of the namespace to find.</param>
-        /// <returns>
-        /// The url of the namespace or null, if the prefix could not be found.
-        /// </returns>
         protected sealed override String LocateNamespace(String prefix)
         {
             return ElementExtensions.LocateNamespace(this, prefix);
         }
 
-        /// <summary>
-        /// Locates the prefix of the given namespace.
-        /// </summary>
-        /// <param name="namespaceUri">The url of the namespace.</param>
-        /// <returns>
-        /// The prefix or null, if the namespace could not be found.
-        /// </returns>
         protected sealed override String LocatePrefix(String namespaceUri)
         {
             return ElementExtensions.LocatePrefix(this, namespaceUri);
         }
 
-        /// <summary>
-        /// Copies the attributes from the source element to the target
-        /// element. Each attribute will be recreated on the target.
-        /// </summary>
-        /// <param name="source">The source of the attributes.</param>
-        /// <param name="target">
-        /// The target where to create the attributes.
-        /// </param>
         protected static void CopyAttributes(Element source, Element target)
         {
             foreach (var attribute in source._attributes)
@@ -708,11 +701,6 @@
             }
         }
 
-        /// <summary>
-        /// Registers an observer for attribute events.
-        /// </summary>
-        /// <param name="name">The name of the attribute.</param>
-        /// <param name="callback">The callback to invoke.</param>
         protected void RegisterAttributeObserver(String name, Action<String> callback)
         {
             _attributes.AddHandler(name, callback);

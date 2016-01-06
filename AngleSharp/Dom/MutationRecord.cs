@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// Represents a recording of DOM changes.
+    /// </summary>
     sealed class MutationRecord : IMutationRecord
     {
         #region Fields

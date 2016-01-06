@@ -12,7 +12,7 @@
         /// <summary>
         /// Gets a zero value.
         /// </summary>
-        public static readonly Number Zero = new Number();
+        public static readonly Number Zero = new Number(0f, Unit.Integer);
 
         /// <summary>
         /// Gets the positive infinite value.
@@ -68,92 +68,48 @@
 
         #endregion
 
-        #region Casts and Operators
+        #region Comparison
 
         /// <summary>
-        /// Compares two numbers for equality.
+        /// Compares the magnitude of two numbers.
         /// </summary>
-        /// <param name="a">The first number.</param>
-        /// <param name="b">The second number.</param>
-        /// <returns>True if both numbers are equal, otherwise false.</returns>
-        public static Boolean operator ==(Number a, Number b)
-        {
-            return a._value == b._value;
-        }
-
-        /// <summary>
-        /// Compares two numbers for inequality.
-        /// </summary>
-        /// <param name="a">The first number.</param>
-        /// <param name="b">The second number.</param>
-        /// <returns>True if both numbers are not equal, otherwise false.</returns>
-        public static Boolean operator !=(Number a, Number b)
-        {
-            return a._value != b._value;
-        }
-
-        /// <summary>
-        /// Compares two numbers if the first one is greater or equal to the second one.
-        /// </summary>
-        /// <param name="a">The first number.</param>
-        /// <param name="b">The second number.</param>
-        /// <returns>True if the first number is greater or equal, otherwise false.</returns>
         public static Boolean operator >=(Number a, Number b)
         {
             return a._value >= b._value;
         }
 
         /// <summary>
-        /// Compares two numbers if the first one is greater than the second one.
+        /// Compares the magnitude of two numbers.
         /// </summary>
-        /// <param name="a">The first number.</param>
-        /// <param name="b">The second number.</param>
-        /// <returns>True if the first number is greater, otherwise false.</returns>
         public static Boolean operator >(Number a, Number b)
         {
             return a._value > b._value;
         }
 
         /// <summary>
-        /// Compares two numbers if the second one is greater or equal to the second one.
+        /// Compares the magnitude of two numbers.
         /// </summary>
-        /// <param name="a">The first number.</param>
-        /// <param name="b">The second number.</param>
-        /// <returns>True if the second number is greater or equal, otherwise false.</returns>
         public static Boolean operator <=(Number a, Number b)
         {
             return a._value <= b._value;
         }
 
         /// <summary>
-        /// Compares two numbers if the first one is smaller than the second one.
+        /// Compares the magnitude of two numbers.
         /// </summary>
-        /// <param name="a">The first number.</param>
-        /// <param name="b">The second number.</param>
-        /// <returns>True if the first number is smaller, otherwise false.</returns>
         public static Boolean operator <(Number a, Number b)
         {
             return a._value < b._value;
         }
 
         /// <summary>
-        /// Converts the number to a floating point value.
+        /// Compares the current number against the given one.
         /// </summary>
-        /// <param name="number">The number to convert.</param>
-        /// <returns>The floating point value of the number.</returns>
-        public static explicit operator Single(Number number)
+        /// <param name="other">The number to compare to.</param>
+        /// <returns>The result of the comparison.</returns>
+        public Int32 CompareTo(Number other)
         {
-            return number._value;
-        }
-
-        /// <summary>
-        /// Converts the number to an integer value.
-        /// </summary>
-        /// <param name="number">The number to convert.</param>
-        /// <returns>The integer value of the number.</returns>
-        public static explicit operator Int32(Number number)
-        {
-            return (Int32)number._value;
+            return _value.CompareTo(other._value);
         }
 
         #endregion
@@ -194,13 +150,19 @@
         #region Equality
 
         /// <summary>
-        /// Compares the current number against the given one.
+        /// Checks for equality of two numbers.
         /// </summary>
-        /// <param name="other">The number to compare to.</param>
-        /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Number other)
+        public static Boolean operator ==(Number a, Number b)
         {
-            return _value.CompareTo(other._value);
+            return a._value == b._value;
+        }
+
+        /// <summary>
+        /// Checks for inequality of two numbers.
+        /// </summary>
+        public static Boolean operator !=(Number a, Number b)
+        {
+            return a._value != b._value;
         }
 
         /// <summary>
@@ -210,8 +172,12 @@
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is Number)
-                return this.Equals((Number)obj);
+            var other = obj as Number?;
+
+            if (other != null)
+            {
+                return Equals(other.Value);
+            }
 
             return false;
         }
