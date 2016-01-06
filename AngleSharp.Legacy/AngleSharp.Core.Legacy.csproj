@@ -1781,11 +1781,11 @@
     <Compile Include="..\AngleSharp\Dom\Window.cs">
       <Link>Dom\Window.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\Xml\XMLDocument.cs">
-      <Link>Dom\Xml\XMLDocument.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Xml\XmlDocument.cs">
+      <Link>Dom\Xml\XmlDocument.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Dom\Xml\XMLElement.cs">
-      <Link>Dom\Xml\XMLElement.cs</Link>
+    <Compile Include="..\AngleSharp\Dom\Xml\XmlElement.cs">
+      <Link>Dom\Xml\XmlElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Events\CssParseErrorEvent.cs">
       <Link>Events\CssParseErrorEvent.cs</Link>
