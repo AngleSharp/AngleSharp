@@ -205,11 +205,17 @@
         public static Boolean TryParse(String s, out Length result)
         {
             var value = default(Single);
-            var unit = GetUnit(s.CssUnit(out value));
+            var unitString = s.CssUnit(out value);
+            var unit = GetUnit(unitString);
 
             if (unit != Unit.None)
             {
                 result = new Length(value, unit);
+                return true;
+            }
+            else if (value == 0f)
+            {
+                result = Length.Zero;
                 return true;
             }
 
