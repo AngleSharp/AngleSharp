@@ -245,7 +245,7 @@
                 _relation.Cancel();
             }
 
-            _relation = Factory.LinkRelations.Create(this, Relation);
+            _relation = CreateFirstLegalRelation();
             UpdateSource(this.GetOwnAttribute(AttributeNames.Href));
         }
 
@@ -266,6 +266,23 @@
                     document.DelayLoad(task);
                 }
             }
+        }
+
+        BaseLinkRelation CreateFirstLegalRelation()
+        {
+            var relations = RelationList;
+
+            foreach (var relation in relations)
+            {
+                var rel = Factory.LinkRelations.Create(this, relation);
+
+                if (rel != null)
+                {
+                    return rel;
+                }
+            }
+
+            return null;
         }
 
         #endregion
