@@ -127,7 +127,20 @@
         /// <returns>The new StyleSheetList instance.</returns>
         public static IStyleSheetList CreateStyleSheets(this INode parent)
         {
-            return new StyleSheetList(parent.GetStyleSheets());
+            var list = parent.GetStyleSheets();
+            return new StyleSheetList(list);
+        }
+
+        /// <summary>
+        /// Creates a new StringList instance with stylesheet sets for the given
+        /// node.
+        /// </summary>
+        /// <param name="parent">The node to get the sets from.</param>
+        /// <returns>The new StringList instance.</returns>
+        public static IStringList CreateStyleSheetSets(this INode parent)
+        {
+            var list = parent.GetStyleSheets().Select(m => m.Title).Where(m => m != null);
+            return new StringList(list);
         }
 
         /// <summary>
@@ -147,7 +160,7 @@
                     {
                         var sheet = linkStyle.Sheet;
 
-                        if (sheet != null)
+                        if (sheet != null && !sheet.IsDisabled)
                         {
                             yield return sheet;
                         }
