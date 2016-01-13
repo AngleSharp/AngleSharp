@@ -23,7 +23,6 @@
 
         static readonly String AboutBlank = "about:blank";
 
-        readonly IStyleSheetList _styleSheets;
         readonly Queue<HtmlScriptElement> _loadingScripts;
         readonly List<WeakReference<Range>> _ranges;
         readonly MutationHost _mutations;
@@ -46,7 +45,6 @@
         String _referrer;
         String _contentType;
         String _lastStyleSheetSet;
-        String _preferredStyleSheetSet;
         IElement _focus;
         HtmlAllCollection _all;
         HtmlCollection<IHtmlAnchorElement> _anchors;
@@ -59,6 +57,7 @@
         HtmlElementCollection _commands;
         HtmlElementCollection _links;
         IDocument _ancestor;
+        IStyleSheetList _styleSheets;
 
         #endregion
 
@@ -435,7 +434,6 @@
             _firedUnload = false;
             _salvageable = true;
             _shown = false;
-            _preferredStyleSheetSet = String.Empty;
             _context = context;
             _source = source;
             _referrer = String.Empty;
@@ -447,7 +445,6 @@
             _location = new Location(AboutBlank);
             _ranges = new List<WeakReference<Range>>();
             _location.Changed += LocationChanged;
-            _styleSheets = this.CreateStyleSheets();
             _view = this.CreateWindow();
             _loader = context.CreateResourceLoader();
             _loop = this.CreateLoop();
@@ -635,7 +632,7 @@
         /// </summary>
         public IStyleSheetList StyleSheets
         {
-            get { return _styleSheets; }
+            get { return _styleSheets ?? (_styleSheets = this.CreateStyleSheets()); }
         }
 
         /// <summary>
@@ -644,7 +641,7 @@
         /// </summary>
         public IStringList StyleSheetSets
         {
-            get { return _styleSheetSets ?? (_styleSheetSets = new StringList(_styleSheets.Select(m => m.Title))); }
+            get { return _styleSheetSets ?? (_styleSheetSets = this.CreateStyleSheetSets()); }
         }
 
         /// <summary>
@@ -913,11 +910,11 @@
         {
             get 
             {
-                var enabled = _styleSheets.GetEnabledStyleSheetSets();
+                var enabled = StyleSheets.GetEnabledStyleSheetSets();
                 var enabledName = enabled.FirstOrDefault();
-                var others = _styleSheets.Where(m => !String.IsNullOrEmpty(m.Title) && !m.IsDisabled);
+                var others = StyleSheets.Where(m => !String.IsNullOrEmpty(m.Title) && !m.IsDisabled);
 
-                if (enabled.Count() == 1 && !others.Any(m => m.Title != enabledName))
+                if (enabled.Count() == 1 && !others.Any(m => !m.Title.Is(enabledName)))
                 {
                     return enabledName;
                 }
@@ -932,7 +929,7 @@
             {
                 if (value != null)
                 {
-                    _styleSheets.EnableStyleSheetSet(value);
+                    StyleSheets.EnableStyleSheetSet(value);
                     _lastStyleSheetSet = value;
                 }
             }
@@ -952,7 +949,7 @@
         /// </summary>
         public String PreferredStyleSheetSet
         {
-            get { return _preferredStyleSheetSet; }
+            get { return All.OfType<IHtmlLinkElement>().Where(m => m.IsPreferred()).Select(m => m.Title).FirstOrDefault(); }
         }
 
         #endregion
@@ -1084,10 +1081,10 @@
         /// </param>
         public void EnableStyleSheetsForSet(String name)
         {
-            if (name == null)
-                return;
-
-            _styleSheets.EnableStyleSheetSet(name);
+            if (name != null)
+            {
+                StyleSheets.EnableStyleSheetSet(name);
+            }
         }
 
         /// <summary>
