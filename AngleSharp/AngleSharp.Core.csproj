@@ -227,6 +227,7 @@
     <Compile Include="Interfaces\Css\ICssComment.cs" />
     <Compile Include="Interfaces\Css\ICssMedium.cs" />
     <Compile Include="Interfaces\Css\ICssNode.cs" />
+    <Compile Include="Interfaces\Css\ICssRuleCreator.cs" />
     <Compile Include="Interfaces\Css\IDocumentFunction.cs" />
     <Compile Include="Interfaces\Css\IMediaFeature.cs" />
     <Compile Include="IEventLoopEntry.cs" />
