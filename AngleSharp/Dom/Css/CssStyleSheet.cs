@@ -93,7 +93,7 @@
 
         ICssRuleList ICssStyleSheet.Rules
         {
-            get { return _rules; }
+            get { return Rules; }
         }
 
         public ICssRule OwnerRule
@@ -114,21 +114,28 @@
 
         #region Methods
 
+        public ICssRule AddNewRule(CssRuleType ruleType)
+        {
+            var rule = _parser.CreateRule(ruleType);
+            Rules.Add(rule);
+            return rule;
+        }
+
         public override String ToCss(IStyleFormatter formatter)
         {
-            return formatter.Sheet(_rules);
+            return formatter.Sheet(Rules);
         }
 
         public void RemoveAt(Int32 index)
         {
-            _rules.RemoveAt(index);
+            Rules.RemoveAt(index);
         }
 
         public Int32 Insert(String ruleText, Int32 index)
         {
             var rule = _parser.ParseRule(ruleText);
             rule.Owner = this;
-            _rules.Insert(index, rule);
+            Rules.Insert(index, rule);
             return index;            
         }
 

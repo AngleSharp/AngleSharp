@@ -7,7 +7,7 @@
     /// Represents the CSS style sheet for storing CSS styles.
     /// </summary>
     [DomName("CSSStyleSheet")]
-    public interface ICssStyleSheet : IStyleSheet, ICssNode
+    public interface ICssStyleSheet : IStyleSheet, ICssNode, ICssRuleCreator
     {
         /// <summary>
         /// Gets the @import rule if the stylesheet was importated otherwise it

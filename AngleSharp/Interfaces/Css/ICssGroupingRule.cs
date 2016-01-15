@@ -8,7 +8,7 @@
     /// </summary>
     [DomName("CSSGroupingRule")]
     [DomNoInterfaceObject]
-    public interface ICssGroupingRule : ICssRule
+    public interface ICssGroupingRule : ICssRule, ICssRuleCreator
     {
         /// <summary>
         /// Gets a list of all CSS rules contained within the grouping block.

@@ -291,7 +291,7 @@
 
         #endregion
 
-        #region Set values extensions
+        #region Set Form Values extensions
 
         /// <summary>
         /// Set the field values of given form by using the dictionary which
@@ -444,7 +444,7 @@
 
         #endregion
 
-        #region Query Extensions
+        #region Query extensions
 
         /// <summary>
         /// Reduces the elements to the one at the given index, if any.
