@@ -84,6 +84,7 @@
     <Compile Include="Css\CssDocumentFunction.cs" />
     <Compile Include="Css\CssImportRule.cs" />
     <Compile Include="Css\CssObjectSizing.cs" />
+    <Compile Include="Css\CssOmCreators.cs" />
     <Compile Include="Css\CssProperty.cs" />
     <Compile Include="Css\CssFontProperty.cs" />
     <Compile Include="Css\CssPaddingProperty.cs" />
