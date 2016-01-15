@@ -45,10 +45,12 @@
         public static T? TryGet<T>(this IDictionary<String, Object> values, String key)
             where T : struct
         {
-            Object value;
-            
+            var value = default(Object);
+
             if (values.TryGetValue(key, out value) && value is T)
+            {
                 return (T)value;
+            }
 
             return null;
         }
@@ -61,10 +63,12 @@
         /// <returns>An object instance or null.</returns>
         public static Object TryGet(this IDictionary<String, Object> values, String key)
         {
-            Object value;
+            var value = default(Object);
 
             if (values.TryGetValue(key, out value))
+            {
                 return value;
+            }
 
             return null;
         }
@@ -105,10 +109,14 @@
         public static String GetMessage<T>(this T code)
             where T : struct
         {
-            var attr = typeof(T).GetTypeInfo().GetDeclaredField(code.ToString()).GetCustomAttribute<DomDescriptionAttribute>();
+            var type = typeof(T).GetTypeInfo();
+            var field = type.GetDeclaredField(code.ToString());
+            var attr = field.GetCustomAttribute<DomDescriptionAttribute>();
 
             if (attr != null)
+            {
                 return attr.Description;
+            }
 
             return "An unknown error occurred.";
         }
