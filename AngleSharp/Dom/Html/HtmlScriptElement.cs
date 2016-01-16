@@ -110,6 +110,16 @@
         #endregion
 
         #region Internal Methods
+
+        protected override void OnParentChanged()
+        {
+            base.OnParentChanged();
+
+            if (!_parserInserted)
+            {
+                Prepare(Owner);
+            }
+        }
         
         internal void Run()
         {
