@@ -26,9 +26,6 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new HTML script element.
-        /// </summary>
         public HtmlScriptElement(Document owner, String prefix = null, Boolean parserInserted = false, Boolean started = false)
             : base(owner, TagNames.Script, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
@@ -59,9 +56,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets the language of the script.
-        /// </summary>
         public String ScriptLanguage
         {
             get
@@ -71,63 +65,42 @@
             }
         }
 
-        /// <summary>
-        /// Gets or sets athe address of the resource.
-        /// </summary>
         public String Source
         {
             get { return this.GetOwnAttribute(AttributeNames.Src); }
             set { this.SetOwnAttribute(AttributeNames.Src, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the type of an embedded resource.
-        /// </summary>
         public String Type
         {
             get { return this.GetOwnAttribute(AttributeNames.Type); }
             set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the character encoding of the external script resource.
-        /// </summary>
         public String CharacterSet
         {
             get { return this.GetOwnAttribute(AttributeNames.Charset); }
             set { this.SetOwnAttribute(AttributeNames.Charset, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the text in the script element.
-        /// </summary>
         public String Text
         {
             get { return TextContent; }
             set { TextContent = value; }
         }
 
-        /// <summary>
-        /// Gets or sets how the element handles crossorigin requests.
-        /// </summary>
         public String CrossOrigin
         {
             get { return this.GetOwnAttribute(AttributeNames.CrossOrigin); }
             set { this.SetOwnAttribute(AttributeNames.CrossOrigin, value); }
         }
 
-        /// <summary>
-        /// Gets or sets if the script should be deferred.
-        /// </summary>
         public Boolean IsDeferred
         {
             get { return this.HasOwnAttribute(AttributeNames.Defer); }
             set { this.SetOwnAttribute(AttributeNames.Defer, value ? String.Empty : null); }
         }
 
-        /// <summary>
-        /// Gets or sets if script should execute asynchronously.
-        /// </summary>
         public Boolean IsAsync
         {
             get { return this.HasOwnAttribute(AttributeNames.Async); }
@@ -137,6 +110,16 @@
         #endregion
 
         #region Internal Methods
+
+        protected override void OnParentChanged()
+        {
+            base.OnParentChanged();
+
+            if (!_parserInserted)
+            {
+                Prepare(Owner);
+            }
+        }
         
         internal void Run()
         {
@@ -227,6 +210,19 @@
             }
 
             return false;
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override INode Clone(Boolean deep = true)
+        {
+            var node = new HtmlScriptElement(Owner, Prefix, _parserInserted, _started);
+            node._forceAsync = _forceAsync;
+            CopyProperties(this, node, deep);
+            CopyAttributes(this, node);
+            return node;
         }
 
         #endregion

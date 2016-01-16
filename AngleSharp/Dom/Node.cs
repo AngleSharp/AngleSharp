@@ -296,6 +296,11 @@
 
         #region Public Methods
 
+        public virtual String ToHtml(IMarkupFormatter formatter)
+        {
+            return TextContent;
+        }
+
         public INode AppendChild(INode child)
         {
             return this.PreInsert(child, null);
@@ -505,11 +510,6 @@
             }
         }
 
-        /// <summary>
-        /// Tries to locate the namespace of the given prefix.
-        /// </summary>
-        /// <param name="prefix">The prefix of the namespace.</param>
-        /// <returns>The namespace for the prefix.</returns>
         protected virtual String LocateNamespace(String prefix)
         {
             if (_parent != null)
@@ -520,13 +520,6 @@
             return null;
         }
 
-        /// <summary>
-        /// Tries to locate the prefix with the namespace.
-        /// </summary>
-        /// <param name="namespaceUri">
-        /// The namespace assigned to the prefix.
-        /// </param>
-        /// <returns>The prefix for the namespace.</returns>
         protected virtual String LocatePrefix(String namespaceUri)
         {
             if (_parent != null)
@@ -537,10 +530,6 @@
             return null;
         }
 
-        /// <summary>
-        /// Adopts the current node for the provided document.
-        /// </summary>
-        /// <param name="document">The new owner of the node.</param>
         internal void ChangeOwner(Document document)
         {
             var oldDocument = Owner;
@@ -572,13 +561,6 @@
             _children.RemoveAt(index);
         }
 
-        /// <summary>
-        /// Replaces all nodes with the given node, if any.
-        /// </summary>
-        /// <param name="node">The node to insert, if any.</param>
-        /// <param name="suppressObservers">
-        /// If mutation observers should be surpressed.
-        /// </param>
         internal void ReplaceAll(Node node, Boolean suppressObservers)
         {
             var document = Owner;
@@ -624,19 +606,6 @@
             }
         }
 
-        /// <summary>
-        /// Inserts the specified node before a reference element as a child of
-        /// the current node.
-        /// </summary>
-        /// <param name="newElement">The node to insert.</param>
-        /// <param name="referenceElement">
-        /// The node before which newElement is inserted. If referenceElement
-        /// is null, newElement is inserted at the end of the list of child nodes.
-        /// </param>
-        /// <param name="suppressObservers">
-        /// If mutation observers should be surpressed.
-        /// </param>
-        /// <returns>The inserted node.</returns>
         internal INode InsertBefore(Node newElement, Node referenceElement, Boolean suppressObservers)
         {
             var document = Owner;
@@ -702,13 +671,6 @@
             return newElement;
         }
 
-        /// <summary>
-        /// Removes a child from the collection of children.
-        /// </summary>
-        /// <param name="node">The child to remove.</param>
-        /// <param name="suppressObservers">
-        /// If mutation observers should be surpressed.
-        /// </param>
         internal void RemoveChild(Node node, Boolean suppressObservers)
         {
             var document = Owner;
@@ -739,20 +701,6 @@
             NodeIsRemoved(node, oldPreviousSibling);
         }
 
-        /// <summary>
-        /// Replaces one child node of the specified element with another.
-        /// </summary>
-        /// <param name="node">
-        /// The new node to replace oldChild. If it already exists in the DOM,
-        /// it is first removed.
-        /// </param>
-        /// <param name="child">The existing child to be replaced.</param>
-        /// <param name="suppressObservers">
-        /// If mutation observers should be surpressed.
-        /// </param>
-        /// <returns>
-        /// The replaced node. This is the same node as oldChild.
-        /// </returns>
         internal INode ReplaceChild(Node node, Node child, Boolean suppressObservers)
         {
             if (this.IsEndPoint() || node.IsHostIncludingInclusiveAncestor(this))
@@ -831,28 +779,35 @@
             throw new DomException(DomError.HierarchyRequest);
         }
 
+        /// <summary>
+        /// Run any adopting steps defined for node in other applicable 
+        /// specifications and pass node and oldDocument as parameters.
+        /// </summary>
         internal virtual void NodeIsAdopted(Document oldDocument)
         {
-            //Run any adopting steps defined for node in other applicable
-            //specifications and pass node and oldDocument as parameters.
-        }
-
-        internal virtual void NodeIsInserted(Node newNode)
-        {
-            //Specifications may define insertion steps for all or some nodes.
-        }
-
-        internal virtual void NodeIsRemoved(Node removedNode, Node oldPreviousSibling)
-        {
-            //Specifications may define removing steps for all or some nodes.
         }
 
         /// <summary>
-        /// Copies all (Node) properties of the source to the target.
+        /// Specifications may define insertion steps for all or some nodes.
         /// </summary>
-        /// <param name="source">The source node.</param>
-        /// <param name="target">The target node.</param>
-        /// <param name="deep">Is a deep-copy required?</param>
+        internal virtual void NodeIsInserted(Node newNode)
+        {
+            newNode.OnParentChanged();
+        }
+
+        /// <summary>
+        /// Specifications may define removing steps for all or some nodes.
+        /// </summary>
+        internal virtual void NodeIsRemoved(Node removedNode, Node oldPreviousSibling)
+        {
+            removedNode.OnParentChanged();
+        }
+
+        protected virtual void OnParentChanged()
+        {
+            //TODO
+        }
+
         static protected void CopyProperties(Node source, Node target, Boolean deep)
         {
             target._baseUri = source._baseUri;
@@ -864,11 +819,6 @@
                     target.AddNode((Node)child.Clone(true));
                 }
             }
-        }
-
-        public virtual String ToHtml(IMarkupFormatter formatter)
-        {
-            return TextContent;
         }
 
         #endregion
