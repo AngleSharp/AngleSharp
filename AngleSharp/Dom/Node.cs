@@ -296,6 +296,11 @@
 
         #region Public Methods
 
+        public virtual String ToHtml(IMarkupFormatter formatter)
+        {
+            return TextContent;
+        }
+
         public INode AppendChild(INode child)
         {
             return this.PreInsert(child, null);
@@ -774,20 +779,33 @@
             throw new DomException(DomError.HierarchyRequest);
         }
 
+        /// <summary>
+        /// Run any adopting steps defined for node in other applicable 
+        /// specifications and pass node and oldDocument as parameters.
+        /// </summary>
         internal virtual void NodeIsAdopted(Document oldDocument)
         {
-            //Run any adopting steps defined for node in other applicable
-            //specifications and pass node and oldDocument as parameters.
         }
 
+        /// <summary>
+        /// Specifications may define insertion steps for all or some nodes.
+        /// </summary>
         internal virtual void NodeIsInserted(Node newNode)
         {
-            //Specifications may define insertion steps for all or some nodes.
+            newNode.OnParentChanged();
         }
 
+        /// <summary>
+        /// Specifications may define removing steps for all or some nodes.
+        /// </summary>
         internal virtual void NodeIsRemoved(Node removedNode, Node oldPreviousSibling)
         {
-            //Specifications may define removing steps for all or some nodes.
+            removedNode.OnParentChanged();
+        }
+
+        protected virtual void OnParentChanged()
+        {
+            //TODO
         }
 
         static protected void CopyProperties(Node source, Node target, Boolean deep)
@@ -801,11 +819,6 @@
                     target.AddNode((Node)child.Clone(true));
                 }
             }
-        }
-
-        public virtual String ToHtml(IMarkupFormatter formatter)
-        {
-            return TextContent;
         }
 
         #endregion
