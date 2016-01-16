@@ -214,6 +214,19 @@
 
         #endregion
 
+        #region Methods
+
+        public override INode Clone(Boolean deep = true)
+        {
+            var node = new HtmlScriptElement(Owner, Prefix, _parserInserted, _started);
+            node._forceAsync = _forceAsync;
+            CopyProperties(this, node, deep);
+            CopyAttributes(this, node);
+            return node;
+        }
+
+        #endregion
+
         #region Helpers
 
         Boolean InvokeLoadingScript(Document document, Url url)
