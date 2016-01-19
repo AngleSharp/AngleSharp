@@ -2,8 +2,7 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Network;
-    using AngleSharp.Services.Media;
+    using AngleSharp.Network.RequestProcessors;
     using System;
 
     /// <summary>
@@ -13,19 +12,16 @@
     {
         #region Fields
 
-        IObjectInfo _obj;
-        IDownload _download;
+        readonly ObjectRequestProcessor _request;
 
         #endregion
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new Embed element.
-        /// </summary>
         public HtmlEmbedElement(Document owner, String prefix = null)
             : base(owner, TagNames.Embed, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
+            _request = ObjectRequestProcessor.Create(owner);
         }
 
         #endregion
@@ -79,28 +75,8 @@
 
         void UpdateSource(String value)
         {
-            if (_download != null)
-            {
-                _download.Cancel();
-            }
-
-            var document = Owner;
-
-            if (!String.IsNullOrEmpty(value) && document != null)
-            {
-                var loader = document.Loader;
-
-                if (loader != null)
-                {
-                    var url = new Url(Source);
-                    var request = this.CreateRequestFor(url);
-                    var download = loader.DownloadAsync(request);
-                    var task = this.ProcessResource<IObjectInfo>(download, result => _obj = result);
-                    document.DelayLoad(task);
-                    _download = download;
-
-                }
-            }
+            var url = new Url(Source);
+            this.Process(_request, url);
         }
 
         #endregion

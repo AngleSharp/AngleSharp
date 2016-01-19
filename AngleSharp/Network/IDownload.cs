@@ -20,6 +20,11 @@
         Boolean IsCompleted { get; }
 
         /// <summary>
+        /// Gets the target of the download.
+        /// </summary>
+        Url Target { get; }
+
+        /// <summary>
         /// Gets if the download is (still) running.
         /// </summary>
         Boolean IsRunning { get; }

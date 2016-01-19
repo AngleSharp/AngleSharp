@@ -1,15 +1,16 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Html;
-    using AngleSharp.Network;
-    using AngleSharp.Services.Media;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Threading;
-    using System.Threading.Tasks;
+using AngleSharp.Dom.Html;
+using AngleSharp.Html;
+using AngleSharp.Network;
+using AngleSharp.Network.RequestProcessors;
+using AngleSharp.Services.Media;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 
     /// <summary>
     /// Useful methods for element objects.
@@ -801,77 +802,28 @@
         }
 
         /// <summary>
-        /// Creates a task to load the resource of the resource type from the
-        /// request.
+        /// Creates a task to use the processor for loading and processing the
+        /// resource from the provided url.
         /// </summary>
         /// <param name="element">The element to use.</param>
-        /// <param name="download">The issued download.</param>
-        /// <param name="callback">The callback handling the resource.</param>
-        /// <returns>The created task waiting for a response status.</returns>
-        public static Task<Boolean> ProcessResource<TResource>(this Element element, IDownload download, Action<TResource> callback)
-            where TResource : IResourceInfo
+        /// <param name="processor">The processor to use.</param>
+        /// <param name="url">The url of the resource.</param>
+        public static void Process(this Element element, IRequestProcessor processor, Url url)
         {
-            return element.ProcessResponse(download, async response =>
+            if (processor != null)
             {
+                var request = element.CreateRequestFor(url);
                 var document = element.Owner;
-
-                if (document != null)
+                document.QueueTask(() =>
                 {
-                    var options = document.Options;
-                    var type = response.GetContentType();
-                    var service = options.GetResourceService<TResource>(type.Content);
+                    var task = processor.Process(request);
 
-                    if (service != null)
+                    if (task != null)
                     {
-                        var cancel = CancellationToken.None;
-                        var result = await service.CreateAsync(response, cancel).ConfigureAwait(false);
-                        callback(result);
+                        document.DelayLoad(task);
                     }
-                }
-            });
-        }
-
-        /// <summary>
-        /// Creates a task to load the resource of the resource type from the
-        /// request.
-        /// </summary>
-        /// <param name="element">The element to use.</param>
-        /// <param name="download">The issued download.</param>
-        /// <param name="callback">The callback handling the resource.</param>
-        /// <returns>The created task waiting for a response status.</returns>
-        public static async Task<Boolean> ProcessResponse(this Element element, IDownload download, Action<IResponse> callback)
-        {
-            var response = await download.Task.ConfigureAwait(false);
-            var completionStatus = new TaskCompletionSource<Boolean>();
-            
-            element.Owner.QueueTask(() => 
-            {
-                if (response != null)
-                {
-                    try
-                    {
-                        callback(response);
-                        element.FireSimpleEvent(EventNames.Load);
-                        completionStatus.SetResult(true);
-                    }
-                    catch
-                    {
-                        element.FireSimpleEvent(EventNames.Error);
-                        completionStatus.SetResult(false);
-                    }
-                    finally
-                    {
-                        response.Dispose();
-                    }
-                }
-                else
-                {
-                    element.FireSimpleEvent(EventNames.Error);
-                    completionStatus.SetResult(false);
-                }
-            });
-
-            return await completionStatus.Task.ConfigureAwait(false);
+                });
+            }
         }
 
         /// <summary>

@@ -3,16 +3,14 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Network;
-    using AngleSharp.Services.Styling;
-    using System;
+    using AngleSharp.Network.RequestProcessors;
     using System.Threading.Tasks;
-
+    
     class StyleSheetLinkRelation : BaseLinkRelation
     {
         #region Fields
 
-        IStyleSheet _sheet;
+        readonly StyleSheetRequestProcessor _request;
 
         #endregion
 
@@ -21,6 +19,7 @@
         public StyleSheetLinkRelation(HtmlLinkElement link)
             : base(link)
         {
+            _request = StyleSheetRequestProcessor.Create(link);
         }
 
         #endregion
@@ -29,39 +28,22 @@
 
         public IStyleSheet Sheet
         {
-            get { return _sheet; }
+            get { return _request != null ? _request.Sheet : null; }
         }
 
         #endregion
 
         #region Methods
 
-        public override Task LoadAsync(IConfiguration configuration, IResourceLoader loader)
+        public override Task LoadAsync()
         {
-            var link = Link;
-            var request = link.CreateRequestFor(Url);
-            var download = loader.DownloadAsync(request);
-            SetDownload(download);
-
-            return link.ProcessResponse(download, response =>
+            if (_request != null)
             {
-                var type = link.Type ?? MimeTypeNames.Css;
-                var engine = configuration.GetStyleEngine(type);
+                var request = Link.CreateRequestFor(Url);
+                return _request.Process(request);
+            }
 
-                if (engine != null)
-                {
-                    var options = new StyleOptions
-                    {
-                        Element = link,
-                        IsDisabled = link.IsDisabled,
-                        IsAlternate = link.RelationList.Contains(Keywords.Alternate),
-                        Configuration = configuration
-                    };
-
-                    _sheet = engine.ParseStylesheet(response, options);
-                    _sheet.Media.MediaText = link.Media ?? String.Empty;
-                }
-            });
+            return null;
         }
 
         #endregion

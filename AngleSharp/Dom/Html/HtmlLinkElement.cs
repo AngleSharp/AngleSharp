@@ -242,7 +242,8 @@
         {
             if (_relation != null)
             {
-                _relation.Cancel();
+                //TODO
+                //_relation.Cancel();
             }
 
             _relation = CreateFirstLegalRelation();
@@ -255,16 +256,11 @@
 
             if (_relation != null && document != null)
             {
-                var config = document.Options;
-                var loader = document.Loader;
-                
-                _relation.Cancel();
+                //TODO
+                //_relation.Cancel();
 
-                if (config != null && loader != null)
-                {
-                    var task = _relation.LoadAsync(config, loader);
-                    document.DelayLoad(task);
-                }
+                var task = _relation.LoadAsync();
+                document.DelayLoad(task);
             }
         }
 

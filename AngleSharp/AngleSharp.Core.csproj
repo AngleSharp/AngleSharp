@@ -245,6 +245,14 @@
     <Compile Include="Network\IDownload.cs" />
     <Compile Include="Network\ILoader.cs" />
     <Compile Include="Network\MimeType.cs" />
+    <Compile Include="Network\RequestProcessors\BaseRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\DocumentRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\MediaRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\ObjectRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\ResourceRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\ImageRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\IRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\StyleSheetRequestProcessor.cs" />
     <Compile Include="Parser\Css\CssBuilder.cs" />
     <Compile Include="Parser\Css\CssParserOptions.cs" />
     <Compile Include="Parser\Css\Tokens\CssColorToken.cs" />
@@ -1039,6 +1047,7 @@
     <Compile Include="Parser\Xml\XmlTokenType.cs" />
     <Compile Include="Parser\Xml\XmlTreeMode.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
