@@ -2738,6 +2738,30 @@
     <Compile Include="..\AngleSharp\Network\ProtocolNames.cs">
       <Link>Network\ProtocolNames.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\BaseRequestProcessor.cs">
+      <Link>Network\RequestProcessors\BaseRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\DocumentRequestProcessor.cs">
+      <Link>Network\RequestProcessors\DocumentRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\ImageRequestProcessor.cs">
+      <Link>Network\RequestProcessors\ImageRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\IRequestProcessor.cs">
+      <Link>Network\RequestProcessors\IRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\MediaRequestProcessor.cs">
+      <Link>Network\RequestProcessors\MediaRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\ObjectRequestProcessor.cs">
+      <Link>Network\RequestProcessors\ObjectRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\ResourceRequestProcessor.cs">
+      <Link>Network\RequestProcessors\ResourceRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\StyleSheetRequestProcessor.cs">
+      <Link>Network\RequestProcessors\StyleSheetRequestProcessor.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\ResourceRequest.cs">
       <Link>Network\ResourceRequest.cs</Link>
     </Compile>
