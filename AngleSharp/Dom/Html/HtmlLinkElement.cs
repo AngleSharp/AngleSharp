@@ -260,7 +260,11 @@
                 //_relation.Cancel();
 
                 var task = _relation.LoadAsync();
-                document.DelayLoad(task);
+
+                if (task != null)
+                {
+                    document.DelayLoad(task);
+                }
             }
         }
 
