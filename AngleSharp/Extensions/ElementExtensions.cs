@@ -111,7 +111,7 @@ using System.Threading.Tasks;
         /// <returns>True if the namespace is matched, else false.</returns>
         public static Boolean MatchesCssNamespace(this IElement el, String prefix)
         {
-            if (prefix.Is("*"))
+            if (prefix.Is(Keywords.Asterisk))
             {
                 return true;
             }
@@ -247,7 +247,8 @@ using System.Threading.Tasks;
         {
             if (element is HtmlAnchorElement || element is HtmlAreaElement || element is HtmlLinkElement)
             {
-                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href));
+                var href = element.GetAttribute(null, AttributeNames.Href);
+                return !String.IsNullOrEmpty(href);
             }
             else if (element is HtmlButtonElement)
             {
@@ -271,7 +272,8 @@ using System.Threading.Tasks;
             }
             else if (element is HtmlOptionsGroupElement || element is HtmlMenuItemElement || element is HtmlFieldSetElement)
             {
-                return String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Disabled));
+                var isDisabled = element.GetAttribute(null, AttributeNames.Disabled);
+                return String.IsNullOrEmpty(isDisabled);
             }
 
             return false;
@@ -306,7 +308,8 @@ using System.Threading.Tasks;
             }
             else if (element is HtmlOptionsGroupElement || element is HtmlMenuItemElement || element is HtmlFieldSetElement)
             {
-                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Disabled));
+                var isDisabled = element.GetAttribute(null, AttributeNames.Disabled);
+                return !String.IsNullOrEmpty(isDisabled);
             }
 
             return false;
@@ -382,14 +385,14 @@ using System.Threading.Tasks;
             {
                 var input = (HtmlInputElement)element;
                 var type = input.Type;
-                var canBeChecked = type == InputTypeNames.Checkbox || type == InputTypeNames.Radio;
+                var canBeChecked = type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio);
                 return canBeChecked && input.IsChecked;
             }
             else if (element is HtmlMenuItemElement)
             {
                 var menuItem = (HtmlMenuItemElement)element;
                 var type = menuItem.Type;
-                var canBeChecked = type == InputTypeNames.Checkbox || type == InputTypeNames.Radio;
+                var canBeChecked = type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio);
                 return canBeChecked && menuItem.IsChecked;
             }
             else if (element is HtmlOptionElement)
@@ -411,7 +414,7 @@ using System.Threading.Tasks;
             if (element is HtmlInputElement)
             {
                 var input = (HtmlInputElement)element;
-                var isCheckbox = input.Type == InputTypeNames.Checkbox;
+                var isCheckbox = input.Type.Is(InputTypeNames.Checkbox);
                 return isCheckbox && input.IsIndeterminate;
             }
             else if (element is HtmlProgressElement)
@@ -453,14 +456,14 @@ using System.Threading.Tasks;
             {
                 var input = (HtmlInputElement)element;
                 var type = input.Type;
-                var canBeChecked = type == InputTypeNames.Checkbox || type == InputTypeNames.Radio;
+                var canBeChecked = type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio);
                 return canBeChecked && !input.IsChecked;
             }
             else if (element is HtmlMenuItemElement)
             {
                 var menuItem = (HtmlMenuItemElement)element;
                 var type = menuItem.Type;
-                var canBeChecked = type == InputTypeNames.Checkbox || type == InputTypeNames.Radio;
+                var canBeChecked = type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio);
                 return canBeChecked && !menuItem.IsChecked;
             }
             else if (element is HtmlOptionElement)
@@ -506,7 +509,7 @@ using System.Threading.Tasks;
             {
                 var input = (HtmlInputElement)element;
                 var type = input.Type;
-                var canBeSubmitted = type == InputTypeNames.Submit || type == InputTypeNames.Image || type == InputTypeNames.Reset || type == InputTypeNames.Button;
+                var canBeSubmitted = type.IsOneOf(InputTypeNames.Submit, InputTypeNames.Image, InputTypeNames.Reset, InputTypeNames.Button);
                 return canBeSubmitted && input.IsActive;
             }
             else if (element is HtmlMenuItemElement)
@@ -843,14 +846,12 @@ using System.Threading.Tasks;
                 var source = sources.Pop();
                 var type = source.Type;
 
-                if (!String.IsNullOrEmpty(type) && options.GetResourceService<IImageInfo>(type) == null)
+                if (String.IsNullOrEmpty(type) || options.GetResourceService<IImageInfo>(type) != null)
                 {
-                    continue;
-                }
-
-                foreach (var candidate in srcset.GetCandidates(source.SourceSet, source.Sizes))
-                {
-                    return new Url(img.BaseUrl, candidate);
+                    foreach (var candidate in srcset.GetCandidates(source.SourceSet, source.Sizes))
+                    {
+                        return new Url(img.BaseUrl, candidate);
+                    }
                 }
             }
 

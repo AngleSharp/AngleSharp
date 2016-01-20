@@ -205,15 +205,19 @@
         /// <returns>The spellchecker or null, if there is none.</returns>
         public static ISpellCheckService GetSpellCheck(this IConfiguration options, String language)
         {
-            ISpellCheckService substitute = null;
+            var substitute = default(ISpellCheckService);
             var culture = options.GetCultureFromLanguage(language);
 
             foreach (var spellchecker in options.GetServices<ISpellCheckService>())
             {
                 if (spellchecker.Culture.Equals(culture))
+                {
                     return spellchecker;
-                else if (spellchecker.Culture.TwoLetterISOLanguageName == culture.TwoLetterISOLanguageName)
+                }
+                else if (spellchecker.Culture.TwoLetterISOLanguageName.Is(culture.TwoLetterISOLanguageName))
+                {
                     substitute = spellchecker;
+                }
             }
 
             return substitute;

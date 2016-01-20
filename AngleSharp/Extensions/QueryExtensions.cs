@@ -28,7 +28,9 @@
             var sg = CssParser.Default.ParseSelector(selectors);
 
             if (sg == null)
+            {
                 throw new DomException(DomError.Syntax);
+            }
 
             return elements.QuerySelector(sg);
         }
@@ -45,7 +47,9 @@
             var sg = CssParser.Default.ParseSelector(selectors);
 
             if (sg == null)
+            {
                 throw new DomException(DomError.Syntax);
+            }
 
             var result = new List<IElement>();
             elements.QuerySelectorAll(sg, result);
@@ -64,7 +68,9 @@
             var names = classNames.SplitSpaces();
 
             if (names.Length > 0)
+            {
                 elements.GetElementsByClassName(names, result);
+            }
 
             return new HtmlElementCollection(result);
         }
@@ -78,7 +84,7 @@
         public static HtmlElementCollection GetElementsByTagName(this INodeList elements, String tagName)
         {
             var result = new List<IElement>();
-            elements.GetElementsByTagName(tagName != "*" ? tagName : null, result);
+            elements.GetElementsByTagName(tagName.Is(Keywords.Asterisk) ? null : tagName, result);
             return new HtmlElementCollection(result);
         }
 
@@ -93,7 +99,7 @@
         public static HtmlElementCollection GetElementsByTagName(this INodeList elements, String namespaceUri, String localName)
         {
             var result = new List<IElement>();
-            elements.GetElementsByTagName(namespaceUri, localName != "*" ? localName : null, result);
+            elements.GetElementsByTagName(namespaceUri, localName.Is(Keywords.Asterisk) ? null : localName, result);
             return new HtmlElementCollection(result);
         }
 
@@ -123,22 +129,26 @@
         /// <returns>An element object.</returns>
         public static IElement QuerySelector(this INodeList elements, ISelector selector)
         {
-            for (int i = 0; i < elements.Length; i++)
+            for (var i = 0; i < elements.Length; i++)
             {
                 var element = elements[i] as IElement;
 
                 if (element != null)
                 {
                     if (selector.Match(element))
+                    {
                         return element;
+                    }
 
-                    if (!element.HasChildNodes)
-                        continue;
+                    if (element.HasChildNodes)
+                    {
+                        element = QuerySelector(element.ChildNodes, selector);
 
-                    element = QuerySelector(element.ChildNodes, selector);
-
-                    if (element != null)
-                        return element;
+                        if (element != null)
+                        {
+                            return element;
+                        }
+                    }
                 }
             }
 
@@ -168,17 +178,21 @@
         /// <param name="result">A reference to the list where to store the results.</param>
         public static void QuerySelectorAll(this INodeList elements, ISelector selector, List<IElement> result)
         {
-            for (int i = 0; i < elements.Length; i++)
+            for (var i = 0; i < elements.Length; i++)
             {
                 var element = elements[i] as IElement;
 
                 if (element != null)
                 {
                     if (selector.Match(element))
+                    {
                         result.Add(element);
+                    }
 
                     if (element.HasChildNodes)
+                    {
                         QuerySelectorAll(element.ChildNodes, selector, result);
+                    }
                 }
             }
         }
@@ -191,10 +205,12 @@
         /// <returns>True if the string contained all tokens, otherwise false.</returns>
         public static Boolean Contains(this ITokenList list, String[] tokens)
         {
-            for (int i = 0; i < tokens.Length; i++)
+            for (var i = 0; i < tokens.Length; i++)
             {
                 if (!list.Contains(tokens[i]))
+                {
                     return false;
+                }
             }
 
             return true;
@@ -208,17 +224,21 @@
         /// <param name="result">A reference to the list where to store the results.</param>
         public static void GetElementsByClassName(this INodeList elements, String[] classNames, List<IElement> result)
         {
-            for (int i = 0; i < elements.Length; i++)
+            for (var i = 0; i < elements.Length; i++)
             {
                 var element = elements[i] as IElement;
 
                 if (element != null)
                 {
                     if (element.ClassList.Contains(classNames))
+                    {
                         result.Add(element);
+                    }
 
                     if (element.ChildElementCount != 0)
+                    {
                         GetElementsByClassName(element.ChildNodes, classNames, result);
+                    }
                 }
             }
         }
@@ -231,17 +251,21 @@
         /// <param name="result">A reference to the list where to store the results.</param>
         public static void GetElementsByTagName(this INodeList elements, String tagName, List<IElement> result)
         {
-            for (int i = 0; i < elements.Length; i++)
+            for (var i = 0; i < elements.Length; i++)
             {
                 var element = elements[i] as IElement;
 
                 if (element != null)
                 {
                     if (tagName == null || tagName.Isi(element.LocalName))
+                    {
                         result.Add(element);
+                    }
 
                     if (element.ChildElementCount != 0)
+                    {
                         GetElementsByTagName(element.ChildNodes, tagName, result);
+                    }
                 }
             }
         }
@@ -256,17 +280,21 @@
         /// <param name="result">A reference to the list where to store the results.</param>
         public static void GetElementsByTagName(this INodeList elements, String namespaceUri, String localName, List<IElement> result)
         {
-            for (int i = 0; i < elements.Length; i++)
+            for (var i = 0; i < elements.Length; i++)
             {
                 var element = elements[i] as IElement;
 
                 if (element != null)
                 {
-                    if (element.NamespaceUri == namespaceUri && (localName == null || localName.Isi(element.LocalName)))
+                    if (element.NamespaceUri.Is(namespaceUri) && (localName == null || localName.Isi(element.LocalName)))
+                    {
                         result.Add(element);
+                    }
 
                     if (element.ChildElementCount != 0)
+                    {
                         GetElementsByTagName(element.ChildNodes, namespaceUri, localName, result);
+                    }
                 }
             }
         }

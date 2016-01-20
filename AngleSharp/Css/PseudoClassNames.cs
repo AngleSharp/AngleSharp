@@ -226,5 +226,10 @@
         /// The host-context pseudo function.
         /// </summary>
         public static readonly String HostContext = "host-context";
+
+        /// <summary>
+        /// The separating colon.
+        /// </summary>
+        public static readonly String Separator = ":";
     }
 }

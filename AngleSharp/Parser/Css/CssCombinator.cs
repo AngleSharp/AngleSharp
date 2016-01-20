@@ -91,10 +91,10 @@
 
         protected static IEnumerable<IElement> Single(IElement element)
         {
-            if (element == null)
-                yield break;
-
-            yield return element;
+            if (element != null)
+            {
+                yield return element;
+            }
         }
 
         #endregion
@@ -105,7 +105,7 @@
         {
             public ChildCombinator()
             {
-                Delimiter = ">";
+                Delimiter = CombinatorSymbols.Child;
                 Transform = el => Single(el.ParentElement);
             }
         }
@@ -114,7 +114,7 @@
         {
             public DeepCombinator()
             {
-                Delimiter = ">>>";
+                Delimiter = CombinatorSymbols.Deep;
                 Transform = el => Single(el.Parent is IShadowRoot ? ((IShadowRoot)el.Parent).Host : null);
             }
         }
@@ -123,7 +123,7 @@
         {
             public DescendentCombinator()
             {
-                Delimiter = " ";
+                Delimiter = CombinatorSymbols.Descendent;
                 Transform = el =>
                 {
                     var parents = new List<IElement>();
@@ -144,7 +144,7 @@
         {
             public AdjacentSiblingCombinator()
             {
-                Delimiter = "+";
+                Delimiter = CombinatorSymbols.Adjacent;
                 Transform = el => Single(el.PreviousElementSibling);
             }
         }
@@ -153,29 +153,34 @@
         {
             public SiblingCombinator()
             {
-                Delimiter = "~";
+                Delimiter = CombinatorSymbols.Sibling;
                 Transform = el =>
                 {
                     var parent = el.ParentElement;
 
-                    if (parent == null)
-                        return new IElement[0];
-
-                    var siblings = new List<IElement>();
-
-                    foreach (var child in parent.ChildNodes)
+                    if (parent != null)
                     {
-                        var element = child as IElement;
+                        var siblings = new List<IElement>();
 
-                        if (element == null)
-                            continue;
-                        else if (Object.ReferenceEquals(element, el))
-                            break;
-                        else
-                            siblings.Add(element);
+                        foreach (var child in parent.ChildNodes)
+                        {
+                            var element = child as IElement;
+
+                            if (element != null)
+                            {
+                                if (Object.ReferenceEquals(element, el))
+                                {
+                                    break;
+                                }
+
+                                siblings.Add(element);
+                            }
+                        }
+
+                        return siblings;
                     }
 
-                    return siblings;
+                    return new IElement[0];
                 };
             }
         }
@@ -184,7 +189,7 @@
         {
             public NamespaceCombinator()
             {
-                Delimiter = "|";
+                Delimiter = CombinatorSymbols.Pipe;
                 Transform = el => Single(el);
             }
 
@@ -199,7 +204,7 @@
         {
             public ColumnCombinator()
             {
-                Delimiter = "||";
+                Delimiter = CombinatorSymbols.Column;
                 //TODO no real implementation yet
                 //see: http://dev.w3.org/csswg/selectors-4/#the-column-combinator
             }

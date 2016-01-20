@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// The collection of used CSS value keywords.
+    /// The collection of used keywords and strings.
     /// </summary>
     static class Keywords
     {
@@ -1128,6 +1128,11 @@
         public static readonly String Off = "off";
 
         /// <summary>
+        /// The of keyword.
+        /// </summary>
+        public static readonly String Of = "of";
+
+        /// <summary>
         /// The portrait keyword.
         /// </summary>
         public static readonly String Portrait = "portrait";
@@ -1331,5 +1336,20 @@
         /// The "[CDATA[" keyword.
         /// </summary>
         public static readonly String CData = "[CDATA[";
+
+        /// <summary>
+        /// The * keyword.
+        /// </summary>
+        public static readonly String Asterisk = "*";
+
+        /// <summary>
+        /// The odd keyword.
+        /// </summary>
+        public static readonly String Odd = "odd";
+
+        /// <summary>
+        /// The even keyword.
+        /// </summary>
+        public static readonly String Even = "even";
     }
 }

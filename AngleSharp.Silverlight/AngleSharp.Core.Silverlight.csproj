@@ -137,6 +137,9 @@
     <Compile Include="..\AngleSharp\Css\Colors.cs">
       <Link>Css\Colors.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\CombinatorSymbols.cs">
+      <Link>Css\CombinatorSymbols.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Converters.cs">
       <Link>Css\Converters.cs</Link>
     </Compile>
@@ -1904,6 +1907,9 @@
     <Compile Include="..\AngleSharp\Extensions\XmlExtensions.cs">
       <Link>Extensions\XmlExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Factories\AttributeSelectorFactory.cs">
+      <Link>Factories\AttributeSelectorFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Factories\CssPropertyFactory.cs">
       <Link>Factories\CssPropertyFactory.cs</Link>
     </Compile>
@@ -3085,7 +3091,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" />
+      <UserProperties ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

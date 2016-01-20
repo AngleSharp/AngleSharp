@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom
 {
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -80,17 +81,17 @@
 
         public Boolean IsAttribute
         {
-            get { return Type == AttributesType; }
+            get { return Type.Is(AttributesType); }
         }
 
         public Boolean IsCharacterData
         {
-            get { return Type == CharacterDataType; }
+            get { return Type.Is(CharacterDataType); }
         }
 
         public Boolean IsChildList
         {
-            get { return Type == ChildListType; }
+            get { return Type.Is(ChildListType); }
         }
 
         public String Type

@@ -143,17 +143,6 @@
 
         #region Methods
 
-        internal override FormControlState SaveControlState()
-        {
-            return new FormControlState(Name, Type, Value);
-        }
-
-        internal override void RestoreFormControlState(FormControlState state)
-        {
-            if (state.Type == Type && state.Name == Name)
-                Value = state.Value;
-        }
-
         /// <summary>
         /// Adds the element to the options collection.
         /// </summary>
@@ -186,6 +175,19 @@
         #endregion
 
         #region Internal Methods
+
+        internal override FormControlState SaveControlState()
+        {
+            return new FormControlState(Name, Type, Value);
+        }
+
+        internal override void RestoreFormControlState(FormControlState state)
+        {
+            if (state.Type.Is(Type) && state.Name.Is(Name))
+            {
+                Value = state.Value;
+            }
+        }
 
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
@@ -261,13 +263,9 @@
 
         protected override Boolean CanBeValidated()
         {
-            return this.HasDataListAncestor() == false;
+            return !this.HasDataListAncestor();
         }
 
-        /// <summary>
-        /// Checks the form control for validity.
-        /// </summary>
-        /// <param name="state">The element's validity state tracker.</param>
         protected override void Check(ValidityState state)
         {
             var value = Value;

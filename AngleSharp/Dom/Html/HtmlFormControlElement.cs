@@ -163,24 +163,12 @@
             return false;
         }
 
-        /// <summary>
-        /// Constucts the data set (called from a form).
-        /// </summary>
-        /// <param name="dataSet">The dataset to construct.</param>
-        /// <param name="submitter">The given submitter.</param>
         internal virtual void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         { }
 
-        /// <summary>
-        /// Resets the form control to its initial value.
-        /// </summary>
         internal virtual void Reset()
         { }
 
-        /// <summary>
-        /// Checks the form control for validity.
-        /// </summary>
-        /// <param name="state">The element's validity state tracker.</param>
         protected virtual void Check(ValidityState state)
         { }
 

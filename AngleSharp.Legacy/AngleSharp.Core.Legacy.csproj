@@ -120,6 +120,9 @@
     <Compile Include="..\AngleSharp\Css\Colors.cs">
       <Link>Css\Colors.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\CombinatorSymbols.cs">
+      <Link>Css\CombinatorSymbols.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Converters.cs">
       <Link>Css\Converters.cs</Link>
     </Compile>
@@ -1888,6 +1891,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\XmlExtensions.cs">
       <Link>Extensions\XmlExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Factories\AttributeSelectorFactory.cs">
+      <Link>Factories\AttributeSelectorFactory.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Factories\CssPropertyFactory.cs">
       <Link>Factories\CssPropertyFactory.cs</Link>
