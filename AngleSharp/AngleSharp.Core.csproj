@@ -249,6 +249,7 @@
     <Compile Include="Network\MimeType.cs" />
     <Compile Include="Network\RequestProcessors\BaseRequestProcessor.cs" />
     <Compile Include="Network\RequestProcessors\DocumentRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\FrameRequestProcessor.cs" />
     <Compile Include="Network\RequestProcessors\MediaRequestProcessor.cs" />
     <Compile Include="Network\RequestProcessors\ObjectRequestProcessor.cs" />
     <Compile Include="Network\RequestProcessors\ResourceRequestProcessor.cs" />
