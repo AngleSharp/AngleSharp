@@ -2750,6 +2750,9 @@
     <Compile Include="..\AngleSharp\Network\RequestProcessors\DocumentRequestProcessor.cs">
       <Link>Network\RequestProcessors\DocumentRequestProcessor.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\FrameRequestProcessor.cs">
+      <Link>Network\RequestProcessors\FrameRequestProcessor.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\RequestProcessors\ImageRequestProcessor.cs">
       <Link>Network\RequestProcessors\ImageRequestProcessor.cs</Link>
     </Compile>
