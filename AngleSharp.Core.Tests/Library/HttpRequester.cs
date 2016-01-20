@@ -304,7 +304,11 @@
                 setup.IsResourceLoadingEnabled = true;
                 setup.Filter = request =>
                 {
-                    filtered.Add(request);
+                    lock (filtered)
+                    {
+                        filtered.Add(request);
+                    }
+
                     return !request.Address.Href.EndsWith(".jpg");
                 };
             }, new[] { requester });
