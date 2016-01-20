@@ -1606,7 +1606,10 @@
         /// <param name="task">The task to wait for.</param>
         internal void DelayLoad(Task task)
         {
-            _subtasks.Add(task);
+            if (_ready != DocumentReadyState.Complete && task != null && !task.IsCompleted)
+            {
+                _subtasks.Add(task);
+            }
         }
 
         /// <summary>

@@ -1,16 +1,16 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
-using AngleSharp.Dom.Html;
-using AngleSharp.Html;
-using AngleSharp.Network;
-using AngleSharp.Network.RequestProcessors;
-using AngleSharp.Services.Media;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
+    using AngleSharp.Dom.Html;
+    using AngleSharp.Html;
+    using AngleSharp.Network;
+    using AngleSharp.Network.RequestProcessors;
+    using AngleSharp.Services.Media;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Useful methods for element objects.
@@ -820,11 +820,7 @@ using System.Threading.Tasks;
                 document.QueueTask(() =>
                 {
                     var task = processor.Process(request);
-
-                    if (task != null)
-                    {
-                        document.DelayLoad(task);
-                    }
+                    document.DelayLoad(task);
                 });
             }
         }
