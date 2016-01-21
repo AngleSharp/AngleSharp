@@ -252,6 +252,9 @@
         [Test]
         public async Task LoadContextFromStreamChunked()
         {
+            // Warning: This test might fail under certain conditions, e.g.,
+            // * client uses a proxy or
+            // * client is connected to VPN (at least with the VPN client of Windows 10).
             if (Helper.IsNetworkAvailable())
             {
                 var address = "http://anglesharp.azurewebsites.net/Chunked";
@@ -282,11 +285,16 @@
         }
 
         [Test]
-        public async Task LoadTaobaoWithAllSubresources()
+        public async Task LoadTestPageWithAllSubresources()
         {
             if (Helper.IsNetworkAvailable())
             {
-                var address = "https://meadjohnson.world.tmall.com/search.htm?search=y&orderType=defaultSort&scene=taobao_shop";
+                //Formerly used the following url:
+                //https://meadjohnson.world.tmall.com/search.htm?search=y&orderType=defaultSort&scene=taobao_shop
+                //However: The connection to taobao is usually very bad and the
+                //page takes ~10-30s (or longer!) to load. Replaced with another
+                //solution taken directly from the AngleSharp infrastructure.
+                var address = "http://anglesharp.azurewebsites.net/Page";
                 var config = Configuration.Default.WithDefaultLoader(setup => 
                     setup.IsResourceLoadingEnabled = true);
                 var context = BrowsingContext.New(config);
