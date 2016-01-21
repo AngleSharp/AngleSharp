@@ -2774,6 +2774,9 @@
     <Compile Include="..\AngleSharp\Network\ResourceRequest.cs">
       <Link>Network\ResourceRequest.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\VirtualResponse.cs">
+      <Link>Network\VirtualResponse.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Parser\BaseTokenizer.cs">
       <Link>Parser\BaseTokenizer.cs</Link>
     </Compile>
