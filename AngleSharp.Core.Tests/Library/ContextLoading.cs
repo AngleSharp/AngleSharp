@@ -270,10 +270,14 @@
         public async Task ProxyShouldBeAvailableDuringLoading()
         {
             var windowIsNotNull = false;
-            var scripting = new CallbackScriptEngine(options => windowIsNotNull = options.Context.Proxy != null);
+            var scripting = new CallbackScriptEngine(options =>
+            {
+                windowIsNotNull = options.Context.Proxy != null;
+            });
             var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
             var source = "<title>Some title</title><body><script type='c-sharp' src='foo.cs'></script>";
-            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+            var document = await BrowsingContext.New(config).OpenAsync(m => 
+                m.Content(source).Address("http://www.example.com"));
             Assert.IsTrue(windowIsNotNull);
         }
 
@@ -283,7 +287,8 @@
             if (Helper.IsNetworkAvailable())
             {
                 var address = "https://meadjohnson.world.tmall.com/search.htm?search=y&orderType=defaultSort&scene=taobao_shop";
-                var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
+                var config = Configuration.Default.WithDefaultLoader(setup => 
+                    setup.IsResourceLoadingEnabled = true);
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
                 Assert.IsNotNull(document);
