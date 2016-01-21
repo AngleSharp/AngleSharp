@@ -817,11 +817,8 @@
             {
                 var request = element.CreateRequestFor(url);
                 var document = element.Owner;
-                document.QueueTask(() =>
-                {
-                    var task = processor.Process(request);
-                    document.DelayLoad(task);
-                });
+                var task = processor.Process(request);
+                document.DelayLoad(task);
             }
         }
 
