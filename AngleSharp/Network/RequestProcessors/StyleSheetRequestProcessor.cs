@@ -5,6 +5,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Services.Styling;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     class StyleSheetRequestProcessor :  BaseRequestProcessor
@@ -56,6 +57,7 @@
 
             if (engine != null)
             {
+                var cancel = CancellationToken.None;
                 var options = new StyleOptions
                 {
                     Element = _link,
@@ -64,7 +66,8 @@
                     Configuration = _options
                 };
 
-                _sheet = engine.ParseStylesheet(response, options);
+                var task = engine.ParseStylesheetAsync(response, options, cancel);
+                _sheet = await task.ConfigureAwait(false);
                 _sheet.Media.MediaText = _link.Media ?? String.Empty;
             }
         }
