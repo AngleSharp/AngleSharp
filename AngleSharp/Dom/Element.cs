@@ -640,7 +640,7 @@
                 {
                     var source = this.GetOwnAttribute(AttributeNames.Style);
                     var options = new StyleOptions { Element = this, Configuration = config };
-                    var style = engine.ParseInline(source, options);
+                    var style = engine.ParseDeclaration(source, options);
                     var bindable = style as IBindable;
 
                     if (bindable != null)

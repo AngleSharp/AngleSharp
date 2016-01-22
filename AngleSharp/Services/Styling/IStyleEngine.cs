@@ -17,7 +17,7 @@
         String Type { get; }
 
         /// <summary>
-        /// Creates a style sheet for the given response asynchronously.
+        /// Parses a style sheet for the given response asynchronously.
         /// </summary>
         /// <param name="response">
         /// The response with the stream representing the source of the

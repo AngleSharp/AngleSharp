@@ -113,7 +113,7 @@
         /// The options with the parameters for evaluating the style.
         /// </param>
         /// <returns>The created style declaration.</returns>
-        public ICssStyleDeclaration ParseInline(String source, StyleOptions options)
+        public ICssStyleDeclaration ParseDeclaration(String source, StyleOptions options)
         {
             var parser = new CssParser(_options, options.Configuration);
             var style = new CssStyleDeclaration(parser);
