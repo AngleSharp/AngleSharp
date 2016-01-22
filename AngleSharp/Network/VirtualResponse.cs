@@ -16,7 +16,6 @@
         Url address;
         HttpStatusCode status;
         Dictionary<String, String> headers;
-        TextSource source;
         Stream content;
         Boolean dispose;
 
@@ -24,17 +23,25 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new virtual response.
-        /// </summary>
-        public VirtualResponse()
+        private VirtualResponse()
         {
             address = Url.Create("http://localhost/");
             status = HttpStatusCode.OK;
             headers = new Dictionary<String, String>();
             content = MemoryStream.Null;
-            source = null;
             dispose = false;
+        }
+
+        /// <summary>
+        /// Creates a new virtual response.
+        /// </summary>
+        /// <param name="request">The request callback.</param>
+        /// <returns>The resulted response.</returns>
+        public static IResponse Create(Action<VirtualResponse> request)
+        {
+            var vr = new VirtualResponse();
+            request(vr);
+            return vr;
         }
 
         #endregion
@@ -165,7 +172,9 @@
         public VirtualResponse Content(String text)
         {
             Release();
-            source = new TextSource(text);
+            var raw = TextEncoding.Utf8.GetBytes(text);
+            content = new MemoryStream(raw);
+            dispose = true;
             return this;
         }
 
@@ -189,35 +198,14 @@
             {
                 content.Dispose();
             }
-            else if (source != null)
-            {
-                source.Dispose();
-            }
 
             dispose = false;
-            source = null;
             content = null;
         }
 
         void IDisposable.Dispose()
         {
             Release();
-        }
-
-        internal TextSource CreateSourceFor(IConfiguration configuration)
-        {
-            if (source != null)
-            {
-                return source;
-            }
-            else if (content != null)
-            {
-                return new TextSource(content, configuration.DefaultEncoding());
-            }
-            else
-            {
-                return new TextSource(String.Empty);
-            }
         }
 
         #endregion

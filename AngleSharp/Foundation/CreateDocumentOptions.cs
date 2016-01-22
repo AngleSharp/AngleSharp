@@ -26,11 +26,6 @@
 
         #region ctor
 
-        public CreateDocumentOptions(IResponse response, TextSource source)
-            : this(response, response.GetContentType(MimeTypeNames.Html), source)
-        {
-        }
-
         public CreateDocumentOptions(IResponse response, IConfiguration configuration)
         {
             var contentType = response.GetContentType(MimeTypeNames.Html);
@@ -45,13 +40,6 @@
             _source = new TextSource(response.Content, encoding);
             _contentType = contentType;
             _response = response;
-        }
-
-        public CreateDocumentOptions(IResponse response, MimeType contentType, TextSource source)
-        {
-            _response = response;
-            _contentType = contentType;
-            _source = source;
         }
 
         #endregion

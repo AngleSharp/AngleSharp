@@ -115,18 +115,9 @@
                 throw new ArgumentNullException("request");
             }
 
-            if (context == null)
+            using (var response = VirtualResponse.Create(request))
             {
-                context = BrowsingContext.New();
-            }
-
-            using (var response = new VirtualResponse())
-            {
-                request(response);
-                var contentType = response.GetContentType(MimeTypeNames.Html);
-                var source = response.CreateSourceFor(context.Configuration);
-                var options = new CreateDocumentOptions(response, source);
-                return context.OpenAsync(options, cancel);
+                return context.OpenAsync(response, cancel);
             }
         }
 
