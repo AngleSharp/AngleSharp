@@ -3672,7 +3672,7 @@
         async Task RunScript(HtmlScriptElement script)
         {
             await _document.WaitForReady().ConfigureAwait(false);
-            script.Run();
+            await script.RunAsync(CancellationToken.None).ConfigureAwait(false);
         }
 
         /// <summary>

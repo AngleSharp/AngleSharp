@@ -1200,7 +1200,7 @@
             while (_loadingScripts.Count > 0)
             {
                 await this.WaitForReady().ConfigureAwait(false);
-                _loadingScripts.Dequeue().Run();
+                await _loadingScripts.Dequeue().RunAsync(CancellationToken.None).ConfigureAwait(false);
             }
 
             this.QueueTask(RaiseDomContentLoaded);

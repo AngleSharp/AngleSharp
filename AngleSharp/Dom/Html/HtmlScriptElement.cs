@@ -5,7 +5,7 @@
     using AngleSharp.Network;
     using AngleSharp.Services.Scripting;
     using System;
-    using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -20,7 +20,7 @@
 
         Boolean _started;
         Boolean _forceAsync;
-        Action _runScript;
+        Func<Task> _runScript;
 
         #endregion
 
@@ -118,10 +118,11 @@
             if (!_parserInserted)
             {
                 Prepare(Owner);
+                RunAsync(CancellationToken.None);
             }
         }
         
-        internal void Run()
+        internal Task RunAsync(CancellationToken cancel)
         {
             if (_runScript != null)
             {
@@ -129,9 +130,11 @@
 
                 if (!cancelled)
                 {
-                    _runScript();
+                    return _runScript();
                 }
             }
+
+            return null;
         }
 
         /// <summary>
@@ -198,15 +201,10 @@
 
                 document.QueueTask(FireErrorEvent);
             }
-            else 
+            else
             {
-                if (_parserInserted && document.GetStyleSheetDownloads().Any())
-                {
-                    _runScript = RunFromSource;
-                    return true;
-                }
-
-                RunFromSource();
+                _runScript = RunFromSource;
+                return true;
             }
 
             return false;
@@ -252,34 +250,36 @@
             var behavior = OriginBehavior.Taint;
             var response = await loader.FetchWithCorsAsync(request, setting, behavior).ConfigureAwait(false);
             var completion = new TaskCompletionSource<Boolean>();
-            _runScript = () =>
+            _runScript = async () =>
             {
-                RunFromResponse(response);
+                await RunFromResponse(response).ConfigureAwait(false);
                 response.Dispose();
                 completion.SetResult(true);
             };
             await completion.Task.ConfigureAwait(false);
         }
 
-        void RunFromResponse(IResponse response)
+        async Task RunFromResponse(IResponse response)
         {
-            Eval(options => Engine.Evaluate(response, options));
+            await Eval(response).ConfigureAwait(false);
             FireLoadEvent();
         }
 
-        void RunFromSource()
+        async Task RunFromSource()
         {
-            Eval(options => Engine.Evaluate(Text, options));
+            var response = VirtualResponse.Create(res => res.Content(Text).Address(BaseUri));
+            await Eval(response).ConfigureAwait(false);
             Owner.QueueTask(FireLoadEvent);
         }
 
-        void Eval(Action<ScriptOptions> evaluateWith)
+        async Task Eval(IResponse response)
         {
+            var cancel = CancellationToken.None;
             var options = CreateOptions();
             var document = Owner;
             var insert = document.Source.Index;
 
-            try { evaluateWith(options); }
+            try { await Engine.EvaluateScriptAsync(response, options, cancel).ConfigureAwait(false); }
             catch { /* We omit failed 3rd party services */ }
 
             document.Source.Index = insert;

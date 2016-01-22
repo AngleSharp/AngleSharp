@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.Services.Scripting
 {
-    using System;
     using AngleSharp.Network;
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Defines the API of an available engine for running scripts provided in
@@ -15,17 +17,7 @@
         String Type { get; }
 
         /// <summary>
-        /// Evaluates the given source with the specified options.
-        /// </summary>
-        /// <param name="source">The source code of the script.</param>
-        /// <param name="options">
-        /// The options with the parameters for invoking the script.
-        /// </param>
-        void Evaluate(String source, ScriptOptions options);
-
-        /// <summary>
-        /// Evaluates a script that emerges from the network response with the
-        /// specified options.
+        /// Evaluates a script for the given response asynchronously.
         /// </summary>
         /// <param name="response">
         /// The response with the stream representing the source of the script.
@@ -33,6 +25,8 @@
         /// <param name="options">
         /// The options with the parameters for invoking the script.
         /// </param>
-        void Evaluate(IResponse response, ScriptOptions options);
+        /// <param name="cancel">The cancellation token.</param>
+        /// <returns>The task evaluating the script.</returns>
+        Task EvaluateScriptAsync(IResponse response, ScriptOptions options, CancellationToken cancel);
     }
 }
