@@ -3,6 +3,8 @@
     using AngleSharp.Network;
     using AngleSharp.Services.Scripting;
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     class CallbackScriptEngine : IScriptEngine
     {
@@ -22,16 +24,12 @@
             private set;
         }
 
-        public void Evaluate(String source, ScriptOptions options)
+        public Task EvaluateScriptAsync(IResponse response, ScriptOptions options, CancellationToken cancel)
         {
             if (Callback != null)
                 Callback(options);
-        }
 
-        public void Evaluate(IResponse response, ScriptOptions options)
-        {
-            if (Callback != null)
-                Callback(options);
+            return Task.FromResult(true);
         }
     }
 }
