@@ -804,6 +804,11 @@
             get { return ReadyState == DocumentReadyState.Complete; }
         }
 
+        public Boolean IsLoading
+        {
+            get { return ReadyState == DocumentReadyState.Loading; }
+        }
+
         #endregion
 
         #region Internal Properties
@@ -939,7 +944,7 @@
 
         void IDocument.Close()
         {
-            if (ReadyState == DocumentReadyState.Loading)
+            if (IsLoading)
             {
                 FinishLoading().Wait();
             }

@@ -102,7 +102,6 @@
                 element.AdjustAttribute(name.AdjustToMathAttribute(), value);
             }
 
-            element.SetupElement();
             return element;
         }
 
@@ -123,7 +122,6 @@
                 element.AdjustAttribute(name.AdjustToSvgAttribute(), value);
             }
 
-            element.SetupElement();
             return element;
         }
 
