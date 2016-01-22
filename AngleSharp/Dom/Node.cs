@@ -587,12 +587,12 @@
                 }
             }
 
-            for (int i = 0; i < removedNodes.Length; i++)
+            for (var i = 0; i < removedNodes.Length; i++)
             {
                 RemoveChild(removedNodes[i], true);
             }
 
-            for (int i = 0; i < addedNodes.Length; i++)
+            for (var i = 0; i < addedNodes.Length; i++)
             {
                 InsertBefore(addedNodes[i], null, true);
             }
