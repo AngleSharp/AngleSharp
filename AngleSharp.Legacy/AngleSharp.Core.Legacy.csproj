@@ -2099,6 +2099,9 @@
     <Compile Include="..\AngleSharp\IBrowsingContext.cs">
       <Link>IBrowsingContext.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\ICancellable.cs">
+      <Link>ICancellable.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\IConfiguration.cs">
       <Link>IConfiguration.cs</Link>
     </Compile>
@@ -2767,6 +2770,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Network\RequestProcessors\ResourceRequestProcessor.cs">
       <Link>Network\RequestProcessors\ResourceRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\ScriptRequestProcessor.cs">
+      <Link>Network\RequestProcessors\ScriptRequestProcessor.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Network\RequestProcessors\StyleSheetRequestProcessor.cs">
       <Link>Network\RequestProcessors\StyleSheetRequestProcessor.cs</Link>
