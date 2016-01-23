@@ -3,6 +3,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Network.RequestProcessors;
     using AngleSharp.Services.Scripting;
     using System;
     using System.Threading;
@@ -17,10 +18,10 @@
         #region Fields
 
         readonly Boolean _parserInserted;
+        readonly ScriptRequestProcessor _request;
 
         Boolean _started;
         Boolean _forceAsync;
-        Func<Task> _runScript;
 
         #endregion
 
@@ -32,6 +33,7 @@
             _forceAsync = false;
             _started = started;
             _parserInserted = parserInserted;
+            _request = ScriptRequestProcessor.Create(this);
         }
 
         #endregion
@@ -124,16 +126,11 @@
         
         internal Task RunAsync(CancellationToken cancel)
         {
-            if (_runScript != null)
+            if (_request != null)
             {
-                var cancelled = this.FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
-
-                if (!cancelled)
-                {
-                    return _runScript();
-                }
+                return _request.RunAsync(cancel);
             }
-
+            
             return null;
         }
 
@@ -203,7 +200,11 @@
             }
             else
             {
-                _runScript = RunFromSource;
+                if (_request != null)
+                {
+                    _request.Process(Text);
+                }
+
                 return true;
             }
 
@@ -238,81 +239,13 @@
                 fromParser = false;
             }
 
-            var request = this.CreateRequestFor(url);
-            var task = LoadScriptAsync(document.Loader, request);
-            document.DelayLoad(task);
+            this.Process(_request, url);
             return fromParser;
-        }
-
-        async Task LoadScriptAsync(IResourceLoader loader, ResourceRequest request)
-        {
-            var setting = CrossOrigin.ToEnum(CorsSetting.None);
-            var behavior = OriginBehavior.Taint;
-            var response = await loader.FetchWithCorsAsync(request, setting, behavior).ConfigureAwait(false);
-            var completion = new TaskCompletionSource<Boolean>();
-            _runScript = async () =>
-            {
-                await RunFromResponse(response).ConfigureAwait(false);
-                response.Dispose();
-                completion.SetResult(true);
-            };
-            await completion.Task.ConfigureAwait(false);
-        }
-
-        async Task RunFromResponse(IResponse response)
-        {
-            await Eval(response).ConfigureAwait(false);
-            FireLoadEvent();
-        }
-
-        async Task RunFromSource()
-        {
-            var response = VirtualResponse.Create(res => res.Content(Text).Address(BaseUri));
-            await Eval(response).ConfigureAwait(false);
-            Owner.QueueTask(FireLoadEvent);
-        }
-
-        async Task Eval(IResponse response)
-        {
-            var cancel = CancellationToken.None;
-            var options = CreateOptions();
-            var document = Owner;
-            var insert = document.Source.Index;
-
-            try { await Engine.EvaluateScriptAsync(response, options, cancel).ConfigureAwait(false); }
-            catch { /* We omit failed 3rd party services */ }
-
-            document.Source.Index = insert;
-            FireAfterScriptExecuteEvent();
-        }
-
-        void FireLoadEvent()
-        {
-            this.FireSimpleEvent(EventNames.Load);
         }
 
         void FireErrorEvent()
         {
             this.FireSimpleEvent(EventNames.Error);
-        }
-
-        void FireAfterScriptExecuteEvent()
-        {
-            this.FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
-        }
-
-        ScriptOptions CreateOptions()
-        {
-            var document = Owner;
-            var context = document != null ? document.DefaultView : null;
-
-            return new ScriptOptions
-            {
-                Context = context,
-                Document = document,
-                Element = this,
-                Encoding = TextEncoding.Resolve(CharacterSet)
-            };
         }
 
         #endregion

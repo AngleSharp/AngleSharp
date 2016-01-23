@@ -225,6 +225,7 @@
     <Compile Include="Html\Submitters\UrlEncodedFormDataSetVisitor.cs" />
     <Compile Include="Html\TextDataSetEntry.cs" />
     <Compile Include="IBindable.cs" />
+    <Compile Include="ICancellable.cs" />
     <Compile Include="Interfaces\Css\IConditionFunction.cs" />
     <Compile Include="Interfaces\Css\ICssComment.cs" />
     <Compile Include="Interfaces\Css\ICssMedium.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Network\RequestProcessors\ResourceRequestProcessor.cs" />
     <Compile Include="Network\RequestProcessors\ImageRequestProcessor.cs" />
     <Compile Include="Network\RequestProcessors\IRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\ScriptRequestProcessor.cs" />
     <Compile Include="Network\RequestProcessors\StyleSheetRequestProcessor.cs" />
     <Compile Include="Network\VirtualResponse.cs" />
     <Compile Include="Parser\Css\CssBuilder.cs" />
