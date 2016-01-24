@@ -74,30 +74,6 @@
         }
 
         /// <summary>
-        /// Creates a new DocumentFragment from the given HTML code. The
-        /// fragment is parsed with the Body element as context.
-        /// </summary>
-        /// <param name="document">The responsible document.</param>
-        /// <param name="html">The HTML to transform into a fragment.</param>
-        /// <returns>The fragment containing the new nodes.</returns>
-        static IDocumentFragment CreateFromHtml(this IDocument document, String html)
-        {
-            if (document == null)
-            {
-                throw new ArgumentNullException("document");
-            }
-
-            var body = document.Body as Element;
-
-            if (body == null)
-            {
-                throw new ArgumentException("The provided document does not have a valid body element.");
-            }
-
-            return new DocumentFragment(body, html ?? String.Empty);
-        }
-
-        /// <summary>
         /// Returns a task that is completed once the event is fired.
         /// </summary>
         /// <typeparam name="TEventTarget">The event target type.</typeparam>
@@ -1158,6 +1134,44 @@
             }
 
             return elements;
+        }
+
+        #endregion
+
+        #region IDocument extensions
+
+        /// <summary>
+        /// Gets all elements associated with resources of the document.
+        /// </summary>
+        /// <param name="document">The document hosting the elements.</param>
+        /// <returns>The collection of elements hosting resources.</returns>
+        public static IEnumerable<IElement> GetResources(this IDocument document)
+        {
+            return Enumerable.Empty<IElement>();
+        }
+
+        /// <summary>
+        /// Creates a new DocumentFragment from the given HTML code. The
+        /// fragment is parsed with the Body element as context.
+        /// </summary>
+        /// <param name="document">The responsible document.</param>
+        /// <param name="html">The HTML to transform into a fragment.</param>
+        /// <returns>The fragment containing the new nodes.</returns>
+        static IDocumentFragment CreateFromHtml(this IDocument document, String html)
+        {
+            if (document == null)
+            {
+                throw new ArgumentNullException("document");
+            }
+
+            var body = document.Body as Element;
+
+            if (body == null)
+            {
+                throw new ArgumentException("The provided document does not have a valid body element.");
+            }
+
+            return new DocumentFragment(body, html ?? String.Empty);
         }
 
         #endregion
