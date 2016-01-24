@@ -200,7 +200,7 @@
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
     <Compile Include="Factories\PseudoClassSelectorFactory.cs" />
     <Compile Include="Factories\PseudoElementSelectorFactory.cs" />
-    <Compile Include="FormatExtensions.cs" />
+    <Compile Include="Extensions\FormatExtensions.cs" />
     <Compile Include="Foundation\CreateDocumentOptions.cs" />
     <Compile Include="Foundation\Punycode.cs" />
     <Compile Include="Foundation\TaskEx.cs" />
