@@ -4,6 +4,7 @@
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -1141,13 +1142,13 @@
         #region IDocument extensions
 
         /// <summary>
-        /// Gets all elements associated with resources of the document.
+        /// Gets all downloads associated with resources of the document.
         /// </summary>
-        /// <param name="document">The document hosting the elements.</param>
+        /// <param name="document">The document hosting the downloads.</param>
         /// <returns>The collection of elements hosting resources.</returns>
-        public static IEnumerable<IElement> GetResources(this IDocument document)
+        public static IEnumerable<IDownload> GetDownloads(this IDocument document)
         {
-            return Enumerable.Empty<IElement>();
+            return Enumerable.Empty<IDownload>();
         }
 
         /// <summary>

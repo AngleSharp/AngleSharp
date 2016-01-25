@@ -4,7 +4,6 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Events;
     using AngleSharp.Extensions;
-    using AngleSharp.Network;
     using AngleSharp.Services.Media;
     using NUnit.Framework;
     using System;
@@ -301,6 +300,48 @@
                 var document = await context.OpenAsync(address);
                 Assert.IsNotNull(document);
             }
+        }
+
+        [Test]
+        public async Task GetDownloadsOfEmptyDocumentShouldBeZero()
+        {
+            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
+            var document = await BrowsingContext.New(config).OpenNewAsync();
+            var downloads = document.GetDownloads().ToArray();
+
+            Assert.AreEqual(0, downloads.Length);
+        }
+
+        [Test]
+        public async Task GetDownloadsOfExampleDocumentShouldYieldResources()
+        {
+            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
+            var content = @"<link rel=stylesheet type=text/css href=bootstraph.css>
+<link rel=stylesheet type=text/css href=fontawesome.css>
+<link rel=stylesheet type=text/css href=style.css>
+<body>
+    <img src=foo.png>
+    <iframe src=foo.html></iframe>
+    <script>alert('Hello World!');</script>
+    <script src=test.js></script>
+</body>";
+            var document = await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
+            var downloads = document.GetDownloads().ToArray();
+
+            Assert.AreEqual(6, downloads.Length);
+
+            foreach (var download in downloads)
+            {
+                Assert.IsTrue(download.IsCompleted);
+                Assert.IsNotNull(download.Originator);
+            }
+
+            Assert.AreEqual(document.QuerySelectorAll("link").Skip(0).First(), downloads[0].Originator);
+            Assert.AreEqual(document.QuerySelectorAll("link").Skip(1).First(), downloads[1].Originator);
+            Assert.AreEqual(document.QuerySelectorAll("link").Skip(2).First(), downloads[2].Originator);
+            Assert.AreEqual(document.QuerySelector("img"), downloads[3].Originator);
+            Assert.AreEqual(document.QuerySelector("iframe"), downloads[4].Originator);
+            Assert.AreEqual(document.QuerySelectorAll("script").Skip(1).First(), downloads[5].Originator);
         }
     }
 }
