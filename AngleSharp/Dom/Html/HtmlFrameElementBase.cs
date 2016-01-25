@@ -2,6 +2,7 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using AngleSharp.Network.RequestProcessors;
     using System;
 
@@ -28,6 +29,11 @@
         #endregion
 
         #region Properties
+
+        public IDownload CurrentDownload
+        {
+            get { return _request != null ? _request.Download : null; }
+        }
 
         public String Name
         {

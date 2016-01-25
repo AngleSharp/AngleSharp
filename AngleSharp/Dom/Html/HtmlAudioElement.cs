@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Dom.Media;
     using AngleSharp.Html;
     using AngleSharp.Services.Media;
+    using System;
 
     /// <summary>
     /// Represents the HTML audio element.

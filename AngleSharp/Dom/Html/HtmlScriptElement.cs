@@ -40,6 +40,11 @@
 
         #region Internal Properties
 
+        public IDownload CurrentDownload
+        {
+            get { return null; }
+        }
+
         internal String AlternativeLanguage
         {
             get

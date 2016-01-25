@@ -8,7 +8,7 @@
     /// Represents the base for all HTML media elements.
     /// </summary>
     [DomName("HTMLMediaElement")]
-    public interface IHtmlMediaElement : IHtmlElement, IMediaController
+    public interface IHtmlMediaElement : IHtmlElement, IMediaController, ILoadableElement
     {
         /// <summary>
         /// Gets or sets the media source.

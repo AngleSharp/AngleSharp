@@ -7,7 +7,7 @@
     /// Represents a link HTML element.
     /// </summary>
     [DomName("HTMLLinkElement")]
-    public interface IHtmlLinkElement : IHtmlElement, ILinkStyle, ILinkImport
+    public interface IHtmlLinkElement : IHtmlElement, ILinkStyle, ILinkImport, ILoadableElement
     {
         /// <summary>
         /// Gets or sets if the stylesheet is enabled or disabled.
