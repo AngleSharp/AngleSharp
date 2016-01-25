@@ -10,40 +10,29 @@
     /// Represents the HTML meter element.
     /// https://html.spec.whatwg.org/multipage/forms.html#dom-meter-low
     /// </summary>
-    sealed class HtmlMeterElement : HtmlElement, ILabelabelElement, IHtmlMeterElement
+    sealed class HtmlMeterElement : HtmlElement, IHtmlMeterElement
     {
         #region Fields
 
-        readonly NodeList labels;
+        readonly NodeList _labels;
 
         #endregion
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new HTML meter element.
-        /// </summary>
         public HtmlMeterElement(Document owner, String prefix = null)
             : base(owner, TagNames.Meter, prefix)
         {
-            labels = new NodeList();
+            _labels = new NodeList();
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets if labels are supported.
-        /// </summary>
-        public Boolean SupportsLabels
-        {
-            get { return true; }
-        }
-
         public INodeList Labels
         {
-            get { return labels; }
+            get { return _labels; }
         }
 
         public Double Value
