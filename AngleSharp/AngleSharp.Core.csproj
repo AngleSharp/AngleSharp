@@ -224,7 +224,7 @@
     <Compile Include="Html\Submitters\PlaintextFormDataSetVisitor.cs" />
     <Compile Include="Html\Submitters\UrlEncodedFormDataSetVisitor.cs" />
     <Compile Include="Html\TextDataSetEntry.cs" />
-    <Compile Include="IBindable.cs" />
+    <Compile Include="Interfaces\IBindable.cs" />
     <Compile Include="ICancellable.cs" />
     <Compile Include="Interfaces\Css\IConditionFunction.cs" />
     <Compile Include="Interfaces\Css\ICssComment.cs" />
