@@ -1982,6 +1982,8 @@
         /// <param name="c">The next input character.</param>
         HtmlToken ScriptData(Char c)
         {
+            var length = _lastStartTag.Length;
+
             while (true)
             {
                 switch (c)
@@ -1992,7 +1994,82 @@
                         break;
 
                     case Symbols.LessThan:
-                        return ScriptDataLt(GetNext());
+                        // See 8.2.4.17 Script data less-than sign state
+                        _stringBuffer.Append(Symbols.LessThan);
+                        c = GetNext();
+
+                        if (c == Symbols.Solidus)
+                        {
+                            // See 8.2.4.18 Script data end tag open state
+                            c = GetNext();
+                            var offset = _stringBuffer.Append(Symbols.Solidus).Length;
+                            var tag = NewTagClose();
+
+                            while (c.IsLetter())
+                            {
+                                // See 8.2.4.19 Script data end tag name state
+                                _stringBuffer.Append(c);
+                                c = GetNext();
+                                var isspace = c.IsSpaceCharacter();
+                                var isclosed = c == Symbols.GreaterThan;
+                                var isslash = c == Symbols.Solidus;
+                                var hasLength = _stringBuffer.Length - offset == length;
+
+                                if (hasLength && (isspace || isclosed || isslash))
+                                {
+                                    var name = _stringBuffer.ToString(offset, length);
+
+                                    if (name.Isi(_lastStartTag))
+                                    {
+                                        if (offset > 2)
+                                        {
+                                            Back(3 + length);
+                                            _stringBuffer.Remove(offset - 2, length + 2);
+                                            return NewCharacter();
+                                        }
+
+                                        _stringBuffer.Clear();
+
+                                        if (isspace)
+                                        {
+                                            tag.Name = _lastStartTag;
+                                            return AttributeBeforeName(tag);
+                                        }
+                                        else if (isslash)
+                                        {
+                                            tag.Name = _lastStartTag;
+                                            return TagSelfClosing(tag);
+                                        }
+                                        else if (isclosed)
+                                        {
+                                            tag.Name = _lastStartTag;
+                                            return EmitTag(tag);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if (c == Symbols.ExclamationMark)
+                        {
+                            // See 8.2.4.20 Script data escape start state
+                            _stringBuffer.Append(Symbols.ExclamationMark);
+                            c = GetNext();
+
+                            if (c == Symbols.Minus)
+                            {
+                                // See 8.2.4.21 Script data escape start dash state
+                                c = GetNext();
+                                _stringBuffer.Append(Symbols.Minus);
+
+                                if (c == Symbols.Minus)
+                                {
+                                    _stringBuffer.Append(Symbols.Minus);
+                                    return ScriptDataEscapedDashDash();
+                                }
+                            }
+                        }
+
+                        continue;
 
                     case Symbols.EndOfFile:
                         Back();
@@ -2005,115 +2082,6 @@
 
                 c = GetNext();
             }
-        }
-
-        /// <summary>
-        /// See 8.2.4.17 Script data less-than sign state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataLt(Char c)
-        {
-            _stringBuffer.Append(Symbols.LessThan);
-
-            if (c == Symbols.Solidus)
-            {
-                // See 8.2.4.18 Script data end tag open state
-                c = GetNext();
-                var offset = _stringBuffer.Append(Symbols.Solidus).Length;
-
-                if (c.IsLetter())
-                {
-                    _stringBuffer.Append(c);
-                    return ScriptDataNameEndTag(NewTagClose(), offset);
-                }
-            }
-            else if (c == Symbols.ExclamationMark)
-            {
-                // See 8.2.4.20 Script data escape start state
-                _stringBuffer.Append(Symbols.ExclamationMark);
-                c = GetNext();
-
-                if (c == Symbols.Minus)
-                    return ScriptDataEscapeDashLt(GetNext());
-            }
-
-            return ScriptData(c);
-        }
-
-        /// <summary>
-        /// See 8.2.4.19 Script data end tag name state
-        /// </summary>
-        /// <param name="tag">The current tag token.</param>
-        /// <param name="offset">The tag name's offset.</param>
-        HtmlToken ScriptDataNameEndTag(HtmlTagToken tag, Int32 offset)
-        {
-            var length = _lastStartTag.Length;
-
-            while (true)
-            {
-                var c = GetNext();
-                var isspace = c.IsSpaceCharacter();
-                var isclosed = c == Symbols.GreaterThan;
-                var isslash = c == Symbols.Solidus;
-                var hasLength = _stringBuffer.Length - offset == length;
-
-                if (hasLength && (isspace || isclosed || isslash))
-                {
-                    var name = _stringBuffer.ToString(offset, length);
-
-                    if (name.Isi(_lastStartTag))
-                    {
-                        if (offset > 2)
-                        {
-                            Back(3 + length);
-                            _stringBuffer.Remove(offset - 2, length + 2);
-                            return NewCharacter();
-                        }
-
-                        _stringBuffer.Clear();
-
-                        if (isspace)
-                        {
-                            tag.Name = _lastStartTag;
-                            return AttributeBeforeName(tag);
-                        }
-                        else if (isslash)
-                        {
-                            tag.Name = _lastStartTag;
-                            return TagSelfClosing(tag);
-                        }
-                        else if (isclosed)
-                        {
-                            tag.Name = _lastStartTag;
-                            return EmitTag(tag);
-                        }
-                    }
-                }
-                
-                if (!c.IsLetter())
-                {
-                    return ScriptData(c);
-                }
-
-                _stringBuffer.Append(c);
-            }
-        }
-
-        /// <summary>
-        /// See 8.2.4.21 Script data escape start dash state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapeDashLt(Char c)
-        {
-            _stringBuffer.Append(Symbols.Minus);
-
-            if (c == Symbols.Minus)
-            {
-                _stringBuffer.Append(Symbols.Minus);
-                return ScriptDataEscapedDashDash();
-            }
-
-            return ScriptData(c);
         }
 
         /// <summary>
@@ -2213,7 +2181,9 @@
         HtmlToken ScriptDataEscapedLT(Char c)
         {
             if (c == Symbols.Solidus)
+            {
                 return ScriptDataEscapedEndTag(GetNext());
+            }
 
             if (c.IsLetter())
             {
