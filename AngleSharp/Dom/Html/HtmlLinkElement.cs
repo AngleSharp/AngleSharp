@@ -49,7 +49,7 @@
 
         public IDownload CurrentDownload
         {
-            get { return null; }
+            get { return _relation != null ? _relation.Download : null; }
         }
 
         public String Href

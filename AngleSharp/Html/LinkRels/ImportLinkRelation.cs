@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
+    using AngleSharp.Network;
     using AngleSharp.Network.RequestProcessors;
     using System;
     using System.Collections.Generic;
@@ -30,6 +31,11 @@
         #endregion
 
         #region Properties
+
+        public override IDownload Download
+        {
+            get { return _request != null ? _request.Download : null; }
+        }
 
         public IDocument Import
         {

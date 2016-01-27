@@ -40,11 +40,6 @@
 
         #region Internal Properties
 
-        public IDownload CurrentDownload
-        {
-            get { return null; }
-        }
-
         internal String AlternativeLanguage
         {
             get
@@ -62,6 +57,11 @@
         #endregion
 
         #region Properties
+
+        public IDownload CurrentDownload
+        {
+            get { return _request != null ? _request.Download : null; }
+        }
 
         public String ScriptLanguage
         {

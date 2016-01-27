@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Html.LinkRels
 {
     using AngleSharp.Dom.Html;
+    using AngleSharp.Network;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -24,6 +25,11 @@
         #endregion
 
         #region Properties
+
+        public abstract IDownload Download
+        {
+            get;
+        }
 
         public HtmlLinkElement Link
         {

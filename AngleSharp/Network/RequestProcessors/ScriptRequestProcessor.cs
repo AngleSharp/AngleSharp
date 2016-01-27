@@ -38,6 +38,15 @@
 
         #endregion
 
+        #region Properties
+
+        public IDownload Download 
+        {
+            get { return null; }
+        }
+
+        #endregion
+
         #region Methods
 
         public async Task RunAsync(CancellationToken cancel)
