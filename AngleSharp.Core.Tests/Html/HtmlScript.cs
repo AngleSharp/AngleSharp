@@ -4220,5 +4220,14 @@
             Assert.AreEqual("body", dochtml0body1.GetTagName());
             Assert.AreEqual(NodeType.Element, dochtml0body1.NodeType);
         }
+
+        [Test]
+        public void LargeInlineScriptShouldNotExceedStack()
+        {
+            var bytes = Assets.longscript;
+            var content = TextEncoding.Utf8.GetString(bytes);
+            var doc = Html(content);
+            Assert.IsNotNull(doc);
+        }
     }
 }

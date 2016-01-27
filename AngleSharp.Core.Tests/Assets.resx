@@ -184,4 +184,7 @@
   <data name="www_baidu" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\www_baidu_com;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="longscript" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\longscript;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
