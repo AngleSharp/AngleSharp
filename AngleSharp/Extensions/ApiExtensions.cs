@@ -1139,7 +1139,7 @@
 
         #endregion
 
-        #region IDocument extensions
+        #region Document extensions
 
         /// <summary>
         /// Gets all downloads associated with resources of the document.
@@ -1148,7 +1148,7 @@
         /// <returns>The collection of elements hosting resources.</returns>
         public static IEnumerable<IDownload> GetDownloads(this IDocument document)
         {
-            return Enumerable.Empty<IDownload>();
+            return document.All.OfType<ILoadableElement>().Select(m => m.CurrentDownload).Where(m => m != null);
         }
 
         /// <summary>
