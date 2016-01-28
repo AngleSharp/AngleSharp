@@ -48,12 +48,10 @@
         /// </summary>
         /// <param name="loader">The resource loader to use.</param>
         /// <param name="request">The request to issue.</param>
-        /// <returns>
-        /// The task which will eventually return the stream.
-        /// </returns>
-        public static Task<IResponse> FetchAsync(this IResourceLoader loader, ResourceRequest request)
+        /// <returns>The download resulting from the fetch.</returns>
+        public static IDownload Fetch(this IResourceLoader loader, ResourceRequest request)
         {
-            return loader != null ? loader.DownloadAsync(request).Task : TaskEx.FromResult(default(IResponse));
+            return loader != null ? loader.DownloadAsync(request) : null;
         }
 
         /// <summary>
@@ -70,7 +68,7 @@
         /// <returns>
         /// The task which will eventually return the stream.
         /// </returns>
-        public static async Task<IResponse> FetchWithCorsAsync(this IResourceLoader loader, ResourceRequest request, CorsSetting setting, OriginBehavior behavior)
+        public static async Task<IDownload> FetchWithCorsAsync(this IResourceLoader loader, ResourceRequest request, CorsSetting setting, OriginBehavior behavior)
         {
             var url = request.Target;
 
@@ -84,7 +82,8 @@
                         IsManualRedirectDesired = true
                     };
 
-                    var result = await loader.DownloadAsync(data).Task.ConfigureAwait(false);
+                    var download = loader.DownloadAsync(data);
+                    var result = await download.Task.ConfigureAwait(false);
 
                     if (result.IsRedirected())
                     {
@@ -103,7 +102,7 @@
                     }
                     else
                     {
-                        return result;
+                        return download;
                     }
                 }
             }
@@ -114,16 +113,17 @@
                     throw new DomException(DomError.Network);
                 }
 
-                return await loader.DownloadAsync(request).Task.ConfigureAwait(false);
+                return loader.DownloadAsync(request);
             }
             else if (setting == CorsSetting.Anonymous || setting == CorsSetting.UseCredentials)
             {
                 request.IsCredentialOmitted = setting == CorsSetting.Anonymous;
-                var result = await loader.FetchAsync(request).ConfigureAwait(false);
+                var download = loader.Fetch(request);
+                var result = await download.Task.ConfigureAwait(false);
 
                 if (result != null && result.StatusCode == HttpStatusCode.OK)
                 {
-                    return result;
+                    return download;
                 }
                 else if (result != null)
                 {

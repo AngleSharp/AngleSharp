@@ -16,6 +16,7 @@
         readonly HtmlScriptElement _script;
         readonly Document _document;
         readonly IResourceLoader _loader;
+        IDownload _download;
         IResponse _response;
 
         #endregion
@@ -42,7 +43,7 @@
 
         public IDownload Download 
         {
-            get { return null; }
+            get { return _download; }
         }
 
         #endregion
@@ -95,7 +96,8 @@
             {
                 var setting = _script.CrossOrigin.ToEnum(CorsSetting.None);
                 var behavior = OriginBehavior.Taint;
-                _response = await _loader.FetchWithCorsAsync(request, setting, behavior).ConfigureAwait(false);
+                _download = await _loader.FetchWithCorsAsync(request, setting, behavior).ConfigureAwait(false);
+                _response = await _download.Task.ConfigureAwait(false);
             }
         }
 
