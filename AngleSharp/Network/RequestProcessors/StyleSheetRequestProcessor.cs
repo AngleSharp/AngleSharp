@@ -14,6 +14,7 @@
 
         readonly HtmlLinkElement _link;
         readonly IConfiguration _options;
+        IStyleEngine _engine;
         IStyleSheet _sheet;
 
         #endregion
@@ -50,26 +51,34 @@
 
         #region Methods
 
-        protected override async Task ProcessResponse(IResponse response)
+        public override Task Process(ResourceRequest request)
         {
             var type = _link.Type ?? MimeTypeNames.Css;
             var engine = _options.GetStyleEngine(type);
 
             if (engine != null)
             {
-                var cancel = CancellationToken.None;
-                var options = new StyleOptions
-                {
-                    Element = _link,
-                    IsDisabled = _link.IsDisabled,
-                    IsAlternate = _link.RelationList.Contains(Keywords.Alternate),
-                    Configuration = _options
-                };
-
-                var task = engine.ParseStylesheetAsync(response, options, cancel);
-                _sheet = await task.ConfigureAwait(false);
-                _sheet.Media.MediaText = _link.Media ?? String.Empty;
+                _engine = engine;
+                return base.Process(request);
             }
+
+            return null;
+        }
+
+        protected override async Task ProcessResponse(IResponse response)
+        {
+            var cancel = CancellationToken.None;
+            var options = new StyleOptions
+            {
+                Element = _link,
+                IsDisabled = _link.IsDisabled,
+                IsAlternate = _link.RelationList.Contains(Keywords.Alternate),
+                Configuration = _options
+            };
+
+            var task = _engine.ParseStylesheetAsync(response, options, cancel);
+            _sheet = await task.ConfigureAwait(false);
+            _sheet.Media.MediaText = _link.Media ?? String.Empty;
         }
 
         #endregion
