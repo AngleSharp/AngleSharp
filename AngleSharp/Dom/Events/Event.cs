@@ -205,26 +205,30 @@
         /// </summary>
         /// <param name="target">The target of the event.</param>
         /// <returns>A boolean if the event has been cancelled.</returns>
-        internal Boolean Dispatch(EventTarget target)
+        internal Boolean Dispatch(IEventTarget target)
         {
             _flags |= EventFlags.Dispatch;
             _target = target;
 
-            var eventPath = new List<EventTarget>();
+            var eventPath = new List<IEventTarget>();
             var parent = target as Node;
 
             if (parent != null)
             {
                 while ((parent = parent.Parent) != null)
+                {
                     eventPath.Add(parent);
+                }
             }
 
             _phase = EventPhase.Capturing;
-            DispatchAt(eventPath.Reverse<EventTarget>());
+            DispatchAt(eventPath.Reverse<IEventTarget>());
             _phase = EventPhase.AtTarget;
 
             if (!_flags.HasFlag(EventFlags.StopPropagation))
+            {
                 CallListeners(target);
+            }
 
             if (_bubbles)
             {
@@ -238,20 +242,22 @@
             return _flags.HasFlag(EventFlags.Canceled);
         }
 
-        void CallListeners(EventTarget target)
+        void CallListeners(IEventTarget target)
         {
             _current = target;
-            target.CallEventListener(this);
+            target.InvokeEventListener(this);
         }
 
-        void DispatchAt(IEnumerable<EventTarget> targets)
+        void DispatchAt(IEnumerable<IEventTarget> targets)
         {
             foreach (var target in targets)
             {
                 CallListeners(target);
 
                 if (_flags.HasFlag(EventFlags.StopPropagation))
+                {
                     break;
+                }
             }
         }
 

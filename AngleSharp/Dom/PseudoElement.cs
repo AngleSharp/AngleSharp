@@ -409,6 +409,11 @@
             _host.RemoveEventListener(type, callback, capture);
         }
 
+        public void InvokeEventListener(Event ev)
+        {
+            _host.InvokeEventListener(ev);
+        }
+
         public Boolean Dispatch(Event ev)
         {
             return _host.Dispatch(ev);

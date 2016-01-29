@@ -92,7 +92,7 @@
         /// Calls the listener registered for the given event.
         /// </summary>
         /// <param name="ev">The event that asks for the listeners.</param>
-        internal void CallEventListener(Event ev)
+        public void InvokeEventListener(Event ev)
         {
             if (_listeners != null)
             {

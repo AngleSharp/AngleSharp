@@ -51,6 +51,12 @@
         void RemoveEventListener(String type, DomEventHandler callback = null, Boolean capture = false);
 
         /// <summary>
+        /// Calls the listener registered for the given event.
+        /// </summary>
+        /// <param name="ev">The event that asks for the listeners.</param>
+        void InvokeEventListener(Event ev);
+
+        /// <summary>
         /// Dispatch an event to this EventTarget.
         /// </summary>
         /// <param name="ev">The event to dispatch.</param>
