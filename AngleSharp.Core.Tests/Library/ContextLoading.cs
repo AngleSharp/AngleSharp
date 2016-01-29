@@ -313,9 +313,38 @@
         }
 
         [Test]
-        public async Task GetDownloadsOfExampleDocumentShouldYieldResources()
+        public async Task GetDownloadsOfExampleDocumentWithoutCssAndJsShouldYieldPartialResources()
         {
             var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
+            var content = @"<link rel=stylesheet type=text/css href=bootstraph.css>
+<link rel=stylesheet type=text/css href=fontawesome.css>
+<link rel=stylesheet type=text/css href=style.css>
+<body>
+    <img src=foo.png>
+    <iframe src=foo.html></iframe>
+    <script>alert('Hello World!');</script>
+    <script src=test.js></script>
+</body>";
+            var document = await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
+            var downloads = document.GetDownloads().ToArray();
+
+            Assert.AreEqual(2, downloads.Length);
+
+            foreach (var download in downloads)
+            {
+                Assert.IsTrue(download.IsCompleted);
+                Assert.IsNotNull(download.Originator);
+            }
+
+            Assert.AreEqual(document.QuerySelector("img"), downloads[0].Originator);
+            Assert.AreEqual(document.QuerySelector("iframe"), downloads[1].Originator);
+        }
+
+        [Test]
+        public async Task GetDownloadsOfExampleDocumentWithCssAndJsShouldYieldAllResources()
+        {
+            var scripting = new CallbackScriptEngine(_ => { }, AngleSharp.Network.MimeTypeNames.DefaultJavaScript);
+            var config = Configuration.Default.WithCss().WithScripts(scripting).WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
             var content = @"<link rel=stylesheet type=text/css href=bootstraph.css>
 <link rel=stylesheet type=text/css href=fontawesome.css>
 <link rel=stylesheet type=text/css href=style.css>

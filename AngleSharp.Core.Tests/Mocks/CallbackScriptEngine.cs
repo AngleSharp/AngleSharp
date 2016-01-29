@@ -8,14 +8,16 @@
 
     class CallbackScriptEngine : IScriptEngine
     {
-        public CallbackScriptEngine(Action<ScriptOptions> callback)
+        public CallbackScriptEngine(Action<ScriptOptions> callback, String type = null)
         {
             Callback = callback;
+            Type = type ?? "c-sharp";
         }
 
         public String Type
         {
-            get { return "c-sharp"; }
+            get;
+            private set;
         }
 
         public Action<ScriptOptions> Callback
