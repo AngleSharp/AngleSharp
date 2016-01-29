@@ -5,7 +5,6 @@
     using System;
     using System.Diagnostics;
     using System.Net;
-    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -14,32 +13,6 @@
     [DebuggerStepThrough]
     static class RequesterExtensions
     {
-        #region Sending
-
-        /// <summary>
-        /// Loads the given URI by using an asynchronous request with the given
-        /// method and body.
-        /// </summary>
-        /// <param name="loader">The document loader to use.</param>
-        /// <param name="request">The request to issue.</param>
-        /// <param name="cancel">The cancellation token.</param>
-        /// <returns>
-        /// The task which will eventually return the response.
-        /// </returns>
-        public static Task<IResponse> SendAsync(this IDocumentLoader loader, DocumentRequest request, CancellationToken cancel)
-        {
-            if (loader != null)
-            {
-                var download = loader.DownloadAsync(request);
-                cancel.Register(download.Cancel);
-                return download.Task;
-            }
-
-            return TaskEx.FromResult(default(IResponse));
-        }
-
-        #endregion
-
         #region Fetching
 
         /// <summary>

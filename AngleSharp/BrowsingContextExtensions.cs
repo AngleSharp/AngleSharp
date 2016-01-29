@@ -64,11 +64,19 @@
                 throw new ArgumentNullException("request");
             }
 
-            using (var response = await context.Loader.SendAsync(request, cancel).ConfigureAwait(false))
+            var loader = context.Loader;
+
+            if (loader != null)
             {
-                if (response != null)
+                var download = loader.DownloadAsync(request);
+                cancel.Register(download.Cancel);
+
+                using (var response = await download.Task.ConfigureAwait(false))
                 {
-                    return await context.OpenAsync(response, cancel).ConfigureAwait(false);
+                    if (response != null)
+                    {
+                        return await context.OpenAsync(response, cancel).ConfigureAwait(false);
+                    }
                 }
             }
 
