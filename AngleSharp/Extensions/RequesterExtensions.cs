@@ -113,7 +113,7 @@
 
         static Boolean IsRedirected(this IResponse response)
         {
-            var status = response.StatusCode;
+            var status = response != null ? response.StatusCode : HttpStatusCode.NotFound;
             return status == HttpStatusCode.Redirect || status == HttpStatusCode.RedirectKeepVerb ||
                    status == HttpStatusCode.RedirectMethod || status == HttpStatusCode.TemporaryRedirect ||
                    status == HttpStatusCode.MovedPermanently || status == HttpStatusCode.MultipleChoices;
