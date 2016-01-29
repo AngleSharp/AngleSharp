@@ -3,7 +3,6 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Network;
     using AngleSharp.Network.RequestProcessors;
     using System;
     using System.Collections.Generic;
@@ -15,7 +14,6 @@
         #region Fields
 
         static readonly ConditionalWeakTable<IDocument, ImportList> ImportLists = new ConditionalWeakTable<IDocument, ImportList>();
-        readonly DocumentRequestProcessor _request;
         Boolean _isasync;
 
         #endregion
@@ -23,23 +21,21 @@
         #region ctor
 
         public ImportLinkRelation(HtmlLinkElement link)
-            : base(link)
+            : base(link, DocumentRequestProcessor.Create(link.Owner))
         {
-            _request = DocumentRequestProcessor.Create(link.Owner);
         }
 
         #endregion
 
         #region Properties
 
-        public override IDownload Download
-        {
-            get { return _request != null ? _request.Download : null; }
-        }
-
         public IDocument Import
         {
-            get { return _request != null ? _request.Document : null; }
+            get 
+            {
+                var processor = Processor as DocumentRequestProcessor;
+                return processor != null ? processor.Document : null; 
+            }
         }
 
         public Boolean IsAsync
@@ -60,6 +56,7 @@
             var document = link.Owner;
             var list = ImportLists.GetOrCreateValue(document);
             var location = Url;
+            var processor = Processor;
             var item = new ImportEntry 
             { 
                 Relation = this,
@@ -67,11 +64,11 @@
             };
             list.Add(item);
             
-            if (!item.IsCycle && _request != null)
+            if (!item.IsCycle && processor != null)
             {
                 var request = link.CreateRequestFor(location);
                 _isasync = link.HasAttribute(AttributeNames.Async);
-                return _request.Process(request);
+                return processor.Process(request);
             }
 
             return null;

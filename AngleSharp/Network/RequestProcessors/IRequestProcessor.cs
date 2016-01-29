@@ -4,6 +4,8 @@
 
     interface IRequestProcessor
     {
+        IDownload Download { get; }
+
         Task Process(ResourceRequest request);
     }
 }

@@ -3,38 +3,29 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Network;
     using AngleSharp.Network.RequestProcessors;
     using System.Threading.Tasks;
     
     class StyleSheetLinkRelation : BaseLinkRelation
     {
-        #region Fields
-
-        readonly StyleSheetRequestProcessor _request;
-
-        #endregion
-
         #region ctor
 
         public StyleSheetLinkRelation(HtmlLinkElement link)
-            : base(link)
+            : base(link, StyleSheetRequestProcessor.Create(link))
         {
-            _request = StyleSheetRequestProcessor.Create(link);
         }
 
         #endregion
 
         #region Properties
 
-        public override IDownload Download
-        {
-            get { return _request != null ? _request.Download : null; }
-        }
-
         public IStyleSheet Sheet
         {
-            get { return _request != null ? _request.Sheet : null; }
+            get 
+            {
+                var processor = Processor as StyleSheetRequestProcessor;
+                return processor != null ? processor.Sheet : null; 
+            }
         }
 
         #endregion
@@ -43,10 +34,12 @@
 
         public override Task LoadAsync()
         {
-            if (_request != null)
+            var processor = Processor;
+
+            if (processor != null)
             {
                 var request = Link.CreateRequestFor(Url);
-                return _request.Process(request);
+                return processor.Process(request);
             }
 
             return null;

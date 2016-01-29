@@ -49,7 +49,11 @@
 
         public IDownload CurrentDownload
         {
-            get { return _relation != null ? _relation.Download : null; }
+            get 
+            {
+                var processor = _relation != null ? _relation.Processor : null;
+                return processor != null ? processor.Download : null; 
+            }
         }
 
         public String Href

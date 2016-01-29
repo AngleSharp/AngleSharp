@@ -13,19 +13,7 @@
     [DebuggerStepThrough]
     static class RequesterExtensions
     {
-        #region Fetching
-
-        /// <summary>
-        /// Performs a fetch from the given URI by using an asynchronous
-        /// request.
-        /// </summary>
-        /// <param name="loader">The resource loader to use.</param>
-        /// <param name="request">The request to issue.</param>
-        /// <returns>The download resulting from the fetch.</returns>
-        public static IDownload Fetch(this IResourceLoader loader, ResourceRequest request)
-        {
-            return loader != null ? loader.DownloadAsync(request) : null;
-        }
+        #region Methods
 
         /// <summary>
         /// Performs a potentially CORS-enabled fetch from the given URI by
@@ -49,28 +37,25 @@
             {
                 while (true)
                 {
-                    var data = new ResourceRequest(request.Source, url)
+                    var download = loader.DownloadAsync(new ResourceRequest(request.Source, url)
                     {
                         Origin = request.Origin,
                         IsManualRedirectDesired = true
-                    };
+                    });
+                    var response = await download.Task.ConfigureAwait(false);
 
-                    var download = loader.DownloadAsync(data);
-                    var result = await download.Task.ConfigureAwait(false);
-
-                    if (result.IsRedirected())
+                    if (response.IsRedirected())
                     {
-                        url = new Url(result.Headers.GetOrDefault(HeaderNames.Location, url.Href));
+                        url.Href = response.Headers.GetOrDefault(HeaderNames.Location, url.Href);
 
                         if (request.Origin.Is(url.Origin))
                         {
-                            request = new ResourceRequest(request.Source, url)
+                            return await loader.FetchWithCorsAsync(new ResourceRequest(request.Source, url)
                             {
                                 IsCookieBlocked = request.IsCookieBlocked,
                                 IsSameOriginForced = request.IsSameOriginForced,
                                 Origin = request.Origin
-                            };
-                            return await loader.FetchWithCorsAsync(request, setting, behavior).ConfigureAwait(false);
+                            }, setting, behavior).ConfigureAwait(false);
                         }
                     }
                     else
@@ -91,7 +76,7 @@
             else if (setting == CorsSetting.Anonymous || setting == CorsSetting.UseCredentials)
             {
                 request.IsCredentialOmitted = setting == CorsSetting.Anonymous;
-                var download = loader.Fetch(request);
+                var download = loader.DownloadAsync(request);
                 var result = await download.Task.ConfigureAwait(false);
 
                 if (result != null && result.StatusCode == HttpStatusCode.OK)
