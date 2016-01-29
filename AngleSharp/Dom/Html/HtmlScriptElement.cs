@@ -4,7 +4,6 @@
     using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Network.RequestProcessors;
-    using AngleSharp.Services.Scripting;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -38,38 +37,11 @@
 
         #endregion
 
-        #region Internal Properties
-
-        internal String AlternativeLanguage
-        {
-            get
-            {
-                var language = this.GetOwnAttribute(AttributeNames.Language);
-                return language != null ? "text/" + language : null;
-            }
-        }
-
-        internal IScriptEngine Engine
-        {
-            get { return Owner.Options.GetScriptEngine(ScriptLanguage); }
-        }
-
-        #endregion
-
         #region Properties
 
         public IDownload CurrentDownload
         {
             get { return _request != null ? _request.Download : null; }
-        }
-
-        public String ScriptLanguage
-        {
-            get
-            {
-                var type = Type ?? AlternativeLanguage;
-                return String.IsNullOrEmpty(type) ? MimeTypeNames.DefaultJavaScript : type;
-            }
         }
 
         public String Source
@@ -164,7 +136,7 @@
             {
                 return false;
             }
-            else if (Engine == null)
+            else if (_request.Engine == null)
             {
                 return false;
             }
@@ -205,11 +177,7 @@
             }
             else
             {
-                if (_request != null)
-                {
-                    _request.Process(Text);
-                }
-
+                _request.Process(Text);
                 return true;
             }
 

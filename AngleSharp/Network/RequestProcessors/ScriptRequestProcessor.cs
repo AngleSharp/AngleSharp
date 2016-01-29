@@ -18,6 +18,7 @@
         readonly IResourceLoader _loader;
         IDownload _download;
         IResponse _response;
+        IScriptEngine _engine;
 
         #endregion
 
@@ -46,6 +47,29 @@
             get { return _download; }
         }
 
+        public IScriptEngine Engine
+        {
+            get { return _engine ?? (_engine = _document.Options.GetScriptEngine(ScriptLanguage)); }
+        }
+
+        public String AlternativeLanguage
+        {
+            get
+            {
+                var language = _script.GetOwnAttribute(AttributeNames.Language);
+                return language != null ? "text/" + language : null;
+            }
+        }
+
+        public String ScriptLanguage
+        {
+            get
+            {
+                var type = _script.Type ?? AlternativeLanguage;
+                return String.IsNullOrEmpty(type) ? MimeTypeNames.DefaultJavaScript : type;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -59,24 +83,19 @@
                 if (!cancelled)
                 {
                     var options = CreateOptions();
-                    var engine = _script.Engine;
+                    var insert = _document.Source.Index;
 
-                    if (engine != null)
+                    try
                     {
-                        var insert = _document.Source.Index;
-
-                        try
-                        {
-                            await engine.EvaluateScriptAsync(_response, options, cancel).ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                            /* We omit failed 3rd party services */
-                        }
-
-                        _document.Source.Index = insert;
-                        FireAfterScriptExecuteEvent();
+                        await _engine.EvaluateScriptAsync(_response, options, cancel).ConfigureAwait(false);
                     }
+                    catch
+                    {
+                        /* We omit failed 3rd party services */
+                    }
+
+                    _document.Source.Index = insert;
+                    FireAfterScriptExecuteEvent();
 
                     _document.QueueTask(FireLoadEvent);
                     _response.Dispose();
@@ -87,12 +106,15 @@
 
         public void Process(String content)
         {
-            _response = VirtualResponse.Create(res => res.Content(content).Address(_script.BaseUri));
+            if (Engine != null)
+            {
+                _response = VirtualResponse.Create(res => res.Content(content).Address(_script.BaseUri));
+            }
         }
 
         public async Task Process(ResourceRequest request)
         {
-            if (_loader != null)
+            if (_loader != null && Engine != null)
             {
                 var setting = _script.CrossOrigin.ToEnum(CorsSetting.None);
                 var behavior = OriginBehavior.Taint;
