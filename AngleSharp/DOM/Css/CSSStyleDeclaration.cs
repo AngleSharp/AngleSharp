@@ -691,6 +691,16 @@
         }
 
         /// <summary>
+        /// Gets or sets the position of the object relative to the top of
+        /// the next positioned object in the document hierarchy.
+        /// </summary>
+        public String Bottom
+        {
+            get { return GetPropertyValue(PropertyNames.Bottom) ?? String.Empty; }
+            set { SetProperty(PropertyNames.Bottom, value); }
+        }
+
+        /// <summary>
         /// Gets or sets one or more set of shadow values that attaches one or
         /// more drop shadows to the current box.
         /// </summary>

@@ -450,6 +450,12 @@
         String BorderWidth { get; set; }
 
         /// <summary>
+        /// Gets or sets the bottom value.
+        /// </summary>
+        [DomName("bottom")]
+        String Bottom { get; set; }
+
+        /// <summary>
         /// Gets or sets the box-shadow value.
         /// </summary>
         [DomName("boxShadow")]
