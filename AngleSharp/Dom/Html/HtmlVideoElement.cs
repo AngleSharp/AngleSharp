@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents the HTML video element.
     /// </summary>
-    sealed class HtmlVideoElement : HTMLMediaElement<IVideoInfo>, IHtmlVideoElement
+    sealed class HtmlVideoElement : HtmlMediaElement<IVideoInfo>, IHtmlVideoElement
     {
         #region Fields
 

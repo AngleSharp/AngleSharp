@@ -22,7 +22,7 @@
         public HtmlImageElement(Document owner, String prefix = null)
             : base(owner, TagNames.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _request = ImageRequestProcessor.Create(owner);
+            _request = ImageRequestProcessor.Create(this);
         }
 
         #endregion

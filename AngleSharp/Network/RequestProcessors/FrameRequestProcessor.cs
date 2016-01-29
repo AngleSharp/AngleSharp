@@ -11,28 +11,24 @@
         #region Fields
 
         readonly HtmlFrameElementBase _element;
-        readonly IConfiguration _options;
         IDocument _document;
 
         #endregion
 
         #region ctor
 
-        private FrameRequestProcessor(HtmlFrameElementBase element, IConfiguration options, IResourceLoader loader)
+        private FrameRequestProcessor(HtmlFrameElementBase element, IResourceLoader loader)
             : base(loader)
         {
             _element = element;
-            _options = options;
         }
 
         internal static FrameRequestProcessor Create(HtmlFrameElementBase element)
         {
             var document = element.Owner;
-            var options = document.Options;
             var loader = document.Loader;
 
-            return options != null && loader != null ?
-                new FrameRequestProcessor(element, options, loader) : null;
+            return loader != null ? new FrameRequestProcessor(element, loader) : null;
         }
 
         #endregion

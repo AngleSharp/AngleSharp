@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents the HTML audio element.
     /// </summary>
-    sealed class HtmlAudioElement : HTMLMediaElement<IAudioInfo>, IHtmlAudioElement
+    sealed class HtmlAudioElement : HtmlMediaElement<IAudioInfo>, IHtmlAudioElement
     {
         #region Fields
 

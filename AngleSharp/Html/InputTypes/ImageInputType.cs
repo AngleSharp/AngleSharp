@@ -25,7 +25,7 @@
             if (src != null && inp != null)
             {
                 var url = inp.HyperReference(src);
-                _request = ImageRequestProcessor.Create(inp.Owner);
+                _request = ImageRequestProcessor.Create(inp);
                 inp.Process(_request, url);
             }
         }

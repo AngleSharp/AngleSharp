@@ -11,7 +11,7 @@
     /// <summary>
     /// Represents the abstract base for HTML media (audio / video) elements.
     /// </summary>
-    abstract class HTMLMediaElement<TResource> : HtmlElement, IHtmlMediaElement
+    abstract class HtmlMediaElement<TResource> : HtmlElement, IHtmlMediaElement
         where TResource : IMediaInfo
     {
         #region Fields
@@ -111,10 +111,10 @@
 
         #region ctor
 
-        public HTMLMediaElement(Document owner, String name, String prefix)
+        public HtmlMediaElement(Document owner, String name, String prefix)
             : base(owner, name, prefix)
         {
-            _request = MediaRequestProcessor<TResource>.Create(owner);
+            _request = MediaRequestProcessor<TResource>.Create(this);
         }
 
         #endregion

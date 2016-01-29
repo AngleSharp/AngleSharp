@@ -23,8 +23,9 @@
             _options = options;
         }
 
-        internal static DocumentRequestProcessor Create(Document document)
+        internal static DocumentRequestProcessor Create(Element element)
         {
+            var document = element.Owner;
             var options = document.Options;
             var loader = document.Loader;
 

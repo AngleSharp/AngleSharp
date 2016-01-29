@@ -26,8 +26,9 @@
         {
         }
 
-        internal static MediaRequestProcessor<TMediaInfo> Create(Document document)
+        internal static MediaRequestProcessor<TMediaInfo> Create(Element element)
         {
+            var document = element.Owner;
             var options = document.Options;
             var loader = document.Loader;
 

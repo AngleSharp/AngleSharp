@@ -22,7 +22,7 @@
         public HtmlEmbedElement(Document owner, String prefix = null)
             : base(owner, TagNames.Embed, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _request = ObjectRequestProcessor.Create(owner);
+            _request = ObjectRequestProcessor.Create(this);
         }
 
         #endregion

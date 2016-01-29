@@ -15,8 +15,9 @@
         {
         }
 
-        internal static ObjectRequestProcessor Create(Document document)
+        internal static ObjectRequestProcessor Create(Element element)
         {
+            var document = element.Owner;
             var options = document.Options;
             var loader = document.Loader;
 

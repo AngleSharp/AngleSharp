@@ -19,8 +19,9 @@
         {
         }
 
-        internal static ImageRequestProcessor Create(Document document)
+        internal static ImageRequestProcessor Create(Element element)
         {
+            var document = element.Owner;
             var options = document.Options;
             var loader = document.Loader;
 

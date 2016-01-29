@@ -22,7 +22,7 @@
         public HtmlObjectElement(Document owner, String prefix = null)
             : base(owner, TagNames.Object, prefix, NodeFlags.Scoped)
         {
-            _request = ObjectRequestProcessor.Create(owner);
+            _request = ObjectRequestProcessor.Create(this);
         }
 
         #endregion
