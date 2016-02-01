@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom.Css;
     using NUnit.Framework;
+    using System.Linq;
 
     [TestFixture]
     public class CssCoordinatePropertyTests : CssConstructionFunctions
@@ -146,6 +147,17 @@
             var concrete = (CssRightProperty)property;
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
+        }
+
+        [Test]
+        public void CssBottomFoundInStyleDeclaration()
+        {
+            var snippet = "bottom:  50%";
+            var style = ParseDeclarations(snippet);
+            Assert.AreEqual(1, style.Length);
+            var bottom = style.Declarations.First();
+            Assert.AreEqual("bottom", bottom.Name);
+            Assert.AreEqual("50%", ((ICssStyleDeclaration)style).Bottom);
         }
 
         [Test]

@@ -383,6 +383,16 @@
         }
 
         /// <summary>
+        /// Gets or sets the position of the object relative to the top of
+        /// the next positioned object in the document hierarchy.
+        /// </summary>
+        String ICssStyleDeclaration.Bottom
+        {
+            get { return GetPropertyValue(PropertyNames.Bottom); }
+            set { SetProperty(PropertyNames.Bottom, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the properties of a border drawn around an object.
         /// </summary>
         String ICssStyleDeclaration.Border

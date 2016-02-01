@@ -258,6 +258,12 @@
         /// </summary>
         [DomName("border")]
         String Border { get; set; }
+  
+        /// <summary>
+        /// Gets or sets the bottom value.
+        /// </summary>
+        [DomName("bottom")]
+        String Bottom { get; set; }
 
         /// <summary>
         /// Gets or sets the border-bottom value.
