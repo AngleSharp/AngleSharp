@@ -13,7 +13,22 @@
     sealed class SourceSet
     {
         static readonly String FullWidth = "100vw";
-        static readonly Regex SizeParser = new Regex(@"(\([^)]+\))?\s*(.+)", RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
+        static readonly Regex SizeParser = CreateRegex();
+
+        static Regex CreateRegex()
+        {
+            var regexString = @"(\([^)]+\))?\s*(.+)";
+
+            try
+            {
+                return new Regex(regexString, RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
+            }
+            catch
+            {
+                // See issue #256
+                return new Regex(regexString, RegexOptions.ECMAScript);
+            }
+        }
 
         readonly IDocument _document;
 
