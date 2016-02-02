@@ -603,5 +603,16 @@ namespace AngleSharp.Core.Tests
             Assert.IsNotNull(span);
             Assert.AreEqual("\uFFFD\uFFFD", span.InnerHtml);
         }
+
+        [Test]
+        public void FragmentTableShouldBeAlright()
+        {
+            var fragment = "<table></table>";
+            var document = "<!DOCTYPE html><div id=outputPanel></div>".ToHtmlDocument();
+            var element = document.GetElementById("outputPanel");
+            element.InnerHtml = fragment;
+
+            Assert.AreEqual(fragment, element.InnerHtml);
+        }
     }
 }
