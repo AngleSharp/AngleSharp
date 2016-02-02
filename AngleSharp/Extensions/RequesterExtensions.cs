@@ -36,7 +36,7 @@
 
             if (request.Origin == url.Origin || url.Scheme == ProtocolNames.Data || url.Href == "about:blank")
             {
-                return loader.FetchWithCorsAsync(url, request, setting, behavior).Result;
+                return loader.FetchWithCors(url, request, setting, behavior);
             }
             else if (setting == CorsSetting.Anonymous || setting == CorsSetting.UseCredentials)
             {
@@ -50,7 +50,7 @@
             throw new DomException(DomError.Network);
         }
 
-        static async Task<IDownload> FetchWithCorsAsync(this IResourceLoader loader, Url url, ResourceRequest request, CorsSetting setting, OriginBehavior behavior)
+        static IDownload FetchWithCors(this IResourceLoader loader, Url url, ResourceRequest request, CorsSetting setting, OriginBehavior behavior)
         {
             var download = loader.DownloadAsync(new ResourceRequest(request.Source, url)
             {
@@ -58,28 +58,29 @@
                 IsManualRedirectDesired = true
             });
 
-            var response = await download.Task.ConfigureAwait(false);
-
-            if (response.IsRedirected())
+            return download.Wrap(response =>
             {
-                url.Href = response.Headers.GetOrDefault(HeaderNames.Location, url.Href);
-
-                if (request.Origin.Is(url.Origin))
+                if (response.IsRedirected())
                 {
-                    return loader.FetchWithCors(new ResourceRequest(request.Source, url)
-                    {
-                        IsCookieBlocked = request.IsCookieBlocked,
-                        IsSameOriginForced = request.IsSameOriginForced,
-                        Origin = request.Origin
-                    }, setting, behavior);
-                }
-            }
-            else
-            {
-                return download;
-            }
+                    url.Href = response.Headers.GetOrDefault(HeaderNames.Location, url.Href);
 
-            return loader.FetchWithCorsAsync(url, request, setting, behavior).Result;
+                    if (request.Origin.Is(url.Origin))
+                    {
+                        return loader.FetchWithCors(new ResourceRequest(request.Source, url)
+                        {
+                            IsCookieBlocked = request.IsCookieBlocked,
+                            IsSameOriginForced = request.IsSameOriginForced,
+                            Origin = request.Origin
+                        }, setting, behavior);
+                    }
+
+                    return loader.FetchWithCors(url, request, setting, behavior);
+                }
+                else
+                {
+                    return download;
+                }
+            });
         }
 
         static IDownload FetchWithoutCors(this IResourceLoader loader, ResourceRequest request, OriginBehavior behavior)
