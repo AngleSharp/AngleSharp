@@ -166,6 +166,7 @@
                 throw new ArgumentNullException("context");
             }
 
+            _fragmentContext = context;
             var tagName = context.LocalName;
 
             if (tagName.IsOneOf(TagNames.Title, TagNames.Textarea))
@@ -198,9 +199,8 @@
                 _templateModes.Push(HtmlTreeMode.InTemplate);
             }
 
-            Reset(context);
+            Reset();
 
-            _fragmentContext = context;
             _tokenizer.IsAcceptingCharacterData = !AdjustedCurrentNode.Flags.HasFlag(NodeFlags.HtmlMember);
 
             do
@@ -237,53 +237,25 @@
         /// algorithm specified in 8.2.3.1 The insertion mode.
         /// http://www.w3.org/html/wg/drafts/html/master/syntax.html#the-insertion-mode
         /// </summary>
-        void Reset(Element context = null)
+        void Reset()
         {
-            var last = false;
-            var node = default(Element);
-
             for (var i = _openElements.Count - 1; i >= 0; i--)
             {
-                node = _openElements[i];
+                var element = _openElements[i];
+                var last = i == 0;
 
-                if (i == 0)
+                if (last && _fragmentContext != null)
                 {
-                    last = true;
-                    node = context ?? node;
+                    element = _fragmentContext;
                 }
 
-                var tagName = node.LocalName;
+                var mode = element.SelectMode(last, _templateModes);
 
-                if (tagName.Is(TagNames.Select))
-                    _currentMode = HtmlTreeMode.InSelect;
-                else if (TagNames.AllTableCells.Contains(tagName))
-                    _currentMode = last ? HtmlTreeMode.InBody : HtmlTreeMode.InCell;
-                else if (tagName.Is(TagNames.Tr))
-                    _currentMode = HtmlTreeMode.InRow;
-                else if (TagNames.AllTableSections.Contains(tagName))
-                    _currentMode = HtmlTreeMode.InTableBody;
-                else if (tagName.Is(TagNames.Body))
-                    _currentMode = HtmlTreeMode.InBody;
-                else if (tagName.Is(TagNames.Table))
-                    _currentMode = HtmlTreeMode.InTable;
-                else if (tagName.Is(TagNames.Caption))
-                    _currentMode = HtmlTreeMode.InCaption;
-                else if (tagName.Is(TagNames.Colgroup))
-                    _currentMode = HtmlTreeMode.InColumnGroup;
-                else if (tagName.Is(TagNames.Template))
-                    _currentMode = _templateModes.Peek();
-                else if (tagName.Is(TagNames.Html))
-                    _currentMode = HtmlTreeMode.BeforeHead;
-                else if (tagName.Is(TagNames.Head))
-                    _currentMode = last ? HtmlTreeMode.InBody : HtmlTreeMode.InHead;
-                else if (tagName.Is(TagNames.Frameset))
-                    _currentMode = HtmlTreeMode.InFrameset;
-                else if (last)
-                    _currentMode = HtmlTreeMode.InBody;
-                else
-                    continue;
-
-                break;
+                if (mode.HasValue)
+                {
+                    _currentMode = mode.Value;
+                    break;
+                }
             }
         }
 
