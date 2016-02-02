@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Dom.Events;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
@@ -49,15 +50,15 @@
         /// </param>
         public void AddEventListener(String type, DomEventHandler callback = null, Boolean capture = false)
         {
-            if (callback == null)
-                return;
-
-            Listeners.Add(new RegisteredEventListener
+            if (callback != null)
             {
-                Type = type,
-                Callback = callback,
-                IsCaptured = capture
-            });
+                Listeners.Add(new RegisteredEventListener
+                {
+                    Type = type,
+                    Callback = callback,
+                    IsCaptured = capture
+                });
+            }
         }
 
         /// <summary>
@@ -76,22 +77,22 @@
         /// </param>
         public void RemoveEventListener(String type, DomEventHandler callback = null, Boolean capture = false)
         {
-            if (callback == null || _listeners == null)
-                return;
-
-            _listeners.Remove(new RegisteredEventListener
+            if (callback != null && _listeners != null)
             {
-                Type = type,
-                Callback = callback,
-                IsCaptured = capture
-            });
+                _listeners.Remove(new RegisteredEventListener
+                {
+                    Type = type,
+                    Callback = callback,
+                    IsCaptured = capture
+                });
+            }
         }
 
         /// <summary>
         /// Calls the listener registered for the given event.
         /// </summary>
         /// <param name="ev">The event that asks for the listeners.</param>
-        internal void CallEventListener(Event ev)
+        public void InvokeEventListener(Event ev)
         {
             if (_listeners != null)
             {
@@ -102,16 +103,18 @@
 
                 foreach (var listener in listeners)
                 {
-                    if (!_listeners.Contains(listener) || listener.Type != type)
-                        continue;
+                    if (_listeners.Contains(listener) && listener.Type.Is(type))
+                    {
+                        if (ev.Flags.HasFlag(EventFlags.StopImmediatePropagation))
+                        {
+                            break;
+                        }
 
-                    if (ev.Flags.HasFlag(EventFlags.StopImmediatePropagation))
-                        break;
-
-                    if ((listener.IsCaptured && phase == EventPhase.Bubbling) || (!listener.IsCaptured && phase == EventPhase.Capturing))
-                        continue;
-
-                    listener.Callback(target, ev);
+                        if ((!listener.IsCaptured || phase != EventPhase.Bubbling) && (listener.IsCaptured || phase != EventPhase.Capturing))
+                        {
+                            listener.Callback(target, ev);
+                        }
+                    }
                 }
             }
         }
@@ -129,8 +132,10 @@
             {
                 foreach (var listener in _listeners)
                 {
-                    if (listener.Type == type)
+                    if (listener.Type.Is(type))
+                    {
                         return true;
+                    }
                 }
             }
 
@@ -148,7 +153,9 @@
         public Boolean Dispatch(Event ev)
         {
             if (ev == null || ev.Flags.HasFlag(EventFlags.Dispatch) || !ev.Flags.HasFlag(EventFlags.Initialized))
+            {
                 throw new DomException(DomError.InvalidState);
+            }
 
             ev.IsTrusted = false;
             return ev.Dispatch(this);

@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
     using System;
 
@@ -18,13 +17,6 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new CSS string token.
-        /// </summary>
-        /// <param name="data">The string data.</param>
-        /// <param name="bad">Was the string ended prematurely.</param>
-        /// <param name="quote">The used quote symbol.</param>
-        /// <param name="position">The token's position.</param>
         public CssStringToken(String data, Boolean bad, Char quote, TextPosition position)
             : base(CssTokenType.String, data, position)
         {
@@ -36,17 +28,11 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets if the data is bad.
-        /// </summary>
         public Boolean IsBad
         {
             get { return _bad; }
         }
 
-        /// <summary>
-        /// Gets the used quote symbol.
-        /// </summary>
         public Char Quote
         {
             get { return _quote; }

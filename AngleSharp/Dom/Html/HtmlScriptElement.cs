@@ -3,9 +3,9 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
-    using AngleSharp.Services.Scripting;
+    using AngleSharp.Network.RequestProcessors;
     using System;
-    using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -17,10 +17,10 @@
         #region Fields
 
         readonly Boolean _parserInserted;
+        readonly ScriptRequestProcessor _request;
 
         Boolean _started;
         Boolean _forceAsync;
-        Action _runScript;
 
         #endregion
 
@@ -32,37 +32,16 @@
             _forceAsync = false;
             _started = started;
             _parserInserted = parserInserted;
-        }
-
-        #endregion
-
-        #region Internal Properties
-
-        internal String AlternativeLanguage
-        {
-            get
-            {
-                var language = this.GetOwnAttribute(AttributeNames.Language);
-                return language != null ? "text/" + language : null;
-            }
-        }
-
-        internal IScriptEngine Engine
-        {
-            get { return Owner.Options.GetScriptEngine(ScriptLanguage); }
+            _request = ScriptRequestProcessor.Create(this);
         }
 
         #endregion
 
         #region Properties
 
-        public String ScriptLanguage
+        public IDownload CurrentDownload
         {
-            get
-            {
-                var type = Type ?? AlternativeLanguage;
-                return String.IsNullOrEmpty(type) ? MimeTypeNames.DefaultJavaScript : type;
-            }
+            get { return _request != null ? _request.Download : null; }
         }
 
         public String Source
@@ -118,20 +97,18 @@
             if (!_parserInserted)
             {
                 Prepare(Owner);
+                RunAsync(CancellationToken.None);
             }
         }
         
-        internal void Run()
+        internal Task RunAsync(CancellationToken cancel)
         {
-            if (_runScript != null)
+            if (_request != null)
             {
-                var cancelled = this.FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
-
-                if (!cancelled)
-                {
-                    _runScript();
-                }
+                return _request.RunAsync(cancel);
             }
+            
+            return null;
         }
 
         /// <summary>
@@ -159,7 +136,7 @@
             {
                 return false;
             }
-            else if (Engine == null)
+            else if (_request.Engine == null)
             {
                 return false;
             }
@@ -198,15 +175,10 @@
 
                 document.QueueTask(FireErrorEvent);
             }
-            else 
+            else
             {
-                if (_parserInserted && document.GetStyleSheetDownloads().Any())
-                {
-                    _runScript = RunFromSource;
-                    return true;
-                }
-
-                RunFromSource();
+                _request.Process(Text);
+                return true;
             }
 
             return false;
@@ -240,79 +212,13 @@
                 fromParser = false;
             }
 
-            var request = this.CreateRequestFor(url);
-            var task = LoadScriptAsync(document.Loader, request);
-            document.DelayLoad(task);
+            this.Process(_request, url);
             return fromParser;
-        }
-
-        async Task LoadScriptAsync(IResourceLoader loader, ResourceRequest request)
-        {
-            var setting = CrossOrigin.ToEnum(CorsSetting.None);
-            var behavior = OriginBehavior.Taint;
-            var response = await loader.FetchWithCorsAsync(request, setting, behavior).ConfigureAwait(false);
-            var completion = new TaskCompletionSource<Boolean>();
-            _runScript = () =>
-            {
-                RunFromResponse(response);
-                response.Dispose();
-                completion.SetResult(true);
-            };
-            await completion.Task.ConfigureAwait(false);
-        }
-
-        void RunFromResponse(IResponse response)
-        {
-            Eval(options => Engine.Evaluate(response, options));
-            FireLoadEvent();
-        }
-
-        void RunFromSource()
-        {
-            Eval(options => Engine.Evaluate(Text, options));
-            Owner.QueueTask(FireLoadEvent);
-        }
-
-        void Eval(Action<ScriptOptions> evaluateWith)
-        {
-            var options = CreateOptions();
-            var document = Owner;
-            var insert = document.Source.Index;
-
-            try { evaluateWith(options); }
-            catch { /* We omit failed 3rd party services */ }
-
-            document.Source.Index = insert;
-            FireAfterScriptExecuteEvent();
-        }
-
-        void FireLoadEvent()
-        {
-            this.FireSimpleEvent(EventNames.Load);
         }
 
         void FireErrorEvent()
         {
             this.FireSimpleEvent(EventNames.Error);
-        }
-
-        void FireAfterScriptExecuteEvent()
-        {
-            this.FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
-        }
-
-        ScriptOptions CreateOptions()
-        {
-            var document = Owner;
-            var context = document != null ? document.DefaultView : null;
-
-            return new ScriptOptions
-            {
-                Context = context,
-                Document = document,
-                Element = this,
-                Encoding = TextEncoding.Resolve(CharacterSet)
-            };
         }
 
         #endregion

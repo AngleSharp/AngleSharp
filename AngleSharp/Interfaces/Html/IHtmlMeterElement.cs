@@ -7,7 +7,7 @@
     /// Represents the meter HTML element.
     /// </summary>
     [DomName("HTMLMeterElement")]
-    public interface IHtmlMeterElement : IHtmlElement
+    public interface IHtmlMeterElement : IHtmlElement, ILabelabelElement
     {
         /// <summary>
         /// Gets or sets the current value.
@@ -44,11 +44,5 @@
         /// </summary>
         [DomName("optimum")]
         Double Optimum { get; set; }
-
-        /// <summary>
-        /// Gets the list of assigned labels.
-        /// </summary>
-        [DomName("labels")]
-        INodeList Labels { get; }
     }
 }

@@ -175,7 +175,7 @@
                 try
                 {
                     var regex = new Regex(pattern, RegexOptions.ECMAScript);
-                    return regex.IsMatch(value) == false;
+                    return !regex.IsMatch(value);
                 }
                 catch { }
             }

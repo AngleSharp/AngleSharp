@@ -3,23 +3,15 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Network;
-    using AngleSharp.Services.Styling;
-    using System;
+    using AngleSharp.Network.RequestProcessors;
     using System.Threading.Tasks;
-
+    
     class StyleSheetLinkRelation : BaseLinkRelation
     {
-        #region Fields
-
-        IStyleSheet _sheet;
-
-        #endregion
-
         #region ctor
 
         public StyleSheetLinkRelation(HtmlLinkElement link)
-            : base(link)
+            : base(link, StyleSheetRequestProcessor.Create(link))
         {
         }
 
@@ -29,39 +21,28 @@
 
         public IStyleSheet Sheet
         {
-            get { return _sheet; }
+            get 
+            {
+                var processor = Processor as StyleSheetRequestProcessor;
+                return processor != null ? processor.Sheet : null; 
+            }
         }
 
         #endregion
 
         #region Methods
 
-        public override Task LoadAsync(IConfiguration configuration, IResourceLoader loader)
+        public override Task LoadAsync()
         {
-            var link = Link;
-            var request = link.CreateRequestFor(Url);
-            var download = loader.DownloadAsync(request);
-            SetDownload(download);
+            var processor = Processor;
 
-            return link.ProcessResponse(download, response =>
+            if (processor != null)
             {
-                var type = link.Type ?? MimeTypeNames.Css;
-                var engine = configuration.GetStyleEngine(type);
+                var request = Link.CreateRequestFor(Url);
+                return processor.Process(request);
+            }
 
-                if (engine != null)
-                {
-                    var options = new StyleOptions
-                    {
-                        Element = link,
-                        IsDisabled = link.IsDisabled,
-                        IsAlternate = link.RelationList.Contains(Keywords.Alternate),
-                        Configuration = configuration
-                    };
-
-                    _sheet = engine.ParseStylesheet(response, options);
-                    _sheet.Media.MediaText = link.Media ?? String.Empty;
-                }
-            });
+            return null;
         }
 
         #endregion

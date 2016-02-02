@@ -2,13 +2,13 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Html;
     using System;
-    using System.Threading.Tasks;
+    using System.Diagnostics;
 
     /// <summary>
     /// A set of extensions for EventTarget objects.
     /// </summary>
+    [DebuggerStepThrough]
     static class EventTargetExtensions
     {
         /// <summary>
@@ -23,7 +23,7 @@
         /// <returns>
         /// True if the element was cancelled, otherwise false.
         /// </returns>
-        public static Boolean FireSimpleEvent(this EventTarget target, String eventName, Boolean bubble = false, Boolean cancelable = false)
+        public static Boolean FireSimpleEvent(this IEventTarget target, String eventName, Boolean bubble = false, Boolean cancelable = false)
         {
             var ev = new Event { IsTrusted = true };
             ev.Init(eventName, bubble, cancelable);
@@ -44,26 +44,12 @@
         /// <returns>
         /// True if the element was cancelled, otherwise false.
         /// </returns>
-        public static Boolean Fire<T>(this EventTarget target, Action<T> initializer, EventTarget targetOverride = null)
+        public static Boolean Fire<T>(this IEventTarget target, Action<T> initializer, EventTarget targetOverride = null)
             where T : Event, new()
         {
             var ev = new T { IsTrusted = true };
             initializer(ev);
             return ev.Dispatch(targetOverride ?? target);
-        }
-
-        /// <summary>
-        /// Fires either the error or the load simple event. Which one is fired
-        /// depends on the state of the provided task.
-        /// </summary>
-        /// <param name="target">The target of the event.</param>
-        /// <param name="task">The task that just finished.</param>
-        public static void FireLoadOrErrorEvent(this EventTarget target, Task task)
-        {
-            if (task.IsFaulted || task.Exception != null)
-                target.FireSimpleEvent(EventNames.Error);
-            else
-                target.FireSimpleEvent(EventNames.Load);
         }
     }
 }

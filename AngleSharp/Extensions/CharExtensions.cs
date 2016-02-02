@@ -299,6 +299,20 @@
         }
 
         /// <summary>
+        /// Determines if the given character is one of the three others.
+        /// </summary>
+        /// <param name="c">The character to test.</param>
+        /// <param name="o1">The first option.</param>
+        /// <param name="o2">The second option.</param>
+        /// <param name="o3">The third option.</param>
+        /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean IsOneOf(this Char c, Char o1, Char o2, Char o3)
+        {
+            return c == o1 || c == o2 || c == o3;
+        }
+
+        /// <summary>
         /// Determines if the given character is one of the four others.
         /// </summary>
         /// <param name="c">The character to test.</param>

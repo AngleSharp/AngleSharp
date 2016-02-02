@@ -2,14 +2,14 @@
 {
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Services.Media;
+    using AngleSharp.Network.RequestProcessors;
     using System;
 
     class ImageInputType : BaseInputType
     {
         #region Fields
 
-        IImageInfo _img;
+        readonly ImageRequestProcessor _request;
 
         #endregion
 
@@ -21,23 +21,12 @@
             var inp = input as HtmlInputElement;
             var src = input.Source;
 
+
             if (src != null && inp != null)
             {
                 var url = inp.HyperReference(src);
-                var request = inp.CreateRequestFor(url);
-                var document = inp.Owner;
-
-                if (document != null)
-                {
-                    var loader = document.Loader;
-
-                    if (loader != null)
-                    {
-                        var download = loader.DownloadAsync(request);
-                        var task = inp.ProcessResource<IImageInfo>(download, result => _img = result);
-                        document.DelayLoad(task);
-                    }
-                }
+                _request = ImageRequestProcessor.Create(inp);
+                inp.Process(_request, url);
             }
         }
 
@@ -47,12 +36,12 @@
 
         public Int32 Width
         {
-            get { return _img != null ? _img.Width : 0; }
+            get { return _request != null ? _request.Width : 0; }
         }
 
         public Int32 Height
         {
-            get { return _img != null ? _img.Height : 0; }
+            get { return  _request != null ? _request.Height : 0; }
         }
 
         #endregion

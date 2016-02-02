@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Represents a complex selector, i.e. one or more compound selectors
@@ -36,7 +36,7 @@
                 var sum = new Priority();
                 var n = _selectors.Count;
 
-                for (int i = 0; i < n; i++)
+                for (var i = 0; i < n; i++)
                 {
                     sum += _selectors[i].Selector.Specifity;
                 }
@@ -138,7 +138,7 @@
             {
                 var n = _selectors.Count - 1;
 
-                for (int i = 0; i < n; i++)
+                for (var i = 0; i < n; i++)
                 {
                     sb.Append(_selectors[i].Selector.Text)
                       .Append(_selectors[i].Delimiter);

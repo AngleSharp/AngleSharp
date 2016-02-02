@@ -7,7 +7,7 @@
     /// The embed HTML element.
     /// </summary>
     [DomName("HTMLEmbedElement")]
-    public interface IHtmlEmbedElement : IHtmlElement
+    public interface IHtmlEmbedElement : IHtmlElement, ILoadableElement
     {
         /// <summary>
         /// Gets or sets the source of the object to embed.

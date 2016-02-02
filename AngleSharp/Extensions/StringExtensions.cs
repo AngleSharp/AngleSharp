@@ -20,6 +20,20 @@
     static class StringExtensions
     {
         /// <summary>
+        /// Checks if the given string has a certain character at a specific
+        /// index. The index is optional (default is 0).
+        /// </summary>
+        /// <param name="value">The value to examine.</param>
+        /// <param name="chr">The character to look for.</param>
+        /// <param name="index">The index of the character.</param>
+        /// <returns>True if the value has the char, otherwise false.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean Has(this String value, Char chr, Int32 index = 0)
+        {
+            return value != null && value.Length > index && value[index] == chr;
+        }
+
+        /// <summary>
         /// Retrieves a string describing the compatibility mode of the given quirksmode.
         /// </summary>
         /// <param name="mode">A specific quriks mode.</param>
@@ -652,13 +666,25 @@
         }
 
         /// <summary>
+        /// Creates a CSS function from the string with the given argument.
+        /// </summary>
+        /// <param name="value">The CSS function name.</param>
+        /// <param name="argument">The CSS function argument.</param>
+        /// <returns>The CSS function string.</returns>
+        public static String CssFunction(this String value, String argument)
+        {
+            return String.Concat(value, "(", argument, ")");
+        }
+
+        /// <summary>
         /// Serializes the string to a CSS url.
         /// </summary>
         /// <param name="value">The value to serialize.</param>
         /// <returns>The CSS url representation.</returns>
         public static String CssUrl(this String value)
         {
-            return String.Concat(FunctionNames.Url, "(", value.CssString(), ")");
+            var argument = value.CssString();
+            return FunctionNames.Url.CssFunction(argument);
         }
 
         /// <summary>

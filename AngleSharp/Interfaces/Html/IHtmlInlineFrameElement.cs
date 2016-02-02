@@ -7,7 +7,7 @@
     /// Represents the iframe HTML element.
     /// </summary>
     [DomName("HTMLIFrameElement")]
-    public interface IHtmlInlineFrameElement : IHtmlElement
+    public interface IHtmlInlineFrameElement : IHtmlElement, ILoadableElement
     {
         /// <summary>
         /// Gets or sets the frame source.

@@ -7,7 +7,7 @@
     /// Represents the progress HTML element.
     /// </summary>
     [DomName("HTMLProgressElement")]
-    public interface IHtmlProgressElement : IHtmlElement
+    public interface IHtmlProgressElement : IHtmlElement, ILabelabelElement
     {
         /// <summary>
         /// Gets or sets the current value.
@@ -26,11 +26,5 @@
         /// </summary>
         [DomName("position")]
         Double Position { get; }
-
-        /// <summary>
-        /// Gets the list of assigned labels.
-        /// </summary>
-        [DomName("labels")]
-        INodeList Labels { get; }
     }
 }

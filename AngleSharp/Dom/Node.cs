@@ -501,13 +501,17 @@
                 localName = qualifiedName;
             }
 
-            if ((prefix != null && namespaceUri == null) ||
-                (prefix.Is(NamespaceNames.XmlPrefix) && !namespaceUri.Is(NamespaceNames.XmlUri)) ||
-                ((qualifiedName.Is(NamespaceNames.XmlNsPrefix) || prefix.Is(NamespaceNames.XmlNsPrefix)) && !namespaceUri.Is(NamespaceNames.XmlNsUri)) ||
-                (namespaceUri.Is(NamespaceNames.XmlNsUri) && (!qualifiedName.Is(NamespaceNames.XmlNsPrefix) && !prefix.Is(NamespaceNames.XmlNsPrefix))))
+            if (IsNamespaceError(prefix, namespaceUri, qualifiedName))
             {
                 throw new DomException(DomError.Namespace);
             }
+        }
+
+        protected static Boolean IsNamespaceError(String prefix, String namespaceUri, String qualifiedName)
+        {
+            return (prefix != null && namespaceUri == null) || (prefix.Is(NamespaceNames.XmlPrefix) && !namespaceUri.Is(NamespaceNames.XmlUri)) ||
+                ((qualifiedName.Is(NamespaceNames.XmlNsPrefix) || prefix.Is(NamespaceNames.XmlNsPrefix)) && !namespaceUri.Is(NamespaceNames.XmlNsUri)) ||
+                (namespaceUri.Is(NamespaceNames.XmlNsUri) && (!qualifiedName.Is(NamespaceNames.XmlNsPrefix) && !prefix.Is(NamespaceNames.XmlNsPrefix)));
         }
 
         protected virtual String LocateNamespace(String prefix)
@@ -587,12 +591,12 @@
                 }
             }
 
-            for (int i = 0; i < removedNodes.Length; i++)
+            for (var i = 0; i < removedNodes.Length; i++)
             {
                 RemoveChild(removedNodes[i], true);
             }
 
-            for (int i = 0; i < addedNodes.Length; i++)
+            for (var i = 0; i < addedNodes.Length; i++)
             {
                 InsertBefore(addedNodes[i], null, true);
             }

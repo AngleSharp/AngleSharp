@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Html.LinkRels
 {
     using AngleSharp.Dom.Html;
-    using AngleSharp.Network;
+    using AngleSharp.Network.RequestProcessors;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -12,20 +12,26 @@
         #region Fields
 
         readonly HtmlLinkElement _link;
-        IDownload _download;
+        readonly IRequestProcessor _processor;
 
         #endregion
 
         #region ctor
 
-        public BaseLinkRelation(HtmlLinkElement link)
+        public BaseLinkRelation(HtmlLinkElement link, IRequestProcessor processor)
         {
             _link = link;
+            _processor = processor;
         }
 
         #endregion
 
         #region Properties
+
+        public IRequestProcessor Processor
+        {
+            get { return _processor; }
+        }
 
         public HtmlLinkElement Link
         {
@@ -41,20 +47,7 @@
 
         #region Methods
 
-        public void Cancel()
-        {
-            if (_download != null && !_download.IsCompleted)
-            {
-                _download.Cancel();
-            }
-        }
-
-        public abstract Task LoadAsync(IConfiguration configuration, IResourceLoader loader);
-
-        protected void SetDownload(IDownload download)
-        {
-            _download = download;
-        }
+        public abstract Task LoadAsync();
 
         #endregion
     }

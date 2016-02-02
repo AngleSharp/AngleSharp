@@ -53,9 +53,6 @@
 
         #region Internal Properties
 
-        /// <summary>
-        /// Gets the associated attribute container.
-        /// </summary>
         internal NamedNodeMap Attributes
         {
             get { return _attributes; }
@@ -461,10 +458,14 @@
             if (value != null)
             {
                 if (!name.IsXmlName())
+                {
                     throw new DomException(DomError.InvalidCharacter);
+                }
 
                 if (_namespace.Is(NamespaceNames.HtmlUri))
+                {
                     name = name.ToLowerInvariant();
+                }
 
                 this.SetOwnAttribute(name, value);
             }
@@ -593,7 +594,7 @@
                 {
                     var text = (IText)FirstChild;
 
-                    if (text.Data.Length > 0 && text.Data[0] == Symbols.LineFeed)
+                    if (text.Data.Has(Symbols.LineFeed))
                     {
                         sb.Append(Symbols.LineFeed);
                     }
@@ -639,7 +640,7 @@
                 {
                     var source = this.GetOwnAttribute(AttributeNames.Style);
                     var options = new StyleOptions { Element = this, Configuration = config };
-                    var style = engine.ParseInline(source, options);
+                    var style = engine.ParseDeclaration(source, options);
                     var bindable = style as IBindable;
 
                     if (bindable != null)

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Extensions;
     using System;
 
     sealed class DeclarationCondition : CssNode, IConditionFunction
@@ -21,7 +22,7 @@
         public override String ToCss(IStyleFormatter formatter)
         {
             var content = formatter.Declaration(_property.Name, _value.CssText, _property.IsImportant);
-            return String.Concat("(", content, ")");
+            return String.Empty.CssFunction(content);
         }
     }
 }

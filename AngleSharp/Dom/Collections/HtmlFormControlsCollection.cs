@@ -34,7 +34,7 @@
                 {
                     var input = m as IHtmlInputElement;
 
-                    if (input == null || input.Type != InputTypeNames.Image)
+                    if (input == null || !input.Type.Is(InputTypeNames.Image))
                     {
                         return true;
                     }

@@ -4,6 +4,7 @@
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
+    using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -71,30 +72,6 @@
             }
 
             throw new ArgumentException("No element could be created for the provided interface.");
-        }
-
-        /// <summary>
-        /// Creates a new DocumentFragment from the given HTML code. The
-        /// fragment is parsed with the Body element as context.
-        /// </summary>
-        /// <param name="document">The responsible document.</param>
-        /// <param name="html">The HTML to transform into a fragment.</param>
-        /// <returns>The fragment containing the new nodes.</returns>
-        static IDocumentFragment CreateFromHtml(this IDocument document, String html)
-        {
-            if (document == null)
-            {
-                throw new ArgumentNullException("document");
-            }
-
-            var body = document.Body as Element;
-
-            if (body == null)
-            {
-                throw new ArgumentException("The provided document does not have a valid body element.");
-            }
-
-            return new DocumentFragment(body, html ?? String.Empty);
         }
 
         /// <summary>
@@ -1158,6 +1135,44 @@
             }
 
             return elements;
+        }
+
+        #endregion
+
+        #region Document extensions
+
+        /// <summary>
+        /// Gets all downloads associated with resources of the document.
+        /// </summary>
+        /// <param name="document">The document hosting the downloads.</param>
+        /// <returns>The collection of elements hosting resources.</returns>
+        public static IEnumerable<IDownload> GetDownloads(this IDocument document)
+        {
+            return document.All.OfType<ILoadableElement>().Select(m => m.CurrentDownload).Where(m => m != null);
+        }
+
+        /// <summary>
+        /// Creates a new DocumentFragment from the given HTML code. The
+        /// fragment is parsed with the Body element as context.
+        /// </summary>
+        /// <param name="document">The responsible document.</param>
+        /// <param name="html">The HTML to transform into a fragment.</param>
+        /// <returns>The fragment containing the new nodes.</returns>
+        static IDocumentFragment CreateFromHtml(this IDocument document, String html)
+        {
+            if (document == null)
+            {
+                throw new ArgumentNullException("document");
+            }
+
+            var body = document.Body as Element;
+
+            if (body == null)
+            {
+                throw new ArgumentException("The provided document does not have a valid body element.");
+            }
+
+            return new DocumentFragment(body, html ?? String.Empty);
         }
 
         #endregion

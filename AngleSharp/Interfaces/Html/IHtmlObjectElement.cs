@@ -7,7 +7,7 @@
     /// Represents the object HTML element.
     /// </summary>
     [DomName("HTMLObjectElement")]
-    public interface IHtmlObjectElement : IHtmlElement, IValidation
+    public interface IHtmlObjectElement : IHtmlElement, IValidation, ILoadableElement
     {
         /// <summary>
         /// Gets or sets the address of the resource.

@@ -93,7 +93,7 @@
             if (other != null && 
                 other.IsExclusive == IsExclusive && 
                 other.IsInverse == IsInverse && 
-                other.Type == Type && 
+                other.Type.Is(Type) && 
                 other.Features.Count() == Features.Count())
             {
                 foreach (var feature in other.Features)

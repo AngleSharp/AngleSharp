@@ -9,11 +9,6 @@
     {
         #region ctor
 
-        /// <summary>
-        /// Creates a new CSS color token.
-        /// </summary>
-        /// <param name="data">The color data.</param>
-        /// <param name="position">The token's position.</param>
         public CssColorToken(String data, TextPosition position)
             : base(CssTokenType.Color, data, position)
         {
@@ -23,9 +18,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets if the data is bad.
-        /// </summary>
         public Boolean IsBad
         {
             get { return Data.Length != 3 && Data.Length != 6; }

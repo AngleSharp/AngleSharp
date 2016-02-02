@@ -4,6 +4,7 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Network.RequestProcessors;
     using AngleSharp.Services.Media;
     using System;
     using System.Collections.Generic;
@@ -110,7 +111,7 @@
         /// <returns>True if the namespace is matched, else false.</returns>
         public static Boolean MatchesCssNamespace(this IElement el, String prefix)
         {
-            if (prefix.Is("*"))
+            if (prefix.Is(Keywords.Asterisk))
             {
                 return true;
             }
@@ -246,7 +247,8 @@
         {
             if (element is HtmlAnchorElement || element is HtmlAreaElement || element is HtmlLinkElement)
             {
-                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Href));
+                var href = element.GetAttribute(null, AttributeNames.Href);
+                return !String.IsNullOrEmpty(href);
             }
             else if (element is HtmlButtonElement)
             {
@@ -270,7 +272,8 @@
             }
             else if (element is HtmlOptionsGroupElement || element is HtmlMenuItemElement || element is HtmlFieldSetElement)
             {
-                return String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Disabled));
+                var isDisabled = element.GetAttribute(null, AttributeNames.Disabled);
+                return String.IsNullOrEmpty(isDisabled);
             }
 
             return false;
@@ -305,7 +308,8 @@
             }
             else if (element is HtmlOptionsGroupElement || element is HtmlMenuItemElement || element is HtmlFieldSetElement)
             {
-                return !String.IsNullOrEmpty(element.GetAttribute(null, AttributeNames.Disabled));
+                var isDisabled = element.GetAttribute(null, AttributeNames.Disabled);
+                return !String.IsNullOrEmpty(isDisabled);
             }
 
             return false;
@@ -381,14 +385,14 @@
             {
                 var input = (HtmlInputElement)element;
                 var type = input.Type;
-                var canBeChecked = type == InputTypeNames.Checkbox || type == InputTypeNames.Radio;
+                var canBeChecked = type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio);
                 return canBeChecked && input.IsChecked;
             }
             else if (element is HtmlMenuItemElement)
             {
                 var menuItem = (HtmlMenuItemElement)element;
                 var type = menuItem.Type;
-                var canBeChecked = type == InputTypeNames.Checkbox || type == InputTypeNames.Radio;
+                var canBeChecked = type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio);
                 return canBeChecked && menuItem.IsChecked;
             }
             else if (element is HtmlOptionElement)
@@ -410,7 +414,7 @@
             if (element is HtmlInputElement)
             {
                 var input = (HtmlInputElement)element;
-                var isCheckbox = input.Type == InputTypeNames.Checkbox;
+                var isCheckbox = input.Type.Is(InputTypeNames.Checkbox);
                 return isCheckbox && input.IsIndeterminate;
             }
             else if (element is HtmlProgressElement)
@@ -452,14 +456,14 @@
             {
                 var input = (HtmlInputElement)element;
                 var type = input.Type;
-                var canBeChecked = type == InputTypeNames.Checkbox || type == InputTypeNames.Radio;
+                var canBeChecked = type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio);
                 return canBeChecked && !input.IsChecked;
             }
             else if (element is HtmlMenuItemElement)
             {
                 var menuItem = (HtmlMenuItemElement)element;
                 var type = menuItem.Type;
-                var canBeChecked = type == InputTypeNames.Checkbox || type == InputTypeNames.Radio;
+                var canBeChecked = type.IsOneOf(InputTypeNames.Checkbox, InputTypeNames.Radio);
                 return canBeChecked && !menuItem.IsChecked;
             }
             else if (element is HtmlOptionElement)
@@ -505,7 +509,7 @@
             {
                 var input = (HtmlInputElement)element;
                 var type = input.Type;
-                var canBeSubmitted = type == InputTypeNames.Submit || type == InputTypeNames.Image || type == InputTypeNames.Reset || type == InputTypeNames.Button;
+                var canBeSubmitted = type.IsOneOf(InputTypeNames.Submit, InputTypeNames.Image, InputTypeNames.Reset, InputTypeNames.Button);
                 return canBeSubmitted && input.IsActive;
             }
             else if (element is HtmlMenuItemElement)
@@ -801,77 +805,21 @@
         }
 
         /// <summary>
-        /// Creates a task to load the resource of the resource type from the
-        /// request.
+        /// Creates a task to use the processor for loading and processing the
+        /// resource from the provided url.
         /// </summary>
         /// <param name="element">The element to use.</param>
-        /// <param name="download">The issued download.</param>
-        /// <param name="callback">The callback handling the resource.</param>
-        /// <returns>The created task waiting for a response status.</returns>
-        public static Task<Boolean> ProcessResource<TResource>(this Element element, IDownload download, Action<TResource> callback)
-            where TResource : IResourceInfo
+        /// <param name="processor">The processor to use.</param>
+        /// <param name="url">The url of the resource.</param>
+        public static void Process(this Element element, IRequestProcessor processor, Url url)
         {
-            return element.ProcessResponse(download, async response =>
+            if (processor != null)
             {
+                var request = element.CreateRequestFor(url);
                 var document = element.Owner;
-
-                if (document != null)
-                {
-                    var options = document.Options;
-                    var type = response.GetContentType();
-                    var service = options.GetResourceService<TResource>(type.Content);
-
-                    if (service != null)
-                    {
-                        var cancel = CancellationToken.None;
-                        var result = await service.CreateAsync(response, cancel).ConfigureAwait(false);
-                        callback(result);
-                    }
-                }
-            });
-        }
-
-        /// <summary>
-        /// Creates a task to load the resource of the resource type from the
-        /// request.
-        /// </summary>
-        /// <param name="element">The element to use.</param>
-        /// <param name="download">The issued download.</param>
-        /// <param name="callback">The callback handling the resource.</param>
-        /// <returns>The created task waiting for a response status.</returns>
-        public static async Task<Boolean> ProcessResponse(this Element element, IDownload download, Action<IResponse> callback)
-        {
-            var response = await download.Task.ConfigureAwait(false);
-            var completionStatus = new TaskCompletionSource<Boolean>();
-            
-            element.Owner.QueueTask(() => 
-            {
-                if (response != null)
-                {
-                    try
-                    {
-                        callback(response);
-                        element.FireSimpleEvent(EventNames.Load);
-                        completionStatus.SetResult(true);
-                    }
-                    catch
-                    {
-                        element.FireSimpleEvent(EventNames.Error);
-                        completionStatus.SetResult(false);
-                    }
-                    finally
-                    {
-                        response.Dispose();
-                    }
-                }
-                else
-                {
-                    element.FireSimpleEvent(EventNames.Error);
-                    completionStatus.SetResult(false);
-                }
-            });
-
-            return await completionStatus.Task.ConfigureAwait(false);
+                var task = processor.Process(request);
+                document.DelayLoad(task);
+            }
         }
 
         /// <summary>
@@ -891,14 +839,12 @@
                 var source = sources.Pop();
                 var type = source.Type;
 
-                if (!String.IsNullOrEmpty(type) && options.GetResourceService<IImageInfo>(type) == null)
+                if (String.IsNullOrEmpty(type) || options.GetResourceService<IImageInfo>(type) != null)
                 {
-                    continue;
-                }
-
-                foreach (var candidate in srcset.GetCandidates(source.SourceSet, source.Sizes))
-                {
-                    return new Url(img.BaseUrl, candidate);
+                    foreach (var candidate in srcset.GetCandidates(source.SourceSet, source.Sizes))
+                    {
+                        return new Url(img.BaseUrl, candidate);
+                    }
                 }
             }
 

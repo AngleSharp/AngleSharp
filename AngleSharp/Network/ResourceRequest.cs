@@ -8,6 +8,8 @@
     /// </summary>
     public class ResourceRequest
     {
+        #region ctor
+
         /// <summary>
         /// Creates a new resource request for the given url.
         /// </summary>
@@ -23,6 +25,10 @@
             IsCookieBlocked = false;
             IsCredentialOmitted = false;
         }
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets the source of the request.
@@ -86,5 +92,7 @@
             get;
             set;
         }
+
+        #endregion
     }
 }

@@ -3,11 +3,10 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Network;
+    using AngleSharp.Network.RequestProcessors;
     using System;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
-    using System.Threading;
     using System.Threading.Tasks;
 
     class ImportLinkRelation : BaseLinkRelation
@@ -15,7 +14,6 @@
         #region Fields
 
         static readonly ConditionalWeakTable<IDocument, ImportList> ImportLists = new ConditionalWeakTable<IDocument, ImportList>();
-        IDocument _import;
         Boolean _isasync;
 
         #endregion
@@ -23,7 +21,7 @@
         #region ctor
 
         public ImportLinkRelation(HtmlLinkElement link)
-            : base(link)
+            : base(link, DocumentRequestProcessor.Create(link))
         {
         }
 
@@ -33,7 +31,11 @@
 
         public IDocument Import
         {
-            get { return _import; }
+            get 
+            {
+                var processor = Processor as DocumentRequestProcessor;
+                return processor != null ? processor.Document : null; 
+            }
         }
 
         public Boolean IsAsync
@@ -48,39 +50,28 @@
         /// <summary>
         /// See http://www.w3.org/TR/html-imports/#dfn-import-request.
         /// </summary>
-        public override async Task LoadAsync(IConfiguration configuration, IResourceLoader loader)
+        public override Task LoadAsync()
         {
             var link = Link;
             var document = link.Owner;
             var list = ImportLists.GetOrCreateValue(document);
             var location = Url;
-            var request = link.CreateRequestFor(location);
+            var processor = Processor;
             var item = new ImportEntry 
             { 
                 Relation = this,
                 IsCycle = CheckCycle(document, location)
             };
-            _isasync = link.HasAttribute(AttributeNames.Async);
             list.Add(item);
             
-            if (!item.IsCycle)
+            if (!item.IsCycle && processor != null)
             {
-                var nestedStatus = new TaskCompletionSource<Boolean>();
-                var download = loader.DownloadAsync(request);
-                SetDownload(download);
-
-                await link.ProcessResponse(download, async response =>
-                {
-                    var context = new BrowsingContext(document.Context, Sandboxes.None);
-                    var options = new CreateDocumentOptions(response, configuration)
-                    {
-                        ImportAncestor = document
-                    };
-                    _import = await context.OpenAsync(options, CancellationToken.None).ConfigureAwait(false);
-                    nestedStatus.SetResult(true);
-                }).ConfigureAwait(false);
-                await nestedStatus.Task.ConfigureAwait(false);
+                var request = link.CreateRequestFor(location);
+                _isasync = link.HasAttribute(AttributeNames.Async);
+                return processor.Process(request);
             }
+
+            return null;
         }
 
         #endregion

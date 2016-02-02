@@ -1,14 +1,14 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using System;
     using AngleSharp.Dom.Media;
     using AngleSharp.Html;
     using AngleSharp.Services.Media;
+    using System;
 
     /// <summary>
     /// Represents the HTML audio element.
     /// </summary>
-    sealed class HtmlAudioElement : HTMLMediaElement<IAudioInfo>, IHtmlAudioElement
+    sealed class HtmlAudioElement : HtmlMediaElement<IAudioInfo>, IHtmlAudioElement
     {
         #region Fields
 

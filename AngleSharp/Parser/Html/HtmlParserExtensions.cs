@@ -30,8 +30,6 @@
                 var item = new Attr(attribute.Key, attribute.Value);
                 container.FastAddItem(item);
             }
-
-            element.SetupElement();
         }
 
         /// <summary>
@@ -131,6 +129,25 @@
         public static void AddComment(this Node parent, HtmlToken token)
         {
             parent.AddNode(new Comment(parent.Owner, token.Data));
+        }
+
+        /// <summary>
+        /// Gets the quirks mode of the doctype.
+        /// </summary>
+        /// <param name="doctype">The doctype to examine.</param>
+        /// <returns>The associated quirks mode.</returns>
+        public static QuirksMode GetQuirksMode(this HtmlDoctypeToken doctype)
+        {
+            if (doctype.IsFullQuirks)
+            {
+                return QuirksMode.On;
+            }
+            else if (doctype.IsLimitedQuirks)
+            {
+                return QuirksMode.Limited;
+            }
+
+            return QuirksMode.Off;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -38,7 +39,7 @@
 
         public Boolean IsInherited
         {
-            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || (_value != null && _value.CssText == Keywords.Inherit); }
+            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || (_value != null && _value.CssText.Is(Keywords.Inherit)); }
         }
 
         public Boolean IsAnimatable
@@ -48,7 +49,7 @@
 
         public Boolean IsInitial
         {
-            get { return _value == null || _value.CssText == Keywords.Initial; }
+            get { return _value == null || _value.CssText.Is(Keywords.Initial); }
         }
 
         public String Name

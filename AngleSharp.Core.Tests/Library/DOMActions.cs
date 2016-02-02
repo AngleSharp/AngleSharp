@@ -888,7 +888,7 @@
         [Test]
         public async Task IframeWithDocumentViaDocSrc()
         {
-            var cfg = Configuration.Default.WithDefaultLoader();
+            var cfg = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
             var html = @"<!doctype html><iframe id=myframe srcdoc='<span>Hello World!</span>'></iframe></script>";
             var document = await BrowsingContext.New(cfg).OpenAsync(m => m.Content(html));
             var iframe = document.QuerySelector<IHtmlInlineFrameElement>("#myframe");
@@ -901,7 +901,7 @@
         [Test]
         public async Task IframeWithDocumentPreferDocSrcToDataSrc()
         {
-            var cfg = Configuration.Default.WithDefaultLoader();
+            var cfg = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
             var html = @"<!doctype html><iframe id=myframe srcdoc='Green' src='data:text/html,Red'></iframe></script>";
             var document = await BrowsingContext.New(cfg).OpenAsync(m => m.Content(html));
             var iframe = document.QuerySelector<IHtmlInlineFrameElement>("#myframe");

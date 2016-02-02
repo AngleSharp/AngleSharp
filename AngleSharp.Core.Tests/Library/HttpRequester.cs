@@ -299,12 +299,16 @@
             var filtered = new List<IRequest>();
             requester.OnRequest = request => requests.Add(request);
             var content = "<!doctype><html><link rel=stylesheet type=text/css href=test.css><div><img src=foo.jpg><iframe src=test.html></iframe></div>";
-            var config = Configuration.Default.WithDefaultLoader(setup =>
+            var config = Configuration.Default.WithCss().WithDefaultLoader(setup =>
             {
                 setup.IsResourceLoadingEnabled = true;
                 setup.Filter = request =>
                 {
-                    filtered.Add(request);
+                    lock (filtered)
+                    {
+                        filtered.Add(request);
+                    }
+
                     return !request.Address.Href.EndsWith(".jpg");
                 };
             }, new[] { requester });

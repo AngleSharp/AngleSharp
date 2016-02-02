@@ -32,77 +32,44 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the value of the name attribute.
-        /// </summary>
         public String Name
         {
             get { return this.GetOwnAttribute(AttributeNames.Name); }
             set { this.SetOwnAttribute(AttributeNames.Name, value); }
         }
 
-        /// <summary>
-        /// Gets the associated HTML form element.
-        /// </summary>
         public IHtmlFormElement Form
         {
             get { return GetAssignedForm(); }
         }
 
-        /// <summary>
-        /// Gets or sets if the element is enabled or disabled.
-        /// </summary>
         public Boolean IsDisabled
         {
             get { return this.HasOwnAttribute(AttributeNames.Disabled) || IsFieldsetDisabled(); }
             set { this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
-        /// <summary>
-        /// Gets or sets the autofocus HTML attribute, which indicates whether the
-        /// control should have input focus when the page loads.
-        /// </summary>
         public Boolean Autofocus
         {
             get { return this.HasOwnAttribute(AttributeNames.AutoFocus); }
             set { this.SetOwnAttribute(AttributeNames.AutoFocus, value ? String.Empty : null); }
         }
 
-        /// <summary>
-        /// Gets if labels are supported.
-        /// </summary>
-        public Boolean SupportsLabels
-        {
-            get { return true; }
-        }
-
-        /// <summary>
-        /// Gets the list of assigned labels.
-        /// </summary>
         public INodeList Labels
         {
             get { return _labels; }
         }
 
-        /// <summary>
-        /// Gets the current validation message.
-        /// </summary>
         public String ValidationMessage
         {
             get { return _vstate.IsCustomError ? _error : String.Empty; }
         }
 
-        /// <summary>
-        /// Gets a value if the current element validates.
-        /// </summary>
         public Boolean WillValidate
         {
             get { return !IsDisabled && CanBeValidated(); }
         }
 
-        /// <summary>
-        /// Gets the current validation state of the current element.
-        /// </summary>
         public IValidityState Validity
         {
             get
@@ -123,20 +90,11 @@
             return node;
         }
 
-        /// <summary>
-        /// Checks the validity of the current element.
-        /// </summary>
-        /// <returns>True.</returns>
         public Boolean CheckValidity()
         {
             return WillValidate && Validity.IsValid;
         }
 
-        /// <summary>
-        /// Sets a custom validation error. If this is not the empty string,
-        /// then the element is suffering from a custom validation error.
-        /// </summary>
-        /// <param name="error">The custom error description.</param>
         public void SetCustomValidity(String error)
         {
             _vstate.IsCustomError = !String.IsNullOrEmpty(error);
@@ -156,31 +114,19 @@
                 if (fieldSet.IsDisabled)
                 {
                     var firstLegend = fieldSet.ChildNodes.FirstOrDefault(m => m is IHtmlLegendElement);
-                    return this.IsDescendantOf(firstLegend) == false;
+                    return !this.IsDescendantOf(firstLegend);
                 }
             }
 
             return false;
         }
 
-        /// <summary>
-        /// Constucts the data set (called from a form).
-        /// </summary>
-        /// <param name="dataSet">The dataset to construct.</param>
-        /// <param name="submitter">The given submitter.</param>
         internal virtual void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         { }
 
-        /// <summary>
-        /// Resets the form control to its initial value.
-        /// </summary>
         internal virtual void Reset()
         { }
 
-        /// <summary>
-        /// Checks the form control for validity.
-        /// </summary>
-        /// <param name="state">The element's validity state tracker.</param>
         protected virtual void Check(ValidityState state)
         { }
 

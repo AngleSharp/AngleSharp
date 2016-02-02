@@ -427,19 +427,19 @@
 
         public override void DoClick()
         {
-            if (IsClickedCancelled())
-                return;
-
-            var type = Type;
-            var form = Form;
-
-            if (type == InputTypeNames.Submit && form != null)
+            if (!IsClickedCancelled())
             {
-                form.Submit();
-            }
-            else if (type == InputTypeNames.Reset && form != null)
-            {
-                form.Reset();
+                var type = Type;
+                var form = Form;
+
+                if (type.Is(InputTypeNames.Submit) && form != null)
+                {
+                    form.Submit();
+                }
+                else if (type.Is(InputTypeNames.Reset) && form != null)
+                {
+                    form.Reset();
+                }
             }
         }
 
@@ -458,8 +458,10 @@
 
         internal override void RestoreFormControlState(FormControlState state)
         {
-            if (state.Type == Type && state.Name == Name)
+            if (state.Type.Is(Type) && state.Name.Is(Name))
+            {
                 Value = state.Value;
+            }
         }
 
         /// <summary>
@@ -511,11 +513,6 @@
 
         #region Helpers
 
-        /// <summary>
-        /// Constructs the data set (called from a form).
-        /// </summary>
-        /// <param name="dataSet">The dataset to construct.</param>
-        /// <param name="submitter">The given submitter.</param>
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
             if (_type.IsAppendingData(submitter))
@@ -524,9 +521,6 @@
             }
         }
 
-        /// <summary>
-        /// Resets the form control to its initial value.
-        /// </summary>
         internal override void Reset()
         {
             base.Reset();
@@ -534,10 +528,6 @@
             UpdateType(Type);
         }
 
-        /// <summary>
-        /// Checks the form control for validity.
-        /// </summary>
-        /// <param name="state">The element's validity state tracker.</param>
         protected override void Check(ValidityState state)
         {
             base.Check(state);
