@@ -76,6 +76,11 @@
 
         public async Task RunAsync(CancellationToken cancel)
         {
+            if (_download != null)
+            {
+                _response = await _download.Task.ConfigureAwait(false);
+            }
+
             if (_response != null)
             {
                 var cancelled = _script.FireSimpleEvent(EventNames.BeforeScriptExecute, cancelable: true);
@@ -112,15 +117,17 @@
             }
         }
 
-        public async Task Process(ResourceRequest request)
+        public Task Process(ResourceRequest request)
         {
             if (_loader != null && Engine != null)
             {
                 var setting = _script.CrossOrigin.ToEnum(CorsSetting.None);
                 var behavior = OriginBehavior.Taint;
-                _download = await _loader.FetchWithCorsAsync(request, setting, behavior).ConfigureAwait(false);
-                _response = await _download.Task.ConfigureAwait(false);
+                _download = _loader.FetchWithCors(request, setting, behavior);
+                return _download.Task;
             }
+
+            return null;
         }
 
         ScriptOptions CreateOptions()

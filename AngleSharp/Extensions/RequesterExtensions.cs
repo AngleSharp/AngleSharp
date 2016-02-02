@@ -5,6 +5,7 @@
     using System;
     using System.Diagnostics;
     using System.Net;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -27,69 +28,101 @@
         /// The default behavior in case it is undefined.
         /// </param>
         /// <returns>
-        /// The task which will eventually return the stream.
+        /// The task that will eventually give the resource's response data.
         /// </returns>
-        public static async Task<IDownload> FetchWithCorsAsync(this IResourceLoader loader, ResourceRequest request, CorsSetting setting, OriginBehavior behavior)
+        public static IDownload FetchWithCors(this IResourceLoader loader, ResourceRequest request, CorsSetting setting, OriginBehavior behavior)
         {
             var url = request.Target;
 
             if (request.Origin == url.Origin || url.Scheme == ProtocolNames.Data || url.Href == "about:blank")
             {
-                while (true)
-                {
-                    var download = loader.DownloadAsync(new ResourceRequest(request.Source, url)
-                    {
-                        Origin = request.Origin,
-                        IsManualRedirectDesired = true
-                    });
-                    var response = await download.Task.ConfigureAwait(false);
-
-                    if (response.IsRedirected())
-                    {
-                        url.Href = response.Headers.GetOrDefault(HeaderNames.Location, url.Href);
-
-                        if (request.Origin.Is(url.Origin))
-                        {
-                            return await loader.FetchWithCorsAsync(new ResourceRequest(request.Source, url)
-                            {
-                                IsCookieBlocked = request.IsCookieBlocked,
-                                IsSameOriginForced = request.IsSameOriginForced,
-                                Origin = request.Origin
-                            }, setting, behavior).ConfigureAwait(false);
-                        }
-                    }
-                    else
-                    {
-                        return download;
-                    }
-                }
-            }
-            else if (setting == CorsSetting.None)
-            {
-                if (behavior == OriginBehavior.Fail)
-                {
-                    throw new DomException(DomError.Network);
-                }
-
-                return loader.DownloadAsync(request);
+                return loader.FetchWithCorsAsync(url, request, setting, behavior).Result;
             }
             else if (setting == CorsSetting.Anonymous || setting == CorsSetting.UseCredentials)
             {
-                request.IsCredentialOmitted = setting == CorsSetting.Anonymous;
-                var download = loader.DownloadAsync(request);
-                var result = await download.Task.ConfigureAwait(false);
-
-                if (result != null && result.StatusCode == HttpStatusCode.OK)
-                {
-                    return download;
-                }
-                else if (result != null)
-                {
-                    result.Dispose();
-                }
+                return loader.FetchWithCors(request, setting);
+            }
+            else if (setting == CorsSetting.None)
+            {
+                return loader.FetchWithoutCors(request, behavior);
             }
 
             throw new DomException(DomError.Network);
+        }
+
+        static async Task<IDownload> FetchWithCorsAsync(this IResourceLoader loader, Url url, ResourceRequest request, CorsSetting setting, OriginBehavior behavior)
+        {
+            var download = loader.DownloadAsync(new ResourceRequest(request.Source, url)
+            {
+                Origin = request.Origin,
+                IsManualRedirectDesired = true
+            });
+
+            var response = await download.Task.ConfigureAwait(false);
+
+            if (response.IsRedirected())
+            {
+                url.Href = response.Headers.GetOrDefault(HeaderNames.Location, url.Href);
+
+                if (request.Origin.Is(url.Origin))
+                {
+                    return loader.FetchWithCors(new ResourceRequest(request.Source, url)
+                    {
+                        IsCookieBlocked = request.IsCookieBlocked,
+                        IsSameOriginForced = request.IsSameOriginForced,
+                        Origin = request.Origin
+                    }, setting, behavior);
+                }
+            }
+            else
+            {
+                return download;
+            }
+
+            return loader.FetchWithCorsAsync(url, request, setting, behavior).Result;
+        }
+
+        static IDownload FetchWithoutCors(this IResourceLoader loader, ResourceRequest request, OriginBehavior behavior)
+        {
+            if (behavior == OriginBehavior.Fail)
+            {
+                throw new DomException(DomError.Network);
+            }
+
+            return loader.DownloadAsync(request);
+        }
+
+        static IDownload FetchWithCors(this IResourceLoader loader, ResourceRequest request, CorsSetting setting)
+        {
+            request.IsCredentialOmitted = setting == CorsSetting.Anonymous;
+            var download = loader.DownloadAsync(request);
+            return download.Wrap(response =>
+            {
+                if (response != null && response.StatusCode == HttpStatusCode.OK)
+                {
+                    return download;
+                }
+                else if (response != null)
+                {
+                    response.Dispose();
+                }
+
+                throw new DomException(DomError.Network);
+            });
+        }
+
+        static IDownload Wrap(this IDownload download, Func<IResponse, IDownload> callback)
+        {
+            var cts = new CancellationTokenSource();
+            var task = download.Task.Wrap(callback);
+            return new Download(task, cts, download.Target, download.Originator);
+        }
+
+        static async Task<IResponse> Wrap(this Task<IResponse> task, Func<IResponse, IDownload> callback)
+        {
+            var response = await task.ConfigureAwait(false);
+            var download = callback(response);
+            return await download.Task.ConfigureAwait(false);
         }
 
         #endregion
