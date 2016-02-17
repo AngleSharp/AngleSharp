@@ -66,7 +66,7 @@ Now feature branches may be closed when they are done. Here we simply merge with
 
 This aggregates to the graph below.
 
-![AngleSharp Merge Branches](feature-merges.png)
+![AngleSharp Merge Branches](https://github.com/AngleSharp/AngleSharp/wiki/feature-merges.png)
 
 Finally we may have all the features that are needed to release a new version of AngleSharp. Here we tag the release. For instance for the 1.0 release we use `v1.0`.
 
