@@ -32,12 +32,18 @@
             set
             {
                 var domain = new Uri(origin);
-                var cookies = _container.GetCookies(domain);
+                var existingCookies = _container.GetCookies(domain);
 
-                foreach (Cookie cookie in cookies)
+                foreach (Cookie cookie in existingCookies)
+                {
                     cookie.Expired = true;
+                }
 
-                _container.SetCookies(domain, value); 
+                var cookies = value.Split(new[] { ';' });
+                foreach (var cookie in cookies)
+                {
+                    _container.SetCookies(domain, cookie);
+                }
             }
         }
     }
