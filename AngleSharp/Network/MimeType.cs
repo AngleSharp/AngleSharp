@@ -51,7 +51,7 @@
             _general = value.Substring(0, slash);
             _media = slash < value.Length ? value.Substring(slash + 1, Math.Min(plus, semicolon) - slash - 1) : String.Empty;
             _suffix = plus < value.Length ? value.Substring(plus + 1, semicolon - plus - 1) : String.Empty;
-            _params = semicolon < value.Length ? value.Substring(semicolon + 1) : String.Empty;
+            _params = semicolon < value.Length ? value.Substring(semicolon + 1).StripLeadingTrailingSpaces() : String.Empty;
         }
 
         #endregion
