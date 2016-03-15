@@ -3,16 +3,15 @@
     using System;
     using System.Collections.Generic;
 
-
     /// <summary>
     /// Contains useful information from the specification.
     /// </summary>
     static class Symbols
     {
         /// <summary>
-        /// The end of file character 26.
+        /// The end of file marker (Char.MaxValue).
         /// </summary>
-        public const Char EndOfFile = (Char)0x1a;
+        public const Char EndOfFile = Char.MaxValue;
 
         /// <summary>
         /// The tilde character ( ~ ).
