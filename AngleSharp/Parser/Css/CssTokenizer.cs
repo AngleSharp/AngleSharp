@@ -228,7 +228,6 @@
                     }
 
                     return IdentStart(GetPrevious());
-
                 case Symbols.Colon:
                     return NewColon();
 
@@ -655,14 +654,11 @@
                 _stringBuffer.Append(current);
                 return IdentRest(GetNext());
             }
-            else if (current == Symbols.ReverseSolidus)
+            else if (current == Symbols.ReverseSolidus && IsValidEscape(current))
             {
-                if (IsValidEscape(current))
-                {
-                    current = GetNext();
-                    _stringBuffer.Append(ConsumeEscape(current));
-                    return IdentRest(GetNext());
-                }
+                current = GetNext();
+                _stringBuffer.Append(ConsumeEscape(current));
+                return IdentRest(GetNext());
             }
 
             return Data(current);
@@ -1496,7 +1492,7 @@
                 current = GetNext();
                 Back();
 
-                return current != Symbols.EndOfFile && current.IsLineBreak();
+                return current != Symbols.EndOfFile && !current.IsLineBreak();
             }
                 
             return false;
