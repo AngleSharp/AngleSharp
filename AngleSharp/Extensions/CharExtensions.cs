@@ -150,7 +150,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsNonAscii(this Char c)
         {
-            return c >= 0x80;
+            return c != Symbols.EndOfFile && c >= 0x80;
         }
 
         /// <summary>
@@ -184,7 +184,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsName(this Char c)
         {
-            return c >= 0x80 || c.IsLetter() || c == Symbols.Underscore || c == Symbols.Minus || c.IsDigit();
+            return c.IsNonAscii() || c.IsLetter() || c == Symbols.Underscore || c == Symbols.Minus || c.IsDigit();
         }
 
         /// <summary>
@@ -196,7 +196,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsNameStart(this Char c)
         {
-            return c >= 0x80 || IsUppercaseAscii(c) || IsLowercaseAscii(c) || c == Symbols.Underscore;
+            return c.IsNonAscii() || c.IsUppercaseAscii() || c.IsLowercaseAscii() || c == Symbols.Underscore;
         }
 
         /// <summary>

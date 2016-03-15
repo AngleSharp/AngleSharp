@@ -228,7 +228,6 @@
                     }
 
                     return IdentStart(GetPrevious());
-
                 case Symbols.Colon:
                     return NewColon();
 
@@ -655,14 +654,11 @@
                 _stringBuffer.Append(current);
                 return IdentRest(GetNext());
             }
-            else if (current == Symbols.ReverseSolidus)
+            else if (current == Symbols.ReverseSolidus && IsValidEscape(current))
             {
-                if (IsValidEscape(current))
-                {
-                    current = GetNext();
-                    _stringBuffer.Append(ConsumeEscape(current));
-                    return IdentRest(GetNext());
-                }
+                current = GetNext();
+                _stringBuffer.Append(ConsumeEscape(current));
+                return IdentRest(GetNext());
             }
 
             return Data(current);
@@ -1013,7 +1009,7 @@
                     RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                     return UrlBad(functionName);
                 }
-                else if (Symbols.EndOfFile == current)
+                else if (current == Symbols.EndOfFile)
                 {
                     return NewUrl(functionName, FlushBuffer());
                 }
@@ -1456,25 +1452,28 @@
         {
             if (current.IsHex())
             {
+                var isHex = true;
                 var escape = new Char[6];
                 var length = 0;
 
-                while (length < escape.Length)
+                while (isHex && length < escape.Length)
                 {
                     escape[length++] = current;
                     current = GetNext();
-
-                    if (!current.IsHex())
-                        break;
+                    isHex = current.IsHex();
                 }
 
                 if (!current.IsSpaceCharacter())
+                {
                     Back();
+                }
 
                 var code = Int32.Parse(new String(escape, 0, length), NumberStyles.HexNumber);
 
                 if (!code.IsInvalid())
+                {
                     return code.ConvertFromUtf32();
+                }
 
                 current = Symbols.Replacement;
             }
@@ -1488,18 +1487,15 @@
         /// <returns>The result of the check.</returns>
         Boolean IsValidEscape(Char current)
         {
-            if (current != Symbols.ReverseSolidus)
-                return false;
+            if (current == Symbols.ReverseSolidus)
+            {
+                current = GetNext();
+                Back();
 
-            current = GetNext();
-            Back();
-
-            if (current == Symbols.EndOfFile)
-                return false;
-            else if (current.IsLineBreak())
-                return false;
-
-            return true;
+                return current != Symbols.EndOfFile && !current.IsLineBreak();
+            }
+                
+            return false;
         }
 
         /// <summary>

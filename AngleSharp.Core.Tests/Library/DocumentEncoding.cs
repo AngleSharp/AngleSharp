@@ -2,9 +2,11 @@
 {
     using AngleSharp;
     using AngleSharp.Dom.Html;
+    using AngleSharp.Network;
     using NUnit.Framework;
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class DocumentEncodingTests
@@ -158,6 +160,22 @@
             var doc = source.ToHtmlDocument();
             var text = "Apri un blog è gratis";
             Assert.AreEqual(text, doc.QuerySelectorAll(".label")[3].TextContent);
+        }
+
+        [Test]
+        public async Task EncodingFromHeaderAtAmazonFranceSubpageWithConflictingEofCharacter()
+        {
+            var content = Helper.StreamFromBytes(Assets.amazonenc);
+            var config = Configuration.Default;
+            var document = await BrowsingContext.New(config).OpenAsync(res =>
+                res.Content(content).
+                    Address("http://www.amazon.fr").
+                    Header(HeaderNames.ContentEncoding, "gzip").
+                    Header(HeaderNames.ContentType, "text/html; charset=ISO-8859-15"));
+            var div = document.QuerySelector("#nav-prime-tooltip .nav-npt-text-title");
+
+            Assert.IsNotNull(div);
+            Assert.AreEqual(" Livraison en 1 jour ouvré gratuite et illimitée sur des millions darticles ", div.TextContent);
         }
     }
 }

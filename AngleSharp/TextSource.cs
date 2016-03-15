@@ -237,7 +237,7 @@
             {
                 await ExpandBufferAsync(BufferSize, cancellationToken).ConfigureAwait(false);
                 var index = _index++;
-                return index < _content.Length ? _content[index] : Symbols.EndOfFile;
+                return index < _content.Length ? _content[index] : Char.MaxValue;
             }
 
             return _content[_index++];

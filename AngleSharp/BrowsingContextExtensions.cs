@@ -116,7 +116,7 @@
         /// <param name="request">Callback with the response to setup.</param>
         /// <param name="cancel">The cancellation token.</param>
         /// <returns>The task that creates the document.</returns>
-        public static Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel)
+        public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel)
         {
             if (request == null)
             {
@@ -125,7 +125,7 @@
 
             using (var response = VirtualResponse.Create(request))
             {
-                return context.OpenAsync(response, cancel);
+                return await context.OpenAsync(response, cancel).ConfigureAwait(false);
             }
         }
 
