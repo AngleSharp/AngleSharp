@@ -27,6 +27,7 @@ Update-Content "net40" "AngleSharp.Legacy"
 Update-Content "sl50" "AngleSharp.Silverlight"
 Update-Content "net45" "AngleSharp"
 Update-Content "portable-windows8+net45+windowsphone8+wpa" "AngleSharp"
+Update-Content "dotnet" "AngleSharp"
 
 $version = Update-Version "Nuget\lib\net40\AngleSharp.dll"
 $success = Publish-Package $version
