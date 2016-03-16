@@ -7,7 +7,7 @@
     /// Represents the script HTML element.
     /// </summary>
     [DomName("HTMLScriptElement")]
-    public interface IHtmlScriptElement : IHtmlElement
+    public interface IHtmlScriptElement : IHtmlElement, ILoadableElement
     {
         /// <summary>
         /// Gets or sets the source URL of the script.

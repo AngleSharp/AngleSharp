@@ -33,23 +33,30 @@
 
         ICssRuleList ICssGroupingRule.Rules
         {
-            get { return _rules; }
+            get { return Rules; }
         }
 
         #endregion
 
         #region Methods
 
+        public ICssRule AddNewRule(CssRuleType ruleType)
+        {
+            var rule = Parser.CreateRule(ruleType);
+            Rules.Add(rule);
+            return rule;
+        }
+
         public Int32 Insert(String ruleText, Int32 index)
         {
             var rule = Parser.ParseRule(ruleText);
-            _rules.Insert(index, rule);
+            Rules.Insert(index, rule);
             return index;    
         }
 
         public void RemoveAt(Int32 index)
         {
-            _rules.RemoveAt(index);
+            Rules.RemoveAt(index);
         }
 
         #endregion

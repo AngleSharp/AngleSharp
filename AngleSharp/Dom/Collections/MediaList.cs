@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections;
@@ -30,16 +31,20 @@
 
         #endregion
 
+        #region Index
+
+        public String this[Int32 index]
+        {
+            get { return Media.GetItemByIndex(index).ToCss(); }
+        }
+
+        #endregion
+
         #region Properties
 
         public IEnumerable<CssMedium> Media
         {
             get { return Children.OfType<CssMedium>(); }
-        }
-
-        public String this[Int32 index]
-        {
-            get { return Media.Skip(index).Select(m => m.ToCss()).FirstOrDefault(); }
         }
 
         public Int32 Length

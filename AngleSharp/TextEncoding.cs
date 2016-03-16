@@ -11,14 +11,8 @@
     /// Various HTML encoding helpers.
     /// </summary>
     [DebuggerStepThrough]
-    static class TextEncoding
+    public static class TextEncoding
     {
-        #region Fields
-
-        static readonly Dictionary<String, Encoding> encodings = new Dictionary<String, Encoding>(StringComparer.OrdinalIgnoreCase);
-
-        #endregion
-
         #region Encodings
 
         /// <summary>
@@ -136,12 +130,197 @@
         /// </summary>
         public static readonly Encoding UsAscii = GetEncoding("us-ascii");
 
+        /// <summary>
+        /// Gets the ks_c_5601-1987 encoding.
+        /// </summary>
+        public static readonly Encoding Korean = GetEncoding("ks_c_5601-1987");
+
         #endregion
 
-        #region Initialization
+        #region Fields
 
-        static TextEncoding()
+        static readonly Dictionary<String, Encoding> encodings = CreateEncodings();
+
+        #endregion
+
+        #region Extensions
+
+        /// <summary>
+        /// Checks if the provided encoding is any UTF-16 encoding.
+        /// </summary>
+        /// <param name="encoding">The encoding to check.</param>
+        /// <returns>The result of the check (UTF-16BE, UTF-16LE).</returns>
+        public static Boolean IsUnicode(this Encoding encoding)
         {
+            return encoding == Utf16Be || encoding == Utf16Le;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Tries to extract the encoding from the given http-equiv content
+        /// string.
+        /// </summary>
+        /// <param name="content">The value of the attribute.</param>
+        /// <returns>
+        /// The extracted encoding or null if the encoding is invalid.
+        /// </returns>
+        public static Encoding Parse(String content)
+        {
+            var encoding = String.Empty;
+            var position = 0;
+            content = content.ToLowerInvariant();
+
+            for (int i = position; i < content.Length - 7; i++)
+            {
+                if (content.Substring(i).StartsWith(AttributeNames.Charset))
+                {
+                    position = i + 7;
+                    break;
+                }
+            }
+
+            if (position > 0 && position < content.Length)
+            {
+                for (int i = position; i < content.Length - 1; i++)
+                {
+                    if (content[i].IsSpaceCharacter())
+                    {
+                        position++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                if (content[position] != Symbols.Equality)
+                {
+                    return Parse(content.Substring(position));
+                }
+
+                position++;
+
+                for (int i = position; i < content.Length; i++)
+                {
+                    if (content[i].IsSpaceCharacter())
+                    {
+                        position++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                if (position < content.Length)
+                {
+                    if (content[position] == Symbols.DoubleQuote)
+                    {
+                        content = content.Substring(position + 1);
+                        var index = content.IndexOf(Symbols.DoubleQuote);
+
+                        if (index != -1)
+                        {
+                            encoding = content.Substring(0, index);
+                        }
+                    }
+                    else if (content[position] == Symbols.SingleQuote)
+                    {
+                        content = content.Substring(position + 1);
+                        var index = content.IndexOf(Symbols.SingleQuote);
+
+                        if (index != -1)
+                        {
+                            encoding = content.Substring(0, index);
+                        }
+                    }
+                    else
+                    {
+                        content = content.Substring(position);
+                        var index = 0;
+
+                        for (int i = 0; i < content.Length; i++)
+                        {
+                            if (content[i].IsSpaceCharacter() || content[i] == Symbols.Semicolon)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                index++;
+                            }
+                        }
+
+                        encoding = content.Substring(0, index);
+                    }
+                }
+            }
+
+            if (!IsSupported(encoding))
+            {
+                return null;
+            }
+
+            return Resolve(encoding);
+        }
+
+        /// <summary>
+        /// Detects if a valid encoding has been found in the given charset
+        /// string.
+        /// </summary>
+        /// <param name="charset">The parsed charset string.</param>
+        /// <returns>
+        /// True if a valid encdoing has been found, otherwise false.
+        /// </returns>
+        public static Boolean IsSupported(String charset)
+        {
+            return encodings.ContainsKey(charset);
+        }
+
+        /// <summary>
+        /// Resolves an Encoding instance given by the charset string.
+        /// If the desired encoding is not found (or supported), then
+        /// UTF-8 will be returned.
+        /// </summary>
+        /// <param name="charset">The charset string.</param>
+        /// <returns>An instance of the Encoding class or null.</returns>
+        public static Encoding Resolve(String charset)
+        {
+            var encoding = default(Encoding);
+
+            if (charset != null && encodings.TryGetValue(charset, out encoding))
+            {
+                return encoding;
+            }
+
+            return Utf8;
+        }
+
+        #endregion
+
+        #region Helper
+
+        static Encoding GetEncoding(String name)
+        {
+            try
+            {
+                return Encoding.GetEncoding(name);
+            }
+            catch
+            {
+                // We use a catch em all since WP8 does throw a different
+                // exception than W*.
+                return Utf8;
+            }
+        }
+
+        static Dictionary<String, Encoding> CreateEncodings()
+        {
+            var encodings = new Dictionary<String, Encoding>(StringComparer.OrdinalIgnoreCase);
+
             encodings.Add("unicode-1-1-utf-8", Utf8);
             encodings.Add("utf-8", Utf8);
             encodings.Add("utf8", Utf8);
@@ -375,186 +554,8 @@
 
             var eucjp = GetEncoding("euc-jp");
             encodings.Add("euc-jp", eucjp);
-        }
 
-        #endregion
-
-        #region Extensions
-
-        /// <summary>
-        /// Checks if the provided encoding is any UTF-16 encoding.
-        /// </summary>
-        /// <param name="encoding">The encoding to check.</param>
-        /// <returns>The result of the check (UTF-16BE, UTF-16LE).</returns>
-        public static Boolean IsUnicode(this Encoding encoding)
-        {
-            return encoding == Utf16Be || encoding == Utf16Le;
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Tries to extract the encoding from the given http-equiv content
-        /// string.
-        /// </summary>
-        /// <param name="content">The value of the attribute.</param>
-        /// <returns>
-        /// The extracted encoding or null if the encoding is invalid.
-        /// </returns>
-        public static Encoding Parse(String content)
-        {
-            var encoding = String.Empty;
-            var position = 0;
-            content = content.ToLowerInvariant();
-
-            for (int i = position; i < content.Length - 7; i++)
-            {
-                if (content.Substring(i).StartsWith(AttributeNames.Charset))
-                {
-                    position = i + 7;
-                    break;
-                }
-            }
-
-            if (position > 0 && position < content.Length)
-            {
-                for (int i = position; i < content.Length - 1; i++)
-                {
-                    if (content[i].IsSpaceCharacter())
-                    {
-                        position++;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-
-                if (content[position] != Symbols.Equality)
-                {
-                    return Parse(content.Substring(position));
-                }
-
-                position++;
-
-                for (int i = position; i < content.Length; i++)
-                {
-                    if (content[i].IsSpaceCharacter())
-                    {
-                        position++;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-
-                if (position < content.Length)
-                {
-                    if (content[position] == Symbols.DoubleQuote)
-                    {
-                        content = content.Substring(position + 1);
-                        var index = content.IndexOf(Symbols.DoubleQuote);
-
-                        if (index != -1)
-                        {
-                            encoding = content.Substring(0, index);
-                        }
-                    }
-                    else if (content[position] == Symbols.SingleQuote)
-                    {
-                        content = content.Substring(position + 1);
-                        var index = content.IndexOf(Symbols.SingleQuote);
-
-                        if (index != -1)
-                        {
-                            encoding = content.Substring(0, index);
-                        }
-                    }
-                    else
-                    {
-                        content = content.Substring(position);
-                        var index = 0;
-
-                        for (int i = 0; i < content.Length; i++)
-                        {
-                            if (content[i].IsSpaceCharacter() || content[i] == Symbols.Semicolon)
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                index++;
-                            }
-                        }
-
-                        encoding = content.Substring(0, index);
-                    }
-                }
-            }
-
-            if (!IsSupported(encoding))
-            {
-                return null;
-            }
-
-            return Resolve(encoding);
-        }
-
-        /// <summary>
-        /// Detects if a valid encoding has been found in the given charset
-        /// string.
-        /// </summary>
-        /// <param name="charset">The parsed charset string.</param>
-        /// <returns>
-        /// True if a valid encdoing has been found, otherwise false.
-        /// </returns>
-        public static Boolean IsSupported(String charset)
-        {
-            return encodings.ContainsKey(charset);
-        }
-
-        /// <summary>
-        /// Resolves an Encoding instance given by the charset string.
-        /// If the desired encoding is not found (or supported), then
-        /// UTF-8 will be returned.
-        /// </summary>
-        /// <param name="charset">The charset string.</param>
-        /// <returns>An instance of the Encoding class or null.</returns>
-        public static Encoding Resolve(String charset)
-        {
-            var encoding = default(Encoding);
-
-            if (charset != null && encodings.TryGetValue(charset, out encoding))
-            {
-                return encoding;
-            }
-
-            return Utf8;
-        }
-
-        /// <summary>
-        /// Gets the encoding for lesser used charsets. This might result in an
-        /// exception depending on the platform (mostly Windows Phone *).
-        /// Exceptions are handled by returning UTF8. That should work well in
-        /// most scenarios.
-        /// </summary>
-        /// <param name="name">The name of the charset.</param>
-        /// <returns>The encoding for the given charset.</returns>
-        public static Encoding GetEncoding(String name)
-        {
-            try
-            {
-                return Encoding.GetEncoding(name);
-            }
-            catch
-            {
-                // We use a catch em all since WP8 does throw a different
-                // exception than W*.
-                return Utf8;
-            }
+            return encodings;
         }
 
         #endregion

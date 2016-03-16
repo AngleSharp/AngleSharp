@@ -150,7 +150,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsNonAscii(this Char c)
         {
-            return c >= 0x80;
+            return c != Symbols.EndOfFile && c >= 0x80;
         }
 
         /// <summary>
@@ -184,7 +184,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsName(this Char c)
         {
-            return c >= 0x80 || c.IsLetter() || c == Symbols.Underscore || c == Symbols.Minus || c.IsDigit();
+            return c.IsNonAscii() || c.IsLetter() || c == Symbols.Underscore || c == Symbols.Minus || c.IsDigit();
         }
 
         /// <summary>
@@ -196,7 +196,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Boolean IsNameStart(this Char c)
         {
-            return c >= 0x80 || IsUppercaseAscii(c) || IsLowercaseAscii(c) || c == Symbols.Underscore;
+            return c.IsNonAscii() || c.IsUppercaseAscii() || c.IsLowercaseAscii() || c == Symbols.Underscore;
         }
 
         /// <summary>
@@ -296,6 +296,20 @@
         public static Boolean IsOneOf(this Char c, Char a, Char b)
         {
             return a == c || b == c;
+        }
+
+        /// <summary>
+        /// Determines if the given character is one of the three others.
+        /// </summary>
+        /// <param name="c">The character to test.</param>
+        /// <param name="o1">The first option.</param>
+        /// <param name="o2">The second option.</param>
+        /// <param name="o3">The third option.</param>
+        /// <returns>The result of the test.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean IsOneOf(this Char c, Char o1, Char o2, Char o3)
+        {
+            return c == o1 || c == o2 || c == o3;
         }
 
         /// <summary>

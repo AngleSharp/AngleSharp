@@ -9,7 +9,7 @@
     /// <summary>
     /// A specialized collection containing elements of type T.
     /// </summary>
-    /// <typeparam name="T">The type of elements that can be contained.</typeparam>
+    /// <typeparam name="T">The type of elements that is contained.</typeparam>
     sealed class HtmlCollection<T> : IHtmlCollection<T>
         where T : class, IElement
     {
@@ -21,21 +21,11 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new list of elements.
-        /// </summary>
-        /// <param name="elements">The elements to use.</param>
         public HtmlCollection(IEnumerable<T> elements)
         {
             _elements = elements;
         }
 
-        /// <summary>
-        /// Creates a new live collection for the given parent.
-        /// </summary>
-        /// <param name="parent">The parent of this collection.</param>
-        /// <param name="deep">[Optional] Determines if recursive search is activated.</param>
-        /// <param name="predicate">[Optional] The predicate function for picking elements.</param>
         public HtmlCollection(INode parent, Boolean deep = true, Predicate<T> predicate = null)
         {
             _elements = parent.GetElements(deep, predicate);
@@ -47,7 +37,7 @@
 
         public T this[Int32 index]
         {
-            get { return index >= 0 ? _elements.Skip(index).FirstOrDefault() : null; }
+            get { return _elements.GetItemByIndex(index); }
         }
 
         public T this[String id]

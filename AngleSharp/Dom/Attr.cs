@@ -87,7 +87,7 @@
         /// </summary>
         public Boolean IsId
         {
-            get { return _prefix == null && String.Equals(_localName, AttributeNames.Id, StringComparison.OrdinalIgnoreCase); }
+            get { return _prefix == null && _localName.Isi(AttributeNames.Id); }
         }
 
         /// <summary>

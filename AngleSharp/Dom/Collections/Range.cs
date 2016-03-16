@@ -77,7 +77,9 @@
                 var container = Head;
 
                 while (container != null && !Tail.Contains(container))
+                {
                     container = container.Parent;
+                }
 
                 return container;
             }

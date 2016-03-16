@@ -125,13 +125,11 @@
             var othree = document.CreateElement<IHtmlInputElement>();
             othree.Name = "03";
             form.AppendChild(othree);
-            Assert.IsNull(form.Elements[-1]);
             Assert.IsNull(form.Elements["-1"]);
             Assert.AreEqual(two, form.Elements[0]);
             Assert.AreEqual(othree, form.Elements[1]);
-            Assert.IsNull(form.Elements[2]);
+            Assert.AreEqual(2, form.Elements.Length);
             Assert.AreEqual(two, form.Elements["2"]);
-            Assert.IsNull(form.Elements[03]);
             Assert.AreEqual(othree, form.Elements["03"]);
             CollectionAssert.AreEqual(new IHtmlElement[] { two, othree }, form.Elements.ToArray());
             form.RemoveChild(two);
@@ -890,7 +888,7 @@
         [Test]
         public async Task IframeWithDocumentViaDocSrc()
         {
-            var cfg = Configuration.Default.WithDefaultLoader();
+            var cfg = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
             var html = @"<!doctype html><iframe id=myframe srcdoc='<span>Hello World!</span>'></iframe></script>";
             var document = await BrowsingContext.New(cfg).OpenAsync(m => m.Content(html));
             var iframe = document.QuerySelector<IHtmlInlineFrameElement>("#myframe");
@@ -903,7 +901,7 @@
         [Test]
         public async Task IframeWithDocumentPreferDocSrcToDataSrc()
         {
-            var cfg = Configuration.Default.WithDefaultLoader();
+            var cfg = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
             var html = @"<!doctype html><iframe id=myframe srcdoc='Green' src='data:text/html,Red'></iframe></script>";
             var document = await BrowsingContext.New(cfg).OpenAsync(m => m.Content(html));
             var iframe = document.QuerySelector<IHtmlInlineFrameElement>("#myframe");

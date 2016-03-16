@@ -59,6 +59,7 @@
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="BrowsingContextExtensions.cs" />
+    <Compile Include="Css\CombinatorSymbols.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\AndCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\DeclarationCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\EmptyCondition.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="Extensions\EventLoopExtensions.cs" />
     <Compile Include="Extensions\ResponseExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
+    <Compile Include="Factories\AttributeSelectorFactory.cs" />
     <Compile Include="Factories\InputTypeFactory.cs" />
     <Compile Include="Factories\LinkRelationFactory.cs" />
     <Compile Include="Factories\MediaFeatureFactory.cs" />
@@ -198,7 +200,7 @@
     <Compile Include="Extensions\ValueConverterExtensions.cs" />
     <Compile Include="Factories\PseudoClassSelectorFactory.cs" />
     <Compile Include="Factories\PseudoElementSelectorFactory.cs" />
-    <Compile Include="FormatExtensions.cs" />
+    <Compile Include="Extensions\FormatExtensions.cs" />
     <Compile Include="Foundation\CreateDocumentOptions.cs" />
     <Compile Include="Foundation\Punycode.cs" />
     <Compile Include="Foundation\TaskEx.cs" />
@@ -216,19 +218,19 @@
     <Compile Include="Html\Submitters\Json\JsonObject.cs" />
     <Compile Include="Html\Submitters\Json\JsonStep.cs" />
     <Compile Include="Html\Submitters\Json\JsonValue.cs" />
-    <Compile Include="Html\SourceSet.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Html\SourceSet.cs" />
     <Compile Include="Html\Submitters\JsonFormDataSetVisitor.cs" />
     <Compile Include="Html\Submitters\MultipartFormDataSetVisitor.cs" />
     <Compile Include="Html\Submitters\PlaintextFormDataSetVisitor.cs" />
     <Compile Include="Html\Submitters\UrlEncodedFormDataSetVisitor.cs" />
     <Compile Include="Html\TextDataSetEntry.cs" />
-    <Compile Include="IBindable.cs" />
+    <Compile Include="Interfaces\IBindable.cs" />
+    <Compile Include="ICancellable.cs" />
     <Compile Include="Interfaces\Css\IConditionFunction.cs" />
     <Compile Include="Interfaces\Css\ICssComment.cs" />
     <Compile Include="Interfaces\Css\ICssMedium.cs" />
     <Compile Include="Interfaces\Css\ICssNode.cs" />
+    <Compile Include="Interfaces\Css\ICssRuleCreator.cs" />
     <Compile Include="Interfaces\Css\IDocumentFunction.cs" />
     <Compile Include="Interfaces\Css\IMediaFeature.cs" />
     <Compile Include="IEventLoopEntry.cs" />
@@ -236,6 +238,7 @@
     <Compile Include="Interfaces\Css\IMediaQueryList.cs" />
     <Compile Include="IEventLoop.cs" />
     <Compile Include="Interfaces\ILinkImport.cs" />
+    <Compile Include="Interfaces\ILoadableElement.cs" />
     <Compile Include="Interfaces\INamedNodeMap.cs" />
     <Compile Include="Interfaces\IShadowRoot.cs" />
     <Compile Include="IStyleFormattable.cs" />
@@ -246,6 +249,17 @@
     <Compile Include="Network\IDownload.cs" />
     <Compile Include="Network\ILoader.cs" />
     <Compile Include="Network\MimeType.cs" />
+    <Compile Include="Network\RequestProcessors\BaseRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\DocumentRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\FrameRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\MediaRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\ObjectRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\ResourceRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\ImageRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\IRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\ScriptRequestProcessor.cs" />
+    <Compile Include="Network\RequestProcessors\StyleSheetRequestProcessor.cs" />
+    <Compile Include="Network\VirtualResponse.cs" />
     <Compile Include="Parser\Css\CssBuilder.cs" />
     <Compile Include="Parser\Css\CssParserOptions.cs" />
     <Compile Include="Parser\Css\Tokens\CssColorToken.cs" />
@@ -617,7 +631,7 @@
     <Compile Include="Interfaces\Css\ICssRuleList.cs" />
     <Compile Include="Interfaces\Css\ICssStyleDeclaration.cs" />
     <Compile Include="Interfaces\Css\ICssStyleRule.cs" />
-    <Compile Include="Interfaces\Css\ICSSStyleSheet.cs" />
+    <Compile Include="Interfaces\Css\ICssStyleSheet.cs" />
     <Compile Include="Interfaces\Css\ICssSupportsRule.cs" />
     <Compile Include="Interfaces\Css\IElementCssInlineStyle.cs" />
     <Compile Include="Dom\Events\CompositionEvent.cs" />
@@ -736,7 +750,7 @@
     <Compile Include="Dom\DomEventHandler.cs" />
     <Compile Include="Interfaces\IEventTarget.cs" />
     <Compile Include="Interfaces\IHtmlCollection.cs" />
-    <Compile Include="Interfaces\ILabelabelElement.cs" />
+    <Compile Include="Interfaces\Html\ILabelabelElement.cs" />
     <Compile Include="Interfaces\ILocation.cs" />
     <Compile Include="Interfaces\IMutationRecord.cs" />
     <Compile Include="Interfaces\Io\IBlob.cs" />
@@ -1040,6 +1054,7 @@
     <Compile Include="Parser\Xml\XmlTokenType.cs" />
     <Compile Include="Parser\Xml\XmlTreeMode.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,6 +5,8 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     class ContentScriptEngine : IScriptEngine
     {
@@ -19,7 +21,7 @@
 
         public String Type
         {
-            get {return _type;}
+            get { return _type; }
         }
 
         public List<Tuple<String, ScriptOptions>> Requests
@@ -27,18 +29,15 @@
             get { return _requests; }
         }
 
-        public void Evaluate(String source, ScriptOptions options)
-        {
-            _requests.Add(Tuple.Create(source, options));
-        }
-
-        public void Evaluate(IResponse response, ScriptOptions options)
+        public Task EvaluateScriptAsync(IResponse response, ScriptOptions options, CancellationToken cancel)
         {
             using (var sr = new StreamReader(response.Content, options.Encoding))
             {
                 var source = sr.ReadToEnd();
-                Evaluate(source, options);
+                _requests.Add(Tuple.Create(source, options));
             }
+
+            return Task.FromResult(false);
         }
     }
 }

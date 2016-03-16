@@ -4,22 +4,20 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Network.RequestProcessors;
     using AngleSharp.Services.Media;
     using System;
 
     /// <summary>
     /// Represents the abstract base for HTML media (audio / video) elements.
     /// </summary>
-    abstract class HTMLMediaElement<TResource> : HtmlElement, IHtmlMediaElement
+    abstract class HtmlMediaElement<TResource> : HtmlElement, IHtmlMediaElement
         where TResource : IMediaInfo
     {
         #region Fields
 
-        protected MediaNetworkState _network;
-        protected TResource _media;
-
+        readonly MediaRequestProcessor<TResource> _request;
         ITextTrackList _texts;
-        IDownload _download;
 
         #endregion
 
@@ -113,54 +111,49 @@
 
         #region ctor
 
-        public HTMLMediaElement(Document owner, String name, String prefix)
+        public HtmlMediaElement(Document owner, String name, String prefix)
             : base(owner, name, prefix)
         {
-            _network = MediaNetworkState.Empty;
+            _request = MediaRequestProcessor<TResource>.Create(this);
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the media source.
-        /// </summary>
+        public IDownload CurrentDownload
+        {
+            get { return _request != null ? _request.Download : null; }
+        }
+
         public String Source
         {
             get { return this.GetUrlAttribute(AttributeNames.Src); }
             set { this.SetOwnAttribute(AttributeNames.Src, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the cross-origin attribute.
-        /// </summary>
         public String CrossOrigin
         {
             get { return this.GetOwnAttribute(AttributeNames.CrossOrigin); }
             set { this.SetOwnAttribute(AttributeNames.CrossOrigin, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the preload attribute.
-        /// </summary>
         public String Preload
         {
             get { return this.GetOwnAttribute(AttributeNames.Preload); }
             set { this.SetOwnAttribute(AttributeNames.Preload, value); }
         }
 
-        /// <summary>
-        /// Gets the current network state.
-        /// </summary>
         public MediaNetworkState NetworkState
         {
-            get { return _network; }
+            get { return _request != null ? _request.NetworkState : MediaNetworkState.Empty; }
         }
 
-        /// <summary>
-        /// Gets the current ready state.
-        /// </summary>
+        public TResource Media
+        {
+            get { return _request != null ? _request.Resource : default(TResource); }
+        }
+
         public MediaReadyState ReadyState
         {
             get 
@@ -170,18 +163,12 @@
             }
         }
 
-        /// <summary>
-        /// Gets if seeking is currently active.
-        /// </summary>
         public Boolean IsSeeking
         {
             get;
             protected set;
         }
 
-        /// <summary>
-        /// Gets the current media source.
-        /// </summary>
         public String CurrentSource
         {
             get
@@ -191,9 +178,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets the time in seconds.
-        /// </summary>
         public Double Duration
         {
             get 
@@ -203,9 +187,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets or sets the current time in seconds.
-        /// </summary>
         public Double CurrentTime
         {
             get 
@@ -314,9 +295,11 @@
             set
             {
                 var controller = Controller;
-                
-                if (controller != null) 
+
+                if (controller != null)
+                {
                     controller.Volume = value;
+                }
             }
         }
 
@@ -329,16 +312,18 @@
             }
             set
             {
-                var controller = Controller; 
-                
-                if (controller != null) 
+                var controller = Controller;
+
+                if (controller != null)
+                {
                     controller.IsMuted = value;
+                }
             }
         }
 
         public IMediaController Controller
         {
-            get { return _media != null ? _media.Controller : null; }
+            get { return _request != null && _request.Resource != null ? _request.Resource.Controller : null; }
         }
 
         public Double DefaultPlaybackRate
@@ -350,10 +335,12 @@
             }
             set
             {
-                var controller = Controller; 
-                
-                if  (controller != null) 
+                var controller = Controller;
+
+                if (controller != null)
+                {
                     controller.DefaultPlaybackRate = value;
+                }
             }
         }
 
@@ -366,10 +353,12 @@
             }
             set
             {
-                var controller = Controller; 
-                
-                if (controller != null) 
+                var controller = Controller;
+
+                if (controller != null)
+                {
                     controller.PlaybackRate = value;
+                }
             }
         }
 
@@ -408,35 +397,30 @@
 
         #region Methods
 
-        /// <summary>
-        /// Loads the media specified for this element.
-        /// </summary>
         public void Load()
         {
             var source = CurrentSource;
             UpdateSource(source);
         }
 
-        /// <summary>
-        /// Tries to play the media for this element.
-        /// </summary>
         public void Play()
         {
             var controller = Controller;
 
             if (controller != null)
+            {
                 controller.Play();
+            }
         }
 
-        /// <summary>
-        /// Pauses the playback of the media for this element.
-        /// </summary>
         public void Pause()
         {
             var controller = Controller;
 
             if (controller != null)
+            {
                 controller.Pause();
+            }
         }
 
         public String CanPlayType(String type)
@@ -475,39 +459,8 @@
 
         void UpdateSource(String value)
         {
-            //TODO More complex check if something is already loading (what is loading, cancel?, ...)
-            //see: https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-load
-
-            if (_download != null && !_download.IsCompleted)
-            {
-                _download.Cancel();
-            }
-
-            var document = Owner;
-            _network = MediaNetworkState.Idle;
-
-            if (value != null && document != null)
-            {
-                var loader = document.Loader;
-
-                if (loader != null)
-                {
-                    var url = new Url(value);
-                    var request = this.CreateRequestFor(url);
-                    _network = MediaNetworkState.Loading;
-                    _download = loader.DownloadAsync(request);
-                    var task = this.ProcessResource<TResource>(_download, result =>
-                    {
-                        _media = result;
-
-                        if (_media == null)
-                        {
-                            _network = MediaNetworkState.NoSource;
-                        }
-                    });
-                    document.DelayLoad(task);
-                }
-            }
+            var url = new Url(value);
+            this.Process(_request, url);
         }
 
         #endregion

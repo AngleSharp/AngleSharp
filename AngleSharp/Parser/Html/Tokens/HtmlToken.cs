@@ -52,10 +52,12 @@
         {
             get
             {
-                for (int i = 0; i < _name.Length; i++)
+                for (var i = 0; i < _name.Length; i++)
                 {
                     if (!_name[i].IsSpaceCharacter())
+                    {
                         return true;
+                    }
                 }
 
                 return false;
@@ -134,7 +136,9 @@
             for (i = 0; i < _name.Length; i++)
             {
                 if (!_name[i].IsSpaceCharacter())
+                {
                     break;
+                }
             }
 
             var t = _name.Substring(0, i);
@@ -147,8 +151,10 @@
         /// </summary>
         public void RemoveNewLine()
         {
-            if (!String.IsNullOrEmpty(_name) && _name[0] == Symbols.LineFeed)
+            if (_name.Has(Symbols.LineFeed))
+            {
                 _name = _name.Substring(1);
+            }
         }
 
         /// <summary>

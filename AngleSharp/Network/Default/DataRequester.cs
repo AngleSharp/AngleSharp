@@ -42,7 +42,9 @@
             var data = request.Address.Data;
 
             if (data.StartsWith(","))
+            {
                 data = MimeTypeNames.Plain + data;
+            }
 
             var parts = data.SplitCommas();
             var response = new Response

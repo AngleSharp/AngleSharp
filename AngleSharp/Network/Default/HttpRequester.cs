@@ -236,15 +236,18 @@
             /// </param>
             void SetProperty(String name, Object value)
             {
-                lock (this)
+                var property = default(PropertyInfo);
+                if (!_propCache.TryGetValue(name, out property))
                 {
-                    if (!_propCache.ContainsKey(name))
+                    lock (_propCache)
                     {
-                        _propCache.Add(name, _http.GetType().GetProperty(name));
+                        if (!_propCache.TryGetValue(name, out property))
+                        {
+                            property = _http.GetType().GetProperty(name);
+                            _propCache.Add(name, property);
+                        }
                     }
                 }
-
-                var property = _propCache[name];
 
                 if (!_restricted.Contains(name) && property != null && property.CanWrite)
                 {
@@ -256,7 +259,13 @@
                     catch
                     {
                         //Catch any failure and do not try again on the same platform
-                        _restricted.Add(name);
+                        lock (_restricted)
+                        {
+                            if (!_restricted.Contains(name))
+                            {
+                                _restricted.Add(name);
+                            }
+                        }
                     }
                 }
             }

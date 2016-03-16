@@ -25,7 +25,9 @@
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> items, T element)
         {
             foreach (var item in items)
+            {
                 yield return item;
+            }
 
             yield return element;
         }
@@ -50,6 +52,32 @@
         }
 
         /// <summary>
+        /// Gets an item from the enumerable by its index. Throws an exception
+        /// if the provided index is invalid.
+        /// </summary>
+        /// <typeparam name="T">The type of enumerable.</typeparam>
+        /// <param name="items">The items to iterate over.</param>
+        /// <param name="index">The index to look for.</param>
+        /// <returns>The item at the specified index.</returns>
+        public static T GetItemByIndex<T>(this IEnumerable<T> items, Int32 index)
+        {
+            if (index >= 0)
+            {
+                var i = 0;
+
+                foreach (var item in items)
+                {
+                    if (i++ == index)
+                    {
+                        return item;
+                    }
+                }
+            }
+
+            throw new ArgumentOutOfRangeException("index");
+        }
+
+        /// <summary>
         /// Gets an element by its ID.
         /// </summary>
         /// <param name="children">The nodelist to investigate.</param>
@@ -57,19 +85,23 @@
         /// <returns>The element or null.</returns>
         public static IElement GetElementById(this INodeList children, String id)
         {
-            for (int i = 0; i < children.Length; i++)
+            for (var i = 0; i < children.Length; i++)
             {
                 var element = children[i] as IElement;
 
                 if (element != null)
                 {
-                    if (element.Id == id)
+                    if (element.Id.Is(id))
+                    {
                         return element;
+                    }
 
                     element = element.ChildNodes.GetElementById(id);
 
                     if (element != null)
+                    {
                         return element;
+                    }
                 }
             }
 
@@ -84,14 +116,16 @@
         /// <param name="result">The result collection.</param>
         public static void GetElementsByName(this INodeList children, String name, List<IElement> result)
         {
-            for (int i = 0; i < children.Length; i++)
+            for (var i = 0; i < children.Length; i++)
             {
                 var element = children[i] as IElement;
 
                 if (element != null)
                 {
-                    if (element.GetAttribute(null, AttributeNames.Name) == name)
+                    if (element.GetAttribute(null, AttributeNames.Name).Is(name))
+                    {
                         result.Add(element);
+                    }
 
                     element.ChildNodes.GetElementsByName(name, result);
                 }
@@ -154,14 +188,18 @@
         {
             foreach (var element in elements)
             {
-                if (element.Id == id)
+                if (element.Id.Is(id))
+                {
                     return element;
+                }
             }
 
             foreach (var element in elements)
             {
-                if (element.GetAttribute(null, AttributeNames.Name) == id)
+                if (element.GetAttribute(null, AttributeNames.Name).Is(id))
+                {
                     return element;
+                }
             }
 
             return null;
@@ -174,27 +212,33 @@
         static IEnumerable<T> GetAllElements<T>(this INode parent, Predicate<T> predicate)
             where T : class, INode
         {
-            for (int i = 0; i < parent.ChildNodes.Length; i++)
+            for (var i = 0; i < parent.ChildNodes.Length; i++)
             {
                 var child = parent.ChildNodes[i] as T;
 
                 if (child != null && predicate(child))
+                {
                     yield return child;
+                }
 
                 foreach (var element in parent.ChildNodes[i].GetAllElements<T>(predicate))
+                {
                     yield return element;
+                }
             }
         }
 
         static IEnumerable<T> GetDescendendElements<T>(this INode parent, Predicate<T> predicate)
             where T : class, INode
         {
-            for (int i = 0; i < parent.ChildNodes.Length; i++)
+            for (var i = 0; i < parent.ChildNodes.Length; i++)
             {
                 var child = parent.ChildNodes[i] as T;
 
                 if (child != null && predicate(child))
+                {
                     yield return child;
+                }
             }
         }
 

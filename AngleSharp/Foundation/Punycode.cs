@@ -12,11 +12,11 @@
         #region Constants
 
         const Int32 PunycodeBase = 36;
-        const Int32 tmin = 1;
-        const Int32 tmax = 26;
+        const Int32 Tmin = 1;
+        const Int32 Tmax = 26;
 
-        static readonly String AcePrefix = "xn--";
-        static readonly Char[] PossibleDots = { '.', '\u3002', '\uFF0E', '\uFF61' };
+        static readonly String acePrefix = "xn--";
+        static readonly Char[] possibleDots = { '.', '\u3002', '\uFF0E', '\uFF61' };
 
         #endregion
 
@@ -45,7 +45,7 @@
             while (iNextDot < text.Length)
             {
                 // Find end of this segment
-                iNextDot = text.IndexOfAny(PossibleDots, iAfterLastDot);
+                iNextDot = text.IndexOfAny(possibleDots, iAfterLastDot);
 
                 if (iNextDot < 0)
                 {
@@ -59,7 +59,7 @@
                 }
 
                 // We'll need an Ace prefix
-                output.Append(AcePrefix);
+                output.Append(acePrefix);
 
                 var basicCount = 0;
                 var numProcessed = 0;
@@ -81,12 +81,12 @@
 
                 if (numBasicCodePoints == iNextDot - iAfterLastDot)
                 {
-                    output.Remove(iOutputAfterLastDot, AcePrefix.Length);
+                    output.Remove(iOutputAfterLastDot, acePrefix.Length);
                 }
                 else
                 {
                     // If it has some non-basic code points the input cannot start with xn--
-                    if (text.Length - iAfterLastDot >= AcePrefix.Length && text.Substring(iAfterLastDot, AcePrefix.Length).Equals(AcePrefix, StringComparison.OrdinalIgnoreCase))
+                    if (text.Length - iAfterLastDot >= acePrefix.Length && text.Substring(iAfterLastDot, acePrefix.Length).Equals(acePrefix, StringComparison.OrdinalIgnoreCase))
                     {
                         break;
                     }
@@ -146,7 +146,7 @@
 
                                 for (q = delta, k = PunycodeBase; ; k += PunycodeBase)
                                 {
-                                    var t = k <= bias ? tmin : k >= bias + tmax ? tmax : k - bias;
+                                    var t = k <= bias ? Tmin : k >= bias + Tmax ? Tmax : k - bias;
 
                                     if (q < t)
                                     {
@@ -184,7 +184,7 @@
                 // Done with this segment, add dot if necessary
                 if (iNextDot != text.Length)
                 {
-                    output.Append(PossibleDots[0]);
+                    output.Append(possibleDots[0]);
                 }
 
                 iAfterLastDot = iNextDot + 1;
@@ -214,9 +214,9 @@
 
         static Boolean IsDot(Char c)
         {
-            for (var i = 0; i < PossibleDots.Length; i++)
+            for (var i = 0; i < possibleDots.Length; i++)
             {
-                if (PossibleDots[i] == c)
+                if (possibleDots[i] == c)
                 {
                     return true;
                 }
@@ -262,9 +262,9 @@
             delta = firstTime ? delta / Damp : delta / 2;
             delta += delta / numPoints;
 
-            for (k = 0; delta > ((PunycodeBase - tmin) * tmax) / 2; k += PunycodeBase)
+            for (k = 0; delta > ((PunycodeBase - Tmin) * Tmax) / 2; k += PunycodeBase)
             {
-                delta /= PunycodeBase - tmin;
+                delta /= PunycodeBase - Tmin;
             }
 
             return (Int32)(k + PunycodeBase * delta / (delta + Skew));

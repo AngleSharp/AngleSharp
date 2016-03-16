@@ -26,6 +26,23 @@
         }
 
         [Test]
+        public void ChangeTitleDynamicallyWithCustomScriptEngineScriptElementInjectedLater()
+        {
+            var expectedTitle = "Other title";
+            var scripting = new CallbackScriptEngine(options => options.Document.Title = expectedTitle);
+            var config = Configuration.Default.WithScripts(scripting);
+            var source = "<title>Original title</title>";
+            var document = source.ToHtmlDocument(config);
+
+            var script = document.CreateElement("script");
+            script.SetAttribute("type", "c-sharp");
+            script.TextContent = "// ...";
+            document.Body.AppendChild(script);
+
+            Assert.AreEqual(expectedTitle, document.Title);
+        }
+
+        [Test]
         public async Task DocumentWriteDynamicallyWithCustomScriptEngineAndSource()
         {
             var baseAddress = "http://www.example.com";

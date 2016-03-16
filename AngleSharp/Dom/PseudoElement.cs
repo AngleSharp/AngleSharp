@@ -53,6 +53,11 @@
 
         #region Properties
 
+        public ICssStyleDeclaration Style
+        {
+            get { return _host.Style; }
+        }
+
         public IElement AssignedSlot
         {
             get { return _host.AssignedSlot; }
@@ -402,6 +407,11 @@
         public void RemoveEventListener(String type, DomEventHandler callback = null, Boolean capture = false)
         {
             _host.RemoveEventListener(type, callback, capture);
+        }
+
+        public void InvokeEventListener(Event ev)
+        {
+            _host.InvokeEventListener(ev);
         }
 
         public Boolean Dispatch(Event ev)

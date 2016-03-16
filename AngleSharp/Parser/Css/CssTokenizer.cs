@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Css;
     using AngleSharp.Events;
     using AngleSharp.Extensions;
     using System;
@@ -105,7 +106,9 @@
                     current = GetNext();
 
                     if (current == Symbols.Equality)
-                        return NewMatch("$=");
+                    {
+                        return NewMatch(CombinatorSymbols.Ends);
+                    }
 
                     return NewDelimiter(GetPrevious());
 
@@ -123,7 +126,7 @@
 
                     if (current == Symbols.Equality)
                     {
-                        return NewMatch("*=");
+                        return NewMatch(CombinatorSymbols.InText);
                     }
 
                     return NewDelimiter(GetPrevious());
@@ -225,7 +228,6 @@
                     }
 
                     return IdentStart(GetPrevious());
-
                 case Symbols.Colon:
                     return NewColon();
 
@@ -270,7 +272,7 @@
 
                     if (current == Symbols.Equality)
                     {
-                        return NewMatch("^=");
+                        return NewMatch(CombinatorSymbols.Begins);
                     }
 
                     return NewDelimiter(GetPrevious());
@@ -316,7 +318,7 @@
 
                     if (current == Symbols.Equality)
                     {
-                        return NewMatch("|=");
+                        return NewMatch(CombinatorSymbols.InToken);
                     }
                     else if (current == Symbols.Pipe)
                     {
@@ -330,7 +332,7 @@
 
                     if (current == Symbols.Equality)
                     {
-                        return NewMatch("~=");
+                        return NewMatch(CombinatorSymbols.InList);
                     }
 
                     return NewDelimiter(GetPrevious());
@@ -343,7 +345,7 @@
 
                     if (current == Symbols.Equality)
                     {
-                        return NewMatch("!=");
+                        return NewMatch(CombinatorSymbols.Unlike);
                     }
 
                     return NewDelimiter(GetPrevious());
@@ -652,14 +654,11 @@
                 _stringBuffer.Append(current);
                 return IdentRest(GetNext());
             }
-            else if (current == Symbols.ReverseSolidus)
+            else if (current == Symbols.ReverseSolidus && IsValidEscape(current))
             {
-                if (IsValidEscape(current))
-                {
-                    current = GetNext();
-                    _stringBuffer.Append(ConsumeEscape(current));
-                    return IdentRest(GetNext());
-                }
+                current = GetNext();
+                _stringBuffer.Append(ConsumeEscape(current));
+                return IdentRest(GetNext());
             }
 
             return Data(current);
@@ -726,7 +725,7 @@
         {
             while (true)
             {
-                if (current == Symbols.Plus || current == Symbols.Minus)
+                if (current.IsOneOf(Symbols.Plus, Symbols.Minus))
                 {
                     _stringBuffer.Append(current);
                     current = GetNext();
@@ -1010,7 +1009,7 @@
                     RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                     return UrlBad(functionName);
                 }
-                else if (Symbols.EndOfFile == current)
+                else if (current == Symbols.EndOfFile)
                 {
                     return NewUrl(functionName, FlushBuffer());
                 }
@@ -1055,11 +1054,11 @@
                 {
                     return UrlEnd(functionName);
                 }
-                else if (current == Symbols.RoundBracketClose || current == Symbols.EndOfFile)
+                else if (current.IsOneOf(Symbols.RoundBracketClose, Symbols.EndOfFile))
                 {
                     return NewUrl(functionName, FlushBuffer());
                 }
-                else if (current == Symbols.DoubleQuote || current == Symbols.SingleQuote || current == Symbols.RoundBracketOpen || current.IsNonPrintable())
+                else if (current.IsOneOf(Symbols.DoubleQuote, Symbols.SingleQuote, Symbols.RoundBracketOpen) || current.IsNonPrintable())
                 {
                     RaiseErrorOccurred(CssParseError.InvalidCharacter);
                     return UrlBad(functionName);
@@ -1161,11 +1160,8 @@
         /// </summary>
         CssToken UnicodeRange(Char current)
         {
-            for (var i = 0; i < 6; i++)
+            for (var i = 0; i < 6 && current.IsHex(); i++)
             {
-                if (!current.IsHex())
-                    break;
-
                 _stringBuffer.Append(current);
                 current = GetNext();
             }
@@ -1233,7 +1229,7 @@
 
         CssToken NewColumn()
         {
-            return new CssToken(CssTokenType.Column, "||", _position);
+            return new CssToken(CssTokenType.Column, CombinatorSymbols.Column, _position);
         }
 
         CssToken NewCloseCurly()
@@ -1456,25 +1452,28 @@
         {
             if (current.IsHex())
             {
+                var isHex = true;
                 var escape = new Char[6];
                 var length = 0;
 
-                while (length < escape.Length)
+                while (isHex && length < escape.Length)
                 {
                     escape[length++] = current;
                     current = GetNext();
-
-                    if (!current.IsHex())
-                        break;
+                    isHex = current.IsHex();
                 }
 
                 if (!current.IsSpaceCharacter())
+                {
                     Back();
+                }
 
                 var code = Int32.Parse(new String(escape, 0, length), NumberStyles.HexNumber);
 
                 if (!code.IsInvalid())
+                {
                     return code.ConvertFromUtf32();
+                }
 
                 current = Symbols.Replacement;
             }
@@ -1488,18 +1487,15 @@
         /// <returns>The result of the check.</returns>
         Boolean IsValidEscape(Char current)
         {
-            if (current != Symbols.ReverseSolidus)
-                return false;
+            if (current == Symbols.ReverseSolidus)
+            {
+                current = GetNext();
+                Back();
 
-            current = GetNext();
-            Back();
-
-            if (current == Symbols.EndOfFile)
-                return false;
-            else if (current.IsLineBreak())
-                return false;
-
-            return true;
+                return current != Symbols.EndOfFile && !current.IsLineBreak();
+            }
+                
+            return false;
         }
 
         /// <summary>

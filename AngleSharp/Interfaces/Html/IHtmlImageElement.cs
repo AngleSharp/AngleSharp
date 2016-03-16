@@ -7,7 +7,7 @@
     /// Represents the image HTML element.
     /// </summary>
     [DomName("HTMLImageElement")]
-    public interface IHtmlImageElement : IHtmlElement
+    public interface IHtmlImageElement : IHtmlElement, ILoadableElement
     {
         /// <summary>
         /// Gets or sets the alternative text.

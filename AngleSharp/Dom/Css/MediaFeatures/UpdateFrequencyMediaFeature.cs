@@ -40,9 +40,13 @@
             var available = device.Frequency;
 
             if (available >= 30)
+            {
                 return desired == UpdateFrequency.Normal;
+            }
             else if (available > 0)
+            {
                 return desired == UpdateFrequency.Slow;
+            }
 
             return desired == UpdateFrequency.None;
         }

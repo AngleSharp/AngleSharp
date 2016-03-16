@@ -65,52 +65,48 @@
 
         #endregion
 
-        #region Casts
+        #region Comparison
 
         /// <summary>
-        /// Converts the percent value to its probability representation.
+        /// Compares the magnitude of two percents.
         /// </summary>
-        /// <param name="number">The percent number to convert.</param>
-        /// <returns>The number between 0 and 1.</returns>
-        public static explicit operator Single(Percent number)
+        public static Boolean operator >=(Percent a, Percent b)
         {
-            return number.NormalizedValue;
+            return a._value >= b._value;
         }
 
         /// <summary>
-        /// Converts the percent value to its common representation.
+        /// Compares the magnitude of two percents.
         /// </summary>
-        /// <param name="number">The percent number to convert.</param>
-        /// <returns>The integer between 0 and 100.</returns>
-        public static explicit operator Int32(Percent number)
+        public static Boolean operator >(Percent a, Percent b)
         {
-            return (Int32)number._value;
-        }
-
-        #endregion
-
-        #region Operators
-
-        /// <summary>
-        /// Checks the equality of the two given percentages.
-        /// </summary>
-        /// <param name="a">The left percentage.</param>
-        /// <param name="b">The right percentage.</param>
-        /// <returns>True if both percentages are equal, otherwise false.</returns>
-        public static Boolean operator ==(Percent a, Percent b)
-        {
-            return a.Equals(b);
+            return a._value > b._value;
         }
 
         /// <summary>
-        /// Checks the inequality of the two given percentages.
+        /// Compares the magnitude of two percents.
         /// </summary>
-        /// <param name="a">The left percentage.</param>
-        /// <param name="b">The right percentage.</param>
-        /// <returns>True if both percentages are not equal, otherwise false.</returns>
-        public static Boolean operator !=(Percent a, Percent b)
+        public static Boolean operator <=(Percent a, Percent b)
         {
-            return !a.Equals(b);
+            return a._value <= b._value;
+        }
+
+        /// <summary>
+        /// Compares the magnitude of two percents.
+        /// </summary>
+        public static Boolean operator <(Percent a, Percent b)
+        {
+            return a._value < b._value;
+        }
+
+        /// <summary>
+        /// Compares the current percentage against the given one.
+        /// </summary>
+        /// <param name="other">The percentage to compare to.</param>
+        /// <returns>The result of the comparison.</returns>
+        public Int32 CompareTo(Percent other)
+        {
+            return _value.CompareTo(other._value);
         }
 
         #endregion
@@ -132,13 +128,19 @@
         #region Equality
 
         /// <summary>
-        /// Compares the current percentage against the given one.
+        /// Checks for equality of two percents.
         /// </summary>
-        /// <param name="other">The percentage to compare to.</param>
-        /// <returns>The result of the comparison.</returns>
-        public Int32 CompareTo(Percent other)
+        public static Boolean operator ==(Percent a, Percent b)
         {
-            return _value.CompareTo(other._value);
+            return a.Equals(b);
+        }
+
+        /// <summary>
+        /// Checks for inequality of two percents.
+        /// </summary>
+        public static Boolean operator !=(Percent a, Percent b)
+        {
+            return !a.Equals(b);
         }
 
         /// <summary>
@@ -148,8 +150,12 @@
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is Percent)
-                return this.Equals((Percent)obj);
+            var other = obj as Percent?;
+
+            if (other != null)
+            {
+                return Equals(other.Value);
+            }
 
             return false;
         }

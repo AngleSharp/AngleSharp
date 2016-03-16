@@ -137,6 +137,9 @@
     <Compile Include="..\AngleSharp\Css\Colors.cs">
       <Link>Css\Colors.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Css\CombinatorSymbols.cs">
+      <Link>Css\CombinatorSymbols.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Css\Converters.cs">
       <Link>Css\Converters.cs</Link>
     </Compile>
@@ -1862,6 +1865,9 @@
     <Compile Include="..\AngleSharp\Extensions\EventTargetExtensions.cs">
       <Link>Extensions\EventTargetExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Extensions\FormatExtensions.cs">
+      <Link>Extensions\FormatExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Extensions\NodeExtensions.cs">
       <Link>Extensions\NodeExtensions.cs</Link>
     </Compile>
@@ -1904,6 +1910,9 @@
     <Compile Include="..\AngleSharp\Extensions\XmlExtensions.cs">
       <Link>Extensions\XmlExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Factories\AttributeSelectorFactory.cs">
+      <Link>Factories\AttributeSelectorFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Factories\CssPropertyFactory.cs">
       <Link>Factories\CssPropertyFactory.cs</Link>
     </Compile>
@@ -1933,9 +1942,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Factories\SvgElementFactory.cs">
       <Link>Factories\SvgElementFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\FormatExtensions.cs">
-      <Link>FormatExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Foundation\CreateDocumentOptions.cs">
       <Link>Factories\CreateDocumentOptions.cs</Link>
@@ -2102,11 +2108,11 @@
     <Compile Include="..\AngleSharp\Html\TextDataSetEntry.cs">
       <Link>Html\TextDataSetEntry.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\IBindable.cs">
-      <Link>IBindable.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\IBrowsingContext.cs">
       <Link>IBrowsingContext.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\ICancellable.cs">
+      <Link>ICancellable.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\IConfiguration.cs">
       <Link>IConfiguration.cs</Link>
@@ -2182,6 +2188,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssRule.cs">
       <Link>Interfaces\Css\ICssRule.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssRuleCreator.cs">
+      <Link>Interfaces\Css\ICssRuleCreator.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssRuleList.cs">
       <Link>Interfaces\Css\ICssRuleList.cs</Link>
@@ -2453,6 +2462,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Html\IHtmlVideoElement.cs">
       <Link>Interfaces\Html\IHtmlVideoElement.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Html\ILabelabelElement.cs">
+      <Link>Interfaces\Html\ILabelabelElement.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Html\IValidation.cs">
       <Link>Interfaces\Html\IValidation.cs</Link>
     </Compile>
@@ -2464,6 +2476,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\IAttr.cs">
       <Link>Interfaces\IAttr.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\IBindable.cs">
+      <Link>Interfaces\IBindable.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ICharacterData.cs">
       <Link>Interfaces\ICharacterData.cs</Link>
@@ -2507,14 +2522,14 @@
     <Compile Include="..\AngleSharp\Interfaces\IImplementation.cs">
       <Link>Interfaces\IImplementation.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Interfaces\ILabelabelElement.cs">
-      <Link>Interfaces\ILabelabelElement.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ILinkImport.cs">
       <Link>Interfaces\ILinkImport.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ILinkStyle.cs">
       <Link>Interfaces\ILinkStyle.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\ILoadableElement.cs">
+      <Link>Interfaces\ILoadableElement.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Interfaces\ILocation.cs">
       <Link>Interfaces\ILocation.cs</Link>
@@ -2750,8 +2765,41 @@
     <Compile Include="..\AngleSharp\Network\ProtocolNames.cs">
       <Link>Network\ProtocolNames.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\BaseRequestProcessor.cs">
+      <Link>Network\RequestProcessors\BaseRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\DocumentRequestProcessor.cs">
+      <Link>Network\RequestProcessors\DocumentRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\FrameRequestProcessor.cs">
+      <Link>Network\RequestProcessors\FrameRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\ImageRequestProcessor.cs">
+      <Link>Network\RequestProcessors\ImageRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\IRequestProcessor.cs">
+      <Link>Network\RequestProcessors\IRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\MediaRequestProcessor.cs">
+      <Link>Network\RequestProcessors\MediaRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\ObjectRequestProcessor.cs">
+      <Link>Network\RequestProcessors\ObjectRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\ResourceRequestProcessor.cs">
+      <Link>Network\RequestProcessors\ResourceRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\ScriptRequestProcessor.cs">
+      <Link>Network\RequestProcessors\ScriptRequestProcessor.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\RequestProcessors\StyleSheetRequestProcessor.cs">
+      <Link>Network\RequestProcessors\StyleSheetRequestProcessor.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Network\ResourceRequest.cs">
       <Link>Network\ResourceRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Network\VirtualResponse.cs">
+      <Link>Network\VirtualResponse.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Parser\BaseTokenizer.cs">
       <Link>Parser\BaseTokenizer.cs</Link>

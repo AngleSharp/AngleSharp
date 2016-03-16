@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Parser.Css
 {
     using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -165,14 +166,20 @@
         void Add(CssToken token)
         {
             if (_buffer != null && !IsCommaOrSlash(token))
+            {
                 _values.Add(_buffer);
+            }
             else if (_values.Count != 0 && !IsComma(token) && IsComma(_values[_values.Count - 1]))
+            {
                 _values.Add(CssToken.Whitespace);
+            }
 
             _buffer = null;
 
             if (_important)
+            {
                 _valid = false;
+            }
             
             _values.Add(token);
         }
@@ -189,12 +196,12 @@
 
         static Boolean IsExclamationMark(CssToken token)
         {
-            return token.Type == CssTokenType.Delim && token.Data[0] == Symbols.ExclamationMark;
+            return token.Type == CssTokenType.Delim && token.Data.Has(Symbols.ExclamationMark);
         }
 
         static Boolean IsSlash(CssToken token)
         {
-            return token.Type == CssTokenType.Delim && token.Data[0] == Symbols.Solidus;
+            return token.Type == CssTokenType.Delim && token.Data.Has(Symbols.Solidus);
         }
 
         #endregion

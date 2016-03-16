@@ -41,14 +41,18 @@
 
         public void Register(MutationObserver observer)
         {
-            if (_observers.Contains(observer) == false)
+            if (!_observers.Contains(observer))
+            {
                 _observers.Add(observer);
+            }
         }
 
         public void Unregister(MutationObserver observer)
         {
-            if (_observers.Contains(observer) == true)
+            if (_observers.Contains(observer))
+            {
                 _observers.Remove(observer);
+            }
         }
 
         public void ScheduleCallback()

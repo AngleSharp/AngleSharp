@@ -20,10 +20,12 @@
 
             foreach (var token in value)
             {
-                if (token.Type == CssTokenType.Delim && token.Data == "/")
+                if (token.Type == CssTokenType.Delim && token.Data.Is("/"))
                 {
                     if (current == back)
+                    {
                         return null;
+                    }
 
                     current = back;
                 }
@@ -36,12 +38,16 @@
             var horizontal = _converter.Convert(front);
 
             if (horizontal == null)
+            {
                 return null;
+            }
 
             var vertical = current == back ? _converter.Convert(back) : horizontal;
 
             if (vertical == null)
+            {
                 return null;
+            }
 
             return new BorderRadiusValue(horizontal, vertical, new CssValue(value));
         }
@@ -53,17 +59,19 @@
                 var front = new List<CssToken>();
                 var back = new List<CssToken>();
                 var props = new List<CssProperty>();
-                props.Add(properties.First(m => m.Name == PropertyNames.BorderTopLeftRadius));
-                props.Add(properties.First(m => m.Name == PropertyNames.BorderTopRightRadius));
-                props.Add(properties.First(m => m.Name == PropertyNames.BorderBottomRightRadius));
-                props.Add(properties.First(m => m.Name == PropertyNames.BorderBottomLeftRadius));
+                props.Add(properties.First(m => m.Name.Is(PropertyNames.BorderTopLeftRadius)));
+                props.Add(properties.First(m => m.Name.Is(PropertyNames.BorderTopRightRadius)));
+                props.Add(properties.First(m => m.Name.Is(PropertyNames.BorderBottomRightRadius)));
+                props.Add(properties.First(m => m.Name.Is(PropertyNames.BorderBottomLeftRadius)));
 
-                for (int i = 0; i < props.Count; i++)
+                for (var i = 0; i < props.Count; i++)
                 {
                     var dpv = props[i].DeclaredValue as IEnumerable<IPropertyValue>;
 
                     if (dpv == null)
+                    {
                         return null;
+                    }
 
                     var first = dpv.First().Original;
                     var second = dpv.Last().Original;
@@ -112,7 +120,9 @@
                         var vertical = _vertical.CssText;
 
                         if (horizontal != vertical)
+                        {
                             return String.Concat(horizontal, " / ", vertical);
+                        }
                     }
 
                     return horizontal;

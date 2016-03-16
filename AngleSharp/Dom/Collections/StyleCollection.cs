@@ -5,6 +5,9 @@
     using System.Collections;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Represents a list of CSS stylesheets.
+    /// </summary>
     sealed class StyleCollection : IEnumerable<CssStyleRule>
     {
         #region Fields
@@ -26,9 +29,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets the responsible device.
-        /// </summary>
         public RenderDevice Device
         {
             get { return _device; }
@@ -42,12 +42,14 @@
         {
             foreach (var sheet in _sheets)
             {
-                if (sheet.IsDisabled == false && sheet.Media.Validate(_device))
+                if (!sheet.IsDisabled && sheet.Media.Validate(_device))
                 {
                     var rules = GetRules(sheet.Rules);
 
                     foreach (var rule in rules)
+                    {
                         yield return rule;
+                    }
                 }
             }
         }
@@ -64,25 +66,29 @@
                 {
                     var media = (CssMediaRule)rule;
 
-                    if (!media.IsValid(_device))
-                        continue;
+                    if (media.IsValid(_device))
+                    {
+                        var subrules = GetRules(media.Rules);
 
-                    var subrules = GetRules(media.Rules);
-
-                    foreach (var subrule in subrules)
-                        yield return subrule;
+                        foreach (var subrule in subrules)
+                        {
+                            yield return subrule;
+                        }
+                    }
                 }
                 else if (rule.Type == CssRuleType.Supports)
                 {
                     var support = (CssSupportsRule)rule;
 
-                    if (!support.IsValid(_device))
-                        continue;
+                    if (support.IsValid(_device))
+                    {
+                        var subrules = GetRules(support.Rules);
 
-                    var subrules = GetRules(support.Rules);
-
-                    foreach (var subrule in subrules)
-                        yield return subrule;
+                        foreach (var subrule in subrules)
+                        {
+                            yield return subrule;
+                        }
+                    }
                 }
                 else if (rule.Type == CssRuleType.Style)
                 {

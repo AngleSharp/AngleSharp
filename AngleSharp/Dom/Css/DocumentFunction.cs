@@ -49,7 +49,7 @@
 
         public override String ToCss(IStyleFormatter formatter)
         {
-            return String.Concat(_name, "(", _data.CssString(), ")");
+            return _name.CssFunction(_data.CssString());
         }
 
         #endregion

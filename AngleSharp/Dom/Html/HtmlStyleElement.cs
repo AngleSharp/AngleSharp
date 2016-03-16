@@ -5,6 +5,8 @@
     using AngleSharp.Network;
     using AngleSharp.Services.Styling;
     using System;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents the HTML style element.
@@ -19,9 +21,6 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates an HTML style element.
-        /// </summary>
         public HtmlStyleElement(Document owner, String prefix = null)
             : base(owner, TagNames.Style, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
@@ -31,26 +30,17 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets if the style is scoped.
-        /// </summary>
         public Boolean IsScoped
         {
             get { return this.HasOwnAttribute(AttributeNames.Scoped); }
             set { this.SetOwnAttribute(AttributeNames.Scoped, value ? String.Empty : null); }
         }
 
-        /// <summary>
-        /// Gets the associated style sheet.
-        /// </summary>
         public IStyleSheet Sheet
         {
-            get { return _sheet ?? (_sheet = CreateSheet()); }
+            get { return _sheet; }
         }
 
-        /// <summary>
-        /// Gets or sets if the style is enabled or disabled.
-        /// </summary>
         public Boolean IsDisabled
         {
             get { return this.GetOwnAttribute(AttributeNames.Disabled).ToBoolean(); }
@@ -63,18 +53,12 @@
             }
         }
 
-        /// <summary>
-        /// Gets or sets the use with one or more target media.
-        /// </summary>
         public String Media
         {
             get { return this.GetOwnAttribute(AttributeNames.Media); }
             set { this.SetOwnAttribute(AttributeNames.Media, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the content type of the style sheet language.
-        /// </summary>
         public String Type
         {
             get { return this.GetOwnAttribute(AttributeNames.Type); }
@@ -92,10 +76,7 @@
             var media = this.GetOwnAttribute(AttributeNames.Media);
             RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
 
-            if (media != null)
-            {
-                UpdateMedia(media);
-            }
+            UpdateSheet();
         }
 
         internal override void NodeIsInserted(Node newNode)
@@ -124,31 +105,35 @@
 
         void UpdateSheet()
         {
-            if (_sheet != null)
+            var document = Owner;
+
+            if (document != null)
             {
-                _sheet = CreateSheet();
+                var config = document.Options;
+                var type = Type ?? MimeTypeNames.Css;
+                var engine = config.GetStyleEngine(type);
+
+                if (engine != null)
+                {
+                    var task = CreateSheetAsync(engine, config);
+                    document.DelayLoad(task);
+                }
             }
         }
 
-        IStyleSheet CreateSheet()
+        async Task CreateSheetAsync(IStyleEngine engine, IConfiguration config)
         {
-            var config = Owner.Options;
-            var type = Type ?? MimeTypeNames.Css;
-            var engine = config.GetStyleEngine(type);
-
-            if (engine != null)
+            var cancel = CancellationToken.None;
+            var response = VirtualResponse.Create(res => res.Content(TextContent).Address(default(Url)));
+            var options = new StyleOptions
             {
-                var options = new StyleOptions
-                {
-                    Element = this,
-                    IsDisabled = IsDisabled,
-                    IsAlternate = false,
-                    Configuration = config
-                };
-                return engine.ParseStylesheet(TextContent, options);
-            }
-
-            return null;
+                Element = this,
+                IsDisabled = IsDisabled,
+                IsAlternate = false,
+                Configuration = config
+            };
+            var task = engine.ParseStylesheetAsync(response, options, cancel);
+            _sheet = await task.ConfigureAwait(false);
         }
 
         #endregion

@@ -462,8 +462,12 @@
         /// <returns>True if the two objects are equal, otherwise false.</returns>
         public override Boolean Equals(Object obj)
         {
-            if (obj is Color)
-                return this.Equals((Color)obj);
+            var other = obj as Color?;
+
+            if (other != null)
+            {
+                return Equals(other.Value);
+            }
 
             return false;
         }
@@ -567,7 +571,7 @@
                     G.ToString(),
                     B.ToString()
                 });
-                return String.Concat(FunctionNames.Rgb, "(", arguments, ")");
+                return FunctionNames.Rgb.CssFunction(arguments);
             }
             else
             {
@@ -578,7 +582,7 @@
                     B.ToString(),
                     Alpha.ToString()
                 });
-                return String.Concat(FunctionNames.Rgba, "(", arguments, ")");
+                return FunctionNames.Rgba.CssFunction(arguments);
             }
         }
 
@@ -598,7 +602,7 @@
                     G.ToString(format, formatProvider),
                     B.ToString(format, formatProvider)
                 });
-                return String.Concat(FunctionNames.Rgb, "(", arguments, ")");
+                return FunctionNames.Rgb.CssFunction(arguments);
             }
             else
             {
@@ -609,7 +613,7 @@
                     B.ToString(format, formatProvider),
                     Alpha.ToString(format, formatProvider)
                 });
-                return String.Concat(FunctionNames.Rgba, "(", arguments, ")");
+                return FunctionNames.Rgba.CssFunction(arguments);
             }
         }
 

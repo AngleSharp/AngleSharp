@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -15,11 +16,6 @@
     [DebuggerStepThrough]
     static class HtmlParserExtensions
     {
-        /// <summary>
-        /// Adds all given attributes to the element, without any duplicate checks.
-        /// </summary>
-        /// <param name="element">The node with the target attributes.</param>
-        /// <param name="attributes">The attributes to set.</param>
         public static void SetAttributes(this Element element, List<KeyValuePair<String, String>> attributes)
         {
             var container = element.Attributes;
@@ -30,26 +26,73 @@
                 var item = new Attr(attribute.Key, attribute.Value);
                 container.FastAddItem(item);
             }
-
-            element.SetupElement();
         }
 
-        /// <summary>
-        /// Retrieves a number describing the error of a given error code.
-        /// </summary>
-        /// <param name="code">A specific error code.</param>
-        /// <returns>The code of the error.</returns>
+        public static HtmlTreeMode? SelectMode(this Element element, Boolean isLast, Stack<HtmlTreeMode> templateModes)
+        {
+            var tagName = element.LocalName;
+
+            if (tagName.Is(TagNames.Select))
+            {
+                return HtmlTreeMode.InSelect;
+            }
+            else if (TagNames.AllTableCells.Contains(tagName))
+            {
+                return isLast ? HtmlTreeMode.InBody : HtmlTreeMode.InCell;
+            }
+            else if (tagName.Is(TagNames.Tr))
+            {
+                return HtmlTreeMode.InRow;
+            }
+            else if (TagNames.AllTableSections.Contains(tagName))
+            {
+                return HtmlTreeMode.InTableBody;
+            }
+            else if (tagName.Is(TagNames.Body))
+            {
+                return HtmlTreeMode.InBody;
+            }
+            else if (tagName.Is(TagNames.Table))
+            {
+                return HtmlTreeMode.InTable;
+            }
+            else if (tagName.Is(TagNames.Caption))
+            {
+                return HtmlTreeMode.InCaption;
+            }
+            else if (tagName.Is(TagNames.Colgroup))
+            {
+                return HtmlTreeMode.InColumnGroup;
+            }
+            else if (tagName.Is(TagNames.Template))
+            {
+                return templateModes.Peek();
+            }
+            else if (tagName.Is(TagNames.Html))
+            {
+                return HtmlTreeMode.BeforeHead;
+            }
+            else if (tagName.Is(TagNames.Head))
+            {
+                return isLast ? HtmlTreeMode.InBody : HtmlTreeMode.InHead;
+            }
+            else if (tagName.Is(TagNames.Frameset))
+            {
+                return HtmlTreeMode.InFrameset;
+            }
+            else if (isLast)
+            {
+                return HtmlTreeMode.InBody;
+            }
+
+            return null;
+        }
+
         public static Int32 GetCode(this HtmlParseError code)
         {
             return (Int32)code;
         }
 
-        /// <summary>
-        /// Sanatizes the given list by removing the duplicates first, then calls the
-        /// SetAttributes method to add the remaining attributes to the element.
-        /// </summary>
-        /// <param name="element">The node with the target attributes.</param>
-        /// <param name="attributes">The attributes to sanatize and set.</param>
         public static void SetUniqueAttributes(this Element element, List<KeyValuePair<String, String>> attributes)
         {
             for (int i = attributes.Count - 1; i >= 0; i--)
@@ -63,11 +106,6 @@
             element.SetAttributes(attributes);
         }
 
-        /// <summary>
-        /// Adds an element to the list of active formatting elements.
-        /// </summary>
-        /// <param name="formatting">The list of formatting elements to modify.</param>
-        /// <param name="element">The element to add.</param>
         public static void AddFormatting(this List<Element> formatting, Element element)
         {
             var count = 0;
@@ -93,10 +131,6 @@
             formatting.Add(element);
         }
 
-        /// <summary>
-        /// Clear the list of active formatting elements up to the last marker.
-        /// </summary>
-        /// <param name="formatting">The list of formatting elements to modify.</param>
         public static void ClearFormatting(this List<Element> formatting)
         {
             while (formatting.Count != 0)
@@ -112,25 +146,30 @@
             }
         }
 
-        /// <summary>
-        /// Inserts a scope marker at the end of the list of active formatting elements.
-        /// </summary>
-        /// <param name="formatting">The list of formatting elements to modify.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddScopeMarker(this List<Element> formatting)
         {
             formatting.Add(null);
         }
 
-        /// <summary>
-        /// Appends a comment node to the specified node.
-        /// </summary>
-        /// <param name="parent">The node which will contain the comment node.</param>
-        /// <param name="token">The comment token.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AddComment(this Node parent, HtmlToken token)
         {
             parent.AddNode(new Comment(parent.Owner, token.Data));
+        }
+
+        public static QuirksMode GetQuirksMode(this HtmlDoctypeToken doctype)
+        {
+            if (doctype.IsFullQuirks)
+            {
+                return QuirksMode.On;
+            }
+            else if (doctype.IsLimitedQuirks)
+            {
+                return QuirksMode.Limited;
+            }
+
+            return QuirksMode.Off;
         }
     }
 }

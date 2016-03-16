@@ -84,6 +84,7 @@
     <Compile Include="Css\CssDocumentFunction.cs" />
     <Compile Include="Css\CssImportRule.cs" />
     <Compile Include="Css\CssObjectSizing.cs" />
+    <Compile Include="Css\CssOmCreators.cs" />
     <Compile Include="Css\CssProperty.cs" />
     <Compile Include="Css\CssFontProperty.cs" />
     <Compile Include="Css\CssPaddingProperty.cs" />
@@ -133,18 +134,21 @@
     <Compile Include="Html\ValidityTooShort.cs" />
     <Compile Include="Html\ValidityValueMissing.cs" />
     <Compile Include="Html\WillValidate.cs" />
+    <Compile Include="Library\BasicStyling.cs" />
     <Compile Include="Library\ContextLoading.cs" />
     <Compile Include="Library\DataRequester.cs" />
     <Compile Include="Library\DocumentEncoding.cs" />
     <Compile Include="Library\DOMTable.cs" />
     <Compile Include="Library\Error.cs" />
     <Compile Include="Library\FormReset.cs" />
+    <Compile Include="Library\FormSetFieldValues.cs" />
     <Compile Include="Library\ImageCandidates.cs" />
     <Compile Include="Library\MeterElement.cs" />
-    <Compile Include="Library\MimeType.cs" />
+    <Compile Include="Url\MimeType.cs" />
     <Compile Include="Library\MutationObserver.cs" />
     <Compile Include="Library\OptionWithLabel.cs" />
     <Compile Include="Library\PageImport.cs" />
+    <Compile Include="Library\QueryExtensions.cs" />
     <Compile Include="Library\ShadowDom.cs" />
     <Compile Include="Library\SimpleEncoding.cs" />
     <Compile Include="Library\SimpleEventAggregator.cs" />
@@ -173,7 +177,7 @@
     <Compile Include="Library\DOMExtensions.cs" />
     <Compile Include="Library\HttpRequester.cs" />
     <Compile Include="Library\AsyncParsing.cs" />
-    <Compile Include="Library\Location.cs" />
+    <Compile Include="Url\Location.cs" />
     <Compile Include="Library\OptimizationPool.cs" />
     <Compile Include="Library\FormSubmit.cs" />
     <Compile Include="Library\Priority.cs" />
@@ -182,8 +186,8 @@
     <Compile Include="Library\NodeIterator.cs" />
     <Compile Include="Library\DOMActions.cs" />
     <Compile Include="Library\UnitConversion.cs" />
-    <Compile Include="Library\Url.cs" />
-    <Compile Include="Library\UrlValidation.cs" />
+    <Compile Include="Url\Url.cs" />
+    <Compile Include="Url\UrlValidation.cs" />
     <Compile Include="Mocks\CallbackScriptEngine.cs" />
     <Compile Include="Mocks\ContentScriptEngine.cs" />
     <Compile Include="Mocks\DelayedStream.cs" />
@@ -246,9 +250,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

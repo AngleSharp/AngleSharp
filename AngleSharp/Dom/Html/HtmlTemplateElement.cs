@@ -26,9 +26,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets the contents of this HTML template.
-        /// </summary>
         public IDocumentFragment Content
         {
             get { return _content; }
@@ -38,9 +35,6 @@
 
         #region Methods
 
-        /// <summary>
-        /// Moves the children of the template element to the content.
-        /// </summary>
         public void PopulateFragment()
         {
             while (HasChildNodes)
@@ -51,34 +45,25 @@
             }
         }
 
-        /// <summary>
-        /// Returns a duplicate of the template including the contents if deep is specified.
-        /// </summary>
-        /// <param name="deep">Optional value: true if the children of the node should also be
-        /// cloned, or false to clone only the specified node.</param>
-        /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
             var clone = new HtmlTemplateElement(Owner);
             CopyProperties(this, clone, deep);
             CopyAttributes(this, clone);
 
-            for (int i = 0; i < _content.ChildNodes.Length; i++)
+            for (var i = 0; i < _content.ChildNodes.Length; i++)
             {
                 var node = _content.ChildNodes[i].Clone(deep) as Node;
 
                 if (node != null)
+                {
                     clone._content.AddNode(node);
+                }
             }
 
             return clone;
         }
 
-        /// <summary>
-        /// Returns an HTML-code representation of the node.
-        /// </summary>
-        /// <param name="formatter">The formatter to use.</param>
-        /// <returns>A string containing the HTML code.</returns>
         public override String ToHtml(IMarkupFormatter formatter)
         {
             var open = formatter.OpenTag(this, false);

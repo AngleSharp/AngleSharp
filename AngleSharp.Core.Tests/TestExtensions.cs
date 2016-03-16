@@ -46,6 +46,11 @@
         {
             var mockRequester = new MockRequester();
             mockRequester.OnRequest = onRequest;
+            return config.WithMockRequester(mockRequester);
+        }
+
+        public static IConfiguration WithMockRequester(this IConfiguration config, MockRequester mockRequester)
+        {
             return config.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { mockRequester });
         }
 

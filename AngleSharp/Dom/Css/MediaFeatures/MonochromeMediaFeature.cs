@@ -38,9 +38,13 @@
             var available = device.MonochromeBits;
 
             if (IsMaximum)
+            {
                 return available <= desired;
+            }
             else if (IsMinimum)
+            {
                 return available >= desired;
+            }
 
             return desired == available;
         }

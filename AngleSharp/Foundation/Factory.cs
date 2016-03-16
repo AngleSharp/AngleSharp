@@ -43,6 +43,11 @@
         public static readonly MediaFeatureFactory MediaFeatures = new MediaFeatureFactory();
 
         /// <summary>
+        /// The CSS attribute selector factory.
+        /// </summary>
+        public static readonly AttributeSelectorFactory AttributeSelector = new AttributeSelectorFactory();
+
+        /// <summary>
         /// The CSS pseudo element selector factory.
         /// </summary>
         public static readonly PseudoElementSelectorFactory PseudoElementSelector = new PseudoElementSelectorFactory();

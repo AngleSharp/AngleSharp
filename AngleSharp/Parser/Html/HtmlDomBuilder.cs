@@ -166,6 +166,7 @@
                 throw new ArgumentNullException("context");
             }
 
+            _fragmentContext = context;
             var tagName = context.LocalName;
 
             if (tagName.IsOneOf(TagNames.Title, TagNames.Textarea))
@@ -198,9 +199,8 @@
                 _templateModes.Push(HtmlTreeMode.InTemplate);
             }
 
-            Reset(context);
+            Reset();
 
-            _fragmentContext = context;
             _tokenizer.IsAcceptingCharacterData = !AdjustedCurrentNode.Flags.HasFlag(NodeFlags.HtmlMember);
 
             do
@@ -237,53 +237,25 @@
         /// algorithm specified in 8.2.3.1 The insertion mode.
         /// http://www.w3.org/html/wg/drafts/html/master/syntax.html#the-insertion-mode
         /// </summary>
-        void Reset(Element context = null)
+        void Reset()
         {
-            var last = false;
-            var node = default(Element);
-
             for (var i = _openElements.Count - 1; i >= 0; i--)
             {
-                node = _openElements[i];
+                var element = _openElements[i];
+                var last = i == 0;
 
-                if (i == 0)
+                if (last && _fragmentContext != null)
                 {
-                    last = true;
-                    node = context ?? node;
+                    element = _fragmentContext;
                 }
 
-                var tagName = node.LocalName;
+                var mode = element.SelectMode(last, _templateModes);
 
-                if (tagName.Is(TagNames.Select))
-                    _currentMode = HtmlTreeMode.InSelect;
-                else if (TagNames.AllTableCells.Contains(tagName))
-                    _currentMode = last ? HtmlTreeMode.InBody : HtmlTreeMode.InCell;
-                else if (tagName.Is(TagNames.Tr))
-                    _currentMode = HtmlTreeMode.InRow;
-                else if (TagNames.AllTableSections.Contains(tagName))
-                    _currentMode = HtmlTreeMode.InTableBody;
-                else if (tagName.Is(TagNames.Body))
-                    _currentMode = HtmlTreeMode.InBody;
-                else if (tagName.Is(TagNames.Table))
-                    _currentMode = HtmlTreeMode.InTable;
-                else if (tagName.Is(TagNames.Caption))
-                    _currentMode = HtmlTreeMode.InCaption;
-                else if (tagName.Is(TagNames.Colgroup))
-                    _currentMode = HtmlTreeMode.InColumnGroup;
-                else if (tagName.Is(TagNames.Template))
-                    _currentMode = _templateModes.Peek();
-                else if (tagName.Is(TagNames.Html))
-                    _currentMode = HtmlTreeMode.BeforeHead;
-                else if (tagName.Is(TagNames.Head))
-                    _currentMode = last ? HtmlTreeMode.InBody : HtmlTreeMode.InHead;
-                else if (tagName.Is(TagNames.Frameset))
-                    _currentMode = HtmlTreeMode.InFrameset;
-                else if (last)
-                    _currentMode = HtmlTreeMode.InBody;
-                else
-                    continue;
-
-                break;
+                if (mode.HasValue)
+                {
+                    _currentMode = mode.Value;
+                    break;
+                }
             }
         }
 
@@ -419,7 +391,9 @@
                     var doctype = (HtmlDoctypeToken)token;
 
                     if (!doctype.IsValid)
+                    {
                         RaiseErrorOccurred(HtmlParseError.DoctypeInvalid, token);
+                    }
 
                     _document.AddNode(new DocumentType(_document, doctype.Name ?? String.Empty)
                     {
@@ -427,11 +401,7 @@
                         PublicIdentifier = doctype.PublicIdentifier
                     });
 
-                    if (doctype.IsFullQuirks)
-                        _document.QuirksMode = QuirksMode.On;
-                    else if (doctype.IsLimitedQuirks)
-                        _document.QuirksMode = QuirksMode.Limited;
-
+                    _document.QuirksMode = doctype.GetQuirksMode();
                     _currentMode = HtmlTreeMode.BeforeHtml;
                     return;
                 }
@@ -439,10 +409,12 @@
                 {
                     token.TrimStart();
 
-                    if (token.IsEmpty)
-                        return;
+                    if (!token.IsEmpty)
+                    {
+                        break;
+                    }
 
-                    break;
+                    return;
                 }
                 case HtmlTokenType.Comment:
                 {
@@ -473,10 +445,12 @@
                 {
                     token.TrimStart();
 
-                    if (token.IsEmpty)
-                        return;
+                    if (!token.IsEmpty)
+                    {
+                        break;
+                    }
 
-                    break;
+                    return;
                 }
                 case HtmlTokenType.Comment:
                 {
@@ -486,7 +460,9 @@
                 case HtmlTokenType.StartTag:
                 {
                     if (!token.Name.Is(TagNames.Html))
+                    {
                         break;
+                    }
 
                     AddRoot(token.AsTag());
                     _currentMode = HtmlTreeMode.BeforeHead;
@@ -495,7 +471,9 @@
                 case HtmlTokenType.EndTag:
                 {
                     if (TagNames.AllBeforeHead.Contains(token.Name))
+                    {
                         break;
+                    }
 
                     RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
                     return;
@@ -523,10 +501,12 @@
                 {
                     token.TrimStart();
 
-                    if (token.IsEmpty)
-                        return;
+                    if (!token.IsEmpty)
+                    {
+                        break;
+                    }
 
-                    break;
+                    return;
                 }
                 case HtmlTokenType.StartTag:
                 {
@@ -549,7 +529,9 @@
                 case HtmlTokenType.EndTag:
                 {
                     if (TagNames.AllBeforeHead.Contains(token.Name))
+                    {
                         break;
+                    }
 
                     RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
                     return;
@@ -583,10 +565,12 @@
                     var str = token.TrimStart();
                     AddCharacters(str);
 
-                    if (token.IsEmpty)
-                        return;
+                    if (!token.IsEmpty)
+                    {
+                        break;
+                    }
 
-                    break;
+                    return;
                 }
                 case HtmlTokenType.Comment:
                 {
@@ -695,12 +679,16 @@
                             GenerateImpliedEndTags();
 
                             if (!CurrentNode.LocalName.Is(TagNames.Template))
+                            {
                                 RaiseErrorOccurred(HtmlParseError.TagClosingMismatch, token);
+                            }
 
                             CloseTemplate();
                         }
                         else
+                        {
                             RaiseErrorOccurred(HtmlParseError.TagInappropriate, token);
+                        }
 
                         return;
                     }
@@ -732,10 +720,12 @@
                     var str = token.TrimStart();
                     AddCharacters(str);
 
-                    if (token.IsEmpty)
-                        return;
+                    if (!token.IsEmpty)
+                    {
+                        break;
+                    }
 
-                    break;
+                    return;
                 }
                 case HtmlTokenType.Comment:
                 {
@@ -747,13 +737,21 @@
                     var tagName = token.Name;
 
                     if (TagNames.AllNoScript.Contains(tagName))
+                    {
                         InHead(token);
+                    }
                     else if (tagName.Is(TagNames.Html))
+                    {
                         InBody(token);
+                    }
                     else if (tagName.IsOneOf(TagNames.Head, TagNames.NoScript))
+                    {
                         RaiseErrorOccurred(HtmlParseError.TagInappropriate, token);
+                    }
                     else
+                    {
                         break;
+                    }
 
                     return;
                 }
@@ -801,10 +799,12 @@
                     var str = token.TrimStart();
                     AddCharacters(str);
 
-                    if (token.IsEmpty)
-                        return;
+                    if (!token.IsEmpty)
+                    {
+                        break;
+                    }
 
-                    break;
+                    return;
                 }
                 case HtmlTokenType.Comment:
                 {
@@ -823,18 +823,15 @@
                     if (tagName.Is(TagNames.Html))
                     {
                         InBody(token);
-                        return;
                     }
                     else if (tagName.Is(TagNames.Body))
                     {
                         AfterHeadStartTagBody(token.AsTag());
-                        return;
                     }
                     else if (tagName.Is(TagNames.Frameset))
                     {
                         AddElement(new HtmlFrameSetElement(_document), token.AsTag());
                         _currentMode = HtmlTreeMode.InFrameset;
-                        return;
                     }
                     else if (TagNames.AllHeadNoTemplate.Contains(tagName))
                     {
@@ -843,21 +840,25 @@
                         var head = _document.Head as Element;
                         _openElements.Add(head);
                         InHead(token);
-                        _openElements.Remove(head);
-                        return;
+                        CloseNode(head);
                     }
                     else if (tagName.Is(TagNames.Head))
                     {
                         RaiseErrorOccurred(HtmlParseError.HeadTagMisplaced, token);
-                        return;
+                    }
+                    else
+                    {
+                        break;
                     }
 
-                    break;
+                    return;
                 }
                 case HtmlTokenType.EndTag:
                 {
                     if (token.Name.IsOneOf(TagNames.Html, TagNames.Body, TagNames.Br))
+                    {
                         break;
+                    }
 
                     RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
                     return;
@@ -876,23 +877,22 @@
             if (tagName.Is(TagNames.Div))
             {
                 if (IsInButtonScope())
+                {
                     InBodyEndTagParagraph(tag);
+                }
 
                 AddElement(tag);
             }
             else if (tagName.Is(TagNames.A))
             {
-                for (var i = _formattingElements.Count - 1; i >= 0; i--)
+                for (var i = _formattingElements.Count - 1; i >= 0 && _formattingElements[i] != null; i--)
                 {
-                    if (_formattingElements[i] == null)
-                        break;
-
                     if (_formattingElements[i].LocalName.Is(TagNames.A))
                     {
                         var format = _formattingElements[i];
                         RaiseErrorOccurred(HtmlParseError.AnchorNested, tag);
                         HeisenbergAlgorithm(HtmlTagToken.Close(TagNames.A));
-                        _openElements.Remove(format);
+                        CloseNode(format);
                         _formattingElements.Remove(format);
                         break;
                     }
@@ -919,7 +919,9 @@
             else if (tagName.IsOneOf(TagNames.Ul, TagNames.P))
             {
                 if (IsInButtonScope())
+                {
                     InBodyEndTagParagraph(tag);
+                }
 
                 AddElement(tag);
             }
@@ -935,7 +937,9 @@
             else if (TagNames.AllHeadings.Contains(tagName))
             {
                 if (IsInButtonScope())
+                {
                     InBodyEndTagParagraph(tag);
+                }
 
                 if (TagNames.AllHeadings.Contains(CurrentNode.LocalName))
                 {
@@ -952,14 +956,18 @@
                 CloseCurrentNode();
 
                 if (!tag.GetAttribute(AttributeNames.Type).Isi(AttributeNames.Hidden))
+                {
                     _frameset = false;
+                }
             }
             else if (tagName.Is(TagNames.Form))
             {
                 if (_currentFormElement == null)
                 {
                     if (IsInButtonScope())
+                    {
                         InBodyEndTagParagraph(tag);
+                    }
 
                     _currentFormElement = new HtmlFormElement(_document);
                     AddElement(_currentFormElement, tag);
@@ -970,7 +978,9 @@
             else if (TagNames.AllBody.Contains(tagName))
             {
                 if (IsInButtonScope())
+                {
                     InBodyEndTagParagraph(tag);
+                }
 
                 AddElement(tag);
             }
@@ -986,7 +996,9 @@
             else if (tagName.IsOneOf(TagNames.Pre, TagNames.Listing))
             {
                 if (IsInButtonScope())
+                {
                     InBodyEndTagParagraph(tag);
+                }
 
                 AddElement(tag);
                 _frameset = false;
@@ -1010,7 +1022,9 @@
             else if (tagName.Is(TagNames.Table))
             {
                 if (_document.QuirksMode != QuirksMode.On && IsInButtonScope())
+                {
                     InBodyEndTagParagraph(tag);
+                }
 
                 AddElement(new HtmlTableElement(_document), tag);
                 _frameset = false;
@@ -1028,7 +1042,9 @@
             else if (tagName.Is(TagNames.Hr))
             {
                 if (IsInButtonScope())
+                {
                     InBodyEndTagParagraph(tag);
+                }
 
                 AddElement(new HtmlHrElement(_document), tag, true);
                 CloseCurrentNode();
@@ -1067,7 +1083,9 @@
             else if (tagName.IsOneOf(TagNames.Optgroup, TagNames.Option))
             {
                 if (CurrentNode.LocalName.Is(TagNames.Option))
+                {
                     InBodyEndTagAnythingElse(HtmlTagToken.Close(TagNames.Option));
+                }
 
                 ReconstructFormatting();
                 AddElement(tag);
@@ -1110,7 +1128,9 @@
             else if (tagName.Is(TagNames.Xmp))
             {
                 if (IsInButtonScope())
+                {
                     InBodyEndTagParagraph(tag);
+                }
 
                 ReconstructFormatting();
                 _frameset = false;
@@ -1123,7 +1143,9 @@
                     GenerateImpliedEndTags();
 
                     if (!CurrentNode.LocalName.Is(TagNames.Ruby))
+                    {
                         RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, tag);
+                    }
                 }
 
                 AddElement(tag);
@@ -1134,8 +1156,10 @@
                 {
                     GenerateImpliedEndTagsExceptFor(TagNames.Rtc);
 
-                    if (CurrentNode.LocalName.IsOneOf(TagNames.Ruby, TagNames.Rtc) == false)
+                    if (!CurrentNode.LocalName.IsOneOf(TagNames.Ruby, TagNames.Rtc))
+                    {
                         RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, tag);
+                    }
                 }
 
                 AddElement(tag);
@@ -1163,7 +1187,7 @@
 
                 if (tag.IsSelfClosing)
                 {
-                    _openElements.Remove(element);
+                    CloseNode(element);
                 }
             }
             else if (tagName.Is(TagNames.Svg))
@@ -1174,7 +1198,7 @@
 
                 if (tag.IsSelfClosing)
                 {
-                    _openElements.Remove(element);
+                    CloseNode(element);
                 }
             }
             else if (tagName.Is(TagNames.Plaintext))
@@ -1238,17 +1262,23 @@
                     InBody(HtmlTagToken.Open(TagNames.Label));
 
                     if (tag.GetAttribute(AttributeNames.Prompt).Length > 0)
+                    {
                         AddCharacters(tag.GetAttribute(AttributeNames.Prompt));
+                    }
                     else
+                    {
                         AddCharacters("This is a searchable index. Enter search keywords: ");
+                    }
 
                     var input = HtmlTagToken.Open(TagNames.Input);
                     input.AddAttribute(AttributeNames.Name, TagNames.IsIndex);
 
-                    for (int i = 0; i < tag.Attributes.Count; i++)
+                    for (var i = 0; i < tag.Attributes.Count; i++)
                     {
-                        if (tag.Attributes[i].Key.IsOneOf(AttributeNames.Name, AttributeNames.Action, AttributeNames.Prompt) == false)
+                        if (!tag.Attributes[i].Key.IsOneOf(AttributeNames.Name, AttributeNames.Action, AttributeNames.Prompt))
+                        {
                             input.AddAttribute(tag.Attributes[i].Key, tag.Attributes[i].Value);
+                        }
                     }
 
                     InBody(input);
@@ -1287,7 +1317,9 @@
                     GenerateImpliedEndTagsExceptFor(tagName);
 
                     if (!CurrentNode.LocalName.Is(TagNames.Li))
+                    {
                         RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, tag);
+                    }
 
                     ClearStackBackTo(TagNames.Li);
                     CloseCurrentNode();
@@ -1319,9 +1351,11 @@
                     GenerateImpliedEndTags();
 
                     if (CurrentNode != node)
+                    {
                         RaiseErrorOccurred(HtmlParseError.FormClosedWrong, tag);
+                    }
 
-                    _openElements.Remove(node);
+                    CloseNode(node);
                 }
                 else
                 {
@@ -1340,7 +1374,9 @@
                     GenerateImpliedEndTags();
 
                     if (!CurrentNode.LocalName.Is(tagName))
+                    {
                         RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, tag);
+                    }
 
                     ClearStackBackTo(TagNames.AllHeadings);
                     CloseCurrentNode();
@@ -1357,7 +1393,9 @@
                     GenerateImpliedEndTagsExceptFor(tagName);
 
                     if (!CurrentNode.LocalName.Is(tagName))
+                    {
                         RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, tag);
+                    }
 
                     ClearStackBackTo(tagName);
                     CloseCurrentNode();
@@ -1374,7 +1412,9 @@
                     GenerateImpliedEndTags();
 
                     if (!CurrentNode.LocalName.Is(tagName))
+                    {
                         RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, tag);
+                    }
 
                     ClearStackBackTo(tagName);
                     CloseCurrentNode();
@@ -1392,7 +1432,9 @@
             else if (tagName.Is(TagNames.Html))
             {
                 if (InBodyEndTagBody(tag))
+                {
                     AfterBody(tag);
+                }
             }
             else if (tagName.Is(TagNames.Template))
             {
@@ -1416,10 +1458,7 @@
                 {
                     ReconstructFormatting();
                     AddCharacters(token.Data);
-
-                    if (token.HasContent)
-                        _frameset = false;
-
+                    _frameset = !token.HasContent && _frameset;
                     return;
                 }
                 case HtmlTokenType.StartTag:
@@ -1447,9 +1486,13 @@
                     CheckBodyOnClosing(token);
 
                     if (_templateModes.Count != 0)
+                    {
                         InTemplate(token);
+                    }
                     else
+                    {
                         End();
+                    }
 
                     return;
                 }
@@ -1550,7 +1593,9 @@
                         RaiseErrorOccurred(HtmlParseError.TableNesting, token);
 
                         if (InTableEndTagTable(token))
+                        {
                             Home(token);
+                        }
                     }
                     else if (tagName.Is(TagNames.Input))
                     {
@@ -1678,10 +1723,14 @@
                         RaiseErrorOccurred(HtmlParseError.TableNesting, token);
 
                         if (InCaptionEndTagCaption(token))
+                        {
                             InTable(token);
+                        }
                     }
                     else
+                    {
                         break;
+                    }
 
                     return;
                 }
@@ -1694,10 +1743,14 @@
                         RaiseErrorOccurred(HtmlParseError.TagCannotStartHere, token);
 
                         if (InCaptionEndTagCaption(token))
+                        {
                             InTable(token);
+                        }
                     }
                     else
+                    {
                         break;
+                    }
 
                     return;
                 }
@@ -1763,13 +1816,21 @@
                     var tagName = token.Name;
 
                     if (tagName.Is(TagNames.Colgroup))
+                    {
                         InColumnGroupEndTagColgroup(token);
+                    }
                     else if (tagName.Is(TagNames.Col))
+                    {
                         RaiseErrorOccurred(HtmlParseError.TagClosedWrong, token);
+                    }
                     else if (tagName.Is(TagNames.Template))
+                    {
                         InHead(token);
+                    }
                     else
+                    {
                         break;
+                    }
 
                     return;
                 }
@@ -1781,7 +1842,9 @@
             }
 
             if (InColumnGroupEndTagColgroup(token))
+            {
                 InTable(token);
+            }
         }
 
         /// <summary>
@@ -1808,9 +1871,13 @@
                         InRow(token);
                     }
                     else if (TagNames.AllTableGeneral.Contains(tagName))
+                    {
                         InTableBodyCloseTable(token.AsTag());
+                    }
                     else
+                    {
                         break;
+                    }
 
                     return;
                 }
@@ -1827,14 +1894,22 @@
                             _currentMode = HtmlTreeMode.InTable;
                         }
                         else
+                        {
                             RaiseErrorOccurred(HtmlParseError.TableSectionNotInScope, token);
+                        }
                     }
                     else if (tagName.Is(TagNames.Tr) || TagNames.AllTableSpecial.Contains(tagName))
+                    {
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
+                    }
                     else if (tagName.Is(TagNames.Table))
+                    {
                         InTableBodyCloseTable(token.AsTag());
+                    }
                     else
+                    {
                         break;
+                    }
 
                     return;
                 }
@@ -1885,7 +1960,9 @@
                     else if (tagName.Is(TagNames.Table))
                     {
                         if (InRowEndTagTablerow(token))
+                        {
                             InTableBody(token);
+                        }
                     }
                     else if (TagNames.AllTableSections.Contains(tagName))
                     {
@@ -1895,7 +1972,9 @@
                             InTableBody(token);
                         }
                         else
+                        {
                             RaiseErrorOccurred(HtmlParseError.TableSectionNotInScope, token);
+                        }
                     }
                     else if (TagNames.AllTableSpecial.Contains(tagName))
                     {
@@ -2012,17 +2091,23 @@
                     else if (tagName.Is(TagNames.Option))
                     {
                         if (CurrentNode.LocalName.Is(TagNames.Option))
+                        {
                             InSelectEndTagOption(token);
+                        }
 
                         AddElement(new HtmlOptionElement(_document), token.AsTag());
                     }
                     else if (tagName.Is(TagNames.Optgroup))
                     {
                         if (CurrentNode.LocalName.Is(TagNames.Option))
+                        {
                             InSelectEndTagOption(token);
-                        
+                        }
+
                         if (CurrentNode.LocalName.Is(TagNames.Optgroup))
+                        {
                             InSelectEndTagOptgroup(token);
+                        }
 
                         AddElement(new HtmlOptionsGroupElement(_document), token.AsTag());
                     }
@@ -2057,17 +2142,29 @@
                     var tagName = token.Name;
 
                     if (tagName.Is(TagNames.Template))
+                    {
                         InHead(token);
+                    }
                     else if (tagName.Is(TagNames.Optgroup))
+                    {
                         InSelectEndTagOptgroup(token);
+                    }
                     else if (tagName.Is(TagNames.Option))
+                    {
                         InSelectEndTagOption(token);
+                    }
                     else if (tagName.Is(TagNames.Select) && IsInSelectScope(TagNames.Select))
+                    {
                         InSelectEndTagSelect();
+                    }
                     else if (tagName.Is(TagNames.Select))
+                    {
                         RaiseErrorOccurred(HtmlParseError.SelectNotInScope, token);
+                    }
                     else
+                    {
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
+                    }
 
                     return;
                 }
@@ -2143,26 +2240,42 @@
                     var tagName = token.Name;
 
                     if (tagName.Is(TagNames.Script) || TagNames.AllHead.Contains(tagName))
+                    {
                         InHead(token);
+                    }
                     else if (TagNames.AllTableRoot.Contains(tagName))
+                    {
                         TemplateStep(token, HtmlTreeMode.InTable);
+                    }
                     else if (tagName.Is(TagNames.Col))
+                    {
                         TemplateStep(token, HtmlTreeMode.InColumnGroup);
+                    }
                     else if (tagName.Is(TagNames.Tr))
+                    {
                         TemplateStep(token, HtmlTreeMode.InTableBody);
+                    }
                     else if (TagNames.AllTableCells.Contains(tagName))
+                    {
                         TemplateStep(token, HtmlTreeMode.InRow);
+                    }
                     else
+                    {
                         TemplateStep(token, HtmlTreeMode.InBody);
+                    }
 
                     return;
                 }
                 case HtmlTokenType.EndTag:
                 {
                     if (token.Name.Is(TagNames.Template))
+                    {
                         InHead(token);
+                    }
                     else
+                    {
                         RaiseErrorOccurred(HtmlParseError.TagCannotEndHere, token);
+                    }
 
                     return;
                 }
@@ -2201,10 +2314,12 @@
                     ReconstructFormatting();
                     AddCharacters(str);
 
-                    if (token.IsEmpty)
-                        return;
-                    
-                    break;
+                    if (!token.IsEmpty)
+                    {
+                        break;
+                    }
+
+                    return;
                 }
                 case HtmlTokenType.Comment:
                 {
@@ -2231,9 +2346,13 @@
                     if (token.Name.Is(TagNames.Html))
                     {
                         if (IsFragmentCase)
+                        {
                             RaiseErrorOccurred(HtmlParseError.TagInvalidInFragmentMode, token);
+                        }
                         else
+                        {
                             _currentMode = HtmlTreeMode.AfterAfterBody;
+                        }
 
                         return;
                     }
@@ -2265,10 +2384,12 @@
                     var str = token.TrimStart();
                     AddCharacters(str);
 
-                    if (token.IsEmpty)
-                        return;
+                    if (!token.IsEmpty)
+                    {
+                        break;
+                    }
 
-                    break;
+                    return;
                 }
                 case HtmlTokenType.Comment:
                 {
@@ -2285,42 +2406,58 @@
                     var tagName = token.Name;
 
                     if (tagName.Is(TagNames.Html))
+                    {
                         InBody(token);
+                    }
                     else if (tagName.Is(TagNames.Frameset))
+                    {
                         AddElement(new HtmlFrameSetElement(_document), token.AsTag());
+                    }
                     else if (tagName.Is(TagNames.Frame))
                     {
                         AddElement(new HtmlFrameElement(_document), token.AsTag(), true);
                         CloseCurrentNode();
                     }
                     else if (tagName.Is(TagNames.NoFrames))
+                    {
                         InHead(token);
+                    }
                     else
+                    {
                         break;
+                    }
 
                     return;
                 }
                 case HtmlTokenType.EndTag:
                 {
-                    if (!token.Name.Is(TagNames.Frameset))
-                        break;
-
-                    if (CurrentNode != _openElements[0])
+                    if (token.Name.Is(TagNames.Frameset))
                     {
-                        CloseCurrentNode();
+                        if (CurrentNode != _openElements[0])
+                        {
+                            CloseCurrentNode();
 
-                        if (!IsFragmentCase && !CurrentNode.LocalName.Is(TagNames.Frameset))
-                            _currentMode = HtmlTreeMode.AfterFrameset;
+                            if (!IsFragmentCase && !CurrentNode.LocalName.Is(TagNames.Frameset))
+                            {
+                                _currentMode = HtmlTreeMode.AfterFrameset;
+                            }
+                        }
+                        else
+                        {
+                            RaiseErrorOccurred(HtmlParseError.CurrentNodeIsRoot, token);
+                        }
+
+                        return;
                     }
-                    else
-                        RaiseErrorOccurred(HtmlParseError.CurrentNodeIsRoot, token);
 
-                    return;
+                    break;
                 }
                 case HtmlTokenType.EndOfFile:
                 {
                     if (CurrentNode != _document.DocumentElement)
+                    {
                         RaiseErrorOccurred(HtmlParseError.CurrentNodeIsNotRoot, token);
+                    }
 
                     End();
                     return;
@@ -2344,7 +2481,9 @@
                     AddCharacters(str);
 
                     if (token.IsEmpty)
+                    {
                         return;
+                    }
 
                     break;
                 }
@@ -2363,18 +2502,26 @@
                     var tagName = token.Name;
 
                     if (tagName.Is(TagNames.Html))
+                    {
                         InBody(token);
+                    }
                     else if (tagName.Is(TagNames.NoFrames))
+                    {
                         InHead(token);
+                    }
                     else
+                    {
                         break;
+                    }
 
                     return;
                 }
                 case HtmlTokenType.EndTag:
                 {
                     if (!token.Name.Is(TagNames.Html))
+                    {
                         break;
+                    }
 
                     _currentMode = HtmlTreeMode.AfterAfterFrameset;
                     return;
@@ -2404,7 +2551,9 @@
                     AddCharacters(str);
 
                     if (token.IsEmpty)
+                    {
                         return;
+                    }
 
                     break;
                 }
@@ -2426,7 +2575,9 @@
                 case HtmlTokenType.StartTag:
                 {
                     if (!token.Name.Is(TagNames.Html))
+                    {
                         break;
+                    }
 
                     InBody(token);
                     return;
@@ -2457,10 +2608,13 @@
                     ReconstructFormatting();
                     AddCharacters(str);
 
-                    if (token.IsEmpty)
-                        return;
+                    if (!token.IsEmpty)
+                    {
+                        break;
+                    }
 
-                    break;
+                    return;
+
                 }
                 case HtmlTokenType.Doctype:
                 {
@@ -2472,11 +2626,17 @@
                     var tagName = token.Name;
 
                     if (tagName.Is(TagNames.Html))
+                    {
                         InBody(token);
+                    }
                     else if (tagName.Is(TagNames.NoFrames))
+                    {
                         InHead(token);
+                    }
                     else
+                    {
                         break;
+                    }
 
                     return;
                 }
@@ -2543,7 +2703,9 @@
                 InTable(tag);
             }
             else
+            {
                 RaiseErrorOccurred(HtmlParseError.TableSectionNotInScope, tag);
+            }
         }
 
         /// <summary>
@@ -2553,9 +2715,13 @@
         void InSelectEndTagOption(HtmlToken token)
         {
             if (CurrentNode.LocalName.Is(TagNames.Option))
+            {
                 CloseCurrentNode();
+            }
             else
+            {
                 RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, token);
+            }
         }
 
         /// <summary>
@@ -2564,15 +2730,21 @@
         /// <param name="token">The actual tag token.</param>
         void InSelectEndTagOptgroup(HtmlToken token)
         {
-            if (_openElements.Count > 1 && 
-                _openElements[_openElements.Count - 1].LocalName.Is(TagNames.Option) && 
+            if (_openElements.Count > 1 &&
+                _openElements[_openElements.Count - 1].LocalName.Is(TagNames.Option) &&
                 _openElements[_openElements.Count - 2].LocalName.Is(TagNames.Optgroup))
+            {
                 CloseCurrentNode();
+            }
 
             if (CurrentNode.LocalName.Is(TagNames.Optgroup))
+            {
                 CloseCurrentNode();
+            }
             else
+            {
                 RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, token);
+            }
         }
 
         /// <summary>
@@ -2649,13 +2821,17 @@
                 }
 
                 if (node.Flags.HasFlag(NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
+                {
                     break;
+                }
                 
                 node = _openElements[--index];
             }
 
             if (IsInButtonScope())
+            {
                 InBodyEndTagParagraph(tag);
+            }
 
             AddElement(tag);
         }
@@ -2679,13 +2855,17 @@
                 }
 
                 if (node.Flags.HasFlag(NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
+                {
                     break;
+                }
 
                 node = _openElements[--index];
             }
 
             if (IsInButtonScope())
+            {
                 InBodyEndTagParagraph(tag);
+            }
 
             AddElement(tag);
         }
@@ -2702,7 +2882,9 @@
                 GenerateImpliedEndTags();
 
                 if (!CurrentNode.LocalName.Is(tag.Name))
+                {
                     RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, tag);
+                }
 
                 ClearStackBackTo(tag.Name);
                 CloseCurrentNode();
@@ -2735,11 +2917,8 @@
                 index = 0;
                 inner = 0;
 
-                for (var j = _formattingElements.Count - 1; j >= 0; j--)
+                for (var j = _formattingElements.Count - 1; j >= 0 && _formattingElements[j] != null; j--)
                 {
-                    if (_formattingElements[j] == null)
-                        break;
-                    
                     if (_formattingElements[j].LocalName.Is(tag.Name))
                     {
                         index = j;
@@ -2807,14 +2986,18 @@
                     node = _openElements[--index];
 
                     if (node == formattingElement)
+                    {
                         break;
+                    }
 
                     if (inner > 3 && _formattingElements.Contains(node))
+                    {
                         _formattingElements.Remove(node);
+                    }
 
                     if (!_formattingElements.Contains(node))
                     {
-                        _openElements.Remove(node);
+                        CloseNode(node);
                         continue;
                     }
 
@@ -2834,22 +3017,32 @@
                     node = newElement;
 
                     if (lastNode == furthestBlock)
+                    {
                         bookmark++;
+                    }
 
                     if (lastNode.Parent != null)
+                    {
                         lastNode.Parent.RemoveChild(lastNode);
+                    }
 
                     node.AddNode(lastNode);
                     lastNode = node;
                 }
 
                 if (lastNode.Parent != null)
+                {
                     lastNode.Parent.RemoveChild(lastNode);
+                }
 
                 if (!TagNames.AllTableMajor.Contains(commonAncestor.LocalName))
+                {
                     commonAncestor.AddNode(lastNode);
+                }
                 else
+                {
                     AddElementWithFoster(lastNode);
+                }
 
                 var element = CopyElement(formattingElement);
 
@@ -2863,7 +3056,7 @@
                 furthestBlock.AddNode(element);
                 _formattingElements.Remove(formattingElement);
                 _formattingElements.Insert(bookmark, element);
-                _openElements.Remove(formattingElement);
+                CloseNode(formattingElement);
                 _openElements.Insert(_openElements.IndexOf(furthestBlock) + 1, element);
             }
         }
@@ -2905,11 +3098,11 @@
                     GenerateImpliedEndTagsExceptFor(tag.Name);
 
                     if (!node.LocalName.Is(tag.Name))
+                    {
                         RaiseErrorOccurred(HtmlParseError.TagClosedWrong, tag);
+                    }
 
-                    for (int i = _openElements.Count - 1; index <= i; i--)
-                        CloseCurrentNode();
-
+                    CloseNodesFrom(index);
                     break;
                 }
                 else if (node.Flags.HasFlag(NodeFlags.Special))
@@ -2966,7 +3159,9 @@
                 GenerateImpliedEndTagsExceptFor(TagNames.P);
 
                 if (!CurrentNode.LocalName.Is(TagNames.P))
+                {
                     RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, token);
+                }
 
                 ClearStackBackTo(TagNames.P);
                 CloseCurrentNode();
@@ -3046,7 +3241,9 @@
                 GenerateImpliedEndTags();
 
                 if (!CurrentNode.LocalName.Is(TagNames.Caption))
+                {
                     RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, token);
+                }
 
                 ClearStackBackTo(TagNames.Caption);
                 CloseCurrentNode();
@@ -3073,7 +3270,9 @@
                 GenerateImpliedEndTags();
 
                 if (!TagNames.AllTableCells.Contains(CurrentNode.LocalName))
+                {
                     RaiseErrorOccurred(HtmlParseError.TagDoesNotMatchCurrentNode, token);
+                }
 
                 ClearStackBackTo(TagNames.AllTableCells);
                 CloseCurrentNode();
@@ -3103,10 +3302,7 @@
                 case HtmlTokenType.Character:
                 {
                     AddCharacters(token.Data.Replace(Symbols.Null, Symbols.Replacement));
-
-                    if (token.HasContent)
-                        _frameset = false;
-
+                    _frameset = !token.HasContent && _frameset;
                     return;
                 }
                 case HtmlTokenType.StartTag:
@@ -3151,14 +3347,15 @@
                     }
 
                     if (!node.LocalName.Is(tagName))
+                    {
                         RaiseErrorOccurred(HtmlParseError.TagClosingMismatch, token);
+                    }
 
-                    for (int i = _openElements.Count - 1; i > 0; i--)
+                    for (var i = _openElements.Count - 1; i > 0; i--)
                     {
                         if (node.LocalName.Isi(tagName))
                         {
-                            _openElements.RemoveRange(i + 1, _openElements.Count - i - 1);
-                            CloseCurrentNode();
+                            CloseNodesFrom(i);
                             break;
                         }
 
@@ -3196,9 +3393,15 @@
 
             if (node != null)
             {
+                var selfClosing = tag.IsSelfClosing;
                 CurrentNode.AddNode(node);
 
-                if (!tag.IsSelfClosing)
+                if (selfClosing)
+                {
+                    node.SetupElement();
+                }
+
+                if (!selfClosing)
                 {
                     _openElements.Add(node);
                     _tokenizer.IsAcceptingCharacterData = true;
@@ -3239,33 +3442,35 @@
         {
             RaiseErrorOccurred(HtmlParseError.TagCannotStartHere, tag);
 
-            if (IsFragmentCase)
+            if (!IsFragmentCase)
+            {
+                const NodeFlags Annotated = NodeFlags.HtmlTip | NodeFlags.MathTip | NodeFlags.HtmlMember;
+                var node = CurrentNode;
+
+                do
+                {
+                    if (node.LocalName.Is(TagNames.AnnotationXml))
+                    {
+                        var value = node.GetAttribute(null, AttributeNames.Encoding);
+
+                        if (value.Isi(MimeTypeNames.Html) || value.Isi(MimeTypeNames.ApplicationXHtml))
+                        {
+                            AddElement(tag);
+                            return;
+                        }
+                    }
+
+                    CloseCurrentNode();
+                    node = CurrentNode;
+                }
+                while ((node.Flags & Annotated) == NodeFlags.None);
+
+                Consume(tag);
+            }
+            else
             {
                 ForeignSpecialTag(tag);
-                return;
             }
-
-            var node = CurrentNode;
-
-            do
-            {
-                if (node.LocalName.Is(TagNames.AnnotationXml))
-                {
-                    var value = node.GetAttribute(null, AttributeNames.Encoding);
-
-                    if (value.Isi(MimeTypeNames.Html) || value.Isi(MimeTypeNames.ApplicationXHtml))
-                    {
-                        AddElement(tag);
-                        return;
-                    }
-                }
-
-                CloseCurrentNode();
-                node = CurrentNode;
-            }
-            while ((node.Flags & (NodeFlags.HtmlTip | NodeFlags.MathTip | NodeFlags.HtmlMember)) == NodeFlags.None);
-
-            Consume(tag);
         }
 
         #endregion
@@ -3439,7 +3644,7 @@
         async Task RunScript(HtmlScriptElement script)
         {
             await _document.WaitForReady().ConfigureAwait(false);
-            script.Run();
+            await script.RunAsync(CancellationToken.None).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -3468,7 +3673,7 @@
         /// <returns>True if such a tag is open, otherwise false.</returns>
         Boolean TagCurrentlyOpen(String tagName)
         {
-            for (int i = 0; i < _openElements.Count; i++)
+            for (var i = 0; i < _openElements.Count; i++)
             {
                 if (_openElements[i].LocalName.Is(tagName))
                 {
@@ -3504,7 +3709,7 @@
                 CloseCurrentNode();
             }
 
-            if (_document.ReadyState == DocumentReadyState.Loading)
+            if (_document.IsLoading)
             {
                 _waiting = _document.FinishLoading();
             }
@@ -3528,6 +3733,23 @@
             _document.ApplyManifest();
         }
 
+        void CloseNode(Element element)
+        {
+            element.SetupElement();
+            _openElements.Remove(element);
+        }
+
+        void CloseNodesFrom(Int32 index)
+        {
+            for (var i = _openElements.Count - 1; i > index; i--)
+            {
+                _openElements[i].SetupElement();
+                _openElements.RemoveAt(i);
+            }
+
+            CloseCurrentNode();
+        }
+
         /// <summary>
         /// Pops the last node from the stack of open nodes.
         /// </summary>
@@ -3535,7 +3757,9 @@
         {
             if (_openElements.Count > 0)
             {
-                _openElements.RemoveAt(_openElements.Count - 1);
+                var index = _openElements.Count - 1;
+                _openElements[index].SetupElement();
+                _openElements.RemoveAt(index);
                 var node = AdjustedCurrentNode;
                 _tokenizer.IsAcceptingCharacterData = node != null && !node.Flags.HasFlag(NodeFlags.HtmlMember);
             }
@@ -3636,7 +3860,7 @@
 
             if (table && _openElements[index].Parent != null)
             {
-                for (int i = 0; i < foster.ChildNodes.Length; i++)
+                for (var i = 0; i < foster.ChildNodes.Length; i++)
 			    {
                     if (foster.ChildNodes[i] == _openElements[index])
                     {
@@ -3699,7 +3923,7 @@
 
             if (table && _openElements[index].Parent != null)
             {
-                for (int i = 0; i < foster.ChildNodes.Length; i++)
+                for (var i = 0; i < foster.ChildNodes.Length; i++)
                 {
                     if (foster.ChildNodes[i] == _openElements[index])
                     {
@@ -3740,8 +3964,7 @@
         {
             var node = CurrentNode;
 
-            while (tags.Contains(node.LocalName) == false &&
-                   node.LocalName.IsOneOf(TagNames.Html, TagNames.Template) == false)
+            while (!tags.Contains(node.LocalName) && !node.LocalName.IsOneOf(TagNames.Html, TagNames.Template))
             {
                 CloseCurrentNode();
                 node = CurrentNode;
@@ -3770,7 +3993,9 @@
         void GenerateImpliedEndTags()
         {
             while (CurrentNode.Flags.HasFlag(NodeFlags.ImpliedEnd))
+            {
                 CloseCurrentNode();
+            }
         }
 
         #endregion

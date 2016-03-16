@@ -5,12 +5,21 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// Represents a download in progress.
+    /// </summary>
     sealed class Download : IDownload
     {
+        #region Fields
+
         readonly CancellationTokenSource _cts;
         readonly Task<IResponse> _task;
         readonly Url _target;
         readonly INode _originator;
+
+        #endregion
+
+        #region ctor
 
         public Download(Task<IResponse> task, CancellationTokenSource cts, Url target, INode originator)
         {
@@ -19,6 +28,10 @@
             _target = target;
             _originator = originator;
         }
+
+        #endregion
+
+        #region Properties
 
         public INode Originator
         {
@@ -45,9 +58,15 @@
             get { return _task.Status == TaskStatus.Faulted || _task.Status == TaskStatus.RanToCompletion || _task.Status == TaskStatus.Canceled; }
         }
 
+        #endregion
+
+        #region Methods
+
         public void Cancel()
         {
             _cts.Cancel();
         }
+
+        #endregion
     }
 }

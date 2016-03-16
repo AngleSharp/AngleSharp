@@ -282,7 +282,9 @@
                 while (c.IsXmlName());
 
                 while (c.IsSpaceCharacter())
+                {
                     c = GetNext();
+                }
 
                 if (c == Symbols.GreaterThan)
                 {
@@ -291,9 +293,11 @@
                     return tag;
                 }
             }
-            
+
             if (c == Symbols.EndOfFile)
+            {
                 throw XmlParseError.EOF.At(GetCurrentPosition());
+            }
 
             throw XmlParseError.XmlInvalidEndTag.At(GetCurrentPosition());
         }

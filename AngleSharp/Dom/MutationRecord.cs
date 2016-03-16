@@ -1,7 +1,11 @@
 ﻿namespace AngleSharp.Dom
 {
+    using AngleSharp.Extensions;
     using System;
 
+    /// <summary>
+    /// Represents a recording of DOM changes.
+    /// </summary>
     sealed class MutationRecord : IMutationRecord
     {
         #region Fields
@@ -77,17 +81,17 @@
 
         public Boolean IsAttribute
         {
-            get { return Type == AttributesType; }
+            get { return Type.Is(AttributesType); }
         }
 
         public Boolean IsCharacterData
         {
-            get { return Type == CharacterDataType; }
+            get { return Type.Is(CharacterDataType); }
         }
 
         public Boolean IsChildList
         {
-            get { return Type == ChildListType; }
+            get { return Type.Is(ChildListType); }
         }
 
         public String Type

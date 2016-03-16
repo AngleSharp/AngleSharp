@@ -20,6 +20,20 @@
     static class StringExtensions
     {
         /// <summary>
+        /// Checks if the given string has a certain character at a specific
+        /// index. The index is optional (default is 0).
+        /// </summary>
+        /// <param name="value">The value to examine.</param>
+        /// <param name="chr">The character to look for.</param>
+        /// <param name="index">The index of the character.</param>
+        /// <returns>True if the value has the char, otherwise false.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Boolean Has(this String value, Char chr, Int32 index = 0)
+        {
+            return value != null && value.Length > index && value[index] == chr;
+        }
+
+        /// <summary>
         /// Retrieves a string describing the compatibility mode of the given quirksmode.
         /// </summary>
         /// <param name="mode">A specific quriks mode.</param>
@@ -652,13 +666,25 @@
         }
 
         /// <summary>
+        /// Creates a CSS function from the string with the given argument.
+        /// </summary>
+        /// <param name="value">The CSS function name.</param>
+        /// <param name="argument">The CSS function argument.</param>
+        /// <returns>The CSS function string.</returns>
+        public static String CssFunction(this String value, String argument)
+        {
+            return String.Concat(value, "(", argument, ")");
+        }
+
+        /// <summary>
         /// Serializes the string to a CSS url.
         /// </summary>
         /// <param name="value">The value to serialize.</param>
         /// <returns>The CSS url representation.</returns>
         public static String CssUrl(this String value)
         {
-            return String.Concat(FunctionNames.Url, "(", value.CssString(), ")");
+            var argument = value.CssString();
+            return FunctionNames.Url.CssFunction(argument);
         }
 
         /// <summary>
@@ -780,6 +806,51 @@
             }
 
             return ms.ToArray();
+        }
+
+        /// <summary>
+        /// Replaces every occurrence of a "CR" (U+000D) character not followed
+        /// by a "LF" (U+000A) character, and every occurrence of a "LF"
+        /// (U+000A) character not preceded by a "CR" (U+000D) character, by a
+        /// two-character string consisting of a U+000D CARRIAGE RETURN "CRLF"
+        /// (U+000A) character pair.
+        /// </summary>
+        /// <param name="value">The value to normalize.</param>
+        /// <returns>The normalized string.</returns>
+        public static String NormalizeLineEndings(this String value)
+        {
+            if (!String.IsNullOrEmpty(value))
+            {
+                var builder = Pool.NewStringBuilder();
+                var isCR = false;
+
+                for (var i = 0; i < value.Length; i++)
+                {
+                    var current = value[i];
+                    var isLF = current == Symbols.LineFeed;
+
+                    if (isCR && !isLF)
+                    {
+                        builder.Append(Symbols.LineFeed);
+                    }
+                    else if (!isCR && isLF)
+                    {
+                        builder.Append(Symbols.CarriageReturn);
+                    }
+
+                    isCR = current == Symbols.CarriageReturn;
+                    builder.Append(current);
+                }
+
+                if (isCR)
+                {
+                    builder.Append(Symbols.LineFeed);
+                }
+
+                return builder.ToPool();
+            }
+
+            return value;
         }
     }
 }

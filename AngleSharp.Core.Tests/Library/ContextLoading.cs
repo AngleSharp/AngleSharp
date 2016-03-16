@@ -4,7 +4,6 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Events;
     using AngleSharp.Extensions;
-    using AngleSharp.Network;
     using AngleSharp.Services.Media;
     using NUnit.Framework;
     using System;
@@ -252,6 +251,9 @@
         [Test]
         public async Task LoadContextFromStreamChunked()
         {
+            // Warning: This test might fail under certain conditions, e.g.,
+            // * client uses a proxy or
+            // * client is connected to VPN (at least with the VPN client of Windows 10).
             if (Helper.IsNetworkAvailable())
             {
                 var address = "http://anglesharp.azurewebsites.net/Chunked";
@@ -270,24 +272,105 @@
         public async Task ProxyShouldBeAvailableDuringLoading()
         {
             var windowIsNotNull = false;
-            var scripting = new CallbackScriptEngine(options => windowIsNotNull = options.Context.Proxy != null);
+            var scripting = new CallbackScriptEngine(options =>
+            {
+                windowIsNotNull = options.Context.Proxy != null;
+            });
             var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
             var source = "<title>Some title</title><body><script type='c-sharp' src='foo.cs'></script>";
-            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+            var document = await BrowsingContext.New(config).OpenAsync(m => 
+                m.Content(source).Address("http://www.example.com"));
             Assert.IsTrue(windowIsNotNull);
         }
 
         [Test]
-        public async Task LoadTaobaoWithAllSubresources()
+        public async Task LoadTestPageWithAllSubresources()
         {
             if (Helper.IsNetworkAvailable())
             {
-                var address = "https://meadjohnson.world.tmall.com/search.htm?search=y&orderType=defaultSort&scene=taobao_shop";
-                var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
+                //Formerly used the following url:
+                //https://meadjohnson.world.tmall.com/search.htm?search=y&orderType=defaultSort&scene=taobao_shop
+                //However: The connection to taobao is usually very bad and the
+                //page takes ~10-30s (or longer!) to load. Replaced with another
+                //solution taken directly from the AngleSharp infrastructure.
+                var address = "http://anglesharp.azurewebsites.net/Page";
+                var config = Configuration.Default.WithDefaultLoader(setup => 
+                    setup.IsResourceLoadingEnabled = true);
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
                 Assert.IsNotNull(document);
             }
+        }
+
+        [Test]
+        public async Task GetDownloadsOfEmptyDocumentShouldBeZero()
+        {
+            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
+            var document = await BrowsingContext.New(config).OpenNewAsync();
+            var downloads = document.GetDownloads().ToArray();
+
+            Assert.AreEqual(0, downloads.Length);
+        }
+
+        [Test]
+        public async Task GetDownloadsOfExampleDocumentWithoutCssAndJsShouldYieldPartialResources()
+        {
+            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
+            var content = @"<link rel=stylesheet type=text/css href=bootstraph.css>
+<link rel=stylesheet type=text/css href=fontawesome.css>
+<link rel=stylesheet type=text/css href=style.css>
+<body>
+    <img src=foo.png>
+    <iframe src=foo.html></iframe>
+    <script>alert('Hello World!');</script>
+    <script src=test.js></script>
+</body>";
+            var document = await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
+            var downloads = document.GetDownloads().ToArray();
+
+            Assert.AreEqual(2, downloads.Length);
+
+            foreach (var download in downloads)
+            {
+                Assert.IsTrue(download.IsCompleted);
+                Assert.IsNotNull(download.Originator);
+            }
+
+            Assert.AreEqual(document.QuerySelector("img"), downloads[0].Originator);
+            Assert.AreEqual(document.QuerySelector("iframe"), downloads[1].Originator);
+        }
+
+        [Test]
+        public async Task GetDownloadsOfExampleDocumentWithCssAndJsShouldYieldAllResources()
+        {
+            var scripting = new CallbackScriptEngine(_ => { }, AngleSharp.Network.MimeTypeNames.DefaultJavaScript);
+            var config = Configuration.Default.WithCss().WithScripts(scripting).WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
+            var content = @"<link rel=stylesheet type=text/css href=bootstraph.css>
+<link rel=stylesheet type=text/css href=fontawesome.css>
+<link rel=stylesheet type=text/css href=style.css>
+<body>
+    <img src=foo.png>
+    <iframe src=foo.html></iframe>
+    <script>alert('Hello World!');</script>
+    <script src=test.js></script>
+</body>";
+            var document = await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
+            var downloads = document.GetDownloads().ToArray();
+
+            Assert.AreEqual(6, downloads.Length);
+
+            foreach (var download in downloads)
+            {
+                Assert.IsTrue(download.IsCompleted);
+                Assert.IsNotNull(download.Originator);
+            }
+
+            Assert.AreEqual(document.QuerySelectorAll("link").Skip(0).First(), downloads[0].Originator);
+            Assert.AreEqual(document.QuerySelectorAll("link").Skip(1).First(), downloads[1].Originator);
+            Assert.AreEqual(document.QuerySelectorAll("link").Skip(2).First(), downloads[2].Originator);
+            Assert.AreEqual(document.QuerySelector("img"), downloads[3].Originator);
+            Assert.AreEqual(document.QuerySelector("iframe"), downloads[4].Originator);
+            Assert.AreEqual(document.QuerySelectorAll("script").Skip(1).First(), downloads[5].Originator);
         }
     }
 }

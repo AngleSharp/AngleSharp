@@ -6,6 +6,7 @@
     using AngleSharp.Parser.Css;
     using AngleSharp.Services.Styling;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -79,28 +80,7 @@
         }
 
         /// <summary>
-        /// Creates a style sheet for the given source.
-        /// </summary>
-        /// <param name="sourceCode">
-        /// The source code describing the style sheet.
-        /// </param>
-        /// <param name="options">
-        /// The options with the parameters for evaluating the style.
-        /// </param>
-        /// <returns>The created style sheet.</returns>
-        public IStyleSheet ParseStylesheet(String sourceCode, StyleOptions options)
-        {
-            var parser = new CssParser(_options, options.Configuration);
-            var sheet = new CssStyleSheet(parser, default(String), options.Element)
-            {
-                IsDisabled = options.IsDisabled
-            };
-            var source = new TextSource(sourceCode);
-            return Parse(parser, sheet, source).Result;
-        }
-
-        /// <summary>
-        /// Creates a style sheet for the given response from a request.
+        /// Creates a style sheet for the given response asynchronously.
         /// </summary>
         /// <param name="response">
         /// The response with the stream representing the source of the
@@ -109,16 +89,18 @@
         /// <param name="options">
         /// The options with the parameters for evaluating the style.
         /// </param>
-        /// <returns>The created style sheet.</returns>
-        public IStyleSheet ParseStylesheet(IResponse response, StyleOptions options)
+        /// <param name="cancel">The cancellation token.</param>
+        /// <returns>The task resulting in the style sheet.</returns>
+        public async Task<IStyleSheet> ParseStylesheetAsync(IResponse response, StyleOptions options, CancellationToken cancel)
         {
             var parser = new CssParser(_options, options.Configuration);
-            var sheet = new CssStyleSheet(parser, response.Address.Href, options.Element) 
+            var url = response.Address != null ? response.Address.Href : null;
+            var sheet = new CssStyleSheet(parser, url, options.Element) 
             { 
                 IsDisabled = options.IsDisabled
             };
             var source = new TextSource(response.Content);
-            return Parse(parser, sheet, source).Result;
+            return await Parse(parser, sheet, source).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -131,7 +113,7 @@
         /// The options with the parameters for evaluating the style.
         /// </param>
         /// <returns>The created style declaration.</returns>
-        public ICssStyleDeclaration ParseInline(String source, StyleOptions options)
+        public ICssStyleDeclaration ParseDeclaration(String source, StyleOptions options)
         {
             var parser = new CssParser(_options, options.Configuration);
             var style = new CssStyleDeclaration(parser);

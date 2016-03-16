@@ -13,10 +13,16 @@
     /// </summary>
     public abstract class BaseLoader : ILoader
     {
+        #region Fields
+
         readonly IEnumerable<IRequester> _requesters;
         readonly IConfiguration _configuration;
         readonly Predicate<IRequest> _filter;
         readonly List<IDownload> _downloads;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
         /// Creates a new document loader.
@@ -31,6 +37,10 @@
             _filter = filter ?? (_ => true);
             _downloads = new List<IDownload>();
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Adds the download to the active downloads.
@@ -130,5 +140,7 @@
 
             return default(IResponse);
         }
+
+        #endregion
     }
 }

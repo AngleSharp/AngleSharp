@@ -62,8 +62,10 @@
                 var min = ToNumber(Input.Minimum);
                 var max = ToNumber(Input.Maximum);
 
-                if ((min.HasValue == false || min.Value <= res) && (max.HasValue == false || max.Value >= res))
+                if ((!min.HasValue || min.Value <= res) && (!max.HasValue || max.Value >= res))
+                {
                     Input.ValueAsNumber = res;
+                }
             }
         }
 

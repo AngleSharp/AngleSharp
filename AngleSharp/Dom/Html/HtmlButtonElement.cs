@@ -121,14 +121,18 @@
         {
             var form = Form;
 
-            if (IsClickedCancelled() == false && form != null)
+            if (!IsClickedCancelled() && form != null)
             {
                 var type = Type;
 
                 if (type.Is(InputTypeNames.Submit))
+                {
                     form.Submit(this);
+                }
                 else if (type.Is(InputTypeNames.Reset))
+                {
                     form.Reset();
+                }
             }
         }
 
@@ -138,20 +142,17 @@
 
         protected override Boolean CanBeValidated()
         {
-            return Type == InputTypeNames.Submit && this.HasDataListAncestor() == false;
+            return Type.Is(InputTypeNames.Submit) && !this.HasDataListAncestor();
         }
 
-        /// <summary>
-        /// Constucts the data set (called from a form).
-        /// </summary>
-        /// <param name="dataSet">The dataset to construct.</param>
-        /// <param name="submitter">The given submitter.</param>
         internal override void ConstructDataSet(FormDataSet dataSet, IHtmlElement submitter)
         {
             var type = Type;
 
             if (Object.ReferenceEquals(this, submitter) && type.IsOneOf(InputTypeNames.Submit, InputTypeNames.Reset))
+            {
                 dataSet.Append(Name, Value, type);
+            }
         }
 
         #endregion

@@ -15,12 +15,6 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new CSS comment token.
-        /// </summary>
-        /// <param name="data">The string data.</param>
-        /// <param name="bad">If the string was bad (optional).</param>
-        /// <param name="position">The token's position.</param>
         public CssCommentToken(String data, Boolean bad, TextPosition position)
             : base(CssTokenType.Comment, data, position)
         {
@@ -31,9 +25,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets if the data is bad.
-        /// </summary>
         public Boolean IsBad
         {
             get { return _bad; }

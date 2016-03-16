@@ -17,13 +17,6 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new CSS URL token.
-        /// </summary>
-        /// <param name="functionName">The called function name.</param>
-        /// <param name="data">The string data.</param>
-        /// <param name="bad">If the string was bad (optional).</param>
-        /// <param name="position">The token's position.</param>
         public CssUrlToken(String functionName, String data, Boolean bad, TextPosition position)
             : base(CssTokenType.Url, data, position)
         {
@@ -35,17 +28,11 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets if the data is bad.
-        /// </summary>
         public Boolean IsBad
         {
             get { return _bad; }
         }
 
-        /// <summary>
-        /// Gets the name of the used function.
-        /// </summary>
         public String FunctionName
         {
             get { return _functionName; }
@@ -57,7 +44,8 @@
 
         public override String ToValue()
         {
-            return String.Concat(_functionName, "(", Data.CssString(), ")");
+            var url = Data.CssString();
+            return _functionName.CssFunction(url);
         }
 
         #endregion

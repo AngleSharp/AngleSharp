@@ -33,9 +33,13 @@
             var available = (Single)device.ViewPortWidth / (Single)device.ViewPortHeight;
 
             if (IsMaximum)
+            {
                 return available <= desired;
+            }
             else if (IsMinimum)
+            {
                 return available >= desired;
+            }
             
             return desired == available;
         }

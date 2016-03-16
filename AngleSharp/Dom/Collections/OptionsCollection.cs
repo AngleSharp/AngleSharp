@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Collections
 {
     using AngleSharp.Dom.Html;
+    using AngleSharp.Extensions;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -39,16 +40,20 @@
         {
             get 
             {
-                if (String.IsNullOrEmpty(name))
-                    return null;
-
-                foreach (var option in _options)
+                if (!String.IsNullOrEmpty(name))
                 {
-                    if (option.Id == name)
-                        return option;
+                    foreach (var option in _options)
+                    {
+                        if (option.Id.Is(name))
+                        {
+                            return option;
+                        }
+                    }
+
+                    return _parent.Children[name] as IHtmlOptionElement;
                 }
 
-                return _parent.Children[name] as IHtmlOptionElement;
+                return null;
             }
         }
 
@@ -65,7 +70,9 @@
                 foreach (var option in _options)
                 {
                     if (option.IsSelected)
+                    {
                         return index;
+                    }
 
                     index++;
                 }
@@ -77,7 +84,9 @@
                 var index = 0;
 
                 foreach (var option in _options)
+                {
                     option.IsSelected = index++ == value;
+                }
             }
         }
 
@@ -92,7 +101,7 @@
 
         public IHtmlOptionElement GetOptionAt(Int32 index)
         {
-            return index >= 0 ? _options.Skip(index).FirstOrDefault() : null;
+            return _options.GetItemByIndex(index);
         }
 
         public void SetOptionAt(Int32 index, IHtmlOptionElement value)
@@ -100,9 +109,13 @@
             var child = GetOptionAt(index);
 
             if (child != null)
+            {
                 _parent.ReplaceChild(value, child);
+            }
             else
+            {
                 _parent.AppendChild(value);
+            }
         }
 
         public void Add(IHtmlOptionElement element, IHtmlElement before = null)
@@ -117,10 +130,11 @@
 
         public void Remove(Int32 index)
         {
-            var child = GetOptionAt(index);
-
-            if (child != null)
+            if (index >= 0 && index < Length)
+            {
+                var child = GetOptionAt(index);
                 _parent.RemoveChild(child);
+            }
         }
 
         #endregion
@@ -140,11 +154,15 @@
                         var option = element as IHtmlOptionElement;
 
                         if (option != null)
+                        {
                             yield return option;
+                        }
                     }
                 }
                 else if (child is IHtmlOptionElement)
+                {
                     yield return (IHtmlOptionElement)child;
+                }
             }
         }
 

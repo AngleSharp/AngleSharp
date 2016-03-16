@@ -7,10 +7,28 @@
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
 
+    /// <summary>
+    /// Represents a useful helper for dealing with source sets.
+    /// </summary>
     sealed class SourceSet
     {
         static readonly String FullWidth = "100vw";
-        static readonly Regex SizeParser = new Regex(@"(\([^)]+\))?\s*(.+)", RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
+        static readonly Regex SizeParser = CreateRegex();
+
+        static Regex CreateRegex()
+        {
+            var regexString = @"(\([^)]+\))?\s*(.+)";
+
+            try
+            {
+                return new Regex(regexString, RegexOptions.ECMAScript | RegexOptions.CultureInvariant);
+            }
+            catch
+            {
+                // See issue #256
+                return new Regex(regexString, RegexOptions.ECMAScript);
+            }
+        }
 
         readonly IDocument _document;
 
@@ -28,32 +46,32 @@
                 var url = sources[i];
                 var descriptor = default(String);
 
-                if (url.Length == 0)
-                    continue;
-
-                if (url[url.Length - 1] == Symbols.Comma)
+                if (url.Length != 0)
                 {
-                    url = url.Remove(url.Length - 1);
-                    descriptor = String.Empty;
-                }
-                else if (++i < sources.Length)
-                {
-                    descriptor = sources[i];
-                    var descpos = descriptor.IndexOf(Symbols.Comma);
-
-                    if (descpos != -1)
+                    if (url[url.Length - 1] == Symbols.Comma)
                     {
-                        sources[i] = descriptor.Substring(descpos + 1);
-                        descriptor = descriptor.Substring(0, descpos);
-                        --i;
+                        url = url.Remove(url.Length - 1);
+                        descriptor = String.Empty;
                     }
-                }
+                    else if (++i < sources.Length)
+                    {
+                        descriptor = sources[i];
+                        var descpos = descriptor.IndexOf(Symbols.Comma);
 
-                yield return new ImageCandidate
-                {
-                    Url = url,
-                    Descriptor = descriptor
-                };
+                        if (descpos != -1)
+                        {
+                            sources[i] = descriptor.Substring(descpos + 1);
+                            descriptor = descriptor.Substring(0, descpos);
+                            --i;
+                        }
+                    }
+
+                    yield return new ImageCandidate
+                    {
+                        Url = url,
+                        Descriptor = descriptor
+                    };
+                }
             }
         }
 
@@ -82,9 +100,13 @@
                 var lastchar = curr.Length > 0 ? curr[curr.Length - 1] : Symbols.Null;
 
                 if ((lastchar == 'h' || lastchar == 'w') && curr.Length > 2 && curr[curr.Length] == 'v')
+                {
                     resCandidate = curr.Substring(0, curr.Length - 2).ToInteger(0) / widthInCssPixels;
+                }
                 else if (lastchar == 'x' && curr.Length > 0)
+                {
                     resCandidate = curr.Substring(0, curr.Length - 1).ToDouble(1.0);
+                }
             }
 
             return resCandidate;
@@ -94,10 +116,11 @@
         {
             var value = default(Length);
 
-            if (Length.TryParse(length, out value) == false)
-                return 0.0;
+            if (Length.TryParse(length, out value))
+            {
+                //TODO Compute Value from RenderDevice
+            }
 
-            //TODO Compute Value from RenderDevice
             return 0.0;
         }
 
@@ -112,11 +135,13 @@
                 var length = parsedSize.Length;
                 var media = parsedSize.Media;
 
-                if (String.IsNullOrEmpty(length))
-                    continue;
-
-                if (String.IsNullOrEmpty(media) || _document.DefaultView.MatchMedia(media).IsMatched)
-                    return GetWidthFromLength(length);
+                if (!String.IsNullOrEmpty(length))
+                {
+                    if (String.IsNullOrEmpty(media) || _document.DefaultView.MatchMedia(media).IsMatched)
+                    {
+                        return GetWidthFromLength(length);
+                    }
+                }
             }
 
             return GetWidthFromLength(FullWidth);
@@ -128,7 +153,9 @@
             {
                 //Resolution = ParseDescriptor(candidate.Descriptor, sizes)
                 foreach (var candidate in ParseSourceSet(srcset))
+                {
                     yield return candidate.Url;
+                }
             }
         }
 

@@ -10,75 +10,48 @@
     /// Represents the HTML progress element.
     /// https://html.spec.whatwg.org/multipage/forms.html#the-progress-element
     /// </summary>
-    sealed class HtmlProgressElement : HtmlElement, ILabelabelElement, IHtmlProgressElement
+    sealed class HtmlProgressElement : HtmlElement, IHtmlProgressElement
     {
         #region Fields
 
-        readonly NodeList labels;
+        readonly NodeList _labels;
 
         #endregion
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new HTML progress element.
-        /// </summary>
         public HtmlProgressElement(Document owner, String prefix = null)
             : base(owner, TagNames.Progress, prefix)
         {
-            labels = new NodeList();
+            _labels = new NodeList();
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets if labels are supported.
-        /// </summary>
-        public Boolean SupportsLabels
-        {
-            get { return true; }
-        }
-
-        /// <summary>
-        /// Gets the list of assigned labels.
-        /// </summary>
         public INodeList Labels
         {
-            get { return labels; }
+            get { return _labels; }
         }
 
-        /// <summary>
-        /// Gets if the progress bar is determinate. Otherwise it is considered
-        /// to be an indeterminate progress bar.
-        /// </summary>
         public Boolean IsDeterminate
         {
             get { return !String.IsNullOrEmpty(this.GetOwnAttribute(AttributeNames.Value)); }
         }
 
-        /// <summary>
-        /// Gets or sets the current value.
-        /// </summary>
         public Double Value
         {
             get { return this.GetOwnAttribute(AttributeNames.Value).ToDouble(0.0); }
             set { this.SetOwnAttribute(AttributeNames.Value, value.ToString(NumberFormatInfo.InvariantInfo)); }
         }
 
-        /// <summary>
-        /// Gets or sets the maximum value.
-        /// </summary>
         public Double Maximum
         {
             get { return this.GetOwnAttribute(AttributeNames.Max).ToDouble(1.0); }
             set { this.SetOwnAttribute(AttributeNames.Max, value.ToString(NumberFormatInfo.InvariantInfo)); }
         }
 
-        /// <summary>
-        /// Gets the position.
-        /// </summary>
         public Double Position
         {
             get { return IsDeterminate ? Math.Max(Math.Min(Value / Maximum, 1.0), 0.0) : -1.0; }

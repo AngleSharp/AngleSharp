@@ -225,10 +225,6 @@
 
         #region Helpers
 
-        /// <summary>
-        /// Checks the form control for validity.
-        /// </summary>
-        /// <param name="state">The element's validity state tracker.</param>
         protected override void Check(ValidityState state)
         {
             var value = Value ?? String.Empty;
@@ -242,7 +238,7 @@
 
         protected override Boolean CanBeValidated()
         {
-            return IsReadOnly == false && this.HasDataListAncestor() == false;
+            return !IsReadOnly && !this.HasDataListAncestor();
         }
 
         protected void ConstructDataSet(FormDataSet dataSet, String type)
@@ -251,7 +247,9 @@
             var dirname = this.GetOwnAttribute(AttributeNames.DirName);
 
             if (!String.IsNullOrEmpty(dirname))
+            {
                 dataSet.Append(dirname, Direction.ToString().ToLowerInvariant(), "Direction");
+            }
         }
 
         void SetSelectionRange(Int32 selectionStart, Int32 selectionEnd, SelectionType selectionType)
@@ -259,10 +257,14 @@
             var length = (Value ?? String.Empty).Length;
 
             if (selectionEnd > length)
+            {
                 selectionEnd = length;
+            }
 
             if (selectionEnd < selectionStart)
+            {
                 selectionStart = selectionEnd;
+            }
 
             _start = selectionStart;
             _end = selectionEnd;

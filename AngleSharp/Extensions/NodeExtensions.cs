@@ -23,7 +23,9 @@
         public static INode GetRoot(this INode node)
         {
             if (node.Parent == null)
+            {
                 return node;
+            }
 
             return node.Parent.GetRoot();
         }
@@ -76,7 +78,9 @@
         public static Url HyperReference(this INode node, String url)
         {
             if (url == null)
+            {
                 return null;
+            }
 
             return new Url(node.BaseUrl, url);
         }
@@ -92,9 +96,13 @@
         public static Boolean IsDescendantOf(this INode node, INode parent)
         {
             if (node.Parent == null)
+            {
                 return false;
+            }
             else if (Object.ReferenceEquals(node.Parent, parent))
+            {
                 return true;
+            }
 
             return node.Parent.IsDescendantOf(parent);
         }
@@ -111,7 +119,9 @@
                 yield return child;
 
                 foreach (var subchild in child.GetDescendants())
+                {
                     yield return subchild;
+                }
             }
         }
 
@@ -150,7 +160,9 @@
         public static IEnumerable<INode> GetAncestors(this INode node)
         {
             while ((node = node.Parent) != null)
+            {
                 yield return node;
+            }
         }
 
         /// <summary>
@@ -164,7 +176,9 @@
         public static IEnumerable<INode> GetInclusiveAncestors(this INode node)
         {
             do
+            {
                 yield return node;
+            }
             while ((node = node.Parent) != null);
         }
 
@@ -193,7 +207,9 @@
             while ((node = node.Parent) != null)
             {
                 if (node is T)
+                {
                     return (T)node;
+                }
             }
 
             return default(T);
@@ -281,13 +297,19 @@
             if (skew != 0)
             {
                 while (beforeNodes.Count > afterNodes.Count)
+                {
                     beforeNodes.Dequeue();
+                }
 
                 while (afterNodes.Count > beforeNodes.Count)
+                {
                     afterNodes.Dequeue();
+                }
 
                 if (afterNodes.Peek() == beforeNodes.Peek())
+                {
                     return skew > 0;
+                }
             }
 
             while (beforeNodes.Count > 0)
@@ -296,7 +318,9 @@
                 after = afterNodes.Dequeue();
 
                 if (afterNodes.Peek() == beforeNodes.Peek())
+                {
                     return before.Index() < after.Index();
+                }
             }
 
             return false;
@@ -324,7 +348,9 @@
         public static INode GetAssociatedHost(this INode node)
         {
             if (node is IDocumentFragment && node.Owner != null)
+            {
                 return node.Owner.All.OfType<IHtmlTemplateElement>().FirstOrDefault(m => m.Content == node);
+            }
 
             return null;
         }
@@ -341,15 +367,19 @@
         /// </returns>
         public static Boolean IsHostIncludingInclusiveAncestor(this INode parent, INode node)
         {
-            if (parent.IsInclusiveAncestorOf(node))
-                return true;
-            
-            var host = node.GetRoot().GetAssociatedHost();
-            
-            if (host != null)
-                return parent.IsInclusiveAncestorOf(host);
+            if (!parent.IsInclusiveAncestorOf(node))
+            {
+                var host = node.GetRoot().GetAssociatedHost();
 
-            return false;
+                if (host != null)
+                {
+                    return parent.IsInclusiveAncestorOf(host);
+                }
+
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -361,12 +391,18 @@
         /// <param name="child">The reference node of the insertation.</param>
         public static void EnsurePreInsertionValidity(this INode parent, INode node, INode child)
         {
-            if ((parent is IDocument == false && parent is IDocumentFragment == false && parent is IElement == false) || node.IsHostIncludingInclusiveAncestor(parent))
+            if (parent.IsEndPoint() || node.IsHostIncludingInclusiveAncestor(parent))
+            {
                 throw new DomException(DomError.HierarchyRequest);
+            }
             else if (child != null && child.Parent != parent)
+            {
                 throw new DomException(DomError.NotFound);
+            }
             else if (node is IElement == false && node is ICharacterData == false && node is IDocumentType == false && node is IDocumentFragment == false)
+            {
                 throw new DomException(DomError.HierarchyRequest);
+            }
 
             var document = parent as IDocument;
 
@@ -392,10 +428,14 @@
                 }
 
                 if (forbidden)
+                {
                     throw new DomException(DomError.HierarchyRequest);
+                }
             }
             else if (node is IDocumentType)
+            {
                 throw new DomException(DomError.HierarchyRequest);
+            }
         }
 
         /// <summary>
@@ -411,13 +451,17 @@
             var newNode = node as Node;
 
             if (parentNode == null)
+            {
                 throw new DomException(DomError.NotSupported);
+            }
 
             parent.EnsurePreInsertionValidity(node, child);
             var referenceChild = child as Node;
 
             if (referenceChild == node)
+            {
                 referenceChild = newNode.NextSibling;
+            }
 
             var document = parent.Owner ?? parent as IDocument;
             document.AdoptNode(node);
@@ -436,9 +480,13 @@
             var parentNode = parent as Node;
 
             if (parentNode == null)
+            {
                 throw new DomException(DomError.NotSupported);
+            }
             else if (child == null || child.Parent != parent)
+            {
                 throw new DomException(DomError.NotFound);
+            }
 
             parentNode.RemoveChild(child as Node, false);
             return child;
@@ -465,17 +513,21 @@
         /// </returns>
         public static Boolean IsFollowedByDoctype(this INode child)
         {
-            if (child == null)
-                return false;
-
-            var before = true;
-
-            foreach (var node in child.Parent.ChildNodes)
+            if (child != null)
             {
-                if (before)
-                    before = node != child;
-                else if (node.NodeType == NodeType.DocumentType)
-                    return true;
+                var before = true;
+
+                foreach (var node in child.Parent.ChildNodes)
+                {
+                    if (before)
+                    {
+                        before = node != child;
+                    }
+                    else if (node.NodeType == NodeType.DocumentType)
+                    {
+                        return true;
+                    }
+                }
             }
 
             return false;
@@ -493,9 +545,13 @@
             foreach (var node in child.Parent.ChildNodes)
             {
                 if (node == child)
+                {
                     break;
+                }
                 else if (node.NodeType == NodeType.Element)
+                {
                     return true;
+                }
             }
 
             return false;
@@ -508,12 +564,14 @@
         /// <returns>The number of element nodes in the parent.</returns>
         public static Int32 GetElementCount(this INode parent)
         {
-            int count = 0;
+            var count = 0;
 
             foreach (var node in parent.ChildNodes)
             {
                 if (node.NodeType == NodeType.Element)
+                {
                     count++;
+                }
             }
 
             return count;
@@ -528,15 +586,17 @@
         public static TNode FindChild<TNode>(this INode parent)
             where TNode : class, INode
         {
-            if (parent == null)
-                return null;
-
-            for (int i = 0; i < parent.ChildNodes.Length; i++)
+            if (parent != null)
             {
-                var child = parent.ChildNodes[i] as TNode;
+                for (var i = 0; i < parent.ChildNodes.Length; i++)
+                {
+                    var child = parent.ChildNodes[i] as TNode;
 
-                if (child != null)
-                    return child;
+                    if (child != null)
+                    {
+                        return child;
+                    }
+                }
             }
 
             return null;
@@ -551,16 +611,18 @@
         public static TNode FindDescendant<TNode>(this INode parent)
             where TNode : class, INode
         {
-            if (parent == null)
-                return null;
-
-            for (int i = 0; i < parent.ChildNodes.Length; i++)
+            if (parent != null)
             {
-                var node = parent.ChildNodes[i];
-                var child = node as TNode ?? node.FindDescendant<TNode>();
+                for (var i = 0; i < parent.ChildNodes.Length; i++)
+                {
+                    var node = parent.ChildNodes[i];
+                    var child = node as TNode ?? node.FindDescendant<TNode>();
 
-                if (child != null)
-                    return child;
+                    if (child != null)
+                    {
+                        return child;
+                    }
+                }
             }
 
             return null;
@@ -574,7 +636,7 @@
         /// <returns>The slot or default slot, if any.</returns>
         public static IElement GetAssignedSlot(this IShadowRoot root, String name)
         {
-            return root.GetDescendants().OfType<IHtmlSlotElement>().FirstOrDefault(m => m.Name == name);
+            return root.GetDescendants().OfType<IHtmlSlotElement>().FirstOrDefault(m => m.Name.Is(name));
         }
     }
 }

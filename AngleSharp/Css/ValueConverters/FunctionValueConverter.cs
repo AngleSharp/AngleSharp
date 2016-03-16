@@ -55,7 +55,7 @@ using AngleSharp.Dom.Css;
 
             public String CssText
             {
-                get { return String.Concat(_name, "(", _arguments.CssText, ")"); }
+                get { return _name.CssFunction(_arguments.CssText); }
             }
 
             public CssValue Original

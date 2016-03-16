@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Html.LinkRels
 {
     using AngleSharp.Dom.Html;
-    using AngleSharp.Network;
+    using AngleSharp.Network.RequestProcessors;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -12,32 +12,32 @@
         #region Fields
 
         readonly HtmlLinkElement _link;
-        IDownload _download;
+        readonly IRequestProcessor _processor;
 
         #endregion
 
         #region ctor
 
-        public BaseLinkRelation(HtmlLinkElement link)
+        public BaseLinkRelation(HtmlLinkElement link, IRequestProcessor processor)
         {
             _link = link;
+            _processor = processor;
         }
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets the link element.
-        /// </summary>
+        public IRequestProcessor Processor
+        {
+            get { return _processor; }
+        }
+
         public HtmlLinkElement Link
         {
             get { return _link; }
         }
 
-        /// <summary>
-        /// Gets the url of the link element's address.
-        /// </summary>
         public Url Url
         {
             get { return new Url(_link.Href); }
@@ -47,29 +47,7 @@
 
         #region Methods
 
-        /// <summary>
-        /// Cancels the outstanding download, if any.
-        /// </summary>
-        public void Cancel()
-        {
-            if (_download != null && !_download.IsCompleted)
-            {
-                _download.Cancel();
-            }
-        }
-
-        /// <summary>
-        /// Loads the content of the relation asynchronously.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="loader">The optional loader to use.</param>
-        /// <returns>The task, which loads the content.</returns>
-        public abstract Task LoadAsync(IConfiguration configuration, IResourceLoader loader);
-
-        protected void SetDownload(IDownload download)
-        {
-            _download = download;
-        }
+        public abstract Task LoadAsync();
 
         #endregion
     }

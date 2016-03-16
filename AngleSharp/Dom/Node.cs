@@ -152,10 +152,6 @@
 
         #region Internal Properties
 
-        /// <summary>
-        /// Gets the node immediately preceding this node's parent's list of
-        /// nodes, null if the specified node is the first in that list.
-        /// </summary>
         internal Node PreviousSibling
         {
             get
@@ -177,10 +173,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets the node immediately following this node's parent's list of
-        /// nodes, or null if the current node is the last node in that list.
-        /// </summary>
         internal Node NextSibling
         {
             get
@@ -202,52 +194,33 @@
             }
         }
 
-        /// <summary>
-        /// Gets the first child node of this node.
-        /// </summary>
         internal Node FirstChild
         {
             get { return _children.Length > 0 ? _children[0] : null; }
         }
 
-        /// <summary>
-        /// Gets the last child node of this node.
-        /// </summary>
         internal Node LastChild
         {
             get { return _children.Length > 0 ? _children[_children.Length - 1] : null; }
         }
 
-        /// <summary>
-        /// Gets the flags of this node.
-        /// </summary>
         internal NodeFlags Flags
         {
             get { return _flags; }
         }
 
-        /// <summary>
-        /// Gets or sets the children of this node.
-        /// </summary>
         internal NodeList ChildNodes
         {
             get { return _children; }
             set { _children = value; }
         }
 
-        /// <summary>
-        /// Gets the parent node of this node, which is either an Element node,
-        /// a Document node, or a DocumentFragment node.
-        /// </summary>
         internal Node Parent
         {
             get { return _parent; }
             set { _parent = value; }
         }
 
-        /// <summary>
-        /// Gets the owner document of the node.
-        /// </summary>
         internal Document Owner
         {
             get
@@ -286,10 +259,6 @@
 
         #region Internal Methods
 
-        /// <summary>
-        /// Appends the given characters to the node.
-        /// </summary>
-        /// <param name="s">The characters to append.</param>
         internal void AppendText(String s)
         {
             var lastChild = LastChild as TextNode;
@@ -304,11 +273,6 @@
             }
         }
 
-        /// <summary>
-        /// Inserts the given character in the node.
-        /// </summary>
-        /// <param name="index">The index where to insert.</param>
-        /// <param name="s">The characters to append.</param>
         internal void InsertText(Int32 index, String s)
         {
             if (index > 0 && index <= _children.Length && _children[index - 1].NodeType == NodeType.Text)
@@ -331,6 +295,11 @@
         #endregion
 
         #region Public Methods
+
+        public virtual String ToHtml(IMarkupFormatter formatter)
+        {
+            return TextContent;
+        }
 
         public INode AppendChild(INode child)
         {
@@ -532,20 +501,19 @@
                 localName = qualifiedName;
             }
 
-            if ((prefix != null && namespaceUri == null) ||
-                (prefix.Is(NamespaceNames.XmlPrefix) && !namespaceUri.Is(NamespaceNames.XmlUri)) ||
-                ((qualifiedName.Is(NamespaceNames.XmlNsPrefix) || prefix.Is(NamespaceNames.XmlNsPrefix)) && !namespaceUri.Is(NamespaceNames.XmlNsUri)) ||
-                (namespaceUri.Is(NamespaceNames.XmlNsUri) && (!qualifiedName.Is(NamespaceNames.XmlNsPrefix) && !prefix.Is(NamespaceNames.XmlNsPrefix))))
+            if (IsNamespaceError(prefix, namespaceUri, qualifiedName))
             {
                 throw new DomException(DomError.Namespace);
             }
         }
 
-        /// <summary>
-        /// Tries to locate the namespace of the given prefix.
-        /// </summary>
-        /// <param name="prefix">The prefix of the namespace.</param>
-        /// <returns>The namespace for the prefix.</returns>
+        protected static Boolean IsNamespaceError(String prefix, String namespaceUri, String qualifiedName)
+        {
+            return (prefix != null && namespaceUri == null) || (prefix.Is(NamespaceNames.XmlPrefix) && !namespaceUri.Is(NamespaceNames.XmlUri)) ||
+                ((qualifiedName.Is(NamespaceNames.XmlNsPrefix) || prefix.Is(NamespaceNames.XmlNsPrefix)) && !namespaceUri.Is(NamespaceNames.XmlNsUri)) ||
+                (namespaceUri.Is(NamespaceNames.XmlNsUri) && (!qualifiedName.Is(NamespaceNames.XmlNsPrefix) && !prefix.Is(NamespaceNames.XmlNsPrefix)));
+        }
+
         protected virtual String LocateNamespace(String prefix)
         {
             if (_parent != null)
@@ -556,13 +524,6 @@
             return null;
         }
 
-        /// <summary>
-        /// Tries to locate the prefix with the namespace.
-        /// </summary>
-        /// <param name="namespaceUri">
-        /// The namespace assigned to the prefix.
-        /// </param>
-        /// <returns>The prefix for the namespace.</returns>
         protected virtual String LocatePrefix(String namespaceUri)
         {
             if (_parent != null)
@@ -573,10 +534,6 @@
             return null;
         }
 
-        /// <summary>
-        /// Adopts the current node for the provided document.
-        /// </summary>
-        /// <param name="document">The new owner of the node.</param>
         internal void ChangeOwner(Document document)
         {
             var oldDocument = Owner;
@@ -608,13 +565,6 @@
             _children.RemoveAt(index);
         }
 
-        /// <summary>
-        /// Replaces all nodes with the given node, if any.
-        /// </summary>
-        /// <param name="node">The node to insert, if any.</param>
-        /// <param name="suppressObservers">
-        /// If mutation observers should be surpressed.
-        /// </param>
         internal void ReplaceAll(Node node, Boolean suppressObservers)
         {
             var document = Owner;
@@ -624,8 +574,10 @@
                 document.AdoptNode(node);
             }
 
-            var removedNodes = new NodeList(_children);
+            var removedNodes = new NodeList();
             var addedNodes = new NodeList();
+
+            removedNodes.AddRange(_children);
             
             if (node != null)
             {
@@ -639,12 +591,12 @@
                 }
             }
 
-            for (int i = 0; i < removedNodes.Length; i++)
+            for (var i = 0; i < removedNodes.Length; i++)
             {
                 RemoveChild(removedNodes[i], true);
             }
 
-            for (int i = 0; i < addedNodes.Length; i++)
+            for (var i = 0; i < addedNodes.Length; i++)
             {
                 InsertBefore(addedNodes[i], null, true);
             }
@@ -658,19 +610,6 @@
             }
         }
 
-        /// <summary>
-        /// Inserts the specified node before a reference element as a child of
-        /// the current node.
-        /// </summary>
-        /// <param name="newElement">The node to insert.</param>
-        /// <param name="referenceElement">
-        /// The node before which newElement is inserted. If referenceElement
-        /// is null, newElement is inserted at the end of the list of child nodes.
-        /// </param>
-        /// <param name="suppressObservers">
-        /// If mutation observers should be surpressed.
-        /// </param>
-        /// <returns>The inserted node.</returns>
         internal INode InsertBefore(Node newElement, Node referenceElement, Boolean suppressObservers)
         {
             var document = Owner;
@@ -729,20 +668,13 @@
                 document.QueueMutation(MutationRecord.ChildList(
                     target: this,
                     addedNodes: addedNodes,
-                    previousSibling: _children[n - 1],
+                    previousSibling: n > 0 ? _children[n - 1] : null,
                     nextSibling: referenceElement));
             }
 
             return newElement;
         }
 
-        /// <summary>
-        /// Removes a child from the collection of children.
-        /// </summary>
-        /// <param name="node">The child to remove.</param>
-        /// <param name="suppressObservers">
-        /// If mutation observers should be surpressed.
-        /// </param>
         internal void RemoveChild(Node node, Boolean suppressObservers)
         {
             var document = Owner;
@@ -773,20 +705,6 @@
             NodeIsRemoved(node, oldPreviousSibling);
         }
 
-        /// <summary>
-        /// Replaces one child node of the specified element with another.
-        /// </summary>
-        /// <param name="node">
-        /// The new node to replace oldChild. If it already exists in the DOM,
-        /// it is first removed.
-        /// </param>
-        /// <param name="child">The existing child to be replaced.</param>
-        /// <param name="suppressObservers">
-        /// If mutation observers should be surpressed.
-        /// </param>
-        /// <returns>
-        /// The replaced node. This is the same node as oldChild.
-        /// </returns>
         internal INode ReplaceChild(Node node, Node child, Boolean suppressObservers)
         {
             if (this.IsEndPoint() || node.IsHostIncludingInclusiveAncestor(this))
@@ -865,28 +783,35 @@
             throw new DomException(DomError.HierarchyRequest);
         }
 
+        /// <summary>
+        /// Run any adopting steps defined for node in other applicable 
+        /// specifications and pass node and oldDocument as parameters.
+        /// </summary>
         internal virtual void NodeIsAdopted(Document oldDocument)
         {
-            //Run any adopting steps defined for node in other applicable
-            //specifications and pass node and oldDocument as parameters.
-        }
-
-        internal virtual void NodeIsInserted(Node newNode)
-        {
-            //Specifications may define insertion steps for all or some nodes.
-        }
-
-        internal virtual void NodeIsRemoved(Node removedNode, Node oldPreviousSibling)
-        {
-            //Specifications may define removing steps for all or some nodes.
         }
 
         /// <summary>
-        /// Copies all (Node) properties of the source to the target.
+        /// Specifications may define insertion steps for all or some nodes.
         /// </summary>
-        /// <param name="source">The source node.</param>
-        /// <param name="target">The target node.</param>
-        /// <param name="deep">Is a deep-copy required?</param>
+        internal virtual void NodeIsInserted(Node newNode)
+        {
+            newNode.OnParentChanged();
+        }
+
+        /// <summary>
+        /// Specifications may define removing steps for all or some nodes.
+        /// </summary>
+        internal virtual void NodeIsRemoved(Node removedNode, Node oldPreviousSibling)
+        {
+            removedNode.OnParentChanged();
+        }
+
+        protected virtual void OnParentChanged()
+        {
+            //TODO
+        }
+
         static protected void CopyProperties(Node source, Node target, Boolean deep)
         {
             target._baseUri = source._baseUri;
@@ -898,11 +823,6 @@
                     target.AddNode((Node)child.Clone(true));
                 }
             }
-        }
-
-        public virtual String ToHtml(IMarkupFormatter formatter)
-        {
-            return TextContent;
         }
 
         #endregion

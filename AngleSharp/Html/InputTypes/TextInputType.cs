@@ -28,7 +28,9 @@
             var dirname = Input.GetAttribute(null, AttributeNames.DirName);
 
             if (!String.IsNullOrEmpty(dirname))
+            {
                 dataSet.Append(dirname, Input.Direction.ToLowerInvariant(), "Direction");
+            }
         }
 
         #endregion

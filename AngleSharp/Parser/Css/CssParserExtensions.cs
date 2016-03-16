@@ -167,5 +167,48 @@
 
             return null;
         }
+
+        /// <summary>
+        /// Creates a rule with the given type for the provided parser.
+        /// </summary>
+        /// <param name="parser">The underlying parser.</param>
+        /// <param name="type">The type of the rule.</param>
+        /// <returns>The created rule or null for invalid types.</returns>
+        public static CssRule CreateRule(this CssParser parser, CssRuleType type)
+        {
+            switch (type)
+            {
+                case CssRuleType.Charset:
+                    return new CssCharsetRule(parser);
+                case CssRuleType.Document:
+                    return new CssDocumentRule(parser);
+                case CssRuleType.FontFace:
+                    return new CssFontFaceRule(parser);
+                case CssRuleType.Import:
+                    return new CssImportRule(parser);
+                case CssRuleType.Keyframe:
+                    return new CssKeyframeRule(parser);
+                case CssRuleType.Keyframes:
+                    return new CssKeyframesRule(parser);
+                case CssRuleType.Media:
+                    return new CssMediaRule(parser);
+                case CssRuleType.Namespace:
+                    return new CssNamespaceRule(parser);
+                case CssRuleType.Page:
+                    return new CssPageRule(parser);
+                case CssRuleType.Style:
+                    return new CssStyleRule(parser);
+                case CssRuleType.Supports:
+                    return new CssSupportsRule(parser);
+                case CssRuleType.Viewport:
+                    return new CssViewportRule(parser);
+                case CssRuleType.Unknown:
+                case CssRuleType.RegionStyle:
+                case CssRuleType.FontFeatureValues:
+                case CssRuleType.CounterStyle:
+                default:
+                    return null;
+            }
+        }
     }
 }

@@ -51,6 +51,20 @@
 
         #endregion
 
+        #region Index
+
+        public String this[Int32 index]
+        {
+            get { return Declarations.GetItemByIndex(index).Name; }
+        }
+
+        public String this[String name]
+        {
+            get { return GetPropertyValue(name); }
+        }
+
+        #endregion
+
         #region General Properties
 
         public IEnumerable<CssProperty> Declarations
@@ -82,16 +96,6 @@
         public ICssRule Parent
         {
             get { return _parent; }
-        }
-
-        public String this[Int32 index]
-        {
-            get { return Declarations.Skip(index).Select(m => m.Name).FirstOrDefault(); }
-        }
-
-        public String this[String name]
-        {
-            get { return GetPropertyValue(name); }
         }
 
         #endregion
@@ -376,6 +380,16 @@
         {
             get { return GetPropertyValue(PropertyNames.Behavior); }
             set { SetProperty(PropertyNames.Behavior, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the position of the object relative to the top of
+        /// the next positioned object in the document hierarchy.
+        /// </summary>
+        String ICssStyleDeclaration.Bottom
+        {
+            get { return GetPropertyValue(PropertyNames.Bottom); }
+            set { SetProperty(PropertyNames.Bottom, value); }
         }
 
         /// <summary>

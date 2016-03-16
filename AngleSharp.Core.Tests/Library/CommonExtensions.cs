@@ -297,5 +297,45 @@
             var result = str.SplitWithTrimming(';');
             Assert.AreEqual(3, result.Length);
         }
+
+        [Test]
+        public void NormalizeLineEndingsEmptyString()
+        {
+            var str = "";
+            var result = str.NormalizeLineEndings();
+            Assert.AreEqual("", result);
+        }
+
+        [Test]
+        public void NormalizeLineEndingsNormalizedSingle()
+        {
+            var str = "\r\n";
+            var result = str.NormalizeLineEndings();
+            Assert.AreEqual("\r\n", result);
+        }
+
+        [Test]
+        public void NormalizeLineEndingsSingleCarriageReturn()
+        {
+            var str = "\r";
+            var result = str.NormalizeLineEndings();
+            Assert.AreEqual("\r\n", result);
+        }
+
+        [Test]
+        public void NormalizeLineEndingsSingleLineFeed()
+        {
+            var str = "\n";
+            var result = str.NormalizeLineEndings();
+            Assert.AreEqual("\r\n", result);
+        }
+
+        [Test]
+        public void NormalizeLineEndingsMixedText()
+        {
+            var str = "\nHi\rHow are you,\nJohn?\r\nYep, that is a\nnice\rtnetennba\r\n";
+            var result = str.NormalizeLineEndings();
+            Assert.AreEqual("\r\nHi\r\nHow are you,\r\nJohn?\r\nYep, that is a\r\nnice\r\ntnetennba\r\n", result);
+        }
     }
 }

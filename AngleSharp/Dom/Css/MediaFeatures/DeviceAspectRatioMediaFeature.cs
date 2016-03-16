@@ -33,9 +33,13 @@
             var available = (Single)device.DeviceWidth / (Single)device.DeviceHeight;
 
             if (IsMaximum)
+            {
                 return available <= desired;
+            }
             else if (IsMinimum)
+            {
                 return available >= desired;
+            }
 
             return desired == available;
         }
