@@ -267,13 +267,17 @@
         {
             var node = AdjustedCurrentNode;
 
-            if (node == null || token.Type == HtmlTokenType.EndOfFile || node.Flags.HasFlag(NodeFlags.HtmlMember) || 
+            if (node == null || token.Type == HtmlTokenType.EndOfFile || node.Flags.HasFlag(NodeFlags.HtmlMember) ||
                 (node.Flags.HasFlag(NodeFlags.HtmlTip) && token.IsHtmlCompatible) ||
-                (node.Flags.HasFlag(NodeFlags.MathTip) && token.IsMathCompatible) || 
+                (node.Flags.HasFlag(NodeFlags.MathTip) && token.IsMathCompatible) ||
                 (node.Flags.HasFlag(NodeFlags.MathMember) && token.IsSvg && node.LocalName.Is(TagNames.AnnotationXml)))
+            {
                 Home(token);
+            }
             else
+            {
                 Foreign(token);
+            }
         }
 
         #endregion
