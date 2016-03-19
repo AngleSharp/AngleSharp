@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
-using AngleSharp.Dom;
-using AngleSharp.Extensions;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom;
+    using NUnit.Framework;
+    using System;
+    using System.Linq;
+
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
     /// tree-construction/tests22.dat,

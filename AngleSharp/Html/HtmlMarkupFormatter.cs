@@ -2,6 +2,7 @@
 {
     using System;
     using AngleSharp.Dom;
+    using AngleSharp.Extensions;
 
     /// <summary>
     /// Represents the standard HTML5 markup formatter.
@@ -61,12 +62,16 @@
             temp.Append(Symbols.LessThan);
 
             if (!String.IsNullOrEmpty(element.Prefix))
+            {
                 temp.Append(element.Prefix).Append(Symbols.Colon);
+            }
 
             temp.Append(element.LocalName);
 
             foreach (var attribute in element.Attributes)
+            {
                 temp.Append(" ").Append(Instance.Attribute(attribute));
+            }
 
             temp.Append(Symbols.GreaterThan);
             return temp.ToPool();
@@ -88,19 +93,29 @@
             var temp = Pool.NewStringBuilder();
 
             if (String.IsNullOrEmpty(namespaceUri))
+            {
                 temp.Append(localName);
-            else if (namespaceUri == NamespaceNames.XmlUri)
+            }
+            else if (namespaceUri.Is(NamespaceNames.XmlUri))
+            {
                 temp.Append(NamespaceNames.XmlPrefix).Append(Symbols.Colon).Append(localName);
-            else if (namespaceUri == NamespaceNames.XLinkUri)
+            }
+            else if (namespaceUri.Is(NamespaceNames.XLinkUri))
+            {
                 temp.Append(NamespaceNames.XLinkPrefix).Append(Symbols.Colon).Append(localName);
-            else if (namespaceUri == NamespaceNames.XmlNsUri)
+            }
+            else if (namespaceUri.Is(NamespaceNames.XmlNsUri))
+            {
                 temp.Append(XmlNamespaceLocalName(localName));
+            }
             else
+            {
                 temp.Append(attr.Name);
+            }
 
             temp.Append(Symbols.Equality).Append(Symbols.DoubleQuote);
 
-            for (int i = 0; i < value.Length; i++)
+            for (var i = 0; i < value.Length; i++)
             {
                 switch (value[i])
                 {
@@ -121,11 +136,17 @@
         static String GetIds(String publicId, String systemId)
         {
             if (String.IsNullOrEmpty(publicId) && String.IsNullOrEmpty(systemId))
+            {
                 return String.Empty;
+            }
             else if (String.IsNullOrEmpty(systemId))
+            {
                 return String.Format(" PUBLIC \"{0}\"", publicId);
+            }
             else if (String.IsNullOrEmpty(publicId))
+            {
                 return String.Format(" SYSTEM \"{0}\"", systemId);
+            }
 
             return String.Format(" PUBLIC \"{0}\" \"{1}\"", publicId, systemId);
         }
