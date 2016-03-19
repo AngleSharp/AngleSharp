@@ -1,9 +1,9 @@
-using System;
-using AngleSharp.Dom;
-using NUnit.Framework;
-
 namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom;
+    using NUnit.Framework;
+    using System;
+
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
     /// tree-construction/tests14.dat
@@ -11,6 +11,9 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class NamespaceTests
     {
+        static readonly String HtmlWithNestedSvgElement = @"<!DOCTYPE html>
+<div><span><svg xmlns=""http://www.w3.org/2000/svg""><svg><circle /></svg></svg></span></div>";
+
         static IDocument Html(String code)
         {
             return code.ToHtmlDocument();
@@ -259,6 +262,31 @@ namespace AngleSharp.Core.Tests
 
             Assert.IsNotNull(((Element)dochtml1body1).GetAttribute("789"));
             Assert.AreEqual("012", ((Element)dochtml1body1).GetAttribute("789"));
+        }
+
+        [Test]
+        public void HtmlElementsAreUppercaseSvgElementsLowercase()
+        {
+            var doc = Html(HtmlWithNestedSvgElement);
+            var body = doc.Body;
+            var div = body.FirstElementChild;
+            var span = div.FirstElementChild;
+            var svg = span.FirstElementChild;
+            Assert.AreEqual("BODY", body.TagName);
+            Assert.AreEqual("DIV", div.TagName);
+            Assert.AreEqual("SPAN", span.TagName);
+            Assert.AreEqual("svg", svg.TagName);
+        }
+
+        [Test]
+        public void NestedSvgElementHasSameNameAsNormalSvgElement()
+        {
+            var doc = Html(HtmlWithNestedSvgElement);
+            var svg = doc.Body.FirstElementChild.FirstElementChild.FirstElementChild;
+            var nestedSvg = svg.FirstElementChild;
+            var circle = nestedSvg.FirstElementChild;
+            Assert.AreEqual("svg", nestedSvg.TagName);
+            Assert.AreEqual("circle", circle.TagName);
         }
     }
 }
