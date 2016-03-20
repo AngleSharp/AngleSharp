@@ -306,7 +306,7 @@
                     afterNodes.Dequeue();
                 }
 
-                if (afterNodes.Peek() == beforeNodes.Peek())
+                if (IsCurrentlySame(afterNodes, beforeNodes))
                 {
                     return skew > 0;
                 }
@@ -317,7 +317,7 @@
                 before = beforeNodes.Dequeue();
                 after = afterNodes.Dequeue();
 
-                if (afterNodes.Peek() == beforeNodes.Peek())
+                if (IsCurrentlySame(afterNodes, beforeNodes))
                 {
                     return before.Index() < after.Index();
                 }
@@ -637,6 +637,11 @@
         public static IElement GetAssignedSlot(this IShadowRoot root, String name)
         {
             return root.GetDescendants().OfType<IHtmlSlotElement>().FirstOrDefault(m => m.Name.Is(name));
+        }
+
+        static Boolean IsCurrentlySame(Queue<INode> after, Queue<INode> before)
+        {
+            return after.Count > 0 && before.Count > 0 && after.Peek() == before.Peek();
         }
     }
 }
