@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.IO;
 
     /// <summary>
     /// Represents a list of Node instances or nodes.
@@ -89,17 +90,12 @@
 
         #region Methods
 
-        public String ToHtml(IMarkupFormatter formatter)
+        public void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
-            var sb = Pool.NewStringBuilder();
-
             for (var i = 0; i < _entries.Count; i++)
             {
-                var htmlCode = _entries[i].ToHtml(formatter);
-                sb.Append(htmlCode);
+                _entries[i].ToHtml(writer, formatter);
             }
-
-            return sb.ToPool();
         }
 
         #endregion

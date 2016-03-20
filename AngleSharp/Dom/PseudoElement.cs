@@ -7,6 +7,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.IO;
 
     /// <summary>
     /// A wrapper around an element to extend the DOM.
@@ -459,9 +460,9 @@
             _host.Remove();
         }
 
-        public String ToHtml(IMarkupFormatter formatter)
+        public void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
-            return _host.ToHtml(formatter);
+            _host.ToHtml(writer, formatter);
         }
 
         #endregion

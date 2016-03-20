@@ -5,6 +5,7 @@
     using AngleSharp.Html;
     using System;
     using System.Diagnostics;
+    using System.IO;
 
     /// <summary>
     /// Represents a node in the generated tree.
@@ -296,9 +297,9 @@
 
         #region Public Methods
 
-        public virtual String ToHtml(IMarkupFormatter formatter)
+        public virtual void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
-            return TextContent;
+            writer.Write(TextContent);
         }
 
         public INode AppendChild(INode child)

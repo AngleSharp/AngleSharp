@@ -2,6 +2,7 @@
 {
     using AngleSharp.Html;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents the template element.
@@ -64,12 +65,11 @@
             return clone;
         }
 
-        public override String ToHtml(IMarkupFormatter formatter)
+        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
-            var open = formatter.OpenTag(this, false);
-            var children = _content.ChildNodes.ToHtml(formatter);
-            var close = formatter.CloseTag(this, false);
-            return String.Concat(open, children, close);
+            writer.Write(formatter.OpenTag(this, false));
+            _content.ChildNodes.ToHtml(writer, formatter);
+            writer.Write(formatter.CloseTag(this, false));
         }
 
         #endregion
