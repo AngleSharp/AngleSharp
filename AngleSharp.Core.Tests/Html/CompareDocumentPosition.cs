@@ -139,5 +139,15 @@
             Assert.AreEqual(DocumentPositions.Same, el.CompareDocumentPosition(el));
             Assert.AreEqual(DocumentPositions.Following, el.CompareDocumentPosition(txt));
         }
+
+        [Test]
+        public void CompareDocumentPositionEmptyQueue()
+        {
+            var doc = "<!DOCTYPE html><html><head></head><body><div id=\"result\"></div><script></script></body></html>".ToHtmlDocument();
+            var div1 = doc.CreateElement("div");
+            var div2 = doc.CreateElement("div");
+            var result = div1.CompareDocumentPosition(div2);
+            Assert.AreEqual(DocumentPositions.Following, result);
+        }
     }
 }
