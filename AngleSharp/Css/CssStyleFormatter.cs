@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
 
     /// <summary>
     /// Represents the standard CSS3 style formatter.
@@ -67,16 +68,23 @@
             return String.Concat(name, ": ", rest);
         }
 
-        String IStyleFormatter.Medium(Boolean exclusive, Boolean inverse, String type, String[] constraints)
+        String IStyleFormatter.Declarations(IEnumerable<String> declarations)
+        {
+            return String.Join("; ", declarations);
+        }
+
+        String IStyleFormatter.Medium(Boolean exclusive, Boolean inverse, String type, IEnumerable<String> constraints)
         {
             var prefix = exclusive ? "only " : (inverse ? "not " : String.Empty);
 
-            if (constraints.Length != 0)
+            if (constraints.Any())
             {
                 var constraint = String.Join(" and ", constraints);
 
                 if (String.IsNullOrEmpty(type))
+                {
                     return String.Concat(prefix, constraint);
+                }
 
                 return String.Concat(prefix, type, " and ", constraint);
             }
@@ -105,11 +113,6 @@
         {
             var open = String.IsNullOrEmpty(rules) ? " {" : " { ";
             return String.Concat(selector, open, rules, " }");
-        }
-
-        String IStyleFormatter.Declarations(IEnumerable<String> declarations)
-        {
-            return String.Join("; ", declarations);
         }
 
         String IStyleFormatter.Comment(String data)

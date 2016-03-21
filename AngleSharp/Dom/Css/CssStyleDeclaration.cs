@@ -2405,15 +2405,15 @@
 
         public String RemoveProperty(String propertyName)
         {
-            if (IsReadOnly)
+            if (!IsReadOnly)
             {
-                throw new DomException(DomError.NoModificationAllowed);
+                var value = GetPropertyValue(propertyName);
+                RemovePropertyByName(propertyName);
+                RaiseChanged();
+                return value;
             }
 
-            var value = GetPropertyValue(propertyName);
-            RemovePropertyByName(propertyName);
-            RaiseChanged();
-            return value;
+            throw new DomException(DomError.NoModificationAllowed);
         }
 
         void RemovePropertyByName(String propertyName)
@@ -2469,33 +2469,33 @@
         {
             var property = GetProperty(propertyName);
 
-            if (property != null)
+            if (property == null)
             {
-                return property.Value;
-            }
-
-            if (IsStrictMode && Factory.Properties.IsShorthand(propertyName))
-            {
-                var shortHand = Factory.Properties.CreateShorthand(propertyName);
-                var declarations = Factory.Properties.GetLonghands(propertyName);
-                var properties = new List<CssProperty>();
-
-                foreach (var declaration in declarations)
+                if (IsStrictMode && Factory.Properties.IsShorthand(propertyName))
                 {
-                    property = GetProperty(declaration);
+                    var shortHand = Factory.Properties.CreateShorthand(propertyName);
+                    var declarations = Factory.Properties.GetLonghands(propertyName);
+                    var properties = new List<CssProperty>();
 
-                    if (property == null)
+                    foreach (var declaration in declarations)
                     {
-                        return String.Empty;
+                        property = GetProperty(declaration);
+
+                        if (property == null)
+                        {
+                            return String.Empty;
+                        }
+
+                        properties.Add(property);
                     }
 
-                    properties.Add(property);
+                    return shortHand.Stringify(properties.ToArray());
                 }
 
-                return shortHand.Stringify(properties.ToArray());
+                return String.Empty;
             }
 
-            return String.Empty;
+            return property.Value;
         }
 
         public void SetPropertyValue(String propertyName, String propertyValue)
@@ -2505,29 +2505,29 @@
 
         public void SetPropertyPriority(String propertyName, String priority)
         {
-            if (IsReadOnly)
+            if (!IsReadOnly)
+            {
+                if (String.IsNullOrEmpty(priority) || priority.Isi(Keywords.Important))
+                {
+                    var important = !String.IsNullOrEmpty(priority);
+                    var mappings = IsStrictMode && Factory.Properties.IsShorthand(propertyName) ?
+                        Factory.Properties.GetLonghands(propertyName) :
+                        Enumerable.Repeat(propertyName, 1);
+
+                    foreach (var mapping in mappings)
+                    {
+                        var property = GetProperty(mapping);
+
+                        if (property != null)
+                        {
+                            property.IsImportant = important;
+                        }
+                    }
+                }
+            }
+            else
             {
                 throw new DomException(DomError.NoModificationAllowed);
-            }
-
-            if (!String.IsNullOrEmpty(priority) && !priority.Isi(Keywords.Important))
-            {
-                return;
-            }
-
-            var important = !String.IsNullOrEmpty(priority);
-            var mappings = IsStrictMode && Factory.Properties.IsShorthand(propertyName) ? 
-                Factory.Properties.GetLonghands(propertyName) : 
-                Enumerable.Repeat(propertyName, 1);
-            
-            foreach (var mapping in mappings)
-            {
-                var property = GetProperty(mapping);
-
-                if (property != null)
-                {
-                    property.IsImportant = important;
-                }
             }
         }
 
@@ -2537,8 +2537,7 @@
             {
                 throw new DomException(DomError.NoModificationAllowed);
             }
-
-            if (!String.IsNullOrEmpty(propertyValue))
+            else if (!String.IsNullOrEmpty(propertyValue))
             {
                 if (priority == null || priority.Isi(Keywords.Important))
                 {
