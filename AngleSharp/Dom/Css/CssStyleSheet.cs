@@ -5,6 +5,7 @@
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents a CSS Stylesheet.
@@ -121,9 +122,9 @@
             return rule;
         }
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            return formatter.Sheet(Rules);
+            writer.Write(formatter.Sheet(Rules));
         }
 
         public void RemoveAt(Int32 index)

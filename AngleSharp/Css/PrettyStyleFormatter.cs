@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.Css
 {
+    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
 
     /// <summary>
@@ -55,22 +57,42 @@
 
         String IStyleFormatter.Sheet(IEnumerable<IStyleFormattable> rules)
         {
-            var lines = new List<String>();
+            var sb = Pool.NewStringBuilder();
+            var first = true;
 
-            foreach (var rule in rules)
-                lines.Add(rule.ToCss(this));
+            using (var writer = new StringWriter(sb))
+            {
+                foreach (var rule in rules)
+                {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        writer.Write(_newLineString);
+                        writer.Write(_newLineString);
+                    }
 
-            return String.Join(_newLineString + _newLineString, lines);
+                    rule.ToCss(writer, this);
+                }
+            }
+
+            return sb.ToPool();
         }
 
         String IStyleFormatter.Block(IEnumerable<IStyleFormattable> rules)
         {
             var sb = Pool.NewStringBuilder().Append('{').Append(' ');
 
-            foreach (var rule in rules)
+            using (var writer = new StringWriter(sb))
             {
-                var content = Intend(rule.ToCss(this));
-                sb.Append(_newLineString).Append(content).Append(_newLineString);
+                foreach (var rule in rules)
+                {
+                    writer.Write(_newLineString);
+                    writer.Write(Intend(rule.ToCss(this)));
+                    writer.Write(_newLineString);
+                }
             }
 
             return sb.Append('}').ToPool();

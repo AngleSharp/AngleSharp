@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     /// <summary>
     /// Represents the standard CSS3 style formatter.
@@ -21,20 +22,41 @@
 
         String IStyleFormatter.Sheet(IEnumerable<IStyleFormattable> rules)
         {
-            var lines = new List<String>();
+            var sb = Pool.NewStringBuilder();
+            var first = true;
 
-            foreach (var rule in rules)
-                lines.Add(rule.ToCss(this));
+            using (var writer = new StringWriter(sb))
+            {
+                foreach (var rule in rules)
+                {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        writer.WriteLine();
+                    }
 
-            return String.Join(Environment.NewLine, lines);
+                    rule.ToCss(writer, this);
+                }
+            }
+
+            return sb.ToPool();
         }
 
         String IStyleFormatter.Block(IEnumerable<IStyleFormattable> rules)
         {
             var sb = Pool.NewStringBuilder().Append('{');
 
-            foreach (var rule in rules)
-                sb.Append(' ').Append(rule.ToCss(this));
+            using (var writer = new StringWriter(sb))
+            {
+                foreach (var rule in rules)
+                {
+                    writer.Write(' ');
+                    rule.ToCss(writer, this);
+                }
+            }
 
             return sb.Append(' ').Append('}').ToPool();
         }

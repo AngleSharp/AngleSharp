@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     /// <summary>
     /// Represents the keyframe selector.
@@ -39,18 +40,20 @@
 
         #endregion
 
-        #region String Representation
+        #region Methods
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var stops = new String[_stops.Count];
-
-            for (var i = 0; i < stops.Length; i++)
+            if (_stops.Count > 0)
             {
-                stops[i] = _stops[i].ToString();
-            }
+                writer.Write(_stops[0].ToString());
 
-            return String.Join(", ", stops);
+                for (var i = 1; i < _stops.Count; i++)
+                {
+                    writer.Write(", ");
+                    writer.Write(_stops[i].ToString());
+                }
+            }
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using System;
+    using System.IO;
 
     sealed class EmptyCondition : CssNode, IConditionFunction
     {
@@ -9,9 +10,8 @@
             return true;
         }
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            return String.Empty;
         }
     }
 }

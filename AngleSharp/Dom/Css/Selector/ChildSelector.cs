@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Base class for all nth-child (or related) selectors.
@@ -57,7 +58,7 @@
 
         #region String Representation
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var a = _step.ToString();
             var b = String.Empty;
@@ -71,7 +72,7 @@
                 b = _offset.ToString();
             }
 
-            return String.Format(":{0}({1}n{2})", _name, a, b);
+            writer.Write(":{0}({1}n{2})", _name, a, b);
         }
 
         #endregion

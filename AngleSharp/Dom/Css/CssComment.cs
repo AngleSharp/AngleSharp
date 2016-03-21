@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents a comment in the CSS node tree.
@@ -33,9 +34,9 @@
 
         #region String Representation
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            return formatter.Comment(_data);
+            writer.Write(formatter.Comment(_data));
         }
 
         #endregion

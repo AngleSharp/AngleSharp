@@ -6,6 +6,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
 
     /// <summary>
@@ -2326,7 +2327,7 @@
             }
         }
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var list = new List<String>();
             var serialized = new List<String>();
@@ -2399,7 +2400,7 @@
                 list.Add(declaration.ToCss(formatter));
             }
 
-            return formatter.Declarations(list);
+            writer.Write(formatter.Declarations(list));
         }
 
         public String RemoveProperty(String propertyName)

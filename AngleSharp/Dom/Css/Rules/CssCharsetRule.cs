@@ -3,6 +3,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents the CSS @charset rule.
@@ -41,9 +42,9 @@
 
         #region String Representation
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            return formatter.Rule("@charset", CharacterSet.CssString());
+            writer.Write(formatter.Rule("@charset", CharacterSet.CssString()));
         }
 
         #endregion

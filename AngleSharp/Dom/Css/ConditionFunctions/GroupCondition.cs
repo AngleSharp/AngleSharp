@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Extensions;
     using System;
+    using System.IO;
 
     sealed class GroupCondition : CssNode, IConditionFunction
     {
@@ -31,10 +31,11 @@
             return Content.Check();
         }
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var content = Content.ToCss(formatter);
-            return String.Empty.CssFunction(content);
+            writer.Write("(");
+            Content.ToCss(writer, formatter);
+            writer.Write(")");
         }
     }
 }

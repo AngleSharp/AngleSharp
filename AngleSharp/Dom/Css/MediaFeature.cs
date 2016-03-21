@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents a feature expression within a media query.
@@ -96,9 +97,10 @@
 
         #region String Representation
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            return formatter.Constraint(_name, HasValue ? Value : null);
+            var value = HasValue ? Value : null;
+            writer.Write(formatter.Constraint(_name, value));
         }
 
         #endregion

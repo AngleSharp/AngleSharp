@@ -5,6 +5,7 @@
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     /// <summary>
     /// Represents a complex selector, i.e. one or more compound selectors
@@ -65,6 +66,22 @@
 
         #region Methods
 
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
+        {
+            if (_selectors.Count > 0)
+            {
+                var n = _selectors.Count - 1;
+
+                for (var i = 0; i < n; i++)
+                {
+                    writer.Write(_selectors[i].Selector.Text);
+                    writer.Write(_selectors[i].Delimiter);
+                }
+
+                writer.Write(_selectors[n].Selector.Text);
+            }
+        }
+
         public Boolean Match(IElement element)
         {
             var last = _selectors.Count - 1;
@@ -124,30 +141,6 @@
             }
 
             return false;
-        }
-
-        #endregion
-
-        #region String Representation
-
-        public override String ToCss(IStyleFormatter formatter)
-        {
-            var sb = Pool.NewStringBuilder();
-
-            if (_selectors.Count > 0)
-            {
-                var n = _selectors.Count - 1;
-
-                for (var i = 0; i < n; i++)
-                {
-                    sb.Append(_selectors[i].Selector.Text)
-                      .Append(_selectors[i].Delimiter);
-                }
-
-                sb.Append(_selectors[n].Selector.Text);
-            }
-
-            return sb.ToPool();
         }
 
         #endregion

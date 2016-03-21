@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Extensions;
     using System;
+    using System.IO;
 
     sealed class DeclarationCondition : CssNode, IConditionFunction
     {
@@ -19,10 +19,11 @@
             return (_property is CssUnknownProperty == false) && _property.TrySetValue(_value);
         }
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var content = formatter.Declaration(_property.Name, _value.CssText, _property.IsImportant);
-            return String.Empty.CssFunction(content);
+            writer.Write("(");
+            writer.Write(formatter.Declaration(_property.Name, _value.CssText, _property.IsImportant));
+            writer.Write(")");
         }
     }
 }

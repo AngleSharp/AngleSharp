@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Fore more information about CSS properties see:
@@ -129,9 +130,9 @@
 
         #region String Representation
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            return formatter.Declaration(Name, Value, IsImportant);
+            writer.Write(formatter.Declaration(Name, Value, IsImportant));
         }
 
         #endregion

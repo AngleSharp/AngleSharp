@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
 
     /// <summary>
@@ -62,11 +62,11 @@
 
         #endregion
 
-        #region String Representation
+        #region Methods
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            return _tokens.ToText();
+            writer.Write(_tokens.ToText());
         }
 
         #endregion

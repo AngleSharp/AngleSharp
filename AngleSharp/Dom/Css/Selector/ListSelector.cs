@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents a group of selectors, i.e., zero or more selectors separated
@@ -37,22 +38,18 @@
 
         #region String Representation
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var sb = Pool.NewStringBuilder();
-
             if (_selectors.Count > 0)
             {
-                sb.Append(_selectors[0].Text);
+                writer.Write(_selectors[0].Text);
 
                 for (var i = 1; i < _selectors.Count; i++)
                 {
-                    sb.Append(Symbols.Comma)
-                      .Append(_selectors[i].Text);
+                    writer.Write(Symbols.Comma);
+                    writer.Write(_selectors[i].Text);
                 }
             }
-
-            return sb.ToPool();
         }
 
         #endregion

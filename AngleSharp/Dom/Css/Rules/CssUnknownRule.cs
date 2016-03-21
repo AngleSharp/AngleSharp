@@ -2,6 +2,7 @@
 {
     using AngleSharp.Parser.Css;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents an unknown CSS rule.
@@ -35,11 +36,14 @@
 
         #region Methods
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var view = SourceCode;
-            var text = view != null ? view.Text : String.Empty;
-            return text;
+
+            if (view != null)
+            {
+                writer.Write(view.Text);
+            }
         }
 
         #endregion

@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp.Dom.Css
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
+    using System.IO;
     using System.Linq;
 
     /// <summary>
@@ -57,10 +59,10 @@
 
         #region String Representation
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var rules = Style.ToCss(formatter);
-            return formatter.Style(KeyText, rules);
+            writer.Write(formatter.Style(KeyText, rules));
         }
 
         #endregion
