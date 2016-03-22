@@ -128,19 +128,23 @@
             return CssStyleFormatter.Instance.Rule(name, prelude, rules);
         }
 
-        String IStyleFormatter.Style(String selector, String rules)
+        String IStyleFormatter.Style(String selector, IStyleFormattable rules)
         {
-            if (!String.IsNullOrEmpty(rules))
+            var sb = Pool.NewStringBuilder().Append(selector).Append(" {");
+            var content = rules.ToCss(this);
+
+            if (!String.IsNullOrEmpty(content))
             {
-                var sb = Pool.NewStringBuilder().Append(selector);
-                sb.Append(' ').Append('{');
                 sb.Append(_newLineString);
-                sb.Append(Intend(rules));
+                sb.Append(Intend(content));
                 sb.Append(_newLineString);
-                return sb.Append('}').ToPool();
+            }
+            else
+            {
+                sb.Append(' ');
             }
 
-            return selector + " { }";
+            return sb.Append('}').ToPool();
         }
 
         String IStyleFormatter.Comment(String data)

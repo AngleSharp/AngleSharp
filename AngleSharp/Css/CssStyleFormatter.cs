@@ -96,10 +96,22 @@
             return String.Concat(name, " ", text, rules);
         }
 
-        String IStyleFormatter.Style(String selector, String rules)
+        String IStyleFormatter.Style(String selector, IStyleFormattable rules)
         {
-            var open = String.IsNullOrEmpty(rules) ? " {" : " { ";
-            return String.Concat(selector, open, rules, " }");
+            var sb = Pool.NewStringBuilder().Append(selector).Append(" { ");
+            var length = sb.Length;
+
+            using (var writer = new StringWriter(sb))
+            {
+                rules.ToCss(writer, this);
+            }
+
+            if (sb.Length > length)
+            {
+                sb.Append(' ');
+            }
+
+            return sb.Append('}').ToPool();
         }
 
         String IStyleFormatter.Comment(String data)

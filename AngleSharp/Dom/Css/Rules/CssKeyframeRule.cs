@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
     using System.IO;
@@ -61,8 +60,7 @@
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var rules = Style.ToCss(formatter);
-            writer.Write(formatter.Style(KeyText, rules));
+            writer.Write(formatter.Style(KeyText, Style));
         }
 
         #endregion

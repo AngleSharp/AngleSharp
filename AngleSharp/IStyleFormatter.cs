@@ -84,7 +84,7 @@
         /// <param name="selector">The selector to use.</param>
         /// <param name="rules">The plain rules contained in the style.</param>
         /// <returns>The serialization of the style rule.</returns>
-        String Style(String selector, String rules);
+        String Style(String selector, IStyleFormattable rules);
 
         /// <summary>
         /// Creates a serialization of a comment with the provided data.
