@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
 
     /// <summary>
@@ -43,7 +44,7 @@
 
         #region Methods
 
-        public abstract String ToCss(IStyleFormatter formatter);
+        public abstract void ToCss(TextWriter writer, IStyleFormatter formatter);
 
         public void AppendChild(ICssNode child)
         {

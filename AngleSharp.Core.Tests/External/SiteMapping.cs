@@ -42,7 +42,10 @@
                 element.TextContent = fileName;
                 _xml.DocumentElement.AppendChild(element);
 
-                File.WriteAllText(_fileName, _xml.ToHtml(XmlMarkupFormatter.Instance));
+                using (var writer = File.CreateText(_fileName))
+                {
+                    _xml.ToHtml(writer, XmlMarkupFormatter.Instance);
+                }
             }
         }
     }

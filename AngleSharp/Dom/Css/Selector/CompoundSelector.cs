@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents a compound selector, which is a chain of simple selectors
@@ -27,16 +28,12 @@
 
         #region String Representation
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var sb = Pool.NewStringBuilder();
-
             for (var i = 0; i < _selectors.Count; i++)
             {
-                sb.Append(_selectors[i].Text);
+                writer.Write(_selectors[i].Text);
             }
-
-            return sb.ToPool();
         }
 
         #endregion

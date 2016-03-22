@@ -9,6 +9,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -1137,9 +1138,9 @@
 
         public override abstract INode Clone(Boolean deep = true);
 
-        public override String ToHtml(IMarkupFormatter formatter)
+        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
-            return ChildNodes.ToHtml(formatter);
+            ChildNodes.ToHtml(writer, formatter);
         }
 
         public Boolean HasFocus()

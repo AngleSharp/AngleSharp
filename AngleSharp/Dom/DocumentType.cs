@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
 
     /// <summary>
@@ -208,11 +209,12 @@
         /// <summary>
         /// Returns an HTML-code representation of the node.
         /// </summary>
+        /// <param name="writer">The serialization output target.</param>
         /// <param name="formatter">The formatter to use.</param>
         /// <returns>A string containing the HTML code.</returns>
-        public override String ToHtml(IMarkupFormatter formatter)
+        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
-            return formatter.Doctype(this);
+            writer.Write(formatter.Doctype(this));
         }
 
         #endregion

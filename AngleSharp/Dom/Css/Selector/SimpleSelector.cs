@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents a simple selector (either a type selector, universal
@@ -208,13 +209,9 @@
             return _matches(element);
         }
 
-        #endregion
-
-        #region String Representation
-
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            return Text;
+            writer.Write(Text);
         }
 
         #endregion

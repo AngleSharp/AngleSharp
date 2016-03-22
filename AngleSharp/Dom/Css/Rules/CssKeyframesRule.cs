@@ -3,6 +3,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
+    using System.IO;
     using System.Linq;
 
     /// <summary>
@@ -66,6 +67,12 @@
             return _rules.OfType<CssKeyframeRule>().FirstOrDefault(m => key.Isi(m.KeyText));
         }
 
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
+        {
+            var rules = formatter.Block(Rules);
+            writer.Write(formatter.Rule("@keyframes", _name, rules));
+        }
+
         ICssKeyframeRule ICssKeyframesRule.Find(String key)
         {
             return Find(key);
@@ -80,16 +87,6 @@
             var newRule = rule as CssKeyframesRule;
             _name = newRule._name;
             base.ReplaceWith(rule);
-        }
-
-        #endregion
-
-        #region String Representation
-
-        public override String ToCss(IStyleFormatter formatter)
-        {
-            var rules = formatter.Block(Rules);
-            return formatter.Rule("@keyframes", _name, rules);
         }
 
         #endregion

@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -91,14 +92,14 @@
 
         #endregion
 
-        #region String Representation
+        #region Methods
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var media = Media.MediaText;
             var space = String.IsNullOrEmpty(media) ? String.Empty : " ";
             var value = String.Concat(_href.CssUrl(), space, media);
-            return formatter.Rule("@import", value);
+            writer.Write(formatter.Rule("@import", value));
         }
 
         #endregion

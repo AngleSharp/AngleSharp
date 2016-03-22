@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using System;
+    using System.IO;
 
     sealed class NotCondition : CssNode, IConditionFunction
     {
@@ -30,9 +31,10 @@
             return !Content.Check();
         }
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            return String.Concat("not ", Content.ToCss(formatter));
+            writer.Write("not ");
+            Content.ToCss(writer, formatter);
         }
     }
 }

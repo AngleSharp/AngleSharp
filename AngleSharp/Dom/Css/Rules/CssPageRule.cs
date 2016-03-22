@@ -2,6 +2,7 @@
 {
     using AngleSharp.Parser.Css;
     using System;
+    using System.IO;
     using System.Linq;
 
     /// <summary>
@@ -48,10 +49,10 @@
 
         #region String representation
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var rules = formatter.Block(Style);
-            return formatter.Rule("@page", SelectorText, rules);
+            writer.Write(formatter.Rule("@page", SelectorText, rules));
         }
 
         #endregion

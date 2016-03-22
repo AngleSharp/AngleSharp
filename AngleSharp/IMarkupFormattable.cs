@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp
 {
-    using System;
+    using System.IO;
 
     /// <summary>
     /// Allows basic serialization.
@@ -8,10 +8,10 @@
     public interface IMarkupFormattable
     {
         /// <summary>
-        /// Returns the serialization of the node guided by the formatter.
+        /// Writes the serialization of the node guided by the formatter.
         /// </summary>
+        /// <param name="writer">The output target of the serialization.</param>
         /// <param name="formatter">The formatter to use.</param>
-        /// <returns>The source code snippet.</returns>
-        String ToHtml(IMarkupFormatter formatter);
+        void ToHtml(TextWriter writer, IMarkupFormatter formatter);
     }
 }

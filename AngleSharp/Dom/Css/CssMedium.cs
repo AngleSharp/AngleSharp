@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
 
     /// <summary>
@@ -117,14 +118,9 @@
             return base.GetHashCode();
         }
 
-        #endregion
-
-        #region String Representation
-
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var constraints = Features.Select(m => m.ToCss(formatter)).ToArray();
-            return formatter.Medium(IsExclusive, IsInverse, Type, constraints);
+            writer.Write(formatter.Medium(IsExclusive, IsInverse, Type, Features));
         }
 
         #endregion

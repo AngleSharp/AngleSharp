@@ -8,6 +8,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
 
     /// <summary>
@@ -75,10 +76,20 @@
 
         #region Methods
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var parts = Media.Select(m => m.ToCss(formatter));
-            return String.Join(", ", parts);
+            var parts = Media.ToArray();
+
+            if (parts.Length > 0)
+            {
+                parts[0].ToCss(writer, formatter);
+
+                for (var i = 1; i < parts.Length; i++)
+                {
+                    writer.Write(", ");
+                    parts[i].ToCss(writer, formatter);
+                }
+            }
         }
 
         public Boolean Validate(RenderDevice device)

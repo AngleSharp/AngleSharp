@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
 
     /// <summary>
     /// Represents the standard CSS3 style formatter.
@@ -21,20 +23,23 @@
 
         String IStyleFormatter.Sheet(IEnumerable<IStyleFormattable> rules)
         {
-            var lines = new List<String>();
-
-            foreach (var rule in rules)
-                lines.Add(rule.ToCss(this));
-
-            return String.Join(Environment.NewLine, lines);
+            var sb = Pool.NewStringBuilder();
+            WriteJoined(sb, rules, Environment.NewLine);
+            return sb.ToPool();
         }
 
         String IStyleFormatter.Block(IEnumerable<IStyleFormattable> rules)
         {
             var sb = Pool.NewStringBuilder().Append('{');
 
-            foreach (var rule in rules)
-                sb.Append(' ').Append(rule.ToCss(this));
+            using (var writer = new StringWriter(sb))
+            {
+                foreach (var rule in rules)
+                {
+                    writer.Write(' ');
+                    rule.ToCss(writer, this);
+                }
+            }
 
             return sb.Append(' ').Append('}').ToPool();
         }
@@ -45,21 +50,33 @@
             return String.Concat(name, ": ", rest);
         }
 
-        String IStyleFormatter.Medium(Boolean exclusive, Boolean inverse, String type, String[] constraints)
+        String IStyleFormatter.Declarations(IEnumerable<String> declarations)
         {
-            var prefix = exclusive ? "only " : (inverse ? "not " : String.Empty);
+            return String.Join("; ", declarations);
+        }
 
-            if (constraints.Length != 0)
+        String IStyleFormatter.Medium(Boolean exclusive, Boolean inverse, String type, IEnumerable<IStyleFormattable> constraints)
+        {
+            var sb = Pool.NewStringBuilder();
+            var first = true;
+
+            if (exclusive)
             {
-                var constraint = String.Join(" and ", constraints);
-
-                if (String.IsNullOrEmpty(type))
-                    return String.Concat(prefix, constraint);
-
-                return String.Concat(prefix, type, " and ", constraint);
+                sb.Append("only ");
+            }
+            else if (inverse)
+            {
+                sb.Append("not ");
+            }
+            
+            if (!String.IsNullOrEmpty(type))
+            {
+                sb.Append(type);
+                first = false;
             }
 
-            return String.Concat(prefix, type ?? String.Empty);
+            WriteJoined(sb, constraints, " and ", first);
+            return sb.ToPool();
         }
 
         string IStyleFormatter.Constraint(String name, String value)
@@ -79,20 +96,51 @@
             return String.Concat(name, " ", text, rules);
         }
 
-        String IStyleFormatter.Style(String selector, String rules)
+        String IStyleFormatter.Style(String selector, IStyleFormattable rules)
         {
-            var open = String.IsNullOrEmpty(rules) ? " {" : " { ";
-            return String.Concat(selector, open, rules, " }");
-        }
+            var sb = Pool.NewStringBuilder().Append(selector).Append(" { ");
+            var length = sb.Length;
 
-        String IStyleFormatter.Declarations(IEnumerable<String> declarations)
-        {
-            return String.Join("; ", declarations);
+            using (var writer = new StringWriter(sb))
+            {
+                rules.ToCss(writer, this);
+            }
+
+            if (sb.Length > length)
+            {
+                sb.Append(' ');
+            }
+
+            return sb.Append('}').ToPool();
         }
 
         String IStyleFormatter.Comment(String data)
         {
             return String.Join("/* ", data, " */");
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void WriteJoined(StringBuilder sb, IEnumerable<IStyleFormattable> elements, String separator, Boolean first = true)
+        {
+            using (var writer = new StringWriter(sb))
+            {
+                foreach (var element in elements)
+                {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        writer.Write(separator);
+                    }
+
+                    element.ToCss(writer, this);
+                }
+            }
         }
 
         #endregion

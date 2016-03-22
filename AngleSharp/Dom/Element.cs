@@ -9,6 +9,7 @@
     using AngleSharp.Services.Styling;
     using System;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
     using System.Runtime.CompilerServices;
 
@@ -288,13 +289,13 @@
 
         public String InnerHtml
         {
-            get { return ChildNodes.ToHtml(HtmlMarkupFormatter.Instance); }
+            get { return ChildNodes.ToHtml(); }
             set { ReplaceAll(new DocumentFragment(this, value), false); }
         }
 
         public String OuterHtml
         {
-            get { return ToHtml(HtmlMarkupFormatter.Instance); }
+            get { return this.ToHtml(); }
             set
             {
                 var parent = Parent;
@@ -580,36 +581,30 @@
             }
         }
 
-        public override String ToHtml(IMarkupFormatter formatter)
+        public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
             var selfClosing = Flags.HasFlag(NodeFlags.SelfClosing);
-            var open = formatter.OpenTag(this, selfClosing);
-            var children = String.Empty;
+            writer.Write(formatter.OpenTag(this, selfClosing));
 
             if (!selfClosing)
             {
-                var sb = Pool.NewStringBuilder();
-
                 if (Flags.HasFlag(NodeFlags.LineTolerance) && FirstChild is IText)
                 {
                     var text = (IText)FirstChild;
 
                     if (text.Data.Has(Symbols.LineFeed))
                     {
-                        sb.Append(Symbols.LineFeed);
+                        writer.Write(Symbols.LineFeed);
                     }
                 }
 
                 foreach (var child in ChildNodes)
                 {
-                    sb.Append(child.ToHtml(formatter));
+                    child.ToHtml(writer, formatter);
                 }
-
-                children = sb.ToPool();
             }
 
-            var close = formatter.CloseTag(this, selfClosing);
-            return String.Concat(open, children, close);
+            writer.Write(formatter.CloseTag(this, selfClosing));
         }
 
         #endregion

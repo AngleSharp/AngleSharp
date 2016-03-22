@@ -2,6 +2,7 @@
 {
     using AngleSharp.Extensions;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents a feature expression within a media query.
@@ -47,9 +48,9 @@
 
         #region String Representation
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            return _name.CssFunction(_data.CssString());
+            writer.Write(_name.CssFunction(_data.CssString()));
         }
 
         #endregion

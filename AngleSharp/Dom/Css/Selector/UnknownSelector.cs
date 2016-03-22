@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
+    using System.IO;
 
     /// <summary>
     /// Represents an unknown / invalid selector.
@@ -24,9 +25,14 @@
             get { return this.ToCss(); }
         }
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            return SourceCode != null ? SourceCode.Text : String.Empty;
+            var view = SourceCode;
+
+            if (view != null)
+            {
+                writer.Write(view.Text);
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using System;
+    using System.IO;
     using System.Linq;
 
     sealed class OrCondition : CssNode, IConditionFunction
@@ -20,10 +21,24 @@
             return false;
         }
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var conditions = Children.OfType<IConditionFunction>();
-            return String.Join(" or ", conditions.Select(m => m.ToCss(formatter)));
+            var first = true;
+
+            foreach (var condition in conditions)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    writer.Write(" or ");
+                }
+
+                condition.ToCss(writer, formatter);
+            }
         }
     }
 }

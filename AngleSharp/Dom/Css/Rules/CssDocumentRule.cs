@@ -4,6 +4,7 @@
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
 
     /// <summary>
@@ -63,12 +64,12 @@
 
         #endregion
 
-        #region String Representation
+        #region Methods
 
-        public override String ToCss(IStyleFormatter formatter)
+        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var rules = formatter.Block(Rules);
-            return formatter.Rule("@document", ConditionText, rules);
+            writer.Write(formatter.Rule("@document", ConditionText, rules));
         }
 
         #endregion
