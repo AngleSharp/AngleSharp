@@ -48,7 +48,7 @@
         /// <param name="type">The type of the medium.</param>
         /// <param name="constraints">The constraints to use.</param>
         /// <returns>The serialization of the medium.</returns>
-        String Medium(Boolean exclusive, Boolean inverse, String type, IEnumerable<String> constraints);
+        String Medium(Boolean exclusive, Boolean inverse, String type, IEnumerable<IStyleFormattable> constraints);
 
         /// <summary>
         /// Creates the serialization of the constraint with the provided name

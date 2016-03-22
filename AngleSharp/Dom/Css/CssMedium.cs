@@ -120,8 +120,7 @@
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var constraints = Features.Select(m => m.ToCss(formatter)).ToArray();
-            writer.Write(formatter.Medium(IsExclusive, IsInverse, Type, constraints));
+            writer.Write(formatter.Medium(IsExclusive, IsInverse, Type, Features));
         }
 
         #endregion

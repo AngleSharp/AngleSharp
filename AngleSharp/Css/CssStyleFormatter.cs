@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// Represents the standard CSS3 style formatter.
@@ -24,25 +24,7 @@
         String IStyleFormatter.Sheet(IEnumerable<IStyleFormattable> rules)
         {
             var sb = Pool.NewStringBuilder();
-            var first = true;
-
-            using (var writer = new StringWriter(sb))
-            {
-                foreach (var rule in rules)
-                {
-                    if (first)
-                    {
-                        first = false;
-                    }
-                    else
-                    {
-                        writer.WriteLine();
-                    }
-
-                    rule.ToCss(writer, this);
-                }
-            }
-
+            WriteJoined(sb, rules, Environment.NewLine);
             return sb.ToPool();
         }
 
@@ -73,23 +55,28 @@
             return String.Join("; ", declarations);
         }
 
-        String IStyleFormatter.Medium(Boolean exclusive, Boolean inverse, String type, IEnumerable<String> constraints)
+        String IStyleFormatter.Medium(Boolean exclusive, Boolean inverse, String type, IEnumerable<IStyleFormattable> constraints)
         {
-            var prefix = exclusive ? "only " : (inverse ? "not " : String.Empty);
+            var sb = Pool.NewStringBuilder();
+            var first = true;
 
-            if (constraints.Any())
+            if (exclusive)
             {
-                var constraint = String.Join(" and ", constraints);
-
-                if (String.IsNullOrEmpty(type))
-                {
-                    return String.Concat(prefix, constraint);
-                }
-
-                return String.Concat(prefix, type, " and ", constraint);
+                sb.Append("only ");
+            }
+            else if (inverse)
+            {
+                sb.Append("not ");
+            }
+            
+            if (!String.IsNullOrEmpty(type))
+            {
+                sb.Append(type);
+                first = false;
             }
 
-            return String.Concat(prefix, type ?? String.Empty);
+            WriteJoined(sb, constraints, " and ", first);
+            return sb.ToPool();
         }
 
         string IStyleFormatter.Constraint(String name, String value)
@@ -118,6 +105,30 @@
         String IStyleFormatter.Comment(String data)
         {
             return String.Join("/* ", data, " */");
+        }
+
+        #endregion
+
+        #region Helpers
+
+        void WriteJoined(StringBuilder sb, IEnumerable<IStyleFormattable> elements, String separator, Boolean first = true)
+        {
+            using (var writer = new StringWriter(sb))
+            {
+                foreach (var element in elements)
+                {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        writer.Write(separator);
+                    }
+
+                    element.ToCss(writer, this);
+                }
+            }
         }
 
         #endregion

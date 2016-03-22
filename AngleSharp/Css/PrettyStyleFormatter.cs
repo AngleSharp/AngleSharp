@@ -108,7 +108,7 @@
             return String.Join(_newLineString, declarations.Select(m => m + ";"));
         }
 
-        String IStyleFormatter.Medium(Boolean exclusive, Boolean inverse, String type, IEnumerable<String> constraints)
+        String IStyleFormatter.Medium(Boolean exclusive, Boolean inverse, String type, IEnumerable<IStyleFormattable> constraints)
         {
             return CssStyleFormatter.Instance.Medium(exclusive, inverse, type, constraints);
         }
