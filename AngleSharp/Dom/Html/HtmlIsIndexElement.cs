@@ -11,9 +11,6 @@
     {
         #region ctor
 
-        /// <summary>
-        /// Creates a new isindex element.
-        /// </summary>
         public HtmlIsIndexElement(Document owner, String prefix = null)
             : base(owner, TagNames.IsIndex, prefix, NodeFlags.Special)
         {
@@ -23,18 +20,12 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets the form element containing this control or null if this control is not within the context of a form.
-        /// </summary>
         public IHtmlFormElement Form
         {
             get;
             internal set;
         }
 
-        /// <summary>
-        /// Gets or sets the prompt message.
-        /// </summary>
         public String Prompt
         {
             get { return this.GetOwnAttribute(AttributeNames.Prompt); }

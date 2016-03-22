@@ -23,9 +23,6 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new HTML form element.
-        /// </summary>
         public HtmlFormElement(Document owner, String prefix = null)
             : base(owner, TagNames.Form, prefix, NodeFlags.Special)
         {
@@ -35,21 +32,11 @@
 
         #region Index
 
-        /// <summary>
-        /// Gets the form element at the specified index.
-        /// </summary>
-        /// <param name="index">The index in the elements collection.</param>
-        /// <returns>The element or null.</returns>
         public IElement this[Int32 index]
         {
             get { return Elements[index]; }
         }
 
-        /// <summary>
-        /// Gets the form element(s) with the specified name.
-        /// </summary>
-        /// <param name="name">The name or id of the element.</param>
-        /// <returns>A collection with elements, an element or null.</returns>
         public IElement this[String name]
         {
             get { return Elements[name]; }
@@ -59,105 +46,69 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the value of the name attribute.
-        /// </summary>
         public String Name
         {
             get { return this.GetOwnAttribute(AttributeNames.Name); }
             set { this.SetOwnAttribute(AttributeNames.Name, value); }
         }
 
-        /// <summary>
-        /// Gets the number of elements in the Elements collection.
-        /// </summary>
         public Int32 Length
         {
             get { return Elements.Length; }
         }
 
-        /// <summary>
-        /// Gets all the form controls belonging to this form element.
-        /// </summary>
         public HtmlFormControlsCollection Elements
         {
             get { return _elements ?? (_elements = new HtmlFormControlsCollection(this)); }
         }
 
-        /// <summary>
-        /// Gets all the form controls belonging to this form element.
-        /// </summary>
         IHtmlFormControlsCollection IHtmlFormElement.Elements
         {
             get { return Elements; }
         }
 
-        /// <summary>
-        /// Gets or sets the character encodings that are to be used for the submission.
-        /// </summary>
         public String AcceptCharset
         {
             get { return this.GetOwnAttribute(AttributeNames.AcceptCharset); }
             set { this.SetOwnAttribute(AttributeNames.AcceptCharset, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the form's name within the forms collection.
-        /// </summary>
         public String Action
         {
             get { return this.GetOwnAttribute(AttributeNames.Action); }
             set { this.SetOwnAttribute(AttributeNames.Action, value); }
         }
 
-        /// <summary>
-        /// Gets or sets if autocomplete is turned on or off.
-        /// </summary>
         public String Autocomplete
         {
             get { return this.GetOwnAttribute(AttributeNames.AutoComplete); }
             set { this.SetOwnAttribute(AttributeNames.AutoComplete, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the encoding to use for sending the form.
-        /// </summary>
         public String Enctype
         {
             get { return CheckEncType(this.GetOwnAttribute(AttributeNames.Enctype)); }
             set { this.SetOwnAttribute(AttributeNames.Enctype, CheckEncType(value)); }
         }
 
-        /// <summary>
-        /// Gets or sets the encoding to use for sending the form.
-        /// </summary>
         public String Encoding
         {
             get { return Enctype; }
             set { Enctype = value; }
         }
 
-        /// <summary>
-        /// Gets or sets the method to use for transmitting the form.
-        /// </summary>
         public String Method
         {
             get { return this.GetOwnAttribute(AttributeNames.Method) ?? String.Empty; }
             set { this.SetOwnAttribute(AttributeNames.Method, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the indicator that the form is not to be validated during submission.
-        /// </summary>
         public Boolean NoValidate
         {
             get { return this.HasOwnAttribute(AttributeNames.NoValidate); }
             set { this.SetOwnAttribute(AttributeNames.NoValidate, value ? String.Empty : null); }
         }
 
-        /// <summary>
-        /// Gets or sets the target name of the response to the request.
-        /// </summary>
         public String Target
         {
             get { return this.GetOwnAttribute(AttributeNames.Target); }
@@ -168,44 +119,28 @@
 
         #region Methods
 
-        /// <summary>
-        /// Submits the form element from the form element itself.
-        /// </summary>
         public Task<IDocument> Submit()
         {
             var request = GetSubmission();
             return this.NavigateTo(request);
         }
 
-        /// <summary>
-        /// Submits the form element from another element.
-        /// </summary>
         public Task<IDocument> Submit(IHtmlElement sourceElement)
         {
             var request = GetSubmission(sourceElement);
             return this.NavigateTo(request);
         }
 
-        /// <summary>
-        /// Gets the document request created from the form submitting itself.
-        /// </summary>
         public DocumentRequest GetSubmission()
         {
             return SubmitForm(this, true);
         }
 
-        /// <summary>
-        /// Gets the document request created from the form being submitted by another element.
-        /// </summary>
-        /// <param name="sourceElement">The form's submitter.</param>
         public DocumentRequest GetSubmission(IHtmlElement sourceElement)
         {
             return SubmitForm(sourceElement ?? this, false);
         }
 
-        /// <summary>
-        /// Resets the form to the previous (default) state.
-        /// </summary>
         public void Reset()
         {
             foreach (var element in Elements)
@@ -214,10 +149,6 @@
             }
         }
 
-        /// <summary>
-        /// Checks if the form is valid, i.e. if all fields fulfill their requirements.
-        /// </summary>
-        /// <returns>True if the form is valid, otherwise false.</returns>
         public Boolean CheckValidity()
         {
             var controls = GetInvalidControls();
@@ -234,11 +165,6 @@
             return result;
         }
 
-        /// <summary>
-        /// Evaluates the form controls according to the spec:
-        /// https://html.spec.whatwg.org/multipage/forms.html#statically-validate-the-constraints
-        /// </summary>
-        /// <returns>A list over all invalid controls.</returns>
         IEnumerable<HtmlFormControlElement> GetInvalidControls()
         {
             foreach (var element in Elements)
@@ -276,9 +202,6 @@
             return result;
         }
 
-        /// <summary>
-        /// Requests the input fields to be automatically filled with previous entries.
-        /// </summary>
         public void RequestAutocomplete()
         {
             //TODO see:
