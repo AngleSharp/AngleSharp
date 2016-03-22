@@ -23,7 +23,7 @@
         /// Gets the specific node at the given zero-based index into the list.
         /// </summary>
         /// <param name="index">The zero-based index.</param>
-        /// <returns>Returns null if the index is out of range.</returns>
+        /// <returns>Returns the element at the specified index.</returns>
         [DomName("item")]
         [DomAccessor(Accessors.Getter)]
         T this[Int32 index] { get; }
@@ -35,9 +35,7 @@
         /// the name attribute.
         /// </summary>
         /// <param name="id">The id or name to match.</param>
-        /// <returns>
-        /// Returns null if no node exists by the given name.
-        /// </returns>
+        /// <returns>Returns the element with the specified name.</returns>
         [DomName("namedItem")]
         [DomAccessor(Accessors.Getter)]
         T this[String id] { get; }
