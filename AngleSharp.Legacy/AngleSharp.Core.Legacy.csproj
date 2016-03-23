@@ -2168,6 +2168,9 @@
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssPageRule.cs">
       <Link>Interfaces\Css\ICssPageRule.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Interfaces\Css\ICssProperties .cs">
+      <Link>Interfaces\Css\ICssProperties .cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Interfaces\Css\ICssProperty.cs">
       <Link>Interfaces\Css\ICssProperty.cs</Link>
     </Compile>
