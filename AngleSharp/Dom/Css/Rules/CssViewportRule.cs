@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Parser.Css;
+    using System;
 
     /// <summary>
     /// Represents the @viewport rule.
@@ -11,6 +12,11 @@
         internal CssViewportRule(CssParser parser)
             : base(CssRuleType.Viewport, RuleNames.ViewPort, parser)
         {
+        }
+
+        protected override CssProperty CreateNewProperty(String name)
+        {
+            return Factory.Properties.CreateViewport(name);
         }
     }
 }
