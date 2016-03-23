@@ -3,6 +3,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -10,7 +11,7 @@
     /// <summary>
     /// Represents the base class for all style-rule similar rules.
     /// </summary>
-    abstract class CssDeclarationRule : CssRule
+    abstract class CssDeclarationRule : CssRule, ICssProperties
     {
         #region Fields
 
@@ -30,9 +31,63 @@
 
         #region Properties
 
+        public String this[String propertyName]
+        {
+            get { return GetValue(propertyName); }
+        }
+
         public IEnumerable<CssProperty> Declarations
         {
             get { return Children.OfType<CssProperty>(); }
+        }
+
+        public Int32 Length
+        {
+            get { return Declarations.Count(); }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public String GetPropertyValue(String propertyName)
+        {
+            return GetValue(propertyName);
+        }
+
+        public String GetPropertyPriority(String propertyName)
+        {
+            return null;
+        }
+
+        public void SetProperty(String propertyName, String propertyValue, String priority = null)
+        {
+            SetValue(propertyName, propertyValue);
+        }
+
+        public String RemoveProperty(String propertyName)
+        {
+            foreach (var declaration in Declarations)
+            {
+                if (declaration.HasValue && declaration.Name.Is(propertyName))
+                {
+                    var value = declaration.Value;
+                    RemoveChild(declaration);
+                    return value;
+                }
+            }
+
+            return null;
+        }
+
+        public IEnumerator<ICssProperty> GetEnumerator()
+        {
+            return Declarations.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         #endregion
@@ -67,6 +122,8 @@
 
         #region Helpers
 
+        protected abstract CssProperty CreateNewProperty(String name);
+
         protected String GetValue(String propertyName)
         {
             foreach (var declaration in Declarations)
@@ -90,6 +147,15 @@
                     declaration.TrySetValue(value);
                     return;
                 }
+            }
+
+            var property = CreateNewProperty(propertyName);
+
+            if (property != null)
+            {
+                var value = Parser.ParseValue(valueText);
+                property.TrySetValue(value);
+                AppendChild(property);
             }
         }
 

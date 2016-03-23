@@ -7,7 +7,7 @@
     /// Represents a @font-face CSS rule.
     /// </summary>
     [DomName("CSSFontFaceRule")]
-    public interface ICssFontFaceRule : ICssRule
+    public interface ICssFontFaceRule : ICssRule, ICssProperties
     {
         /// <summary>
         /// Gets or sets the font-family.

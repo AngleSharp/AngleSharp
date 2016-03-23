@@ -69,5 +69,14 @@
         }
 
         #endregion
+
+        #region Methods
+
+        protected override CssProperty CreateNewProperty(String name)
+        {
+            return Factory.Properties.CreateFont(name);
+        }
+
+        #endregion
     }
 }
