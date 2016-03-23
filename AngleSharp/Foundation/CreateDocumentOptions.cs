@@ -29,15 +29,15 @@
         public CreateDocumentOptions(IResponse response, IConfiguration configuration)
         {
             var contentType = response.GetContentType(MimeTypeNames.Html);
-            var encoding = configuration.DefaultEncoding();
             var charset = contentType.GetParameter(AttributeNames.Charset);
+            var source = new TextSource(response.Content, configuration.DefaultEncoding());
 
             if (!String.IsNullOrEmpty(charset) && TextEncoding.IsSupported(charset))
             {
-                encoding = TextEncoding.Resolve(charset);
+                source.CurrentEncoding = TextEncoding.Resolve(charset);
             }
 
-            _source = new TextSource(response.Content, encoding);
+            _source = source;
             _contentType = contentType;
             _response = response;
         }
