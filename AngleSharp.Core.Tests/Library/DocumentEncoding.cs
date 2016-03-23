@@ -177,5 +177,33 @@
             Assert.IsNotNull(div);
             Assert.AreEqual(" Livraison en 1 jour ouvré gratuite et illimitée sur des millions darticles ", div.TextContent);
         }
+
+        [Test]
+        public async Task EncodingFromHeaderShouldHaveHigherPrecedence()
+        {
+            var raw = new Byte[] { 60, 109, 101, 116, 97, 32, 99, 104, 97, 114, 115, 101, 116, 61, 117, 116, 102, 45, 56, 62, 238 };
+            var content = Helper.StreamFromBytes(raw);
+            var config = Configuration.Default;
+            var document = await BrowsingContext.New(config).OpenAsync(res =>
+                res.Content(content).
+                    Header(HeaderNames.ContentType, "text/html; charset=windows-1252"));
+
+            Assert.AreEqual("Windows-1252", document.CharacterSet);
+            Assert.AreEqual("î", document.Body.TextContent);
+        }
+
+        [Test]
+        public async Task EncodingFromBomShouldHaveHighestPrecedence()
+        {
+            var raw = new Byte[] { 0xef, 0xbb, 0xbf, 195, 174 };
+            var content = Helper.StreamFromBytes(raw);
+            var config = Configuration.Default;
+            var document = await BrowsingContext.New(config).OpenAsync(res =>
+                res.Content(content).
+                    Header(HeaderNames.ContentType, "text/html; charset=windows-1252"));
+
+            Assert.AreEqual("utf-8", document.CharacterSet);
+            Assert.AreEqual("î", document.Body.TextContent);
+        }
     }
 }
