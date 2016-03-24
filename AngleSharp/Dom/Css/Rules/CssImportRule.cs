@@ -57,7 +57,7 @@
 
         #region Internal Methods
 
-        internal async Task LoadStylesheetFrom(Document document)
+        internal async Task LoadStylesheetFromAsync(Document document)
         {
             if (document != null)
             {

@@ -278,7 +278,7 @@
                 var s = new TextSource(contentStm, encoding);
                 var t = CreateTokenizer(s);
                 // Read 4096 bytes to buffer
-                await s.Prefetch(100, CancellationToken.None);
+                await s.PrefetchAsync(100, CancellationToken.None);
                 // Change encoding utf-8 to utf-8. (Same, but different instance)
                 s.CurrentEncoding = TextEncoding.Utf8;
                 var token = t.Get();

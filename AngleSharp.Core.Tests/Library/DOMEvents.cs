@@ -49,7 +49,7 @@
             var element = document.QuerySelector("img");
             var ev = document.CreateEvent("event");
             ev.Init(evName, true, true);
-            var task = document.AwaitEvent(evName);
+            var task = document.AwaitEventAsync(evName);
             Assert.IsFalse(task.IsCompleted);
             document.Dispatch(ev);
             Assert.IsTrue(task.IsCompleted);

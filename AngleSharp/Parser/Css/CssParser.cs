@@ -118,7 +118,7 @@
         public async Task<ICssStyleSheet> ParseStylesheetAsync(String content, CancellationToken cancelToken)
         {
             var source = new TextSource(content);
-            await source.PrefetchAll(cancelToken).ConfigureAwait(false);
+            await source.PrefetchAllAsync(cancelToken).ConfigureAwait(false);
             return ParseStylesheet(source);
         }
 
@@ -136,7 +136,7 @@
         public async Task<ICssStyleSheet> ParseStylesheetAsync(Stream content, CancellationToken cancelToken)
         {
             var source = new TextSource(content);
-            await source.PrefetchAll(cancelToken).ConfigureAwait(false);
+            await source.PrefetchAllAsync(cancelToken).ConfigureAwait(false);
             return ParseStylesheet(source);
         }
 
@@ -186,7 +186,7 @@
 
         internal async Task<CssStyleSheet> ParseStylesheetAsync(CssStyleSheet sheet, TextSource source)
         {
-            await source.PrefetchAll(CancellationToken.None).ConfigureAwait(false);
+            await source.PrefetchAllAsync(CancellationToken.None).ConfigureAwait(false);
             var tokenizer = CreateTokenizer(source, _config);
             var start = tokenizer.GetCurrentPosition();
             var builder = new CssBuilder(tokenizer, this);
@@ -209,7 +209,7 @@
                 else
                 {
                     var import = (CssImportRule)rule;
-                    tasks.Add(import.LoadStylesheetFrom(document));
+                    tasks.Add(import.LoadStylesheetFromAsync(document));
                 }
             }
 

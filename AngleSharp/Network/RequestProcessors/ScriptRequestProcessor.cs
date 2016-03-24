@@ -117,7 +117,7 @@
             }
         }
 
-        public Task Process(ResourceRequest request)
+        public Task ProcessAsync(ResourceRequest request)
         {
             if (_loader != null && Engine != null)
             {

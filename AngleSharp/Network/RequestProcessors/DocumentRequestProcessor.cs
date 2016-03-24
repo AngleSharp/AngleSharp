@@ -46,7 +46,7 @@
 
         #region Methods
 
-        protected override async Task ProcessResponse(IResponse response)
+        protected override async Task ProcessResponseAsync(IResponse response)
         {
             var context = new BrowsingContext(_parentDocument.Context, Sandboxes.None);
             var options = new CreateDocumentOptions(response, _options)

@@ -39,7 +39,7 @@
             if (processor != null)
             {
                 var request = Link.CreateRequestFor(Url);
-                return processor.Process(request);
+                return processor.ProcessAsync(request);
             }
 
             return null;

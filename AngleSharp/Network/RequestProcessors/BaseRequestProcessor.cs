@@ -36,7 +36,7 @@
 
         #region Methods
 
-        public virtual Task Process(ResourceRequest request)
+        public virtual Task ProcessAsync(ResourceRequest request)
         {
             if (IsDifferentToCurrentDownloadUrl(request.Target))
             {
@@ -47,7 +47,7 @@
             return null;
         }
 
-        protected abstract Task ProcessResponse(IResponse response);
+        protected abstract Task ProcessResponseAsync(IResponse response);
 
         protected void StartDownload(ResourceRequest request)
         {
@@ -69,7 +69,7 @@
             {
                 try
                 {
-                    await ProcessResponse(response).ConfigureAwait(false);
+                    await ProcessResponseAsync(response).ConfigureAwait(false);
                     eventName = EventNames.Load;
                 }
                 catch (Exception ex)

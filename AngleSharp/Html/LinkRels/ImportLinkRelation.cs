@@ -68,7 +68,7 @@
             {
                 var request = link.CreateRequestFor(location);
                 _isasync = link.HasAttribute(AttributeNames.Async);
-                return processor.Process(request);
+                return processor.ProcessAsync(request);
             }
 
             return null;

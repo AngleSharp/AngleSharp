@@ -947,7 +947,7 @@
         {
             if (IsLoading)
             {
-                FinishLoading().Wait();
+                FinishLoadingAsync().Wait();
             }
         }
 
@@ -1194,13 +1194,13 @@
         /// <summary>
         /// Finishes writing to a document.
         /// </summary>
-        internal async Task FinishLoading()
+        internal async Task FinishLoadingAsync()
         {
             ReadyState = DocumentReadyState.Interactive;
 
             while (_loadingScripts.Count > 0)
             {
-                await this.WaitForReady().ConfigureAwait(false);
+                await this.WaitForReadyAsync().ConfigureAwait(false);
                 await _loadingScripts.Dequeue().RunAsync(CancellationToken.None).ConfigureAwait(false);
             }
 

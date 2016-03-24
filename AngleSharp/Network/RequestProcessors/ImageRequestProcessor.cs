@@ -47,7 +47,7 @@
 
         #region Methods
 
-        protected override async Task ProcessResponse(IResponse response)
+        protected override async Task ProcessResponseAsync(IResponse response)
         {
             var service = GetService(response);
 

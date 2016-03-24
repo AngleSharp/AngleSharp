@@ -51,7 +51,7 @@
 
         #region Methods
 
-        public override Task Process(ResourceRequest request)
+        public override Task ProcessAsync(ResourceRequest request)
         {
             var type = _link.Type ?? MimeTypeNames.Css;
             var engine = _options.GetStyleEngine(type);
@@ -59,13 +59,13 @@
             if (engine != null)
             {
                 _engine = engine;
-                return base.Process(request);
+                return base.ProcessAsync(request);
             }
 
             return null;
         }
 
-        protected override async Task ProcessResponse(IResponse response)
+        protected override async Task ProcessResponseAsync(IResponse response)
         {
             var cancel = CancellationToken.None;
             var options = new StyleOptions

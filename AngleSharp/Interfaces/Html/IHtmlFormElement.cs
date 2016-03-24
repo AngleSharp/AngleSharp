@@ -81,13 +81,13 @@
         /// Submits the form element from the form element itself.
         /// </summary>
         [DomName("submit")]
-        Task<IDocument> Submit();
+        Task<IDocument> SubmitAsync();
 
         /// <summary>
         /// Submits the form element as triggered from another element.
         /// </summary>
         /// <param name="sourceElement">The form's submitter.</param>
-        Task<IDocument> Submit(IHtmlElement sourceElement);
+        Task<IDocument> SubmitAsync(IHtmlElement sourceElement);
 
         /// <summary>
         /// Creates the document request from the form submitting itself.

@@ -109,7 +109,7 @@
             {
                 if (source.Length - source.Index < 1024)
                 {
-                    await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
+                    await source.PrefetchAsync(8192, cancelToken).ConfigureAwait(false);
                 }
 
                 token = _tokenizer.Get();
@@ -673,7 +673,7 @@
                         CloseCurrentNode();
 
                         _currentMode = HtmlTreeMode.AfterHead;
-                        _waiting = _document.WaitForReady();
+                        _waiting = _document.WaitForReadyAsync();
                         return;
                     }
                     else if (tagName.Is(TagNames.Template))
@@ -3647,7 +3647,7 @@
         /// <returns>The task waiting for the document to be ready.</returns>
         async Task RunScript(HtmlScriptElement script)
         {
-            await _document.WaitForReady().ConfigureAwait(false);
+            await _document.WaitForReadyAsync().ConfigureAwait(false);
             await script.RunAsync(CancellationToken.None).ConfigureAwait(false);
         }
 
@@ -3715,7 +3715,7 @@
 
             if (_document.IsLoading)
             {
-                _waiting = _document.FinishLoading();
+                _waiting = _document.FinishLoadingAsync();
             }
         }
 
