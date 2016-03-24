@@ -81,7 +81,7 @@
         /// <param name="node">The node that fires the event.</param>
         /// <param name="eventName">The name of the event to be awaited.</param>
         /// <returns>The awaitable task returning the event arguments.</returns>
-        public static async Task<Event> AwaitEvent<TEventTarget>(this TEventTarget node, String eventName)
+        public static async Task<Event> AwaitEventAsync<TEventTarget>(this TEventTarget node, String eventName)
             where TEventTarget : IEventTarget
         {
             if (node == null)
@@ -363,10 +363,10 @@
         /// <typeparam name="TElement">The type of element.</typeparam>
         /// <param name="element">The element of navigation.</param>
         /// <returns>The task eventually resulting in the response.</returns>
-        public static Task<IDocument> Navigate<TElement>(this TElement element)
+        public static Task<IDocument> NavigateAsync<TElement>(this TElement element)
             where TElement : IUrlUtilities, IElement
         {
-            return element.Navigate(CancellationToken.None);
+            return element.NavigateAsync(CancellationToken.None);
         }
 
         /// <summary>
@@ -376,7 +376,7 @@
         /// <param name="element">The element of navigation.</param>
         /// <param name="cancel">The token for cancellation.</param>
         /// <returns>The task eventually resulting in the response.</returns>
-        public static Task<IDocument> Navigate<TElement>(this TElement element, CancellationToken cancel)
+        public static Task<IDocument> NavigateAsync<TElement>(this TElement element, CancellationToken cancel)
             where TElement : IUrlUtilities, IElement
         {
             if (element == null)
@@ -396,9 +396,9 @@
         /// <param name="form">The form to submit.</param>
         /// <param name="fields">The fields to use as values.</param>
         /// <returns>The task eventually resulting in the response.</returns>
-        public static Task<IDocument> Submit(this IHtmlFormElement form, Object fields)
+        public static Task<IDocument> SubmitAsync(this IHtmlFormElement form, Object fields)
         {
-            return form.Submit(fields.ToDictionary());
+            return form.SubmitAsync(fields.ToDictionary());
         }
 
         /// <summary>
@@ -413,10 +413,10 @@
         /// be thrown.
         /// </param>
         /// <returns>The task eventually resulting in the response.</returns>
-        public static Task<IDocument> Submit(this IHtmlFormElement form, IDictionary<String, String> fields, Boolean createInputIfNotFound = false)
+        public static Task<IDocument> SubmitAsync(this IHtmlFormElement form, IDictionary<String, String> fields, Boolean createInputIfNotFound = false)
         {
             form.SetFieldValues(fields, createInputIfNotFound);
-            return form.Submit();
+            return form.SubmitAsync();
         }
 
         #endregion

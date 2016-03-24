@@ -3715,7 +3715,7 @@
 
             if (_document.IsLoading)
             {
-                _waiting = _document.FinishLoading();
+                _waiting = _document.FinishLoadingAsync();
             }
         }
 

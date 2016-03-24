@@ -66,10 +66,10 @@
                 var submitter = form.QuerySelector<IHtmlElement>("button") ??
                     form.QuerySelector<IHtmlElement>("input[type=submit]") ??
                     form.QuerySelector<IHtmlElement>("input[type=image]");
-                return await form.Submit(submitter);
+                return await form.SubmitAsync(submitter);
             }
 
-            return await form.Submit();
+            return await form.SubmitAsync();
         }
 
         static Task<IDocument> LoadWithMockAsync(String content, String url, Action<IRequest> onRequest = null)
@@ -108,7 +108,7 @@
 <input name=other type=text value=something /><input type=text value=something /><input name=another type=text value=test />
 </form>", url);
             var form = document.Forms.OfType<IHtmlFormElement>().FirstOrDefault();
-            var result = await form.Submit();
+            var result = await form.SubmitAsync();
             Assert.IsNotNull(result);
             Assert.AreEqual(url + "?other=something&another=test", result.Url);
         }
@@ -122,7 +122,7 @@
 <input type=""button"" />
 </form>", url);
             var form = document.Forms.OfType<IHtmlFormElement>().FirstOrDefault();
-            var result = await form.Submit();
+            var result = await form.SubmitAsync();
             Assert.IsNotNull(result);
             Assert.AreEqual(url, result.Url);
         }
@@ -148,7 +148,7 @@
                 name.Value = "Test";
                 number.Value = "1";
                 isactive.IsChecked = true;
-                var response = await form.Submit();
+                var response = await form.SubmitAsync();
                 Assert.IsNotNull(response);
                 Assert.AreEqual("okay", response.Body.TextContent);
             }
@@ -179,7 +179,7 @@
                 number.Value = "1";
                 isactive.IsChecked = true;
                 (file.Files as FileList).Add(GenerateFile());
-                var response = await form.Submit();
+                var response = await form.SubmitAsync();
                 Assert.IsNotNull(response);
                 Assert.AreEqual("okay", response.Body.TextContent);
             }
@@ -206,7 +206,7 @@
                 name.Value = "Test";
                 number.Value = "1";
                 isactive.IsChecked = true;
-                var response = await form.Submit();
+                var response = await form.SubmitAsync();
                 Assert.IsNotNull(response);
                 Assert.AreEqual("okay", response.Body.TextContent);
             }
@@ -237,7 +237,7 @@
                 number.Value = "1";
                 isactive.IsChecked = true;
                 (file.Files as FileList).Add(GenerateFile());
-                var response = await form.Submit();
+                var response = await form.SubmitAsync();
                 Assert.IsNotNull(response);
                 Assert.AreEqual("okay", response.Body.TextContent);
             }
@@ -272,7 +272,7 @@
                 for (int i = 0; i < 5; i++)
                     (files.Files as FileList).Add(GenerateFile(i));
 
-                var response = await form.Submit();
+                var response = await form.SubmitAsync();
                 Assert.IsNotNull(response);
                 Assert.AreEqual("okay", response.Body.TextContent);
             }
@@ -927,7 +927,7 @@
 </form>", url, onRequest);
 
             var form = document.Forms[0] as HtmlFormElement;
-            var result = await form.Submit();
+            var result = await form.SubmitAsync();
             Assert.IsNotNull(request);
             Assert.AreEqual(HttpMethod.Post, request.Method);
             Assert.AreEqual("{\"name\":\"Bender\",\"hind\":\"Bitable\",\"shiny\":true}", Utf8StreamToString(request.Content));
@@ -947,7 +947,7 @@
 </form>", url, onRequest);
 
             var form = document.Forms[0] as HtmlFormElement;
-            var result = await form.Submit();
+            var result = await form.SubmitAsync();
             Assert.IsNotNull(request);
             Assert.AreEqual(HttpMethod.Post, request.Method);
             Assert.AreEqual("{\"bottle-on-wall\":[1,2,3]}", Utf8StreamToString(request.Content));
@@ -968,7 +968,7 @@
 </form>", url, onRequest);
 
             var form = document.Forms[0] as HtmlFormElement;
-            var result = await form.Submit();
+            var result = await form.SubmitAsync();
             Assert.IsNotNull(request);
             Assert.AreEqual(HttpMethod.Post, request.Method);
             Assert.AreEqual("{\"pet\":{\"species\":\"Dahut\",\"name\":\"Hypatia\"},\"kids\":[\"Ashley\",\"Thelma\"]}", Utf8StreamToString(request.Content));
@@ -987,7 +987,7 @@
 </form>", url, onRequest);
 
             var form = document.Forms[0] as HtmlFormElement;
-            var result = await form.Submit();
+            var result = await form.SubmitAsync();
             Assert.IsNotNull(request);
             Assert.AreEqual(HttpMethod.Post, request.Method);
             Assert.AreEqual("{\"hearbeat\":[\"thunk\",null,\"thunk\"]}", Utf8StreamToString(request.Content));
@@ -1008,7 +1008,7 @@
 </form>", url, onRequest);
 
             var form = document.Forms[0] as HtmlFormElement;
-            var result = await form.Submit();
+            var result = await form.SubmitAsync();
             Assert.IsNotNull(request);
             Assert.AreEqual(HttpMethod.Post, request.Method);
             Assert.AreEqual("{\"pet\":[{\"species\":\"Dahut\",\"name\":\"Hypatia\"},{\"species\":\"Felis Stultus\",\"name\":\"Billie\"}]}", Utf8StreamToString(request.Content));
@@ -1026,7 +1026,7 @@
 </form>", url, onRequest);
 
             var form = document.Forms[0] as HtmlFormElement;
-            var result = await form.Submit();
+            var result = await form.SubmitAsync();
             Assert.IsNotNull(request);
             Assert.AreEqual(HttpMethod.Post, request.Method);
             Assert.AreEqual("{\"wow\":{\"such\":{\"deep\":[null,null,null,{\"much\":{\"power\":{\"!\":\"Amaze\"}}}]}}}", Utf8StreamToString(request.Content));
@@ -1048,7 +1048,7 @@
 </form>", url, onRequest);
 
             var form = document.Forms[0] as HtmlFormElement;
-            var result = await form.Submit();
+            var result = await form.SubmitAsync();
             Assert.IsNotNull(request);
             Assert.AreEqual(HttpMethod.Post, request.Method);
             Assert.AreEqual("{\"mix\":{\"\":\"scalar\",\"0\":\"array 1\",\"2\":\"array 2\",\"key\":\"key key\",\"car\":\"car key\"}}", Utf8StreamToString(request.Content));
@@ -1066,7 +1066,7 @@
 </form>", url, onRequest);
 
             var form = document.Forms[0] as HtmlFormElement;
-            var result = await form.Submit();
+            var result = await form.SubmitAsync();
             Assert.IsNotNull(request);
             Assert.AreEqual(HttpMethod.Post, request.Method);
             Assert.AreEqual("{\"highlander\":[\"one\"]}", Utf8StreamToString(request.Content));
@@ -1092,7 +1092,7 @@
             files.Add(new FileEntry("dahut.txt", new MemoryStream(Convert.FromBase64String("REFBQUFBQUFIVVVVVVVVVVVVVCEhIQo="))));
             files.Add(new FileEntry("litany.txt", new MemoryStream(Convert.FromBase64String("SSBtdXN0IG5vdCBmZWFyLlxuRmVhciBpcyB0aGUgbWluZC1raWxsZXIuCg=="))));
 
-            var result = await form.Submit();
+            var result = await form.SubmitAsync();
             Assert.IsNotNull(request);
             Assert.AreEqual(HttpMethod.Post, request.Method);
             Assert.AreEqual("{\"file\":[{\"type\":\"text/plain\",\"name\":\"dahut.txt\",\"body\":\"REFBQUFBQUFIVVVVVVVVVVVVVCEhIQo=\"},{\"type\":\"text/plain\",\"name\":\"litany.txt\",\"body\":\"SSBtdXN0IG5vdCBmZWFyLlxuRmVhciBpcyB0aGUgbWluZC1raWxsZXIuCg==\"}]}", Utf8StreamToString(request.Content));
@@ -1111,7 +1111,7 @@
 </form>", url, onRequest);
 
             var form = document.Forms[0] as HtmlFormElement;
-            var result = await form.Submit();
+            var result = await form.SubmitAsync();
             Assert.IsNotNull(request);
             Assert.AreEqual(HttpMethod.Post, request.Method);
             Assert.AreEqual("{\"error\":{\"good\":\"BOOM!\"},\"error[bad\":\"BOOM BOOM!\"}", Utf8StreamToString(request.Content));

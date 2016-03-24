@@ -864,7 +864,7 @@
         /// <param name="element">The element to navigate from.</param>
         /// <param name="request">The request to issue.</param>
         /// <returns>A task that will eventually result in a new document.</returns>
-        public static async Task<IDocument> NavigateTo(this Element element, DocumentRequest request)
+        public static async Task<IDocument> NavigateToAsync(this Element element, DocumentRequest request)
         {
             var download = element.Owner.Context.Loader.DownloadAsync(request);
             var response = await download.Task.ConfigureAwait(false);

@@ -947,7 +947,7 @@
         {
             if (IsLoading)
             {
-                FinishLoading().Wait();
+                FinishLoadingAsync().Wait();
             }
         }
 
@@ -1194,7 +1194,7 @@
         /// <summary>
         /// Finishes writing to a document.
         /// </summary>
-        internal async Task FinishLoading()
+        internal async Task FinishLoadingAsync()
         {
             ReadyState = DocumentReadyState.Interactive;
 

@@ -209,7 +209,7 @@
                 else
                 {
                     var import = (CssImportRule)rule;
-                    tasks.Add(import.LoadStylesheetFrom(document));
+                    tasks.Add(import.LoadStylesheetFromAsync(document));
                 }
             }
 

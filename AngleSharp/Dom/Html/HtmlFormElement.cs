@@ -119,16 +119,16 @@
 
         #region Methods
 
-        public Task<IDocument> Submit()
+        public Task<IDocument> SubmitAsync()
         {
             var request = GetSubmission();
-            return this.NavigateTo(request);
+            return this.NavigateToAsync(request);
         }
 
-        public Task<IDocument> Submit(IHtmlElement sourceElement)
+        public Task<IDocument> SubmitAsync(IHtmlElement sourceElement)
         {
             var request = GetSubmission(sourceElement);
-            return this.NavigateTo(request);
+            return this.NavigateToAsync(request);
         }
 
         public DocumentRequest GetSubmission()

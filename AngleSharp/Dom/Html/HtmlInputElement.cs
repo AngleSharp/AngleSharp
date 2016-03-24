@@ -301,7 +301,7 @@
 
                 if (type.Is(InputTypeNames.Submit) && form != null)
                 {
-                    form.Submit();
+                    form.SubmitAsync();
                 }
                 else if (type.Is(InputTypeNames.Reset) && form != null)
                 {

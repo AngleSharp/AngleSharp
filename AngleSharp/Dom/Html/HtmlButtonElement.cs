@@ -127,7 +127,7 @@
 
                 if (type.Is(InputTypeNames.Submit))
                 {
-                    form.Submit(this);
+                    form.SubmitAsync(this);
                 }
                 else if (type.Is(InputTypeNames.Reset))
                 {

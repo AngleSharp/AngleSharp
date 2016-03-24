@@ -106,7 +106,7 @@
                 name.Value = "Test";
                 number.Value = "1";
                 isactive.IsChecked = true;
-                var result = await form.Submit();
+                var result = await form.SubmitAsync();
 
                 Assert.IsNotNull(result);
                 Assert.AreEqual(result, context.Active);
@@ -145,7 +145,7 @@
                 var document = await context.OpenAsync(address);
                 var anchors = document.QuerySelectorAll<IHtmlAnchorElement>("ul a");
                 var anchor = anchors.Where(m => m.TextContent == title).FirstOrDefault();
-                var result = await anchor.Navigate();
+                var result = await anchor.NavigateAsync();
 
                 Assert.IsNotNull(result);
                 Assert.AreEqual(result, context.Active);
