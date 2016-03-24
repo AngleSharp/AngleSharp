@@ -273,7 +273,7 @@
         /// <param name="length">The number of bytes to prefetch.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The awaitable task.</returns>
-        public Task Prefetch(Int32 length, CancellationToken cancellationToken)
+        public Task PrefetchAsync(Int32 length, CancellationToken cancellationToken)
         {
             return ExpandBufferAsync(length, cancellationToken);
         }
@@ -283,7 +283,7 @@
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The awaitable task.</returns>
-        public async Task PrefetchAll(CancellationToken cancellationToken)
+        public async Task PrefetchAllAsync(CancellationToken cancellationToken)
         {
             if (_content.Length == 0)
             {

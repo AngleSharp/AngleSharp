@@ -44,7 +44,7 @@
 
         #region Methods
 
-        public override Task Process(ResourceRequest request)
+        public override Task ProcessAsync(ResourceRequest request)
         {
             var contentHtml = _element.GetContentHtml();
 
@@ -54,10 +54,10 @@
                 return ProcessResponse(contentHtml, referer);
             }
 
-            return base.Process(request);
+            return base.ProcessAsync(request);
         }
 
-        protected override Task ProcessResponse(IResponse response)
+        protected override Task ProcessResponseAsync(IResponse response)
         {
             var cancel = CancellationToken.None;
             var context = _element.NestedContext;

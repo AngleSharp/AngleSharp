@@ -48,11 +48,11 @@
 
         #region Methods
 
-        public override Task Process(ResourceRequest request)
+        public override Task ProcessAsync(ResourceRequest request)
         {
             if (IsDifferentToCurrentResourceUrl(request.Target))
             {
-                return base.Process(request);
+                return base.ProcessAsync(request);
             }
 
             return null;

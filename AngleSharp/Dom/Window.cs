@@ -654,7 +654,7 @@
 
         Int32 IWindowTimers.SetTimeout(Action<IWindow> handler, Int32 timeout)
         {
-            return QueueTask(DoTimeout, handler, timeout);
+            return QueueTask(DoTimeoutAsync, handler, timeout);
         }
 
         void IWindowTimers.ClearTimeout(Int32 handle)
@@ -669,14 +669,14 @@
 
         Int32 IWindowTimers.SetInterval(Action<IWindow> handler, Int32 timeout)
         {
-            return QueueTask(DoInterval, handler, timeout);
+            return QueueTask(DoIntervalAsync, handler, timeout);
         }
 
         #endregion
 
         #region Helpers
 
-        async Task DoTimeout(Action<IWindow> callback, Int32 timeout, CancellationToken token)
+        async Task DoTimeoutAsync(Action<IWindow> callback, Int32 timeout, CancellationToken token)
         {
             await token.Delay(timeout).ConfigureAwait(false);
 
@@ -686,11 +686,11 @@
             }
         }
 
-        async Task DoInterval(Action<IWindow> callback, Int32 timeout, CancellationToken token)
+        async Task DoIntervalAsync(Action<IWindow> callback, Int32 timeout, CancellationToken token)
         {
             while (!token.IsCancellationRequested)
             {
-                await DoTimeout(callback, timeout, token).ConfigureAwait(false);
+                await DoTimeoutAsync(callback, timeout, token).ConfigureAwait(false);
             }
         }
 

@@ -283,7 +283,7 @@
         /// </summary>
         /// <param name="document">The document to use.</param>
         /// <returns>Awaitable task.</returns>
-        public static async Task WaitForReady(this Document document)
+        public static async Task WaitForReadyAsync(this Document document)
         {
             var scripts = document.GetScriptDownloads().ToArray();
             await TaskEx.WhenAll(scripts).ConfigureAwait(false);

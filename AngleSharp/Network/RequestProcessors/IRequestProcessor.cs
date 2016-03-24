@@ -6,6 +6,6 @@
     {
         IDownload Download { get; }
 
-        Task Process(ResourceRequest request);
+        Task ProcessAsync(ResourceRequest request);
     }
 }

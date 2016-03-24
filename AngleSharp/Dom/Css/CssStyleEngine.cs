@@ -75,7 +75,7 @@
             var parser = new CssParser(_options);
             var source = new TextSource(sourceCode);
             var sheet = new CssStyleSheet(parser, default(String), default(ICssStyleSheet));
-            _default = Parse(parser, sheet, source).Result;
+            _default = ParseAsync(parser, sheet, source).Result;
             return _default;
         }
 
@@ -100,7 +100,7 @@
                 IsDisabled = options.IsDisabled
             };
             var source = new TextSource(response.Content);
-            return await Parse(parser, sheet, source).ConfigureAwait(false);
+            return await ParseAsync(parser, sheet, source).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@
 
         #region Helper
 
-        async Task<CssStyleSheet> Parse(CssParser parser, CssStyleSheet sheet, TextSource source)
+        async Task<CssStyleSheet> ParseAsync(CssParser parser, CssStyleSheet sheet, TextSource source)
         {
             var evt = new CssParseStartEvent(sheet);
             var events = parser.Config.Events;

@@ -86,7 +86,7 @@
             {
                 if (source.Length - source.Index < 1024)
                 {
-                    await source.Prefetch(8192, cancelToken).ConfigureAwait(false);
+                    await source.PrefetchAsync(8192, cancelToken).ConfigureAwait(false);
                 }
 
                 token = _tokenizer.Get();
