@@ -94,9 +94,8 @@
         {
             base.OnParentChanged();
 
-            if (!_parserInserted)
+            if (!_parserInserted && Prepare(Owner))
             {
-                Prepare(Owner);
                 RunAsync(CancellationToken.None);
             }
         }
