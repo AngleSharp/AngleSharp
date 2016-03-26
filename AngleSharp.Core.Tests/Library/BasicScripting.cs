@@ -156,5 +156,25 @@
 
             Assert.IsTrue(didRun);
         }
+
+        [Test]
+        public async Task DynamicallyAddedScriptWithSourceShouldBeExecutedAfterAppending()
+        {
+            var didRun = false;
+            var scripting = new CallbackScriptEngine(options => didRun = true);
+            var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
+            var source = "<title>Some title</title><body>";
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+
+            var script = document.CreateElement("script");
+            script.SetAttribute("type", scripting.Type);
+            script.SetAttribute("src", "foo.cs");
+
+            Assert.IsFalse(didRun);
+
+            document.Body.AppendChild(script);
+
+            Assert.IsTrue(didRun);
+        }
     }
 }
