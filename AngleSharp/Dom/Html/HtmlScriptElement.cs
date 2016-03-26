@@ -94,9 +94,8 @@
         {
             base.OnParentChanged();
 
-            if (!_parserInserted)
+            if (!_parserInserted && Prepare(Owner))
             {
-                Prepare(Owner);
                 RunAsync(CancellationToken.None);
             }
         }
@@ -203,17 +202,17 @@
 
         Boolean InvokeLoadingScript(Document document, Url url)
         {
-            var fromParser = true;
+            var executeDirectly = true;
 
             //Just add to the (end of) set of scripts
-            if (!_parserInserted || IsDeferred || IsAsync)
+            if (_parserInserted && (IsDeferred || IsAsync))
             {
                 document.AddScript(this);
-                fromParser = false;
+                executeDirectly = false;
             }
 
             this.Process(_request, url);
-            return fromParser;
+            return executeDirectly;
         }
 
         void FireErrorEvent()
