@@ -136,5 +136,25 @@
                 Assert.AreEqual(Encoding.UTF8.WebName, engine.Requests[0].Item2.Encoding.WebName);
             }
         }
+
+        [Test]
+        public async Task DynamicallyAddedScriptWithTextContentShouldBeExecutedAfterAppending()
+        {
+            var didRun = false;
+            var scripting = new CallbackScriptEngine(options => didRun = true);
+            var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
+            var source = "<title>Some title</title><body>";
+            var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(source).Address("http://www.example.com"));
+
+            var script = document.CreateElement("script");
+            script.SetAttribute("type", scripting.Type);
+            script.TextContent = "my C# script";
+
+            Assert.IsFalse(didRun);
+
+            document.Body.AppendChild(script);
+
+            Assert.IsTrue(didRun);
+        }
     }
 }
