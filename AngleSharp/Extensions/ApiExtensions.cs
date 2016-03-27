@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
@@ -281,7 +282,8 @@
         /// true, then new input will be created. Otherwise, an exception will
         /// be thrown.
         /// </param>
-        public static void SetFieldValues(this IHtmlFormElement form, IDictionary<String, String> fields, Boolean createInputIfNotFound = false)
+        /// <returns>The given form for chaining.</returns>
+        public static IHtmlFormElement SetFieldValues(this IHtmlFormElement form, IDictionary<String, String> fields, Boolean createInputIfNotFound = false)
         {
             if (form == null)
             {
@@ -350,6 +352,8 @@
                     throw new KeyNotFoundException(message);
                 }
             }
+
+            return form;
         }
 
         #endregion
@@ -536,6 +540,29 @@
         #region Element extensions
 
         /// <summary>
+        /// Gets the computed style of the given element from the current view.
+        /// </summary>
+        /// <param name="element">The element to compute the style for.</param>
+        /// <returns>The computed style declaration if available.</returns>
+        public static ICssStyleDeclaration ComputeCurrentStyle(this IElement element)
+        {
+            if (element == null)
+            {
+                throw new ArgumentNullException("element");
+            }
+
+            var document = element.Owner;
+
+            if (document != null)
+            {
+                var window = document.DefaultView;
+                return window.GetComputedStyle(element);
+            }
+
+            return default(ICssStyleDeclaration);
+        }
+
+        /// <summary>
         /// Sets the specified attribute name to the specified value for all
         /// elements in the given collection.
         /// </summary>
@@ -604,7 +631,7 @@
         /// elements in the given collection.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
-        /// <param name="elements">The collection.</param>
+        /// <param name="elements">The collection of elements.</param>
         /// <param name="attributes">
         /// An enumeration of attributes in form of an anonymous object, that
         /// carries key-value pairs.
@@ -622,7 +649,7 @@
         /// given collection.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
-        /// <param name="elements">The collection.</param>
+        /// <param name="elements">The collection of elements.</param>
         /// <param name="attributeName">The name of the attribute.</param>
         /// <returns>The attributes' values.</returns>
         public static IEnumerable<String> Attr<T>(this T elements, String attributeName)
@@ -740,11 +767,9 @@
         /// <summary>
         /// Gets the inner HTML of the given element.
         /// </summary>
-        /// <typeparam name="T">The type of element.</typeparam>
         /// <param name="element">The element.</param>
         /// <returns>The source code of the inner HTML.</returns>
-        public static String Html<T>(this T element)
-            where T : IElement
+        public static String Html(this IElement element)
         {
             if (element == null)
             {
@@ -879,14 +904,12 @@
         /// Checks if any element in the given collection has the given
         /// class(es).
         /// </summary>
-        /// <typeparam name="T">The type of element collection.</typeparam>
-        /// <param name="elements">The collection.</param>
+        /// <param name="elements">The collection of elements.</param>
         /// <param name="className">The name(s) of the class(es).</param>
         /// <returns>
         /// True if any element has the class(es), otherwise false.
         /// </returns>
-        public static Boolean HasClass<T>(this T elements, String className)
-            where T : IEnumerable<IElement>
+        public static Boolean HasClass(this IEnumerable<IElement> elements, String className)
         {
             if (elements == null)
             {
@@ -1182,11 +1205,9 @@
         /// <summary>
         /// Gets the content text of the given DOM element.
         /// </summary>
-        /// <typeparam name="T">The type of element.</typeparam>
         /// <param name="element">The element to stringify.</param>
         /// <returns>The text of the element and its children.</returns>
-        public static String Text<T>(this T element)
-            where T : INode
+        public static String Text(this INode element)
         {
             if (element == null)
             {
@@ -1220,16 +1241,14 @@
         }
 
         /// <summary>
-        /// Gets the index of the given item in the list of elements.
+        /// Gets the index of the given item in the list of nodes.
         /// </summary>
-        /// <typeparam name="T">The type of element.</typeparam>
-        /// <param name="elements">The source list of elements.</param>
+        /// <param name="nodes">The source list of nodes.</param>
         /// <param name="item">The item to search for.</param>
         /// <returns>The index of the item or -1 if not found.</returns>
-        public static Int32 Index<T>(this IEnumerable<T> elements, T item)
-            where T : INode
+        public static Int32 Index(this IEnumerable<INode> nodes, INode item)
         {
-            if (elements == null)
+            if (nodes == null)
             {
                 throw new ArgumentNullException("elements");
             }
@@ -1238,9 +1257,9 @@
             {
                 var i = 0;
 
-                foreach (var element in elements)
+                foreach (var node in nodes)
                 {
-                    if (Object.ReferenceEquals(element, item))
+                    if (Object.ReferenceEquals(node, item))
                     {
                         return i;
                     }
