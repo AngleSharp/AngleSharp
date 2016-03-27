@@ -91,5 +91,18 @@
             Assert.IsTrue(link.IsAlternate());
             Assert.IsFalse(link.IsPersistent());
         }
+
+        [Test]
+        public async Task GetComputedStyleFromHelperShouldBeOkay()
+        {
+            var source = "<!doctype html><head><style>p > span { color: blue; } span.bold { font-weight: bold; }</style></head><body><div><p><span class='bold'>Bold text";
+            var document = await CreateDocumentWithOptions(source);
+            var element = document.QuerySelector("span.bold");
+            Assert.AreEqual("span", element.LocalName);
+            Assert.AreEqual("bold", element.ClassName);
+            var style = element.ComputeCurrentStyle();
+            Assert.IsNotNull(style);
+            Assert.AreEqual(2, style.Length);
+        }
     }
 }
