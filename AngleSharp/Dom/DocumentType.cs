@@ -165,7 +165,7 @@
                 SystemIdentifier = SystemIdentifier,
                 InternalSubset = InternalSubset
             };
-            CopyProperties(this, node, deep);
+            CloneNode(node, deep);
             return node;
         }
 

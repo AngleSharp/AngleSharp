@@ -22,8 +22,7 @@
         public override INode Clone(Boolean deep = true)
         {
             var node = Factory.MathElements.Create(Owner, LocalName, Prefix);
-            CopyProperties(this, node, deep);
-            CopyAttributes(this, node);
+            CloneElement(node, deep);
             return node;
         }
 

@@ -402,8 +402,7 @@
         public override INode Clone(Boolean deep = true)
         {
             var node = new Element(Owner, LocalName, _prefix, _namespace, Flags);
-            CopyProperties(this, node, deep);
-            CopyAttributes(this, node);
+            CloneElement(node, deep);
             return node;
         }
 
@@ -688,13 +687,17 @@
             return ElementExtensions.LocatePrefix(this, namespaceUri);
         }
 
-        protected static void CopyAttributes(Element source, Element target)
+        protected void CloneElement(Element element, Boolean deep)
         {
-            foreach (var attribute in source._attributes)
+            CloneNode(element, deep);
+
+            foreach (var attribute in _attributes)
             {
                 var attr = new Attr(attribute.Prefix, attribute.LocalName, attribute.Value, attribute.NamespaceUri);
-                target._attributes.FastAddItem(attr);
+                element._attributes.FastAddItem(attr);
             }
+
+            element.SetupElement();
         }
 
         protected void RegisterAttributeObserver(String name, Action<String> callback)

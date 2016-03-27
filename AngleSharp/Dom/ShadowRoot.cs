@@ -130,8 +130,8 @@
 
         public override INode Clone(Boolean deep = true)
         {
-            var node = new DocumentFragment(Owner);
-            CopyProperties(this, node, deep);
+            var node = new ShadowRoot(_host, _mode);
+            CloneNode(node, deep);
             return node;
         }
 

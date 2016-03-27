@@ -36,7 +36,7 @@
         public override INode Clone(Boolean deep = true)
         {
             var node = new EntityReference(Owner, NodeName);
-            CopyProperties(this, node, deep);
+            CloneNode(node, deep);
             return node;
         }
 

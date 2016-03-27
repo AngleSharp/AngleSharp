@@ -76,8 +76,7 @@
         public override INode Clone(Boolean deep = true)
         {
             var node = new HtmlDocument(Context, new TextSource(Source.Text));
-            CopyProperties(this, node, deep);
-            CopyDocumentProperties(this, node, deep);
+            CloneDocument(node, deep);
             return node;
         }
 

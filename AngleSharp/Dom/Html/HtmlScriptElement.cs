@@ -189,10 +189,11 @@
 
         public override INode Clone(Boolean deep = true)
         {
-            var node = new HtmlScriptElement(Owner, Prefix, _parserInserted, _started);
-            node._forceAsync = _forceAsync;
-            CopyProperties(this, node, deep);
-            CopyAttributes(this, node);
+            var node = new HtmlScriptElement(Owner, Prefix, _parserInserted, _started)
+            {
+                _forceAsync = _forceAsync
+            };
+            CloneElement(node, deep);
             return node;
         }
 
