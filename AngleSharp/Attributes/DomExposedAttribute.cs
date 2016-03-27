@@ -3,8 +3,7 @@
     using System;
 
     /// <summary>
-    /// This attribute is used to mark a constructor as being
-    /// accessible from scripts.
+    /// This attribute is used to determine the hosting interface.
     /// </summary>
     [AttributeUsage(
         AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Struct, 
