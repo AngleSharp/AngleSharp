@@ -33,7 +33,7 @@
         public override INode Clone(Boolean deep = true)
         {
             var node = new ProcessingInstruction(Owner, Target);
-            CopyProperties(this, node, deep);
+            CloneNode(node, deep);
             return node;
         }
 

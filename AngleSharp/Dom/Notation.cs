@@ -60,7 +60,7 @@
                 PublicId = PublicId,
                 SystemId = SystemId
             };
-            CopyProperties(this, node, deep);
+            CloneNode(node, deep);
             return node;
         }
 

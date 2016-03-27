@@ -126,14 +126,16 @@
         /// <returns>The duplicate node.</returns>
         public override INode Clone(Boolean deep = true)
         {
-            var node = new Entity(Owner, NodeName);
-            CopyProperties(this, node, deep);
-            node._xmlEncoding = this._xmlEncoding;
-            node._xmlVersion = this._xmlVersion;
-            node._systemId = this._systemId;
-            node._publicId = this._publicId;
-            node._inputEncoding = this._inputEncoding;
-            node._notationName = this._notationName;
+            var node = new Entity(Owner, NodeName)
+            {
+                _xmlEncoding = _xmlEncoding,
+                _xmlVersion = _xmlVersion,
+                _systemId = _systemId,
+                _publicId = _publicId,
+                _inputEncoding = _inputEncoding,
+                _notationName = _notationName
+            };
+            CloneNode(node, deep);
             return node;
         }
 

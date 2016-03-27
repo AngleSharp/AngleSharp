@@ -330,7 +330,7 @@
         public virtual INode Clone(Boolean deep = true)
         {
             var node = new Node(Owner, _name, _type, _flags);
-            CopyProperties(this, node, deep);
+            CloneNode(node, deep);
             return node;
         }
 
@@ -813,13 +813,13 @@
             //TODO
         }
 
-        static protected void CopyProperties(Node source, Node target, Boolean deep)
+        protected void CloneNode(Node target, Boolean deep)
         {
-            target._baseUri = source._baseUri;
+            target._baseUri = _baseUri;
 
             if (deep)
             {
-                foreach (var child in source._children)
+                foreach (var child in _children)
                 {
                     target.AddNode((Node)child.Clone(true));
                 }

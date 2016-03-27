@@ -1431,15 +1431,16 @@
             return DocumentElement.LocatePrefix(namespaceUri);
         }
 
-        static protected void CopyDocumentProperties(Document source, Document target, Boolean deep)
+        protected void CloneDocument(Document document, Boolean deep)
         {
-            target._ready = source._ready;
-            target.Referrer = source.Referrer;
-            target._location.Href = source._location.Href;
-            target._quirksMode = source._quirksMode;
-            target._sandbox = source._sandbox;
-            target._async = source._async;
-            target.ContentType = source.ContentType;
+            CloneNode(document, deep);
+            document._ready = _ready;
+            document.Referrer = Referrer;
+            document._location.Href = _location.Href;
+            document._quirksMode = _quirksMode;
+            document._sandbox = _sandbox;
+            document._async = _async;
+            document.ContentType = ContentType;
         }
 
         #endregion

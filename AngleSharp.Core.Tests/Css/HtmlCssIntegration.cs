@@ -158,5 +158,25 @@
             var originAborted = (linked.Rules[0] as ICssImportRule).Sheet;
             Assert.IsNull(originAborted);
         }
+
+        [Test]
+        public async Task StylePropertyOfElementFromDocumentWithCssShouldNotBeNull()
+        {
+            var config = Configuration.Default.WithCss();
+            var document = await BrowsingContext.New(config).OpenNewAsync();
+            var div = document.CreateElement<IHtmlDivElement>();
+            Assert.IsNotNull(div.Style);
+        }
+
+        [Test]
+        public async Task StylePropertyOfClonedElementShouldNotBeNull()
+        {
+            var config = Configuration.Default.WithCss();
+            var document = await BrowsingContext.New(config).OpenNewAsync();
+            var div = document.CreateElement<IHtmlDivElement>();
+            var clone = div.Clone(true) as IHtmlDivElement;
+            Assert.IsNotNull(clone);
+            Assert.IsNotNull(clone.Style);
+        }
     }
 }

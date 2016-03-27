@@ -32,8 +32,7 @@
         public override INode Clone(Boolean deep = true)
         {
             var node = new XmlElement(Owner, LocalName, Prefix);
-            CopyProperties(this, node, deep);
-            CopyAttributes(this, node);
+            CloneElement(node, deep);
             node.IdAttribute = IdAttribute;
             return node;
         }

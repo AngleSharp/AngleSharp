@@ -49,8 +49,7 @@
         public override INode Clone(Boolean deep = true)
         {
             var clone = new HtmlTemplateElement(Owner);
-            CopyProperties(this, clone, deep);
-            CopyAttributes(this, clone);
+            CloneElement(clone, deep);
 
             for (var i = 0; i < _content.ChildNodes.Length; i++)
             {
