@@ -178,14 +178,13 @@
         public void Dispose()
         {
             var isDisposed = _content == null;
-            if (isDisposed)
-            {
-                return;
-            }
 
-            _raw.Dispose();
-            _content.Clear().ToPool();
-            _content = null;
+            if (!isDisposed)
+            {
+                _raw.Dispose();
+                _content.Clear().ToPool();
+                _content = null;
+            }
         }
 
         #endregion

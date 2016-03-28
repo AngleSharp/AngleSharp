@@ -42,7 +42,11 @@
 
         #region Properties
 
-        protected StringBuilder StringBuffer { get; private set; }
+        protected StringBuilder StringBuffer 
+        { 
+            get; 
+            private set; 
+        }
 
         public TextSource Source
         {
@@ -104,20 +108,19 @@
         public void Dispose()
         {
             var isDisposed = StringBuffer == null;
-            if (isDisposed)
+
+            if (!isDisposed)
             {
-                return;
+                var disposable = _source as IDisposable;
+
+                if (disposable != null)
+                {
+                    disposable.Dispose();
+                }
+
+                StringBuffer.Clear().ToPool();
+                StringBuffer = null;
             }
-
-            var disposable = _source as IDisposable;
-
-            if (disposable != null)
-            {
-                disposable.Dispose();
-            }
-
-            StringBuffer.ToPool();
-            StringBuffer = null;
         }
 
         public TextPosition GetCurrentPosition()
