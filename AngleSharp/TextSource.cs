@@ -19,11 +19,11 @@
         const Int32 BufferSize = 4096;
 
         readonly Stream _baseStream;
-        readonly StringBuilder _content;
         readonly MemoryStream _raw;
         readonly Byte[] _buffer;
         readonly Char[] _chars;
 
+        StringBuilder _content;
         EncodingConfidence _confidence;
         Boolean _finished;
         Encoding _encoding;
@@ -177,8 +177,14 @@
 
         public void Dispose()
         {
-            _raw.Dispose();
-            _content.Clear().ToPool();
+            var isDisposed = _content == null;
+
+            if (!isDisposed)
+            {
+                _raw.Dispose();
+                _content.Clear().ToPool();
+                _content = null;
+            }
         }
 
         #endregion
