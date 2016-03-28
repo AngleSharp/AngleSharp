@@ -329,6 +329,9 @@
     <Compile Include="..\AngleSharp\Dom\Attr.cs">
       <Link>Dom\Attr.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\AttrChangedCallback.cs">
+      <Link>Dom\AttrChangedCallback.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\CharacterData.cs">
       <Link>Dom\CharacterData.cs</Link>
     </Compile>
