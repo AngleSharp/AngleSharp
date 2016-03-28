@@ -15,7 +15,6 @@
     {
         #region Fields
 
-        protected readonly StringBuilder _stringBuffer;
         protected readonly IEventAggregator _events;
         readonly Stack<UInt16> _columns;
         readonly TextSource _source;
@@ -30,7 +29,7 @@
 
         public BaseTokenizer(TextSource source, IEventAggregator events)
         {
-            _stringBuffer = Pool.NewStringBuilder();
+            StringBuffer = Pool.NewStringBuilder();
             _events = events;
             _columns = new Stack<UInt16>();
             _source = source;
@@ -42,6 +41,8 @@
         #endregion
 
         #region Properties
+
+        protected StringBuilder StringBuffer { get; private set; }
 
         public TextSource Source
         {
@@ -95,13 +96,19 @@
 
         public String FlushBuffer()
         {
-            var content = _stringBuffer.ToString();
-            _stringBuffer.Clear();
+            var content = StringBuffer.ToString();
+            StringBuffer.Clear();
             return content;
         }
 
         public void Dispose()
         {
+            var isDisposed = StringBuffer == null;
+            if (isDisposed)
+            {
+                return;
+            }
+
             var disposable = _source as IDisposable;
 
             if (disposable != null)
@@ -109,7 +116,8 @@
                 disposable.Dispose();
             }
 
-            _stringBuffer.ToPool();
+            StringBuffer.ToPool();
+            StringBuffer = null;
         }
 
         public TextPosition GetCurrentPosition()
