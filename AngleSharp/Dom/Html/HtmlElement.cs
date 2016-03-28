@@ -21,6 +21,12 @@
 
         #region ctor
 
+        static HtmlElement()
+        {
+            RegisterCallback<HtmlElement>(AttributeNames.Style, (element, value) => element.UpdateStyle(value));
+            RegisterCallback<HtmlElement>(AttributeNames.DropZone, (element, value) => element.TryUpdate(element._dropZone, value));
+        }
+
         public HtmlElement(Document owner, String localName, String prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, Combine(prefix, localName), localName, prefix, NamespaceNames.HtmlUri, flags | NodeFlags.HtmlMember)
         {
@@ -62,7 +68,7 @@
                 if (_dropZone == null)
                 {
                     _dropZone = new SettableTokenList(this.GetOwnAttribute(AttributeNames.DropZone));
-                    CreateBindings(_dropZone, AttributeNames.DropZone);
+                    _dropZone.Changed += value => UpdateAttribute(AttributeNames.DropZone, value);
                 }
 
                 return _dropZone;
@@ -203,7 +209,6 @@
             base.SetupElement();
 
             var style = this.GetOwnAttribute(AttributeNames.Style);
-            RegisterAttributeObserver(AttributeNames.Style, UpdateStyle);
 
             if (style != null)
             {

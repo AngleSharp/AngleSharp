@@ -19,6 +19,12 @@
 
         #region ctor
 
+        static HtmlIFrameElement()
+        {
+            RegisterCallback<HtmlIFrameElement>(AttributeNames.Sandbox, (element, value) => element.TryUpdate(element._sandbox, value));
+            RegisterCallback<HtmlIFrameElement>(AttributeNames.SrcDoc, (element, value) => element.UpdateSource());
+        }
+
         public HtmlIFrameElement(Document owner, String prefix = null)
             : base(owner, TagNames.Iframe, prefix, NodeFlags.LiteralText)
         {
@@ -47,7 +53,7 @@
                 if (_sandbox == null)
                 {
                     _sandbox = new SettableTokenList(this.GetOwnAttribute(AttributeNames.Sandbox));
-                    CreateBindings(_sandbox, AttributeNames.Sandbox);
+                    _sandbox.Changed += value => UpdateAttribute(AttributeNames.Sandbox, value);
                 }
 
                 return _sandbox;
@@ -85,11 +91,10 @@
             base.SetupElement();
 
             var srcDoc = this.GetOwnAttribute(AttributeNames.SrcDoc);
-            RegisterAttributeObserver(AttributeNames.SrcDoc, UpdateSource);
 
             if (srcDoc != null)
             {
-                UpdateSource(srcDoc);
+                UpdateSource();
             }
         }
 

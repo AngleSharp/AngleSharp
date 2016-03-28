@@ -11,6 +11,11 @@
     {
         #region ctor
 
+        static SvgElement()
+        {
+            RegisterCallback<SvgElement>(AttributeNames.Style, (element, value) => element.UpdateStyle(value));
+        }
+
         public SvgElement(Document owner, String name, String prefix = null, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, NamespaceNames.SvgUri, flags | NodeFlags.SvgMember)
         {
@@ -36,7 +41,6 @@
             base.SetupElement();
 
             var style = this.GetOwnAttribute(AttributeNames.Style);
-            RegisterAttributeObserver(AttributeNames.Style, UpdateStyle);
 
             if (style != null)
             {

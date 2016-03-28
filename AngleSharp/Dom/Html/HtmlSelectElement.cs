@@ -20,9 +20,11 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new HTML select element.
-        /// </summary>
+        static HtmlSelectElement()
+        {
+            RegisterCallback<HtmlSelectElement>(AttributeNames.Value, (element, value) => element.UpdateValue(value));
+        }
+
         public HtmlSelectElement(Document owner, String prefix = null)
             : base(owner, TagNames.Select, prefix)
         {
@@ -32,11 +34,6 @@
 
         #region Index
 
-        /// <summary>
-        /// Gets or sets an option element.
-        /// </summary>
-        /// <param name="index">The index of the element.</param>
-        /// <returns>The option at the given index.</returns>
         public IHtmlOptionElement this[Int32 index]
         {
             get { return Options.GetOptionAt(index); }
@@ -47,43 +44,28 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the size of the element.
-        /// </summary>
         public Int32 Size
         {
             get { return this.GetOwnAttribute(AttributeNames.Size).ToInteger(0); }
             set { this.SetOwnAttribute(AttributeNames.Size, value.ToString()); }
         }
 
-        /// <summary>
-        /// Gets or sets if the field is required.
-        /// </summary>
         public Boolean IsRequired
         {
             get { return this.HasOwnAttribute(AttributeNames.Required); }
             set { this.SetOwnAttribute(AttributeNames.Required, value ? String.Empty : null); }
         }
 
-        /// <summary>
-        /// Gets the set of options that are selected.
-        /// </summary>
         public IHtmlCollection<IHtmlOptionElement> SelectedOptions
         {
             get { return _selected ?? (_selected = new HtmlCollection<IHtmlOptionElement>(Options.Where(m => m.IsSelected))); }
         }
 
-        /// <summary>
-        /// Gets the index of the first selected option element.
-        /// </summary>
         public Int32 SelectedIndex
         {
             get { return Options.SelectedIndex; }
         }
 
-        /// <summary>
-        /// Gets or sets the value of this form control, that is, of the first selected option.
-        /// </summary>
         public String Value
         {
             get
@@ -106,34 +88,22 @@
             }
         }
 
-        /// <summary>
-        /// Gets the number of option elements in this select element.
-        /// </summary>
         public Int32 Length
         {
             get { return Options.Length; }
         }
 
-        /// <summary>
-        /// Gets the multiple HTML attribute, whichindicates whether multiple items can be selected.
-        /// </summary>
         public Boolean IsMultiple
         {
             get { return this.HasOwnAttribute(AttributeNames.Multiple); }
             set { this.SetOwnAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
         }
 
-        /// <summary>
-        /// Gets the set of option elements contained by this element. 
-        /// </summary>
         public IHtmlOptionsCollection Options
         {
             get { return _options ?? (_options = new OptionsCollection(this)); }
         }
 
-        /// <summary>
-        /// Gets the form control's type.
-        /// </summary>
         public String Type
         {
             get { return IsMultiple ? InputTypeNames.SelectMultiple : InputTypeNames.SelectOne; }
@@ -143,30 +113,16 @@
 
         #region Methods
 
-        /// <summary>
-        /// Adds the element to the options collection.
-        /// </summary>
-        /// <param name="element">The option element to add.</param>
-        /// <param name="before">The following element.</param>
         public void AddOption(IHtmlOptionElement element, IHtmlElement before = null)
         {
             Options.Add(element, before);
         }
 
-        /// <summary>
-        /// Adds the element to the options collection.
-        /// </summary>
-        /// <param name="element">The group element to add.</param>
-        /// <param name="before">The following element.</param>
         public void AddOption(IHtmlOptionsGroupElement element, IHtmlElement before = null)
         {
             Options.Add(element, before);
         }
 
-        /// <summary>
-        /// Removes the option with the given index from the collection.
-        /// </summary>
-        /// <param name="index">The index of the element to remove.</param>
         public void RemoveOptionAt(Int32 index)
         {
             Options.Remove(index);
@@ -209,7 +165,6 @@
             base.SetupElement();
 
             var value = this.GetOwnAttribute(AttributeNames.Value);
-            RegisterAttributeObserver(AttributeNames.Value, UpdateValue);
 
             if (value != null)
             {

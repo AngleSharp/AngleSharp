@@ -915,9 +915,10 @@
         /// <param name="element">The element to host the attribute.</param>
         /// <param name="name">The name of the attribute.</param>
         /// <param name="value">The attribute's value.</param>
-        public static void SetOwnAttribute(this Element element, String name, String value)
+        /// <param name="suppressCallbacks">Flag to suppress callbacks.</param>
+        public static void SetOwnAttribute(this Element element, String name, String value, Boolean suppressCallbacks = false)
         {
-            element.Attributes.SetNamedItemWithNamespaceUri(new Attr(name, value));
+            element.Attributes.SetNamedItemWithNamespaceUri(new Attr(name, value), suppressCallbacks);
         }
         
         /// <summary>

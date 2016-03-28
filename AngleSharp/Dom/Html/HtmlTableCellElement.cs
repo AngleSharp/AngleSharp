@@ -18,6 +18,11 @@
 
         #region ctor
 
+        static HtmlTableCellElement()
+        {
+            RegisterCallback<HtmlTableCellElement>(AttributeNames.Headers, (element, value) => element.TryUpdate(element._headers, value));
+        }
+
         public HtmlTableCellElement(Document owner, String name, String prefix)
             : base(owner, name, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped)
         {
@@ -27,10 +32,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets the index of this cell in the row, starting from 0.
-        /// This index is in document tree order and not display order.
-        /// </summary>
         public Int32 Index
         {
             get
@@ -38,110 +39,81 @@
                 var parent = ParentElement;
 
                 while (parent != null && !(parent is IHtmlTableRowElement))
+                {
                     parent = parent.ParentElement;
+                }
 
                 var row = parent as HtmlTableRowElement;
 
                 if (row != null)
+                {
                     return row.IndexOf(this);
+                }
 
                 return -1;
             }
         }
 
-        /// <summary>
-        /// Gets or sets the value of the alignment attribute.
-        /// </summary>
         public HorizontalAlignment Align
         {
             get { return this.GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }
             set { this.SetOwnAttribute(AttributeNames.Align, value.ToString()); }
         }
 
-        /// <summary>
-        /// Gets or sets the value of the vertical alignment attribute.
-        /// </summary>
         public VerticalAlignment VAlign
         {
             get { return this.GetOwnAttribute(AttributeNames.Valign).ToEnum(VerticalAlignment.Middle); }
             set { this.SetOwnAttribute(AttributeNames.Valign, value.ToString()); }
         }
 
-        /// <summary>
-        /// Gets or sets the value of the background color attribute.
-        /// </summary>
         public String BgColor
         {
             get { return this.GetOwnAttribute(AttributeNames.BgColor); }
             set { this.SetOwnAttribute(AttributeNames.BgColor, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the value of the width attribute.
-        /// </summary>
         public String Width
         {
             get { return this.GetOwnAttribute(AttributeNames.Width); }
             set { this.SetOwnAttribute(AttributeNames.Width, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the value of the height attribute.
-        /// </summary>
         public String Height
         {
             get { return this.GetOwnAttribute(AttributeNames.Height); }
             set { this.SetOwnAttribute(AttributeNames.Height, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the number of columns spanned by cell. 
-        /// </summary>
         public Int32 ColumnSpan
         {
             get { return this.GetOwnAttribute(AttributeNames.ColSpan).ToInteger(0); }
             set { this.SetOwnAttribute(AttributeNames.ColSpan, value.ToString()); }
         }
 
-        /// <summary>
-        /// Gets or sets the number of rows spanned by cell. 
-        /// </summary>
         public Int32 RowSpan
         {
             get { return this.GetOwnAttribute(AttributeNames.RowSpan).ToInteger(0); }
             set { this.SetOwnAttribute(AttributeNames.RowSpan, value.ToString()); }
         }
 
-        /// <summary>
-        /// Gets or sets if word wrapping is suppressed.
-        /// </summary>
         public Boolean NoWrap
         {
             get { return this.GetOwnAttribute(AttributeNames.NoWrap).ToBoolean(false); }
             set { this.SetOwnAttribute(AttributeNames.NoWrap, value.ToString()); }
         }
 
-        /// <summary>
-        /// Gets or sets the abbreviation for header cells.
-        /// </summary>
         public String Abbr
         {
             get { return this.GetOwnAttribute(AttributeNames.Abbr); }
             set { this.SetOwnAttribute(AttributeNames.Abbr, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the scope covered by header cells.
-        /// </summary>
         public String Scope
         {
             get { return this.GetOwnAttribute(AttributeNames.Scope); }
             set { this.SetOwnAttribute(AttributeNames.Scope, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the list of id attribute values for header cells. 
-        /// </summary>
         public ISettableTokenList Headers
         {
             get
@@ -149,16 +121,13 @@
                 if (_headers == null)
                 {
                     _headers = new SettableTokenList(this.GetOwnAttribute(AttributeNames.Headers));
-                    CreateBindings(_headers, AttributeNames.Headers);
+                    _headers.Changed += value => UpdateAttribute(AttributeNames.Headers, value);
                 }
 
                 return _headers; 
             }
         }
 
-        /// <summary>
-        /// Gets or sets the names group of related headers. 
-        /// </summary>
         public String Axis
         {
             get { return this.GetOwnAttribute(AttributeNames.Axis); }

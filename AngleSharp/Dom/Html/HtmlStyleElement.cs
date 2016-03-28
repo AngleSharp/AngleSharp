@@ -21,6 +21,11 @@
 
         #region ctor
 
+        static HtmlStyleElement()
+        {
+            RegisterCallback<HtmlStyleElement>(AttributeNames.Media, (element, value) => element.UpdateMedia(value));
+        }
+
         public HtmlStyleElement(Document owner, String prefix = null)
             : base(owner, TagNames.Style, prefix, NodeFlags.Special | NodeFlags.LiteralText)
         {
@@ -72,10 +77,6 @@
         internal override void SetupElement()
         {
             base.SetupElement();
-
-            var media = this.GetOwnAttribute(AttributeNames.Media);
-            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
-
             UpdateSheet();
         }
 

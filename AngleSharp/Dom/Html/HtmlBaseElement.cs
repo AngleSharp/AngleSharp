@@ -11,9 +11,11 @@
     {
         #region ctor
 
-        /// <summary>
-        /// Creates a HTML base element.
-        /// </summary>
+        static HtmlBaseElement()
+        {
+            RegisterCallback<HtmlBaseElement>(AttributeNames.Href, (element, value) => element.UpdateUrl(value));
+        }
+
         public HtmlBaseElement(Document owner, String prefix = null)
             : base(owner, TagNames.Base, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
@@ -23,18 +25,12 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the base URI.
-        /// </summary>
         public String Href
         {
             get { return this.GetOwnAttribute(AttributeNames.Href); }
             set { this.SetOwnAttribute(AttributeNames.Href, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the default target frame.
-        /// </summary>
         public String Target
         {
             get { return this.GetOwnAttribute(AttributeNames.Target); }
@@ -59,7 +55,6 @@
             base.SetupElement();
 
             var href = this.GetOwnAttribute(AttributeNames.Href);
-            RegisterAttributeObserver(AttributeNames.Href, UpdateUrl);
 
             if (href != null)
             {

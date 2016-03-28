@@ -111,6 +111,11 @@
 
         #region ctor
 
+        static HtmlMediaElement()
+        {
+            RegisterCallback<HtmlMediaElement<TResource>>(AttributeNames.Src, (element, value) => element.UpdateSource(value));
+        }
+
         public HtmlMediaElement(Document owner, String name, String prefix)
             : base(owner, name, prefix)
         {
@@ -445,7 +450,6 @@
             base.SetupElement();
 
             var src = this.GetOwnAttribute(AttributeNames.Src);
-            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
 
             if (src != null)
             {
