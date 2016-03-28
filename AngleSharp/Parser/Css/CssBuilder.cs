@@ -1120,6 +1120,7 @@
                 token = NextToken();
             }
 
+            var selectorIsValid = selector.IsValid;
             var result = selector.ToPool();
             var node = result as CssNode;
 
@@ -1129,7 +1130,7 @@
                 node.SourceCode = CreateView(start, end);
             }
 
-            if (!selector.IsValid && !_parser.Options.IsToleratingInvalidValues)
+            if (!selectorIsValid && !_parser.Options.IsToleratingInvalidValues)
             {
                 RaiseErrorOccurred(CssParseError.InvalidSelector, start);
                 result = null;
@@ -1153,6 +1154,7 @@
 
             important = value.IsImportant;
             _tokenizer.IsInValue = false;
+            var valueIsValid = value.IsValid;
             var result = value.ToPool();
             var node = result as CssNode;
 
@@ -1162,7 +1164,7 @@
                 node.SourceCode = CreateView(start, end);
             }
 
-            if (!value.IsValid && !_parser.Options.IsToleratingInvalidValues)
+            if (!valueIsValid && !_parser.Options.IsToleratingInvalidValues)
             {
                 RaiseErrorOccurred(CssParseError.InvalidValue, start);
                 result = null;
