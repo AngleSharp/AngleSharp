@@ -558,22 +558,24 @@
 
             if (pseudoClassFunctions.TryGetValue(arguments.Data, out creator))
             {
-                var function = creator();
-                _ready = false;
-
-                foreach (var token in arguments)
+                using (var function = creator())
                 {
-                    if (function.Finished(token))
+                    _ready = false;
+
+                    foreach (var token in arguments)
                     {
-                        var sel = function.Produce();
-
-                        if (IsNested && function is NotFunctionState)
+                        if (function.Finished(token))
                         {
-                            sel = null;
-                        }
+                            var sel = function.Produce();
 
-                        _ready = true;
-                        return sel;
+                            if (IsNested && function is NotFunctionState)
+                            {
+                                sel = null;
+                            }
+
+                            _ready = true;
+                            return sel;
+                        }
                     }
                 }
             }
@@ -604,7 +606,7 @@
 
         #region Function States
 
-        abstract class FunctionState
+        abstract class FunctionState : IDisposable
         {
             public Boolean Finished(CssToken token)
             {
@@ -614,6 +616,10 @@
             public abstract ISelector Produce();
 
             protected abstract Boolean OnToken(CssToken token);
+
+            public virtual void Dispose()
+            {
+            }
         }
 
         sealed class NotFunctionState : FunctionState
@@ -640,15 +646,21 @@
             public override ISelector Produce()
             {
                 var valid = _nested.IsValid;
-                var sel = _nested.ToPool();
+                var sel = _nested.GetResult();
 
-                if (!valid)
+                if (valid)
                 {
-                    return null;
+                    var code = PseudoClassNames.Not.CssFunction(sel.Text);
+                    return SimpleSelector.PseudoClass(el => !sel.Match(el), code);
                 }
 
-                var code = PseudoClassNames.Not.CssFunction(sel.Text);
-                return SimpleSelector.PseudoClass(el => !sel.Match(el), code);
+                return null;
+            }
+
+            public override void Dispose()
+            {
+                base.Dispose();
+                _nested.ToPool();
             }
         }
 
@@ -675,15 +687,21 @@
             public override ISelector Produce()
             {
                 var valid = _nested.IsValid;
-                var sel = _nested.ToPool();
+                var sel = _nested.GetResult();
 
-                if (!valid)
+                if (valid)
                 {
-                    return null;
+                    var code = PseudoClassNames.Has.CssFunction(sel.Text);
+                    return SimpleSelector.PseudoClass(el => el.ChildNodes.QuerySelector(sel) != null, code);
                 }
 
-                var code = PseudoClassNames.Has.CssFunction(sel.Text);
-                return SimpleSelector.PseudoClass(el => el.ChildNodes.QuerySelector(sel) != null, code);
+                return null;
+            }
+
+            public override void Dispose()
+            {
+                base.Dispose();
+                _nested.ToPool();
             }
         }
 
@@ -710,15 +728,21 @@
             public override ISelector Produce()
             {
                 var valid = _nested.IsValid;
-                var sel = _nested.ToPool();
+                var sel = _nested.GetResult();
 
-                if (!valid)
+                if (valid)
                 {
-                    return null;
+                    var code = PseudoClassNames.Matches.CssFunction(sel.Text);
+                    return SimpleSelector.PseudoClass(el => sel.Match(el), code);
                 }
 
-                var code = PseudoClassNames.Matches.CssFunction(sel.Text);
-                return SimpleSelector.PseudoClass(el => sel.Match(el), code);
+                return null;
+            }
+
+            public override void Dispose()
+            {
+                base.Dispose();
+                _nested.ToPool();
             }
         }
 
@@ -753,14 +777,13 @@
 
             public override ISelector Produce()
             {
-                if (!valid || value == null)
+                if (valid && value != null)
                 {
-                    return null;
+                    var code = PseudoClassNames.Dir.CssFunction(value);
+                    return SimpleSelector.PseudoClass(el => el is IHtmlElement && value.Isi(((IHtmlElement)el).Direction), code);
                 }
 
-                
-                var code = PseudoClassNames.Dir.CssFunction(value);
-                return SimpleSelector.PseudoClass(el => el is IHtmlElement && value.Isi(((IHtmlElement)el).Direction), code);
+                return null;
             }
         }
 
@@ -795,13 +818,13 @@
 
             public override ISelector Produce()
             {
-                if (!valid || value == null)
+                if (valid && value != null)
                 {
-                    return null;
+                    var code = PseudoClassNames.Lang.CssFunction(value);
+                    return SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Language.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
                 }
 
-                var code = PseudoClassNames.Lang.CssFunction(value);
-                return SimpleSelector.PseudoClass(el => el is IHtmlElement && ((IHtmlElement)el).Language.StartsWith(value, StringComparison.OrdinalIgnoreCase), code);
+                return null;
             }
         }
 
@@ -836,13 +859,13 @@
 
             public override ISelector Produce()
             {
-                if (!valid || value == null)
+                if (valid && value != null)
                 {
-                    return null;
+                    var code = PseudoClassNames.Contains.CssFunction(value);
+                    return SimpleSelector.PseudoClass(el => el.TextContent.Contains(value), code);
                 }
 
-                var code = PseudoClassNames.Contains.CssFunction(value);
-                return SimpleSelector.PseudoClass(el => el.TextContent.Contains(value), code);
+                return null;
             }
         }
 
@@ -869,36 +892,42 @@
             public override ISelector Produce()
             {
                 var valid = _nested.IsValid;
-                var sel = _nested.ToPool();
+                var sel = _nested.GetResult();
 
-                if (!valid)
+                if (valid)
                 {
-                    return null;
-                }
-
-                var code = PseudoClassNames.HostContext.CssFunction(sel.Text);
-                return SimpleSelector.PseudoClass(el =>
-                {
-                    var host = default(IElement);
-                    var shadowRoot = el.Parent as IShadowRoot;
-
-                    if (shadowRoot != null)
+                    var code = PseudoClassNames.HostContext.CssFunction(sel.Text);
+                    return SimpleSelector.PseudoClass(el =>
                     {
-                        host = shadowRoot.Host;
-                    }
+                        var host = default(IElement);
+                        var shadowRoot = el.Parent as IShadowRoot;
 
-                    while (host != null)
-                    {
-                        if (sel.Match(host))
+                        if (shadowRoot != null)
                         {
-                            return true;
+                            host = shadowRoot.Host;
                         }
 
-                        host = host.ParentElement;
-                    }
+                        while (host != null)
+                        {
+                            if (sel.Match(host))
+                            {
+                                return true;
+                            }
 
-                    return false;
-                }, code);
+                            host = host.ParentElement;
+                        }
+
+                        return false;
+                    }, code);
+                }
+
+                return null;
+            }
+
+            public override void Dispose()
+            {
+                base.Dispose();
+                _nested.ToPool();
             }
         }
 
