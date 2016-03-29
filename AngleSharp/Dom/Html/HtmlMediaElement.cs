@@ -376,7 +376,7 @@
             }
         }
 
-        public IMediaError Error
+        public IMediaError MediaError
         {
             get;
             private set;

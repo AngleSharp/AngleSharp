@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Dom.Events;
     using System;
 
     /// <summary>
@@ -8,7 +9,7 @@
     /// implement this interface, other implement it via an interface that inherit it.
     /// </summary>
     [DomName("HTMLElement")]
-    public interface IHtmlElement : IElement
+    public interface IHtmlElement : IElement, IGlobalEventHandlers
     {
         /// <summary>
         /// Gets or sets the value of the lang attribute.

@@ -19,6 +19,358 @@
 
         #endregion
 
+        #region Handlers
+
+        event DomEventHandler IGlobalEventHandlers.Aborted
+        {
+            add { AddEventListener(EventNames.Abort, value); }
+            remove { RemoveEventListener(EventNames.Abort, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Blurred
+        {
+            add { AddEventListener(EventNames.Blur, value); }
+            remove { RemoveEventListener(EventNames.Blur, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Cancelled
+        {
+            add { AddEventListener(EventNames.Cancel, value); }
+            remove { RemoveEventListener(EventNames.Cancel, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.CanPlay
+        {
+            add { AddEventListener(EventNames.CanPlay, value); }
+            remove { RemoveEventListener(EventNames.CanPlay, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.CanPlayThrough
+        {
+            add { AddEventListener(EventNames.CanPlayThrough, value); }
+            remove { RemoveEventListener(EventNames.CanPlayThrough, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Changed
+        {
+            add { AddEventListener(EventNames.Change, value); }
+            remove { RemoveEventListener(EventNames.Change, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Clicked
+        {
+            add { AddEventListener(EventNames.Click, value); }
+            remove { RemoveEventListener(EventNames.Click, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.CueChanged
+        {
+            add { AddEventListener(EventNames.CueChange, value); }
+            remove { RemoveEventListener(EventNames.CueChange, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.DoubleClick
+        {
+            add { AddEventListener(EventNames.DblClick, value); }
+            remove { RemoveEventListener(EventNames.DblClick, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Drag
+        {
+            add { AddEventListener(EventNames.Drag, value); }
+            remove { RemoveEventListener(EventNames.Drag, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.DragEnd
+        {
+            add { AddEventListener(EventNames.DragEnd, value); }
+            remove { RemoveEventListener(EventNames.DragEnd, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.DragEnter
+        {
+            add { AddEventListener(EventNames.DragEnter, value); }
+            remove { RemoveEventListener(EventNames.DragEnter, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.DragExit
+        {
+            add { AddEventListener(EventNames.DragExit, value); }
+            remove { RemoveEventListener(EventNames.DragExit, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.DragLeave
+        {
+            add { AddEventListener(EventNames.DragLeave, value); }
+            remove { RemoveEventListener(EventNames.DragLeave, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.DragOver
+        {
+            add { AddEventListener(EventNames.DragOver, value); }
+            remove { RemoveEventListener(EventNames.DragOver, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.DragStart
+        {
+            add { AddEventListener(EventNames.DragStart, value); }
+            remove { RemoveEventListener(EventNames.DragStart, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Dropped
+        {
+            add { AddEventListener(EventNames.Drop, value); }
+            remove { RemoveEventListener(EventNames.Drop, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.DurationChanged
+        {
+            add { AddEventListener(EventNames.DurationChange, value); }
+            remove { RemoveEventListener(EventNames.DurationChange, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Emptied
+        {
+            add { AddEventListener(EventNames.Emptied, value); }
+            remove { RemoveEventListener(EventNames.Emptied, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Ended
+        {
+            add { AddEventListener(EventNames.Ended, value); }
+            remove { RemoveEventListener(EventNames.Ended, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Error
+        {
+            add { AddEventListener(EventNames.Error, value); }
+            remove { RemoveEventListener(EventNames.Error, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Focused
+        {
+            add { AddEventListener(EventNames.Focus, value); }
+            remove { RemoveEventListener(EventNames.Focus, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Input
+        {
+            add { AddEventListener(EventNames.Input, value); }
+            remove { RemoveEventListener(EventNames.Input, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Invalid
+        {
+            add { AddEventListener(EventNames.Invalid, value); }
+            remove { RemoveEventListener(EventNames.Invalid, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.KeyDown
+        {
+            add { AddEventListener(EventNames.Keydown, value); }
+            remove { RemoveEventListener(EventNames.Keydown, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.KeyPress
+        {
+            add { AddEventListener(EventNames.Keypress, value); }
+            remove { RemoveEventListener(EventNames.Keypress, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.KeyUp
+        {
+            add { AddEventListener(EventNames.Keyup, value); }
+            remove { RemoveEventListener(EventNames.Keyup, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Loaded
+        {
+            add { AddEventListener(EventNames.Load, value); }
+            remove { RemoveEventListener(EventNames.Load, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.LoadedData
+        {
+            add { AddEventListener(EventNames.LoadedData, value); }
+            remove { RemoveEventListener(EventNames.LoadedData, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.LoadedMetadata
+        {
+            add { AddEventListener(EventNames.LoadedMetaData, value); }
+            remove { RemoveEventListener(EventNames.LoadedMetaData, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Loading
+        {
+            add { AddEventListener(EventNames.LoadStart, value); }
+            remove { RemoveEventListener(EventNames.LoadStart, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.MouseDown
+        {
+            add { AddEventListener(EventNames.Mousedown, value); }
+            remove { RemoveEventListener(EventNames.Mousedown, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.MouseEnter
+        {
+            add { AddEventListener(EventNames.Mouseenter, value); }
+            remove { RemoveEventListener(EventNames.Mouseenter, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.MouseLeave
+        {
+            add { AddEventListener(EventNames.Mouseleave, value); }
+            remove { RemoveEventListener(EventNames.Mouseleave, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.MouseMove
+        {
+            add { AddEventListener(EventNames.Mousemove, value); }
+            remove { RemoveEventListener(EventNames.Mousemove, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.MouseOut
+        {
+            add { AddEventListener(EventNames.Mouseout, value); }
+            remove { RemoveEventListener(EventNames.Mouseout, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.MouseOver
+        {
+            add { AddEventListener(EventNames.Mouseover, value); }
+            remove { RemoveEventListener(EventNames.Mouseover, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.MouseUp
+        {
+            add { AddEventListener(EventNames.Mouseup, value); }
+            remove { RemoveEventListener(EventNames.Mouseup, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.MouseWheel
+        {
+            add { AddEventListener(EventNames.Wheel, value); }
+            remove { RemoveEventListener(EventNames.Wheel, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Paused
+        {
+            add { AddEventListener(EventNames.Pause, value); }
+            remove { RemoveEventListener(EventNames.Pause, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Played
+        {
+            add { AddEventListener(EventNames.Play, value); }
+            remove { RemoveEventListener(EventNames.Play, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Playing
+        {
+            add { AddEventListener(EventNames.Playing, value); }
+            remove { RemoveEventListener(EventNames.Playing, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Progress
+        {
+            add { AddEventListener(EventNames.Progress, value); }
+            remove { RemoveEventListener(EventNames.Progress, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.RateChanged
+        {
+            add { AddEventListener(EventNames.RateChange, value); }
+            remove { RemoveEventListener(EventNames.RateChange, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Resetted
+        {
+            add { AddEventListener(EventNames.Reset, value); }
+            remove { RemoveEventListener(EventNames.Reset, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Resized
+        {
+            add { AddEventListener(EventNames.Resize, value); }
+            remove { RemoveEventListener(EventNames.Resize, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Scrolled
+        {
+            add { AddEventListener(EventNames.Scroll, value); }
+            remove { RemoveEventListener(EventNames.Scroll, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Seeked
+        {
+            add { AddEventListener(EventNames.Seeked, value); }
+            remove { RemoveEventListener(EventNames.Seeked, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Seeking
+        {
+            add { AddEventListener(EventNames.Seeking, value); }
+            remove { RemoveEventListener(EventNames.Seeking, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Selected
+        {
+            add { AddEventListener(EventNames.Select, value); }
+            remove { RemoveEventListener(EventNames.Select, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Shown
+        {
+            add { AddEventListener(EventNames.Show, value); }
+            remove { RemoveEventListener(EventNames.Show, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Stalled
+        {
+            add { AddEventListener(EventNames.Stalled, value); }
+            remove { RemoveEventListener(EventNames.Stalled, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Submitted
+        {
+            add { AddEventListener(EventNames.Submit, value); }
+            remove { RemoveEventListener(EventNames.Submit, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Suspended
+        {
+            add { AddEventListener(EventNames.Suspend, value); }
+            remove { RemoveEventListener(EventNames.Suspend, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.TimeUpdated
+        {
+            add { AddEventListener(EventNames.TimeUpdate, value); }
+            remove { RemoveEventListener(EventNames.TimeUpdate, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Toggled
+        {
+            add { AddEventListener(EventNames.Toggle, value); }
+            remove { RemoveEventListener(EventNames.Toggle, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.VolumeChanged
+        {
+            add { AddEventListener(EventNames.VolumeChange, value); }
+            remove { RemoveEventListener(EventNames.VolumeChange, value); }
+        }
+
+        event DomEventHandler IGlobalEventHandlers.Waiting
+        {
+            add { AddEventListener(EventNames.Waiting, value); }
+            remove { RemoveEventListener(EventNames.Waiting, value); }
+        }
+
+        #endregion
+
         #region ctor
 
         static HtmlElement()
