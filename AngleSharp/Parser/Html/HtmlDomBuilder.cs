@@ -598,7 +598,7 @@
                     else if (tagName.Is(TagNames.Meta))
                     {
                         var element = new HtmlMetaElement(_document);
-                        AddElement(element, token.AsTag(), true);
+                        AddElement(element, token.AsTag(), acknowledgeSelfClosing: true);
                         var encoding = element.GetEncoding();
                         CloseCurrentNode();
 
@@ -618,7 +618,7 @@
                     }
                     else if (TagNames.AllHeadBase.Contains(tagName))
                     {
-                        AddElement(token.AsTag(), true);
+                        AddElement(token.AsTag(), acknowledgeSelfClosing: true);
                         CloseCurrentNode();
                         return;
                     }
@@ -956,7 +956,7 @@
             else if (tagName.Is(TagNames.Input))
             {
                 ReconstructFormatting();
-                AddElement(new HtmlInputElement(_document), tag, true);
+                AddElement(new HtmlInputElement(_document), tag, acknowledgeSelfClosing: true);
                 CloseCurrentNode();
 
                 if (!tag.GetAttribute(AttributeNames.Type).Isi(AttributeNames.Hidden))
@@ -1040,7 +1040,7 @@
             }
             else if (TagNames.AllBodyClosed.Contains(tagName))
             {
-                AddElement(tag, true);
+                AddElement(tag, acknowledgeSelfClosing: true);
                 CloseCurrentNode();
             }
             else if (tagName.Is(TagNames.Hr))
@@ -1050,7 +1050,7 @@
                     InBodyEndTagParagraph(tag);
                 }
 
-                AddElement(new HtmlHrElement(_document), tag, true);
+                AddElement(new HtmlHrElement(_document), tag, acknowledgeSelfClosing: true);
                 CloseCurrentNode();
                 _frameset = false;
             }
@@ -1260,7 +1260,9 @@
                     InBody(HtmlTagToken.Open(TagNames.Form));
 
                     if (tag.GetAttribute(AttributeNames.Action).Length > 0)
+                    {
                         _currentFormElement.SetAttribute(AttributeNames.Action, tag.GetAttribute(AttributeNames.Action));
+                    }
 
                     InBody(HtmlTagToken.Open(TagNames.Hr));
                     InBody(HtmlTagToken.Open(TagNames.Label));
@@ -1801,7 +1803,7 @@
                     }
                     else if (tagName.Is(TagNames.Col))
                     {
-                        AddElement(new HtmlTableColElement(_document), token.AsTag(), true);
+                        AddElement(new HtmlTableColElement(_document), token.AsTag(), acknowledgeSelfClosing: true);
                         CloseCurrentNode();
                     }
                     else if (tagName.Is(TagNames.Template))
@@ -2419,7 +2421,7 @@
                     }
                     else if (tagName.Is(TagNames.Frame))
                     {
-                        AddElement(new HtmlFrameElement(_document), token.AsTag(), true);
+                        AddElement(new HtmlFrameElement(_document), token.AsTag(), acknowledgeSelfClosing: true);
                         CloseCurrentNode();
                     }
                     else if (tagName.Is(TagNames.NoFrames))
@@ -3146,7 +3148,7 @@
         void InBodyStartTagBreakrow(HtmlTagToken tag)
         {
             ReconstructFormatting();
-            AddElement(tag);
+            AddElement(tag, acknowledgeSelfClosing: true);
             CloseCurrentNode();
             _frameset = false;
         }
