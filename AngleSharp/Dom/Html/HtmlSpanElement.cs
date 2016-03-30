@@ -11,7 +11,6 @@
         public HtmlSpanElement(Document owner, String prefix = null)
             : base(owner, TagNames.Span, prefix)
         {
-            Owner = owner;
         }
     }
 }
