@@ -42,22 +42,10 @@
             var config = new Configuration(events: parseErrors);
             var document = source.ToHtmlDocument(config);
 
-            Assert.AreEqual(4, parseErrors.Received.Count);
+            Assert.AreEqual(1, parseErrors.Received.Count);
             Assert.AreEqual((int)HtmlParseError.DoctypeMissing, parseErrors.Received[0].Code);
             Assert.AreEqual(1, parseErrors.Received[0].Position.Column);
             Assert.AreEqual(1, parseErrors.Received[0].Position.Line);
-
-            Assert.AreEqual((int)HtmlParseError.TagCannotBeSelfClosed, parseErrors.Received[1].Code);
-            Assert.AreEqual(69, parseErrors.Received[1].Position.Column);
-            Assert.AreEqual(2, parseErrors.Received[1].Position.Line);
-
-            Assert.AreEqual((int)HtmlParseError.TagCannotBeSelfClosed, parseErrors.Received[2].Code);
-            Assert.AreEqual(82, parseErrors.Received[2].Position.Column);
-            Assert.AreEqual(10, parseErrors.Received[2].Position.Line);
-
-            Assert.AreEqual((int)HtmlParseError.TagCannotBeSelfClosed, parseErrors.Received[3].Code);
-            Assert.AreEqual(70, parseErrors.Received[3].Position.Column);
-            Assert.AreEqual(18, parseErrors.Received[3].Position.Line);
         }
 
         [Test]
