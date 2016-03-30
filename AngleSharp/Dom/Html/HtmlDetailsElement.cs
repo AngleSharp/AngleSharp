@@ -11,9 +11,6 @@
     {
         #region ctor
 
-        /// <summary>
-        /// Creates a new HTML details element.
-        /// </summary>
         public HtmlDetailsElement(Document owner, String prefix = null)
             : base(owner, TagNames.Details, prefix, NodeFlags.Special)
         {
@@ -23,9 +20,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets if the details element is open.
-        /// </summary>
         public Boolean IsOpen
         {
             get { return this.HasOwnAttribute(AttributeNames.Open); }

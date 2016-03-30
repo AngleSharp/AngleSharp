@@ -11,9 +11,6 @@
     {
         #region ctor
 
-        /// <summary>
-        /// Creates a new HTML paragraph element.
-        /// </summary>
         public HtmlParagraphElement(Document owner, String prefix = null)
             : base(owner, TagNames.P, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd)
         {
@@ -23,9 +20,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the value of the alignment attribute.
-        /// </summary>
         public HorizontalAlignment Align
         {
             get { return this.GetOwnAttribute(AttributeNames.Align).ToEnum(HorizontalAlignment.Left); }

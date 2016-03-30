@@ -8,9 +8,6 @@
     /// </summary>
     sealed class HtmlDivElement : HtmlElement, IHtmlDivElement
     {
-        /// <summary>
-        /// Creates a new HTML div element.
-        /// </summary>
         public HtmlDivElement(Document owner, String prefix = null)
             : base(owner, TagNames.Div, prefix, NodeFlags.Special)
         {

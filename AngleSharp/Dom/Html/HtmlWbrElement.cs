@@ -10,9 +10,6 @@
     /// </summary>
     sealed class HtmlWbrElement : HtmlElement
     {
-        /// <summary>
-        /// Creates a new HTML wbr element.
-        /// </summary>
         public HtmlWbrElement(Document owner, String prefix = null)
             : base(owner, TagNames.Wbr, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {

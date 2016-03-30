@@ -8,9 +8,6 @@
     /// </summary>
     sealed class HtmlPictureElement : HtmlElement
     {
-        /// <summary>
-        /// Creates a new HTML picture element.
-        /// </summary>
         public HtmlPictureElement(Document owner, String prefix = null)
             : base(owner, TagNames.Picture, prefix)
         {

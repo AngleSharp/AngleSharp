@@ -11,9 +11,6 @@
     {
         #region ctor
 
-        /// <summary>
-        /// Creates a new HTML optgroup element.
-        /// </summary>
         public HtmlOptionsGroupElement(Document owner, String prefix = null)
             : base(owner, TagNames.Optgroup, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
@@ -23,18 +20,11 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the label.
-        /// </summary>
         public String Label
         {
             get { return this.GetOwnAttribute(AttributeNames.Label); }
             set { this.SetOwnAttribute(AttributeNames.Label, value); }
         }
-
-        /// <summary>
-        /// Gets or sets if the optgroup is enabled or disabled.
-        /// </summary>
         public Boolean IsDisabled
         {
             get { return this.HasOwnAttribute(AttributeNames.Disabled); }
