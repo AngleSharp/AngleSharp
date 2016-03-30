@@ -19,6 +19,11 @@
 
         #region ctor
 
+        static HtmlEmbedElement()
+        {
+            RegisterCallback<HtmlEmbedElement>(AttributeNames.Src, (element, value) => element.UpdateSource(value));
+        }
+
         public HtmlEmbedElement(Document owner, String prefix = null)
             : base(owner, TagNames.Embed, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
@@ -67,7 +72,6 @@
             base.SetupElement();
 
             var src = this.GetOwnAttribute(AttributeNames.Src);
-            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
 
             if (src != null)
             {

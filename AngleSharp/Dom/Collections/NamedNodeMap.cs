@@ -17,7 +17,6 @@
         
         readonly List<Attr> _items;
         readonly WeakReference<Element> _owner;
-        readonly Dictionary<String, Action<String>> _attributeHandlers;
 
         #endregion
 
@@ -27,7 +26,6 @@
         {
             _items = new List<Attr>();
             _owner = new WeakReference<Element>(owner);
-            _attributeHandlers = new Dictionary<String, Action<String>>();
         }
 
         #endregion
@@ -46,20 +44,6 @@
 
         #endregion
 
-        #region Internal Properties
-
-        internal Element Owner
-        {
-            get
-            {
-                var owner = default(Element);
-                _owner.TryGetTarget(out owner);
-                return owner;
-            }
-        }
-
-        #endregion
-
         #region Properties
 
         public Int32 Length
@@ -74,66 +58,19 @@
         internal void FastAddItem(Attr attr)
         {
             _items.Add(attr);
-
-            if (attr.NamespaceUri == null)
-            {
-                CallHandlers(attr.LocalName, attr.Value);
-            }
         }
 
         internal void RaiseChangedEvent(Attr attr, String newValue, String oldValue)
         {
-            var owner = Owner;
+            var element = default(Element);
 
-            if (attr.NamespaceUri == null)
+            if (_owner.TryGetTarget(out element))
             {
-                CallHandlers(attr.LocalName, newValue);
-            }
-
-            if (owner != null)
-            {
-                owner.AttributeChanged(attr.LocalName, attr.NamespaceUri, oldValue);
+                element.AttributeChanged(attr.LocalName, attr.NamespaceUri, oldValue, newValue);
             }
         }
 
-        internal void SetHandler(String name, Action<String> handler)
-        {
-            _attributeHandlers[name] = handler;
-        }
-
-        internal Boolean HasHandler(String name)
-        {
-            return _attributeHandlers.ContainsKey(name);
-        }
-
-        internal void AddHandler(String name, Action<String> handler)
-        {
-            if (handler != null)
-            {
-                var existing = default(Action<String>);
-
-                if (_attributeHandlers.TryGetValue(name, out existing))
-                {
-                    handler += existing;
-                }
-
-                _attributeHandlers[name] = handler;
-            }
-        }
-
-        internal Action<String> RemoveHandler(String name)
-        {
-            var handler = default(Action<String>);
-
-            if (_attributeHandlers.TryGetValue(name, out handler))
-            {
-                _attributeHandlers.Remove(name);
-            }
-
-            return handler;
-        }
-
-        internal IAttr RemoveNamedItemOrDefault(String name)
+        internal IAttr RemoveNamedItemOrDefault(String name, Boolean suppressMutationObservers)
         {
             for (var i = 0; i < _items.Count; i++)
             {
@@ -142,7 +79,39 @@
                     var attr = _items[i];
                     _items.RemoveAt(i);
                     attr.Container = null;
-                    RaiseChangedEvent(attr, null, attr.Value);
+
+                    if (!suppressMutationObservers)
+                    {
+                        RaiseChangedEvent(attr, null, attr.Value);
+                    }
+
+                    return attr;
+                }
+            }
+
+            return null;
+        }
+
+        internal IAttr RemoveNamedItemOrDefault(String name)
+        {
+            return RemoveNamedItemOrDefault(name, false);
+        }
+
+        internal IAttr RemoveNamedItemOrDefault(String namespaceUri, String localName, Boolean suppressMutationObservers)
+        {
+            for (var i = 0; i < _items.Count; i++)
+            {
+                if (localName.Is(_items[i].LocalName) && namespaceUri.Is(_items[i].NamespaceUri))
+                {
+                    var attr = _items[i];
+                    _items.RemoveAt(i);
+                    attr.Container = null;
+
+                    if (!suppressMutationObservers)
+                    {
+                        RaiseChangedEvent(attr, null, attr.Value);
+                    }
+
                     return attr;
                 }
             }
@@ -152,19 +121,7 @@
 
         internal IAttr RemoveNamedItemOrDefault(String namespaceUri, String localName)
         {
-            for (var i = 0; i < _items.Count; i++)
-            {
-                if (localName.Is(_items[i].LocalName) && namespaceUri.Is(_items[i].NamespaceUri))
-                {
-                    var attr = _items[i];
-                    _items.RemoveAt(i);
-                    attr.Container = null;
-                    RaiseChangedEvent(attr, null, attr.Value);
-                    return attr;
-                }
-            }
-
-            return null;
+            return RemoveNamedItemOrDefault(namespaceUri, localName, false);
         }
 
         #endregion
@@ -223,7 +180,7 @@
             return null;
         }
 
-        public IAttr SetNamedItemWithNamespaceUri(IAttr item)
+        public IAttr SetNamedItemWithNamespaceUri(IAttr item, Boolean suppressMutationObservers)
         {
             var proposed = Prepare(item);
 
@@ -238,16 +195,30 @@
                     {
                         var attr = _items[i];
                         _items[i] = proposed;
-                        RaiseChangedEvent(proposed, proposed.Value, attr.Value);
+
+                        if (!suppressMutationObservers)
+                        {
+                            RaiseChangedEvent(proposed, proposed.Value, attr.Value);
+                        }
+
                         return attr;
                     }
                 }
 
                 _items.Add(proposed);
-                RaiseChangedEvent(proposed, proposed.Value, null);
+
+                if (!suppressMutationObservers)
+                {
+                    RaiseChangedEvent(proposed, proposed.Value, null);
+                }
             }
 
             return null;
+        }
+
+        public IAttr SetNamedItemWithNamespaceUri(IAttr item)
+        {
+            return SetNamedItemWithNamespaceUri(item, false);
         }
 
         public IAttr RemoveNamedItem(String name)
@@ -287,16 +258,6 @@
         #endregion
 
         #region Helpers
-
-        void CallHandlers(String name, String value)
-        {
-            var handler = default(Action<String>);
-
-            if (_attributeHandlers.TryGetValue(name, out handler))
-            {
-                handler(value);
-            }
-        }
 
         Attr Prepare(IAttr item)
         {

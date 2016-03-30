@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Media
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Dom.Events;
     using System;
 
     /// <summary>

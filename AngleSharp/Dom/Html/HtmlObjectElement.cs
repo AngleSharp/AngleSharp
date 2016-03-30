@@ -19,6 +19,11 @@
 
         #region ctor
 
+        static HtmlObjectElement()
+        {
+            RegisterCallback<HtmlObjectElement>(AttributeNames.Data, (element, value) => element.UpdateSource(value));
+        }
+
         public HtmlObjectElement(Document owner, String prefix = null)
             : base(owner, TagNames.Object, prefix, NodeFlags.Scoped)
         {
@@ -108,7 +113,6 @@
             base.SetupElement();
 
             var data = this.GetOwnAttribute(AttributeNames.Data);
-            RegisterAttributeObserver(AttributeNames.Data, UpdateSource);
 
             if (data != null)
             {

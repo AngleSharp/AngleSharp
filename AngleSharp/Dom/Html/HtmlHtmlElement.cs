@@ -11,9 +11,6 @@
     {
         #region ctor
 
-        /// <summary>
-        /// Creates a new HTML html tag.
-        /// </summary>
         public HtmlHtmlElement(Document owner, String prefix = null)
             : base(owner, TagNames.Html, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed | NodeFlags.Scoped | NodeFlags.HtmlTableScoped | NodeFlags.HtmlTableSectionScoped)
         {
@@ -23,9 +20,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the value of the manifest attribute.
-        /// </summary>
         public String Manifest 
         {
             get { return this.GetOwnAttribute(AttributeNames.Manifest); }

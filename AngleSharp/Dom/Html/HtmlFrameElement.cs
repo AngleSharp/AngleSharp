@@ -20,9 +20,6 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets if the frame cannot be resized.
-        /// </summary>
         public Boolean NoResize
         {
             get { return this.GetOwnAttribute(AttributeNames.NoResize).ToBoolean(false); }

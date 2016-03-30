@@ -20,6 +20,11 @@
 
         #region ctor
 
+        static HtmlFrameElementBase()
+        {
+            RegisterCallback<HtmlFrameElementBase>(AttributeNames.Src, (element, value) => element.UpdateSource());
+        }
+
         public HtmlFrameElementBase(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, flags | NodeFlags.Special)
         {
@@ -79,7 +84,7 @@
 
         #region Methods
 
-        protected void UpdateSource(String _)
+        protected void UpdateSource()
         {
             var content = GetContentHtml();
             var source = Source;
@@ -105,11 +110,10 @@
             base.SetupElement();
 
             var src = this.GetOwnAttribute(AttributeNames.Src);
-            RegisterAttributeObserver(AttributeNames.Src, UpdateSource);
 
             if (src != null)
             {
-                UpdateSource(src);
+                UpdateSource();
             }
         }
 

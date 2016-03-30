@@ -19,6 +19,14 @@
 
         #region ctor
 
+        static HtmlImageElement()
+        {
+            RegisterCallback<HtmlImageElement>(AttributeNames.Src, (element, value) => element.UpdateSource());
+            RegisterCallback<HtmlImageElement>(AttributeNames.SrcSet, (element, value) => element.UpdateSource());
+            RegisterCallback<HtmlImageElement>(AttributeNames.Sizes, (element, value) => element.UpdateSource());
+            RegisterCallback<HtmlImageElement>(AttributeNames.CrossOrigin, (element, value) => element.UpdateSource());
+        }
+
         public HtmlImageElement(Document owner, String prefix = null)
             : base(owner, TagNames.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
@@ -115,12 +123,6 @@
         internal override void SetupElement()
         {
             base.SetupElement();
-
-            RegisterAttributeObserver(AttributeNames.Src, value => UpdateSource());
-            RegisterAttributeObserver(AttributeNames.SrcSet, value => UpdateSource());
-            RegisterAttributeObserver(AttributeNames.Sizes, value => UpdateSource());
-            RegisterAttributeObserver(AttributeNames.CrossOrigin, value => UpdateSource());
-
             UpdateSource();
         }
 

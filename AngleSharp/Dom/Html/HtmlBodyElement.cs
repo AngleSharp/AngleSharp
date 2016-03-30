@@ -9,77 +9,7 @@
     /// </summary>
     sealed class HtmlBodyElement : HtmlElement, IHtmlBodyElement
     {
-        #region ctor
-
-        /// <summary>
-        /// Creates a HTML body element.
-        /// </summary>
-        public HtmlBodyElement(Document owner, String prefix = null)
-            : base(owner, TagNames.Body, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
-        {
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the color of active links (after mouse-button down, but before mouse-button up). 
-        /// </summary>
-        public String ALink
-        {
-            get { return this.GetOwnAttribute(AttributeNames.Alink); }
-            set { this.SetOwnAttribute(AttributeNames.Alink, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the URI of the background texture tile image.
-        /// </summary>
-        public String Background
-        {
-            get { return this.GetOwnAttribute(AttributeNames.Background); }
-            set { this.SetOwnAttribute(AttributeNames.Background, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the document background color.
-        /// </summary>
-        public String BgColor
-        {
-            get { return this.GetOwnAttribute(AttributeNames.BgColor); }
-            set { this.SetOwnAttribute(AttributeNames.BgColor, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets color of links that are not active and unvisited.
-        /// </summary>
-        public String Link
-        {
-            get { return this.GetOwnAttribute(AttributeNames.Link); }
-            set { this.SetOwnAttribute(AttributeNames.Link, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets document text color.
-        /// </summary>
-        public String Text
-        {
-            get { return this.GetOwnAttribute(AttributeNames.Text); }
-            set { this.SetOwnAttribute(AttributeNames.Text, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets color of links that have been visited by the user.
-        /// </summary>
-        public String VLink
-        {
-            get { return this.GetOwnAttribute(AttributeNames.Vlink); }
-            set { this.SetOwnAttribute(AttributeNames.Vlink, value); }
-        }
-
-        #endregion
-
-        #region Events from IDL
+        #region Events
 
         public event DomEventHandler Printed
         {
@@ -151,6 +81,71 @@
         {
             add { AddEventListener(EventNames.Unload, value); }
             remove { RemoveEventListener(EventNames.Unload, value); }
+        }
+
+        #endregion
+
+        #region ctor
+
+        static HtmlBodyElement()
+        {
+            RegisterEventCallback<HtmlBodyElement>(EventNames.AfterPrint);
+            RegisterEventCallback<HtmlBodyElement>(EventNames.BeforePrint);
+            RegisterEventCallback<HtmlBodyElement>(EventNames.Unloading);
+            RegisterEventCallback<HtmlBodyElement>(EventNames.HashChange);
+            RegisterEventCallback<HtmlBodyElement>(EventNames.Message);
+            RegisterEventCallback<HtmlBodyElement>(EventNames.Offline);
+            RegisterEventCallback<HtmlBodyElement>(EventNames.Online);
+            RegisterEventCallback<HtmlBodyElement>(EventNames.PageHide);
+            RegisterEventCallback<HtmlBodyElement>(EventNames.PageShow);
+            RegisterEventCallback<HtmlBodyElement>(EventNames.PopState);
+            RegisterEventCallback<HtmlBodyElement>(EventNames.Storage);
+            RegisterEventCallback<HtmlBodyElement>(EventNames.Unload);
+        }
+
+        public HtmlBodyElement(Document owner, String prefix = null)
+            : base(owner, TagNames.Body, prefix, NodeFlags.Special | NodeFlags.ImplicitelyClosed)
+        {
+        }
+
+        #endregion
+
+        #region Properties
+
+        public String ALink
+        {
+            get { return this.GetOwnAttribute(AttributeNames.Alink); }
+            set { this.SetOwnAttribute(AttributeNames.Alink, value); }
+        }
+
+        public String Background
+        {
+            get { return this.GetOwnAttribute(AttributeNames.Background); }
+            set { this.SetOwnAttribute(AttributeNames.Background, value); }
+        }
+
+        public String BgColor
+        {
+            get { return this.GetOwnAttribute(AttributeNames.BgColor); }
+            set { this.SetOwnAttribute(AttributeNames.BgColor, value); }
+        }
+
+        public String Link
+        {
+            get { return this.GetOwnAttribute(AttributeNames.Link); }
+            set { this.SetOwnAttribute(AttributeNames.Link, value); }
+        }
+
+        public String Text
+        {
+            get { return this.GetOwnAttribute(AttributeNames.Text); }
+            set { this.SetOwnAttribute(AttributeNames.Text, value); }
+        }
+
+        public String VLink
+        {
+            get { return this.GetOwnAttribute(AttributeNames.Vlink); }
+            set { this.SetOwnAttribute(AttributeNames.Vlink, value); }
         }
 
         #endregion

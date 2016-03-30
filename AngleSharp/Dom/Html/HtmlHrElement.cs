@@ -8,9 +8,6 @@
     /// </summary>
     sealed class HtmlHrElement : HtmlElement, IHtmlHrElement
     {
-        /// <summary>
-        /// Creates a new hr element.
-        /// </summary>
         public HtmlHrElement(Document owner, String prefix = null)
             : base(owner, TagNames.Hr, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {

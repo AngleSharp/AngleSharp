@@ -11,6 +11,7 @@
     using System.Diagnostics;
     using System.Globalization;
     using System.Text;
+    using System.Linq;
 
     /// <summary>
     /// Represents a helper to construct objects with externally defined
@@ -98,15 +99,8 @@
         /// </param>
         /// <returns>The service, if any.</returns>
         public static TService GetService<TService>(this IConfiguration configuration)
-            where TService : IService
         {
-            foreach (var service in configuration.Services)
-            {
-                if (service is TService)
-                    return (TService)service;
-            }
-
-            return default(TService);
+            return configuration.GetServices<TService>().FirstOrDefault();
         }
 
         /// <summary>
@@ -121,13 +115,8 @@
         /// </param>
         /// <returns>An enumerable over all services.</returns>
         public static IEnumerable<TService> GetServices<TService>(this IConfiguration configuration)
-            where TService : IService
         {
-            foreach (var service in configuration.Services)
-            {
-                if (service is TService)
-                    yield return (TService)service;
-            }
+            return configuration.Services.OfType<TService>();
         }
 
         /// <summary>
@@ -342,7 +331,9 @@
             foreach (var command in options.GetServices<ICommandService>())
             {
                 if (commandId.Isi(command.CommandId))
+                {
                     return command;
+                }
             }
 
             return null;

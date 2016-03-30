@@ -20,6 +20,11 @@
 
         #region ctor
 
+        static HtmlInputElement()
+        {
+            RegisterCallback<HtmlInputElement>(AttributeNames.Type, (element, value) => element.UpdateType(value));
+        }
+
         public HtmlInputElement(Document owner, String prefix = null)
             : base(owner, TagNames.Input, prefix, NodeFlags.SelfClosing)
         {
@@ -357,9 +362,7 @@
         internal override void SetupElement()
         {
             base.SetupElement();
-
             var type = this.GetOwnAttribute(AttributeNames.Type);
-            RegisterAttributeObserver(AttributeNames.Type, UpdateType);
             UpdateType(type);
         }
 

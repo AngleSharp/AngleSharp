@@ -23,18 +23,12 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the number of columns of frames in the frameset. .
-        /// </summary>
         public Int32 Columns
         {
             get { return this.GetOwnAttribute(AttributeNames.Cols).ToInteger(1); }
             set { this.SetOwnAttribute(AttributeNames.Cols, value.ToString()); }
         }
 
-        /// <summary>
-        /// Gets or sets the number of rows of frames in the frameset.
-        /// </summary>
         public Int32 Rows
         {
             get { return this.GetOwnAttribute(AttributeNames.Rows).ToInteger(1); }

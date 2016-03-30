@@ -11,9 +11,6 @@
     {
         #region ctor
 
-        /// <summary>
-        /// Creates a new HTML param element.
-        /// </summary>
         public HtmlParamElement(Document owner, String prefix = null)
             : base(owner, TagNames.Param, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
@@ -23,18 +20,12 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the value of the value attribute.
-        /// </summary>
         public String Value
         {
             get { return this.GetOwnAttribute(AttributeNames.Value); }
             set { this.SetOwnAttribute(AttributeNames.Value, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the value of the name attribute.
-        /// </summary>
         public String Name
         {
             get { return this.GetOwnAttribute(AttributeNames.Name); }

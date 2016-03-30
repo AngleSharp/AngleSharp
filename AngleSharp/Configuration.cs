@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Events;
-    using AngleSharp.Services;
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
@@ -19,7 +19,7 @@
     {
         #region Fields
 
-        readonly IEnumerable<IService> _services;
+        readonly IEnumerable<Object> _services;
         readonly IEventAggregator _events;
         readonly CultureInfo _culture;
 
@@ -43,9 +43,9 @@
         /// <param name="services">The services to expose.</param>
         /// <param name="events">The event aggregator.</param>
         /// <param name="culture">The current culture.</param>
-        public Configuration(IEnumerable<IService> services = null, IEventAggregator events = null, CultureInfo culture = null)
+        public Configuration(IEnumerable<Object> services = null, IEventAggregator events = null, CultureInfo culture = null)
         {
-            _services = services ?? Enumerable.Empty<IService>();
+            _services = services ?? Enumerable.Empty<Object>();
             _culture = culture ?? CultureInfo.CurrentUICulture;
             _events = events;
         }
@@ -81,7 +81,7 @@
         /// <summary>
         /// Gets an enumeration over the registered services.
         /// </summary>
-        public IEnumerable<IService> Services
+        public IEnumerable<Object> Services
         {
             get { return _services; }
         }

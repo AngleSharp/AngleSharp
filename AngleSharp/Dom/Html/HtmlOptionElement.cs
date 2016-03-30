@@ -17,9 +17,6 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new HTML option element.
-        /// </summary>
         public HtmlOptionElement(Document owner, String prefix = null)
             : base(owner, TagNames.Option, prefix, NodeFlags.ImplicitelyClosed | NodeFlags.ImpliedEnd | NodeFlags.HtmlSelectScoped)
         {
@@ -29,44 +26,29 @@
         
         #region Properties
 
-        /// <summary>
-        /// Gets or sets if the option is enabled or disabled.
-        /// </summary>
         public Boolean IsDisabled
         {
             get { return this.HasOwnAttribute(AttributeNames.Disabled); }
             set { this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
         }
 
-        /// <summary>
-        /// Gets the associated HTML form element.
-        /// </summary>
         public IHtmlFormElement Form
         {
             get { return GetAssignedForm(); }
         }
 
-        /// <summary>
-        /// Gets or sets the label.
-        /// </summary>
         public String Label
         {
             get { return this.GetOwnAttribute(AttributeNames.Label) ?? Text; }
             set { this.SetOwnAttribute(AttributeNames.Label, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the value.
-        /// </summary>
         public String Value
         {
             get { return this.GetOwnAttribute(AttributeNames.Value) ?? Text; }
             set { this.SetOwnAttribute(AttributeNames.Value, value); }
         }
 
-        /// <summary>
-        /// Gets the index of the option element.
-        /// </summary>
         public Int32 Index
         {
             get
@@ -90,27 +72,18 @@
             }
         }
 
-        /// <summary>
-        /// Gets or sets the text of the option.
-        /// </summary>
         public String Text
         {
             get { return TextContent.CollapseAndStrip(); }
             set { TextContent = value; }
         }
 
-        /// <summary>
-        /// Gets or sets if the option is selected by default.
-        /// </summary>
         public Boolean IsDefaultSelected
         {
             get { return this.HasOwnAttribute(AttributeNames.Selected); }
             set { this.SetOwnAttribute(AttributeNames.Selected, value ? String.Empty : null); }
         }
 
-        /// <summary>
-        /// Gets or sets if the option is currently selected.
-        /// </summary>
         public Boolean IsSelected
         {
             get { return _selected.HasValue ? _selected.Value : IsDefaultSelected; }

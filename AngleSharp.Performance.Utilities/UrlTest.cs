@@ -32,10 +32,14 @@
                     source = await content.Content.ReadAsStringAsync();
 
                     if (withBuffer)
+                    {
                         File.WriteAllText(fileName, source);
+                    }
                 }
                 else
+                {
                     source = File.ReadAllText(fileName);
+                }
 
                 return new UrlTest(name, source);
             }

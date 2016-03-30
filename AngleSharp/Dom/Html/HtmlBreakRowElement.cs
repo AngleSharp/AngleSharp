@@ -8,9 +8,6 @@
     /// </summary>
     sealed class HtmlBreakRowElement : HtmlElement, IHtmlBreakRowElement
     {
-        /// <summary>
-        /// Creates a new HTML br element
-        /// </summary>
         public HtmlBreakRowElement(Document owner, String prefix = null)
             : base(owner, TagNames.Br, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {

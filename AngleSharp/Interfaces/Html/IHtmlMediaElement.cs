@@ -56,7 +56,7 @@
         /// Gets the current media error, if any.
         /// </summary>
         [DomName("error")]
-        IMediaError Error { get; }
+        IMediaError MediaError { get; }
 
         /// <summary>
         /// Gets the current media's controller, if any.

@@ -8,9 +8,11 @@
     using AngleSharp.Parser.Css;
     using AngleSharp.Services.Styling;
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Runtime.CompilerServices;
 
     /// <summary>
@@ -21,7 +23,8 @@
     {
         #region Fields
 
-        static readonly ConditionalWeakTable<Element, IShadowRoot> shadowRoots = new ConditionalWeakTable<Element, IShadowRoot>();
+        static readonly ConditionalWeakTable<Element, IShadowRoot> ShadowRoots = new ConditionalWeakTable<Element, IShadowRoot>();
+        static readonly Dictionary<Type, AttrChanged> RegisteredCallbacks = new Dictionary<Type, AttrChanged>();
 
         readonly NamedNodeMap _attributes;
         readonly String _namespace;
@@ -35,6 +38,11 @@
         #endregion
 
         #region ctor
+
+        static Element()
+        {
+            RegisterCallback<Element>(AttributeNames.Class, (element, value) => element.TryUpdate(element._classList, value));
+        }
 
         public Element(Document owner, String localName, String prefix, String namespaceUri, NodeFlags flags = NodeFlags.None)
             : this(owner, prefix != null ? String.Concat(prefix, ":", localName) : localName, localName, prefix, namespaceUri, flags)
@@ -95,7 +103,7 @@
             get
             {
                 var root = default(IShadowRoot);
-                shadowRoots.TryGetValue(this, out root);
+                ShadowRoots.TryGetValue(this, out root);
                 return root;
             }
         }
@@ -142,7 +150,7 @@
                 if (_classList == null)
                 {
                     _classList = new TokenList(this.GetOwnAttribute(AttributeNames.Class));
-                    CreateBindings(_classList, AttributeNames.Class);
+                    _classList.Changed += value => UpdateAttribute(AttributeNames.Class, value);
                 }
 
                 return _classList;
@@ -365,7 +373,7 @@
             }
 
             var root = new ShadowRoot(this, mode);
-            shadowRoots.Add(this, root);
+            ShadowRoots.Add(this, root);
             return root;
         }
 
@@ -614,8 +622,15 @@
         {
         }
 
-        internal void AttributeChanged(String localName, String namespaceUri, String oldValue)
+        internal void AttributeChanged(String localName, String namespaceUri, String oldValue, String newValue)
         {
+            var callback = GetOrCreateCallback(GetType());
+
+            if (namespaceUri == null)
+            {
+                callback.Invoke(this, localName, newValue);
+            }
+
             Owner.QueueMutation(MutationRecord.Attributes(
                 target: this,
                 attributeName: localName,
@@ -625,7 +640,9 @@
 
         protected ICssStyleDeclaration CreateStyle()
         {
-            if (_attributes.HasHandler(AttributeNames.Style))
+            const NodeFlags TargetFlags = NodeFlags.HtmlMember | NodeFlags.SvgMember;
+
+            if ((Flags & TargetFlags) != NodeFlags.None)
             {
                 var config = Owner.Options;
                 var engine = config.GetCssStyleEngine();
@@ -649,10 +666,40 @@
             return null;
         }
 
-        protected void CreateBindings(IBindable bindable, String attributeName)
+        protected static void RegisterCallback<TElement>(String name, Action<TElement, String> callback)
+            where TElement : Element
         {
-            bindable.Changed += value => UpdateAttribute(attributeName, value);
-            RegisterAttributeObserver(attributeName, value => bindable.Update(value));
+            var type = typeof(TElement);
+            var handler = GetOrCreateCallback(type);
+
+            handler.Invoke += (element, localName, newValue) =>
+            {
+                if (localName.Is(name))
+                {
+                    callback.Invoke((TElement)element, newValue);
+                }
+            };
+        }
+
+        static AttrChanged GetOrCreateCallback(Type type)
+        {
+            var handler = default(AttrChanged);
+
+            if (!RegisteredCallbacks.TryGetValue(type, out handler))
+            {
+                handler = new AttrChanged();
+
+                if (type != typeof(Element))
+                {
+                    var parent = type.GetTypeInfo().BaseType;
+                    var parentHandler = GetOrCreateCallback(parent);
+                    handler.Invoke = (e, n, v) => parentHandler.Invoke(e, n, v);
+                }
+
+                RegisteredCallbacks[type] = handler;
+            }
+
+            return handler;
         }
 
         protected void UpdateStyle(String value)
@@ -661,20 +708,15 @@
 
             if (String.IsNullOrEmpty(value))
             {
-                RemoveAttribute(AttributeNames.Style);
+                _attributes.RemoveNamedItemOrDefault(AttributeNames.Style, suppressMutationObservers: true);
             }
 
-            if (bindable != null)
-            {
-                bindable.Update(value);
-            }
+            TryUpdate(bindable, value);
         }
 
         protected void UpdateAttribute(String name, String value)
         {
-            var handler = _attributes.RemoveHandler(name);
-            this.SetOwnAttribute(name, value);
-            _attributes.SetHandler(name, handler);
+            this.SetOwnAttribute(name, value, suppressCallbacks: true);
         }
 
         protected sealed override String LocateNamespace(String prefix)
@@ -700,9 +742,17 @@
             element.SetupElement();
         }
 
-        protected void RegisterAttributeObserver(String name, Action<String> callback)
+        protected void TryUpdate(IBindable bindable, String value)
         {
-            _attributes.AddHandler(name, callback);
+            if (bindable != null)
+            {
+                bindable.Update(value);
+            }
+        }
+
+        sealed class AttrChanged
+        {
+            public AttrChangedCallback Invoke = (element, localName, newValue) => { };
         }
 
         #endregion

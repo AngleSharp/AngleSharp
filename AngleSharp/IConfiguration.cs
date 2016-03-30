@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Events;
-    using AngleSharp.Services;
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
 
@@ -19,7 +19,7 @@
         /// <summary>
         /// Gets an enumeration over the available services.
         /// </summary>
-        IEnumerable<IService> Services { get; }
+        IEnumerable<Object> Services { get; }
 
         /// <summary>
         /// Gets the assigned event aggregator.

@@ -17,9 +17,6 @@
 
         #region ctor
 
-        /// <summary>
-        /// Creates a new HTML fieldset element.
-        /// </summary>
         public HtmlFieldSetElement(Document owner, String prefix = null)
             : base(owner, TagNames.Fieldset, prefix)
         {
@@ -29,17 +26,11 @@
 
         #region Properties
 
-        /// <summary>
-        /// Gets the type of input control (fieldset).
-        /// </summary>
         public String Type
         {
             get { return TagNames.Fieldset; }
         }
 
-        /// <summary>
-        /// Gets the elements belonging to this field set.
-        /// </summary>
         public IHtmlFormControlsCollection Elements
         {
             get { return _elements ?? (_elements = new HtmlFormControlsCollection(Form, this)); }

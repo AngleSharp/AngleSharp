@@ -22,6 +22,15 @@
 
         #region ctor
 
+        static HtmlLinkElement()
+        {
+            RegisterCallback<HtmlLinkElement>(AttributeNames.Sizes, (element, value) => element.TryUpdate(element._sizes, value));
+            RegisterCallback<HtmlLinkElement>(AttributeNames.Media, (element, value) => element.UpdateMedia(value));
+            RegisterCallback<HtmlLinkElement>(AttributeNames.Disabled, (element, value) => element.UpdateDisabled(value));
+            RegisterCallback<HtmlLinkElement>(AttributeNames.Href, (element, value) => element.UpdateSource(value));
+            RegisterCallback<HtmlLinkElement>(AttributeNames.Rel, (element, value) => element.UpdateRelation(value));
+        }
+
         public HtmlLinkElement(Document owner, String prefix = null)
             : base(owner, TagNames.Link, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
@@ -87,7 +96,7 @@
                 if (_relList == null)
                 {
                     _relList = new TokenList(this.GetOwnAttribute(AttributeNames.Rel));
-                    CreateBindings(_relList, AttributeNames.Rel);
+                    _relList.Changed += value => UpdateAttribute(AttributeNames.Rel, value);
                 }
 
                 return _relList; 
@@ -101,7 +110,7 @@
                 if (_sizes == null)
                 {
                     _sizes = new SettableTokenList(this.GetOwnAttribute(AttributeNames.Sizes));
-                    CreateBindings(_sizes, AttributeNames.Sizes);
+                    _sizes.Changed += value => UpdateAttribute(AttributeNames.Sizes, value);
                 }
 
                 return _sizes; 
@@ -165,10 +174,6 @@
             base.SetupElement();
 
             var rel = this.GetOwnAttribute(AttributeNames.Rel);
-            RegisterAttributeObserver(AttributeNames.Media, UpdateMedia);
-            RegisterAttributeObserver(AttributeNames.Disabled, UpdateDisabled);
-            RegisterAttributeObserver(AttributeNames.Href, UpdateSource);
-            RegisterAttributeObserver(AttributeNames.Rel, UpdateRelation);
 
             if (rel != null)
             {
@@ -202,12 +207,14 @@
 
         void UpdateRelation(String value)
         {
+            TryUpdate(_relList, value);
+
             if (_relation != null)
             {
                 //TODO
                 //_relation.Cancel();
             }
-
+            
             _relation = CreateFirstLegalRelation();
             UpdateSource(this.GetOwnAttribute(AttributeNames.Href));
         }
