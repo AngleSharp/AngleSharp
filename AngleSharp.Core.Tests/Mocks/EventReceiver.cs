@@ -32,15 +32,5 @@
 
             _received.Add(data);
         }
-
-        public void Subscribe<TEvent>(ISubscriber<TEvent> listener)
-        {
-            //Empty on purpose
-        }
-
-        public void Unsubscribe<TEvent>(ISubscriber<TEvent> listener)
-        {
-            //Empty on purpose
-        }
     }
 }
