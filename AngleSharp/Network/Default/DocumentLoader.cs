@@ -14,10 +14,10 @@
         /// Creates a new document loader.
         /// </summary>
         /// <param name="requesters">The requesters to use.</param>
-        /// <param name="configuration">The configuration to use..</param>
+        /// <param name="context">The context to use.</param>
         /// <param name="filter">The optional request filter to use.</param>
-        public DocumentLoader(IEnumerable<IRequester> requesters, IConfiguration configuration, Predicate<IRequest> filter = null)
-            : base(requesters, configuration, filter)
+        public DocumentLoader(IEnumerable<IRequester> requesters, IBrowsingContext context, Predicate<IRequest> filter = null)
+            : base(requesters, context, filter)
         {
         }
 

@@ -104,7 +104,7 @@
                 return null;
             }
 
-            return new DocumentLoader(_requesters, context.Configuration, Filter);
+            return new DocumentLoader(_requesters, context, Filter);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@
                 return null;
             }
 
-            return new ResourceLoader(_requesters, context.Configuration, Filter);
+            return new ResourceLoader(_requesters, context, Filter);
         }
 
         #endregion

@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Network.Default
 {
     using AngleSharp.Dom;
-    using AngleSharp.Events;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
     using System.Threading;
@@ -16,7 +16,7 @@
         #region Fields
 
         readonly IEnumerable<IRequester> _requesters;
-        readonly IConfiguration _configuration;
+        readonly IBrowsingContext _context;
         readonly Predicate<IRequest> _filter;
         readonly List<IDownload> _downloads;
 
@@ -25,15 +25,15 @@
         #region ctor
 
         /// <summary>
-        /// Creates a new document loader.
+        /// Creates a new resource loader.
         /// </summary>
         /// <param name="requesters">The requesters to use.</param>
-        /// <param name="configuration">The configuration to use..</param>
+        /// <param name="context">The context to use.</param>
         /// <param name="filter">The optional request filter to use.</param>
-        public BaseLoader(IEnumerable<IRequester> requesters, IConfiguration configuration, Predicate<IRequest> filter)
+        public BaseLoader(IEnumerable<IRequester> requesters, IBrowsingContext context, Predicate<IRequest> filter)
         {
             _requesters = requesters;
-            _configuration = configuration;
+            _context = context;
             _filter = filter ?? (_ => true);
             _downloads = new List<IDownload>();
         }
@@ -73,7 +73,7 @@
         /// <returns>The associated cookie string, if any.</returns>
         protected virtual String GetCookie(Url url)
         {
-            return _configuration.GetCookie(url.Origin);
+            return _context.Configuration.GetCookie(url.Origin);
         }
 
         /// <summary>
@@ -124,16 +124,9 @@
             {
                 if (requester.SupportsProtocol(request.Address.Scheme))
                 {
-                    var events = _configuration.Events;
-                    var evt = new RequestStartEvent(requester, request);
-
-                    if (events != null)
-                    {
-                        events.Publish(evt);
-                    }
-
+                    _context.FireSimpleEvent(EventNames.RequestStart);
                     var result = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
-                    evt.FireEnd();
+                    _context.FireSimpleEvent(EventNames.RequestEnd);
                     return result;
                 }
             }
