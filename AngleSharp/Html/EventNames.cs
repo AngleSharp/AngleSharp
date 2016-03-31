@@ -403,6 +403,11 @@
         public static readonly String ParseEnd = "parseEnd";
 
         /// <summary>
+        /// The parseError event.
+        /// </summary>
+        public static readonly String ParseError = "parseError";
+
+        /// <summary>
         /// The requestStart event.
         /// </summary>
         public static readonly String RequestStart = "requestStart";

@@ -70,6 +70,11 @@
         event DomEventHandler Parsed;
 
         /// <summary>
+        /// Fired when a parse error is encountered.
+        /// </summary>
+        event DomEventHandler ParseError;
+
+        /// <summary>
         /// Fired when a requester is starting.
         /// </summary>
         event DomEventHandler Requesting;

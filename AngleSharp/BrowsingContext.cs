@@ -51,6 +51,12 @@
             remove { RemoveEventListener(EventNames.RequestEnd, value); }
         }
 
+        event DomEventHandler IBrowsingContext.ParseError
+        {
+            add { AddEventListener(EventNames.ParseError, value); }
+            remove { RemoveEventListener(EventNames.ParseError, value); }
+        }
+
         #endregion
 
         #region ctor
