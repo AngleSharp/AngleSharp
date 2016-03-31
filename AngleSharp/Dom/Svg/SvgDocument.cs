@@ -2,6 +2,7 @@
 {
     using AngleSharp.Events;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Parser.Xml;
     using System;
@@ -77,16 +78,13 @@
         {
             var document = new SvgDocument(context, options.Source);
             var evt = new HtmlParseStartEvent(document);
-            var events = context.Configuration.Events;
             var parser = new XmlDomBuilder(document);
+            var parserOptions = new XmlParserOptions { };
             document.Setup(options);
             context.NavigateTo(document);
-
-            if (events != null)
-                events.Publish(evt);
-
-            await parser.ParseAsync(default(XmlParserOptions), cancelToken).ConfigureAwait(false);
-            evt.FireEnd();
+            context.FireSimpleEvent(EventNames.ParseStart);
+            await parser.ParseAsync(parserOptions, cancelToken).ConfigureAwait(false);
+            context.FireSimpleEvent(EventNames.ParseEnd);
             return document;
         }
     }

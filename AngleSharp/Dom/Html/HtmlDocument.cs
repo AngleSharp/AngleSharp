@@ -2,6 +2,7 @@
 {
     using AngleSharp.Events;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Parser.Html;
     using System;
@@ -91,23 +92,13 @@
         {
             var document = new HtmlDocument(context, options.Source);
             var evt = new HtmlParseStartEvent(document);
-            var config = context.Configuration;
-            var events = config.Events;
             var parser = new HtmlDomBuilder(document);
-            var parserOptions = new HtmlParserOptions
-            {
-                IsScripting = config.IsScripting()
-            };
+            var parserOptions = new HtmlParserOptions { IsScripting = context.Configuration.IsScripting() };
             document.Setup(options);
             context.NavigateTo(document);
-
-            if (events != null)
-            {
-                events.Publish(evt);
-            }
-
+            context.FireSimpleEvent(EventNames.ParseStart);
             await parser.ParseAsync(parserOptions, cancelToken).ConfigureAwait(false);
-            evt.FireEnd();
+            context.FireSimpleEvent(EventNames.ParseEnd);
             return document;
         }
 
