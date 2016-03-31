@@ -151,7 +151,6 @@
     <Compile Include="Library\QueryExtensions.cs" />
     <Compile Include="Library\ShadowDom.cs" />
     <Compile Include="Library\SimpleEncoding.cs" />
-    <Compile Include="Library\SimpleEventAggregator.cs" />
     <Compile Include="Library\StringMap.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Html\HtmlScript.cs" />
