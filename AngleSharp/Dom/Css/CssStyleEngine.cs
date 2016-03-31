@@ -144,13 +144,10 @@
         async Task<CssStyleSheet> ParseAsync(CssParser parser, CssStyleSheet sheet, TextSource source)
         {
             var evt = new CssParseStartEvent(sheet);
-            var events = parser.Config.Events;
-
-            if (events != null)
-                events.Publish(evt);
-
+            var parseEvent = new AngleSharp.Events.CssParseStartEvent(sheet);//TODO TRANSFORM
+            //context.FireSimpleEvent(EventNames.ParseStart);
             await parser.ParseStylesheetAsync(sheet, source).ConfigureAwait(false);
-            evt.FireEnd();
+            //context.FireSimpleEvent(EventNames.ParseEnd);
             return sheet;
         }
 

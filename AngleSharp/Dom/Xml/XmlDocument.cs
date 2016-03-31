@@ -56,9 +56,9 @@
         internal async static Task<IDocument> LoadAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancelToken)
         {
             var document = new XmlDocument(context, options.Source);
-            var evt = new HtmlParseStartEvent(document);
             var parser = new XmlDomBuilder(document);
             var parserOptions = new XmlParserOptions { };
+            var parseEvent = new AngleSharp.Events.HtmlParseStartEvent(document);//TODO TRANSFORM
             document.Setup(options);
             context.NavigateTo(document);
             context.FireSimpleEvent(EventNames.ParseStart);

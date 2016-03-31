@@ -53,7 +53,7 @@
         internal HtmlDomBuilder(HtmlDocument document)
         {
             var resolver = document.Options.GetService<IEntityService>() ?? HtmlEntityService.Resolver;
-            _tokenizer = new HtmlTokenizer(document.Source, document.Options.Events, resolver);
+            _tokenizer = new HtmlTokenizer(document.Source, resolver);
             _document = document;
             _openElements = new List<Element>();
             _templateModes = new Stack<HtmlTreeMode>();

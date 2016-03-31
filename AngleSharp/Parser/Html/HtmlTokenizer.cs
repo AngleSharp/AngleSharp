@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Parser.Html
 {
-    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Services;
@@ -31,10 +30,9 @@
         /// See 8.2.4 Tokenization
         /// </summary>
         /// <param name="source">The source code manager.</param>
-        /// <param name="events">The event aggregator to use.</param>
         /// <param name="resolver">The entity resolver to use.</param>
-        public HtmlTokenizer(TextSource source, IEventAggregator events, IEntityService resolver)
-            : base(source, events)
+        public HtmlTokenizer(TextSource source, IEntityService resolver)
+            : base(source)
         {
             _state = HtmlParseMode.PCData;
             _acceptsCharacterData = false;
@@ -75,11 +73,8 @@
         /// <param name="position">The position of the error.</param>
         public void RaiseErrorOccurred(HtmlParseError error, TextPosition position)
         {
-            if (_events != null)
-            {
-                var errorEvent = new HtmlParseErrorEvent(error.GetCode(), error.GetMessage(), position);
-                _events.Publish(errorEvent);
-            }
+            var errorEvent = new AngleSharp.Events.HtmlParseErrorEvent(error.GetCode(), error.GetMessage(), position);//TODO TRANSFORM
+            
         }
 
         /// <summary>

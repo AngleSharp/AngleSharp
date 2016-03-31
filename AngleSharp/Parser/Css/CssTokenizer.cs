@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using System;
     using System.Diagnostics;
@@ -27,9 +26,8 @@
         /// CSS Tokenization
         /// </summary>
         /// <param name="source">The source code manager.</param>
-        /// <param name="events">The event aggregator to use.</param>
-        public CssTokenizer(TextSource source, IEventAggregator events)
-            : base(source, events)
+        public CssTokenizer(TextSource source)
+            : base(source)
         {
             _valueMode = false;
         }
@@ -69,11 +67,8 @@
         /// <param name="position">Position of the error.</param>
         public void RaiseErrorOccurred(CssParseError error, TextPosition position)
         {
-            if (_events != null)
-            {
-                var errorEvent = new CssParseErrorEvent(error.GetCode(), error.GetMessage(), position);
-                _events.Publish(errorEvent);
-            }
+            var errorEvent = new AngleSharp.Events.CssParseErrorEvent(error.GetCode(), error.GetMessage(), position);//TODO TRANSFORM
+            
         }
 
         #endregion
