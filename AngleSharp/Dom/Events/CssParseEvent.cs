@@ -1,18 +1,17 @@
-﻿namespace AngleSharp.Events
+﻿namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Dom.Css;
-    using AngleSharp.Dom.Events;
 
     /// <summary>
     /// The event that is published in case of starting CSS parsing.
     /// </summary>
-    public class CssParseStartEvent : Event
+    public class CssParseEvent : Event
     {
         /// <summary>
         /// Creates a new event for starting CSS parsing.
         /// </summary>
         /// <param name="styleSheet">The sheet to be filled.</param>
-        public CssParseStartEvent(ICssStyleSheet styleSheet)
+        public CssParseEvent(ICssStyleSheet styleSheet)
         {
             StyleSheet = styleSheet;
         }

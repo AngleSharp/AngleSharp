@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using AngleSharp.Events;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
@@ -93,7 +93,7 @@
             var document = new HtmlDocument(context, options.Source);
             var parser = new HtmlDomBuilder(document);
             var parserOptions = new HtmlParserOptions { IsScripting = context.Configuration.IsScripting() };
-            var parseEvent = new AngleSharp.Events.HtmlParseStartEvent(document);//TODO TRANSFORM
+            var parseEvent = new HtmlParseEvent(document);//TODO TRANSFORM
             document.Setup(options);
             context.NavigateTo(document);
             context.FireSimpleEvent(EventNames.ParseStart);

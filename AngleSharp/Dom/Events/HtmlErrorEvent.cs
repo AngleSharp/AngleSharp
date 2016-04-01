@@ -1,27 +1,33 @@
-﻿namespace AngleSharp.Events
+﻿namespace AngleSharp.Dom.Events
 {
-    using AngleSharp.Dom.Events;
+    using AngleSharp.Extensions;
+    using AngleSharp.Parser.Html;
     using System;
 
     /// <summary>
-    /// The event that is published in case of an CSS parse error.
+    /// The event that is published in case of an HTML parse error.
     /// </summary>
-    public class CssParseErrorEvent : Event
+    public class HtmlErrorEvent : Event
     {
+        #region Fields
+
+        readonly HtmlParseError _code;
+        readonly TextPosition _position;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
-        /// Creates a new CssParseErrorEvent event.
+        /// Creates a new HtmlParseErrorEvent event.
         /// </summary>
         /// <param name="code">The provided error code.</param>
-        /// <param name="message">The associated error message.</param>
         /// <param name="position">The position in the source.</param>
         /// 
-        public CssParseErrorEvent(Int32 code, String message, TextPosition position)
+        public HtmlErrorEvent(HtmlParseError code, TextPosition position)
         {
-            Code = code;
-            Message = message;
-            Position = position;
+            _code = code;
+            _position = position;
         }
 
         #endregion
@@ -33,8 +39,7 @@
         /// </summary>
         public TextPosition Position
         {
-            get;
-            private set;
+            get { return _position; }
         }
 
         /// <summary>
@@ -42,8 +47,7 @@
         /// </summary>
         public Int32 Code
         {
-            get;
-            private set;
+            get { return _code.GetCode(); }
         }
 
         /// <summary>
@@ -51,8 +55,7 @@
         /// </summary>
         public String Message
         {
-            get;
-            private set;
+            get { return _code.GetMessage(); }
         }
 
         #endregion

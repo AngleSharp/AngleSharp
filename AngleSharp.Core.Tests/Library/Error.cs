@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
@@ -40,7 +40,7 @@
 </div>
     </article>";
             var context = BrowsingContext.New();
-            var parseErrors = new EventReceiver<HtmlParseErrorEvent>(handler => context.ParseError += handler);
+            var parseErrors = new EventReceiver<HtmlErrorEvent>(handler => context.ParseError += handler);
             var document = await context.OpenAsync(m => m.Content(source));
 
             Assert.AreEqual(4, parseErrors.Received.Count);

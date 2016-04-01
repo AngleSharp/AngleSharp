@@ -1,19 +1,18 @@
-﻿namespace AngleSharp.Events
+﻿namespace AngleSharp.Dom.Events
 {
-    using AngleSharp.Dom.Events;
     using AngleSharp.Network;
 
     /// <summary>
     /// The event that is published in case of new request.
     /// </summary>
-    public class RequestStartEvent : Event
+    public class RequestEvent : Event
     {
         /// <summary>
         /// Creates a new event for starting a request.
         /// </summary>
         /// <param name="requester">The associated requester.</param>
         /// <param name="request">The data of the request.</param>
-        public RequestStartEvent(IRequester requester, IRequest request)
+        public RequestEvent(IRequester requester, IRequest request)
         {
             Requester = requester;
             Request = request;

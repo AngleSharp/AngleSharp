@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Parser.Css
 {
     using AngleSharp.Css;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using System;
     using System.Diagnostics;
@@ -67,7 +68,7 @@
         /// <param name="position">Position of the error.</param>
         public void RaiseErrorOccurred(CssParseError error, TextPosition position)
         {
-            var errorEvent = new AngleSharp.Events.CssParseErrorEvent(error.GetCode(), error.GetMessage(), position);//TODO TRANSFORM
+            var errorEvent = new CssErrorEvent(error, position);//TODO TRANSFORM
             
         }
 

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Html
 {
+    using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Services;
@@ -73,7 +74,7 @@
         /// <param name="position">The position of the error.</param>
         public void RaiseErrorOccurred(HtmlParseError error, TextPosition position)
         {
-            var errorEvent = new AngleSharp.Events.HtmlParseErrorEvent(error.GetCode(), error.GetMessage(), position);//TODO TRANSFORM
+            var errorEvent = new HtmlErrorEvent(error, position);//TODO TRANSFORM
             
         }
 

@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Services.Media;
     using NUnit.Framework;
@@ -259,7 +259,7 @@
                 var address = "http://anglesharp.azurewebsites.net/Chunked";
                 var config = Configuration.Default.WithDefaultLoader();
                 var context = BrowsingContext.New(config);
-                var events = new EventReceiver<HtmlParseStartEvent>(handler => context.Parsing += handler);
+                var events = new EventReceiver<HtmlParseEvent>(handler => context.Parsing += handler);
                 var start = DateTime.Now;
                 events.OnReceived = rec => start = DateTime.Now;
                 var document = await context.OpenAsync(address);

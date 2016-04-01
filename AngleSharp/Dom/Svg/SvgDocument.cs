@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Dom.Svg
 {
-    using AngleSharp.Events;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
@@ -79,7 +79,7 @@
             var document = new SvgDocument(context, options.Source);
             var parser = new XmlDomBuilder(document);
             var parserOptions = new XmlParserOptions { };
-            var parseEvent = new AngleSharp.Events.HtmlParseStartEvent(document);//TODO TRANSFORM
+            var parseEvent = new HtmlParseEvent(document);//TODO TRANSFORM
             document.Setup(options);
             context.NavigateTo(document);
             context.FireSimpleEvent(EventNames.ParseStart);
