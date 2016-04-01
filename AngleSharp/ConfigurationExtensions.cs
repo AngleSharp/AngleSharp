@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom.Css;
-    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Network.Default;
@@ -40,7 +39,7 @@
             }
 
             var services = configuration.Services.Concat(service);
-            return new Configuration(services, configuration.Events, configuration.Culture);
+            return new Configuration(services, configuration.Culture);
         }
 
         /// <summary>
@@ -74,24 +73,7 @@
                 throw new ArgumentNullException("configuration");
             }
 
-            return new Configuration(configuration.Services, configuration.Events, culture);
-        }
-
-        /// <summary>
-        /// Returns a new configuration that uses the given event aggregator.
-        /// Providing null will reset the events to the default one.
-        /// </summary>
-        /// <param name="configuration">The configuration to extend.</param>
-        /// <param name="events">The event aggregator to set.</param>
-        /// <returns>The new instance with the events being set.</returns>
-        public static Configuration SetEvents(this IConfiguration configuration, IEventAggregator events)
-        {
-            if (configuration == null)
-            {
-                throw new ArgumentNullException("configuration");
-            }
-
-            return new Configuration(configuration.Services, events, configuration.Culture);
+            return new Configuration(configuration.Services, culture);
         }
 
         #endregion
