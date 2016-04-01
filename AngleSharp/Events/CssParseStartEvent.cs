@@ -1,18 +1,13 @@
 ﻿namespace AngleSharp.Events
 {
     using AngleSharp.Dom.Css;
-    using System;
+    using AngleSharp.Dom.Events;
 
     /// <summary>
     /// The event that is published in case of starting CSS parsing.
     /// </summary>
-    public class CssParseStartEvent
+    public class CssParseStartEvent : Event
     {
-        /// <summary>
-        /// Action called once the parsing ended.
-        /// </summary>
-        public event EventHandler Ended;
-
         /// <summary>
         /// Creates a new event for starting CSS parsing.
         /// </summary>
@@ -29,15 +24,6 @@
         { 
             get; 
             private set; 
-        }
-
-        internal void FireEnd()
-        {
-            if (Ended != null)
-            {
-                Ended(this, EventArgs.Empty);
-                Ended = null;
-            }
         }
     }
 }

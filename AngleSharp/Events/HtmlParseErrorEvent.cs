@@ -1,11 +1,12 @@
 ﻿namespace AngleSharp.Events
 {
+    using AngleSharp.Dom.Events;
     using System;
 
     /// <summary>
     /// The event that is published in case of an HTML parse error.
     /// </summary>
-    public class HtmlParseErrorEvent
+    public class HtmlParseErrorEvent : Event
     {
         #region ctor
         

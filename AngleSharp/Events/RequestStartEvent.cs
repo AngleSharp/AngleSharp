@@ -1,18 +1,13 @@
 ﻿namespace AngleSharp.Events
 {
+    using AngleSharp.Dom.Events;
     using AngleSharp.Network;
-    using System;
 
     /// <summary>
     /// The event that is published in case of new request.
     /// </summary>
-    public class RequestStartEvent
+    public class RequestStartEvent : Event
     {
-        /// <summary>
-        /// Action called once the request ended.
-        /// </summary>
-        public event EventHandler Ended;
-
         /// <summary>
         /// Creates a new event for starting a request.
         /// </summary>
@@ -40,15 +35,6 @@
         {
             get;
             private set;
-        }
-
-        internal void FireEnd()
-        {
-            if (Ended != null)
-            {
-                Ended(this, EventArgs.Empty);
-                Ended = null;
-            }
         }
     }
 }
