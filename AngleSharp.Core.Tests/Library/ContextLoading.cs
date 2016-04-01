@@ -194,7 +194,7 @@
             var url = "http://localhost";
             var source = "<!doctype html><link rel=stylesheet href=http://localhost/beispiel.css type=text/css />";
             var memory = new MemoryStream(Encoding.UTF8.GetBytes(source));
-            var config = new Configuration(null, null, null).WithCss();
+            var config = new Configuration(null, null).WithCss();
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content(memory).Address(url));
             var links = document.QuerySelectorAll("link");
@@ -257,9 +257,9 @@
             if (Helper.IsNetworkAvailable())
             {
                 var address = "http://anglesharp.azurewebsites.net/Chunked";
-                var events = new EventReceiver<HtmlParseStartEvent>();
-                var config = new Configuration(events: events).WithDefaultLoader();
+                var config = Configuration.Default.WithDefaultLoader();
                 var context = BrowsingContext.New(config);
+                var events = new EventReceiver<HtmlParseStartEvent>(handler => context.Parsing += handler);
                 var start = DateTime.Now;
                 events.OnReceived = rec => start = DateTime.Now;
                 var document = await context.OpenAsync(address);

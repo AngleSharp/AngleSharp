@@ -11,6 +11,7 @@
     using NUnit.Framework;
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class DOMTests
@@ -21,14 +22,13 @@
         }
 
         [Test]
-        public void ClosingSpanTagShouldNotResultInAnError()
+        public async Task ClosingSpanTagShouldNotResultInAnError()
         {
-            var events = new EventReceiver<HtmlParseErrorEvent>();
-            var config = new Configuration(events: events);
+            var context = BrowsingContext.New();
+            var events = new EventReceiver<HtmlParseErrorEvent>(callback => context.ParseError += callback);
             var source = @"<!DOCTYPE html><html><head></head><body><span>test</span></body></html>";
-            var document = source.ToHtmlDocument(config);
+            var document = await context.OpenAsync(res => res.Content(source));
             Assert.AreEqual(0, events.Received.Count);
-
         }
 
         [Test]

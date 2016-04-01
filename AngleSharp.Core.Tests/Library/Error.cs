@@ -7,12 +7,13 @@
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
     using NUnit.Framework;
+    using System.Threading.Tasks;
 
     [TestFixture]
     public class ErrorTests
     {
         [Test]
-        public void GivenLineNumbersShouldBeCorrect()
+        public async Task GivenLineNumbersShouldBeCorrect()
         {
             var source = @"<article class=""grid-item large"">
     <div class=""grid-image""><a href=""/News/Page/298/cpp-mva-course""><img src=""/img/news/maxresdefault700x240.png"" alt=""Icon"" title=""C++ MVA Course"" /></a></div>
@@ -38,9 +39,9 @@
         <div class=""grid-admin"">        <a href=""/Page/Delete/296"">Delete</a> | <a href=""/Page/Edit/296"">Edit</a> | <a href=""/Page/Create?parentId=1"">Create New</a>
 </div>
     </article>";
-            var parseErrors = new EventReceiver<HtmlParseErrorEvent>();
-            var config = new Configuration(events: parseErrors);
-            var document = source.ToHtmlDocument(config);
+            var context = BrowsingContext.New();
+            var parseErrors = new EventReceiver<HtmlParseErrorEvent>(handler => context.ParseError += handler);
+            var document = await context.OpenAsync(m => m.Content(source));
 
             Assert.AreEqual(4, parseErrors.Received.Count);
             Assert.AreEqual((int)HtmlParseError.DoctypeMissing, parseErrors.Received[0].Code);
