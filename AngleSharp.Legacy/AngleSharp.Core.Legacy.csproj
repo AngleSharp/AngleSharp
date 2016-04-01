@@ -1805,9 +1805,6 @@
     <Compile Include="..\AngleSharp\Events\HtmlParseStartEvent.cs">
       <Link>Events\HtmlParseStartEvent.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Events\IEventAggregator.cs">
-      <Link>Events\IEventAggregator.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Events\RequestStartEvent.cs">
       <Link>Events\RequestStartEvent.cs</Link>
     </Compile>
