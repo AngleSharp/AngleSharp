@@ -75,14 +75,16 @@
 
         public override INode Clone(Boolean deep = true)
         {
-            var node = new HtmlDocument(Context, new TextSource(Source.Text));
+            var source = new TextSource(Source.Text);
+            var node = new HtmlDocument(Context, source);
             CloneDocument(node, deep);
             return node;
         }
 
         internal async static Task<IDocument> LoadAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancelToken)
         {
-            var parserOptions = new HtmlParserOptions { IsScripting = context.Configuration.IsScripting() };
+            var scripting = context.Configuration.IsScripting();
+            var parserOptions = new HtmlParserOptions { IsScripting = scripting };
             var document = new HtmlDocument(context, options.Source);
             var parser = new HtmlDomBuilder(document);
             parser.Error += (_, error) => context.Fire(error);
