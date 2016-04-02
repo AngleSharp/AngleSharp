@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Parser.Xml;
     using System;
@@ -58,12 +57,11 @@
             var document = new XmlDocument(context, options.Source);
             var parser = new XmlDomBuilder(document);
             var parserOptions = new XmlParserOptions { };
-            var parseEvent = new HtmlParseEvent(document);//TODO TRANSFORM
             document.Setup(options);
             context.NavigateTo(document);
-            context.FireSimpleEvent(EventNames.ParseStart);
+            context.Fire(new HtmlParseEvent(document, completed: false));
             await parser.ParseAsync(default(XmlParserOptions), cancelToken).ConfigureAwait(false);
-            context.FireSimpleEvent(EventNames.ParseEnd);
+            context.Fire(new HtmlParseEvent(document, completed: true));
             return document;
         }
 

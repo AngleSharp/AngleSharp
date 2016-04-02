@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Dom.Collections;
-    using AngleSharp.Dom.Events;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using AngleSharp.Services.Styling;
@@ -143,10 +142,9 @@
 
         async Task<CssStyleSheet> ParseAsync(CssParser parser, CssStyleSheet sheet, TextSource source)
         {
-            var parseEvent = new CssParseEvent(sheet);//TODO TRANSFORM
-            //context.FireSimpleEvent(EventNames.ParseStart);
+            //context.Fire(new CssParseEvent(sheet, completed: false));
             await parser.ParseStylesheetAsync(sheet, source).ConfigureAwait(false);
-            //context.FireSimpleEvent(EventNames.ParseEnd);
+            //context.Fire(new CssParseEvent(sheet, completed: true));
             return sheet;
         }
 
