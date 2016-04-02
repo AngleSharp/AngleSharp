@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Dom.Collections;
+    using AngleSharp.Dom.Events;
+    using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using AngleSharp.Services.Styling;
@@ -71,10 +73,9 @@
         /// <returns>The CSSOM of the parsed source.</returns>
         public ICssStyleSheet SetDefault(String sourceCode)
         {
-            var parser = new CssParser(_options);
-            var source = new TextSource(sourceCode);
-            var sheet = new CssStyleSheet(parser, default(String), default(ICssStyleSheet));
-            _default = ParseAsync(parser, sheet, source).Result;
+            var response = VirtualResponse.Create(res => res.Content(sourceCode));
+            var options = new StyleOptions { Configuration = Configuration.Default };
+            _default = ParseStylesheetAsync(response, options, CancellationToken.None).Result as CssStyleSheet;
             return _default;
         }
 
@@ -142,9 +143,13 @@
 
         async Task<CssStyleSheet> ParseAsync(CssParser parser, CssStyleSheet sheet, TextSource source)
         {
-            //context.Fire(new CssParseEvent(sheet, completed: false));
+            var context = default(IBrowsingContext);
+            var tokenizer = new CssTokenizer(source);
+            var builder = new CssBuilder(tokenizer, parser);
+            builder.Error += (s, ev) => context.Fire(ev);
+            context.Fire(new CssParseEvent(sheet, completed: false));
             await parser.ParseStylesheetAsync(sheet, source).ConfigureAwait(false);
-            //context.Fire(new CssParseEvent(sheet, completed: true));
+            context.Fire(new CssParseEvent(sheet, completed: true));
             return sheet;
         }
 
