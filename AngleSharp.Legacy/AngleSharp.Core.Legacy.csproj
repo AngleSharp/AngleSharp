@@ -1346,6 +1346,9 @@
     <Compile Include="..\AngleSharp\Dom\Events\KeyboardEvent.cs">
       <Link>Dom\Events\KeyboardEvent.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Events\MediaQueryListEvent.cs">
+      <Link>Dom\Events\MediaQueryListEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Events\MessageEvent.cs">
       <Link>Dom\Events\MessageEvent.cs</Link>
     </Compile>

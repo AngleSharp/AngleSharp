@@ -163,6 +163,7 @@
     <Compile Include="Dom\Events\FocusEvent.cs" />
     <Compile Include="Dom\Events\HashChangedEvent.cs" />
     <Compile Include="Dom\Events\KeyboardEvent.cs" />
+    <Compile Include="Dom\Events\MediaQueryListEvent.cs" />
     <Compile Include="Dom\Events\ModifierExtensions.cs" />
     <Compile Include="Dom\Events\MouseEvent.cs" />
     <Compile Include="Dom\Events\PageTransitionEvent.cs" />

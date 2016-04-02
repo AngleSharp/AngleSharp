@@ -69,10 +69,10 @@
             var window = (IWindow)sender;
             var matched = ComputeMatched(window);
 
-            //TODO use MediaQueryListEvent
             if (matched != _matched)
             {
-                Dispatch(new Event(EventNames.Change, false, false));
+                var eventData = new MediaQueryListEvent(EventNames.Change, false, false, _media.MediaText, matched);
+                Dispatch(eventData);
             }
 
             _matched = matched;
