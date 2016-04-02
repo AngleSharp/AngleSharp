@@ -82,9 +82,10 @@
 
         internal async static Task<IDocument> LoadAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancelToken)
         {
+            var parserOptions = new HtmlParserOptions { IsScripting = context.Configuration.IsScripting() };
             var document = new HtmlDocument(context, options.Source);
             var parser = new HtmlDomBuilder(document);
-            var parserOptions = new HtmlParserOptions { IsScripting = context.Configuration.IsScripting() };
+            parser.Error += (_, error) => context.Fire(error);
             document.Setup(options);
             context.NavigateTo(document);
             context.Fire(new HtmlParseEvent(document, completed: false));

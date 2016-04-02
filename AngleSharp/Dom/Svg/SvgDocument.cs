@@ -80,9 +80,9 @@
 
         internal async static Task<IDocument> LoadAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancelToken)
         {
+            var parserOptions = new XmlParserOptions { };
             var document = new SvgDocument(context, options.Source);
             var parser = new XmlDomBuilder(document);
-            var parserOptions = new XmlParserOptions { };
             document.Setup(options);
             context.NavigateTo(document);
             context.Fire(new HtmlParseEvent(document, completed: false));
