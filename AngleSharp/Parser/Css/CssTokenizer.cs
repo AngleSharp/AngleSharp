@@ -21,6 +21,15 @@
 
         #endregion
 
+        #region Events
+
+        /// <summary>
+        /// Fired in case of a parse error.
+        /// </summary>
+        public event EventHandler<CssErrorEvent> Error;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -61,15 +70,15 @@
             return Data(current);
         }
 
-        /// <summary>
-        /// Fires an error occurred event.
-        /// </summary>
-        /// <param name="error">The associated error code.</param>
-        /// <param name="position">Position of the error.</param>
-        public void RaiseErrorOccurred(CssParseError error, TextPosition position)
+        internal void RaiseErrorOccurred(CssParseError error, TextPosition position)
         {
-            var errorEvent = new CssErrorEvent(error, position);//TODO TRANSFORM
-            
+            var handler = Error;
+
+            if (handler != null)
+            {
+                var errorEvent = new CssErrorEvent(error, position);
+                handler.Invoke(this, errorEvent);
+            }
         }
 
         #endregion
@@ -1380,9 +1389,6 @@
 
         #region Helpers
 
-        /// <summary>
-        /// Substate of several Number states.
-        /// </summary>
         CssToken NumberExponential(Char letter)
         {
             var current = GetNext();
@@ -1412,9 +1418,6 @@
             return Dimension(number);
         }
 
-        /// <summary>
-        /// Substate of several Number states.
-        /// </summary>
         CssToken NumberDash()
         {
             var current = GetNext();
@@ -1439,11 +1442,6 @@
             }
         }
 
-        /// <summary>
-        /// Consumes an escaped character AFTER the solidus has already been
-        /// consumed.
-        /// </summary>
-        /// <returns>The escaped character.</returns>
         String ConsumeEscape(Char current)
         {
             if (current.IsHex())
@@ -1477,10 +1475,6 @@
             return current.ToString();
         }
 
-        /// <summary>
-        /// Checks if the current position is the beginning of a valid escape sequence.
-        /// </summary>
-        /// <returns>The result of the check.</returns>
         Boolean IsValidEscape(Char current)
         {
             if (current == Symbols.ReverseSolidus)
@@ -1494,10 +1488,6 @@
             return false;
         }
 
-        /// <summary>
-        /// Fires an error occurred event at the current position.
-        /// </summary>
-        /// <param name="code">The associated error code.</param>
         void RaiseErrorOccurred(CssParseError code)
         {
             RaiseErrorOccurred(code, GetCurrentPosition());

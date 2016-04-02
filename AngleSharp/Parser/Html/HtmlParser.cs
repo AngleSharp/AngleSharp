@@ -112,7 +112,9 @@
             var parser = new HtmlDomBuilder(document);
 
             if (context == null)
+            {
                 return parser.Parse(_options).ChildNodes;
+            }
 
             var element = context as Element ?? 
                 Factory.HtmlElements.Create(document, context.LocalName, context.Prefix);
