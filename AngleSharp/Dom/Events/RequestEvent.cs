@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Events
 {
+    using AngleSharp.Html;
     using AngleSharp.Network;
 
     /// <summary>
@@ -8,29 +9,30 @@
     public class RequestEvent : Event
     {
         /// <summary>
-        /// Creates a new event for starting a request.
+        /// Creates a new event for a request.
         /// </summary>
-        /// <param name="requester">The associated requester.</param>
         /// <param name="request">The data of the request.</param>
-        public RequestEvent(IRequester requester, IRequest request)
+        /// <param name="response">The received response.</param>
+        public RequestEvent(IRequest request, IResponse response)
+            : base(response != null ? EventNames.RequestEnd : EventNames.RequestStart)
         {
-            Requester = requester;
+            Response = response;
             Request = request;
         }
 
         /// <summary>
-        /// Gets the associated requester.
+        /// Gets the transmitted request.
         /// </summary>
-        public IRequester Requester
+        public IRequest Request
         {
             get;
             private set;
         }
 
         /// <summary>
-        /// Gets the request data to transmit.
+        /// Gets the received response.
         /// </summary>
-        public IRequest Request
+        public IResponse Response
         {
             get;
             private set;

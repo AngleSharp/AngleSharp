@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Dom;
+    using AngleSharp.Html;
+    using System;
 
     /// <summary>
     /// The event that is published in case of starting HTML parsing.
@@ -12,7 +14,9 @@
         /// Creates a new event for starting HTML parsing.
         /// </summary>
         /// <param name="document">The document to be filled.</param>
-        public HtmlParseEvent(IDocument document)
+        /// <param name="completed">Determines if parsing is done.</param>
+        public HtmlParseEvent(IDocument document, Boolean completed)
+            : base(completed ? EventNames.ParseEnd : EventNames.ParseStart)
         {
             Document = document;
         }

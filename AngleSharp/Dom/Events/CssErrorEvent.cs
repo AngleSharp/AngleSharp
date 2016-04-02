@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using AngleSharp.Parser.Css;
     using System;
 
@@ -25,6 +26,7 @@
         /// <param name="position">The position in the source.</param>
         /// 
         public CssErrorEvent(CssParseError code, TextPosition position)
+            : base(EventNames.ParseError)
         {
             _code = code;
             _position = position;
