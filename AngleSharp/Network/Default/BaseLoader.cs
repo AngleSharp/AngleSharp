@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Network.Default
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
     using System.Threading;
@@ -124,10 +124,10 @@
             {
                 if (requester.SupportsProtocol(request.Address.Scheme))
                 {
-                    _context.FireSimpleEvent(EventNames.RequestStart);
-                    var result = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
-                    _context.FireSimpleEvent(EventNames.RequestEnd);
-                    return result;
+                    _context.Fire(new RequestEvent(request, null));
+                    var response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
+                    _context.Fire(new RequestEvent(request, response));
+                    return response;
                 }
             }
 
