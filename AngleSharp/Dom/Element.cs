@@ -644,13 +644,15 @@
 
             if ((Flags & TargetFlags) != NodeFlags.None)
             {
-                var config = Owner.Options;
+                var document = Owner;
+                var config = document.Options;
+                var context = document.Context;
                 var engine = config.GetCssStyleEngine();
 
                 if (engine != null)
                 {
                     var source = this.GetOwnAttribute(AttributeNames.Style);
-                    var options = new StyleOptions { Element = this, Configuration = config };
+                    var options = new StyleOptions(context) { Element = this };
                     var style = engine.ParseDeclaration(source, options);
                     var bindable = style as IBindable;
 

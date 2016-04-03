@@ -683,11 +683,7 @@
 
                     var source = String.Format("element.{0} = {1};", name, function);
                     var response = VirtualResponse.Create(res => res.Content(source));
-                    var options = new ScriptOptions
-                    {
-                        Context = document.DefaultView,
-                        Document = document
-                    };
+                    var options = new ScriptOptions(document);
                     engine.EvaluateScriptAsync(response, options, CancellationToken.None);
                 }
             });

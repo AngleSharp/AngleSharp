@@ -1,14 +1,23 @@
 ﻿namespace AngleSharp.Services.Scripting
 {
-    using System.Text;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
+    using System.Text;
 
     /// <summary>
     /// Transport object for running scripts.
     /// </summary>
     public sealed class ScriptOptions
     {
+        /// <summary>
+        /// Creates new script options for the given document.
+        /// </summary>
+        /// <param name="document">The document to use.</param>
+        public ScriptOptions(IDocument document)
+        {
+            Document = document;
+        }
+
         /// <summary>
         /// Gets or sets the script element that triggered the invocation.
         /// </summary>
@@ -28,21 +37,12 @@
         }
 
         /// <summary>
-        /// Gets or sets the context of the document.
-        /// </summary>
-        public IWindow Context
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets the assigned document.
+        /// Gets the parent document of the executing script.
         /// </summary>
         public IDocument Document
         {
             get;
-            set;
+            private set;
         }
     }
 }
