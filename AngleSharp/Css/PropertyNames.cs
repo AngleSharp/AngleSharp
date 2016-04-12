@@ -5,7 +5,7 @@
     /// <summary>
     /// The collection of (known / used) property names.
     /// </summary>
-    static class PropertyNames
+    public static class PropertyNames
     {
         /// <summary>
         /// The align-content declaration.

@@ -5,7 +5,7 @@
     /// <summary>
     /// Contains a list of known CSS functions.
     /// </summary>
-    static class FunctionNames
+    public static class FunctionNames
     {
         /// <summary>
         /// The url function.

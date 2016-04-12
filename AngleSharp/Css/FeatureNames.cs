@@ -5,7 +5,7 @@
     /// <summary>
     /// A class with all names of the CSS medium features.
     /// </summary>
-    static class FeatureNames
+    public static class FeatureNames
     {
         /// <summary>
         /// Gets the name of the min-width feature.
