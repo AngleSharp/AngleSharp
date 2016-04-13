@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Factories
+﻿namespace AngleSharp.Services.Default
 {
     using AngleSharp.Dom.Events;
     using System;
@@ -7,7 +7,7 @@
     /// <summary>
     /// Provides string to Event instance creation mappings.
     /// </summary>
-    sealed class EventFactory
+    sealed class EventFactory : IEventFactory
     {
         delegate Event Creator();
 

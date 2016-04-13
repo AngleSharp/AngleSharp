@@ -29,6 +29,9 @@
         readonly List<Element> _openElements;
         readonly List<Element> _formattingElements;
         readonly Stack<HtmlTreeMode> _templateModes;
+        readonly IHtmlElementFactory _htmlFactory;
+        readonly IMathElementFactory _mathFactory;
+        readonly ISvgElementFactory _svgFactory;
 
         HtmlFormElement _currentFormElement;
         HtmlTreeMode _currentMode;
@@ -52,14 +55,18 @@
         /// </param>
         internal HtmlDomBuilder(HtmlDocument document)
         {
-            var resolver = document.Options.GetService<IEntityService>() ?? HtmlEntityService.Resolver;
-            _tokenizer = new HtmlTokenizer(document.Source, document.Options.Events, resolver);
+            var options = document.Options;
+            var resolver = options.GetService<IEntityService>() ?? HtmlEntityService.Resolver;
+            _tokenizer = new HtmlTokenizer(document.Source, options.Events, resolver);
             _document = document;
             _openElements = new List<Element>();
             _templateModes = new Stack<HtmlTreeMode>();
             _formattingElements = new List<Element>();
             _frameset = true;
             _currentMode = HtmlTreeMode.Initial;
+            _htmlFactory = options.GetService<IHtmlElementFactory>();
+            _mathFactory = options.GetService<IMathElementFactory>();
+            _svgFactory = options.GetService<ISvgElementFactory>();
         }
 
         #endregion
@@ -3428,12 +3435,14 @@
         {
             if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.MathMember))
             {
-                var node = Factory.MathElements.Create(_document, tag.Name);
+                var tagName = tag.Name;
+                var node = _mathFactory.Create(_document, tagName);
                 return node.Setup(tag);
             }
             else if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.SvgMember))
             {
-                var node = Factory.SvgElements.CreateSanatized(_document, tag.Name);
+                var tagName = tag.Name.SanatizeSvgTagName();
+                var node = _svgFactory.Create(_document, tagName);
                 return node.Setup(tag);
             }
 
@@ -3797,7 +3806,7 @@
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         Element AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
-            var element = Factory.HtmlElements.Create(_document, tag.Name);
+            var element = _htmlFactory.Create(_document, tag.Name);
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);
             return element;

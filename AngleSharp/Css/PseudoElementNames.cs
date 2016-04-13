@@ -5,7 +5,7 @@
     /// <summary>
     /// The collection of (known / used) selector pseudo element names.
     /// </summary>
-    static class PseudoElementNames
+    public static class PseudoElementNames
     {
         /// <summary>
         /// The before pseudo element.

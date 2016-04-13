@@ -1898,39 +1898,6 @@
     <Compile Include="..\AngleSharp\Extensions\XmlExtensions.cs">
       <Link>Extensions\XmlExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\AngleSharp\Factories\AttributeSelectorFactory.cs">
-      <Link>Factories\AttributeSelectorFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Factories\CssPropertyFactory.cs">
-      <Link>Factories\CssPropertyFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Factories\EventFactory.cs">
-      <Link>Factories\EventFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Factories\HtmlElementFactory.cs">
-      <Link>Factories\HtmlElementFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Factories\InputTypeFactory.cs">
-      <Link>Factories\InputTypeFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Factories\LinkRelationFactory.cs">
-      <Link>Factories\LinkRelationFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Factories\MathElementFactory.cs">
-      <Link>Factories\MathElementFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Factories\MediaFeatureFactory.cs">
-      <Link>Factories\MediaFeatureFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Factories\PseudoClassSelectorFactory.cs">
-      <Link>Factories\PseudoClassSelectorFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Factories\PseudoElementSelectorFactory.cs">
-      <Link>Factories\PseudoElementSelectorFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Factories\SvgElementFactory.cs">
-      <Link>Factories\SvgElementFactory.cs</Link>
-    </Compile>
     <Compile Include="..\AngleSharp\Foundation\CreateDocumentOptions.cs">
       <Link>Foundation\CreateDocumentOptions.cs</Link>
     </Compile>
@@ -2951,17 +2918,53 @@
     <Compile Include="..\AngleSharp\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\Default\AttributeSelectorFactory.cs">
+      <Link>Services\Default\AttributeSelectorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Default\CssPropertyFactory.cs">
+      <Link>Services\Default\CssPropertyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Default\EventFactory.cs">
+      <Link>Services\Default\EventFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Default\HtmlElementFactory.cs">
+      <Link>Services\Default\HtmlElementFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Default\InputTypeFactory.cs">
+      <Link>Services\Default\InputTypeFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Default\LinkRelationFactory.cs">
+      <Link>Services\Default\LinkRelationFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\Default\LoaderService.cs">
       <Link>Services\Default\LoaderService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Services\Default\LocaleEncodingService.cs">
       <Link>Services\Default\LocaleEncodingService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\Default\MathElementFactory.cs">
+      <Link>Services\Default\MathElementFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Default\MediaFeatureFactory.cs">
+      <Link>Services\Default\MediaFeatureFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\Default\MemoryCookieService.cs">
       <Link>Services\Default\MemoryCookieService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\Default\PseudoClassSelectorFactory.cs">
+      <Link>Services\Default\PseudoClassSelectorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Default\PseudoElementSelectorFactory.cs">
+      <Link>Services\Default\PseudoElementSelectorFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\Default\StylingService.cs">
       <Link>Services\Default\StylingService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\Default\SvgElementFactory.cs">
+      <Link>Services\Default\SvgElementFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IAttributeSelectorFactory.cs">
+      <Link>Services\IAttributeSelectorFactory.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Services\IAudioService.cs">
       <Link>Services\IAudioService.cs</Link>
@@ -2978,11 +2981,17 @@
     <Compile Include="..\AngleSharp\Services\ICookieService.cs">
       <Link>Services\ICookieService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\ICssPropertyFactory.cs">
+      <Link>Services\ICssPropertyFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\IEncodingService.cs">
       <Link>Services\IEncodingService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Services\IEntityService.cs">
       <Link>Services\IEntityService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IEventFactory.cs">
+      <Link>Services\IEventFactory.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Services\IEventService.cs">
       <Link>Services\IEventService.cs</Link>
@@ -2990,17 +2999,38 @@
     <Compile Include="..\AngleSharp\Services\IHistoryService.cs">
       <Link>Services\IHistoryService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\IHtmlElementFactory.cs">
+      <Link>Services\IHtmlElementFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\IImageService.cs">
       <Link>Services\IImageService.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Services\IInputTypeFactory.cs">
+      <Link>Services\IInputTypeFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\ILinkRelationFactory.cs">
+      <Link>Services\ILinkRelationFactory.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Services\ILoaderService.cs">
       <Link>Services\ILoaderService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IMathElementFactory.cs">
+      <Link>Services\IMathElementFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IMediaFeatureFactory.cs">
+      <Link>Services\IMediaFeatureFactory.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Services\INavigatorService.cs">
       <Link>Services\INavigatorService.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Services\IObjectService.cs">
       <Link>Services\IObjectService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IPseudoClassSelectorFactory.cs">
+      <Link>Services\IPseudoClassSelectorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\IPseudoElementSelectorFactory.cs">
+      <Link>Services\IPseudoElementSelectorFactory.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Services\IRenderingService.cs">
       <Link>Services\IRenderingService.cs</Link>
@@ -3019,6 +3049,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Services\IStylingService.cs">
       <Link>Services\IStylingService.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Services\ISvgElementFactory.cs">
+      <Link>Services\ISvgElementFactory.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Services\IVideoService.cs">
       <Link>Services\IVideoService.cs</Link>

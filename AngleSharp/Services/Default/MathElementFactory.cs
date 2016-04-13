@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Factories
+﻿namespace AngleSharp.Services.Default
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Mathml;
@@ -9,7 +9,7 @@
     /// <summary>
     /// Provides string to MathElement instance creation mappings.
     /// </summary>
-    sealed class MathElementFactory
+    sealed class MathElementFactory : IMathElementFactory
     {
         delegate MathElement Creator(Document owner, String prefix);
 

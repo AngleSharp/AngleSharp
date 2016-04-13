@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Factories
+﻿namespace AngleSharp.Services.Default
 {
     using AngleSharp.Css;
     using AngleSharp.Dom.Css;
@@ -8,7 +8,7 @@
     /// <summary>
     /// Provides string to media feature instance creation mappings.
     /// </summary>
-    sealed class MediaFeatureFactory
+    sealed class MediaFeatureFactory : IMediaFeatureFactory
     {
         delegate MediaFeature Creator();
 

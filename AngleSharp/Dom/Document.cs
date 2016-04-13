@@ -6,6 +6,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -1000,7 +1001,8 @@
 
         public Event CreateEvent(String type)
         {
-            var ev = Factory.Events.Create(type);
+            var factory = Options.GetService<IEventFactory>();
+            var ev = factory.Create(type);
 
             if (ev == null)
             {
@@ -1041,7 +1043,8 @@
         {
             if (localName.IsXmlName())
             {
-                var element = Factory.HtmlElements.Create(this, localName);
+                var factory = Options.GetService<IHtmlElementFactory>();
+                var element = factory.Create(this, localName);
                 element.SetupElement();
                 return element;
             }
@@ -1057,19 +1060,22 @@
 
             if (namespaceUri.Is(NamespaceNames.HtmlUri))
             {
-                var element = Factory.HtmlElements.Create(this, localName, prefix);
+                var factory = Options.GetService<IHtmlElementFactory>();
+                var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.SvgUri))
             {
-                var element = Factory.SvgElements.Create(this, localName, prefix);
+                var factory = Options.GetService<ISvgElementFactory>();
+                var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.MathMlUri))
             {
-                var element = Factory.MathElements.Create(this, localName, prefix);
+                var factory = Options.GetService<IMathElementFactory>();
+                var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }

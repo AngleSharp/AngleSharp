@@ -5,7 +5,7 @@
     /// <summary>
     /// Contains all CSS rule names.
     /// </summary>
-    static class RuleNames
+    public static class RuleNames
     {
         /// <summary>
         /// The @supports rule.
