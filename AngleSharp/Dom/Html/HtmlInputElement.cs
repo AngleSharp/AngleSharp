@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Html.InputTypes;
+    using AngleSharp.Services;
     using System;
 
     /// <summary>
@@ -368,7 +369,8 @@
 
         void UpdateType(String type)
         {
-            _type = Factory.InputTypes.Create(this, type);
+            var factory = Owner.Options.GetService<IInputTypeFactory>();
+            _type = factory.Create(this, type);
         }
 
         #endregion

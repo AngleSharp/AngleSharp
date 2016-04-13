@@ -58,7 +58,7 @@
         public static readonly PseudoClassSelectorFactory PseudoClassSelector = new PseudoClassSelectorFactory();
 
         /// <summary>
-        /// The CSS media feature factory.
+        /// The link rel type factory.
         /// </summary>
         public static readonly LinkRelationFactory LinkRelations = new LinkRelationFactory();
     }
