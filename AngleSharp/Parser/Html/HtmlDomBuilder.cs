@@ -29,7 +29,9 @@
         readonly List<Element> _openElements;
         readonly List<Element> _formattingElements;
         readonly Stack<HtmlTreeMode> _templateModes;
-        readonly IHtmlElementFactory _elementFactory;
+        readonly IHtmlElementFactory _htmlFactory;
+        readonly IMathElementFactory _mathFactory;
+        readonly ISvgElementFactory _svgFactory;
 
         HtmlFormElement _currentFormElement;
         HtmlTreeMode _currentMode;
@@ -62,7 +64,9 @@
             _formattingElements = new List<Element>();
             _frameset = true;
             _currentMode = HtmlTreeMode.Initial;
-            _elementFactory = options.GetService<IHtmlElementFactory>();;
+            _htmlFactory = options.GetService<IHtmlElementFactory>();
+            _mathFactory = options.GetService<IMathElementFactory>();
+            _svgFactory = options.GetService<ISvgElementFactory>();
         }
 
         #endregion
@@ -3429,12 +3433,14 @@
         {
             if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.MathMember))
             {
-                var node = Factory.MathElements.Create(_document, tag.Name);
+                var tagName = tag.Name;
+                var node = _mathFactory.Create(_document, tagName);
                 return node.Setup(tag);
             }
             else if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.SvgMember))
             {
-                var node = Factory.SvgElements.CreateSanatized(_document, tag.Name);
+                var tagName = tag.Name.SanatizeSvgTagName();
+                var node = _svgFactory.Create(_document, tagName);
                 return node.Setup(tag);
             }
 
@@ -3798,7 +3804,7 @@
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         Element AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
-            var element = _elementFactory.Create(_document, tag.Name);
+            var element = _htmlFactory.Create(_document, tag.Name);
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);
             return element;

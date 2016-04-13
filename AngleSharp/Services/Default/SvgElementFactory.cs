@@ -22,46 +22,6 @@
             { TagNames.Title, (document, prefix) => new SvgTitleElement(document, prefix) }
         };
 
-        readonly Dictionary<String, String> adjustedTagNames = new Dictionary<String, String>(StringComparer.Ordinal)
-        {
-             { "altglyph", "altGlyph" },
-             { "altglyphdef", "altGlyphDef" },
-             { "altglyphitem", "altGlyphItem" },
-             { "animatecolor", "animateColor" },
-             { "animatemotion", "animateMotion" },
-             { "animatetransform", "animateTransform" },
-             { "clippath", "clipPath" },
-             { "feblend", "feBlend" },
-             { "fecolormatrix", "feColorMatrix" },
-             { "fecomponenttransfer", "feComponentTransfer" },
-             { "fecomposite", "feComposite" },
-             { "feconvolvematrix", "feConvolveMatrix" },
-             { "fediffuselighting", "feDiffuseLighting" },
-             { "fedisplacementmap", "feDisplacementMap" },
-             { "fedistantlight", "feDistantLight" },
-             { "feflood", "feFlood" },
-             { "fefunca", "feFuncA" },
-             { "fefuncb", "feFuncB" },
-             { "fefuncg", "feFuncG" },
-             { "fefuncr", "feFuncR" },
-             { "fegaussianblur", "feGaussianBlur" },
-             { "feimage", "feImage" },
-             { "femerge", "feMerge" },
-             { "femergenode", "feMergeNode" },
-             { "femorphology", "feMorphology" },
-             { "feoffset", "feOffset" },
-             { "fepointlight", "fePointLight" },
-             { "fespecularlighting", "feSpecularLighting" },
-             { "fespotlight", "feSpotLight" },
-             { "fetile", "feTile" },
-             { "feturbulence", "feTurbulence" },
-             { "foreignobject", "foreignObject" },
-             { "glyphref", "glyphRef" },
-             { "lineargradient", "linearGradient" },
-             { "radialgradient", "radialGradient" },
-             { "textpath", "textPath" }
-        };
-
         /// <summary>
         /// Returns a specialized SVGElement instance for the given tag name.
         /// </summary>
@@ -79,35 +39,6 @@
             }
 
             return new SvgElement(document, localName);
-        }
-
-        /// <summary>
-        /// Returns a specialized SVGElement instance for the given tag name.
-        /// </summary>
-        /// <param name="document">The document that owns the element.</param>
-        /// <param name="localName">The name to be sanatized.</param>
-        /// <returns>The specialized SVGElement instance.</returns>
-        public SvgElement CreateSanatized(Document document, String localName)
-        {
-            var newTag = SanatizeTag(localName);
-            return Create(document, newTag);
-        }
-
-        /// <summary>
-        /// Adjusts the tag name to the correct capitalization.
-        /// </summary>
-        /// <param name="localName">The name of adjust.</param>
-        /// <returns>The name with the correct capitalization.</returns>
-        String SanatizeTag(String localName)
-        {
-            var adjustedTagName = default(String);
-
-            if (adjustedTagNames.TryGetValue(localName, out adjustedTagName))
-            {
-                return adjustedTagName;
-            }
-
-            return localName;
         }
     }
 }
