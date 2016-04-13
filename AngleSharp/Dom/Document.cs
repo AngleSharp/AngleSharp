@@ -1001,7 +1001,8 @@
 
         public Event CreateEvent(String type)
         {
-            var ev = Factory.Events.Create(type);
+            var factory = Options.GetService<IEventFactory>();
+            var ev = factory.Create(type);
 
             if (ev == null)
             {
