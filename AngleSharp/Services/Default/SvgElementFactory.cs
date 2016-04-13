@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Factories
+﻿namespace AngleSharp.Services.Default
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Svg;
@@ -9,7 +9,7 @@
     /// <summary>
     /// Provides string to SVGElement instance creation mappings.
     /// </summary>
-    sealed class SvgElementFactory
+    sealed class SvgElementFactory : ISvgElementFactory
     {
         delegate SvgElement Creator(Document owner, String prefix);
 

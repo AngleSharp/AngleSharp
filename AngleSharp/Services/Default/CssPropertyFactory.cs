@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Factories
+﻿namespace AngleSharp.Services.Default
 {
     using AngleSharp.Css;
     using AngleSharp.Dom.Css;
@@ -9,7 +9,7 @@
     /// <summary>
     /// Provides string to CSSProperty instance creation mappings.
     /// </summary>
-    sealed class CssPropertyFactory
+    sealed class CssPropertyFactory : ICssPropertyFactory
     {
         #region Delegates
 

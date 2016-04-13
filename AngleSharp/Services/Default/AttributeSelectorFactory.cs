@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Factories
+﻿namespace AngleSharp.Services.Default
 {
     using AngleSharp.Css;
     using AngleSharp.Dom.Css;
@@ -8,7 +8,7 @@
     /// <summary>
     /// Provides string to CSS attribute selector instance mappings.
     /// </summary>
-    sealed class AttributeSelectorFactory
+    sealed class AttributeSelectorFactory : IAttributeSelectorFactory
     {
         delegate ISelector Creator(String name, String value, String prefix);
 

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Factories
+﻿namespace AngleSharp.Services.Default
 {
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
@@ -9,7 +9,7 @@
     /// <summary>
     /// Provides string to InputType instance mappings.
     /// </summary>
-    sealed class InputTypeFactory
+    sealed class InputTypeFactory : IInputTypeFactory
     {
         delegate BaseInputType Creator(IHtmlInputElement input);
 

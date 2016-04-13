@@ -29,6 +29,7 @@
         readonly List<Element> _openElements;
         readonly List<Element> _formattingElements;
         readonly Stack<HtmlTreeMode> _templateModes;
+        readonly IHtmlElementFactory _elementFactory;
 
         HtmlFormElement _currentFormElement;
         HtmlTreeMode _currentMode;
@@ -52,14 +53,16 @@
         /// </param>
         internal HtmlDomBuilder(HtmlDocument document)
         {
-            var resolver = document.Options.GetService<IEntityService>() ?? HtmlEntityService.Resolver;
-            _tokenizer = new HtmlTokenizer(document.Source, document.Options.Events, resolver);
+            var options = document.Options;
+            var resolver = options.GetService<IEntityService>() ?? HtmlEntityService.Resolver;
+            _tokenizer = new HtmlTokenizer(document.Source, options.Events, resolver);
             _document = document;
             _openElements = new List<Element>();
             _templateModes = new Stack<HtmlTreeMode>();
             _formattingElements = new List<Element>();
             _frameset = true;
             _currentMode = HtmlTreeMode.Initial;
+            _elementFactory = options.GetService<IHtmlElementFactory>();;
         }
 
         #endregion
@@ -3795,7 +3798,7 @@
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         Element AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
-            var element = Factory.HtmlElements.Create(_document, tag.Name);
+            var element = _elementFactory.Create(_document, tag.Name);
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);
             return element;

@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Factories;
+    using AngleSharp.Services.Default;
 
     /// <summary>
     /// Bundles the available factories.
