@@ -5,6 +5,7 @@
     using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
+    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -18,21 +19,21 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, Func<FunctionState>> pseudoClassFunctions = new Dictionary<String, Func<FunctionState>>(StringComparer.OrdinalIgnoreCase)
+        static readonly Dictionary<String, Func<CssSelectorConstructor, FunctionState>> pseudoClassFunctions = new Dictionary<String, Func<CssSelectorConstructor, FunctionState>>(StringComparer.OrdinalIgnoreCase)
         {
-            { PseudoClassNames.NthChild, () => new ChildFunctionState<FirstChildSelector>(withOptionalSelector: true) },
-            { PseudoClassNames.NthLastChild, () => new ChildFunctionState<LastChildSelector>(withOptionalSelector: true) },
-            { PseudoClassNames.NthOfType, () => new ChildFunctionState<FirstTypeSelector>(withOptionalSelector: false) },
-            { PseudoClassNames.NthLastOfType, () => new ChildFunctionState<LastTypeSelector>(withOptionalSelector: false) },
-            { PseudoClassNames.NthColumn, () => new ChildFunctionState<FirstColumnSelector>(withOptionalSelector: false) },
-            { PseudoClassNames.NthLastColumn, () => new ChildFunctionState<LastColumnSelector>(withOptionalSelector: false) },
-            { PseudoClassNames.Not, () => new NotFunctionState() },
-            { PseudoClassNames.Dir, () => new DirFunctionState() },
-            { PseudoClassNames.Lang, () => new LangFunctionState() },
-            { PseudoClassNames.Contains, () => new ContainsFunctionState() },
-            { PseudoClassNames.Has, () => new HasFunctionState() },
-            { PseudoClassNames.Matches, () => new MatchesFunctionState() },
-            { PseudoClassNames.HostContext, () => new HostContextFunctionState() },
+            { PseudoClassNames.NthChild, ctx => new ChildFunctionState<FirstChildSelector>(ctx, withOptionalSelector: true) },
+            { PseudoClassNames.NthLastChild, ctx => new ChildFunctionState<LastChildSelector>(ctx, withOptionalSelector: true) },
+            { PseudoClassNames.NthOfType, ctx => new ChildFunctionState<FirstTypeSelector>(ctx, withOptionalSelector: false) },
+            { PseudoClassNames.NthLastOfType, ctx => new ChildFunctionState<LastTypeSelector>(ctx, withOptionalSelector: false) },
+            { PseudoClassNames.NthColumn, ctx => new ChildFunctionState<FirstColumnSelector>(ctx, withOptionalSelector: false) },
+            { PseudoClassNames.NthLastColumn, ctx => new ChildFunctionState<LastColumnSelector>(ctx, withOptionalSelector: false) },
+            { PseudoClassNames.Not, ctx => new NotFunctionState(ctx) },
+            { PseudoClassNames.Dir, ctx => new DirFunctionState() },
+            { PseudoClassNames.Lang, ctx => new LangFunctionState() },
+            { PseudoClassNames.Contains, ctx => new ContainsFunctionState() },
+            { PseudoClassNames.Has, ctx => new HasFunctionState(ctx) },
+            { PseudoClassNames.Matches, ctx => new MatchesFunctionState(ctx) },
+            { PseudoClassNames.HostContext, ctx => new HostContextFunctionState(ctx) },
         };
 
         readonly Stack<CssCombinator> _combinators;
@@ -46,16 +47,20 @@
 		String _attrOp;
         String _attrNs;
         Boolean _valid;
+        Boolean _nested;
         Boolean _ready;
+        IAttributeSelectorFactory _attributeSelector;
+        IPseudoElementSelectorFactory _pseudoElementSelector;
+        IPseudoClassSelectorFactory _pseudoClassSelector;
 
         #endregion
 
         #region ctor
 
-        public CssSelectorConstructor()
+        public CssSelectorConstructor(IAttributeSelectorFactory attributeSelector, IPseudoClassSelectorFactory pseudoClassSelector, IPseudoElementSelectorFactory pseudoElementSelector)
         {
             _combinators = new Stack<CssCombinator>();
-			Reset();
+			Reset(attributeSelector, pseudoClassSelector, pseudoElementSelector);
         }
 
         #endregion
@@ -69,8 +74,7 @@
 
         public Boolean IsNested
         {
-            get;
-            private set;
+            get { return _nested; }
         }
 
         #endregion
@@ -147,7 +151,7 @@
             }
         }
 
-		public CssSelectorConstructor Reset()
+        public CssSelectorConstructor Reset(IAttributeSelectorFactory attributeSelector, IPseudoClassSelectorFactory pseudoClassSelector, IPseudoElementSelectorFactory pseudoElementSelector)
 		{
 			_attrName = null;
 			_attrValue = null;
@@ -159,8 +163,11 @@
 			_group = null;
 			_complex = null;
             _valid = true;
-            IsNested = false;
+            _nested = false;
             _ready = true;
+            _attributeSelector = attributeSelector;
+            _pseudoClassSelector = pseudoClassSelector;
+            _pseudoElementSelector = pseudoElementSelector;
 			return this;
 		}
 
@@ -304,7 +311,7 @@
 
                 if (token.Type == CssTokenType.SquareBracketClose)
                 {
-                    var selector = Factory.AttributeSelector.Create(_attrOp, _attrName, _attrValue, _attrNs);
+                    var selector = _attributeSelector.Create(_attrOp, _attrName, _attrValue, _attrNs);
                     Insert(selector);
                 }
                 else
@@ -336,7 +343,7 @@
             }
             else if (token.Type == CssTokenType.Ident)
             {
-                var sel = Factory.PseudoClassSelector.Create(token.Data);
+                var sel = _pseudoClassSelector.Create(token.Data);
 
                 if (sel != null)
                 {
@@ -355,11 +362,11 @@
 
             if (token.Type == CssTokenType.Ident)
             {
-                var sel = Factory.PseudoElementSelector.Create(token.Data);
+                var sel = _pseudoElementSelector.Create(token.Data);
 
                 if (sel != null)
                 {
-                    _valid = _valid && !IsNested;
+                    _valid = _valid && !_nested;
                     Insert(sel);
                     return;
                 }
@@ -554,11 +561,11 @@
 
         ISelector GetPseudoFunction(CssFunctionToken arguments)
         {
-            var creator = default(Func<FunctionState>);
+            var creator = default(Func<CssSelectorConstructor, FunctionState>);
 
             if (pseudoClassFunctions.TryGetValue(arguments.Data, out creator))
             {
-                using (var function = creator())
+                using (var function = creator(this))
                 {
                     _ready = false;
 
@@ -568,7 +575,7 @@
                         {
                             var sel = function.Produce();
 
-                            if (IsNested && function is NotFunctionState)
+                            if (_nested && function is NotFunctionState)
                             {
                                 sel = null;
                             }
@@ -581,6 +588,11 @@
             }
 
             return null;
+        }
+
+        CssSelectorConstructor CreateChild()
+        {
+            return Pool.NewSelectorConstructor(_attributeSelector, _pseudoClassSelector, _pseudoElementSelector);
         }
 
         #endregion
@@ -624,19 +636,19 @@
 
         sealed class NotFunctionState : FunctionState
         {
-            readonly CssSelectorConstructor _nested;
+            readonly CssSelectorConstructor _selector;
 
-            public NotFunctionState()
+            public NotFunctionState(CssSelectorConstructor parent)
             {
-                _nested = Pool.NewSelectorConstructor();
-                _nested.IsNested = true;
+                _selector = parent.CreateChild();
+                _selector._nested = true;
             }
 
             protected override Boolean OnToken(CssToken token)
             {
-                if (token.Type != CssTokenType.RoundBracketClose || _nested._state != State.Data)
+                if (token.Type != CssTokenType.RoundBracketClose || _selector._state != State.Data)
                 {
-                    _nested.Apply(token);
+                    _selector.Apply(token);
                     return false;
                 }
 
@@ -645,8 +657,8 @@
 
             public override ISelector Produce()
             {
-                var valid = _nested.IsValid;
-                var sel = _nested.GetResult();
+                var valid = _selector.IsValid;
+                var sel = _selector.GetResult();
 
                 if (valid)
                 {
@@ -660,7 +672,7 @@
             public override void Dispose()
             {
                 base.Dispose();
-                _nested.ToPool();
+                _selector.ToPool();
             }
         }
 
@@ -668,9 +680,9 @@
         {
             readonly CssSelectorConstructor _nested;
 
-            public HasFunctionState()
+            public HasFunctionState(CssSelectorConstructor parent)
             {
-                _nested = Pool.NewSelectorConstructor();
+                _nested = parent.CreateChild();
             }
 
             protected override Boolean OnToken(CssToken token)
@@ -707,18 +719,18 @@
 
         sealed class MatchesFunctionState : FunctionState
         {
-            readonly CssSelectorConstructor _nested;
+            readonly CssSelectorConstructor _selector;
 
-            public MatchesFunctionState()
+            public MatchesFunctionState(CssSelectorConstructor parent)
             {
-                _nested = Pool.NewSelectorConstructor();
+                _selector = parent.CreateChild();
             }
 
             protected override Boolean OnToken(CssToken token)
             {
-                if (token.Type != CssTokenType.RoundBracketClose || _nested._state != State.Data)
+                if (token.Type != CssTokenType.RoundBracketClose || _selector._state != State.Data)
                 {
-                    _nested.Apply(token);
+                    _selector.Apply(token);
                     return false;
                 }
 
@@ -727,8 +739,8 @@
 
             public override ISelector Produce()
             {
-                var valid = _nested.IsValid;
-                var sel = _nested.GetResult();
+                var valid = _selector.IsValid;
+                var sel = _selector.GetResult();
 
                 if (valid)
                 {
@@ -742,26 +754,26 @@
             public override void Dispose()
             {
                 base.Dispose();
-                _nested.ToPool();
+                _selector.ToPool();
             }
         }
 
         sealed class DirFunctionState : FunctionState
         {
-            Boolean valid;
-            String value;
+            Boolean _valid;
+            String _value;
 
             public DirFunctionState()
             {
-                valid = true;
-                value = null;
+                _valid = true;
+                _value = null;
             }
 
             protected override Boolean OnToken(CssToken token)
             {
                 if (token.Type == CssTokenType.Ident)
                 {
-                    value = token.Data;
+                    _value = token.Data;
                 }
                 else if (token.Type == CssTokenType.RoundBracketClose)
                 {
@@ -769,7 +781,7 @@
                 }
                 else if (token.Type != CssTokenType.Whitespace)
                 {
-                    valid = false;
+                    _valid = false;
                 }
 
                 return false;
@@ -777,10 +789,10 @@
 
             public override ISelector Produce()
             {
-                if (valid && value != null)
+                if (_valid && _value != null)
                 {
-                    var code = PseudoClassNames.Dir.CssFunction(value);
-                    return SimpleSelector.PseudoClass(el => el is IHtmlElement && value.Isi(((IHtmlElement)el).Direction), code);
+                    var code = PseudoClassNames.Dir.CssFunction(_value);
+                    return SimpleSelector.PseudoClass(el => el is IHtmlElement && _value.Isi(((IHtmlElement)el).Direction), code);
                 }
 
                 return null;
@@ -830,20 +842,20 @@
 
         sealed class ContainsFunctionState : FunctionState
         {
-            Boolean valid;
-            String value;
+            Boolean _valid;
+            String _value;
 
             public ContainsFunctionState()
             {
-                valid = true;
-                value = null;
+                _valid = true;
+                _value = null;
             }
 
             protected override Boolean OnToken(CssToken token)
             {
                 if (token.Type == CssTokenType.Ident || token.Type == CssTokenType.String)
                 {
-                    value = token.Data;
+                    _value = token.Data;
                 }
                 else if (token.Type == CssTokenType.RoundBracketClose)
                 {
@@ -851,7 +863,7 @@
                 }
                 else if (token.Type != CssTokenType.Whitespace)
                 {
-                    valid = false;
+                    _valid = false;
                 }
 
                 return false;
@@ -859,10 +871,10 @@
 
             public override ISelector Produce()
             {
-                if (valid && value != null)
+                if (_valid && _value != null)
                 {
-                    var code = PseudoClassNames.Contains.CssFunction(value);
-                    return SimpleSelector.PseudoClass(el => el.TextContent.Contains(value), code);
+                    var code = PseudoClassNames.Contains.CssFunction(_value);
+                    return SimpleSelector.PseudoClass(el => el.TextContent.Contains(_value), code);
                 }
 
                 return null;
@@ -871,18 +883,18 @@
 
         sealed class HostContextFunctionState : FunctionState
         {
-            readonly CssSelectorConstructor _nested;
+            readonly CssSelectorConstructor _selector;
 
-            public HostContextFunctionState()
+            public HostContextFunctionState(CssSelectorConstructor parent)
             {
-                _nested = Pool.NewSelectorConstructor();
+                _selector = parent.CreateChild();
             }
 
             protected override Boolean OnToken(CssToken token)
             {
-                if (token.Type != CssTokenType.RoundBracketClose || _nested._state != State.Data)
+                if (token.Type != CssTokenType.RoundBracketClose || _selector._state != State.Data)
                 {
-                    _nested.Apply(token);
+                    _selector.Apply(token);
                     return false;
                 }
 
@@ -891,8 +903,8 @@
 
             public override ISelector Produce()
             {
-                var valid = _nested.IsValid;
-                var sel = _nested.GetResult();
+                var valid = _selector.IsValid;
+                var sel = _selector.GetResult();
 
                 if (valid)
                 {
@@ -927,45 +939,48 @@
             public override void Dispose()
             {
                 base.Dispose();
-                _nested.ToPool();
+                _selector.ToPool();
             }
         }
 
         sealed class ChildFunctionState<T> : FunctionState
             where T : ChildSelector, ISelector, new()
         {
-            Boolean valid;
-            Int32 step;
-            Int32 offset;
-            Int32 sign;
-            ParseState state;
-            CssSelectorConstructor nested;
-            Boolean allowOf;
+            readonly CssSelectorConstructor _parent;
 
-            public ChildFunctionState(Boolean withOptionalSelector = true)
+            Boolean _valid;
+            Int32 _step;
+            Int32 _offset;
+            Int32 _sign;
+            ParseState _state;
+            CssSelectorConstructor _nested;
+            Boolean _allowOf;
+
+            public ChildFunctionState(CssSelectorConstructor parent, Boolean withOptionalSelector = true)
             {
-                allowOf = withOptionalSelector;
-                valid = true;
-                sign = 1;
-                state = ParseState.Initial;
+                _parent = parent;
+                _allowOf = withOptionalSelector;
+                _valid = true;
+                _sign = 1;
+                _state = ParseState.Initial;
             }
 
             public override ISelector Produce()
             {
-                var invalid = !valid || (nested != null && !nested.IsValid);
-                var sel = nested != null ? nested.ToPool() : SimpleSelector.All;
+                var invalid = !_valid || (_nested != null && !_nested.IsValid);
+                var sel = _nested != null ? _nested.ToPool() : SimpleSelector.All;
 
                 if (invalid)
                 {
                     return null;
                 }
 
-                return new T().With(step, offset, sel);
+                return new T().With(_step, _offset, sel);
             }
 
             protected override Boolean OnToken(CssToken token)
             {
-                switch (state)
+                switch (_state)
                 {
                     case ParseState.Initial:
                         return OnInitial(token);
@@ -990,35 +1005,35 @@
                 if (token.Type == CssTokenType.Dimension)
                 {
                     var dim = (CssUnitToken)token;
-                    valid = valid && dim.Unit.Isi("n") && Int32.TryParse(token.Data, out step);
-                    step *= sign;
-                    sign = 1;
-                    state = ParseState.Offset;
+                    _valid = _valid && dim.Unit.Isi("n") && Int32.TryParse(token.Data, out _step);
+                    _step *= _sign;
+                    _sign = 1;
+                    _state = ParseState.Offset;
                     return false;
                 }
                 else if (token.Type == CssTokenType.Ident && token.Data.Isi("n"))
                 {
-                    step = sign;
-                    sign = 1;
-                    state = ParseState.Offset;
+                    _step = _sign;
+                    _sign = 1;
+                    _state = ParseState.Offset;
                     return false;
                 }
-                else if (state == ParseState.Initial && token.Type == CssTokenType.Ident && token.Data.Isi("-n"))
+                else if (_state == ParseState.Initial && token.Type == CssTokenType.Ident && token.Data.Isi("-n"))
                 {
-                    step = -1;
-                    state = ParseState.Offset;
+                    _step = -1;
+                    _state = ParseState.Offset;
                     return false;
                 }
 
-                valid = false;
+                _valid = false;
                 return token.Type == CssTokenType.RoundBracketClose;
             }
 
             Boolean OnAfter(CssToken token)
             {
-                if (token.Type != CssTokenType.RoundBracketClose || nested._state != State.Data)
+                if (token.Type != CssTokenType.RoundBracketClose || _nested._state != State.Data)
                 {
-                    nested.Apply(token);
+                    _nested.Apply(token);
                     return false;
                 }
 
@@ -1034,9 +1049,9 @@
 
                 if (token.Data.Isi(Keywords.Of))
                 {
-                    valid = allowOf;
-                    state = ParseState.AfterOf;
-                    nested = Pool.NewSelectorConstructor();
+                    _valid = _allowOf;
+                    _state = ParseState.AfterOf;
+                    _nested = _parent.CreateChild();
                     return false;
                 }
                 else if (token.Type == CssTokenType.RoundBracketClose)
@@ -1044,7 +1059,7 @@
                     return true;
                 }
 
-                valid = false;
+                _valid = false;
                 return false;
             }
 
@@ -1057,9 +1072,9 @@
 
                 if (token.Type == CssTokenType.Number)
                 {
-                    valid = valid && ((CssNumberToken)token).IsInteger && Int32.TryParse(token.Data, out offset);
-                    offset *= sign;
-                    state = ParseState.BeforeOf;
+                    _valid = _valid && ((CssNumberToken)token).IsInteger && Int32.TryParse(token.Data, out _offset);
+                    _offset *= _sign;
+                    _state = ParseState.BeforeOf;
                     return false;
                 }
 
@@ -1075,22 +1090,22 @@
 
                 if (token.Data.Isi(Keywords.Odd))
                 {
-                    state = ParseState.BeforeOf;
-                    step = 2;
-                    offset = 1;
+                    _state = ParseState.BeforeOf;
+                    _step = 2;
+                    _offset = 1;
                     return false;
                 }
                 else if (token.Data.Isi(Keywords.Even))
                 {
-                    state = ParseState.BeforeOf;
-                    step = 2;
-                    offset = 0;
+                    _state = ParseState.BeforeOf;
+                    _step = 2;
+                    _offset = 0;
                     return false;
                 }
                 else if (token.Type == CssTokenType.Delim && token.Data.IsOneOf("+", "-"))
                 {
-                    sign = token.Data == "-" ? -1 : +1;
-                    state = ParseState.AfterInitialSign;
+                    _sign = token.Data == "-" ? -1 : +1;
+                    _state = ParseState.AfterInitialSign;
                     return false;
                 }
 

@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
+    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -17,7 +18,7 @@
         #region Fields
 
         readonly CssParserOptions _options;
-        readonly IConfiguration _config;
+        readonly IConfiguration _configuration;
 
         internal static readonly CssParser Default = new CssParser();
 
@@ -59,7 +60,7 @@
         public CssParser(CssParserOptions options, IConfiguration configuration)
         {
             _options = options;
-            _config = configuration;
+            _configuration = configuration ?? Configuration.Default;
         }
 
         #endregion
@@ -79,7 +80,7 @@
         /// </summary>
         public IConfiguration Config
         {
-            get { return _config; }
+            get { return _configuration; }
         }
 
         #endregion
@@ -145,9 +146,9 @@
         /// </summary>
         public ISelector ParseSelector(String selectorText)
         {
-            var tokenizer = CreateTokenizer(selectorText, _config);
-            var creator = Pool.NewSelectorConstructor();
+            var tokenizer = CreateTokenizer(selectorText, _configuration);
             var token = tokenizer.Get();
+            var creator = GetSelectorCreator();
 
             while (token.Type != CssTokenType.EndOfFile)
             {
@@ -172,10 +173,18 @@
 
         #region Internal Methods
 
+        internal CssSelectorConstructor GetSelectorCreator()
+        {
+            var attributeSelector = _configuration.GetService<IAttributeSelectorFactory>();
+            var pseudoClassSelector = _configuration.GetService<IPseudoClassSelectorFactory>();
+            var pseudoElementSelector = _configuration.GetService<IPseudoElementSelectorFactory>();
+            return Pool.NewSelectorConstructor(attributeSelector, pseudoClassSelector, pseudoElementSelector);
+        }
+
         internal ICssStyleSheet ParseStylesheet(TextSource source)
         {
             var sheet = new CssStyleSheet(this);
-            var tokenizer = CreateTokenizer(source, _config);
+            var tokenizer = CreateTokenizer(source, _configuration);
             var start = tokenizer.GetCurrentPosition();
             var builder = new CssBuilder(tokenizer, this);
             var end = builder.CreateRules(sheet);
@@ -187,7 +196,7 @@
         internal async Task<CssStyleSheet> ParseStylesheetAsync(CssStyleSheet sheet, TextSource source)
         {
             await source.PrefetchAllAsync(CancellationToken.None).ConfigureAwait(false);
-            var tokenizer = CreateTokenizer(source, _config);
+            var tokenizer = CreateTokenizer(source, _configuration);
             var start = tokenizer.GetCurrentPosition();
             var builder = new CssBuilder(tokenizer, this);
             var document = sheet.GetDocument() as Document;
@@ -219,7 +228,7 @@
 
         internal CssValue ParseValue(String valueText)
         {
-            var tokenizer = CreateTokenizer(valueText, _config);
+            var tokenizer = CreateTokenizer(valueText, _configuration);
             var token = default(CssToken);
             var builder = new CssBuilder(tokenizer, this);
             var value = builder.CreateValue(ref token);
@@ -263,7 +272,7 @@
 
         internal void AppendDeclarations(CssStyleDeclaration style, String declarations)
         {
-            var tokenizer = CreateTokenizer(declarations, _config);
+            var tokenizer = CreateTokenizer(declarations, _configuration);
             var builder = new CssBuilder(tokenizer, this);
             builder.FillDeclarations(style);
         }
@@ -274,7 +283,7 @@
 
         T Parse<T>(String source, Func<CssBuilder, CssToken, T> create)
         {
-            var tokenizer = CreateTokenizer(source, _config);
+            var tokenizer = CreateTokenizer(source, _configuration);
             var token = tokenizer.Get();
             var builder = new CssBuilder(tokenizer, this);
             var rule = create(builder, token);
@@ -283,7 +292,7 @@
 
         T Parse<T>(String source, Func<CssBuilder, CssToken, Tuple<T, CssToken>> create)
         {
-            var tokenizer = CreateTokenizer(source, _config);
+            var tokenizer = CreateTokenizer(source, _configuration);
             var token = tokenizer.Get();
             var builder = new CssBuilder(tokenizer, this);
             var pair = create(builder, token);
