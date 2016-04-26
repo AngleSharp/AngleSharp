@@ -55,7 +55,7 @@
         /// <returns>The source code snippet.</returns>
         public static String ToHtml(this IMarkupFormattable markup)
         {
-            return markup.ToHtml(HtmlMarkupFormatter.Instance);
+            return markup.ToHtml(new AutoSelectedMarkupFormatter());
         }
 
         /// <summary>
@@ -83,7 +83,7 @@
         /// <param name="writer">The output target of the serialization.</param>
         public static void ToHtml(this IMarkupFormattable markup, TextWriter writer)
         {
-            markup.ToHtml(HtmlMarkupFormatter.Instance);
+            markup.ToHtml(new AutoSelectedMarkupFormatter());
         }
     }
 }

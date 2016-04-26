@@ -9,6 +9,15 @@
     public interface IMarkupFormatter
     {
         /// <summary>
+        /// ChildFormatter property.
+        /// </summary>
+        IMarkupFormatter ChildFormatter
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Formats the given text.
         /// </summary>
         /// <param name="text">The text to sanatize.</param>

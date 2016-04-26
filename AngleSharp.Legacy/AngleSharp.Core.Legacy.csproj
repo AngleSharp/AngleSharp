@@ -3116,8 +3116,10 @@
     <Compile Include="..\AngleSharp\Xml\XmlMarkupFormatter.cs">
       <Link>Xml\XmlMarkupFormatter.cs</Link>
     </Compile>
+    <Compile Include="AutoSelectedMarkupFormatter.cs" />
     <Compile Include="Extensions\LegacyExtensions.cs" />
     <Compile Include="Foundation\WeakReference.cs" />
+    <Compile Include="Xhtml\XhtmlMarkupFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
