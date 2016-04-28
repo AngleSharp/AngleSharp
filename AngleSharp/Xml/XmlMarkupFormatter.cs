@@ -17,15 +17,6 @@
 
         #endregion
 
-        /// <summary>
-        /// ChildFormatter property.
-        /// </summary>
-        public IMarkupFormatter ChildFormatter
-        {
-            get;
-            set;
-        }
-
         #region Methods
 
         String IMarkupFormatter.CloseTag(IElement element, Boolean selfClosing)

@@ -1,8 +1,6 @@
-﻿using System.IO;
-
-
-namespace AngleSharp.Core.Tests.Xhtml
+﻿namespace AngleSharp.Core.Tests.Xhtml
 {
+    using System.IO;
     using AngleSharp.Dom;
     using NUnit.Framework;
 

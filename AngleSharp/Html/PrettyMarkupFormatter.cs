@@ -34,15 +34,6 @@
         #region Properties
 
         /// <summary>
-        /// Child / Implementation Formatter
-        /// </summary>
-        public IMarkupFormatter ChildFormatter
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Gets or sets the indentation string.
         /// </summary>
         public String Indentation

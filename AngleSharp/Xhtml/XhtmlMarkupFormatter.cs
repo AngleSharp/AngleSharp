@@ -17,15 +17,6 @@
         /// </summary>
         public static readonly IMarkupFormatter Instance = new XhtmlMarkupFormatter();
 
-        /// <summary>
-        /// ChildFormatter Property
-        /// </summary>
-        public IMarkupFormatter ChildFormatter
-        {
-            get;
-            set;
-        }
-
         #endregion
 
         #region Methods

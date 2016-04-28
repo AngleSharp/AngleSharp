@@ -50,7 +50,7 @@
 
         public String InnerHtml
         {
-            get { return ChildNodes.ToHtml(new AutoSelectedMarkupFormatter(this.Owner.Doctype)); }
+            get { return ChildNodes.ToHtml(HtmlMarkupFormatter.Instance); }
             set { ReplaceAll(new DocumentFragment(_host, value), false); }
         }
 

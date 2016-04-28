@@ -1,8 +1,8 @@
-﻿
-namespace AngleSharp.Core.Tests.Xhtml
+﻿namespace AngleSharp.Core.Tests.Xhtml
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
+    using System.IO;
 
     [TestFixture]
     public class AutoSelectMarkupFormatter
@@ -21,7 +21,9 @@ namespace AngleSharp.Core.Tests.Xhtml
                 </html>
                 ").ToHtmlDocument();
 
-            string result = document.DocumentElement.OuterHtml;
+            StringWriter swResult = new StringWriter();
+            document.ToHtml(swResult, new AutoSelectedMarkupFormatter(document.Doctype));
+            string result = swResult.ToString();
 
             int c = 0, i = -1;
             while ((i = result.IndexOf("/>", i + 1)) >= 0)
@@ -57,7 +59,9 @@ namespace AngleSharp.Core.Tests.Xhtml
                 </html>
                 ").ToHtmlDocument();
 
-            string result = document.DocumentElement.OuterHtml;
+            StringWriter swResult = new StringWriter();
+            document.ToHtml(swResult, new AutoSelectedMarkupFormatter(document.Doctype));
+            string result = swResult.ToString();
 
             int c = 0, i = -1;
             while ((i = result.IndexOf("/>", i + 1)) >= 0)

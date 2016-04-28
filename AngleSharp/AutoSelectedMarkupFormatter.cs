@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AngleSharp.Dom;
-using AngleSharp.Xml;
-using AngleSharp.XHtml;
-using AngleSharp.Html;
-
-namespace AngleSharp
+﻿namespace AngleSharp
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Xml;
+    using AngleSharp.XHtml;
+    using AngleSharp.Html;
+    
     /// <summary>
     /// AutoSelectedMarkupFormatter class responsible for selecting the proper MarkupFormatter implementation depending on the DocumentType.
     /// </summary>

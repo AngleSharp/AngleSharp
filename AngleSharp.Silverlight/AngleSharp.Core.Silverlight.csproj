@@ -3131,10 +3131,14 @@
     <Compile Include="..\AngleSharp\Xml\XmlMarkupFormatter.cs">
       <Link>Xml\XmlMarkupFormatter.cs</Link>
     </Compile>
-    <Compile Include="AutoSelectedMarkupFormatter.cs" />
+    <Compile Include="..\AngleSharp\AutoSelectedMarkupFormatter.cs" >
+      <Link>AutoSelectedMarkupFormatter.cs</Link>
+    </Compile>
     <Compile Include="Extensions\SilverlightExtensions.cs" />
     <Compile Include="Foundation\WeakReference.cs" />
-    <Compile Include="Xhtml\XhtmlMarkupFormatter.cs" />
+    <Compile Include="..\AngleSharp\Xhtml\XhtmlMarkupFormatter.cs" >
+      <Link>Xhtml\XhtmlMarkupFormatter.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
