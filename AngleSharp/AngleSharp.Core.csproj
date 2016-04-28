@@ -57,6 +57,7 @@
     <Compile Include="Attributes\DomLiteralsAttribute.cs" />
     <Compile Include="Attributes\DomNoInterfaceObjectAttribute.cs" />
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
+    <Compile Include="AutoSelectedMarkupFormatter.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="BrowsingContextExtensions.cs" />
     <Compile Include="Css\CombinatorSymbols.cs" />
@@ -1061,6 +1062,7 @@
     <Compile Include="Parser\Xml\Tokens\XmlTagToken.cs" />
     <Compile Include="Parser\Xml\Tokens\XmlToken.cs" />
     <Compile Include="Xml\XmlEntityService.cs" />
+    <Compile Include="Xhtml\XhtmlMarkupFormatter.cs" />
     <Compile Include="Xml\XmlMarkupFormatter.cs" />
     <Compile Include="Parser\Xml\XmlDomBuilder.cs" />
     <Compile Include="Parser\Xml\XmlTokenizer.cs" />
