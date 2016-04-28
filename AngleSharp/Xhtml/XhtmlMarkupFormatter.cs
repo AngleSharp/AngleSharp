@@ -113,7 +113,7 @@
                 switch (text[i])
                 {
                     case Symbols.Ampersand: temp.Append("&amp;"); break;
-                    case Symbols.NoBreakSpace: temp.Append("&nbsp;"); break;
+                    case Symbols.NoBreakSpace: temp.Append("&#160;"); break;
                     case Symbols.GreaterThan: temp.Append("&gt;"); break;
                     case Symbols.LessThan: temp.Append("&lt;"); break;
                     default: temp.Append(text[i]); break;
