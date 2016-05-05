@@ -105,7 +105,6 @@
             context.Fire(new CssParseEvent(sheet, completed: false));
             await parser.ParseStylesheetAsync(sheet, source).ConfigureAwait(false);
             context.Fire(new CssParseEvent(sheet, completed: true));
-
             return sheet;
         }
 
