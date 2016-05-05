@@ -10,7 +10,7 @@
     {
         static XmlTokenizer CreateTokenizer(TextSource source)
         {
-            return new XmlTokenizer(source, null, XmlEntityService.Resolver);
+            return new XmlTokenizer(source, XmlEntityService.Resolver);
         }
 
         [Test]
@@ -112,7 +112,7 @@
         {
             var resolver = new MockEntityResolver(str => str.Equals("bar") ? "foo" : null);
             var s = new TextSource("test&bar;");
-            var t = new XmlTokenizer(s, null, resolver);
+            var t = new XmlTokenizer(s, resolver);
             var test = t.Get();
             var end = t.Get();
             Assert.AreEqual(XmlTokenType.Character, test.Type);

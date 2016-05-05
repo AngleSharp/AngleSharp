@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Dom.Collections;
-    using AngleSharp.Events;
+    using AngleSharp.Dom.Events;
+    using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Parser.Css;
     using AngleSharp.Services.Styling;
@@ -72,11 +73,10 @@
         /// <returns>The CSSOM of the parsed source.</returns>
         public ICssStyleSheet SetDefault(String sourceCode)
         {
-            var parser = new CssParser(_options);
-            var source = new TextSource(sourceCode);
-            var sheet = new CssStyleSheet(parser, default(String), default(ICssStyleSheet));
-            _default = ParseAsync(parser, sheet, source).Result;
-            return _default;
+            var parser = new CssParser(_options, Configuration.Default);
+            var sheet = parser.ParseStylesheet(sourceCode);
+            _default = sheet;
+            return sheet;
         }
 
         /// <summary>
@@ -93,14 +93,19 @@
         /// <returns>The task resulting in the style sheet.</returns>
         public async Task<IStyleSheet> ParseStylesheetAsync(IResponse response, StyleOptions options, CancellationToken cancel)
         {
-            var parser = new CssParser(_options, options.Configuration);
+            var context = options.Context;
+            var configuration = context.Configuration;
+            var parser = new CssParser(_options, configuration);
             var url = response.Address != null ? response.Address.Href : null;
-            var sheet = new CssStyleSheet(parser, url, options.Element) 
-            { 
-                IsDisabled = options.IsDisabled
-            };
+            var sheet = new CssStyleSheet(parser, url, options.Element) { IsDisabled = options.IsDisabled };
             var source = new TextSource(response.Content);
-            return await ParseAsync(parser, sheet, source).ConfigureAwait(false);
+            var tokenizer = new CssTokenizer(source);
+            var builder = new CssBuilder(tokenizer, parser);
+            builder.Error += (s, ev) => context.Fire(ev);
+            context.Fire(new CssParseEvent(sheet, completed: false));
+            await parser.ParseStylesheetAsync(sheet, source).ConfigureAwait(false);
+            context.Fire(new CssParseEvent(sheet, completed: true));
+            return sheet;
         }
 
         /// <summary>
@@ -115,7 +120,8 @@
         /// <returns>The created style declaration.</returns>
         public ICssStyleDeclaration ParseDeclaration(String source, StyleOptions options)
         {
-            var parser = new CssParser(_options, options.Configuration);
+            var configuration = options.Context.Configuration;
+            var parser = new CssParser(_options, configuration);
             var style = new CssStyleDeclaration(parser);
             style.Update(source);
             return style;
@@ -131,27 +137,11 @@
         /// <returns>The created media list.</returns>
         public IMediaList ParseMedia(String source, StyleOptions options)
         {
-            var parser = new CssParser(_options, options.Configuration);
+            var configuration = options.Context.Configuration;
+            var parser = new CssParser(_options, configuration);
             var media = new MediaList(parser);
             media.MediaText = source;
             return media;
-        }
-
-        #endregion
-
-        #region Helper
-
-        async Task<CssStyleSheet> ParseAsync(CssParser parser, CssStyleSheet sheet, TextSource source)
-        {
-            var evt = new CssParseStartEvent(sheet);
-            var events = parser.Config.Events;
-
-            if (events != null)
-                events.Publish(evt);
-
-            await parser.ParseStylesheetAsync(sheet, source).ConfigureAwait(false);
-            evt.FireEnd();
-            return sheet;
         }
 
         #endregion

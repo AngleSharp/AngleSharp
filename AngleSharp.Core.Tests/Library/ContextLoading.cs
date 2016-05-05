@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Services.Media;
     using NUnit.Framework;
@@ -194,7 +194,7 @@
             var url = "http://localhost";
             var source = "<!doctype html><link rel=stylesheet href=http://localhost/beispiel.css type=text/css />";
             var memory = new MemoryStream(Encoding.UTF8.GetBytes(source));
-            var config = new Configuration(null, null, null).WithCss();
+            var config = new Configuration(null, null).WithCss();
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content(memory).Address(url));
             var links = document.QuerySelectorAll("link");
@@ -257,9 +257,9 @@
             if (Helper.IsNetworkAvailable())
             {
                 var address = "http://anglesharp.azurewebsites.net/Chunked";
-                var events = new EventReceiver<HtmlParseStartEvent>();
-                var config = new Configuration(events: events).WithDefaultLoader();
+                var config = Configuration.Default.WithDefaultLoader();
                 var context = BrowsingContext.New(config);
+                var events = new EventReceiver<HtmlParseEvent>(handler => context.Parsing += handler);
                 var start = DateTime.Now;
                 events.OnReceived = rec => start = DateTime.Now;
                 var document = await context.OpenAsync(address);
@@ -272,10 +272,7 @@
         public async Task ProxyShouldBeAvailableDuringLoading()
         {
             var windowIsNotNull = false;
-            var scripting = new CallbackScriptEngine(options =>
-            {
-                windowIsNotNull = options.Context.Proxy != null;
-            });
+            var scripting = new CallbackScriptEngine(options => windowIsNotNull = options.Document.DefaultView.Proxy != null);
             var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
             var source = "<title>Some title</title><body><script type='c-sharp' src='foo.cs'></script>";
             var document = await BrowsingContext.New(config).OpenAsync(m => 

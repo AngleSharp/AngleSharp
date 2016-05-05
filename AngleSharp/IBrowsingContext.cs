@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents the browsing context interface.
     /// </summary>
-    public interface IBrowsingContext
+    public interface IBrowsingContext : IEventTarget
     {
         /// <summary>
         /// Gets the current window proxy.
@@ -58,5 +58,30 @@
         /// </summary>
         /// <param name="document">The new document.</param>
         void NavigateTo(IDocument document);
+
+        /// <summary>
+        /// Fired when a parser is starting.
+        /// </summary>
+        event DomEventHandler Parsing;
+
+        /// <summary>
+        /// Fired when a parser is finished.
+        /// </summary>
+        event DomEventHandler Parsed;
+
+        /// <summary>
+        /// Fired when a parse error is encountered.
+        /// </summary>
+        event DomEventHandler ParseError;
+
+        /// <summary>
+        /// Fired when a requester is starting.
+        /// </summary>
+        event DomEventHandler Requesting;
+
+        /// <summary>
+        /// Fired when a requester is finished.
+        /// </summary>
+        event DomEventHandler Requested;
     }
 }

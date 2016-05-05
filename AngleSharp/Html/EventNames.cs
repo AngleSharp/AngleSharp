@@ -391,5 +391,30 @@
         /// The storage event.
         /// </summary>
         public static readonly String Storage = "storage";
+
+        /// <summary>
+        /// The parseStart event.
+        /// </summary>
+        public static readonly String ParseStart = "parseStart";
+
+        /// <summary>
+        /// The parseEnd event.
+        /// </summary>
+        public static readonly String ParseEnd = "parseEnd";
+
+        /// <summary>
+        /// The parseError event.
+        /// </summary>
+        public static readonly String ParseError = "parseError";
+
+        /// <summary>
+        /// The requestStart event.
+        /// </summary>
+        public static readonly String RequestStart = "requestStart";
+
+        /// <summary>
+        /// The requestEnd event.
+        /// </summary>
+        public static readonly String RequestEnd = "requestEnd";
     }
 }

@@ -9,6 +9,15 @@
     public sealed class StyleOptions
     {
         /// <summary>
+        /// Creates new style options for the given context.
+        /// </summary>
+        /// <param name="context">The context to use.</param>
+        public StyleOptions(IBrowsingContext context)
+        {
+            Context = context;
+        }
+
+        /// <summary>
         /// Gets or sets the element that triggered the evaluation.
         /// </summary>
         public IElement Element
@@ -36,12 +45,12 @@
         }
 
         /// <summary>
-        /// Gets or sets the configuration for the stylesheet.
+        /// Gets the current browsing context.
         /// </summary>
-        public IConfiguration Configuration
+        public IBrowsingContext Context
         {
             get;
-            set;
+            private set;
         }
     }
 }

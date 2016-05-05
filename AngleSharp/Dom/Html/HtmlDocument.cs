@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using AngleSharp.Events;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Parser.Html;
@@ -75,39 +75,24 @@
 
         public override INode Clone(Boolean deep = true)
         {
-            var node = new HtmlDocument(Context, new TextSource(Source.Text));
+            var source = new TextSource(Source.Text);
+            var node = new HtmlDocument(Context, source);
             CloneDocument(node, deep);
             return node;
         }
 
-        /// <summary>
-        /// Loads the document in the provided context from the given response.
-        /// </summary>
-        /// <param name="context">The browsing context.</param>
-        /// <param name="options">The creation options to consider.</param>
-        /// <param name="cancelToken">Token for cancellation.</param>
-        /// <returns>The task that builds the document.</returns>
         internal async static Task<IDocument> LoadAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancelToken)
         {
+            var scripting = context.Configuration.IsScripting();
+            var parserOptions = new HtmlParserOptions { IsScripting = scripting };
             var document = new HtmlDocument(context, options.Source);
-            var evt = new HtmlParseStartEvent(document);
-            var config = context.Configuration;
-            var events = config.Events;
             var parser = new HtmlDomBuilder(document);
-            var parserOptions = new HtmlParserOptions
-            {
-                IsScripting = config.IsScripting()
-            };
+            parser.Error += (_, error) => context.Fire(error);
             document.Setup(options);
             context.NavigateTo(document);
-
-            if (events != null)
-            {
-                events.Publish(evt);
-            }
-
+            context.Fire(new HtmlParseEvent(document, completed: false));
             await parser.ParseAsync(parserOptions, cancelToken).ConfigureAwait(false);
-            evt.FireEnd();
+            context.Fire(new HtmlParseEvent(document, completed: true));
             return document;
         }
 

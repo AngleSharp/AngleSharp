@@ -57,6 +57,7 @@
     <Compile Include="Attributes\DomLiteralsAttribute.cs" />
     <Compile Include="Attributes\DomNoInterfaceObjectAttribute.cs" />
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
+    <Compile Include="AutoSelectedMarkupFormatter.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="BrowsingContextExtensions.cs" />
     <Compile Include="Css\CombinatorSymbols.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="Dom\Events\FocusEvent.cs" />
     <Compile Include="Dom\Events\HashChangedEvent.cs" />
     <Compile Include="Dom\Events\KeyboardEvent.cs" />
+    <Compile Include="Dom\Events\MediaQueryListEvent.cs" />
     <Compile Include="Dom\Events\ModifierExtensions.cs" />
     <Compile Include="Dom\Events\MouseEvent.cs" />
     <Compile Include="Dom\Events\PageTransitionEvent.cs" />
@@ -176,16 +178,11 @@
     <Compile Include="Dom\Html\HtmlUrlBaseElement.cs" />
     <Compile Include="Dom\ShadowRoot.cs" />
     <Compile Include="Dom\Svg\SvgDocument.cs" />
-    <Compile Include="Events\CssParseErrorEvent.cs" />
-    <Compile Include="Events\CssParseStartEvent.cs" />
-    <Compile Include="Events\Default\EventBroker.cs" />
-    <Compile Include="Events\Default\IEventBroker.cs" />
-    <Compile Include="Events\Default\SimpleEventAggregator.cs" />
-    <Compile Include="Events\HtmlParseErrorEvent.cs" />
-    <Compile Include="Events\HtmlParseStartEvent.cs" />
-    <Compile Include="Events\IEventAggregator.cs" />
-    <Compile Include="Events\ISubscriber.cs" />
-    <Compile Include="Events\RequestStartEvent.cs" />
+    <Compile Include="Dom\Events\CssErrorEvent.cs" />
+    <Compile Include="Dom\Events\CssParseEvent.cs" />
+    <Compile Include="Dom\Events\HtmlErrorEvent.cs" />
+    <Compile Include="Dom\Events\HtmlParseEvent.cs" />
+    <Compile Include="Dom\Events\RequestEvent.cs" />
     <Compile Include="Extensions\ContextExtensions.cs" />
     <Compile Include="Extensions\EventLoopExtensions.cs" />
     <Compile Include="Extensions\ResponseExtensions.cs" />
@@ -1061,6 +1058,7 @@
     <Compile Include="Parser\Xml\Tokens\XmlTagToken.cs" />
     <Compile Include="Parser\Xml\Tokens\XmlToken.cs" />
     <Compile Include="Xml\XmlEntityService.cs" />
+    <Compile Include="Xhtml\XhtmlMarkupFormatter.cs" />
     <Compile Include="Xml\XmlMarkupFormatter.cs" />
     <Compile Include="Parser\Xml\XmlDomBuilder.cs" />
     <Compile Include="Parser\Xml\XmlTokenizer.cs" />

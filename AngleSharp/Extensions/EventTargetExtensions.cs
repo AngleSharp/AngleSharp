@@ -12,9 +12,9 @@
     static class EventTargetExtensions
     {
         /// <summary>
-        /// Firing a simple event named e means that a trusted event with a 
-        /// name, which does not bubble, is not cancelable and which uses the
-        /// Event interface. It is created and dispatched at the given target.
+        /// Firing a simple event means that a trusted event with a name, which
+        /// does not bubble, is not cancelable and which uses the Event
+        /// interface. It is created and dispatched at the given target.
         /// </summary>
         /// <param name="target">The target of the simple event.</param>
         /// <param name="eventName">The name of the event to be fired.</param>
@@ -25,9 +25,23 @@
         /// </returns>
         public static Boolean FireSimpleEvent(this IEventTarget target, String eventName, Boolean bubble = false, Boolean cancelable = false)
         {
-            var ev = new Event { IsTrusted = true };
-            ev.Init(eventName, bubble, cancelable);
-            return ev.Dispatch(target);
+            var eventData = new Event { IsTrusted = true };
+            eventData.Init(eventName, bubble, cancelable);
+            return eventData.Dispatch(target);
+        }
+
+        /// <summary>
+        /// Fires a trusted event with the provided event data.
+        /// </summary>
+        /// <param name="target">The target of the event.</param>
+        /// <param name="eventData">The event data to dispatch.</param>
+        /// <returns>
+        /// True if the element was cancelled, otherwise false.
+        /// </returns>
+        public static Boolean Fire(this IEventTarget target, Event eventData)
+        {
+            eventData.IsTrusted = true;
+            return eventData.Dispatch(target);
         }
 
         /// <summary>
@@ -47,9 +61,9 @@
         public static Boolean Fire<T>(this IEventTarget target, Action<T> initializer, EventTarget targetOverride = null)
             where T : Event, new()
         {
-            var ev = new T { IsTrusted = true };
-            initializer(ev);
-            return ev.Dispatch(targetOverride ?? target);
+            var eventData = new T { IsTrusted = true };
+            initializer(eventData);
+            return eventData.Dispatch(targetOverride ?? target);
         }
     }
 }

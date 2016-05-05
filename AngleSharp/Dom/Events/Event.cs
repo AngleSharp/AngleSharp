@@ -133,7 +133,7 @@
         public Boolean IsTrusted
         {
             get;
-            set;
+            internal set;
         }
 
         /// <summary>
@@ -174,7 +174,9 @@
         public void Cancel()
         {
             if (_cancelable)
+            {
                 _flags |= EventFlags.Canceled;
+            }
         }
 
         /// <summary>
@@ -188,15 +190,15 @@
         {
             _flags |= EventFlags.Initialized;
 
-            if (_flags.HasFlag(EventFlags.Dispatch))
-                return;
-
-            _flags &= ~(EventFlags.StopPropagation | EventFlags.StopImmediatePropagation | EventFlags.Canceled);
-            IsTrusted = false;
-            _target = null;
-            _type = type;
-            _bubbles = bubbles;
-            _cancelable = cancelable;
+            if (!_flags.HasFlag(EventFlags.Dispatch))
+            {
+                _flags &= ~(EventFlags.StopPropagation | EventFlags.StopImmediatePropagation | EventFlags.Canceled);
+                IsTrusted = false;
+                _target = null;
+                _type = type;
+                _bubbles = bubbles;
+                _cancelable = cancelable;
+            }
         }
 
         /// <summary>

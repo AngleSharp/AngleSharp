@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Parser.Xml
 {
-    using AngleSharp.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Services;
@@ -27,10 +26,9 @@
         /// Creates a new tokenizer for XML documents.
         /// </summary>
         /// <param name="source">The source code manager.</param>
-        /// <param name="events">The event aggregator to use.</param>
         /// <param name="resolver">The entity resolver to use.</param>
-        public XmlTokenizer(TextSource source, IEventAggregator events, IEntityService resolver)
-            : base(source, events)
+        public XmlTokenizer(TextSource source, IEntityService resolver)
+            : base(source)
         {
             _resolver = resolver;
         }

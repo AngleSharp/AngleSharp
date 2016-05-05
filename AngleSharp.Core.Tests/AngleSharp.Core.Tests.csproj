@@ -151,7 +151,6 @@
     <Compile Include="Library\QueryExtensions.cs" />
     <Compile Include="Library\ShadowDom.cs" />
     <Compile Include="Library\SimpleEncoding.cs" />
-    <Compile Include="Library\SimpleEventAggregator.cs" />
     <Compile Include="Library\StringMap.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Html\HtmlScript.cs" />
@@ -201,7 +200,6 @@
     <Compile Include="Mocks\MockRequester.cs" />
     <Compile Include="Css\HtmlCssIntegration.cs" />
     <Compile Include="Mocks\MockScriptService.cs" />
-    <Compile Include="Mocks\MockSubscriber.cs" />
     <Compile Include="Mocks\TestServerRequester.cs" />
     <Compile Include="Mocks\ResourceService.cs" />
     <Compile Include="Mocks\StandingEventLoopService.cs" />
@@ -218,6 +216,8 @@
     <Compile Include="Html\HtmlEntity.cs" />
     <Compile Include="Html\UserJsUnsafe.cs" />
     <Compile Include="TestExtensions.cs" />
+    <Compile Include="Xhtml\PreserveValidXhtml.cs" />
+    <Compile Include="Xhtml\AutoSelectMarkupFormatter.cs" />
     <Compile Include="Xml\XmlSamples.cs" />
     <Compile Include="Xml\XmlTokenization.cs" />
     <Compile Include="Xml\XmlTree.cs" />

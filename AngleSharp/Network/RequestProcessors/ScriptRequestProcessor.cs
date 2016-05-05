@@ -24,10 +24,10 @@
 
         #region ctor
 
-        private ScriptRequestProcessor(HtmlScriptElement script, IResourceLoader loader)
+        private ScriptRequestProcessor(HtmlScriptElement script, Document document, IResourceLoader loader)
         {
             _script = script;
-            _document = script.Owner;
+            _document = document;
             _loader = loader;
         }
 
@@ -35,7 +35,7 @@
         {
             var document = script.Owner;
             var loader = document.Loader;
-            return new ScriptRequestProcessor(script, loader);
+            return new ScriptRequestProcessor(script, document, loader);
         }
 
         #endregion
@@ -132,10 +132,8 @@
 
         ScriptOptions CreateOptions()
         {
-            return new ScriptOptions
+            return new ScriptOptions(_document)
             {
-                Context = _document.DefaultView,
-                Document = _document,
                 Element = _script,
                 Encoding = TextEncoding.Resolve(_script.CharacterSet)
             };

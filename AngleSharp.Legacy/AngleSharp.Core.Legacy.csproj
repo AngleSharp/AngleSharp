@@ -1313,6 +1313,12 @@
     <Compile Include="..\AngleSharp\Dom\Events\CompositionEvent.cs">
       <Link>Dom\Events\CompositionEvent.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Events\CssErrorEvent.cs">
+      <Link>Dom\Events\CssErrorEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Events\CssParseEvent.cs">
+      <Link>Dom\Events\CssParseEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Events\CustomEvent.cs">
       <Link>Dom\Events\CustomEvent.cs</Link>
     </Compile>
@@ -1328,11 +1334,20 @@
     <Compile Include="..\AngleSharp\Dom\Events\HashChangedEvent.cs">
       <Link>Dom\Events\HashChangedEvent.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Events\HtmlErrorEvent.cs">
+      <Link>Dom\Events\HtmlErrorEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Events\HtmlParseEvent.cs">
+      <Link>Dom\Events\HtmlParseEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Events\InputEvent.cs">
       <Link>Dom\Events\InputEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Events\KeyboardEvent.cs">
       <Link>Dom\Events\KeyboardEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Events\MediaQueryListEvent.cs">
+      <Link>Dom\Events\MediaQueryListEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Events\MessageEvent.cs">
       <Link>Dom\Events\MessageEvent.cs</Link>
@@ -1345,6 +1360,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Events\PageTransitionEvent.cs">
       <Link>Dom\Events\PageTransitionEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Events\RequestEvent.cs">
+      <Link>Dom\Events\RequestEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Events\TouchEvent.cs">
       <Link>Dom\Events\TouchEvent.cs</Link>
@@ -1792,36 +1810,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Xml\XmlElement.cs">
       <Link>Dom\Xml\XmlElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\CssParseErrorEvent.cs">
-      <Link>Events\CssParseErrorEvent.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\CssParseStartEvent.cs">
-      <Link>Events\CssParseStartEvent.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\Default\EventBroker.cs">
-      <Link>Events\Default\EventBroker.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\Default\IEventBroker.cs">
-      <Link>Events\Default\IEventBroker.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\Default\SimpleEventAggregator.cs">
-      <Link>Events\Default\SimpleEventAggregator.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\HtmlParseErrorEvent.cs">
-      <Link>Events\HtmlParseErrorEvent.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\HtmlParseStartEvent.cs">
-      <Link>Events\HtmlParseStartEvent.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\IEventAggregator.cs">
-      <Link>Events\IEventAggregator.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\ISubscriber.cs">
-      <Link>Events\ISubscriber.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\RequestStartEvent.cs">
-      <Link>Events\RequestStartEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\ApiExtensions.cs">
       <Link>Extensions\ApiExtensions.cs</Link>
@@ -3116,8 +3104,14 @@
     <Compile Include="..\AngleSharp\Xml\XmlMarkupFormatter.cs">
       <Link>Xml\XmlMarkupFormatter.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\AutoSelectedMarkupFormatter.cs" >
+      <Link>AutoSelectedMarkupFormatter.cs</Link>
+    </Compile>
     <Compile Include="Extensions\LegacyExtensions.cs" />
     <Compile Include="Foundation\WeakReference.cs" />
+    <Compile Include="..\AngleSharp\Xhtml\XhtmlMarkupFormatter.cs" >
+      <Link>Xhtml\XhtmlMarkupFormatter.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

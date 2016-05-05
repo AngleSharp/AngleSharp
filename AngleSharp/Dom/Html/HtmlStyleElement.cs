@@ -111,27 +111,27 @@
             if (document != null)
             {
                 var config = document.Options;
+                var context = document.Context;
                 var type = Type ?? MimeTypeNames.Css;
                 var engine = config.GetStyleEngine(type);
 
                 if (engine != null)
                 {
-                    var task = CreateSheetAsync(engine, config);
+                    var task = CreateSheetAsync(engine, context);
                     document.DelayLoad(task);
                 }
             }
         }
 
-        async Task CreateSheetAsync(IStyleEngine engine, IConfiguration config)
+        async Task CreateSheetAsync(IStyleEngine engine, IBrowsingContext context)
         {
             var cancel = CancellationToken.None;
             var response = VirtualResponse.Create(res => res.Content(TextContent).Address(default(Url)));
-            var options = new StyleOptions
+            var options = new StyleOptions(context)
             {
                 Element = this,
                 IsDisabled = IsDisabled,
-                IsAlternate = false,
-                Configuration = config
+                IsAlternate = false
             };
             var task = engine.ParseStylesheetAsync(response, options, cancel);
             _sheet = await task.ConfigureAwait(false);

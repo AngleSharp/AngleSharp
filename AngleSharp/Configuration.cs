@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Events;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -20,7 +19,6 @@
         #region Fields
 
         readonly IEnumerable<Object> _services;
-        readonly IEventAggregator _events;
         readonly CultureInfo _culture;
 
         /// <summary>
@@ -59,13 +57,11 @@
         /// Creates a new immutable configuration.
         /// </summary>
         /// <param name="services">The services to expose.</param>
-        /// <param name="events">The event aggregator.</param>
         /// <param name="culture">The current culture.</param>
-        public Configuration(IEnumerable<Object> services = null, IEventAggregator events = null, CultureInfo culture = null)
+        public Configuration(IEnumerable<Object> services = null, CultureInfo culture = null)
         {
             _services = services ?? standardServices;
             _culture = culture ?? CultureInfo.CurrentUICulture;
-            _events = events;
         }
 
         #endregion
@@ -110,14 +106,6 @@
         public CultureInfo Culture
         {
             get { return _culture; }
-        }
-
-        /// <summary>
-        /// Gets the event aggregator to use. By default no aggregator is used.
-        /// </summary>
-        public IEventAggregator Events
-        {
-            get { return _events; }
         }
 
         #endregion
