@@ -5,7 +5,6 @@
 *.pydevproject
 .project
 .metadata
-bin/
 tmp/
 *.tmp
 *.bak
@@ -44,10 +43,17 @@ local.properties
 # Build results
 [Dd]ebug/
 [Rr]elease/
+[Bb]in/
+[Bb]uild/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+[Pp]ackages/
+[Tt]ools/
+![Tt]ools/packages.config
 AngleSharp.sln.ide/
 AngleSharp.Core.sln.ide/
 TestResults/
-/Nuget/lib/
 *.nupkg
 *_i.c
 *_p.c
@@ -68,9 +74,6 @@ TestResults/
 .builds
 *.dotCover
 *.dotSettings
-
-## Thanks to NuGet Package Restore
-packages/
 
 # Visual C++ cache files
 ipch/
@@ -146,7 +149,6 @@ dist
 build
 eggs
 parts
-bin
 var
 sdist
 develop-eggs
