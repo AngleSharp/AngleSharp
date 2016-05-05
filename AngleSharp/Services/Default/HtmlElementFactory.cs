@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Factories
+﻿namespace AngleSharp.Services.Default
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,7 @@
     /// <summary>
     /// Provides string to HTMLElement instance creation mappings.
     /// </summary>
-    sealed class HtmlElementFactory
+    sealed class HtmlElementFactory : IHtmlElementFactory
     {
         delegate HtmlElement Creator(Document owner, String prefix);
 

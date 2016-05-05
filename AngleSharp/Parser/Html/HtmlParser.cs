@@ -111,14 +111,14 @@
             var document = CreateDocument(source);
             var parser = new HtmlDomBuilder(document);
 
-            if (context == null)
+            if (context != null)
             {
-                return parser.Parse(_options).ChildNodes;
+                var element = context as Element ??
+                    Factory.HtmlElements.Create(document, context.LocalName, context.Prefix);
+                return parser.ParseFragment(_options, element).DocumentElement.ChildNodes;
             }
 
-            var element = context as Element ?? 
-                Factory.HtmlElements.Create(document, context.LocalName, context.Prefix);
-            return parser.ParseFragment(_options, element).DocumentElement.ChildNodes;
+            return parser.Parse(_options).ChildNodes;
         }
 
         /// <summary>

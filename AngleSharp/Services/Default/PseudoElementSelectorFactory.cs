@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Factories
+﻿namespace AngleSharp.Services.Default
 {
     using AngleSharp.Css;
     using AngleSharp.Dom;
@@ -10,7 +10,7 @@
     /// <summary>
     /// Provides string to CSS pseudo element selector instance mappings.
     /// </summary>
-    sealed class PseudoElementSelectorFactory
+    sealed class PseudoElementSelectorFactory : IPseudoElementSelectorFactory
     {
         readonly Dictionary<String, ISelector> selectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase)
         {

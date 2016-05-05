@@ -216,6 +216,8 @@
     <Compile Include="Html\HtmlEntity.cs" />
     <Compile Include="Html\UserJsUnsafe.cs" />
     <Compile Include="TestExtensions.cs" />
+    <Compile Include="Xhtml\PreserveValidXhtml.cs" />
+    <Compile Include="Xhtml\AutoSelectMarkupFormatter.cs" />
     <Compile Include="Xml\XmlSamples.cs" />
     <Compile Include="Xml\XmlTokenization.cs" />
     <Compile Include="Xml\XmlTree.cs" />

@@ -5,6 +5,7 @@
     using AngleSharp.Html;
     using AngleSharp.Html.LinkRels;
     using AngleSharp.Network;
+    using AngleSharp.Services;
     using System;
 
     /// <summary>
@@ -236,14 +237,18 @@
         BaseLinkRelation CreateFirstLegalRelation()
         {
             var relations = RelationList;
+            var factory = Owner.Options.GetService<ILinkRelationFactory>();
 
-            foreach (var relation in relations)
+            if (factory != null)
             {
-                var rel = Factory.LinkRelations.Create(this, relation);
-
-                if (rel != null)
+                foreach (var relation in relations)
                 {
-                    return rel;
+                    var rel = factory.Create(this, relation);
+
+                    if (rel != null)
+                    {
+                        return rel;
+                    }
                 }
             }
 

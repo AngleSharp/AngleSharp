@@ -22,6 +22,24 @@
         readonly CultureInfo _culture;
 
         /// <summary>
+        /// A set of standard services that are used.
+        /// </summary>
+        static readonly Object[] standardServices = new Object[]
+        {
+            Factory.HtmlElements,
+            Factory.MathElements,
+            Factory.SvgElements,
+            Factory.Events,
+            Factory.AttributeSelector,
+            Factory.InputTypes,
+            Factory.LinkRelations,
+            Factory.MediaFeatures,
+            Factory.Properties,
+            Factory.PseudoClassSelector,
+            Factory.PseudoElementSelector
+        };
+
+        /// <summary>
         /// A fixed configuration that cannot be changed.
         /// </summary>
         static readonly Configuration defaultConfiguration = new Configuration();
@@ -42,7 +60,7 @@
         /// <param name="culture">The current culture.</param>
         public Configuration(IEnumerable<Object> services = null, CultureInfo culture = null)
         {
-            _services = services ?? Enumerable.Empty<Object>();
+            _services = services ?? standardServices;
             _culture = culture ?? CultureInfo.CurrentUICulture;
         }
 

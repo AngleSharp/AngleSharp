@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
+    using AngleSharp.Services.Default;
     using NUnit.Framework;
 
     [TestFixture]
@@ -178,10 +179,11 @@
         [Test]
         public void EventsFactory()
         {
-            var invalid = Factory.Events.Create("invalid");
-            var @event = Factory.Events.Create("event");
-            var events = Factory.Events.Create("events");
-            var wheelevent = Factory.Events.Create("wheelevent");
+            var factory = new EventFactory();
+            var invalid = factory.Create("invalid");
+            var @event = factory.Create("event");
+            var events = factory.Create("events");
+            var wheelevent = factory.Create("wheelevent");
 
             Assert.IsNull(invalid);
             Assert.IsNotNull(@event);

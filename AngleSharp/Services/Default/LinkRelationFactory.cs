@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Factories
+﻿namespace AngleSharp.Services.Default
 {
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
@@ -9,7 +9,7 @@
     /// <summary>
     /// Provides string to Relation instance mappings.
     /// </summary>
-    sealed class LinkRelationFactory
+    sealed class LinkRelationFactory : ILinkRelationFactory
     {
         delegate BaseLinkRelation Creator(HtmlLinkElement link);
 

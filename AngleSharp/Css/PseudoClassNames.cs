@@ -5,7 +5,7 @@
     /// <summary>
     /// The collection of (known / used) selector pseudo class names.
     /// </summary>
-    static class PseudoClassNames
+    public static class PseudoClassNames
     {
         /// <summary>
         /// The root pseudo class.

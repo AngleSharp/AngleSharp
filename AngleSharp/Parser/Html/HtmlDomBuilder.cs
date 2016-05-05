@@ -30,6 +30,9 @@
         readonly List<Element> _openElements;
         readonly List<Element> _formattingElements;
         readonly Stack<HtmlTreeMode> _templateModes;
+        readonly IHtmlElementFactory _htmlFactory;
+        readonly IMathElementFactory _mathFactory;
+        readonly ISvgElementFactory _svgFactory;
 
         HtmlFormElement _currentFormElement;
         HtmlTreeMode _currentMode;
@@ -66,7 +69,8 @@
         /// </param>
         internal HtmlDomBuilder(HtmlDocument document)
         {
-            var resolver = document.Options.GetService<IEntityService>() ?? HtmlEntityService.Resolver;
+            var options = document.Options;
+            var resolver = options.GetService<IEntityService>() ?? HtmlEntityService.Resolver;
             _tokenizer = new HtmlTokenizer(document.Source, resolver);
             _document = document;
             _openElements = new List<Element>();
@@ -74,6 +78,9 @@
             _formattingElements = new List<Element>();
             _frameset = true;
             _currentMode = HtmlTreeMode.Initial;
+            _htmlFactory = options.GetService<IHtmlElementFactory>();
+            _mathFactory = options.GetService<IMathElementFactory>();
+            _svgFactory = options.GetService<ISvgElementFactory>();
         }
 
         #endregion
@@ -612,7 +619,7 @@
                     else if (tagName.Is(TagNames.Meta))
                     {
                         var element = new HtmlMetaElement(_document);
-                        AddElement(element, token.AsTag(), true);
+                        AddElement(element, token.AsTag(), acknowledgeSelfClosing: true);
                         var encoding = element.GetEncoding();
                         CloseCurrentNode();
 
@@ -632,7 +639,7 @@
                     }
                     else if (TagNames.AllHeadBase.Contains(tagName))
                     {
-                        AddElement(token.AsTag(), true);
+                        AddElement(token.AsTag(), acknowledgeSelfClosing: true);
                         CloseCurrentNode();
                         return;
                     }
@@ -970,7 +977,7 @@
             else if (tagName.Is(TagNames.Input))
             {
                 ReconstructFormatting();
-                AddElement(new HtmlInputElement(_document), tag, true);
+                AddElement(new HtmlInputElement(_document), tag, acknowledgeSelfClosing: true);
                 CloseCurrentNode();
 
                 if (!tag.GetAttribute(AttributeNames.Type).Isi(AttributeNames.Hidden))
@@ -1054,7 +1061,7 @@
             }
             else if (TagNames.AllBodyClosed.Contains(tagName))
             {
-                AddElement(tag, true);
+                AddElement(tag, acknowledgeSelfClosing: true);
                 CloseCurrentNode();
             }
             else if (tagName.Is(TagNames.Hr))
@@ -1064,7 +1071,7 @@
                     InBodyEndTagParagraph(tag);
                 }
 
-                AddElement(new HtmlHrElement(_document), tag, true);
+                AddElement(new HtmlHrElement(_document), tag, acknowledgeSelfClosing: true);
                 CloseCurrentNode();
                 _frameset = false;
             }
@@ -1274,7 +1281,9 @@
                     InBody(HtmlTagToken.Open(TagNames.Form));
 
                     if (tag.GetAttribute(AttributeNames.Action).Length > 0)
+                    {
                         _currentFormElement.SetAttribute(AttributeNames.Action, tag.GetAttribute(AttributeNames.Action));
+                    }
 
                     InBody(HtmlTagToken.Open(TagNames.Hr));
                     InBody(HtmlTagToken.Open(TagNames.Label));
@@ -1815,7 +1824,7 @@
                     }
                     else if (tagName.Is(TagNames.Col))
                     {
-                        AddElement(new HtmlTableColElement(_document), token.AsTag(), true);
+                        AddElement(new HtmlTableColElement(_document), token.AsTag(), acknowledgeSelfClosing: true);
                         CloseCurrentNode();
                     }
                     else if (tagName.Is(TagNames.Template))
@@ -2433,7 +2442,7 @@
                     }
                     else if (tagName.Is(TagNames.Frame))
                     {
-                        AddElement(new HtmlFrameElement(_document), token.AsTag(), true);
+                        AddElement(new HtmlFrameElement(_document), token.AsTag(), acknowledgeSelfClosing: true);
                         CloseCurrentNode();
                     }
                     else if (tagName.Is(TagNames.NoFrames))
@@ -3160,7 +3169,7 @@
         void InBodyStartTagBreakrow(HtmlTagToken tag)
         {
             ReconstructFormatting();
-            AddElement(tag);
+            AddElement(tag, acknowledgeSelfClosing: true);
             CloseCurrentNode();
             _frameset = false;
         }
@@ -3440,12 +3449,14 @@
         {
             if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.MathMember))
             {
-                var node = Factory.MathElements.Create(_document, tag.Name);
+                var tagName = tag.Name;
+                var node = _mathFactory.Create(_document, tagName);
                 return node.Setup(tag);
             }
             else if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.SvgMember))
             {
-                var node = Factory.SvgElements.CreateSanatized(_document, tag.Name);
+                var tagName = tag.Name.SanatizeSvgTagName();
+                var node = _svgFactory.Create(_document, tagName);
                 return node.Setup(tag);
             }
 
@@ -3809,7 +3820,7 @@
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         Element AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
-            var element = Factory.HtmlElements.Create(_document, tag.Name);
+            var element = _htmlFactory.Create(_document, tag.Name);
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);
             return element;

@@ -81,9 +81,66 @@
             { "zoomandpan", "zoomAndPan" },
         };
 
+        static readonly Dictionary<String, String> svgAdjustedTagNames = new Dictionary<String, String>(StringComparer.Ordinal)
+        {
+             { "altglyph", "altGlyph" },
+             { "altglyphdef", "altGlyphDef" },
+             { "altglyphitem", "altGlyphItem" },
+             { "animatecolor", "animateColor" },
+             { "animatemotion", "animateMotion" },
+             { "animatetransform", "animateTransform" },
+             { "clippath", "clipPath" },
+             { "feblend", "feBlend" },
+             { "fecolormatrix", "feColorMatrix" },
+             { "fecomponenttransfer", "feComponentTransfer" },
+             { "fecomposite", "feComposite" },
+             { "feconvolvematrix", "feConvolveMatrix" },
+             { "fediffuselighting", "feDiffuseLighting" },
+             { "fedisplacementmap", "feDisplacementMap" },
+             { "fedistantlight", "feDistantLight" },
+             { "feflood", "feFlood" },
+             { "fefunca", "feFuncA" },
+             { "fefuncb", "feFuncB" },
+             { "fefuncg", "feFuncG" },
+             { "fefuncr", "feFuncR" },
+             { "fegaussianblur", "feGaussianBlur" },
+             { "feimage", "feImage" },
+             { "femerge", "feMerge" },
+             { "femergenode", "feMergeNode" },
+             { "femorphology", "feMorphology" },
+             { "feoffset", "feOffset" },
+             { "fepointlight", "fePointLight" },
+             { "fespecularlighting", "feSpecularLighting" },
+             { "fespotlight", "feSpotLight" },
+             { "fetile", "feTile" },
+             { "feturbulence", "feTurbulence" },
+             { "foreignobject", "foreignObject" },
+             { "glyphref", "glyphRef" },
+             { "lineargradient", "linearGradient" },
+             { "radialgradient", "radialGradient" },
+             { "textpath", "textPath" }
+        };
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Adjusts the tag name to the correct capitalization.
+        /// </summary>
+        /// <param name="localName">The name of adjust.</param>
+        /// <returns>The name with the correct capitalization.</returns>
+        public static String SanatizeSvgTagName(this String localName)
+        {
+            var adjustedTagName = default(String);
+
+            if (svgAdjustedTagNames.TryGetValue(localName, out adjustedTagName))
+            {
+                return adjustedTagName;
+            }
+
+            return localName;
+        }
 
         /// <summary>
         /// Setups a new math element with the attributes from the token.
