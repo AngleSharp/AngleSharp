@@ -8,7 +8,7 @@
     /// <summary>
     /// Provides string to CSS attribute selector instance mappings.
     /// </summary>
-    sealed class AttributeSelectorFactory : IAttributeSelectorFactory
+    public sealed class AttributeSelectorFactory : IAttributeSelectorFactory
     {
         delegate ISelector Creator(String name, String value, String prefix);
 
