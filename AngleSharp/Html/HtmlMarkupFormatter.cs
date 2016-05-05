@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Html
 {
-    using System;
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// Represents the standard HTML5 markup formatter.
@@ -41,7 +41,7 @@
         {
             var temp = Pool.NewStringBuilder();
 
-            for (int i = 0; i < text.Length; i++)
+            for (var i = 0; i < text.Length; i++)
             {
                 switch (text[i])
                 {
