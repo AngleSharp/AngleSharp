@@ -158,7 +158,7 @@
         public IMediaQueryList MatchMedia(String mediaText)
         {
             var config = _document.Options;
-            var options = new StyleOptions { Configuration = config };
+            var options = new StyleOptions(_document.Context);
             var media = config.GetCssStyleEngine().ParseMedia(mediaText, options);
             return new CssMediaQueryList(this, media);
         }

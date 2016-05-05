@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using System.Linq;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Services;
     using NUnit.Framework;
+    using System.Linq;
 
     [TestFixture]
     public class BasicConfigurationTests
@@ -28,7 +28,6 @@
             var modified = original.WithCss();
             Assert.AreNotSame(original, modified);
             Assert.AreNotEqual(original.Services.Count(), modified.Services.Count());
-            Assert.AreSame(original.Events, modified.Events);
             Assert.AreSame(original.Culture, modified.Culture);
         }
 
@@ -39,7 +38,6 @@
             var modified = original.SetCulture("de-at");
             Assert.AreNotSame(original, modified);
             Assert.AreEqual(original.Services.Count(), modified.Services.Count());
-            Assert.AreSame(original.Events, modified.Events);
             Assert.AreNotSame(original.Culture, modified.Culture);
         }
 

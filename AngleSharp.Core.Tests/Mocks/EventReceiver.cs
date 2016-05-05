@@ -1,12 +1,27 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Events;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using System;
     using System.Collections.Generic;
 
-    class EventReceiver<TReceivingEvent> : IEventAggregator
+    class EventReceiver<TReceivingEvent>
+        where TReceivingEvent : Event
     {
         readonly List<TReceivingEvent> _received = new List<TReceivingEvent>();
+
+        public EventReceiver(Action<DomEventHandler> addHandler)
+        {
+            addHandler((s, ev) =>
+            {
+                var data = ev as TReceivingEvent;
+
+                if (data != null)
+                {
+                    Receive(data);
+                }
+            });
+        }
 
         public List<TReceivingEvent> Received
         {
@@ -19,28 +34,14 @@
             set;
         }
 
-        public void Publish<TEvent>(TEvent data)
-        {
-            if (typeof(TEvent) == typeof(TReceivingEvent))
-                Receive((TReceivingEvent)(data as Object));
-        }
-
         void Receive(TReceivingEvent data)
         {
             if (OnReceived != null)
+            {
                 OnReceived(data);
+            }
 
             _received.Add(data);
-        }
-
-        public void Subscribe<TEvent>(ISubscriber<TEvent> listener)
-        {
-            //Empty on purpose
-        }
-
-        public void Unsubscribe<TEvent>(ISubscriber<TEvent> listener)
-        {
-            //Empty on purpose
         }
     }
 }

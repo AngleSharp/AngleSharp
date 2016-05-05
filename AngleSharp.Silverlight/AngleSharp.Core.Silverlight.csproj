@@ -1328,6 +1328,12 @@
     <Compile Include="..\AngleSharp\Dom\Events\CompositionEvent.cs">
       <Link>Dom\Events\CompositionEvent.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Events\CssErrorEvent.cs">
+      <Link>Dom\Events\CssErrorEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Events\CssParseEvent.cs">
+      <Link>Dom\Events\CssParseEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Events\CustomEvent.cs">
       <Link>Dom\Events\CustomEvent.cs</Link>
     </Compile>
@@ -1343,11 +1349,20 @@
     <Compile Include="..\AngleSharp\Dom\Events\HashChangedEvent.cs">
       <Link>Dom\Events\HashChangedEvent.cs</Link>
     </Compile>
+    <Compile Include="..\AngleSharp\Dom\Events\HtmlErrorEvent.cs">
+      <Link>Dom\Events\HtmlErrorEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Events\HtmlParseEvent.cs">
+      <Link>Dom\Events\HtmlParseEvent.cs</Link>
+    </Compile>
     <Compile Include="..\AngleSharp\Dom\Events\InputEvent.cs">
       <Link>Dom\Events\InputEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Events\KeyboardEvent.cs">
       <Link>Dom\Events\KeyboardEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Events\MediaQueryListEvent.cs">
+      <Link>Dom\Events\MediaQueryListEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Events\MessageEvent.cs">
       <Link>Dom\Events\MessageEvent.cs</Link>
@@ -1360,6 +1375,9 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Events\PageTransitionEvent.cs">
       <Link>Dom\Events\PageTransitionEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\AngleSharp\Dom\Events\RequestEvent.cs">
+      <Link>Dom\Events\RequestEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Events\TouchEvent.cs">
       <Link>Dom\Events\TouchEvent.cs</Link>
@@ -1807,36 +1825,6 @@
     </Compile>
     <Compile Include="..\AngleSharp\Dom\Xml\XmlElement.cs">
       <Link>Dom\Xml\XmlElement.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\CssParseErrorEvent.cs">
-      <Link>Events\CssParseErrorEvent.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\CssParseStartEvent.cs">
-      <Link>Events\CssParseStartEvent.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\Default\EventBroker.cs">
-      <Link>Events\Default\EventBroker.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\Default\IEventBroker.cs">
-      <Link>Events\Default\IEventBroker.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\Default\SimpleEventAggregator.cs">
-      <Link>Events\Default\SimpleEventAggregator.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\HtmlParseErrorEvent.cs">
-      <Link>Events\HtmlParseErrorEvent.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\HtmlParseStartEvent.cs">
-      <Link>Events\HtmlParseStartEvent.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\IEventAggregator.cs">
-      <Link>Events\IEventAggregator.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\ISubscriber.cs">
-      <Link>Events\ISubscriber.cs</Link>
-    </Compile>
-    <Compile Include="..\AngleSharp\Events\RequestStartEvent.cs">
-      <Link>Events\RequestStartEvent.cs</Link>
     </Compile>
     <Compile Include="..\AngleSharp\Extensions\ApiExtensions.cs">
       <Link>Extensions\ApiExtensions.cs</Link>
@@ -3151,7 +3139,7 @@
       <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
         <SilverlightProjectProperties />
       </FlavorProperties>
-      <UserProperties ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" />
+      <UserProperties ProjectLinkReference="91f78c48-287e-41b5-9e49-44d6e1e31290" ProjectLinkerExcludeFilter="\\?desktop(\\.*)?$;\\?silverlight(\\.*)?$;\.desktop;\.silverlight;\.xaml;^service references(\\.*)?$;\.clientconfig;^web references(\\.*)?$" />
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />

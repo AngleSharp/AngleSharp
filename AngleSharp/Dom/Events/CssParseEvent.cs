@@ -1,23 +1,21 @@
-﻿namespace AngleSharp.Events
+﻿namespace AngleSharp.Dom.Events
 {
     using AngleSharp.Dom.Css;
+    using AngleSharp.Html;
     using System;
 
     /// <summary>
     /// The event that is published in case of starting CSS parsing.
     /// </summary>
-    public class CssParseStartEvent
+    public class CssParseEvent : Event
     {
-        /// <summary>
-        /// Action called once the parsing ended.
-        /// </summary>
-        public event EventHandler Ended;
-
         /// <summary>
         /// Creates a new event for starting CSS parsing.
         /// </summary>
         /// <param name="styleSheet">The sheet to be filled.</param>
-        public CssParseStartEvent(ICssStyleSheet styleSheet)
+        /// <param name="completed">Determines if parsing is done.</param>
+        public CssParseEvent(ICssStyleSheet styleSheet, Boolean completed)
+            : base(completed ? EventNames.ParseEnd : EventNames.ParseStart)
         {
             StyleSheet = styleSheet;
         }
@@ -29,15 +27,6 @@
         { 
             get; 
             private set; 
-        }
-
-        internal void FireEnd()
-        {
-            if (Ended != null)
-            {
-                Ended(this, EventArgs.Empty);
-                Ended = null;
-            }
         }
     }
 }

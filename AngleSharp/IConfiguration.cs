@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Events;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -20,10 +19,5 @@
         /// Gets an enumeration over the available services.
         /// </summary>
         IEnumerable<Object> Services { get; }
-
-        /// <summary>
-        /// Gets the assigned event aggregator.
-        /// </summary>
-        IEventAggregator Events { get; }
     }
 }

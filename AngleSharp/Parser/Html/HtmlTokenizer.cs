@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Parser.Html
 {
-    using AngleSharp.Events;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Services;
@@ -25,16 +25,24 @@
 
         #endregion
 
+        #region Events
+
+        /// <summary>
+        /// Fired in case of a parse error.
+        /// </summary>
+        public event EventHandler<HtmlErrorEvent> Error;
+
+        #endregion
+
         #region ctor
 
         /// <summary>
         /// See 8.2.4 Tokenization
         /// </summary>
         /// <param name="source">The source code manager.</param>
-        /// <param name="events">The event aggregator to use.</param>
         /// <param name="resolver">The entity resolver to use.</param>
-        public HtmlTokenizer(TextSource source, IEventAggregator events, IEntityService resolver)
-            : base(source, events)
+        public HtmlTokenizer(TextSource source, IEntityService resolver)
+            : base(source)
         {
             _state = HtmlParseMode.PCData;
             _acceptsCharacterData = false;
@@ -69,29 +77,6 @@
         #region Methods
 
         /// <summary>
-        /// Fires an error occurred event.
-        /// </summary>
-        /// <param name="error">The associated error code.</param>
-        /// <param name="position">The position of the error.</param>
-        public void RaiseErrorOccurred(HtmlParseError error, TextPosition position)
-        {
-            if (_events != null)
-            {
-                var errorEvent = new HtmlParseErrorEvent(error.GetCode(), error.GetMessage(), position);
-                _events.Publish(errorEvent);
-            }
-        }
-
-        /// <summary>
-        /// Fires an error occurred event at the current position.
-        /// </summary>
-        /// <param name="code">The associated error code.</param>
-        public void RaiseErrorOccurred(HtmlParseError code)
-        {
-            RaiseErrorOccurred(code, GetCurrentPosition());
-        }
-
-        /// <summary>
         /// Gets the next available token.
         /// </summary>
         /// <returns>The next available token.</returns>
@@ -118,6 +103,17 @@
             }
 
             return NewEof();
+        }
+
+        internal void RaiseErrorOccurred(HtmlParseError code, TextPosition position)
+        {
+            var handler = Error;
+
+            if (handler != null)
+            {
+                var errorEvent = new HtmlErrorEvent(code, position);
+                handler.Invoke(this, errorEvent);
+            }
         }
 
         #endregion
@@ -2454,6 +2450,11 @@
         #endregion
 
         #region Helpers
+
+        void RaiseErrorOccurred(HtmlParseError code)
+        {
+            RaiseErrorOccurred(code, GetCurrentPosition());
+        }
 
         HtmlToken CreateIfAppropriate(Char c)
         {

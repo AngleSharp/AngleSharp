@@ -5,6 +5,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
@@ -21,6 +22,19 @@
         readonly CssTokenizer _tokenizer;
         readonly CssParser _parser;
         readonly Stack<CssNode> _nodes;
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Fired in case of a parse error.
+        /// </summary>
+        public event EventHandler<CssErrorEvent> Error
+        {
+            add { _tokenizer.Error += value; }
+            remove { _tokenizer.Error -= value; }
+        }
 
         #endregion
 

@@ -40,7 +40,7 @@
         internal XmlDomBuilder(Document document)
         {
             var resolver = document.Options.GetService<IEntityService>() ?? XmlEntityService.Resolver;
-            _tokenizer = new XmlTokenizer(document.Source, document.Options.Events, resolver);
+            _tokenizer = new XmlTokenizer(document.Source, resolver);
             _document = document;
             _standalone = false;
             _openElements = new List<Element>();

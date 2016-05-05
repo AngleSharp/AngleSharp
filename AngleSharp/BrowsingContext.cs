@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using AngleSharp.Network;
     using System;
     using System.Diagnostics;
@@ -10,7 +11,7 @@
     /// A simple and lightweight browsing context.
     /// </summary>
     [DebuggerStepThrough]
-    public sealed class BrowsingContext : IBrowsingContext, IDisposable
+    public sealed class BrowsingContext : EventTarget, IBrowsingContext, IDisposable
     {
         #region Fields
 
@@ -24,8 +25,42 @@
 
         #endregion
 
+        #region Events
+
+        event DomEventHandler IBrowsingContext.Parsing
+        {
+            add { AddEventListener(EventNames.ParseStart, value); }
+            remove { RemoveEventListener(EventNames.ParseStart, value); }
+        }
+
+        event DomEventHandler IBrowsingContext.Parsed
+        {
+            add { AddEventListener(EventNames.ParseEnd, value); }
+            remove { RemoveEventListener(EventNames.ParseEnd, value); }
+        }
+
+        event DomEventHandler IBrowsingContext.Requesting
+        {
+            add { AddEventListener(EventNames.RequestStart, value); }
+            remove { RemoveEventListener(EventNames.RequestStart, value); }
+        }
+
+        event DomEventHandler IBrowsingContext.Requested
+        {
+            add { AddEventListener(EventNames.RequestEnd, value); }
+            remove { RemoveEventListener(EventNames.RequestEnd, value); }
+        }
+
+        event DomEventHandler IBrowsingContext.ParseError
+        {
+            add { AddEventListener(EventNames.ParseError, value); }
+            remove { RemoveEventListener(EventNames.ParseError, value); }
+        }
+
+        #endregion
+
         #region ctor
-        
+
         internal BrowsingContext(IConfiguration configuration, Sandboxes security)
         {
             _configuration = configuration;

@@ -5,7 +5,7 @@
     /// <summary>
     /// A collection of HTML parse error codes.
     /// </summary>
-    enum HtmlParseError : ushort
+    public enum HtmlParseError : ushort
     {
         /// <summary>
         /// Unexpected end of file detected.

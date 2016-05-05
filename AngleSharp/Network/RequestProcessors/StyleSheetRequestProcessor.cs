@@ -13,7 +13,7 @@
         #region Fields
 
         readonly HtmlLinkElement _link;
-        readonly IConfiguration _options;
+        readonly IBrowsingContext _context;
         IStyleEngine _engine;
         IStyleSheet _sheet;
 
@@ -21,21 +21,21 @@
 
         #region ctor
 
-        private StyleSheetRequestProcessor(HtmlLinkElement link, IConfiguration options, IResourceLoader loader)
+        private StyleSheetRequestProcessor(HtmlLinkElement link, IBrowsingContext context, IResourceLoader loader)
             : base(loader)
         {
             _link = link;
-            _options = options;
+            _context = context;
         }
 
         internal static StyleSheetRequestProcessor Create(HtmlLinkElement element)
         {
             var document = element.Owner;
-            var options = document.Options;
+            var context = document.Context;
             var loader = document.Loader;
 
-            return options != null && loader != null ?
-                new StyleSheetRequestProcessor(element, options, loader) : null;
+            return context != null && loader != null ?
+                new StyleSheetRequestProcessor(element, context, loader) : null;
         }
 
         #endregion
@@ -54,7 +54,7 @@
         public override Task ProcessAsync(ResourceRequest request)
         {
             var type = _link.Type ?? MimeTypeNames.Css;
-            var engine = _options.GetStyleEngine(type);
+            var engine = _context.Configuration.GetStyleEngine(type);
 
             if (engine != null)
             {
@@ -68,12 +68,11 @@
         protected override async Task ProcessResponseAsync(IResponse response)
         {
             var cancel = CancellationToken.None;
-            var options = new StyleOptions
+            var options = new StyleOptions(_context)
             {
                 Element = _link,
                 IsDisabled = _link.IsDisabled,
-                IsAlternate = _link.RelationList.Contains(Keywords.Alternate),
-                Configuration = _options
+                IsAlternate = _link.RelationList.Contains(Keywords.Alternate)
             };
 
             var task = _engine.ParseStylesheetAsync(response, options, cancel);

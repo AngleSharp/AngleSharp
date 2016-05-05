@@ -15,7 +15,7 @@
     {
         static HtmlTokenizer CreateTokenizer(TextSource source)
         {
-            return new HtmlTokenizer(source, null, HtmlEntityService.Resolver);
+            return new HtmlTokenizer(source, HtmlEntityService.Resolver);
         }
 
         [Test]

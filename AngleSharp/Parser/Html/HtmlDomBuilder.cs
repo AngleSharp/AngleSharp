@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Parser.Html
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Dom.Mathml;
     using AngleSharp.Dom.Svg;
@@ -44,6 +45,19 @@
 
         #endregion
 
+        #region Events
+
+        /// <summary>
+        /// Fired in case of a parse error.
+        /// </summary>
+        public event EventHandler<HtmlErrorEvent> Error
+        {
+            add { _tokenizer.Error += value; }
+            remove { _tokenizer.Error -= value; }
+        }
+
+        #endregion
+
         #region ctor
 
         /// <summary>
@@ -57,7 +71,7 @@
         {
             var options = document.Options;
             var resolver = options.GetService<IEntityService>() ?? HtmlEntityService.Resolver;
-            _tokenizer = new HtmlTokenizer(document.Source, options.Events, resolver);
+            _tokenizer = new HtmlTokenizer(document.Source, resolver);
             _document = document;
             _openElements = new List<Element>();
             _templateModes = new Stack<HtmlTreeMode>();
@@ -4054,11 +4068,6 @@
 
         #region Handlers
 
-        /// <summary>
-        /// Fires an error occurred event.
-        /// </summary>
-        /// <param name="code">The associated error code.</param>
-        /// <param name="token">The associated token.</param>
         void RaiseErrorOccurred(HtmlParseError code, HtmlToken token)
         {
             _tokenizer.RaiseErrorOccurred(code, token.Position);
