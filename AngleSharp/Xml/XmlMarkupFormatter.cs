@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Xml
 {
-    using System;
     using AngleSharp.Dom;
+    using System;
 
     /// <summary>
     /// Represents the standard XML markup formatter.
@@ -50,15 +50,21 @@
             temp.Append(Symbols.LessThan);
 
             if (!String.IsNullOrEmpty(prefix))
+            {
                 temp.Append(prefix).Append(Symbols.Colon);
+            }
 
             temp.Append(element.LocalName);
 
             foreach (var attribute in element.Attributes)
+            {
                 temp.Append(" ").Append(Instance.Attribute(attribute));
+            }
 
             if (selfClosing)
+            {
                 temp.Append(" /");
+            }
 
             temp.Append(Symbols.GreaterThan);
             return temp.ToPool();
@@ -74,7 +80,7 @@
         {
             var temp = Pool.NewStringBuilder();
 
-            for (int i = 0; i < text.Length; i++)
+            for (var i = 0; i < text.Length; i++)
             {
                 switch (text[i])
                 {
@@ -94,7 +100,7 @@
             temp.Append(attribute.Name);
             temp.Append(Symbols.Equality).Append(Symbols.DoubleQuote);
 
-            for (int i = 0; i < value.Length; i++)
+            for (var i = 0; i < value.Length; i++)
             {
                 switch (value[i])
                 {

@@ -1,54 +1,58 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom;
-    using AngleSharp.Xml;
-    using AngleSharp.XHtml;
     using AngleSharp.Html;
+    using AngleSharp.XHtml;
+    using AngleSharp.Xml;
+    using System;
     
     /// <summary>
-    /// AutoSelectedMarkupFormatter class responsible for selecting the proper MarkupFormatter implementation depending on the DocumentType.
+    /// AutoSelectedMarkupFormatter class to select the proper MarkupFormatter
+    /// implementation depending on the used document type.
     /// </summary>
     public sealed class AutoSelectedMarkupFormatter : IMarkupFormatter
     {
-        private IMarkupFormatter childFormatter = null;
+        #region Fields
+
+        IMarkupFormatter childFormatter = null;
+        IDocumentType _docType;
+
+        #endregion
+
+        #region ctor
 
         /// <summary>
-        /// AutoSelectedMarkupFormatter constructor optional injecting the DocumentType.
+        /// Creates a new instance of the auto selected markup formatter.
         /// </summary>
-        /// <param name="docType">Optional DocumentType which tells which implementation to use.</param>
+        /// <param name="docType">
+        /// Optional DocumentType to hint the implementation to use.
+        /// </param>
         public AutoSelectedMarkupFormatter(IDocumentType docType = null)
         {
-            DocType = docType;
+            _docType = docType;
         }
 
+        #endregion
 
-        /// <summary>
-        /// ChildFormatter Property to lazy load the proper MarkupFormatter implementation.
-        /// </summary>
-        public IMarkupFormatter ChildFormatter
+        #region Properties
+
+        IMarkupFormatter ChildFormatter
         {
             get
             {
-                if (childFormatter == null )
+                if (childFormatter == null && _docType != null)
                 {
-                    if ( DocType != null )
+                    if (_docType.PublicIdentifier.Contains("XML"))
                     {
-                        if ( DocType.PublicIdentifier.Contains("XML") )
-                        {
-                            childFormatter = XmlMarkupFormatter.Instance;
-                        }
-                        else if ( DocType.PublicIdentifier.Contains("XHTML") )
-                        {
-                            childFormatter = XhtmlMarkupFormatter.Instance;
-                        }
+                        childFormatter = XmlMarkupFormatter.Instance;
                     }
-
-                    if ( childFormatter == null )
+                    else if (_docType.PublicIdentifier.Contains("XHTML"))
                     {
-                        childFormatter = HtmlMarkupFormatter.Instance;
+                        childFormatter = XhtmlMarkupFormatter.Instance;
                     }
                 }
-                return childFormatter;
+
+                return childFormatter ?? HtmlMarkupFormatter.Instance;
             }
             set
             {
@@ -56,111 +60,107 @@
             }
         }
 
-        /// <summary>
-        /// DocType Property - The documentation type.
-        /// </summary>
-        public IDocumentType DocType
-        {
-            get;
-            set;
-        }
+        #endregion
+
+        #region Methods
 
         /// <summary>
-        /// Attribute method formatting all attributes in the document.
+        /// Formats an attribute specified by the argument.
         /// </summary>
-        /// <param name="attribute"></param>
-        /// <returns></returns>
-        public string Attribute(IAttr attribute)
+        /// <param name="attribute">The attribute to serialize.</param>
+        /// <returns>The formatted attribute.</returns>
+        public String Attribute(IAttr attribute)
         {
             return ChildFormatter.Attribute(attribute);
         }
 
         /// <summary>
-        /// CloseTag method formatting the closetags.
+        /// Formats opening a tag with the given name.
         /// </summary>
-        /// <param name="element"></param>
-        /// <param name="selfClosing"></param>
-        /// <returns></returns>
-        public string CloseTag(IElement element, bool selfClosing)
+        /// <param name="element">The element to open.</param>
+        /// <param name="selfClosing">
+        /// Is the element actually self-closing?
+        /// </param>
+        /// <returns>The formatted opening tag.</returns>
+        public String OpenTag(IElement element, Boolean selfClosing)
         {
-            if (DocType == null)
-            {
-                DocType = element.Owner.Doctype;
-            }
-
-            return ChildFormatter.CloseTag(element, selfClosing);
-        }
-
-
-        /// <summary>
-        /// Comment method - formatting the (X)Html comment(s).
-        /// </summary>
-        /// <param name="comment"></param>
-        /// <returns></returns>
-        public string Comment(IComment comment)
-        {
-            if (DocType == null)
-            {
-                DocType = comment.Owner.Doctype;
-            }
-
-            return ChildFormatter.Comment(comment);
-        }
-
-        /// <summary>
-        /// DocType method - Formatting the DocType.
-        /// </summary>
-        /// <param name="docType"></param>
-        /// <returns></returns>
-        public string Doctype(IDocumentType docType)
-        {
-            if ( DocType==null )
-            {
-                DocType = docType;
-            }
-
-            return ChildFormatter.Doctype(docType);
-        }
-
-        /// <summary>
-        /// OpenTag method - Formatting the Open tag.
-        /// </summary>
-        /// <param name="element"></param>
-        /// <param name="selfClosing"></param>
-        /// <returns></returns>
-        public string OpenTag(IElement element, bool selfClosing)
-        {
-            if ( DocType==null )
-            {
-                DocType = element.Owner.Doctype;
-            }
-
+            Confirm(element.Owner.Doctype);
             return ChildFormatter.OpenTag(element, selfClosing);
         }
 
         /// <summary>
-        /// Processing method - Formatting Processing instruction(s).
+        /// Formats closing a tag with the given name.
         /// </summary>
-        /// <param name="processing"></param>
-        /// <returns></returns>
-        public string Processing(IProcessingInstruction processing)
+        /// <param name="element">The element to close.</param>
+        /// <param name="selfClosing">
+        /// Is the element actually self-closing?
+        /// </param>
+        /// <returns>The formatted closing tag.</returns>
+        public String CloseTag(IElement element, Boolean selfClosing)
         {
-            if (DocType == null)
-            {
-                DocType = processing.Owner.Doctype;
-            }
+            Confirm(element.Owner.Doctype);
+            return ChildFormatter.CloseTag(element, selfClosing);
+        }
 
+        /// <summary>
+        /// Formats the given comment.
+        /// </summary>
+        /// <param name="comment">The comment to stringify.</param>
+        /// <returns>The formatted comment.</returns>
+        public String Comment(IComment comment)
+        {
+            Confirm(comment.Owner.Doctype);
+            return ChildFormatter.Comment(comment);
+        }
+
+        /// <summary>
+        /// Formats the given doctype using the name, public and system
+        /// identifiers.
+        /// </summary>
+        /// <param name="doctype">The document type to stringify.</param>
+        /// <returns>The formatted doctype.</returns>
+        public String Doctype(IDocumentType doctype)
+        {
+            Confirm(doctype);
+            return ChildFormatter.Doctype(doctype);
+        }
+
+        /// <summary>
+        /// Formats the given processing instruction using the target and the
+        /// data.
+        /// </summary>
+        /// <param name="processing">
+        /// The processing instruction to stringify.
+        /// </param>
+        /// <returns>The formatted processing instruction.</returns>
+        public String Processing(IProcessingInstruction processing)
+        {
+            Confirm(processing.Owner.Doctype);
             return ChildFormatter.Processing(processing);
         }
 
         /// <summary>
-        /// Text method - Formatting the Text node(s).
+        /// Formats the given text.
         /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        public string Text(string text)
+        /// <param name="text">The text to sanatize.</param>
+        /// <returns>The formatted text.</returns>
+        public String Text(String text)
         {
             return ChildFormatter.Text(text);
         }
+
+        #endregion
+
+        #region Helpers
+
+        void Confirm(IDocumentType docType)
+        {
+            if (_docType == null)
+            {
+                _docType = docType;
+            }
+        }
+
+        #endregion
     }
 }

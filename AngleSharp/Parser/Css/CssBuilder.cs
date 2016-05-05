@@ -1125,7 +1125,7 @@
 
         ISelector CreateSelector(ref CssToken token)
         {
-            var selector = Pool.NewSelectorConstructor();
+            var selector = _parser.GetSelectorCreator();
             var start = token.Position;
 
             while (token.IsNot(CssTokenType.EndOfFile, CssTokenType.CurlyBracketOpen, CssTokenType.CurlyBracketClose))

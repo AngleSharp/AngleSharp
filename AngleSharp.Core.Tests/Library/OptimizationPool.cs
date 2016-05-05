@@ -55,9 +55,9 @@
         [Test]
         public void RecycleSelectorConstructorReused()
         {
-            var sc1 = Pool.NewSelectorConstructor();
+            var sc1 = Pool.NewSelectorConstructor(Factory.AttributeSelector, Factory.PseudoClassSelector, Factory.PseudoElementSelector);
             Assert.AreEqual(SimpleSelector.All, sc1.GetResult());
-            var sc2 = Pool.NewSelectorConstructor();
+            var sc2 = Pool.NewSelectorConstructor(Factory.AttributeSelector, Factory.PseudoClassSelector, Factory.PseudoElementSelector);
             Assert.AreEqual(SimpleSelector.All, sc2.GetResult());
             Assert.AreNotEqual(sc1, sc2);
             sc1.ToPool();
@@ -68,10 +68,10 @@
         public void RecycleSelectorConstructorBuild()
         {
             var divIdent = new CssKeywordToken(CssTokenType.Ident, "div", new TextPosition());
-            var sc1 = Pool.NewSelectorConstructor();
+            var sc1 = Pool.NewSelectorConstructor(Factory.AttributeSelector, Factory.PseudoClassSelector, Factory.PseudoElementSelector);
             sc1.Apply(divIdent);
             Assert.AreNotEqual(SimpleSelector.All, sc1.ToPool());
-            var sc2 = Pool.NewSelectorConstructor();
+            var sc2 = Pool.NewSelectorConstructor(Factory.AttributeSelector, Factory.PseudoClassSelector, Factory.PseudoElementSelector);
             Assert.AreEqual(SimpleSelector.All, sc2.ToPool());
             Assert.AreSame(sc1, sc2);
         }

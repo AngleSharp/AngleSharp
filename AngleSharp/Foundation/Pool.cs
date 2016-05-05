@@ -1,11 +1,12 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom.Css;
-    using AngleSharp.Parser.Css;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Text;
+using AngleSharp.Parser.Css;
+using AngleSharp.Services;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Text;
 
     /// <summary>
     /// Provides a pool of used / recycled resources.
@@ -46,16 +47,16 @@
         /// used one.
 		/// </summary>
 		/// <returns>A selector constructor to use.</returns>
-		public static CssSelectorConstructor NewSelectorConstructor()
+		public static CssSelectorConstructor NewSelectorConstructor(IAttributeSelectorFactory attributeSelector, IPseudoClassSelectorFactory pseudoClassSelector, IPseudoElementSelectorFactory pseudoElementSelector)
 		{
 			lock (_lock)
 			{
                 if (_selector.Count == 0)
                 {
-                    return new CssSelectorConstructor();
+                    return new CssSelectorConstructor(attributeSelector, pseudoClassSelector, pseudoElementSelector);
                 }
 
-				return _selector.Pop().Reset();
+				return _selector.Pop().Reset(attributeSelector, pseudoClassSelector, pseudoElementSelector);
 			}
 		}
 

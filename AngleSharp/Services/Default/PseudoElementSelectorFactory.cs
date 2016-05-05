@@ -10,7 +10,7 @@
     /// <summary>
     /// Provides string to CSS pseudo element selector instance mappings.
     /// </summary>
-    sealed class PseudoElementSelectorFactory : IPseudoElementSelectorFactory
+    public sealed class PseudoElementSelectorFactory : IPseudoElementSelectorFactory
     {
         readonly Dictionary<String, ISelector> selectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase)
         {

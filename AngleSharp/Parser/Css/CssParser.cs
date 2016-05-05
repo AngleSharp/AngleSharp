@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
+    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -17,7 +18,7 @@
         #region Fields
 
         readonly CssParserOptions _options;
-        readonly IConfiguration _config;
+        readonly IConfiguration _configuration;
 
         internal static readonly CssParser Default = new CssParser();
 
@@ -59,7 +60,7 @@
         public CssParser(CssParserOptions options, IConfiguration configuration)
         {
             _options = options;
-            _config = configuration;
+            _configuration = configuration ?? Configuration.Default;
         }
 
         #endregion
@@ -79,7 +80,7 @@
         /// </summary>
         public IConfiguration Config
         {
-            get { return _config; }
+            get { return _configuration; }
         }
 
         #endregion
@@ -146,8 +147,8 @@
         public ISelector ParseSelector(String selectorText)
         {
             var tokenizer = CreateTokenizer(selectorText);
-            var creator = Pool.NewSelectorConstructor();
             var token = tokenizer.Get();
+            var creator = GetSelectorCreator();
 
             while (token.Type != CssTokenType.EndOfFile)
             {
@@ -171,6 +172,14 @@
         #endregion
 
         #region Internal Methods
+
+        internal CssSelectorConstructor GetSelectorCreator()
+        {
+            var attributeSelector = _configuration.GetService<IAttributeSelectorFactory>();
+            var pseudoClassSelector = _configuration.GetService<IPseudoClassSelectorFactory>();
+            var pseudoElementSelector = _configuration.GetService<IPseudoElementSelectorFactory>();
+            return Pool.NewSelectorConstructor(attributeSelector, pseudoClassSelector, pseudoElementSelector);
+        }
 
         internal ICssStyleSheet ParseStylesheet(TextSource source)
         {
