@@ -5,7 +5,7 @@
     /// <summary>
     /// The collection of (known / used) event names.
     /// </summary>
-    static class EventNames
+    public static class EventNames
     {
         /// <summary>
         /// The invalid event.
