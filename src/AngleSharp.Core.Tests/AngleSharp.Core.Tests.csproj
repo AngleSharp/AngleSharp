@@ -137,6 +137,7 @@
     <Compile Include="Library\BasicStyling.cs" />
     <Compile Include="Library\ContextLoading.cs" />
     <Compile Include="Library\DataRequester.cs" />
+    <Compile Include="Library\DocumentCreation.cs" />
     <Compile Include="Library\DocumentEncoding.cs" />
     <Compile Include="Library\DOMTable.cs" />
     <Compile Include="Library\Error.cs" />

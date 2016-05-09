@@ -61,5 +61,10 @@
         /// The link rel type factory.
         /// </summary>
         public static readonly LinkRelationFactory LinkRelations = new LinkRelationFactory();
+
+        /// <summary>
+        /// The document factory.
+        /// </summary>
+        public static readonly DocumentFactory Document = new DocumentFactory();
     }
 }

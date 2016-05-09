@@ -49,11 +49,8 @@
         protected override async Task ProcessResponseAsync(IResponse response)
         {
             var context = new BrowsingContext(_parentDocument.Context, Sandboxes.None);
-            var options = new CreateDocumentOptions(response, _options)
-            {
-                ImportAncestor = _parentDocument
-            };
-            _childDocument = await context.OpenAsync(options, CancellationToken.None).ConfigureAwait(false);
+            var options = new CreateDocumentOptions(response, _options, _parentDocument);
+            _childDocument = await Factory.Document.CreateAsync(context, options, CancellationToken.None).ConfigureAwait(false);
         }
 
         #endregion

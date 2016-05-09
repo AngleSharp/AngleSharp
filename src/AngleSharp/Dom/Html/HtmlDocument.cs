@@ -96,6 +96,27 @@
             return document;
         }
 
+        internal async static Task<IDocument> LoadTextAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancelToken)
+        {
+            var scripting = context.Configuration.IsScripting();
+            var parserOptions = new HtmlParserOptions { IsScripting = scripting };
+            var document = new HtmlDocument(context, options.Source);
+            document.Setup(options);
+            context.NavigateTo(document);
+            var root = document.CreateElement(AngleSharp.Html.TagNames.Html);
+            var head = document.CreateElement(AngleSharp.Html.TagNames.Head);
+            var body = document.CreateElement(AngleSharp.Html.TagNames.Body);
+            var pre = document.CreateElement(AngleSharp.Html.TagNames.Pre);
+            document.AppendChild(root);
+            root.AppendChild(head);
+            root.AppendChild(body);
+            body.AppendChild(pre);
+            pre.SetAttribute(AngleSharp.Html.AttributeNames.Style, "word-wrap: break-word; white-space: pre-wrap;");
+            await options.Source.PrefetchAllAsync(cancelToken).ConfigureAwait(false);
+            pre.TextContent = options.Source.Text;
+            return document;
+        }
+
         #endregion
     }
 }
