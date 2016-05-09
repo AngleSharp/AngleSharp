@@ -309,7 +309,8 @@
 
         public INode InsertChild(Int32 index, INode child)
         {
-            return this.PreInsert(child, _children[index]);
+            var reference = index < _children.Length ? _children[index] : null;
+            return this.PreInsert(child, reference);
         }
 
         public INode InsertBefore(INode newElement, INode referenceElement)
