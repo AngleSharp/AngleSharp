@@ -5,7 +5,7 @@
     /// <summary>
     /// The collection of (known / used) attribute names.
     /// </summary>
-    static class AttributeNames
+    public static class AttributeNames
     {
         /// <summary>
         /// The name attribute.

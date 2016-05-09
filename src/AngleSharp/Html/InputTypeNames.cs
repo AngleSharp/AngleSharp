@@ -5,7 +5,7 @@
     /// <summary>
     /// The collection of (known / used) input type names.
     /// </summary>
-    static class InputTypeNames
+    public static class InputTypeNames
     {
         /// <summary>
         /// The input will be hidden.
