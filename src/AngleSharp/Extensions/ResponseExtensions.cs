@@ -20,7 +20,8 @@
             var index = fileName.LastIndexOf('.');
             var extension = index >= 0 ? fileName.Substring(index) : ".a";
             var defaultType = MimeTypeNames.FromExtension(extension);
-            return response.GetContentType(defaultType);
+            var value = response.Headers.GetOrDefault(HeaderNames.ContentType, defaultType);
+            return new MimeType(value);
         }
 
         /// <summary>
@@ -31,7 +32,17 @@
         /// <returns>The provided or default content-type.</returns>
         public static MimeType GetContentType(this IResponse response, String defaultType)
         {
-            return new MimeType(response.Headers.GetOrDefault(HeaderNames.ContentType, defaultType));
+            var fileName = response.Address.Path;
+            var index = fileName.LastIndexOf('.');
+
+            if (index >= 0)
+            {
+                var extension = fileName.Substring(index);
+                defaultType = MimeTypeNames.FromExtension(extension);
+            }
+
+            var value = response.Headers.GetOrDefault(HeaderNames.ContentType, defaultType);
+            return new MimeType(value);
         }
     }
 }

@@ -24,6 +24,7 @@
             { MimeTypeNames.Svg, SvgDocument.LoadAsync },
             { MimeTypeNames.Html, HtmlDocument.LoadAsync },
             { MimeTypeNames.ApplicationXHtml, HtmlDocument.LoadAsync },
+            { MimeTypeNames.Plain, HtmlDocument.LoadTextAsync }
         };
 
         /// <summary>
