@@ -957,5 +957,81 @@
             await Task.Delay(100);
             Assert.AreEqual(0, count);
         }
+
+        [Test]
+        public async Task ElementInsertBeforeBeginPrependsNewElement()
+        {
+            var source = "<div></div>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var div = document.QuerySelector("div");
+
+            Assert.IsNotNull(div);
+
+            div.Insert(AdjacentPosition.BeforeBegin, "<span>Test</span>");
+
+            var span = document.QuerySelector("span");
+
+            Assert.IsNotNull(span);
+            Assert.AreEqual("Test", span.TextContent);
+            Assert.AreEqual(div, span.NextElementSibling);
+        }
+
+        [Test]
+        public async Task ElementInsertAfterEndAppendsNewElement()
+        {
+            var source = "<div></div>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var div = document.QuerySelector("div");
+
+            Assert.IsNotNull(div);
+
+            div.Insert(AdjacentPosition.AfterEnd, "<span>Test</span>");
+
+            var span = document.QuerySelector("span");
+
+            Assert.IsNotNull(span);
+            Assert.AreEqual("Test", span.TextContent);
+            Assert.AreEqual(div, span.PreviousElementSibling);
+        }
+
+        [Test]
+        public async Task ElementInsertAfterBeginInsertsNewElement()
+        {
+            var source = "<div>After</div>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var div = document.QuerySelector("div");
+
+            Assert.IsNotNull(div);
+
+            div.Insert(AdjacentPosition.AfterBegin, "<span>Test</span>");
+
+            var span = document.QuerySelector("span");
+
+            Assert.IsNotNull(span);
+            Assert.AreEqual("TestAfter", div.TextContent);
+            Assert.AreEqual(div, span.Parent);
+        }
+
+        [Test]
+        public async Task ElementInsertBeforeEndInsertsNewElement()
+        {
+            var source = "<div>Before</div>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var div = document.QuerySelector("div");
+
+            Assert.IsNotNull(div);
+
+            div.Insert(AdjacentPosition.BeforeEnd, "<span>Test</span>");
+
+            var span = document.QuerySelector("span");
+
+            Assert.IsNotNull(span);
+            Assert.AreEqual("BeforeTest", div.TextContent);
+            Assert.AreEqual(div, span.Parent);
+        }
     }
 }
