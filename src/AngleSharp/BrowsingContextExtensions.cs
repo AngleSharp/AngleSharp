@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom;
-    using AngleSharp.Extensions;
     using AngleSharp.Network;
     using System;
     using System.Diagnostics;
@@ -46,7 +45,7 @@
             }
 
             var options = new CreateDocumentOptions(response, context.Configuration);
-            return context.OpenAsync(options, cancel);
+            return Factory.Document.CreateAsync(context, options, cancel);
         }
 
         /// <summary>
@@ -168,20 +167,6 @@
             }
 
             return context.OpenAsync(Url.Create(address), CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Opens a new document created with the provided document options
-        /// asynchronously in the given context.
-        /// </summary>
-        /// <param name="context">The browsing context to use.</param>
-        /// <param name="options">The creation options.</param>
-        /// <param name="cancel">The cancellation token.</param>
-        /// <returns>The task that creates the document.</returns>
-        internal static Task<IDocument> OpenAsync(this IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancel)
-        {
-            var creator = options.FindCreator();
-            return creator(context, options, cancel);
         }
     }
 }

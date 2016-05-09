@@ -12,7 +12,7 @@
     /// A stream abstraction to handle encoding and more.
     /// </summary>
     [DebuggerStepThrough]
-    sealed class TextSource : IDisposable
+    public sealed class TextSource : IDisposable
     {
         #region Fields
 
@@ -175,6 +175,9 @@
 
         #region Disposable
 
+        /// <summary>
+        /// Disposes the text source by freeing the underlying stream, if any.
+        /// </summary>
         public void Dispose()
         {
             var isDisposed = _content == null;

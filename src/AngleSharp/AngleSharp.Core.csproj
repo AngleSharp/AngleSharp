@@ -188,7 +188,9 @@
     <Compile Include="Extensions\ResponseExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Services\Default\AttributeSelectorFactory.cs" />
+    <Compile Include="Services\Default\DocumentFactory.cs" />
     <Compile Include="Services\ICssPropertyFactory.cs" />
+    <Compile Include="Services\IDocumentFactory.cs" />
     <Compile Include="Services\IMediaFeatureFactory.cs" />
     <Compile Include="Services\ILinkRelationFactory.cs" />
     <Compile Include="Services\IPseudoElementSelectorFactory.cs" />

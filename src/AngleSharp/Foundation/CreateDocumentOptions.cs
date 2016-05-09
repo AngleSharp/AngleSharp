@@ -1,32 +1,35 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Dom.Svg;
-    using AngleSharp.Dom.Xml;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
     using System;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Data transport class to abstract common options in document creation.
     /// </summary>
-    sealed class CreateDocumentOptions
+    public sealed class CreateDocumentOptions
     {
         #region Fields
 
         readonly IResponse _response;
         readonly MimeType _contentType;
         readonly TextSource _source;
+        readonly IDocument _ancestor;
 
         #endregion
 
         #region ctor
 
-        public CreateDocumentOptions(IResponse response, IConfiguration configuration)
+        /// <summary>
+        /// Creates a new set of document options from the given response with
+        /// the provided configuration.
+        /// </summary>
+        /// <param name="response">The response to pass on.</param>
+        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="ancestor">The optional import ancestor.</param>
+        public CreateDocumentOptions(IResponse response, IConfiguration configuration, IDocument ancestor = null)
         {
             var contentType = response.GetContentType(MimeTypeNames.Html);
             var charset = contentType.GetParameter(AttributeNames.Charset);
@@ -40,49 +43,43 @@
             _source = source;
             _contentType = contentType;
             _response = response;
+            _ancestor = ancestor;
         }
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Gets the response to create the document for.
+        /// </summary>
         public IResponse Response
         {
             get { return _response; }
         }
 
+        /// <summary>
+        /// Gets the provided content-type.
+        /// </summary>
         public MimeType ContentType
         {
             get { return _contentType; }
         }
 
+        /// <summary>
+        /// Gets the text source that came with the response.
+        /// </summary>
         public TextSource Source
         {
             get { return _source; }
         }
 
+        /// <summary>
+        /// Gets the import ancestor, if any.
+        /// </summary>
         public IDocument ImportAncestor 
         { 
-            get; 
-            set; 
-        }
-
-        #endregion
-
-        #region Methods
-
-        public Func<IBrowsingContext, CreateDocumentOptions, CancellationToken, Task<IDocument>> FindCreator()
-        {
-            if (_contentType.Represents(MimeTypeNames.Xml) || _contentType.Represents(MimeTypeNames.ApplicationXml))
-            {
-                return XmlDocument.LoadAsync;
-            }
-            else if (_contentType.Represents(MimeTypeNames.Svg))
-            {
-                return SvgDocument.LoadAsync;
-            }
-
-            return HtmlDocument.LoadAsync;
+            get { return _ancestor; }
         }
 
         #endregion
