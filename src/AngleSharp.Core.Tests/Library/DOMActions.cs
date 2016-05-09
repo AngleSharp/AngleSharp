@@ -995,5 +995,43 @@
             Assert.AreEqual("Test", span.TextContent);
             Assert.AreEqual(div, span.PreviousElementSibling);
         }
+
+        [Test]
+        public async Task ElementInsertAfterBeginInsertsNewElement()
+        {
+            var source = "<div>After</div>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var div = document.QuerySelector("div");
+
+            Assert.IsNotNull(div);
+
+            div.Insert(AdjacentPosition.AfterBegin, "<span>Test</span>");
+
+            var span = document.QuerySelector("span");
+
+            Assert.IsNotNull(span);
+            Assert.AreEqual("TestAfter", div.TextContent);
+            Assert.AreEqual(div, span.Parent);
+        }
+
+        [Test]
+        public async Task ElementInsertBeforeEndInsertsNewElement()
+        {
+            var source = "<div>Before</div>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var div = document.QuerySelector("div");
+
+            Assert.IsNotNull(div);
+
+            div.Insert(AdjacentPosition.BeforeEnd, "<span>Test</span>");
+
+            var span = document.QuerySelector("span");
+
+            Assert.IsNotNull(span);
+            Assert.AreEqual("BeforeTest", div.TextContent);
+            Assert.AreEqual(div, span.Parent);
+        }
     }
 }
