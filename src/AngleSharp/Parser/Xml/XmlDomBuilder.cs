@@ -24,6 +24,7 @@
         readonly XmlTokenizer _tokenizer;
         readonly Document _document;
         readonly List<Element> _openElements;
+        readonly Func<Document, String, String, Element> _creator;
 
         XmlParserOptions _options;
         XmlTreeMode _currentMode;
@@ -37,7 +38,8 @@
         /// Creates a new instance of the XML parser.
         /// </summary>
         /// <param name="document">The document instance to be filled.</param>
-        internal XmlDomBuilder(Document document)
+        /// <param name="creator">The optional non-standard creator to use.</param>
+        internal XmlDomBuilder(Document document, Func<Document, String, String, Element> creator = null)
         {
             var resolver = document.Options.GetService<IEntityService>() ?? XmlEntityService.Resolver;
             _tokenizer = new XmlTokenizer(document.Source, resolver);
@@ -45,6 +47,7 @@
             _standalone = false;
             _openElements = new List<Element>();
             _currentMode = XmlTreeMode.Initial;
+            _creator = creator ?? CreateElement;
         }
 
         #endregion
@@ -254,7 +257,7 @@
                 case XmlTokenType.StartTag:
                 {
                     var tagToken = (XmlTagToken)token;
-                    var element = new XmlElement(_document, tagToken.Name);
+                    var element = _creator.Invoke(_document, tagToken.Name, null);
                     CurrentNode.AppendChild(element);
 
                     if (!tagToken.IsSelfClosing)
@@ -380,21 +383,17 @@
 
         #region Helpers
 
-        /// <summary>
-        /// Checks the given version number.
-        /// </summary>
-        /// <param name="ver"></param>
-        /// <returns></returns>
+        static Element CreateElement(Document document, String name, String prefix)
+        {
+            return new XmlElement(document, name, prefix);
+        }
+        
         Boolean CheckVersion(String ver)
         {
             var t = ver.ToDouble(0.0);
             return t >= 1.0 && t < 2.0;
         }
-
-        /// <summary>
-        /// Sets the document's encoding to the given one.
-        /// </summary>
-        /// <param name="charSet">The encoding to use.</param>
+        
         void SetEncoding(String charSet)
         {
             if (TextEncoding.IsSupported(charSet))

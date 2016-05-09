@@ -82,7 +82,7 @@
         {
             var parserOptions = new XmlParserOptions { };
             var document = new SvgDocument(context, options.Source);
-            var parser = new XmlDomBuilder(document);
+            var parser = new XmlDomBuilder(document, Factory.SvgElements.Create);
             document.Setup(options);
             context.NavigateTo(document);
             context.Fire(new HtmlParseEvent(document, completed: false));
