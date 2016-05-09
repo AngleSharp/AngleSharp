@@ -5,7 +5,7 @@
     /// <summary>
     /// The collection of (known / used) link rel names.
     /// </summary>
-    static class LinkRelNames
+    public static class LinkRelNames
     {
         /// <summary>
         /// The stylesheet relation.
