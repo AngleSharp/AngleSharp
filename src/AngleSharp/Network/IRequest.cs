@@ -22,7 +22,7 @@
         /// <summary>
         /// Gets the headers to send with the request.
         /// </summary>
-        Dictionary<String, String> Headers { get; }
+        IDictionary<String, String> Headers { get; }
 
         /// <summary>
         /// Gets content to send with the request.

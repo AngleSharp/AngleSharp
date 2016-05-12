@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets or sets a list of headers (key-values) that should be used.
         /// </summary>
-        public Dictionary<String, String> Headers
+        public IDictionary<String, String> Headers
         {
             get;
             set;
