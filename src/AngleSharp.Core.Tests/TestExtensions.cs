@@ -49,7 +49,13 @@
             return config.WithMockRequester(mockRequester);
         }
 
-        public static IConfiguration WithMockRequester(this IConfiguration config, MockRequester mockRequester)
+        public static IConfiguration WithVirtualRequester(this IConfiguration config, Func<IRequest, IResponse> onRequest = null)
+        {
+            var mockRequester = new VirtualRequester(onRequest);
+            return config.WithMockRequester(mockRequester);
+        }
+
+        public static IConfiguration WithMockRequester(this IConfiguration config, IRequester mockRequester)
         {
             return config.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { mockRequester });
         }
