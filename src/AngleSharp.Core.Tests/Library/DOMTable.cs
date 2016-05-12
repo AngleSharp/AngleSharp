@@ -8,7 +8,7 @@
     using System.Linq;
 
     [TestFixture]
-    public class DOMTable
+    public class DOMTableTests
     {
         static readonly String HTMLNS = "http://www.w3.org/1999/xhtml";
         static readonly String SectionRowIndexCode = @"<table>

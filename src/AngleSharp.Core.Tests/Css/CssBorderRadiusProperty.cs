@@ -4,7 +4,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class CssBorderRadiusPropertyTest : CssConstructionFunctions
+    public class CssBorderRadiusPropertyTests : CssConstructionFunctions
     {
         [Test]
         public void CssBorderBottomLeftRadiusPxPxLegal()

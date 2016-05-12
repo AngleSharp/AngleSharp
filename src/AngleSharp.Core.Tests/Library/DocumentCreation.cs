@@ -10,7 +10,7 @@
     using System.Threading.Tasks;
 
     [TestFixture]
-    public class DocumentCreation
+    public class DocumentCreationTests
     {
         static readonly String XmlContent = @"<note>
 <to>Tove</to>

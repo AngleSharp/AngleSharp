@@ -11,7 +11,7 @@
     using System.Threading.Tasks;
 
     [TestFixture]
-    public class DOMActions
+    public class DOMActionsTests
     {
         static IDocument CreateEmpty(String url)
         {

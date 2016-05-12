@@ -6,7 +6,7 @@
     using System;
 
     [TestFixture]
-    public class CssOmCreators : CssConstructionFunctions
+    public class CssOmCreatorsTests : CssConstructionFunctions
     {
         [Test]
         public void CssCreateStyleRuleViaHelper()

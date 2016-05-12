@@ -9,7 +9,7 @@
     using System.Linq;
 
     [TestFixture]
-    public sealed class FormSetFieldValues
+    public sealed class FormSetFieldValuesTests
     {
         static IHtmlDocument CreateSampleDocument()
         {

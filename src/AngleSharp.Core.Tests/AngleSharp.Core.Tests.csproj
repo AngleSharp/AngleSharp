@@ -136,6 +136,7 @@
     <Compile Include="Html\WillValidate.cs" />
     <Compile Include="Library\BasicStyling.cs" />
     <Compile Include="Library\ContextLoading.cs" />
+    <Compile Include="Library\CookieHandling.cs" />
     <Compile Include="Library\DataRequester.cs" />
     <Compile Include="Library\DocumentCreation.cs" />
     <Compile Include="Library\DocumentEncoding.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Library\FormSetFieldValues.cs" />
     <Compile Include="Library\ImageCandidates.cs" />
     <Compile Include="Library\MeterElement.cs" />
+    <Compile Include="Mocks\VirtualRequester.cs" />
     <Compile Include="Url\MimeType.cs" />
     <Compile Include="Library\MutationObserver.cs" />
     <Compile Include="Library\OptionWithLabel.cs" />
