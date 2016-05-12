@@ -161,11 +161,7 @@
         public static String GetCookie(this IConfiguration options, String origin)
         {
             var service = options.GetService<ICookieService>();
-
-            if (service != null)
-                return service[origin];
-
-            return String.Empty;
+            return service != null ? service[origin] : String.Empty;
         }
 
         /// <summary>
@@ -179,7 +175,9 @@
             var service = options.GetService<ICookieService>();
 
             if (service != null)
+            {
                 service[origin] = value;
+            }
         }
 
         #endregion
