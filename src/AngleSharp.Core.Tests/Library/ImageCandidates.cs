@@ -8,7 +8,7 @@
     using System;
 
     [TestFixture]
-    public class ImageCandidates
+    public class ImageCandidatesTests
     {
         static readonly String BaseUrl = "http://localhost";
 

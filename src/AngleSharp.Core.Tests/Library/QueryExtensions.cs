@@ -6,7 +6,7 @@
     using System.Linq;
 
     [TestFixture]
-    public class QueryExtensions
+    public class QueryExtensionsTests
     {
         static IDocument GetTestDocument()
         {

@@ -9,7 +9,7 @@
     /// http://w3c-test.org/html/dom/documents/dom-tree-accessors/document.body-getter.html
     /// </summary>
     [TestFixture]
-    public class DomManipulation
+    public class DomManipulationTests
     {
         static IDocument CreateDocument()
         {

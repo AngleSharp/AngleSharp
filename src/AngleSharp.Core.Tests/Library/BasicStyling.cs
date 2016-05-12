@@ -9,7 +9,7 @@
     using System.Threading.Tasks;
 
     [TestFixture]
-    public class BasicStyling
+    public class BasicStylingTests
     {
         static Task<IDocument> CreateDocumentWithOptions(String source)
         {

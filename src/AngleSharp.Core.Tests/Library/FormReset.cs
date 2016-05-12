@@ -6,7 +6,7 @@
     using System;
 
     [TestFixture]
-    public class FormReset
+    public class FormResetTests
     {
         static readonly String documentSource = @"<!DOCTYPE html>
 <meta charset=""utf-8"">
