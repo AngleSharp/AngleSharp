@@ -19,6 +19,14 @@
         }
 
         /// <summary>
+        /// Gets the associated cookie container.
+        /// </summary>
+        public CookieContainer Container
+        {
+            get { return _container; }
+        }
+
+        /// <summary>
         /// Gets or sets the cookies for the given origin.
         /// </summary>
         /// <param name="origin">The origin of the cookie.</param>
