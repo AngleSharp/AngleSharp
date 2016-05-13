@@ -4,23 +4,31 @@
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using NUnit.Framework;
+    using System;
     using System.Threading.Tasks;
 
     [TestFixture]
     public class CookieHandlingTests
     {
         [Test]
-        public async Task SettingSingleCookieInRequestAppearsInDocument()
+        public async Task SettingSimpleSingleCookieInRequestAppearsInDocument()
         {
-            var config = Configuration.Default.WithCookies();
-            var context = BrowsingContext.New(config);
-            var document = await context.OpenAsync(res => 
-                res.Content("<div></div>").
-                    Address("http://localhost/").
-                    Header(HeaderNames.SetCookie, "UserID=Foo"));
+            var cookie = await LoadDocumentWithCookie("UserID=Foo");
+            Assert.AreEqual("UserID=Foo", cookie);
+        }
 
-            Assert.IsNotNull(document.QuerySelector("div"));
-            Assert.AreEqual("UserID=Foo", document.Cookie);
+        [Test]
+        public async Task SettingSingleCookieWithMaxAgeInRequestAppearsInDocument()
+        {
+            var cookie = await LoadDocumentWithCookie("cookie=two; Max-Age=36001");
+            Assert.AreEqual("cookie=two", cookie);
+        }
+
+        [Test]
+        public async Task SettingSingleExpiredCookieInRequestAppearsInDocument()
+        {
+            var cookie = await LoadDocumentWithCookie("cookie=expiring; Expires=Tue, 10 Nov 2009 23:00:00 GMT");
+            Assert.AreEqual("", cookie);
         }
 
         [Test]
@@ -78,6 +86,32 @@
             document = await document.QuerySelector<IHtmlAnchorElement>("a").NavigateAsync();
 
             Assert.AreEqual("UserID=Foo", document.Cookie);
+        }
+
+        [Test]
+        public async Task SettingTwoCookiesInOneRequestAppearsInDocument()
+        {
+            var config = Configuration.Default.WithCookies();
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(res =>
+                res.Content("<div></div>").
+                    Address("http://localhost/").
+                    Header(HeaderNames.SetCookie, "UserID=Foo"));
+
+            Assert.IsNotNull(document.QuerySelector("div"));
+            Assert.AreEqual("UserID=Foo", document.Cookie);
+        }
+        
+        static async Task<String> LoadDocumentWithCookie(String cookieValue)
+        {
+            var config = Configuration.Default.WithCookies();
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(res =>
+                res.Content("<div></div>").
+                    Address("http://localhost/").
+                    Header(HeaderNames.SetCookie, cookieValue));
+
+            return document.Cookie;
         }
     }
 }
