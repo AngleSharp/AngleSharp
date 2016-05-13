@@ -3,6 +3,7 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -13,6 +14,7 @@
     /// <summary>
     /// The default (ready-to-use) HTTP requester.
     /// </summary>
+    [DebuggerStepThrough]
     public sealed class HttpRequester : IRequester
     {
         #region Constants
@@ -54,7 +56,7 @@
         /// <summary>
         /// Gets the used headers.
         /// </summary>
-        public Dictionary<String, String> Headers
+        public IDictionary<String, String> Headers
         {
             get { return _headers; }
         }
@@ -124,10 +126,14 @@
                 _buffer = new Byte[BufferSize];
 
                 foreach (var header in headers)
+                {
                     AddHeader(header.Key, header.Value);
+                }
 
                 foreach (var header in request.Headers)
+                {
                     AddHeader(header.Key, header.Value);
+                }
 
                 _cookies.SetCookies(_http.RequestUri, cookieHeader);
             }
@@ -165,7 +171,9 @@
                     var length = source.Read(_buffer, 0, BufferSize);
 
                     if (length == 0)
+                    {
                         break;
+                    }
 
                     target.Write(_buffer, 0, length);
                 }
@@ -175,18 +183,25 @@
             {
                 if (response != null)
                 {
-                    var result = new Response();
-                    var cookie = _cookies.GetCookieHeader(response.ResponseUri);
+                    var cookies = _cookies.GetCookies(response.ResponseUri);
                     var headers = response.Headers.AllKeys.Select(m => new { Key = m, Value = response.Headers[m] });
-                    result.Content = response.GetResponseStream();
-                    result.StatusCode = response.StatusCode;
-                    result.Address = Url.Convert(response.ResponseUri);
+                    var result = new Response
+                    {
+                        Content = response.GetResponseStream(),
+                        StatusCode = response.StatusCode,
+                        Address = Url.Convert(response.ResponseUri)
+                    };
 
                     foreach (var header in headers)
+                    {
                         result.Headers.Add(header.Key, header.Value);
+                    }
 
-                    if (cookie != null)
-                        result.Headers[HeaderNames.SetCookie] = cookie;
+                    if (cookies.Count > 0)
+                    {
+                        var strings = cookies.OfType<Cookie>().Select(m => m.ToString());
+                        result.Headers[HeaderNames.SetCookie] = String.Join(", ", strings);
+                    }
 
                     return result;
                 }
@@ -204,23 +219,41 @@
             void AddHeader(String key, String value)
             {
                 if (key == HeaderNames.Accept)
+                {
                     _http.Accept = value;
+                }
                 else if (key == HeaderNames.ContentType)
+                {
                     _http.ContentType = value;
+                }
                 else if (key == HeaderNames.Expect)
+                {
                     SetProperty(HeaderNames.Expect, value);
+                }
                 else if (key == HeaderNames.Date)
+                {
                     SetProperty(HeaderNames.Date, DateTime.Parse(value));
+                }
                 else if (key == HeaderNames.Host)
+                {
                     SetProperty(HeaderNames.Host, value);
+                }
                 else if (key == HeaderNames.IfModifiedSince)
+                {
                     SetProperty("IfModifiedSince", DateTime.Parse(value));
+                }
                 else if (key == HeaderNames.Referer)
+                {
                     SetProperty(HeaderNames.Referer, value);
+                }
                 else if (key == HeaderNames.UserAgent)
+                {
                     SetProperty("UserAgent", value);
+                }
                 else if (key != HeaderNames.Connection && key != HeaderNames.Range && key != HeaderNames.ContentLength && key != HeaderNames.TransferEncoding)
+                {
                     _http.Headers[key] = value;
+                }
             }
 
             /// <summary>
@@ -237,6 +270,7 @@
             void SetProperty(String name, Object value)
             {
                 var property = default(PropertyInfo);
+
                 if (!_propCache.TryGetValue(name, out property))
                 {
                     lock (_propCache)
