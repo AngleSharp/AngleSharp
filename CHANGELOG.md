@@ -1,3 +1,11 @@
+# 0.9.7
+
+- Fixed some bugs (#343, #325, #341)
+- Improved cookie handling (#280, #274)
+- Added a document factory (#331)
+- `EventNames`, `AttributeNames` and others are available (#330)
+- Allow setting the active document (#281)
+
 # 0.9.6
 
 - Fixed some bugs (#304, #295, #286)
