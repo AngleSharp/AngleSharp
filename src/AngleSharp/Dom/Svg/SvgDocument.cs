@@ -40,33 +40,6 @@
             get { return this.FindChild<ISvgSvgElement>(); }
         }
 
-        public override String Title
-        {
-            get
-            {
-                var title = RootElement.FindChild<ISvgTitleElement>();
-
-                if (title != null)
-                {
-                    return title.TextContent.CollapseAndStrip();
-                }
-
-                return String.Empty;
-            }
-            set
-            {
-                var title = RootElement.FindChild<ISvgTitleElement>();
-
-                if (title == null)
-                {
-                    title = new SvgTitleElement(this);
-                    RootElement.AppendChild(title);
-                }
-
-                title.TextContent = value;
-            }
-        }
-
         #endregion
 
         #region Methods
@@ -89,6 +62,35 @@
             await parser.ParseAsync(parserOptions, cancelToken).ConfigureAwait(false);
             context.Fire(new HtmlParseEvent(document, completed: true));
             return document;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        protected override String GetTitle()
+        {
+            var title = RootElement.FindChild<ISvgTitleElement>();
+
+            if (title != null)
+            {
+                return title.TextContent.CollapseAndStrip();
+            }
+
+            return base.GetTitle();
+        }
+
+        protected override void SetTitle(String value)
+        {
+            var title = RootElement.FindChild<ISvgTitleElement>();
+
+            if (title == null)
+            {
+                title = new SvgTitleElement(this);
+                RootElement.AppendChild(title);
+            }
+
+            title.TextContent = value;
         }
 
         #endregion

@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Parser.Html;
     using System;
@@ -33,40 +34,6 @@
         public override IElement DocumentElement
         {
             get { return this.FindChild<HtmlHtmlElement>(); }
-        }
-
-        public override String Title
-        {
-            get
-            {
-                var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
-
-                if (title != null)
-                {
-                    return title.TextContent.CollapseAndStrip();
-                }
-
-                return String.Empty;
-            }
-            set
-            {
-                var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
-
-                if (title == null)
-                {
-                    var head = Head;
-
-                    if (head == null)
-                    {
-                        return;
-                    }
-
-                    title = new HtmlTitleElement(this);
-                    head.AppendChild(title);
-                }
-
-                title.TextContent = value;
-            }
         }
 
         #endregion
@@ -103,18 +70,54 @@
             var document = new HtmlDocument(context, options.Source);
             document.Setup(options);
             context.NavigateTo(document);
-            var root = document.CreateElement(AngleSharp.Html.TagNames.Html);
-            var head = document.CreateElement(AngleSharp.Html.TagNames.Head);
-            var body = document.CreateElement(AngleSharp.Html.TagNames.Body);
-            var pre = document.CreateElement(AngleSharp.Html.TagNames.Pre);
+            var root = document.CreateElement(TagNames.Html);
+            var head = document.CreateElement(TagNames.Head);
+            var body = document.CreateElement(TagNames.Body);
+            var pre = document.CreateElement(TagNames.Pre);
             document.AppendChild(root);
             root.AppendChild(head);
             root.AppendChild(body);
             body.AppendChild(pre);
-            pre.SetAttribute(AngleSharp.Html.AttributeNames.Style, "word-wrap: break-word; white-space: pre-wrap;");
+            pre.SetAttribute(AttributeNames.Style, "word-wrap: break-word; white-space: pre-wrap;");
             await options.Source.PrefetchAllAsync(cancelToken).ConfigureAwait(false);
             pre.TextContent = options.Source.Text;
             return document;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        protected override String GetTitle()
+        {
+            var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
+
+            if (title != null)
+            {
+                return title.TextContent.CollapseAndStrip();
+            }
+
+            return base.GetTitle();
+        }
+
+        protected override void SetTitle(String value)
+        {
+            var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
+
+            if (title == null)
+            {
+                var head = Head;
+
+                if (head == null)
+                {
+                    return;
+                }
+
+                title = new HtmlTitleElement(this);
+                head.AppendChild(title);
+            }
+
+            title.TextContent = value;
         }
 
         #endregion

@@ -35,12 +35,6 @@
             get { return this.FindChild<IElement>(); }
         }
 
-        public override String Title
-        {
-            get { return String.Empty; }
-            set { }
-        }
-
         #endregion
 
         #region Methods
@@ -63,6 +57,14 @@
             await parser.ParseAsync(default(XmlParserOptions), cancelToken).ConfigureAwait(false);
             context.Fire(new HtmlParseEvent(document, completed: true));
             return document;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        protected override void SetTitle(String value)
+        {
         }
 
         #endregion

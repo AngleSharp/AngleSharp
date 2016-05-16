@@ -670,10 +670,10 @@
             get { return _links ?? (_links = new HtmlElementCollection(this, predicate: IsLink)); }
         }
 
-        public abstract String Title
+        public String Title
         {
-            get;
-            set;
+            get { return GetTitle(); }
+            set { SetTitle(value); }
         }
 
         public IHtmlHeadElement Head
@@ -1448,6 +1448,13 @@
             document._async = _async;
             document.ContentType = ContentType;
         }
+
+        protected virtual String GetTitle()
+        {
+            return String.Empty;
+        }
+
+        protected abstract void SetTitle(String value);
 
         #endregion
     }
