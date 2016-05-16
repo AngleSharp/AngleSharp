@@ -30,17 +30,16 @@
         }
 
         [Test]
-        [ExpectedException(typeof(XmlParseException))]
         public void XmlInvalidDocumentMismatchedEndTag()
         {
-            var xml = (@"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
+            Assert.Catch<XmlParseException>(() => (@"<?xml version=""1.0"" encoding=""ISO-8859-1""?>
 <!-- Edited by XMLSpy® -->
 <note>
 	<to>Tove</to>
 	<from>Jani</Ffrom>
 	<heading>Reminder</heading>
 	<body>Don't forget me this weekend!</body>
-</note>").ToXmlDocument();
+</note>").ToXmlDocument());
         }
 
         [Test]

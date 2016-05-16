@@ -1106,20 +1106,20 @@ font-weight:bold;}";
             var hwbAlpha = (sheet.Rules[13] as ICssStyleRule).Style.Color;
             var hwbAngleAlpha = (sheet.Rules[14] as ICssStyleRule).Style.Color;
 
-            Assert.IsNotNullOrEmpty(rgbNumber);
-            Assert.IsNotNullOrEmpty(rgbPercent);
-            Assert.IsNotNullOrEmpty(rgbaPercent);
-            Assert.IsNotNullOrEmpty(hsl);
-            Assert.IsNotNullOrEmpty(hslAngle);
-            Assert.IsNotNullOrEmpty(hsla);
-            Assert.IsNotNullOrEmpty(hslaAngle);
-            Assert.IsNotNullOrEmpty(grayNumber);
-            Assert.IsNotNullOrEmpty(grayPercent);
-            Assert.IsNotNullOrEmpty(grayPercentAlpha);
-            Assert.IsNotNullOrEmpty(hwb);
-            Assert.IsNotNullOrEmpty(hwbAngle);
-            Assert.IsNotNullOrEmpty(hwbAlpha);
-            Assert.IsNotNullOrEmpty(hwbAngleAlpha);
+            Assert.IsNotNull(rgbNumber);
+            Assert.IsNotNull(rgbPercent);
+            Assert.IsNotNull(rgbaPercent);
+            Assert.IsNotNull(hsl);
+            Assert.IsNotNull(hslAngle);
+            Assert.IsNotNull(hsla);
+            Assert.IsNotNull(hslaAngle);
+            Assert.IsNotNull(grayNumber);
+            Assert.IsNotNull(grayPercent);
+            Assert.IsNotNull(grayPercentAlpha);
+            Assert.IsNotNull(hwb);
+            Assert.IsNotNull(hwbAngle);
+            Assert.IsNotNull(hwbAlpha);
+            Assert.IsNotNull(hwbAngleAlpha);
         }
     }
 }

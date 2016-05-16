@@ -348,7 +348,7 @@
             var original = document.QuerySelector(".parent");
             var clone = original.Clone();
 
-            Assert.AreNotEqual(original, clone);
+            Assert.AreNotSame(original, clone);
             Assert.IsTrue(original.Equals(clone));
             Assert.IsFalse(original.Equals(document.Body));
         }

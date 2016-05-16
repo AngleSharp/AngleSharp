@@ -92,13 +92,16 @@
         }
 
         [Test]
-        [ExpectedException(typeof(KeyNotFoundException))]
         public void ThrowExcptionIfFieldNotFound()
         {
             var document = CreateSampleDocument();
-            document.Forms[0].SetFieldValues(new Dictionary<String, String>()
+
+            Assert.Catch<KeyNotFoundException>(() =>
             {
-                { "noExistName", "X" }
+                document.Forms[0].SetFieldValues(new Dictionary<String, String>()
+                {
+                    { "noExistName", "X" }
+                });
             });
         }
 
