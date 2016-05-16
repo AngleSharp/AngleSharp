@@ -78,58 +78,15 @@
 
         #endregion
 
-        #region Methods
-
-        /// <summary>
-        /// Creates a new browsing context with the given configuration, or the
-        /// default configuration, if no configuration is provided.
-        /// </summary>
-        /// <param name="configuration">The optional configuration.</param>
-        /// <returns>The browsing context to use.</returns>
-        public static IBrowsingContext New(IConfiguration configuration = null)
-        {
-            if (configuration == null)
-            {
-                configuration = AngleSharp.Configuration.Default;
-            }
-
-            return configuration.NewContext();
-        }
-
-        /// <summary>
-        /// Navigates to the given document. Includes the document in the
-        /// session history and sets it as the active document.
-        /// </summary>
-        /// <param name="document">The new document.</param>
-        public void NavigateTo(IDocument document)
-        {
-            if (_history != null)
-            {
-                _history.PushState(document, document.Title, document.Url);
-            }
-
-            _active = document;
-        }
-
-        void IDisposable.Dispose()
-        {
-            if (_active != null)
-            {
-                _active.Dispose();
-                _active = null;
-            }
-        }
-
-        #endregion
-
         #region Properties
 
         /// <summary>
-        /// Gets the currently active document.
+        /// Gets or sets the currently active document.
         /// </summary>
         public IDocument Active
         {
             get { return _active; }
+            set { _active = value; }
         }
 
         /// <summary>
@@ -190,6 +147,35 @@
         public Sandboxes Security
         {
             get { return _security; }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Creates a new browsing context with the given configuration, or the
+        /// default configuration, if no configuration is provided.
+        /// </summary>
+        /// <param name="configuration">The optional configuration.</param>
+        /// <returns>The browsing context to use.</returns>
+        public static IBrowsingContext New(IConfiguration configuration = null)
+        {
+            if (configuration == null)
+            {
+                configuration = AngleSharp.Configuration.Default;
+            }
+
+            return configuration.NewContext();
+        }
+
+        void IDisposable.Dispose()
+        {
+            if (_active != null)
+            {
+                _active.Dispose();
+                _active = null;
+            }
         }
 
         #endregion

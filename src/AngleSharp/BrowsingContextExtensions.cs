@@ -168,5 +168,23 @@
 
             return context.OpenAsync(Url.Create(address), CancellationToken.None);
         }
+
+        /// <summary>
+        /// Navigates to the given document. Includes the document in the
+        /// session history and sets it as the active document.
+        /// </summary>
+        /// <param name="context">The browsing context to use.</param>
+        /// <param name="document">The new document.</param>
+        public static void NavigateTo(this IBrowsingContext context, IDocument document)
+        {
+            var history = context.SessionHistory;
+
+            if (history != null)
+            {
+                history.PushState(document, document.Title, document.Url);
+            }
+
+            context.Active = document;
+        }
     }
 }
