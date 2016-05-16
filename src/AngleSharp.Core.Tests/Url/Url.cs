@@ -1,10 +1,44 @@
 ﻿namespace AngleSharp.Core.Tests
 {
     using NUnit.Framework;
+    using System;
 
     [TestFixture]
     public class UrlTests
     {
+        [Test]
+        public void UrlWithHttpAsResourceIsARelativeUrl()
+        {
+            var address = "http";
+            var result = new Url(address);
+            Assert.That(result.IsInvalid, Is.False);
+            Assert.That(result.Href, Is.EqualTo("http"));
+            Assert.That(result.IsRelative, Is.True);
+        }
+
+        [Test]
+        public void UrlWithHttpAndColonIsAValidUrl()
+        {
+            var address = "http:";
+            var result = new Url(address);
+            Assert.That(result.IsInvalid, Is.False);
+            Assert.That(result.Href, Is.EqualTo("http:///"));
+            Assert.That(String.IsNullOrEmpty(result.Path), Is.True);
+            Assert.That(String.IsNullOrEmpty(result.Query), Is.True);
+        }
+
+        [Test]
+        public void UrlWithSchemeOnlyIsAnInvalidUrl()
+        {
+            var address = "http://";
+            var result = new Url(address);
+            Assert.That(result.IsInvalid, Is.True);
+            Assert.That(result.Href, Is.EqualTo("http:///"));
+            Assert.That(String.IsNullOrEmpty(result.Path), Is.True);
+            Assert.That(String.IsNullOrEmpty(result.Query), Is.True);
+        }
+
+
         [Test]
         public void ValidityOfValidGoogleHostnameAddress()
         {
