@@ -6,6 +6,37 @@
     public class UrlTests
     {
         [Test]
+        public void Url_With_HttpAsResource_IsARelativeUrl()
+        {
+            var address = "http";
+            var result = new Url(address);
+            Assert.That(result.IsInvalid, Is.False);
+            Assert.That(result.Href, Is.EqualTo("http"));
+            Assert.That(result.IsRelative, Is.True);
+        }
+        [Test]
+        public void Url_With_HttpAndColon_Is_A_ValidUrl()
+        {
+            var address = "http:";
+            var result = new Url(address);
+            Assert.That(result.IsInvalid, Is.False);
+            Assert.That(result.Href, Is.EqualTo("http:///"));
+            Assert.That(string.IsNullOrEmpty(result.Path), Is.True);
+            Assert.That(string.IsNullOrEmpty(result.Query), Is.True);
+        }
+        [Test]
+        public void Url_With_SchemeOnly_Is_An_Invalid_Url()
+        {
+            var address = "http://";
+            var result = new Url(address);
+            Assert.That(result.IsInvalid, Is.True);
+            Assert.That(result.Href, Is.EqualTo("http:///"));
+            Assert.That(string.IsNullOrEmpty(result.Path), Is.True);
+            Assert.That(string.IsNullOrEmpty(result.Query), Is.True);
+        }
+
+
+        [Test]
         public void ValidityOfValidGoogleHostnameAddress()
         {
             var address = "http://www.google.de";

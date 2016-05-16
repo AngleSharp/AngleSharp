@@ -492,8 +492,9 @@
                             return RelativeState(input, index);
                         }
 
-                        if (input[++index] == Symbols.Solidus && ++index < input.Length && input[index] == Symbols.Solidus)
-                            return IgnoreSlashesState(input, index + 1);
+                        if (index < input.Length - 1)
+                            if (input[++index] == Symbols.Solidus && ++index < input.Length && input[index] == Symbols.Solidus)
+                                return IgnoreSlashesState(input, index + 1);
 
                         return IgnoreSlashesState(input, index);
                     }
