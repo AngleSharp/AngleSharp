@@ -80,7 +80,7 @@
 
         public void Submit()
         {
-            var document = _form.Submit().Result;
+            var document = _form.SubmitAsync().Result;
             Console.WriteLine(document.ToHtml());
             Console.ReadLine();
         }
