@@ -83,7 +83,7 @@
         /// <param name="writer">The output target of the serialization.</param>
         public static void ToHtml(this IMarkupFormattable markup, TextWriter writer)
         {
-            markup.ToHtml(HtmlMarkupFormatter.Instance);
+            markup.ToHtml(writer, HtmlMarkupFormatter.Instance);
         }
     }
 }
