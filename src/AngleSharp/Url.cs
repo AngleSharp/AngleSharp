@@ -464,49 +464,53 @@
                         var originalScheme = _scheme;
                         _scheme = input.Substring(0, index).ToLowerInvariant();
 
-                        if (onlyScheme)
-                            return true;
-
-                        _relative = ProtocolNames.IsRelative(_scheme);
-
-                        if (_scheme.Is(ProtocolNames.File))
+                        if (!onlyScheme)
                         {
-                            _host = String.Empty;
-                            _port = String.Empty;
-                            return RelativeState(input, index + 1);
+                            _relative = ProtocolNames.IsRelative(_scheme);
+
+                            if (_scheme.Is(ProtocolNames.File))
+                            {
+                                _host = String.Empty;
+                                _port = String.Empty;
+                                return RelativeState(input, index + 1);
+                            }
+                            else if (!_relative)
+                            {
+                                _host = String.Empty;
+                                _port = String.Empty;
+                                _path = String.Empty;
+                                return ParseSchemeData(input, index + 1);
+                            }
+                            else if (_scheme.Is(originalScheme))
+                            {
+                                c = input[++index];
+
+                                if (c == Symbols.Solidus && index + 2 < input.Length && input[index + 1] == Symbols.Solidus)
+                                {
+                                    return IgnoreSlashesState(input, index + 2);
+                                }
+
+                                return RelativeState(input, index);
+                            }
+
+                            if (index < input.Length - 1 && input[++index] == Symbols.Solidus && ++index < input.Length && input[index] == Symbols.Solidus)
+                            {
+                                index++;
+                            }
+
+                            return IgnoreSlashesState(input, index);
                         }
-                        else if (!_relative)
-                        {
-                            _host = String.Empty;
-                            _port = String.Empty;
-                            _path = String.Empty;
-                            return ParseSchemeData(input, index + 1);
-                        }
-                        else if (_scheme.Is(originalScheme))
-                        {
-                            c = input[++index];
 
-                            if (c == Symbols.Solidus && index + 2 < input.Length && input[index + 1] == Symbols.Solidus)
-                                return IgnoreSlashesState(input, index + 2);
-
-                            return RelativeState(input, index);
-                        }
-
-                        if (index < input.Length - 1)
-                            if (input[++index] == Symbols.Solidus && ++index < input.Length && input[index] == Symbols.Solidus)
-                                return IgnoreSlashesState(input, index + 1);
-
-                        return IgnoreSlashesState(input, index);
+                        return true;
                     }
                     else
+                    {
                         break;
+                    }
                 }
             }
-
-            if (onlyScheme)
-                return false;
-
-            return RelativeState(input, 0);
+            
+            return !onlyScheme && RelativeState(input, 0);
         }
 
         Boolean ParseSchemeData(String input, Int32 index)
@@ -534,9 +538,13 @@
                     buffer.Append(input[index]);
                 }
                 else if (c.IsInRange(0x20, 0x7e))
+                {
                     buffer.Append(c);
+                }
                 else if (c != Symbols.Tab && c != Symbols.LineFeed && c != Symbols.CarriageReturn)
+                {
                     index += Utf8PercentEncode(buffer, input, index);
+                }
 
                 index++;
             }
@@ -549,54 +557,56 @@
         {
             _relative = true;
 
-            if (index == input.Length)
-                return true;
-
-            switch (input[index])
+            if (index != input.Length)
             {
-                case Symbols.QuestionMark:
-                    return ParseQuery(input, index + 1);
+                switch (input[index])
+                {
+                    case Symbols.QuestionMark:
+                        return ParseQuery(input, index + 1);
 
-                case Symbols.Num:
-                    return ParseFragment(input, index + 1);
+                    case Symbols.Num:
+                        return ParseFragment(input, index + 1);
 
-                case Symbols.Solidus:
-                case Symbols.ReverseSolidus:
-                    if (index != input.Length - 1)
-                    {
-                        var c = input[++index];
-
-                        if (c.IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus))
+                    case Symbols.Solidus:
+                    case Symbols.ReverseSolidus:
+                        if (index != input.Length - 1)
                         {
-                            if (_scheme.Is(ProtocolNames.File))
+                            var c = input[++index];
+
+                            if (c.IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus))
                             {
-                                return ParseFileHost(input, index + 1);
+                                if (_scheme.Is(ProtocolNames.File))
+                                {
+                                    return ParseFileHost(input, index + 1);
+                                }
+
+                                return IgnoreSlashesState(input, index + 1);
+                            }
+                            else if (_scheme.Is(ProtocolNames.File))
+                            {
+                                _host = String.Empty;
+                                _port = String.Empty;
                             }
 
-                            return IgnoreSlashesState(input, index + 1);
-                        }
-                        else if (_scheme.Is(ProtocolNames.File))
-                        {
-                            _host = String.Empty;
-                            _port = String.Empty;
+                            return ParsePath(input, index - 1);
                         }
 
-                        return ParsePath(input, index - 1);
-                    }
+                        return ParsePath(input, index);
+                }
 
-                    return ParsePath(input, index);
+                if (input[index].IsLetter() && _scheme.Is(ProtocolNames.File) && index + 1 < input.Length &&
+                   (input[index + 1].IsOneOf(Symbols.Colon, Symbols.Solidus)) &&
+                   (index + 2 == input.Length || input[index + 2].IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus, Symbols.Num, Symbols.QuestionMark)))
+                {
+                    _host = String.Empty;
+                    _path = String.Empty;
+                    _port = String.Empty;
+                }
+
+                return ParsePath(input, index);
             }
 
-            if (input[index].IsLetter() && _scheme.Is(ProtocolNames.File) && index + 1 < input.Length && 
-               (input[index + 1].IsOneOf(Symbols.Colon, Symbols.Solidus)) &&
-               (index + 2 == input.Length || input[index + 2].IsOneOf(Symbols.Solidus, Symbols.ReverseSolidus, Symbols.Num, Symbols.QuestionMark)))
-            {
-                _host = String.Empty;
-                _path = String.Empty;
-                _port = String.Empty;
-            }
-
-            return ParsePath(input, index);
+            return true;
         }
 
         Boolean IgnoreSlashesState(String input, Int32 index)
@@ -685,7 +695,9 @@
                 var c = input[index];
 
                 if (c == Symbols.Solidus || c == Symbols.ReverseSolidus || c == Symbols.Num || c == Symbols.QuestionMark)
+                {
                     break;
+                }
 
                 index++;
             }
@@ -693,9 +705,13 @@
             var length = index - start;
 
             if (length == 2 && input[index - 2].IsLetter() && (input[index - 1] == Symbols.Pipe || input[index - 1] == Symbols.Colon))
+            {
                 return ParsePath(input, index - 2);
+            }
             else if (length != 0)
+            {
                 _host = SanatizeHost(input, start, length);
+            }
 
             return ParsePath(input, index);
         }
@@ -725,10 +741,12 @@
 
                         _host = SanatizeHost(input, start, index - start);
 
-                        if (onlyHost)
-                            return true;
+                        if (!onlyHost)
+                        {
+                            return ParsePort(input, index + 1, onlyPort);
+                        }
 
-                        return ParsePort(input, index + 1, onlyPort);
+                        return true;
 
                     case Symbols.Solidus:
                     case Symbols.ReverseSolidus:
@@ -737,10 +755,12 @@
                         _host = SanatizeHost(input, start, index - start);
                         var error = String.IsNullOrEmpty(_host);
 
-                        if (onlyHost)
-                            return !error;
+                        if (!onlyHost)
+                        {
+                            return ParsePath(input, index) && !error;
+                        }
 
-                        return ParsePath(input, index) && !error;
+                        return !error;
                 }
 
                 index++;
@@ -767,23 +787,33 @@
                 var c = input[index];
 
                 if (c == Symbols.QuestionMark || c == Symbols.Solidus || c == Symbols.ReverseSolidus || c == Symbols.Num)
+                {
                     break;
+                }
                 else if (c.IsDigit() || c == Symbols.Tab || c == Symbols.LineFeed || c == Symbols.CarriageReturn)
+                {
                     index++;
+                }
                 else
+                {
                     return false;
+                }
             }
 
             _port = SanatizePort(input, start, index - start);
 
             if (PortNumbers.GetDefaultPort(_scheme) == _port)
+            {
                 _port = String.Empty;
+            }
 
-            if (onlyPort)
-                return true;
+            if (!onlyPort)
+            {
+                _path = String.Empty;
+                return ParsePath(input, index);
+            }
 
-            _path = String.Empty;
-            return ParsePath(input, index);
+            return true;
         }
 
         Boolean ParsePath(String input, Int32 index, Boolean onlyPath = false)
@@ -791,7 +821,9 @@
             var init = index;
 
             if (index < input.Length && (input[index] == Symbols.Solidus || input[index] == Symbols.ReverseSolidus))
+            {
                 index++;
+            }
 
             var paths = new List<String>();
 
@@ -821,14 +853,20 @@
                     buffer.Clear();
 
                     if (path.Isi("%2e"))
+                    {
                         path = currentDirectory;
+                    }
                     else if (path.Isi(".%2e") || path.Isi("%2e.") || path.Isi("%2e%2e"))
+                    {
                         path = upperDirectory;
+                    }
 
                     if (path.Is(upperDirectory))
                     {
                         if (paths.Count > 0)
+                        {
                             paths.RemoveAt(paths.Count - 1);
+                        }
 
                         close = true;
                     }
@@ -843,13 +881,19 @@
                         paths.Add(path);
                     }
                     else
+                    {
                         close = true;
+                    }
 
                     if (close && c != Symbols.Solidus && c != Symbols.ReverseSolidus)
+                    {
                         paths.Add(String.Empty);
+                    }
 
                     if (breakNow)
+                    {
                         break;
+                    }
                 }
                 else if (c == Symbols.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
                 {
@@ -879,7 +923,9 @@
             if (index < input.Length)
             {
                 if (input[index] == Symbols.QuestionMark)
+                {
                     return ParseQuery(input, index + 1);
+                }
 
                 return ParseFragment(input, index + 1);
             }
