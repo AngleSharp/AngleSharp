@@ -10,8 +10,8 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
-    using System.Text;
     using System.Linq;
+    using System.Text;
 
     /// <summary>
     /// Represents a helper to construct objects with externally defined
@@ -31,9 +31,6 @@
         /// <returns>The current encoding.</returns>
         public static Encoding DefaultEncoding(this IConfiguration configuration)
         {
-            if (configuration == null)
-                configuration = Configuration.Default;
-
             var service = configuration.GetService<IEncodingService>();
             var locale = configuration.GetLanguage();
             return service != null ? service.Suggest(locale) : Encoding.UTF8;
@@ -46,11 +43,11 @@
         /// <summary>
         /// Gets the provided current culture.
         /// </summary>
-        /// <param name="options">The configuration to use.</param>
+        /// <param name="configuration">The configuration to use.</param>
         /// <returns>The culture information.</returns>
-        public static CultureInfo GetCulture(this IConfiguration options)
+        public static CultureInfo GetCulture(this IConfiguration configuration)
         {
-            return options.Culture ?? CultureInfo.CurrentUICulture;
+            return configuration.Culture ?? CultureInfo.CurrentUICulture;
         }
 
         /// <summary>
@@ -58,10 +55,10 @@
         /// the default culture of the provided configuration (if any). Last
         /// resort is to use the current UI culture.
         /// </summary>
-        /// <param name="options">The configuration to use.</param>
+        /// <param name="configuration">The configuration to use.</param>
         /// <param name="language">The language string, e.g. en-US.</param>
         /// <returns>The culture information.</returns>
-        public static CultureInfo GetCultureFromLanguage(this IConfiguration options, String language)
+        public static CultureInfo GetCultureFromLanguage(this IConfiguration configuration, String language)
         {
             try
             {
@@ -69,18 +66,18 @@
             }
             catch (CultureNotFoundException)
             {
-                return options.GetCulture();
+                return configuration.GetCulture();
             }
         }
 
         /// <summary>
         /// Gets the provided current language.
         /// </summary>
-        /// <param name="options">The configuration to use.</param>
+        /// <param name="configuration">The configuration to use.</param>
         /// <returns>The language string, e.g. en-US.</returns>
-        public static String GetLanguage(this IConfiguration options)
+        public static String GetLanguage(this IConfiguration configuration)
         {
-            return options.GetCulture().Name;
+            return configuration.GetCulture().Name;
         }
 
         #endregion
@@ -155,24 +152,24 @@
         /// <summary>
         /// Gets the cookie for the provided address.
         /// </summary>
-        /// <param name="options">The configuration to use.</param>
+        /// <param name="configuration">The configuration to use.</param>
         /// <param name="origin">The origin of the cookie.</param>
         /// <returns>The value of the cookie.</returns>
-        public static String GetCookie(this IConfiguration options, String origin)
+        public static String GetCookie(this IConfiguration configuration, String origin)
         {
-            var service = options.GetService<ICookieService>();
+            var service = configuration.GetService<ICookieService>();
             return service != null ? service[origin] : String.Empty;
         }
 
         /// <summary>
         /// Sets the cookie for the provided address.
         /// </summary>
-        /// <param name="options">The configuration to use.</param>
+        /// <param name="configuration">The configuration to use.</param>
         /// <param name="origin">The origin of the cookie.</param>
         /// <param name="value">The value of the cookie.</param>
-        public static void SetCookie(this IConfiguration options, String origin, String value)
+        public static void SetCookie(this IConfiguration configuration, String origin, String value)
         {
-            var service = options.GetService<ICookieService>();
+            var service = configuration.GetService<ICookieService>();
 
             if (service != null)
             {
@@ -187,15 +184,15 @@
         /// <summary>
         /// Gets a spellchecker for the given language.
         /// </summary>
-        /// <param name="options">The configuration to use.</param>
+        /// <param name="configuration">The configuration to use.</param>
         /// <param name="language">The language to consider.</param>
         /// <returns>The spellchecker or null, if there is none.</returns>
-        public static ISpellCheckService GetSpellCheck(this IConfiguration options, String language)
+        public static ISpellCheckService GetSpellCheck(this IConfiguration configuration, String language)
         {
             var substitute = default(ISpellCheckService);
-            var culture = options.GetCultureFromLanguage(language);
+            var culture = configuration.GetCultureFromLanguage(language);
 
-            foreach (var spellchecker in options.GetServices<ISpellCheckService>())
+            foreach (var spellchecker in configuration.GetServices<ISpellCheckService>())
             {
                 if (spellchecker.Culture.Equals(culture))
                 {
@@ -239,7 +236,9 @@
             var service = configuration.GetService<IStylingService>();
 
             if (service != null)
+            {
                 return service.GetEngine(type);
+            }
 
             return null;
         }
@@ -266,7 +265,9 @@
             var service = configuration.GetService<IScriptingService>();
 
             if (service != null)
+            {
                 return service.GetEngine(type);
+            }
 
             return null;
         }
@@ -278,34 +279,38 @@
         /// <summary>
         /// Creates a new browsing context without any name.
         /// </summary>
-        /// <param name="options">The configuration to use.</param>
+        /// <param name="configuration">The configuration to use.</param>
         /// <param name="security">The optional sandboxing flag to use.</param>
         /// <returns>The new context.</returns>
-        public static IBrowsingContext NewContext(this IConfiguration options, Sandboxes security = Sandboxes.None)
+        public static IBrowsingContext NewContext(this IConfiguration configuration, Sandboxes security = Sandboxes.None)
         {
-            var service = options.GetService<IContextService>();
+            var service = configuration.GetService<IContextService>();
 
             if (service == null)
-                return new BrowsingContext(options, security);
+            {
+                return new BrowsingContext(configuration, security);
+            }
 
-            return service.Create(options, security);
+            return service.Create(configuration, security);
         }
 
         /// <summary>
         /// Finds an existing browsing context with the given name.
         /// </summary>
-        /// <param name="options">The configuration to use.</param>
+        /// <param name="configuration">The configuration to use.</param>
         /// <param name="name">The name of the context to find.</param>
         /// <returns>
         /// The existing context, or null, if no context with the provided
         /// name could be find.
         /// </returns>
-        public static IBrowsingContext FindContext(this IConfiguration options, String name)
+        public static IBrowsingContext FindContext(this IConfiguration configuration, String name)
         {
-            var service = options.GetService<IContextService>();
+            var service = configuration.GetService<IContextService>();
 
             if (service != null)
+            {
                 return service.Find(name);
+            }
 
             return null;
         }
@@ -317,16 +322,16 @@
         /// <summary>
         /// Tries to resolve a command service with the given command id.
         /// </summary>
-        /// <param name="options">
+        /// <param name="configuration">
         /// The configuration that contains all command services.
         /// </param>
         /// <param name="commandId">The id of the command to find.</param>
         /// <returns>
         /// The command with the given id if that exists, otherwise null.
         /// </returns>
-        public static ICommandService GetCommand(this IConfiguration options, String commandId)
+        public static ICommandService GetCommand(this IConfiguration configuration, String commandId)
         {
-            foreach (var command in options.GetServices<ICommandService>())
+            foreach (var command in configuration.GetServices<ICommandService>())
             {
                 if (commandId.Isi(command.CommandId))
                 {
