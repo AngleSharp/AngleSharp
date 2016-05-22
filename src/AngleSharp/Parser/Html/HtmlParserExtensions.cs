@@ -6,7 +6,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-#if !LEGACY
+#if !NET40
     using System.Runtime.CompilerServices;
 #endif
 

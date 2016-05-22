@@ -1,4 +1,5 @@
-﻿namespace AngleSharp.Extensions
+﻿#if !NET40 && !SL50
+namespace AngleSharp.Extensions
 {
     using System;
     using System.Linq;
@@ -65,3 +66,4 @@
         }
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿namespace AngleSharp.Extensions
+﻿#if NET40
+namespace AngleSharp.Extensions
 {
     using System;
     using System.Collections.Generic;
@@ -218,3 +219,4 @@
         AggressiveInlining
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿namespace AngleSharp.Extensions
+﻿#if SL50
+namespace AngleSharp.Extensions
 {
     using System;
     using System.Collections.Generic;
@@ -315,3 +316,4 @@
         }
     }
 }
+#endif

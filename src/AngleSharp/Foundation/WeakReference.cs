@@ -1,4 +1,5 @@
-﻿namespace AngleSharp
+﻿#if NET40 || SL50
+namespace AngleSharp
 {
     using System;
 
@@ -14,14 +15,9 @@
 
         public Boolean TryGetTarget(out T value)
         {
-            if (wr.IsAlive)
-            {
-                value = wr.Target as T;
-                return true;
-            }
-
-            value = null;
-            return false;
+            value = wr.Target as T;
+            return value != null;
         }
     }
 }
+#endif
