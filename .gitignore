@@ -38,7 +38,11 @@ local.properties
 # User-specific files
 *.suo
 *.user
+*.userosscache
 *.sln.docstates
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
 
 # Build results
 [Dd]ebug/
@@ -46,13 +50,19 @@ local.properties
 [Bb]in/
 [Bb]uild/
 [Oo]bj/
+
+# Visual Studio 2015 cache/options directory
+.vs/
+
+# DNX
+project.lock.json
+artifacts/
+
 [Dd]ebug/
 [Rr]elease/
 [Pp]ackages/
 [Tt]ools/
 ![Tt]ools/packages.config
-AngleSharp.sln.ide/
-AngleSharp.Core.sln.ide/
 TestResults/
 *.nupkg
 *_i.c
