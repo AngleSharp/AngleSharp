@@ -2,7 +2,7 @@
 {
     using System;
     using System.Diagnostics;
-#if !LEGACY
+#if !NET40
     using System.Runtime.CompilerServices;
 #endif
 

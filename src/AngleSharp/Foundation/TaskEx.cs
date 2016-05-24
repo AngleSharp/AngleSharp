@@ -1,4 +1,5 @@
-﻿namespace System.Threading.Tasks
+﻿#if !NET40 && !SL50
+namespace System.Threading.Tasks
 {
     using System;
     using System.Collections.Generic;
@@ -46,3 +47,4 @@
         }
     }
 }
+#endif

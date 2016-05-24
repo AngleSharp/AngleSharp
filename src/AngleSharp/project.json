@@ -1,0 +1,99 @@
+{
+  "version": "0.9.6",
+  "title": "AngleSharp",
+  "description": "AngleSharp is the ultimate angle brackets parser library. It parses HTML5, MathML, SVG and CSS to construct a DOM based on the official W3C specification.",
+  "language": "en-US",
+  "authors": [ "Florian Rappl" ],
+  "packOptions": {
+    "projectUrl": "https://github.com/AngleSharp/AngleSharp",
+    "tags": [ "html", "html5", "css", "css3", "xml", "dom", "dom4", "parser", "engine", "hypertext", "markup", "language", "query", "selector", "attributes", "linq", "angle", "bracket", "web", "internet", "text", "headless", "browser" ],
+    "licenseUrl": "https://raw.githubusercontent.com/AngleSharp/AngleSharp/master/LICENSE",
+    "iconUrl": "https://raw.githubusercontent.com/AngleSharp/AngleSharp/master/logo.png",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/AngleSharp/AngleSharp.git"
+    }
+  },
+
+  "frameworks": {
+    "netstandard1.0": {
+      "dependencies": {
+        "System.Collections": "4.0.11-rc2-24027",
+        "System.Diagnostics.Debug": "4.0.11-rc2-24027",
+        "System.Dynamic.Runtime": "4.0.11-rc2-24027",
+        "System.IO": "4.1.0-rc2-24027",
+        "System.Linq": "4.1.0-rc2-24027",
+        "System.Net.Primitives": "4.0.11-rc2-24027",
+        "System.Net.Requests": "4.0.11-rc2-24027",
+        "System.Reflection": "4.1.0-rc2-24027",
+        "System.Reflection.Extensions": "4.0.1-rc2-24027",
+        "System.Resources.ResourceManager": "4.0.1-rc2-24027",
+        "System.Runtime": "4.1.0-rc2-24027",
+        "System.Runtime.Extensions": "4.1.0-rc2-24027",
+        "System.Text.Encoding": "4.0.11-rc2-24027",
+        "System.Text.Encoding.Extensions": "4.0.11-rc2-24027",
+        "System.Text.RegularExpressions": "4.0.12-rc2-24027",
+        "System.Threading": "4.0.11-rc2-24027"
+      }
+    },
+
+    ".NETPortable,Version=v4.5,Profile=Profile259": {
+      "frameworkAssemblies": {
+        "mscorlib": "",
+        "System": "",
+        "System.Collections": "",
+        "System.Core": "",
+        "System.Diagnostics.Debug": "",
+        "System.Dynamic.Runtime": "",
+        "System.Globalization": "",
+        "System.IO": "",
+        "System.Linq": "",
+        "System.Net": "",
+        "System.Net.Primitives": "",
+        "System.Net.Requests": "",
+        "System.Reflection": "",
+        "System.Reflection.Extensions": "",
+        "System.Resources.ResourceManager": "",
+        "System.Runtime": "",
+        "System.Runtime.Extensions": "",
+        "System.Text.Encoding": "",
+        "System.Text.Encoding.Extensions": "",
+        "System.Text.RegularExpressions": "",
+        "System.Threading": "",
+        "System.Threading.Tasks": ""
+      }
+    },
+
+    "net40": {
+      "dependencies": {
+        "Microsoft.Bcl.Async": "1.0.168"
+      }
+    },
+
+    "net45": {
+    },
+
+    "sl50": {
+      "dependencies": {
+        "Microsoft.Bcl.Async": "1.0.168"
+      },
+      "frameworkAssemblies": {
+        "mscorlib": "",
+        "System": "",
+        "System.Core": "",
+        "System.Net": "",
+        "System.Windows": "",
+        "System.Windows.Browser": "",
+        "System.Xml": ""
+      }
+    }
+  },
+
+  "buildOptions": {
+    "compile": {
+      "exclude": "DTD/**/*.cs"
+    },
+    "keyFile": "key.snk",
+    "xmlDoc": true
+  }
+}

@@ -24,8 +24,7 @@ var isPullRequest = AppVeyor.Environment.PullRequest.IsPullRequest;
 var buildNumber = AppVeyor.Environment.Build.Number;
 var releaseNotes = ParseReleaseNotes("./CHANGELOG.md");
 var version = releaseNotes.Version.ToString();
-var variants = new String[] { "AngleSharp", "AngleSharp.Legacy", "AngleSharp.Silverlight" };
-var buildDirs = variants.Select(variant => Directory("./src/" + variant + "/bin") + Directory(configuration)).ToArray();
+var buildDir = Directory("./src/AngleSharp/bin") + Directory(configuration);
 var buildResultDir = Directory("./bin") + Directory(version);
 var nugetRoot = buildResultDir + Directory("nuget");
 
@@ -45,7 +44,7 @@ Setup(() =>
 Task("Clean")
     .Does(() =>
     {
-        CleanDirectories(buildDirs.OfType<DirectoryPath>().Concat(new DirectoryPath[] { buildResultDir, nugetRoot }));
+        CleanDirectories(new DirectoryPath[] { Directory("./src/AngleSharp/bin"), buildResultDir, nugetRoot });
     });
 
 Task("Restore-Packages")
@@ -63,7 +62,7 @@ Task("Build")
         {
             MSBuild("./src/AngleSharp.Core.sln", new MSBuildSettings()
                 .SetConfiguration(configuration)
-                .UseToolVersion(MSBuildToolVersion.NET40)
+                .UseToolVersion(MSBuildToolVersion.VS2015)
                 .SetPlatformTarget(PlatformTarget.MSIL)
                 .SetMSBuildPlatform(MSBuildPlatform.x86)
                 .SetVerbosity(Verbosity.Minimal)
@@ -99,13 +98,13 @@ Task("Copy-Files")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var mapping = new Dictionary<String, Int32>
+        var mapping = new Dictionary<String, String>
         {
-            { "net45", 0 },
-            { "portable-windows8+net45+windowsphone8+wpa", 0 },
-            { "dotnet", 0 },
-            { "net40", 1 },
-            { "sl50", 2 },
+            { "net45", "net45" },
+            { "portable-windows8+net45+windowsphone8+wpa", "portable45-net45+win8+wp8+wpa81" },
+            { "netstandard1.0", "netstandard1.0" },
+            { "net40", "net40" },
+            { "sl50", "sl5" },
         };
 
         foreach (var item in mapping)
@@ -113,9 +112,9 @@ Task("Copy-Files")
             var target = nugetRoot + Directory("lib") + Directory(item.Key);
             CreateDirectory(target);
             CopyFiles(new FilePath[]
-            { 
-                buildDirs[item.Value] + File("AngleSharp.dll"),
-                buildDirs[item.Value] + File("AngleSharp.xml")
+            {
+                buildDir + Directory(item.Value) + File("AngleSharp.dll"),
+                buildDir + Directory(item.Value) + File("AngleSharp.xml")
             }, target);
         }
 
@@ -130,12 +129,12 @@ Task("Create-Package")
             ?? (isRunningOnAppVeyor ? GetFiles("C:\\Tools\\NuGet3\\nuget.exe").FirstOrDefault() : null);
 
         if (nugetExe == null)
-        {            
+        {
             throw new InvalidOperationException("Could not find nuget.exe.");
         }
-        
+
         var nuspec = nugetRoot + File("AngleSharp.nuspec");
-        
+
         NuGetPack(nuspec, new NuGetPackSettings
         {
             Version = version,
@@ -144,7 +143,7 @@ Task("Create-Package")
             Properties = new Dictionary<String, String> { { "Configuration", configuration } }
         });
     });
-    
+
 Task("Publish-Package")
     .IsDependentOn("Create-Package")
     .WithCriteria(() => isLocal)
@@ -160,13 +159,13 @@ Task("Publish-Package")
         foreach (var nupkg in GetFiles(nugetRoot.Path.FullPath + "/*.nupkg"))
         {
             NuGetPush(nupkg, new NuGetPushSettings
-            { 
+            {
                 Source = "https://nuget.org/api/v2/package",
-                ApiKey = apiKey 
+                ApiKey = apiKey
             });
         }
     });
-    
+
 Task("Publish-Release")
     .IsDependentOn("Publish-Package")
     .WithCriteria(() => isLocal)
@@ -178,13 +177,13 @@ Task("Publish-Release")
         {
             throw new InvalidOperationException("Could not resolve AngleSharp GitHub token.");
         }
-        
+
         var github = new GitHubClient(new ProductHeaderValue("AngleSharpCakeBuild"))
         {
             Credentials = new Credentials(githubToken)
         };
 
-        github.Release.Create("AngleSharp", "AngleSharp", new NewRelease("v" + version) 
+        github.Release.Create("AngleSharp", "AngleSharp", new NewRelease("v" + version)
         {
             Name = version,
             Body = String.Join(Environment.NewLine, releaseNotes.Notes),
@@ -192,28 +191,28 @@ Task("Publish-Release")
             TargetCommitish = "master"
         }).Wait();
     });
-    
+
 Task("Update-AppVeyor-Build-Number")
     .WithCriteria(() => isRunningOnAppVeyor)
     .Does(() =>
     {
         AppVeyor.UpdateBuildVersion(version);
     });
-    
+
 // Targets
 // ----------------------------------------
-    
+
 Task("Package")
     .IsDependentOn("Run-Unit-Tests")
     .IsDependentOn("Create-Package");
 
 Task("Default")
-    .IsDependentOn("Package");    
+    .IsDependentOn("Package");
 
 Task("Publish")
     .IsDependentOn("Publish-Package")
     .IsDependentOn("Publish-Release");
-    
+
 Task("AppVeyor")
     .IsDependentOn("Run-Unit-Tests")
     .IsDependentOn("Update-AppVeyor-Build-Number");
