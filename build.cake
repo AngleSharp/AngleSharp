@@ -24,8 +24,7 @@ var isPullRequest = AppVeyor.Environment.PullRequest.IsPullRequest;
 var buildNumber = AppVeyor.Environment.Build.Number;
 var releaseNotes = ParseReleaseNotes("./CHANGELOG.md");
 var version = releaseNotes.Version.ToString();
-var variants = new String[] { "AngleSharp", "AngleSharp.Legacy", "AngleSharp.Silverlight" };
-var buildDirs = variants.Select(variant => Directory("./src/" + variant + "/bin") + Directory(configuration)).ToArray();
+var buildDir = Directory("./src/AngleSharp/bin") + Directory(configuration);
 var buildResultDir = Directory("./bin") + Directory(version);
 var nugetRoot = buildResultDir + Directory("nuget");
 
@@ -45,7 +44,7 @@ Setup(() =>
 Task("Clean")
     .Does(() =>
     {
-        CleanDirectories(buildDirs.OfType<DirectoryPath>().Concat(new DirectoryPath[] { buildResultDir, nugetRoot }));
+        CleanDirectories(new DirectoryPath[] { Directory("./src/AngleSharp/bin"), buildResultDir, nugetRoot });
     });
 
 Task("Restore-Packages")
@@ -63,7 +62,7 @@ Task("Build")
         {
             MSBuild("./src/AngleSharp.Core.sln", new MSBuildSettings()
                 .SetConfiguration(configuration)
-                .UseToolVersion(MSBuildToolVersion.NET40)
+                .UseToolVersion(MSBuildToolVersion.VS2015)
                 .SetPlatformTarget(PlatformTarget.MSIL)
                 .SetMSBuildPlatform(MSBuildPlatform.x86)
                 .SetVerbosity(Verbosity.Minimal)
@@ -99,13 +98,13 @@ Task("Copy-Files")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var mapping = new Dictionary<String, Int32>
+        var mapping = new Dictionary<String, String>
         {
-            { "net45", 0 },
-            { "portable-windows8+net45+windowsphone8+wpa", 0 },
-            { "dotnet", 0 },
-            { "net40", 1 },
-            { "sl50", 2 },
+            { "net45", "net45" },
+            { "portable-windows8+net45+windowsphone8+wpa", "portable45-net45+win8+wp8+wpa81" },
+            { "netstandard1.0", "netstandard1.0" },
+            { "net40", "net40" },
+            { "sl50", "sl5" },
         };
 
         foreach (var item in mapping)
@@ -114,8 +113,8 @@ Task("Copy-Files")
             CreateDirectory(target);
             CopyFiles(new FilePath[]
             {
-                buildDirs[item.Value] + File("AngleSharp.dll"),
-                buildDirs[item.Value] + File("AngleSharp.xml")
+                buildDir + Directory(item.Value) + File("AngleSharp.dll"),
+                buildDir + Directory(item.Value) + File("AngleSharp.xml")
             }, target);
         }
 
