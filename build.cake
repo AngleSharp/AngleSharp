@@ -113,7 +113,7 @@ Task("Copy-Files")
             var target = nugetRoot + Directory("lib") + Directory(item.Key);
             CreateDirectory(target);
             CopyFiles(new FilePath[]
-            { 
+            {
                 buildDirs[item.Value] + File("AngleSharp.dll"),
                 buildDirs[item.Value] + File("AngleSharp.xml")
             }, target);
@@ -130,12 +130,12 @@ Task("Create-Package")
             ?? (isRunningOnAppVeyor ? GetFiles("C:\\Tools\\NuGet3\\nuget.exe").FirstOrDefault() : null);
 
         if (nugetExe == null)
-        {            
+        {
             throw new InvalidOperationException("Could not find nuget.exe.");
         }
-        
+
         var nuspec = nugetRoot + File("AngleSharp.nuspec");
-        
+
         NuGetPack(nuspec, new NuGetPackSettings
         {
             Version = version,
@@ -144,7 +144,7 @@ Task("Create-Package")
             Properties = new Dictionary<String, String> { { "Configuration", configuration } }
         });
     });
-    
+
 Task("Publish-Package")
     .IsDependentOn("Create-Package")
     .WithCriteria(() => isLocal)
@@ -160,13 +160,13 @@ Task("Publish-Package")
         foreach (var nupkg in GetFiles(nugetRoot.Path.FullPath + "/*.nupkg"))
         {
             NuGetPush(nupkg, new NuGetPushSettings
-            { 
+            {
                 Source = "https://nuget.org/api/v2/package",
-                ApiKey = apiKey 
+                ApiKey = apiKey
             });
         }
     });
-    
+
 Task("Publish-Release")
     .IsDependentOn("Publish-Package")
     .WithCriteria(() => isLocal)
@@ -178,13 +178,13 @@ Task("Publish-Release")
         {
             throw new InvalidOperationException("Could not resolve AngleSharp GitHub token.");
         }
-        
+
         var github = new GitHubClient(new ProductHeaderValue("AngleSharpCakeBuild"))
         {
             Credentials = new Credentials(githubToken)
         };
 
-        github.Release.Create("AngleSharp", "AngleSharp", new NewRelease("v" + version) 
+        github.Release.Create("AngleSharp", "AngleSharp", new NewRelease("v" + version)
         {
             Name = version,
             Body = String.Join(Environment.NewLine, releaseNotes.Notes),
@@ -192,28 +192,28 @@ Task("Publish-Release")
             TargetCommitish = "master"
         }).Wait();
     });
-    
+
 Task("Update-AppVeyor-Build-Number")
     .WithCriteria(() => isRunningOnAppVeyor)
     .Does(() =>
     {
         AppVeyor.UpdateBuildVersion(version);
     });
-    
+
 // Targets
 // ----------------------------------------
-    
+
 Task("Package")
     .IsDependentOn("Run-Unit-Tests")
     .IsDependentOn("Create-Package");
 
 Task("Default")
-    .IsDependentOn("Package");    
+    .IsDependentOn("Package");
 
 Task("Publish")
     .IsDependentOn("Publish-Package")
     .IsDependentOn("Publish-Release");
-    
+
 Task("AppVeyor")
     .IsDependentOn("Run-Unit-Tests")
     .IsDependentOn("Update-AppVeyor-Build-Number");
