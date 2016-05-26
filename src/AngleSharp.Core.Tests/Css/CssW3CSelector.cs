@@ -526,8 +526,7 @@ should be green.</div>";
             var source = @"<p xmlns=""http://www.w3.org/1999/xhtml"">When you select this text, it shouldn't go red.</p>";
             var doc = source.ToHtmlDocument();
 
-            var selector1 = doc.QuerySelectorAll("p:selection");
-            Assert.AreEqual(0, selector1.Length);
+            Assert.Catch(() => doc.QuerySelectorAll("p:selection"));
         }
 
         /// <summary>
@@ -543,8 +542,8 @@ should be green.</div>";
 
             var selector1 = doc.QuerySelectorAll("div");
             Assert.AreEqual(1, selector1.Length);
-            var selector2 = doc.QuerySelectorAll("p::first-child");
-            Assert.AreEqual(0, selector2.Length);
+
+            Assert.Catch(() => doc.QuerySelectorAll("p::first-child"));
         }
 
         /// <summary>
@@ -581,8 +580,7 @@ This text should be green.
 
             var selector1 = doc.QuerySelectorAll("p");
             Assert.AreEqual(1, selector1.Length);
-            var selector2 = doc.QuerySelectorAll("foo:bar");
-            Assert.AreEqual(0, selector2.Length);
+            Assert.Catch(() => doc.QuerySelectorAll("foo:bar"));
         }
 
         /// <summary>
@@ -6517,8 +6515,7 @@ This div should have three addresses above it.</div>";
 	        var selector1 = doc.QuerySelectorAll("::selection");
 	        Assert.AreEqual(0, selector1.Length);
 
-            var selector2 = doc.QuerySelectorAll(":selection");
-            Assert.AreEqual(0, selector2.Length);
+            Assert.Catch(() => doc.QuerySelectorAll(":selection"));
         }
 
         /// <summary>
@@ -6533,8 +6530,7 @@ This div should have three addresses above it.</div>";
 	        var selector1 = doc.QuerySelectorAll("p");
 	        Assert.AreEqual(1, selector1.Length);
 
-            var selector2 = doc.QuerySelectorAll("p:subject");
-            Assert.AreEqual(0, selector2.Length);
+            Assert.Catch(() => doc.QuerySelectorAll("p:subject"));
         }
 
         /// <summary>
@@ -6567,41 +6563,18 @@ This div should have three addresses above it.</div>";
 	        var selector5 = doc.QuerySelectorAll("p ~ *");
 	        Assert.AreEqual(2, selector5.Length);
 
-            var selector6 = doc.QuerySelectorAll(":canvas");
-            Assert.AreEqual(0, selector6.Length);
-
-            var selector7 = doc.QuerySelectorAll(":viewport");
-            Assert.AreEqual(0, selector7.Length);
-
-            var selector8 = doc.QuerySelectorAll(":window");
-            Assert.AreEqual(0, selector8.Length);
-
-            var selector9 = doc.QuerySelectorAll(":menu");
-            Assert.AreEqual(0, selector9.Length);
-
-            var selector10 = doc.QuerySelectorAll(":table");
-            Assert.AreEqual(0, selector10.Length);
-
-            var selector11 = doc.QuerySelectorAll(":select");
-            Assert.AreEqual(0, selector11.Length);
-
-            var selector12 = doc.QuerySelectorAll("::canvas");
-            Assert.AreEqual(0, selector12.Length);
-
-            var selector13 = doc.QuerySelectorAll("::viewport");
-            Assert.AreEqual(0, selector13.Length);
-
-            var selector14 = doc.QuerySelectorAll("::window");
-            Assert.AreEqual(0, selector14.Length);
-
-            var selector15 = doc.QuerySelectorAll("::menu");
-            Assert.AreEqual(0, selector15.Length);
-
-            var selector16 = doc.QuerySelectorAll("::table");
-            Assert.AreEqual(0, selector16.Length);
-
-            var selector17 = doc.QuerySelectorAll("::select");
-            Assert.AreEqual(0, selector17.Length);
+            Assert.Catch(() => doc.QuerySelectorAll(":canvas"));
+            Assert.Catch(() => doc.QuerySelectorAll(":viewport"));
+            Assert.Catch(() => doc.QuerySelectorAll(":window"));
+            Assert.Catch(() => doc.QuerySelectorAll(":menu"));
+            Assert.Catch(() => doc.QuerySelectorAll(":table"));
+            Assert.Catch(() => doc.QuerySelectorAll(":select"));
+            Assert.Catch(() => doc.QuerySelectorAll("::canvas"));
+            Assert.Catch(() => doc.QuerySelectorAll("::viewport"));
+            Assert.Catch(() => doc.QuerySelectorAll("::window"));
+            Assert.Catch(() => doc.QuerySelectorAll("::menu"));
+            Assert.Catch(() => doc.QuerySelectorAll("::table"));
+            Assert.Catch(() => doc.QuerySelectorAll("::select"));
         }
 
         /// <summary>
