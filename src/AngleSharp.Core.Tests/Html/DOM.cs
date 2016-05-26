@@ -493,7 +493,7 @@
         [Test]
         public void CSSStyleDeclarationBoundOutboundDirectionIndirect()
         {
-            var context = BrowsingContext.New(new Configuration().WithCss());
+            var context = BrowsingContext.New(Configuration.Default.WithCss());
             var document = new HtmlDocument(context);
             var element = document.CreateElement<IHtmlSpanElement>();
             var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
@@ -505,7 +505,7 @@
         [Test]
         public void CSSStyleDeclarationBoundOutboundDirectionDirect()
         {
-            var context = BrowsingContext.New(new Configuration().WithCss());
+            var context = BrowsingContext.New(Configuration.Default.WithCss());
             var document = new HtmlDocument(context);
             var element = document.CreateElement<IHtmlSpanElement>();
             var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
@@ -519,7 +519,7 @@
         [Test]
         public void CSSStyleDeclarationBoundInboundDirection()
         {
-            var context = BrowsingContext.New(new Configuration().WithCss());
+            var context = BrowsingContext.New(Configuration.Default.WithCss());
             var document = new HtmlDocument(context);
             var element = document.CreateElement<IHtmlSpanElement>();
             var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
