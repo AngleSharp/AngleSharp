@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a service to execute UI commands on a document.
     /// </summary>
-    public interface ICommandService : IService
+    public interface ICommandService
     {
         /// <summary>
         /// The id of the command.

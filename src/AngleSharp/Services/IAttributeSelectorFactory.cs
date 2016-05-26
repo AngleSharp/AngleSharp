@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a factory for attribute selectors.
     /// </summary>
-    public interface IAttributeSelectorFactory : IService
+    public interface IAttributeSelectorFactory
     {
         /// <summary>
         /// Creates a new attribute selector from the given arguments.

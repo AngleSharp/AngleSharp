@@ -620,7 +620,6 @@
     <Compile Include="Services\IImageService.cs" />
     <Compile Include="Services\IResourceService.cs" />
     <Compile Include="Services\Scripting\IScriptEngine.cs" />
-    <Compile Include="Services\IService.cs" />
     <Compile Include="Services\Styling\IStyleEngine.cs" />
     <Compile Include="Services\IVideoService.cs" />
     <Compile Include="Services\Scripting\ScriptOptions.cs" />

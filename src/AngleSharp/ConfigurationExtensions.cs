@@ -26,7 +26,7 @@
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="service">The service to register.</param>
         /// <returns>The new instance with the service.</returns>
-        public static Configuration With(this IConfiguration configuration, IService service)
+        public static Configuration With(this IConfiguration configuration, Object service)
         {
             if (configuration == null)
             {

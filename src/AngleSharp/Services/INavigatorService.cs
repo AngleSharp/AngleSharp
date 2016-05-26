@@ -6,7 +6,7 @@
     /// <summary>
     /// Defines methods to create INavigator instances.
     /// </summary>
-    public interface INavigatorService : IService
+    public interface INavigatorService
     {
         /// <summary>
         /// Creates an INavigator object for the provided window.

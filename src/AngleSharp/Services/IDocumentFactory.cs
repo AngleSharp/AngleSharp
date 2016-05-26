@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the factory for creating documents from responses.
     /// </summary>
-    public interface IDocumentFactory : IService
+    public interface IDocumentFactory
     {
         /// <summary>
         /// Creates a new attribute selector from the given arguments.

@@ -4,7 +4,7 @@
     using System;
     using System.Collections.Generic;
 
-    interface ICssPropertyFactory : IService
+    interface ICssPropertyFactory
     {
         CssProperty Create(String name);
         CssProperty CreateFont(String name);

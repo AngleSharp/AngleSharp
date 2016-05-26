@@ -5,7 +5,7 @@
     /// <summary>
     /// Defines methods to create event loops.
     /// </summary>
-    public interface IEventService : IService
+    public interface IEventService
     {
         /// <summary>
         /// Creates an IEventLoop object for the document.

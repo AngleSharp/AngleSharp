@@ -5,7 +5,7 @@
     /// <summary>
     /// Defines methods to evaluate and store cookies.
     /// </summary>
-    public interface ICookieService : IService
+    public interface ICookieService
     {
         /// <summary>
         /// Gets or sets the cookie value for the given address.

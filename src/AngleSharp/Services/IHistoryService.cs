@@ -5,7 +5,7 @@
     /// <summary>
     /// Defines methods to create history instances.
     /// </summary>
-    public interface IHistoryService : IService
+    public interface IHistoryService
     {
         /// <summary>
         /// Creates a history object for the given context.

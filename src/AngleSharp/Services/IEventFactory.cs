@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a factory to create event data.
     /// </summary>
-    public interface IEventFactory : IService
+    public interface IEventFactory
     {
         /// <summary>
         /// Creates a new event data object for the given event.

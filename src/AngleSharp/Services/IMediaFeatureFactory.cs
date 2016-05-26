@@ -3,7 +3,7 @@
     using AngleSharp.Dom.Css;
     using System;
 
-    interface IMediaFeatureFactory : IService
+    interface IMediaFeatureFactory
     {
         MediaFeature Create(String name);
     }

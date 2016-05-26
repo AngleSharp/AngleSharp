@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a service to create loaders.
     /// </summary>
-    public interface ILoaderService : IService
+    public interface ILoaderService
     {
         /// <summary>
         /// Creates a loader for documents. Returning null will disable loading

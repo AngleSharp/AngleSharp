@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a factory for pseudo-class selectors.
     /// </summary>
-    public interface IPseudoClassSelectorFactory : IService
+    public interface IPseudoClassSelectorFactory
     {
         /// <summary>
         /// Creates a new pseudo-class selector for the given name.

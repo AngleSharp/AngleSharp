@@ -5,7 +5,7 @@
     /// <summary>
     /// Defines methods to manipulate the clipboard.
     /// </summary>
-    public interface IClipboardService : IService
+    public interface IClipboardService
     {
         /// <summary>
         /// Gets or sets the text that is stored on the clipboard.

@@ -5,7 +5,7 @@
     /// <summary>
     /// Defines methods to create IWindow instances.
     /// </summary>
-    public interface IWindowService : IService
+    public interface IWindowService
     {
         /// <summary>
         /// Creates an IWindow object for the provided document.
