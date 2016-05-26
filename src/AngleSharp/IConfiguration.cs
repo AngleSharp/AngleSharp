@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
 
     /// <summary>
     /// Represents the interface for a general setup of AngleSharp
@@ -10,11 +9,6 @@
     /// </summary>
     public interface IConfiguration
     {
-        /// <summary>
-        /// Gets the culture to use.
-        /// </summary>
-        CultureInfo Culture { get; }
-
         /// <summary>
         /// Gets an enumeration over the available services.
         /// </summary>

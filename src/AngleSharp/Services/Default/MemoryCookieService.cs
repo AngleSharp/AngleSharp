@@ -27,14 +27,23 @@
         }
 
         /// <summary>
-        /// Gets or sets the cookies for the given origin.
+        /// Gets the cookie value of the given address.
         /// </summary>
-        /// <param name="origin">The origin of the cookie.</param>
-        /// <returns>The cookie header.</returns>
-        public String this[String origin]
+        /// <param name="origin">The origin of the cookie (Url).</param>
+        /// <returns>The value of the cookie.</returns>
+        public String GetCookie(String origin)
         {
-            get { return _container.GetCookieHeader(new Uri(origin)); }
-            set { _container.SetCookies(new Uri(origin), value); }
+            return _container.GetCookieHeader(new Uri(origin));
+        }
+
+        /// <summary>
+        /// Sets the cookie value for the given address.
+        /// </summary>
+        /// <param name="origin">The origin of the cookie (Url).</param>
+        /// <param name="value">The value of the cookie.</param>
+        public void SetCookie(String origin, String value)
+        {
+            _container.SetCookies(new Uri(origin), value);
         }
     }
 }

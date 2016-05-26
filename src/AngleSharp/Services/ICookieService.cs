@@ -3,15 +3,22 @@
     using System;
 
     /// <summary>
-    /// Defines methods to evaluate and store cookies.
+    /// Defines methods to retrieve and store cookies.
     /// </summary>
     public interface ICookieService
     {
         /// <summary>
-        /// Gets or sets the cookie value for the given address.
+        /// Gets the cookie value of the given address.
         /// </summary>
         /// <param name="origin">The origin of the cookie (Url).</param>
         /// <returns>The value of the cookie.</returns>
-        String this[String origin] { get; set; }
+        String GetCookie(String origin);
+
+        /// <summary>
+        /// Sets the cookie value for the given address.
+        /// </summary>
+        /// <param name="origin">The origin of the cookie (Url).</param>
+        /// <param name="value">The value of the cookie.</param>
+        void SetCookie(String origin, String value);
     }
 }

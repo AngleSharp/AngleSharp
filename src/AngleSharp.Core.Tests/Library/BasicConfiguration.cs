@@ -28,7 +28,6 @@
             var modified = original.WithCss();
             Assert.AreNotSame(original, modified);
             Assert.AreNotEqual(original.Services.Count(), modified.Services.Count());
-            Assert.AreSame(original.Culture, modified.Culture);
         }
 
         [Test]
@@ -37,8 +36,7 @@
             var original = new Configuration();
             var modified = original.SetCulture("de-at");
             Assert.AreNotSame(original, modified);
-            Assert.AreEqual(original.Services.Count(), modified.Services.Count());
-            Assert.AreNotSame(original.Culture, modified.Culture);
+            Assert.AreNotEqual(original.Services.Count(), modified.Services.Count());
         }
 
         [Test]

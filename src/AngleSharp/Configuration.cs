@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Globalization;
 
     /// <summary>
     /// Represents context configuration for the AngleSharp library. Custom
@@ -18,7 +17,6 @@
         #region Fields
 
         readonly IEnumerable<Object> _services;
-        readonly CultureInfo _culture;
 
         /// <summary>
         /// A set of standard services that are used.
@@ -56,11 +54,9 @@
         /// Creates a new immutable configuration.
         /// </summary>
         /// <param name="services">The services to expose.</param>
-        /// <param name="culture">The current culture.</param>
-        public Configuration(IEnumerable<Object> services = null, CultureInfo culture = null)
+        public Configuration(IEnumerable<Object> services = null)
         {
             _services = services ?? standardServices;
-            _culture = culture ?? CultureInfo.CurrentUICulture;
         }
 
         #endregion
@@ -97,14 +93,6 @@
         public IEnumerable<Object> Services
         {
             get { return _services; }
-        }
-
-        /// <summary>
-        /// Gets the culture to use. Default is the system (UI) culture.
-        /// </summary>
-        public CultureInfo Culture
-        {
-            get { return _culture; }
         }
 
         #endregion

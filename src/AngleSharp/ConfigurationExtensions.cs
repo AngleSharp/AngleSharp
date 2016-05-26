@@ -39,7 +39,7 @@
             }
 
             var services = configuration.Services.Concat(service);
-            return new Configuration(services, configuration.Culture);
+            return new Configuration(services);
         }
 
         /// <summary>
@@ -47,16 +47,12 @@
         /// name.
         /// </summary>
         /// <param name="configuration">The configuration to extend.</param>
-        /// <param name="cultureName">The culture to set.</param>
+        /// <param name="name">The name of the culture to set.</param>
         /// <returns>The new instance with the culture being set.</returns>
-        public static Configuration SetCulture(this IConfiguration configuration, String cultureName)
+        public static Configuration SetCulture(this IConfiguration configuration, String name)
         {
-            if (cultureName == null)
-            {
-                throw new ArgumentNullException("cultureName");
-            }
-            
-            return configuration.SetCulture(new CultureInfo(cultureName));
+            var culture = new CultureInfo(name);
+            return configuration.SetCulture(culture);
         }
 
         /// <summary>
@@ -68,12 +64,7 @@
         /// <returns>The new instance with the culture being set.</returns>
         public static Configuration SetCulture(this IConfiguration configuration, CultureInfo culture)
         {
-            if (configuration == null)
-            {
-                throw new ArgumentNullException("configuration");
-            }
-
-            return new Configuration(configuration.Services, culture);
+            return configuration.With(culture);
         }
 
         #endregion

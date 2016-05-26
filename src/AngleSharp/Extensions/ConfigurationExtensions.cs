@@ -47,7 +47,7 @@
         /// <returns>The culture information.</returns>
         public static CultureInfo GetCulture(this IConfiguration configuration)
         {
-            return configuration.Culture ?? CultureInfo.CurrentUICulture;
+            return configuration.GetService<CultureInfo>() ?? CultureInfo.CurrentUICulture;
         }
 
         /// <summary>
@@ -158,7 +158,7 @@
         public static String GetCookie(this IConfiguration configuration, String origin)
         {
             var service = configuration.GetService<ICookieService>();
-            return service != null ? service[origin] : String.Empty;
+            return service != null ? service.GetCookie(origin) : String.Empty;
         }
 
         /// <summary>
@@ -173,7 +173,7 @@
 
             if (service != null)
             {
-                service[origin] = value;
+                service.SetCookie(origin, value);
             }
         }
 
