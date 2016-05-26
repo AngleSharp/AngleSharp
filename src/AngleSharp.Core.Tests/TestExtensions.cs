@@ -62,7 +62,7 @@
 
         public static IDocument ToHtmlDocument(this String sourceCode, IConfiguration configuration = null)
         {
-            var parser = new HtmlParser(configuration);
+            var parser = new HtmlParser(configuration ?? Configuration.Default);
             return parser.Parse(sourceCode);
         }
 

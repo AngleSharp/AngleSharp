@@ -369,7 +369,7 @@
 
         void UpdateType(String type)
         {
-            var factory = Owner.Options.GetService<IInputTypeFactory>();
+            var factory = Owner.Options.GetService<IInputTypeFactory>() ?? Factory.InputTypes;
             _type = factory.Create(this, type);
         }
 

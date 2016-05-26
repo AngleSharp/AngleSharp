@@ -24,6 +24,27 @@
         }
 
         [Test]
+        public void InvalidQueryPseudoClassSelectorShouldYieldException()
+        {
+            var document = GetTestDocument();
+            Assert.Catch<DomException>(() => document.QuerySelectorAll(":foo > p"));
+        }
+
+        [Test]
+        public void InvalidQueryPseudoClassFunctionSelectorShouldYieldException()
+        {
+            var document = GetTestDocument();
+            Assert.Catch<DomException>(() => document.QuerySelectorAll(":bar(baz) > p"));
+        }
+
+        [Test]
+        public void InvalidQueryPseudoElementSelectorShouldYieldException()
+        {
+            var document = GetTestDocument();
+            Assert.Catch<DomException>(() => document.QuerySelectorAll("::test > p"));
+        }
+
+        [Test]
         public void QueryEqInvalidIndexShouldYieldNull()
         {
             var document = GetTestDocument();

@@ -13,6 +13,11 @@
         public static readonly String Root = "root";
 
         /// <summary>
+        /// The scope pseudo class.
+        /// </summary>
+        public static readonly String Scope = "scope";
+
+        /// <summary>
         /// The only-of-type pseudo class.
         /// </summary>
         public static readonly String OnlyType = "only-of-type";
