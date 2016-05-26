@@ -65,7 +65,7 @@
                 return selector;
             }
 
-            return SimpleSelector.PseudoClass(el => false, name);
+            return null;
         }
     }
 }

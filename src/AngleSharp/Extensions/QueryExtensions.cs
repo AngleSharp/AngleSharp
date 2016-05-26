@@ -26,12 +26,7 @@
         public static IElement QuerySelector(this INodeList elements, String selectors)
         {
             var sg = CssParser.Default.ParseSelector(selectors);
-
-            if (sg == null)
-            {
-                throw new DomException(DomError.Syntax);
-            }
-
+            Validate(sg);
             return elements.QuerySelector(sg);
         }
 
@@ -45,12 +40,7 @@
         public static HtmlElementCollection QuerySelectorAll(this INodeList elements, String selectors)
         {
             var sg = CssParser.Default.ParseSelector(selectors);
-
-            if (sg == null)
-            {
-                throw new DomException(DomError.Syntax);
-            }
-
+            Validate(sg);
             var result = new List<IElement>();
             elements.QuerySelectorAll(sg, result);
             return new HtmlElementCollection(result);
@@ -296,6 +286,18 @@
                         GetElementsByTagName(element.ChildNodes, namespaceUri, localName, result);
                     }
                 }
+            }
+        }
+
+        #endregion
+
+        #region Helpers
+
+        static void Validate(ISelector selector)
+        {
+            if (selector == null || selector is UnknownSelector)
+            {
+                throw new DomException(DomError.Syntax);
             }
         }
 

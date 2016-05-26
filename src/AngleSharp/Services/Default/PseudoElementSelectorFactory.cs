@@ -37,7 +37,7 @@
                 return selector;
             }
 
-            return SimpleSelector.PseudoElement(el => false, name);
+            return null;
         }
     }
 }
