@@ -26,7 +26,7 @@
         <dependency id="System.Reflection.Extensions" version="4.0.0" />
         <dependency id="System.Resources.ResourceManager" version="4.0.0" />
         <dependency id="System.Runtime" version="4.0.20" />
-        <dependency id="System.Runtime.Extensions" version="4.0.10 />
+        <dependency id="System.Runtime.Extensions" version="4.0.10" />
         <dependency id="System.Text.Encoding" version="4.0.10" />
         <dependency id="System.Text.Encoding.Extensions" version="4.0.10" />
         <dependency id="System.Text.RegularExpressions" version="4.0.10" />
