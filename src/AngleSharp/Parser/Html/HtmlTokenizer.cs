@@ -1643,8 +1643,7 @@
             BeforeValue,
             QuotedValue,
             AfterValue,
-            UnquotedValue,
-            Eof
+            UnquotedValue
         }
 
         HtmlToken ParseAttributes(HtmlTagToken tag)
@@ -1694,7 +1693,7 @@
                         }
                         else
                         {
-                            state = AttributeState.Eof;
+                            return NewEof();
                         }
 
                         break;
@@ -1745,7 +1744,7 @@
                         }
                         else
                         {
-                            state = AttributeState.Eof;
+                            return NewEof();
                         }
 
                         break;
@@ -1792,7 +1791,7 @@
                         }
                         else
                         {
-                            state = AttributeState.Eof;
+                            return NewEof();
                         }
 
                         break;
@@ -1839,7 +1838,7 @@
                         }
                         else
                         {
-                            state = AttributeState.Eof;
+                            return NewEof();
                         }
 
                         break;
@@ -1871,7 +1870,7 @@
                         }
                         else
                         {
-                            state = AttributeState.Eof;
+                            return NewEof();
                         }
 
                         break;
@@ -1914,7 +1913,7 @@
                         }
                         else
                         {
-                            state = AttributeState.Eof;
+                            return NewEof();
                         }
 
                         break;
@@ -1939,7 +1938,7 @@
                         }
                         else if (c == Symbols.EndOfFile)
                         {
-                            state = AttributeState.Eof;
+                            return NewEof();
                         }
                         else
                         {
@@ -1950,9 +1949,6 @@
 
                         break;
                     }
-
-                    case AttributeState.Eof:
-                        return NewEof();
                 }
             }
         }
@@ -1961,441 +1957,516 @@
 
         #region Script
 
-        /// <summary>
-        /// See 8.2.4.6 Script data state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
+        enum ScriptState
+        {
+            Normal,
+            OpenTag,
+            EndTag,
+            StartEscape,
+            Escaped,
+            StartEscapeDash,
+            EscapedDash,
+            EscapedDashDash,
+            EscapedOpenTag,
+            EscapedEndTag,
+            EscapedNameEndTag,
+            StartDoubleEscape,
+            EscapedDouble,
+            EscapedDoubleDash,
+            EscapedDoubleDashDash,
+            EscapedDoubleOpenTag,
+            EndDoubleEscape
+        }
+
         HtmlToken ScriptData(Char c)
         {
             var length = _lastStartTag.Length;
+            var scriptLength = TagNames.Script.Length;
+            var state = ScriptState.Normal;
+            var offset = 0;
 
             while (true)
             {
-                switch (c)
+                switch (state)
                 {
-                    case Symbols.Null:
-                        RaiseErrorOccurred(HtmlParseError.Null);
-                        StringBuffer.Append(Symbols.Replacement);
-                        break;
+                    // See 8.2.4.6 Script data state
+                    case ScriptState.Normal:
+                    {
+                        switch (c)
+                        {
+                            case Symbols.Null:
+                                RaiseErrorOccurred(HtmlParseError.Null);
+                                StringBuffer.Append(Symbols.Replacement);
+                                break;
 
-                    case Symbols.LessThan:
-                        // See 8.2.4.17 Script data less-than sign state
-                        StringBuffer.Append(Symbols.LessThan);
+                            case Symbols.LessThan:
+                                StringBuffer.Append(Symbols.LessThan);
+                                state = ScriptState.OpenTag;
+                                continue;
+
+                            case Symbols.EndOfFile:
+                                Back();
+                                return NewCharacter();
+
+                            default:
+                                StringBuffer.Append(c);
+                                break;
+                        }
+
+                        c = GetNext();
+                        break;
+                    }
+
+                    // See 8.2.4.17 Script data less-than sign state
+                    case ScriptState.OpenTag:
+                    {
                         c = GetNext();
 
                         if (c == Symbols.Solidus)
                         {
-                            // See 8.2.4.18 Script data end tag open state
+                            state = ScriptState.EndTag;
+                        }
+                        else if (c == Symbols.ExclamationMark)
+                        {
+                            state = ScriptState.StartEscape;
+                        }
+                        else
+                        {
+                            state = ScriptState.Normal;
+                        }
+
+                        break;
+                    }
+
+                    // See 8.2.4.20 Script data escape start state
+                    case ScriptState.StartEscape:
+                    {
+                        StringBuffer.Append(Symbols.ExclamationMark);
+                        c = GetNext();
+
+                        if (c == Symbols.Minus)
+                        {
+                            state = ScriptState.StartEscapeDash;
+                        }
+                        else
+                        {
+                            state = ScriptState.Normal;
+                        }
+
+                        break;
+                    }
+
+                    // See 8.2.4.21 Script data escape start dash state
+                    case ScriptState.StartEscapeDash:
+                    {
+                        c = GetNext();
+                        StringBuffer.Append(Symbols.Minus);
+
+                        if (c == Symbols.Minus)
+                        {
+                            StringBuffer.Append(Symbols.Minus);
+                            state = ScriptState.EscapedDashDash;
+                        }
+                        else
+                        {
+                            state = ScriptState.Normal;
+                        }
+
+                        break;
+                    }
+
+                    // See 8.2.4.18 Script data end tag open state
+                    case ScriptState.EndTag:
+                    {
+                        c = GetNext();
+                        offset = StringBuffer.Append(Symbols.Solidus).Length;
+                        var tag = NewTagClose();
+
+                        while (c.IsLetter())
+                        {
+                            // See 8.2.4.19 Script data end tag name state
+                            StringBuffer.Append(c);
                             c = GetNext();
-                            var offset = StringBuffer.Append(Symbols.Solidus).Length;
-                            var tag = NewTagClose();
+                            var isspace = c.IsSpaceCharacter();
+                            var isclosed = c == Symbols.GreaterThan;
+                            var isslash = c == Symbols.Solidus;
+                            var hasLength = StringBuffer.Length - offset == length;
 
-                            while (c.IsLetter())
+                            if (hasLength && (isspace || isclosed || isslash))
                             {
-                                // See 8.2.4.19 Script data end tag name state
-                                StringBuffer.Append(c);
-                                c = GetNext();
-                                var isspace = c.IsSpaceCharacter();
-                                var isclosed = c == Symbols.GreaterThan;
-                                var isslash = c == Symbols.Solidus;
-                                var hasLength = StringBuffer.Length - offset == length;
+                                var name = StringBuffer.ToString(offset, length);
 
-                                if (hasLength && (isspace || isclosed || isslash))
+                                if (name.Isi(_lastStartTag))
                                 {
-                                    var name = StringBuffer.ToString(offset, length);
-
-                                    if (name.Isi(_lastStartTag))
+                                    if (offset > 2)
                                     {
-                                        if (offset > 2)
-                                        {
-                                            Back(3 + length);
-                                            StringBuffer.Remove(offset - 2, length + 2);
-                                            return NewCharacter();
-                                        }
+                                        Back(3 + length);
+                                        StringBuffer.Remove(offset - 2, length + 2);
+                                        return NewCharacter();
+                                    }
 
-                                        StringBuffer.Clear();
+                                    StringBuffer.Clear();
 
-                                        if (isspace)
-                                        {
-                                            tag.Name = _lastStartTag;
-                                            return ParseAttributes(tag);
-                                        }
-                                        else if (isslash)
-                                        {
-                                            tag.Name = _lastStartTag;
-                                            return TagSelfClosing(tag);
-                                        }
-                                        else if (isclosed)
-                                        {
-                                            tag.Name = _lastStartTag;
-                                            return EmitTag(tag);
-                                        }
+                                    if (isspace)
+                                    {
+                                        tag.Name = _lastStartTag;
+                                        return ParseAttributes(tag);
+                                    }
+                                    else if (isslash)
+                                    {
+                                        tag.Name = _lastStartTag;
+                                        return TagSelfClosing(tag);
+                                    }
+                                    else if (isclosed)
+                                    {
+                                        tag.Name = _lastStartTag;
+                                        return EmitTag(tag);
                                     }
                                 }
                             }
                         }
-                        else if (c == Symbols.ExclamationMark)
+
+                        state = ScriptState.Normal;
+                        break;
+                    }
+
+                    // See 8.2.4.22 Script data escaped state
+                    case ScriptState.Escaped:
+                    {
+                        switch (c)
                         {
-                            // See 8.2.4.20 Script data escape start state
-                            StringBuffer.Append(Symbols.ExclamationMark);
-                            c = GetNext();
-
-                            if (c == Symbols.Minus)
-                            {
-                                // See 8.2.4.21 Script data escape start dash state
-                                c = GetNext();
+                            case Symbols.Minus:
                                 StringBuffer.Append(Symbols.Minus);
-
-                                if (c == Symbols.Minus)
-                                {
-                                    StringBuffer.Append(Symbols.Minus);
-                                    return ScriptDataEscapedDashDash();
-                                }
-                            }
+                                c = GetNext();
+                                state = ScriptState.EscapedDash;
+                                continue;
+                            case Symbols.LessThan:
+                                c = GetNext();
+                                state = ScriptState.EscapedOpenTag;
+                                continue;
+                            case Symbols.Null:
+                                RaiseErrorOccurred(HtmlParseError.Null);
+                                StringBuffer.Append(Symbols.Replacement);
+                                break;
+                            case Symbols.EndOfFile:
+                                Back();
+                                return NewCharacter();
+                            default:
+                                state = ScriptState.Normal;
+                                continue;
                         }
 
-                        continue;
+                        c = GetNext();
+                        break;
+                    }
 
-                    case Symbols.EndOfFile:
-                        Back();
-                        return NewCharacter();
+                    // See 8.2.4.23 Script data escaped dash state
+                    case ScriptState.EscapedDash:
+                    {
+                        switch (c)
+                        {
+                            case Symbols.Minus:
+                                StringBuffer.Append(Symbols.Minus);
+                                state = ScriptState.EscapedDashDash;
+                                continue;
+                            case Symbols.LessThan:
+                                c = GetNext();
+                                state = ScriptState.EscapedOpenTag;
+                                continue;
+                            case Symbols.Null:
+                                RaiseErrorOccurred(HtmlParseError.Null);
+                                StringBuffer.Append(Symbols.Replacement);
+                                break;
+                            case Symbols.EndOfFile:
+                                Back();
+                                return NewCharacter();
+                            default:
+                                StringBuffer.Append(c);
+                                break;
+                        }
 
-                    default:
+                        c = GetNext();
+                        state = ScriptState.Escaped;
+                        break;
+                    }
+
+                    // See 8.2.4.24 Script data escaped dash dash state
+                    case ScriptState.EscapedDashDash:
+                    {
+                        c = GetNext();
+
+                        switch (c)
+                        {
+                            case Symbols.Minus:
+                                StringBuffer.Append(Symbols.Minus);
+                                break;
+                            case Symbols.LessThan:
+                                c = GetNext();
+                                state = ScriptState.EscapedOpenTag;
+                                continue;
+                            case Symbols.GreaterThan:
+                                StringBuffer.Append(Symbols.GreaterThan);
+                                c = GetNext();
+                                state = ScriptState.Normal;
+                                continue;
+                            case Symbols.Null:
+                                RaiseErrorOccurred(HtmlParseError.Null);
+                                StringBuffer.Append(Symbols.Replacement);
+                                c = GetNext();
+                                state = ScriptState.Escaped;
+                                continue;
+                            case Symbols.EndOfFile:
+                                return NewCharacter();
+                            default:
+                                StringBuffer.Append(c);
+                                c = GetNext();
+                                state = ScriptState.Escaped;
+                                continue;
+                        }
+
+                        break;
+                    }
+
+                    // See 8.2.4.25 Script data escaped less-than sign state
+                    case ScriptState.EscapedOpenTag:
+                    {
+                        if (c == Symbols.Solidus)
+                        {
+                            c = GetNext();
+                            state = ScriptState.EscapedEndTag;
+                        }
+                        else if (c.IsLetter())
+                        {
+                            offset = StringBuffer.Append(Symbols.LessThan).Length;
+                            StringBuffer.Append(c);
+                            state = ScriptState.StartDoubleEscape;
+                        }
+                        else
+                        {
+                            StringBuffer.Append(Symbols.LessThan);
+                            state = ScriptState.Escaped;
+                        }
+
+                        break;
+                    }
+
+                    // See 8.2.4.26 Script data escaped end tag open state
+                    case ScriptState.EscapedEndTag:
+                    {
+                        offset = StringBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Length;
+
+                        if (c.IsLetter())
+                        {
+                            StringBuffer.Append(c);
+                            state = ScriptState.EscapedNameEndTag;
+                        }
+                        else
+                        {
+                            state = ScriptState.Escaped;
+                        }
+
+                        break;
+                    }
+
+                    // See 8.2.4.27 Script data escaped end tag name state
+                    case ScriptState.EscapedNameEndTag:
+                    {
+                        c = GetNext();
+                        var hasLength = StringBuffer.Length - offset == scriptLength;
+
+                        if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()) &&
+                            StringBuffer.ToString(offset, scriptLength).Isi(TagNames.Script))
+                        {
+                            Back(scriptLength + 3);
+                            StringBuffer.Remove(offset - 2, scriptLength + 2);
+                            return NewCharacter();
+                        }
+                        else if (!c.IsLetter())
+                        {
+                            state = ScriptState.Escaped;
+                        }
+                        else
+                        {
+                            StringBuffer.Append(c);
+                        }
+
+                        break;
+                    }
+
+                    // See 8.2.4.28 Script data double escape start state
+                    case ScriptState.StartDoubleEscape:
+                    {
+                        c = GetNext();
+                        var hasLength = StringBuffer.Length - offset == scriptLength;
+
+                        if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
+                        {
+                            var isscript = StringBuffer.ToString(offset, scriptLength).Isi(TagNames.Script);
+                            StringBuffer.Append(c);
+                            c = GetNext();
+                            state = isscript ? ScriptState.EscapedDouble : ScriptState.Escaped;
+                        }
+                        else if (c.IsLetter())
+                        {
+                            StringBuffer.Append(c);
+                        }
+                        else
+                        {
+                            state = ScriptState.Escaped;
+                        }
+
+                        break;
+                    }
+
+                    // See 8.2.4.29 Script data double escaped state
+                    case ScriptState.EscapedDouble:
+                    {
+                        switch (c)
+                        {
+                            case Symbols.Minus:
+                                StringBuffer.Append(Symbols.Minus);
+                                c = GetNext();
+                                state = ScriptState.EscapedDoubleDash;
+                                continue;
+
+                            case Symbols.LessThan:
+                                StringBuffer.Append(Symbols.LessThan);
+                                c = GetNext();
+                                state = ScriptState.EscapedDoubleOpenTag;
+                                continue;
+
+                            case Symbols.Null:
+                                RaiseErrorOccurred(HtmlParseError.Null);
+                                StringBuffer.Append(Symbols.Replacement);
+                                break;
+
+                            case Symbols.EndOfFile:
+                                RaiseErrorOccurred(HtmlParseError.EOF);
+                                Back();
+                                return NewCharacter();
+                        }
+
                         StringBuffer.Append(c);
+                        c = GetNext();
                         break;
-                }
+                    }
 
-                c = GetNext();
-            }
-        }
+                    // See 8.2.4.30 Script data double escaped dash state
+                    case ScriptState.EscapedDoubleDash:
+                    {
+                        switch (c)
+                        {
+                            case Symbols.Minus:
+                                StringBuffer.Append(Symbols.Minus);
+                                state = ScriptState.EscapedDoubleDashDash;
+                                continue;
 
-        /// <summary>
-        /// See 8.2.4.22 Script data escaped state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscaped(Char c)
-        {
-            while (true)
-            {
-                switch (c)
-                {
-                    case Symbols.Minus:
-                        StringBuffer.Append(Symbols.Minus);
-                        return ScriptDataEscapedDash(GetNext());
-                    case Symbols.LessThan:
-                        return ScriptDataEscapedLT(GetNext());
-                    case Symbols.Null:
-                        RaiseErrorOccurred(HtmlParseError.Null);
-                        StringBuffer.Append(Symbols.Replacement);
+                            case Symbols.LessThan:
+                                StringBuffer.Append(Symbols.LessThan);
+                                c = GetNext();
+                                state = ScriptState.EscapedDoubleOpenTag;
+                                continue;
+
+                            case Symbols.Null:
+                                RaiseErrorOccurred(HtmlParseError.Null);
+                                c = Symbols.Replacement;
+                                break;
+
+                            case Symbols.EndOfFile:
+                                RaiseErrorOccurred(HtmlParseError.EOF);
+                                Back();
+                                return NewCharacter();
+                        }
+
+                        state = ScriptState.EscapedDouble;
                         break;
-                    case Symbols.EndOfFile:
-                        Back();
-                        return NewCharacter();
-                    default:
-                        return ScriptData(c);
-                }
+                    }
 
-                c = GetNext();
-            }
-        }
+                    // See 8.2.4.31 Script data double escaped dash dash state
+                    case ScriptState.EscapedDoubleDashDash:
+                    {
+                        c = GetNext();
 
-        /// <summary>
-        /// See 8.2.4.23 Script data escaped dash state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapedDash(Char c)
-        {
-            switch (c)
-            {
-                case Symbols.Minus:
-                    StringBuffer.Append(Symbols.Minus);
-                    return ScriptDataEscapedDashDash();
-                case Symbols.LessThan:
-                    return ScriptDataEscapedLT(GetNext());
-                case Symbols.Null:
-                    RaiseErrorOccurred(HtmlParseError.Null);
-                    StringBuffer.Append(Symbols.Replacement);
-                    break;
-                case Symbols.EndOfFile:
-                    Back();
-                    return NewCharacter();
-                default:
-                    StringBuffer.Append(c);
-                    break;
-            }
+                        switch (c)
+                        {
+                            case Symbols.Minus:
+                                StringBuffer.Append(Symbols.Minus);
+                                break;
 
-            return ScriptDataEscaped(GetNext());
-        }
+                            case Symbols.LessThan:
+                                StringBuffer.Append(Symbols.LessThan);
+                                c = GetNext();
+                                state = ScriptState.EscapedDoubleOpenTag;
+                                continue;
 
-        /// <summary>
-        /// See 8.2.4.24 Script data escaped dash dash state
-        /// </summary>
-        HtmlToken ScriptDataEscapedDashDash()
-        {
-            while (true)
-            {
-                var c = GetNext();
+                            case Symbols.GreaterThan:
+                                StringBuffer.Append(Symbols.GreaterThan);
+                                c = GetNext();
+                                state = ScriptState.Normal;
+                                continue;
 
-                switch (c)
-                {
-                    case Symbols.Minus:
-                        StringBuffer.Append(Symbols.Minus);
+                            case Symbols.Null:
+                                RaiseErrorOccurred(HtmlParseError.Null);
+                                StringBuffer.Append(Symbols.Replacement);
+                                c = GetNext();
+                                state = ScriptState.EscapedDouble;
+                                continue;
+
+                            case Symbols.EndOfFile:
+                                RaiseErrorOccurred(HtmlParseError.EOF);
+                                Back();
+                                return NewCharacter();
+
+                            default:
+                                StringBuffer.Append(c);
+                                c = GetNext();
+                                state = ScriptState.EscapedDouble;
+                                continue;
+                        }
+
                         break;
-                    case Symbols.LessThan:
-                        return ScriptDataEscapedLT(GetNext());
-                    case Symbols.GreaterThan:
-                        StringBuffer.Append(Symbols.GreaterThan);
-                        return ScriptData(GetNext());
-                    case Symbols.Null:
-                        RaiseErrorOccurred(HtmlParseError.Null);
-                        StringBuffer.Append(Symbols.Replacement);
-                        return ScriptDataEscaped(GetNext());
-                    case Symbols.EndOfFile:
-                        return NewCharacter();
-                    default:
-                        StringBuffer.Append(c);
-                        return ScriptDataEscaped(GetNext());
-                }
-            }
-        }
+                    }
 
-        /// <summary>
-        /// See 8.2.4.25 Script data escaped less-than sign state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapedLT(Char c)
-        {
-            if (c == Symbols.Solidus)
-            {
-                return ScriptDataEscapedEndTag(GetNext());
-            }
+                    // See 8.2.4.32 Script data double escaped less-than sign state
+                    case ScriptState.EscapedDoubleOpenTag:
+                    {
+                        if (c == Symbols.Solidus)
+                        {
+                            offset = StringBuffer.Append(Symbols.Solidus).Length;
+                            state = ScriptState.EndDoubleEscape;
+                        }
+                        else
+                        {
+                            state = ScriptState.EscapedDouble;
+                        }
 
-            if (c.IsLetter())
-            {
-                var offset = StringBuffer.Append(Symbols.LessThan).Length;
-                StringBuffer.Append(c);
-                return ScriptDataStartDoubleEscape(offset);
-            }
-            else
-            {
-                StringBuffer.Append(Symbols.LessThan);
-                return ScriptDataEscaped(c);
-            }
-        }
-
-        /// <summary>
-        /// See 8.2.4.26 Script data escaped end tag open state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapedEndTag(Char c)
-        {
-            var offset = StringBuffer.Append(Symbols.LessThan).Append(Symbols.Solidus).Length;
-
-            if (c.IsLetter())
-            {
-                StringBuffer.Append(c);
-                return ScriptDataEscapedNameEndTag(NewTagClose(), offset);
-            }
-            else
-            {
-                return ScriptDataEscaped(c);
-            }
-        }
-
-        /// <summary>
-        /// See 8.2.4.27 Script data escaped end tag name state
-        /// </summary>
-        /// <param name="tag">The current tag token.</param>
-        /// <param name="offset">The tag name's offset.</param>
-        HtmlToken ScriptDataEscapedNameEndTag(HtmlTagToken tag, Int32 offset)
-        {
-            var length = TagNames.Script.Length;
-
-            while (true)
-            {
-                var c = GetNext();
-                var hasLength = StringBuffer.Length - offset == length;
-
-                if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()) && 
-                    StringBuffer.ToString(offset, length).Isi(TagNames.Script))
-                {
-                    Back(length + 3);
-                    StringBuffer.Remove(offset - 2, length + 2);
-                    return NewCharacter();
-                }
-                else if (!c.IsLetter())
-                {
-                    return ScriptDataEscaped(c);
-                }
-
-                StringBuffer.Append(c);
-            }
-        }
-
-        /// <summary>
-        /// See 8.2.4.28 Script data double escape start state
-        /// </summary>
-        /// <param name="offset">The tag name's offset.</param>
-        HtmlToken ScriptDataStartDoubleEscape(Int32 offset)
-        {
-            var length = TagNames.Script.Length;
-
-            while (true)
-            {
-                var c = GetNext();
-                var hasLength = StringBuffer.Length - offset == length;
-
-                if (hasLength && (c == Symbols.Solidus || c == Symbols.GreaterThan || c.IsSpaceCharacter()))
-                {
-                    var isscript = StringBuffer.ToString(offset, length).Isi(TagNames.Script);
-                    StringBuffer.Append(c);
-                    return isscript ? ScriptDataEscapedDouble(GetNext()) : ScriptDataEscaped(GetNext());
-                }
-                else if (c.IsLetter())
-                {
-                    StringBuffer.Append(c);
-                }
-                else
-                {
-                    return ScriptDataEscaped(c);
-                }
-            }
-        }
-
-        /// <summary>
-        /// See 8.2.4.29 Script data double escaped state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapedDouble(Char c)
-        {
-            while (true)
-            {
-                switch (c)
-                {
-                    case Symbols.Minus:
-                        StringBuffer.Append(Symbols.Minus);
-                        return ScriptDataEscapedDoubleDash(GetNext());
-                    case Symbols.LessThan:
-                        StringBuffer.Append(Symbols.LessThan);
-                        return ScriptDataEscapedDoubleLT(GetNext());
-                    case Symbols.Null:
-                        RaiseErrorOccurred(HtmlParseError.Null);
-                        StringBuffer.Append(Symbols.Replacement);
                         break;
-                    case Symbols.EndOfFile:
-                        RaiseErrorOccurred(HtmlParseError.EOF);
-                        Back();
-                        return NewCharacter();
-                }
+                    }
 
-                StringBuffer.Append(c);
-                c = GetNext();
-            }
-        }
+                    // See 8.2.4.33 Script data double escape end state
+                    case ScriptState.EndDoubleEscape:
+                    {
+                        c = GetNext();
+                        var hasLength = StringBuffer.Length - offset == scriptLength;
 
-        /// <summary>
-        /// See 8.2.4.30 Script data double escaped dash state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapedDoubleDash(Char c)
-        {
-            switch (c)
-            {
-                case Symbols.Minus:
-                    StringBuffer.Append(Symbols.Minus);
-                    return ScriptDataEscapedDoubleDashDash();
-                case Symbols.LessThan:
-                    StringBuffer.Append(Symbols.LessThan);
-                    return ScriptDataEscapedDoubleLT(GetNext());
-                case Symbols.Null:
-                    RaiseErrorOccurred(HtmlParseError.Null);
-                    c = Symbols.Replacement;
-                    break;
-                case Symbols.EndOfFile:
-                    RaiseErrorOccurred(HtmlParseError.EOF);
-                    Back();
-                    return NewCharacter();
-            }
+                        if (hasLength && (c.IsSpaceCharacter() || c == Symbols.Solidus || c == Symbols.GreaterThan))
+                        {
+                            var isscript = StringBuffer.ToString(offset, scriptLength).Isi(TagNames.Script);
+                            StringBuffer.Append(c);
+                            c = GetNext();
+                            state = isscript ? ScriptState.Escaped : ScriptState.EscapedDouble;
+                        }
+                        else if (c.IsLetter())
+                        {
+                            StringBuffer.Append(c);
+                        }
+                        else
+                        {
+                            state = ScriptState.EscapedDouble;
+                        }
 
-            return ScriptDataEscapedDouble(c);
-        }
-
-        /// <summary>
-        /// See 8.2.4.31 Script data double escaped dash dash state
-        /// </summary>
-        HtmlToken ScriptDataEscapedDoubleDashDash()
-        {
-            while (true)
-            {
-                var c = GetNext();
-
-                switch (c)
-                {
-                    case Symbols.Minus:
-                        StringBuffer.Append(Symbols.Minus);
                         break;
-                    case Symbols.LessThan:
-                        StringBuffer.Append(Symbols.LessThan);
-                        return ScriptDataEscapedDoubleLT(GetNext());
-                    case Symbols.GreaterThan:
-                        StringBuffer.Append(Symbols.GreaterThan);
-                        return ScriptData(GetNext());
-                    case Symbols.Null:
-                        RaiseErrorOccurred(HtmlParseError.Null);
-                        StringBuffer.Append(Symbols.Replacement);
-                        return ScriptDataEscapedDouble(GetNext());
-                    case Symbols.EndOfFile:
-                        RaiseErrorOccurred(HtmlParseError.EOF);
-                        Back();
-                        return NewCharacter();
-                    default:
-                        StringBuffer.Append(c);
-                        return ScriptDataEscapedDouble(GetNext());
-                }
-            }
-        }
-
-        /// <summary>
-        /// See 8.2.4.32 Script data double escaped less-than sign state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        HtmlToken ScriptDataEscapedDoubleLT(Char c)
-        {
-            if (c == Symbols.Solidus)
-            {
-                var offset = StringBuffer.Append(Symbols.Solidus).Length;
-                return ScriptDataEndDoubleEscape(offset);
-            }
-
-            return ScriptDataEscapedDouble(c);
-        }
-
-        /// <summary>
-        /// See 8.2.4.33 Script data double escape end state
-        /// </summary>
-        /// <param name="offset">The tag name's offset.</param>
-        HtmlToken ScriptDataEndDoubleEscape(Int32 offset)
-        {
-            var length = TagNames.Script.Length;
-
-            while (true)
-            {
-                var c = GetNext();
-                var hasLength = StringBuffer.Length - offset == length;
-
-                if (hasLength && (c.IsSpaceCharacter() || c == Symbols.Solidus || c == Symbols.GreaterThan))
-                {
-                    var isscript = StringBuffer.ToString(offset, length).Isi(TagNames.Script);
-                    StringBuffer.Append(c);
-                    return isscript ? ScriptDataEscaped(GetNext()) : ScriptDataEscapedDouble(GetNext());
-                }
-                else if (c.IsLetter())
-                {
-                    StringBuffer.Append(c);
-                }
-                else
-                {
-                    return ScriptDataEscapedDouble(c);
+                    }
                 }
             }
         }
