@@ -1,18 +1,18 @@
-﻿namespace AngleSharp.Services
+﻿namespace AngleSharp.Commands
 {
     using AngleSharp.Dom;
     using System;
 
     /// <summary>
-    /// Represents a service to execute UI commands on a document.
+    /// Represents a command that can be executed from the document.
     /// </summary>
-    public interface ICommandService
+    public interface ICommand
     {
         /// <summary>
         /// The id of the command.
         /// </summary>
         String CommandId { get; }
-
+        
         /// <summary>
         /// Executes the command for the given document.
         /// </summary>

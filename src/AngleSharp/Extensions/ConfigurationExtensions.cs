@@ -6,6 +6,7 @@
     using AngleSharp.Services.Media;
     using AngleSharp.Services.Scripting;
     using AngleSharp.Services.Styling;
+    using Commands;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -190,17 +191,10 @@
 
         #region Commands
         
-        public static ICommandService GetCommand(this IConfiguration configuration, String commandId)
+        public static ICommand GetCommand(this IConfiguration configuration, String commandId)
         {
-            foreach (var command in configuration.GetServices<ICommandService>())
-            {
-                if (commandId.Isi(command.CommandId))
-                {
-                    return command;
-                }
-            }
-
-            return null;
+            var provider = configuration.GetProvider<ICommandProvider>();
+            return provider != null ? provider.GetCommand(commandId) : null;
         }
 
         #endregion

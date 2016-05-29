@@ -1267,73 +1267,37 @@
         Boolean IDocument.ExecuteCommand(String commandId, Boolean showUserInterface, String value)
         {
             var command = Options.GetCommand(commandId);
-
-            if (command != null)
-            {
-                return command.Execute(this, showUserInterface, value);
-            }
-
-            return false;
+            return command != null ? command.Execute(this, showUserInterface, value) : false;
         }
 
         Boolean IDocument.IsCommandEnabled(String commandId)
         {
             var command = Options.GetCommand(commandId);
-
-            if (command != null)
-            {
-                return command.IsEnabled(this);
-            }
-
-            return false;
+            return command != null ? command.IsEnabled(this) : false;
         }
 
         Boolean IDocument.IsCommandIndeterminate(String commandId)
         {
             var command = Options.GetCommand(commandId);
-
-            if (command != null)
-            {
-                return command.IsIndeterminate(this);
-            }
-
-            return false;
+            return command != null ? command.IsIndeterminate(this) : false;
         }
 
         Boolean IDocument.IsCommandExecuted(String commandId)
         {
             var command = Options.GetCommand(commandId);
-
-            if (command != null)
-            {
-                return command.IsExecuted(this);
-            }
-
-            return false;
+            return command != null ? command.IsExecuted(this) : false;
         }
 
         Boolean IDocument.IsCommandSupported(String commandId)
         {
             var command = Options.GetCommand(commandId);
-
-            if (command != null)
-            {
-                return command.IsSupported(this);
-            }
-
-            return false;
+            return command != null ? command.IsSupported(this) : false;
         }
 
         String IDocument.GetCommandValue(String commandId)
         {
             var command = Options.GetCommand(commandId);
-
-            if (command != null)
-            {
-                return command.GetValue(this);
-            }
-
-            return null;
+            return command != null ? command.GetValue(this) : null;
         }
 
         #endregion
