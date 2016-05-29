@@ -692,7 +692,7 @@
                 else if (c.IsSpaceCharacter())
                 {
                     tag.Name = FlushBuffer();
-                    return AttributeBeforeName(tag);
+                    return ParseAttributes(tag);
                 }
                 else if (c == Symbols.Solidus)
                 {
@@ -737,7 +737,7 @@
                 default:
                     RaiseErrorOccurred(HtmlParseError.ClosingSlashMisplaced);
                     Back();
-                    return AttributeBeforeName(tag);
+                    return ParseAttributes(tag);
             }
         }
 
@@ -1635,337 +1635,326 @@
 
         #region Attributes
 
-        /// <summary>
-        /// See 8.2.4.34 Before attribute name state
-        /// </summary>
-        /// <param name="tag">The current tag token.</param>
-        HtmlToken AttributeBeforeName(HtmlTagToken tag)
+        enum AttributeState
         {
-            var c = SkipSpaces();
-
-            if (c == Symbols.Solidus)
-            {
-                return TagSelfClosing(tag);
-            }
-            else if (c == Symbols.GreaterThan)
-            {
-                return EmitTag(tag);
-            }
-            else if (c.IsUppercaseAscii())
-            {
-                StringBuffer.Append(Char.ToLower(c));
-                return AttributeName(tag);
-            }
-            else if (c == Symbols.Null)
-            {
-                RaiseErrorOccurred(HtmlParseError.Null);
-                StringBuffer.Append(Symbols.Replacement);
-                return AttributeName(tag);
-            }
-            else if (c == Symbols.SingleQuote || c == Symbols.DoubleQuote || c == Symbols.Equality || c == Symbols.LessThan)
-            {
-                RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
-                StringBuffer.Append(c);
-                return AttributeName(tag);
-            }
-            else if (c != Symbols.EndOfFile)
-            {
-                StringBuffer.Append(c);
-                return AttributeName(tag);
-            }
-            else
-            {
-                return NewEof();
-            }
+            BeforeName,
+            Name,
+            AfterName,
+            BeforeValue,
+            QuotedValue,
+            AfterValue,
+            UnquotedValue,
+            Eof
         }
 
-        /// <summary>
-        /// See 8.2.4.35 Attribute name state
-        /// </summary>
-        /// <param name="tag">The current tag token.</param>
-        HtmlToken AttributeName(HtmlTagToken tag)
+        HtmlToken ParseAttributes(HtmlTagToken tag)
         {
+            var state = AttributeState.BeforeName;
+            var quote = Symbols.DoubleQuote;
+            var c = Symbols.Null;
+
             while (true)
             {
-                var c = GetNext();
+                switch (state)
+                {
+                    // See 8.2.4.34 Before attribute name state
+                    case AttributeState.BeforeName:
+                    {
+                        c = SkipSpaces();
 
-                if (c == Symbols.Equality)
-                {
-                    tag.AddAttribute(FlushBuffer());
-                    return AttributeBeforeValue(tag);
-                }
-                else if (c == Symbols.GreaterThan)
-                {
-                    tag.AddAttribute(FlushBuffer());
-                    return EmitTag(tag);
-                }
-                else if (c.IsSpaceCharacter())
-                {
-                    tag.AddAttribute(FlushBuffer());
-                    return AttributeAfterName(tag);
-                }
-                else if (c == Symbols.Solidus)
-                {
-                    tag.AddAttribute(FlushBuffer());
-                    return TagSelfClosing(tag);
-                }
-                else if (c.IsUppercaseAscii())
-                {
-                    StringBuffer.Append(Char.ToLower(c));
-                }
-                else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan)
-                {
-                    RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
-                    StringBuffer.Append(c);
-                }
-                else if(c == Symbols.Null)
-                {
-                    RaiseErrorOccurred(HtmlParseError.Null);
-                    StringBuffer.Append(Symbols.Replacement);
-                }
-                else if (c != Symbols.EndOfFile)
-                {
-                    StringBuffer.Append(c);
-                }
-                else
-                {
-                    return NewEof();
-                }
-            }
-        }
+                        if (c == Symbols.Solidus)
+                        {
+                            return TagSelfClosing(tag);
+                        }
+                        else if (c == Symbols.GreaterThan)
+                        {
+                            return EmitTag(tag);
+                        }
+                        else if (c.IsUppercaseAscii())
+                        {
+                            StringBuffer.Append(Char.ToLower(c));
+                            state = AttributeState.Name;
+                        }
+                        else if (c == Symbols.Null)
+                        {
+                            RaiseErrorOccurred(HtmlParseError.Null);
+                            StringBuffer.Append(Symbols.Replacement);
+                            state = AttributeState.Name;
+                        }
+                        else if (c == Symbols.SingleQuote || c == Symbols.DoubleQuote || c == Symbols.Equality || c == Symbols.LessThan)
+                        {
+                            RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
+                            StringBuffer.Append(c);
+                            state = AttributeState.Name;
+                        }
+                        else if (c != Symbols.EndOfFile)
+                        {
+                            StringBuffer.Append(c);
+                            state = AttributeState.Name;
+                        }
+                        else
+                        {
+                            state = AttributeState.Eof;
+                        }
 
-        /// <summary>
-        /// See 8.2.4.36 After attribute name state
-        /// </summary>
-        /// <param name="tag">The current tag token.</param>
-        HtmlToken AttributeAfterName(HtmlTagToken tag)
-        {
-            var c = SkipSpaces();
+                        break;
+                    }
 
-            if (c == Symbols.GreaterThan)
-            {
-                return EmitTag(tag);
-            }
-            else if (c == Symbols.Equality)
-            {
-                return AttributeBeforeValue(tag);
-            }
-            else if (c == Symbols.Solidus)
-            {
-                return TagSelfClosing(tag);
-            }
-            else if (c.IsUppercaseAscii())
-            {
-                StringBuffer.Append(Char.ToLower(c));
-                return AttributeName(tag);
-            }
-            else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan)
-            {
-                RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
-                StringBuffer.Append(c);
-                return AttributeName(tag);
-            }
-            else if (c == Symbols.Null)
-            {
-                RaiseErrorOccurred(HtmlParseError.Null);
-                StringBuffer.Append(Symbols.Replacement);
-                return AttributeName(tag);
-            }
-            else if (c != Symbols.EndOfFile)
-            {
-                StringBuffer.Append(c);
-                return AttributeName(tag);
-            }
-            else
-            {
-                return NewEof();
-            }
-        }
+                    // See 8.2.4.35 Attribute name state
+                    case AttributeState.Name:
+                    {
+                        c = GetNext();
 
-        /// <summary>
-        /// See 8.2.4.37 Before attribute value state
-        /// </summary>
-        /// <param name="tag">The current tag token.</param>
-        HtmlToken AttributeBeforeValue(HtmlTagToken tag)
-        {
-            var c = SkipSpaces();
+                        if (c == Symbols.Equality)
+                        {
+                            tag.AddAttribute(FlushBuffer());
+                            state = AttributeState.BeforeValue;
+                        }
+                        else if (c == Symbols.GreaterThan)
+                        {
+                            tag.AddAttribute(FlushBuffer());
+                            return EmitTag(tag);
+                        }
+                        else if (c.IsSpaceCharacter())
+                        {
+                            tag.AddAttribute(FlushBuffer());
+                            state = AttributeState.AfterName;
+                        }
+                        else if (c == Symbols.Solidus)
+                        {
+                            tag.AddAttribute(FlushBuffer());
+                            return TagSelfClosing(tag);
+                        }
+                        else if (c.IsUppercaseAscii())
+                        {
+                            StringBuffer.Append(Char.ToLower(c));
+                        }
+                        else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan)
+                        {
+                            RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
+                            StringBuffer.Append(c);
+                        }
+                        else if (c == Symbols.Null)
+                        {
+                            RaiseErrorOccurred(HtmlParseError.Null);
+                            StringBuffer.Append(Symbols.Replacement);
+                        }
+                        else if (c != Symbols.EndOfFile)
+                        {
+                            StringBuffer.Append(c);
+                        }
+                        else
+                        {
+                            state = AttributeState.Eof;
+                        }
 
-            if (c == Symbols.DoubleQuote)
-            {
-                return AttributeDoubleQuotedValue(tag);
-            }
-            else if (c == Symbols.SingleQuote)
-            {
-                return AttributeSingleQuotedValue(tag);
-            }
-            else if (c == Symbols.Ampersand)
-            {
-                return AttributeUnquotedValue(c, tag);
-            }
-            else if (c == Symbols.GreaterThan)
-            {
-                RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
-                return EmitTag(tag);
-            }
-            else if (c == Symbols.LessThan || c == Symbols.Equality || c == Symbols.CurvedQuote)
-            {
-                RaiseErrorOccurred(HtmlParseError.AttributeValueInvalid);
-                StringBuffer.Append(c);
-                return AttributeUnquotedValue(GetNext(), tag);
-            }
-            else if (c == Symbols.Null)
-            {
-                RaiseErrorOccurred(HtmlParseError.Null);
-                StringBuffer.Append(Symbols.Replacement);
-                return AttributeUnquotedValue(GetNext(), tag);
-            }
-            else if (c != Symbols.EndOfFile)
-            {
-                StringBuffer.Append(c);
-                return AttributeUnquotedValue(GetNext(), tag);
-            }
-            else
-            {
-                return NewEof();
-            }
-        }
+                        break;
+                    }
 
-        /// <summary>
-        /// See 8.2.4.38 Attribute value (double-quoted) state
-        /// </summary>
-        /// <param name="tag">The current tag token.</param>
-        HtmlToken AttributeDoubleQuotedValue(HtmlTagToken tag)
-        {
-            while (true)
-            {
-                var c = GetNext();
+                    // See 8.2.4.36 After attribute name state
+                    case AttributeState.AfterName:
+                    {
+                        c = SkipSpaces();
 
-                if (c == Symbols.DoubleQuote)
-                {
-                    tag.SetAttributeValue(FlushBuffer());
-                    return AttributeAfterValue(tag);
-                }
-                else if (c == Symbols.Ampersand)
-                {
-                    AppendCharacterReference(GetNext(), Symbols.DoubleQuote);
-                }
-                else if (c == Symbols.Null)
-                {
-                    RaiseErrorOccurred(HtmlParseError.Null);
-                    StringBuffer.Append(Symbols.Replacement);
-                }
-                else if (c != Symbols.EndOfFile)
-                {
-                    StringBuffer.Append(c);
-                }
-                else
-                {
-                    return NewEof();
+                        if (c == Symbols.GreaterThan)
+                        {
+                            return EmitTag(tag);
+                        }
+                        else if (c == Symbols.Equality)
+                        {
+                            state = AttributeState.BeforeValue;
+                        }
+                        else if (c == Symbols.Solidus)
+                        {
+                            return TagSelfClosing(tag);
+                        }
+                        else if (c.IsUppercaseAscii())
+                        {
+                            StringBuffer.Append(Char.ToLower(c));
+                            state = AttributeState.Name;
+                        }
+                        else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan)
+                        {
+                            RaiseErrorOccurred(HtmlParseError.AttributeNameInvalid);
+                            StringBuffer.Append(c);
+                            state = AttributeState.Name;
+                        }
+                        else if (c == Symbols.Null)
+                        {
+                            RaiseErrorOccurred(HtmlParseError.Null);
+                            StringBuffer.Append(Symbols.Replacement);
+                            state = AttributeState.Name;
+                        }
+                        else if (c != Symbols.EndOfFile)
+                        {
+                            StringBuffer.Append(c);
+                            state = AttributeState.Name;
+                        }
+                        else
+                        {
+                            state = AttributeState.Eof;
+                        }
+
+                        break;
+                    }
+
+                    // See 8.2.4.37 Before attribute value state
+                    case AttributeState.BeforeValue:
+                    {
+                        c = SkipSpaces();
+
+                        if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote)
+                        {
+                            state = AttributeState.QuotedValue;
+                            quote = c;
+                        }
+                        else if (c == Symbols.Ampersand)
+                        {
+                            state = AttributeState.UnquotedValue;
+                        }
+                        else if (c == Symbols.GreaterThan)
+                        {
+                            RaiseErrorOccurred(HtmlParseError.TagClosedWrong);
+                            return EmitTag(tag);
+                        }
+                        else if (c == Symbols.LessThan || c == Symbols.Equality || c == Symbols.CurvedQuote)
+                        {
+                            RaiseErrorOccurred(HtmlParseError.AttributeValueInvalid);
+                            StringBuffer.Append(c);
+                            state = AttributeState.UnquotedValue;
+                            c = GetNext();
+                        }
+                        else if (c == Symbols.Null)
+                        {
+                            RaiseErrorOccurred(HtmlParseError.Null);
+                            StringBuffer.Append(Symbols.Replacement);
+                            state = AttributeState.UnquotedValue;
+                            c = GetNext();
+                        }
+                        else if (c != Symbols.EndOfFile)
+                        {
+                            StringBuffer.Append(c);
+                            state = AttributeState.UnquotedValue;
+                            c = GetNext();
+                        }
+                        else
+                        {
+                            state = AttributeState.Eof;
+                        }
+
+                        break;
+                    }
+
+                    // See 8.2.4.38 Attribute value (double-quoted) state
+                    // and 8.2.4.39 Attribute value (single-quoted) state
+                    case AttributeState.QuotedValue:
+                    {
+                        c = GetNext();
+
+                        if (c == quote)
+                        {
+                            tag.SetAttributeValue(FlushBuffer());
+                            state = AttributeState.AfterValue;
+                        }
+                        else if (c == Symbols.Ampersand)
+                        {
+                            AppendCharacterReference(GetNext(), quote);
+                        }
+                        else if (c == Symbols.Null)
+                        {
+                            RaiseErrorOccurred(HtmlParseError.Null);
+                            StringBuffer.Append(Symbols.Replacement);
+                        }
+                        else if (c != Symbols.EndOfFile)
+                        {
+                            StringBuffer.Append(c);
+                        }
+                        else
+                        {
+                            state = AttributeState.Eof;
+                        }
+
+                        break;
+                    }
+
+                    // See 8.2.4.40 Attribute value (unquoted) state
+                    case AttributeState.UnquotedValue:
+                    {
+                        if (c == Symbols.GreaterThan)
+                        {
+                            tag.SetAttributeValue(FlushBuffer());
+                            return EmitTag(tag);
+                        }
+                        else if (c.IsSpaceCharacter())
+                        {
+                            tag.SetAttributeValue(FlushBuffer());
+                            state = AttributeState.BeforeName;
+                        }
+                        else if (c == Symbols.Ampersand)
+                        {
+                            AppendCharacterReference(GetNext(), Symbols.GreaterThan);
+                            c = GetNext();
+                        }
+                        else if (c == Symbols.Null)
+                        {
+                            RaiseErrorOccurred(HtmlParseError.Null);
+                            StringBuffer.Append(Symbols.Replacement);
+                            c = GetNext();
+                        }
+                        else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan || c == Symbols.Equality || c == Symbols.CurvedQuote)
+                        {
+                            RaiseErrorOccurred(HtmlParseError.AttributeValueInvalid);
+                            StringBuffer.Append(c);
+                            c = GetNext();
+                        }
+                        else if (c != Symbols.EndOfFile)
+                        {
+                            StringBuffer.Append(c);
+                            c = GetNext();
+                        }
+                        else
+                        {
+                            state = AttributeState.Eof;
+                        }
+
+                        break;
+                    }
+
+                    // See 8.2.4.42 After attribute value (quoted) state
+                    case AttributeState.AfterValue:
+                    {
+                        c = GetNext();
+
+                        if (c == Symbols.GreaterThan)
+                        {
+                            return EmitTag(tag);
+                        }
+                        else if (c.IsSpaceCharacter())
+                        {
+                            state = AttributeState.BeforeName;
+                        }
+                        else if (c == Symbols.Solidus)
+                        {
+                            return TagSelfClosing(tag);
+                        }
+                        else if (c == Symbols.EndOfFile)
+                        {
+                            state = AttributeState.Eof;
+                        }
+                        else
+                        {
+                            RaiseErrorOccurred(HtmlParseError.AttributeNameExpected);
+                            Back();
+                            state = AttributeState.BeforeName;
+                        }
+
+                        break;
+                    }
+
+                    case AttributeState.Eof:
+                        return NewEof();
                 }
             }
-        }
-
-        /// <summary>
-        /// See 8.2.4.39 Attribute value (single-quoted) state
-        /// </summary>
-        /// <param name="tag">The current tag token.</param>
-        HtmlToken AttributeSingleQuotedValue(HtmlTagToken tag)
-        {
-            while (true)
-            {
-                var c = GetNext();
-
-                if (c == Symbols.SingleQuote)
-                {
-                    tag.SetAttributeValue(FlushBuffer());
-                    return AttributeAfterValue(tag);
-                }
-                else if (c == Symbols.Ampersand)
-                {
-                    AppendCharacterReference(GetNext(), Symbols.SingleQuote);
-                }
-                else if (c == Symbols.Null)
-                {
-                    RaiseErrorOccurred(HtmlParseError.Null);
-                    StringBuffer.Append(Symbols.Replacement);
-                }
-                else if (c != Symbols.EndOfFile)
-                {
-                    StringBuffer.Append(c);
-                }
-                else
-                {
-                    return NewEof();
-                }
-            }
-        }
-
-        /// <summary>
-        /// See 8.2.4.40 Attribute value (unquoted) state
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="tag">The current tag token.</param>
-        HtmlToken AttributeUnquotedValue(Char c, HtmlTagToken tag)
-        {
-            while (true)
-            {
-                if (c == Symbols.GreaterThan)
-                {
-                    tag.SetAttributeValue(FlushBuffer());
-                    return EmitTag(tag);
-                }
-                else if (c.IsSpaceCharacter())
-                {
-                    tag.SetAttributeValue(FlushBuffer());
-                    return AttributeBeforeName(tag);
-                }
-                else if (c == Symbols.Ampersand)
-                {
-                    AppendCharacterReference(GetNext(), Symbols.GreaterThan);
-                }
-                else if (c == Symbols.Null)
-                {
-                    RaiseErrorOccurred(HtmlParseError.Null);
-                    StringBuffer.Append(Symbols.Replacement);
-                }
-                else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan || c == Symbols.Equality || c == Symbols.CurvedQuote)
-                {
-                    RaiseErrorOccurred(HtmlParseError.AttributeValueInvalid);
-                    StringBuffer.Append(c);
-                }
-                else if (c != Symbols.EndOfFile)
-                {
-                    StringBuffer.Append(c);
-                }
-                else
-                {
-                    return NewEof();
-                }
-
-                c = GetNext();
-            }
-        }
-
-        /// <summary>
-        /// See 8.2.4.42 After attribute value (quoted) state
-        /// </summary>
-        /// <param name="tag">The current tag token.</param>
-        HtmlToken AttributeAfterValue(HtmlTagToken tag)
-        {
-            var c = GetNext();
-
-            if (c == Symbols.GreaterThan)
-                return EmitTag(tag);
-            else if (c.IsSpaceCharacter())
-                return AttributeBeforeName(tag);
-            else if (c == Symbols.Solidus)
-                return TagSelfClosing(tag);
-            else if (c == Symbols.EndOfFile)
-                return NewEof();
-
-            RaiseErrorOccurred(HtmlParseError.AttributeNameExpected);
-            Back();
-            return AttributeBeforeName(tag);
         }
 
         #endregion
@@ -2029,7 +2018,7 @@
                                         if (isspace)
                                         {
                                             tag.Name = _lastStartTag;
-                                            return AttributeBeforeName(tag);
+                                            return ParseAttributes(tag);
                                         }
                                         else if (isslash)
                                         {
@@ -2471,7 +2460,7 @@
                 if (isspace)
                 {
                     tag.Name = _lastStartTag;
-                    return AttributeBeforeName(tag);
+                    return ParseAttributes(tag);
                 }
                 else if (isslash)
                 {
