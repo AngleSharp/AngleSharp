@@ -66,5 +66,15 @@
         /// The document factory.
         /// </summary>
         public static readonly DocumentFactory Document = new DocumentFactory();
+
+        /// <summary>
+        /// The browsing context factory.
+        /// </summary>
+        public static readonly ContextFactory BrowsingContext = new ContextFactory();
+
+        /// <summary>
+        /// The service factory.
+        /// </summary>
+        public static readonly ServiceFactory Service = new ServiceFactory();
     }
 }

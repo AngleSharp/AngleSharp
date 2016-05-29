@@ -6,7 +6,7 @@
     /// <summary>
     /// Defines methods to create or find browsing contexts.
     /// </summary>
-    public interface IContextService
+    public interface IContextFactory
     {
         /// <summary>
         /// Creates a new browsing context without any particular name.

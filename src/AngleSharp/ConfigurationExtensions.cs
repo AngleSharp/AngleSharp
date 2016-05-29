@@ -37,8 +37,49 @@
             {
                 throw new ArgumentNullException("service");
             }
+            
+            return new Configuration(configuration.Services.Concat(service));
+        }
 
-            var services = configuration.Services.Concat(service);
+        /// <summary>
+        /// Returns a new configuration that includes the given services.
+        /// </summary>
+        /// <param name="configuration">The configuration to extend.</param>
+        /// <param name="services">The services to register.</param>
+        /// <returns>The new instance with the services.</returns>
+        public static Configuration With(this IConfiguration configuration, IEnumerable<Object> services)
+        {
+            if (configuration == null)
+            {
+                throw new ArgumentNullException("configuration");
+            }
+
+            if (services == null)
+            {
+                throw new ArgumentNullException("services");
+            }
+            
+            return new Configuration(configuration.Services.Concat(services));
+        }
+
+        /// <summary>
+        /// Returns a new configuration that includes the given service creator.
+        /// </summary>
+        /// <typeparam name="TService">The type of service to create.</typeparam>
+        /// <param name="configuration">The configuration to extend.</param>
+        /// <param name="creator">The creator to register.</param>
+        /// <returns>The new instance with the services.</returns>
+        public static IConfiguration With<TService>(this IConfiguration configuration, Func<IBrowsingContext, TService> creator)
+        {
+            var original = configuration.Services;
+            var available = configuration.Services.OfType<Func<IBrowsingContext, TService>>();
+
+            if (available.Any())
+            {
+                original = original.Except(available);
+            }
+
+            var services = original.Concat(creator);
             return new Configuration(services);
         }
 
@@ -85,7 +126,7 @@
                 throw new ArgumentNullException("configuration");
             }
             
-            if (!configuration.GetServices<IStylingService>().Any())
+            if (!configuration.GetServices<IStylingProvider>().Any())
             {
                 var service = new StylingService();
                 var engine = new CssStyleEngine();
@@ -114,31 +155,60 @@
         /// <param name="setup">Optional setup for the loader service.</param>
         /// <param name="requesters">Optional requesters to use.</param>
         /// <returns>The new instance with the service.</returns>
-        public static IConfiguration WithDefaultLoader(this IConfiguration configuration, Action<LoaderService> setup = null, IEnumerable<IRequester> requesters = null)
+        public static IConfiguration WithDefaultLoader(this IConfiguration configuration, Action<LoaderSetup> setup = null, IEnumerable<IRequester> requesters = null)
         {
             if (configuration == null)
             {
                 throw new ArgumentNullException("configuration");
             }
 
-            if (!configuration.GetServices<ILoaderService>().Any())
+            configuration = configuration.With(requesters ?? new IRequester[] { new HttpRequester(), new DataRequester() });
+
+            var config = new LoaderSetup
             {
-                if (requesters == null)
-                {
-                    requesters = new IRequester[] { new HttpRequester(), new DataRequester() };
-                }
+                Filter = null,
+                IsNavigationEnabled = true,
+                IsResourceLoadingEnabled = false
+            };
+            var factory = configuration.GetFactory<IServiceFactory>();
 
-                var service = new LoaderService(requesters);
+            if (setup != null)
+            {
+                setup.Invoke(config);
+            }
 
-                if (setup != null)
-                {
-                    setup(service);
-                }
-                
-                return configuration.With(service);
+            if (config.IsNavigationEnabled)
+            {
+                configuration = configuration.With<IDocumentLoader>(ctx => new DocumentLoader(ctx, config.Filter));
+            }
+
+            if (config.IsResourceLoadingEnabled)
+            {
+                configuration = configuration.With<IResourceLoader>(ctx => new ResourceLoader(ctx, config.Filter));
             }
 
             return configuration;
+        }
+
+        /// <summary>
+        /// Configures the loader.
+        /// </summary>
+        public sealed class LoaderSetup
+        {
+            /// <summary>
+            /// Gets or sets if navigation is enabled.
+            /// </summary>
+            public Boolean IsNavigationEnabled { get; set; }
+
+            /// <summary>
+            /// Gets or sets if resource loading is enabled.
+            /// </summary>
+            public Boolean IsResourceLoadingEnabled { get; set; }
+
+            /// <summary>
+            /// Gets or sets the filter, if any.
+            /// </summary>
+            public Predicate<IRequest> Filter { get; set; }
         }
 
         #endregion
@@ -158,9 +228,9 @@
                 throw new ArgumentException("configuration");
             }
 
-            if (!configuration.GetServices<IEncodingService>().Any())
+            if (!configuration.GetServices<IEncodingProvider>().Any())
             {
-                var service = new LocaleEncodingService();
+                var service = new LocaleEncodingProvider();
                 return configuration.With(service);
             }
 
@@ -184,9 +254,9 @@
                 throw new ArgumentNullException("configuration");
             }
 
-            if (!configuration.GetServices<ICookieService>().Any())
+            if (!configuration.GetServices<ICookieProvider>().Any())
             {
-                var service = new MemoryCookieService();
+                var service = new MemoryCookieProvider();
                 return configuration.With(service);
             }
 

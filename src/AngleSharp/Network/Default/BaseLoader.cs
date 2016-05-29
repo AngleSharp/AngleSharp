@@ -14,8 +14,7 @@
     public abstract class BaseLoader : ILoader
     {
         #region Fields
-
-        readonly IEnumerable<IRequester> _requesters;
+        
         readonly IBrowsingContext _context;
         readonly Predicate<IRequest> _filter;
         readonly List<IDownload> _downloads;
@@ -27,12 +26,10 @@
         /// <summary>
         /// Creates a new resource loader.
         /// </summary>
-        /// <param name="requesters">The requesters to use.</param>
         /// <param name="context">The context to use.</param>
         /// <param name="filter">The optional request filter to use.</param>
-        public BaseLoader(IEnumerable<IRequester> requesters, IBrowsingContext context, Predicate<IRequest> filter)
+        public BaseLoader(IBrowsingContext context, Predicate<IRequest> filter)
         {
-            _requesters = requesters;
             _context = context;
             _filter = filter ?? (_ => true);
             _downloads = new List<IDownload>();
@@ -120,7 +117,9 @@
         /// </returns>
         protected async Task<IResponse> LoadAsync(Request request, CancellationToken cancel)
         {
-            foreach (var requester in _requesters)
+            var requesters = _context.Configuration.GetServices<IRequester>();
+
+            foreach (var requester in requesters)
             {
                 if (requester.SupportsProtocol(request.Address.Scheme))
                 {

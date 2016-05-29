@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        readonly IEntityService _resolver;
+        readonly IEntityProvider _resolver;
         TextPosition _position;
 
         #endregion
@@ -27,7 +27,7 @@
         /// </summary>
         /// <param name="source">The source code manager.</param>
         /// <param name="resolver">The entity resolver to use.</param>
-        public XmlTokenizer(TextSource source, IEntityService resolver)
+        public XmlTokenizer(TextSource source, IEntityProvider resolver)
             : base(source)
         {
             _resolver = resolver;

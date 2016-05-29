@@ -17,7 +17,7 @@
     {
         #region Fields
 
-        readonly IEntityService _resolver;
+        readonly IEntityProvider _resolver;
         Boolean _acceptsCharacterData;
         String _lastStartTag;
         HtmlParseMode _state;
@@ -41,7 +41,7 @@
         /// </summary>
         /// <param name="source">The source code manager.</param>
         /// <param name="resolver">The entity resolver to use.</param>
-        public HtmlTokenizer(TextSource source, IEntityService resolver)
+        public HtmlTokenizer(TextSource source, IEntityProvider resolver)
             : base(source)
         {
             _state = HtmlParseMode.PCData;

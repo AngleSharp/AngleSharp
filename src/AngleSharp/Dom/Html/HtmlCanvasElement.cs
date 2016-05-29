@@ -66,23 +66,31 @@
         /// <returns>An object that defines the drawing context.</returns>
         public IRenderingContext GetContext(String contextId)
         {
-            if (_current != null && contextId.Isi(_current.ContextId))
-                return _current;
-
-            var renderService = Owner.Options.GetService<IRenderingService>();
-
-            if (renderService == null)
-                return null;
-
-            var context = renderService.CreateContext(this, contextId);
-
-            if (context != null)
+            if (_current == null || contextId.Isi(_current.ContextId))
             {
-                _mode = GetModeFrom(contextId);
-                _current = context;
+                var renderServices = Owner.Options.GetServices<IRenderingService>();
+
+                foreach (var renderService in renderServices)
+                {
+                    if (renderService.IsSupportingContext(contextId))
+                    {
+                        var context = renderService.CreateContext(this, contextId);
+
+                        if (context != null)
+                        {
+                            _mode = GetModeFrom(contextId);
+                            _current = context;
+                        }
+
+                        return context;
+                    }
+                }
+
+                return null;
             }
 
-            return context;
+            return _current;
+
         }
 
         /// <summary>
@@ -92,8 +100,17 @@
         /// <returns>True if the context is supported, otherwise false.</returns>
         public Boolean IsSupportingContext(String contextId)
         {
-            var renderService = Owner.Options.GetService<IRenderingService>();
-            return renderService != null && renderService.IsSupportingContext(contextId);
+            var renderServices = Owner.Options.GetServices<IRenderingService>();
+
+            foreach (var renderService in renderServices)
+            {
+                if (renderService.IsSupportingContext(contextId))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>

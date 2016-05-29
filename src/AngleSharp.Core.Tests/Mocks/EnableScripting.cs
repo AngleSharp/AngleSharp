@@ -4,7 +4,7 @@
     using AngleSharp.Services;
     using AngleSharp.Services.Scripting;
 
-    class EnableScripting : IScriptingService
+    class EnableScripting : IScriptingProvider
     {
         public IScriptEngine GetEngine(String mimeType)
         {

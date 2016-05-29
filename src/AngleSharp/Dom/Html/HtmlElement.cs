@@ -5,6 +5,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Services;
     using AngleSharp.Services.Scripting;
     using System;
     using System.Threading;
@@ -609,7 +610,8 @@
 
         public override INode Clone(Boolean deep = true)
         {
-            var node = Factory.HtmlElements.Create(Owner, LocalName, Prefix);
+            var factory = Owner.Options.GetFactory<IHtmlElementFactory>();
+            var node = factory.Create(Owner, LocalName, Prefix);
             CloneElement(node, deep);
             return node;
         }

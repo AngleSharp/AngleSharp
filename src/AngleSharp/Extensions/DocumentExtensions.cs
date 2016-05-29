@@ -351,8 +351,8 @@
         public static IBrowsingContext NewContext(this Document document, String name, Sandboxes security)
         {
             var options = document.Options;
-            var service = options.GetService<IContextService>();
-            return service != null ? service.Create(document.Context, name, security) : new BrowsingContext(document.Context, security);
+            var factory = options.GetFactory<IContextFactory>();
+            return factory.Create(document.Context, name, security);
         }
 
         /// <summary>
@@ -369,19 +369,6 @@
         }
 
         /// <summary>
-        /// Creates a new Window instance for the given document.
-        /// </summary>
-        /// <param name="document">
-        /// The document that demands a DefaultView.
-        /// </param>
-        /// <returns>The freshly created Window.</returns>
-        public static IWindow CreateWindow(this Document document)
-        {
-            var service = document.Options.GetService<IWindowService>();
-            return service != null ? service.Create(document) : new Window(document);
-        }
-
-        /// <summary>
         /// Releases the storage mutex. For more information, see:
         /// http://www.w3.org/html/wg/drafts/html/CR/webappapis.html#storage-mutex
         /// </summary>
@@ -389,17 +376,6 @@
         public static void ReleaseStorageMutex(this Document document)
         {
             //TODO
-        }
-
-        /// <summary>
-        /// Gets the event loop for the given document.
-        /// </summary>
-        /// <param name="document">The document that requires an EventLoop.</param>
-        /// <returns>A proper event loop.</returns>
-        public static IEventLoop CreateLoop(this Document document)
-        {
-            var service = document.Options.GetService<IEventService>();
-            return service != null ? service.Create(document) : new TaskEventLoop();
         }
     }
 }

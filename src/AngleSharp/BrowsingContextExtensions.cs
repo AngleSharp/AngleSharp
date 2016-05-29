@@ -1,7 +1,9 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom;
+    using AngleSharp.Extensions;
     using AngleSharp.Network;
+    using AngleSharp.Services;
     using System;
     using System.Diagnostics;
     using System.Threading;
@@ -45,7 +47,8 @@
             }
 
             var options = new CreateDocumentOptions(response, context.Configuration);
-            return Factory.Document.CreateAsync(context, options, cancel);
+            var factory = context.Configuration.GetFactory<IDocumentFactory>();
+            return factory.CreateAsync(context, options, cancel);
         }
 
         /// <summary>

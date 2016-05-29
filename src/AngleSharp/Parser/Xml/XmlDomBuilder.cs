@@ -41,7 +41,7 @@
         /// <param name="creator">The optional non-standard creator to use.</param>
         internal XmlDomBuilder(Document document, Func<Document, String, String, Element> creator = null)
         {
-            var resolver = document.Options.GetService<IEntityService>() ?? XmlEntityService.Resolver;
+            var resolver = document.Options.GetProvider<IEntityProvider>() ?? XmlEntityService.Resolver;
             _tokenizer = new XmlTokenizer(document.Source, resolver);
             _document = document;
             _standalone = false;

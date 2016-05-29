@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
+    using Services;
     using System;
     using System.IO;
     using System.Threading;
@@ -113,8 +114,15 @@
 
             if (context != null)
             {
-                var element = context as Element ??
-                    Factory.HtmlElements.Create(document, context.LocalName, context.Prefix);
+                var element = context as Element;
+
+                if (element == null)
+                {
+                    var configuration = document.Options;
+                    var factory = configuration.GetFactory<IHtmlElementFactory>();
+                    element = factory.Create(document, context.LocalName, context.Prefix);
+                }
+
                 return parser.ParseFragment(_options, element).DocumentElement.ChildNodes;
             }
 

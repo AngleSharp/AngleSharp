@@ -6,7 +6,7 @@
     /// <summary>
     /// Defines the methods to access available style engines.
     /// </summary>
-    public interface IStylingService
+    public interface IStylingProvider
     {
         /// <summary>
         /// Gets the registered engine for the provided mime-type.

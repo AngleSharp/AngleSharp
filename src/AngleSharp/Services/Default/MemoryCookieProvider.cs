@@ -6,14 +6,14 @@
     /// <summary>
     /// Represents the default cookie service. This class can be inherited.
     /// </summary>
-    public class MemoryCookieService : ICookieService
+    public class MemoryCookieProvider : ICookieProvider
     {
         readonly CookieContainer _container;
 
         /// <summary>
         /// Creates a new cookie service for non-persistent cookies.
         /// </summary>
-        public MemoryCookieService()
+        public MemoryCookieProvider()
         {
             _container = new CookieContainer();
         }

@@ -58,7 +58,7 @@
         /// <returns>
         /// True if the element was cancelled, otherwise false.
         /// </returns>
-        public static Boolean Fire<T>(this IEventTarget target, Action<T> initializer, EventTarget targetOverride = null)
+        public static Boolean Fire<T>(this IEventTarget target, Action<T> initializer, IEventTarget targetOverride = null)
             where T : Event, new()
         {
             var eventData = new T { IsTrusted = true };

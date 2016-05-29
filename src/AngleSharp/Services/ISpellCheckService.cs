@@ -10,7 +10,7 @@
     public interface ISpellCheckService
     {
         /// <summary>
-        /// Gets the culture for spell check service.
+        /// Gets the culture for the spell check service.
         /// </summary>
         CultureInfo Culture { get; }
 

@@ -21,43 +21,23 @@
     static class ConfigurationExtensions
     {
         #region Encoding
-
-        /// <summary>
-        /// Gets the default encoding for the given configuration.
-        /// </summary>
-        /// <param name="configuration">
-        /// The configuration to use for getting the default encoding.
-        /// </param>
-        /// <returns>The current encoding.</returns>
+        
         public static Encoding DefaultEncoding(this IConfiguration configuration)
         {
-            var service = configuration.GetService<IEncodingService>();
+            var provider = configuration.GetProvider<IEncodingProvider>();
             var locale = configuration.GetLanguage();
-            return service != null ? service.Suggest(locale) : Encoding.UTF8;
+            return provider != null ? provider.Suggest(locale) : Encoding.UTF8;
         }
 
         #endregion
 
         #region Languages
-
-        /// <summary>
-        /// Gets the provided current culture.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <returns>The culture information.</returns>
+        
         public static CultureInfo GetCulture(this IConfiguration configuration)
         {
             return configuration.GetService<CultureInfo>() ?? CultureInfo.CurrentUICulture;
         }
-
-        /// <summary>
-        /// Gets the culture from the given language string or falls back to
-        /// the default culture of the provided configuration (if any). Last
-        /// resort is to use the current UI culture.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="language">The language string, e.g. en-US.</param>
-        /// <returns>The culture information.</returns>
+        
         public static CultureInfo GetCultureFromLanguage(this IConfiguration configuration, String language)
         {
             try
@@ -69,12 +49,7 @@
                 return configuration.GetCulture();
             }
         }
-
-        /// <summary>
-        /// Gets the provided current language.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <returns>The language string, e.g. en-US.</returns>
+        
         public static String GetLanguage(this IConfiguration configuration)
         {
             return configuration.GetCulture().Name;
@@ -83,52 +58,27 @@
         #endregion
 
         #region Services
+        
+        public static TFactory GetFactory<TFactory>(this IConfiguration configuration)
+        {
+            return configuration.GetServices<TFactory>().Single();
+        }
 
-        /// <summary>
-        /// Gets a service with a specific type from the configuration, if it
-        /// has been registered.
-        /// </summary>
-        /// <typeparam name="TService">
-        /// The type of the service to get.
-        /// </typeparam>
-        /// <param name="configuration">
-        /// The configuration instance to use.
-        /// </param>
-        /// <returns>The service, if any.</returns>
+        public static TProvider GetProvider<TProvider>(this IConfiguration configuration)
+        {
+            return configuration.GetServices<TProvider>().SingleOrDefault();
+        }
+
         public static TService GetService<TService>(this IConfiguration configuration)
         {
             return configuration.GetServices<TService>().FirstOrDefault();
         }
 
-        /// <summary>
-        /// Gets services with a specific type from the configuration, if it
-        /// has been registered.
-        /// </summary>
-        /// <typeparam name="TService">
-        /// The type of the service to get.
-        /// </typeparam>
-        /// <param name="configuration">
-        /// The configuration instance to use.
-        /// </param>
-        /// <returns>An enumerable over all services.</returns>
         public static IEnumerable<TService> GetServices<TService>(this IConfiguration configuration)
         {
             return configuration.Services.OfType<TService>();
         }
-
-        /// <summary>
-        /// Gets a service for a specific resource type from the configuration.
-        /// </summary>
-        /// <typeparam name="TResource">
-        /// The type of the resource to get.
-        /// </typeparam>
-        /// <param name="configuration">
-        /// The configuration instance to use.
-        /// </param>
-        /// <param name="type">
-        /// The mime-type of the requested resource.
-        /// </param>
-        /// <returns>The service, if any.</returns>
+        
         public static IResourceService<TResource> GetResourceService<TResource>(this IConfiguration configuration, String type)
             where TResource : IResourceInfo
         {
@@ -148,59 +98,42 @@
         #endregion
 
         #region Cookies
-
-        /// <summary>
-        /// Gets the cookie for the provided address.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="origin">The origin of the cookie.</param>
-        /// <returns>The value of the cookie.</returns>
+        
         public static String GetCookie(this IConfiguration configuration, String origin)
         {
-            var service = configuration.GetService<ICookieService>();
-            return service != null ? service.GetCookie(origin) : String.Empty;
+            var provider = configuration.GetProvider<ICookieProvider>();
+            return provider != null ? provider.GetCookie(origin) : String.Empty;
         }
-
-        /// <summary>
-        /// Sets the cookie for the provided address.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="origin">The origin of the cookie.</param>
-        /// <param name="value">The value of the cookie.</param>
+        
         public static void SetCookie(this IConfiguration configuration, String origin, String value)
         {
-            var service = configuration.GetService<ICookieService>();
+            var provider = configuration.GetProvider<ICookieProvider>();
 
-            if (service != null)
+            if (provider != null)
             {
-                service.SetCookie(origin, value);
+                provider.SetCookie(origin, value);
             }
         }
 
         #endregion
 
         #region Spell Check
-
-        /// <summary>
-        /// Gets a spellchecker for the given language.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="language">The language to consider.</param>
-        /// <returns>The spellchecker or null, if there is none.</returns>
+        
         public static ISpellCheckService GetSpellCheck(this IConfiguration configuration, String language)
         {
             var substitute = default(ISpellCheckService);
             var culture = configuration.GetCultureFromLanguage(language);
+            var services = configuration.GetServices<ISpellCheckService>();
 
-            foreach (var spellchecker in configuration.GetServices<ISpellCheckService>())
+            foreach (var service in services)
             {
-                if (spellchecker.Culture.Equals(culture))
+                if (service.Culture.Equals(culture))
                 {
-                    return spellchecker;
+                    return service;
                 }
-                else if (spellchecker.Culture.TwoLetterISOLanguageName.Is(culture.TwoLetterISOLanguageName))
+                else if (service.Culture.TwoLetterISOLanguageName.Is(culture.TwoLetterISOLanguageName))
                 {
-                    substitute = spellchecker;
+                    substitute = service;
                 }
             }
 
@@ -210,37 +143,16 @@
         #endregion
 
         #region Parsing Styles
-
-        /// <summary>
-        /// Tries to resolve the CSS style engine.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <returns>
-        /// The CSS style engine or null, if none has been registered.
-        /// </returns>
+        
         public static ICssStyleEngine GetCssStyleEngine(this IConfiguration configuration)
         {
             return configuration.GetStyleEngine(MimeTypeNames.Css) as ICssStyleEngine;
         }
-
-        /// <summary>
-        /// Tries to resolve a style engine for the given type name.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="type">The mime-type of the source code.</param>
-        /// <returns>
-        /// The style engine or null, if the type if unknown.
-        /// </returns>
+        
         public static IStyleEngine GetStyleEngine(this IConfiguration configuration, String type)
         {
-            var service = configuration.GetService<IStylingService>();
-
-            if (service != null)
-            {
-                return service.GetEngine(type);
-            }
-
-            return null;
+            var provider = configuration.GetProvider<IStylingProvider>();
+            return provider != null ? provider.GetEngine(type) : null;
         }
 
         #endregion
@@ -249,86 +161,35 @@
 
         public static Boolean IsScripting(this IConfiguration configuration)
         {
-            return configuration != null && configuration.GetService<IScriptingService>() != null;
+            return configuration != null && configuration.GetProvider<IScriptingProvider>() != null;
         }
-
-        /// <summary>
-        /// Tries to resolve a script engine for the given type name.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="type">The mime-type of the source code.</param>
-        /// <returns>
-        /// The script engine or null, if the type if unknown.
-        /// </returns>
+        
         public static IScriptEngine GetScriptEngine(this IConfiguration configuration, String type)
         {
-            var service = configuration.GetService<IScriptingService>();
-
-            if (service != null)
-            {
-                return service.GetEngine(type);
-            }
-
-            return null;
+            var provider = configuration.GetProvider<IScriptingProvider>();
+            return provider != null ? provider.GetEngine(type) : null;
         }
 
         #endregion
 
         #region Context
-
-        /// <summary>
-        /// Creates a new browsing context without any name.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="security">The optional sandboxing flag to use.</param>
-        /// <returns>The new context.</returns>
+        
         public static IBrowsingContext NewContext(this IConfiguration configuration, Sandboxes security = Sandboxes.None)
         {
-            var service = configuration.GetService<IContextService>();
-
-            if (service == null)
-            {
-                return new BrowsingContext(configuration, security);
-            }
-
-            return service.Create(configuration, security);
+            var factory = configuration.GetFactory<IContextFactory>();
+            return factory.Create(configuration, security);
         }
-
-        /// <summary>
-        /// Finds an existing browsing context with the given name.
-        /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        /// <param name="name">The name of the context to find.</param>
-        /// <returns>
-        /// The existing context, or null, if no context with the provided
-        /// name could be find.
-        /// </returns>
+        
         public static IBrowsingContext FindContext(this IConfiguration configuration, String name)
         {
-            var service = configuration.GetService<IContextService>();
-
-            if (service != null)
-            {
-                return service.Find(name);
-            }
-
-            return null;
+            var factory = configuration.GetFactory<IContextFactory>();
+            return factory.Find(name);
         }
 
         #endregion
 
         #region Commands
-
-        /// <summary>
-        /// Tries to resolve a command service with the given command id.
-        /// </summary>
-        /// <param name="configuration">
-        /// The configuration that contains all command services.
-        /// </param>
-        /// <param name="commandId">The id of the command to find.</param>
-        /// <returns>
-        /// The command with the given id if that exists, otherwise null.
-        /// </returns>
+        
         public static ICommandService GetCommand(this IConfiguration configuration, String commandId)
         {
             foreach (var command in configuration.GetServices<ICommandService>())

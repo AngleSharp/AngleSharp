@@ -28,7 +28,7 @@
         readonly MutationHost _mutations;
         readonly IBrowsingContext _context;
         readonly IEventLoop _loop;
-        readonly IWindow _view;
+        readonly Window _view;
         readonly IResourceLoader _loader;
         readonly Location _location;
         readonly TextSource _source;
@@ -436,9 +436,9 @@
             _location = new Location("about:blank");
             _ranges = new List<WeakReference<Range>>();
             _location.Changed += LocationChanged;
-            _view = this.CreateWindow();
-            _loader = context.CreateResourceLoader();
-            _loop = this.CreateLoop();
+            _view = new Window(this);
+            _loader = context.CreateService<IResourceLoader>();
+            _loop = context.CreateService<IEventLoop>();
             _mutations = new MutationHost(_loop);
             _subtasks = new List<Task>();
         }
@@ -1001,7 +1001,7 @@
 
         public Event CreateEvent(String type)
         {
-            var factory = Options.GetService<IEventFactory>();
+            var factory = Options.GetFactory<IEventFactory>();
             var ev = factory.Create(type);
 
             if (ev == null)
@@ -1043,7 +1043,7 @@
         {
             if (localName.IsXmlName())
             {
-                var factory = Options.GetService<IHtmlElementFactory>();
+                var factory = Options.GetFactory<IHtmlElementFactory>();
                 var element = factory.Create(this, localName);
                 element.SetupElement();
                 return element;
@@ -1060,21 +1060,21 @@
 
             if (namespaceUri.Is(NamespaceNames.HtmlUri))
             {
-                var factory = Options.GetService<IHtmlElementFactory>();
+                var factory = Options.GetFactory<IHtmlElementFactory>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.SvgUri))
             {
-                var factory = Options.GetService<ISvgElementFactory>();
+                var factory = Options.GetFactory<ISvgElementFactory>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.MathMlUri))
             {
-                var factory = Options.GetService<IMathElementFactory>();
+                var factory = Options.GetFactory<IMathElementFactory>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
@@ -1238,22 +1238,20 @@
         /// <returns>The task that unloads the document.</returns>
         internal void Unload(Boolean recycle, CancellationToken cancelToken)
         {
-            var window = DefaultView as EventTarget;
-
             if (_shown)
             {
                 _shown = false;
-                this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageHide, false, false, _salvageable), window);
+                this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageHide, false, false, _salvageable), _view);
             }
 
             if (!_firedUnload)
             {
-                window.FireSimpleEvent(EventNames.Unload);
+                _view.FireSimpleEvent(EventNames.Unload);
             }
 
             this.ReleaseStorageMutex();
 
-            if (window.HasEventListener(EventNames.Unload))
+            if (_view.HasEventListener(EventNames.Unload))
             {
                 _firedUnload = true;
                 _salvageable = false;
@@ -1393,10 +1391,10 @@
 
         void ShowPage()
         {
-            if (!_shown && _view != null)
+            if (!_shown)
             {
                 _shown = true;
-                this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view as EventTarget);
+                this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view);
             }
         }
 

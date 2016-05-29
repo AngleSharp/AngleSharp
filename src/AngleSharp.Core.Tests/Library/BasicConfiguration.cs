@@ -14,9 +14,9 @@
         public void HasStyleEngine()
         {
             var config = new Configuration().WithCss();
-            var service = config.GetService<IStylingService>();
-            Assert.IsNotNull(service);
-            var engine = service.GetEngine(MimeTypeNames.Css);
+            var provider = config.GetProvider<IStylingProvider>();
+            Assert.IsNotNull(provider);
+            var engine = provider.GetEngine(MimeTypeNames.Css);
             Assert.IsNotNull(engine);
             Assert.IsInstanceOf<CssStyleEngine>(engine);
         }
