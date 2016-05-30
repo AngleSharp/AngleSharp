@@ -1,4 +1,4 @@
-![logo](https://raw.githubusercontent.com/FlorianRappl/AngleSharp/master/header.png)
+![logo](https://raw.githubusercontent.com/AngleSharp/AngleSharp/master/header.png)
 
 AngleSharp
 ==========
@@ -83,8 +83,7 @@ Current status
 
 [![Build status](https://img.shields.io/appveyor/ci/FlorianRappl/AngleSharp.svg?style=flat-square)](https://ci.appveyor.com/project/FlorianRappl/AngleSharp)
 [![Nuget count](https://img.shields.io/nuget/v/AngleSharp.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp/)
-[![Nuget downloads](https://img.shields.io/nuget/dt/AngleSharp.svg?style=flat-square)](https://www.nuget.org/packages/AngleSharp/)
-[![Issues open](https://img.shields.io/github/issues/FlorianRappl/AngleSharp.svg?style=flat-square)](https://github.com/FlorianRappl/AngleSharp/issues)
+[![Issues open](https://img.shields.io/github/issues/AngleSharp/AngleSharp.svg?style=flat-square)](https://github.com/AngleSharp/AngleSharp/issues)
 
 The project aims to bring a solid implementation of the W3C DOM for HTML, SVG, MathML and CSS to the CLR, written in C#. The idea is that you can basically do everything with the DOM in C# that you can do in JavaScript.
 
@@ -185,7 +184,7 @@ The roadmap presents a draft on what is about to be implemented, and when. The p
 
 The time estimates are speculative, which means that the project could be totally off those predictions. Finding talented (and motivated) collaborators would certainly speed up the project.
 
-(December 2015) **1.0.0**
+(August 2016) **1.0.0**
 - Final release of the first version
 - Split AngleSharp.Core into several libraries
 - Provide internal / external communication channel (best flexibility)
@@ -230,7 +229,7 @@ License
 
 The MIT License (MIT)
 
-Copyright (c) 2013 - 2015 AngleSharp
+Copyright (c) 2013 - 2016 AngleSharp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
