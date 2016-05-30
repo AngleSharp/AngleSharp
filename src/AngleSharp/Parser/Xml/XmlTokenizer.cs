@@ -67,7 +67,7 @@
             switch (c)
             {
                 case Symbols.LessThan:
-                    return TagOpen(GetNext());
+                    return TagOpen();
 
                 case Symbols.EndOfFile:
                     return NewEof();
@@ -89,13 +89,13 @@
                         return NewCharacters();
 
                     case Symbols.Ampersand:
-                        StringBuffer.Append(CharacterReference(GetNext()));
+                        StringBuffer.Append(CharacterReference());
                         c = GetNext();
                         break;
 
                     case Symbols.SquareBracketClose:
                         StringBuffer.Append(c);
-                        c = CheckCharacter(GetNext());
+                        c = CheckNextCharacter();
                         break;
 
                     default:
@@ -113,11 +113,12 @@
         /// <summary>
         /// Checks if the character sequence is equal to ]]&gt;.
         /// </summary>
-        /// <param name="ch">The character to examine.</param>
         /// <returns>The given character.</returns>
-        Char CheckCharacter(Char ch)
+        Char CheckNextCharacter()
         {
-            if (ch == Symbols.SquareBracketClose)
+            var c = GetNext();
+
+            if (c == Symbols.SquareBracketClose)
             {
                 if (GetNext() == Symbols.GreaterThan)
                     throw XmlParseError.XmlInvalidCharData.At(GetCurrentPosition());
@@ -125,15 +126,16 @@
                 Back();
             }
 
-            return ch;
+            return c;
         }
 
         /// <summary>
         /// See http://www.w3.org/TR/REC-xml/#NT-CData.
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        XmlCDataToken CData(Char c)
+        XmlCDataToken CData()
         {
+            var c = GetNext();
+
             while (true)
             {
                 if (c == Symbols.EndOfFile)
@@ -155,10 +157,10 @@
         /// <summary>
         /// Called once an &amp; character is being seen.
         /// </summary>
-        /// <param name="c">The next character after the &amp; character.</param>
         /// <returns>The entity token.</returns>
-        String CharacterReference(Char c)
+        String CharacterReference()
         {
+            var c = GetNext();
             var start = StringBuffer.Length;
             var hex = false;
             var numeric = c == Symbols.Num;
@@ -233,32 +235,34 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#sec-starttags.
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        XmlToken TagOpen(Char c)
+        XmlToken TagOpen()
         {
-            if (c == Symbols.ExclamationMark)
-                return MarkupDeclaration(GetNext());
+            var c = GetNext();
 
-            if (c == Symbols.QuestionMark)
+            if (c == Symbols.ExclamationMark)
+            {
+                return MarkupDeclaration();
+            }
+            else if (c == Symbols.QuestionMark)
             {
                 c = GetNext();
 
                 if (ContinuesWithSensitive(TagNames.Xml))
                 {
                     Advance(2);
-                    return DeclarationStart(GetNext());
+                    return DeclarationStart();
                 }
 
                 return ProcessingStart(c);
             }
-
-            if (c == Symbols.Solidus)
-                return TagEnd(GetNext());
-            
-            if (c.IsXmlNameStart())
+            else if (c == Symbols.Solidus)
+            {
+                return TagEnd();
+            }
+            else if (c.IsXmlNameStart())
             {
                 StringBuffer.Append(c);
-                return TagName(GetNext(), NewOpenTag());
+                return TagName(NewOpenTag());
             }
 
             throw XmlParseError.XmlInvalidStartTag.At(GetCurrentPosition());
@@ -267,9 +271,10 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#dt-etag.
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        XmlToken TagEnd(Char c)
+        XmlToken TagEnd()
         {
+            var c = GetNext();
+
             if (c.IsXmlNameStart())
             {
                 do
@@ -293,9 +298,7 @@
             }
 
             if (c == Symbols.EndOfFile)
-            {
                 throw XmlParseError.EOF.At(GetCurrentPosition());
-            }
 
             throw XmlParseError.XmlInvalidEndTag.At(GetCurrentPosition());
         }
@@ -303,11 +306,12 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-Name.
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
         /// <returns>The emitted token.</returns>
-        XmlToken TagName(Char c, XmlTagToken tag)
+        XmlToken TagName(XmlTagToken tag)
         {
+            var c = GetNext();
+
             while (c.IsXmlName())
             {
                 StringBuffer.Append(c);
@@ -320,11 +324,17 @@
                 throw XmlParseError.EOF.At(GetCurrentPosition());
 
             if (c == Symbols.GreaterThan)
+            {
                 return tag;
+            }
             else if (c.IsSpaceCharacter())
-                return AttributeBeforeName(GetNext(), tag);
+            {
+                return AttributeBeforeName(tag);
+            }
             else if (c == Symbols.Solidus)
-                return TagSelfClosing(GetNext(), tag);
+            {
+                return TagSelfClosing(tag);
+            }
 
             throw XmlParseError.XmlInvalidName.At(GetCurrentPosition());
         }
@@ -332,15 +342,17 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#d0e2480.
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
-        XmlToken TagSelfClosing(Char c, XmlTagToken tag)
+        XmlToken TagSelfClosing(XmlTagToken tag)
         {
+            var c = GetNext();
             tag.IsSelfClosing = true;
 
             if (c == Symbols.GreaterThan)
+            {
                 return tag;
-            
+            }
+
             if (c == Symbols.EndOfFile)
                 throw XmlParseError.EOF.At(GetCurrentPosition());
 
@@ -350,23 +362,24 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#dt-markup.
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        XmlToken MarkupDeclaration(Char c)
+        XmlToken MarkupDeclaration()
         {
+            var c = GetNext();
+
             if (ContinuesWithSensitive("--"))
             {
                 Advance();
-                return CommentStart(GetNext());
+                return CommentStart();
             }
             else if (ContinuesWithSensitive(TagNames.Doctype))
             {
                 Advance(6);
-                return Doctype(GetNext());
+                return Doctype();
             }
             else if (ContinuesWithSensitive(Keywords.CData))
             {
                 Advance(6);
-                return CData(GetNext());
+                return CData();
             }
 
             throw XmlParseError.UndefinedMarkupDeclaration.At(GetCurrentPosition());
@@ -379,9 +392,10 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-XMLDecl.
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        XmlToken DeclarationStart(Char c)
+        XmlToken DeclarationStart()
         {
+            var c = GetNext();
+
             if (!c.IsSpaceCharacter())
             {
                 StringBuffer.Append(TagNames.Xml);
@@ -394,7 +408,7 @@
             if (ContinuesWithSensitive(AttributeNames.Version))
             {
                 Advance(6);
-                return DeclarationVersionAfterName(GetNext(), NewDeclaration());
+                return DeclarationVersionAfterName(NewDeclaration());
             }
 
             throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
@@ -403,44 +417,41 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-VersionInfo.
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationVersionAfterName(Char c, XmlDeclarationToken decl)
+        XmlToken DeclarationVersionAfterName(XmlDeclarationToken decl)
         {
-            while (c.IsSpaceCharacter())
-                c = GetNext();
+            var c = SkipSpaces();
 
-            if (c == Symbols.Equality)
-                return DeclarationVersionBeforeValue(GetNext(), decl);
+            if (c != Symbols.Equality)
+                throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
 
-            throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
+            return DeclarationVersionBeforeValue(decl);
         }
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-VersionInfo.
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationVersionBeforeValue(Char c, XmlDeclarationToken decl)
+        XmlToken DeclarationVersionBeforeValue(XmlDeclarationToken decl)
         {
-            while (c.IsSpaceCharacter())
-                c = GetNext();
+            var c = SkipSpaces();
 
-            if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote)
-                return DeclarationVersionValue(GetNext(), c, decl);
+            if (c != Symbols.DoubleQuote && c != Symbols.SingleQuote)
+                throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
 
-            throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
+            return DeclarationVersionValue(decl, c);
         }
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-VersionInfo.
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="q">The quote character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationVersionValue(Char c, Char q, XmlDeclarationToken decl)
+        /// <param name="quote">The quote character.</param>
+        XmlToken DeclarationVersionValue(XmlDeclarationToken decl, Char quote)
         {
-            while (c != q)
+            var c = GetNext();
+
+            while (c != quote)
             {
                 if (c == Symbols.EndOfFile)
                     throw XmlParseError.EOF.At(GetCurrentPosition());
@@ -453,7 +464,9 @@
             c = GetNext();
 
             if (c.IsSpaceCharacter())
-                return DeclarationAfterVersion(c, decl);
+            {
+                return DeclarationAfterVersion(decl);
+            }
 
             return DeclarationEnd(c, decl);
         }
@@ -461,22 +474,20 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-VersionNum.
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationAfterVersion(Char c, XmlDeclarationToken decl)
+        XmlToken DeclarationAfterVersion(XmlDeclarationToken decl)
         {
-            while (c.IsSpaceCharacter())
-                c = GetNext();
+            var c = SkipSpaces();
 
             if (ContinuesWithSensitive(AttributeNames.Encoding))
             {
                 Advance(7);
-                return DeclarationEncodingAfterName(GetNext(), decl);
+                return DeclarationEncodingAfterName(decl);
             }
             else if (ContinuesWithSensitive(AttributeNames.Standalone))
             {
                 Advance(9);
-                return DeclarationStandaloneAfterName(GetNext(), decl);
+                return DeclarationStandaloneAfterName(decl);
             }
 
             return DeclarationEnd(c, decl);
@@ -485,28 +496,24 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-EncodingDecl.
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationEncodingAfterName(Char c, XmlDeclarationToken decl)
+        XmlToken DeclarationEncodingAfterName(XmlDeclarationToken decl)
         {
-            while (c.IsSpaceCharacter())
-                c = GetNext();
+            var c = SkipSpaces();
 
-            if (c == Symbols.Equality)
-                return DeclarationEncodingBeforeValue(GetNext(), decl);
+            if (c != Symbols.Equality)
+                throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
 
-            throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
+            return DeclarationEncodingBeforeValue(decl);
         }
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-EncodingDecl.
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationEncodingBeforeValue(Char c, XmlDeclarationToken decl)
+        XmlToken DeclarationEncodingBeforeValue(XmlDeclarationToken decl)
         {
-            while (c.IsSpaceCharacter())
-                c = GetNext();
+            var c = SkipSpaces();
 
             if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote)
             {
@@ -514,7 +521,10 @@
                 c = GetNext();
 
                 if (c.IsLetter())
-                    return DeclarationEncodingValue(c, q, decl);
+                {
+                    StringBuffer.Append(c);
+                    return DeclarationEncodingValue(decl, q);
+                }
             }
 
             throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
@@ -523,46 +533,27 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-EncodingDecl.
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="q">The quote character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationEncodingValue(Char c, Char q, XmlDeclarationToken decl)
+        /// <param name="quote">The quote character.</param>
+        XmlToken DeclarationEncodingValue(XmlDeclarationToken decl, Char quote)
         {
-            do
+            var c = GetNext();
+
+            while (c != quote)
             {
-                if (c.IsAlphanumericAscii() || c == Symbols.Dot || c == Symbols.Underscore || c == Symbols.Minus)
-                {
-                    StringBuffer.Append(c);
-                    c = GetNext();
-                }
-                else
+                if (!c.IsAlphanumericAscii() && c != Symbols.Dot && c != Symbols.Underscore && c != Symbols.Minus)
                     throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
+
+                StringBuffer.Append(c);
+                c = GetNext();
             }
-            while (c != q);
 
             decl.Encoding = FlushBuffer();
             c = GetNext();
 
             if (c.IsSpaceCharacter())
-                return DeclarationAfterEncoding(c, decl);
-
-            return DeclarationEnd(c, decl);
-        }
-
-        /// <summary>
-        /// More http://www.w3.org/TR/REC-xml/#NT-SDDecl.
-        /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationAfterEncoding(Char c, XmlDeclarationToken decl)
-        {
-            while (c.IsSpaceCharacter())
-                c = GetNext();
-
-            if (ContinuesWithSensitive(AttributeNames.Standalone))
             {
-                Advance(9);
-                return DeclarationStandaloneAfterName(GetNext(), decl);
+                return DeclarationAfterEncoding(decl);
             }
 
             return DeclarationEnd(c, decl);
@@ -571,44 +562,58 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-SDDecl.
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationStandaloneAfterName(Char c, XmlDeclarationToken decl)
+        XmlToken DeclarationAfterEncoding(XmlDeclarationToken decl)
         {
-            while (c.IsSpaceCharacter())
-                c = GetNext();
+            var c = SkipSpaces();
 
-            if (c == Symbols.Equality)
-                return DeclarationStandaloneBeforeValue(GetNext(), decl);
+            if (ContinuesWithSensitive(AttributeNames.Standalone))
+            {
+                Advance(9);
+                return DeclarationStandaloneAfterName(decl);
+            }
 
-            throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
+            return DeclarationEnd(c, decl);
         }
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-SDDecl.
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationStandaloneBeforeValue(Char c, XmlDeclarationToken decl)
+        XmlToken DeclarationStandaloneAfterName(XmlDeclarationToken decl)
         {
-            while (c.IsSpaceCharacter())
-                c = GetNext();
+            var c = SkipSpaces();
 
-            if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote)
-                return DeclarationStandaloneValue(GetNext(), c, decl);
+            if (c != Symbols.Equality)
+                throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
 
-            throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
+            return DeclarationStandaloneBeforeValue(decl);
         }
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-SDDecl.
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="q">The quote character.</param>
         /// <param name="decl">The current declaration token.</param>
-        XmlToken DeclarationStandaloneValue(Char c, Char q, XmlDeclarationToken decl)
+        XmlToken DeclarationStandaloneBeforeValue(XmlDeclarationToken decl)
         {
-            while (c != q)
+            var c = SkipSpaces();
+
+            if (c != Symbols.DoubleQuote && c != Symbols.SingleQuote)
+                throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
+
+            return DeclarationStandaloneValue(decl, c);
+        }
+
+        /// <summary>
+        /// More http://www.w3.org/TR/REC-xml/#NT-SDDecl.
+        /// </summary>
+        /// <param name="decl">The current declaration token.</param>
+        /// <param name="quote">The quote character.</param>
+        XmlToken DeclarationStandaloneValue(XmlDeclarationToken decl, Char quote)
+        {
+            var c = GetNext();
+
+            while (c != quote)
             {
                 if (c == Symbols.EndOfFile)
                     throw XmlParseError.EOF.At(GetCurrentPosition());
@@ -620,11 +625,17 @@
             var s = FlushBuffer();
 
             if (s.Is(Keywords.Yes))
+            {
                 decl.Standalone = true;
+            }
             else if (s.Is(Keywords.No))
+            {
                 decl.Standalone = false;
+            }
             else
+            {
                 throw XmlParseError.XmlDeclarationInvalid.At(GetCurrentPosition());
+            }
 
             return DeclarationEnd(GetNext(), decl);
         }
@@ -652,11 +663,14 @@
         /// <summary>
         /// See 8.2.4.52 DOCTYPE state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        XmlToken Doctype(Char c)
+        XmlToken Doctype()
         {
+            var c = GetNext();
+
             if (c.IsSpaceCharacter())
-                return DoctypeNameBefore(GetNext());
+            {
+                return DoctypeNameBefore();
+            }
 
             throw XmlParseError.DoctypeInvalid.At(GetCurrentPosition());
         }
@@ -664,16 +678,14 @@
         /// <summary>
         /// See 8.2.4.53 Before DOCTYPE name state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        XmlToken DoctypeNameBefore(Char c)
+        XmlToken DoctypeNameBefore()
         {
-            while (c.IsSpaceCharacter())
-                c = GetNext();
+            var c = SkipSpaces();
 
             if (c.IsXmlNameStart())
             {
                 StringBuffer.Append(c);
-                return DoctypeName(GetNext(), NewDoctype());
+                return DoctypeName(NewDoctype());
             }
 
             throw XmlParseError.DoctypeInvalid.At(GetCurrentPosition());
@@ -682,11 +694,12 @@
         /// <summary>
         /// See 8.2.4.54 DOCTYPE name state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        XmlToken DoctypeName(Char c, XmlDoctypeToken doctype)
+        XmlToken DoctypeName(XmlDoctypeToken doctype)
         {
+            var c = GetNext();
+
             while (c.IsXmlName())
             {
                 StringBuffer.Append(c);
@@ -696,9 +709,13 @@
             doctype.Name = FlushBuffer();
 
             if (c == Symbols.GreaterThan)
+            {
                 return doctype;
+            }
             else if (c.IsSpaceCharacter())
-                return DoctypeNameAfter(GetNext(), doctype);
+            {
+                return DoctypeNameAfter(doctype);
+            }
 
             throw XmlParseError.DoctypeInvalid.At(GetCurrentPosition());
         }
@@ -706,26 +723,25 @@
         /// <summary>
         /// See 8.2.4.55 After DOCTYPE name state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        XmlToken DoctypeNameAfter(Char c, XmlDoctypeToken doctype)
+        XmlToken DoctypeNameAfter(XmlDoctypeToken doctype)
         {
-            while (c.IsSpaceCharacter())
-                c = GetNext();
+            var c = SkipSpaces();
 
             if (c == Symbols.GreaterThan)
+            {
                 return doctype;
-
-            if (ContinuesWithSensitive(Keywords.Public))
+            }
+            else if (ContinuesWithSensitive(Keywords.Public))
             {
                 Advance(5);
-                return DoctypePublic(GetNext(), doctype);
+                return DoctypePublic(doctype);
             }
             else if (ContinuesWithSensitive(Keywords.System))
             {
                 Advance(5);
-                return DoctypeSystem(GetNext(), doctype);
+                return DoctypeSystem(doctype);
             }
             else if (c == Symbols.SquareBracketOpen)
             {
@@ -739,20 +755,20 @@
         /// <summary>
         /// See 8.2.4.56 After DOCTYPE public keyword state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        XmlToken DoctypePublic(Char c, XmlDoctypeToken doctype)
+        XmlToken DoctypePublic(XmlDoctypeToken doctype)
         {
+            var c = GetNext();
+
             if (c.IsSpaceCharacter())
             {
-                while (c.IsSpaceCharacter())
-                    c = GetNext();
+                c = SkipSpaces();
 
                 if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote)
                 {
                     doctype.PublicIdentifier = String.Empty;
-                    return DoctypePublicIdentifierValue(GetNext(), c, doctype);
+                    return DoctypePublicIdentifierValue(doctype, c);
                 }
             }
 
@@ -762,13 +778,14 @@
         /// <summary>
         /// See 8.2.4.58 DOCTYPE public identifier (double-quoted) state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="q">The closing character.</param>
         /// <param name="doctype">The current doctype token.</param>
+        /// <param name="quote">The closing character.</param>
         /// <returns>The emitted token.</returns>
-        XmlToken DoctypePublicIdentifierValue(Char c, Char q, XmlDoctypeToken doctype)
+        XmlToken DoctypePublicIdentifierValue(XmlDoctypeToken doctype, Char quote)
         {
-            while (c != q)
+            var c = GetNext();
+
+            while (c != quote)
             {
                 if (!c.IsPubidChar())
                     throw XmlParseError.XmlInvalidPubId.At(GetCurrentPosition());
@@ -778,21 +795,26 @@
             }
 
             doctype.PublicIdentifier = FlushBuffer();
-            return DoctypePublicIdentifierAfter(GetNext(), doctype);
+            return DoctypePublicIdentifierAfter(doctype);
         }
 
         /// <summary>
         /// See 8.2.4.60 After DOCTYPE public identifier state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        XmlToken DoctypePublicIdentifierAfter(Char c, XmlDoctypeToken doctype)
+        XmlToken DoctypePublicIdentifierAfter(XmlDoctypeToken doctype)
         {
+            var c = GetNext();
+
             if (c == Symbols.GreaterThan)
+            {
                 return doctype;
+            }
             else if (c.IsSpaceCharacter())
-                return DoctypeBetween(GetNext(), doctype);
+            {
+                return DoctypeBetween(doctype);
+            }
 
             throw XmlParseError.DoctypeInvalid.At(GetCurrentPosition());
         }
@@ -803,18 +825,18 @@
         /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        XmlToken DoctypeBetween(Char c, XmlDoctypeToken doctype)
+        XmlToken DoctypeBetween(XmlDoctypeToken doctype)
         {
-            while (c.IsSpaceCharacter())
-                c = GetNext();
+            var c = SkipSpaces();
 
             if (c == Symbols.GreaterThan)
+            {
                 return doctype;
-            
-            if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote)
+            }
+            else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote)
             {
                 doctype.SystemIdentifier = String.Empty;
-                return DoctypeSystemIdentifierValue(GetNext(), c, doctype);
+                return DoctypeSystemIdentifierValue(doctype, c);
             }
 
             throw XmlParseError.DoctypeInvalid.At(GetCurrentPosition());
@@ -823,20 +845,20 @@
         /// <summary>
         /// See 8.2.4.62 After DOCTYPE system keyword state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        XmlToken DoctypeSystem(Char c, XmlDoctypeToken doctype)
+        XmlToken DoctypeSystem(XmlDoctypeToken doctype)
         {
+            var c = GetNext();
+
             if (c.IsSpaceCharacter())
             {
-                while (c.IsSpaceCharacter())
-                    c = GetNext();
+                c = SkipSpaces();
 
                 if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote)
                 {
                     doctype.SystemIdentifier = String.Empty;
-                    return DoctypeSystemIdentifierValue(GetNext(), c, doctype);
+                    return DoctypeSystemIdentifierValue(doctype, c);
                 }
             }
 
@@ -846,13 +868,14 @@
         /// <summary>
         /// See 8.2.4.64 DOCTYPE system identifier (double-quoted) state
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="q">The quote character.</param>
         /// <param name="doctype">The current doctype token.</param>
+        /// <param name="quote">The quote character.</param>
         /// <returns>The emitted token.</returns>
-        XmlToken DoctypeSystemIdentifierValue(Char c, Char q, XmlDoctypeToken doctype)
+        XmlToken DoctypeSystemIdentifierValue(XmlDoctypeToken doctype, Char quote)
         {
-            while (c != q)
+            var c = GetNext();
+
+            while (c != quote)
             {
                 if (c == Symbols.EndOfFile)
                     throw XmlParseError.EOF.At(GetCurrentPosition());
@@ -862,19 +885,17 @@
             }
 
             doctype.SystemIdentifier = FlushBuffer();
-            return DoctypeSystemIdentifierAfter(GetNext(), doctype);
+            return DoctypeSystemIdentifierAfter(doctype);
         }
 
         /// <summary>
         /// See 8.2.4.66 After DOCTYPE system identifier state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
-        XmlToken DoctypeSystemIdentifierAfter(Char c, XmlDoctypeToken doctype)
+        XmlToken DoctypeSystemIdentifierAfter(XmlDoctypeToken doctype)
         {
-            while (c.IsSpaceCharacter())
-                c = GetNext();
+            var c = SkipSpaces();
 
             if (c == Symbols.SquareBracketOpen)
             {
@@ -897,7 +918,9 @@
                 c = GetNext();
 
             if (c == Symbols.GreaterThan)
+            {
                 return doctype;
+            }
 
             throw XmlParseError.DoctypeInvalid.At(GetCurrentPosition());
         }
@@ -909,24 +932,27 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-Attribute.
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
-        XmlToken AttributeBeforeName(Char c, XmlTagToken tag)
+        XmlToken AttributeBeforeName(XmlTagToken tag)
         {
-            while (c.IsSpaceCharacter())
-                c = GetNext();
+            var c = SkipSpaces();
 
             if (c == Symbols.Solidus)
-                return TagSelfClosing(GetNext(), tag);
+            {
+                return TagSelfClosing(tag);
+            }
             else if (c == Symbols.GreaterThan)
+            {
                 return tag;
-            else if (c == Symbols.EndOfFile)
+            }
+
+            if (c == Symbols.EndOfFile)
                 throw XmlParseError.EOF.At(GetCurrentPosition());
 
             if (c.IsXmlNameStart())
             {
                 StringBuffer.Append(c);
-                return AttributeName(GetNext(), tag);
+                return AttributeName(tag);
             }
 
             throw XmlParseError.XmlInvalidAttribute.At(GetCurrentPosition());
@@ -935,10 +961,11 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-Attribute.
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
-        XmlToken AttributeName(Char c, XmlTagToken tag)
+        XmlToken AttributeName(XmlTagToken tag)
         {
+            var c = GetNext();
+
             while (c.IsXmlName())
             {
                 StringBuffer.Append(c);
@@ -958,68 +985,80 @@
                 while (c.IsSpaceCharacter());
             }
             
-            if (c == Symbols.Equality)
-                return AttributeBeforeValue(GetNext(), tag);
+            if (c != Symbols.Equality)
+                throw XmlParseError.XmlInvalidAttribute.At(GetCurrentPosition());
 
-            throw XmlParseError.XmlInvalidAttribute.At(GetCurrentPosition());
+            return AttributeBeforeValue(tag);
         }
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-Attribute.
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
-        XmlToken AttributeBeforeValue(Char c, XmlTagToken tag)
+        XmlToken AttributeBeforeValue(XmlTagToken tag)
         {
-            while (c.IsSpaceCharacter())
-                c = GetNext();
+            var c = SkipSpaces();
 
-            if (c == Symbols.DoubleQuote || c== Symbols.SingleQuote)
-                return AttributeValue(GetNext(), c, tag);
+            if (c != Symbols.DoubleQuote && c != Symbols.SingleQuote)
+                throw XmlParseError.XmlInvalidAttribute.At(GetCurrentPosition());
 
-            throw XmlParseError.XmlInvalidAttribute.At(GetCurrentPosition());
+            return AttributeValue(tag, c);
         }
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-Attribute.
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        /// <param name="q">The quote character.</param>
         /// <param name="tag">The current tag token.</param>
-        XmlToken AttributeValue(Char c, Char q, XmlTagToken tag)
+        /// <param name="quote">The quote character.</param>
+        XmlToken AttributeValue(XmlTagToken tag, Char quote)
         {
-            while (c != q)
+            var c = GetNext();
+
+            while (c != quote)
             {
                 if (c == Symbols.EndOfFile)
                     throw XmlParseError.EOF.At(GetCurrentPosition());
 
                 if (c == Symbols.Ampersand)
-                    StringBuffer.Append(CharacterReference(GetNext()));
+                {
+                    StringBuffer.Append(CharacterReference());
+                }
                 else if (c == Symbols.LessThan)
+                {
                     throw XmlParseError.XmlLtInAttributeValue.At(GetCurrentPosition());
-                else 
+                }
+                else
+                {
                     StringBuffer.Append(c);
+                }
 
                 c = GetNext();
             }
 
             tag.SetAttributeValue(FlushBuffer());
-            return AttributeAfterValue(GetNext(), tag);
+            return AttributeAfterValue(tag);
         }
 
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#NT-Attribute.
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="tag">The current tag token.</param>
-        XmlToken AttributeAfterValue(Char c, XmlTagToken tag)
+        XmlToken AttributeAfterValue(XmlTagToken tag)
         {
+            var c = GetNext();
+
             if (c.IsSpaceCharacter())
-                return AttributeBeforeName(GetNext(), tag);
+            {
+                return AttributeBeforeName(tag);
+            }
             else if (c == Symbols.Solidus)
-                return TagSelfClosing(GetNext(), tag);
+            {
+                return TagSelfClosing(tag);
+            }
             else if (c == Symbols.GreaterThan)
+            {
                 return tag;
+            }
 
             throw XmlParseError.XmlInvalidAttribute.At(GetCurrentPosition());
         }
@@ -1066,10 +1105,14 @@
                 c = GetNext();
 
                 if (c == Symbols.GreaterThan)
+                {
                     return pi;
+                }
             }
             else if (c.IsSpaceCharacter())
-                return ProcessingContent(GetNext(), pi);
+            {
+                return ProcessingContent(pi);
+            }
 
             throw XmlParseError.XmlInvalidPI.At(GetCurrentPosition());
         }
@@ -1077,10 +1120,11 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#sec-pi.
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="pi">The processing instruction token.</param>
-        XmlToken ProcessingContent(Char c, XmlPIToken pi)
+        XmlToken ProcessingContent(XmlPIToken pi)
         {
+            var c = GetNext();
+
             while (c != Symbols.EndOfFile)
             {
                 if (c == Symbols.QuestionMark)
@@ -1112,10 +1156,9 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#sec-comments.
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        XmlToken CommentStart(Char c)
+        XmlToken CommentStart()
         {
-            return Comment(c);
+            return Comment(GetNext());
         }
 
         /// <summary>
@@ -1127,7 +1170,9 @@
             while (c.IsXmlChar())
             {
                 if (c == Symbols.Minus)
-                    return CommentDash(GetNext());
+                {
+                    return CommentDash();
+                }
 
                 StringBuffer.Append(c);
                 c = GetNext();
@@ -1139,11 +1184,14 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#sec-comments.
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        XmlToken CommentDash(Char c)
+        XmlToken CommentDash()
         {
+            var c = GetNext();
+
             if (c == Symbols.Minus)
-                return CommentEnd(GetNext());
+            {
+                return CommentEnd();
+            }
             
             return Comment(c);
         }
@@ -1151,11 +1199,14 @@
         /// <summary>
         /// More http://www.w3.org/TR/REC-xml/#sec-comments.
         /// </summary>
-        /// <param name="c">The next input character.</param>
-        XmlToken CommentEnd(Char c)
+        XmlToken CommentEnd()
         {
+            var c = GetNext();
+
             if (c == Symbols.GreaterThan)
+            {
                 return NewComment();
+            }
 
             throw XmlParseError.XmlInvalidComment.At(GetCurrentPosition());
         }
