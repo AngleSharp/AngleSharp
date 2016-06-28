@@ -3651,17 +3651,25 @@
         /// </summary>
         void HandleScript(HtmlScriptElement script)
         {
-            //Disable scripting for HTML fragments (security reasons)
-            if (script != null && !IsFragmentCase)
+            if (script != null)
             {
-                _document.PerformMicrotaskCheckpoint();
-                _document.ProvideStableState();
-                CloseCurrentNode();
-                _currentMode = _previousMode;
-
-                if (script.Prepare(_document))
+                //Disable scripting for HTML fragments (security reasons)
+                if (IsFragmentCase)
                 {
-                    _waiting = RunScript(script);
+                    CloseCurrentNode();
+                    _currentMode = _previousMode;
+                }
+                else
+                {
+                    _document.PerformMicrotaskCheckpoint();
+                    _document.ProvideStableState();
+                    CloseCurrentNode();
+                    _currentMode = _previousMode;
+
+                    if (script.Prepare(_document))
+                    {
+                        _waiting = RunScript(script);
+                    }
                 }
             }
         }

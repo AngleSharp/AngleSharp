@@ -614,5 +614,34 @@
 
             Assert.AreEqual(fragment, element.InnerHtml);
         }
+
+        [Test]
+        public void FragmentTailShouldBeConsidered()
+        {
+            var fragment = "<script>alert('foo');</script><p>Test</p>";
+            var document = "<!DOCTYPE html><div id=outputPanel></div>".ToHtmlDocument();
+            var nodes = fragment.ToHtmlFragment(document.Body);
+
+            Assert.AreEqual(2, nodes.Length);
+            Assert.AreEqual("script", nodes[0].GetTagName());
+            Assert.AreEqual("p", nodes[1].GetTagName());
+        }
+
+        [Test]
+        public void InnerHtmlShouldConsiderAllElementsOfFragmentsContainingScriptElements()
+        {
+            var fragment = "<p>Foo</p><script>alert('foo');</script><p>Test</p>";
+            var document = "<!DOCTYPE html><div id=outputPanel></div>".ToHtmlDocument();
+            document.Body.InnerHtml = fragment;
+            var nodes = document.Body.ChildNodes;
+
+            Assert.IsNull(document.QuerySelector("#outputPanel"));
+            Assert.AreEqual(3, nodes.Length);
+            Assert.AreEqual("p", nodes[0].GetTagName());
+            Assert.AreEqual("Foo", nodes[0].TextContent);
+            Assert.AreEqual("script", nodes[1].GetTagName());
+            Assert.AreEqual("p", nodes[2].GetTagName());
+            Assert.AreEqual("Test", nodes[2].TextContent);
+        }
     }
 }
