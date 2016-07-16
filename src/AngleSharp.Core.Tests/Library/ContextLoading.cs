@@ -65,7 +65,7 @@
             {
                 var title = "PostUrlencodeNormal";
                 var address = "http://anglesharp.azurewebsites.net/PostUrlEncodeNormal";
-                var config = new Configuration().WithDefaultLoader();
+                var config = Configuration.Default.WithDefaultLoader();
                 var document = await BrowsingContext.New(config).OpenAsync(address);
                 var h1 = document.QuerySelector("h1");
 
@@ -85,7 +85,7 @@
             if (Helper.IsNetworkAvailable())
             {
                 var address = "http://anglesharp.azurewebsites.net/PostUrlEncodeNormal";
-                var config = new Configuration().WithDefaultLoader();
+                var config = Configuration.Default.WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
 
@@ -120,7 +120,7 @@
             if (Helper.IsNetworkAvailable())
             {
                 var address = "http://anglesharp.azurewebsites.net/";
-                var config = new Configuration().WithDefaultLoader();
+                var config = Configuration.Default.WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
                 var anchors = document.QuerySelectorAll<IHtmlAnchorElement>("ul a");
@@ -140,7 +140,7 @@
             {
                 var title = "PostUrlencodeNormal";
                 var address = "http://anglesharp.azurewebsites.net/";
-                var config = new Configuration().WithDefaultLoader();
+                var config = Configuration.Default.WithDefaultLoader();
                 var context = BrowsingContext.New(config);
                 var document = await context.OpenAsync(address);
                 var anchors = document.QuerySelectorAll<IHtmlAnchorElement>("ul a");
@@ -157,7 +157,7 @@
         public async Task ContextLoadAmazonWithCss()
         {
             var address = "http://www.amazon.com";
-            var config = new Configuration().WithPageRequester().WithCss();
+            var config = Configuration.Default.WithPageRequester().WithCss();
             var document = await BrowsingContext.New(config).OpenAsync(address);
             Assert.IsNotNull(document);
             Assert.AreNotEqual(0, document.Body.ChildElementCount);
@@ -168,7 +168,7 @@
         {
             var delayRequester = new DelayRequester(100);
             var imageService = new ResourceService<IImageInfo>("image/jpeg", response => new MockImageInfo { Source = response.Address });
-            var config = new Configuration().WithDefaultLoader(m => m.IsResourceLoadingEnabled = true, new[] { delayRequester }).With(imageService);
+            var config = Configuration.Default.WithDefaultLoader(m => m.IsResourceLoadingEnabled = true, new[] { delayRequester }).With(imageService);
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
             var img = document.QuerySelector<IHtmlImageElement>("img");
@@ -180,7 +180,7 @@
         public async Task ContextNoLoadExternalResources()
         {
             var delayRequester = new DelayRequester(100);
-            var config = new Configuration().WithDefaultLoader(requesters: new[] { delayRequester });
+            var config = Configuration.Default.WithDefaultLoader(requesters: new[] { delayRequester });
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content("<img src=whatever.jpg>"));
             var img = document.QuerySelector<IHtmlImageElement>("img");
@@ -194,7 +194,7 @@
             var url = "http://localhost";
             var source = "<!doctype html><link rel=stylesheet href=http://localhost/beispiel.css type=text/css />";
             var memory = new MemoryStream(Encoding.UTF8.GetBytes(source));
-            var config = new Configuration(null, null).WithCss();
+            var config = Configuration.Default.WithCss();
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content(memory).Address(url));
             var links = document.QuerySelectorAll("link");
@@ -216,7 +216,7 @@
     </body>
 </html>";
 
-            var config = new Configuration().WithPageRequester(enableResourceLoading: true).WithCss();
+            var config = Configuration.Default.WithPageRequester(enableResourceLoading: true).WithCss();
             var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(html));
             Assert.AreEqual(1, document.StyleSheets.Length);
         }

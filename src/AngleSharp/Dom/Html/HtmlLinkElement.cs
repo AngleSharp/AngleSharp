@@ -237,18 +237,15 @@
         BaseLinkRelation CreateFirstLegalRelation()
         {
             var relations = RelationList;
-            var factory = Owner.Options.GetService<ILinkRelationFactory>();
+            var factory = Owner.Options.GetFactory<ILinkRelationFactory>();
 
-            if (factory != null)
+            foreach (var relation in relations)
             {
-                foreach (var relation in relations)
-                {
-                    var rel = factory.Create(this, relation);
+                var rel = factory.Create(this, relation);
 
-                    if (rel != null)
-                    {
-                        return rel;
-                    }
+                if (rel != null)
+                {
+                    return rel;
                 }
             }
 

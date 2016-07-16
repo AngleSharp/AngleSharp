@@ -65,8 +65,8 @@
         {
             _configuration = configuration;
             _security = security;
-            _loader = this.CreateDocumentLoader();
-            _history = this.CreateHistory();
+            _loader = this.CreateService<IDocumentLoader>();
+            _history = this.CreateService<IHistory>();
         }
         
         internal BrowsingContext(IBrowsingContext parent, Sandboxes security)

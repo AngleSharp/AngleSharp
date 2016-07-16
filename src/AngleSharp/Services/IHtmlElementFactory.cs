@@ -4,7 +4,7 @@
     using AngleSharp.Dom.Html;
     using System;
 
-    interface IHtmlElementFactory : IService
+    interface IHtmlElementFactory
     {
         HtmlElement Create(Document document, String localName, String prefix = null);
     }

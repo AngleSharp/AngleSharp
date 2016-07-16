@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Parser.Xml;
+    using Services;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -55,7 +56,8 @@
         {
             var parserOptions = new XmlParserOptions { };
             var document = new SvgDocument(context, options.Source);
-            var parser = new XmlDomBuilder(document, Factory.SvgElements.Create);
+            var factory = context.Configuration.GetFactory<ISvgElementFactory>();
+            var parser = new XmlDomBuilder(document, factory.Create);
             document.Setup(options);
             context.NavigateTo(document);
             context.Fire(new HtmlParseEvent(document, completed: false));

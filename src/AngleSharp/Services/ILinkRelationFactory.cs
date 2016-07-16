@@ -4,7 +4,7 @@
     using AngleSharp.Html.LinkRels;
     using System;
 
-    interface ILinkRelationFactory : IService
+    interface ILinkRelationFactory
     {
         BaseLinkRelation Create(HtmlLinkElement link, String rel);
     }

@@ -6,7 +6,7 @@
     /// <summary>
     /// Defines the methods to access available script engines.
     /// </summary>
-    public interface IScriptingService : IService
+    public interface IScriptingProvider
     {
         /// <summary>
         /// Gets the registered engine for the provided mime-type.

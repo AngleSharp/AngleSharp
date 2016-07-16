@@ -2,6 +2,7 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using Services;
     using System;
 
     /// <summary>
@@ -27,7 +28,8 @@
 
         public override INode Clone(Boolean deep = true)
         {
-            var node = Factory.SvgElements.Create(Owner, LocalName, Prefix);
+            var factory = Owner.Options.GetFactory<ISvgElementFactory>();
+            var node = factory.Create(Owner, LocalName, Prefix);
             CloneElement(node, deep);
             return node;
         }

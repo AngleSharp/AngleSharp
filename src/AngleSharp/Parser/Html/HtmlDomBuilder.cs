@@ -70,7 +70,7 @@
         internal HtmlDomBuilder(HtmlDocument document)
         {
             var options = document.Options;
-            var resolver = options.GetService<IEntityService>() ?? HtmlEntityService.Resolver;
+            var resolver = options.GetProvider<IEntityProvider>() ?? HtmlEntityService.Resolver;
             _tokenizer = new HtmlTokenizer(document.Source, resolver);
             _document = document;
             _openElements = new List<Element>();
@@ -78,9 +78,9 @@
             _formattingElements = new List<Element>();
             _frameset = true;
             _currentMode = HtmlTreeMode.Initial;
-            _htmlFactory = options.GetService<IHtmlElementFactory>();
-            _mathFactory = options.GetService<IMathElementFactory>();
-            _svgFactory = options.GetService<ISvgElementFactory>();
+            _htmlFactory = options.GetFactory<IHtmlElementFactory>();
+            _mathFactory = options.GetFactory<IMathElementFactory>();
+            _svgFactory = options.GetFactory<ISvgElementFactory>();
         }
 
         #endregion

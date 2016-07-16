@@ -12,6 +12,7 @@
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -28,7 +29,7 @@
         readonly MutationHost _mutations;
         readonly IBrowsingContext _context;
         readonly IEventLoop _loop;
-        readonly IWindow _view;
+        readonly Window _view;
         readonly IResourceLoader _loader;
         readonly Location _location;
         readonly TextSource _source;
@@ -54,6 +55,7 @@
         HtmlElementCollection _commands;
         HtmlElementCollection _links;
         IStyleSheetList _styleSheets;
+        HttpStatusCode _statusCode;
 
         #endregion
 
@@ -436,11 +438,12 @@
             _location = new Location("about:blank");
             _ranges = new List<WeakReference<Range>>();
             _location.Changed += LocationChanged;
-            _view = this.CreateWindow();
-            _loader = context.CreateResourceLoader();
-            _loop = this.CreateLoop();
+            _view = new Window(this);
+            _loader = context.CreateService<IResourceLoader>();
+            _loop = context.CreateService<IEventLoop>();
             _mutations = new MutationHost(_loop);
             _subtasks = new List<Task>();
+            _statusCode = HttpStatusCode.OK;
         }
 
         #endregion
@@ -744,6 +747,12 @@
             get { return _context; }
         }
 
+        public HttpStatusCode StatusCode
+        {
+            get { return _statusCode; }
+            private set { _statusCode = value; }
+        }
+
         public String Cookie
         {
             get { return Options.GetCookie(_location.Origin); }
@@ -1001,7 +1010,7 @@
 
         public Event CreateEvent(String type)
         {
-            var factory = Options.GetService<IEventFactory>();
+            var factory = Options.GetFactory<IEventFactory>();
             var ev = factory.Create(type);
 
             if (ev == null)
@@ -1043,7 +1052,7 @@
         {
             if (localName.IsXmlName())
             {
-                var factory = Options.GetService<IHtmlElementFactory>();
+                var factory = Options.GetFactory<IHtmlElementFactory>();
                 var element = factory.Create(this, localName);
                 element.SetupElement();
                 return element;
@@ -1060,21 +1069,21 @@
 
             if (namespaceUri.Is(NamespaceNames.HtmlUri))
             {
-                var factory = Options.GetService<IHtmlElementFactory>();
+                var factory = Options.GetFactory<IHtmlElementFactory>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.SvgUri))
             {
-                var factory = Options.GetService<ISvgElementFactory>();
+                var factory = Options.GetFactory<ISvgElementFactory>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.MathMlUri))
             {
-                var factory = Options.GetService<IMathElementFactory>();
+                var factory = Options.GetFactory<IMathElementFactory>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
@@ -1238,22 +1247,20 @@
         /// <returns>The task that unloads the document.</returns>
         internal void Unload(Boolean recycle, CancellationToken cancelToken)
         {
-            var window = DefaultView as EventTarget;
-
             if (_shown)
             {
                 _shown = false;
-                this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageHide, false, false, _salvageable), window);
+                this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageHide, false, false, _salvageable), _view);
             }
 
             if (!_firedUnload)
             {
-                window.FireSimpleEvent(EventNames.Unload);
+                _view.FireSimpleEvent(EventNames.Unload);
             }
 
             this.ReleaseStorageMutex();
 
-            if (window.HasEventListener(EventNames.Unload))
+            if (_view.HasEventListener(EventNames.Unload))
             {
                 _firedUnload = true;
                 _salvageable = false;
@@ -1269,73 +1276,37 @@
         Boolean IDocument.ExecuteCommand(String commandId, Boolean showUserInterface, String value)
         {
             var command = Options.GetCommand(commandId);
-
-            if (command != null)
-            {
-                return command.Execute(this, showUserInterface, value);
-            }
-
-            return false;
+            return command != null ? command.Execute(this, showUserInterface, value) : false;
         }
 
         Boolean IDocument.IsCommandEnabled(String commandId)
         {
             var command = Options.GetCommand(commandId);
-
-            if (command != null)
-            {
-                return command.IsEnabled(this);
-            }
-
-            return false;
+            return command != null ? command.IsEnabled(this) : false;
         }
 
         Boolean IDocument.IsCommandIndeterminate(String commandId)
         {
             var command = Options.GetCommand(commandId);
-
-            if (command != null)
-            {
-                return command.IsIndeterminate(this);
-            }
-
-            return false;
+            return command != null ? command.IsIndeterminate(this) : false;
         }
 
         Boolean IDocument.IsCommandExecuted(String commandId)
         {
             var command = Options.GetCommand(commandId);
-
-            if (command != null)
-            {
-                return command.IsExecuted(this);
-            }
-
-            return false;
+            return command != null ? command.IsExecuted(this) : false;
         }
 
         Boolean IDocument.IsCommandSupported(String commandId)
         {
             var command = Options.GetCommand(commandId);
-
-            if (command != null)
-            {
-                return command.IsSupported(this);
-            }
-
-            return false;
+            return command != null ? command.IsSupported(this) : false;
         }
 
         String IDocument.GetCommandValue(String commandId)
         {
             var command = Options.GetCommand(commandId);
-
-            if (command != null)
-            {
-                return command.GetValue(this);
-            }
-
-            return null;
+            return command != null ? command.GetValue(this) : null;
         }
 
         #endregion
@@ -1393,10 +1364,10 @@
 
         void ShowPage()
         {
-            if (!_shown && _view != null)
+            if (!_shown)
             {
                 _shown = true;
-                this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view as EventTarget);
+                this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageShow, false, false, false), _view);
             }
         }
 
@@ -1420,6 +1391,7 @@
         protected void Setup(CreateDocumentOptions options)
         {
             ContentType = options.ContentType.Content;
+            StatusCode = options.Response.StatusCode;
             Referrer = options.Response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
             DocumentUri = options.Response.Address.Href;
             Cookie = options.Response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);

@@ -9,7 +9,7 @@
     /// Represents the list of all Xml entities.
     /// </summary>
     [DebuggerStepThrough]
-    public sealed class XmlEntityService : IEntityService
+    public sealed class XmlEntityService : IEntityProvider
     {
         #region Fields
 
@@ -29,7 +29,7 @@
         /// <summary>
         /// Gets the instance to resolve entities.
         /// </summary>
-        public static readonly IEntityService Resolver = new XmlEntityService();
+        public static readonly IEntityProvider Resolver = new XmlEntityService();
 
         #endregion
 

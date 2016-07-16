@@ -6,7 +6,6 @@
     using AngleSharp.Dom.Navigator;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Services;
     using AngleSharp.Services.Styling;
     using System;
     using System.Collections.Generic;
@@ -62,7 +61,7 @@
         /// </summary>
         public INavigator Navigator
         {
-            get { return _navigator ?? (_navigator = CreateNavigator()); }
+            get { return _navigator ?? (_navigator = _document.Context.CreateService<INavigator>()); }
         }
 
         /// <summary>
@@ -709,18 +708,6 @@
             {
                 _tasks[handle].Cancel();
             }
-        }
-
-        INavigator CreateNavigator()
-        {
-            var service = _document.Options.GetService<INavigatorService>();
-
-            if (service != null)
-            {
-                return service.Create(this);
-            }
-
-            return null;
         }
 
         #endregion

@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Services
 {
-    using System;
     using AngleSharp.Services.Styling;
+    using System;
 
     /// <summary>
     /// Defines the methods to access available style engines.
     /// </summary>
-    public interface IStylingService : IService
+    public interface IStylingProvider
     {
         /// <summary>
         /// Gets the registered engine for the provided mime-type.

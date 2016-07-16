@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a factory for pseudo-element selectors.
     /// </summary>
-    public interface IPseudoElementSelectorFactory : IService
+    public interface IPseudoElementSelectorFactory
     {
         /// <summary>
         /// Creates a new pseudo-element selector for the given name.

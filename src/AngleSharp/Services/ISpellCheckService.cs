@@ -1,17 +1,16 @@
 ﻿namespace AngleSharp.Services
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
 
     /// <summary>
     /// Provides a spell correction service.
     /// </summary>
-    public interface ISpellCheckService : IService
+    public interface ISpellCheckService
     {
         /// <summary>
-        /// Gets the culture for spell check service.
+        /// Gets the culture for the spell check service.
         /// </summary>
         CultureInfo Culture { get; }
 

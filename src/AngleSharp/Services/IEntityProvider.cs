@@ -5,7 +5,7 @@
     /// <summary>
     /// Defines methods to create a custom entity service.
     /// </summary>
-    public interface IEntityService : IService
+    public interface IEntityProvider
     {
         /// <summary>
         /// Gets a symbol specified by its entity name.

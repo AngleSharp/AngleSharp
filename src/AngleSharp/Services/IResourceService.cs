@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Services
 {
-    using AngleSharp.Services.Media;
     using AngleSharp.Network;
+    using AngleSharp.Services.Media;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -9,7 +9,7 @@
     /// <summary>
     /// Represents a service to create a specific resource handler.
     /// </summary>
-    public interface IResourceService<TResource> : IService
+    public interface IResourceService<TResource>
         where TResource : IResourceInfo
     {
         /// <summary>

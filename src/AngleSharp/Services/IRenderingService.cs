@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents a service for creating rendering contexts.
     /// </summary>
-    public interface IRenderingService : IService
+    public interface IRenderingService
     {
         /// <summary>
         /// Checks if the given context is supported.

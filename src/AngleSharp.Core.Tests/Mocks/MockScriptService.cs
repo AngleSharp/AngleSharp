@@ -4,7 +4,7 @@
     using AngleSharp.Services.Scripting;
     using System;
 
-    class MockScriptService<T> : IScriptingService
+    class MockScriptService<T> : IScriptingProvider
         where T : IScriptEngine
     {
         readonly T _engine;

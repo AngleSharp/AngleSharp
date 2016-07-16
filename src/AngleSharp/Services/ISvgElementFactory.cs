@@ -4,7 +4,7 @@
     using AngleSharp.Dom.Svg;
     using System;
 
-    interface ISvgElementFactory : IService
+    interface ISvgElementFactory
     {
         SvgElement Create(Document document, String localName, String prefix = null);
     }

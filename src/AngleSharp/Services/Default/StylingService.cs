@@ -8,7 +8,7 @@
     /// <summary>
     /// Provides the basic set of functionality for retrieving style engines.
     /// </summary>
-    public class StylingService : IStylingService
+    public class StylingService : IStylingProvider
     {
         readonly List<IStyleEngine> _engines;
 

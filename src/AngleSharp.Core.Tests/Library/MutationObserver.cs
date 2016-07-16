@@ -12,7 +12,7 @@
     {
         static IDocument Html(String code)
         {
-            var config = Configuration.Default.With(new StandingEventLoopService());
+            var config = Configuration.Default.With<IEventLoop>(ctx => new StandingEventLoop());
             return code.ToHtmlDocument(config);
         }
 

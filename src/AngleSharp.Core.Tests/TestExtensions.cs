@@ -8,7 +8,6 @@
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
     using AngleSharp.Parser.Xml;
-    using AngleSharp.Services.Default;
     using AngleSharp.Services.Scripting;
     using NUnit.Framework;
     using System;
@@ -36,10 +35,11 @@
 
         public static IConfiguration WithPageRequester(this IConfiguration config, Boolean enableNavigation = true, Boolean enableResourceLoading = false)
         {
-            var service = new LoaderService(PageRequester.All);
-            service.IsResourceLoadingEnabled = enableResourceLoading;
-            service.IsNavigationEnabled = enableNavigation;
-            return config.With(service);
+            return config.WithDefaultLoader(setup =>
+            {
+                setup.IsNavigationEnabled = enableNavigation;
+                setup.IsResourceLoadingEnabled = enableResourceLoading;
+            }, PageRequester.All);
         }
 
         public static IConfiguration WithMockRequester(this IConfiguration config, Action<IRequest> onRequest = null)

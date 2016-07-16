@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a service to determine the default encoding.
     /// </summary>
-    public interface IEncodingService : IService
+    public interface IEncodingProvider
     {
         /// <summary>
         /// Suggests the initial Encoding for the given locale.

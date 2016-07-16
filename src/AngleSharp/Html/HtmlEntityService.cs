@@ -10,7 +10,7 @@
     /// Represents the list of all Html entities.
     /// </summary>
     [DebuggerStepThrough]
-    public sealed class HtmlEntityService : IEntityService
+    public sealed class HtmlEntityService : IEntityProvider
     {
         #region Fields
 
@@ -23,7 +23,7 @@
         /// <summary>
         /// Gets the instance to resolve entities.
         /// </summary>
-        public static readonly IEntityService Resolver = new HtmlEntityService();
+        public static readonly IEntityProvider Resolver = new HtmlEntityService();
 
         #endregion
 

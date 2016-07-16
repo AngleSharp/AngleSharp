@@ -175,9 +175,9 @@
 
         internal CssSelectorConstructor GetSelectorCreator()
         {
-            var attributeSelector = _configuration.GetService<IAttributeSelectorFactory>();
-            var pseudoClassSelector = _configuration.GetService<IPseudoClassSelectorFactory>();
-            var pseudoElementSelector = _configuration.GetService<IPseudoElementSelectorFactory>();
+            var attributeSelector = _configuration.GetFactory<IAttributeSelectorFactory>();
+            var pseudoClassSelector = _configuration.GetFactory<IPseudoClassSelectorFactory>();
+            var pseudoElementSelector = _configuration.GetFactory<IPseudoElementSelectorFactory>();
             return Pool.NewSelectorConstructor(attributeSelector, pseudoClassSelector, pseudoElementSelector);
         }
 

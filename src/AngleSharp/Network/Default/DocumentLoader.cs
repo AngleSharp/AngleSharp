@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Network.Default
 {
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the default document loader. This class can be inherited.
@@ -13,11 +12,10 @@
         /// <summary>
         /// Creates a new document loader.
         /// </summary>
-        /// <param name="requesters">The requesters to use.</param>
         /// <param name="context">The context to use.</param>
         /// <param name="filter">The optional request filter to use.</param>
-        public DocumentLoader(IEnumerable<IRequester> requesters, IBrowsingContext context, Predicate<IRequest> filter = null)
-            : base(requesters, context, filter)
+        public DocumentLoader(IBrowsingContext context, Predicate<IRequest> filter = null)
+            : base(context, filter)
         {
         }
 

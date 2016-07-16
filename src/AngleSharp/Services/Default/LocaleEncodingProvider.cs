@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents the default loader service. This class can be inherited.
     /// </summary>
-    public class LocaleEncodingService : IEncodingService
+    public class LocaleEncodingProvider : IEncodingProvider
     {
         static readonly Dictionary<String, Encoding> suggestions = new Dictionary<String, Encoding>(StringComparer.OrdinalIgnoreCase)
         {

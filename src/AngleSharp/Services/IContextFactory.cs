@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Services
 {
-    using System;
     using AngleSharp.Dom;
+    using System;
 
     /// <summary>
     /// Defines methods to create or find browsing contexts.
     /// </summary>
-    public interface IContextService : IService
+    public interface IContextFactory
     {
         /// <summary>
         /// Creates a new browsing context without any particular name.

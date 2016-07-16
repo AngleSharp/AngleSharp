@@ -3,7 +3,7 @@
     using AngleSharp.Services;
     using System;
 
-    sealed class MockEntityResolver : IEntityService
+    sealed class MockEntityResolver : IEntityProvider
     {
         readonly Func<String, String> _resolver;
 

@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Dom.Mathml
 {
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Services;
     using System;
 
     /// <summary>
@@ -21,7 +23,8 @@
 
         public override INode Clone(Boolean deep = true)
         {
-            var node = Factory.MathElements.Create(Owner, LocalName, Prefix);
+            var factory = Owner.Options.GetFactory<IMathElementFactory>();
+            var node = factory.Create(Owner, LocalName, Prefix);
             CloneElement(node, deep);
             return node;
         }
