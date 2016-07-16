@@ -1,10 +1,13 @@
 # 0.9.7
 
-- Fixed some bugs (#343, #325, #341)
-- Improved cookie handling (#280, #274)
+- Fixed some bugs (#343, #325, #341, #347, #355, #358)
+- Improved cookie handling (#280, #274, #365)
 - Added a document factory (#331)
 - `EventNames`, `AttributeNames` and others are available (#330)
 - Allow setting the active document (#281)
+- Improved Xamarin.iOS build (#85)
+- Changed service API slightly (#157)
+- Enhanced CoreCLR support (#270, #362)
 
 # 0.9.6
 
