@@ -52,6 +52,7 @@ Task("Restore-Packages")
     .Does(() =>
     {
         NuGetRestore("./src/AngleSharp.Core.sln");
+        DotNetCoreRestore("./src/AngleSharp/project.json");
     });
 
 Task("Build")
@@ -75,6 +76,11 @@ Task("Build")
                 .SetVerbosity(Verbosity.Minimal)
             );
         }
+
+        DotNetCoreBuild("./src/AngleSharp/project.json", new DotNetCoreBuildSettings
+        {
+            Configuration = "Release"
+        });
     });
 
 Task("Run-Unit-Tests")
