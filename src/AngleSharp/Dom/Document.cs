@@ -12,6 +12,7 @@
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -54,6 +55,7 @@
         HtmlElementCollection _commands;
         HtmlElementCollection _links;
         IStyleSheetList _styleSheets;
+        HttpStatusCode _statusCode;
 
         #endregion
 
@@ -441,6 +443,7 @@
             _loop = context.CreateService<IEventLoop>();
             _mutations = new MutationHost(_loop);
             _subtasks = new List<Task>();
+            _statusCode = HttpStatusCode.OK;
         }
 
         #endregion
@@ -742,6 +745,12 @@
         public IBrowsingContext Context
         {
             get { return _context; }
+        }
+
+        public HttpStatusCode StatusCode
+        {
+            get { return _statusCode; }
+            private set { _statusCode = value; }
         }
 
         public String Cookie
@@ -1382,6 +1391,7 @@
         protected void Setup(CreateDocumentOptions options)
         {
             ContentType = options.ContentType.Content;
+            StatusCode = options.Response.StatusCode;
             Referrer = options.Response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
             DocumentUri = options.Response.Address.Href;
             Cookie = options.Response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
