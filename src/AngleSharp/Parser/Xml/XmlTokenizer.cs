@@ -822,7 +822,6 @@
         /// <summary>
         /// See 8.2.4.61 Between DOCTYPE public and system identifiers state
         /// </summary>
-        /// <param name="c">The next input character.</param>
         /// <param name="doctype">The current doctype token.</param>
         /// <returns>The emitted token.</returns>
         XmlToken DoctypeBetween(XmlDoctypeToken doctype)
