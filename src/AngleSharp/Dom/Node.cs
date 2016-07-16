@@ -6,6 +6,7 @@
     using System;
     using System.Diagnostics;
     using System.IO;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents a node in the generated tree.
@@ -15,11 +16,12 @@
     {
         #region Fields
 
+        static readonly ConditionalWeakTable<Node, Document> Owners = new ConditionalWeakTable<Node, Document>();
+
         readonly NodeType _type;
         readonly String _name;
         readonly NodeFlags _flags;
-
-        WeakReference<Document> _owner;
+        
         Url _baseUri;
         Node _parent;
         NodeList _children;
@@ -30,7 +32,7 @@
 
         internal Node(Document owner, String name, NodeType type = NodeType.Element, NodeFlags flags = NodeFlags.None)
         {
-            _owner = new WeakReference<Document>(owner);
+            Owners.Add(this, owner);
             _name = name ?? String.Empty;
             _type = type;
             _children = this.CreateChildren();
@@ -230,7 +232,7 @@
 
                 if (_type != NodeType.Document)
                 {
-                    _owner.TryGetTarget(out owner);
+                    Owners.TryGetValue(this, out owner);
                 }
 
                 return owner;
@@ -241,7 +243,8 @@
 
                 if (!Object.ReferenceEquals(oldDocument, value))
                 {
-                    _owner = new WeakReference<Document>(value);
+                    Owners.Remove(this);
+                    Owners.Add(this, value);
 
                     for (var i = 0; i < _children.Length; i++)
                     {
