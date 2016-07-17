@@ -77,9 +77,9 @@
         /// </param>
         public void RemoveEventListener(String type, DomEventHandler callback = null, Boolean capture = false)
         {
-            if (callback != null && _listeners != null)
+            if (callback != null)
             {
-                _listeners.Remove(new RegisteredEventListener
+                _listeners?.Remove(new RegisteredEventListener
                 {
                     Type = type,
                     Callback = callback,

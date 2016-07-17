@@ -74,7 +74,9 @@
                     if (extracted != null)
                     {
                         if (tokens.Count > 0)
+                        {
                             tokens.Add(CssToken.Whitespace);
+                        }
 
                         tokens.AddRange(extracted);
                     }

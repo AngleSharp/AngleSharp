@@ -235,12 +235,7 @@
 
         public void DeleteHead()
         {
-            var head = Head;
-
-            if (head != null)
-            {
-                head.Remove();
-            }
+            Head?.Remove();
         }
 
         public IHtmlTableSectionElement CreateFoot()
@@ -258,12 +253,7 @@
 
         public void DeleteFoot()
         {
-            var foot = Foot;
-
-            if (foot != null)
-            {
-                foot.Remove();
-            }
+            Foot?.Remove();
         }
 
         public IHtmlTableCaptionElement CreateCaption()
@@ -281,14 +271,8 @@
 
         public void DeleteCaption()
         {
-            var caption = Caption;
-
-            if (caption != null)
-            {
-                caption.Remove();
-            }
+            Caption?.Remove();
         }
-
 
         #endregion
     }

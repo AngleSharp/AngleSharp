@@ -236,8 +236,7 @@
 
         void RaiseChanged(String oldAddress, Boolean hashChanged)
         {
-            if (Changed != null)
-                Changed(this, new LocationChangedEventArgs(hashChanged, oldAddress, _url.Href));
+            Changed?.Invoke(this, new LocationChangedEventArgs(hashChanged, oldAddress, _url.Href));
         }
 
         static String NonEmptyPrefix(String check, String prefix)

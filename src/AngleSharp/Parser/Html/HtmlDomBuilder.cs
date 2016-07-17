@@ -160,12 +160,8 @@
             {
                 token = _tokenizer.Get();
                 Consume(token);
-
-                if (_waiting != null)
-                {
-                    _waiting.Wait();
-                    _waiting = null;
-                }
+                _waiting?.Wait();
+                _waiting = null;
             }
             while (token.Type != HtmlTokenType.EndOfFile);
 
@@ -3048,19 +3044,12 @@
                         bookmark++;
                     }
 
-                    if (lastNode.Parent != null)
-                    {
-                        lastNode.Parent.RemoveChild(lastNode);
-                    }
-
+                    lastNode.Parent?.RemoveChild(lastNode);
                     node.AddNode(lastNode);
                     lastNode = node;
                 }
 
-                if (lastNode.Parent != null)
-                {
-                    lastNode.Parent.RemoveChild(lastNode);
-                }
+                lastNode.Parent?.RemoveChild(lastNode);
 
                 if (!TagNames.AllTableMajor.Contains(commonAncestor.LocalName))
                 {

@@ -91,13 +91,7 @@
         protected override String GetTitle()
         {
             var title = DocumentElement.FindDescendant<IHtmlTitleElement>();
-
-            if (title != null)
-            {
-                return title.TextContent.CollapseAndStrip();
-            }
-
-            return base.GetTitle();
+            return title?.TextContent.CollapseAndStrip() ?? base.GetTitle();
         }
 
         protected override void SetTitle(String value)

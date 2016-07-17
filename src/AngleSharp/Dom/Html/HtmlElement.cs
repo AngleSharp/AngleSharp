@@ -380,7 +380,7 @@
         static HtmlElement()
         {
             RegisterCallback<HtmlElement>(AttributeNames.Style, (element, value) => element.UpdateStyle(value));
-            RegisterCallback<HtmlElement>(AttributeNames.DropZone, (element, value) => element.TryUpdate(element._dropZone, value));
+            RegisterCallback<HtmlElement>(AttributeNames.DropZone, (element, value) => element._dropZone?.Update(value));
             RegisterEventCallback<HtmlElement>(EventNames.Load);
             RegisterEventCallback<HtmlElement>(EventNames.Abort);
             RegisterEventCallback<HtmlElement>(EventNames.Blur);

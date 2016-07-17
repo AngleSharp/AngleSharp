@@ -41,7 +41,7 @@
 
         static Element()
         {
-            RegisterCallback<Element>(AttributeNames.Class, (element, value) => element.TryUpdate(element._classList, value));
+            RegisterCallback<Element>(AttributeNames.Class, (element, value) => element._classList?.Update(value));
         }
 
         public Element(Document owner, String localName, String prefix, String namespaceUri, NodeFlags flags = NodeFlags.None)
@@ -445,9 +445,8 @@
             {
                 name = name.ToLower();
             }
-
-            var attr = _attributes.GetNamedItem(name);
-            return attr != null ? attr.Value : null;
+            
+            return _attributes.GetNamedItem(name)?.Value;
         }
 
         public String GetAttribute(String namespaceUri, String localName)
@@ -456,9 +455,8 @@
             {
                 namespaceUri = null;
             }
-
-            var attr = _attributes.GetNamedItem(namespaceUri, localName);
-            return attr != null ? attr.Value : null;
+            
+            return _attributes.GetNamedItem(namespaceUri, localName)?.Value;
         }
 
         public void SetAttribute(String name, String value)
@@ -713,7 +711,7 @@
                 _attributes.RemoveNamedItemOrDefault(AttributeNames.Style, suppressMutationObservers: true);
             }
 
-            TryUpdate(bindable, value);
+            bindable?.Update(value);
         }
 
         protected void UpdateAttribute(String name, String value)
@@ -723,12 +721,12 @@
 
         protected sealed override String LocateNamespace(String prefix)
         {
-            return ElementExtensions.LocateNamespace(this, prefix);
+            return this.LocateNamespaceFor(prefix);
         }
 
         protected sealed override String LocatePrefix(String namespaceUri)
         {
-            return ElementExtensions.LocatePrefix(this, namespaceUri);
+            return this.LocatePrefixFor(namespaceUri);
         }
 
         protected void CloneElement(Element element, Boolean deep)
@@ -742,14 +740,6 @@
             }
 
             element.SetupElement();
-        }
-
-        protected void TryUpdate(IBindable bindable, String value)
-        {
-            if (bindable != null)
-            {
-                bindable.Update(value);
-            }
         }
 
         sealed class AttrChanged

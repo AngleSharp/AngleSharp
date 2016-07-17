@@ -902,7 +902,7 @@
                     token = NextToken();
                     CollectTrivia(ref token);
                     var conditions = MultipleConditions(condition, conjunction, ref token);
-                    condition = creator(conditions);
+                    condition = creator.Invoke(conditions);
                 }
             }
 

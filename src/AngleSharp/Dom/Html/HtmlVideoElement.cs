@@ -48,12 +48,12 @@
 
         public Int32 OriginalWidth
         {
-            get { return Media != null ? Media.Width : 0; }
+            get { return Media?.Width ?? 0; }
         }
 
         public Int32 OriginalHeight
         {
-            get { return Media != null ? Media.Height : 0; }
+            get { return Media?.Height ?? 0; }
         }
 
         public String Poster

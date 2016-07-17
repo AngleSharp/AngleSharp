@@ -110,32 +110,32 @@
 
         public String FormAction
         {
-            get { if (Form == null) return String.Empty; return Form.Action; }
-            set { if (Form != null) Form.Action = value; }
+            get { var form = Form; if (form == null) return String.Empty; return form.Action; }
+            set { var form = Form; if (form != null) form.Action = value; }
         }
 
         public String FormEncType
         {
-            get { if (Form == null) return String.Empty; return Form.Enctype; }
-            set { if (Form != null) Form.Enctype = value; }
+            get { var form = Form; if (form == null) return String.Empty; return form.Enctype; }
+            set { var form = Form; if (form != null) form.Enctype = value; }
         }
 
         public String FormMethod
         {
-            get { if (Form == null) return String.Empty; return Form.Method; }
-            set { if (Form != null) Form.Method = value; }
+            get { var form = Form; if (form == null) return String.Empty; return form.Method; }
+            set { var form = Form; if (form != null) form.Method = value; }
         }
 
         public Boolean FormNoValidate
         {
-            get { if (Form == null) return false; return Form.NoValidate; }
-            set { if (Form != null) Form.NoValidate = value; }
+            get { var form = Form; if (form == null) return false; return form.NoValidate; }
+            set { var form = Form; if (form != null) form.NoValidate = value; }
         }
 
         public String FormTarget
         {
-            get { if (Form == null) return String.Empty; return Form.Target; }
-            set { if (Form != null) Form.Target = value; }
+            get { var form = Form; if (form == null) return String.Empty; return form.Target; }
+            set { var form = Form; if (form != null) form.Target = value; }
         }
 
         public String Accept
@@ -167,30 +167,17 @@
             get
             {
                 var type = _type as FileInputType;
-
-                if (type != null)
-                {
-                    return type.Files;
-                }
-
-                return null;
+                return type?.Files;
             }
         }
 
         public IHtmlDataListElement List
         {
-            get 
+            get
             {
-                var owner = Owner;
-
-                if (owner != null)
-                {
-                    var list = this.GetOwnAttribute(AttributeNames.List);
-                    var element = owner.GetElementById(list);
-                    return element as IHtmlDataListElement;
-                }
-
-                return null;
+                var list = this.GetOwnAttribute(AttributeNames.List);
+                var element = Owner?.GetElementById(list);
+                return element as IHtmlDataListElement;
             }
         }
 
@@ -253,13 +240,7 @@
             get
             {
                 var type = _type as ImageInputType;
-
-                if (type != null)
-                {
-                    return type.Width;
-                }
-
-                return 0;
+                return type?.Width ?? 0;
             }
         }
 
@@ -268,13 +249,7 @@
             get
             {
                 var type = _type as ImageInputType;
-
-                if (type != null)
-                {
-                    return type.Height;
-                }
-
-                return 0;
+                return type?.Height ?? 0;
             }
         }
 
@@ -303,15 +278,14 @@
             if (!IsClickedCancelled())
             {
                 var type = Type;
-                var form = Form;
 
-                if (type.Is(InputTypeNames.Submit) && form != null)
+                if (type.Is(InputTypeNames.Submit))
                 {
-                    form.SubmitAsync();
+                    Form?.SubmitAsync();
                 }
-                else if (type.Is(InputTypeNames.Reset) && form != null)
+                else if (type.Is(InputTypeNames.Reset))
                 {
-                    form.Reset();
+                    Form?.Reset();
                 }
             }
         }

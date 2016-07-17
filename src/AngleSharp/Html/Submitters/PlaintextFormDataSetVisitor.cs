@@ -27,13 +27,17 @@
         public void Text(FormDataSetEntry entry, String value)
         {
             if (entry.HasName && value != null)
+            {
                 Add(entry.Name, value);
+            }
         }
 
         public void File(FormDataSetEntry entry, String fileName, String contentType, IFile content)
         {
-            if (entry.HasName && content != null && content.Name != null)
+            if (entry.HasName && content?.Name != null)
+            {
                 Add(entry.Name, content.Name);
+            }
         }
 
         public void Serialize(StreamWriter stream)

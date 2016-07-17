@@ -21,7 +21,7 @@
 
         static HtmlIFrameElement()
         {
-            RegisterCallback<HtmlIFrameElement>(AttributeNames.Sandbox, (element, value) => element.TryUpdate(element._sandbox, value));
+            RegisterCallback<HtmlIFrameElement>(AttributeNames.Sandbox, (element, value) => element._sandbox?.Update(value));
             RegisterCallback<HtmlIFrameElement>(AttributeNames.SrcDoc, (element, value) => element.UpdateSource());
         }
 
@@ -89,10 +89,8 @@
         internal override void SetupElement()
         {
             base.SetupElement();
-
-            var srcDoc = this.GetOwnAttribute(AttributeNames.SrcDoc);
-
-            if (srcDoc != null)
+            
+            if (this.GetOwnAttribute(AttributeNames.SrcDoc) != null)
             {
                 UpdateSource();
             }

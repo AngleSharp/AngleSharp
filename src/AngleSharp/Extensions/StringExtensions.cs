@@ -42,14 +42,8 @@
         {
             var type = typeof(QuirksMode).GetTypeInfo();
             var field = type.GetDeclaredField(mode.ToString());
-            var attr = field.GetCustomAttribute<DomDescriptionAttribute>();
-
-            if (attr != null)
-            {
-                return attr.Description;
-            }
-
-            return "CSS1Compat";
+            var description = field.GetCustomAttribute<DomDescriptionAttribute>()?.Description;
+            return description ?? "CSS1Compat";
         }
 
         /// <summary>

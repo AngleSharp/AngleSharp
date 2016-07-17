@@ -48,7 +48,7 @@
 
             if (name != null && creators.TryGetValue(name, out creator))
             {
-                return creator();
+                return creator.Invoke();
             }
 
             return default(Event);

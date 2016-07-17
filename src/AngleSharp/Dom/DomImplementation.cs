@@ -76,25 +76,25 @@
 
         public IXmlDocument CreateDocument(String namespaceUri = null, String qualifiedName = null, IDocumentType doctype = null)
         {
-            var doc = new XmlDocument();
+            var document = new XmlDocument();
 
             if (doctype != null)
             {
-                doc.AppendChild(doctype);
+                document.AppendChild(doctype);
             }
 
             if (!String.IsNullOrEmpty(qualifiedName))
             {
-                var element = doc.CreateElement(namespaceUri, qualifiedName);
+                var element = document.CreateElement(namespaceUri, qualifiedName);
 
                 if (element != null)
                 {
-                    doc.AppendChild(element);
+                    document.AppendChild(element);
                 }
             }
 
-            doc.BaseUrl = _owner.BaseUrl;
-            return doc;
+            document.BaseUrl = _owner.BaseUrl;
+            return document;
         }
 
         public IDocument CreateHtmlDocument(String title)

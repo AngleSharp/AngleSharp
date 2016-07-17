@@ -146,7 +146,7 @@
         /// <returns>The associated document, if any.</returns>
         public static IDocument GetDocument(this IStyleSheet sheet)
         {
-            return sheet != null && sheet.OwnerNode != null ? sheet.OwnerNode.Owner : null;
+            return sheet?.OwnerNode?.Owner;
         }
 
         /// <summary>

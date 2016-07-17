@@ -120,7 +120,7 @@
         /// </summary>
         public IWindow Current
         {
-            get { return _active != null ? _active.DefaultView : null; }
+            get { return _active?.DefaultView; }
         }
 
         /// <summary>
@@ -171,11 +171,8 @@
 
         void IDisposable.Dispose()
         {
-            if (_active != null)
-            {
-                _active.Dispose();
-                _active = null;
-            }
+            _active?.Dispose();
+            _active = null;
         }
 
         #endregion

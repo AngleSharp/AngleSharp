@@ -25,10 +25,7 @@
 
         public IResponse Request(IRequest request)
         {
-            if (OnRequest != null)
-            {
-                OnRequest(request);
-            }
+            OnRequest?.Invoke(request);
 
             var builder = BuildResponse ?? (_ => String.Empty);
             var text = builder(request);

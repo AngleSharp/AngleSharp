@@ -180,13 +180,7 @@
         /// <param name="document">The new document.</param>
         public static void NavigateTo(this IBrowsingContext context, IDocument document)
         {
-            var history = context.SessionHistory;
-
-            if (history != null)
-            {
-                history.PushState(document, document.Title, document.Url);
-            }
-
+            context.SessionHistory?.PushState(document, document.Title, document.Url);
             context.Active = document;
         }
     }

@@ -60,12 +60,7 @@
                     {
                         var element = (TElement)obj;
                         var baseElement = element as Element;
-
-                        if (baseElement != null)
-                        {
-                            baseElement.SetupElement();
-                        }
-
+                        baseElement?.SetupElement();
                         document.Adopt(element);
                         return element;
                     }
@@ -552,14 +547,8 @@
             }
 
             var document = element.Owner;
-
-            if (document != null)
-            {
-                var window = document.DefaultView;
-                return window.GetComputedStyle(element);
-            }
-
-            return default(ICssStyleDeclaration);
+            var window = document?.DefaultView;
+            return window?.GetComputedStyle(element);
         }
 
         /// <summary>
@@ -1076,12 +1065,7 @@
                 var fragment = element.CreateFragment(html);
                 var newParent = fragment.GetInnerMostElement();
                 var parent = element.Parent;
-
-                if (parent != null)
-                {
-                    parent.InsertBefore(fragment, element);
-                }
-
+                parent?.InsertBefore(fragment, element);
                 newParent.AppendChild(element);
             }
 
@@ -1145,11 +1129,7 @@
                 var fragment = element.CreateFragment(html);
                 var newParent = fragment.GetInnerMostElement();
                 var parent = element.Parent;
-
-                if (parent != null)
-                {
-                    parent.InsertBefore(fragment, element);
-                }
+                parent?.InsertBefore(fragment, element);
 
                 foreach (var child in elements)
                 {

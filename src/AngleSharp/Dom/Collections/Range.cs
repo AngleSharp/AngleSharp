@@ -533,11 +533,7 @@
                 referenceNode = referenceNode.NextSibling;
             }
 
-            if (node.Parent != null)
-            {
-                node.Parent.RemoveChild(node);
-            }
-
+            node.Parent?.RemoveChild(node);
             var newOffset = referenceNode == null ? parent.ChildNodes.Length : parent.ChildNodes.Index(referenceNode);
             newOffset += node.NodeType == NodeType.DocumentFragment ? node.ChildNodes.Length : 1;
             parent.PreInsert(node, referenceNode);

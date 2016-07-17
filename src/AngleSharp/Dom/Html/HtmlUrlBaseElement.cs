@@ -21,8 +21,8 @@
 
         static HtmlUrlBaseElement()
         {
-            RegisterCallback<HtmlUrlBaseElement>(AttributeNames.Rel, (element, value) => element.TryUpdate(element._relList, value));
-            RegisterCallback<HtmlUrlBaseElement>(AttributeNames.Ping, (element, value) => element.TryUpdate(element._ping, value));
+            RegisterCallback<HtmlUrlBaseElement>(AttributeNames.Rel, (element, value) => element._relList?.Update(value));
+            RegisterCallback<HtmlUrlBaseElement>(AttributeNames.Ping, (element, value) => element._ping?.Update(value));
         }
 
         public HtmlUrlBaseElement(Document owner, String name, String prefix, NodeFlags flags)
@@ -188,11 +188,13 @@
             var href = this.GetOwnAttribute(AttributeNames.Href);
             var url = href != null ? new Url(BaseUrl, href) : null;
 
-            if (url == null || url.IsInvalid)
-                return String.Empty;
+            if (url != null && !url.IsInvalid)
+            {
+                var location = new Location(url);
+                return getter.Invoke(location);
+            }
 
-            var location = new Location(url);
-            return getter(location);
+            return String.Empty;
         }
 
         void SetLocationPart(Action<ILocation> setter)
@@ -201,10 +203,12 @@
             var url = href != null ? new Url(BaseUrl, href) : null;
 
             if (url == null || url.IsInvalid)
+            {
                 url = new Url(BaseUrl);
+            }
 
             var location = new Location(url);
-            setter(location);
+            setter.Invoke(location);
             this.SetOwnAttribute(AttributeNames.Href, location.Href);
         }
 

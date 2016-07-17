@@ -141,12 +141,7 @@
 
         void RaiseChanged()
         {
-            var changedHandler = Changed;
-
-            if (changedHandler != null)
-            {
-                changedHandler(ToString());
-            }
+            Changed?.Invoke(ToString());
         }
 
         #endregion

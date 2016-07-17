@@ -109,12 +109,7 @@
             if (!isDisposed)
             {
                 var disposable = _source as IDisposable;
-
-                if (disposable != null)
-                {
-                    disposable.Dispose();
-                }
-
+                disposable?.Dispose();
                 StringBuffer.Clear().ToPool();
                 StringBuffer = null;
             }

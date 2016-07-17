@@ -26,14 +26,13 @@
 
         public JsonElement this[Int32 key]
         {
-            get 
-            {
-                return _elements.ElementAtOrDefault(key); 
-            }
+            get { return _elements.ElementAtOrDefault(key); }
             set
             {
-                for (int i = _elements.Count; i <= key; i++)
+                for (var i = _elements.Count; i <= key; i++)
+                {
                     _elements.Add(null);
+                }
 
                 _elements[key] = value;
             }
@@ -49,7 +48,7 @@
                 if (needsComma)
                     sb.Append(Symbols.Comma);
 
-                sb.Append(element != null ? element.ToString() : "null");
+                sb.Append(element?.ToString() ?? "null");
                 needsComma = true;
             }
 

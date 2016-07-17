@@ -36,7 +36,7 @@
         }
 
         internal CssStyleSheet(CssParser parser, String url, ICssStyleSheet parent)
-            : this(parser, url, parent != null ? parent.OwnerNode : null)
+            : this(parser, url, parent?.OwnerNode)
         {
             _parent = parent;
         }
@@ -84,7 +84,7 @@
 
         public String Title
         {
-            get { return _owner != null ? _owner.GetAttribute(AttributeNames.Title) : null; }
+            get { return _owner?.GetAttribute(AttributeNames.Title); }
         }
 
         public IMediaList Media

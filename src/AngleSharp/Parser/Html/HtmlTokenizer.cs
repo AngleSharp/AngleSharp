@@ -881,7 +881,9 @@
                         var result = CommentDashEnd(GetNext());
 
                         if (result != null)
+                        {
                             return result;
+                        }
 
                         break;
                     case Symbols.EndOfFile:

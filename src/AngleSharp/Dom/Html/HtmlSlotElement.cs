@@ -34,11 +34,10 @@
 
         public IEnumerable<INode> GetDistributedNodes()
         {
-            var shadowRoot = this.GetAncestor<IShadowRoot>();
+            var host = this.GetAncestor<IShadowRoot>()?.Host;
 
-            if (shadowRoot != null)
+            if (host != null)
             {
-                var host = shadowRoot.Host;
                 var list = new List<INode>();
 
                 foreach (var node in host.ChildNodes)
@@ -48,9 +47,13 @@
                         var otherSlot = node as HtmlSlotElement;
 
                         if (otherSlot != null)
+                        {
                             list.AddRange(otherSlot.GetDistributedNodes());
+                        }
                         else
+                        {
                             list.Add(node);
+                        }
                     }
                 }
 

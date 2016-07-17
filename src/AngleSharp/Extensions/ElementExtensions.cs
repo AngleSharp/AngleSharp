@@ -24,13 +24,8 @@
         /// <param name="element">The element that might contain the namespace information.</param>
         /// <param name="namespaceUri">The url of the namespace.</param>
         /// <returns>The prefix or null, if the namespace could not be found.</returns>
-        public static String LocatePrefix(this IElement element, String namespaceUri)
+        public static String LocatePrefixFor(this IElement element, String namespaceUri)
         {
-            if (element == null)
-            {
-                return null;
-            }
-
             if (element.NamespaceUri.Is(namespaceUri) && element.Prefix != null)
             {
                 return element.Prefix;
@@ -44,7 +39,7 @@
                 }
             }
 
-            return element.ParentElement.LocatePrefix(namespaceUri);
+            return element.ParentElement?.LocatePrefixFor(namespaceUri);
         }
 
         /// <summary>
@@ -53,13 +48,8 @@
         /// <param name="element">The element that might contain the namespace information.</param>
         /// <param name="prefix">The prefix of the namespace to find.</param>
         /// <returns>The url of the namespace or null, if the prefix could not be found.</returns>
-        public static String LocateNamespace(this IElement element, String prefix)
+        public static String LocateNamespaceFor(this IElement element, String prefix)
         {
-            if (element == null)
-            {
-                return null;
-            }
-
             var ns = element.NamespaceUri;
             var px = element.Prefix;
 
@@ -87,7 +77,7 @@
                 }
             }
 
-            return element.ParentElement.LocateNamespace(prefix);
+            return element.ParentElement?.LocateNamespaceFor(prefix);
         }
 
         /// <summary>
@@ -134,7 +124,7 @@
         /// <returns>The namespace url for the prefix.</returns>
         public static String GetCssNamespace(this IElement el, String prefix)
         {
-            return el.Owner.StyleSheets.LocateNamespace(prefix) ?? el.LocateNamespace(prefix);
+            return el.Owner?.StyleSheets.LocateNamespace(prefix) ?? el.LocateNamespaceFor(prefix);
         }
 
         /// <summary>
@@ -184,7 +174,7 @@
 
             if (parent != null)
             {
-                for (int i = 0; i < parent.ChildNodes.Length; i++)
+                for (var i = 0; i < parent.ChildNodes.Length; i++)
                 {
                     if (parent.ChildNodes[i].NodeName.Is(element.NodeName))
                     {
@@ -207,7 +197,7 @@
 
             if (parent != null)
             {
-                for (int i = parent.ChildNodes.Length - 1; i >= 0; i--)
+                for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
                 {
                     if (parent.ChildNodes[i].NodeName.Is(element.NodeName))
                     {
@@ -226,16 +216,9 @@
         /// <returns>True if the element's ID is equal to the hash.</returns>
         public static Boolean IsTarget(this IElement element)
         {
-            var owner = element.Owner;
             var id = element.Id;
-
-            if (owner != null && id != null)
-            {
-                var hash = owner.Location.Hash;
-                return String.Compare(id, 0, hash, hash.Length > 0 ? 1 : 0, Int32.MaxValue) == 0;
-            }
-
-            return false;
+            var hash = element.Owner?.Location.Hash;
+            return id != null && hash != null && String.Compare(id, 0, hash, hash.Length > 0 ? 1 : 0, Int32.MaxValue) == 0;
         }
 
         /// <summary>
@@ -586,7 +569,7 @@
         /// <returns>True if the element hosts a shadow tree.</returns>
         public static Boolean IsShadow(this IElement element)
         {
-            return element != null && element.ShadowRoot != null;
+            return element?.ShadowRoot != null;
         }
 
         /// <summary>
@@ -790,7 +773,7 @@
         public static Boolean IsFirstChild(this IElement element)
         {
             var parent = element.ParentElement;
-            return parent != null && parent.FirstElementChild == element;
+            return parent?.FirstElementChild == element;
         }
 
         /// <summary>
@@ -801,7 +784,7 @@
         public static Boolean IsLastChild(this IElement element)
         {
             var parent = element.ParentElement;
-            return parent != null && parent.LastElementChild == element;
+            return parent?.LastElementChild == element;
         }
 
         /// <summary>
@@ -813,12 +796,12 @@
         /// <param name="url">The url of the resource.</param>
         public static void Process(this Element element, IRequestProcessor processor, Url url)
         {
-            if (processor != null)
+            var request = element.CreateRequestFor(url);
+            var task = processor?.ProcessAsync(request);
+
+            if (task != null)
             {
-                var request = element.CreateRequestFor(url);
-                var document = element.Owner;
-                var task = processor.ProcessAsync(request);
-                document.DelayLoad(task);
+                element.Owner?.DelayLoad(task);
             }
         }
 
@@ -880,8 +863,7 @@
         /// <returns>The attribute's value, if any.</returns>
         public static String GetOwnAttribute(this Element element, String name)
         {
-            var attr = element.Attributes.GetNamedItem(null, name);
-            return attr != null ? attr.Value : null;
+            return element.Attributes.GetNamedItem(null, name)?.Value;
         }
 
         /// <summary>
@@ -892,8 +874,7 @@
         /// <returns>True if the attribute exists, otherwise false.</returns>
         public static Boolean HasOwnAttribute(this Element element, String name)
         {
-            var attr = element.Attributes.GetNamedItem(null, name);
-            return attr != null;
+            return element.Attributes.GetNamedItem(null, name) != null;
         }
 
         /// <summary>
@@ -920,7 +901,7 @@
         {
             element.Attributes.SetNamedItemWithNamespaceUri(new Attr(name, value), suppressCallbacks);
         }
-        
+
         /// <summary>
         /// Gathers the source elements for the provided image element.
         /// </summary>

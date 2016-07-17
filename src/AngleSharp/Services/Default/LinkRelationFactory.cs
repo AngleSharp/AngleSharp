@@ -31,7 +31,7 @@
 
             if (rel != null && creators.TryGetValue(rel, out creator))
             {
-                return creator(link);
+                return creator.Invoke(link);
             }
 
             return default(BaseLinkRelation);

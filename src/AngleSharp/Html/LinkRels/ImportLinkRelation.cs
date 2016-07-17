@@ -34,7 +34,7 @@
             get 
             {
                 var processor = Processor as DocumentRequestProcessor;
-                return processor != null ? processor.Document : null; 
+                return processor?.Document;
             }
         }
 
@@ -64,11 +64,11 @@
             };
             list.Add(item);
             
-            if (!item.IsCycle && processor != null)
+            if (!item.IsCycle)
             {
                 var request = link.CreateRequestFor(location);
                 _isasync = link.HasAttribute(AttributeNames.Async);
-                return processor.ProcessAsync(request);
+                return processor?.ProcessAsync(request);
             }
 
             return null;

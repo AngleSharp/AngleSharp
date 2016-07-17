@@ -51,7 +51,7 @@
             {
                 _writers.Add(stream =>
                 {
-                    var hasContent = content != null && content.Name != null && content.Type != null && content.Body != null;
+                    var hasContent = content != null && content?.Name != null && content.Type != null && content.Body != null;
 
                     stream.WriteLine("Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"",
                         entry.Name.HtmlEncode(_encoding), fileName.HtmlEncode(_encoding));

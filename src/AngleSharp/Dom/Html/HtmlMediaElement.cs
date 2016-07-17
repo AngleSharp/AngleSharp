@@ -12,7 +12,7 @@
     /// Represents the abstract base for HTML media (audio / video) elements.
     /// </summary>
     abstract class HtmlMediaElement<TResource> : HtmlElement, IHtmlMediaElement
-        where TResource : IMediaInfo
+        where TResource : class, IMediaInfo
     {
         #region Fields
 
@@ -40,7 +40,7 @@
 
         public IDownload CurrentDownload
         {
-            get { return _request != null ? _request.Download : null; }
+            get { return _request?.Download; }
         }
 
         public String Source
@@ -63,12 +63,12 @@
 
         public MediaNetworkState NetworkState
         {
-            get { return _request != null ? _request.NetworkState : MediaNetworkState.Empty; }
+            get { return _request?.NetworkState ?? MediaNetworkState.Empty; }
         }
 
         public TResource Media
         {
-            get { return _request != null ? _request.Resource : default(TResource); }
+            get { return _request?.Resource; }
         }
 
         public MediaReadyState ReadyState
@@ -97,25 +97,20 @@
 
         public Double Duration
         {
-            get 
-            {
-                var controller = Controller;
-                return controller != null ? controller.Duration : 0.0; 
-            }
+            get { return Controller?.Duration ?? 0.0; }
         }
 
         public Double CurrentTime
         {
-            get 
-            {
-                var controller = Controller;
-                return controller != null ? controller.CurrentTime : 0.0; }
+            get { return Controller?.CurrentTime ?? 0.0; }
             set
             {
                 var controller = Controller;
 
                 if (controller != null)
+                {
                     controller.CurrentTime = value;
+                }
 
                 //if (value < 0)
                 //    _currentTime = 0;
@@ -171,29 +166,17 @@
 
         public ITimeRanges BufferedTime
         {
-            get 
-            {
-                var controller = Controller;
-                return controller != null ? controller.BufferedTime : null; 
-            }
+            get { return Controller?.BufferedTime; }
         }
 
         public ITimeRanges SeekableTime
         {
-            get 
-            {
-                var controller = Controller;
-                return controller != null ? controller.SeekableTime : null; 
-            }
+            get { return Controller?.SeekableTime; }
         }
 
         public ITimeRanges PlayedTime
         {
-            get 
-            {
-                var controller = Controller;
-                return controller != null ? controller.PlayedTime : null;
-            }
+            get { return Controller?.PlayedTime; }
         }
 
         public String MediaGroup
@@ -204,11 +187,7 @@
 
         public Double Volume
         {
-            get
-            {
-                var controller = Controller; 
-                return controller != null ? controller.Volume : 1.0;
-            }
+            get { return Controller?.Volume ?? 1.0; }
             set
             {
                 var controller = Controller;
@@ -222,11 +201,7 @@
 
         public Boolean IsMuted
         {
-            get
-            {
-                var controller = Controller; 
-                return controller != null ? controller.IsMuted : false;
-            }
+            get { return Controller?.IsMuted ?? false; }
             set
             {
                 var controller = Controller;
@@ -240,16 +215,12 @@
 
         public IMediaController Controller
         {
-            get { return _request != null && _request.Resource != null ? _request.Resource.Controller : null; }
+            get { return _request?.Resource?.Controller; }
         }
 
         public Double DefaultPlaybackRate
         {
-            get
-            {
-                var controller = Controller; 
-                return controller != null ? controller.DefaultPlaybackRate : 1.0;
-            }
+            get { return Controller?.DefaultPlaybackRate ?? 1.0; }
             set
             {
                 var controller = Controller;
@@ -263,11 +234,7 @@
 
         public Double PlaybackRate
         {
-            get
-            {
-                var controller = Controller;
-                return controller != null ? controller.PlaybackRate : 1.0;
-            }
+            get { return Controller?.PlaybackRate ?? 1.0; }
             set
             {
                 var controller = Controller;
@@ -281,11 +248,7 @@
 
         public MediaControllerPlaybackState PlaybackState
         {
-            get
-            {
-                var controller = Controller; 
-                return controller != null ? controller.PlaybackState : MediaControllerPlaybackState.Waiting;
-            }
+            get { return Controller?.PlaybackState ?? MediaControllerPlaybackState.Waiting; }
         }
 
         public IMediaError MediaError
@@ -322,27 +285,17 @@
 
         public void Play()
         {
-            var controller = Controller;
-
-            if (controller != null)
-            {
-                controller.Play();
-            }
+            Controller?.Play();
         }
 
         public void Pause()
         {
-            var controller = Controller;
-
-            if (controller != null)
-            {
-                controller.Pause();
-            }
+            Controller?.Pause();
         }
 
         public String CanPlayType(String type)
         {
-            var service = Owner.Options.GetResourceService<TResource>(type);
+            var service = Owner?.Options.GetResourceService<TResource>(type);
             //Other option would be probably.
             return service != null ? "maybe" : String.Empty;
         }

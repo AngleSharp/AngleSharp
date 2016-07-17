@@ -27,11 +27,7 @@
             get 
             {
                 var fieldset = Parent as HtmlFieldSetElement;
-
-                if (fieldset != null)
-                    return fieldset.Form;
-
-                return null;
+                return fieldset?.Form;
             }
         }
 

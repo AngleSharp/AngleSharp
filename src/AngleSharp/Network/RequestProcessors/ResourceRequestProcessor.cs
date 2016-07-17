@@ -30,7 +30,7 @@
 
         public String Source
         {
-            get { return _resource != null ? _resource.Source.Href : String.Empty; }
+            get { return _resource?.Source.Href ?? String.Empty; }
         }
 
         public Boolean IsReady

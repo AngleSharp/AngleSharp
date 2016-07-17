@@ -37,7 +37,7 @@
 
         public IDownload CurrentDownload
         {
-            get { return _request != null ? _request.Download : null; }
+            get { return _request?.Download; }
         }
 
         public String Name
@@ -60,7 +60,7 @@
 
         public IDocument ContentDocument
         {
-            get { return _request != null ? _request.Document : null; }
+            get { return _request?.Document; }
         }
 
         public String LongDesc
@@ -108,10 +108,8 @@
         internal override void SetupElement()
         {
             base.SetupElement();
-
-            var src = this.GetOwnAttribute(AttributeNames.Src);
-
-            if (src != null)
+            
+            if (this.GetOwnAttribute(AttributeNames.Src) != null)
             {
                 UpdateSource();
             }

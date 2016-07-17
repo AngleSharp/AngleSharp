@@ -83,10 +83,7 @@
                 }
             }
 
-            if (eventTarget != null)
-            {
-                eventTarget.FireSimpleEvent(eventName);
-            }
+            eventTarget?.FireSimpleEvent(eventName);
         }
 
         #endregion

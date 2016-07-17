@@ -130,12 +130,7 @@
             {
                 var service = new StylingService();
                 var engine = new CssStyleEngine();
-
-                if (setup != null)
-                {
-                    setup(engine);
-                }
-
+                setup?.Invoke(engine);
                 service.Register(engine);
                 return configuration.With(service);
             }
@@ -171,11 +166,7 @@
                 IsResourceLoadingEnabled = false
             };
             var factory = configuration.GetFactory<IServiceFactory>();
-
-            if (setup != null)
-            {
-                setup.Invoke(config);
-            }
+            setup?.Invoke(config);
 
             if (config.IsNavigationEnabled)
             {
