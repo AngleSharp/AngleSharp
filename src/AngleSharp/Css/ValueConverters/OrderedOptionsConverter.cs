@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
-    using AngleSharp.Dom.Css;
+    using System;
     using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
 
     sealed class OrderedOptionsConverter: IValueConverter
     {
@@ -22,12 +22,14 @@
             var list = new List<CssToken>(value);
             var options = new IPropertyValue[_converters.Length];
 
-            for (int i = 0; i < _converters.Length; i++)
+            for (var i = 0; i < _converters.Length; i++)
             {
                 options[i] = _converters[i].VaryStart(list);
 
                 if (options[i] == null)
+                {
                     return null;
+                }
             }
 
             return list.Count == 0 ? new OptionsValue(options, value) : null;
@@ -46,7 +48,9 @@
                     var value = _converters[i].Construct(properties);
 
                     if (value == null)
+                    {
                         return null;
+                    }
 
                     values[i] = value;
                 }
@@ -89,7 +93,9 @@
                     if (extracted != null && extracted.Count > 0)
                     {
                         if (tokens.Count > 0)
+                        {
                             tokens.Add(CssToken.Whitespace);
+                        }
 
                         tokens.AddRange(extracted);
                     }
@@ -101,7 +107,9 @@
             IEnumerator<IPropertyValue> IEnumerable<IPropertyValue>.GetEnumerator()
             {
                 foreach (var option in _options)
+                {
                     yield return option;
+                }
             }
 
             IEnumerator IEnumerable.GetEnumerator()

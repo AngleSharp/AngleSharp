@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using static AngleSharp.Css.Converters;
 
     /// <summary>
     /// More information available at:
@@ -11,11 +12,11 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter ListConverter = Converters.WithAny(
-            Converters.AnimatableConverter.Option().For(PropertyNames.TransitionProperty),
-            Converters.TimeConverter.Option().For(PropertyNames.TransitionDuration),
-            Converters.TransitionConverter.Option().For(PropertyNames.TransitionTimingFunction),
-            Converters.TimeConverter.Option().For(PropertyNames.TransitionDelay)).FromList().OrDefault();
+        internal static readonly IValueConverter ListConverter = WithAny(
+            AnimatableConverter.Option().For(PropertyNames.TransitionProperty),
+            TimeConverter.Option().For(PropertyNames.TransitionDuration),
+            TransitionConverter.Option().For(PropertyNames.TransitionTimingFunction),
+            TimeConverter.Option().For(PropertyNames.TransitionDelay)).FromList().OrDefault();
 
         #endregion
 

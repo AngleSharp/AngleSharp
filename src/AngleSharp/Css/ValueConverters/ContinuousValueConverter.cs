@@ -21,20 +21,24 @@
             var list = new List<CssToken>(value);
             var options = new List<IPropertyValue>();
 
-            if (list.Count == 0)
-                return null;
-
-            while (list.Count != 0)
+            if (list.Count > 0)
             {
-                var option = _converter.VaryStart(list);
+                while (list.Count != 0)
+                {
+                    var option = _converter.VaryStart(list);
 
-                if (option == null)
-                    return null;
+                    if (option == null)
+                    {
+                        return null;
+                    }
 
-                options.Add(option);
+                    options.Add(option);
+                }
+
+                return new OptionsValue(options.ToArray(), value);
             }
 
-            return new OptionsValue(options.ToArray(), value);
+            return null;
         }
 
         public IPropertyValue Construct(CssProperty[] properties)

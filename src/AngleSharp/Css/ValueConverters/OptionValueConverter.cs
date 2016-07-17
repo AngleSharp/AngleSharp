@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Parser.Css;
 
     sealed class OptionValueConverter : IValueConverter
     {

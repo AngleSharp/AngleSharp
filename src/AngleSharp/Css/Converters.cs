@@ -741,7 +741,7 @@
         /// <summary>
         /// Represents a converter for font families.
         /// </summary>
-        public static readonly IValueConverter FontFamiliesConverter = DefaultFontFamiliesConverter.Or(Converters.StringConverter).Or(Converters.LiteralsConverter).FromList();
+        public static readonly IValueConverter FontFamiliesConverter = DefaultFontFamiliesConverter.Or(StringConverter).Or(LiteralsConverter).FromList();
 
         /// <summary>
         /// Represents a converter for background size.

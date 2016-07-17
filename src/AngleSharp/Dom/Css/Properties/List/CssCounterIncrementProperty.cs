@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using static AngleSharp.Css.Converters;
 
     /// <summary>
     /// More information available at:
@@ -20,8 +21,8 @@
 
             return pairs[0];
         */
-        static readonly IValueConverter StyleConverter = Converters.Continuous(
-            Converters.WithOrder(Converters.IdentifierConverter.Required(), Converters.IntegerConverter.Option(1))).OrDefault();
+        static readonly IValueConverter StyleConverter = Continuous(
+            WithOrder(IdentifierConverter.Required(), IntegerConverter.Option(1))).OrDefault();
 
         #endregion
 

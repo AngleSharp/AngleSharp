@@ -1,10 +1,11 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using System;
-    using System.Collections.Generic;
     using AngleSharp.Css;
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
+    using System;
+    using System.Collections.Generic;
+    using static AngleSharp.Css.Converters;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -29,12 +30,12 @@
             var parts = values.Select(m => m.Stringify(element));
             return String.Join(String.Empty, parts);
         */
-        static readonly IValueConverter StyleConverter = Converters.Assign(Keywords.Normal, Default).OrNone().Or(
+        static readonly IValueConverter StyleConverter = Assign(Keywords.Normal, Default).OrNone().Or(
             ContentModes.ToConverter().Or(
-            Converters.UrlConverter).Or(
-            Converters.StringConverter).Or(
-            Converters.AttrConverter).Or(
-            Converters.CounterConverter).Many()).OrDefault();
+            UrlConverter).Or(
+            StringConverter).Or(
+            AttrConverter).Or(
+            CounterConverter).Many()).OrDefault();
 
         #endregion
 

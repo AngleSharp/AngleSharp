@@ -6,10 +6,11 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using static Converters;
 
     sealed class BorderRadiusConverter : IValueConverter
     {
-        readonly IValueConverter _converter = Converters.LengthOrPercentConverter.Periodic(
+        readonly IValueConverter _converter = LengthOrPercentConverter.Periodic(
             PropertyNames.BorderTopLeftRadius, PropertyNames.BorderTopRightRadius, PropertyNames.BorderBottomRightRadius, PropertyNames.BorderBottomLeftRadius);
 
         public IPropertyValue Convert(IEnumerable<CssToken> value)
