@@ -26,7 +26,7 @@
 
         #region ctor
 
-        TransformMatrix()
+        private TransformMatrix()
         {
             _matrix = new Single[4, 4];
         }
@@ -39,14 +39,10 @@
             : this()
         {
             if (values == null)
-            {
-                throw new ArgumentNullException("values");
-            }
+                throw new ArgumentNullException(nameof(values));
 
             if (values.Length != 16)
-            {
-                throw new ArgumentException("You need to provide 16 (4x4) values.", "values");
-            }
+                throw new ArgumentException("You need to provide 16 (4x4) values.", nameof(values));
 
             for (int i = 0, k = 0; i < 4; i++)
             {
@@ -231,7 +227,7 @@
 
         #endregion
 
-        #region Overrides
+        #region Equality
 
         /// <summary>
         /// Tests if another object is equal to this object.

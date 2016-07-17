@@ -72,7 +72,7 @@
                 }
             }
 
-            throw new ArgumentOutOfRangeException("index");
+            throw new ArgumentOutOfRangeException(nameof(index));
         }
 
         /// <summary>

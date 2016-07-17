@@ -27,14 +27,10 @@
         public static Configuration With(this IConfiguration configuration, Object service)
         {
             if (configuration == null)
-            {
-                throw new ArgumentNullException("configuration");
-            }
+                throw new ArgumentNullException(nameof(configuration));
 
             if (service == null)
-            {
-                throw new ArgumentNullException("service");
-            }
+                throw new ArgumentNullException(nameof(service));
             
             return new Configuration(configuration.Services.Concat(service));
         }
@@ -48,15 +44,11 @@
         public static Configuration With(this IConfiguration configuration, IEnumerable<Object> services)
         {
             if (configuration == null)
-            {
-                throw new ArgumentNullException("configuration");
-            }
+                throw new ArgumentNullException(nameof(configuration));
 
             if (services == null)
-            {
-                throw new ArgumentNullException("services");
-            }
-            
+                throw new ArgumentNullException(nameof(services));
+
             return new Configuration(configuration.Services.Concat(services));
         }
 
@@ -120,9 +112,7 @@
         public static IConfiguration WithCss(this IConfiguration configuration, Action<CssStyleEngine> setup = null)
         {
             if (configuration == null)
-            {
-                throw new ArgumentNullException("configuration");
-            }
+                throw new ArgumentNullException(nameof(configuration));
             
             if (!configuration.GetServices<IStylingProvider>().Any())
             {
@@ -151,9 +141,7 @@
         public static IConfiguration WithDefaultLoader(this IConfiguration configuration, Action<LoaderSetup> setup = null, IEnumerable<IRequester> requesters = null)
         {
             if (configuration == null)
-            {
-                throw new ArgumentNullException("configuration");
-            }
+                throw new ArgumentNullException(nameof(configuration));
 
             configuration = configuration.With(requesters ?? new IRequester[] { new HttpRequester(), new DataRequester() });
 
@@ -213,9 +201,7 @@
         public static IConfiguration WithLocaleBasedEncoding(this IConfiguration configuration)
         {
             if (configuration == null)
-            {
-                throw new ArgumentException("configuration");
-            }
+                throw new ArgumentException(nameof(configuration));
 
             if (!configuration.GetServices<IEncodingProvider>().Any())
             {
@@ -239,9 +225,7 @@
         public static IConfiguration WithCookies(this IConfiguration configuration)
         {
             if (configuration == null)
-            {
-                throw new ArgumentNullException("configuration");
-            }
+                throw new ArgumentNullException(nameof(configuration));
 
             if (!configuration.GetServices<ICookieProvider>().Any())
             {

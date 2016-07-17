@@ -54,18 +54,13 @@
         public IDocumentType CreateDocumentType(String qualifiedName, String publicId, String systemId)
         {
             if (qualifiedName == null)
-            {
-                throw new ArgumentNullException("qualifiedName");
-            }
+                throw new ArgumentNullException(nameof(qualifiedName));
 
             if (!qualifiedName.IsXmlName())
-            {
                 throw new DomException(DomError.InvalidCharacter);
-            }
-            else if (!qualifiedName.IsQualifiedName())
-            {
+
+            if (!qualifiedName.IsQualifiedName())
                 throw new DomException(DomError.Namespace);
-            }
 
             return new DocumentType(_owner, qualifiedName) 
             { 
@@ -119,9 +114,7 @@
         public Boolean HasFeature(String feature, String version = null)
         {
             if (feature == null)
-            {
-                throw new ArgumentNullException("feature");
-            }
+                throw new ArgumentNullException(nameof(feature));
 
             var versions = default(String[]);
 

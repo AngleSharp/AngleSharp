@@ -165,7 +165,7 @@
         [DomName("getModifierState")]
         public Boolean GetModifierState(String key)
         {
-            throw new NotImplementedException();
+            return false;//TODO
         }
 
         #endregion

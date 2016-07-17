@@ -114,7 +114,7 @@
         {
             if (sheets == null)
             {
-                throw new ArgumentNullException("sheets");
+                throw new ArgumentNullException(nameof(sheets));
             }
 
             return sheets.Where(m => !m.IsDisabled).OfType<ICssStyleSheet>().SelectMany(m => m.Rules).OfType<TRule>();
@@ -130,7 +130,7 @@
         {
             if (selector == null)
             {
-                throw new ArgumentNullException("selector");
+                throw new ArgumentNullException(nameof(selector));
             }
 
             var selectorText = selector.Text;
@@ -166,7 +166,7 @@
         {
             if (node == null)
             {
-                throw new ArgumentNullException("node");
+                throw new ArgumentNullException(nameof(node));
             }
 
             return node.Children.SelectMany(m => m.GetAllDescendents());
@@ -182,7 +182,7 @@
         {
             if (node == null)
             {
-                throw new ArgumentNullException("node");
+                throw new ArgumentNullException(nameof(node));
             }
 
             if (node is T)

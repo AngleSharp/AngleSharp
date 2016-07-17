@@ -10,7 +10,7 @@
     /// <summary>
     /// Represents a node in the generated tree.
     /// </summary>
-    class Node : EventTarget, INode, IEquatable<INode>
+    abstract class Node : EventTarget, INode, IEquatable<INode>
     {
         #region Fields
 
@@ -325,12 +325,7 @@
             return this.PreRemove(child);
         }
 
-        public virtual INode Clone(Boolean deep = true)
-        {
-            var node = new Node(Owner, _name, _type, _flags);
-            CloneNode(node, deep);
-            return node;
-        }
+        public abstract INode Clone(Boolean deep = true);
 
         public DocumentPositions CompareDocumentPosition(INode otherNode)
         {
