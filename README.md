@@ -18,7 +18,7 @@ Key features
 * **Navigation** (a `BrowsingContext` is like a tab - control it from .NET!).
 * **LINQ enhanced** (use LINQ with DOM elements, naturally)
 
-The advantage over similar libraries like the HtmlAgilityPack is that e.g. CSS (including selectors) is already built-in. Also the parser uses the HTML 5.1 specification, which defines error handling and element correction. The AngleSharp library focuses on standards compliance, interactivity and extensibility. It is therefore giving web developers, who are working with C#, all possibilities as they know from using the DOM in any modern browser.
+The advantage over similar libraries like the HtmlAgilityPack is that, e.g., CSS (including selectors) is already built-in. Also the parser uses the HTML 5.1 specification, which defines error handling and element correction. The AngleSharp library focuses on standards compliance, interactivity and extensibility. It is therefore giving web developers, who are working with C#, all possibilities as they know from using the DOM in any modern browser.
 
 The performance of AngleSharp is quite close to the performance of browsers. Even very large pages can be processed within milliseconds. AngleSharp tries to minimize memory allocations and reuses elements internally to avoid unnecessary object creation.
 
@@ -47,9 +47,9 @@ Supported platforms
 
 AngleSharp has been created as a PCL (profile 259) that supports a wide range of platforms. The list includes, but is not limited to:
 
+* .NET Core ("netstandard 1.0", see [.NET Platform Standard](https://github.com/dotnet/corefx/blob/master/Documentation/architecture/net-platform-standard.md))
 * .NET Framework 4.5
-* Silverlight 5
-* Windows 8 
+* Windows 8.1
 * Windows Phone 8.1 / Windows Phone Silverlight
 * Xamarin.Android
 * Xamarin.iOS
@@ -184,18 +184,13 @@ The roadmap presents a draft on what is about to be implemented, and when. The p
 
 The time estimates are speculative, which means that the project could be totally off those predictions. Finding talented (and motivated) collaborators would certainly speed up the project.
 
-(August 2016) **1.0.0**
-- Final release of the first version
-- Split AngleSharp.Core into several libraries
+(Q4 2016) **1.0.0**
+- Release of the first stable version
+- Split AngleSharp.Core into several libraries (Core, CSS)
 - Provide internal / external communication channel (best flexibility)
-- Provide `Task` based standard event loop
-- Service model rethought / improved / finalized
-- Most important SVG elements implemented
-- Potential (simple?) XPath query support
-- Interface for rendering defined
-- CSS layout box => layout computation works with everything
+- Service model finalized
 
-The current schedule seems to be rather defensive, which does not mean the project will be "finished", i.e. released in version 1.0.0, before the given date. If there is time left, more unit tests will be written and the general code quality will be increased.
+The current schedule seems to be rather defensive, which does not mean the project will be "finished", i.e., released in version 1.0.0, before the given date. If there is time left, more unit tests will be written and the general code quality will be increased.
 
 Use-cases
 ---------
@@ -220,7 +215,7 @@ Participating in the project
 
 If you know some feature that AngleSharp is currently missing, and you are willing to implement the feature, then your contribution is more than welcome! Also if you have a really cool idea - do not be shy, we'd like to hear it.
 
-If you have an idea how to improve the API (or what is missing) then posts / messages are also welcome. For instance there have been ongoing discussions about some styles that have been used by AngleSharp (e.g. `HTMLDocument` instead of `HtmlDocument`) in the past. In the end AngleSharp stopped using `HTMLDocument` (at least visible outside of the library). Now AngleSharp uses names like `IDocument`, `IHtmlElement` and so on. This change would not have been possible without fruitful discussions.
+If you have an idea how to improve the API (or what is missing) then posts / messages are also welcome. For instance there have been ongoing discussions about some styles that have been used by AngleSharp (e.g., `HTMLDocument` or `HtmlDocument`) in the past. In the end AngleSharp stopped using `HTMLDocument` (at least visible outside of the library). Now AngleSharp uses names like `IDocument`, `IHtmlElement` and so on. This change would not have been possible without such fruitful discussions.
 
 The project is always searching for additional contributors. Even if you do not have any code to contribute, but rather an idea for improvement, a bug report or a mistake in the documentation. These are the contributions that keep this project active. 
 
