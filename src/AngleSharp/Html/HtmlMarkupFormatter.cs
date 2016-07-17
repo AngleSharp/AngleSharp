@@ -141,14 +141,14 @@
             }
             else if (String.IsNullOrEmpty(systemId))
             {
-                return String.Format(" PUBLIC \"{0}\"", publicId);
+                return $" PUBLIC \"{publicId}\"";
             }
             else if (String.IsNullOrEmpty(publicId))
             {
-                return String.Format(" SYSTEM \"{0}\"", systemId);
+                return $" SYSTEM \"{systemId}\"";
             }
 
-            return String.Format(" PUBLIC \"{0}\" \"{1}\"", publicId, systemId);
+            return $" PUBLIC \"{publicId}\" \"{systemId}\"";
         }
 
         static String XmlNamespaceLocalName(String name)

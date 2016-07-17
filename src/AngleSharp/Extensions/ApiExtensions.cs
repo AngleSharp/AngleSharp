@@ -343,7 +343,7 @@
                 }
                 else
                 {
-                    var message = String.Format("Field {0} not found.", field.Key);
+                    var message = $"Field {field.Key} not found.";
                     throw new KeyNotFoundException(message);
                 }
             }

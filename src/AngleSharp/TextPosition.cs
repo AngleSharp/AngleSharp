@@ -134,7 +134,7 @@
         /// </returns>
         public override String ToString()
         {
-            return String.Format("Ln {0}, Col {1}, Pos {2}", _line, _column, _position);
+            return $"Ln {_line}, Col {_column}, Pos {_position}";
         }
 
         /// <summary>

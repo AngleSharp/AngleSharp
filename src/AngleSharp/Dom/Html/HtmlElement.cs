@@ -684,9 +684,8 @@
                     {
                         function = String.Concat("function () { ", value, " }");
                     }
-
-                    var source = String.Format("element.{0} = {1};", name, function);
-                    var response = VirtualResponse.Create(res => res.Content(source));
+                    
+                    var response = VirtualResponse.Create(res => res.Content($"element.{name} = {function};"));
                     var options = new ScriptOptions(document);
                     engine.EvaluateScriptAsync(response, options, CancellationToken.None);
                 }
