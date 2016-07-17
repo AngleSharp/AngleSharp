@@ -4,14 +4,12 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
 
     /// <summary>
     /// Represents a shadow root.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class ShadowRoot : Node, IShadowRoot
     {
         #region Fields
@@ -76,12 +74,14 @@
                 var children = ChildNodes;
                 var n = children.Length;
 
-                for (int i = 0; i < n; i++)
+                for (var i = 0; i < n; i++)
                 {
                     var child = children[i] as IElement;
 
                     if (child != null)
+                    {
                         return child;
+                    }
                 }
 
                 return null;
@@ -94,12 +94,14 @@
             {
                 var children = ChildNodes;
 
-                for (int i = children.Length - 1; i >= 0; i--)
+                for (var i = children.Length - 1; i >= 0; i--)
                 {
                     var child = children[i] as IElement;
 
                     if (child != null)
+                    {
                         return child;
+                    }
                 }
 
                 return null;
@@ -113,7 +115,9 @@
                 var sb = Pool.NewStringBuilder();
 
                 foreach (var child in this.GetDescendants().OfType<IText>())
+                {
                     sb.Append(child.Data);
+                }
 
                 return sb.ToPool();
             }

@@ -61,7 +61,7 @@
         /// </returns>
         public override String ToString()
         {
-            return String.Format("({0}) -- ({1})", _start, _end);
+            return $"({_start}) -- ({_end})";
         }
 
         /// <summary>

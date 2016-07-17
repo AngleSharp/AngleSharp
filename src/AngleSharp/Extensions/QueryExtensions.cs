@@ -6,12 +6,10 @@
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// Extensions for performing QuerySelector operations.
     /// </summary>
-    [DebuggerStepThrough]
     static class QueryExtensions
     {
         #region Text Selector

@@ -6,13 +6,11 @@
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// Defines a set of extension methods for style sheets.
     /// </summary>
-    [DebuggerStepThrough]
     public static class StyleSheetExtensions
     {
         #region Adding Rules
@@ -116,7 +114,7 @@
         {
             if (sheets == null)
             {
-                throw new ArgumentNullException("sheets");
+                throw new ArgumentNullException(nameof(sheets));
             }
 
             return sheets.Where(m => !m.IsDisabled).OfType<ICssStyleSheet>().SelectMany(m => m.Rules).OfType<TRule>();
@@ -132,7 +130,7 @@
         {
             if (selector == null)
             {
-                throw new ArgumentNullException("selector");
+                throw new ArgumentNullException(nameof(selector));
             }
 
             var selectorText = selector.Text;
@@ -146,7 +144,7 @@
         /// <returns>The associated document, if any.</returns>
         public static IDocument GetDocument(this IStyleSheet sheet)
         {
-            return sheet != null && sheet.OwnerNode != null ? sheet.OwnerNode.Owner : null;
+            return sheet?.OwnerNode?.Owner;
         }
 
         /// <summary>
@@ -168,7 +166,7 @@
         {
             if (node == null)
             {
-                throw new ArgumentNullException("node");
+                throw new ArgumentNullException(nameof(node));
             }
 
             return node.Children.SelectMany(m => m.GetAllDescendents());
@@ -184,7 +182,7 @@
         {
             if (node == null)
             {
-                throw new ArgumentNullException("node");
+                throw new ArgumentNullException(nameof(node));
             }
 
             if (node is T)

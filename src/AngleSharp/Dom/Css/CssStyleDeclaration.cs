@@ -2680,10 +2680,7 @@
 
         void RaiseChanged()
         {
-            if (Changed != null)
-            {
-                Changed(CssText);
-            }
+            Changed?.Invoke(CssText);
         }
 
         #endregion

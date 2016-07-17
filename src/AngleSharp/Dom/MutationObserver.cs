@@ -29,9 +29,7 @@
         public MutationObserver(MutationCallback callback)
         {
             if (callback == null)
-            {
-                throw new ArgumentNullException("callback");
-            }
+                throw new ArgumentNullException(nameof(callback));
 
             _records = new Queue<IMutationRecord>();
             _callback = callback;
@@ -226,21 +224,16 @@
             };
 
             if (options.IsExaminingOldAttributeValue && !options.IsObservingAttributes)
-            {
                 throw new DomException(DomError.TypeMismatch);
-            }
-            else if (options.AttributeFilters != null && !options.IsObservingAttributes)
-            {
+
+            if (options.AttributeFilters != null && !options.IsObservingAttributes)
                 throw new DomException(DomError.TypeMismatch);
-            }
-            else if (options.IsExaminingOldCharacterData && !options.IsObservingCharacterData)
-            {
+
+            if (options.IsExaminingOldCharacterData && !options.IsObservingCharacterData)
                 throw new DomException(DomError.TypeMismatch);
-            }
-            else if (options.IsInvalid)
-            {
+
+            if (options.IsInvalid)
                 throw new DomException(DomError.Syntax);
-            }
 
             node.Owner.Mutations.Register(this);
             var existing = this[target];

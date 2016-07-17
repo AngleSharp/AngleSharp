@@ -31,7 +31,7 @@
         {
             if (document == null)
             {
-                throw new ArgumentNullException("document");
+                throw new ArgumentNullException(nameof(document));
             }
 
             var type = typeof(ApiExtensions).GetAssembly().GetTypes()
@@ -60,12 +60,7 @@
                     {
                         var element = (TElement)obj;
                         var baseElement = element as Element;
-
-                        if (baseElement != null)
-                        {
-                            baseElement.SetupElement();
-                        }
-
+                        baseElement?.SetupElement();
                         document.Adopt(element);
                         return element;
                     }
@@ -87,12 +82,12 @@
         {
             if (node == null)
             {
-                throw new ArgumentNullException("node");
+                throw new ArgumentNullException(nameof(node));
             }
 
             if (eventName == null)
             {
-                throw new ArgumentNullException("eventName");
+                throw new ArgumentNullException(nameof(eventName));
             }
 
             var completion = new TaskCompletionSource<Event>();
@@ -121,7 +116,7 @@
         {
             if (parent == null)
             {
-                throw new ArgumentNullException("parent");
+                throw new ArgumentNullException(nameof(parent));
             }
 
             return parent.AppendChild(element) as TElement;
@@ -142,7 +137,7 @@
         {
             if (parent == null)
             {
-                throw new ArgumentNullException("parent");
+                throw new ArgumentNullException(nameof(parent));
             }
 
             return parent.InsertBefore(newElement, referenceElement) as TElement;
@@ -161,7 +156,7 @@
         {
             if (parent == null)
             {
-                throw new ArgumentNullException("parent");
+                throw new ArgumentNullException(nameof(parent));
             }
 
             return parent.RemoveChild(element) as TElement;
@@ -180,12 +175,12 @@
         {
             if (parent == null)
             {
-                throw new ArgumentNullException("parent");
+                throw new ArgumentNullException(nameof(parent));
             }
 
             if (selectors == null)
             {
-                throw new ArgumentNullException("selectors");
+                throw new ArgumentNullException(nameof(selectors));
             }
 
             return parent.QuerySelector(selectors) as TElement;
@@ -204,12 +199,12 @@
         {
             if (parent == null)
             {
-                throw new ArgumentNullException("parent");
+                throw new ArgumentNullException(nameof(parent));
             }
 
             if (selectors == null)
             {
-                throw new ArgumentNullException("selectors");
+                throw new ArgumentNullException(nameof(selectors));
             }
 
             return parent.QuerySelectorAll(selectors).OfType<TElement>();
@@ -235,7 +230,7 @@
         {
             if (parent == null)
             {
-                throw new ArgumentNullException("parent");
+                throw new ArgumentNullException(nameof(parent));
             }
 
             return parent.GetDescendants();
@@ -261,7 +256,7 @@
         {
             if (child == null)
             {
-                throw new ArgumentNullException("child");
+                throw new ArgumentNullException(nameof(child));
             }
 
             return child.GetAncestors();
@@ -287,12 +282,12 @@
         {
             if (form == null)
             {
-                throw new ArgumentNullException("form");
+                throw new ArgumentNullException(nameof(form));
             }
 
             if (fields == null)
             {
-                throw new ArgumentNullException("fields");
+                throw new ArgumentNullException(nameof(fields));
             }
 
             var inputs = form.Elements.OfType<HtmlFormControlElement>();
@@ -348,7 +343,7 @@
                 }
                 else
                 {
-                    var message = String.Format("Field {0} not found.", field.Key);
+                    var message = $"Field {field.Key} not found.";
                     throw new KeyNotFoundException(message);
                 }
             }
@@ -385,7 +380,7 @@
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             var address = element.Href;
@@ -439,7 +434,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             return elements.Skip(index).FirstOrDefault();
@@ -457,7 +452,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             return elements.Skip(index + 1);
@@ -475,7 +470,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             return elements.Take(index);
@@ -492,7 +487,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             var even = true;
@@ -519,7 +514,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             var odd = false;
@@ -548,18 +543,12 @@
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             var document = element.Owner;
-
-            if (document != null)
-            {
-                var window = document.DefaultView;
-                return window.GetComputedStyle(element);
-            }
-
-            return default(ICssStyleDeclaration);
+            var window = document?.DefaultView;
+            return window?.GetComputedStyle(element);
         }
 
         /// <summary>
@@ -576,12 +565,12 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             if (attributeName == null)
             {
-                throw new ArgumentNullException("attributeName");
+                throw new ArgumentNullException(nameof(attributeName));
             }
 
             foreach (var element in elements)
@@ -607,12 +596,12 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             if (attributes == null)
             {
-                throw new ArgumentNullException("attributes");
+                throw new ArgumentNullException(nameof(attributes));
             }
 
             foreach (var element in elements)
@@ -669,7 +658,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             foreach (var element in elements)
@@ -696,12 +685,12 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             if (propertyName == null)
             {
-                throw new ArgumentNullException("propertyName");
+                throw new ArgumentNullException(nameof(propertyName));
             }
 
             foreach (var element in elements.OfType<IHtmlElement>())
@@ -727,12 +716,12 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             if (properties == null)
             {
-                throw new ArgumentNullException("properties");
+                throw new ArgumentNullException(nameof(properties));
             }
 
             foreach (var element in elements.OfType<IHtmlElement>())
@@ -773,7 +762,7 @@
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             return element.InnerHtml;
@@ -793,7 +782,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             foreach (var element in elements)
@@ -817,12 +806,12 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             if (className == null)
             {
-                throw new ArgumentNullException("className");
+                throw new ArgumentNullException(nameof(className));
             }
 
             var classes = className.SplitSpaces();
@@ -848,12 +837,12 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             if (className == null)
             {
-                throw new ArgumentNullException("className");
+                throw new ArgumentNullException(nameof(className));
             }
 
             var classes = className.SplitSpaces();
@@ -879,12 +868,12 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             if (className == null)
             {
-                throw new ArgumentNullException("className");
+                throw new ArgumentNullException(nameof(className));
             }
 
             var classes = className.SplitSpaces();
@@ -913,12 +902,12 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             if (className == null)
             {
-                throw new ArgumentNullException("className");
+                throw new ArgumentNullException(nameof(className));
             }
 
             var classes = className.SplitSpaces();
@@ -958,7 +947,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             foreach (var element in elements)
@@ -988,7 +977,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             foreach (var element in elements)
@@ -1018,7 +1007,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             foreach (var element in elements)
@@ -1043,7 +1032,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             foreach (var element in elements)
@@ -1068,7 +1057,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             foreach (var element in elements)
@@ -1076,12 +1065,7 @@
                 var fragment = element.CreateFragment(html);
                 var newParent = fragment.GetInnerMostElement();
                 var parent = element.Parent;
-
-                if (parent != null)
-                {
-                    parent.InsertBefore(fragment, element);
-                }
-
+                parent?.InsertBefore(fragment, element);
                 newParent.AppendChild(element);
             }
 
@@ -1101,7 +1085,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             foreach (var element in elements)
@@ -1135,7 +1119,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             var element = elements.FirstOrDefault();
@@ -1145,11 +1129,7 @@
                 var fragment = element.CreateFragment(html);
                 var newParent = fragment.GetInnerMostElement();
                 var parent = element.Parent;
-
-                if (parent != null)
-                {
-                    parent.InsertBefore(fragment, element);
-                }
+                parent?.InsertBefore(fragment, element);
 
                 foreach (var child in elements)
                 {
@@ -1185,7 +1165,7 @@
         {
             if (document == null)
             {
-                throw new ArgumentNullException("document");
+                throw new ArgumentNullException(nameof(document));
             }
 
             var body = document.Body as Element;
@@ -1211,7 +1191,7 @@
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
             return element.TextContent;
@@ -1229,7 +1209,7 @@
         {
             if (elements == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(elements));
             }
 
             foreach (var element in elements)
@@ -1250,7 +1230,7 @@
         {
             if (nodes == null)
             {
-                throw new ArgumentNullException("elements");
+                throw new ArgumentNullException(nameof(nodes));
             }
 
             if (item != null)

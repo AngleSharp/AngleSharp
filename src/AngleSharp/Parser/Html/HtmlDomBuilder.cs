@@ -11,7 +11,6 @@
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -20,7 +19,6 @@
     /// 8.2.5 Tree construction, on the following page:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    [DebuggerStepThrough]
     sealed class HtmlDomBuilder
     {
         #region Fields
@@ -160,12 +158,8 @@
             {
                 token = _tokenizer.Get();
                 Consume(token);
-
-                if (_waiting != null)
-                {
-                    _waiting.Wait();
-                    _waiting = null;
-                }
+                _waiting?.Wait();
+                _waiting = null;
             }
             while (token.Type != HtmlTokenType.EndOfFile);
 
@@ -184,7 +178,7 @@
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             _fragmentContext = context;
@@ -3048,19 +3042,12 @@
                         bookmark++;
                     }
 
-                    if (lastNode.Parent != null)
-                    {
-                        lastNode.Parent.RemoveChild(lastNode);
-                    }
-
+                    lastNode.Parent?.RemoveChild(lastNode);
                     node.AddNode(lastNode);
                     lastNode = node;
                 }
 
-                if (lastNode.Parent != null)
-                {
-                    lastNode.Parent.RemoveChild(lastNode);
-                }
+                lastNode.Parent?.RemoveChild(lastNode);
 
                 if (!TagNames.AllTableMajor.Contains(commonAncestor.LocalName))
                 {

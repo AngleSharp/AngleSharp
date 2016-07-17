@@ -1,12 +1,10 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
-    using System.Diagnostics;
 
     /// <summary>
     /// Useful methods for parent node objects.
     /// </summary>
-    [DebuggerStepThrough]
     static class ParentNodeExtensions
     {
         /// <summary>
@@ -122,10 +120,7 @@
         /// <param name="child">The context object.</param>
         public static void RemoveFromParent(this INode child)
         {
-            var parent = child.Parent;
-
-            if (parent != null)
-                parent.PreRemove(child);
+            child.Parent?.PreRemove(child);
         }
     }
 }

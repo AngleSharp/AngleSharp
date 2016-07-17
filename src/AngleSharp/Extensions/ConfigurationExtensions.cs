@@ -9,7 +9,6 @@
     using Commands;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
     using System.Text;
@@ -18,7 +17,6 @@
     /// Represents a helper to construct objects with externally defined
     /// classes and libraries.
     /// </summary>
-    [DebuggerStepThrough]
     static class ConfigurationExtensions
     {
         #region Encoding
@@ -27,7 +25,7 @@
         {
             var provider = configuration.GetProvider<IEncodingProvider>();
             var locale = configuration.GetLanguage();
-            return provider != null ? provider.Suggest(locale) : Encoding.UTF8;
+            return provider?.Suggest(locale) ?? Encoding.UTF8;
         }
 
         #endregion
@@ -103,17 +101,13 @@
         public static String GetCookie(this IConfiguration configuration, String origin)
         {
             var provider = configuration.GetProvider<ICookieProvider>();
-            return provider != null ? provider.GetCookie(origin) : String.Empty;
+            return provider?.GetCookie(origin) ?? String.Empty;
         }
         
         public static void SetCookie(this IConfiguration configuration, String origin, String value)
         {
             var provider = configuration.GetProvider<ICookieProvider>();
-
-            if (provider != null)
-            {
-                provider.SetCookie(origin, value);
-            }
+            provider?.SetCookie(origin, value);
         }
 
         #endregion
@@ -153,7 +147,7 @@
         public static IStyleEngine GetStyleEngine(this IConfiguration configuration, String type)
         {
             var provider = configuration.GetProvider<IStylingProvider>();
-            return provider != null ? provider.GetEngine(type) : null;
+            return provider?.GetEngine(type);
         }
 
         #endregion
@@ -162,13 +156,13 @@
 
         public static Boolean IsScripting(this IConfiguration configuration)
         {
-            return configuration != null && configuration.GetProvider<IScriptingProvider>() != null;
+            return configuration?.GetProvider<IScriptingProvider>() != null;
         }
         
         public static IScriptEngine GetScriptEngine(this IConfiguration configuration, String type)
         {
             var provider = configuration.GetProvider<IScriptingProvider>();
-            return provider != null ? provider.GetEngine(type) : null;
+            return provider?.GetEngine(type);
         }
 
         #endregion
@@ -194,7 +188,7 @@
         public static ICommand GetCommand(this IConfiguration configuration, String commandId)
         {
             var provider = configuration.GetProvider<ICommandProvider>();
-            return provider != null ? provider.GetCommand(commandId) : null;
+            return provider?.GetCommand(commandId);
         }
 
         #endregion

@@ -2,12 +2,10 @@
 {
     using AngleSharp.Dom;
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// Extensions for the list of attributes.
     /// </summary>
-    [DebuggerStepThrough]
     static class AttrExtensions
     {
         /// <summary>
@@ -18,26 +16,30 @@
         /// <returns>True if both objects are equal, otherwise false.</returns>
         public static Boolean AreEqual(this INamedNodeMap sourceAttributes, INamedNodeMap targetAttributes)
         {
-            if (sourceAttributes.Length != targetAttributes.Length)
-                return false;
-
-            foreach (var elA in sourceAttributes)
+            if (sourceAttributes.Length == targetAttributes.Length)
             {
-                var found = false;
-
-                foreach (var elB in targetAttributes)
+                foreach (var elA in sourceAttributes)
                 {
-                    found = elA.GetHashCode() == elB.GetHashCode();
+                    var found = false;
 
-                    if (found)
-                        break;
+                    foreach (var elB in targetAttributes)
+                    {
+                        found = elA.GetHashCode() == elB.GetHashCode();
+
+                        if (found)
+                            break;
+                    }
+
+                    if (!found)
+                    {
+                        return false;
+                    }
                 }
 
-                if (!found)
-                    return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
     }
 }

@@ -5,12 +5,10 @@
     using AngleSharp.Html;
     using AngleSharp.Network;
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// A simple and lightweight browsing context.
     /// </summary>
-    [DebuggerStepThrough]
     public sealed class BrowsingContext : EventTarget, IBrowsingContext, IDisposable
     {
         #region Fields
@@ -21,7 +19,6 @@
         readonly IDocument _creator;
         readonly IDocumentLoader _loader;
         readonly IHistory _history;
-        IDocument _active;
 
         #endregion
 
@@ -85,8 +82,8 @@
         /// </summary>
         public IDocument Active
         {
-            get { return _active; }
-            set { _active = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -120,7 +117,7 @@
         /// </summary>
         public IWindow Current
         {
-            get { return _active != null ? _active.DefaultView : null; }
+            get { return Active?.DefaultView; }
         }
 
         /// <summary>
@@ -171,11 +168,8 @@
 
         void IDisposable.Dispose()
         {
-            if (_active != null)
-            {
-                _active.Dispose();
-                _active = null;
-            }
+            Active?.Dispose();
+            Active = null;
         }
 
         #endregion

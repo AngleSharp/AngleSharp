@@ -9,12 +9,10 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// See http://dev.w3.org/csswg/css-syntax/#parsing for details.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class CssBuilder
     {
         #region Fields
@@ -902,7 +900,7 @@
                     token = NextToken();
                     CollectTrivia(ref token);
                     var conditions = MultipleConditions(condition, conjunction, ref token);
-                    condition = creator(conditions);
+                    condition = creator.Invoke(conditions);
                 }
             }
 

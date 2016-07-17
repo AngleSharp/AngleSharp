@@ -2,12 +2,10 @@
 {
     using AngleSharp.Extensions;
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// A location object with information about a Url.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class Location : ILocation
     {
         #region Fields
@@ -43,7 +41,7 @@
 
         #region Properties
 
-        internal Url Original
+        public Url Original
         {
             get { return _url; }
         }
@@ -236,8 +234,7 @@
 
         void RaiseChanged(String oldAddress, Boolean hashChanged)
         {
-            if (Changed != null)
-                Changed(this, new LocationChangedEventArgs(hashChanged, oldAddress, _url.Href));
+            Changed?.Invoke(this, new LocationChangedEventArgs(hashChanged, oldAddress, _url.Href));
         }
 
         static String NonEmptyPrefix(String check, String prefix)

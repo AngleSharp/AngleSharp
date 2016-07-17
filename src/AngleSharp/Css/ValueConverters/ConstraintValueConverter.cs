@@ -33,7 +33,9 @@
                 var value = filter.Value;
 
                 if (existing != null && value != existing)
+                {
                     return null;
+                }
                 
                 existing = value;
             }

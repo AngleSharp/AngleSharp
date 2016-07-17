@@ -160,15 +160,19 @@
 
         Byte[] GetImageData(String type)
         {
-            return _current != null ? _current.ToImage(type ?? MimeTypeNames.Plain) : new Byte[0];
+            return _current?.ToImage(type ?? MimeTypeNames.Plain) ?? new Byte[0];
         }
 
         static ContextMode GetModeFrom(String contextId)
         {
             if (contextId.Isi("2d"))
+            {
                 return ContextMode.Direct2d;
+            }
             else if (contextId.Isi("webgl"))
+            {
                 return ContextMode.DirectWebGl;
+            }
 
             return ContextMode.None;
         }

@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using static AngleSharp.Css.Converters;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -11,11 +12,11 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = Converters.ImageSourceConverter.Or(
-            Converters.WithOrder(
-                Converters.ImageSourceConverter.Required(),
-                Converters.NumberConverter.Required(),
-                Converters.NumberConverter.Required())).RequiresEnd(
+        static readonly IValueConverter StyleConverter = ImageSourceConverter.Or(
+            WithOrder(
+                ImageSourceConverter.Required(),
+                NumberConverter.Required(),
+                NumberConverter.Required())).RequiresEnd(
             Map.Cursors.ToConverter()).OrDefault(SystemCursor.Auto);
 
         #endregion

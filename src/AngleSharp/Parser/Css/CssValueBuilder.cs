@@ -4,13 +4,11 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// The class that is responsible for book-keeping information
     /// about the current CSS value that is been build.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class CssValueBuilder
     {
         #region Fields

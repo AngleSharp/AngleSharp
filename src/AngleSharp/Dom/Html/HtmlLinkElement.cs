@@ -25,7 +25,7 @@
 
         static HtmlLinkElement()
         {
-            RegisterCallback<HtmlLinkElement>(AttributeNames.Sizes, (element, value) => element.TryUpdate(element._sizes, value));
+            RegisterCallback<HtmlLinkElement>(AttributeNames.Sizes, (element, value) => element._sizes?.Update(value));
             RegisterCallback<HtmlLinkElement>(AttributeNames.Media, (element, value) => element.UpdateMedia(value));
             RegisterCallback<HtmlLinkElement>(AttributeNames.Disabled, (element, value) => element.UpdateDisabled(value));
             RegisterCallback<HtmlLinkElement>(AttributeNames.Href, (element, value) => element.UpdateSource(value));
@@ -59,11 +59,7 @@
 
         public IDownload CurrentDownload
         {
-            get 
-            {
-                var processor = _relation != null ? _relation.Processor : null;
-                return processor != null ? processor.Download : null; 
-            }
+            get { return _relation?.Processor?.Download; }
         }
 
         public String Href
@@ -153,7 +149,7 @@
             get 
             { 
                 var sheetRelation = _relation as StyleSheetLinkRelation;
-                return sheetRelation != null ? sheetRelation.Sheet : null;
+                return sheetRelation?.Sheet;
             }
         }
 
@@ -162,7 +158,7 @@
             get
             {
                 var importRelation = _relation as ImportLinkRelation;
-                return importRelation != null ? importRelation.Import : null;
+                return importRelation?.Import;
             }
         }
 
@@ -208,7 +204,7 @@
 
         void UpdateRelation(String value)
         {
-            TryUpdate(_relList, value);
+            _relList?.Update(value);
 
             if (_relation != null)
             {
@@ -222,22 +218,20 @@
 
         void UpdateSource(String value)
         {
-            var document = Owner;
-
-            if (_relation != null && document != null)
+            if (_relation != null)
             {
                 //TODO
                 //_relation.Cancel();
 
                 var task = _relation.LoadAsync();
-                document.DelayLoad(task);
+                Owner?.DelayLoad(task);
             }
         }
 
         BaseLinkRelation CreateFirstLegalRelation()
         {
             var relations = RelationList;
-            var factory = Owner.Options.GetFactory<ILinkRelationFactory>();
+            var factory = Owner?.Options.GetFactory<ILinkRelationFactory>();
 
             foreach (var relation in relations)
             {

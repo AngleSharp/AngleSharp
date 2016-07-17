@@ -5,13 +5,11 @@
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// A bunch of useful extension methods.
     /// </summary>
-    [DebuggerStepThrough]
     static class ValueExtensions
     {
         #region Transformers

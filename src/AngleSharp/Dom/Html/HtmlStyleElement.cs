@@ -53,8 +53,10 @@
             {
                 this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null);
 
-                if (_sheet != null) 
-                    _sheet.IsDisabled = value; 
+                if (_sheet != null)
+                {
+                    _sheet.IsDisabled = value;
+                }
             }
         }
 

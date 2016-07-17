@@ -4,13 +4,11 @@
     using AngleSharp.Html;
     using AngleSharp.Services;
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// Performs the tokenization of the source code. Most of
     /// the information is taken from http://www.w3.org/TR/REC-xml/.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class XmlTokenizer : BaseTokenizer
     {
         #region Fields

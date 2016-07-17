@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Css.Values;
     using AngleSharp.Extensions;
+    using static AngleSharp.Css.Converters;
 
     /// <summary>
     /// More information available at:
@@ -14,12 +15,12 @@
     {
         #region Fields
 
-        internal static readonly IValueConverter TheConverter = Converters.WithAny(
-            Converters.BorderSliceConverter.Option(new Length(100f, Length.Unit.Percent)),
-            Converters.BorderSliceConverter.Option(),
-            Converters.BorderSliceConverter.Option(),
-            Converters.BorderSliceConverter.Option(),
-            Converters.Assign(Keywords.Fill, true).Option(false));
+        internal static readonly IValueConverter TheConverter = WithAny(
+            BorderSliceConverter.Option(new Length(100f, Length.Unit.Percent)),
+            BorderSliceConverter.Option(),
+            BorderSliceConverter.Option(),
+            BorderSliceConverter.Option(),
+            Assign(Keywords.Fill, true).Option(false));
 
         static readonly IValueConverter StyleConverter = TheConverter.OrDefault(Length.Full);
 

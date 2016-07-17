@@ -7,14 +7,12 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
 
     /// <summary>
     /// Represents a list of media elements.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class MediaList : CssNode, IMediaList
     {
         #region Fields

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Extensions
 {
     using System;
-    using System.Diagnostics;
 #if !NET40
     using System.Runtime.CompilerServices;
 #endif
@@ -9,7 +8,6 @@
     /// <summary>
     /// Useful methods for chars.
     /// </summary>
-    [DebuggerStepThrough]
     static class CharExtensions
     {
         /// <summary>

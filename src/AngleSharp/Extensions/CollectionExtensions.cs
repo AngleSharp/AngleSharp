@@ -4,12 +4,10 @@
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// A bunch of methods for getting DOM elements.
     /// </summary>
-    [DebuggerStepThrough]
     static class CollectionExtensions
     {
         #region Methods
@@ -74,7 +72,7 @@
                 }
             }
 
-            throw new ArgumentOutOfRangeException("index");
+            throw new ArgumentOutOfRangeException(nameof(index));
         }
 
         /// <summary>

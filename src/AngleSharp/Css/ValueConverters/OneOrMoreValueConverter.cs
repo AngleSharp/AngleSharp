@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
+    using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using AngleSharp.Extensions;
-    using AngleSharp.Parser.Css;
-    using AngleSharp.Dom.Css;
 
     sealed class OneOrMoreValueConverter : IValueConverter
     {

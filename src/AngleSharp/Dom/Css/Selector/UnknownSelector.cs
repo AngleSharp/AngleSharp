@@ -27,12 +27,7 @@
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var view = SourceCode;
-
-            if (view != null)
-            {
-                writer.Write(view.Text);
-            }
+            writer.Write(SourceCode?.Text);
         }
     }
 }

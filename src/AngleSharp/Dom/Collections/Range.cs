@@ -92,19 +92,13 @@
         public void StartWith(INode refNode, Int32 offset)
         {
             if (refNode == null)
-            {
-                throw new ArgumentNullException("refNode");
-            }
+                throw new ArgumentNullException(nameof(refNode));
 
             if (refNode.NodeType == NodeType.DocumentType)
-            {
                 throw new DomException(DomError.InvalidNodeType);
-            }
 
             if (offset > refNode.ChildNodes.Length)
-            {
                 throw new DomException(DomError.IndexSizeError);
-            }
 
             var bp = new Boundary { Node = refNode, Offset = offset };
 
@@ -117,19 +111,13 @@
         public void EndWith(INode refNode, Int32 offset)
         {
             if (refNode == null)
-            {
-                throw new ArgumentNullException("refNode");
-            }
+                throw new ArgumentNullException(nameof(refNode));
 
             if (refNode.NodeType == NodeType.DocumentType)
-            {
                 throw new DomException(DomError.InvalidNodeType);
-            }
             
             if (offset > refNode.ChildNodes.Length)
-            {
                 throw new DomException(DomError.IndexSizeError);
-            }
 
             var bp = new Boundary { Node = refNode, Offset = offset };
 
@@ -142,16 +130,12 @@
         public void StartBefore(INode refNode)
         {
             if (refNode == null)
-            {
-                throw new ArgumentNullException("refNode");
-            }
+                throw new ArgumentNullException(nameof(refNode));
 
             var parent = refNode.Parent;
 
             if (parent == null)
-            {
                 throw new DomException(DomError.InvalidNodeType);
-            }
 
             _start = new Boundary { Node = parent, Offset = parent.ChildNodes.Index(refNode) };
         }
@@ -159,16 +143,12 @@
         public void EndBefore(INode refNode)
         {
             if (refNode == null)
-            {
-                throw new ArgumentNullException("refNode");
-            }
+                throw new ArgumentNullException(nameof(refNode));
 
             var parent = refNode.Parent;
 
             if (parent == null)
-            {
                 throw new DomException(DomError.InvalidNodeType);
-            }
 
             _end = new Boundary { Node = parent, Offset = parent.ChildNodes.Index(refNode) };
         }
@@ -176,16 +156,12 @@
         public void StartAfter(INode refNode)
         {
             if (refNode == null)
-            {
-                throw new ArgumentNullException("refNode");
-            }
+                throw new ArgumentNullException(nameof(refNode));
 
             var parent = refNode.Parent;
 
             if (parent == null)
-            {
                 throw new DomException(DomError.InvalidNodeType);
-            }
 
             _start = new Boundary { Node = parent, Offset = parent.ChildNodes.Index(refNode) + 1 };
         }
@@ -193,16 +169,12 @@
         public void EndAfter(INode refNode)
         {
             if (refNode == null)
-            {
-                throw new ArgumentNullException("refNode");
-            }
+                throw new ArgumentNullException(nameof(refNode));
 
             var parent = refNode.Parent;
 
             if (parent == null)
-            {
                 throw new DomException(DomError.InvalidNodeType);
-            }
 
             _end = new Boundary { Node = parent, Offset = parent.ChildNodes.Index(refNode) + 1 };
         }
@@ -222,16 +194,12 @@
         public void Select(INode refNode)
         {
             if (refNode == null)
-            {
-                throw new ArgumentNullException("refNode");
-            }
+                throw new ArgumentNullException(nameof(refNode));
 
             var parent = refNode.Parent;
 
             if (parent == null)
-            {
                 throw new DomException(DomError.InvalidNodeType);
-            }
 
             var index = parent.ChildNodes.Index(refNode);
             _start = new Boundary { Node = parent, Offset = index };
@@ -241,14 +209,10 @@
         public void SelectContent(INode refNode)
         {
             if (refNode == null)
-            {
-                throw new ArgumentNullException("refNode");
-            }
+                throw new ArgumentNullException(nameof(refNode));
 
             if (refNode.NodeType == NodeType.DocumentType)
-            {
                 throw new DomException(DomError.InvalidNodeType);
-            }
 
             var length = refNode.ChildNodes.Length;
             _start = new Boundary { Node = refNode, Offset = 0 };
@@ -357,9 +321,7 @@
             var containedChildren = commonAncestor.GetElements<INode>(predicate: Intersects).ToList();
 
             if (containedChildren.OfType<IDocumentType>().Any())
-            {
                 throw new DomException(DomError.HierarchyRequest);
-            }
 
             if (!originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node))
             {
@@ -456,9 +418,7 @@
             var containedChildren = commonAncestor.GetElements<INode>(predicate: Intersects).ToList();
 
             if (containedChildren.OfType<IDocumentType>().Any())
-            {
                 throw new DomException(DomError.HierarchyRequest);
-            }
 
             if (firstPartiallyContainedChild is ICharacterData)
             {
@@ -505,18 +465,14 @@
         public void Insert(INode node)
         {
             if (node == null)
-            {
-                throw new ArgumentNullException("node");
-            }
+                throw new ArgumentNullException(nameof(node));
 
             var snode = _start.Node;
             var type = snode.NodeType;
             var istext = type == NodeType.Text;
 
             if (type == NodeType.ProcessingInstruction || type == NodeType.Comment || (istext && snode.Parent == null))
-            {
                 throw new DomException(DomError.HierarchyRequest);
-            }
 
             var referenceNode = istext ? snode : _start.ChildAtOffset;
             var parent = referenceNode == null ? snode : referenceNode.Parent;
@@ -533,11 +489,7 @@
                 referenceNode = referenceNode.NextSibling;
             }
 
-            if (node.Parent != null)
-            {
-                node.Parent.RemoveChild(node);
-            }
-
+            node.Parent?.RemoveChild(node);
             var newOffset = referenceNode == null ? parent.ChildNodes.Length : parent.ChildNodes.Index(referenceNode);
             newOffset += node.NodeType == NodeType.DocumentFragment ? node.ChildNodes.Length : 1;
             parent.PreInsert(node, referenceNode);
@@ -551,21 +503,15 @@
         public void Surround(INode newParent)
         {
             if (newParent == null)
-            {
-                throw new ArgumentNullException("newParent");
-            }
+                throw new ArgumentNullException(nameof(newParent));
 
             if (Nodes.Any(m => m.NodeType != NodeType.Text && IsPartiallyContained(m)))
-            {
                 throw new DomException(DomError.InvalidState);
-            }
 
             var type = newParent.NodeType;
 
             if (type == NodeType.Document || type == NodeType.DocumentType || type == NodeType.DocumentFragment)
-            {
                 throw new DomException(DomError.InvalidNodeType);
-            }
 
             var fragment = ExtractContent();
 
@@ -592,42 +538,29 @@
         public Boolean Contains(INode node, Int32 offset)
         {
             if (node == null)
+                throw new ArgumentNullException(nameof(node));
+
+            if (node.GetRoot() == Root)
             {
-                throw new ArgumentNullException("node");
+                if (node.NodeType == NodeType.DocumentType)
+                    throw new DomException(DomError.InvalidNodeType);
+
+                if (offset > node.ChildNodes.Length)
+                    throw new DomException(DomError.IndexSizeError);
+
+                return !IsStartAfter(node, offset) && !IsEndBefore(node, offset);
             }
-            else if (node.GetRoot() != Root)
-            {
-                return false;
-            }
-            else if (node.NodeType == NodeType.DocumentType)
-            {
-                throw new DomException(DomError.InvalidNodeType);
-            }
-            else if (offset > node.ChildNodes.Length)
-            {
-                throw new DomException(DomError.IndexSizeError);
-            }
-            else if (IsStartAfter(node, offset) || IsEndBefore(node, offset))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+
+            return false;
         }
 
         public RangePosition CompareBoundaryTo(RangeType how, IRange sourceRange)
         {
             if (sourceRange == null)
-            {
-                throw new ArgumentNullException("sourceRange");
-            }
+                throw new ArgumentNullException(nameof(sourceRange));
 
             if (Root != sourceRange.Head.GetRoot())
-            {
                 throw new DomException(DomError.WrongDocument);
-            }
 
             var thisPoint = default(Boundary);
             var otherPoint = default(Boundary);
@@ -664,22 +597,16 @@
         public RangePosition CompareTo(INode node, Int32 offset)
         {
             if (node == null)
-            {
-                throw new ArgumentNullException("node");
-            }
+                throw new ArgumentNullException(nameof(node));
 
             if (Root != _start.Node.GetRoot())
-            {
                 throw new DomException(DomError.WrongDocument);
-            }
-            else if (node.NodeType == NodeType.DocumentType)
-            {
+
+            if (node.NodeType == NodeType.DocumentType)
                 throw new DomException(DomError.InvalidNodeType);
-            }
-            else if (offset > node.ChildNodes.Length)
-            {
+
+            if (offset > node.ChildNodes.Length)
                 throw new DomException(DomError.IndexSizeError);
-            }
 
             if (IsStartAfter(node, offset))
             {
@@ -696,24 +623,22 @@
         public Boolean Intersects(INode node)
         {
             if (node == null)
-            {
-                throw new ArgumentNullException("node");
-            }
+                throw new ArgumentNullException(nameof(node));
 
-            if (Root != node.GetRoot())
+            if (Root == node.GetRoot())
             {
-                return false;
-            }
+                var parent = node.Parent;
 
-            var parent = node.Parent;
+                if (parent != null)
+                {
+                    var offset = parent.ChildNodes.Index(node);
+                    return IsEndAfter(parent, offset) && IsStartBefore(parent, offset + 1);
+                }
 
-            if (parent == null)
-            {
                 return true;
             }
 
-            var offset = parent.ChildNodes.Index(node);
-            return IsEndAfter(parent, offset) && IsStartBefore(parent, offset + 1);
+            return false;
         }
 
         public override String ToString()

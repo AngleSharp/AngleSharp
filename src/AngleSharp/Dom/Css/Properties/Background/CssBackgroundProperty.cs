@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using static AngleSharp.Css.Converters;
 
     /// <summary>
     /// More information available at:
@@ -17,26 +18,26 @@
         //  <final-bg-layer> = 
         //      <bg-image> || <position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box> || <background-color>
 
-        static readonly IValueConverter NormalLayerConverter = Converters.WithAny(
-            Converters.OptionalImageSourceConverter.Option().For(PropertyNames.BackgroundImage),
-            Converters.WithOrder(
-                Converters.PointConverter.Option().For(PropertyNames.BackgroundPosition),
-                Converters.BackgroundSizeConverter.StartsWithDelimiter().Option().For(PropertyNames.BackgroundSize)),
-            Converters.BackgroundRepeatsConverter.Option().For(PropertyNames.BackgroundRepeat),
-            Converters.BackgroundAttachmentConverter.Option().For(PropertyNames.BackgroundAttachment),
-            Converters.BoxModelConverter.Option().For(PropertyNames.BackgroundOrigin),
-            Converters.BoxModelConverter.Option().For(PropertyNames.BackgroundClip));
+        static readonly IValueConverter NormalLayerConverter = WithAny(
+            OptionalImageSourceConverter.Option().For(PropertyNames.BackgroundImage),
+            WithOrder(
+                PointConverter.Option().For(PropertyNames.BackgroundPosition),
+                BackgroundSizeConverter.StartsWithDelimiter().Option().For(PropertyNames.BackgroundSize)),
+            BackgroundRepeatsConverter.Option().For(PropertyNames.BackgroundRepeat),
+            BackgroundAttachmentConverter.Option().For(PropertyNames.BackgroundAttachment),
+            BoxModelConverter.Option().For(PropertyNames.BackgroundOrigin),
+            BoxModelConverter.Option().For(PropertyNames.BackgroundClip));
 
-        static readonly IValueConverter FinalLayerConverter = Converters.WithAny(
-            Converters.OptionalImageSourceConverter.Option().For(PropertyNames.BackgroundImage),
-            Converters.WithOrder(
-                Converters.PointConverter.Option().For(PropertyNames.BackgroundPosition),
-                Converters.BackgroundSizeConverter.StartsWithDelimiter().Option().For(PropertyNames.BackgroundSize)),
-            Converters.BackgroundRepeatsConverter.Option().For(PropertyNames.BackgroundRepeat),
-            Converters.BackgroundAttachmentConverter.Option().For(PropertyNames.BackgroundAttachment),
-            Converters.BoxModelConverter.Option().For(PropertyNames.BackgroundOrigin),
-            Converters.BoxModelConverter.Option().For(PropertyNames.BackgroundClip),
-            Converters.CurrentColorConverter.Option().For(PropertyNames.BackgroundColor));
+        static readonly IValueConverter FinalLayerConverter = WithAny(
+            OptionalImageSourceConverter.Option().For(PropertyNames.BackgroundImage),
+            WithOrder(
+                PointConverter.Option().For(PropertyNames.BackgroundPosition),
+                BackgroundSizeConverter.StartsWithDelimiter().Option().For(PropertyNames.BackgroundSize)),
+            BackgroundRepeatsConverter.Option().For(PropertyNames.BackgroundRepeat),
+            BackgroundAttachmentConverter.Option().For(PropertyNames.BackgroundAttachment),
+            BoxModelConverter.Option().For(PropertyNames.BackgroundOrigin),
+            BoxModelConverter.Option().For(PropertyNames.BackgroundClip),
+            CurrentColorConverter.Option().For(PropertyNames.BackgroundColor));
 
         static readonly IValueConverter StyleConverter = NormalLayerConverter.RequiresEnd(FinalLayerConverter).OrDefault();
 

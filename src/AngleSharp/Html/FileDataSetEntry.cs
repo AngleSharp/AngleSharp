@@ -20,18 +20,20 @@
 
         public String FileName
         {
-            get { return _value != null ? _value.Name : String.Empty; }
+            get { return _value?.Name ?? String.Empty; }
         }
 
         public String ContentType
         {
-            get { return _value != null ? _value.Type : MimeTypeNames.Binary; }
+            get { return _value?.Type ?? MimeTypeNames.Binary; }
         }
 
         public override Boolean Contains(String boundary, Encoding encoding)
         {
             if (_value == null || _value.Body == null)
+            {
                 return false;
+            }
 
             //TODO boundary check required?
             return false;

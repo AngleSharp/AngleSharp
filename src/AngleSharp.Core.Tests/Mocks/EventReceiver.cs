@@ -36,10 +36,7 @@
 
         void Receive(TReceivingEvent data)
         {
-            if (OnReceived != null)
-            {
-                OnReceived(data);
-            }
+            OnReceived?.Invoke(data);
 
             _received.Add(data);
         }

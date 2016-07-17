@@ -54,9 +54,9 @@
         public ICssRule Parent
         {
             get { return _parentRule; }
-            internal set 
-            { 
-                _parentRule = value; 
+            internal set
+            {
+                _parentRule = value;
 
                 if (value != null)
                 {

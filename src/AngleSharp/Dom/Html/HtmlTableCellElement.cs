@@ -20,7 +20,7 @@
 
         static HtmlTableCellElement()
         {
-            RegisterCallback<HtmlTableCellElement>(AttributeNames.Headers, (element, value) => element.TryUpdate(element._headers, value));
+            RegisterCallback<HtmlTableCellElement>(AttributeNames.Headers, (element, value) => element._headers?.Update(value));
         }
 
         public HtmlTableCellElement(Document owner, String name, String prefix)
@@ -44,13 +44,7 @@
                 }
 
                 var row = parent as HtmlTableRowElement;
-
-                if (row != null)
-                {
-                    return row.IndexOf(this);
-                }
-
-                return -1;
+                return row?.IndexOf(this) ?? -1;
             }
         }
 

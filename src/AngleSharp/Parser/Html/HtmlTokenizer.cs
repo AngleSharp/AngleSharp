@@ -6,13 +6,11 @@
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// Performs the tokenization of the source code. Follows the tokenization algorithm at:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    [DebuggerStepThrough]
     sealed class HtmlTokenizer : BaseTokenizer
     {
         #region Fields
@@ -881,7 +879,9 @@
                         var result = CommentDashEnd(GetNext());
 
                         if (result != null)
+                        {
                             return result;
+                        }
 
                         break;
                     case Symbols.EndOfFile:

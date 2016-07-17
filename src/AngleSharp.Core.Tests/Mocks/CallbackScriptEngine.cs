@@ -28,10 +28,7 @@
 
         public Task EvaluateScriptAsync(IResponse response, ScriptOptions options, CancellationToken cancel)
         {
-            if (Callback != null)
-            {
-                Callback(options);
-            }
+            Callback?.Invoke(options);
 
             return Task.FromResult(true);
         }

@@ -4,15 +4,13 @@
     using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Text;
 
     /// <summary>
     /// Represents an Url class according to RFC3986. This is the base for all
     /// internal Url manipulation.
     /// </summary>
-    [DebuggerStepThrough]
-    public class Url : IEquatable<Url>
+    public sealed class Url : IEquatable<Url>
     {
         #region Fields
 

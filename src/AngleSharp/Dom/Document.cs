@@ -9,7 +9,6 @@
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -19,7 +18,6 @@
     /// <summary>
     /// Represents a document node.
     /// </summary>
-    [DebuggerStepThrough]
     abstract class Document : Node, IDocument
     {
         #region Fields
@@ -1276,37 +1274,37 @@
         Boolean IDocument.ExecuteCommand(String commandId, Boolean showUserInterface, String value)
         {
             var command = Options.GetCommand(commandId);
-            return command != null ? command.Execute(this, showUserInterface, value) : false;
+            return command?.Execute(this, showUserInterface, value) ?? false;
         }
 
         Boolean IDocument.IsCommandEnabled(String commandId)
         {
             var command = Options.GetCommand(commandId);
-            return command != null ? command.IsEnabled(this) : false;
+            return command?.IsEnabled(this) ?? false;
         }
 
         Boolean IDocument.IsCommandIndeterminate(String commandId)
         {
             var command = Options.GetCommand(commandId);
-            return command != null ? command.IsIndeterminate(this) : false;
+            return command?.IsIndeterminate(this) ?? false;
         }
 
         Boolean IDocument.IsCommandExecuted(String commandId)
         {
             var command = Options.GetCommand(commandId);
-            return command != null ? command.IsExecuted(this) : false;
+            return command?.IsExecuted(this) ?? false;
         }
 
         Boolean IDocument.IsCommandSupported(String commandId)
         {
             var command = Options.GetCommand(commandId);
-            return command != null ? command.IsSupported(this) : false;
+            return command?.IsSupported(this) ?? false;
         }
 
         String IDocument.GetCommandValue(String commandId)
         {
             var command = Options.GetCommand(commandId);
-            return command != null ? command.GetValue(this) : null;
+            return command?.GetValue(this);
         }
 
         #endregion
@@ -1401,12 +1399,12 @@
 
         protected sealed override String LocateNamespace(String prefix)
         {
-            return DocumentElement.LocateNamespace(prefix);
+            return DocumentElement?.LocateNamespaceFor(prefix);
         }
 
         protected sealed override String LocatePrefix(String namespaceUri)
         {
-            return DocumentElement.LocatePrefix(namespaceUri);
+            return DocumentElement?.LocatePrefixFor(namespaceUri);
         }
 
         protected void CloneDocument(Document document, Boolean deep)

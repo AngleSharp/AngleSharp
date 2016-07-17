@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using static AngleSharp.Css.Converters;
 
     /// <summary>
     /// More information available:
@@ -15,17 +16,17 @@
         // <‘font-size’> [ / <‘line-height’> ]? <‘font-family’> ] | 
         // caption | icon | menu | message-box | small-caption | status-bar
 
-        static readonly IValueConverter StyleConverter = Converters.WithOrder(
-            Converters.WithAny(
-                Converters.FontStyleConverter.Option().For(PropertyNames.FontStyle),
-                Converters.FontVariantConverter.Option().For(PropertyNames.FontVariant),
-                Converters.FontWeightConverter.Or(Converters.WeightIntegerConverter).Option().For(PropertyNames.FontWeight),
-                Converters.FontStretchConverter.Option().For(PropertyNames.FontStretch)),
-            Converters.WithOrder(
-                Converters.FontSizeConverter.Required().For(PropertyNames.FontSize),
-                Converters.LineHeightConverter.StartsWithDelimiter().Option().For(PropertyNames.LineHeight),
-            Converters.FontFamiliesConverter.Required().For(PropertyNames.FontFamily))).Or(
-        Converters.SystemFontConverter);
+        static readonly IValueConverter StyleConverter = WithOrder(
+            WithAny(
+                FontStyleConverter.Option().For(PropertyNames.FontStyle),
+                FontVariantConverter.Option().For(PropertyNames.FontVariant),
+                FontWeightConverter.Or(WeightIntegerConverter).Option().For(PropertyNames.FontWeight),
+                FontStretchConverter.Option().For(PropertyNames.FontStretch)),
+            WithOrder(
+                FontSizeConverter.Required().For(PropertyNames.FontSize),
+                LineHeightConverter.StartsWithDelimiter().Option().For(PropertyNames.LineHeight),
+            FontFamiliesConverter.Required().For(PropertyNames.FontFamily))).Or(
+        SystemFontConverter);
 
         #endregion
 

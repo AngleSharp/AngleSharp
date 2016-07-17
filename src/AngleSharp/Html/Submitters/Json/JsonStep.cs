@@ -199,12 +199,14 @@
             {
                 var obj = new JsonObject();
 
-                for (int i = 0; i < values.Length; i++)
+                for (var i = 0; i < values.Length; i++)
                 {
                     var item = values[i];
 
                     if (item != null)
+                    {
                         obj[i.ToString()] = item;
+                    }
                 }
 
                 return obj;
@@ -225,7 +227,9 @@
                 var array = context as JsonArray;
 
                 if (array == null)
+                {
                     return context[Key.ToString()];
+                }
 
                 return array[Key];
             }
@@ -235,9 +239,13 @@
                 var array = context as JsonArray;
 
                 if (array != null)
+                {
                     array[Key] = value;
+                }
                 else
+                {
                     context[Key.ToString()] = value;
+                }
 
                 return value;
             }

@@ -100,10 +100,15 @@
                     var f = Int32.Parse(_end, NumberStyles.HexNumber);
 
                     if (f > Symbols.MaximumCodepoint)
+                    {
                         f = Symbols.MaximumCodepoint;
+                    }
 
-                    for (; index <= f; index++)
+                    while (index <= f)
+                    {
                         list.Add(index.ConvertFromUtf32());
+                        index++;
+                    }
 
                     return list.ToArray();
                 }

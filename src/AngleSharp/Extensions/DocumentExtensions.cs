@@ -6,14 +6,12 @@
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Useful methods for document objects.
     /// </summary>
-    [DebuggerStepThrough]
     static class DocumentExtensions
     {
         /// <summary>
@@ -27,14 +25,11 @@
         /// <param name="action">The action to apply to the range.</param>
         public static void ForEachRange(this Document document, Predicate<Range> condition, Action<Range> action)
         {
-            if (document != null)
+            foreach (var range in document.Ranges)
             {
-                foreach (var range in document.Ranges)
+                if (condition(range))
                 {
-                    if (condition(range))
-                    {
-                        action(range);
-                    }
+                    action(range);
                 }
             }
         }
@@ -53,11 +48,7 @@
                 throw new DomException(DomError.NotSupported);
             }
 
-            if (adoptedNode.Parent != null)
-            {
-                adoptedNode.Parent.RemoveChild(adoptedNode, false);
-            }
-
+            adoptedNode.Parent?.RemoveChild(adoptedNode, false);
             adoptedNode.Owner = document as Document;
         }
 
@@ -244,7 +235,7 @@
                 return Enumerable.Empty<Task>();
             }
 
-            return loader.GetDownloads().Where(m => m.Originator != null && m.Originator is T).Select(m => m.Task);
+            return loader.GetDownloads().Where(m => m.Originator is T).Select(m => m.Task);
         }
 
         /// <summary>

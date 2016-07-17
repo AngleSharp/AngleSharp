@@ -1,12 +1,10 @@
 ﻿namespace AngleSharp
 {
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// The position in the source code.
     /// </summary>
-    [DebuggerStepThrough]
     public struct TextPosition : IEquatable<TextPosition>, IComparable<TextPosition>
     {
         #region Fields
@@ -134,7 +132,7 @@
         /// </returns>
         public override String ToString()
         {
-            return String.Format("Ln {0}, Col {1}, Pos {2}", _line, _column, _position);
+            return $"Ln {_line}, Col {_column}, Pos {_position}";
         }
 
         /// <summary>

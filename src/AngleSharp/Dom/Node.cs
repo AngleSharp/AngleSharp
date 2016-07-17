@@ -4,15 +4,13 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
-    using System.Diagnostics;
     using System.IO;
     using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents a node in the generated tree.
     /// </summary>
-    [DebuggerStepThrough]
-    internal class Node : EventTarget, INode, IEquatable<INode>
+    abstract class Node : EventTarget, INode, IEquatable<INode>
     {
         #region Fields
 
@@ -50,11 +48,7 @@
 
         public String BaseUri
         {
-            get 
-            {
-                var url = BaseUrl;
-                return url != null ? url.Href : String.Empty;
-            }
+            get { return BaseUrl?.Href ?? String.Empty; }
         }
 
         public Url BaseUrl
@@ -331,12 +325,7 @@
             return this.PreRemove(child);
         }
 
-        public virtual INode Clone(Boolean deep = true)
-        {
-            var node = new Node(Owner, _name, _type, _flags);
-            CloneNode(node, deep);
-            return node;
-        }
+        public abstract INode Clone(Boolean deep = true);
 
         public DocumentPositions CompareDocumentPosition(INode otherNode)
         {
@@ -521,33 +510,18 @@
 
         protected virtual String LocateNamespace(String prefix)
         {
-            if (_parent != null)
-            {
-                return _parent.LocateNamespace(prefix);
-            }
-
-            return null;
+            return _parent?.LocateNamespace(prefix);
         }
 
         protected virtual String LocatePrefix(String namespaceUri)
         {
-            if (_parent != null)
-            {
-                return _parent.LocatePrefix(namespaceUri);
-            }
-
-            return null;
+            return _parent?.LocatePrefix(namespaceUri);
         }
 
         internal void ChangeOwner(Document document)
         {
             var oldDocument = Owner;
-
-            if (_parent != null)
-            {
-                _parent.RemoveChild(this, false);
-            }
-
+            _parent?.RemoveChild(this, false);
             Owner = document;
             NodeIsAdopted(oldDocument);
         }
@@ -620,7 +594,7 @@
             var document = Owner;
             var count = newElement.NodeType == NodeType.DocumentFragment ? newElement.ChildNodes.Length : 1;
 
-            if (referenceElement != null)
+            if (referenceElement != null && document != null)
             {
                 var childIndex = referenceElement.Index();
                 document.ForEachRange(m => m.Head == this && m.Start > childIndex, m => m.StartWith(this, m.Start + count));
@@ -668,7 +642,7 @@
                 NodeIsInserted(newElement);
             }
 
-            if (!suppressObservers)
+            if (!suppressObservers && document != null)
             {
                 document.QueueMutation(MutationRecord.ChildList(
                     target: this,
@@ -685,14 +659,17 @@
             var document = Owner;
             var index = _children.Index(node);
 
-            document.ForEachRange(m => m.Head.IsInclusiveDescendantOf(node), m => m.StartWith(this, index));
-            document.ForEachRange(m => m.Tail.IsInclusiveDescendantOf(node), m => m.EndWith(this, index));
-            document.ForEachRange(m => m.Head == this && m.Start > index, m => m.StartWith(this, m.Start - 1));
-            document.ForEachRange(m => m.Tail == this && m.End > index, m => m.EndWith(this, m.End - 1));
+            if (document != null)
+            {
+                document.ForEachRange(m => m.Head.IsInclusiveDescendantOf(node), m => m.StartWith(this, index));
+                document.ForEachRange(m => m.Tail.IsInclusiveDescendantOf(node), m => m.EndWith(this, index));
+                document.ForEachRange(m => m.Head == this && m.Start > index, m => m.StartWith(this, m.Start - 1));
+                document.ForEachRange(m => m.Tail == this && m.End > index, m => m.EndWith(this, m.End - 1));
+            }
 
             var oldPreviousSibling = index > 0 ? _children[index - 1] : null;
 
-            if (!suppressObservers)
+            if (!suppressObservers && document != null)
             {
                 var removedNodes = new NodeList();
                 removedNodes.Add(node);
@@ -758,7 +735,7 @@
                     referenceChild = node.NextSibling;
                 }
 
-                document.AdoptNode(node);
+                document?.AdoptNode(node);
                 RemoveChild(child, true);
                 InsertBefore(node, referenceChild, true);
                 removedNodes.Add(child);
@@ -772,7 +749,7 @@
                     addedNodes.Add(node);
                 }
 
-                if (!suppressObservers)
+                if (!suppressObservers && document != null)
                 {
                     document.QueueMutation(MutationRecord.ChildList(
                         target: this,

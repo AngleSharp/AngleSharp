@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents an element of the SVG DOM.
     /// </summary>
-    internal class SvgElement : Element, ISvgElement
+    class SvgElement : Element, ISvgElement
     {
         #region ctor
 

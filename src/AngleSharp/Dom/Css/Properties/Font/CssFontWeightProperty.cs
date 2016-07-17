@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using static AngleSharp.Css.Converters;
 
     /// <summary>
     /// Information:
@@ -11,8 +12,8 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = Converters.FontWeightConverter.Or(
-            Converters.WeightIntegerConverter).OrDefault(FontWeight.Normal);
+        static readonly IValueConverter StyleConverter = FontWeightConverter.Or(
+            WeightIntegerConverter).OrDefault(FontWeight.Normal);
 
         #endregion
 

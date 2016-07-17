@@ -96,7 +96,7 @@
             var context = options.Context;
             var configuration = context.Configuration;
             var parser = new CssParser(_options, configuration);
-            var url = response.Address != null ? response.Address.Href : null;
+            var url = response.Address?.Href;
             var sheet = new CssStyleSheet(parser, url, options.Element) { IsDisabled = options.IsDisabled };
             var source = new TextSource(response.Content);
             var tokenizer = new CssTokenizer(source);

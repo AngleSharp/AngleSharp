@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using static AngleSharp.Css.Converters;
 
     /// <summary>
     /// More information available at:
@@ -11,10 +12,10 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = Converters.WithAny(
-            Converters.LineWidthConverter.Option().For(PropertyNames.BorderRightWidth),
-            Converters.LineStyleConverter.Option().For(PropertyNames.BorderRightStyle),
-            Converters.CurrentColorConverter.Option().For(PropertyNames.BorderRightColor)
+        static readonly IValueConverter StyleConverter = WithAny(
+            LineWidthConverter.Option().For(PropertyNames.BorderRightWidth),
+            LineStyleConverter.Option().For(PropertyNames.BorderRightStyle),
+            CurrentColorConverter.Option().For(PropertyNames.BorderRightColor)
         ).OrDefault();
 
         #endregion

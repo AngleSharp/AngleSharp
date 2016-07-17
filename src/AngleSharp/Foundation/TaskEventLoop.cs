@@ -62,10 +62,7 @@
                            Dequeue(TaskPriority.None);
             }
 
-            if (_current != null)
-            {
-                RunCurrent();
-            }
+            RunCurrent();
         }
 
         public void Shutdown()
@@ -95,13 +92,14 @@
 
         void RunCurrent()
         {
-            _current.Run(() =>
+            _current?.Run(() =>
             {
                 lock (this)
                 {
                     _current = null;
-                    Spin();
                 }
+
+                Spin();
             });
         }
 

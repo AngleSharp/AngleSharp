@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using static AngleSharp.Css.Converters;
 
     /// <summary>
     /// More information available at:
@@ -11,9 +12,9 @@
     {
         #region Fields
 
-        static readonly IValueConverter ImageConverter = Converters.WithAny(
-            Converters.OptionalImageSourceConverter.Option().For(PropertyNames.BorderImageSource),
-            Converters.WithOrder(
+        static readonly IValueConverter ImageConverter = WithAny(
+            OptionalImageSourceConverter.Option().For(PropertyNames.BorderImageSource),
+            WithOrder(
                 CssBorderImageSliceProperty.TheConverter.Option().For(PropertyNames.BorderImageSlice),
                 CssBorderImageWidthProperty.TheConverter.StartsWithDelimiter().Option().For(PropertyNames.BorderImageWidth),
                 CssBorderImageOutsetProperty.TheConverter.StartsWithDelimiter().Option().For(PropertyNames.BorderImageOutset)),

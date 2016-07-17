@@ -3,12 +3,10 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// A set of extensions for EventTarget objects.
     /// </summary>
-    [DebuggerStepThrough]
     static class EventTargetExtensions
     {
         /// <summary>

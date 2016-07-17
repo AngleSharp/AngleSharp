@@ -22,7 +22,7 @@
 
         static HtmlOutputElement()
         {
-            RegisterCallback<HtmlOutputElement>(AttributeNames.For, (element, value) => element.TryUpdate(element._for, value));
+            RegisterCallback<HtmlOutputElement>(AttributeNames.For, (element, value) => element._for?.Update(value));
         }
 
         public HtmlOutputElement(Document owner, String prefix = null)

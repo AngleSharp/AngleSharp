@@ -41,7 +41,7 @@
 
         public IDownload CurrentDownload
         {
-            get { return _request != null ? _request.Download : null; }
+            get { return _request?.Download; }
         }
 
         public String Source
@@ -102,12 +102,7 @@
         
         internal Task RunAsync(CancellationToken cancel)
         {
-            if (_request != null)
-            {
-                return _request.RunAsync(cancel);
-            }
-            
-            return null;
+            return _request?.RunAsync(cancel);
         }
 
         /// <summary>

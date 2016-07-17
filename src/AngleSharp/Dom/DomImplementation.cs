@@ -54,18 +54,13 @@
         public IDocumentType CreateDocumentType(String qualifiedName, String publicId, String systemId)
         {
             if (qualifiedName == null)
-            {
-                throw new ArgumentNullException("qualifiedName");
-            }
+                throw new ArgumentNullException(nameof(qualifiedName));
 
             if (!qualifiedName.IsXmlName())
-            {
                 throw new DomException(DomError.InvalidCharacter);
-            }
-            else if (!qualifiedName.IsQualifiedName())
-            {
+
+            if (!qualifiedName.IsQualifiedName())
                 throw new DomException(DomError.Namespace);
-            }
 
             return new DocumentType(_owner, qualifiedName) 
             { 
@@ -76,25 +71,25 @@
 
         public IXmlDocument CreateDocument(String namespaceUri = null, String qualifiedName = null, IDocumentType doctype = null)
         {
-            var doc = new XmlDocument();
+            var document = new XmlDocument();
 
             if (doctype != null)
             {
-                doc.AppendChild(doctype);
+                document.AppendChild(doctype);
             }
 
             if (!String.IsNullOrEmpty(qualifiedName))
             {
-                var element = doc.CreateElement(namespaceUri, qualifiedName);
+                var element = document.CreateElement(namespaceUri, qualifiedName);
 
                 if (element != null)
                 {
-                    doc.AppendChild(element);
+                    document.AppendChild(element);
                 }
             }
 
-            doc.BaseUrl = _owner.BaseUrl;
-            return doc;
+            document.BaseUrl = _owner.BaseUrl;
+            return document;
         }
 
         public IDocument CreateHtmlDocument(String title)
@@ -119,9 +114,7 @@
         public Boolean HasFeature(String feature, String version = null)
         {
             if (feature == null)
-            {
-                throw new ArgumentNullException("feature");
-            }
+                throw new ArgumentNullException(nameof(feature));
 
             var versions = default(String[]);
 

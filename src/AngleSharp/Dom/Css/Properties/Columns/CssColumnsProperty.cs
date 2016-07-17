@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using static AngleSharp.Css.Converters;
 
     /// <summary>
     /// More information available at:
@@ -11,9 +12,9 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = Converters.WithAny(
-            Converters.AutoLengthConverter.Option().For(PropertyNames.ColumnWidth),
-            Converters.OptionalIntegerConverter.Option().For(PropertyNames.ColumnCount)).OrDefault();
+        static readonly IValueConverter StyleConverter = WithAny(
+            AutoLengthConverter.Option().For(PropertyNames.ColumnWidth),
+            OptionalIntegerConverter.Option().For(PropertyNames.ColumnCount)).OrDefault();
 
         #endregion
 

@@ -3,6 +3,7 @@
     using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
+    using static AngleSharp.Css.Converters;
 
     sealed class ColorMediaFeature : MediaFeature
     {
@@ -19,12 +20,7 @@
 
         internal override IValueConverter Converter
         {
-            get 
-            {
-                return IsMinimum || IsMaximum ? 
-                    Converters.PositiveIntegerConverter : 
-                    Converters.PositiveIntegerConverter.Option(1);
-            }
+            get { return IsMinimum || IsMaximum ? PositiveIntegerConverter : PositiveIntegerConverter.Option(1); }
         }
 
         #endregion

@@ -31,12 +31,12 @@
 
         public Int32 Width
         {
-            get { return Resource != null ? Resource.Width : 0; }
+            get { return Resource?.Width ?? 0; }
         }
 
         public Int32 Height
         {
-            get { return Resource != null ? Resource.Height : 0; }
+            get { return Resource?.Height ?? 0; }
         }
 
         #endregion

@@ -4,12 +4,10 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// Represents a generic node attribute.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class Attr : IAttr
     {
         #region Fields

@@ -6,7 +6,6 @@
     using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Reflection;
@@ -16,7 +15,6 @@
     /// <summary>
     /// Useful methods for string objects.
     /// </summary>
-    [DebuggerStepThrough]
     static class StringExtensions
     {
         /// <summary>
@@ -42,14 +40,8 @@
         {
             var type = typeof(QuirksMode).GetTypeInfo();
             var field = type.GetDeclaredField(mode.ToString());
-            var attr = field.GetCustomAttribute<DomDescriptionAttribute>();
-
-            if (attr != null)
-            {
-                return attr.Description;
-            }
-
-            return "CSS1Compat";
+            var description = field.GetCustomAttribute<DomDescriptionAttribute>()?.Description;
+            return description ?? "CSS1Compat";
         }
 
         /// <summary>

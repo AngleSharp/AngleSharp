@@ -36,7 +36,7 @@
 
         public IDownload CurrentDownload
         {
-            get { return _request != null ? _request.Download : null; }
+            get { return _request?.Download; }
         }
 
         public String Source
@@ -77,12 +77,12 @@
 
         public Int32 OriginalWidth
         {
-            get { return _request != null ? _request.Width : 0; }
+            get { return _request?.Width ?? 0; }
         }
 
         public Int32 OriginalHeight
         {
-            get { return _request != null ? _request.Height : 0; }
+            get { return _request?.Height ?? 0; }
         }
 
         public IDocument ContentDocument

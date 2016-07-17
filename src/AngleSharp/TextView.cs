@@ -1,12 +1,10 @@
 ﻿namespace AngleSharp
 {
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// Represents a view on a particular source code.
     /// </summary>
-    [DebuggerStepThrough]
     public class TextView
     {
         #region Fields

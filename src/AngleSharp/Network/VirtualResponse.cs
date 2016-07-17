@@ -13,11 +13,11 @@
     {
         #region Fields
 
-        Url address;
-        HttpStatusCode status;
-        Dictionary<String, String> headers;
-        Stream content;
-        Boolean dispose;
+        Url _address;
+        HttpStatusCode _status;
+        Dictionary<String, String> _headers;
+        Stream _content;
+        Boolean _dispose;
 
         #endregion
 
@@ -25,11 +25,11 @@
 
         private VirtualResponse()
         {
-            address = Url.Create("http://localhost/");
-            status = HttpStatusCode.OK;
-            headers = new Dictionary<String, String>();
-            content = MemoryStream.Null;
-            dispose = false;
+            _address = Url.Create("http://localhost/");
+            _status = HttpStatusCode.OK;
+            _headers = new Dictionary<String, String>();
+            _content = MemoryStream.Null;
+            _dispose = false;
         }
 
         /// <summary>
@@ -50,22 +50,22 @@
 
         Url IResponse.Address
         {
-            get { return address; }
+            get { return _address; }
         }
 
         Stream IResponse.Content
         {
-            get { return content; }
+            get { return _content; }
         }
 
         IDictionary<String, String> IResponse.Headers
         {
-            get { return headers; }
+            get { return _headers; }
         }
 
         HttpStatusCode IResponse.StatusCode
         {
-            get { return status; }
+            get { return _status; }
         }
 
         #endregion
@@ -79,7 +79,7 @@
         /// <returns>The current instance.</returns>
         public VirtualResponse Address(Url url)
         {
-            address = url;
+            _address = url;
             return this;
         }
 
@@ -110,7 +110,7 @@
         /// <returns>The current instance.</returns>
         public VirtualResponse Status(HttpStatusCode code)
         {
-            status = code;
+            _status = code;
             return this;
         }
 
@@ -132,7 +132,7 @@
         /// <returns>The current instance.</returns>
         public VirtualResponse Header(String name, String value)
         {
-            headers[name] = value;
+            _headers[name] = value;
             return this;
         }
 
@@ -173,8 +173,8 @@
         {
             Release();
             var raw = TextEncoding.Utf8.GetBytes(text);
-            content = new MemoryStream(raw);
-            dispose = true;
+            _content = new MemoryStream(raw);
+            _dispose = true;
             return this;
         }
 
@@ -187,20 +187,20 @@
         public VirtualResponse Content(Stream stream, Boolean shouldDispose = false)
         {
             Release();
-            content = stream;
-            dispose = shouldDispose;
+            _content = stream;
+            _dispose = shouldDispose;
             return this;
         }
 
         void Release()
         {
-            if (content != null && dispose)
+            if (_dispose)
             {
-                content.Dispose();
+                _content?.Dispose();
             }
 
-            dispose = false;
-            content = null;
+            _dispose = false;
+            _content = null;
         }
 
         void IDisposable.Dispose()

@@ -1,11 +1,12 @@
 ﻿namespace AngleSharp.Css.ValueConverters
 {
-    using System;
-    using System.Collections.Generic;
     using AngleSharp.Css.Values;
+    using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
-    using AngleSharp.Dom.Css;
+    using System;
+    using System.Collections.Generic;
+    using static Converters;
 
     abstract class GradientConverter : IValueConverter
     {
@@ -25,7 +26,9 @@
                 stops[k] = ToGradientStop(values[i]);
 
                 if (stops[k] == null)
+                {
                     return null;
+                }
             }
 
             return stops;
@@ -39,18 +42,22 @@
 
             if (items.Count != 0)
             {
-                position = Converters.LengthOrPercentConverter.Convert(items[items.Count - 1]);
+                position = LengthOrPercentConverter.Convert(items[items.Count - 1]);
 
                 if (position != null)
+                {
                     items.RemoveAt(items.Count - 1);
+                }
             }
 
             if (items.Count != 0)
             {
-                color = Converters.ColorConverter.Convert(items[items.Count - 1]);
+                color = ColorConverter.Convert(items[items.Count - 1]);
 
                 if (color != null)
+                {
                     items.RemoveAt(items.Count - 1);
+                }
             }
 
             return items.Count == 0 ? new StopValue(color, position, value) : null;
@@ -90,10 +97,14 @@
                 get 
                 {
                     if (_color == null && _position != null)
+                    {
                         return _position.CssText;
+                    }
 
                     if (_color != null && _position == null)
+                    {
                         return _color.CssText;
+                    }
 
                     return String.Concat(_color.CssText, " ", _position.CssText); 
                 }
@@ -132,16 +143,22 @@
                     var count = _stops.Length;
 
                     if (_initial != null)
+                    {
                         count++;
+                    }
 
                     var args = new String[count];
                     count = 0;
 
                     if (_initial != null)
+                    {
                         args[count++] = _initial.CssText;
+                    }
 
-                    for (int i = 0; i < _stops.Length; i++)
+                    for (var i = 0; i < _stops.Length; i++)
+                    {
                         args[count++] = _stops[i].CssText;
+                    }
 
                     return String.Join(", ", args);
                 }
@@ -166,8 +183,8 @@
         public LinearGradientConverter(Boolean repeating)
             : base(repeating)
         {
-            _converter = Converters.AngleConverter.Or(
-                Converters.SideOrCornerConverter.StartsWithKeyword(Keywords.To));
+            _converter = AngleConverter.Or(
+                SideOrCornerConverter.StartsWithKeyword(Keywords.To));
         }
 
         protected override IPropertyValue ConvertFirstArgument(IEnumerable<CssToken> value)
@@ -183,10 +200,10 @@
         public RadialGradientConverter(Boolean repeating)
             : base(repeating)
         {
-            var position = Converters.PointConverter.StartsWithKeyword(Keywords.At).Option(Point.Center);
-            var circle = Converters.WithOrder(Converters.WithAny(Converters.Assign(Keywords.Circle, true).Option(true), Converters.LengthConverter.Option()), position);
-            var ellipse = Converters.WithOrder(Converters.WithAny(Converters.Assign(Keywords.Ellipse, false).Option(false), Converters.LengthOrPercentConverter.Many(2, 2).Option()), position);
-            var extents = Converters.WithOrder(Converters.WithAny(Converters.Toggle(Keywords.Circle, Keywords.Ellipse).Option(false), Map.RadialGradientSizeModes.ToConverter()), position);
+            var position = PointConverter.StartsWithKeyword(Keywords.At).Option(Point.Center);
+            var circle = WithOrder(WithAny(Assign(Keywords.Circle, true).Option(true), LengthConverter.Option()), position);
+            var ellipse = WithOrder(WithAny(Assign(Keywords.Ellipse, false).Option(false), LengthOrPercentConverter.Many(2, 2).Option()), position);
+            var extents = WithOrder(WithAny(Toggle(Keywords.Circle, Keywords.Ellipse).Option(false), Map.RadialGradientSizeModes.ToConverter()), position);
 
             _converter = circle.Or(ellipse.Or(extents));
         }

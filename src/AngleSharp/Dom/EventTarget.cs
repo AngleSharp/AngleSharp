@@ -5,12 +5,10 @@
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// Event target base of all DOM nodes.
     /// </summary>
-    [DebuggerStepThrough]
     public abstract class EventTarget : IEventTarget
     {
         #region Fields
@@ -77,9 +75,9 @@
         /// </param>
         public void RemoveEventListener(String type, DomEventHandler callback = null, Boolean capture = false)
         {
-            if (callback != null && _listeners != null)
+            if (callback != null)
             {
-                _listeners.Remove(new RegisteredEventListener
+                _listeners?.Remove(new RegisteredEventListener
                 {
                     Type = type,
                     Callback = callback,

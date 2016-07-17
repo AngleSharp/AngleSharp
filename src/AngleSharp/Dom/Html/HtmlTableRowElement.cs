@@ -55,13 +55,7 @@
             get
             {
                 var table = this.GetAncestor<IHtmlTableElement>();
-
-                if (table != null)
-                {
-                    return table.Rows.Index(this);
-                }
-
-                return -1;
+                return table?.Rows.Index(this) ?? -1;
             }
         }
 
@@ -70,13 +64,7 @@
             get
             {
                 var parent = ParentElement as IHtmlTableSectionElement;
-
-                if (parent != null)
-                {
-                    return parent.Rows.Index(this);
-                }
-
-                return Index; 
+                return parent?.Rows.Index(this) ?? Index;
             }
         }
 

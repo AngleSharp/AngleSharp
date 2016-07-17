@@ -5,14 +5,12 @@
     using AngleSharp.Network;
     using AngleSharp.Services;
     using System;
-    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
     /// A set of extensions for the browsing context.
     /// </summary>
-    [DebuggerStepThrough]
     public static class BrowsingContextExtensions
     {
         /// <summary>
@@ -37,9 +35,7 @@
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, IResponse response, CancellationToken cancel)
         {
             if (response == null)
-            {
-                throw new ArgumentNullException("response");
-            }
+                throw new ArgumentNullException(nameof(response));
 
             if (context == null)
             {
@@ -62,9 +58,7 @@
         public static async Task<IDocument> OpenAsync(this IBrowsingContext context, DocumentRequest request, CancellationToken cancel)
         {
             if (request == null)
-            {
-                throw new ArgumentNullException("request");
-            }
+                throw new ArgumentNullException(nameof(request));
 
             var loader = context.Loader;
 
@@ -96,9 +90,7 @@
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, Url url, CancellationToken cancel)
         {
             if (url == null)
-            {
-                throw new ArgumentNullException("url");
-            }
+                throw new ArgumentNullException(nameof(url));
             
             var request = DocumentRequest.Get(url);
 
@@ -121,9 +113,7 @@
         public static async Task<IDocument> OpenAsync(this IBrowsingContext context, Action<VirtualResponse> request, CancellationToken cancel)
         {
             if (request == null)
-            {
-                throw new ArgumentNullException("request");
-            }
+                throw new ArgumentNullException(nameof(request));
 
             using (var response = VirtualResponse.Create(request))
             {
@@ -165,9 +155,7 @@
         public static Task<IDocument> OpenAsync(this IBrowsingContext context, String address)
         {
             if (address == null)
-            {
-                throw new ArgumentNullException("address");
-            }
+                throw new ArgumentNullException(nameof(address));
 
             return context.OpenAsync(Url.Create(address), CancellationToken.None);
         }
@@ -180,13 +168,7 @@
         /// <param name="document">The new document.</param>
         public static void NavigateTo(this IBrowsingContext context, IDocument document)
         {
-            var history = context.SessionHistory;
-
-            if (history != null)
-            {
-                history.PushState(document, document.Title, document.Url);
-            }
-
+            context.SessionHistory?.PushState(document, document.Title, document.Url);
             context.Active = document;
         }
     }

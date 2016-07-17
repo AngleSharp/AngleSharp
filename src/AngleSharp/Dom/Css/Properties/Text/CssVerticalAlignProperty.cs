@@ -2,6 +2,7 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
+    using static AngleSharp.Css.Converters;
 
     /// <summary>
     /// Information can be found on MDN:
@@ -15,8 +16,8 @@
     {
         #region Fields
 
-        static readonly IValueConverter StyleConverter = Converters.LengthOrPercentConverter.Or(
-            Converters.VerticalAlignmentConverter).OrDefault(VerticalAlignment.Baseline);
+        static readonly IValueConverter StyleConverter = LengthOrPercentConverter.Or(
+            VerticalAlignmentConverter).OrDefault(VerticalAlignment.Baseline);
 
         #endregion
 

@@ -38,8 +38,8 @@
         /// </summary>
         public String FormAction
         {
-            get { if (Form == null) return String.Empty; return Form.Action; }
-            set { if (Form != null) Form.Action = value; }
+            get { var form = Form; if (form == null) return String.Empty; return form.Action; }
+            set { var form = Form; if (form != null) form.Action = value; }
         }
 
         /// <summary>
@@ -48,8 +48,8 @@
         /// </summary>
         public String FormEncType
         {
-            get { if (Form == null) return String.Empty; return Form.Enctype; }
-            set { if (Form != null) Form.Enctype = value; }
+            get { var form = Form; if (form == null) return String.Empty; return form.Enctype; }
+            set { var form = Form; if (form != null) form.Enctype = value; }
         }
 
         /// <summary>
@@ -58,8 +58,8 @@
         /// </summary>
         public String FormMethod
         {
-            get { if (Form == null) return String.Empty; return Form.Method; }
-            set { if (Form != null) Form.Method = value; }
+            get { var form = Form; if (form == null) return String.Empty; return form.Method; }
+            set { var form = Form; if (form != null) form.Method = value; }
         }
 
         /// <summary>
@@ -68,8 +68,8 @@
         /// </summary>
         public Boolean FormNoValidate
         {
-            get { if (Form == null) return false; return Form.NoValidate; }
-            set { if (Form != null) Form.NoValidate = value; }
+            get { var form = Form; if (form == null) return false; return form.NoValidate; }
+            set { var form = Form; if (form != null) form.NoValidate = value; }
         }
 
         /// <summary>
@@ -78,8 +78,8 @@
         /// </summary>
         public String FormTarget
         {
-            get { if (Form == null) return String.Empty; return Form.Target; }
-            set { if (Form != null) Form.Target = value; }
+            get { var form = Form; if (form == null) return String.Empty; return form.Target; }
+            set { var form = Form; if (form != null) form.Target = value; }
         }
 
         /// <summary>

@@ -3,13 +3,11 @@
     using AngleSharp.Attributes;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Reflection;
 
     /// <summary>
     /// Some methods for working with bare objects.
     /// </summary>
-    [DebuggerStepThrough]
     static class ObjectExtensions
     {
         /// <summary>
@@ -64,13 +62,8 @@
         public static Object TryGet(this IDictionary<String, Object> values, String key)
         {
             var value = default(Object);
-
-            if (values.TryGetValue(key, out value))
-            {
-                return value;
-            }
-
-            return null;
+            values.TryGetValue(key, out value);
+            return value;
         }
 
         /// <summary>
@@ -85,7 +78,7 @@
         /// <returns>The value or the provided fallback.</returns>
         public static U GetOrDefault<T, U>(this IDictionary<T, U> values, T key, U defaultValue)
         {
-            U value;
+            var value = default(U);
             return values.TryGetValue(key, out value) ? value : defaultValue;
         }
 
@@ -111,14 +104,8 @@
         {
             var type = typeof(T).GetTypeInfo();
             var field = type.GetDeclaredField(code.ToString());
-            var attr = field.GetCustomAttribute<DomDescriptionAttribute>();
-
-            if (attr != null)
-            {
-                return attr.Description;
-            }
-
-            return "An unknown error occurred.";
+            var description = field.GetCustomAttribute<DomDescriptionAttribute>()?.Description;
+            return description ?? "An unknown error occurred.";
         }
     }
 }

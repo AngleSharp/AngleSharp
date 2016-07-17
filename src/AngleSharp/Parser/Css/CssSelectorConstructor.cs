@@ -8,13 +8,11 @@
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// Class for construction for CSS selectors as specified in
     /// http://www.w3.org/html/wg/drafts/html/master/selectors.html.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class CssSelectorConstructor
     {
         #region Fields
@@ -911,13 +909,8 @@
                     var code = PseudoClassNames.HostContext.CssFunction(sel.Text);
                     return SimpleSelector.PseudoClass(el =>
                     {
-                        var host = default(IElement);
                         var shadowRoot = el.Parent as IShadowRoot;
-
-                        if (shadowRoot != null)
-                        {
-                            host = shadowRoot.Host;
-                        }
+                        var host = shadowRoot?.Host;
 
                         while (host != null)
                         {
@@ -968,7 +961,7 @@
             public override ISelector Produce()
             {
                 var invalid = !_valid || (_nested != null && !_nested.IsValid);
-                var sel = _nested != null ? _nested.ToPool() : SimpleSelector.All;
+                var sel = _nested?.ToPool() ?? SimpleSelector.All;
 
                 if (invalid)
                 {

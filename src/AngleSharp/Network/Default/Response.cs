@@ -67,9 +67,7 @@
 
         void IDisposable.Dispose()
         {
-            if (Content != null)
-                Content.Dispose();
-
+            Content?.Dispose();
             Headers.Clear();
         }
 

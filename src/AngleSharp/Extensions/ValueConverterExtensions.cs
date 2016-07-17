@@ -6,13 +6,11 @@
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// Essential extensions for using the value converters.
     /// </summary>
-    [DebuggerStepThrough]
     static class ValueConverterExtensions
     {
         public static IPropertyValue ConvertDefault(this IValueConverter converter)
@@ -27,7 +25,7 @@
 
         public static IPropertyValue VaryStart(this IValueConverter converter, List<CssToken> list)
         {
-            for (int count = list.Count; count > 0; count--)
+            for (var count = list.Count; count > 0; count--)
             {
                 if (list[count - 1].Type == CssTokenType.Whitespace)
                     continue;
@@ -47,12 +45,12 @@
 
         public static IPropertyValue VaryAll(this IValueConverter converter, List<CssToken> list)
         {
-            for (int i = 0; i < list.Count; i++)
+            for (var i = 0; i < list.Count; i++)
             {
                 if (list[i].Type == CssTokenType.Whitespace)
                     continue;
 
-                for (int j = list.Count; j > i; j--)
+                for (var j = list.Count; j > i; j--)
                 {
                     var count = j - i;
 

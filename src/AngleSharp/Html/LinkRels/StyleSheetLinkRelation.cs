@@ -5,7 +5,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Network.RequestProcessors;
     using System.Threading.Tasks;
-    
+
     class StyleSheetLinkRelation : BaseLinkRelation
     {
         #region ctor
@@ -24,7 +24,7 @@
             get 
             {
                 var processor = Processor as StyleSheetRequestProcessor;
-                return processor != null ? processor.Sheet : null; 
+                return processor?.Sheet; 
             }
         }
 
@@ -34,15 +34,8 @@
 
         public override Task LoadAsync()
         {
-            var processor = Processor;
-
-            if (processor != null)
-            {
-                var request = Link.CreateRequestFor(Url);
-                return processor.ProcessAsync(request);
-            }
-
-            return null;
+            var request = Link.CreateRequestFor(Url);
+            return Processor?.ProcessAsync(request);
         }
 
         #endregion

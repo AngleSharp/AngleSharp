@@ -172,7 +172,7 @@
 
         public INode ToFirst()
         {
-            var node = _current != null ? _current.FirstChild : null;
+            var node = _current?.FirstChild;
 
             while (node != null)
             {
@@ -221,7 +221,7 @@
 
         public INode ToLast()
         {
-            var node = _current != null ? _current.LastChild : null;
+            var node = _current?.LastChild;
 
             while (node != null)
             {

@@ -3,7 +3,6 @@
     using AngleSharp.Dom;
     using AngleSharp.Network;
     using System;
-    using System.Diagnostics;
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
@@ -11,7 +10,6 @@
     /// <summary>
     /// Useful extensions for IRequester objects.
     /// </summary>
-    [DebuggerStepThrough]
     static class RequesterExtensions
     {
         #region Methods
@@ -99,15 +97,12 @@
             var download = loader.DownloadAsync(request);
             return download.Wrap(response =>
             {
-                if (response != null && response.StatusCode == HttpStatusCode.OK)
+                if (response?.StatusCode == HttpStatusCode.OK)
                 {
                     return download;
                 }
-                else if (response != null)
-                {
-                    response.Dispose();
-                }
 
+                response?.Dispose();
                 throw new DomException(DomError.Network);
             });
         }
@@ -132,7 +127,7 @@
 
         static Boolean IsRedirected(this IResponse response)
         {
-            var status = response != null ? response.StatusCode : HttpStatusCode.NotFound;
+            var status = response?.StatusCode ?? HttpStatusCode.NotFound;
             return status == HttpStatusCode.Redirect || status == HttpStatusCode.RedirectKeepVerb ||
                    status == HttpStatusCode.RedirectMethod || status == HttpStatusCode.TemporaryRedirect ||
                    status == HttpStatusCode.MovedPermanently || status == HttpStatusCode.MultipleChoices;

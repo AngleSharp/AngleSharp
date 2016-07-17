@@ -254,7 +254,7 @@
         /// <returns>The string representation.</returns>
         public override String ToString()
         {
-            return String.Format("({0}, {1}, {2}, {3})", _inlines, _ids, _classes, _tags);
+            return $"({_inlines}, {_ids}, {_classes}, {_tags})";
         }
 
         #endregion

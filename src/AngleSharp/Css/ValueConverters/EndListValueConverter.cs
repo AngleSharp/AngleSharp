@@ -24,12 +24,14 @@
             var n = items.Count - 1;
             var values = new IPropertyValue[n + 1];
 
-            for (int i = 0; i < n; i++)
+            for (var i = 0; i < n; i++)
             {
                 values[i] = _listConverter.Convert(items[i]);
 
                 if (values[i] == null)
+                {
                     return null;
+                }
             }
 
             values[n] = _endConverter.Convert(items[n]);
@@ -52,9 +54,9 @@
 
             var values = new IPropertyValue[max];
 
-            for (int i = 0; i < max; i++)
+            for (var i = 0; i < max; i++)
             {
-                for (int j = 0; j < dummies.Length; j++)
+                for (var j = 0; j < dummies.Length; j++)
                 {
                     var list = valueList[j];
                     var tokens = list.Count > i ? list[i] : Enumerable.Empty<CssToken>();
@@ -100,7 +102,9 @@
                     if (extracted != null)
                     {
                         if (tokens.Count > 0)
+                        {
                             tokens.Add(CssToken.Whitespace);
+                        }
 
                         tokens.AddRange(extracted);
                     }

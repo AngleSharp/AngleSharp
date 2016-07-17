@@ -36,7 +36,7 @@
 
         public IDownload CurrentDownload
         {
-            get { return _request != null ? _request.Download : null; }
+            get { return _request?.Download; }
         }
 
         public String Source

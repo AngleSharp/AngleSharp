@@ -5,13 +5,11 @@
     using AngleSharp.Dom.Html;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// Useful methods for node objects.
     /// </summary>
-    [DebuggerStepThrough]
     static class NodeExtensions
     {
         /// <summary>
@@ -239,7 +237,7 @@
         /// </returns>
         public static Boolean IsSiblingOf(this INode node, INode element)
         {
-            return node.Parent != null && node.Parent == element.Parent;
+            return node?.Parent == element.Parent;
         }
 
         /// <summary>
@@ -271,7 +269,9 @@
                 foreach (var child in parent.ChildNodes)
                 {
                     if (Object.ReferenceEquals(child, node))
+                    {
                         return i;
+                    }
 
                     i++;
                 }
@@ -347,9 +347,9 @@
         /// <returns>The host object or null.</returns>
         public static INode GetAssociatedHost(this INode node)
         {
-            if (node is IDocumentFragment && node.Owner != null)
+            if (node is IDocumentFragment)
             {
-                return node.Owner.All.OfType<IHtmlTemplateElement>().FirstOrDefault(m => m.Content == node);
+                return node.Owner?.All.OfType<IHtmlTemplateElement>().FirstOrDefault(m => m.Content == node);
             }
 
             return null;

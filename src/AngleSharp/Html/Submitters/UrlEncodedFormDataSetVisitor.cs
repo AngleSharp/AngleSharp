@@ -50,7 +50,7 @@
 
         public void File(FormDataSetEntry entry, String fileName, String contentType, IFile content)
         {
-            if (entry.HasName && content != null && content.Name != null)
+            if (entry.HasName && content?.Name != null)
             {
                 var k = _encoding.GetBytes(entry.Name);
                 var v = _encoding.GetBytes(content.Name);
