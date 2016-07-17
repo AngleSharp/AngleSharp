@@ -3,14 +3,12 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
 
     /// <summary>
     /// Represents the document type node.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class DocumentType : Node, IDocumentType
     {
         #region ctor

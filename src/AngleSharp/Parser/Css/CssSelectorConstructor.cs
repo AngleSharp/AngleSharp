@@ -8,13 +8,11 @@
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// Class for construction for CSS selectors as specified in
     /// http://www.w3.org/html/wg/drafts/html/master/selectors.html.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class CssSelectorConstructor
     {
         #region Fields

@@ -5,14 +5,12 @@
     using AngleSharp.Network;
     using AngleSharp.Services;
     using System;
-    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
     /// A set of extensions for the browsing context.
     /// </summary>
-    [DebuggerStepThrough]
     public static class BrowsingContextExtensions
     {
         /// <summary>

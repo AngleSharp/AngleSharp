@@ -9,7 +9,6 @@
     using AngleSharp.Services.Styling;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -18,8 +17,7 @@
     /// <summary>
     /// Represents an element node.
     /// </summary>
-    [DebuggerStepThrough]
-    internal class Element : Node, IElement
+    class Element : Node, IElement
     {
         #region Fields
 

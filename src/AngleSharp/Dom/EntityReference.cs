@@ -1,12 +1,10 @@
 ﻿namespace AngleSharp.Dom
 {
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// Represents a reference to an entity.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class EntityReference : Node
     {
         #region ctor

@@ -9,7 +9,6 @@
     using AngleSharp.Services.Styling;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -17,7 +16,6 @@
     /// Represents a sample browsing Window implementation for automated tests,
     /// analysis and as a useful playground.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class Window : EventTarget, IWindow
     {
         #region Fields

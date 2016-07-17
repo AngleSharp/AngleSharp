@@ -6,13 +6,11 @@
     using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// Essential extensions for using the value converters.
     /// </summary>
-    [DebuggerStepThrough]
     static class ValueConverterExtensions
     {
         public static IPropertyValue ConvertDefault(this IValueConverter converter)

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// Class for StartTagToken and EndTagToken.
@@ -50,7 +49,6 @@
         /// </summary>
         /// <param name="name">The name of the tag.</param>
         /// <returns>The new HTML tag token.</returns>
-        [DebuggerStepThrough]
         public static HtmlTagToken Open(String name)
         {
             return new HtmlTagToken(HtmlTokenType.StartTag, TextPosition.Empty, name);
@@ -61,7 +59,6 @@
         /// </summary>
         /// <param name="name">The name of the tag.</param>
         /// <returns>The new HTML tag token.</returns>
-        [DebuggerStepThrough]
         public static HtmlTagToken Close(String name)
         {
             return new HtmlTagToken(HtmlTokenType.EndTag, TextPosition.Empty, name);

@@ -4,13 +4,11 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// NamedNodeNap is a key/value pair of nodes that can be accessed by
     /// numeric or string index.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class NamedNodeMap : INamedNodeMap
     {
         #region Fields

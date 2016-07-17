@@ -2,7 +2,6 @@
 {
     using AngleSharp.Extensions;
     using System;
-    using System.Diagnostics;
     using System.IO;
     using System.Text;
     using System.Threading;
@@ -11,7 +10,6 @@
     /// <summary>
     /// A stream abstraction to handle encoding and more.
     /// </summary>
-    [DebuggerStepThrough]
     public sealed class TextSource : IDisposable
     {
         #region Fields

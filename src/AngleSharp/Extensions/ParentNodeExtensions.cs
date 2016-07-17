@@ -1,12 +1,10 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
-    using System.Diagnostics;
 
     /// <summary>
     /// Useful methods for parent node objects.
     /// </summary>
-    [DebuggerStepThrough]
     static class ParentNodeExtensions
     {
         /// <summary>

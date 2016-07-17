@@ -4,15 +4,13 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
-    using System.Diagnostics;
     using System.IO;
     using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents a node in the generated tree.
     /// </summary>
-    [DebuggerStepThrough]
-    internal class Node : EventTarget, INode, IEquatable<INode>
+    class Node : EventTarget, INode, IEquatable<INode>
     {
         #region Fields
 

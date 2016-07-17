@@ -9,7 +9,6 @@
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Net;
@@ -19,7 +18,6 @@
     /// <summary>
     /// Represents a document node.
     /// </summary>
-    [DebuggerStepThrough]
     abstract class Document : Node, IDocument
     {
         #region Fields

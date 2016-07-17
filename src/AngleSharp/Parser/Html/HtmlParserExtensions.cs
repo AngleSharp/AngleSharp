@@ -5,7 +5,6 @@
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 #if !NET40
     using System.Runtime.CompilerServices;
 #endif
@@ -13,7 +12,6 @@
     /// <summary>
     /// Extensions to be used exclusively by the parser or the tokenizer.
     /// </summary>
-    [DebuggerStepThrough]
     static class HtmlParserExtensions
     {
         public static void SetAttributes(this Element element, List<KeyValuePair<String, String>> attributes)

@@ -3,13 +3,11 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
-    using System.Diagnostics;
     using System.IO;
 
     /// <summary>
     /// Represents a text node.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class TextNode : CharacterData, IText
     {
         #region ctor

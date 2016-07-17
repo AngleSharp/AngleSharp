@@ -7,7 +7,6 @@
     using AngleSharp.Xml;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -16,7 +15,6 @@
     /// specification for XML:
     /// http://www.w3.org/TR/REC-xml/
     /// </summary>
-    [DebuggerStepThrough]
     sealed class XmlDomBuilder
     {
         #region Fields

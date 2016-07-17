@@ -5,12 +5,10 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// Extensions to be used exclusively by the parser or the tokenizer.
     /// </summary>
-    [DebuggerStepThrough]
     static class CssParserExtensions
     {
         static readonly Dictionary<String, Func<String, DocumentFunction>> functionTypes = new Dictionary<String, Func<String, DocumentFunction>>(StringComparer.OrdinalIgnoreCase)

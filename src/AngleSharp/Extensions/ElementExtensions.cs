@@ -8,14 +8,12 @@
     using AngleSharp.Services.Media;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Useful methods for element objects.
     /// </summary>
-    [DebuggerStepThrough]
     static class ElementExtensions
     {
         /// <summary>

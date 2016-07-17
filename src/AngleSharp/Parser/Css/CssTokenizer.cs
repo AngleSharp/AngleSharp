@@ -4,14 +4,12 @@
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using System;
-    using System.Diagnostics;
     using System.Globalization;
 
     /// <summary>
     /// The CSS tokenizer.
     /// See http://dev.w3.org/csswg/css-syntax/#tokenization for more details.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class CssTokenizer : BaseTokenizer
 	{
 		#region Fields

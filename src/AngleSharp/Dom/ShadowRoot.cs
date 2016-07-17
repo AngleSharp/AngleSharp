@@ -4,14 +4,12 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
 
     /// <summary>
     /// Represents a shadow root.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class ShadowRoot : Node, IShadowRoot
     {
         #region Fields

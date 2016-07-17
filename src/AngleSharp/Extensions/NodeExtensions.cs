@@ -5,13 +5,11 @@
     using AngleSharp.Dom.Html;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// Useful methods for node objects.
     /// </summary>
-    [DebuggerStepThrough]
     static class NodeExtensions
     {
         /// <summary>

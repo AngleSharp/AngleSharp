@@ -9,7 +9,6 @@
     using Commands;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
     using System.Text;
@@ -18,7 +17,6 @@
     /// Represents a helper to construct objects with externally defined
     /// classes and libraries.
     /// </summary>
-    [DebuggerStepThrough]
     static class ConfigurationExtensions
     {
         #region Encoding

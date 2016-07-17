@@ -1,12 +1,10 @@
 ﻿namespace AngleSharp
 {
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// The position in the source code.
     /// </summary>
-    [DebuggerStepThrough]
     public struct TextPosition : IEquatable<TextPosition>, IComparable<TextPosition>
     {
         #region Fields

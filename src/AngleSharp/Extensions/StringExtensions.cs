@@ -6,7 +6,6 @@
     using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Reflection;
@@ -16,7 +15,6 @@
     /// <summary>
     /// Useful methods for string objects.
     /// </summary>
-    [DebuggerStepThrough]
     static class StringExtensions
     {
         /// <summary>

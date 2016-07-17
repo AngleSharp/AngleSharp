@@ -6,13 +6,11 @@
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// Defines a set of extension methods for style sheets.
     /// </summary>
-    [DebuggerStepThrough]
     public static class StyleSheetExtensions
     {
         #region Adding Rules

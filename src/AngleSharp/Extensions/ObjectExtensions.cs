@@ -3,13 +3,11 @@
     using AngleSharp.Attributes;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Reflection;
 
     /// <summary>
     /// Some methods for working with bare objects.
     /// </summary>
-    [DebuggerStepThrough]
     static class ObjectExtensions
     {
         /// <summary>

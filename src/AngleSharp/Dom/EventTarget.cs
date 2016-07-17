@@ -5,12 +5,10 @@
     using AngleSharp.Html;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// Event target base of all DOM nodes.
     /// </summary>
-    [DebuggerStepThrough]
     public abstract class EventTarget : IEventTarget
     {
         #region Fields

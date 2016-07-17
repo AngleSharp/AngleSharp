@@ -8,14 +8,12 @@
     using AngleSharp.Services.Default;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
 
     /// <summary>
     /// A set of useful extensions for Configuration (or derived) objects.
     /// </summary>
-    [DebuggerStepThrough]
     public static class ConfigurationExtensions
     {
         #region General

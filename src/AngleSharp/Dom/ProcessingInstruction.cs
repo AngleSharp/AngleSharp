@@ -1,13 +1,11 @@
 ﻿namespace AngleSharp.Dom
 {
     using System;
-    using System.Diagnostics;
     using System.IO;
 
     /// <summary>
     /// Represents a processing instruction node.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class ProcessingInstruction : CharacterData, IProcessingInstruction
     {
         #region ctor

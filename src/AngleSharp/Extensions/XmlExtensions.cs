@@ -1,12 +1,10 @@
 ﻿namespace AngleSharp.Extensions
 {
     using System;
-    using System.Diagnostics;
 
     /// <summary>
     /// Useful helpers for the XML parser.
     /// </summary>
-    [DebuggerStepThrough]
     static class XmlExtensions
     {
         /// <summary>

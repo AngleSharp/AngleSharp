@@ -6,13 +6,11 @@
     using AngleSharp.Dom.Html;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
     /// A set of extension methods for style / related methods.
     /// </summary>
-    [DebuggerStepThrough]
     static class StyleExtensions
     {
         /// <summary>

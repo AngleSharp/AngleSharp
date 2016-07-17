@@ -11,7 +11,6 @@
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -20,7 +19,6 @@
     /// 8.2.5 Tree construction, on the following page:
     /// http://www.w3.org/html/wg/drafts/html/master/syntax.html
     /// </summary>
-    [DebuggerStepThrough]
     sealed class HtmlDomBuilder
     {
         #region Fields

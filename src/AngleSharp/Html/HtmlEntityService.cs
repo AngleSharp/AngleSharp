@@ -4,12 +4,10 @@
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// Represents the list of all Html entities.
     /// </summary>
-    [DebuggerStepThrough]
     public sealed class HtmlEntityService : IEntityProvider
     {
         #region Fields

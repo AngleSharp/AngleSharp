@@ -1,17 +1,15 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom.Css;
-using AngleSharp.Parser.Css;
-using AngleSharp.Services;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+    using AngleSharp.Parser.Css;
+    using AngleSharp.Services;
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
 
     /// <summary>
     /// Provides a pool of used / recycled resources.
     /// </summary>
-    [DebuggerStepThrough]
     static class Pool
     {
         #region Fields

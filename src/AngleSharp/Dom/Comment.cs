@@ -1,13 +1,11 @@
 ﻿namespace AngleSharp.Dom
 {
     using System;
-    using System.Diagnostics;
     using System.IO;
 
     /// <summary>
     /// Represents a node that contains a comment.
     /// </summary>
-    [DebuggerStepThrough]
     sealed class Comment : CharacterData, IComment
     {
         #region ctor

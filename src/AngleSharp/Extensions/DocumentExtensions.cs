@@ -6,14 +6,12 @@
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
 
     /// <summary>
     /// Useful methods for document objects.
     /// </summary>
-    [DebuggerStepThrough]
     static class DocumentExtensions
     {
         /// <summary>

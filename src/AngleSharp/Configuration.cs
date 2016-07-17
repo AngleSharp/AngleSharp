@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// Represents context configuration for the AngleSharp library. Custom
@@ -10,7 +9,6 @@
     /// implementing IConfiguration or modifying an instance of this specific
     /// class.
     /// </summary>
-    [DebuggerStepThrough]
     public class Configuration : IConfiguration
     {
         #region Fields

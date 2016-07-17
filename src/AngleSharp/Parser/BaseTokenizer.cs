@@ -3,13 +3,11 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Text;
 
     /// <summary>
     /// Common methods and variables of all tokenizers.
     /// </summary>
-    [DebuggerStepThrough]
     abstract class BaseTokenizer : IDisposable
     {
         #region Fields

@@ -3,7 +3,6 @@
     using AngleSharp.Dom;
     using AngleSharp.Network;
     using System;
-    using System.Diagnostics;
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
@@ -11,7 +10,6 @@
     /// <summary>
     /// Useful extensions for IRequester objects.
     /// </summary>
-    [DebuggerStepThrough]
     static class RequesterExtensions
     {
         #region Methods
