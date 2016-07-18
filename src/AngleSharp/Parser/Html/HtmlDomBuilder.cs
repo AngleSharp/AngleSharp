@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Parser.Html
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Dom.Mathml;
     using AngleSharp.Dom.Svg;
@@ -43,19 +42,6 @@
 
         #endregion
 
-        #region Events
-
-        /// <summary>
-        /// Fired in case of a parse error.
-        /// </summary>
-        public event EventHandler<HtmlErrorEvent> Error
-        {
-            add { _tokenizer.Error += value; }
-            remove { _tokenizer.Error -= value; }
-        }
-
-        #endregion
-
         #region ctor
 
         /// <summary>
@@ -68,8 +54,10 @@
         internal HtmlDomBuilder(HtmlDocument document)
         {
             var options = document.Options;
+            var context = document.Context;
             var resolver = options.GetProvider<IEntityProvider>() ?? HtmlEntityService.Resolver;
             _tokenizer = new HtmlTokenizer(document.Source, resolver);
+            _tokenizer.Error += (_, error) => context.Fire(error);
             _document = document;
             _openElements = new List<Element>();
             _templateModes = new Stack<HtmlTreeMode>();
@@ -122,6 +110,7 @@
         {
             var source = _document.Source;
             var token = default(HtmlToken);
+            _tokenizer.IsStrictMode = options.IsStrictMode;
             _options = options;
 
             do
@@ -152,6 +141,7 @@
         public HtmlDocument Parse(HtmlParserOptions options)
         {
             var token = default(HtmlToken);
+            _tokenizer.IsStrictMode = options.IsStrictMode;
             _options = options;
 
             do
@@ -4065,12 +4055,6 @@
 
         void RaiseErrorOccurred(HtmlParseError code, HtmlToken token)
         {
-            if (_options.IsStrictMode)
-            {
-                var message = "Error while parsing the provided HTML document.";
-                throw new HtmlParseException(code.GetCode(), message, token.Position);
-            }
-
             _tokenizer.RaiseErrorOccurred(code, token.Position);
         }
 

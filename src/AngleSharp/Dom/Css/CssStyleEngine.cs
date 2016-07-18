@@ -100,8 +100,8 @@
             var sheet = new CssStyleSheet(parser, url, options.Element) { IsDisabled = options.IsDisabled };
             var source = new TextSource(response.Content);
             var tokenizer = new CssTokenizer(source);
+            tokenizer.Error += (_, ev) => context.Fire(ev);
             var builder = new CssBuilder(tokenizer, parser);
-            builder.Error += (s, ev) => context.Fire(ev);
             context.Fire(new CssParseEvent(sheet, completed: false));
             await parser.ParseStylesheetAsync(sheet, source).ConfigureAwait(false);
             context.Fire(new CssParseEvent(sheet, completed: true));

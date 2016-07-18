@@ -54,7 +54,6 @@
             var parserOptions = new HtmlParserOptions { IsScripting = scripting };
             var document = new HtmlDocument(context, options.Source);
             var parser = new HtmlDomBuilder(document);
-            parser.Error += (_, error) => context.Fire(error);
             document.Setup(options);
             context.NavigateTo(document);
             context.Fire(new HtmlParseEvent(document, completed: false));
