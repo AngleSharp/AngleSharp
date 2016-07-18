@@ -7,6 +7,7 @@
     using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
     using NUnit.Framework;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -99,6 +100,36 @@
             var div = document.QuerySelector<IHtmlElement>("div");
             var content = div.TextContent;
             Assert.AreEqual("a\n\n\n\nb", content);
+        }
+
+        [Test]
+        public void NormalModeShouldError()
+        {
+            var html = @"<!DOCTYPE html>
+<title>Test</title>
+<body>
+    <div myAttribute=""blabla>123</div>
+</body>";
+            var errors = new List<HtmlErrorEvent>();
+            var options = new HtmlParserOptions { IsStrictMode = false };
+            var context = BrowsingContext.New(Configuration.Default);
+            context.ParseError += (s, ev) => errors.Add((HtmlErrorEvent)ev);
+            var parser = new HtmlParser(options, context);
+            parser.Parse(html);
+            Assert.AreEqual(1, errors.Count);
+        }
+
+        [Test]
+        public void StrictModeShouldYieldException()
+        {
+            var html = @"<!DOCTYPE html>
+<title>Test</title>
+<body>
+    <div myAttribute=""blabla>123</div>
+</body>";
+            var options = new HtmlParserOptions { IsStrictMode = true };
+            var parser = new HtmlParser(options);
+            Assert.Catch<HtmlParseException>(() => parser.Parse(html));
         }
     }
 }
