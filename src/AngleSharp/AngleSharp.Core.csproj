@@ -189,6 +189,7 @@
     <Compile Include="Extensions\EventLoopExtensions.cs" />
     <Compile Include="Extensions\ResponseExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
+    <Compile Include="Parser\Html\HtmlParseException.cs" />
     <Compile Include="Services\Default\AttributeSelectorFactory.cs" />
     <Compile Include="Services\Default\ContextFactory.cs" />
     <Compile Include="Services\Default\DocumentFactory.cs" />

@@ -24,5 +24,14 @@
             get;
             set;
         }
+
+        /// <summary>
+        /// Gets or sets if errors should be treated as exceptions.
+        /// </summary>
+        public Boolean IsStrictMode
+        {
+            get;
+            set;
+        }
     }
 }

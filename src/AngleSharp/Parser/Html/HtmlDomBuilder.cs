@@ -4065,6 +4065,12 @@
 
         void RaiseErrorOccurred(HtmlParseError code, HtmlToken token)
         {
+            if (_options.IsStrictMode)
+            {
+                var message = "Error while parsing the provided HTML document.";
+                throw new HtmlParseException(code.GetCode(), message, token.Position);
+            }
+
             _tokenizer.RaiseErrorOccurred(code, token.Position);
         }
 
