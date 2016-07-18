@@ -35,6 +35,7 @@
             var options = new HtmlParserOptions
             {
                 IsEmbedded = false,
+                IsStrictMode = false,
                 IsScripting = Owner.Options.IsScripting()
             };
             var root = parser.ParseFragment(options, context).DocumentElement;
