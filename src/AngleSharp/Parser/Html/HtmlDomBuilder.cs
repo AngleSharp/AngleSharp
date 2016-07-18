@@ -432,7 +432,7 @@
                 }
             }
 
-            if (_options.IsEmbedded == false)
+            if (!_options.IsEmbedded)
             {
                 RaiseErrorOccurred(HtmlParseError.DoctypeMissing, token);
                 _document.QuirksMode = QuirksMode.On;

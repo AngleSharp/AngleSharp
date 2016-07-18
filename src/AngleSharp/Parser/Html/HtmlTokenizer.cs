@@ -183,8 +183,7 @@
                 switch (c)
                 {
                     case Symbols.Null:
-                        RaiseErrorOccurred(HtmlParseError.Null);
-                        StringBuffer.Append(Symbols.Replacement);
+                        AppendReplacement();
                         break;
 
                     case Symbols.EndOfFile:
@@ -229,8 +228,7 @@
                         return NewCharacter();
 
                     case Symbols.Null:
-                        RaiseErrorOccurred(HtmlParseError.Null);
-                        StringBuffer.Append(Symbols.Replacement);
+                        AppendReplacement();
                         break;
 
                     default:
@@ -333,8 +331,7 @@
                         return NewCharacter();
 
                     case Symbols.Null:
-                        RaiseErrorOccurred(HtmlParseError.Null);
-                        StringBuffer.Append(Symbols.Replacement);
+                        AppendReplacement();
                         break;
 
                     default:
@@ -716,8 +713,7 @@
                 }
                 else if (c == Symbols.Null)
                 {
-                    RaiseErrorOccurred(HtmlParseError.Null);
-                    StringBuffer.Append(Symbols.Replacement);
+                    AppendReplacement();
                 }
                 else if (c != Symbols.EndOfFile)
                 {
@@ -790,7 +786,7 @@
         {
             StringBuffer.Clear();
 
-            while(true)
+            while (true)
             {
                 switch (c)
                 {
@@ -800,9 +796,8 @@
                         Back();
                         break;
                     case Symbols.Null:
-                        StringBuffer.Append(Symbols.Replacement);
-                        c = GetNext();
-                        continue;
+                        c = Symbols.Replacement;
+                        goto default;
                     default:
                         StringBuffer.Append(c);
                         c = GetNext();
@@ -827,8 +822,7 @@
                 case Symbols.Minus:
                     return CommentDashStart(GetNext()) ?? Comment(GetNext());
                 case Symbols.Null:
-                    RaiseErrorOccurred(HtmlParseError.Null);
-                    StringBuffer.Append(Symbols.Replacement);
+                    AppendReplacement();
                     return Comment(GetNext());
                 case Symbols.GreaterThan:
                     State = HtmlParseMode.PCData;
@@ -900,8 +894,7 @@
                         Back();
                         return NewComment();
                     case Symbols.Null:
-                        RaiseErrorOccurred(HtmlParseError.Null);
-                        StringBuffer.Append(Symbols.Replacement);
+                        AppendReplacement();
                         break;
                     default:
                         StringBuffer.Append(c);
@@ -1049,8 +1042,7 @@
             else if (c == Symbols.Null)
             {
                 var doctype = NewDoctype(false);
-                RaiseErrorOccurred(HtmlParseError.Null);
-                StringBuffer.Append(Symbols.Replacement);
+                AppendReplacement();
                 return DoctypeName(doctype);
             }
             else if (c == Symbols.GreaterThan)
@@ -1102,8 +1094,7 @@
                 }
                 else if (c == Symbols.Null)
                 {
-                    RaiseErrorOccurred(HtmlParseError.Null);
-                    StringBuffer.Append(Symbols.Replacement);
+                    AppendReplacement();
                 }
                 else if (c == Symbols.EndOfFile)
                 {
@@ -1263,8 +1254,7 @@
                 }
                 else if (c == Symbols.Null)
                 {
-                    RaiseErrorOccurred(HtmlParseError.Null);
-                    StringBuffer.Append(Symbols.Replacement);
+                    AppendReplacement();
                 }
                 else if (c == Symbols.GreaterThan)
                 {
@@ -1308,8 +1298,7 @@
                 }
                 else if (c == Symbols.Null)
                 {
-                    RaiseErrorOccurred(HtmlParseError.Null);
-                    StringBuffer.Append(Symbols.Replacement);
+                    AppendReplacement();
                 }
                 else if (c == Symbols.GreaterThan)
                 {
@@ -1524,8 +1513,7 @@
                 }
                 else if (c == Symbols.Null)
                 {
-                    RaiseErrorOccurred(HtmlParseError.Null);
-                    StringBuffer.Append(Symbols.Replacement);
+                    AppendReplacement();
                 }
                 else if (c == Symbols.GreaterThan)
                 {
@@ -1568,8 +1556,7 @@
                         doctype.SystemIdentifier = FlushBuffer();
                         return DoctypeSystemIdentifierAfter(doctype);
                     case Symbols.Null:
-                        RaiseErrorOccurred(HtmlParseError.Null);
-                        StringBuffer.Append(Symbols.Replacement);
+                        AppendReplacement();
                         continue;
                     case Symbols.GreaterThan:
                         State = HtmlParseMode.PCData;
@@ -1687,8 +1674,7 @@
                         }
                         else if (c == Symbols.Null)
                         {
-                            RaiseErrorOccurred(HtmlParseError.Null);
-                            StringBuffer.Append(Symbols.Replacement);
+                            AppendReplacement();
                             state = AttributeState.Name;
                         }
                         else if (c == Symbols.SingleQuote || c == Symbols.DoubleQuote || c == Symbols.Equality || c == Symbols.LessThan)
@@ -1746,8 +1732,7 @@
                         }
                         else if (c == Symbols.Null)
                         {
-                            RaiseErrorOccurred(HtmlParseError.Null);
-                            StringBuffer.Append(Symbols.Replacement);
+                            AppendReplacement();
                         }
                         else if (c != Symbols.EndOfFile)
                         {
@@ -1791,8 +1776,7 @@
                         }
                         else if (c == Symbols.Null)
                         {
-                            RaiseErrorOccurred(HtmlParseError.Null);
-                            StringBuffer.Append(Symbols.Replacement);
+                            AppendReplacement();
                             state = AttributeState.Name;
                         }
                         else if (c != Symbols.EndOfFile)
@@ -1836,8 +1820,7 @@
                         }
                         else if (c == Symbols.Null)
                         {
-                            RaiseErrorOccurred(HtmlParseError.Null);
-                            StringBuffer.Append(Symbols.Replacement);
+                            AppendReplacement();
                             state = AttributeState.UnquotedValue;
                             c = GetNext();
                         }
@@ -1872,8 +1855,7 @@
                         }
                         else if (c == Symbols.Null)
                         {
-                            RaiseErrorOccurred(HtmlParseError.Null);
-                            StringBuffer.Append(Symbols.Replacement);
+                            AppendReplacement();
                         }
                         else if (c != Symbols.EndOfFile)
                         {
@@ -1907,8 +1889,7 @@
                         }
                         else if (c == Symbols.Null)
                         {
-                            RaiseErrorOccurred(HtmlParseError.Null);
-                            StringBuffer.Append(Symbols.Replacement);
+                            AppendReplacement();
                             c = GetNext();
                         }
                         else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan || c == Symbols.Equality || c == Symbols.CurvedQuote)
@@ -2006,8 +1987,7 @@
                         switch (c)
                         {
                             case Symbols.Null:
-                                RaiseErrorOccurred(HtmlParseError.Null);
-                                StringBuffer.Append(Symbols.Replacement);
+                                AppendReplacement();
                                 break;
 
                             case Symbols.LessThan:
@@ -2156,8 +2136,7 @@
                                 state = ScriptState.EscapedOpenTag;
                                 continue;
                             case Symbols.Null:
-                                RaiseErrorOccurred(HtmlParseError.Null);
-                                StringBuffer.Append(Symbols.Replacement);
+                                AppendReplacement();
                                 break;
                             case Symbols.EndOfFile:
                                 Back();
@@ -2185,8 +2164,7 @@
                                 state = ScriptState.EscapedOpenTag;
                                 continue;
                             case Symbols.Null:
-                                RaiseErrorOccurred(HtmlParseError.Null);
-                                StringBuffer.Append(Symbols.Replacement);
+                                AppendReplacement();
                                 break;
                             case Symbols.EndOfFile:
                                 Back();
@@ -2221,8 +2199,7 @@
                                 state = ScriptState.Normal;
                                 continue;
                             case Symbols.Null:
-                                RaiseErrorOccurred(HtmlParseError.Null);
-                                StringBuffer.Append(Symbols.Replacement);
+                                AppendReplacement();
                                 c = GetNext();
                                 state = ScriptState.Escaped;
                                 continue;
@@ -2347,8 +2324,7 @@
                                 continue;
 
                             case Symbols.Null:
-                                RaiseErrorOccurred(HtmlParseError.Null);
-                                StringBuffer.Append(Symbols.Replacement);
+                                AppendReplacement();
                                 break;
 
                             case Symbols.EndOfFile:
@@ -2417,8 +2393,7 @@
                                 continue;
 
                             case Symbols.Null:
-                                RaiseErrorOccurred(HtmlParseError.Null);
-                                StringBuffer.Append(Symbols.Replacement);
+                                AppendReplacement();
                                 c = GetNext();
                                 state = ScriptState.EscapedDouble;
                                 continue;
@@ -2530,6 +2505,12 @@
         void RaiseErrorOccurred(HtmlParseError code)
         {
             RaiseErrorOccurred(code, GetCurrentPosition());
+        }
+
+        private void AppendReplacement()
+        {
+            RaiseErrorOccurred(HtmlParseError.Null);
+            StringBuffer.Append(Symbols.Replacement);
         }
 
         HtmlToken CreateIfAppropriate(Char c)
