@@ -46,7 +46,7 @@
             const String myName = "yehudah";
 
             var document = CreateSampleDocument();
-            document.Forms[0].SetFieldValues(new Dictionary<String, String>()
+            document.Forms[0].SetValues(new Dictionary<String, String>()
             {
                 { inputId, myName }
             });
@@ -59,7 +59,7 @@
         public void SetValueOfSelect()
         {
             var document = CreateSampleDocument();
-            document.Forms[0].SetFieldValues(new Dictionary<String, String>()
+            document.Forms[0].SetValues(new Dictionary<String, String>()
             {
                 { "city", "2" }
             });
@@ -77,7 +77,7 @@
         public void SetValueOfRadioInput()
         {
             var document = CreateSampleDocument();
-            document.Forms[0].SetFieldValues(new Dictionary<String, String>()
+            document.Forms[0].SetValues(new Dictionary<String, String>()
             {
                 { "userType", "Guest" }
             });
@@ -98,7 +98,7 @@
 
             Assert.Catch<KeyNotFoundException>(() =>
             {
-                document.Forms[0].SetFieldValues(new Dictionary<String, String>()
+                document.Forms[0].SetValues(new Dictionary<String, String>()
                 {
                     { "noExistName", "X" }
                 });
@@ -112,10 +112,10 @@
             const String fieldValue = "1234";
 
             var document = CreateSampleDocument();
-            document.Forms[0].SetFieldValues(new Dictionary<String, String>()
+            document.Forms[0].SetValues(new Dictionary<String, String>()
             {
                 { newFieldName, fieldValue }
-            }, createInputIfNotFound: true);
+            }, createMissing: true);
 
             var newField = document.Forms[0]
                 .GetElements<IHtmlInputElement>()
