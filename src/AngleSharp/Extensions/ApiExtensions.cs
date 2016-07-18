@@ -410,6 +410,48 @@
             return form.SubmitAsync();
         }
 
+        /// <summary>
+        /// Submits the form of the element by decomposing the object into a dictionary
+        /// that contains its properties as name value pairs.
+        /// </summary>
+        /// <param name="element">The element to submit its form.</param>
+        /// <param name="fields">The fields to use as values.</param>
+        /// <returns>The task eventually resulting in the response.</returns>
+        public static Task<IDocument> SubmitAsync(this IHtmlElement element, Object fields)
+        {
+            return element.SubmitAsync(fields.ToDictionary());
+        }
+
+        /// <summary>
+        /// Submits the form of the element by using the dictionary which contains name
+        /// value pairs of input fields to submit.
+        /// </summary>
+        /// <param name="element">The element to submit its form.</param>
+        /// <param name="fields">The fields to use as values.</param>
+        /// <param name="createMissing">
+        /// What to do if some field(s) have not been found in the form. If
+        /// true, then new input will be created. Otherwise, an exception will
+        /// be thrown.
+        /// </param>
+        /// <returns>The task eventually resulting in the response.</returns>
+        public static Task<IDocument> SubmitAsync(this IHtmlElement element, IDictionary<String, String> fields, Boolean createMissing = false)
+        {
+            var button = element as HtmlFormControlElement;
+
+            if (button == null)
+                throw new ArgumentException(nameof(element));
+
+            var form = button.Form;
+
+            if (form != null)
+            {
+                form.SetValues(fields, createMissing);
+                return form.SubmitAsync(button);
+            }
+
+            return null;
+        }
+
         #endregion
 
         #region Query extensions
