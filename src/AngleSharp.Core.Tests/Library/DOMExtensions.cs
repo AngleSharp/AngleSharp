@@ -599,7 +599,7 @@
             var elements = document.QuerySelectorAll("li").Html("<b><i>Text</i></b>");
             Assert.AreEqual(4, elements.Count());
 
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
                 Assert.AreEqual(1, elements[i].ChildNodes.Length);
 
@@ -648,7 +648,7 @@
             var elementsInDocument = document.QuerySelectorAll("li");
             Assert.AreEqual(4, elementsInDocument.Count());
 
-            for (int i = 0; i < elements.Count(); i++)
+            for (var i = 0; i < elements.Count(); i++)
             {
                 Assert.AreEqual(1, elements[i].ChildNodes.Length);
 
@@ -666,6 +666,26 @@
                 Assert.AreEqual(NodeType.Text, text.NodeType);
                 Assert.AreEqual("Text", text.TextContent);
             }
+        }
+
+        [Test]
+        public void LinqOnChildrenOfQuerySelectorToCollection()
+        {
+            var document = Html("<body><ul><li><li class=foo><li><li class=bar><li>");
+            var elements = document.QuerySelectorAll("li").Where(m => String.IsNullOrEmpty(m.ClassName)).ToCollection();
+            Assert.AreEqual(3, elements.Length);
+            Assert.AreNotEqual("foo", elements[1].ClassName);
+        }
+
+        [Test]
+        public void LinqWithChildrenToCollectionStaysLive()
+        {
+            var document = Html("<body><ul><li><li class=foo><li><li class=bar><li>");
+            var list = document.Body.Children[0];
+            var elements = list.Children.Where(m => String.IsNullOrEmpty(m.ClassName)).ToCollection();
+            Assert.AreEqual(3, elements.Length);
+            list.AppendChild(document.CreateElement("li"));
+            Assert.AreEqual(4, elements.Length);
         }
     }
 }

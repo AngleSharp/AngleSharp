@@ -357,7 +357,6 @@
     <Compile Include="Extensions\AttrExtensions.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Dom\Collections\HtmlAllCollection.cs" />
-    <Compile Include="Dom\Collections\HtmlElementCollection.cs" />
     <Compile Include="Dom\Collections\HtmlFormControlsCollection.cs" />
     <Compile Include="Dom\Collections\NodeIterator.cs" />
     <Compile Include="Extensions\ElementExtensions.cs" />
