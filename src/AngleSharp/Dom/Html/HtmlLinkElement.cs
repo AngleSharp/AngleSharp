@@ -144,6 +144,12 @@
             set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
+        public String Integrity
+        {
+            get { return this.GetOwnAttribute(AttributeNames.Integrity); }
+            set { this.SetOwnAttribute(AttributeNames.Integrity, value); }
+        }
+
         public IStyleSheet Sheet
         {
             get 

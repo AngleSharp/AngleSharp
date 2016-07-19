@@ -50,5 +50,11 @@
         /// </summary>
         [DomName("text")]
         String Text { get; set; }
+
+        /// <summary>
+        /// Gets or sets the linked source's integrity, if any.
+        /// </summary>
+        [DomName("integrity")]
+        String Integrity { get; set; }
     }
 }
