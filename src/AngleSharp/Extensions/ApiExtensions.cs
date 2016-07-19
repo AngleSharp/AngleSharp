@@ -6,6 +6,7 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using Dom.Collections;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -1138,6 +1139,18 @@
             }
 
             return elements;
+        }
+
+        /// <summary>
+        /// Creates a new HTML Collection from the provided elements.
+        /// </summary>
+        /// <typeparam name="TElement">The base type of the elements.</typeparam>
+        /// <param name="elements">The elements to include.</param>
+        /// <returns>The created collection.</returns>
+        public static IHtmlCollection<TElement> ToCollection<TElement>(this IEnumerable<TElement> elements)
+            where TElement : class, IElement
+        {
+            return new HtmlCollection<TElement>(elements);
         }
 
         #endregion
