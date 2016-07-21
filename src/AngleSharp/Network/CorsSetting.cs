@@ -1,7 +1,5 @@
-﻿namespace AngleSharp.Dom
+﻿namespace AngleSharp.Network
 {
-    using AngleSharp.Attributes;
-
     /// <summary>
     /// CORS settings attributes (see 2.6.6).
     /// </summary>

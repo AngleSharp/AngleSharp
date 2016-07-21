@@ -123,9 +123,11 @@
         {
             if (_loader != null && Engine != null)
             {
-                var setting = _script.CrossOrigin.ToEnum(CorsSetting.None);
-                var behavior = OriginBehavior.Taint;
-                Download = _loader.FetchWithCors(request, setting, behavior);
+                Download = _loader.FetchWithCors(new CorsRequest(request)
+                {
+                    Behavior = OriginBehavior.Taint,
+                    Setting = _script.CrossOrigin.ToEnum(CorsSetting.None)
+                });
                 return Download.Task;
             }
 

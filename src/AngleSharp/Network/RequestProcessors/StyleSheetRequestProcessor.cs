@@ -95,9 +95,11 @@
 
         private IDownload DownloadWithCors(ResourceRequest request)
         {
-            var setting = _link.CrossOrigin.ToEnum(CorsSetting.None);
-            var behavior = OriginBehavior.Taint;
-            return _loader.FetchWithCors(request, setting, behavior);
+            return _loader.FetchWithCors(new CorsRequest(request)
+            {
+                Setting = _link.CrossOrigin.ToEnum(CorsSetting.None),
+                Behavior = OriginBehavior.Taint
+            });
         }
 
         #endregion

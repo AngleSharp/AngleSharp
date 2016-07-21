@@ -20,21 +20,19 @@
         /// http://www.w3.org/TR/html5/infrastructure.html#potentially-cors-enabled-fetch
         /// </summary>
         /// <param name="loader">The resource loader to use.</param>
-        /// <param name="request">The request to issue.</param>
-        /// <param name="setting">The cross origin settings to use.</param>
-        /// <param name="behavior">
-        /// The default behavior in case it is undefined.
-        /// </param>
+        /// <param name="cors">The CORS request to issue.</param>
         /// <returns>
-        /// The task that will eventually give the resource's response data.
+        /// The active download.
         /// </returns>
-        public static IDownload FetchWithCors(this IResourceLoader loader, ResourceRequest request, CorsSetting setting, OriginBehavior behavior)
+        public static IDownload FetchWithCors(this IResourceLoader loader, CorsRequest cors)
         {
+            var request = cors.Request;
+            var setting = cors.Setting;
             var url = request.Target;
 
             if (request.Origin == url.Origin || url.Scheme == ProtocolNames.Data || url.Href == "about:blank")
             {
-                return loader.FetchWithCors(url, request, setting, behavior);
+                return loader.FetchWithCors(url, cors);
             }
             else if (setting == CorsSetting.Anonymous || setting == CorsSetting.UseCredentials)
             {
@@ -42,14 +40,19 @@
             }
             else if (setting == CorsSetting.None)
             {
-                return loader.FetchWithoutCors(request, behavior);
+                return loader.FetchWithoutCors(request, cors.Behavior);
             }
 
             throw new DomException(DomError.Network);
         }
 
-        private static IDownload FetchWithCors(this IResourceLoader loader, Url url, ResourceRequest request, CorsSetting setting, OriginBehavior behavior)
+        #endregion
+
+        #region Fetching
+
+        private static IDownload FetchWithCors(this IResourceLoader loader, Url url, CorsRequest cors)
         {
+            var request = cors.Request;
             var download = loader.DownloadAsync(new ResourceRequest(request.Source, url)
             {
                 Origin = request.Origin,
@@ -64,20 +67,23 @@
 
                     if (request.Origin.Is(url.Origin))
                     {
-                        return loader.FetchWithCors(new ResourceRequest(request.Source, url)
+                        var newRequest = new ResourceRequest(request.Source, url)
                         {
                             IsCookieBlocked = request.IsCookieBlocked,
                             IsSameOriginForced = request.IsSameOriginForced,
                             Origin = request.Origin
-                        }, setting, behavior);
+                        };
+                        return loader.FetchWithCors(new CorsRequest(newRequest)
+                        {
+                            Setting = cors.Setting,
+                            Behavior = cors.Behavior
+                        });
                     }
 
-                    return loader.FetchWithCors(url, request, setting, behavior);
+                    return loader.FetchWithCors(url, cors);
                 }
-                else
-                {
-                    return download;
-                }
+
+                return download;
             });
         }
 
@@ -105,6 +111,10 @@
             });
         }
 
+        #endregion
+
+        #region Helpers
+
         private static IDownload Wrap(this IDownload download, Func<IResponse, IDownload> callback)
         {
             var cts = new CancellationTokenSource();
@@ -118,10 +128,6 @@
             var download = callback(response);
             return await download.Task.ConfigureAwait(false);
         }
-
-        #endregion
-
-        #region Helpers
 
         private static Boolean IsRedirected(this IResponse response)
         {

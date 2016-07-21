@@ -64,14 +64,10 @@
         public static DocumentRequest Post(Url target, Stream body, String type, INode source = null, String referer = null)
         {
             if (body == null)
-            {
-                throw new ArgumentNullException("body");
-            }
+                throw new ArgumentNullException(nameof(body));
 
             if (type == null)
-            {
-                throw new ArgumentNullException("type");
-            }
+                throw new ArgumentNullException(nameof(type));
 
             return new DocumentRequest(target)
             {
@@ -93,9 +89,7 @@
         public static DocumentRequest PostAsPlaintext(Url target, IDictionary<String, String> fields)
         {
             if (fields == null)
-            {
-                throw new ArgumentNullException("fields");
-            }
+                throw new ArgumentNullException(nameof(fields));
 
             var fds = new FormDataSet();
 
@@ -117,9 +111,7 @@
         public static DocumentRequest PostAsUrlencoded(Url target, IDictionary<String, String> fields)
         {
             if (fields == null)
-            {
-                throw new ArgumentNullException("fields");
-            }
+                throw new ArgumentNullException(nameof(fields));
 
             var fds = new FormDataSet();
 
@@ -150,7 +142,6 @@
         public Url Target
         {
             get;
-            private set;
         }
 
         /// <summary>
@@ -197,7 +188,6 @@
         public Dictionary<String, String> Headers
         {
             get;
-            private set;
         }
 
         #endregion
