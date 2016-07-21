@@ -4,6 +4,7 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Services.Styling;
+    using Services;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -98,7 +99,8 @@
             return _loader.FetchWithCors(new CorsRequest(request)
             {
                 Setting = _link.CrossOrigin.ToEnum(CorsSetting.None),
-                Behavior = OriginBehavior.Taint
+                Behavior = OriginBehavior.Taint,
+                Integrity = _document.Options.GetProvider<IIntegrityProvider>()
             });
         }
 

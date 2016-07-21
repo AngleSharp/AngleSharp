@@ -67,7 +67,7 @@
             return _options.GetResourceService<TResource>(type.Content);
         }
 
-        Boolean IsDifferentToCurrentResourceUrl(Url target)
+        private Boolean IsDifferentToCurrentResourceUrl(Url target)
         {
             var resource = Resource;
             return resource == null || !target.Equals(resource.Source);

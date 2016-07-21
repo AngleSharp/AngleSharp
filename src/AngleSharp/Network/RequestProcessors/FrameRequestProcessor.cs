@@ -65,7 +65,11 @@
             return WaitResponse(task);
         }
 
-        Task ProcessResponse(String response, String referer)
+        #endregion
+
+        #region Helpers
+
+        private Task ProcessResponse(String response, String referer)
         {
             var cancel = CancellationToken.None;
             var context = _element.NestedContext;
@@ -73,7 +77,7 @@
             return WaitResponse(task);
         }
 
-        async Task WaitResponse(Task<IDocument> task)
+        private async Task WaitResponse(Task<IDocument> task)
         {
             Document = await task.ConfigureAwait(false);
         }

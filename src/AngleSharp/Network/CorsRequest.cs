@@ -1,5 +1,8 @@
 ﻿namespace AngleSharp.Network
 {
+    using System;
+    using AngleSharp.Services;
+
     /// <summary>
     /// Represents the arguments to perform a fetch with CORS.
     /// </summary>
@@ -35,6 +38,15 @@
         /// Gets or sets the behavior in case of no CORS.
         /// </summary>
         public OriginBehavior Behavior
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the integrity provider, if any.
+        /// </summary>
+        public IIntegrityProvider Integrity
         {
             get;
             set;

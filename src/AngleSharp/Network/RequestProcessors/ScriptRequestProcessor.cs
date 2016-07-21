@@ -5,6 +5,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Services.Scripting;
+    using Services;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -126,7 +127,8 @@
                 Download = _loader.FetchWithCors(new CorsRequest(request)
                 {
                     Behavior = OriginBehavior.Taint,
-                    Setting = _script.CrossOrigin.ToEnum(CorsSetting.None)
+                    Setting = _script.CrossOrigin.ToEnum(CorsSetting.None),
+                    Integrity = _document.Options.GetProvider<IIntegrityProvider>()
                 });
                 return Download.Task;
             }
@@ -134,7 +136,7 @@
             return null;
         }
 
-        ScriptOptions CreateOptions()
+        private ScriptOptions CreateOptions()
         {
             return new ScriptOptions(_document)
             {
@@ -143,12 +145,12 @@
             };
         }
 
-        void FireLoadEvent()
+        private void FireLoadEvent()
         {
             _script.FireSimpleEvent(EventNames.Load);
         }
 
-        void FireAfterScriptExecuteEvent()
+        private void FireAfterScriptExecuteEvent()
         {
             _script.FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
         }

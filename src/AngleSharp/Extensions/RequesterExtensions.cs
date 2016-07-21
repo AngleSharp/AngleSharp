@@ -1,8 +1,11 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
+    using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Network.Default;
     using System;
+    using System.IO;
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
@@ -32,11 +35,11 @@
 
             if (request.Origin == url.Origin || url.Scheme == ProtocolNames.Data || url.Href == "about:blank")
             {
-                return loader.FetchWithCors(url, cors);
+                return loader.FetchFromSameOrigin(url, cors);
             }
             else if (setting == CorsSetting.Anonymous || setting == CorsSetting.UseCredentials)
             {
-                return loader.FetchWithCors(request, setting);
+                return loader.FetchFromDifferentOrigin(cors);
             }
             else if (setting == CorsSetting.None)
             {
@@ -50,7 +53,7 @@
 
         #region Fetching
 
-        private static IDownload FetchWithCors(this IResourceLoader loader, Url url, CorsRequest cors)
+        private static IDownload FetchFromSameOrigin(this IResourceLoader loader, Url url, CorsRequest cors)
         {
             var request = cors.Request;
             var download = loader.DownloadAsync(new ResourceRequest(request.Source, url)
@@ -67,23 +70,30 @@
 
                     if (request.Origin.Is(url.Origin))
                     {
-                        var newRequest = new ResourceRequest(request.Source, url)
-                        {
-                            IsCookieBlocked = request.IsCookieBlocked,
-                            IsSameOriginForced = request.IsSameOriginForced,
-                            Origin = request.Origin
-                        };
-                        return loader.FetchWithCors(new CorsRequest(newRequest)
-                        {
-                            Setting = cors.Setting,
-                            Behavior = cors.Behavior
-                        });
+                        return loader.FetchWithCors(cors.RedirectTo(url));
                     }
 
-                    return loader.FetchWithCors(url, cors);
+                    return loader.FetchFromSameOrigin(url, cors);
                 }
 
-                return download;
+                return cors.CheckIntegrity(download);
+            });
+        }
+
+        private static IDownload FetchFromDifferentOrigin(this IResourceLoader loader, CorsRequest cors)
+        {
+            var request = cors.Request;
+            request.IsCredentialOmitted = cors.IsAnonymous();
+            var download = loader.DownloadAsync(request);
+            return download.Wrap(response =>
+            {
+                if (response?.StatusCode != HttpStatusCode.OK)
+                {
+                    response?.Dispose();
+                    throw new DomException(DomError.Network);
+                }
+
+                return cors.CheckIntegrity(download);
             });
         }
 
@@ -95,30 +105,26 @@
             return loader.DownloadAsync(request);
         }
 
-        private static IDownload FetchWithCors(this IResourceLoader loader, ResourceRequest request, CorsSetting setting)
-        {
-            request.IsCredentialOmitted = setting == CorsSetting.Anonymous;
-            var download = loader.DownloadAsync(request);
-            return download.Wrap(response =>
-            {
-                if (response?.StatusCode == HttpStatusCode.OK)
-                {
-                    return download;
-                }
-
-                response?.Dispose();
-                throw new DomException(DomError.Network);
-            });
-        }
-
         #endregion
 
         #region Helpers
+
+        private static Boolean IsAnonymous(this CorsRequest cors)
+        {
+            return cors.Setting == CorsSetting.Anonymous;
+        }
 
         private static IDownload Wrap(this IDownload download, Func<IResponse, IDownload> callback)
         {
             var cts = new CancellationTokenSource();
             var task = download.Task.Wrap(callback);
+            return new Download(task, cts, download.Target, download.Originator);
+        }
+
+        private static IDownload Wrap(this IDownload download, IResponse response)
+        {
+            var cts = new CancellationTokenSource();
+            var task = Task.FromResult(response);
             return new Download(task, cts, download.Target, download.Originator);
         }
 
@@ -135,6 +141,53 @@
             return status == HttpStatusCode.Redirect || status == HttpStatusCode.RedirectKeepVerb ||
                    status == HttpStatusCode.RedirectMethod || status == HttpStatusCode.TemporaryRedirect ||
                    status == HttpStatusCode.MovedPermanently || status == HttpStatusCode.MultipleChoices;
+        }
+
+        private static CorsRequest RedirectTo(this CorsRequest cors, Url url)
+        {
+            var oldRequest = cors.Request;
+            var newRequest = new ResourceRequest(oldRequest.Source, url)
+            {
+                IsCookieBlocked = oldRequest.IsCookieBlocked,
+                IsSameOriginForced = oldRequest.IsSameOriginForced,
+                Origin = oldRequest.Origin
+            };
+            return new CorsRequest(newRequest)
+            {
+                Setting = cors.Setting,
+                Behavior = cors.Behavior,
+                Integrity = cors.Integrity
+            };
+        }
+
+        private static IDownload CheckIntegrity(this CorsRequest cors, IDownload download)
+        {
+            var response = download.Task.Result;
+            var value = cors.Request.Source?.GetAttribute(AttributeNames.Integrity);
+            var integrity = cors.Integrity;
+
+            if (!String.IsNullOrEmpty(value) && integrity != null && response != null)
+            {
+                var content = new MemoryStream();
+                response.Content.CopyTo(content);
+                content.Position = 0;
+
+                if (!integrity.IsSatisfied(content.ToArray(), value))
+                {
+                    response.Dispose();
+                    throw new DomException(DomError.Security);
+                }
+
+                return download.Wrap(new Response
+                {
+                    Address = response.Address,
+                    Content = content,
+                    Headers = response.Headers,
+                    StatusCode = response.StatusCode
+                });
+            }
+
+            return download;
         }
 
         #endregion
