@@ -68,12 +68,9 @@
                 {
                     url.Href = response.Headers.GetOrDefault(HeaderNames.Location, url.Href);
 
-                    if (request.Origin.Is(url.Origin))
-                    {
-                        return loader.FetchWithCors(cors.RedirectTo(url));
-                    }
-
-                    return loader.FetchFromSameOrigin(url, cors);
+                    return request.Origin.Is(url.Origin) ?
+                        loader.FetchWithCors(cors.RedirectTo(url)) :
+                        loader.FetchFromSameOrigin(url, cors);
                 }
 
                 return cors.CheckIntegrity(download);

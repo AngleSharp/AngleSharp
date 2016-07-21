@@ -4,9 +4,10 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Services;
     using AngleSharp.Services.Scripting;
-    using Services;
     using System;
+    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -81,7 +82,15 @@
 
             if (download != null)
             {
-                _response = await download.Task.ConfigureAwait(false);
+                try
+                {
+                    _response = await download.Task.ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                    FireErrorEvent();
+                }
             }
 
             if (_response != null)
@@ -148,6 +157,11 @@
         private void FireLoadEvent()
         {
             _script.FireSimpleEvent(EventNames.Load);
+        }
+
+        private void FireErrorEvent()
+        {
+            _script.FireSimpleEvent(EventNames.Error);
         }
 
         private void FireAfterScriptExecuteEvent()
