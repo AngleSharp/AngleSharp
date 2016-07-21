@@ -99,9 +99,7 @@
             var length = Length;
 
             if (offset > length)
-            {
                 throw new DomException(DomError.IndexSizeError);
-            }
 
             var count = length - offset;
             var newData = Substring(offset, count);

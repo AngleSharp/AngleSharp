@@ -369,5 +369,77 @@
             Assert.AreEqual(document.QuerySelector("iframe"), downloads[4].Originator);
             Assert.AreEqual(document.QuerySelectorAll("script").Skip(1).First(), downloads[5].Originator);
         }
+
+        [Test]
+        public async Task JavaScriptWithIntegrityAndCorsShouldBeCheckedButNotParsedIfDeclined()
+        {
+            var hasBeenChecked = false;
+            var hasBeenParsed = false;
+            var scripting = new CallbackScriptEngine(_ => 
+            {
+                hasBeenParsed = true;
+            }, Network.MimeTypeNames.DefaultJavaScript);
+            var provider = new MockIntegrityProvider((raw, integrity) =>
+            {
+                hasBeenChecked = true;
+                return false;
+            });
+            var config = Configuration.Default.WithScripts(scripting).With(provider).WithMockRequester();
+            var content = @"<body>
+<script src=""https://code.jquery.com/jquery-2.2.4.js"" integrity=""sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="" crossorigin=""anonymous""></script>
+</body>";
+            var document = await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
+
+            Assert.IsTrue(hasBeenChecked);
+            Assert.IsFalse(hasBeenParsed);
+        }
+
+        [Test]
+        public async Task JavaScriptWithIntegrityAndCorsShouldBeCheckedAndParsed()
+        {
+            var hasBeenChecked = false;
+            var hasBeenParsed = false;
+            var scripting = new CallbackScriptEngine(_ =>
+            {
+                hasBeenParsed = true;
+            }, Network.MimeTypeNames.DefaultJavaScript);
+            var provider = new MockIntegrityProvider((raw, integrity) =>
+            {
+                hasBeenChecked = true;
+                return true;
+            });
+            var config = Configuration.Default.WithScripts(scripting).With(provider).WithMockRequester();
+            var content = @"<body>
+<script src=""https://code.jquery.com/jquery-2.2.4.js"" integrity=""sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="" crossorigin=""anonymous""></script>
+</body>";
+            var document = await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
+
+            Assert.IsTrue(hasBeenChecked);
+            Assert.IsTrue(hasBeenParsed);
+        }
+
+        [Test]
+        public async Task JavaScriptWithIntegrityButNoCorsShouldNotBeChecked()
+        {
+            var hasBeenChecked = false;
+            var hasBeenParsed = false;
+            var scripting = new CallbackScriptEngine(_ =>
+            {
+                hasBeenParsed = true;
+            }, Network.MimeTypeNames.DefaultJavaScript);
+            var provider = new MockIntegrityProvider((raw, integrity) =>
+            {
+                hasBeenChecked = true;
+                return false;
+            });
+            var config = Configuration.Default.WithScripts(scripting).With(provider).WithMockRequester();
+            var content = @"<body>
+<script src=""https://code.jquery.com/jquery-2.2.4.js"" integrity=""sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=""></script>
+</body>";
+            var document = await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
+
+            Assert.IsFalse(hasBeenChecked);
+            Assert.IsTrue(hasBeenParsed);
+        }
     }
 }

@@ -2315,9 +2315,7 @@
         public void Update(String value)
         {
             if (IsReadOnly)
-            {
                 throw new DomException(DomError.NoModificationAllowed);
-            }
 
             Clear();
 
@@ -2505,39 +2503,34 @@
 
         public void SetPropertyPriority(String propertyName, String priority)
         {
-            if (!IsReadOnly)
+            if (IsReadOnly)
+                throw new DomException(DomError.NoModificationAllowed);
+
+            if (String.IsNullOrEmpty(priority) || priority.Isi(Keywords.Important))
             {
-                if (String.IsNullOrEmpty(priority) || priority.Isi(Keywords.Important))
+                var important = !String.IsNullOrEmpty(priority);
+                var mappings = IsStrictMode && Factory.Properties.IsShorthand(propertyName) ?
+                    Factory.Properties.GetLonghands(propertyName) :
+                    Enumerable.Repeat(propertyName, 1);
+
+                foreach (var mapping in mappings)
                 {
-                    var important = !String.IsNullOrEmpty(priority);
-                    var mappings = IsStrictMode && Factory.Properties.IsShorthand(propertyName) ?
-                        Factory.Properties.GetLonghands(propertyName) :
-                        Enumerable.Repeat(propertyName, 1);
+                    var property = GetProperty(mapping);
 
-                    foreach (var mapping in mappings)
+                    if (property != null)
                     {
-                        var property = GetProperty(mapping);
-
-                        if (property != null)
-                        {
-                            property.IsImportant = important;
-                        }
+                        property.IsImportant = important;
                     }
                 }
-            }
-            else
-            {
-                throw new DomException(DomError.NoModificationAllowed);
             }
         }
 
         public void SetProperty(String propertyName, String propertyValue, String priority = null)
         {
             if (IsReadOnly)
-            {
                 throw new DomException(DomError.NoModificationAllowed);
-            }
-            else if (!String.IsNullOrEmpty(propertyValue))
+            
+            if (!String.IsNullOrEmpty(propertyValue))
             {
                 if (priority == null || priority.Isi(Keywords.Important))
                 {

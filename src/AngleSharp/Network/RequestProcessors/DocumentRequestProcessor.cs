@@ -6,13 +6,12 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    class DocumentRequestProcessor : BaseRequestProcessor
+    sealed class DocumentRequestProcessor : BaseRequestProcessor
     {
         #region Fields
 
         readonly IDocument _parentDocument;
         readonly IConfiguration _configuration;
-        IDocument _childDocument;
 
         #endregion
 
@@ -39,9 +38,10 @@
 
         #region Properties
 
-        public IDocument Document
+        public IDocument ChildDocument
         {
-            get { return _childDocument; }
+            get;
+            private set;
         }
 
         #endregion
@@ -53,7 +53,7 @@
             var context = new BrowsingContext(_parentDocument.Context, Sandboxes.None);
             var options = new CreateDocumentOptions(response, _configuration, _parentDocument);
             var factory = _configuration.GetFactory<IDocumentFactory>();
-            _childDocument = await factory.CreateAsync(context, options, CancellationToken.None).ConfigureAwait(false);
+            ChildDocument = await factory.CreateAsync(context, options, CancellationToken.None).ConfigureAwait(false);
         }
 
         #endregion

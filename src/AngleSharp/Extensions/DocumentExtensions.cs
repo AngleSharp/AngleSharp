@@ -44,9 +44,7 @@
             var adoptedNode = node as Node;
 
             if (adoptedNode == null)
-            {
                 throw new DomException(DomError.NotSupported);
-            }
 
             adoptedNode.Parent?.RemoveChild(adoptedNode, false);
             adoptedNode.Owner = document as Document;
@@ -71,70 +69,66 @@
         /// <param name="record">The record to enqueue.</param>
         public static void QueueMutation(this Document document, MutationRecord record)
         {
-            if (document == null)
+            if (document != null)
             {
-                return;
-            }
+                var observers = document.Mutations.Observers.ToArray();
 
-            var observers = document.Mutations.Observers.ToArray();
-
-            if (observers.Length == 0)
-            {
-                return;
-            }
-
-            var nodes = record.Target.GetInclusiveAncestors();
-
-            for (var i = 0; i < observers.Length; i++)
-            {
-                var observer = observers[i];
-                var clearPreviousValue = default(bool?);
-
-                foreach (var node in nodes)
+                if (observers.Length > 0)
                 {
-                    var options = observer.ResolveOptions(node);
+                    var nodes = record.Target.GetInclusiveAncestors();
 
-                    if (options.IsInvalid)
+                    for (var i = 0; i < observers.Length; i++)
                     {
-                        continue;
-                    }
-                    else if (node != record.Target && !options.IsObservingSubtree)
-                    {
-                        continue;
-                    }
-                    else if (record.IsAttribute && !options.IsObservingAttributes)
-                    {
-                        continue;
-                    }
-                    else if (record.IsAttribute && options.AttributeFilters != null && (!options.AttributeFilters.Contains(record.AttributeName) || record.AttributeNamespace != null))
-                    {
-                        continue;
-                    }
-                    else if (record.IsCharacterData && !options.IsObservingCharacterData)
-                    {
-                        continue;
-                    }
-                    else if (record.IsChildList && !options.IsObservingChildNodes)
-                    {
-                        continue;
+                        var observer = observers[i];
+                        var clearPreviousValue = default(bool?);
+
+                        foreach (var node in nodes)
+                        {
+                            var options = observer.ResolveOptions(node);
+
+                            if (options.IsInvalid)
+                            {
+                                continue;
+                            }
+                            else if (node != record.Target && !options.IsObservingSubtree)
+                            {
+                                continue;
+                            }
+                            else if (record.IsAttribute && !options.IsObservingAttributes)
+                            {
+                                continue;
+                            }
+                            else if (record.IsAttribute && options.AttributeFilters != null && (!options.AttributeFilters.Contains(record.AttributeName) || record.AttributeNamespace != null))
+                            {
+                                continue;
+                            }
+                            else if (record.IsCharacterData && !options.IsObservingCharacterData)
+                            {
+                                continue;
+                            }
+                            else if (record.IsChildList && !options.IsObservingChildNodes)
+                            {
+                                continue;
+                            }
+
+                            if (!clearPreviousValue.HasValue || clearPreviousValue.Value)
+                            {
+                                clearPreviousValue = (record.IsAttribute && !options.IsExaminingOldAttributeValue) ||
+                                    (record.IsCharacterData && !options.IsExaminingOldCharacterData);
+                            }
+                        }
+
+                        if (clearPreviousValue == null)
+                        {
+                            continue;
+                        }
+
+                        observer.Enqueue(record.Copy(clearPreviousValue.Value));
                     }
 
-                    if (!clearPreviousValue.HasValue || clearPreviousValue.Value)
-                    {
-                        clearPreviousValue = (record.IsAttribute && !options.IsExaminingOldAttributeValue) ||
-                            (record.IsCharacterData && !options.IsExaminingOldCharacterData);
-                    }
+                    document.PerformMicrotaskCheckpoint();
                 }
-
-                if (clearPreviousValue == null)
-                {
-                    continue;
-                }
-
-                observer.Enqueue(record.Copy(clearPreviousValue.Value));
             }
-
-            document.PerformMicrotaskCheckpoint();
         }
 
         /// <summary>

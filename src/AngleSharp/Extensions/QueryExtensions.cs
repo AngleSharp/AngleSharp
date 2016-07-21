@@ -291,12 +291,10 @@
 
         #region Helpers
 
-        static void Validate(ISelector selector)
+        private static void Validate(ISelector selector)
         {
             if (selector == null || selector is UnknownSelector)
-            {
                 throw new DomException(DomError.Syntax);
-            }
         }
 
         #endregion

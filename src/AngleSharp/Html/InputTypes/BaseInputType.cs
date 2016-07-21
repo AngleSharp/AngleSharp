@@ -18,9 +18,9 @@
         protected static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         protected static readonly Regex Number = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$");
 
-        readonly IHtmlInputElement _input;
-        readonly Boolean _validate;
-        readonly String _name;
+        private readonly IHtmlInputElement _input;
+        private readonly Boolean _validate;
+        private readonly String _name;
 
         #endregion
 
@@ -130,7 +130,7 @@
             return num.Value * GetStepScaleFactor();
         }
 
-        Double GetStepBase()
+        private Double GetStepBase()
         {
             var num = ConvertToNumber(_input.Minimum);
 

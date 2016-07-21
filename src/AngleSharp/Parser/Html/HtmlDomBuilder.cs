@@ -22,23 +22,23 @@
     {
         #region Fields
 
-        readonly HtmlTokenizer _tokenizer;
-        readonly HtmlDocument _document;
-        readonly List<Element> _openElements;
-        readonly List<Element> _formattingElements;
-        readonly Stack<HtmlTreeMode> _templateModes;
-        readonly IHtmlElementFactory _htmlFactory;
-        readonly IMathElementFactory _mathFactory;
-        readonly ISvgElementFactory _svgFactory;
+        private readonly HtmlTokenizer _tokenizer;
+        private readonly HtmlDocument _document;
+        private readonly List<Element> _openElements;
+        private readonly List<Element> _formattingElements;
+        private readonly Stack<HtmlTreeMode> _templateModes;
+        private readonly IHtmlElementFactory _htmlFactory;
+        private readonly IMathElementFactory _mathFactory;
+        private readonly ISvgElementFactory _svgFactory;
 
-        HtmlFormElement _currentFormElement;
-        HtmlTreeMode _currentMode;
-        HtmlTreeMode _previousMode;
-        HtmlParserOptions _options;
-        Element _fragmentContext;
-        Boolean _foster;
-        Boolean _frameset;
-        Task _waiting;
+        private HtmlFormElement _currentFormElement;
+        private HtmlTreeMode _currentMode;
+        private HtmlTreeMode _previousMode;
+        private HtmlParserOptions _options;
+        private Element _fragmentContext;
+        private Boolean _foster;
+        private Boolean _frameset;
+        private Task _waiting;
 
         #endregion
 
@@ -51,7 +51,7 @@
         /// <param name="document">
         /// The document instance to be constructed.
         /// </param>
-        internal HtmlDomBuilder(HtmlDocument document)
+        public HtmlDomBuilder(HtmlDocument document)
         {
             var options = document.Options;
             var context = document.Context;
@@ -167,9 +167,7 @@
         public HtmlDocument ParseFragment(HtmlParserOptions options, Element context)
         {
             if (context == null)
-            {
                 throw new ArgumentNullException(nameof(context));
-            }
 
             _fragmentContext = context;
             var tagName = context.LocalName;
@@ -226,7 +224,7 @@
         /// <summary>
         /// Restarts the parser by resetting the internal state.
         /// </summary>
-        void Restart()
+        private void Restart()
         {
             _currentMode = HtmlTreeMode.Initial;
             _tokenizer.State = HtmlParseMode.PCData;
@@ -242,7 +240,7 @@
         /// algorithm specified in 8.2.3.1 The insertion mode.
         /// http://www.w3.org/html/wg/drafts/html/master/syntax.html#the-insertion-mode
         /// </summary>
-        void Reset()
+        private void Reset()
         {
             for (var i = _openElements.Count - 1; i >= 0; i--)
             {
@@ -268,7 +266,7 @@
         /// Consumes a token and processes it.
         /// </summary>
         /// <param name="token">The token to consume.</param>
-        void Consume(HtmlToken token)
+        private void Consume(HtmlToken token)
         {
             var node = AdjustedCurrentNode;
 
@@ -293,7 +291,7 @@
         /// Takes the method corresponding to the current insertation mode.
         /// </summary>
         /// <param name="token">The token to insert / use.</param>
-        void Home(HtmlToken token)
+        private void Home(HtmlToken token)
         {
             switch (_currentMode)
             {
@@ -391,7 +389,7 @@
         /// See 8.2.5.4.1 The "initial" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void Initial(HtmlToken token)
+        private void Initial(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -446,7 +444,7 @@
         /// See 8.2.5.4.2 The "before html" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void BeforeHtml(HtmlToken token)
+        private void BeforeHtml(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -502,7 +500,7 @@
         /// See 8.2.5.4.3 The "before head" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void BeforeHead(HtmlToken token)
+        private void BeforeHead(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -560,12 +558,12 @@
             BeforeHead(HtmlTagToken.Open(TagNames.Head));
             InHead(token);
         }
-        
+
         /// <summary>
         /// See 8.2.5.4.4 The "in head" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InHead(HtmlToken token)
+        private void InHead(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -720,7 +718,7 @@
         /// See 8.2.5.4.5 The "in head noscript" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InHeadNoScript(HtmlToken token)
+        private void InHeadNoScript(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -799,7 +797,7 @@
         /// See 8.2.5.4.6 The "after head" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void AfterHead(HtmlToken token)
+        private void AfterHead(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -879,7 +877,7 @@
             Home(token);
         }
 
-        void InBodyStartTag(HtmlTagToken tag)
+        private void InBodyStartTag(HtmlTagToken tag)
         {
             var tagName = tag.Name;
 
@@ -1309,7 +1307,7 @@
             }
         }
 
-        void InBodyEndTag(HtmlTagToken tag)
+        private void InBodyEndTag(HtmlTagToken tag)
         {
             var tagName = tag.Name;
 
@@ -1461,7 +1459,7 @@
         /// See 8.2.5.4.7 The "in body" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InBody(HtmlToken token)
+        private void InBody(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -1514,7 +1512,7 @@
         /// See 8.2.5.4.8 The "text" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void Text(HtmlToken token)
+        private void Text(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -1552,7 +1550,7 @@
         /// See 8.2.5.4.9 The "in table" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InTable(HtmlToken token)
+        private void InTable(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -1696,7 +1694,7 @@
         /// See 8.2.5.4.10 The "in table text" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InTableText(HtmlToken token)
+        private void InTableText(HtmlToken token)
         {
             if (token.HasContent)
             {
@@ -1713,7 +1711,7 @@
         /// See 8.2.5.4.11 The "in caption" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InCaption(HtmlToken token)
+        private void InCaption(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -1774,7 +1772,7 @@
         /// See 8.2.5.4.12 The "in column group" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InColumnGroup(HtmlToken token)
+        private void InColumnGroup(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -1862,7 +1860,7 @@
         /// See 8.2.5.4.13 The "in table body" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InTableBody(HtmlToken token)
+        private void InTableBody(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -1933,7 +1931,7 @@
         /// See 8.2.5.4.14 The "in row" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InRow(HtmlToken token)
+        private void InRow(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -2007,7 +2005,7 @@
         /// See 8.2.5.4.15 The "in cell" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InCell(HtmlToken token)
+        private void InCell(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -2072,7 +2070,7 @@
         /// See 8.2.5.4.16 The "in select" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InSelect(HtmlToken token)
+        private void InSelect(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -2196,7 +2194,7 @@
         /// See 8.2.5.4.17 The "in select in table" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InSelectInTable(HtmlToken token)
+        private void InSelectInTable(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -2242,7 +2240,7 @@
         /// See 8.2.5.4.18 The "in template" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InTemplate(HtmlToken token)
+        private void InTemplate(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -2315,7 +2313,7 @@
         /// See 8.2.5.4.19 The "after body" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void AfterBody(HtmlToken token)
+        private void AfterBody(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -2386,7 +2384,7 @@
         /// See 8.2.5.4.20 The "in frameset" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void InFrameset(HtmlToken token)
+        private void InFrameset(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -2482,7 +2480,7 @@
         /// See 8.2.5.4.21 The "after frameset" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void AfterFrameset(HtmlToken token)
+        private void AfterFrameset(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -2551,7 +2549,7 @@
         /// See 8.2.5.4.22 The "after after body" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void AfterAfterBody(HtmlToken token)
+        private void AfterAfterBody(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -2604,7 +2602,7 @@
         /// See 8.2.5.4.23 The "after after frameset" insertion mode.
         /// </summary>
         /// <param name="token">The passed token.</param>
-        void AfterAfterFrameset(HtmlToken token)
+        private void AfterAfterFrameset(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -2670,7 +2668,7 @@
         /// </summary>
         /// <param name="token">The token to insert.</param>
         /// <param name="mode">The mode to push.</param>
-        void TemplateStep(HtmlToken token, HtmlTreeMode mode)
+        private void TemplateStep(HtmlToken token, HtmlTreeMode mode)
         {
             _templateModes.Pop();
             _templateModes.Push(mode);
@@ -2681,7 +2679,7 @@
         /// <summary>
         /// Closes the template element.
         /// </summary>
-        void CloseTemplate()
+        private void CloseTemplate()
         {
             while (_openElements.Count > 0)
             {
@@ -2704,7 +2702,7 @@
         /// Closes the table if the section is in table scope.
         /// </summary>
         /// <param name="tag">The tag to insert (closes table).</param>
-        void InTableBodyCloseTable(HtmlTagToken tag)
+        private void InTableBodyCloseTable(HtmlTagToken tag)
         {
             if (IsInTableScope(TagNames.AllTableSections))
             {
@@ -2723,7 +2721,7 @@
         /// Acts if a option end tag had been seen in the InSelect state.
         /// </summary>
         /// <param name="token">The actual tag token.</param>
-        void InSelectEndTagOption(HtmlToken token)
+        private void InSelectEndTagOption(HtmlToken token)
         {
             if (CurrentNode.LocalName.Is(TagNames.Option))
             {
@@ -2739,7 +2737,7 @@
         /// Acts if a optgroup end tag had been seen in the InSelect state.
         /// </summary>
         /// <param name="token">The actual tag token.</param>
-        void InSelectEndTagOptgroup(HtmlToken token)
+        private void InSelectEndTagOptgroup(HtmlToken token)
         {
             if (_openElements.Count > 1 &&
                 _openElements[_openElements.Count - 1].LocalName.Is(TagNames.Option) &&
@@ -2763,7 +2761,7 @@
         /// </summary>
         /// <param name="token">The actual tag token.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        Boolean InColumnGroupEndTagColgroup(HtmlToken token)
+        private Boolean InColumnGroupEndTagColgroup(HtmlToken token)
         {
             if (CurrentNode.LocalName.Is(TagNames.Colgroup))
             {
@@ -2782,7 +2780,7 @@
         /// Act as if a body start tag has been found in the AfterHead state.
         /// </summary>
         /// <param name="token">The actual tag token.</param>
-        void AfterHeadStartTagBody(HtmlTagToken token)
+        private void AfterHeadStartTagBody(HtmlTagToken token)
         {
             AddElement(new HtmlBodyElement(_document), token);
             _frameset = false;
@@ -2793,7 +2791,7 @@
         /// Follows the generic rawtext parsing algorithm.
         /// </summary>
         /// <param name="tag">The given tag token.</param>
-        void RawtextAlgorithm(HtmlTagToken tag)
+        private void RawtextAlgorithm(HtmlTagToken tag)
         {
             AddElement(tag);
             _previousMode = _currentMode;
@@ -2805,7 +2803,7 @@
         /// Follows the generic RCData parsing algorithm.
         /// </summary>
         /// <param name="tag">The given tag token.</param>
-        void RCDataAlgorithm(HtmlTagToken tag)
+        private void RCDataAlgorithm(HtmlTagToken tag)
         {
             AddElement(tag);
             _previousMode = _currentMode;
@@ -2817,7 +2815,7 @@
         /// Acts if a li tag in the InBody state has been found.
         /// </summary>
         /// <param name="tag">The actual tag given.</param>
-        void InBodyStartTagListItem(HtmlTagToken tag)
+        private void InBodyStartTagListItem(HtmlTagToken tag)
         {
             var index = _openElements.Count - 1;
             var node = _openElements[index];
@@ -2851,7 +2849,7 @@
         /// Acts if a dd or dt tag in the InBody state has been found.
         /// </summary>
         /// <param name="tag">The actual tag given.</param>
-        void InBodyStartTagDefinitionItem(HtmlTagToken tag)
+        private void InBodyStartTagDefinitionItem(HtmlTagToken tag)
         {
             _frameset = false;
             var index = _openElements.Count - 1;
@@ -2886,7 +2884,7 @@
         /// </summary>
         /// <param name="tag">The actual tag given.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        Boolean InBodyEndTagBlock(HtmlTagToken tag)
+        private Boolean InBodyEndTagBlock(HtmlTagToken tag)
         {
             if (IsInScope(tag.Name))
             {
@@ -2912,7 +2910,7 @@
         /// Acts if a nobr tag had been seen in the InBody state.
         /// </summary>
         /// <param name="tag">The actual tag given.</param>
-        void HeisenbergAlgorithm(HtmlTagToken tag)
+        private void HeisenbergAlgorithm(HtmlTagToken tag)
         {
             var outer = 0;
             var inner = 0;
@@ -3070,7 +3068,7 @@
         /// </summary>
         /// <param name="element">The old element (source).</param>
         /// <returns>The new element (target).</returns>
-        Element CopyElement(Element element)
+        private Element CopyElement(Element element)
         {
             return (Element)element.Clone(false);
         }
@@ -3079,7 +3077,7 @@
         /// Performs the InBody state with foster parenting.
         /// </summary>
         /// <param name="token">The given token.</param>
-        void InBodyWithFoster(HtmlToken token)
+        private void InBodyWithFoster(HtmlToken token)
         {
             _foster = true;
             InBody(token);
@@ -3090,7 +3088,7 @@
         /// Act as if an anything else tag has been found in the InBody state.
         /// </summary>
         /// <param name="tag">The actual tag found.</param>
-        void InBodyEndTagAnythingElse(HtmlTagToken tag)
+        private void InBodyEndTagAnythingElse(HtmlTagToken tag)
         {
             var index = _openElements.Count - 1;
             var node = CurrentNode;
@@ -3124,7 +3122,7 @@
         /// </summary>
         /// <param name="token">The actual tag token.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        Boolean InBodyEndTagBody(HtmlToken token)
+        private Boolean InBodyEndTagBody(HtmlToken token)
         {
             if (IsInScope(TagNames.Body))
             {
@@ -3143,7 +3141,7 @@
         /// Act as if an br start tag has been found in the InBody state.
         /// </summary>
         /// <param name="tag">The actual tag found.</param>
-        void InBodyStartTagBreakrow(HtmlTagToken tag)
+        private void InBodyStartTagBreakrow(HtmlTagToken tag)
         {
             ReconstructFormatting();
             AddElement(tag, acknowledgeSelfClosing: true);
@@ -3156,7 +3154,7 @@
         /// </summary>
         /// <param name="token">The actual tag token.</param>
         /// <returns>True if the token was found, otherwise false.</returns>
-        Boolean InBodyEndTagParagraph(HtmlToken token)
+        private Boolean InBodyEndTagParagraph(HtmlToken token)
         {
             if (IsInButtonScope())
             {
@@ -3185,7 +3183,7 @@
         /// </summary>
         /// <param name="token">The actual tag token.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        Boolean InTableEndTagTable(HtmlToken token)
+        private Boolean InTableEndTagTable(HtmlToken token)
         {
             if (IsInTableScope(TagNames.Table))
             {
@@ -3206,7 +3204,7 @@
         /// </summary>
         /// <param name="token">The actual tag token.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        Boolean InRowEndTagTablerow(HtmlToken token)
+        private Boolean InRowEndTagTablerow(HtmlToken token)
         {
             if (IsInTableScope(TagNames.Tr))
             {
@@ -3226,7 +3224,7 @@
         /// Act as if an select end tag has been found in the InSelect state.
         /// </summary>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        void InSelectEndTagSelect()
+        private void InSelectEndTagSelect()
         {
             ClearStackBackTo(TagNames.Select);
             CloseCurrentNode();
@@ -3238,7 +3236,7 @@
         /// </summary>
         /// <param name="token">The actual tag token.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        Boolean InCaptionEndTagCaption(HtmlToken token)
+        private Boolean InCaptionEndTagCaption(HtmlToken token)
         {
             if (IsInTableScope(TagNames.Caption))
             {
@@ -3267,7 +3265,7 @@
         /// </summary>
         /// <param name="token">The actual tag token.</param>
         /// <returns>True if the token was not ignored, otherwise false.</returns>
-        Boolean InCellEndTagCell(HtmlToken token)
+        private Boolean InCellEndTagCell(HtmlToken token)
         {
             if (IsInTableScope(TagNames.AllTableCells))
             {
@@ -3299,7 +3297,7 @@
         /// 8.2.5.5 The rules for parsing tokens in foreign content
         /// </summary>
         /// <param name="token">The token to examine.</param>
-        void Foreign(HtmlToken token)
+        private void Foreign(HtmlToken token)
         {
             switch (token.Type)
             {
@@ -3391,7 +3389,7 @@
         /// Processes a special start tag token.
         /// </summary>
         /// <param name="tag">The tag token to process.</param>
-        void ForeignSpecialTag(HtmlTagToken tag)
+        private void ForeignSpecialTag(HtmlTagToken tag)
         {
             var node = CreateForeignElementFrom(tag);
 
@@ -3422,7 +3420,7 @@
         /// </summary>
         /// <param name="tag">The tag of the foreign element.</param>
         /// <returns>The element or NULL if it is no MathML or SVG element.</returns>
-        Element CreateForeignElementFrom(HtmlTagToken tag)
+        private Element CreateForeignElementFrom(HtmlTagToken tag)
         {
             if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.MathMember))
             {
@@ -3444,7 +3442,7 @@
         /// Processes a normal start tag token.
         /// </summary>
         /// <param name="tag">The token to process.</param>
-        void ForeignNormalTag(HtmlTagToken tag)
+        private void ForeignNormalTag(HtmlTagToken tag)
         {
             RaiseErrorOccurred(HtmlParseError.TagCannotStartHere, tag);
 
@@ -3488,16 +3486,20 @@
         /// </summary>
         /// <param name="tagName">The tag name to check.</param>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        Boolean IsInScope(String tagName)
+        private Boolean IsInScope(String tagName)
         {
-            for (int i = _openElements.Count - 1; i >= 0; i--)
+            for (var i = _openElements.Count - 1; i >= 0; i--)
             {
                 var node = _openElements[i];
 
                 if (node.LocalName.Is(tagName))
+                {
                     return true;
+                }
                 else if (node.Flags.HasFlag(NodeFlags.Scoped))
+                {
                     return false;
+                }
             }
 
             return false;
@@ -3507,16 +3509,20 @@
         /// Determines if the given type is in the global scope.
         /// </summary>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        Boolean IsInScope(HashSet<String> tags)
+        private Boolean IsInScope(HashSet<String> tags)
         {
-            for (int i = _openElements.Count - 1; i >= 0; i--)
+            for (var i = _openElements.Count - 1; i >= 0; i--)
             {
                 var node = _openElements[i];
 
                 if (tags.Contains(node.LocalName))
+                {
                     return true;
+                }
                 else if (node.Flags.HasFlag(NodeFlags.Scoped))
+                {
                     return false;
+                }
             }
 
             return false;
@@ -3526,16 +3532,20 @@
         /// Determines if the given tag name is in the list scope.
         /// </summary>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        Boolean IsInListItemScope()
+        private Boolean IsInListItemScope()
         {
-            for (int i = _openElements.Count - 1; i >= 0; i--)
+            for (var i = _openElements.Count - 1; i >= 0; i--)
             {
                 var node = _openElements[i];
 
                 if (node.LocalName.Is(TagNames.Li))
+                {
                     return true;
+                }
                 else if (node.Flags.HasFlag(NodeFlags.HtmlListScoped))
+                {
                     return false;
+                }
             }
 
             return false;
@@ -3545,16 +3555,20 @@
         /// Determines if a paragraph is in the button scope.
         /// </summary>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        Boolean IsInButtonScope()
+        private Boolean IsInButtonScope()
         {
-            for (int i = _openElements.Count - 1; i >= 0; i--)
+            for (var i = _openElements.Count - 1; i >= 0; i--)
             {
                 var node = _openElements[i];
 
                 if (node.LocalName.Is(TagNames.P))
+                {
                     return true;
+                }
                 else if (node.Flags.HasFlag(NodeFlags.Scoped) || node.LocalName.Is(TagNames.Button))
+                {
                     return false;
+                }
             }
 
             return false;
@@ -3564,16 +3578,20 @@
         /// Determines if the given type is in the table scope.
         /// </summary>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        Boolean IsInTableScope(HashSet<String> tags)
+        private Boolean IsInTableScope(HashSet<String> tags)
         {
-            for (int i = _openElements.Count - 1; i >= 0; i--)
+            for (var i = _openElements.Count - 1; i >= 0; i--)
             {
                 var node = _openElements[i];
 
                 if (tags.Contains(node.LocalName))
+                {
                     return true;
+                }
                 else if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
+                {
                     return false;
+                }
             }
 
             return false;
@@ -3584,16 +3602,20 @@
         /// </summary>
         /// <param name="tagName">The tag name to check.</param>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        Boolean IsInTableScope(String tagName)
+        private Boolean IsInTableScope(String tagName)
         {
-            for (int i = _openElements.Count - 1; i >= 0; i--)
+            for (var i = _openElements.Count - 1; i >= 0; i--)
             {
                 var node = _openElements[i];
 
                 if (node.LocalName.Is(tagName))
+                {
                     return true;
+                }
                 else if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
+                {
                     return false;
+                }
             }
 
             return false;
@@ -3604,16 +3626,20 @@
         /// </summary>
         /// <param name="tagName">The tag name to check.</param>
         /// <returns>True if it is in scope, otherwise false.</returns>
-        Boolean IsInSelectScope(String tagName)
+        private Boolean IsInSelectScope(String tagName)
         {
-            for (int i = _openElements.Count - 1; i >= 0; i--)
+            for (var i = _openElements.Count - 1; i >= 0; i--)
             {
                 var node = _openElements[i];
 
                 if (node.LocalName.Is(tagName))
+                {
                     return true;
+                }
                 else if (!node.Flags.HasFlag(NodeFlags.HtmlSelectScoped))
+                {
                     return false;
+                }
             }
 
             return false;
@@ -3626,7 +3652,7 @@
         /// <summary>
         /// Runs a script given by the current node.
         /// </summary>
-        void HandleScript(HtmlScriptElement script)
+        private void HandleScript(HtmlScriptElement script)
         {
             if (script != null)
             {
@@ -3655,7 +3681,7 @@
         /// Runs the current script element, if there is one.
         /// </summary>
         /// <returns>The task waiting for the document to be ready.</returns>
-        async Task RunScript(HtmlScriptElement script)
+        private async Task RunScript(HtmlScriptElement script)
         {
             await _document.WaitForReadyAsync().ConfigureAwait(false);
             await script.RunAsync(CancellationToken.None).ConfigureAwait(false);
@@ -3668,7 +3694,7 @@
         /// element, a tr element, the body element, or the html element, then
         /// this is a parse error.
         /// </summary>
-        void CheckBodyOnClosing(HtmlToken token)
+        private void CheckBodyOnClosing(HtmlToken token)
         {
             for (var i = 0; i < _openElements.Count; i++)
             {
@@ -3685,7 +3711,7 @@
         /// </summary>
         /// <param name="tagName">The name of the tag to check for.</param>
         /// <returns>True if such a tag is open, otherwise false.</returns>
-        Boolean TagCurrentlyOpen(String tagName)
+        private Boolean TagCurrentlyOpen(String tagName)
         {
             for (var i = 0; i < _openElements.Count; i++)
             {
@@ -3701,7 +3727,7 @@
         /// <summary>
         /// Gets the next token and removes the starting newline, if it has one.
         /// </summary>
-        void PreventNewLine()
+        private void PreventNewLine()
         {
             var temp = _tokenizer.Get();
 
@@ -3716,7 +3742,7 @@
         /// <summary>
         /// 8.2.6 The end.
         /// </summary>
-        void End()
+        private void End()
         {
             while (_openElements.Count != 0)
             {
@@ -3737,7 +3763,7 @@
         /// Adds the root element (html) to the document.
         /// </summary>
         /// <param name="tag">The token which started this process.</param>
-        void AddRoot(HtmlTagToken tag)
+        private void AddRoot(HtmlTagToken tag)
         {
             var element = new HtmlHtmlElement(_document);
             _document.AddNode(element);
@@ -3747,13 +3773,13 @@
             _document.ApplyManifest();
         }
 
-        void CloseNode(Element element)
+        private void CloseNode(Element element)
         {
             element.SetupElement();
             _openElements.Remove(element);
         }
 
-        void CloseNodesFrom(Int32 index)
+        private void CloseNodesFrom(Int32 index)
         {
             for (var i = _openElements.Count - 1; i > index; i--)
             {
@@ -3767,7 +3793,7 @@
         /// <summary>
         /// Pops the last node from the stack of open nodes.
         /// </summary>
-        void CloseCurrentNode()
+        private void CloseCurrentNode()
         {
             if (_openElements.Count > 0)
             {
@@ -3786,7 +3812,7 @@
         /// <param name="element">The node which will be added to the list.</param>
         /// <param name="tag">The associated tag token.</param>
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
-        void SetupElement(Element element, HtmlTagToken tag, Boolean acknowledgeSelfClosing)
+        private void SetupElement(Element element, HtmlTagToken tag, Boolean acknowledgeSelfClosing)
         {
             if (tag.IsSelfClosing && !acknowledgeSelfClosing)
             {
@@ -3803,7 +3829,7 @@
         /// </summary>
         /// <param name="tag">The associated tag token.</param>
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
-        Element AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
+        private Element AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
             var element = _htmlFactory.Create(_document, tag.Name);
             SetupElement(element, tag, acknowledgeSelfClosing);
@@ -3819,7 +3845,7 @@
         /// <param name="element">The node which will be added to the list.</param>
         /// <param name="tag">The associated tag token.</param>
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
-        void AddElement(Element element, HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
+        private void AddElement(Element element, HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);
@@ -3829,7 +3855,7 @@
         /// Appends a configured node to the current node.
         /// </summary>
         /// <param name="element">The node which will be added to the list.</param>
-        void AddElement(Element element)
+        private void AddElement(Element element)
         {
             var node = CurrentNode;
 
@@ -3851,7 +3877,7 @@
         /// http://www.w3.org/html/wg/drafts/html/master/syntax.html#foster-parent
         /// </summary>
         /// <param name="element">The node which will be added to the list.</param>
-        void AddElementWithFoster(Element element)
+        private void AddElementWithFoster(Element element)
         {
             var table = false;
             var index = _openElements.Count;
@@ -3893,7 +3919,7 @@
         /// Inserts the given characters into the current node.
         /// </summary>
         /// <param name="text">The characters to insert.</param>
-        void AddCharacters(String text)
+        private void AddCharacters(String text)
         {
             if (!String.IsNullOrEmpty(text))
             {
@@ -3914,7 +3940,7 @@
         /// Inserts the given character into the foster parent.
         /// </summary>
         /// <param name="text">The character to insert.</param>
-        void AddCharactersWithFoster(String text)
+        private void AddCharactersWithFoster(String text)
         {
             var table = false;
             var index = _openElements.Count;
@@ -3960,7 +3986,7 @@
         /// Clears the stack of open elements back to the given element name.
         /// </summary>
         /// <param name="tagName">The tag that will be the CurrentNode.</param>
-        void ClearStackBackTo(String tagName)
+        private void ClearStackBackTo(String tagName)
         {
             var node = CurrentNode;
 
@@ -3974,7 +4000,7 @@
         /// <summary>
         /// Clears the stack of open elements back to any heading element.
         /// </summary>
-        void ClearStackBackTo(HashSet<String> tags)
+        private void ClearStackBackTo(HashSet<String> tags)
         {
             var node = CurrentNode;
 
@@ -3990,7 +4016,7 @@
         /// the tag given.
         /// </summary>
         /// <param name="tagName">The tag that will be excluded.</param>
-        void GenerateImpliedEndTagsExceptFor(String tagName)
+        private void GenerateImpliedEndTagsExceptFor(String tagName)
         {
             var node = CurrentNode;
 
@@ -4004,7 +4030,7 @@
         /// <summary>
         /// Generates the implied end tags for the dd, dt, li, option, optgroup, p, rp, rt elements.
         /// </summary>
-        void GenerateImpliedEndTags()
+        private void GenerateImpliedEndTags()
         {
             while (CurrentNode.Flags.HasFlag(NodeFlags.ImpliedEnd))
             {
@@ -4019,7 +4045,7 @@
         /// <summary>
         /// Reconstruct the list of active formatting elements, if any.
         /// </summary>
-        void ReconstructFormatting()
+        private void ReconstructFormatting()
         {
             if (_formattingElements.Count == 0)
                 return;
@@ -4053,7 +4079,7 @@
 
         #region Handlers
 
-        void RaiseErrorOccurred(HtmlParseError code, HtmlToken token)
+        private void RaiseErrorOccurred(HtmlParseError code, HtmlToken token)
         {
             _tokenizer.RaiseErrorOccurred(code, token.Position);
         }

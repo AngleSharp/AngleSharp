@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Network
 {
-    using System;
     using AngleSharp.Dom;
+    using System;
 
     /// <summary>
     /// Represents the arguments to load a resource.
@@ -36,7 +36,6 @@
         public IElement Source
         {
             get;
-            private set;
         }
 
         /// <summary>
@@ -45,7 +44,6 @@
         public Url Target
         {
             get;
-            private set;
         }
 
         /// <summary>

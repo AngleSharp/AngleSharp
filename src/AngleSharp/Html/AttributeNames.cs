@@ -751,5 +751,10 @@
         /// The body attribute.
         /// </summary>
         public static readonly String Body = "body";
+
+        /// <summary>
+        /// The integrity attribute.
+        /// </summary>
+        public static readonly String Integrity = "integrity";
     }
 }

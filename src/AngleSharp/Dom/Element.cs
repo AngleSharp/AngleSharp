@@ -307,16 +307,12 @@
                 var parent = Parent;
 
                 if (parent == null)
-                {
                     throw new DomException(DomError.NotSupported);
-                }
 
                 var document = Owner;
 
                 if (document != null && Object.ReferenceEquals(document.DocumentElement, this))
-                {
                     throw new DomException(DomError.NoModificationAllowed);
-                }
 
                 parent.InsertChild(parent.IndexOf(this), new DocumentFragment(this, value));
                 parent.RemoveChild(this);

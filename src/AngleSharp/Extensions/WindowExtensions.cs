@@ -79,7 +79,7 @@
 
         #region Helpers
 
-        static IEnumerable<CssStyleRule> SortBySpecifity(this IEnumerable<CssStyleRule> rules, IElement element)
+        private static IEnumerable<CssStyleRule> SortBySpecifity(this IEnumerable<CssStyleRule> rules, IElement element)
         {
             return rules.Where(m => m.Selector.Match(element)).OrderBy(m => m.Selector.Specifity);
         }

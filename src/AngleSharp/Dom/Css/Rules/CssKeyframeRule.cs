@@ -30,9 +30,7 @@
                 var selector = Parser.ParseKeyframeSelector(value);
 
                 if (selector == null)
-                {
                     throw new DomException(DomError.Syntax);
-                }
 
                 Key = selector;
             }

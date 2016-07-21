@@ -93,9 +93,7 @@
             set
             {
                 if (Double.IsInfinity(value))
-                {
                     throw new DomException(DomError.TypeMismatch);
-                }
 
                 if (Double.IsNaN(value))
                 {

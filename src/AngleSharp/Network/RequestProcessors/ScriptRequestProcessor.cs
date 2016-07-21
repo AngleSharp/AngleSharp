@@ -4,19 +4,20 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Services;
     using AngleSharp.Services.Scripting;
     using System;
+    using System.Diagnostics;
     using System.Threading;
     using System.Threading.Tasks;
 
-    class ScriptRequestProcessor : IRequestProcessor
+    sealed class ScriptRequestProcessor : IRequestProcessor
     {
         #region Fields
 
         readonly HtmlScriptElement _script;
         readonly Document _document;
         readonly IResourceLoader _loader;
-        IDownload _download;
         IResponse _response;
         IScriptEngine _engine;
 
@@ -44,7 +45,8 @@
 
         public IDownload Download 
         {
-            get { return _download; }
+            get;
+            private set;
         }
 
         public IScriptEngine Engine
@@ -76,9 +78,19 @@
 
         public async Task RunAsync(CancellationToken cancel)
         {
-            if (_download != null)
+            var download = Download;
+
+            if (download != null)
             {
-                _response = await _download.Task.ConfigureAwait(false);
+                try
+                {
+                    _response = await download.Task.ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                    FireErrorEvent();
+                }
             }
 
             if (_response != null)
@@ -121,16 +133,19 @@
         {
             if (_loader != null && Engine != null)
             {
-                var setting = _script.CrossOrigin.ToEnum(CorsSetting.None);
-                var behavior = OriginBehavior.Taint;
-                _download = _loader.FetchWithCors(request, setting, behavior);
-                return _download.Task;
+                Download = _loader.FetchWithCors(new CorsRequest(request)
+                {
+                    Behavior = OriginBehavior.Taint,
+                    Setting = _script.CrossOrigin.ToEnum(CorsSetting.None),
+                    Integrity = _document.Options.GetProvider<IIntegrityProvider>()
+                });
+                return Download.Task;
             }
 
             return null;
         }
 
-        ScriptOptions CreateOptions()
+        private ScriptOptions CreateOptions()
         {
             return new ScriptOptions(_document)
             {
@@ -139,12 +154,17 @@
             };
         }
 
-        void FireLoadEvent()
+        private void FireLoadEvent()
         {
             _script.FireSimpleEvent(EventNames.Load);
         }
 
-        void FireAfterScriptExecuteEvent()
+        private void FireErrorEvent()
+        {
+            _script.FireSimpleEvent(EventNames.Error);
+        }
+
+        private void FireAfterScriptExecuteEvent()
         {
             _script.FireSimpleEvent(EventNames.AfterScriptExecute, bubble: true);
         }

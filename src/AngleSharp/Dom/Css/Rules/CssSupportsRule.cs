@@ -31,9 +31,7 @@
                 var condition = Parser.ParseCondition(value);
 
                 if (condition == null)
-                {
                     throw new DomException(DomError.Syntax);
-                }
 
                 Condition = condition;
             }

@@ -189,6 +189,7 @@
     <Compile Include="Extensions\EventLoopExtensions.cs" />
     <Compile Include="Extensions\ResponseExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
+    <Compile Include="Network\CorsRequest.cs" />
     <Compile Include="Parser\Html\HtmlParseException.cs" />
     <Compile Include="Services\Default\AttributeSelectorFactory.cs" />
     <Compile Include="Services\Default\ContextFactory.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Services\Default\ServiceFactory.cs" />
     <Compile Include="Services\ICssPropertyFactory.cs" />
     <Compile Include="Services\IDocumentFactory.cs" />
+    <Compile Include="Services\IIntegrityProvider.cs" />
     <Compile Include="Services\IMediaFeatureFactory.cs" />
     <Compile Include="Services\ILinkRelationFactory.cs" />
     <Compile Include="Services\IPseudoElementSelectorFactory.cs" />
@@ -795,7 +797,7 @@
     <Compile Include="Services\Media\IMediaInfo.cs" />
     <Compile Include="Services\Media\IResourceInfo.cs" />
     <Compile Include="Services\Media\IVideoInfo.cs" />
-    <Compile Include="Dom\Constants\CorsSetting.cs" />
+    <Compile Include="Network\CorsSetting.cs" />
     <Compile Include="Network\PortNumbers.cs" />
     <Compile Include="Network\ProtocolNames.cs" />
     <Compile Include="Css\Values\Frequency.cs" />

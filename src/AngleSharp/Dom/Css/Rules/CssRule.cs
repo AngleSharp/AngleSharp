@@ -39,13 +39,10 @@
                 var rule = _parser.ParseRule(value);
 
                 if (rule == null)
-                {
                     throw new DomException(DomError.Syntax);
-                }
-                else if (rule.Type != _type)
-                {
+
+                if (rule.Type != _type)
                     throw new DomException(DomError.InvalidModification);
-                }
 
                 ReplaceWith(rule);
             }

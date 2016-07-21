@@ -151,9 +151,7 @@
         public Boolean Dispatch(Event ev)
         {
             if (ev == null || ev.Flags.HasFlag(EventFlags.Dispatch) || !ev.Flags.HasFlag(EventFlags.Initialized))
-            {
                 throw new DomException(DomError.InvalidState);
-            }
 
             ev.IsTrusted = false;
             return ev.Dispatch(this);

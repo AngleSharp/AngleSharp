@@ -6,12 +6,11 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    class FrameRequestProcessor : BaseRequestProcessor
+    sealed class FrameRequestProcessor : BaseRequestProcessor
     {
         #region Fields
 
         readonly HtmlFrameElementBase _element;
-        IDocument _document;
 
         #endregion
 
@@ -37,7 +36,8 @@
 
         public IDocument Document
         {
-            get { return _document; }
+            get;
+            private set;
         }
 
         #endregion
@@ -65,7 +65,11 @@
             return WaitResponse(task);
         }
 
-        Task ProcessResponse(String response, String referer)
+        #endregion
+
+        #region Helpers
+
+        private Task ProcessResponse(String response, String referer)
         {
             var cancel = CancellationToken.None;
             var context = _element.NestedContext;
@@ -73,9 +77,9 @@
             return WaitResponse(task);
         }
 
-        async Task WaitResponse(Task<IDocument> task)
+        private async Task WaitResponse(Task<IDocument> task)
         {
-            _document = await task.ConfigureAwait(false);
+            Document = await task.ConfigureAwait(false);
         }
 
         #endregion

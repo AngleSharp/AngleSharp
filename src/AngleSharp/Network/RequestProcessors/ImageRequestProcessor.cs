@@ -10,7 +10,7 @@
     /// For more information, see:
     /// http://www.w3.org/html/wg/drafts/html/master/embedded-content.html#update-the-image-data
     /// </summary>
-    class ImageRequestProcessor : ResourceRequestProcessor<IImageInfo>
+    sealed class ImageRequestProcessor : ResourceRequestProcessor<IImageInfo>
     {
         #region ctor
 
