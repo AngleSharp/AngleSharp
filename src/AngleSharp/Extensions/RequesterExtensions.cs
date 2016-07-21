@@ -48,7 +48,7 @@
             throw new DomException(DomError.Network);
         }
 
-        static IDownload FetchWithCors(this IResourceLoader loader, Url url, ResourceRequest request, CorsSetting setting, OriginBehavior behavior)
+        private static IDownload FetchWithCors(this IResourceLoader loader, Url url, ResourceRequest request, CorsSetting setting, OriginBehavior behavior)
         {
             var download = loader.DownloadAsync(new ResourceRequest(request.Source, url)
             {
@@ -81,17 +81,15 @@
             });
         }
 
-        static IDownload FetchWithoutCors(this IResourceLoader loader, ResourceRequest request, OriginBehavior behavior)
+        private static IDownload FetchWithoutCors(this IResourceLoader loader, ResourceRequest request, OriginBehavior behavior)
         {
             if (behavior == OriginBehavior.Fail)
-            {
                 throw new DomException(DomError.Network);
-            }
 
             return loader.DownloadAsync(request);
         }
 
-        static IDownload FetchWithCors(this IResourceLoader loader, ResourceRequest request, CorsSetting setting)
+        private static IDownload FetchWithCors(this IResourceLoader loader, ResourceRequest request, CorsSetting setting)
         {
             request.IsCredentialOmitted = setting == CorsSetting.Anonymous;
             var download = loader.DownloadAsync(request);
@@ -107,14 +105,14 @@
             });
         }
 
-        static IDownload Wrap(this IDownload download, Func<IResponse, IDownload> callback)
+        private static IDownload Wrap(this IDownload download, Func<IResponse, IDownload> callback)
         {
             var cts = new CancellationTokenSource();
             var task = download.Task.Wrap(callback);
             return new Download(task, cts, download.Target, download.Originator);
         }
 
-        static async Task<IResponse> Wrap(this Task<IResponse> task, Func<IResponse, IDownload> callback)
+        private static async Task<IResponse> Wrap(this Task<IResponse> task, Func<IResponse, IDownload> callback)
         {
             var response = await task.ConfigureAwait(false);
             var download = callback(response);
@@ -125,7 +123,7 @@
 
         #region Helpers
 
-        static Boolean IsRedirected(this IResponse response)
+        private static Boolean IsRedirected(this IResponse response)
         {
             var status = response?.StatusCode ?? HttpStatusCode.NotFound;
             return status == HttpStatusCode.Redirect || status == HttpStatusCode.RedirectKeepVerb ||

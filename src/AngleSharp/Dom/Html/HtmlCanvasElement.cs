@@ -121,9 +121,11 @@
         {
             if (_mode != ContextMode.None && _mode != ContextMode.Indirect)
                 throw new DomException(DomError.InvalidState);
-            else if (context.IsFixed)
+
+            if (context.IsFixed)
                 throw new DomException(DomError.InvalidState);
-            else if (context.Host != this)
+
+            if (context.Host != this)
                 throw new DomException(DomError.InUse);
 
             _current = context;

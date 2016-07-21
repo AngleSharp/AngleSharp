@@ -61,9 +61,7 @@
                 foreach (var medium in _parser.ParseMediaList(value))
                 {
                     if (medium == null)
-                    {
                         throw new DomException(DomError.Syntax);
-                    }
 
                     AppendChild(medium);
                 }
@@ -100,9 +98,7 @@
             var medium = _parser.ParseMedium(newMedium);
 
             if (medium == null)
-            {
                 throw new DomException(DomError.Syntax);
-            }
 
             AppendChild(medium);
         }
@@ -112,9 +108,7 @@
             var medium = _parser.ParseMedium(oldMedium);
 
             if (medium == null)
-            {
                 throw new DomException(DomError.Syntax);
-            }
 
             foreach (var item in Media)
             {

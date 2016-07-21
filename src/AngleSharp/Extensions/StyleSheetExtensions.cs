@@ -15,7 +15,7 @@
     {
         #region Adding Rules
 
-        static readonly Dictionary<String, CssRuleType> RuleMapping = new Dictionary<String, CssRuleType>
+        private static readonly Dictionary<String, CssRuleType> RuleMapping = new Dictionary<String, CssRuleType>
         {
             { typeof(ICssCharsetRule).FullName, CssRuleType.Charset },
             { typeof(ICssCounterStyleRule).FullName, CssRuleType.CounterStyle },
@@ -113,9 +113,7 @@
             where TRule : ICssRule
         {
             if (sheets == null)
-            {
                 throw new ArgumentNullException(nameof(sheets));
-            }
 
             return sheets.Where(m => !m.IsDisabled).OfType<ICssStyleSheet>().SelectMany(m => m.Rules).OfType<TRule>();
         }
@@ -129,9 +127,7 @@
         public static IEnumerable<ICssStyleRule> StylesWith(this IEnumerable<IStyleSheet> sheets, ISelector selector)
         {
             if (selector == null)
-            {
                 throw new ArgumentNullException(nameof(selector));
-            }
 
             var selectorText = selector.Text;
             return sheets.RulesOf<ICssStyleRule>().Where(m => m.SelectorText == selectorText);
@@ -165,9 +161,7 @@
         public static IEnumerable<ICssNode> GetAllDescendents(this ICssNode node)
         {
             if (node == null)
-            {
                 throw new ArgumentNullException(nameof(node));
-            }
 
             return node.Children.SelectMany(m => m.GetAllDescendents());
         }
@@ -181,9 +175,7 @@
             where T : IStyleFormattable
         {
             if (node == null)
-            {
                 throw new ArgumentNullException(nameof(node));
-            }
 
             if (node is T)
             {

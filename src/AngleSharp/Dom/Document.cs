@@ -713,9 +713,7 @@
             set 
             {
                 if (value is IHtmlBodyElement == false && value is HtmlFrameSetElement == false)
-                {
                     throw new DomException(DomError.HierarchyRequest);
-                }
 
                 var body = Body;
 
@@ -726,9 +724,7 @@
                         var root = DocumentElement;
 
                         if (root == null)
-                        {
                             throw new DomException(DomError.HierarchyRequest);
-                        }
                         
                         root.AppendChild(value);
                     }
@@ -911,9 +907,7 @@
         public IDocument Open(String type = "text/html", String replace = null)
         {
             if (!ContentType.Is(MimeTypeNames.Html))
-            {
                 throw new DomException(DomError.InvalidState);
-            }
 
             if (!IsInBrowsingContext || Object.ReferenceEquals(_context.Active, this))
             {
@@ -988,9 +982,7 @@
         public INode Import(INode externalNode, Boolean deep = true)
         {
             if (externalNode.NodeType == NodeType.Document)
-            {
                 throw new DomException(DomError.NotSupported);
-            }
 
             return externalNode.Clone(deep);
         }
@@ -998,9 +990,7 @@
         public INode Adopt(INode externalNode)
         {
             if (externalNode.NodeType == NodeType.Document)
-            {
                 throw new DomException(DomError.NotSupported);
-            }
 
             this.AdoptNode(externalNode);
             return externalNode;
@@ -1012,9 +1002,7 @@
             var ev = factory.Create(type);
 
             if (ev == null)
-            {
                 throw new DomException(DomError.NotSupported);
-            }
 
             return ev;
         }
@@ -1107,9 +1095,7 @@
         public IProcessingInstruction CreateProcessingInstruction(String target, String data)
         {
             if (!target.IsXmlName() || data.Contains("?>"))
-            {
                 throw new DomException(DomError.InvalidCharacter);
-            }
 
             return new ProcessingInstruction(this, target) { Data = data };
         }
@@ -1164,9 +1150,7 @@
         public IAttr CreateAttribute(String localName)
         {
             if (!localName.IsXmlName())
-            {
                 throw new DomException(DomError.InvalidCharacter);
-            }
 
             return new Attr(localName);
         }

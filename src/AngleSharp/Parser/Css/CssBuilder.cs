@@ -16,9 +16,9 @@
     {
         #region Fields
 
-        readonly CssTokenizer _tokenizer;
-        readonly CssParser _parser;
-        readonly Stack<CssNode> _nodes;
+        private readonly CssTokenizer _tokenizer;
+        private readonly CssParser _parser;
+        private readonly Stack<CssNode> _nodes;
 
         #endregion
 
@@ -435,9 +435,7 @@
                 var medium = CreateMedium(ref token);
 
                 if (medium == null || token.IsNot(CssTokenType.Comma, CssTokenType.EndOfFile))
-                {
                     throw new DomException(DomError.Syntax);
-                }
 
                 token = NextToken();
                 CollectTrivia(ref token);
@@ -746,7 +744,7 @@
 
         #region Helpers
 
-        void JumpToEnd(ref CssToken current)
+        private void JumpToEnd(ref CssToken current)
         {
             while (current.IsNot(CssTokenType.EndOfFile, CssTokenType.Semicolon))
             {
@@ -754,7 +752,7 @@
             }
         }
 
-        void JumpToRuleEnd(ref CssToken current)
+        private void JumpToRuleEnd(ref CssToken current)
         {
             var scopes = 0;
 
@@ -778,7 +776,7 @@
             }
         }
 
-        void JumpToArgEnd(ref CssToken current)
+        private void JumpToArgEnd(ref CssToken current)
         {
             var arguments = 0;
 
@@ -801,7 +799,7 @@
             }
         }
 
-        void JumpToDeclEnd(ref CssToken current)
+        private void JumpToDeclEnd(ref CssToken current)
         {
             var scopes = 0;
 
@@ -824,18 +822,18 @@
             }
         }
 
-        CssToken NextToken()
+        private CssToken NextToken()
         {
             return _tokenizer.Get();
         }
 
-        TextView CreateView(TextPosition start, TextPosition end)
+        private TextView CreateView(TextPosition start, TextPosition end)
         {
             var range = new TextRange(start, end);
             return new TextView(range, _tokenizer.Source);
         }
 
-        void CollectTrivia(ref CssToken token)
+        private void CollectTrivia(ref CssToken token)
         {
             var storeComments = _parser.Options.IsStoringTrivia;
 
@@ -853,16 +851,16 @@
 
                 token = _tokenizer.Get();
             }
-        }   
+        }
 
-        CssRule SkipDeclarations(CssToken token)
+        private CssRule SkipDeclarations(CssToken token)
         {
             RaiseErrorOccurred(CssParseError.InvalidToken, token.Position);
             JumpToRuleEnd(ref token);
             return default(CssRule);
         }
 
-        void RaiseErrorOccurred(CssParseError code, TextPosition position)
+        private void RaiseErrorOccurred(CssParseError code, TextPosition position)
         {
             _tokenizer.RaiseErrorOccurred(code, position);
         }
@@ -871,7 +869,7 @@
 
         #region Conditions
 
-        IConditionFunction AggregateCondition(ref CssToken token)
+        private IConditionFunction AggregateCondition(ref CssToken token)
         {
             var condition = ExtractCondition(ref token);
 
@@ -893,7 +891,7 @@
             return condition;
         }
 
-        IConditionFunction ExtractCondition(ref CssToken token)
+        private IConditionFunction ExtractCondition(ref CssToken token)
         {
             if (token.Type == CssTokenType.RoundBracketOpen)
             {
@@ -932,7 +930,7 @@
             return null;
         }
 
-        IConditionFunction DeclarationCondition(ref CssToken token)
+        private IConditionFunction DeclarationCondition(ref CssToken token)
         {
             var property = Factory.Properties.Create(token.Data) ?? new CssUnknownProperty(token.Data);
             var declaration = default(DeclarationCondition);
@@ -954,7 +952,7 @@
             return declaration;
         }
 
-        List<IConditionFunction> MultipleConditions(IConditionFunction condition, String connector, ref CssToken token)
+        private List<IConditionFunction> MultipleConditions(IConditionFunction condition, String connector, ref CssToken token)
         {
             var list = new List<IConditionFunction>();
             CollectTrivia(ref token);
@@ -987,7 +985,7 @@
 
         #region Fill Inner
 
-        void FillFunctions(Action<DocumentFunction> add, ref CssToken token)
+        private void FillFunctions(Action<DocumentFunction> add, ref CssToken token)
         {
             do
             {
@@ -1013,7 +1011,7 @@
             while (token.Type != CssTokenType.EndOfFile);
         }
 
-        TextPosition FillKeyframeRules(CssKeyframesRule parentRule)
+        private TextPosition FillKeyframeRules(CssKeyframesRule parentRule)
         {
             var token = NextToken();
             CollectTrivia(ref token);
@@ -1029,7 +1027,7 @@
             return token.Position;
         }
 
-        TextPosition FillDeclarations(CssDeclarationRule rule, Func<String, CssProperty> createProperty)
+        private TextPosition FillDeclarations(CssDeclarationRule rule, Func<String, CssProperty> createProperty)
         {
             var token = NextToken();
             CollectTrivia(ref token);
@@ -1049,7 +1047,7 @@
             return token.Position;
         }
 
-        TextPosition FillRules(CssGroupingRule group)
+        private TextPosition FillRules(CssGroupingRule group)
         {
             var token = NextToken();
             CollectTrivia(ref token);
@@ -1065,7 +1063,7 @@
             return token.Position;
         }
 
-        void FillMediaList(MediaList list, CssTokenType end, ref CssToken token)
+        private void FillMediaList(MediaList list, CssTokenType end, ref CssToken token)
         {
             _nodes.Push(list);
 
@@ -1107,7 +1105,7 @@
 
         #region Create Values
 
-        ISelector CreateSelector(ref CssToken token)
+        private ISelector CreateSelector(ref CssToken token)
         {
             var selector = _parser.GetSelectorCreator();
             var start = token.Position;
@@ -1137,7 +1135,7 @@
             return result;
         }
 
-        CssValue CreateValue(CssTokenType closing, ref CssToken token, out Boolean important)
+        private CssValue CreateValue(CssTokenType closing, ref CssToken token, out Boolean important)
         {
             var value = Pool.NewValueBuilder();
             _tokenizer.IsInValue = true;
@@ -1171,7 +1169,7 @@
             return result;
         }
 
-        String GetRuleName(ref CssToken token)
+        private String GetRuleName(ref CssToken token)
         {
             var name = String.Empty;
 
@@ -1184,7 +1182,7 @@
             return name;
         }
 
-        MediaFeature CreateFeature(ref CssToken token)
+        private MediaFeature CreateFeature(ref CssToken token)
         {
             if (token.Type == CssTokenType.Ident)
             {

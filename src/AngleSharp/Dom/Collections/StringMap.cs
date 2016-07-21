@@ -60,20 +60,15 @@
         static String Check(String name)
         {
             if (name.StartsWith(TagNames.Xml, StringComparison.OrdinalIgnoreCase))
-            {
                 throw new DomException(DomError.Syntax);
-            }
-            else if (name.IndexOf(Symbols.Semicolon) >= 0)
-            {
+
+            if (name.IndexOf(Symbols.Semicolon) >= 0)
                 throw new DomException(DomError.Syntax);
-            }
 
             for (var i = 0; i < name.Length; i++)
             {
                 if (name[i].IsUppercaseAscii())
-                {
                     throw new DomException(DomError.Syntax);
-                }
             }
 
             return name;

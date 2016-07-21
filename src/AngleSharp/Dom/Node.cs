@@ -469,13 +469,10 @@
         protected static void GetPrefixAndLocalName(String qualifiedName, ref String namespaceUri, out String prefix, out String localName)
         {
             if (!qualifiedName.IsXmlName())
-            {
                 throw new DomException(DomError.InvalidCharacter);
-            }
-            else if (!qualifiedName.IsQualifiedName())
-            {
+
+            if (!qualifiedName.IsQualifiedName())
                 throw new DomException(DomError.Namespace);
-            }
 
             if (String.IsNullOrEmpty(namespaceUri))
             {
@@ -496,9 +493,7 @@
             }
 
             if (IsNamespaceError(prefix, namespaceUri, qualifiedName))
-            {
                 throw new DomException(DomError.Namespace);
-            }
         }
 
         protected static Boolean IsNamespaceError(String prefix, String namespaceUri, String qualifiedName)
@@ -602,9 +597,7 @@
             }
 
             if (newElement.NodeType == NodeType.Document || newElement.Contains(this))
-            {
                 throw new DomException(DomError.HierarchyRequest);
-            }
 
             var addedNodes = new NodeList();
             var n = _children.Index(referenceElement);
@@ -690,13 +683,10 @@
         internal INode ReplaceChild(Node node, Node child, Boolean suppressObservers)
         {
             if (this.IsEndPoint() || node.IsHostIncludingInclusiveAncestor(this))
-            {
                 throw new DomException(DomError.HierarchyRequest);
-            }
-            else if (child.Parent != this)
-            {
+
+            if (child.Parent != this)
                 throw new DomException(DomError.NotFound);
-            }
 
             if (node.IsInsertable())
             {
@@ -725,9 +715,7 @@
                     }
 
                     if (forbidden)
-                    {
                         throw new DomException(DomError.HierarchyRequest);
-                    }
                 }
 
                 if (referenceChild == node)

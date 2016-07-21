@@ -20,9 +20,7 @@
         public DocumentRequest(Url target)
         {
             if (target == null)
-            {
                 throw new ArgumentNullException(nameof(target));
-            }
 
             Headers = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase);
             Target = target;
@@ -206,12 +204,12 @@
 
         #region Helpers
 
-        void SetHeader(String name, String value)
+        private void SetHeader(String name, String value)
         {
             Headers[name] = value;
         }
 
-        String GetHeader(String name)
+        private String GetHeader(String name)
         {
             var value = default(String);
 

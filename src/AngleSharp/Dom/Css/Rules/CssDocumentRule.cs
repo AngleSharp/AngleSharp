@@ -35,9 +35,7 @@
                 var conditions = Parser.ParseDocumentRules(value);
 
                 if (conditions == null)
-                {
                     throw new DomException(DomError.Syntax);
-                }
 
                 Clear();
 

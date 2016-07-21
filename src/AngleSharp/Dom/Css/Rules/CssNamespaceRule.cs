@@ -90,9 +90,7 @@
                 foreach (var entry in list)
                 {
                     if (IsNotSupported(entry.Type))
-                    {
                         throw new DomException(DomError.InvalidState);
-                    }
                 }
             }
         }

@@ -64,17 +64,12 @@
         internal void RemoveAt(Int32 index)
         {
             if (index < 0 || index >= Length)
-            {
                 throw new DomException(DomError.IndexSizeError);
-            }
 
             var rule = this[index];
 
-
             if (rule.Type == CssRuleType.Namespace && HasDeclarativeRules)
-            {
                 throw new DomException(DomError.InvalidState);
-            }
 
             Remove(rule);
         }
@@ -90,22 +85,18 @@
         internal void Insert(Int32 index, CssRule rule)
         {
             if (rule == null)
-            {
                 throw new DomException(DomError.Syntax);
-            }
-            else if (rule.Type == CssRuleType.Charset)
-            {
+
+            if (rule.Type == CssRuleType.Charset)
                 throw new DomException(DomError.Syntax);
-            }
-            else if (index > Length || index < 0)
-            {
+
+            if (index > Length || index < 0)
                 throw new DomException(DomError.IndexSizeError);
-            }
-            else if (rule.Type == CssRuleType.Namespace && HasDeclarativeRules)
-            {
+
+            if (rule.Type == CssRuleType.Namespace && HasDeclarativeRules)
                 throw new DomException(DomError.InvalidState);
-            }
-            else if (index == Length)
+
+            if (index == Length)
             {
                 _parent.AppendChild(rule);
             }
