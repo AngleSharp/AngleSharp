@@ -12,7 +12,6 @@
         #region Fields
 
         readonly IConfiguration _options;
-        TResource _resource;
 
         #endregion
 
@@ -30,18 +29,18 @@
 
         public String Source
         {
-            get { return _resource?.Source.Href ?? String.Empty; }
+            get { return Resource?.Source.Href ?? String.Empty; }
         }
 
         public Boolean IsReady
         {
-            get { return _resource != null; }
+            get { return Resource != null; }
         }
 
         public TResource Resource
         {
-            get { return _resource; }
-            protected set { _resource = value; }
+            get;
+            protected set;
         }
 
         #endregion
@@ -70,7 +69,8 @@
 
         Boolean IsDifferentToCurrentResourceUrl(Url target)
         {
-            return _resource == null || !target.Equals(_resource.Source);
+            var resource = Resource;
+            return resource == null || !target.Equals(resource.Source);
         }
 
         #endregion

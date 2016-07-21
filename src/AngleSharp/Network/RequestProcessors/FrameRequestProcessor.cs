@@ -6,12 +6,11 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    class FrameRequestProcessor : BaseRequestProcessor
+    sealed class FrameRequestProcessor : BaseRequestProcessor
     {
         #region Fields
 
         readonly HtmlFrameElementBase _element;
-        IDocument _document;
 
         #endregion
 
@@ -37,7 +36,8 @@
 
         public IDocument Document
         {
-            get { return _document; }
+            get;
+            private set;
         }
 
         #endregion
@@ -75,7 +75,7 @@
 
         async Task WaitResponse(Task<IDocument> task)
         {
-            _document = await task.ConfigureAwait(false);
+            Document = await task.ConfigureAwait(false);
         }
 
         #endregion

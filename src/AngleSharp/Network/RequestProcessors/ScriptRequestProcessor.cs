@@ -9,14 +9,13 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    class ScriptRequestProcessor : IRequestProcessor
+    sealed class ScriptRequestProcessor : IRequestProcessor
     {
         #region Fields
 
         readonly HtmlScriptElement _script;
         readonly Document _document;
         readonly IResourceLoader _loader;
-        IDownload _download;
         IResponse _response;
         IScriptEngine _engine;
 
@@ -44,7 +43,8 @@
 
         public IDownload Download 
         {
-            get { return _download; }
+            get;
+            private set;
         }
 
         public IScriptEngine Engine
@@ -76,9 +76,11 @@
 
         public async Task RunAsync(CancellationToken cancel)
         {
-            if (_download != null)
+            var download = Download;
+
+            if (download != null)
             {
-                _response = await _download.Task.ConfigureAwait(false);
+                _response = await download.Task.ConfigureAwait(false);
             }
 
             if (_response != null)
@@ -123,8 +125,8 @@
             {
                 var setting = _script.CrossOrigin.ToEnum(CorsSetting.None);
                 var behavior = OriginBehavior.Taint;
-                _download = _loader.FetchWithCors(request, setting, behavior);
-                return _download.Task;
+                Download = _loader.FetchWithCors(request, setting, behavior);
+                return Download.Task;
             }
 
             return null;

@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.Commands;
     using AngleSharp.Dom;
     using AngleSharp.Network;
     using AngleSharp.Services;
     using AngleSharp.Services.Media;
     using AngleSharp.Services.Scripting;
     using AngleSharp.Services.Styling;
-    using Commands;
     using System;
     using System.Collections.Generic;
     using System.Globalization;

@@ -62,5 +62,11 @@
         /// </summary>
         [DomName("integrity")]
         String Integrity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cross-origin attribute.
+        /// </summary>
+        [DomName("crossOrigin")]
+        String CrossOrigin { get; set; }
     }
 }

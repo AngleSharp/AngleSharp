@@ -8,34 +8,33 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    class StyleSheetRequestProcessor :  BaseRequestProcessor
+    sealed class StyleSheetRequestProcessor :  BaseRequestProcessor
     {
         #region Fields
 
         readonly HtmlLinkElement _link;
-        readonly IBrowsingContext _context;
+        readonly Document _document;
+        readonly IResourceLoader _loader;
         IStyleEngine _engine;
-        IStyleSheet _sheet;
 
         #endregion
 
         #region ctor
 
-        private StyleSheetRequestProcessor(HtmlLinkElement link, IBrowsingContext context, IResourceLoader loader)
+        private StyleSheetRequestProcessor(HtmlLinkElement link, Document document, IResourceLoader loader)
             : base(loader)
         {
             _link = link;
-            _context = context;
+            _document = document;
+            _loader = loader;
         }
 
         internal static StyleSheetRequestProcessor Create(HtmlLinkElement element)
         {
             var document = element.Owner;
-            var context = document.Context;
             var loader = document.Loader;
 
-            return context != null && loader != null ?
-                new StyleSheetRequestProcessor(element, context, loader) : null;
+            return loader != null ? new StyleSheetRequestProcessor(element, document, loader) : null;
         }
 
         #endregion
@@ -44,7 +43,18 @@
 
         public IStyleSheet Sheet
         {
-            get { return _sheet; }
+            get;
+            private set;
+        }
+
+        public IStyleEngine Engine
+        {
+            get { return _engine ?? (_engine = _document.Options.GetStyleEngine(LinkType)); }
+        }
+
+        public String LinkType
+        {
+            get { return _link.Type ?? MimeTypeNames.Css; }
         }
 
         #endregion
@@ -53,13 +63,11 @@
 
         public override Task ProcessAsync(ResourceRequest request)
         {
-            var type = _link.Type ?? MimeTypeNames.Css;
-            var engine = _context.Configuration.GetStyleEngine(type);
-
-            if (engine != null)
+            if (Engine != null && IsDifferentToCurrentDownloadUrl(request.Target))
             {
-                _engine = engine;
-                return base.ProcessAsync(request);
+                CancelDownload();
+                Download = DownloadWithCors(request);
+                return FinishDownloadAsync();
             }
 
             return null;
@@ -68,7 +76,7 @@
         protected override async Task ProcessResponseAsync(IResponse response)
         {
             var cancel = CancellationToken.None;
-            var options = new StyleOptions(_context)
+            var options = new StyleOptions(_document.Context)
             {
                 Element = _link,
                 IsDisabled = _link.IsDisabled,
@@ -76,8 +84,20 @@
             };
 
             var task = _engine.ParseStylesheetAsync(response, options, cancel);
-            _sheet = await task.ConfigureAwait(false);
-            _sheet.Media.MediaText = _link.Media ?? String.Empty;
+            var sheet = await task.ConfigureAwait(false);
+            sheet.Media.MediaText = _link.Media ?? String.Empty;
+            Sheet = sheet;
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private IDownload DownloadWithCors(ResourceRequest request)
+        {
+            var setting = _link.CrossOrigin.ToEnum(CorsSetting.None);
+            var behavior = OriginBehavior.Taint;
+            return _loader.FetchWithCors(request, setting, behavior);
         }
 
         #endregion

@@ -168,6 +168,12 @@
             }
         }
 
+        public String CrossOrigin
+        {
+            get { return this.GetOwnAttribute(AttributeNames.CrossOrigin); }
+            set { this.SetOwnAttribute(AttributeNames.CrossOrigin, value); }
+        }
+
         #endregion
 
         #region Internal Methods

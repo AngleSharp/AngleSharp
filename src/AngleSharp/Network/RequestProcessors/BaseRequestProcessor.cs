@@ -11,8 +11,7 @@
     {
         #region Fields
 
-        IDownload _download;
-        IResourceLoader _loader;
+        readonly IResourceLoader _loader;
 
         #endregion
 
@@ -29,7 +28,8 @@
 
         public IDownload Download
         {
-            get { return _download; }
+            get;
+            protected set;
         }
 
         #endregion
@@ -40,7 +40,8 @@
         {
             if (IsDifferentToCurrentDownloadUrl(request.Target))
             {
-                StartDownload(request);
+                CancelDownload();
+                Download = _loader.DownloadAsync(request);
                 return FinishDownloadAsync();
             }
 
@@ -49,20 +50,11 @@
 
         protected abstract Task ProcessResponseAsync(IResponse response);
 
-        protected void StartDownload(ResourceRequest request)
-        {
-            if (_download != null && !_download.IsCompleted)
-            {
-                _download.Cancel();
-            }
-
-            _download = _loader.DownloadAsync(request);
-        }
-
         protected async Task FinishDownloadAsync()
         {
-            var response = await _download.Task.ConfigureAwait(false);
-            var eventTarget = _download.Originator as EventTarget;
+            var download = Download;
+            var response = await download.Task.ConfigureAwait(false);
+            var eventTarget = download.Originator as EventTarget;
             var eventName = EventNames.Error;
 
             if (response != null)
@@ -77,7 +69,6 @@
                     Debug.WriteLine(ex);
                 }
                 finally
-
                 {
                     response.Dispose();
                 }
@@ -90,9 +81,20 @@
 
         #region Helpers
 
-        Boolean IsDifferentToCurrentDownloadUrl(Url target)
+        protected void CancelDownload()
         {
-            return _download == null || !target.Equals(_download.Target);
+            var download = Download;
+
+            if (download != null && !download.IsCompleted)
+            {
+                download.Cancel();
+            }
+        }
+
+        protected Boolean IsDifferentToCurrentDownloadUrl(Url target)
+        {
+            var download = Download;
+            return download == null || !target.Equals(download.Target);
         }
 
         #endregion
