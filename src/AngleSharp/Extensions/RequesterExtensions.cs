@@ -121,7 +121,7 @@
         private static IDownload Wrap(this IDownload download, IResponse response)
         {
             var cts = new CancellationTokenSource();
-            var task = Task.FromResult(response);
+            var task = TaskEx.FromResult(response);
             return new Download(task, cts, download.Target, download.Originator);
         }
 
