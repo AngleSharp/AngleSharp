@@ -30,7 +30,7 @@
             var builder = BuildResponse ?? (_ => String.Empty);
             var text = builder(request);
             var content = new MemoryStream(Encoding.UTF8.GetBytes(text));
-            return new Response { Address = request.Address, Content = content };
+            return new Response { Address = request.Address, Content = content, StatusCode = System.Net.HttpStatusCode.OK };
         }
 
         public Task<IResponse> RequestAsync(IRequest request)
