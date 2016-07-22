@@ -56,5 +56,17 @@
         /// </summary>
         [DomName("sizes")]
         ISettableTokenList Sizes { get; }
+
+        /// <summary>
+        /// Gets or sets the linked source's integrity, if any.
+        /// </summary>
+        [DomName("integrity")]
+        String Integrity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the cross-origin attribute.
+        /// </summary>
+        [DomName("crossOrigin")]
+        String CrossOrigin { get; set; }
     }
 }

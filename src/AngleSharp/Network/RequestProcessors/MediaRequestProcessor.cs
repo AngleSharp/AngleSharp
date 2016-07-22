@@ -10,15 +10,9 @@
     /// See the following link for more infos:
     /// https://html.spec.whatwg.org/multipage/embedded-content.html#dom-media-load
     /// </summary>
-    class MediaRequestProcessor<TMediaInfo> :ResourceRequestProcessor<TMediaInfo>
+    sealed class MediaRequestProcessor<TMediaInfo> :ResourceRequestProcessor<TMediaInfo>
         where TMediaInfo : IMediaInfo
     {
-        #region Fields
-
-        TMediaInfo _media;
-
-        #endregion
-
         #region ctor
 
         private MediaRequestProcessor(IConfiguration options, IResourceLoader loader)
@@ -39,6 +33,12 @@
         #endregion
 
         #region Properties
+
+        public TMediaInfo Media
+        {
+            get;
+            private set;
+        }
 
         public MediaNetworkState NetworkState
         {
@@ -73,7 +73,7 @@
             if (service != null)
             {
                 var cancel = CancellationToken.None;
-                _media = await service.CreateAsync(response, cancel).ConfigureAwait(false);
+                Media = await service.CreateAsync(response, cancel).ConfigureAwait(false);
             }
         }
 

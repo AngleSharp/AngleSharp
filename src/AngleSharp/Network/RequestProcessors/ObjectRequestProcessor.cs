@@ -6,7 +6,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    class ObjectRequestProcessor : ResourceRequestProcessor<IObjectInfo>
+    sealed class ObjectRequestProcessor : ResourceRequestProcessor<IObjectInfo>
     {
         #region ctor
 

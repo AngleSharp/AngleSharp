@@ -224,9 +224,7 @@
             var result = RemoveNamedItemOrDefault(name);
 
             if (result == null)
-            {
                 throw new DomException(DomError.NotFound);
-            }
 
             return result;
         }
@@ -236,9 +234,7 @@
             var result = RemoveNamedItemOrDefault(namespaceUri, localName);
 
             if (result == null)
-            {
                 throw new DomException(DomError.NotFound);
-            }
 
             return result;
         }

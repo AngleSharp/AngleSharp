@@ -142,7 +142,6 @@
         public Url Target
         {
             get;
-            private set;
         }
 
         /// <summary>
@@ -189,19 +188,18 @@
         public Dictionary<String, String> Headers
         {
             get;
-            private set;
         }
 
         #endregion
 
         #region Helpers
 
-        void SetHeader(String name, String value)
+        private void SetHeader(String name, String value)
         {
             Headers[name] = value;
         }
 
-        String GetHeader(String name)
+        private String GetHeader(String name)
         {
             var value = default(String);
             Headers.TryGetValue(name, out value);

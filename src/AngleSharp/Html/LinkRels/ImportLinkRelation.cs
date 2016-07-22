@@ -34,7 +34,7 @@
             get 
             {
                 var processor = Processor as DocumentRequestProcessor;
-                return processor?.Document;
+                return processor?.ChildDocument;
             }
         }
 

@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Network
 {
     /// <summary>
-    /// The default origin behaviour states.
+    /// The default origin behavior states.
     /// </summary>
-    enum OriginBehavior
+    public enum OriginBehavior
     {
         /// <summary>
         /// Data is gathered.

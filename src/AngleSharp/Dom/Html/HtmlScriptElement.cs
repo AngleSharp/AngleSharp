@@ -86,6 +86,12 @@
             set { this.SetOwnAttribute(AttributeNames.Async, value ? String.Empty : null); }
         }
 
+        public String Integrity
+        {
+            get { return this.GetOwnAttribute(AttributeNames.Integrity); }
+            set { this.SetOwnAttribute(AttributeNames.Integrity, value); }
+        }
+
         #endregion
 
         #region Internal Methods

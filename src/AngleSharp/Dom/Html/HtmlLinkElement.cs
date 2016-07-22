@@ -144,6 +144,12 @@
             set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
+        public String Integrity
+        {
+            get { return this.GetOwnAttribute(AttributeNames.Integrity); }
+            set { this.SetOwnAttribute(AttributeNames.Integrity, value); }
+        }
+
         public IStyleSheet Sheet
         {
             get 
@@ -160,6 +166,12 @@
                 var importRelation = _relation as ImportLinkRelation;
                 return importRelation?.Import;
             }
+        }
+
+        public String CrossOrigin
+        {
+            get { return this.GetOwnAttribute(AttributeNames.CrossOrigin); }
+            set { this.SetOwnAttribute(AttributeNames.CrossOrigin, value); }
         }
 
         #endregion

@@ -35,13 +35,13 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static HtmlElementCollection QuerySelectorAll(this INodeList elements, String selectors)
+        public static HtmlCollection<IElement> QuerySelectorAll(this INodeList elements, String selectors)
         {
             var sg = CssParser.Default.ParseSelector(selectors);
             Validate(sg);
             var result = new List<IElement>();
             elements.QuerySelectorAll(sg, result);
-            return new HtmlElementCollection(result);
+            return new HtmlCollection<IElement>(result);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of HTML elements.</returns>
-        public static HtmlElementCollection GetElementsByClassName(this INodeList elements, String classNames)
+        public static HtmlCollection<IElement> GetElementsByClassName(this INodeList elements, String classNames)
         {
             var result = new List<IElement>();
             var names = classNames.SplitSpaces();
@@ -60,7 +60,7 @@
                 elements.GetElementsByClassName(names, result);
             }
 
-            return new HtmlElementCollection(result);
+            return new HtmlCollection<IElement>(result);
         }
 
         /// <summary>
@@ -69,11 +69,11 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public static HtmlElementCollection GetElementsByTagName(this INodeList elements, String tagName)
+        public static HtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String tagName)
         {
             var result = new List<IElement>();
             elements.GetElementsByTagName(tagName.Is(Keywords.Asterisk) ? null : tagName, result);
-            return new HtmlElementCollection(result);
+            return new HtmlCollection<IElement>(result);
         }
 
         /// <summary>
@@ -84,11 +84,11 @@
         /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
         /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public static HtmlElementCollection GetElementsByTagName(this INodeList elements, String namespaceUri, String localName)
+        public static HtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String namespaceUri, String localName)
         {
             var result = new List<IElement>();
             elements.GetElementsByTagName(namespaceUri, localName.Is(Keywords.Asterisk) ? null : localName, result);
-            return new HtmlElementCollection(result);
+            return new HtmlCollection<IElement>(result);
         }
 
         #endregion
@@ -150,11 +150,11 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selector">A selector object.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static HtmlElementCollection QuerySelectorAll(this INodeList elements, ISelector selector)
+        public static HtmlCollection<IElement> QuerySelectorAll(this INodeList elements, ISelector selector)
         {
             var result = new List<IElement>();
             elements.QuerySelectorAll(selector, result);
-            return new HtmlElementCollection(result);
+            return new HtmlCollection<IElement>(result);
         }
 
         /// <summary>
@@ -291,12 +291,10 @@
 
         #region Helpers
 
-        static void Validate(ISelector selector)
+        private static void Validate(ISelector selector)
         {
             if (selector == null || selector is UnknownSelector)
-            {
                 throw new DomException(DomError.Syntax);
-            }
         }
 
         #endregion

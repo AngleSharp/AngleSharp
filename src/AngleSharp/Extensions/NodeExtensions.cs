@@ -392,17 +392,13 @@
         public static void EnsurePreInsertionValidity(this INode parent, INode node, INode child)
         {
             if (parent.IsEndPoint() || node.IsHostIncludingInclusiveAncestor(parent))
-            {
                 throw new DomException(DomError.HierarchyRequest);
-            }
-            else if (child != null && child.Parent != parent)
-            {
+
+            if (child != null && child.Parent != parent)
                 throw new DomException(DomError.NotFound);
-            }
-            else if (node is IElement == false && node is ICharacterData == false && node is IDocumentType == false && node is IDocumentFragment == false)
-            {
+
+            if (node is IElement == false && node is ICharacterData == false && node is IDocumentType == false && node is IDocumentFragment == false)
                 throw new DomException(DomError.HierarchyRequest);
-            }
 
             var document = parent as IDocument;
 
@@ -428,9 +424,7 @@
                 }
 
                 if (forbidden)
-                {
                     throw new DomException(DomError.HierarchyRequest);
-                }
             }
             else if (node is IDocumentType)
             {
@@ -451,9 +445,7 @@
             var newNode = node as Node;
 
             if (parentNode == null)
-            {
                 throw new DomException(DomError.NotSupported);
-            }
 
             parent.EnsurePreInsertionValidity(node, child);
             var referenceChild = child as Node;
@@ -480,13 +472,10 @@
             var parentNode = parent as Node;
 
             if (parentNode == null)
-            {
                 throw new DomException(DomError.NotSupported);
-            }
-            else if (child == null || child.Parent != parent)
-            {
+
+            if (child == null || child.Parent != parent)
                 throw new DomException(DomError.NotFound);
-            }
 
             parentNode.RemoveChild(child as Node, false);
             return child;
@@ -639,7 +628,7 @@
             return root.GetDescendants().OfType<IHtmlSlotElement>().FirstOrDefault(m => m.Name.Is(name));
         }
 
-        static Boolean IsCurrentlySame(Queue<INode> after, Queue<INode> before)
+        private static Boolean IsCurrentlySame(Queue<INode> after, Queue<INode> before)
         {
             return after.Count > 0 && before.Count > 0 && after.Peek() == before.Peek();
         }

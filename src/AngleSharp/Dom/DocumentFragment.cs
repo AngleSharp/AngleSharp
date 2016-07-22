@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        HtmlElementCollection _elements;
+        HtmlCollection<IElement> _elements;
 
         #endregion
 
@@ -59,7 +59,7 @@
 
         public IHtmlCollection<IElement> Children
         {
-            get { return _elements ?? (_elements = new HtmlElementCollection(this, deep: false)); }
+            get { return _elements ?? (_elements = new HtmlCollection<IElement>(this, deep: false)); }
         }
 
         public IElement FirstElementChild

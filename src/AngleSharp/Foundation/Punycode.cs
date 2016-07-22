@@ -11,12 +11,12 @@
     {
         #region Constants
 
-        const Int32 PunycodeBase = 36;
-        const Int32 Tmin = 1;
-        const Int32 Tmax = 26;
+        private const Int32 PunycodeBase = 36;
+        private const Int32 Tmin = 1;
+        private const Int32 Tmax = 26;
 
-        static readonly String acePrefix = "xn--";
-        static readonly Char[] possibleDots = { '.', '\u3002', '\uFF0E', '\uFF61' };
+        private static readonly String acePrefix = "xn--";
+        private static readonly Char[] possibleDots = { '.', '\u3002', '\uFF0E', '\uFF61' };
 
         #endregion
 
@@ -177,9 +177,7 @@
 
                 // Make sure its not too big
                 if (output.Length - iOutputAfterLastDot > LabelLimit)
-                {
                     throw new ArgumentException();
-                }
 
                 // Done with this segment, add dot if necessary
                 if (iNextDot != text.Length)
@@ -207,12 +205,12 @@
 
         #region Helpers
 
-        static Boolean IsSupplementary(Int32 test)
+        private static Boolean IsSupplementary(Int32 test)
         {
             return test >= 0x10000;
         }
 
-        static Boolean IsDot(Char c)
+        private static Boolean IsDot(Char c)
         {
             for (var i = 0; i < possibleDots.Length; i++)
             {
@@ -225,7 +223,7 @@
             return false;
         }
 
-        static Char EncodeDigit(Int32 digit)
+        private static Char EncodeDigit(Int32 digit)
         {
             const Char NumberOffset = (Char)('0' - 26);
             const Char LetterOffset = 'a';
@@ -240,7 +238,7 @@
             return (Char)(digit + LetterOffset);
         }
 
-        static Char EncodeBasic(Char character)
+        private static Char EncodeBasic(Char character)
         {
             const Char CaseDifference = (Char)('a' - 'A');
 
@@ -252,7 +250,7 @@
             return character;
         }
 
-        static Int32 AdaptChar(Int32 delta, Int32 numPoints, Boolean firstTime)
+        private static Int32 AdaptChar(Int32 delta, Int32 numPoints, Boolean firstTime)
         {
             const Int32 Skew = 38;
             const Int32 Damp = 700;

@@ -131,6 +131,7 @@
     <Compile Include="Library\FormSetFieldValues.cs" />
     <Compile Include="Library\ImageCandidates.cs" />
     <Compile Include="Library\MeterElement.cs" />
+    <Compile Include="Mocks\MockIntegrityProvider.cs" />
     <Compile Include="Mocks\VirtualRequester.cs" />
     <Compile Include="Url\MimeType.cs" />
     <Compile Include="Library\MutationObserver.cs" />

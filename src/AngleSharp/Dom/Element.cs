@@ -29,7 +29,7 @@
         readonly String _prefix;
         readonly String _localName;
 
-        HtmlElementCollection _elements;
+        HtmlCollection<IElement> _elements;
         ICssStyleDeclaration _style;
         TokenList _classList;
 
@@ -249,7 +249,7 @@
 
         public IHtmlCollection<IElement> Children
         {
-            get { return _elements ?? (_elements = new HtmlElementCollection(this, deep: false)); }
+            get { return _elements ?? (_elements = new HtmlCollection<IElement>(this, deep: false)); }
         }
 
         public IElement FirstElementChild
@@ -307,16 +307,12 @@
                 var parent = Parent;
 
                 if (parent == null)
-                {
                     throw new DomException(DomError.NotSupported);
-                }
 
                 var document = Owner;
 
                 if (document != null && Object.ReferenceEquals(document.DocumentElement, this))
-                {
                     throw new DomException(DomError.NoModificationAllowed);
-                }
 
                 parent.InsertChild(parent.IndexOf(this), new DocumentFragment(this, value));
                 parent.RemoveChild(this);
