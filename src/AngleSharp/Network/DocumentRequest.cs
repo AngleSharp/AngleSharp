@@ -202,13 +202,8 @@
         private String GetHeader(String name)
         {
             var value = default(String);
-
-            if (Headers.TryGetValue(name, out value))
-            {
-                return value;
-            }
-
-            return null;
+            Headers.TryGetValue(name, out value);
+            return value;
         }
 
         #endregion

@@ -1116,5 +1116,61 @@
             Assert.AreEqual(HttpMethod.Post, request.Method);
             Assert.AreEqual("{\"error\":{\"good\":\"BOOM!\"},\"error[bad\":\"BOOM BOOM!\"}", Utf8StreamToString(request.Content));
         }
+
+        [Test]
+        public async Task PostStandardTypeFromButtonViaExtensionMethodWithoutFields()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var target = BaseUrl + "echo";
+                var source = "<form method=POST action='" + target + "'><input type=text name=username value='foo'><input type=password name=password value='bar'><button type=submit name=login value=Login></form>";
+                var config = Configuration.Default.WithDefaultLoader();
+                var context = BrowsingContext.New(config);
+                var document = await context.OpenAsync(res => res.Content(source).Address(target));
+                var result = await document.QuerySelector<IHtmlButtonElement>("button").SubmitAsync();
+
+                var rows = result.QuerySelectorAll("tr");
+                Assert.AreEqual(3, rows.Length);
+
+                Assert.AreEqual("username", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("foo", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("password", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("bar", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("login", rows[2].QuerySelector("th").TextContent);
+                Assert.AreEqual("Login", rows[2].QuerySelector("td").TextContent);
+            }
+        }
+
+        [Test]
+        public async Task PostStandardTypeFromButtonViaExtensionMethodWithFields()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var target = BaseUrl + "echo";
+                var source = "<form method=POST action='" + target + "'><input type=text name=username value='foo'><input type=password name=password value='bar'><button type=submit name=login value=Login></form>";
+                var config = Configuration.Default.WithDefaultLoader();
+                var context = BrowsingContext.New(config);
+                var document = await context.OpenAsync(res => res.Content(source).Address(target));
+                var result = await document.QuerySelector<IHtmlButtonElement>("button").SubmitAsync(new
+                {
+                    username = "Test",
+                    password = "Baz"
+                });
+
+                var rows = result.QuerySelectorAll("tr");
+                Assert.AreEqual(3, rows.Length);
+
+                Assert.AreEqual("username", rows[0].QuerySelector("th").TextContent);
+                Assert.AreEqual("Test", rows[0].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("password", rows[1].QuerySelector("th").TextContent);
+                Assert.AreEqual("Baz", rows[1].QuerySelector("td").TextContent);
+
+                Assert.AreEqual("login", rows[2].QuerySelector("th").TextContent);
+                Assert.AreEqual("Login", rows[2].QuerySelector("td").TextContent);
+            }
+        }
     }
 }

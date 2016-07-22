@@ -7,7 +7,6 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Text;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -87,8 +86,8 @@
 
         public String Enctype
         {
-            get { return CheckEncType(this.GetOwnAttribute(AttributeNames.Enctype)); }
-            set { this.SetOwnAttribute(AttributeNames.Enctype, CheckEncType(value)); }
+            get { return this.GetOwnAttribute(AttributeNames.Enctype).ToEncodingType(); }
+            set { this.SetOwnAttribute(AttributeNames.Enctype, value.ToEncodingType()); }
         }
 
         public String Encoding
@@ -303,7 +302,7 @@
             var formDataSet = ConstructDataSet(submitter);
             var enctype = Enctype;
             var result = String.Empty;
-            var stream = CreateBody(enctype, TextEncoding.Resolve(encoding), formDataSet);
+            var stream = formDataSet.CreateBody(enctype, encoding);
 
             using (var sr = new StreamReader(stream))
             {
@@ -352,7 +351,7 @@
             var formDataSet = ConstructDataSet(submitter);
             var enctype = Enctype;
             var encoding = TextEncoding.UsAscii;
-            var stream = CreateBody(enctype, encoding, formDataSet);
+            var stream = formDataSet.CreateBody(enctype, encoding);
             var body = String.Empty;
 
             using (var sr = new StreamReader(stream))
@@ -382,7 +381,7 @@
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
             var enctype = Enctype;
-            var body = CreateBody(enctype, TextEncoding.Resolve(encoding), formDataSet);
+            var body = formDataSet.CreateBody(enctype, encoding);
 
             if (enctype.Isi(MimeTypeNames.MultipartForm))
             {
@@ -398,9 +397,10 @@
         /// </summary>
         DocumentRequest MutateActionUrl(Url action, IHtmlElement submitter)
         {
-            var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
+            var charset = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
-            var result = formDataSet.AsUrlEncoded(TextEncoding.Resolve(encoding));
+            var encoding = TextEncoding.Resolve(charset);
+            var result = formDataSet.AsUrlEncoded(encoding);
 
             using (var sr = new StreamReader(result))
             {
@@ -424,38 +424,6 @@
             }
 
             return formDataSet;
-        }
-
-        static Stream CreateBody(String enctype, Encoding encoding, FormDataSet formDataSet)
-        {
-            if (enctype.Isi(MimeTypeNames.UrlencodedForm))
-            {
-                return formDataSet.AsUrlEncoded(encoding);
-            }
-            else if (enctype.Isi(MimeTypeNames.MultipartForm))
-            {
-                return formDataSet.AsMultipart(encoding);
-            }
-            else if (enctype.Isi(MimeTypeNames.Plain))
-            {
-                return formDataSet.AsPlaintext(encoding);
-            }
-            else if (enctype.Isi(MimeTypeNames.ApplicationJson))
-            {
-                return formDataSet.AsJson();
-            }
-
-            return MemoryStream.Null;
-        }
-
-        static String CheckEncType(String encType)
-        {
-            if (encType.Isi(MimeTypeNames.Plain) || encType.Isi(MimeTypeNames.MultipartForm) || encType.Isi(MimeTypeNames.ApplicationJson))
-            {
-                return encType;
-            }
-
-            return MimeTypeNames.UrlencodedForm;
         }
 
         #endregion

@@ -4,6 +4,7 @@
     using AngleSharp.Css;
     using AngleSharp.Css.Values;
     using AngleSharp.Dom;
+    using Network;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -843,6 +844,12 @@
             }
 
             return value;
+        }
+
+        public static String ToEncodingType(this String encType)
+        {
+            return encType.Isi(MimeTypeNames.Plain) || encType.Isi(MimeTypeNames.MultipartForm) || encType.Isi(MimeTypeNames.ApplicationJson) ?
+                encType : MimeTypeNames.UrlencodedForm;
         }
     }
 }

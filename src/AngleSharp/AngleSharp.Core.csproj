@@ -187,6 +187,7 @@
     <Compile Include="Dom\Events\RequestEvent.cs" />
     <Compile Include="Extensions\ContextExtensions.cs" />
     <Compile Include="Extensions\EventLoopExtensions.cs" />
+    <Compile Include="Extensions\FormDataSetExtensions.cs" />
     <Compile Include="Extensions\ResponseExtensions.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
     <Compile Include="Network\CorsRequest.cs" />
