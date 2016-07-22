@@ -415,9 +415,9 @@
         /// that contains its properties as name value pairs.
         /// </summary>
         /// <param name="element">The element to submit its form.</param>
-        /// <param name="fields">The fields to use as values.</param>
+        /// <param name="fields">The optional fields to use as values.</param>
         /// <returns>The task eventually resulting in the response.</returns>
-        public static Task<IDocument> SubmitAsync(this IHtmlElement element, Object fields)
+        public static Task<IDocument> SubmitAsync(this IHtmlElement element, Object fields = null)
         {
             return element.SubmitAsync(fields.ToDictionary());
         }
