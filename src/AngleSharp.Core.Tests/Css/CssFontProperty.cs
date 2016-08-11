@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests.Css
 {
     using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
     using NUnit.Framework;
 
     [TestFixture]
@@ -733,6 +734,18 @@
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("status-bar", concrete.Value);
+        }
+
+        [Test]
+        public void CssFontFaceShouldSerializeCorrectly()
+        {
+            var snippet = @"@font-face {
+        font-family: FrutigerLTStd;
+            src: url(""https://example.com/FrutigerLTStd-Light.otf"") format(""opentype"");
+    }";
+            var rule = ParseRule(snippet);
+            Assert.AreEqual(CssRuleType.FontFace, rule.Type);
+            Assert.AreEqual("@font-face { font-family: FrutigerLTStd; src: url(\"https://example.com/FrutigerLTStd-Light.otf\") format(\"opentype\") }", rule.ToCss());
         }
 
         [Test]
