@@ -737,7 +737,20 @@
         }
 
         [Test]
-        public void CssFontFaceShouldSerializeCorrectly()
+        public void CssFontFaceWithThreeRulesShouldSerializeCorrectly()
+        {
+            var snippet = @"@font-face {
+        font-family: FrutigerLTStd;
+            src: url(""https://example.com/FrutigerLTStd-Light.otf"") format(""opentype"");
+           font-weight: bold;
+    }";
+            var rule = ParseRule(snippet);
+            Assert.AreEqual(CssRuleType.FontFace, rule.Type);
+            Assert.AreEqual("@font-face { font-family: FrutigerLTStd; src: url(\"https://example.com/FrutigerLTStd-Light.otf\") format(\"opentype\"); font-weight: bold }", rule.ToCss());
+        }
+
+        [Test]
+        public void CssFontFaceWithTwoRulesShouldSerializeCorrectly()
         {
             var snippet = @"@font-face {
         font-family: FrutigerLTStd;
@@ -746,6 +759,17 @@
             var rule = ParseRule(snippet);
             Assert.AreEqual(CssRuleType.FontFace, rule.Type);
             Assert.AreEqual("@font-face { font-family: FrutigerLTStd; src: url(\"https://example.com/FrutigerLTStd-Light.otf\") format(\"opentype\") }", rule.ToCss());
+        }
+
+        [Test]
+        public void CssFontFaceWithOneRuleShouldSerializeCorrectly()
+        {
+            var snippet = @"@font-face {
+        font-family: FrutigerLTStd;
+    }";
+            var rule = ParseRule(snippet);
+            Assert.AreEqual(CssRuleType.FontFace, rule.Type);
+            Assert.AreEqual("@font-face { font-family: FrutigerLTStd }", rule.ToCss());
         }
 
         [Test]
