@@ -114,13 +114,31 @@
 
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            var rules = formatter.Block(Declarations.Where(m => m.HasValue));
-            writer.Write(formatter.Rule("@" + _name, null, rules));
+            var rules = new FormatTransporter(Declarations);
+            var content = formatter.Style("@" + _name, rules);
+            writer.Write(content);
         }
 
         #endregion
 
         #region Helpers
+
+        struct FormatTransporter : IStyleFormattable
+        {
+            private readonly IEnumerable<CssProperty> _properties;
+
+            public FormatTransporter(IEnumerable<CssProperty> properties)
+            {
+                _properties = properties.Where(m => m.HasValue);
+            }
+
+            public void ToCss(TextWriter writer, IStyleFormatter formatter)
+            {
+                var properties = _properties.Select(m => m.ToCss(formatter));
+                var content = formatter.Declarations(properties);
+                writer.Write(content);
+            }
+        }
 
         protected abstract CssProperty CreateNewProperty(String name);
 

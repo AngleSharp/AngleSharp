@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests.Css
 {
     using AngleSharp.Dom.Css;
+    using AngleSharp.Extensions;
     using NUnit.Framework;
 
     [TestFixture]
@@ -733,6 +734,42 @@
             Assert.IsFalse(concrete.IsInherited);
             Assert.IsTrue(concrete.HasValue);
             Assert.AreEqual("status-bar", concrete.Value);
+        }
+
+        [Test]
+        public void CssFontFaceWithThreeRulesShouldSerializeCorrectly()
+        {
+            var snippet = @"@font-face {
+        font-family: FrutigerLTStd;
+            src: url(""https://example.com/FrutigerLTStd-Light.otf"") format(""opentype"");
+           font-weight: bold;
+    }";
+            var rule = ParseRule(snippet);
+            Assert.AreEqual(CssRuleType.FontFace, rule.Type);
+            Assert.AreEqual("@font-face { font-family: FrutigerLTStd; src: url(\"https://example.com/FrutigerLTStd-Light.otf\") format(\"opentype\"); font-weight: bold }", rule.ToCss());
+        }
+
+        [Test]
+        public void CssFontFaceWithTwoRulesShouldSerializeCorrectly()
+        {
+            var snippet = @"@font-face {
+        font-family: FrutigerLTStd;
+            src: url(""https://example.com/FrutigerLTStd-Light.otf"") format(""opentype"");
+    }";
+            var rule = ParseRule(snippet);
+            Assert.AreEqual(CssRuleType.FontFace, rule.Type);
+            Assert.AreEqual("@font-face { font-family: FrutigerLTStd; src: url(\"https://example.com/FrutigerLTStd-Light.otf\") format(\"opentype\") }", rule.ToCss());
+        }
+
+        [Test]
+        public void CssFontFaceWithOneRuleShouldSerializeCorrectly()
+        {
+            var snippet = @"@font-face {
+        font-family: FrutigerLTStd;
+    }";
+            var rule = ParseRule(snippet);
+            Assert.AreEqual(CssRuleType.FontFace, rule.Type);
+            Assert.AreEqual("@font-face { font-family: FrutigerLTStd }", rule.ToCss());
         }
 
         [Test]

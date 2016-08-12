@@ -189,7 +189,8 @@ Task("Publish-Release")
             Credentials = new Credentials(githubToken)
         };
 
-        github.Release.Create("AngleSharp", "AngleSharp", new NewRelease("v" + version)
+        var newRelease = github.Repository.Release;
+        newRelease.Create("AngleSharp", "AngleSharp", new NewRelease("v" + version)
         {
             Name = version,
             Body = String.Join(Environment.NewLine, releaseNotes.Notes),
