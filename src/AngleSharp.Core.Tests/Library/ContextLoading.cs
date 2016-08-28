@@ -1,9 +1,12 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
+    using AngleSharp.Network;
+    using AngleSharp.Services.Default;
     using AngleSharp.Services.Media;
     using NUnit.Framework;
     using System;
@@ -453,6 +456,26 @@
 
             Assert.IsFalse(hasBeenChecked);
             Assert.IsTrue(hasBeenParsed);
+        }
+
+        [Test]
+        public async Task LoadCustomDocumentWithHandler()
+        {
+            var documentFactory = new DocumentFactory();
+            documentFactory.Register("text/markdown", (ctx, options, cancel) => Task.FromResult<IDocument>(new MarkdownDocument(ctx, options.Source)));
+            var config = new Configuration(new Object[] { documentFactory, new ContextFactory(), new ServiceFactory() });
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, "text/markdown"));
+            Assert.IsInstanceOf<MarkdownDocument>(document);
+        }
+
+        [Test]
+        public async Task LoadCustomDocumentWithoutHandler()
+        {
+            var config = new Configuration();
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, "text/markdown"));
+            Assert.IsInstanceOf<HtmlDocument>(document);
         }
     }
 }
