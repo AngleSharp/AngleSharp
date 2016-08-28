@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration over all list positions.
     /// </summary>
-    public enum ListPosition : ushort
+    public enum ListPosition : byte
     {
         /// <summary>
         /// The marker box is the first inline box in the principal

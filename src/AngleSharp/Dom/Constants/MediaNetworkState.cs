@@ -6,7 +6,7 @@
     /// An enumeration of possible network states.
     /// </summary>
     [DomName("HTMLMediaElement")]
-    public enum MediaNetworkState : ushort
+    public enum MediaNetworkState : byte
     {
         /// <summary>
         /// The element has not yet been initialized.

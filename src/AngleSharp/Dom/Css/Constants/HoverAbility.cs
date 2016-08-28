@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies a user's ability to hover over elements.
     /// </summary>
-    public enum HoverAbility : ushort
+    public enum HoverAbility : byte
     {
         /// <summary>
         /// Elements cannot be hovered at all.

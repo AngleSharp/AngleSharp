@@ -123,7 +123,7 @@
         [DomName("defaultPrevented")]
         public Boolean IsDefaultPrevented
         {
-            get { return _flags.HasFlag(EventFlags.Canceled); }
+            get { return (_flags & EventFlags.Canceled) == EventFlags.Canceled; }
         }
 
         /// <summary>
@@ -190,7 +190,7 @@
         {
             _flags |= EventFlags.Initialized;
 
-            if (!_flags.HasFlag(EventFlags.Dispatch))
+            if ((_flags & EventFlags.Dispatch) != EventFlags.Dispatch)
             {
                 _flags &= ~(EventFlags.StopPropagation | EventFlags.StopImmediatePropagation | EventFlags.Canceled);
                 IsTrusted = false;
@@ -227,7 +227,7 @@
             DispatchAt(eventPath.Reverse<IEventTarget>());
             _phase = EventPhase.AtTarget;
 
-            if (!_flags.HasFlag(EventFlags.StopPropagation))
+            if ((_flags & EventFlags.StopPropagation) != EventFlags.StopPropagation)
             {
                 CallListeners(target);
             }
@@ -241,7 +241,7 @@
             _flags &= ~EventFlags.Dispatch;
             _phase = EventPhase.None;
             _current = null;
-            return _flags.HasFlag(EventFlags.Canceled);
+            return (_flags & EventFlags.Canceled) == EventFlags.Canceled;
         }
 
         void CallListeners(IEventTarget target)
@@ -256,7 +256,7 @@
             {
                 CallListeners(target);
 
-                if (_flags.HasFlag(EventFlags.StopPropagation))
+                if ((_flags & EventFlags.StopPropagation) == EventFlags.StopPropagation)
                 {
                     break;
                 }

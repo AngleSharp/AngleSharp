@@ -3,7 +3,7 @@
     /// <summary>
     /// The default origin behavior states.
     /// </summary>
-    public enum OriginBehavior
+    public enum OriginBehavior : byte
     {
         /// <summary>
         /// Data is gathered.

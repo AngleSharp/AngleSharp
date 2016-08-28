@@ -3,7 +3,7 @@
     /// <summary>
     /// CORS settings attributes (see 2.6.6).
     /// </summary>
-    public enum CorsSetting : ushort
+    public enum CorsSetting : byte
     {
         /// <summary>
         /// The default (missing) value.

@@ -131,7 +131,7 @@
 
         public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
-            if (Parent != null && Parent.Flags.HasFlag(NodeFlags.LiteralText))
+            if (Parent != null && ((Parent.Flags & NodeFlags.LiteralText) == NodeFlags.LiteralText))
             {
                 writer.Write(Data);
             }

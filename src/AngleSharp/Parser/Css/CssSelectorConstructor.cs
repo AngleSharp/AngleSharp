@@ -599,7 +599,7 @@
 		/// <summary>
 		/// The various parsing states.
 		/// </summary>
-		enum State
+		enum State : byte
 		{
 			Data,
 			Attribute,
@@ -1105,7 +1105,7 @@
 
             }
 
-            enum ParseState
+            enum ParseState : byte
             {
                 Initial,
                 AfterInitialSign,

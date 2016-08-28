@@ -428,7 +428,7 @@
 
         #region Confidence
 
-        enum EncodingConfidence
+        enum EncodingConfidence : byte
         {
             Tentative,
             Certain,

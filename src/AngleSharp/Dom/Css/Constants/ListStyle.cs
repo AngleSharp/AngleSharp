@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration over possible list styles.
     /// </summary>
-    public enum ListStyle : ushort
+    public enum ListStyle : byte
     {
         /// <summary>
         /// No list style at all.

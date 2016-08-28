@@ -183,7 +183,7 @@
 
         #region Context Mode
 
-        enum ContextMode
+        enum ContextMode : byte
         {
             None,
             Direct2d, 

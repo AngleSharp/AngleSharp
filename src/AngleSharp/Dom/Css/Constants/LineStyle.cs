@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with all possible line styles.
     /// </summary>
-    public enum LineStyle : ushort
+    public enum LineStyle : byte
     {
         /// <summary>
         /// No outline (outline-width is 0).

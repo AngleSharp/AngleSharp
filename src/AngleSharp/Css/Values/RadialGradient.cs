@@ -112,7 +112,7 @@
         /// <summary>
         /// Enumeration with special size modes.
         /// </summary>
-        public enum SizeMode
+        public enum SizeMode : byte
         {
             /// <summary>
             /// No special size mode set.

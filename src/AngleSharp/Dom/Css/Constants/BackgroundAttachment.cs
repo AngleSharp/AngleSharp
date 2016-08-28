@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with all background attachment settings.
     /// </summary>
-    public enum BackgroundAttachment : ushort
+    public enum BackgroundAttachment : byte
     {
         /// <summary>
         /// This keyword means that the background is fixed with regard to the viewport.

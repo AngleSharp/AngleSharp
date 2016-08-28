@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with various unicode modes.
     /// </summary>
-    public enum UnicodeMode : ushort
+    public enum UnicodeMode : byte
     {
         /// <summary>
         /// The element does not offer a additional level of embedding

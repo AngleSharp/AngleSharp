@@ -191,7 +191,7 @@
 
         #region Enumeration
 
-        public enum Mode
+        public enum Mode : byte
         {
             None,
             Valid,

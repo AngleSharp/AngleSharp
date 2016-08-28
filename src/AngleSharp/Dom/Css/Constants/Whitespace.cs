@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with the various whitespace handling modes.
     /// </summary>
-    public enum Whitespace : ushort
+    public enum Whitespace : byte
     {
         /// <summary>
         /// Sequences of whitespace are collapsed. Newline characters in the source

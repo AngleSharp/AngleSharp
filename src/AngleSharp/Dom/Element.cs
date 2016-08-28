@@ -582,12 +582,12 @@
 
         public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
-            var selfClosing = Flags.HasFlag(NodeFlags.SelfClosing);
+            var selfClosing = (Flags & NodeFlags.SelfClosing) == NodeFlags.SelfClosing;
             writer.Write(formatter.OpenTag(this, selfClosing));
 
             if (!selfClosing)
             {
-                if (Flags.HasFlag(NodeFlags.LineTolerance) && FirstChild is IText)
+                if (((Flags & NodeFlags.LineTolerance) == NodeFlags.LineTolerance) && FirstChild is IText)
                 {
                     var text = (IText)FirstChild;
 

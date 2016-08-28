@@ -6,7 +6,7 @@
     /// Enumeration with the various media error codes.
     /// </summary>
     [DomName("MediaError")]
-    public enum MediaErrorCode : ushort
+    public enum MediaErrorCode : byte
     {
         /// <summary>
         /// The transfer has been aborted.

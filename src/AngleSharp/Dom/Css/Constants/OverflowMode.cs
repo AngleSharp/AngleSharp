@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with possible overflow modes.
     /// </summary>
-    public enum OverflowMode : ushort
+    public enum OverflowMode : byte
     {
         /// <summary>
         /// The overflow-mode is determined by the renderer.

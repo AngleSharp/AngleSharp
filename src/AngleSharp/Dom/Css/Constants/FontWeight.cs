@@ -3,7 +3,7 @@
     /// <summary>
     /// A listing of all possible pre-defined font-weights.
     /// </summary>
-    public enum FontWeight : ushort
+    public enum FontWeight : byte
     {
         /// <summary>
         /// Represents a fount weight of 400.

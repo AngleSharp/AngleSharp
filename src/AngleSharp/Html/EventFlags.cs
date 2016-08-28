@@ -6,7 +6,7 @@
     /// A set of flags for an event.
     /// </summary>
     [Flags]
-    enum EventFlags
+    enum EventFlags : byte
     {
         /// <summary>
         /// No flags are set.

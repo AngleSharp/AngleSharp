@@ -3,7 +3,7 @@
     /// <summary>
     /// Possible insertation mode values.
     /// </summary>
-    enum HtmlTreeMode
+    enum HtmlTreeMode : byte
     {
         /// <summary>
         /// Initial insertation mode.

@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines the document readiness.
     /// </summary>
-    public enum DocumentReadyState : ushort
+    public enum DocumentReadyState : byte
     {
         /// <summary>
         /// The document is still loading.

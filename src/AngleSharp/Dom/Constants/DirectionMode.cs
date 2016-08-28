@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with all dir modes.
     /// </summary>
-    public enum DirectionMode : ushort
+    public enum DirectionMode : byte
     {
         /// <summary>
         /// Text and other elements go from left to right.

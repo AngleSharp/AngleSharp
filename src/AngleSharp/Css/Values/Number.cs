@@ -133,7 +133,7 @@
         /// <summary>
         /// An enumeration of angle representations.
         /// </summary>
-        public enum Unit : ushort
+        public enum Unit : byte
         {
             /// <summary>
             /// The value has been given as an integer.
