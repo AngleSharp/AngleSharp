@@ -9,9 +9,9 @@
     /// <summary>
     /// Provides string to CSS pseudo class selector instance mappings.
     /// </summary>
-    public sealed class PseudoClassSelectorFactory : IPseudoClassSelectorFactory
+    public class PseudoClassSelectorFactory : IPseudoClassSelectorFactory
     {
-        readonly Dictionary<String, ISelector> selectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, ISelector> _selectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase)
         {
             { PseudoClassNames.Root, SimpleSelector.PseudoClass(el => el.Owner.DocumentElement == el, PseudoClassNames.Root) },
             { PseudoClassNames.Scope, SimpleSelector.PseudoClass(el => el.Owner.DocumentElement == el, PseudoClassNames.Scope) },
@@ -53,6 +53,46 @@
         };
 
         /// <summary>
+        /// Registers a new selector for the specified name.
+        /// Throws an exception if another selector for the given
+        /// name is already added.
+        /// </summary>
+        /// <param name="name">The name of the CSS pseudo class.</param>
+        /// <param name="selector">The selector to register.</param>
+        public void Register(String name, ISelector selector)
+        {
+            _selectors.Add(name, selector);
+        }
+
+        /// <summary>
+        /// Unregisters an existing selector for the given name.
+        /// </summary>
+        /// <param name="name">The name of the CSS pseudo class.</param>
+        /// <returns>The registered selector, if any.</returns>
+        public ISelector Unregister(String name)
+        {
+            var selector = default(ISelector);
+
+            if (_selectors.TryGetValue(name, out selector))
+            {
+                _selectors.Remove(name);
+            }
+
+            return selector;
+        }
+
+        /// <summary>
+        /// Creates the default CSS pseudo class selector for the given
+        /// name.
+        /// </summary>
+        /// <param name="name">The name of the CSS pseudo class.</param>
+        /// <returns>The selector with the given name.</returns>
+        protected virtual ISelector CreateDefault(String name)
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Creates or gets the associated CSS pseudo class selector.
         /// </summary>
         /// <param name="name">The name of the CSS pseudo class.</param>
@@ -61,12 +101,12 @@
         {
             var selector = default(ISelector);
 
-            if (selectors.TryGetValue(name, out selector))
+            if (_selectors.TryGetValue(name, out selector))
             {
                 return selector;
             }
 
-            return null;
+            return CreateDefault(name);
         }
     }
 }

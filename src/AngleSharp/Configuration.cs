@@ -13,9 +13,9 @@
     {
         #region Fields
 
-        readonly IEnumerable<Object> _services;
+        private readonly IEnumerable<Object> _services;
 
-        static readonly Object[] standardServices = new Object[]
+        private static readonly Object[] standardServices = new Object[]
         {
             Factory.HtmlElements,
             Factory.MathElements,
@@ -37,12 +37,12 @@
         /// <summary>
         /// A fixed configuration that cannot be changed.
         /// </summary>
-        static readonly Configuration defaultConfiguration = new Configuration();
+        private static readonly Configuration defaultConfiguration = new Configuration();
 
         /// <summary>
         /// A custom configuration that is user-defined.
         /// </summary>
-        static IConfiguration customConfiguration;
+        private static IConfiguration customConfiguration;
 
         #endregion
 
