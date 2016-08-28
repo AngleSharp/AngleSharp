@@ -459,7 +459,7 @@
         }
 
         [Test]
-        public async Task LoadCustomDocumentWithHandler()
+        public async Task LoadCustomDocumentWithRegisteredHandler()
         {
             var documentFactory = new DocumentFactory();
             documentFactory.Register("text/markdown", (ctx, options, cancel) => Task.FromResult<IDocument>(new MarkdownDocument(ctx, options.Source)));
@@ -470,7 +470,21 @@
         }
 
         [Test]
-        public async Task LoadCustomDocumentWithoutHandler()
+        public async Task LoadCustomDocumentWithoutUnregisteredHandler()
+        {
+            var type = "text/markdown";
+            var documentFactory = new DocumentFactory();
+            documentFactory.Register(type, (ctx, options, cancel) => Task.FromResult<IDocument>(new MarkdownDocument(ctx, options.Source)));
+            var handler = documentFactory.Unregister(type);
+            var config = new Configuration(new Object[] { documentFactory, new ContextFactory(), new ServiceFactory(), new HtmlElementFactory(), new SvgElementFactory(), new MathElementFactory(), new EventFactory() });
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, type));
+            Assert.IsNotNull(handler);
+            Assert.IsInstanceOf<HtmlDocument>(document);
+        }
+
+        [Test]
+        public async Task LoadCustomDocumentWithoutAnyHandler()
         {
             var config = new Configuration();
             var context = BrowsingContext.New(config);
