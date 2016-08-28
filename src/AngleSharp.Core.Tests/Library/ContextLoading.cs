@@ -300,6 +300,19 @@
         }
 
         [Test]
+        public async Task LoadingPdfDocumentInsteadOfHtmlShouldWork()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var address = "http://www.europarl.europa.eu/sides/getDoc.do?type=COMPARL&reference=PE-583.901&format=PDF&language=EN&secondRef=01";
+                var config = Configuration.Default.WithDefaultLoader();
+                var context = BrowsingContext.New(config);
+                var document = await context.OpenAsync(address);
+                Assert.IsNotNull(document);
+            }
+        }
+
+        [Test]
         public async Task GetDownloadsOfEmptyDocumentShouldBeZero()
         {
             var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true);
