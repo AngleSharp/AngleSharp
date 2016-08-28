@@ -15,7 +15,14 @@
         /// <param name="priority">The priority of the item.</param>
         public static void Enqueue(this IEventLoop loop, Action action, TaskPriority priority = TaskPriority.Normal)
         {
-            loop.Enqueue(c => action(), priority);
+            if (loop != null)
+            {
+                loop.Enqueue(c => action(), priority);
+            }
+            else
+            {
+                action.Invoke();
+            }
         }
     }
 }
