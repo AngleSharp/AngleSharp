@@ -8,11 +8,9 @@
     /// <summary>
     /// Provides string to CSS attribute selector instance mappings.
     /// </summary>
-    public sealed class AttributeSelectorFactory : IAttributeSelectorFactory
+    public class AttributeSelectorFactory : IAttributeSelectorFactory
     {
-        delegate ISelector Creator(String name, String value, String prefix);
-
-        readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>
+        private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>
         {
             { CombinatorSymbols.Exactly, SimpleSelector.AttrMatch },
             { CombinatorSymbols.InList, SimpleSelector.AttrList },
@@ -22,6 +20,56 @@
             { CombinatorSymbols.InText, SimpleSelector.AttrContains },
             { CombinatorSymbols.Unlike, SimpleSelector.AttrNotMatch },
         };
+
+        /// <summary>
+        /// Represents a creator delegate for creating an attribute selector.
+        /// </summary>
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="value">The value of the attribute.</param>
+        /// <param name="prefix">The prefix for the attribute.</param>
+        /// <returns></returns>
+        public delegate ISelector Creator(String name, String value, String prefix);
+
+        /// <summary>
+        /// Registers a new creator for the specified combinator.
+        /// Throws an exception if another creator for the given
+        /// combinator is already added.
+        /// </summary>
+        /// <param name="combinator">The used CSS combinator.</param>
+        /// <param name="creator">The creator to invoke.</param>
+        public void Register(String combinator, Creator creator)
+        {
+            _creators.Add(combinator, creator);
+        }
+
+        /// <summary>
+        /// Unregisters an existing creator for the given combinator.
+        /// </summary>
+        /// <param name="combinator">The used CSS combinator.</param>
+        /// <returns>The registered creator, if any.</returns>
+        public Creator Unregister(String combinator)
+        {
+            var creator = default(Creator);
+
+            if (_creators.TryGetValue(combinator, out creator))
+            {
+                _creators.Remove(combinator);
+            }
+
+            return creator;
+        }
+
+        /// <summary>
+        /// Creates the default CSS attribute selector for the given options.
+        /// </summary>
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="value">The used value, if any.</param>
+        /// <param name="prefix">The given prefix, if any.</param>
+        /// <returns>The selector with the given options.</returns>
+        protected virtual ISelector CreateDefault(String name, String value, String prefix)
+        {
+            return SimpleSelector.AttrAvailable(name, value);
+        }
 
         /// <summary>
         /// Creates the associated CSS attribute selector.
@@ -35,12 +83,12 @@
         {
             var creator = default(Creator);
 
-            if (creators.TryGetValue(combinator, out creator))
+            if (_creators.TryGetValue(combinator, out creator))
             {
-                return creator(name, value, prefix);
+                return creator.Invoke(name, value, prefix);
             }
 
-            return SimpleSelector.AttrAvailable(name, value);
+            return CreateDefault(name, value, prefix);
         }
     }
 }
