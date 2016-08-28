@@ -9,14 +9,14 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    sealed class StyleSheetRequestProcessor :  BaseRequestProcessor
+    sealed class StyleSheetRequestProcessor : BaseRequestProcessor
     {
         #region Fields
 
-        readonly HtmlLinkElement _link;
-        readonly Document _document;
-        readonly IResourceLoader _loader;
-        IStyleEngine _engine;
+        private readonly HtmlLinkElement _link;
+        private readonly Document _document;
+        private readonly IResourceLoader _loader;
+        private IStyleEngine _engine;
 
         #endregion
 

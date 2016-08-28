@@ -11,8 +11,8 @@
     {
         #region Fields
 
-        readonly HtmlLinkElement _link;
-        readonly IRequestProcessor _processor;
+        private readonly HtmlLinkElement _link;
+        private readonly IRequestProcessor _processor;
 
         #endregion
 

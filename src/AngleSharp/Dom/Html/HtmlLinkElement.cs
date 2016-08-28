@@ -15,9 +15,9 @@
     {
         #region Fields
 
-        BaseLinkRelation _relation;
-        TokenList _relList;
-        SettableTokenList _sizes;
+        private BaseLinkRelation _relation;
+        private TokenList _relList;
+        private SettableTokenList _sizes;
 
         #endregion
 
@@ -194,7 +194,7 @@
 
         #region Helpers
 
-        void UpdateMedia(String value)
+        private void UpdateMedia(String value)
         {
             var sheet = Sheet;
 
@@ -204,7 +204,7 @@
             }
         }
 
-        void UpdateDisabled(String value)
+        private void UpdateDisabled(String value)
         {
             var sheet = Sheet;
 
@@ -214,33 +214,20 @@
             }
         }
 
-        void UpdateRelation(String value)
+        private void UpdateRelation(String value)
         {
-            _relList?.Update(value);
-
-            if (_relation != null)
-            {
-                //TODO
-                //_relation.Cancel();
-            }
-            
+            _relList?.Update(value);            
             _relation = CreateFirstLegalRelation();
             UpdateSource(this.GetOwnAttribute(AttributeNames.Href));
         }
 
-        void UpdateSource(String value)
+        private void UpdateSource(String value)
         {
-            if (_relation != null)
-            {
-                //TODO
-                //_relation.Cancel();
-
-                var task = _relation.LoadAsync();
-                Owner?.DelayLoad(task);
-            }
+            var task = _relation?.LoadAsync();
+            Owner?.DelayLoad(task);
         }
 
-        BaseLinkRelation CreateFirstLegalRelation()
+        private BaseLinkRelation CreateFirstLegalRelation()
         {
             var relations = RelationList;
             var factory = Owner?.Options.GetFactory<ILinkRelationFactory>();
