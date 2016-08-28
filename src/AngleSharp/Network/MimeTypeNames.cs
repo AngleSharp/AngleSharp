@@ -466,7 +466,7 @@
         /// <returns>The mime-type of the given extension.</returns>
         public static String FromExtension(String extension)
         {
-            var mime = String.Empty;
+            string mime;
 
             if (extensions.TryGetValue(extension, out mime))
                 return mime;

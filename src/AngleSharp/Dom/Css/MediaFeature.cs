@@ -72,7 +72,7 @@
 
         internal Boolean TrySetValue(CssValue value)
         {
-            var result = false;
+            bool result;
 
             if (value == null)
             {

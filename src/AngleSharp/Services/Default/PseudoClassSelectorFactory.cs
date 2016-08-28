@@ -71,7 +71,7 @@
         /// <returns>The registered selector, if any.</returns>
         public ISelector Unregister(String name)
         {
-            var selector = default(ISelector);
+            ISelector selector;
 
             if (_selectors.TryGetValue(name, out selector))
             {
@@ -99,7 +99,7 @@
         /// <returns>The associated selector.</returns>
         public ISelector Create(String name)
         {
-            var selector = default(ISelector);
+            ISelector selector;
 
             if (_selectors.TryGetValue(name, out selector))
             {

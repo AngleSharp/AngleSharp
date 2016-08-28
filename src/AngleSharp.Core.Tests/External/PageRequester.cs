@@ -51,8 +51,8 @@
         async Task<String> AddResourceAsync(String url, IResponse response)
         {
             var counter = 1;
-            var file = default(String);
-            var path = default(String);
+            string file;
+            string path;
 
             do
             {

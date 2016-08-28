@@ -559,7 +559,7 @@
 
         ISelector GetPseudoFunction(CssFunctionToken arguments)
         {
-            var creator = default(Func<CssSelectorConstructor, FunctionState>);
+            Func<CssSelectorConstructor, FunctionState> creator;
 
             if (pseudoClassFunctions.TryGetValue(arguments.Data, out creator))
             {

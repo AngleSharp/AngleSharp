@@ -10,7 +10,7 @@
         public void LengthParseCorrectPxValue()
         {
             var s = "12px";
-            var v = default(Length);
+            Length v;
             var r = Length.TryParse(s, out v);
             Assert.IsTrue(r);
             Assert.AreEqual(12f, v.Value);
@@ -21,7 +21,7 @@
         public void LengthParseIncorrectValue()
         {
             var s = "123.5";
-            var v = default(Length);
+            Length v;
             var r = Length.TryParse(s, out v);
             Assert.IsFalse(r);
         }
@@ -30,7 +30,7 @@
         public void LengthParseCorrectVwValue()
         {
             var s = "12.2vw";
-            var v = default(Length);
+            Length v;
             var r = Length.TryParse(s, out v);
             Assert.IsTrue(r);
             Assert.AreEqual(12.2f, v.Value);
@@ -41,7 +41,7 @@
         public void AngleParseCorrectDegValue()
         {
             var s = "1.35e2deg";
-            var v = default(Angle);
+            Angle v;
             var r = Angle.TryParse(s, out v);
             Assert.IsTrue(r);
             Assert.AreEqual(135f, v.Value);
@@ -52,7 +52,7 @@
         public void ResolutionParseCorrectDpiValue()
         {
             var s = "-24.0dpi";
-            var v = default(Resolution);
+            Resolution v;
             var r = Resolution.TryParse(s, out v);
             Assert.IsTrue(r);
             Assert.AreEqual(-24f, v.Value);
@@ -63,7 +63,7 @@
         public void FrequencyParseCorrectKhzValue()
         {
             var s = "17.123khz";
-            var v = default(Frequency);
+            Frequency v;
             var r = Frequency.TryParse(s, out v);
             Assert.IsTrue(r);
             Assert.AreEqual(17.123f, v.Value);
@@ -74,7 +74,7 @@
         public void TimeParseCorrectSecondsValue()
         {
             var s = "0s";
-            var v = default(Time);
+            Time v;
             var r = Time.TryParse(s, out v);
             Assert.IsTrue(r);
             Assert.AreEqual(0f, v.Value);
@@ -85,7 +85,7 @@
         public void AngleParseIncorrectValue()
         {
             var s = "123.deg";
-            var v = default(Angle);
+            Angle v;
             var r = Angle.TryParse(s, out v);
             Assert.IsFalse(r);
         }

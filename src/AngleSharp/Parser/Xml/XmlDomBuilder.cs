@@ -80,7 +80,7 @@
         public async Task<Document> ParseAsync(XmlParserOptions options, CancellationToken cancelToken)
         {
             var source = _document.Source;
-            var token = default(XmlToken);
+            XmlToken token;
             _options = options;
 
             do
@@ -104,7 +104,7 @@
         /// <param name="options">The options to use for parsing.</param>
         public Document Parse(XmlParserOptions options)
         {
-            var token = default(XmlToken);
+            XmlToken token;
 
             do
             {

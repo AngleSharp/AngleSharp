@@ -201,7 +201,7 @@
 
         private String GetHeader(String name)
         {
-            var value = default(String);
+            string value;
             Headers.TryGetValue(name, out value);
             return value;
         }

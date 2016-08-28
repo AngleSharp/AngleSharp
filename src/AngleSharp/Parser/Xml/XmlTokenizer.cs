@@ -160,7 +160,7 @@
         {
             var c = GetNext();
             var start = StringBuffer.Length;
-            var hex = false;
+            bool hex;
             var numeric = c == Symbols.Num;
 
             if (numeric)

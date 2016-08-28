@@ -109,7 +109,7 @@
         public async Task<HtmlDocument> ParseAsync(HtmlParserOptions options, CancellationToken cancelToken)
         {
             var source = _document.Source;
-            var token = default(HtmlToken);
+            HtmlToken token;
             _tokenizer.IsStrictMode = options.IsStrictMode;
             _options = options;
 
@@ -140,7 +140,7 @@
         /// <param name="options">The options to use for parsing.</param>
         public HtmlDocument Parse(HtmlParserOptions options)
         {
-            var token = default(HtmlToken);
+            HtmlToken token;
             _tokenizer.IsStrictMode = options.IsStrictMode;
             _options = options;
 
@@ -2913,9 +2913,9 @@
         private void HeisenbergAlgorithm(HtmlTagToken tag)
         {
             var outer = 0;
-            var inner = 0;
-            var bookmark = 0;
-            var index = 0;
+            int inner;
+            int bookmark;
+            int index;
 
             while (outer < 8)
             {

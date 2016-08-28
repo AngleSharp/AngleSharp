@@ -108,7 +108,7 @@
         public static T ToEnum<T>(this String value, T defaultValue)
             where T : struct, IComparable
         {
-            var converted = default(T);
+            T converted;
 
             if (!String.IsNullOrEmpty(value) && Enum.TryParse(value, true, out converted))
             {
@@ -126,7 +126,7 @@
         /// <returns>The converted double.</returns>
         public static Double ToDouble(this String value, Double defaultValue = 0.0)
         {
-            var converted = default(Double);
+            double converted;
 
             if (!String.IsNullOrEmpty(value) && Double.TryParse(value, NumberStyles.Any, NumberFormatInfo.InvariantInfo, out converted))
             {
@@ -144,7 +144,7 @@
         /// <returns>The converted integer.</returns>
         public static Int32 ToInteger(this String value, Int32 defaultValue = 0)
         {
-            var converted = default(Int32);
+            int converted;
 
             if (!String.IsNullOrEmpty(value) && Int32.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out converted))
             {
@@ -162,7 +162,7 @@
         /// <returns>The converted unsigned integer.</returns>
         public static UInt32 ToInteger(this String value, UInt32 defaultValue = 0)
         {
-            var converted = default(UInt32);
+            uint converted;
 
             if (!String.IsNullOrEmpty(value) && UInt32.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out converted))
             {
@@ -180,7 +180,7 @@
         /// <returns>The converted boolean.</returns>
         public static Boolean ToBoolean(this String value, Boolean defaultValue = false)
         {
-            var converted = default(Boolean);
+            bool converted;
 
             if (!String.IsNullOrEmpty(value) && Boolean.TryParse(value, out converted))
             {
@@ -687,7 +687,7 @@
         /// <returns>The CSS color representation.</returns>
         public static String CssColor(this String value)
         {
-            var color = default(Color);
+            Color color;
 
             if (Color.TryFromHex(value, out color))
             {

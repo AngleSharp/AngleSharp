@@ -114,7 +114,7 @@
 
         Double GetWidthFromLength(String length)
         {
-            var value = default(Length);
+            Length value;
 
             if (Length.TryParse(length, out value))
             {

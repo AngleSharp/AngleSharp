@@ -55,7 +55,7 @@
         /// <returns>The token type for the name.</returns>
         public static CssTokenType GetTypeFromName(this String functionName)
         {
-            var creator = default(Func<String, DocumentFunction>);
+            Func<string, DocumentFunction> creator;
             return functionTypes.TryGetValue(functionName, out creator) ? CssTokenType.Url : CssTokenType.Function;
         }
 
@@ -66,7 +66,7 @@
         /// <returns>The creator for the conjunction, if any.</returns>
         public static Func<IEnumerable<IConditionFunction>, IConditionFunction> GetCreator(this String conjunction)
         {
-            var creator = default(Func<IEnumerable<IConditionFunction>, IConditionFunction>);
+            Func<IEnumerable<IConditionFunction>, IConditionFunction> creator;
             groupCreators.TryGetValue(conjunction, out creator);
             return creator;
         }
@@ -148,7 +148,7 @@
         {
             if (token.Type == CssTokenType.Url)
             {
-                var creator = default(Func<String, DocumentFunction>);
+                Func<string, DocumentFunction> creator;
                 var functionName = ((CssUrlToken)token).FunctionName;
                 functionTypes.TryGetValue(functionName, out creator);
                 return creator(token.Data);

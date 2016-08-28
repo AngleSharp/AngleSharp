@@ -81,7 +81,7 @@
         static Boolean CheckCycle(IDocument document, Url location)
         {
             var ancestor = document.ImportAncestor;
-            var list = default(ImportList);
+            ImportList list;
 
             while (ancestor != null && ImportLists.TryGetValue(ancestor, out list))
             {

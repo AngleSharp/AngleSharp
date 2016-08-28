@@ -61,7 +61,7 @@
                 // We'll need an Ace prefix
                 output.Append(acePrefix);
 
-                var basicCount = 0;
+                int basicCount;
                 var numProcessed = 0;
 
                 for (basicCount = iAfterLastDot; basicCount < iNextDot; basicCount++)
@@ -108,9 +108,9 @@
                     // Main loop
                     while (numProcessed < (iNextDot - iAfterLastDot))
                     {
-                        var j = 0;
-                        var m = 0;
-                        var test = 0;
+                        int j;
+                        int m;
+                        int test;
 
                         for (m = MaxIntValue, j = iAfterLastDot; j < iNextDot; j += IsSupplementary(test) ? 2 : 1)
                         {
@@ -255,7 +255,7 @@
             const Int32 Skew = 38;
             const Int32 Damp = 700;
 
-            var k = 0u;
+            uint k;
 
             delta = firstTime ? delta / Damp : delta / 2;
             delta += delta / numPoints;
