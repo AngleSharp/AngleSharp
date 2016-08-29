@@ -3,8 +3,8 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
+    using AngleSharp.Services;
     using AngleSharp.Services.Styling;
-    using Services;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
