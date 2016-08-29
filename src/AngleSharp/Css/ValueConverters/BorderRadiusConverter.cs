@@ -59,11 +59,15 @@
             {
                 var front = new List<CssToken>();
                 var back = new List<CssToken>();
-                var props = new List<CssProperty>();
-                props.Add(properties.First(m => m.Name.Is(PropertyNames.BorderTopLeftRadius)));
-                props.Add(properties.First(m => m.Name.Is(PropertyNames.BorderTopRightRadius)));
-                props.Add(properties.First(m => m.Name.Is(PropertyNames.BorderBottomRightRadius)));
-                props.Add(properties.First(m => m.Name.Is(PropertyNames.BorderBottomLeftRadius)));
+                var props = new List<CssProperty>
+                                {
+                                    properties.First(m => m.Name.Is(PropertyNames.BorderTopLeftRadius)),
+                                    properties.First(m => m.Name.Is(PropertyNames.BorderTopRightRadius)),
+                                    properties.First(
+                                        m => m.Name.Is(PropertyNames.BorderBottomRightRadius)),
+                                    properties.First(
+                                        m => m.Name.Is(PropertyNames.BorderBottomLeftRadius))
+                                };
 
                 for (var i = 0; i < props.Count; i++)
                 {

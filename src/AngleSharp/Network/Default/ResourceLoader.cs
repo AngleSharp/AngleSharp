@@ -31,12 +31,12 @@
         public virtual IDownload DownloadAsync(ResourceRequest request)
         {
             var data = new Request
-            {
-                Address = request.Target,
-                Method = HttpMethod.Get
-            };
+                           {
+                               Address = request.Target,
+                               Method = HttpMethod.Get,
+                               Headers = { [HeaderNames.Referer] = request.Source.Owner.DocumentUri }
+                           };
 
-            data.Headers[HeaderNames.Referer] = request.Source.Owner.DocumentUri;
             return DownloadAsync(data, request.Source);
         }
 

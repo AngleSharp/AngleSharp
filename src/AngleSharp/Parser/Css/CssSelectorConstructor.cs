@@ -426,8 +426,7 @@
 
                     if (compound == null)
                     {
-                        compound = new CompoundSelector();
-                        compound.Add(_temp);
+                        compound = new CompoundSelector { this._temp };
                     }
 
                     compound.Add(selector);

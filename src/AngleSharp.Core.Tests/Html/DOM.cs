@@ -91,8 +91,7 @@
         {
             var document = new HtmlDocument();
             var testClass = "myclass";
-            var div = new HtmlDivElement(document);
-            div.ClassName = "";
+            var div = new HtmlDivElement(document) { ClassName = "" };
             div.ClassList.Add(testClass);
             Assert.AreEqual(testClass, div.ClassName);
         }
@@ -102,8 +101,7 @@
         {
             var document = new HtmlDocument();
             var testClass = "myclass";
-            var div = new HtmlDivElement(document);
-            div.ClassName = testClass + " whatever anotherclass";
+            var div = new HtmlDivElement(document) { ClassName = testClass + " whatever anotherclass" };
             Assert.IsTrue(div.ClassList.Contains(testClass));
         }
 
@@ -112,8 +110,7 @@
         {
             var document = new HtmlDocument();
             var testClass = "myclass1";
-            var div = new HtmlDivElement(document);
-            div.ClassName = "myclass2 whatever anotherclass";
+            var div = new HtmlDivElement(document) { ClassName = "myclass2 whatever anotherclass" };
             Assert.IsFalse(div.ClassList.Contains(testClass));
         }
 
@@ -123,8 +120,7 @@
             var document = new HtmlDocument();
             var testClass = "myclass";
             var otherClasses = "otherClass someOther more";
-            var div = new HtmlDivElement(document);
-            div.ClassName = testClass + " " + otherClasses;
+            var div = new HtmlDivElement(document) { ClassName = testClass + " " + otherClasses };
             div.ClassList.Toggle(testClass);
             Assert.AreEqual(div.ClassName, otherClasses);
         }
@@ -135,8 +131,7 @@
             var document = new HtmlDocument();
             var testClass = "myclass";
             var otherClasses = "otherClass someOther more";
-            var div = new HtmlDivElement(document);
-            div.ClassName = otherClasses;
+            var div = new HtmlDivElement(document) { ClassName = otherClasses };
             div.ClassList.Toggle(testClass);
             Assert.AreEqual(div.ClassName, otherClasses + " " + testClass);
         }

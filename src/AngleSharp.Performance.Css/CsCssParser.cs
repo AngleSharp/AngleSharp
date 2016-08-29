@@ -17,8 +17,7 @@
 
         public void Run(String source)
         {
-            var parser = new CssLoader();
-            parser.Compatibility = Alba.CsCss.BrowserCompatibility.FullStandards;
+            var parser = new CssLoader { Compatibility = Alba.CsCss.BrowserCompatibility.FullStandards };
 
             try
             {

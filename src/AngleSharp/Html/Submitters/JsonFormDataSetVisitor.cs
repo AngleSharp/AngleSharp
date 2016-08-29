@@ -45,11 +45,13 @@
             stream.CopyTo(content);
             var data = content.ToArray();
             var steps = JsonStep.Parse(entry.Name);
-            var value = new JsonObject();
-            
-            value[AttributeNames.Type] = new JsonValue(contentType);
-            value[AttributeNames.Name] = new JsonValue(fileName);
-            value[AttributeNames.Body] = new JsonValue(Convert.ToBase64String(data));
+            var value = new JsonObject
+                            {
+                                [AttributeNames.Type] = new JsonValue(contentType),
+                                [AttributeNames.Name] = new JsonValue(fileName),
+                                [AttributeNames.Body] = new JsonValue(Convert.ToBase64String(data))
+                            };
+
 
             foreach (var step in steps)
             {

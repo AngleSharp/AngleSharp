@@ -43,8 +43,7 @@
         public HttpRequester(String userAgent = null)
         {
             _timeOut = new TimeSpan(0, 0, 0, 45);
-            _headers = new Dictionary<String, String>();
-            _headers.Add("User-Agent", userAgent ?? _agentName);
+            _headers = new Dictionary<String, String> { { "User-Agent", userAgent ?? _agentName } };
         }
 
         #endregion

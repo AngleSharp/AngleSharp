@@ -128,8 +128,7 @@
             }
             else
             {
-                var obj = new JsonObject();
-                obj[String.Empty] = currentValue;
+                var obj = new JsonObject { [String.Empty] = currentValue };
                 return SetValue(context, obj);
             }
         }

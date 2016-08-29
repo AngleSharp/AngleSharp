@@ -71,8 +71,7 @@
 
         public static Stream StreamFromBytes(Byte[] content)
         {
-            var stream = new MemoryStream(content);
-            stream.Position = 0;
+            var stream = new MemoryStream(content) { Position = 0 };
             return stream;
         }
 
