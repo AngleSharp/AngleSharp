@@ -643,7 +643,7 @@
                     {
                         builder.Append(Symbols.ReverseSolidus).Append(character);
                     }
-                    else if (character.IsInRange((Int32)0x1, (Int32)0x1f) || character == (Char)0x7b)
+                    else if (character.IsInRange(0x1, 0x1f) || character == (Char)0x7b)
                     {
                         builder.Append(Symbols.ReverseSolidus).Append(character.ToHex()).Append(i + 1 != value.Length ? " " : "");
                     }

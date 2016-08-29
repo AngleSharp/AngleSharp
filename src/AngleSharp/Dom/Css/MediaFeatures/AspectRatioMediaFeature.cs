@@ -30,7 +30,7 @@
         {
             var ratio = Tuple.Create(1f, 1f);
             var desired = ratio.Item1 / ratio.Item2;
-            var available = (Single)device.ViewPortWidth / (Single)device.ViewPortHeight;
+            var available = device.ViewPortWidth / (Single)device.ViewPortHeight;
 
             if (IsMaximum)
             {
@@ -40,7 +40,7 @@
             {
                 return available >= desired;
             }
-            
+
             return desired == available;
         }
 

@@ -30,7 +30,7 @@
         {
             var ratio = Tuple.Create(1f, 1f);
             var desired = ratio.Item1 / ratio.Item2;
-            var available = (Single)device.DeviceWidth / (Single)device.DeviceHeight;
+            var available = device.DeviceWidth / (Single)device.DeviceHeight;
 
             if (IsMaximum)
             {

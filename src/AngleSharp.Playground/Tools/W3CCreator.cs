@@ -52,8 +52,8 @@
             {
                 var ltr = 'A';
 
-                while (methods.Contains(title + ltr.ToString()))
-                    ltr = (Char)((int)ltr + 1);
+                while (methods.Contains(title + ltr))
+                    ltr = (Char)(ltr + 1);
 
                 title += ltr.ToString();
             }
