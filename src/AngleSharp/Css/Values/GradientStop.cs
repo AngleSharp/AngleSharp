@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.Css.Values
 {
-    using AngleSharp.Dom.Css;
-
     /// <summary>
     /// More information can be found at the W3C:
     /// http://dev.w3.org/csswg/css-images-3/#color-stop-syntax

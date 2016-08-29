@@ -2,7 +2,6 @@
 {
     using AngleSharp.Attributes;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents a CSS declaration block, including its underlying state, where

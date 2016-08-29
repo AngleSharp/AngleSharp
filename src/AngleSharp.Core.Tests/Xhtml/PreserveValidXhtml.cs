@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Xhtml
 {
     using System.IO;
-    using AngleSharp.Dom;
     using NUnit.Framework;
 
     [TestFixture]

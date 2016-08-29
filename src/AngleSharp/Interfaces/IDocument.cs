@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Dom
 {
     using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
