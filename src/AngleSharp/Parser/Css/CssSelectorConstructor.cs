@@ -426,8 +426,7 @@
 
                     if (compound == null)
                     {
-                        compound = new CompoundSelector();
-                        compound.Add(_temp);
+                        compound = new CompoundSelector { this._temp };
                     }
 
                     compound.Add(selector);
@@ -559,7 +558,7 @@
 
         ISelector GetPseudoFunction(CssFunctionToken arguments)
         {
-            var creator = default(Func<CssSelectorConstructor, FunctionState>);
+            Func<CssSelectorConstructor, FunctionState> creator;
 
             if (pseudoClassFunctions.TryGetValue(arguments.Data, out creator))
             {
@@ -600,7 +599,7 @@
 		/// <summary>
 		/// The various parsing states.
 		/// </summary>
-		enum State
+		enum State : byte
 		{
 			Data,
 			Attribute,
@@ -1106,7 +1105,7 @@
 
             }
 
-            enum ParseState
+            enum ParseState : byte
             {
                 Initial,
                 AfterInitialSign,

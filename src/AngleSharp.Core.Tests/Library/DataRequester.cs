@@ -16,9 +16,7 @@
         public async Task DataGetRequestForPlainText()
         {
             var http = new DataRequester();
-            var request = new Request();
-            request.Address = new Url("data:,Hello+there");
-            request.Method = HttpMethod.Get;
+            var request = new Request { Address = new Url("data:,Hello+there"), Method = HttpMethod.Get };
 
             using (var response = await http.RequestAsync(request, CancellationToken.None))
             {

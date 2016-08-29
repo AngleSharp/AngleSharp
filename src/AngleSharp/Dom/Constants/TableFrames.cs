@@ -3,7 +3,7 @@
     /// <summary>
     /// The list of possible table frame directives.
     /// </summary>
-    public enum TableFrames : ushort
+    public enum TableFrames : byte
     {
         /// <summary>
         /// No sides. This is the default value.

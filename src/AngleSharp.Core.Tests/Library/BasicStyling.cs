@@ -13,20 +13,19 @@
     {
         static Task<IDocument> CreateDocumentWithOptions(String source)
         {
-            var mockRequester = new MockRequester();
-            mockRequester.BuildResponse = request =>
-            {
-                if (request.Address.Path.EndsWith("a.css"))
+            var mockRequester = new MockRequester { BuildResponse = request =>
                 {
-                    return "div#A   { color: blue;	}";
-                }
-                else if (request.Address.Path.EndsWith("b.css"))
-                {
-                    return "div#B   { color: red;   }";
-                }
+                    if (request.Address.Path.EndsWith("a.css"))
+                    {
+                        return "div#A   { color: blue;	}";
+                    }
+                    else if (request.Address.Path.EndsWith("b.css"))
+                    {
+                        return "div#B   { color: red;   }";
+                    }
 
-                return null;
-            };
+                    return null;
+                } };
             var config = Configuration.Default.WithCss().WithMockRequester(mockRequester);
             var context = BrowsingContext.New(config);
             return context.OpenAsync(m => m.Content(source));

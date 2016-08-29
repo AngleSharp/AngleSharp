@@ -3,7 +3,7 @@
     /// <summary>
     /// The enumeration with all possible clear modes.
     /// </summary>
-    public enum ClearMode : ushort
+    public enum ClearMode : byte
     {
         /// <summary>
         /// The element is not moved down to clear past floating elements.

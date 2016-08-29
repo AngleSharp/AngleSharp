@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with font variant transformations.
     /// </summary>
-    public enum FontVariant : ushort
+    public enum FontVariant : byte
     {
         /// <summary>
         /// Specifies a normal font face.

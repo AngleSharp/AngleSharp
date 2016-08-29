@@ -6,7 +6,7 @@
     /// An enumeration with possible values on how to compare boundary points.
     /// </summary>
     [DomName("Range")]
-    public enum RangeType : ushort
+    public enum RangeType : byte
     {
         /// <summary>
         /// From the start to the start (periodic).

@@ -201,8 +201,8 @@
 
         private Object GetArg(String arg)
         {
-            var integer = 0;
-            var number = 0.0;
+            int integer;
+            double number;
 
             if (Int32.TryParse(arg, out integer))
                 return integer;

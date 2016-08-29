@@ -432,8 +432,8 @@
 
             Assert.IsNotNull(table);
             Assert.AreEqual(2, table.Rows.Length);
-            Assert.AreEqual(0, (table.Rows[0] as IHtmlTableRowElement).Cells.Length);
-            Assert.AreEqual(0, (table.Rows[1] as IHtmlTableRowElement).Cells.Length);
+            Assert.AreEqual(0, table.Rows[0].Cells.Length);
+            Assert.AreEqual(0, table.Rows[1].Cells.Length);
         }
 
         [Test]
@@ -448,10 +448,10 @@
             Assert.IsNotNull(second);
 
             Assert.AreEqual(2, first.Rows.Length);
-            Assert.AreEqual(0, (first.Rows[0] as IHtmlTableRowElement).Cells.Length);
-            Assert.AreEqual(1, (first.Rows[1] as IHtmlTableRowElement).Cells.Length);
+            Assert.AreEqual(0, first.Rows[0].Cells.Length);
+            Assert.AreEqual(1, first.Rows[1].Cells.Length);
             Assert.AreEqual(1, second.Rows.Length);
-            Assert.AreEqual(0, (second.Rows[0] as IHtmlTableRowElement).Cells.Length);
+            Assert.AreEqual(0, second.Rows[0].Cells.Length);
         }
 
         [Test]

@@ -3,7 +3,7 @@
     /// <summary>
     /// All possible values for taking an element out of its normal flow.
     /// </summary>
-    public enum Floating : ushort
+    public enum Floating : byte
     {
         /// <summary>
         /// Indicates that the element must not float.

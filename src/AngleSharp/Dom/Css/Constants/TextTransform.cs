@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with all possible text transformations.
     /// </summary>
-    public enum TextTransform : ushort
+    public enum TextTransform : byte
     {
         /// <summary>
         /// Is a keyword preventing the case of all characters to be changed.

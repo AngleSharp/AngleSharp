@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with the various text decoration styles.
     /// </summary>
-    public enum TextDecorationStyle : ushort
+    public enum TextDecorationStyle : byte
     {
         /// <summary>
         /// Draws a single line.

@@ -30,7 +30,7 @@
             foreach (var element in document.All)
             {
                 var tag = element.NodeName;
-                var count = 0;
+                int count;
                 _bins.TryGetValue(tag, out count);
                 count++;
                 _bins[tag] = count;

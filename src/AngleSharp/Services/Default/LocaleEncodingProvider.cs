@@ -53,7 +53,7 @@
             if (!String.IsNullOrEmpty(locale) && locale.Length > 1)
             {
                 var name = locale.Substring(0, 2);
-                var encoding = default(Encoding);
+                Encoding encoding;
 
                 if (suggestions.TryGetValue(name, out encoding))
                 {

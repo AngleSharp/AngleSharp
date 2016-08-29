@@ -3,7 +3,7 @@
     /// <summary>
     /// Describes the various task priorities.
     /// </summary>
-    public enum TaskPriority
+    public enum TaskPriority : byte
     {
         /// <summary>
         /// The lowest possible priority.

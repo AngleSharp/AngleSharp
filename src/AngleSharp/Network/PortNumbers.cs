@@ -32,7 +32,7 @@
         /// </returns>
         public static String GetDefaultPort(String protocol)
         {
-            var value = default(String);
+            string value;
             ports.TryGetValue(protocol, out value);
             return value;
         }

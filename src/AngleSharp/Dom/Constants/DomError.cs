@@ -6,7 +6,7 @@
     /// A collection of official DOM error codes.
     /// </summary>
     [DomName("DOMError")]
-    public enum DomError : ushort
+    public enum DomError : byte
     {
         /// <summary>
         /// The index is not in the allowed range.

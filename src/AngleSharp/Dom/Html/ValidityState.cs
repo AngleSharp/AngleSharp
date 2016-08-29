@@ -32,7 +32,7 @@
         /// </summary>
         public Boolean IsValueMissing
         {
-            get { return _err.HasFlag(ErrorType.ValueMissing); }
+            get { return (_err & ErrorType.ValueMissing) == ErrorType.ValueMissing; }
             set { Set(IsValueMissing, value, ErrorType.ValueMissing); }
         }
 
@@ -41,7 +41,7 @@
         /// </summary>
         public Boolean IsTypeMismatch
         {
-            get { return _err.HasFlag(ErrorType.TypeMismatch); }
+            get { return (_err & ErrorType.TypeMismatch) == ErrorType.TypeMismatch; }
             set { Set(IsTypeMismatch, value, ErrorType.TypeMismatch); }
         }
 
@@ -50,7 +50,7 @@
         /// </summary>
         public Boolean IsPatternMismatch
         {
-            get { return _err.HasFlag(ErrorType.PatternMismatch); }
+            get { return (_err & ErrorType.PatternMismatch) == ErrorType.PatternMismatch; }
             set { Set(IsPatternMismatch, value, ErrorType.PatternMismatch); }
         }
 
@@ -59,7 +59,7 @@
         /// </summary>
         public Boolean IsBadInput
         {
-            get { return _err.HasFlag(ErrorType.BadInput); }
+            get { return (_err & ErrorType.BadInput) == ErrorType.BadInput; }
             set { Set(IsBadInput, value, ErrorType.BadInput); }
         }
 
@@ -68,7 +68,7 @@
         /// </summary>
         public Boolean IsTooLong
         {
-            get { return _err.HasFlag(ErrorType.TooLong); }
+            get { return (_err & ErrorType.TooLong) == ErrorType.TooLong; }
             set { Set(IsTooLong, value, ErrorType.TooLong); }
         }
 
@@ -77,7 +77,7 @@
         /// </summary>
         public Boolean IsTooShort
         {
-            get { return _err.HasFlag(ErrorType.TooShort); }
+            get { return (_err & ErrorType.TooShort) == ErrorType.TooShort; }
             set { Set(IsTooShort, value, ErrorType.TooShort); }
         }
 
@@ -86,7 +86,7 @@
         /// </summary>
         public Boolean IsRangeUnderflow
         {
-            get { return _err.HasFlag(ErrorType.RangeUnderflow); }
+            get { return (_err & ErrorType.RangeUnderflow) == ErrorType.RangeUnderflow; }
             set { Set(IsRangeUnderflow, value, ErrorType.RangeUnderflow); }
         }
 
@@ -95,7 +95,7 @@
         /// </summary>
         public Boolean IsRangeOverflow
         {
-            get { return _err.HasFlag(ErrorType.RangeOverflow); }
+            get { return (_err & ErrorType.RangeOverflow) == ErrorType.RangeOverflow; }
             set { Set(IsRangeOverflow, value, ErrorType.RangeOverflow); }
         }
 
@@ -104,7 +104,7 @@
         /// </summary>
         public Boolean IsStepMismatch
         {
-            get { return _err.HasFlag(ErrorType.StepMismatch); }
+            get { return (_err & ErrorType.StepMismatch) == ErrorType.StepMismatch; }
             set { Set(IsStepMismatch, value, ErrorType.StepMismatch); }
         }
 
@@ -113,7 +113,7 @@
         /// </summary>
         public Boolean IsCustomError
         {
-            get { return _err.HasFlag(ErrorType.Custom); }
+            get { return (_err & ErrorType.Custom) == ErrorType.Custom; }
             set { Set(IsCustomError, value, ErrorType.Custom); }
         }
 
@@ -145,7 +145,7 @@
         #region Flags
 
         [Flags]
-        enum ErrorType
+        enum ErrorType : ushort
         {
             None = 0,
             ValueMissing = 0x0001,

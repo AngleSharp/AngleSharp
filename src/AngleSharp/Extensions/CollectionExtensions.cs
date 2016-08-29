@@ -141,18 +141,18 @@
         {
             switch (node.NodeType)
             {
-                case NodeType.Attribute:             return filter.HasFlag(FilterSettings.Attribute);
-                case NodeType.CharacterData:         return filter.HasFlag(FilterSettings.CharacterData);
-                case NodeType.Comment:               return filter.HasFlag(FilterSettings.Comment);
-                case NodeType.Document:              return filter.HasFlag(FilterSettings.Document);
-                case NodeType.DocumentFragment:      return filter.HasFlag(FilterSettings.DocumentFragment);
-                case NodeType.DocumentType:          return filter.HasFlag(FilterSettings.DocumentType);
-                case NodeType.Element:               return filter.HasFlag(FilterSettings.Element);
-                case NodeType.Entity:                return filter.HasFlag(FilterSettings.Entity);
-                case NodeType.EntityReference:       return filter.HasFlag(FilterSettings.EntityReference);
-                case NodeType.ProcessingInstruction: return filter.HasFlag(FilterSettings.ProcessingInstruction);
-                case NodeType.Notation:              return filter.HasFlag(FilterSettings.Notation);
-                case NodeType.Text:                  return filter.HasFlag(FilterSettings.Text);
+                case NodeType.Attribute:             return (filter & FilterSettings.Attribute) == FilterSettings.Attribute;
+                case NodeType.CharacterData:         return (filter & FilterSettings.CharacterData) == FilterSettings.CharacterData;
+                case NodeType.Comment:               return (filter & FilterSettings.Comment) == FilterSettings.Comment;
+                case NodeType.Document:              return (filter & FilterSettings.Document) == FilterSettings.Document;
+                case NodeType.DocumentFragment:      return (filter & FilterSettings.DocumentFragment) == FilterSettings.DocumentFragment;
+                case NodeType.DocumentType:          return (filter & FilterSettings.DocumentType) == FilterSettings.DocumentType;
+                case NodeType.Element:               return (filter & FilterSettings.Element) == FilterSettings.Element;
+                case NodeType.Entity:                return (filter & FilterSettings.Entity) == FilterSettings.Entity;
+                case NodeType.EntityReference:       return (filter & FilterSettings.EntityReference) == FilterSettings.EntityReference;
+                case NodeType.ProcessingInstruction: return (filter & FilterSettings.ProcessingInstruction) == FilterSettings.ProcessingInstruction;
+                case NodeType.Notation:              return (filter & FilterSettings.Notation) == FilterSettings.Notation;
+                case NodeType.Text:                  return (filter & FilterSettings.Text) == FilterSettings.Text;
             }
 
             return filter == FilterSettings.All;

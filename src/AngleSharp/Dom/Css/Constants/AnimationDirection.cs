@@ -3,7 +3,7 @@
     /// <summary>
     /// The enumeration over all possible animation direction values.
     /// </summary>
-    public enum AnimationDirection : ushort
+    public enum AnimationDirection : byte
     {
         /// <summary>
         /// The animation should play forward each cycle.

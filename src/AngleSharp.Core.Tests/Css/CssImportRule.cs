@@ -11,8 +11,7 @@
         static CssImportRule NewImportRule(String cssText)
         {
             var parser = new CssParser();
-            var rule = new CssImportRule(parser);
-            rule.CssText = cssText;
+            var rule = new CssImportRule(parser) { CssText = cssText };
             return rule;
         }
 

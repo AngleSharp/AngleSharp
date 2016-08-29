@@ -246,7 +246,7 @@
             var parent = option.ParentElement as IHtmlOptionsGroupElement;
             Assert.IsNotNull(parent);
             Assert.AreEqual("Main menu", parent.Label);
-            var sameOption = select.Options[0] as IHtmlOptionElement;
+            var sameOption = @select.Options[0];
             Assert.IsNotNull(sameOption);
             Assert.AreEqual(option, sameOption);
         }

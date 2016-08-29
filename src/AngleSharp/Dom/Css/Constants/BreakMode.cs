@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration over all possible break modes.
     /// </summary>
-    public enum BreakMode : ushort
+    public enum BreakMode : byte
     {
         /// <summary>
         /// Initial value. Allows, meaning neither forbid nor force, any break

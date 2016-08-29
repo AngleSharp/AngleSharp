@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration containing the various predefined system fonts.
     /// </summary>
-    public enum SystemFont : ushort
+    public enum SystemFont : byte
     {
         /// <summary>
         /// The font used for captioned controls (e.g., buttons, drop-downs, etc.).

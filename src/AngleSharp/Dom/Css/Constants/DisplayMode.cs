@@ -3,7 +3,7 @@
     /// <summary>
     /// A list of all pre-defined display settings.
     /// </summary>
-    public enum DisplayMode : ushort
+    public enum DisplayMode : byte
     {
         /// <summary>
         /// Turns off the display of an element (it has no effect on layout);

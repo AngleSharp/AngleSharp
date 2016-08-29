@@ -25,7 +25,7 @@
 
             lock (this)
             {
-                var entries = default(Queue<TaskEventLoopEntry>);
+                Queue<TaskEventLoopEntry> entries;
 
                 if (!_queues.TryGetValue(priority, out entries))
                 {

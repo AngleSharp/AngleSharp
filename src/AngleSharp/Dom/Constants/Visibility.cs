@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with the various visibility states.
     /// </summary>
-    public enum Visibility : ushort
+    public enum Visibility : byte
     {
         /// <summary>
         /// Default value, the box is visible.

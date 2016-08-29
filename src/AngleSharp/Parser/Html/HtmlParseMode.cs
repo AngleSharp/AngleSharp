@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines the different tokenization content models.
     /// </summary>
-    enum HtmlParseMode
+    enum HtmlParseMode : byte
     {
         /// <summary>
         /// Initial state: Parsed Character Data (characters will be parsed).

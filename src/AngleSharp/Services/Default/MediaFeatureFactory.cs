@@ -63,7 +63,7 @@
         /// <returns>The created feature.</returns>
         public MediaFeature Create(String name)
         {
-            var creator = default(Creator);
+            Creator creator;
 
             if (creators.TryGetValue(name, out creator))
             {

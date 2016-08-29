@@ -20,9 +20,11 @@
             if (Helper.IsNetworkAvailable())
             {
                 var http = new HttpRequester();
-                var request = new Request();
-                request.Address = new Url("http://httpbin.org/robots.txt");
-                request.Method = HttpMethod.Get;
+                var request = new Request
+                                  {
+                                      Address = new Url("http://httpbin.org/robots.txt"),
+                                      Method = HttpMethod.Get
+                                  };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -43,9 +45,11 @@
             if (Helper.IsNetworkAvailable())
             {
                 var http = new HttpRequester();
-                var request = new Request();
-                request.Address = new Url("http://httpbin.org/status/500");
-                request.Method = HttpMethod.Get;
+                var request = new Request
+                                  {
+                                      Address = new Url("http://httpbin.org/status/500"),
+                                      Method = HttpMethod.Get
+                                  };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -63,9 +67,11 @@
             if (Helper.IsNetworkAvailable())
             {
                 var http = new HttpRequester();
-                var request = new Request();
-                request.Address = new Url("http://httpbin.org/status/400");
-                request.Method = HttpMethod.Get;
+                var request = new Request
+                                  {
+                                      Address = new Url("http://httpbin.org/status/400"),
+                                      Method = HttpMethod.Get
+                                  };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -83,9 +89,11 @@
             if (Helper.IsNetworkAvailable())
             {
                 var http = new HttpRequester();
-                var request = new Request();
-                request.Address = new Url("http://httpbin.org/status/403");
-                request.Method = HttpMethod.Get;
+                var request = new Request
+                                  {
+                                      Address = new Url("http://httpbin.org/status/403"),
+                                      Method = HttpMethod.Get
+                                  };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -103,9 +111,11 @@
             if (Helper.IsNetworkAvailable())
             {
                 var http = new HttpRequester();
-                var request = new Request();
-                request.Address = new Url("http://httpbin.org/status/404");
-                request.Method = HttpMethod.Get;
+                var request = new Request
+                                  {
+                                      Address = new Url("http://httpbin.org/status/404"),
+                                      Method = HttpMethod.Get
+                                  };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -123,10 +133,12 @@
             if (Helper.IsNetworkAvailable())
             {
                 var http = new HttpRequester();
-                var request = new Request();
-                request.Address = new Url("http://httpbin.org/post");
-                request.Method = HttpMethod.Post;
-                request.Content = Helper.StreamFromString("Hello world");
+                var request = new Request
+                                  {
+                                      Address = new Url("http://httpbin.org/post"),
+                                      Method = HttpMethod.Post,
+                                      Content = Helper.StreamFromString("Hello world")
+                                  };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -151,10 +163,12 @@
             if (Helper.IsNetworkAvailable())
             {
                 var http = new HttpRequester();
-                var request = new Request();
-                request.Address = new Url("http://httpbin.org/put");
-                request.Method = HttpMethod.Put;
-                request.Content = Helper.StreamFromString("PUT THIS THING BACK");
+                var request = new Request
+                                  {
+                                      Address = new Url("http://httpbin.org/put"),
+                                      Method = HttpMethod.Put,
+                                      Content = Helper.StreamFromString("PUT THIS THING BACK")
+                                  };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -179,10 +193,12 @@
             if (Helper.IsNetworkAvailable())
             {
                 var http = new HttpRequester();
-                var request = new Request();
-                request.Address = new Url("http://httpbin.org/delete");
-                request.Method = HttpMethod.Delete;
-                request.Content = Helper.StreamFromString("Should be ignored");
+                var request = new Request
+                                  {
+                                      Address = new Url("http://httpbin.org/delete"),
+                                      Method = HttpMethod.Delete,
+                                      Content = Helper.StreamFromString("Should be ignored")
+                                  };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -200,10 +216,12 @@
             if (Helper.IsNetworkAvailable())
             {
                 var http = new HttpRequester();
-                var request = new Request();
-                request.Address = new Url("http://httpbin.org/get");
-                request.Method = HttpMethod.Delete;
-                request.Content = Helper.StreamFromString("Should be ignored");
+                var request = new Request
+                                  {
+                                      Address = new Url("http://httpbin.org/get"),
+                                      Method = HttpMethod.Delete,
+                                      Content = Helper.StreamFromString("Should be ignored")
+                                  };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -221,10 +239,12 @@
             if (Helper.IsNetworkAvailable())
             {
                 var http = new HttpRequester();
-                var request = new Request();
-                request.Address = new Url("http://httpbin.org/get");
-                request.Method = HttpMethod.Put;
-                request.Content = Helper.StreamFromString("Should be ignored");
+                var request = new Request
+                                  {
+                                      Address = new Url("http://httpbin.org/get"),
+                                      Method = HttpMethod.Put,
+                                      Content = Helper.StreamFromString("Should be ignored")
+                                  };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -243,9 +263,11 @@
             {
                 var agent = "MyAgent";
                 var http = new HttpRequester(agent);
-                var request = new Request();
-                request.Address = new Url("http://httpbin.org/user-agent");
-                request.Method = HttpMethod.Get;
+                var request = new Request
+                                  {
+                                      Address = new Url("http://httpbin.org/user-agent"),
+                                      Method = HttpMethod.Get
+                                  };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -270,9 +292,11 @@
             if (Helper.IsNetworkAvailable())
             {
                 var http = new HttpRequester();
-                var request = new Request();
-                request.Address = new Url("http://httpbin.org/robots.txt");
-                request.Method = HttpMethod.Get;
+                var request = new Request
+                                  {
+                                      Address = new Url("http://httpbin.org/robots.txt"),
+                                      Method = HttpMethod.Get
+                                  };
 
                 using (var response = http.RequestAsync(request, CancellationToken.None))
                 {

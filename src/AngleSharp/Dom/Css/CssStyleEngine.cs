@@ -139,8 +139,7 @@
         {
             var configuration = options.Context.Configuration;
             var parser = new CssParser(_options, configuration);
-            var media = new MediaList(parser);
-            media.MediaText = source;
+            var media = new MediaList(parser) { MediaText = source };
             return media;
         }
 

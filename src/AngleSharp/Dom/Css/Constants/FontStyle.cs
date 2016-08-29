@@ -3,7 +3,7 @@
     /// <summary>
     /// The enumeration with the various font styles.
     /// </summary>
-    public enum FontStyle : ushort
+    public enum FontStyle : byte
     {
         /// <summary>
         /// Selects a font that is classified as normal within a font-family.

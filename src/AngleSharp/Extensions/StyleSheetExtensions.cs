@@ -42,7 +42,7 @@
             where TRule : ICssRule
         {
             var ruleFullName = typeof(TRule).FullName;
-            var ruleType = CssRuleType.Unknown;
+            CssRuleType ruleType;
             
             if (RuleMapping.TryGetValue(ruleFullName, out ruleType))
             {

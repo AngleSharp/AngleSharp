@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Values
 {
-    using AngleSharp.Dom.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -113,7 +112,7 @@
         /// <summary>
         /// Enumeration with special size modes.
         /// </summary>
-        public enum SizeMode
+        public enum SizeMode : byte
         {
             /// <summary>
             /// No special size mode set.

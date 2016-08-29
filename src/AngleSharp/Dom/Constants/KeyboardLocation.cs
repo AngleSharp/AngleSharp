@@ -6,7 +6,7 @@
     /// An enumeration over all possible keyboard locations.
     /// </summary>
     [DomName("KeyboardEvent")]
-    public enum KeyboardLocation : ushort
+    public enum KeyboardLocation : byte
     {
         /// <summary>
         /// The standard location.

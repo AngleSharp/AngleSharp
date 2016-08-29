@@ -6,7 +6,7 @@
     /// Represents the different phases of an event.
     /// </summary>
     [DomName("Event")]
-    public enum EventPhase : ushort
+    public enum EventPhase : byte
     {
         /// <summary>
         /// Events not currently dispatched are in this phase.

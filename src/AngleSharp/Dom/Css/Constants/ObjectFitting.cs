@@ -3,7 +3,7 @@
     /// <summary>
     /// The enumeration over all possible object fitting values.
     /// </summary>
-    public enum ObjectFitting : ushort
+    public enum ObjectFitting : byte
     {
         /// <summary>
         /// The replaced content is not resized to fit inside the element's content box:

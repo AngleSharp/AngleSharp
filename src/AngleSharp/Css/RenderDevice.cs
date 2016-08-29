@@ -140,7 +140,7 @@
         /// <summary>
         /// All possible device kinds.
         /// </summary>
-        public enum Kind
+        public enum Kind : byte
         {
             /// <summary>
             /// A screen device. Default.

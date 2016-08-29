@@ -28,7 +28,7 @@
   <output id=""test6""></output>
 </form>");
             Assert.AreEqual(1, doc.Forms.Length);
-            var form = doc.Forms[0] as IHtmlFormElement;
+            var form = doc.Forms[0];
             Assert.IsNotNull(form);
             Assert.IsFalse(form.CheckValidity());
         }
@@ -47,7 +47,7 @@
   <output></output>
 </form>");
             Assert.AreEqual(1, doc.Forms.Length);
-            var form = doc.Forms[0] as IHtmlFormElement;
+            var form = doc.Forms[0];
             Assert.IsNotNull(form);
             Assert.IsTrue(form.CheckValidity());
         }
@@ -62,7 +62,7 @@
   </fieldset>
 </form>");
             Assert.AreEqual(1, doc.Forms.Length);
-            var form = doc.Forms[0] as IHtmlFormElement;
+            var form = doc.Forms[0];
             Assert.IsNotNull(form);
             Assert.IsFalse(form.CheckValidity());
             var fieldSet = doc.GetElementById("fs") as IHtmlFieldSetElement;

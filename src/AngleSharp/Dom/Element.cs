@@ -100,7 +100,7 @@
         {
             get
             {
-                var root = default(IShadowRoot);
+                IShadowRoot root;
                 ShadowRoots.TryGetValue(this, out root);
                 return root;
             }
@@ -479,8 +479,8 @@
         {
             if (value != null)
             {
-                var prefix = default(String);
-                var localName = default(String);
+                string prefix;
+                string localName;
                 GetPrefixAndLocalName(name, ref namespaceUri, out prefix, out localName);
                 _attributes.SetNamedItem(new Attr(prefix, localName, value, namespaceUri));
             }
@@ -582,12 +582,12 @@
 
         public override void ToHtml(TextWriter writer, IMarkupFormatter formatter)
         {
-            var selfClosing = Flags.HasFlag(NodeFlags.SelfClosing);
+            var selfClosing = (Flags & NodeFlags.SelfClosing) == NodeFlags.SelfClosing;
             writer.Write(formatter.OpenTag(this, selfClosing));
 
             if (!selfClosing)
             {
-                if (Flags.HasFlag(NodeFlags.LineTolerance) && FirstChild is IText)
+                if (((Flags & NodeFlags.LineTolerance) == NodeFlags.LineTolerance) && FirstChild is IText)
                 {
                     var text = (IText)FirstChild;
 
@@ -677,7 +677,7 @@
 
         static AttrChanged GetOrCreateCallback(Type type)
         {
-            var handler = default(AttrChanged);
+            AttrChanged handler;
 
             if (!RegisteredCallbacks.TryGetValue(type, out handler))
             {

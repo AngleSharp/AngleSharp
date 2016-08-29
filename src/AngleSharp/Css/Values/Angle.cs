@@ -165,7 +165,7 @@
         /// <returns>True if successful, otherwise false.</returns>
         public static Boolean TryParse(String s, out Angle result)
         {
-            var value = default(Single);
+            float value;
             var unit = GetUnit(s.CssUnit(out value));
 
             if (unit != Unit.None)
@@ -256,7 +256,7 @@
         /// <summary>
         /// An enumeration of angle representations.
         /// </summary>
-        public enum Unit : ushort
+        public enum Unit : byte
         {
             /// <summary>
             /// No valid unit.

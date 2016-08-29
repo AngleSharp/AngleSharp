@@ -43,8 +43,7 @@
         public HttpRequester(String userAgent = null)
         {
             _timeOut = new TimeSpan(0, 0, 0, 45);
-            _headers = new Dictionary<String, String>();
-            _headers.Add("User-Agent", userAgent ?? _agentName);
+            _headers = new Dictionary<String, String> { { "User-Agent", userAgent ?? _agentName } };
         }
 
         #endregion
@@ -146,7 +145,7 @@
                     SendRequest(target);
                 }
 
-                var response = default(WebResponse);
+                WebResponse response;
 
                 try
                 {
@@ -267,7 +266,7 @@
             /// </param>
             void SetProperty(String name, Object value)
             {
-                var property = default(PropertyInfo);
+                PropertyInfo property;
 
                 if (!_propCache.TryGetValue(name, out property))
                 {

@@ -109,7 +109,7 @@
         public async Task<HtmlDocument> ParseAsync(HtmlParserOptions options, CancellationToken cancelToken)
         {
             var source = _document.Source;
-            var token = default(HtmlToken);
+            HtmlToken token;
             _tokenizer.IsStrictMode = options.IsStrictMode;
             _options = options;
 
@@ -140,7 +140,7 @@
         /// <param name="options">The options to use for parsing.</param>
         public HtmlDocument Parse(HtmlParserOptions options)
         {
-            var token = default(HtmlToken);
+            HtmlToken token;
             _tokenizer.IsStrictMode = options.IsStrictMode;
             _options = options;
 
@@ -204,7 +204,7 @@
 
             Reset();
 
-            _tokenizer.IsAcceptingCharacterData = !AdjustedCurrentNode.Flags.HasFlag(NodeFlags.HtmlMember);
+            _tokenizer.IsAcceptingCharacterData = (this.AdjustedCurrentNode.Flags & NodeFlags.HtmlMember) != NodeFlags.HtmlMember;
 
             do
             {
@@ -270,10 +270,10 @@
         {
             var node = AdjustedCurrentNode;
 
-            if (node == null || token.Type == HtmlTokenType.EndOfFile || node.Flags.HasFlag(NodeFlags.HtmlMember) ||
-                (node.Flags.HasFlag(NodeFlags.HtmlTip) && token.IsHtmlCompatible) ||
-                (node.Flags.HasFlag(NodeFlags.MathTip) && token.IsMathCompatible) ||
-                (node.Flags.HasFlag(NodeFlags.MathMember) && token.IsSvg && node.LocalName.Is(TagNames.AnnotationXml)))
+            if (node == null || token.Type == HtmlTokenType.EndOfFile || ((node.Flags & NodeFlags.HtmlMember) == NodeFlags.HtmlMember) ||
+                (((node.Flags & NodeFlags.HtmlTip) == NodeFlags.HtmlTip) && token.IsHtmlCompatible) ||
+                (((node.Flags & NodeFlags.MathTip) == NodeFlags.MathTip) && token.IsMathCompatible) ||
+                (((node.Flags & NodeFlags.MathMember) == NodeFlags.MathMember) && token.IsSvg && node.LocalName.Is(TagNames.AnnotationXml)))
             {
                 Home(token);
             }
@@ -2829,7 +2829,7 @@
                     break;
                 }
 
-                if (node.Flags.HasFlag(NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
+                if (((node.Flags & NodeFlags.Special) == NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
                 {
                     break;
                 }
@@ -2863,7 +2863,7 @@
                     break;
                 }
 
-                if (node.Flags.HasFlag(NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
+                if (((node.Flags & NodeFlags.Special) == NodeFlags.Special) && !TagNames.AllBasicBlocks.Contains(node.LocalName))
                 {
                     break;
                 }
@@ -2913,9 +2913,9 @@
         private void HeisenbergAlgorithm(HtmlTagToken tag)
         {
             var outer = 0;
-            var inner = 0;
-            var bookmark = 0;
-            var index = 0;
+            int inner;
+            int bookmark;
+            int index;
 
             while (outer < 8)
             {
@@ -2964,7 +2964,7 @@
 
                 for (var j = openIndex + 1; j < _openElements.Count; j++)
                 {
-                    if (_openElements[j].Flags.HasFlag(NodeFlags.Special))
+                    if ((_openElements[j].Flags & NodeFlags.Special) == NodeFlags.Special)
                     {
                         index = j;
                         furthestBlock = _openElements[j];
@@ -3107,7 +3107,7 @@
                     CloseNodesFrom(index);
                     break;
                 }
-                else if (node.Flags.HasFlag(NodeFlags.Special))
+                else if ((node.Flags & NodeFlags.Special) == NodeFlags.Special)
                 {
                     RaiseErrorOccurred(HtmlParseError.TagClosedWrong, tag);
                     break;
@@ -3363,7 +3363,7 @@
 
                         node = _openElements[i - 1];
 
-                        if (node.Flags.HasFlag(NodeFlags.HtmlMember))
+                        if ((node.Flags & NodeFlags.HtmlMember) == NodeFlags.HtmlMember)
                         {
                             Home(token);
                             break;
@@ -3422,13 +3422,13 @@
         /// <returns>The element or NULL if it is no MathML or SVG element.</returns>
         private Element CreateForeignElementFrom(HtmlTagToken tag)
         {
-            if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.MathMember))
+            if ((AdjustedCurrentNode.Flags & NodeFlags.MathMember) == NodeFlags.MathMember)
             {
                 var tagName = tag.Name;
                 var node = _mathFactory.Create(_document, tagName);
                 return node.Setup(tag);
             }
-            else if (AdjustedCurrentNode.Flags.HasFlag(NodeFlags.SvgMember))
+            else if ((AdjustedCurrentNode.Flags & NodeFlags.SvgMember) == NodeFlags.SvgMember)
             {
                 var tagName = tag.Name.SanatizeSvgTagName();
                 var node = _svgFactory.Create(_document, tagName);
@@ -3496,7 +3496,7 @@
                 {
                     return true;
                 }
-                else if (node.Flags.HasFlag(NodeFlags.Scoped))
+                else if ((node.Flags & NodeFlags.Scoped) == NodeFlags.Scoped)
                 {
                     return false;
                 }
@@ -3519,7 +3519,7 @@
                 {
                     return true;
                 }
-                else if (node.Flags.HasFlag(NodeFlags.Scoped))
+                else if ((node.Flags & NodeFlags.Scoped) == NodeFlags.Scoped)
                 {
                     return false;
                 }
@@ -3542,7 +3542,7 @@
                 {
                     return true;
                 }
-                else if (node.Flags.HasFlag(NodeFlags.HtmlListScoped))
+                else if ((node.Flags & NodeFlags.HtmlListScoped) == NodeFlags.HtmlListScoped)
                 {
                     return false;
                 }
@@ -3565,7 +3565,7 @@
                 {
                     return true;
                 }
-                else if (node.Flags.HasFlag(NodeFlags.Scoped) || node.LocalName.Is(TagNames.Button))
+                else if (((node.Flags & NodeFlags.Scoped) == NodeFlags.Scoped) || node.LocalName.Is(TagNames.Button))
                 {
                     return false;
                 }
@@ -3588,7 +3588,7 @@
                 {
                     return true;
                 }
-                else if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
+                else if ((node.Flags & NodeFlags.HtmlTableScoped) == NodeFlags.HtmlTableScoped)
                 {
                     return false;
                 }
@@ -3612,7 +3612,7 @@
                 {
                     return true;
                 }
-                else if (node.Flags.HasFlag(NodeFlags.HtmlTableScoped))
+                else if ((node.Flags & NodeFlags.HtmlTableScoped) == NodeFlags.HtmlTableScoped)
                 {
                     return false;
                 }
@@ -3636,7 +3636,7 @@
                 {
                     return true;
                 }
-                else if (!node.Flags.HasFlag(NodeFlags.HtmlSelectScoped))
+                else if ((node.Flags & NodeFlags.HtmlSelectScoped) != NodeFlags.HtmlSelectScoped)
                 {
                     return false;
                 }
@@ -3698,7 +3698,7 @@
         {
             for (var i = 0; i < _openElements.Count; i++)
             {
-                if (!_openElements[i].Flags.HasFlag(NodeFlags.ImplicitelyClosed))
+                if ((_openElements[i].Flags & NodeFlags.ImplicitelyClosed) != NodeFlags.ImplicitelyClosed)
                 {
                     RaiseErrorOccurred(HtmlParseError.BodyClosedWrong, token);
                     break;
@@ -3801,7 +3801,7 @@
                 _openElements[index].SetupElement();
                 _openElements.RemoveAt(index);
                 var node = AdjustedCurrentNode;
-                _tokenizer.IsAcceptingCharacterData = node != null && !node.Flags.HasFlag(NodeFlags.HtmlMember);
+                _tokenizer.IsAcceptingCharacterData = node != null && ((node.Flags & NodeFlags.HtmlMember) != NodeFlags.HtmlMember);
             }
         }
 
@@ -3869,7 +3869,7 @@
             }
 
             _openElements.Add(element);
-            _tokenizer.IsAcceptingCharacterData = !element.Flags.HasFlag(NodeFlags.HtmlMember);
+            _tokenizer.IsAcceptingCharacterData = (element.Flags & NodeFlags.HtmlMember) != NodeFlags.HtmlMember;
         }
 
         /// <summary>
@@ -4020,7 +4020,7 @@
         {
             var node = CurrentNode;
 
-            while (node.Flags.HasFlag(NodeFlags.ImpliedEnd) && !node.LocalName.Is(tagName))
+            while (((node.Flags & NodeFlags.ImpliedEnd) == NodeFlags.ImpliedEnd) && !node.LocalName.Is(tagName))
             {
                 CloseCurrentNode();
                 node = CurrentNode;
@@ -4032,7 +4032,7 @@
         /// </summary>
         private void GenerateImpliedEndTags()
         {
-            while (CurrentNode.Flags.HasFlag(NodeFlags.ImpliedEnd))
+            while ((CurrentNode.Flags & NodeFlags.ImpliedEnd) == NodeFlags.ImpliedEnd)
             {
                 CloseCurrentNode();
             }

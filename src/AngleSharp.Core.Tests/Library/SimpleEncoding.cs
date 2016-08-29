@@ -1,7 +1,6 @@
 namespace AngleSharp.Core.Tests
 {
     using System;
-    using System.Globalization;
     using System.IO;
     using System.Text;
     using AngleSharp.Dom;

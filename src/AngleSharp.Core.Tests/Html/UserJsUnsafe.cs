@@ -1,11 +1,9 @@
 ﻿namespace AngleSharp.Core.Tests
 {
     using AngleSharp.Dom;
-    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using NUnit.Framework;
     using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
@@ -40,7 +38,7 @@ bar]]>");
             Assert.AreEqual(NodeType.Element, htmlbody.NodeType);
 
             var htmlbodysvg = htmlbody.ChildNodes[0] as Element;
-            Assert.IsTrue(htmlbodysvg.Flags.HasFlag(NodeFlags.SvgMember));
+            Assert.IsTrue((htmlbodysvg.Flags & NodeFlags.SvgMember) == NodeFlags.SvgMember);
             Assert.AreEqual(NamespaceNames.SvgUri, htmlbodysvg.NamespaceUri);
             Assert.AreEqual(1, htmlbodysvg.ChildNodes.Length);
             Assert.AreEqual(0, htmlbodysvg.Attributes.Length);

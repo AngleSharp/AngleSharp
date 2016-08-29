@@ -6,7 +6,7 @@
     /// Contains an enumeration of various node types.
     /// </summary>
     [DomName("Document")]
-    public enum NodeType : ushort
+    public enum NodeType : byte
     {
         /// <summary>
         /// A standard node element.

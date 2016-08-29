@@ -418,7 +418,7 @@
         /// </summary>
         public CssValue CreateValue(ref CssToken token)
         {
-            var important = false;
+            bool important;
             return CreateValue(CssTokenType.CurlyBracketClose, ref token, out important);
         }
 
@@ -608,7 +608,7 @@
 
                 if (token.Type == CssTokenType.Colon)
                 {
-                    var important = false;
+                    bool important;
                     var value = CreateValue(CssTokenType.CurlyBracketClose, ref token, out important);
 
                     if (value == null)
@@ -939,7 +939,7 @@
 
             if (token.Type == CssTokenType.Colon)
             {
-                var important = false;
+                bool important;
                 var result = CreateValue(CssTokenType.RoundBracketClose, ref token, out important);
                 property.IsImportant = important;
 

@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration over all various play states.
     /// </summary>
-    public enum PlayState : ushort
+    public enum PlayState : byte
     {
         /// <summary>
         /// The animation is currently playing.

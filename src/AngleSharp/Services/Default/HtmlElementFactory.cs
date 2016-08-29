@@ -152,7 +152,7 @@
         /// <returns>The specialized HTMLElement instance.</returns>
         public HtmlElement Create(Document document, String localName, String prefix = null)
         {
-            var creator = default(Creator);
+            Creator creator;
 
             if (creators.TryGetValue(localName, out creator))
             {

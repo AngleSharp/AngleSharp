@@ -40,12 +40,12 @@
 
         public Boolean IsInherited
         {
-            get { return (_flags.HasFlag(PropertyFlags.Inherited) && IsInitial) || (_value != null && _value.CssText.Is(Keywords.Inherit)); }
+            get { return (((_flags & PropertyFlags.Inherited) == PropertyFlags.Inherited) && IsInitial) || (_value != null && _value.CssText.Is(Keywords.Inherit)); }
         }
 
         public Boolean IsAnimatable
         {
-            get { return _flags.HasFlag(PropertyFlags.Animatable); }
+            get { return (_flags & PropertyFlags.Animatable) == PropertyFlags.Animatable; }
         }
 
         public Boolean IsInitial
@@ -80,22 +80,22 @@
 
         internal Boolean CanBeHashless
         {
-            get { return _flags.HasFlag(PropertyFlags.Hashless); }
+            get { return (_flags & PropertyFlags.Hashless) == PropertyFlags.Hashless; }
         }
 
         internal Boolean CanBeUnitless
         {
-            get { return _flags.HasFlag(PropertyFlags.Unitless); }
+            get { return (_flags & PropertyFlags.Unitless) == PropertyFlags.Unitless; }
         }
 
         internal Boolean CanBeInherited
         {
-            get { return _flags.HasFlag(PropertyFlags.Inherited); }
+            get { return (_flags & PropertyFlags.Inherited) == PropertyFlags.Inherited; }
         }
 
         internal Boolean IsShorthand
         {
-            get { return _flags.HasFlag(PropertyFlags.Shorthand); }
+            get { return (_flags & PropertyFlags.Shorthand) == PropertyFlags.Shorthand; }
         }
 
         internal abstract IValueConverter Converter

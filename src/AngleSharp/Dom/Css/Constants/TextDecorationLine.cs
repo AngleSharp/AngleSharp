@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration that defines the various line styles.
     /// </summary>
-    public enum TextDecorationLine : ushort
+    public enum TextDecorationLine : byte
     {
         /// <summary>
         /// Each line of text is underlined.

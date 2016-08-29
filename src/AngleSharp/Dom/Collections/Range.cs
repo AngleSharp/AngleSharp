@@ -226,7 +226,7 @@
                 return;
             }
 
-            var newBoundary = new Boundary();
+            Boundary newBoundary;
             var originalStart = _start;
             var originalEnd = _end;
 
@@ -562,8 +562,8 @@
             if (Root != sourceRange.Head.GetRoot())
                 throw new DomException(DomError.WrongDocument);
 
-            var thisPoint = default(Boundary);
-            var otherPoint = default(Boundary);
+            Boundary thisPoint;
+            Boundary otherPoint;
 
             switch (how)
             {

@@ -19,7 +19,7 @@
         {
             try
             {
-                var source = String.Empty;
+                string source;
                 var uri = new Uri(url);
                 var name = uri.Host.Replace("www.", "").Replace(".com", "").Replace(".de", "").Replace(".org", "");
                 var fileName = name + extension;

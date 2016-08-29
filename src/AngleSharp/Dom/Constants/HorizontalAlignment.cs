@@ -3,7 +3,7 @@
     /// <summary>
     /// The list of possible horizontal alignments.
     /// </summary>
-    public enum HorizontalAlignment : ushort
+    public enum HorizontalAlignment : byte
     {
         /// <summary>
         /// The inline contents are aligned to the left edge of the line box.

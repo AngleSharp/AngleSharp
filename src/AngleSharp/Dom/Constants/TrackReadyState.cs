@@ -6,7 +6,7 @@
     /// An enumeration with track ready state values.
     /// </summary>
     [DomName("HTMLTrackElement")]
-    public enum TrackReadyState : ushort
+    public enum TrackReadyState : byte
     {
         /// <summary>
         /// Not initialized yet.

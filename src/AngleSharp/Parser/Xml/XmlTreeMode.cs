@@ -3,7 +3,7 @@
     /// <summary>
     /// Possible insertation mode values.
     /// </summary>
-    enum XmlTreeMode
+    enum XmlTreeMode : byte
     {
         /// <summary>
         /// The initial mode - waiting for the XML declaration.

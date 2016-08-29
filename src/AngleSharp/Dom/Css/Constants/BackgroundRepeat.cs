@@ -3,7 +3,7 @@
     /// <summary>
     /// The enumeration over all possible repeat values.
     /// </summary>
-    public enum BackgroundRepeat : ushort
+    public enum BackgroundRepeat : byte
     {
         /// <summary>
         /// The image is repeated in the given direction as much as needed to cover the whole
