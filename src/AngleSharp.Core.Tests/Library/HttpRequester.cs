@@ -324,18 +324,21 @@
         [Test]
         public async Task HttpRequesterShouldNotHang()
         {
-            var address = "https://serverspace.ae";
-            var requesters = new IRequester[] { new DataRequester(), new HttpRequester() };
-            var cts = new CancellationTokenSource();
-            var config = Configuration
-                            .Default
-                            .WithCss()
-                            .WithDefaultLoader(c => c.IsResourceLoadingEnabled = true, requesters);
+            if (Helper.IsNetworkAvailable())
+            {
+                var address = "https://serverspace.ae";
+                var requesters = new IRequester[] { new DataRequester(), new HttpRequester() };
+                var cts = new CancellationTokenSource();
+                var config = Configuration
+                                .Default
+                                .WithCss()
+                                .WithDefaultLoader(c => c.IsResourceLoadingEnabled = true, requesters);
 
-            var context = BrowsingContext.New(config);
-            var url = Url.Create(address);
-            var document = await context.OpenAsync(url, cts.Token);
-            Assert.IsNotNull(document);
+                var context = BrowsingContext.New(config);
+                var url = Url.Create(address);
+                var document = await context.OpenAsync(url, cts.Token);
+                Assert.IsNotNull(document);
+            }
         }
     }
 }
