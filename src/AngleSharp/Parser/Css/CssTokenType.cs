@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumation of all possible tokens.
     /// </summary>
-    enum CssTokenType
+    enum CssTokenType : byte
     {
         /// <summary>
         /// A string token (usually in quotation marks).

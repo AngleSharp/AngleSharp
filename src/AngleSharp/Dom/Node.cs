@@ -664,8 +664,7 @@
 
             if (!suppressObservers && document != null)
             {
-                var removedNodes = new NodeList();
-                removedNodes.Add(node);
+                var removedNodes = new NodeList { node };
 
                 document.QueueMutation(MutationRecord.ChildList(
                     target: this, 

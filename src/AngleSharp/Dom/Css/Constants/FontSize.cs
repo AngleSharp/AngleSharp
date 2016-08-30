@@ -3,7 +3,7 @@
     /// <summary>
     /// A listing of all possible pre-defined font-sizes.
     /// </summary>
-    public enum FontSize : ushort
+    public enum FontSize : byte
     {
         /// <summary>
         /// A custom font-size.

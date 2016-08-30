@@ -5,7 +5,7 @@
     /// <summary>
     /// A list of possible quirks mode states.
     /// </summary>
-    enum QuirksMode : ushort
+    enum QuirksMode : byte
     {
         /// <summary>
         /// The quirks mode is deactivated.

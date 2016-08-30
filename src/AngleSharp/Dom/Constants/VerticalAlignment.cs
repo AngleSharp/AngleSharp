@@ -3,7 +3,7 @@
     /// <summary>
     /// The list of possible vertical alignments (extended by CSS).
     /// </summary>
-    public enum VerticalAlignment : ushort
+    public enum VerticalAlignment : byte
     {
         /// <summary>
         /// Aligns the baseline of the element with the baseline of its parent.

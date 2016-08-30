@@ -257,7 +257,7 @@
             var before = table.AppendChild(document.CreateElement("tbody")) as IHtmlTableSectionElement;
             CollectionAssert.AreEqual(new[] { before }, table.ChildNodes.ToArray());
 
-            var tbody = table.CreateBody() as IHtmlTableSectionElement;
+            var tbody = table.CreateBody();
             CollectionAssert.AreEqual(new[] { before, tbody }, table.ChildNodes.ToArray());
             AssertTableBody(tbody);
         }

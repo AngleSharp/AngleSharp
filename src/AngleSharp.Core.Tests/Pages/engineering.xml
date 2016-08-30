@@ -1,6 +1,6 @@
+<?xml version="1.0" standalone="no" ?>
 <!--inform the XML processor
   that an external DTD is referenced-->
-<?xml version="1.0" standalone="no" ?>
 
 <!--define the location of the
   external DTD using a relative URL address-->

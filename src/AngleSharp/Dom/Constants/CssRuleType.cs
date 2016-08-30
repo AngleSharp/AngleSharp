@@ -6,7 +6,7 @@
     /// The set of possible CSS rules.
     /// </summary>
     [DomName("CSSRule")]
-    public enum CssRuleType : ushort
+    public enum CssRuleType : byte
     {  
         /// <summary>
         /// The rule is not known and cannot be used.

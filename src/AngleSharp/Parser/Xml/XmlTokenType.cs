@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumation of all possible tokens.
     /// </summary>
-    enum XmlTokenType
+    enum XmlTokenType : byte
     {
         /// <summary>
         /// The DOCTYPE token.

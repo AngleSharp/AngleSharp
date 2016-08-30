@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with possible font stretch settings.
     /// </summary>
-    public enum FontStretch : ushort
+    public enum FontStretch : byte
     {
         /// <summary>
         /// Specifies a normal font face.

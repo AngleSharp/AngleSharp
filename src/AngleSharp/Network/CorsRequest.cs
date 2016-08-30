@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Network
 {
-    using System;
     using AngleSharp.Services;
 
     /// <summary>

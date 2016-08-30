@@ -87,7 +87,7 @@
             }
             while (_filter(node) != FilterResult.Accept);
 
-            _beforeNode = beforeNode;
+            _beforeNode = false;
             _reference = node;
             return node;
         }
@@ -113,7 +113,7 @@
             }
             while (_filter(node) != FilterResult.Accept);
 
-            _beforeNode = beforeNode;
+            _beforeNode = true;
             _reference = node;
             return node;
         }

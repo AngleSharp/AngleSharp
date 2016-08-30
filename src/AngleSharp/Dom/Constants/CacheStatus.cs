@@ -6,7 +6,7 @@
     /// An enumeration over all possible cache states.
     /// </summary>
     [DomName("ApplicationCache")]
-    public enum CacheStatus : ushort
+    public enum CacheStatus : byte
     {
         /// <summary>
         /// The resource is uncached.

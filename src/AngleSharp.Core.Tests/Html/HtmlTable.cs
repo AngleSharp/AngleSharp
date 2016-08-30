@@ -1,7 +1,6 @@
 ﻿using System;
 using AngleSharp.Dom;
 using AngleSharp.Dom.Html;
-using AngleSharp.Extensions;
 using NUnit.Framework;
 
 namespace AngleSharp.Core.Tests

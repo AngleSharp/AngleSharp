@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.Css.Values
 {
-    using AngleSharp.Dom.Css;
-
     /// <summary>
     /// Represents the distance transformation.
     /// </summary>

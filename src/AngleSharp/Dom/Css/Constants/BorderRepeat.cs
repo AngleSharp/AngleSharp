@@ -3,7 +3,7 @@
     /// <summary>
     /// The enumeration over all possible border repeat values.
     /// </summary>
-    public enum BorderRepeat : ushort
+    public enum BorderRepeat : byte
     {
         /// <summary>
         /// Keyword indicating that the image must be stretched to fill

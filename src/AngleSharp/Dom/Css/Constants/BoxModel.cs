@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumeration with the various box sizing models / clip or origins.
     /// </summary>
-    public enum BoxModel : ushort
+    public enum BoxModel : byte
     {
         /// <summary>
         /// The background extends to the outside edge of the border (but underneath the border in z-ordering).

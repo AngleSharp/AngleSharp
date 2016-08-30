@@ -2,10 +2,6 @@
 {
     using AngleSharp.Css;
     using AngleSharp.Extensions;
-    using AngleSharp.Parser.Css;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Information can be found on MDN:

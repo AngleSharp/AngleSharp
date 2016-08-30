@@ -42,8 +42,8 @@
             var style = css.Rules[0] as CssStyleRule;
             Assert.AreEqual("body", style.SelectorText);
             Assert.AreEqual(1, style.Style.Length);
-            var decl = style.Style as CssStyleDeclaration;
-            Assert.IsNotNull(decl);
+            var decl = style.Style;
+            Assert.IsInstanceOf<CssStyleDeclaration>(decl);
             var rule = decl.GetProperty("background-color");
             Assert.IsTrue(rule.IsImportant);
             Assert.AreEqual("background-color", rule.Name);

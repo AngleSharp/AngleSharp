@@ -5,7 +5,7 @@
     /// <summary>
     /// A collection of CSS parse error codes.
     /// </summary>
-    public enum CssParseError : ushort
+    public enum CssParseError : byte
     {
         /// <summary>
         /// Unexpected end of file detected.

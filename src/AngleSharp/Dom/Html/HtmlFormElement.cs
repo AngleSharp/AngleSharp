@@ -215,7 +215,7 @@
         {
             var owner = Owner;
 
-            if (owner.ActiveSandboxing.HasFlag(Sandboxes.Forms))
+            if ((owner.ActiveSandboxing & Sandboxes.Forms) == Sandboxes.Forms)
             {
                 //Do nothing.
             }

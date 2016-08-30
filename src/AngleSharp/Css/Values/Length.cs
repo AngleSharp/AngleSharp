@@ -323,7 +323,7 @@
         /// <summary>
         /// An enumeration of length units.
         /// </summary>
-        public enum Unit : ushort
+        public enum Unit : byte
         {
             /// <summary>
             /// No valid unit.

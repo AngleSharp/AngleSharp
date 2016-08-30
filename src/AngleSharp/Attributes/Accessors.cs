@@ -6,7 +6,7 @@
     /// The various DOM object accessor types.
     /// </summary>
     [Flags]
-    public enum Accessors
+    public enum Accessors : byte
     {
         /// <summary>
         /// Specifies that the property does not have any special meaning.

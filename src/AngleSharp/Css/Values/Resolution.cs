@@ -170,7 +170,7 @@
         /// <summary>
         /// The various resolution units.
         /// </summary>
-        public enum Unit
+        public enum Unit : byte
         {
             /// <summary>
             /// No valid unit.

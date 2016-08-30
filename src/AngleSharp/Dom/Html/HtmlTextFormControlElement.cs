@@ -205,7 +205,7 @@
         /// <summary>
         /// An enumeration with possible selection directions.
         /// </summary>
-        public enum SelectionType : ushort
+        public enum SelectionType : byte
         {
             /// <summary>
             /// The text selection direction is unknown.

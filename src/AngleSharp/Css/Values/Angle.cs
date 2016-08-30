@@ -256,7 +256,7 @@
         /// <summary>
         /// An enumeration of angle representations.
         /// </summary>
-        public enum Unit : ushort
+        public enum Unit : byte
         {
             /// <summary>
             /// No valid unit.

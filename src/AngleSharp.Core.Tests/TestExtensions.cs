@@ -44,8 +44,7 @@
 
         public static IConfiguration WithMockRequester(this IConfiguration config, Action<IRequest> onRequest = null)
         {
-            var mockRequester = new MockRequester();
-            mockRequester.OnRequest = onRequest;
+            var mockRequester = new MockRequester { OnRequest = onRequest };
             return config.WithMockRequester(mockRequester);
         }
 

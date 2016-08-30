@@ -3,7 +3,7 @@
     /// <summary>
     /// An enumation of all possible tokens.
     /// </summary>
-    enum HtmlTokenType
+    enum HtmlTokenType : byte
     {
         /// <summary>
         /// The DOCTYPE token.

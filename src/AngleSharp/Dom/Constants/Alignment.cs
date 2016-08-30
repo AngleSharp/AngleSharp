@@ -3,7 +3,7 @@
     /// <summary>
     /// The list of possible horizontal alignments.
     /// </summary>
-    enum Alignment : ushort
+    enum Alignment : byte
     {
         /// <summary>
         /// The bottom of the object should be vertically aligned with

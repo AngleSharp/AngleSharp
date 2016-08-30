@@ -103,7 +103,7 @@
                 {
                     if (_listeners.Contains(listener) && listener.Type.Is(type))
                     {
-                        if (ev.Flags.HasFlag(EventFlags.StopImmediatePropagation))
+                        if ((ev.Flags & EventFlags.StopImmediatePropagation) == EventFlags.StopImmediatePropagation)
                         {
                             break;
                         }
@@ -150,7 +150,7 @@
         /// </returns>
         public Boolean Dispatch(Event ev)
         {
-            if (ev == null || ev.Flags.HasFlag(EventFlags.Dispatch) || !ev.Flags.HasFlag(EventFlags.Initialized))
+            if (ev == null || ((ev.Flags & EventFlags.Dispatch) == EventFlags.Dispatch) || ((ev.Flags & EventFlags.Initialized) != EventFlags.Initialized))
                 throw new DomException(DomError.InvalidState);
 
             ev.IsTrusted = false;

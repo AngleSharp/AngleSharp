@@ -193,7 +193,7 @@
         /// <summary>
         /// An enumeration of time units.
         /// </summary>
-        public enum Unit : ushort
+        public enum Unit : byte
         {
             /// <summary>
             /// No valid unit.

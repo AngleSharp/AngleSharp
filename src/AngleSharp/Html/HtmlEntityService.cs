@@ -29,85 +29,87 @@
 
         private HtmlEntityService()
         {
-            _entities = new Dictionary<Char, Dictionary<String, String>>();
+            _entities = new Dictionary<Char, Dictionary<String, String>>
+                            {
+                                { 'a', this.GetSymbolLittleA() },
+                                { 'A', this.GetSymbolBigA() },
+                                { 'b', this.GetSymbolLittleB() },
+                                { 'B', this.GetSymbolBigB() },
+                                { 'c', this.GetSymbolLittleC() },
+                                { 'C', this.GetSymbolBigC() },
+                                { 'd', this.GetSymbolLittleD() },
+                                { 'D', this.GetSymbolBigD() },
+                                { 'e', this.GetSymbolLittleE() },
+                                { 'E', this.GetSymbolBigE() },
+                                { 'f', this.GetSymbolLittleF() },
+                                { 'F', this.GetSymbolBigF() },
+                                { 'g', this.GetSymbolLittleG() },
+                                { 'G', this.GetSymbolBigG() },
+                                { 'h', this.GetSymbolLittleH() },
+                                { 'H', this.GetSymbolBigH() },
+                                { 'i', this.GetSymbolLittleI() },
+                                { 'I', this.GetSymbolBigI() },
+                                { 'j', this.GetSymbolLittleJ() },
+                                { 'J', this.GetSymbolBigJ() },
+                                { 'k', this.GetSymbolLittleK() },
+                                { 'K', this.GetSymbolBigK() },
+                                { 'l', this.GetSymbolLittleL() },
+                                { 'L', this.GetSymbolBigL() },
+                                { 'm', this.GetSymbolLittleM() },
+                                { 'M', this.GetSymbolBigM() },
+                                { 'n', this.GetSymbolLittleN() },
+                                { 'N', this.GetSymbolBigN() },
+                                { 'o', this.GetSymbolLittleO() },
+                                { 'O', this.GetSymbolBigO() },
+                                { 'p', this.GetSymbolLittleP() },
+                                { 'P', this.GetSymbolBigP() },
+                                { 'q', this.GetSymbolLittleQ() },
+                                { 'Q', this.GetSymbolBigQ() },
+                                { 'r', this.GetSymbolLittleR() },
+                                { 'R', this.GetSymbolBigR() },
+                                { 's', this.GetSymbolLittleS() },
+                                { 'S', this.GetSymbolBigS() },
+                                { 't', this.GetSymbolLittleT() },
+                                { 'T', this.GetSymbolBigT() },
+                                { 'u', this.GetSymbolLittleU() },
+                                { 'U', this.GetSymbolBigU() },
+                                { 'v', this.GetSymbolLittleV() },
+                                { 'V', this.GetSymbolBigV() },
+                                { 'w', this.GetSymbolLittleW() },
+                                { 'W', this.GetSymbolBigW() },
+                                { 'x', this.GetSymbolLittleX() },
+                                { 'X', this.GetSymbolBigX() },
+                                { 'y', this.GetSymbolLittleY() },
+                                { 'Y', this.GetSymbolBigY() },
+                                { 'z', this.GetSymbolLittleZ() },
+                                { 'Z', this.GetSymbolBigZ() }
+                            };
 
-            _entities.Add('a', GetSymbolLittleA());
-            _entities.Add('A', GetSymbolBigA());
 
-            _entities.Add('b', GetSymbolLittleB());
-            _entities.Add('B', GetSymbolBigB());
 
-            _entities.Add('c', GetSymbolLittleC());
-            _entities.Add('C', GetSymbolBigC());
 
-            _entities.Add('d', GetSymbolLittleD());
-            _entities.Add('D', GetSymbolBigD());
 
-            _entities.Add('e', GetSymbolLittleE());
-            _entities.Add('E', GetSymbolBigE());
 
-            _entities.Add('f', GetSymbolLittleF());
-            _entities.Add('F', GetSymbolBigF());
 
-            _entities.Add('g', GetSymbolLittleG());
-            _entities.Add('G', GetSymbolBigG());
 
-            _entities.Add('h', GetSymbolLittleH());
-            _entities.Add('H', GetSymbolBigH());
 
-            _entities.Add('i', GetSymbolLittleI());
-            _entities.Add('I', GetSymbolBigI());
 
-            _entities.Add('j', GetSymbolLittleJ());
-            _entities.Add('J', GetSymbolBigJ());
 
-            _entities.Add('k', GetSymbolLittleK());
-            _entities.Add('K', GetSymbolBigK());
 
-            _entities.Add('l', GetSymbolLittleL());
-            _entities.Add('L', GetSymbolBigL());
 
-            _entities.Add('m', GetSymbolLittleM());
-            _entities.Add('M', GetSymbolBigM());
 
-            _entities.Add('n', GetSymbolLittleN());
-            _entities.Add('N', GetSymbolBigN());
 
-            _entities.Add('o', GetSymbolLittleO());
-            _entities.Add('O', GetSymbolBigO());
 
-            _entities.Add('p', GetSymbolLittleP());
-            _entities.Add('P', GetSymbolBigP());
 
-            _entities.Add('q', GetSymbolLittleQ());
-            _entities.Add('Q', GetSymbolBigQ());
 
-            _entities.Add('r', GetSymbolLittleR());
-            _entities.Add('R', GetSymbolBigR());
 
-            _entities.Add('s', GetSymbolLittleS());
-            _entities.Add('S', GetSymbolBigS());
 
-            _entities.Add('t', GetSymbolLittleT());
-            _entities.Add('T', GetSymbolBigT());
 
-            _entities.Add('u', GetSymbolLittleU());
-            _entities.Add('U', GetSymbolBigU());
 
-            _entities.Add('v', GetSymbolLittleV());
-            _entities.Add('V', GetSymbolBigV());
 
-            _entities.Add('w', GetSymbolLittleW());
-            _entities.Add('W', GetSymbolBigW());
 
-            _entities.Add('x', GetSymbolLittleX());
-            _entities.Add('X', GetSymbolBigX());
 
-            _entities.Add('y', GetSymbolLittleY());
-            _entities.Add('Y', GetSymbolBigY());
 
-            _entities.Add('z', GetSymbolLittleZ());
-            _entities.Add('Z', GetSymbolBigZ());
         }
 
         #endregion

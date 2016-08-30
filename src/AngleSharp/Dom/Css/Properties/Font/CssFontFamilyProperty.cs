@@ -36,7 +36,7 @@
 
         #region Modes
 
-        enum SystemFonts
+        enum SystemFonts : byte
         {
             /// <summary>
             /// Glyphs have finishing strokes, flared or tapering ends, or have actual serifed endings.

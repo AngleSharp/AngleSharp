@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the usable methods for transmitting HTTP forms.
     /// </summary>
-    public enum HttpMethod : ushort
+    public enum HttpMethod : byte
     {
         /// <summary>
         /// The GET method.

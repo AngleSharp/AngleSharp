@@ -1633,7 +1633,7 @@
 
         #region Attributes
 
-        private enum AttributeState
+        private enum AttributeState : byte
         {
             BeforeName,
             Name,
@@ -1949,7 +1949,7 @@
 
         #region Script
 
-        private enum ScriptState
+        private enum ScriptState : byte
         {
             Normal,
             OpenTag,

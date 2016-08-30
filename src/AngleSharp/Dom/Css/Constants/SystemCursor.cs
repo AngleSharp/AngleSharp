@@ -3,7 +3,7 @@
     /// <summary>
     /// A list of all pre-defined system cursor modes.
     /// </summary>
-    public enum SystemCursor : ushort
+    public enum SystemCursor : byte
     {
         /// <summary>
         /// Automatically determined.

@@ -26,8 +26,7 @@
 
         private CssValue(CssToken token)
         {
-            _tokens = new List<CssToken>();
-            _tokens.Add(token);
+            _tokens = new List<CssToken> { token };
         }
 
         public CssValue(IEnumerable<CssToken> tokens)
