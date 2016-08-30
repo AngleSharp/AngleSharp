@@ -45,7 +45,12 @@ namespace AngleSharp.Extensions
             return type.GetTypeInfo().DeclaredConstructors.Where(c => c.IsPublic && !c.IsStatic).ToArray();
         }
 
-        public static PropertyInfo GetProperty(this Type type, string name)
+        public static FieldInfo GetField(this Type type, String name)
+        {
+            return type.GetTypeInfo().GetDeclaredField(name);
+        }
+
+        public static PropertyInfo GetProperty(this Type type, String name)
         {
             return type.GetTypeInfo().GetDeclaredProperty(name);
         }

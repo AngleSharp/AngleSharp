@@ -17,19 +17,19 @@
     {
         #region Constants
 
-        const Int32 BufferSize = 4096;
+        private const Int32 BufferSize = 4096;
 
-        static readonly String _version = typeof(HttpRequester).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
-        static readonly String _agentName = "AngleSharp/" + _version;
-        static readonly Dictionary<String, PropertyInfo> _propCache = new Dictionary<String, PropertyInfo>();
-        static readonly List<String> _restricted = new List<String>();
+        private static readonly String _version = typeof(HttpRequester).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+        private static readonly String _agentName = "AngleSharp/" + _version;
+        private static readonly Dictionary<String, PropertyInfo> _propCache = new Dictionary<String, PropertyInfo>();
+        private static readonly List<String> _restricted = new List<String>();
 
         #endregion
 
         #region Fields
 
-        TimeSpan _timeOut;
-        readonly Dictionary<String, String> _headers;
+        private TimeSpan _timeOut;
+        private readonly Dictionary<String, String> _headers;
 
         #endregion
 
@@ -95,22 +95,49 @@
         /// <returns>
         /// The task that will eventually give the response data.
         /// </returns>
-        public Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
+        public async Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
         {
+            var cts = CreateTimeoutToken(_timeOut);
             var cache = new RequestState(request, _headers);
-            return cache.RequestAsync(cancellationToken);
+
+            using (cancellationToken.Register(cts.Cancel))
+            {
+                return await cache.RequestAsync(cts.Token).ConfigureAwait(false);
+            }
         }
 
         #endregion
 
+        #region Helpers
+
+        private static CancellationTokenSource CreateTimeoutToken(TimeSpan elapsed)
+        {
+#if NET40 || SL50
+            var source = new CancellationTokenSource();
+            var timer = new Timer(self => 
+            {
+                ((Timer)self).Dispose();
+
+                try { source.Cancel(); }
+                catch (ObjectDisposedException) { }
+            });
+            timer.Change((Int32)elapsed.TotalMilliseconds, -1);
+            return source;
+#else
+            return new CancellationTokenSource(elapsed);
+#endif
+        }
+
+#endregion
+
         #region Transport
 
-        sealed class RequestState
+        private sealed class RequestState
         {
-            readonly CookieContainer _cookies;
-            readonly HttpWebRequest _http;
-            readonly IRequest _request;
-            readonly Byte[] _buffer;
+            private readonly CookieContainer _cookies;
+            private readonly HttpWebRequest _http;
+            private readonly IRequest _request;
+            private readonly Byte[] _buffer;
 
             public RequestState(IRequest request, IDictionary<String, String> headers)
             {
@@ -138,7 +165,7 @@
             public async Task<IResponse> RequestAsync(CancellationToken cancellationToken)
             {
                 cancellationToken.Register(_http.Abort);
-
+                
                 if (_request.Method == HttpMethod.Post || _request.Method == HttpMethod.Put)
                 {
                     var target = await Task.Factory.FromAsync<Stream>(_http.BeginGetRequestStream, _http.EndGetRequestStream, null).ConfigureAwait(false);
@@ -156,10 +183,12 @@
                     response = ex.Response;
                 }
 
+                RaiseConnectionLimit(_http);
+
                 return GetResponse(response as HttpWebResponse);
             }
 
-            void SendRequest(Stream target)
+            private void SendRequest(Stream target)
             {
                 var source = _request.Content;
 
@@ -176,7 +205,7 @@
                 }
             }
 
-            Response GetResponse(HttpWebResponse response)
+            private Response GetResponse(HttpWebResponse response)
             {
                 if (response != null)
                 {
@@ -213,41 +242,41 @@
             /// </summary>
             /// <param name="key">The key to add or change.</param>
             /// <param name="value">The value to be set.</param>
-            void AddHeader(String key, String value)
+            private void AddHeader(String key, String value)
             {
-                if (key == HeaderNames.Accept)
+                if (key.Is(HeaderNames.Accept))
                 {
                     _http.Accept = value;
                 }
-                else if (key == HeaderNames.ContentType)
+                else if (key.Is(HeaderNames.ContentType))
                 {
                     _http.ContentType = value;
                 }
-                else if (key == HeaderNames.Expect)
+                else if (key.Is(HeaderNames.Expect))
                 {
                     SetProperty(HeaderNames.Expect, value);
                 }
-                else if (key == HeaderNames.Date)
+                else if (key.Is(HeaderNames.Date))
                 {
                     SetProperty(HeaderNames.Date, DateTime.Parse(value));
                 }
-                else if (key == HeaderNames.Host)
+                else if (key.Is(HeaderNames.Host))
                 {
                     SetProperty(HeaderNames.Host, value);
                 }
-                else if (key == HeaderNames.IfModifiedSince)
+                else if (key.Is(HeaderNames.IfModifiedSince))
                 {
                     SetProperty("IfModifiedSince", DateTime.Parse(value));
                 }
-                else if (key == HeaderNames.Referer)
+                else if (key.Is(HeaderNames.Referer))
                 {
                     SetProperty(HeaderNames.Referer, value);
                 }
-                else if (key == HeaderNames.UserAgent)
+                else if (key.Is(HeaderNames.UserAgent))
                 {
                     SetProperty("UserAgent", value);
                 }
-                else if (key != HeaderNames.Connection && key != HeaderNames.Range && key != HeaderNames.ContentLength && key != HeaderNames.TransferEncoding)
+                else if (!key.Is(HeaderNames.Connection) && !key.Is(HeaderNames.Range) && !key.Is(HeaderNames.ContentLength) && !key.Is(HeaderNames.TransferEncoding))
                 {
                     _http.Headers[key] = value;
                 }
@@ -264,7 +293,7 @@
             /// <param name="value">
             /// The value of the property, which will be set.
             /// </param>
-            void SetProperty(String name, Object value)
+            private void SetProperty(String name, Object value)
             {
                 var property = default(PropertyInfo);
 
@@ -299,6 +328,18 @@
                         }
                     }
                 }
+            }
+        }
+
+        private static void RaiseConnectionLimit(HttpWebRequest http)
+        {
+            var field = typeof(HttpWebRequest).GetField("_ServicePoint");
+            var servicePoint = field?.GetValue(http);
+
+            if (servicePoint != null)
+            {
+                var connectionLimit = servicePoint.GetType().GetProperty("ConnectionLimit");
+                connectionLimit?.SetValue(servicePoint, 1024, null);
             }
         }
 

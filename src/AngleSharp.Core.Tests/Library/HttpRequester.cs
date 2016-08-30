@@ -344,5 +344,25 @@
             Assert.IsTrue(requests.Any(m => m.Address.Path == "test.css"));
             Assert.IsTrue(requests.Any(m => m.Address.Path == "test.html"));
         }
+
+        [Test]
+        public async Task HttpRequesterShouldNotHang()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var address = "https://serverspace.ae";
+                var requesters = new IRequester[] { new DataRequester(), new HttpRequester() };
+                var cts = new CancellationTokenSource();
+                var config = Configuration
+                                .Default
+                                .WithCss()
+                                .WithDefaultLoader(c => c.IsResourceLoadingEnabled = true, requesters);
+
+                var context = BrowsingContext.New(config);
+                var url = Url.Create(address);
+                var document = await context.OpenAsync(url, cts.Token);
+                Assert.IsNotNull(document);
+            }
+        }
     }
 }

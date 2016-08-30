@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        readonly IResourceLoader _loader;
+        private readonly IResourceLoader _loader;
 
         #endregion
 
