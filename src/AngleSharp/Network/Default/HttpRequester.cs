@@ -162,6 +162,8 @@
                     response = ex.Response;
                 }
 
+                RaiseConnectionLimit(_http);
+
                 return GetResponse(response as HttpWebResponse);
             }
 
@@ -305,6 +307,18 @@
                         }
                     }
                 }
+            }
+        }
+
+        private static void RaiseConnectionLimit(HttpWebRequest http)
+        {
+            var field = typeof(HttpWebRequest).GetField("_ServicePoint");
+            var servicePoint = field?.GetValue(http);
+
+            if (servicePoint != null)
+            {
+                var connectionLimit = servicePoint.GetType().GetProperty("ConnectionLimit");
+                connectionLimit?.SetValue(servicePoint, 1024);
             }
         }
 
