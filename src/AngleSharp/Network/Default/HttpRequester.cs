@@ -96,10 +96,15 @@
         /// <returns>
         /// The task that will eventually give the response data.
         /// </returns>
-        public Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
+        public async Task<IResponse> RequestAsync(IRequest request, CancellationToken cancellationToken)
         {
+            var cts = new CancellationTokenSource(_timeOut);
             var cache = new RequestState(request, _headers);
-            return cache.RequestAsync(cancellationToken);
+
+            using (cancellationToken.Register(cts.Cancel))
+            {
+                return await cache.RequestAsync(cts.Token).ConfigureAwait(false);
+            }
         }
 
         #endregion
@@ -108,17 +113,17 @@
 
         private sealed class RequestState
         {
-            readonly CookieContainer _cookies;
-            readonly HttpWebRequest _http;
-            readonly IRequest _request;
-            readonly Byte[] _buffer;
+            private readonly CookieContainer _cookies;
+            private readonly HttpWebRequest _http;
+            private readonly IRequest _request;
+            private readonly Byte[] _buffer;
 
             public RequestState(IRequest request, IDictionary<String, String> headers)
             {
                 var cookieHeader = request.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
                 _cookies = new CookieContainer();
                 _request = request;
-                _http = WebRequest.Create(request.Address) as HttpWebRequest;
+                _http = WebRequest.CreateHttp(request.Address);
                 _http.CookieContainer = _cookies;
                 _http.Method = request.Method.ToString().ToUpperInvariant();
                 _buffer = new Byte[BufferSize];
@@ -139,7 +144,7 @@
             public async Task<IResponse> RequestAsync(CancellationToken cancellationToken)
             {
                 cancellationToken.Register(_http.Abort);
-
+                
                 if (_request.Method == HttpMethod.Post || _request.Method == HttpMethod.Put)
                 {
                     var target = await Task.Factory.FromAsync<Stream>(_http.BeginGetRequestStream, _http.EndGetRequestStream, null).ConfigureAwait(false);
