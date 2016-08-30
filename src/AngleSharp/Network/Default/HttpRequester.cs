@@ -145,7 +145,7 @@
                     SendRequest(target);
                 }
 
-                WebResponse response;
+                var response = default(WebResponse);
 
                 try
                 {
@@ -266,7 +266,7 @@
             /// </param>
             void SetProperty(String name, Object value)
             {
-                PropertyInfo property;
+                var property = default(PropertyInfo);
 
                 if (!_propCache.TryGetValue(name, out property))
                 {

@@ -132,7 +132,7 @@
         /// <returns>The name with the correct capitalization.</returns>
         public static String SanatizeSvgTagName(this String localName)
         {
-            string adjustedTagName;
+            var adjustedTagName = default(String);
 
             if (svgAdjustedTagNames.TryGetValue(localName, out adjustedTagName))
             {
@@ -230,7 +230,7 @@
         /// <returns>The name with the correct capitalization.</returns>
         public static String AdjustToSvgAttribute(this String attributeName)
         {
-            string adjustedAttributeName;
+            var adjustedAttributeName = default(String);
 
             if (svgAttributeNames.TryGetValue(attributeName, out adjustedAttributeName))
             {

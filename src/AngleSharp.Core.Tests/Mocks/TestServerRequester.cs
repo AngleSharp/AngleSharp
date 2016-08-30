@@ -26,7 +26,7 @@
 
         public async Task<IResponse> RequestAsync(IRequest request, CancellationToken cancel)
         {
-            string value;
+            var value = default(String);
             var status = HttpStatusCode.NotFound;
             var content = Stream.Null;
 

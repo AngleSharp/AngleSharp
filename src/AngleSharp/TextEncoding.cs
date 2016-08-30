@@ -287,7 +287,7 @@
         /// <returns>An instance of the Encoding class or null.</returns>
         public static Encoding Resolve(String charset)
         {
-            Encoding encoding;
+            var encoding = default(Encoding);
 
             if (charset != null && encodings.TryGetValue(charset, out encoding))
             {

@@ -43,7 +43,7 @@
         public static T? TryGet<T>(this IDictionary<String, Object> values, String key)
             where T : struct
         {
-            object value;
+            var value = default(Object);
 
             if (values.TryGetValue(key, out value) && value is T)
             {
@@ -61,7 +61,7 @@
         /// <returns>An object instance or null.</returns>
         public static Object TryGet(this IDictionary<String, Object> values, String key)
         {
-            object value;
+            var value = default(Object);
             values.TryGetValue(key, out value);
             return value;
         }
@@ -78,7 +78,7 @@
         /// <returns>The value or the provided fallback.</returns>
         public static U GetOrDefault<T, U>(this IDictionary<T, U> values, T key, U defaultValue)
         {
-            U value;
+            var value = default(U);
             return values.TryGetValue(key, out value) ? value : defaultValue;
         }
 

@@ -333,9 +333,9 @@
         public static Color FromHwba(Single h, Single w, Single b, Single alpha)
         {
             var ratio = 1f / (w + b);
-            float red;
-            float green;
-            float blue;
+            var red = 0f;
+            var green = 0f;
+            var blue = 0f;
 
             if (ratio < 1f) 
             {

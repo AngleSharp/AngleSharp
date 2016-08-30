@@ -49,7 +49,7 @@
         /// <returns>The registered creator, if any.</returns>
         public Creator Unregister(String combinator)
         {
-            Creator creator;
+            var creator = default(Creator);
 
             if (_creators.TryGetValue(combinator, out creator))
             {
@@ -81,7 +81,7 @@
         /// <returns>The associated selector.</returns>
         public ISelector Create(String combinator, String name, String value, String prefix)
         {
-            Creator creator;
+            var creator = default(Creator);
 
             if (_creators.TryGetValue(combinator, out creator))
             {

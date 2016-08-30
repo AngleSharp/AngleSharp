@@ -60,7 +60,7 @@
 
         internal void RaiseChangedEvent(Attr attr, String newValue, String oldValue)
         {
-            Element element;
+            var element = default(Element);
 
             if (_owner.TryGetTarget(out element))
             {

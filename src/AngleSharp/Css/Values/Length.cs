@@ -204,7 +204,7 @@
         /// <returns>True if successful, otherwise false.</returns>
         public static Boolean TryParse(String s, out Length result)
         {
-            float value;
+            var value = default(Single);
             var unitString = s.CssUnit(out value);
             var unit = GetUnit(unitString);
 

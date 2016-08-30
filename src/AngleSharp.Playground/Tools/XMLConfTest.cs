@@ -161,7 +161,7 @@
             var entry = new Entry();
             var cells = table.QuerySelectorAll("table td");
             var blub = cells.Select(m => m.TextContent).ToArray();
-            string path;
+            var path = String.Empty;
             entry.Rules = cells[2].TextContent;
             entry.FileName = cells[4].TextContent;
             entry.Collection = cells[6].TextContent;

@@ -2568,7 +2568,7 @@
         public String GetSymbol(String name)
         {
             var symbol = default(String);
-            Dictionary<string, string> symbols;
+            var symbols = default(Dictionary<String, String>);
 
             if (!String.IsNullOrEmpty(name) && _entities.TryGetValue(name[0], out symbols))
                 symbols.TryGetValue(name, out symbol);

@@ -18,7 +18,7 @@
         public IPropertyValue Convert(IEnumerable<CssToken> value)
         {
             var identifier = value.ToIdentifier();
-            T mode;
+            var mode = default(T);
             return identifier != null && _values.TryGetValue(identifier, out mode) ?
                 new EnumeratedValue(identifier, mode, value) : null;
         }
