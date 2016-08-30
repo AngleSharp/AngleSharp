@@ -824,7 +824,7 @@
             { 
                 return _ranges.Select(entry => 
                 {
-                    Range range;
+                    var range = default(Range);
                     entry.TryGetTarget(out range);
                     return range;
                 }).Where(range => range != null); 
@@ -1049,8 +1049,8 @@
 
         public IElement CreateElement(String namespaceUri, String qualifiedName)
         {
-            string localName;
-            string prefix;
+            var localName = default(String);
+            var prefix = default(String);
             GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out prefix, out localName);
 
             if (namespaceUri.Is(NamespaceNames.HtmlUri))
@@ -1157,8 +1157,8 @@
 
         public IAttr CreateAttribute(String namespaceUri, String qualifiedName)
         {
-            string localName;
-            string prefix;
+            var localName = default(String);
+            var prefix = default(String);
             GetPrefixAndLocalName(qualifiedName, ref namespaceUri, out prefix, out localName);
             return new Attr(prefix, localName, String.Empty, namespaceUri);
         }

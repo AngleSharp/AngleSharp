@@ -116,7 +116,7 @@
             if (feature == null)
                 throw new ArgumentNullException(nameof(feature));
 
-            string[] versions;
+            var versions = default(String[]);
 
             if (features.TryGetValue(feature, out versions))
             {

@@ -139,7 +139,7 @@
             var src = "I'm &notin; I tell you";
             var s = new TextSource(src);
             var t = CreateTokenizer(s);
-            HtmlToken token;
+            var token = default(HtmlToken);
 
             do
             {
@@ -160,7 +160,7 @@
             var src = "I'm &notit; I tell you";
             var s = new TextSource(src);
             var t = CreateTokenizer(s);
-            HtmlToken token;
+            var token = default(HtmlToken);
 
             do
             {
@@ -208,7 +208,7 @@
             StringBuilder sb = new StringBuilder();
             var s = new TextSource("<![CDATA[hi mum how <!-- are you doing />]]>");
             var t = CreateTokenizer(s);
-            HtmlToken token;
+            var token = default(HtmlToken);
             t.IsAcceptingCharacterData = true;
 
             do

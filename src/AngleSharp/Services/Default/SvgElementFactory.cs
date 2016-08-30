@@ -31,7 +31,7 @@
         /// <returns>The specialized SVGElement instance.</returns>
         public SvgElement Create(Document document, String localName, String prefix = null)
         {
-            Creator creator;
+            var creator = default(Creator);
 
             if (creators.TryGetValue(localName, out creator))
             {

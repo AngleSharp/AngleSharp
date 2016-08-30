@@ -1243,7 +1243,7 @@
             if (fragment.ChildElementCount != 1)
                 throw new InvalidOperationException("The provided HTML code did not result in any element.");
 
-            IElement element;
+            var element = default(IElement);
             var child = fragment.FirstElementChild;
 
             do

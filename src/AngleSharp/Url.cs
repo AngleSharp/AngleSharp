@@ -1054,7 +1054,7 @@
 
                         break;
                     default:
-                        char chr;
+                        var chr = Symbols.Null;
 
                         if (Symbols.Punycode.TryGetValue(hostName[i], out chr))
                         {

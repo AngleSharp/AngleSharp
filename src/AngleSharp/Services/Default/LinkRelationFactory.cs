@@ -27,7 +27,7 @@
         /// <returns>The LinkRel provider instance or null.</returns>
         public BaseLinkRelation Create(HtmlLinkElement link, String rel)
         {
-            Creator creator;
+            var creator = default(Creator);
 
             if (rel != null && creators.TryGetValue(rel, out creator))
             {

@@ -227,7 +227,7 @@
             {
                 var action = String.IsNullOrEmpty(Action) ? new Url(owner.DocumentUri) : this.HyperReference(Action);
                 var createdBrowsingContext = false;
-                IBrowsingContext targetBrowsingContext;
+                var targetBrowsingContext = owner.Context;
                 var target = Target;
 
                 if (!String.IsNullOrEmpty(target))
@@ -301,7 +301,7 @@
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
             var enctype = Enctype;
-            string result;
+            var result = String.Empty;
             var stream = formDataSet.CreateBody(enctype, encoding);
 
             using (var sr = new StreamReader(stream))
@@ -331,7 +331,7 @@
         {
             var formDataSet = ConstructDataSet(submitter);
             var result = formDataSet.AsUrlEncoded(TextEncoding.UsAscii);
-            string headers;
+            var headers = String.Empty;
 
             using (var sr = new StreamReader(result))
             {
@@ -352,7 +352,7 @@
             var enctype = Enctype;
             var encoding = TextEncoding.UsAscii;
             var stream = formDataSet.CreateBody(enctype, encoding);
-            string body;
+            var body = String.Empty;
 
             using (var sr = new StreamReader(stream))
             {

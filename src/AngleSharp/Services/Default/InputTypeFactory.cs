@@ -48,7 +48,7 @@
         /// <returns>The InputType provider instance.</returns>
         public BaseInputType Create(IHtmlInputElement input, String type)
         {
-            Creator creator;
+            var creator = default(Creator);
 
             if (String.IsNullOrEmpty(type))
             {

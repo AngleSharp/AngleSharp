@@ -100,7 +100,7 @@
         {
             get
             {
-                IShadowRoot root;
+                var root = default(IShadowRoot);
                 ShadowRoots.TryGetValue(this, out root);
                 return root;
             }
@@ -479,8 +479,8 @@
         {
             if (value != null)
             {
-                string prefix;
-                string localName;
+                var prefix = default(String);
+                var localName = default(String);
                 GetPrefixAndLocalName(name, ref namespaceUri, out prefix, out localName);
                 _attributes.SetNamedItem(new Attr(prefix, localName, value, namespaceUri));
             }
@@ -677,7 +677,7 @@
 
         static AttrChanged GetOrCreateCallback(Type type)
         {
-            AttrChanged handler;
+            var handler = default(AttrChanged);
 
             if (!RegisteredCallbacks.TryGetValue(type, out handler))
             {

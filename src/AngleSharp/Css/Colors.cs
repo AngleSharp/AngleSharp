@@ -219,7 +219,7 @@
         /// <returns>The color with the given name or null.</returns>
         public static Color? GetColor(String name)
         {
-            Color color;
+            var color = default(Color);
 
             if (_colors.TryGetValue(name, out color))
             {

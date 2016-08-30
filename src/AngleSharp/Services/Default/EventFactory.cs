@@ -44,7 +44,7 @@
         /// <returns>The created event.</returns>
         public Event Create(String name)
         {
-            Creator creator;
+            var creator = default(Creator);
 
             if (name != null && creators.TryGetValue(name, out creator))
             {

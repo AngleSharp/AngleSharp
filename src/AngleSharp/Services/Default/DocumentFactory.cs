@@ -53,7 +53,7 @@
         /// <returns>The registered creator, if any.</returns>
         public Creator Unregister(String contentType)
         {
-            Creator creator;
+            var creator = default(Creator);
 
             if (_creators.TryGetValue(contentType, out creator))
             {

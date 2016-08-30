@@ -43,7 +43,7 @@
         /// <returns>The found instance, if any.</returns>
         public IBrowsingContext Find(String name)
         {
-            WeakReference<IBrowsingContext> cached;
+            var cached = default(WeakReference<IBrowsingContext>);
             var context = default(IBrowsingContext);
 
             if (_cache.TryGetValue(name, out cached))

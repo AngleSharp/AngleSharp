@@ -16,7 +16,7 @@
         {
             get 
             { 
-                JsonElement tmp;
+                var tmp = default(JsonElement);
                 _properties.TryGetValue(key.ToString(), out tmp); 
                 return tmp; 
             }

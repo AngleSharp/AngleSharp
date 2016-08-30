@@ -131,7 +131,7 @@
         /// <returns>The trimmed characters.</returns>
         public String TrimStart()
         {
-            int i;
+            var i = 0;
 
             for (i = 0; i < _name.Length; i++)
             {

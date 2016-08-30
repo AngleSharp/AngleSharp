@@ -85,7 +85,7 @@
         /// <returns>True if successful, otherwise false.</returns>
         public static Boolean TryParse(String s, out Resolution result)
         {
-            float value;
+            var value = default(Single);
             var unit = GetUnit(s.CssUnit(out value));
 
             if (unit != Unit.None)
