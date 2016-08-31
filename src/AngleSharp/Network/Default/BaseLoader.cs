@@ -5,6 +5,8 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -74,6 +76,16 @@
         }
 
         /// <summary>
+        /// Sets the cookie string for the given URL.
+        /// </summary>
+        /// <param name="url">The requested URL.</param>
+        /// <param name="value">The value of the cookie.</param>
+        protected virtual void SetCookie(Url url, String value)
+        {
+            _context.Configuration.SetCookie(url.Origin, value);
+        }
+
+        /// <summary>
         /// Starts downloading the request.
         /// </summary>
         /// <param name="request">The request data.</param>
@@ -118,19 +130,52 @@
         protected async Task<IResponse> LoadAsync(Request request, CancellationToken cancel)
         {
             var requesters = _context.Configuration.GetServices<IRequester>();
+            var response = default(IResponse);
 
-            foreach (var requester in requesters)
+            do
             {
-                if (requester.SupportsProtocol(request.Address.Scheme))
+                if (response != null)
                 {
-                    _context.Fire(new RequestEvent(request, null));
-                    var response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
-                    _context.Fire(new RequestEvent(request, response));
-                    return response;
+                    var method = request.Method;
+                    var content = request.Content;
+                    var location = response.Headers[HeaderNames.Location];
+                    SetCookie(request.Address, response.Headers[HeaderNames.SetCookie]);
+
+                    if (response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.RedirectMethod)
+                    {
+                        method = HttpMethod.Get;
+                        content = Stream.Null;
+                    }
+                    else if (content.Length > 0)
+                    {
+                        content.Position = 0;
+                    }
+
+                    request = new Request
+                    {
+                        Address = new Url(request.Address, location),
+                        Method = method,
+                        Content = content,
+                        Headers = request.Headers
+                    };
+
+                    request.Headers[HeaderNames.Cookie] = GetCookie(request.Address);
+                }
+
+                foreach (var requester in requesters)
+                {
+                    if (requester.SupportsProtocol(request.Address.Scheme))
+                    {
+                        _context.Fire(new RequestEvent(request, null));
+                        response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
+                        _context.Fire(new RequestEvent(request, response));
+                        break;
+                    }
                 }
             }
+            while (response != null && response.StatusCode.IsRedirected());
 
-            return default(IResponse);
+            return response;
         }
 
         #endregion

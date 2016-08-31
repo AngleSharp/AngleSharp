@@ -167,40 +167,6 @@
 
             public async Task<IResponse> RequestAsync(CancellationToken cancellationToken)
             {
-                var response = await BareRequestAsync(cancellationToken).ConfigureAwait(false);
-
-                while (response != null && response.StatusCode.IsRedirected())
-                {
-                    var method = _request.Method;
-                    var content = _request.Content;
-                    var location = response.Headers["location"];
-
-                    if (response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.RedirectMethod)
-                    {
-                        method = HttpMethod.Get;
-                        content = Stream.Null;
-                    }
-                    else if (content.Length > 0)
-                    {
-                        content.Position = 0;
-                    }
-
-                    var request = new Request
-                    {
-                        Address = new Url(_request.Address, location),
-                        Method = method,
-                        Content = content,
-                        Headers = _request.Headers
-                    };
-                    var requester = new RequestState(request, _headers);
-                    response = await requester.BareRequestAsync(cancellationToken).ConfigureAwait(false);
-                }
-
-                return GetResponse(response);
-            }
-
-            private async Task<HttpWebResponse> BareRequestAsync(CancellationToken cancellationToken)
-            {
                 cancellationToken.Register(_http.Abort);
 
                 if (_request.Method == HttpMethod.Post || _request.Method == HttpMethod.Put)
@@ -221,7 +187,7 @@
                 }
 
                 RaiseConnectionLimit(_http);
-                return response as HttpWebResponse;
+                return GetResponse(response as HttpWebResponse);
             }
 
             private void SendRequest(Stream target)
