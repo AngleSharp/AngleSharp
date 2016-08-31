@@ -3,6 +3,7 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
+    using Dom;
     using NUnit.Framework;
     using System;
     using System.Threading.Tasks;
@@ -29,6 +30,33 @@
         {
             var cookie = await LoadDocumentWithCookie("cookie=two; Max-Age=36001");
             Assert.AreEqual("cookie=two", cookie);
+        }
+
+        [Test]
+        public async Task SettingSingleCookieChangesValue()
+        {
+            var document = await LoadDocumentAloneWithCookie("cookie=two; Max-Age=36001");
+            Assert.AreEqual("cookie=two", document.Cookie);
+            document.Cookie = "cookie=one";
+            Assert.AreEqual("cookie=one", document.Cookie);
+        }
+
+        [Test]
+        public async Task SettingOtherCookieAddsCookie()
+        {
+            var document = await LoadDocumentAloneWithCookie("cookie=two; Max-Age=36001");
+            Assert.AreEqual("cookie=two", document.Cookie);
+            document.Cookie = "foo=bar";
+            Assert.AreEqual("cookie=two; foo=bar", document.Cookie);
+        }
+
+        [Test]
+        public async Task InvalidatingCookieRemovesTheCookie()
+        {
+            var document = await LoadDocumentAloneWithCookie("cookie=two; Max-Age=36001, foo=bar");
+            Assert.AreEqual("cookie=two; foo=bar", document.Cookie);
+            document.Cookie = "cookie=expiring; Expires=Tue, 10 Nov 2009 23:00:00 GMT";
+            Assert.AreEqual("foo=bar", document.Cookie);
         }
 
         [Test]
@@ -196,7 +224,7 @@
             }
         }
 
-        private static async Task<String> LoadDocumentWithCookie(String cookieValue)
+        private static async Task<IDocument> LoadDocumentAloneWithCookie(String cookieValue)
         {
             var config = Configuration.Default.WithCookies();
             var context = BrowsingContext.New(config);
@@ -205,6 +233,12 @@
                     Address("http://localhost/").
                     Header(HeaderNames.SetCookie, cookieValue));
 
+            return document;
+        }
+
+        private static async Task<String> LoadDocumentWithCookie(String cookieValue)
+        {
+            var document = await LoadDocumentAloneWithCookie(cookieValue);
             return document.Cookie;
         }
     }
