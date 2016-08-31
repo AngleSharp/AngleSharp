@@ -136,29 +136,8 @@
             {
                 if (response != null)
                 {
-                    var method = request.Method;
-                    var content = request.Content;
-                    var location = response.Headers[HeaderNames.Location];
                     SetCookie(request.Address, response.Headers[HeaderNames.SetCookie]);
-
-                    if (response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.RedirectMethod)
-                    {
-                        method = HttpMethod.Get;
-                        content = Stream.Null;
-                    }
-                    else if (content.Length > 0)
-                    {
-                        content.Position = 0;
-                    }
-
-                    request = new Request
-                    {
-                        Address = new Url(request.Address, location),
-                        Method = method,
-                        Content = content,
-                        Headers = request.Headers
-                    };
-
+                    request = CreateNewRequest(request, response);
                     request.Headers[HeaderNames.Cookie] = GetCookie(request.Address);
                 }
 
@@ -176,6 +155,37 @@
             while (response != null && response.StatusCode.IsRedirected());
 
             return response;
+        }
+
+        /// <summary>
+        /// Creates a new request based on the existing request and given response.
+        /// </summary>
+        /// <param name="request">The previous request.</param>
+        /// <param name="response">The response to the previous request.</param>
+        /// <returns>The new request to issue.</returns>
+        protected static Request CreateNewRequest(IRequest request, IResponse response)
+        {
+            var method = request.Method;
+            var content = request.Content;
+            var location = response.Headers[HeaderNames.Location];
+
+            if (response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.RedirectMethod)
+            {
+                method = HttpMethod.Get;
+                content = Stream.Null;
+            }
+            else if (content.Length > 0)
+            {
+                content.Position = 0;
+            }
+
+            return new Request
+            {
+                Address = new Url(request.Address, location),
+                Method = method,
+                Content = content,
+                Headers = request.Headers
+            };
         }
 
         #endregion
