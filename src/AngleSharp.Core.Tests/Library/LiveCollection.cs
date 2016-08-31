@@ -1,16 +1,16 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using System;
-    using System.Linq;
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Html;
     using AngleSharp.Html;
     using NUnit.Framework;
-    using AngleSharp.Dom.Html;
+    using System;
+    using System.Linq;
 
     [TestFixture]
     public class LiveCollectionTests
     {
-        static IDocument Html(String code)
+        private static IDocument Html(String code)
         {
             return code.ToHtmlDocument();
         }

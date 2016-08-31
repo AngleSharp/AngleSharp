@@ -2,7 +2,6 @@ namespace AngleSharp.Core.Tests
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
-    using System;
 
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
@@ -14,15 +13,10 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class HtmlConstructionTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void ParagraphWithNewFormattingElements()
         {
-            var doc = Html(@"<!DOCTYPE html><p><b><i><u></p> <p>X");
+            var doc = (@"<!DOCTYPE html><p><b><i><u></p> <p>X").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -96,8 +90,8 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NewLineAfterParagraphWithNewFormattingElements()
         {
-            var doc = Html(@"<p><b><i><u></p>
-<p>X");
+            var doc = (@"<p><b><i><u></p>
+<p>X").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -177,7 +171,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void WronglyClosedHtmlTagAndSpaceBeforeHead()
         {
-            var doc = Html(@"<!doctype html></html> <head>");
+            var doc = (@"<!doctype html></html> <head>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -210,7 +204,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void WronglyClosedBodyTagAndStandaloneMetaElement()
         {
-            var doc = Html(@"<!doctype html></body><meta>");
+            var doc = (@"<!doctype html></body><meta>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -245,7 +239,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CommentAfterClosedHtmlTag()
         {
-            var doc = Html(@"<html></html><!-- foo -->");
+            var doc = (@"<html></html><!-- foo -->").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -274,7 +268,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void WronglyClosedBodyElementAndTitleElement()
         {
-            var doc = Html(@"<!doctype html></body><title>X</title>");
+            var doc = (@"<!doctype html></body><title>X</title>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -313,7 +307,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithMissingBracketAndWronglyClosedMetaElement()
         {
-            var doc = Html(@"<!doctype html><table> X<meta></table>");
+            var doc = (@"<!doctype html><table> X<meta></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -358,7 +352,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterParentedTextInTableElement()
         {
-            var doc = Html(@"<!doctype html><table> x</table>");
+            var doc = (@"<!doctype html><table> x</table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -397,7 +391,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterParentedTextWithTrailingSpaceInTableElement()
         {
-            var doc = Html(@"<!doctype html><table> x </table>");
+            var doc = (@"<!doctype html><table> x </table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -436,7 +430,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterParentedTextInRowElement()
         {
-            var doc = Html(@"<!doctype html><table><tr> x</table>");
+            var doc = (@"<!doctype html><table><tr> x</table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -487,7 +481,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void WronglyPlacedStyleElementInTableElementWithFosteredText()
         {
-            var doc = Html(@"<!doctype html><table>X<style> <tr>x </style> </table>");
+            var doc = (@"<!doctype html><table>X<style> <tr>x </style> </table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -540,7 +534,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableInDivWithMultipleFosteredElements()
         {
-            var doc = Html(@"<!doctype html><div><table><a>foo</a> <tr><td>bar</td> </tr></table></div>");
+            var doc = (@"<!doctype html><div><table><a>foo</a> <tr><td>bar</td> </tr></table></div>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -621,7 +615,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FrameAndFramesetUsedPartiallyWrong()
         {
-            var doc = Html(@"<frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>");
+            var doc = (@"<frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -673,7 +667,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ObjectElementClosedByHtml()
         {
-            var doc = Html(@"<!DOCTYPE html><object></html>");
+            var doc = (@"<!DOCTYPE html><object></html>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -708,7 +702,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void PlaintextElementCannotBeClosedAnymore()
         {
-            var doc = Html(@"<!doctype html><plaintext></plaintext>");
+            var doc = (@"<!doctype html><plaintext></plaintext>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -747,7 +741,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosteredPlaintextElementInTableThatCannotBeClosedAnymore()
         {
-            var doc = Html(@"<!doctype html><table><plaintext></plaintext>");
+            var doc = (@"<!doctype html><table><plaintext></plaintext>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -792,7 +786,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosteredPlaintextElementInTBodyThatCannotBeClosedAnymore()
         {
-            var doc = Html(@"<!doctype html><table><tbody><plaintext></plaintext>");
+            var doc = (@"<!doctype html><table><tbody><plaintext></plaintext>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -843,7 +837,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosteredPlaintextElementInRowThatCannotBeClosedAnymore()
         {
-            var doc = Html(@"<!doctype html><table><tbody><tr><plaintext></plaintext>");
+            var doc = (@"<!doctype html><table><tbody><tr><plaintext></plaintext>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -900,7 +894,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void PlaintextElementInTableCellThatCannotBeClosedAnymore()
         {
-            var doc = Html(@"<!doctype html><table><td><plaintext></plaintext>");
+            var doc = (@"<!doctype html><table><td><plaintext></plaintext>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -963,7 +957,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void PlaintextElementInTableCaptionThatCannotBeClosedAnymore()
         {
-            var doc = Html(@"<!doctype html><table><caption><plaintext></plaintext>");
+            var doc = (@"<!doctype html><table><caption><plaintext></plaintext>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1014,7 +1008,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StyleTagInRowSwitchesToRawtextAndAbsorbsClosedScriptTag()
         {
-            var doc = Html(@"<!doctype html><table><tr><style></script></style>abc");
+            var doc = (@"<!doctype html><table><tr><style></script></style>abc").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1075,7 +1069,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptTagInRowSwitchesToRawtextAndAbsorbsClosedStyleTag()
         {
-            var doc = Html(@"<!doctype html><table><tr><script></style></script>abc");
+            var doc = (@"<!doctype html><table><tr><script></style></script>abc").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1137,7 +1131,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StyleTagInCaptionSwitchesToRawtextAndAbsorbsClosedScriptTag()
         {
-            var doc = Html(@"<!doctype html><table><caption><style></script></style>abc");
+            var doc = (@"<!doctype html><table><caption><style></script></style>abc").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1192,7 +1186,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StyleTagInCellSwitchesToRawtextAndAbsorbsClosedScriptTag()
         {
-            var doc = Html(@"<!doctype html><table><td><style></script></style>abc");
+            var doc = (@"<!doctype html><table><td><style></script></style>abc").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1259,7 +1253,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptTagInSelectSwitchesToRawtextAndAbsorbsClosedStyleTag()
         {
-            var doc = Html(@"<!doctype html><select><script></style></script>abc");
+            var doc = (@"<!doctype html><select><script></style></script>abc").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1308,7 +1302,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptTagInSelectLocatedInTableSwitchesToRawtextAndAbsorbsClosedStyleTag()
         {
-            var doc = Html(@"<!doctype html><table><select><script></style></script>abc");
+            var doc = (@"<!doctype html><table><select><script></style></script>abc").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1363,7 +1357,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptTagInSelectLocatedInRowSwitchesToRawtextAndAbsorbsClosedStyleTag()
         {
-            var doc = Html(@"<!doctype html><table><tr><select><script></style></script>abc");
+            var doc = (@"<!doctype html><table><tr><select><script></style></script>abc").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1430,7 +1424,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NoframesAfterFramesetElement()
         {
-            var doc = Html(@"<!doctype html><frameset></frameset><noframes>abc");
+            var doc = (@"<!doctype html><frameset></frameset><noframes>abc").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1469,7 +1463,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NoframesAfterFramesetElementWithFollowingComment()
         {
-            var doc = Html(@"<!doctype html><frameset></frameset><noframes>abc</noframes><!--abc-->");
+            var doc = (@"<!doctype html><frameset></frameset><noframes>abc</noframes><!--abc-->").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1512,7 +1506,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NoframesAfterHtmlElement()
         {
-            var doc = Html(@"<!doctype html><frameset></frameset></html><noframes>abc");
+            var doc = (@"<!doctype html><frameset></frameset></html><noframes>abc").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1551,7 +1545,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod30()
         {
-            var doc = Html(@"<!doctype html><frameset></frameset></html><noframes>abc</noframes><!--abc-->");
+            var doc = (@"<!doctype html><frameset></frameset></html><noframes>abc</noframes><!--abc-->").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1596,7 +1590,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod31()
         {
-            var doc = Html(@"<!doctype html><table><tr></tbody><tfoot>");
+            var doc = (@"<!doctype html><table><tr></tbody><tfoot>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1650,7 +1644,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod32()
         {
-            var doc = Html(@"<!doctype html><table><td><svg></svg>abc<td>");
+            var doc = (@"<!doctype html><table><td><svg></svg>abc<td>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1720,7 +1714,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod33()
         {
-            var doc = Html(@"<!doctype html><math><mn DefinitionUrl=""foo"">");
+            var doc = (@"<!doctype html><math><mn DefinitionUrl=""foo"">").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1765,7 +1759,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod34()
         {
-            var doc = Html(@"<!doctype html><html></p><!--foo-->");
+            var doc = (@"<!doctype html><html></p><!--foo-->").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1799,7 +1793,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod35()
         {
-            var doc = Html(@"<!doctype html><head></head></p><!--foo-->");
+            var doc = (@"<!doctype html><head></head></p><!--foo-->").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1833,7 +1827,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod36()
         {
-            var doc = Html(@"<!doctype html><body><p><pre>");
+            var doc = (@"<!doctype html><body><p><pre>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1875,7 +1869,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod37()
         {
-            var doc = Html(@"<!doctype html><body><p><listing>");
+            var doc = (@"<!doctype html><body><p><listing>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1917,7 +1911,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod38()
         {
-            var doc = Html(@"<!doctype html><p><plaintext>");
+            var doc = (@"<!doctype html><p><plaintext>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1959,7 +1953,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod39()
         {
-            var doc = Html(@"<!doctype html><p><h1>");
+            var doc = (@"<!doctype html><p><h1>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2001,7 +1995,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod40()
         {
-            var doc = Html(@"<!doctype html><form><isindex>");
+            var doc = (@"<!doctype html><form><isindex>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2037,7 +2031,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod41()
         {
-            var doc = Html(@"<!doctype html><isindex action=""POST"">");
+            var doc = (@"<!doctype html><isindex action=""POST"">").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2107,7 +2101,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod42()
         {
-            var doc = Html(@"<!doctype html><isindex prompt=""this is isindex"">");
+            var doc = (@"<!doctype html><isindex prompt=""this is isindex"">").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2174,7 +2168,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod43()
         {
-            var doc = Html(@"<!doctype html><isindex type=""hidden"">");
+            var doc = (@"<!doctype html><isindex type=""hidden"">").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2244,7 +2238,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod44()
         {
-            var doc = Html(@"<!doctype html><isindex name=""foo"">");
+            var doc = (@"<!doctype html><isindex name=""foo"">").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2311,7 +2305,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod45()
         {
-            var doc = Html(@"<!doctype html><ruby><p><rp>");
+            var doc = (@"<!doctype html><ruby><p><rp>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2359,7 +2353,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod46()
         {
-            var doc = Html(@"<!doctype html><ruby><div><span><rp>");
+            var doc = (@"<!doctype html><ruby><div><span><rp>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2413,7 +2407,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod47()
         {
-            var doc = Html(@"<!doctype html><ruby><div><p><rp>");
+            var doc = (@"<!doctype html><ruby><div><p><rp>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2467,7 +2461,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod48()
         {
-            var doc = Html(@"<!doctype html><ruby><p><rt>");
+            var doc = (@"<!doctype html><ruby><p><rt>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2515,7 +2509,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod49()
         {
-            var doc = Html(@"<!doctype html><ruby><div><span><rt>");
+            var doc = (@"<!doctype html><ruby><div><span><rt>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2569,7 +2563,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod50()
         {
-            var doc = Html(@"<!doctype html><ruby><div><p><rt>");
+            var doc = (@"<!doctype html><ruby><div><p><rt>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2623,7 +2617,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod51()
         {
-            var doc = Html(@"<html><ruby>a<rb>b<rt></ruby></html>");
+            var doc = (@"<html><ruby>a<rb>b<rt></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2674,7 +2668,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod52()
         {
-            var doc = Html(@"<html><ruby>a<rp>b<rt></ruby></html>");
+            var doc = (@"<html><ruby>a<rp>b<rt></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2725,7 +2719,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod53()
         {
-            var doc = Html(@"<html><ruby>a<rt>b<rt></ruby></html>");
+            var doc = (@"<html><ruby>a<rt>b<rt></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2776,7 +2770,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod54()
         {
-            var doc = Html(@"<html><ruby>a<rtc>b<rt>c<rb>d</ruby></html>");
+            var doc = (@"<html><ruby>a<rtc>b<rt>c<rb>d</ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2841,7 +2835,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod55()
         {
-            var doc = Html(@"<!doctype html><math/><foo>");
+            var doc = (@"<!doctype html><math/><foo>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2883,7 +2877,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod56()
         {
-            var doc = Html(@"<!doctype html><svg/><foo>");
+            var doc = (@"<!doctype html><svg/><foo>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2925,7 +2919,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod57()
         {
-            var doc = Html(@"<!doctype html><div></body><!--foo-->");
+            var doc = (@"<!doctype html><div></body><!--foo-->").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2965,7 +2959,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod58()
         {
-            var doc = Html(@"<!doctype html><h1><div><h3><span></h1>foo");
+            var doc = (@"<!doctype html><h1><div><h3><span></h1>foo").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3023,7 +3017,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod59()
         {
-            var doc = Html(@"<!doctype html><p></h3>foo");
+            var doc = (@"<!doctype html><p></h3>foo").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3063,7 +3057,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod60()
         {
-            var doc = Html(@"<!doctype html><h3><li>abc</h2>foo");
+            var doc = (@"<!doctype html><h3><li>abc</h2>foo").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3113,7 +3107,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod61()
         {
-            var doc = Html(@"<!doctype html><table>abc<!--foo-->");
+            var doc = (@"<!doctype html><table>abc<!--foo-->").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3157,7 +3151,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod62()
         {
-            var doc = Html(@"<!doctype html><table>  <!--foo-->");
+            var doc = (@"<!doctype html><table>  <!--foo-->").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3201,7 +3195,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod63()
         {
-            var doc = Html(@"<!doctype html><table> b <!--foo-->");
+            var doc = (@"<!doctype html><table> b <!--foo-->").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3245,7 +3239,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod64()
         {
-            var doc = Html(@"<!doctype html><select><option><option>");
+            var doc = (@"<!doctype html><select><option><option>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3293,7 +3287,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod65()
         {
-            var doc = Html(@"<!doctype html><select><option></optgroup>");
+            var doc = (@"<!doctype html><select><option></optgroup>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3335,7 +3329,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod66()
         {
-            var doc = Html(@"<!doctype html><select><option></optgroup>");
+            var doc = (@"<!doctype html><select><option></optgroup>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3377,7 +3371,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod67()
         {
-            var doc = Html(@"<!doctype html><dd><optgroup><dd>");
+            var doc = (@"<!doctype html><dd><optgroup><dd>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3425,7 +3419,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod68()
         {
-            var doc = Html(@"<!doctype html><p><math><mi><p><h1>");
+            var doc = (@"<!doctype html><p><math><mi><p><h1>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3485,7 +3479,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod69()
         {
-            var doc = Html(@"<!doctype html><p><math><mo><p><h1>");
+            var doc = (@"<!doctype html><p><math><mo><p><h1>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3545,7 +3539,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod70()
         {
-            var doc = Html(@"<!doctype html><p><math><mn><p><h1>");
+            var doc = (@"<!doctype html><p><math><mn><p><h1>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3605,7 +3599,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod71()
         {
-            var doc = Html(@"<!doctype html><p><math><ms><p><h1>");
+            var doc = (@"<!doctype html><p><math><ms><p><h1>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3665,7 +3659,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod72()
         {
-            var doc = Html(@"<!doctype html><p><math><mtext><p><h1>");
+            var doc = (@"<!doctype html><p><math><mtext><p><h1>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3725,7 +3719,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod73()
         {
-            var doc = Html(@"<!doctype html><frameset></noframes>");
+            var doc = (@"<!doctype html><frameset></noframes>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3755,7 +3749,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod74()
         {
-            var doc = Html(@"<!doctype html><html c=d><body></html><html a=b>");
+            var doc = (@"<!doctype html><html c=d><body></html><html a=b>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3791,7 +3785,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod75()
         {
-            var doc = Html(@"<!doctype html><html c=d><frameset></frameset></html><html a=b>");
+            var doc = (@"<!doctype html><html c=d><frameset></frameset></html><html a=b>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3827,7 +3821,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod76()
         {
-            var doc = Html(@"<!doctype html><html><frameset></frameset></html><!--foo-->");
+            var doc = (@"<!doctype html><html><frameset></frameset></html><!--foo-->").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3862,7 +3856,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod77()
         {
-            var doc = Html(@"<!doctype html><html><frameset></frameset></html>  ");
+            var doc = (@"<!doctype html><html><frameset></frameset></html>  ").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3896,7 +3890,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod78()
         {
-            var doc = Html(@"<!doctype html><html><frameset></frameset></html>abc");
+            var doc = (@"<!doctype html><html><frameset></frameset></html>abc").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3926,7 +3920,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod79()
         {
-            var doc = Html(@"<!doctype html><html><frameset></frameset></html><p>");
+            var doc = (@"<!doctype html><html><frameset></frameset></html><p>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3956,7 +3950,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod80()
         {
-            var doc = Html(@"<!doctype html><html><frameset></frameset></html></p>");
+            var doc = (@"<!doctype html><html><frameset></frameset></html></p>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3986,7 +3980,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod81()
         {
-            var doc = Html(@"<html><frameset></frameset></html><!doctype html>");
+            var doc = (@"<html><frameset></frameset></html><!doctype html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4011,7 +4005,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod82()
         {
-            var doc = Html(@"<!doctype html><body><frameset>");
+            var doc = (@"<!doctype html><body><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4041,7 +4035,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod83()
         {
-            var doc = Html(@"<!doctype html><p><frameset><frame>");
+            var doc = (@"<!doctype html><p><frameset><frame>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4077,7 +4071,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod84()
         {
-            var doc = Html(@"<!doctype html><p>a<frameset>");
+            var doc = (@"<!doctype html><p>a<frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4117,7 +4111,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod85()
         {
-            var doc = Html(@"<!doctype html><p> <frameset><frame>");
+            var doc = (@"<!doctype html><p> <frameset><frame>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4153,7 +4147,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod86()
         {
-            var doc = Html(@"<!doctype html><pre><frameset>");
+            var doc = (@"<!doctype html><pre><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4189,7 +4183,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod87()
         {
-            var doc = Html(@"<!doctype html><listing><frameset>");
+            var doc = (@"<!doctype html><listing><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4225,7 +4219,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod88()
         {
-            var doc = Html(@"<!doctype html><li><frameset>");
+            var doc = (@"<!doctype html><li><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4261,7 +4255,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod89()
         {
-            var doc = Html(@"<!doctype html><dd><frameset>");
+            var doc = (@"<!doctype html><dd><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4297,7 +4291,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod90()
         {
-            var doc = Html(@"<!doctype html><dt><frameset>");
+            var doc = (@"<!doctype html><dt><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4333,7 +4327,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod91()
         {
-            var doc = Html(@"<!doctype html><button><frameset>");
+            var doc = (@"<!doctype html><button><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4369,7 +4363,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod92()
         {
-            var doc = Html(@"<!doctype html><applet><frameset>");
+            var doc = (@"<!doctype html><applet><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4405,7 +4399,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod93()
         {
-            var doc = Html(@"<!doctype html><marquee><frameset>");
+            var doc = (@"<!doctype html><marquee><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4441,7 +4435,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod94()
         {
-            var doc = Html(@"<!doctype html><object><frameset>");
+            var doc = (@"<!doctype html><object><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4477,7 +4471,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod95()
         {
-            var doc = Html(@"<!doctype html><table><frameset>");
+            var doc = (@"<!doctype html><table><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4513,7 +4507,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod96()
         {
-            var doc = Html(@"<!doctype html><area><frameset>");
+            var doc = (@"<!doctype html><area><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4549,7 +4543,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod97()
         {
-            var doc = Html(@"<!doctype html><basefont><frameset>");
+            var doc = (@"<!doctype html><basefont><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4585,7 +4579,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod98()
         {
-            var doc = Html(@"<!doctype html><bgsound><frameset>");
+            var doc = (@"<!doctype html><bgsound><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4621,7 +4615,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod99()
         {
-            var doc = Html(@"<!doctype html><br><frameset>");
+            var doc = (@"<!doctype html><br><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4657,7 +4651,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod100()
         {
-            var doc = Html(@"<!doctype html><embed><frameset>");
+            var doc = (@"<!doctype html><embed><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4693,7 +4687,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod101()
         {
-            var doc = Html(@"<!doctype html><img><frameset>");
+            var doc = (@"<!doctype html><img><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4729,7 +4723,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod102()
         {
-            var doc = Html(@"<!doctype html><input><frameset>");
+            var doc = (@"<!doctype html><input><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4765,7 +4759,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod103()
         {
-            var doc = Html(@"<!doctype html><keygen><frameset>");
+            var doc = (@"<!doctype html><keygen><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4801,7 +4795,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod104()
         {
-            var doc = Html(@"<!doctype html><wbr><frameset>");
+            var doc = (@"<!doctype html><wbr><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4837,7 +4831,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod105()
         {
-            var doc = Html(@"<!doctype html><hr><frameset>");
+            var doc = (@"<!doctype html><hr><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4873,7 +4867,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod106()
         {
-            var doc = Html(@"<!doctype html><textarea></textarea><frameset>");
+            var doc = (@"<!doctype html><textarea></textarea><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4909,7 +4903,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod107()
         {
-            var doc = Html(@"<!doctype html><xmp></xmp><frameset>");
+            var doc = (@"<!doctype html><xmp></xmp><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4945,7 +4939,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod108()
         {
-            var doc = Html(@"<!doctype html><iframe></iframe><frameset>");
+            var doc = (@"<!doctype html><iframe></iframe><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -4981,7 +4975,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod109()
         {
-            var doc = Html(@"<!doctype html><select></select><frameset>");
+            var doc = (@"<!doctype html><select></select><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5017,7 +5011,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod110()
         {
-            var doc = Html(@"<!doctype html><svg></svg><frameset><frame>");
+            var doc = (@"<!doctype html><svg></svg><frameset><frame>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5053,7 +5047,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod111()
         {
-            var doc = Html(@"<!doctype html><math></math><frameset><frame>");
+            var doc = (@"<!doctype html><math></math><frameset><frame>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5089,7 +5083,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod112()
         {
-            var doc = Html(@"<!doctype html><svg><foreignObject><div> <frameset><frame>");
+            var doc = (@"<!doctype html><svg><foreignObject><div> <frameset><frame>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5125,7 +5119,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod113()
         {
-            var doc = Html(@"<!doctype html><svg>a</svg><frameset><frame>");
+            var doc = (@"<!doctype html><svg>a</svg><frameset><frame>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5165,7 +5159,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod114()
         {
-            var doc = Html(@"<!doctype html><svg> </svg><frameset><frame>");
+            var doc = (@"<!doctype html><svg> </svg><frameset><frame>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5201,7 +5195,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod115()
         {
-            var doc = Html(@"<html>aaa<frameset></frameset>");
+            var doc = (@"<html>aaa<frameset></frameset>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5230,7 +5224,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod116()
         {
-            var doc = Html(@"<html> a <frameset></frameset>");
+            var doc = (@"<html> a <frameset></frameset>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5259,7 +5253,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod117()
         {
-            var doc = Html(@"<!doctype html><div><frameset>");
+            var doc = (@"<!doctype html><div><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5289,7 +5283,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod118()
         {
-            var doc = Html(@"<!doctype html><div><body><frameset>");
+            var doc = (@"<!doctype html><div><body><frameset>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5325,7 +5319,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod119()
         {
-            var doc = Html(@"<!doctype html><p><math></p>a");
+            var doc = (@"<!doctype html><p><math></p>a").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5371,7 +5365,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod120()
         {
-            var doc = Html(@"<!doctype html><p><math><mn><span></p>a");
+            var doc = (@"<!doctype html><p><math><mn><span></p>a").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5435,7 +5429,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod121()
         {
-            var doc = Html(@"<!doctype html><math></html>");
+            var doc = (@"<!doctype html><math></html>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5471,7 +5465,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod122()
         {
-            var doc = Html(@"<!doctype html><meta charset=""ascii"">");
+            var doc = (@"<!doctype html><meta charset=""ascii"">").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5510,7 +5504,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod123()
         {
-            var doc = Html(@"<!doctype html><meta http-equiv=""content-type"" content=""text/html;charset=ascii"">");
+            var doc = (@"<!doctype html><meta http-equiv=""content-type"" content=""text/html;charset=ascii"">").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5552,7 +5546,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod124()
         {
-            var doc = Html(@"<!doctype html><head><!--aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa--><meta charset=""utf8"">");
+            var doc = (@"<!doctype html><head><!--aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa--><meta charset=""utf8"">").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5595,7 +5589,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod125()
         {
-            var doc = Html(@"<!doctype html><html a=b><head></head><html c=d>");
+            var doc = (@"<!doctype html><html a=b><head></head><html c=d>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5631,7 +5625,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod126()
         {
-            var doc = Html(@"<!doctype html><image/>");
+            var doc = (@"<!doctype html><image/>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5667,7 +5661,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod127()
         {
-            var doc = Html(@"<!doctype html>a<i>b<table>c<b>d</i>e</b>f");
+            var doc = (@"<!doctype html>a<i>b<table>c<b>d</i>e</b>f").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5731,7 +5725,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod128()
         {
-            var doc = Html(@"<!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f");
+            var doc = (@"<!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5845,7 +5839,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod129()
         {
-            var doc = Html(@"<!doctype html><i>a<b>b<div>c<a>d</i>e</b>f");
+            var doc = (@"<!doctype html><i>a<b>b<div>c<a>d</i>e</b>f").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -5953,7 +5947,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod130()
         {
-            var doc = Html(@"<!doctype html><table><i>a<b>b<div>c</i>");
+            var doc = (@"<!doctype html><table><i>a<b>b<div>c</i>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6031,7 +6025,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod131()
         {
-            var doc = Html(@"<!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f");
+            var doc = (@"<!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6145,7 +6139,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod132()
         {
-            var doc = Html(@"<!doctype html><table><i>a<div>b<tr>c<b>d</i>e");
+            var doc = (@"<!doctype html><table><i>a<div>b<tr>c<b>d</i>e").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6243,7 +6237,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod133()
         {
-            var doc = Html(@"<!doctype html><table><td><table><i>a<div>b<b>c</i>d");
+            var doc = (@"<!doctype html><table><td><table><i>a<div>b<b>c</i>d").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6349,7 +6343,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod134()
         {
-            var doc = Html(@"<!doctype html><body><bgsound>");
+            var doc = (@"<!doctype html><body><bgsound>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6385,7 +6379,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod135()
         {
-            var doc = Html(@"<!doctype html><body><basefont>");
+            var doc = (@"<!doctype html><body><basefont>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6421,7 +6415,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod136()
         {
-            var doc = Html(@"<!doctype html><a><b></a><basefont>");
+            var doc = (@"<!doctype html><a><b></a><basefont>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6469,7 +6463,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod137()
         {
-            var doc = Html(@"<!doctype html><a><b></a><bgsound>");
+            var doc = (@"<!doctype html><a><b></a><bgsound>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6517,7 +6511,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod138()
         {
-            var doc = Html(@"<!doctype html><figcaption><article></figcaption>a");
+            var doc = (@"<!doctype html><figcaption><article></figcaption>a").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6563,7 +6557,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod139()
         {
-            var doc = Html(@"<!doctype html><summary><article></summary>a");
+            var doc = (@"<!doctype html><summary><article></summary>a").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6609,7 +6603,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod140()
         {
-            var doc = Html(@"<!doctype html><p><a><plaintext>b");
+            var doc = (@"<!doctype html><p><a><plaintext>b").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6667,7 +6661,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod141()
         {
-            var doc = Html(@"<!DOCTYPE html><div>a<a></div>b<p>c</p>d");
+            var doc = (@"<!DOCTYPE html><div>a<a></div>b<p>c</p>d").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6737,7 +6731,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod142()
         {
-            var doc = Html(@"<!doctype html><p><button><button>");
+            var doc = (@"<!doctype html><p><button><button>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6785,7 +6779,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod143()
         {
-            var doc = Html(@"<!doctype html><p><button><address>");
+            var doc = (@"<!doctype html><p><button><address>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6833,7 +6827,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod144()
         {
-            var doc = Html(@"<!doctype html><p><button><blockquote>");
+            var doc = (@"<!doctype html><p><button><blockquote>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6881,7 +6875,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod145()
         {
-            var doc = Html(@"<!doctype html><p><button><menu>");
+            var doc = (@"<!doctype html><p><button><menu>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6929,7 +6923,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod146()
         {
-            var doc = Html(@"<!doctype html><p><button><p>");
+            var doc = (@"<!doctype html><p><button><p>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -6977,7 +6971,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod147()
         {
-            var doc = Html(@"<!doctype html><p><button><ul>");
+            var doc = (@"<!doctype html><p><button><ul>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7025,7 +7019,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod148()
         {
-            var doc = Html(@"<!doctype html><p><button><h1>");
+            var doc = (@"<!doctype html><p><button><h1>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7073,7 +7067,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod149()
         {
-            var doc = Html(@"<!doctype html><p><button><h6>");
+            var doc = (@"<!doctype html><p><button><h6>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7121,7 +7115,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod150()
         {
-            var doc = Html(@"<!doctype html><p><button><listing>");
+            var doc = (@"<!doctype html><p><button><listing>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7169,7 +7163,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod151()
         {
-            var doc = Html(@"<!doctype html><p><button><pre>");
+            var doc = (@"<!doctype html><p><button><pre>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7217,7 +7211,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod152()
         {
-            var doc = Html(@"<!doctype html><p><button><form>");
+            var doc = (@"<!doctype html><p><button><form>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7265,7 +7259,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod153()
         {
-            var doc = Html(@"<!doctype html><p><button><li>");
+            var doc = (@"<!doctype html><p><button><li>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7313,7 +7307,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod154()
         {
-            var doc = Html(@"<!doctype html><p><button><dd>");
+            var doc = (@"<!doctype html><p><button><dd>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7361,7 +7355,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod155()
         {
-            var doc = Html(@"<!doctype html><p><button><dt>");
+            var doc = (@"<!doctype html><p><button><dt>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7409,7 +7403,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod156()
         {
-            var doc = Html(@"<!doctype html><p><button><plaintext>");
+            var doc = (@"<!doctype html><p><button><plaintext>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7457,7 +7451,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod157()
         {
-            var doc = Html(@"<!doctype html><p><button><table>");
+            var doc = (@"<!doctype html><p><button><table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7505,7 +7499,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod158()
         {
-            var doc = Html(@"<!doctype html><p><button><hr>");
+            var doc = (@"<!doctype html><p><button><hr>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7553,7 +7547,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod159()
         {
-            var doc = Html(@"<!doctype html><p><button><xmp>");
+            var doc = (@"<!doctype html><p><button><xmp>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7601,7 +7595,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod160()
         {
-            var doc = Html(@"<!doctype html><p><button></p>");
+            var doc = (@"<!doctype html><p><button></p>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7649,7 +7643,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod161()
         {
-            var doc = Html(@"<!doctype html><address><button></address>a");
+            var doc = (@"<!doctype html><address><button></address>a").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7695,7 +7689,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod162()
         {
-            var doc = Html(@"<!doctype html><address><button></address>a");
+            var doc = (@"<!doctype html><address><button></address>a").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7741,7 +7735,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod163()
         {
-            var doc = Html(@"<p><table></p>");
+            var doc = (@"<p><table></p>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -7784,7 +7778,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod164()
         {
-            var doc = Html(@"<!doctype html><svg>");
+            var doc = (@"<!doctype html><svg>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7820,7 +7814,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod165()
         {
-            var doc = Html(@"<!doctype html><p><figcaption>");
+            var doc = (@"<!doctype html><p><figcaption>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7862,7 +7856,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod166()
         {
-            var doc = Html(@"<!doctype html><p><summary>");
+            var doc = (@"<!doctype html><p><summary>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7904,7 +7898,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod167()
         {
-            var doc = Html(@"<!doctype html><form><table><form>");
+            var doc = (@"<!doctype html><form><table><form>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7946,7 +7940,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod168()
         {
-            var doc = Html(@"<!doctype html><table><form><form>");
+            var doc = (@"<!doctype html><table><form><form>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -7988,7 +7982,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod169()
         {
-            var doc = Html(@"<!doctype html><table><form></table><form>");
+            var doc = (@"<!doctype html><table><form></table><form>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -8030,7 +8024,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod170()
         {
-            var doc = Html(@"<!doctype html><svg><foreignObject><p>");
+            var doc = (@"<!doctype html><svg><foreignObject><p>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -8078,7 +8072,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod171()
         {
-            var doc = Html(@"<!doctype html><svg><title>abc");
+            var doc = (@"<!doctype html><svg><title>abc").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -8124,7 +8118,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod172()
         {
-            var doc = Html(@"<option><span><option>");
+            var doc = (@"<option><span><option>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -8167,7 +8161,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod173()
         {
-            var doc = Html(@"<option><option>");
+            var doc = (@"<option><option>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -8204,7 +8198,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod174()
         {
-            var doc = Html(@"<math><annotation-xml><div>");
+            var doc = (@"<math><annotation-xml><div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -8247,7 +8241,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TestMethod175()
         {
-            var doc = Html(@"<math><annotation-xml encoding=""application/svg+xml""><div>");
+            var doc = (@"<math><annotation-xml encoding=""application/svg+xml""><div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -8293,7 +8287,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SetIncomingDivElementAsChildOfAnnotationXmlWithLowerEncodingXmlElement()
         {
-            var doc = Html(@"<math><annotation-xml encoding=""application/xhtml+xml""><div>");
+            var doc = (@"<math><annotation-xml encoding=""application/xhtml+xml""><div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -8338,7 +8332,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SetIncomingDivElementAsChildOfAnnotationXmlWithMixedEncodingXmlElement()
         {
-            var doc = Html(@"<math><annotation-xml encoding=""aPPlication/xhtmL+xMl""><div>");
+            var doc = (@"<math><annotation-xml encoding=""aPPlication/xhtmL+xMl""><div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -8383,7 +8377,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SetIncomingDivElementAsChildOfAnnotationXmlWithLowerEncodingHtmlElement()
         {
-            var doc = Html(@"<math><annotation-xml encoding=""text/html""><div>");
+            var doc = (@"<math><annotation-xml encoding=""text/html""><div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -8428,7 +8422,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SetIncomingDivElementAsChildOfAnnotationXmlWithMixedEncodingHtmlElement()
         {
-            var doc = Html(@"<math><annotation-xml encoding=""Text/htmL""><div>");
+            var doc = (@"<math><annotation-xml encoding=""Text/htmL""><div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -8473,7 +8467,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoNotSetIncomingDivElementAsChildOfAnnotationXmlElementDueToInvalidEncoding()
         {
-            var doc = Html(@"<math><annotation-xml encoding="" text/html ""><div>");
+            var doc = (@"<math><annotation-xml encoding="" text/html ""><div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

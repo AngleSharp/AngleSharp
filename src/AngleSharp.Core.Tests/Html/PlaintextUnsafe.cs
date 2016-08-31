@@ -1,21 +1,15 @@
-﻿using System;
-using AngleSharp.Dom;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom;
+    using NUnit.Framework;
+
     [TestFixture]
     public class PlaintextUnsafeTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void IllegalCodepointForNumericEntity()
         {
-            var doc = Html(@"FOO&#x000D;ZOO");
+            var doc = (@"FOO&#x000D;ZOO").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -43,7 +37,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NullCharacterAfterHtml()
         {
-            var doc = Html("<html>" + Symbols.Null.ToString() + "<frameset></frameset>");
+            var doc = ("<html>" + Symbols.Null.ToString() + "<frameset></frameset>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -67,7 +61,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NullCharacterWithSpacesAfterHtml()
         {
-            var doc = Html("<html> " + Symbols.Null.ToString() + " <frameset></frameset>");
+            var doc = ("<html> " + Symbols.Null.ToString() + " <frameset></frameset>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -91,7 +85,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NullCharacterWithCharactersAfterHtml()
         {
-            var doc = Html("<html>a" + Symbols.Null.ToString() + "a<frameset></frameset>");
+            var doc = ("<html>a" + Symbols.Null.ToString() + "a<frameset></frameset>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -119,7 +113,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DoubleNullCharactersAfterHtml()
         {
-            var doc = Html(@"<html>" + Symbols.Null.ToString() + Symbols.Null.ToString() + "<frameset></frameset>");
+            var doc = (@"<html>" + Symbols.Null.ToString() + Symbols.Null.ToString() + "<frameset></frameset>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -143,8 +137,8 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NullCharacterWithLinebreakAfterHtml()
         {
-            var doc = Html("<html>" + Symbols.Null.ToString() + @"
- <frameset></frameset>");
+            var doc = ("<html>" + Symbols.Null.ToString() + @"
+ <frameset></frameset>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -168,7 +162,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void PlaintextWithFillerText()
         {
-            var doc = Html(@"<plaintext>□filler□text□".Replace('□', Symbols.Null));
+            var doc = (@"<plaintext>□filler□text□".Replace('□', Symbols.Null)).ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -203,8 +197,8 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NullCharacterInCDataWithFillerInSvg()
         {
-            var doc = Html("<svg><![CDATA[" + Symbols.Null.ToString() + 
-                "filler" + Symbols.Null.ToString() + "text" + Symbols.Null.ToString() + "]]>");
+            var doc = ("<svg><![CDATA[" + Symbols.Null.ToString() + 
+                "filler" + Symbols.Null.ToString() + "text" + Symbols.Null.ToString() + "]]>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -238,7 +232,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NullCharacterInComment()
         {
-            var doc = Html(@"<body><!" + Symbols.Null.ToString() + ">");
+            var doc = (@"<body><!" + Symbols.Null.ToString() + ">").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -267,7 +261,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NullAndOtherCharactersInComment()
         {
-            var doc = Html(@"<body><!" + Symbols.Null.ToString() + "filler" + Symbols.Null.ToString() + "text>");
+            var doc = (@"<body><!" + Symbols.Null.ToString() + "filler" + Symbols.Null.ToString() + "text>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -296,7 +290,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NullCharactersInForeignObjectInSvg()
         {
-            var doc = Html(@"<body><svg><foreignObject>" + Symbols.Null.ToString() + "filler" + Symbols.Null.ToString() + "text");
+            var doc = (@"<body><svg><foreignObject>" + Symbols.Null.ToString() + "filler" + Symbols.Null.ToString() + "text").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -336,9 +330,9 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void PreTagStartingWithTwoEmptyLines()
         {
-            var doc = Html(@"<!DOCTYPE html><pre>
+            var doc = (@"<!DOCTYPE html><pre>
 
-A</pre>");
+A</pre>").ToHtmlDocument();
 
             var doctype = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(doctype);
@@ -377,8 +371,8 @@ A</pre>");
         [Test]
         public void PreTagStartingWithOneEmptyLine()
         {
-            var doc = Html(@"<!DOCTYPE html><pre>
-A</pre>");
+            var doc = (@"<!DOCTYPE html><pre>
+A</pre>").ToHtmlDocument();
 
             var doctype = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(doctype);
@@ -417,7 +411,7 @@ A</pre>");
         [Test]
         public void NullCharacterInMathTextInMathTag()
         {
-            var doc = Html(@"<!DOCTYPE html><table><tr><td><math><mtext>" + Symbols.Null.ToString() + "a");
+            var doc = (@"<!DOCTYPE html><table><tr><td><math><mtext>" + Symbols.Null.ToString() + "a").ToHtmlDocument();
 
             var doctype = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(doctype);
@@ -486,7 +480,7 @@ A</pre>");
         [Test]
         public void NullCharacterAfterLetterInMathIdentifier()
         {
-            var doc = Html(@"<!DOCTYPE html><math><mi>a" + Symbols.Null.ToString() + "b");
+            var doc = (@"<!DOCTYPE html><math><mi>a" + Symbols.Null.ToString() + "b").ToHtmlDocument();
 
             var doctype = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(doctype);
@@ -531,7 +525,7 @@ A</pre>");
         [Test]
         public void NullCharacterAfterLetterInMathNumeric()
         {
-            var doc = Html(@"<!DOCTYPE html><math><mn>a" + Symbols.Null.ToString() + "b");
+            var doc = (@"<!DOCTYPE html><math><mn>a" + Symbols.Null.ToString() + "b").ToHtmlDocument();
 
             var doctype = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(doctype);
@@ -576,7 +570,7 @@ A</pre>");
         [Test]
         public void TitleClosedWrongRestOkay()
         {
-            var doc = Html(@"<!doctype html><title>foo/title><link></head><body>X");
+            var doc = (@"<!doctype html><title>foo/title><link></head><body>X").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -615,7 +609,7 @@ A</pre>");
         [Test]
         public void NoFramesWithCommentInsideThatContainsAnotherNoFramesPair()
         {
-            var doc = Html(@"<!doctype html><noframes><!--<noframes></noframes>--></noframes>");
+            var doc = (@"<!doctype html><noframes><!--<noframes></noframes>--></noframes>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -658,7 +652,7 @@ A</pre>");
         [Test]
         public void TextAreaWithCommentInsideThatContainsAnotherTextAreaPair()
         {
-            var doc = Html(@"<!doctype html><textarea><!--<textarea></textarea>--></textarea>");
+            var doc = (@"<!doctype html><textarea><!--<textarea></textarea>--></textarea>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -701,7 +695,7 @@ A</pre>");
         [Test]
         public void TextAreaWithQuiteCloseTextAreaClosingInside()
         {
-            var doc = Html(@"<!doctype html><textarea>&lt;/textarea></textarea>");
+            var doc = (@"<!doctype html><textarea>&lt;/textarea></textarea>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -740,7 +734,7 @@ A</pre>");
         [Test]
         public void TextAreaWithEntityInside()
         {
-            var doc = Html(@"<!doctype html><textarea>&lt;</textarea>");
+            var doc = (@"<!doctype html><textarea>&lt;</textarea>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -779,7 +773,7 @@ A</pre>");
         [Test]
         public void TextAreaWithTextThatContainsEntityInside()
         {
-            var doc = Html(@"<!doctype html><textarea>a&lt;b</textarea>");
+            var doc = (@"<!doctype html><textarea>a&lt;b</textarea>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);

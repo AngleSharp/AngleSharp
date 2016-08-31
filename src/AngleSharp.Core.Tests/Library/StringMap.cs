@@ -6,8 +6,8 @@
     [TestFixture]
     public class StringMapTests
     {
-        HtmlElement a;
-        StringMap stringMap;
+        private HtmlElement a;
+        private StringMap stringMap;
 
         [SetUp]
         public void CreateMap()

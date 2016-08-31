@@ -10,8 +10,8 @@
 
     sealed class DelayRequester : IRequester
     {
-        readonly Int32 _timeout;
-        Int32 _count;
+        private readonly Int32 _timeout;
+        private Int32 _count;
 
         public DelayRequester(Int32 timeout)
         {

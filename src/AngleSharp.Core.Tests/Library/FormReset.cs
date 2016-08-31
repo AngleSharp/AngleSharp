@@ -8,7 +8,7 @@
     [TestFixture]
     public class FormResetTests
     {
-        static readonly String documentSource = @"<!DOCTYPE html>
+        private static readonly String documentSource = @"<!DOCTYPE html>
 <meta charset=""utf-8"">
 <form name=fm1>
   <input value=""abc"" id=""ipt1"" />

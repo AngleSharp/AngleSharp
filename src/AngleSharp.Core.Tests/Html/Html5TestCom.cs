@@ -1,11 +1,11 @@
-﻿using System;
-using AngleSharp.Dom;
-using AngleSharp.Extensions;
-using AngleSharp.Html;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Extensions;
+    using AngleSharp.Html;
+    using NUnit.Framework;
+    using System;
+
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
     /// tree-construction/html5test-com.dat
@@ -13,15 +13,10 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class Html5TestComTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void WrongDivTagMistake()
         {
-            var doc = Html(@"<div<div>");
+            var doc = (@"<div<div>").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -51,7 +46,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void WrongDivAttributeMistake()
         {
-            var doc = Html(@"<div foo<bar=''>");
+            var doc = (@"<div foo<bar=''>").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -82,7 +77,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void WrongDivLetterInAttributeMistake()
         {
-            var doc = Html(@"<div foo=`bar`>");
+            var doc = (@"<div foo=`bar`>").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -113,7 +108,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntitiesAngles()
         {
-            var doc = Html(@"&lang;&rang;");
+            var doc = (@"&lang;&rang;").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -141,7 +136,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntitiesApos()
         {
-            var doc = Html(@"&apos;");
+            var doc = (@"&apos;").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -169,7 +164,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntitiesKopf()
         {
-            var doc = Html(@"&Kopf;");
+            var doc = (@"&Kopf;").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -197,7 +192,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntitiesNotinva()
         {
-            var doc = Html(@"&notinva;");
+            var doc = (@"&notinva;").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -225,7 +220,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BogusCommentAsDoctype()
         {
-            var doc = Html(@"<?import namespace=""foo"" implementation=""#bar"">");
+            var doc = (@"<?import namespace=""foo"" implementation=""#bar"">").ToHtmlDocument();
 
             var comment = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, comment.NodeType);
@@ -253,7 +248,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MisplacedCdataSection()
         {
-            var doc = Html(@"<![CDATA[x]]>");
+            var doc = (@"<![CDATA[x]]>").ToHtmlDocument();
             var cdata = doc.ChildNodes[0];
             Assert.AreEqual(0, cdata.ChildNodes.Length);
             Assert.AreEqual("[CDATA[x]]", cdata.TextContent);
@@ -281,7 +276,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TextAreaWithComments()
         {
-            var doc = Html(@"<textarea><!--</textarea>--></textarea>");
+            var doc = (@"<textarea><!--</textarea>--></textarea>").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -319,7 +314,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void UnsortedListWithEntries()
         {
-            var doc = Html(@"<ul><li>A </li> <li>B</li></ul>");
+            var doc = (@"<ul><li>A </li> <li>B</li></ul>").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -373,7 +368,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithFormAndInputs()
         {
-            var doc = Html(@"<table><form><input type=hidden><input></form><div></div></table>");
+            var doc = (@"<table><form><input type=hidden><input></form><div></div></table>").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -428,7 +423,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MathMLTag()
         {
-            var doc = Html(@"<math></math>");
+            var doc = (@"<math></math>").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -460,7 +455,7 @@ namespace AngleSharp.Core.Tests
         public void TabsInClassNames()
         {
             var html = "<html><body><div class=\"class1\tclass2\"></div></body></html>";
-            var dom = Html(html);
+            var dom = (html).ToHtmlDocument();
             var div = dom.QuerySelector("div");
 
             Assert.AreEqual(2, div.ClassList.Length);
@@ -472,7 +467,7 @@ namespace AngleSharp.Core.Tests
         public void NewLinesInClassNames()
         {
             var html = "<html><body><div class=\"class1" + Environment.NewLine + "class2  class3\r\n\t class4\"></div></body></html>";
-            var dom = Html(html);
+            var dom = (html).ToHtmlDocument();
             var div = dom.QuerySelector("div");
 
             Assert.AreEqual(4, div.ClassList.Length);
@@ -492,7 +487,7 @@ namespace AngleSharp.Core.Tests
      <td><a href=#url-scheme title=url-scheme>&lt;scheme&gt;</a>
      </tr></table>";
 
-            var dom = Html(html);
+            var dom = (html).ToHtmlDocument();
 
             Assert.AreEqual(1, dom.QuerySelectorAll("tbody").Length);
             Assert.AreEqual("table", dom.QuerySelector("tbody").Parent.GetTagName());
@@ -508,7 +503,7 @@ namespace AngleSharp.Core.Tests
         <tr><td><dfn id=dom-uda-protocol title=dom-uda-protocol><code>protocol</code></dfn>
      <td><a href=#url-scheme title=url-scheme>&lt;scheme&gt;</a>
      </tr></table>";
-            var dom = Html(html);
+            var dom = (html).ToHtmlDocument();
 
             // should create wrapper
             Assert.AreEqual(1, dom.QuerySelectorAll("body").Length);
@@ -549,7 +544,7 @@ namespace AngleSharp.Core.Tests
             alert('done');
             </script>";
 
-            var dom = Html(test);
+            var dom = (test).ToHtmlDocument();
             Assert.AreEqual(4, dom.QuerySelectorAll("script").Length);
         }
 
@@ -560,7 +555,7 @@ namespace AngleSharp.Core.Tests
             <script id=script1 type=""text/javascript"" src=""stuff""></script>
             <div id=div1>This should be in the body.</div>";
 
-            var dom = Html(test);
+            var dom = (test).ToHtmlDocument();
             Assert.AreEqual(dom.QuerySelector("#script1"), dom.QuerySelector("head > :first-child"));
             Assert.AreEqual(dom.QuerySelector("#div1"), dom.QuerySelector("body > :first-child"));
         }
@@ -573,7 +568,7 @@ namespace AngleSharp.Core.Tests
                 <script id=script1 type=""text/javascript"" src=""stuff""></script>";
 
 
-            var dom = Html(test);
+            var dom = (test).ToHtmlDocument();
 
             Assert.AreEqual(0, dom.QuerySelector("head").Children.Length);
             Assert.AreEqual(2, dom.QuerySelector("body").Children.Length);

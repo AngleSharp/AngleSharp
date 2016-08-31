@@ -1,15 +1,15 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using System;
-    using System.IO;
     using AngleSharp.Dom.Io;
     using AngleSharp.Network;
+    using System;
+    using System.IO;
 
     class FileEntry : IFile
     {
-        readonly String _fileName;
-        readonly Stream _content;
-        readonly DateTime _modified;
+        private readonly String _fileName;
+        private readonly Stream _content;
+        private readonly DateTime _modified;
 
         public FileEntry(String fileName, Stream content)
         {
@@ -20,26 +20,17 @@
 
         public Stream Body
         {
-            get
-            {
-                return _content;
-            }
+            get { return _content; }
         }
 
-        public bool IsClosed
+        public Boolean IsClosed
         {
-            get
-            {
-                return _content.CanRead == false;
-            }
+            get { return _content.CanRead == false; }
         }
 
         public DateTime LastModified
         {
-            get
-            {
-                return _modified;
-            }
+            get { return _modified; }
         }
 
         public Int32 Length
@@ -52,18 +43,12 @@
 
         public String Name
         {
-            get
-            {
-                return _fileName;
-            }
+            get { return _fileName; }
         }
 
         public String Type
         {
-            get
-            {
-                return MimeTypeNames.FromExtension(Path.GetExtension(_fileName));
-            }
+            get { return MimeTypeNames.FromExtension(Path.GetExtension(_fileName)); }
         }
 
         public void Close()
@@ -76,7 +61,7 @@
             _content.Dispose();
         }
 
-        public IBlob Slice(int start = 0, int end = int.MaxValue, string contentType = null)
+        public IBlob Slice(Int32 start = 0, Int32 end = Int32.MaxValue, String contentType = null)
         {
             var ms = new MemoryStream();
             _content.Position = start;

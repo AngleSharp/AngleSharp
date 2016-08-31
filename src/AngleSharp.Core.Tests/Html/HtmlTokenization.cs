@@ -13,7 +13,7 @@
     [TestFixture]
     public class HtmlTokenizationTests
     {
-        static HtmlTokenizer CreateTokenizer(TextSource source)
+        private static HtmlTokenizer CreateTokenizer(TextSource source)
         {
             return new HtmlTokenizer(source, HtmlEntityService.Resolver);
         }

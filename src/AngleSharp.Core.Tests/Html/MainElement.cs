@@ -2,7 +2,6 @@ namespace AngleSharp.Core.Tests
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
-    using System;
 
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
@@ -11,15 +10,10 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class MainElementTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void MainElementClosesOpenParagraph()
         {
-            var doc = Html(@"<!doctype html><p>foo<main>bar<p>baz");
+            var doc = (@"<!doctype html><p>foo<main>bar<p>baz").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -78,7 +72,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MainClosesNestedParagraph()
         {
-            var doc = Html(@"<!doctype html><main><p>foo</main>bar");
+            var doc = (@"<!doctype html><main><p>foo</main>bar").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -127,7 +121,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MainElementInForeignSvgElement()
         {
-            var doc = Html(@"<!DOCTYPE html>xxx<svg><x><g><a><main><b>");
+            var doc = (@"<!DOCTYPE html>xxx<svg><x><g><a><main><b>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);

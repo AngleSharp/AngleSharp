@@ -9,9 +9,9 @@
     [TestFixture]
     public class OptionWithLabelTests
     {
-        static readonly String[] spaces = new[] { "\u0020", "\u0009", "\u000A", "\u000C", "\u000D" };
+        private static readonly String[] spaces = new[] { "\u0020", "\u0009", "\u000A", "\u000C", "\u000D" };
 
-        static IDocument Html(String code)
+        private static IDocument Html(String code)
         {
             return code.ToHtmlDocument();
         }

@@ -8,7 +8,7 @@
     [TestFixture]
     public class XmlTokenization
     {
-        static XmlTokenizer CreateTokenizer(TextSource source)
+        private static XmlTokenizer CreateTokenizer(TextSource source)
         {
             return new XmlTokenizer(source, XmlEntityService.Resolver);
         }

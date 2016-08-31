@@ -12,7 +12,7 @@ namespace AngleSharp.Core.Tests.Html
     [TestFixture]
 	public class ValidityRangeUnderflowTests
     {
-        static IDocument CreateTestDocument()
+        private static IDocument CreateTestDocument()
         {
             return String.Empty.ToHtmlDocument();
         }

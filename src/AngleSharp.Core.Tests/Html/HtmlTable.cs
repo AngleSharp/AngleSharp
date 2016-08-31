@@ -1,10 +1,9 @@
-﻿using System;
-using AngleSharp.Dom;
-using AngleSharp.Dom.Html;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Html;
+    using NUnit.Framework;
+
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
     /// tree-construction/tables01.dat
@@ -12,15 +11,10 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class HtmlTableTests
     {
-        static IDocument Html(String code, IConfiguration config = null)
-        {
-            return code.ToHtmlDocument(config);
-        }
-
         [Test]
         public void TableWithSingleTh()
         {
-            var doc = Html(@"<table><th>");
+            var doc = (@"<table><th>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -68,7 +62,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithSingleTd()
         {
-            var doc = Html(@"<table><td>");
+            var doc = (@"<table><td>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -116,7 +110,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithSingleCol()
         {
-            var doc = Html(@"<table><col foo='bar'>");
+            var doc = (@"<table><col foo='bar'>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -159,7 +153,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithSingleColgroupClosingHtml()
         {
-            var doc = Html(@"<table><colgroup></html>foo");
+            var doc = (@"<table><colgroup></html>foo").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -199,7 +193,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableClosedFollowedByParagraph()
         {
-            var doc = Html(@"<table></table><p>foo");
+            var doc = (@"<table></table><p>foo").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -239,7 +233,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableClosingEveryhingUnorderedOpenedTd()
         {
-            var doc = Html(@"<table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr><td>");
+            var doc = (@"<table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr><td>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -287,7 +281,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithSelectOption()
         {
-            var doc = Html(@"<table><select><option>3</select></table>");
+            var doc = (@"<table><select><option>3</select></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -333,7 +327,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithSelectAndTable()
         {
-            var doc = Html(@"<table><select><table></table></select></table>");
+            var doc = (@"<table><select><table></table></select></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -375,7 +369,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithSelectClosed()
         {
-            var doc = Html(@"<table><select></table>");
+            var doc = (@"<table><select></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -411,7 +405,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithSelectOptionAndContent()
         {
-            var doc = Html(@"<table><select><option>A<tr><td>B</td></tr></table>");
+            var doc = (@"<table><select><option>A<tr><td>B</td></tr></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -479,7 +473,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithTdClosedEverything()
         {
-            var doc = Html(@"<table><td></body></caption></col></colgroup></html>foo");
+            var doc = (@"<table><td></body></caption></col></colgroup></html>foo").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -531,7 +525,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithCellContent()
         {
-            var doc = Html(@"<table><td>A</table>B");
+            var doc = (@"<table><td>A</table>B").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -587,7 +581,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithRowAndCaption()
         {
-            var doc = Html(@"<table><tr><caption>");
+            var doc = (@"<table><tr><caption>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -635,7 +629,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithRowClosedEverythingOpenedTd()
         {
-            var doc = Html(@"<table><tr></body></caption></col></colgroup></html></td></th><td>foo");
+            var doc = (@"<table><tr></body></caption></col></colgroup></html></td></th><td>foo").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -687,7 +681,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithTdAndTr()
         {
-            var doc = Html(@"<table><td><tr>");
+            var doc = (@"<table><td><tr>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -741,7 +735,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithTdButtonAndTd()
         {
-            var doc = Html(@"<table><td><button><td>");
+            var doc = (@"<table><td><button><td>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -801,7 +795,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithRowCellAndSvgDescTd()
         {
-            var doc = Html(@"<table><tr><td><svg><desc><td>");
+            var doc = (@"<table><tr><td><svg><desc><td>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -868,7 +862,7 @@ namespace AngleSharp.Core.Tests
         public void TableWithTableRowThatHasStyle()
         {
             var config = new Configuration().WithCss();
-            var doc = Html(@"<table><tr style=""display: none;"">", config);
+            var doc = (@"<table><tr style=""display: none;"">").ToHtmlDocument(config);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -918,7 +912,7 @@ namespace AngleSharp.Core.Tests
         public void TableWithTableRowThatHasStyleAndChanged()
         {
             var config = new Configuration().WithCss();
-            var doc = Html(@"<table><tr style=""display: none;"">", config);
+            var doc = (@"<table><tr style=""display: none;"">").ToHtmlDocument(config);
 
             var html = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, html.ChildNodes.Length);
@@ -962,7 +956,7 @@ namespace AngleSharp.Core.Tests
         public void TableWithTableRowThatHasNoStyleAndChanged()
         {
             var config = new Configuration().WithCss();
-            var doc = Html(@"<table><tr>", config);
+            var doc = (@"<table><tr>").ToHtmlDocument(config);
 
             var html = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, html.ChildNodes.Length);
@@ -1003,7 +997,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableInParagraphElementInQuirksMode()
         {
-            var doc = Html("<p><table>");
+            var doc = ("<p><table>").ToHtmlDocument();
             Assert.AreEqual(1, doc.Body.ChildElementCount);
             Assert.IsInstanceOf<HtmlParagraphElement>(doc.Body.Children[0]);
             Assert.AreEqual(1, doc.Body.Children[0].ChildElementCount);
@@ -1013,7 +1007,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableInParagraphElementInStandardMode()
         {
-            var doc = Html(@"<!doctype html><p><table>");
+            var doc = (@"<!doctype html><p><table>").ToHtmlDocument();
             Assert.AreEqual(2, doc.Body.ChildElementCount);
             Assert.IsInstanceOf<HtmlParagraphElement>(doc.Body.Children[0]);
             Assert.IsInstanceOf<HtmlTableElement>(doc.Body.Children[1]);

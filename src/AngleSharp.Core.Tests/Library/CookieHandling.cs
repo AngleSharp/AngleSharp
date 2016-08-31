@@ -151,7 +151,7 @@
             }
         }
 
-        static async Task<String> LoadDocumentWithCookie(String cookieValue)
+        private static async Task<String> LoadDocumentWithCookie(String cookieValue)
         {
             var config = Configuration.Default.WithCookies();
             var context = BrowsingContext.New(config);

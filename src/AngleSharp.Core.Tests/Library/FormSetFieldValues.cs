@@ -11,7 +11,7 @@
     [TestFixture]
     public sealed class FormSetFieldValuesTests
     {
-        static IHtmlDocument CreateSampleDocument()
+        private static IHtmlDocument CreateSampleDocument()
         {
             const String formHtml = @"
 <html>

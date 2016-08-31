@@ -10,7 +10,7 @@
     [TestFixture]
     public class MutationObserverTests
     {
-        static IDocument Html(String code)
+        private static IDocument Html(String code)
         {
             var config = Configuration.Default.With<IEventLoop>(ctx => new StandingEventLoop());
             return code.ToHtmlDocument(config);
@@ -1324,7 +1324,7 @@
             observer.Trigger();
         }
 
-        static Tuple<NodeList, NodeList> MergeRecords(IMutationRecord[] records)
+        private static Tuple<NodeList, NodeList> MergeRecords(IMutationRecord[] records)
         {
             var added = new NodeList();
             var removed = new NodeList();
@@ -1341,7 +1341,7 @@
             return Tuple.Create(added, removed);
         }
 
-        static void AssertArrayEqual(INodeList actual, INodeList expected)
+        private static void AssertArrayEqual(INodeList actual, INodeList expected)
         {
             Assert.AreEqual(expected.Length, actual.Length);
 
@@ -1349,7 +1349,7 @@
                 Assert.AreSame(expected[i], actual[i]);
         }
 
-        static void AssertAll(IMutationRecord[] actualRecords, TestMutationRecord expected)
+        private static void AssertAll(IMutationRecord[] actualRecords, TestMutationRecord expected)
         {
             foreach (var actualRecord in actualRecords)
             {
@@ -1358,7 +1358,7 @@
             }
         }
 
-        static void AssertRecord(IMutationRecord actual, TestMutationRecord expected)
+        private static void AssertRecord(IMutationRecord actual, TestMutationRecord expected)
         {
             Assert.AreEqual(expected.AttributeName, actual.AttributeName);
             Assert.AreEqual(expected.AttributeNamespace, actual.AttributeNamespace);
@@ -1369,7 +1369,7 @@
             Assert.AreEqual(expected.Target, actual.Target);
         }
 
-        static INodeList ToNodeList(params INode[] nodes)
+        private static INodeList ToNodeList(params INode[] nodes)
         {
             var list = new NodeList();
 
@@ -1379,7 +1379,7 @@
             return list;
         }
 
-        class TestMutationRecord : IMutationRecord
+        private class TestMutationRecord : IMutationRecord
         {
             public INodeList Added
             {

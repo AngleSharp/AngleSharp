@@ -1,17 +1,17 @@
-﻿using System;
-using System.Text;
-using AngleSharp.Extensions;
-using AngleSharp.Dom;
-using NUnit.Framework;
-using AngleSharp.Html;
-using System.IO;
-
-namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Extensions;
+    using AngleSharp.Html;
+    using NUnit.Framework;
+    using System;
+    using System.IO;
+    using System.Text;
+
     [TestFixture]
     public class FormatExtensions
     {
-        static IDocument Html(String code)
+        private static IDocument Html(String code)
         {
             var config = new Configuration().WithCss();
             return code.ToHtmlDocument(config);

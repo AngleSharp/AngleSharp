@@ -1,10 +1,9 @@
-﻿using System;
-using AngleSharp.Dom;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
-    /// <summary>
+    using AngleSharp.Dom;
+    using NUnit.Framework;
+
+     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
     /// tree-construction/entities01.dat,
     /// tree-construction/entities02.dat
@@ -12,15 +11,10 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class HtmlEntityTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void EntityValidFullGt()
         {
-            var doc = Html(@"FOO&gt;BAR");
+            var doc = (@"FOO&gt;BAR").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -48,7 +42,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidFragmentGt()
         {
-            var doc = Html(@"FOO&gtBAR");
+            var doc = (@"FOO&gtBAR").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -77,7 +71,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidShortGt()
         {
-            var doc = Html(@"FOO&gt BAR");
+            var doc = (@"FOO&gt BAR").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -105,7 +99,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidFullGtWithSemicolons()
         {
-            var doc = Html(@"FOO&gt;;;BAR");
+            var doc = (@"FOO&gt;;;BAR").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -133,7 +127,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityInvalidStarter()
         {
-            var doc = Html(@"FOO& BAR");
+            var doc = (@"FOO& BAR").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -161,7 +155,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityInvalidStartFollowedByTag()
         {
-            var doc = Html(@"FOO&<BAR>");
+            var doc = (@"FOO&<BAR>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -195,7 +189,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidNumericDec41Full()
         {
-            var doc = Html(@"FOO&#41;BAR");
+            var doc = (@"FOO&#41;BAR").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -224,7 +218,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidNumericLHex41Full()
         {
-            var doc = Html(@"FOO&#x41;BAR");
+            var doc = (@"FOO&#x41;BAR").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -252,7 +246,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidNumericUHex41Full()
         {
-            var doc = Html(@"FOO&#X41;BAR");
+            var doc = (@"FOO&#X41;BAR").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -280,7 +274,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityInvalidNumericBar()
         {
-            var doc = Html(@"FOO&#BAR");
+            var doc = (@"FOO&#BAR").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -308,7 +302,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityInvalidNumericZoo()
         {
-            var doc = Html(@"FOO&#ZOO");
+            var doc = (@"FOO&#ZOO").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -336,7 +330,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidNumericHexBAFragment()
         {
-            var doc = Html(@"FOO&#xBAR");
+            var doc = (@"FOO&#xBAR").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -364,7 +358,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityInvalidNumericHexZoo()
         {
-            var doc = Html(@"FOO&#xZOO");
+            var doc = (@"FOO&#xZOO").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -393,7 +387,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidNumericDec41Fragment()
         {
-            var doc = Html(@"FOO&#41BAR");
+            var doc = (@"FOO&#41BAR").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -421,7 +415,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidNumericLHex41Fragment()
         {
-            var doc = Html(@"FOO&#x41BAR");
+            var doc = (@"FOO&#x41BAR").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -449,7 +443,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidNumericLHexNullCharFull()
         {
-            var doc = Html(@"FOO&#x0000;ZOO");
+            var doc = (@"FOO&#x0000;ZOO").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -478,7 +472,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidNumericLHex78Full()
         {
-            var doc = Html(@"FOO&#x0078;ZOO");
+            var doc = (@"FOO&#x0078;ZOO").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -507,7 +501,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidNumericLHex79Full()
         {
-            var doc = Html(@"FOO&#x0079;ZOO");
+            var doc = (@"FOO&#x0079;ZOO").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -535,7 +529,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidNumericLHex8EWithZerosFull()
         {
-            var doc = Html(@"FOO&#x008E;ZOO");
+            var doc = (@"FOO&#x008E;ZOO").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -563,7 +557,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidNumericLHex9FWithZerosFull()
         {
-            var doc = Html(@"FOO&#x009F;ZOO");
+            var doc = (@"FOO&#x009F;ZOO").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -591,7 +585,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidNumericLHexD800Full()
         {
-            var doc = Html(@"FOO&#xD800;ZOO");
+            var doc = (@"FOO&#xD800;ZOO").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -619,7 +613,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidNumericLHex10FFFEFull()
         {
-            var doc = Html(@"FOO&#x10FFFE;ZOO");
+            var doc = (@"FOO&#x10FFFE;ZOO").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -647,7 +641,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidNumericLHex1087D4Full()
         {
-            var doc = Html(@"FOO&#x1087D4;ZOO");
+            var doc = (@"FOO&#x1087D4;ZOO").ToHtmlDocument();
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
             Assert.AreEqual(0, dochtml0.Attributes.Length);
@@ -675,7 +669,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityInvalidNumericLHex110000Full()
         {
-            var doc = Html(@"FOO&#x110000;ZOO");
+            var doc = (@"FOO&#x110000;ZOO").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -703,7 +697,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityInvalidNumericLHexFFFFFFFull()
         {
-            var doc = Html(@"FOO&#xFFFFFF;ZOO");
+            var doc = (@"FOO&#xFFFFFF;ZOO").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -731,7 +725,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidInAttributeGtFull()
         {
-            var doc = Html(@"<div bar=""ZZ&gt;YY""></div>");
+            var doc = (@"<div bar=""ZZ&gt;YY""></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -762,7 +756,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityInvalidStarterInQuotedAttribute()
         {
-            var doc = Html(@"<div bar=""ZZ&""></div>");
+            var doc = (@"<div bar=""ZZ&""></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -793,7 +787,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityInvalidStarterInUnquotedAttribute()
         {
-            var doc = Html(@"<div bar=ZZ&></div>");
+            var doc = (@"<div bar=ZZ&></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -824,7 +818,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityInvalidInAttributeGtStopped()
         {
-            var doc = Html(@"<div bar=""ZZ&gt=YY""></div>");
+            var doc = (@"<div bar=""ZZ&gt=YY""></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -855,7 +849,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidInAttributeGtShort()
         {
-            var doc = Html(@"<div bar=""ZZ&gt YY""></div>");
+            var doc = (@"<div bar=""ZZ&gt YY""></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -886,7 +880,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidInQuotedAttributeGtFragment()
         {
-            var doc = Html(@"<div bar=""ZZ&gt""></div>");
+            var doc = (@"<div bar=""ZZ&gt""></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -917,7 +911,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidInUnquotedAttributeGtFragment()
         {
-            var doc = Html(@"<div bar=ZZ&gt></div>");
+            var doc = (@"<div bar=ZZ&gt></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -948,7 +942,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidInAttributePoundFragment()
         {
-            var doc = Html(@"<div bar=""ZZ&pound_id=23""></div>");
+            var doc = (@"<div bar=""ZZ&pound_id=23""></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -979,7 +973,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityInvalidInAttributeProdFragment()
         {
-            var doc = Html(@"<div bar='ZZ&prod_id=23'></div>");
+            var doc = (@"<div bar='ZZ&prod_id=23'></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1010,7 +1004,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EntityValidInAttributeProdFull()
         {
-            var doc = Html(@"<div bar='ZZ&prod;_id=23'></div>");
+            var doc = (@"<div bar='ZZ&prod;_id=23'></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

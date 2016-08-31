@@ -83,6 +83,13 @@
             return parser.ParseFragment(sourceCode, context);
         }
 
+        public static INodeList ToHtmlFragment(this String sourceCode, String contextElement, IConfiguration configuration = null)
+        {
+            var doc = String.Empty.ToHtmlDocument();
+            var element = doc.CreateElement(contextElement);
+            return sourceCode.ToHtmlFragment(element, configuration);
+        }
+
         public static IDocument ToHtmlDocument(this Stream content, IConfiguration configuration = null)
         {
             var parser = new HtmlParser(configuration);

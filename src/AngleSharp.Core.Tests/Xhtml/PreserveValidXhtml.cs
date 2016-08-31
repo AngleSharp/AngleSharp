@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Core.Tests.Xhtml
 {
-    using System.IO;
+    using AngleSharp.XHtml;
     using NUnit.Framework;
+    using System.IO;
 
     [TestFixture]
     public class PreserveValidXhtml
@@ -9,6 +10,7 @@
         [Test]
         public void TestMetaTags()
         {
+            var sw = new StringWriter();
             var document = (@"<!DOCTYPE html PUBLIC "" -//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
                 <html xmlns=""http://www.w3.org/1999/xhtml"">
                     <head>
@@ -20,30 +22,30 @@
                 </html>
                 ").ToXmlDocument();
 
-            StringWriter sw = new StringWriter();
-            document.ToHtml(sw, XHtml.XhtmlMarkupFormatter.Instance);
+            document.ToHtml(sw, XhtmlMarkupFormatter.Instance);
 
-            string result = sw.ToString();
+            var result = sw.ToString();
+            var c = 0;
+            var i = -1;
 
-            int c = 0, i = -1;
-            while ( (i = result.IndexOf("/>", i+1)) >= 0)
+            while ((i = result.IndexOf("/>", i + 1)) >= 0)
             {
                 c++;
 
-                if ( i>= result.Length )
+                if (i >= result.Length)
                 {
                     Assert.Fail("End of result xhtml reached but not found what we are looking for!");
                 }
             }
-            Assert.AreEqual(2, c);
 
+            Assert.AreEqual(2, c);
             Assert.AreEqual(-1, result.IndexOf("meta>"));
         }
-
-
+        
         [Test]
         public void TestImgTags()
         {
+            var sw = new StringWriter();
             var document = (@"<!DOCTYPE html PUBLIC "" -//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"">
                 <html xmlns=""http://www.w3.org/1999/xhtml"">
                     <head>
@@ -59,12 +61,12 @@
                 </html>
                 ").ToXmlDocument();
 
-            StringWriter sw = new StringWriter();
-            document.ToHtml(sw, XHtml.XhtmlMarkupFormatter.Instance);
+            document.ToHtml(sw, XhtmlMarkupFormatter.Instance);
 
-            string result = sw.ToString();
+            var result = sw.ToString();
+            var c = 0;
+            var i = -1;
 
-            int c = 0, i = -1;
             while ((i = result.IndexOf("/>", i + 1)) >= 0)
             {
                 c++;
@@ -74,8 +76,8 @@
                     Assert.Fail("End of result xhtml reached but not found what we are looking for!");
                 }
             }
-            Assert.AreEqual(2, c);
 
+            Assert.AreEqual(2, c);
             Assert.AreEqual(-1, result.IndexOf("img>"));
         }
     }

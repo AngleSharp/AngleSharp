@@ -8,7 +8,7 @@
     [TestFixture]
     public class QueryExtensionsTests
     {
-        static IDocument GetTestDocument()
+        private static IDocument GetTestDocument()
         {
             var content = "<!doctype html><ul><li>First entry<li>Second entry<li>Third entry<li>4<li>Fifth<li>Last</ul>";
             return content.ToHtmlDocument();

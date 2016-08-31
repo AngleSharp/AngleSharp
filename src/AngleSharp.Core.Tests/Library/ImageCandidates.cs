@@ -10,9 +10,9 @@
     [TestFixture]
     public class ImageCandidatesTests
     {
-        static readonly String BaseUrl = "http://localhost";
+        private static readonly String BaseUrl = "http://localhost";
 
-        static HtmlImageElement Construct(String str, IConfiguration config = null)
+        private static HtmlImageElement Construct(String str, IConfiguration config = null)
         {
             var context = BrowsingContext.New(config);
             var document = context.OpenNewAsync(BaseUrl).Result;

@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using Dom;
-    using Dom.Html;
-    using Dom.Svg;
-    using Dom.Xml;
-    using Network;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Html;
+    using AngleSharp.Dom.Svg;
+    using AngleSharp.Dom.Xml;
+    using AngleSharp.Network;
     using NUnit.Framework;
     using System;
     using System.Threading.Tasks;
@@ -12,22 +12,22 @@
     [TestFixture]
     public class DocumentCreationTests
     {
-        static readonly String XmlContent = @"<note>
+        private static readonly String XmlContent = @"<note>
 <to>Tove</to>
 <from>Jani</from>
 <heading>Reminder</heading>
 <body>Don't forget me this weekend!</body>
 </note>";
 
-        static readonly String SvgContent = @"
+        private static readonly String SvgContent = @"
 <svg xmlns=""http://www.w3.org/2000/svg"" viewBox=""0 0 100 100"">
   <path d=""M34,93l11,-29a15,15 0,1,1 9,0l11,29a45,45 0,1,0 -31,0z"" stroke=""#142"" stroke-width=""2"" fill=""#4a5"" />
 </svg>";
 
-        static readonly String HtmlContent = @"<html><head><title>Example</title></head>
+        private static readonly String HtmlContent = @"<html><head><title>Example</title></head>
 <body>This is some test &amp; another sample content.</body></html>";
 
-        static readonly String TextContent = @"Hi Mum & Dad! You know that 3<pi, right? Or is it that me > you?";
+        private static readonly String TextContent = @"Hi Mum & Dad! You know that 3<pi, right? Or is it that me > you?";
 
         [Test]
         public async Task GenerateDocumentFromXmlWithXmlContentType()
@@ -116,7 +116,7 @@
             Assert.AreEqual(TextContent, document.Body.FirstElementChild.TextContent);
         }
 
-        static Task<IDocument> GenerateDocument(String content, String contentType)
+        private static Task<IDocument> GenerateDocument(String content, String contentType)
         {
             var config = Configuration.Default.WithDefaultLoader();
             var context = BrowsingContext.New(config);

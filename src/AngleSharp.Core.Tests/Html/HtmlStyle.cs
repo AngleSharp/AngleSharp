@@ -2,20 +2,14 @@
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
-    using System;
 
     [TestFixture]
     public class HtmlStyleTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void StyleWithCommentThatContainsClosingStyleTag()
         {
-            var doc = Html(@"<!doctype html><style><!--...</style>...--></style>");
+            var doc = (@"<!doctype html><style><!--...</style>...--></style>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -58,7 +52,7 @@
         [Test]
         public void StyleWithCommentsAndText()
         {
-            var doc = Html(@"<!doctype html><style><!--<br><html xmlns:v=""urn:schemas-microsoft-com:vml""><!--[if !mso]><style></style>X");
+            var doc = (@"<!doctype html><style><!--<br><html xmlns:v=""urn:schemas-microsoft-com:vml""><!--[if !mso]><style></style>X").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -101,7 +95,7 @@
         [Test]
         public void StyleWithCommentsAndNestedStyles()
         {
-            var doc = Html(@"<!doctype html><style><!--...<style><!--...--!></style>--></style>");
+            var doc = (@"<!doctype html><style><!--...<style><!--...--!></style>--></style>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -144,7 +138,7 @@
         [Test]
         public void StyleWithNestedCommentAndOtherStyles()
         {
-            var doc = Html(@"<!doctype html><style><!--...</style><!-- --><style>@import ...</style>");
+            var doc = (@"<!doctype html><style><!--...</style><!-- --><style>@import ...</style>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -197,7 +191,7 @@
         [Test]
         public void StyleWithNestedElementAndComment()
         {
-            var doc = Html(@"<!doctype html><style>...<style><!--...</style><!-- --></style>");
+            var doc = (@"<!doctype html><style>...<style><!--...</style><!-- --></style>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -240,7 +234,7 @@
         [Test]
         public void StyleWithCommentInsideThatHostsIEConditional()
         {
-            var doc = Html(@"<!doctype html><style>...<!--[if IE]><style>...</style>X");
+            var doc = (@"<!doctype html><style>...<!--[if IE]><style>...</style>X").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -283,7 +277,7 @@
         [Test]
         public void TitleWithCommentInsideThatHostsAnotherTitlePair()
         {
-            var doc = Html(@"<!doctype html><title><!--<title></title>--></title>");
+            var doc = (@"<!doctype html><title><!--<title></title>--></title>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -326,7 +320,7 @@
         [Test]
         public void TitleWithEntityThatIsWronglyClosed()
         {
-            var doc = Html(@"<!doctype html><title>&lt;/title></title>");
+            var doc = (@"<!doctype html><title>&lt;/title></title>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -365,7 +359,7 @@
         [Test]
         public void StyleWithCommentInsideThatContainsAnotherStylePair()
         {
-            var doc = Html(@"<!doctype html><style><!--<style></style>--></style>");
+            var doc = (@"<!doctype html><style><!--<style></style>--></style>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -408,7 +402,7 @@
         [Test]
         public void StyleWithOpeningCommentAndClosedStyleInside()
         {
-            var doc = Html(@"<!doctype html><style><!--</style>X");
+            var doc = (@"<!doctype html><style><!--</style>X").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);

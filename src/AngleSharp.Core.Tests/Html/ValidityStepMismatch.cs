@@ -1,9 +1,7 @@
 namespace AngleSharp.Core.Tests.Html
 {
-    using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using NUnit.Framework;
-    using System;
 
     /// <summary>
     /// Tests generated according to the W3C-Test.org page:
@@ -12,15 +10,10 @@ namespace AngleSharp.Core.Tests.Html
     [TestFixture]
 	public class ValidityStepMismatchTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
 		public void TestStepmismatchInputDatetime1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -43,7 +36,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputDatetime2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -66,7 +59,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputDatetime3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -89,7 +82,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputDatetime4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -112,7 +105,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputDatetimeLocal1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime-local";
@@ -135,7 +128,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputDatetimeLocal2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime-local";
@@ -158,7 +151,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputDatetimeLocal3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime-local";
@@ -181,7 +174,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputDatetimeLocal4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime-local";
@@ -204,7 +197,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputDate1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -227,7 +220,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputDate2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -250,7 +243,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputDate3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -273,7 +266,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputDate4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -296,7 +289,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputMonth1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -319,7 +312,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputMonth2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -342,7 +335,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputMonth3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -365,7 +358,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputMonth4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -388,7 +381,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputWeek1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -411,7 +404,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputWeek2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -434,7 +427,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputWeek3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -457,7 +450,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputWeek4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -480,7 +473,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputTime1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -503,7 +496,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputTime2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -526,7 +519,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputTime3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -549,7 +542,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputTime4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -572,7 +565,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputNumber1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -595,7 +588,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputNumber2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -618,7 +611,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputNumber3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -641,7 +634,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestStepmismatchInputNumber4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";

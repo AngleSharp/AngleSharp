@@ -11,15 +11,10 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class CDataTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void CDataInSvgElement()
         {
-            var doc = Html(@"<svg><![CDATA[foo]]>");
+            var doc = (@"<svg><![CDATA[foo]]>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -53,7 +48,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataInMathElement()
         {
-            var doc = Html(@"<math><![CDATA[foo]]>");
+            var doc = (@"<math><![CDATA[foo]]>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -87,7 +82,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataInDivElement()
         {
-            var doc = Html(@"<div><![CDATA[foo]]>");
+            var doc = (@"<div><![CDATA[foo]]>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -121,7 +116,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataUnclosedInSvgElement()
         {
-            var doc = Html(@"<svg><![CDATA[foo");
+            var doc = (@"<svg><![CDATA[foo").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -155,7 +150,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataUnclosedWithoutTextInSvgElement()
         {
-            var doc = Html(@"<svg><![CDATA[");
+            var doc = (@"<svg><![CDATA[").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -185,7 +180,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataWithoutTextInSvgElement()
         {
-            var doc = Html(@"<svg><![CDATA[]]>");
+            var doc = (@"<svg><![CDATA[]]>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -215,7 +210,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataClosedWrongInSvgElement()
         {
-            var doc = Html(@"<svg><![CDATA[]] >]]>");
+            var doc = (@"<svg><![CDATA[]] >]]>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -249,7 +244,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataMissingClosingBracketInSvgElement()
         {
-            var doc = Html(@"<svg><![CDATA[]]");
+            var doc = (@"<svg><![CDATA[]]").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -283,7 +278,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataMissingClosingBracketsInSvgElement()
         {
-            var doc = Html(@"<svg><![CDATA[]");
+            var doc = (@"<svg><![CDATA[]").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -317,7 +312,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataMissingClosingSquareBracketInSvgElement()
         {
-            var doc = Html(@"<svg><![CDATA[]>a");
+            var doc = (@"<svg><![CDATA[]>a").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -351,7 +346,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataWithAdditionalClosingSquareBracketInSvgElementWithStandardDoctype()
         {
-            var doc = Html(@"<!DOCTYPE html><svg><![CDATA[foo]]]>");
+            var doc = (@"<!DOCTYPE html><svg><![CDATA[foo]]]>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -390,7 +385,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataWithManyClosingSquareBracketsInSvgElementWithStandardDoctype()
         {
-            var doc = Html(@"<!DOCTYPE html><svg><![CDATA[foo]]]]>");
+            var doc = (@"<!DOCTYPE html><svg><![CDATA[foo]]]]>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -429,7 +424,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataWithManyMoreClosingSquareBracketsInSvgElementWithStandardDoctype()
         {
-            var doc = Html(@"<!DOCTYPE html><svg><![CDATA[foo]]]]]>");
+            var doc = (@"<!DOCTYPE html><svg><![CDATA[foo]]]]]>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -468,7 +463,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataInDivLocatedInForeignObjectWhichIsPlacedInSvgElement()
         {
-            var doc = Html(@"<svg><foreignObject><div><![CDATA[foo]]>");
+            var doc = (@"<svg><foreignObject><div><![CDATA[foo]]>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -514,7 +509,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataWithSvgTagInSvgElement()
         {
-            var doc = Html(@"<svg><![CDATA[<svg>]]>");
+            var doc = (@"<svg><![CDATA[<svg>]]>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -548,7 +543,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataWithClosingSvgTagInSvgElement()
         {
-            var doc = Html(@"<svg><![CDATA[</svg>a]]>");
+            var doc = (@"<svg><![CDATA[</svg>a]]>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -582,7 +577,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataWithSvgTagUnclosedInSvgElement()
         {
-            var doc = Html(@"<svg><![CDATA[<svg>a");
+            var doc = (@"<svg><![CDATA[<svg>a").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -616,7 +611,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataWithClosingSvgTagUnclosedInSvgElement()
         {
-            var doc = Html(@"<svg><![CDATA[</svg>a");
+            var doc = (@"<svg><![CDATA[</svg>a").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -650,7 +645,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataWithSvgTagInSvgElementFollowedByPath()
         {
-            var doc = Html(@"<svg><![CDATA[<svg>]]><path>");
+            var doc = (@"<svg><![CDATA[<svg>]]><path>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -690,7 +685,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataWithSvgTagInSvgElementFollowedByClosingPath()
         {
-            var doc = Html(@"<svg><![CDATA[<svg>]]></path>");
+            var doc = (@"<svg><![CDATA[<svg>]]></path>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -724,7 +719,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataWithSvgTagInSvgElementFollowedByComment()
         {
-            var doc = Html(@"<svg><![CDATA[<svg>]]><!--path-->");
+            var doc = (@"<svg><![CDATA[<svg>]]><!--path-->").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -762,7 +757,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataWithSvgTagInSvgElementFollowedByText()
         {
-            var doc = Html(@"<svg><![CDATA[<svg>]]>path");
+            var doc = (@"<svg><![CDATA[<svg>]]>path").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -796,7 +791,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CDataWithCommentInSvgElement()
         {
-            var doc = Html(@"<svg><![CDATA[<!--svg-->]]>");
+            var doc = (@"<svg><![CDATA[<!--svg-->]]>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

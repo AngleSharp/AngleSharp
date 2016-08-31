@@ -1,14 +1,14 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using System;
-    using System.Text;
     using AngleSharp.Dom;
     using NUnit.Framework;
+    using System;
+    using System.Text;
 
     [TestFixture]
     public class AnalysisWindowTests
     {
-        static IDocument Html(String code)
+        private static IDocument Html(String code)
         {
             var config = new Configuration().WithCss();
             return code.ToHtmlDocument(config);

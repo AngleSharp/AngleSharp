@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
-    using System;
     using System.Linq;
 
     /// <summary>
@@ -13,15 +12,10 @@
     [TestFixture]
     public class HtmlFormattingTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void FormattingEightFontTagsWithParagraph()
         {
-            var doc = Html(@"<p><font size=4><font color=red><font size=4><font size=4><font size=4><font size=4><font size=4><font color=red><p>X");
+            var doc = (@"<p><font size=4><font color=red><font size=4><font size=4><font size=4><font size=4><font size=4><font color=red><p>X").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -198,7 +192,7 @@
         [Test]
         public void FormattingThreeFontTagsWithParagraph()
         {
-            var doc = Html(@"<p><font size=4><font size=4><font size=4><font size=4><p>X");
+            var doc = (@"<p><font size=4><font size=4><font size=4><font size=4><p>X").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -315,7 +309,7 @@
         [Test]
         public void FormattingFiveFontTagsWithParagraph()
         {
-            var doc = Html(@"<p><font size=4><font size=4><font size=4><font size=""5""><font size=4><p>X");
+            var doc = (@"<p><font size=4><font size=4><font size=4><font size=""5""><font size=4><p>X").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -438,7 +432,7 @@
         [Test]
         public void FormattingFourFontTagsWithParagraph()
         {
-            var doc = Html(@"<p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X");
+            var doc = (@"<p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -586,7 +580,7 @@
         [Test]
         public void FormattingMultipleBoldTagsWithObject()
         {
-            var doc = Html(@"<p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y");
+            var doc = (@"<p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -720,7 +714,7 @@
         [Test]
         public void FormattingMultipleTagsWithXInDivSurroundedByAnchor()
         {
-            var doc = Html(@"<a><b><big><em><strong><div>X</a>");
+            var doc = (@"<a><b><big><em><strong><div>X</a>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -808,7 +802,7 @@
         [Test]
         public void FormattingEightDivsInBoldAndAnchor()
         {
-            var doc = Html(@"<a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8>A</a>");
+            var doc = (@"<a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8>A</a>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -975,7 +969,7 @@
         [Test]
         public void FormattingNineDivsInBoldAndAnchor()
         {
-            var doc = Html(@"<a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8><div id=9>A</a>");
+            var doc = (@"<a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8><div id=9>A</a>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1150,7 +1144,7 @@
         [Test]
         public void FormattingTenDivsInBoldAndAnchor()
         {
-            var doc = Html(@"<a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8><div id=9><div id=10>A</a>");
+            var doc = (@"<a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8><div id=9><div id=10>A</a>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1335,7 +1329,7 @@
         [Test]
         public void FormattingCiteBoldCiteItalicCiteItalicCiteItalicDivWithText()
         {
-            var doc = Html(@"<cite><b><cite><i><cite><i><cite><i><div>X</b>TEST");
+            var doc = (@"<cite><b><cite><i><cite><i><cite><i><div>X</b>TEST").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

@@ -2,7 +2,6 @@ namespace AngleSharp.Core.Tests
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
-    using System;
 
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
@@ -11,15 +10,10 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class BasicRuleSetTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void ParseOnlyText()
         {
-            var doc = Html(@"Test");
+            var doc = (@"Test").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -47,7 +41,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GenerateImpliedEndTagsForParagraphs()
         {
-            var doc = Html(@"<p>One<p>Two");
+            var doc = (@"<p>One<p>Two").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -91,7 +85,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SelfClosingBreakRowElements()
         {
-            var doc = Html(@"Line1<br>Line2<br>Line3<br>Line4");
+            var doc = (@"Line1<br>Line2<br>Line3<br>Line4").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -149,7 +143,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void JustASingleRootElement()
         {
-            var doc = Html(@"<html>");
+            var doc = (@"<html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -173,7 +167,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void JustASingleHeadElement()
         {
-            var doc = Html(@"<head>");
+            var doc = (@"<head>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -197,7 +191,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void JustASingleBodyElement()
         {
-            var doc = Html(@"<body>");
+            var doc = (@"<body>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -221,7 +215,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void OpenHeadInHtmlElement()
         {
-            var doc = Html(@"<html><head>");
+            var doc = (@"<html><head>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -245,7 +239,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ClosedHeadInHtmlElement()
         {
-            var doc = Html(@"<html><head></head>");
+            var doc = (@"<html><head></head>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -269,7 +263,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void OpenBodyInHtmlWithClosedHeadElement()
         {
-            var doc = Html(@"<html><head></head><body>");
+            var doc = (@"<html><head></head><body>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -293,7 +287,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BodyInHtmlWithClosedHeadElement()
         {
-            var doc = Html(@"<html><head></head><body></body>");
+            var doc = (@"<html><head></head><body></body>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -317,7 +311,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DocumentWithRootUnclosedHeadAndBody()
         {
-            var doc = Html(@"<html><head><body></body></html>");
+            var doc = (@"<html><head><body></body></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -341,7 +335,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DocumentWithRootUnclosedHeadWronglyClosedBody()
         {
-            var doc = Html(@"<html><head></body></html>");
+            var doc = (@"<html><head></body></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -365,7 +359,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void HtmlWithOpenHeadAndBody()
         {
-            var doc = Html(@"<html><head><body></html>");
+            var doc = (@"<html><head><body></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -389,7 +383,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void HtmlWithOpenBody()
         {
-            var doc = Html(@"<html><body></html>");
+            var doc = (@"<html><body></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -413,7 +407,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BodyClosedByHtml()
         {
-            var doc = Html(@"<body></html>");
+            var doc = (@"<body></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -437,7 +431,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void HeadClosedByHtml()
         {
-            var doc = Html(@"<head></html>");
+            var doc = (@"<head></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -461,7 +455,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void JustClosedHead()
         {
-            var doc = Html(@"</head>");
+            var doc = (@"</head>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -485,7 +479,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void JustClosedBody()
         {
-            var doc = Html(@"</body>");
+            var doc = (@"</body>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -509,7 +503,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void JustClosedHtml()
         {
-            var doc = Html(@"</html>");
+            var doc = (@"</html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -533,7 +527,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FormattingBoldTableWithCellAndItalic()
         {
-            var doc = Html(@"<b><table><td><i></table>");
+            var doc = (@"<b><table><td><i></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -593,7 +587,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FormattingBoldClosedInTableWithCellAndItalic()
         {
-            var doc = Html(@"<b><table><td></b><i></table>X");
+            var doc = (@"<b><table><td></b><i></table>X").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -657,7 +651,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void HeadingNotClosedFollowedByAnotherHeading()
         {
-            var doc = Html(@"<h1>Hello<h2>World");
+            var doc = (@"<h1>Hello<h2>World").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -701,7 +695,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AnchorElementsAccumulated()
         {
-            var doc = Html(@"<a><p>X<a>Y</a>Z</p></a>");
+            var doc = (@"<a><p>X<a>Y</a>Z</p></a>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -761,7 +755,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BoldElementsAccumulated()
         {
-            var doc = Html(@"<b><button>foo</b>bar");
+            var doc = (@"<b><button>foo</b>bar").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -811,7 +805,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GeneratImpliedEndTagForSpanByButtonElement()
         {
-            var doc = Html(@"<!DOCTYPE html><span><button>foo</span>bar");
+            var doc = (@"<!DOCTYPE html><span><button>foo</span>bar").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -857,7 +851,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyMarqueeElementInDiv()
         {
-            var doc = Html(@"<p><b><div><marquee></p></b></div>X");
+            var doc = (@"<p><b><div><marquee></p></b></div>X").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -921,7 +915,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DivPlacedInScriptElementAndParagraphPlacedInTitleElement()
         {
-            var doc = Html(@"<script><div></script></div><title><p></title><p><p>");
+            var doc = (@"<script><div></script></div><title><p></title><p><p>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -977,7 +971,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void IllegalCommentsAroundDivElement()
         {
-            var doc = Html(@"<!--><div>--<!-->");
+            var doc = (@"<!--><div>--<!-->").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -1020,7 +1014,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GenerateImpliedEndTagsByTheHorizontalLine()
         {
-            var doc = Html(@"<p><hr></p>");
+            var doc = (@"<p><hr></p>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1062,7 +1056,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterParentingActiveInSelectElement()
         {
-            var doc = Html(@"<select><b><option><select><option></b></select>X");
+            var doc = (@"<select><b><option><select><option></b></select>X").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1108,7 +1102,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FormattingElementsInTableWithFosterParenting()
         {
-            var doc = Html(@"<a><table><td><a><table></table><a></tr><a></table><b>X</b>C<a>Y");
+            var doc = (@"<a><table><td><a><table></table><a></tr><a></table><b>X</b>C<a>Y").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1216,7 +1210,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void UnknownElementsWithAttributesWithoutValues()
         {
-            var doc = Html(@"<a X>0<b>1<a Y>2");
+            var doc = (@"<a X>0<b>1<a Y>2").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1282,7 +1276,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CommentsAndTextMixedWithFosterParenting()
         {
-            var doc = Html(@"<!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->");
+            var doc = (@"<!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -1375,7 +1369,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ListElementsWithoutListContainer()
         {
-            var doc = Html(@"<!DOCTYPE html><li>hello<li>world<ul>how<li>do</ul>you</body><!--do-->");
+            var doc = (@"<!DOCTYPE html><li>hello<li>world<ul>how<li>do</ul>you</body><!--do-->").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1452,7 +1446,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void OptionElementsWithSelectContainer()
         {
-            var doc = Html(@"<!DOCTYPE html>A<option>B<optgroup>C<select>D</option>E");
+            var doc = (@"<!DOCTYPE html>A<option>B<optgroup>C<select>D</option>E").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1515,7 +1509,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SingleLeftAngleBracketEvaluatedAsText()
         {
-            var doc = Html(@"<");
+            var doc = (@"<").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1543,7 +1537,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SingleLeftAngleBracketAndHashEvaluatedAsText()
         {
-            var doc = Html(@"<#");
+            var doc = (@"<#").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1571,7 +1565,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SingleLeftAngleBracketAndSlashEvaluatedAsText()
         {
-            var doc = Html(@"</");
+            var doc = (@"</").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1599,7 +1593,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SingleLeftAngleBracketAndSlashAndHashEvaluatedAsElement()
         {
-            var doc = Html(@"</#");
+            var doc = (@"</#").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -1627,7 +1621,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SingleLeftAngleBracketAndSlashAndQuestionMarkEvaluatedAsBogusComment()
         {
-            var doc = Html(@"<?");
+            var doc = (@"<?").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -1655,7 +1649,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SingleLeftAngleBracketAndQuestionMarkAndHashEvaluatedAsBogusComment()
         {
-            var doc = Html(@"<?#");
+            var doc = (@"<?#").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -1683,7 +1677,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SingleLeftAngleBracketAndExclamationMarkEvaluatedAsBogusComment()
         {
-            var doc = Html(@"<!");
+            var doc = (@"<!").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -1711,7 +1705,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void SingleLeftAngleBracketAndExclamationMarkAndHashEvaluatedAsBogusComment()
         {
-            var doc = Html(@"<!#");
+            var doc = (@"<!#").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -1739,7 +1733,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BogusCommentViaProcessing()
         {
-            var doc = Html(@"<?COMMENT?>");
+            var doc = (@"<?COMMENT?>").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -1767,7 +1761,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BogusCommentViaExclamationMark()
         {
-            var doc = Html(@"<!COMMENT>");
+            var doc = (@"<!COMMENT>").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -1795,7 +1789,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BogusCommentViaClosedElement()
         {
-            var doc = Html(@"</ COMMENT >");
+            var doc = (@"</ COMMENT >").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -1823,7 +1817,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BogusCommentViaProcessingWithDashes()
         {
-            var doc = Html(@"<?COM--MENT?>");
+            var doc = (@"<?COM--MENT?>").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -1851,7 +1845,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BogusCommentViaExclamationMarkWithDashes()
         {
-            var doc = Html(@"<!COM--MENT>");
+            var doc = (@"<!COM--MENT>").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -1879,7 +1873,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BogusCommentViaClosedElementWithDashes()
         {
-            var doc = Html(@"</ COM--MENT >");
+            var doc = (@"</ COM--MENT >").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -1907,7 +1901,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void Html5DoctypeWithOpenStyleTagThatContainsText()
         {
-            var doc = Html(@"<!DOCTYPE html><style> EOF");
+            var doc = (@"<!DOCTYPE html><style> EOF").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1946,7 +1940,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void Html5DoctypeWithScriptTagContainingACommentReadAsText()
         {
-            var doc = Html(@"<!DOCTYPE html><script> <!-- </script> --> </script> EOF");
+            var doc = (@"<!DOCTYPE html><script> <!-- </script> --> </script> EOF").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1993,7 +1987,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BoldFormattingTakenIntoNewParagraph()
         {
-            var doc = Html(@"<b><p></b>TEST");
+            var doc = (@"<b><p></b>TEST").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2039,7 +2033,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ParagraphsWithIdsAndBoldFormattingPassed()
         {
-            var doc = Html(@"<p id=a><b><p id=b></b>TEST");
+            var doc = (@"<p id=a><b><p id=b></b>TEST").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2091,7 +2085,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BoldFormattingsWithIdsTakenIntoAParagraph()
         {
-            var doc = Html(@"<b id=a><p><b id=b></p></b>TEST");
+            var doc = (@"<b id=a><p><b id=b></p></b>TEST").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2143,7 +2137,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void UnderlineFormattingClosedWithParagraph()
         {
-            var doc = Html(@"<!DOCTYPE html><title>U-test</title><body><div><p>Test<u></p></div></body>");
+            var doc = (@"<!DOCTYPE html><title>U-test</title><body><div><p>Test<u></p></div></body>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2204,7 +2198,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FontFormattingClosedPriorToTable()
         {
-            var doc = Html(@"<!DOCTYPE html><font><table></font></table></font>");
+            var doc = (@"<!DOCTYPE html><font><table></font></table></font>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2245,7 +2239,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FontFormattingTakenIntoNewParagraph()
         {
-            var doc = Html(@"<font><p>hello<b>cruel</font>world");
+            var doc = (@"<font><p>hello<b>cruel</font>world").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2311,7 +2305,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void WronglyClosedItalicFormattingIgnored()
         {
-            var doc = Html(@"<b>Test</i>Test");
+            var doc = (@"<b>Test</i>Test").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2345,7 +2339,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GenerateImpliedEndTagForCiteElementFollowedByDiv()
         {
-            var doc = Html(@"<b>A<cite>B<div>C");
+            var doc = (@"<b>A<cite>B<div>C").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2399,7 +2393,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void IgnoreClosedCiteTagWhenImpliedEndTagIsGenerated()
         {
-            var doc = Html(@"<b>A<cite>B<div>C</cite>D");
+            var doc = (@"<b>A<cite>B<div>C</cite>D").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2453,7 +2447,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GenerateImpliedEndTagForBoldAndCiteWhenEncounteringDiv()
         {
-            var doc = Html(@"<b>A<cite>B<div>C</b>D");
+            var doc = (@"<b>A<cite>B<div>C</b>D").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2517,7 +2511,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void EmptySource()
         {
-            var doc = Html(@"");
+            var doc = (@"").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2541,7 +2535,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyUppercaseOpeningDivElement()
         {
-            var doc = Html(@"<DIV>");
+            var doc = (@"<DIV>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2571,7 +2565,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyUppercaseElementsOpenDivAndText()
         {
-            var doc = Html(@"<DIV> abc");
+            var doc = (@"<DIV> abc").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2605,7 +2599,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyUppercaseElementsOpeningBold()
         {
-            var doc = Html(@"<DIV> abc <B>");
+            var doc = (@"<DIV> abc <B>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2645,7 +2639,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyUppercaseElementsOpenBold()
         {
-            var doc = Html(@"<DIV> abc <B> def");
+            var doc = (@"<DIV> abc <B> def").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2689,7 +2683,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyUppercaseElementsOpeningItalics()
         {
-            var doc = Html(@"<DIV> abc <B> def <I>");
+            var doc = (@"<DIV> abc <B> def <I>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2739,7 +2733,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyUppercaseElementsWithNewFormatting()
         {
-            var doc = Html(@"<DIV> abc <B> def <I> ghi");
+            var doc = (@"<DIV> abc <B> def <I> ghi").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2793,7 +2787,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyUppercaseElementsBoldAndItalicFormatting()
         {
-            var doc = Html(@"<DIV> abc <B> def <I> ghi <P>");
+            var doc = (@"<DIV> abc <B> def <I> ghi <P>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2853,7 +2847,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyUppercaseElementsFormattingCopiedToParagraph()
         {
-            var doc = Html(@"<DIV> abc <B> def <I> ghi <P> jkl");
+            var doc = (@"<DIV> abc <B> def <I> ghi <P> jkl").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2917,7 +2911,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyUppercaseElementsWithoutClosingTag()
         {
-            var doc = Html(@"<DIV> abc <B> def <I> ghi <P> jkl </B>");
+            var doc = (@"<DIV> abc <B> def <I> ghi <P> jkl </B>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2993,7 +2987,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyUppercaseElementsFormattingClosedIncorrectly()
         {
-            var doc = Html(@"<DIV> abc <B> def <I> ghi <P> jkl </B> mno");
+            var doc = (@"<DIV> abc <B> def <I> ghi <P> jkl </B> mno").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3073,7 +3067,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyUppercaseElementsFormattingApplied()
         {
-            var doc = Html(@"<DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>");
+            var doc = (@"<DIV> abc <B> def <I> ghi <P> jkl </B> mno </I>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3159,7 +3153,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyUppercaseElementsFormattingCopied()
         {
-            var doc = Html(@"<DIV> abc <B> def <I> ghi <P> jkl </B> mno </I> pqr");
+            var doc = (@"<DIV> abc <B> def <I> ghi <P> jkl </B> mno </I> pqr").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3249,7 +3243,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyUppercaseElementsWithText()
         {
-            var doc = Html(@"<DIV> abc <B> def <I> ghi <P> jkl </B> mno </I> pqr </P>");
+            var doc = (@"<DIV> abc <B> def <I> ghi <P> jkl </B> mno </I> pqr </P>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3339,7 +3333,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LegacyUppercaseElementNamesWithText()
         {
-            var doc = Html(@"<DIV> abc <B> def <I> ghi <P> jkl </B> mno </I> pqr </P> stu");
+            var doc = (@"<DIV> abc <B> def <I> ghi <P> jkl </B> mno </I> pqr </P> stu").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3433,7 +3427,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ValidDashesInAttributeName()
         {
-            var doc = Html(@"<test attribute---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->");
+            var doc = (@"<test attribute---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3466,7 +3460,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FosterAnchorTagAndTextInTableElement()
         {
-            var doc = Html(@"<a href=""blah"">aba<table><a href=""foo"">br<tr><td></td></tr>x</table>aoe");
+            var doc = (@"<a href=""blah"">aba<table><a href=""foo"">br<tr><td></td></tr>x</table>aoe").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3566,7 +3560,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithCorrectAnchorTagAndFosterText()
         {
-            var doc = Html(@"<a href=""blah"">aba<table><tr><td><a href=""foo"">br</td></tr>x</table>aoe");
+            var doc = (@"<a href=""blah"">aba<table><tr><td><a href=""foo"">br</td></tr>x</table>aoe").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3644,7 +3638,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableFosterParentingOfAnchorElements()
         {
-            var doc = Html(@"<table><a href=""blah"">aba<tr><td><a href=""foo"">br</td></tr>x</table>aoe");
+            var doc = (@"<table><a href=""blah"">aba<tr><td><a href=""foo"">br</td></tr>x</table>aoe").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3744,7 +3738,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ObsoleteMarqueeElementWithContent()
         {
-            var doc = Html(@"<a href=a>aa<marquee>aa<a href=b>bb</marquee>aa");
+            var doc = (@"<a href=a>aa<marquee>aa<a href=b>bb</marquee>aa").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3808,7 +3802,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GenerateImpliedEndForWbrElement()
         {
-            var doc = Html(@"<wbr><strike><code></strike><code><strike></code>");
+            var doc = (@"<wbr><strike><code></strike><code><strike></code>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3868,7 +3862,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StandardDoctypeWithCustomElementAndText()
         {
-            var doc = Html(@"<!DOCTYPE html><spacer>foo");
+            var doc = (@"<!DOCTYPE html><spacer>foo").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3907,7 +3901,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TitleSwitchToRawtextVerboseMeta()
         {
-            var doc = Html(@"<title><meta></title><link><title><meta></title>");
+            var doc = (@"<title><meta></title><link><title><meta></title>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3957,7 +3951,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void StyleSwitchToRawtextSkipComment()
         {
-            var doc = Html(@"<style><!--</style><meta><script>--><link></script>");
+            var doc = (@"<style><!--</style><meta><script>--><link></script>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4007,7 +4001,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void LinkElementShiftedBackToHead()
         {
-            var doc = Html(@"<head><meta></head><link>");
+            var doc = (@"<head><meta></head><link>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4043,7 +4037,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithShiftedRowsAndCells()
         {
-            var doc = Html(@"<table><tr><tr><td><td><span><th><span>X</table>");
+            var doc = (@"<table><tr><tr><td><td><span><th><span>X</table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4125,7 +4119,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BaseElementSelfClosedJustLikeLinkAndMetaButNotTitle()
         {
-            var doc = Html(@"<body><body><base><link><meta><title><p></title><body><p></body>");
+            var doc = (@"<body><body><base><link><meta><title><p></title><body><p></body>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4183,7 +4177,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ParagraphElementVerboseInTextarea()
         {
-            var doc = Html(@"<textarea><p></textarea>");
+            var doc = (@"<textarea><p></textarea>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4217,7 +4211,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void CommonImageTagMistakeAcceptedAsImg()
         {
-            var doc = Html(@"<p><image></p>");
+            var doc = (@"<p><image></p>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4253,7 +4247,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AnchorElementNotCopiedToTable()
         {
-            var doc = Html(@"<a><table><a></table><p><a><div><a>");
+            var doc = (@"<a><table><a></table><p><a><div><a>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4319,7 +4313,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MetaElementShiftedToHead()
         {
-            var doc = Html(@"<head></p><meta><p>");
+            var doc = (@"<head></p><meta><p>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4355,7 +4349,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MetaElementNotShiftedToHead()
         {
-            var doc = Html(@"<head></html><meta><p>");
+            var doc = (@"<head></html><meta><p>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4391,7 +4385,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BoldFormattingNotCopiedToTableCell()
         {
-            var doc = Html(@"<b><table><td><i></table>");
+            var doc = (@"<b><table><td><i></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4451,7 +4445,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BoldFormattingNotCopiedToTableCellDespiteClosing()
         {
-            var doc = Html(@"<b><table><td></b><i></table>");
+            var doc = (@"<b><table><td></b><i></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4511,7 +4505,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AnotherHeadingOpenedWithinHeading()
         {
-            var doc = Html(@"<h1><h2>");
+            var doc = (@"<h1><h2>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4547,7 +4541,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void AnchorElementReOpenedInNewParagraph()
         {
-            var doc = Html(@"<a><p><a></a></p></a>");
+            var doc = (@"<a><p><a></a></p></a>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4595,7 +4589,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BoldFormattingReOpenedInButtonElement()
         {
-            var doc = Html(@"<b><button></b></button></b>");
+            var doc = (@"<b><button></b></button></b>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4637,7 +4631,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void UseObsoleteMarqueeElementInNewDiv()
         {
-            var doc = Html(@"<p><b><div><marquee></p></b></div>");
+            var doc = (@"<p><b><div><marquee></p></b></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4697,7 +4691,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ScriptAndTitleElementsToHead()
         {
-            var doc = Html(@"<script></script></div><title></title><p><p>");
+            var doc = (@"<script></script></div><title></title><p><p>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4745,7 +4739,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void HorizontalLineGeneratesImpliedEndTagForParagraph()
         {
-            var doc = Html(@"<p><hr></p>");
+            var doc = (@"<p><hr></p>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4787,7 +4781,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BoldFormattingElementInSelectContainer()
         {
-            var doc = Html(@"<select><b><option><select><option></b></select>");
+            var doc = (@"<select><b><option><select><option></b></select>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4829,7 +4823,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MissingClosingHeadTag()
         {
-            var doc = Html(@"<html><head><title></title><body></body></html>");
+            var doc = (@"<html><head><title></title><body></body></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4859,7 +4853,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NestedTableWithAnchorElements()
         {
-            var doc = Html(@"<a><table><td><a><table></table><a></tr><a></table><a>");
+            var doc = (@"<a><table><td><a><table></table><a></tr><a></table><a>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4943,7 +4937,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void MixingNewDivElementsInAnUnsortedList()
         {
-            var doc = Html(@"<ul><li></li><div><li></div><li><li><div><li><address><li><b><em></b><li></ul>");
+            var doc = (@"<ul><li></li><div><li></div><li><li><div><li><address><li><b><em></b><li></ul>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5045,7 +5039,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NestedUnsortedListElements()
         {
-            var doc = Html(@"<ul><li><ul></li><li>a</li></ul></li></ul>");
+            var doc = (@"<ul><li><ul></li><li>a</li></ul></li></ul>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5097,7 +5091,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FramesetWithFrameAndNoFramesCombination()
         {
-            var doc = Html(@"<frameset><frame><frameset><frame></frameset><noframes></noframes></frameset>");
+            var doc = (@"<frameset><frame><frameset><frame></frameset><noframes></noframes></frameset>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5145,7 +5139,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableInHeaderElement()
         {
-            var doc = Html(@"<h1><table><td><h3></table><h3></h1>");
+            var doc = (@"<h1><table><td><h3></table><h3></h1>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5211,7 +5205,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithColgroupThatContainsColsAndOtherColgroups()
         {
-            var doc = Html(@"<table><colgroup><col><colgroup><col><col><col><colgroup><col><col><thead><tr><td></table>");
+            var doc = (@"<table><colgroup><col><colgroup><col><col><col><colgroup><col><col><thead><tr><td></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5313,7 +5307,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void TableWithMultipleColElements()
         {
-            var doc = Html(@"<table><col><tbody><col><tr><col><td><col></table><col>");
+            var doc = (@"<table><col><tbody><col><tr><col><td><col></table><col>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5427,7 +5421,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ColgroupInTableAndTableSectionElements()
         {
-            var doc = Html(@"<table><colgroup><tbody><colgroup><tr><colgroup><td><colgroup></table><colgroup>");
+            var doc = (@"<table><colgroup><tbody><colgroup><tr><colgroup><td><colgroup></table><colgroup>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5517,7 +5511,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FormattingElementsClosedInsideBodyWithoutOpening()
         {
-            var doc = Html(@"</strong></b></em></i></u></strike></s></blink></tt></pre></big></small></font></select></h1></h2></h3></h4></h5></h6></body></br></a></img></title></span></style></script></table></th></td></tr></frame></area></link></param></hr></input></col></base></meta></basefont></bgsound></embed></spacer></p></dd></dt></caption></colgroup></tbody></tfoot></thead></address></blockquote></center></dir></div></dl></fieldset></listing></menu></ol></ul></li></nobr></wbr></form></button></marquee></object></html></frameset></head></iframe></image></isindex></noembed></noframes></noscript></optgroup></option></plaintext></textarea>");
+            var doc = (@"</strong></b></em></i></u></strike></s></blink></tt></pre></big></small></font></select></h1></h2></h3></h4></h5></h6></body></br></a></img></title></span></style></script></table></th></td></tr></frame></area></link></param></hr></input></col></base></meta></basefont></bgsound></embed></spacer></p></dd></dt></caption></colgroup></tbody></tfoot></thead></address></blockquote></center></dir></div></dl></fieldset></listing></menu></ol></ul></li></nobr></wbr></form></button></marquee></object></html></frameset></head></iframe></image></isindex></noembed></noframes></noscript></optgroup></option></plaintext></textarea>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5553,7 +5547,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void FormattingElementsClosedInsideTableWithoutOpening()
         {
-            var doc = Html(@"<table><tr></strong></b></em></i></u></strike></s></blink></tt></pre></big></small></font></select></h1></h2></h3></h4></h5></h6></body></br></a></img></title></span></style></script></table></th></td></tr></frame></area></link></param></hr></input></col></base></meta></basefont></bgsound></embed></spacer></p></dd></dt></caption></colgroup></tbody></tfoot></thead></address></blockquote></center></dir></div></dl></fieldset></listing></menu></ol></ul></li></nobr></wbr></form></button></marquee></object></html></frameset></head></iframe></image></isindex></noembed></noframes></noscript></optgroup></option></plaintext></textarea>");
+            var doc = (@"<table><tr></strong></b></em></i></u></strike></s></blink></tt></pre></big></small></font></select></h1></h2></h3></h4></h5></h6></body></br></a></img></title></span></style></script></table></th></td></tr></frame></area></link></param></hr></input></col></base></meta></basefont></bgsound></embed></spacer></p></dd></dt></caption></colgroup></tbody></tfoot></thead></address></blockquote></center></dir></div></dl></fieldset></listing></menu></ol></ul></li></nobr></wbr></form></button></marquee></object></html></frameset></head></iframe></image></isindex></noembed></noframes></noscript></optgroup></option></plaintext></textarea>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5607,7 +5601,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void JustAFramesetElement()
         {
-            var doc = Html(@"<frameset>");
+            var doc = (@"<frameset>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

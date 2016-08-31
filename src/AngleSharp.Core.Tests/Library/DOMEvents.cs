@@ -9,7 +9,7 @@
     [TestFixture]
     public class DOMEventsTests
     {
-        IDocument document;
+        private IDocument document;
 
         [SetUp]
         public void Init()

@@ -9,7 +9,7 @@
     [TestFixture]
     public class MeterElementTests
     {
-        static IDocument Html(String code)
+        private static IDocument Html(String code)
         {
             return code.ToHtmlDocument();
         }
