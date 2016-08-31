@@ -13,7 +13,7 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
 	public class UrlValidationTests
     {
-        static IDocument Html(String code)
+        private static IDocument Html(String code)
         {
             return code.ToHtmlDocument();
         }

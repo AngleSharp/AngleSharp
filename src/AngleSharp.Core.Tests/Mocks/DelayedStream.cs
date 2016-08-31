@@ -7,8 +7,8 @@
 
     sealed class DelayedStream : Stream
     {
-        Stream _stream;
-        const Int32 delay = 10;
+        private Stream _stream;
+        private const Int32 delay = 10;
 
         public DelayedStream(Stream stream)
         {

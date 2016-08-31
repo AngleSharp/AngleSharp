@@ -10,8 +10,8 @@
     [TestFixture]
     public class DOMTableTests
     {
-        static readonly String HTMLNS = "http://www.w3.org/1999/xhtml";
-        static readonly String SectionRowIndexCode = @"<table>
+        private static readonly String HTMLNS = "http://www.w3.org/1999/xhtml";
+        private static readonly String SectionRowIndexCode = @"<table>
   <thead>
     <tr id=ht1></tr>
   </thead>
@@ -41,7 +41,7 @@
   </tfoot>
 </table> ";
 
-        static IDocument Html(String code)
+        private static IDocument Html(String code)
         {
             return code.ToHtmlDocument();
         }
@@ -894,7 +894,7 @@
             Assert.AreEqual(1, td.Index);
         }
 
-        static IHtmlTableRowElement MakeRowElement(params String[] names)
+        private static IHtmlTableRowElement MakeRowElement(params String[] names)
         {
             var document = Html("");
             var elm = document.CreateElement("table");
@@ -909,14 +909,14 @@
             return elm.AppendChild(document.CreateElement("tr")) as IHtmlTableRowElement;
         }
 
-        static void AssertTableBody(IHtmlTableSectionElement body)
+        private static void AssertTableBody(IHtmlTableSectionElement body)
         {
             Assert.AreEqual("tbody", body.LocalName);
             Assert.AreEqual(HTMLNS, body.NamespaceUri);
             Assert.IsNull(body.Prefix);
         }
 
-        static void SimpleTableTest(IDocument document, IElement group, IElement table)
+        private static void SimpleTableTest(IDocument document, IElement group, IElement table)
         {
             var foo1 = group.AppendChild(document.CreateElement("tr")) as IElement;
             foo1.Id = "foo";

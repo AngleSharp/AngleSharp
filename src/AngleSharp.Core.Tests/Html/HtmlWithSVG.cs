@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
-    using System;
 
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
@@ -12,15 +11,10 @@
     [TestFixture]
     public class HtmlWithSVGTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void SvgCheckAttributesCaseNormalUnchanged()
         {
-            var doc = Html(@"<!DOCTYPE html><body><svg attributeName='' attributeType='' baseFrequency='' baseProfile='' calcMode='' clipPathUnits='' contentScriptType='' contentStyleType='' diffuseConstant='' edgeMode='' externalResourcesRequired='' filterRes='' filterUnits='' glyphRef='' gradientTransform='' gradientUnits='' kernelMatrix='' kernelUnitLength='' keyPoints='' keySplines='' keyTimes='' lengthAdjust='' limitingConeAngle='' markerHeight='' markerUnits='' markerWidth='' maskContentUnits='' maskUnits='' numOctaves='' pathLength='' patternContentUnits='' patternTransform='' patternUnits='' pointsAtX='' pointsAtY='' pointsAtZ='' preserveAlpha='' preserveAspectRatio='' primitiveUnits='' refX='' refY='' repeatCount='' repeatDur='' requiredExtensions='' requiredFeatures='' specularConstant='' specularExponent='' spreadMethod='' startOffset='' stdDeviation='' stitchTiles='' surfaceScale='' systemLanguage='' tableValues='' targetX='' targetY='' textLength='' viewBox='' viewTarget='' xChannelSelector='' yChannelSelector='' zoomAndPan=''></svg>");
+            var doc = (@"<!DOCTYPE html><body><svg attributeName='' attributeType='' baseFrequency='' baseProfile='' calcMode='' clipPathUnits='' contentScriptType='' contentStyleType='' diffuseConstant='' edgeMode='' externalResourcesRequired='' filterRes='' filterUnits='' glyphRef='' gradientTransform='' gradientUnits='' kernelMatrix='' kernelUnitLength='' keyPoints='' keySplines='' keyTimes='' lengthAdjust='' limitingConeAngle='' markerHeight='' markerUnits='' markerWidth='' maskContentUnits='' maskUnits='' numOctaves='' pathLength='' patternContentUnits='' patternTransform='' patternUnits='' pointsAtX='' pointsAtY='' pointsAtZ='' preserveAlpha='' preserveAspectRatio='' primitiveUnits='' refX='' refY='' repeatCount='' repeatDur='' requiredExtensions='' requiredFeatures='' specularConstant='' specularExponent='' spreadMethod='' startOffset='' stdDeviation='' stitchTiles='' surfaceScale='' systemLanguage='' tableValues='' targetX='' targetY='' textLength='' viewBox='' viewTarget='' xChannelSelector='' yChannelSelector='' zoomAndPan=''></svg>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -241,7 +235,7 @@
         [Test]
         public void SvgCheckAttributesCaseUppercaseModified()
         {
-            var doc = Html(@"<!DOCTYPE html><BODY><SVG ATTRIBUTENAME='' ATTRIBUTETYPE='' BASEFREQUENCY='' BASEPROFILE='' CALCMODE='' CLIPPATHUNITS='' CONTENTSCRIPTTYPE='' CONTENTSTYLETYPE='' DIFFUSECONSTANT='' EDGEMODE='' EXTERNALRESOURCESREQUIRED='' FILTERRES='' FILTERUNITS='' GLYPHREF='' GRADIENTTRANSFORM='' GRADIENTUNITS='' KERNELMATRIX='' KERNELUNITLENGTH='' KEYPOINTS='' KEYSPLINES='' KEYTIMES='' LENGTHADJUST='' LIMITINGCONEANGLE='' MARKERHEIGHT='' MARKERUNITS='' MARKERWIDTH='' MASKCONTENTUNITS='' MASKUNITS='' NUMOCTAVES='' PATHLENGTH='' PATTERNCONTENTUNITS='' PATTERNTRANSFORM='' PATTERNUNITS='' POINTSATX='' POINTSATY='' POINTSATZ='' PRESERVEALPHA='' PRESERVEASPECTRATIO='' PRIMITIVEUNITS='' REFX='' REFY='' REPEATCOUNT='' REPEATDUR='' REQUIREDEXTENSIONS='' REQUIREDFEATURES='' SPECULARCONSTANT='' SPECULAREXPONENT='' SPREADMETHOD='' STARTOFFSET='' STDDEVIATION='' STITCHTILES='' SURFACESCALE='' SYSTEMLANGUAGE='' TABLEVALUES='' TARGETX='' TARGETY='' TEXTLENGTH='' VIEWBOX='' VIEWTARGET='' XCHANNELSELECTOR='' YCHANNELSELECTOR='' ZOOMANDPAN=''></SVG>");
+            var doc = (@"<!DOCTYPE html><BODY><SVG ATTRIBUTENAME='' ATTRIBUTETYPE='' BASEFREQUENCY='' BASEPROFILE='' CALCMODE='' CLIPPATHUNITS='' CONTENTSCRIPTTYPE='' CONTENTSTYLETYPE='' DIFFUSECONSTANT='' EDGEMODE='' EXTERNALRESOURCESREQUIRED='' FILTERRES='' FILTERUNITS='' GLYPHREF='' GRADIENTTRANSFORM='' GRADIENTUNITS='' KERNELMATRIX='' KERNELUNITLENGTH='' KEYPOINTS='' KEYSPLINES='' KEYTIMES='' LENGTHADJUST='' LIMITINGCONEANGLE='' MARKERHEIGHT='' MARKERUNITS='' MARKERWIDTH='' MASKCONTENTUNITS='' MASKUNITS='' NUMOCTAVES='' PATHLENGTH='' PATTERNCONTENTUNITS='' PATTERNTRANSFORM='' PATTERNUNITS='' POINTSATX='' POINTSATY='' POINTSATZ='' PRESERVEALPHA='' PRESERVEASPECTRATIO='' PRIMITIVEUNITS='' REFX='' REFY='' REPEATCOUNT='' REPEATDUR='' REQUIREDEXTENSIONS='' REQUIREDFEATURES='' SPECULARCONSTANT='' SPECULAREXPONENT='' SPREADMETHOD='' STARTOFFSET='' STDDEVIATION='' STITCHTILES='' SURFACESCALE='' SYSTEMLANGUAGE='' TABLEVALUES='' TARGETX='' TARGETY='' TEXTLENGTH='' VIEWBOX='' VIEWTARGET='' XCHANNELSELECTOR='' YCHANNELSELECTOR='' ZOOMANDPAN=''></SVG>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -462,7 +456,7 @@
         [Test]
         public void SvgCheckAttributesCaseLowercaseModified()
         {
-            var doc = Html(@"<!DOCTYPE html><body><svg attributename='' attributetype='' basefrequency='' baseprofile='' calcmode='' clippathunits='' contentscripttype='' contentstyletype='' diffuseconstant='' edgemode='' externalresourcesrequired='' filterres='' filterunits='' glyphref='' gradienttransform='' gradientunits='' kernelmatrix='' kernelunitlength='' keypoints='' keysplines='' keytimes='' lengthadjust='' limitingconeangle='' markerheight='' markerunits='' markerwidth='' maskcontentunits='' maskunits='' numoctaves='' pathlength='' patterncontentunits='' patterntransform='' patternunits='' pointsatx='' pointsaty='' pointsatz='' preservealpha='' preserveaspectratio='' primitiveunits='' refx='' refy='' repeatcount='' repeatdur='' requiredextensions='' requiredfeatures='' specularconstant='' specularexponent='' spreadmethod='' startoffset='' stddeviation='' stitchtiles='' surfacescale='' systemlanguage='' tablevalues='' targetx='' targety='' textlength='' viewbox='' viewtarget='' xchannelselector='' ychannelselector='' zoomandpan=''></svg>");
+            var doc = (@"<!DOCTYPE html><body><svg attributename='' attributetype='' basefrequency='' baseprofile='' calcmode='' clippathunits='' contentscripttype='' contentstyletype='' diffuseconstant='' edgemode='' externalresourcesrequired='' filterres='' filterunits='' glyphref='' gradienttransform='' gradientunits='' kernelmatrix='' kernelunitlength='' keypoints='' keysplines='' keytimes='' lengthadjust='' limitingconeangle='' markerheight='' markerunits='' markerwidth='' maskcontentunits='' maskunits='' numoctaves='' pathlength='' patterncontentunits='' patterntransform='' patternunits='' pointsatx='' pointsaty='' pointsatz='' preservealpha='' preserveaspectratio='' primitiveunits='' refx='' refy='' repeatcount='' repeatdur='' requiredextensions='' requiredfeatures='' specularconstant='' specularexponent='' spreadmethod='' startoffset='' stddeviation='' stitchtiles='' surfacescale='' systemlanguage='' tablevalues='' targetx='' targety='' textlength='' viewbox='' viewtarget='' xchannelselector='' ychannelselector='' zoomandpan=''></svg>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -684,7 +678,7 @@
         [Test]
         public void SvgCheckTagCaseNormalUnchanged()
         {
-            var doc = Html(@"<!DOCTYPE html><body><svg><altGlyph /><altGlyphDef /><altGlyphItem /><animateColor /><animateMotion /><animateTransform /><clipPath /><feBlend /><feColorMatrix /><feComponentTransfer /><feComposite /><feConvolveMatrix /><feDiffuseLighting /><feDisplacementMap /><feDistantLight /><feFlood /><feFuncA /><feFuncB /><feFuncG /><feFuncR /><feGaussianBlur /><feImage /><feMerge /><feMergeNode /><feMorphology /><feOffset /><fePointLight /><feSpecularLighting /><feSpotLight /><feTile /><feTurbulence /><foreignObject /><glyphRef /><linearGradient /><radialGradient /><textPath /></svg>");
+            var doc = (@"<!DOCTYPE html><body><svg><altGlyph /><altGlyphDef /><altGlyphItem /><animateColor /><animateMotion /><animateTransform /><clipPath /><feBlend /><feColorMatrix /><feComponentTransfer /><feComposite /><feConvolveMatrix /><feDiffuseLighting /><feDisplacementMap /><feDistantLight /><feFlood /><feFuncA /><feFuncB /><feFuncG /><feFuncR /><feGaussianBlur /><feImage /><feMerge /><feMergeNode /><feMorphology /><feOffset /><fePointLight /><feSpecularLighting /><feSpotLight /><feTile /><feTurbulence /><foreignObject /><glyphRef /><linearGradient /><radialGradient /><textPath /></svg>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -935,7 +929,7 @@
         [Test]
         public void SvgCheckTagCaseLowercaseModified()
         {
-            var doc = Html(@"<!DOCTYPE html><body><svg><altglyph /><altglyphdef /><altglyphitem /><animatecolor /><animatemotion /><animatetransform /><clippath /><feblend /><fecolormatrix /><fecomponenttransfer /><fecomposite /><feconvolvematrix /><fediffuselighting /><fedisplacementmap /><fedistantlight /><feflood /><fefunca /><fefuncb /><fefuncg /><fefuncr /><fegaussianblur /><feimage /><femerge /><femergenode /><femorphology /><feoffset /><fepointlight /><fespecularlighting /><fespotlight /><fetile /><feturbulence /><foreignobject /><glyphref /><lineargradient /><radialgradient /><textpath /></svg>");
+            var doc = (@"<!DOCTYPE html><body><svg><altglyph /><altglyphdef /><altglyphitem /><animatecolor /><animatemotion /><animatetransform /><clippath /><feblend /><fecolormatrix /><fecomponenttransfer /><fecomposite /><feconvolvematrix /><fediffuselighting /><fedisplacementmap /><fedistantlight /><feflood /><fefunca /><fefuncb /><fefuncg /><fefuncr /><fegaussianblur /><feimage /><femerge /><femergenode /><femorphology /><feoffset /><fepointlight /><fespecularlighting /><fespotlight /><fetile /><feturbulence /><foreignobject /><glyphref /><lineargradient /><radialgradient /><textpath /></svg>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1186,7 +1180,7 @@
         [Test]
         public void SvgCheckTagCaseUppercaseModified()
         {
-            var doc = Html(@"<!DOCTYPE html><BODY><SVG><ALTGLYPH /><ALTGLYPHDEF /><ALTGLYPHITEM /><ANIMATECOLOR /><ANIMATEMOTION /><ANIMATETRANSFORM /><CLIPPATH /><FEBLEND /><FECOLORMATRIX /><FECOMPONENTTRANSFER /><FECOMPOSITE /><FECONVOLVEMATRIX /><FEDIFFUSELIGHTING /><FEDISPLACEMENTMAP /><FEDISTANTLIGHT /><FEFLOOD /><FEFUNCA /><FEFUNCB /><FEFUNCG /><FEFUNCR /><FEGAUSSIANBLUR /><FEIMAGE /><FEMERGE /><FEMERGENODE /><FEMORPHOLOGY /><FEOFFSET /><FEPOINTLIGHT /><FESPECULARLIGHTING /><FESPOTLIGHT /><FETILE /><FETURBULENCE /><FOREIGNOBJECT /><GLYPHREF /><LINEARGRADIENT /><RADIALGRADIENT /><TEXTPATH /></SVG>");
+            var doc = (@"<!DOCTYPE html><BODY><SVG><ALTGLYPH /><ALTGLYPHDEF /><ALTGLYPHITEM /><ANIMATECOLOR /><ANIMATEMOTION /><ANIMATETRANSFORM /><CLIPPATH /><FEBLEND /><FECOLORMATRIX /><FECOMPONENTTRANSFER /><FECOMPOSITE /><FECONVOLVEMATRIX /><FEDIFFUSELIGHTING /><FEDISPLACEMENTMAP /><FEDISTANTLIGHT /><FEFLOOD /><FEFUNCA /><FEFUNCB /><FEFUNCG /><FEFUNCR /><FEGAUSSIANBLUR /><FEIMAGE /><FEMERGE /><FEMERGENODE /><FEMORPHOLOGY /><FEOFFSET /><FEPOINTLIGHT /><FESPECULARLIGHTING /><FESPOTLIGHT /><FETILE /><FETURBULENCE /><FOREIGNOBJECT /><GLYPHREF /><LINEARGRADIENT /><RADIALGRADIENT /><TEXTPATH /></SVG>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1437,7 +1431,7 @@
         [Test]
         public void SvgSingleNodeInBody()
         {
-            var doc = Html(@"<!DOCTYPE html><body><svg><solidColor /></svg>");
+            var doc = (@"<!DOCTYPE html><body><svg><solidColor /></svg>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1478,7 +1472,7 @@
         [Test]
         public void SvgSingleElement()
         {
-            var doc = Html(@"<!DOCTYPE html><svg></svg>");
+            var doc = (@"<!DOCTYPE html><svg></svg>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1513,7 +1507,7 @@
         [Test]
         public void SvgSingleElementFollowedByCdata()
         {
-            var doc = Html(@"<!DOCTYPE html><svg></svg><![CDATA[a]]>");
+            var doc = (@"<!DOCTYPE html><svg></svg><![CDATA[a]]>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1552,7 +1546,7 @@
         [Test]
         public void SvgSingleElementInBody()
         {
-            var doc = Html(@"<!DOCTYPE html><body><svg></svg>");
+            var doc = (@"<!DOCTYPE html><body><svg></svg>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1587,7 +1581,7 @@
         [Test]
         public void SvgSingleElementInSelect()
         {
-            var doc = Html(@"<!DOCTYPE html><body><select><svg></svg></select>");
+            var doc = (@"<!DOCTYPE html><body><select><svg></svg></select>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1622,7 +1616,7 @@
         [Test]
         public void SvgSingleElementInOptionInSelect()
         {
-            var doc = Html(@"<!DOCTYPE html><body><select><option><svg></svg></option></select>");
+            var doc = (@"<!DOCTYPE html><body><select><option><svg></svg></option></select>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1663,7 +1657,7 @@
         [Test]
         public void SvgSingleElementInTable()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><svg></svg></table>");
+            var doc = (@"<!DOCTYPE html><body><table><svg></svg></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1704,7 +1698,7 @@
         [Test]
         public void SvgElementWithGroupInTable()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><svg><g>foo</g></svg></table>");
+            var doc = (@"<!DOCTYPE html><body><table><svg><g>foo</g></svg></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1755,7 +1749,7 @@
         [Test]
         public void SvgElementWithGroupAndTextInTable()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><svg><g>foo</g><g>bar</g></svg></table>");
+            var doc = (@"<!DOCTYPE html><body><table><svg><g>foo</g><g>bar</g></svg></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1817,7 +1811,7 @@
         [Test]
         public void SvgElementWithGroupInTbody()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><tbody><svg><g>foo</g><g>bar</g></svg></tbody></table>");
+            var doc = (@"<!DOCTYPE html><body><table><tbody><svg><g>foo</g><g>bar</g></svg></tbody></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1884,7 +1878,7 @@
         [Test]
         public void SvgElementWithGroupAndTextInTbody()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><tbody><tr><svg><g>foo</g><g>bar</g></svg></tr></tbody></table>");
+            var doc = (@"<!DOCTYPE html><body><table><tbody><tr><svg><g>foo</g><g>bar</g></svg></tr></tbody></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1957,7 +1951,7 @@
         [Test]
         public void SvgElementWithGroupInTableCell()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><tbody><tr><td><svg><g>foo</g><g>bar</g></svg></td></tr></tbody></table>");
+            var doc = (@"<!DOCTYPE html><body><table><tbody><tr><td><svg><g>foo</g><g>bar</g></svg></td></tr></tbody></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2036,7 +2030,7 @@
         [Test]
         public void SvgElementWithGroupAndTextInTableCell()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><tbody><tr><td><svg><g>foo</g><g>bar</g></svg><p>baz</td></tr></tbody></table>");
+            var doc = (@"<!DOCTYPE html><body><table><tbody><tr><td><svg><g>foo</g><g>bar</g></svg><p>baz</td></tr></tbody></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2125,7 +2119,7 @@
         [Test]
         public void SvgElementWithGroupAndTextInTableCaption()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g></svg><p>baz</caption></table>");
+            var doc = (@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g></svg><p>baz</caption></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2202,7 +2196,7 @@
         [Test]
         public void SvgElementWithGroupInTableCaption()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
+            var doc = (@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g><p>baz</table><p>quux").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2289,7 +2283,7 @@
         [Test]
         public void SvgElementInCaptionWithMisclosedEnding()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g>baz</table><p>quux");
+            var doc = (@"<!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g>baz</table><p>quux").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2370,7 +2364,7 @@
         [Test]
         public void SvgElementInColgroupWithMisclosedEnding()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><colgroup><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
+            var doc = (@"<!DOCTYPE html><body><table><colgroup><svg><g>foo</g><g>bar</g><p>baz</table><p>quux").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2457,7 +2451,7 @@
         [Test]
         public void SvgElementWithGroupInSelectMisclosed()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
+            var doc = (@"<!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2530,7 +2524,7 @@
         [Test]
         public void SvgElementWithGroupInSelectAndTableMisclosed()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux");
+            var doc = (@"<!DOCTYPE html><body><table><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2585,7 +2579,7 @@
         [Test]
         public void SvgElementOutsideDocumentRoot()
         {
-            var doc = Html(@"<!DOCTYPE html><body></body></html><svg><g>foo</g><g>bar</g><p>baz");
+            var doc = (@"<!DOCTYPE html><body></body></html><svg><g>foo</g><g>bar</g><p>baz").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2650,7 +2644,7 @@
         [Test]
         public void SvgElementOutsideBody()
         {
-            var doc = Html(@"<!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz");
+            var doc = (@"<!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2715,7 +2709,7 @@
         [Test]
         public void SvgElementInFrameset()
         {
-            var doc = Html(@"<!DOCTYPE html><frameset><svg><g></g><g></g><p><span>");
+            var doc = (@"<!DOCTYPE html><frameset><svg><g></g><g></g><p><span>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2744,7 +2738,7 @@
         [Test]
         public void SvgElementOutsideFrameset()
         {
-            var doc = Html(@"<!DOCTYPE html><frameset></frameset><svg><g></g><g></g><p><span>");
+            var doc = (@"<!DOCTYPE html><frameset></frameset><svg><g></g><g></g><p><span>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2773,7 +2767,7 @@
         [Test]
         public void SvgElementInBodyWithXlinkAttribute()
         {
-            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo><svg xlink:href=foo></svg>");
+            var doc = (@"<!DOCTYPE html><body xlink:href=foo><svg xlink:href=foo></svg>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2817,7 +2811,7 @@
         [Test]
         public void SvgElementWithGroupThatHasXlinkAttribute()
         {
-            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo></g></svg>");
+            var doc = (@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo></g></svg>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2876,7 +2870,7 @@
         [Test]
         public void SvgElementWithGroupThatHasNamespacedAttributes()
         {
-            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo /></svg>");
+            var doc = (@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo /></svg>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2935,7 +2929,7 @@
         [Test]
         public void SvgElementWithSelfClosingGroup()
         {
-            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo />bar</svg>");
+            var doc = (@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><svg><g xml:lang=en xlink:href=foo />bar</svg>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2998,7 +2992,7 @@
         [Test]
         public void SvgElementWithMisclosedPath()
         {
-            var doc = Html(@"<svg></path>");
+            var doc = (@"<svg></path>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3028,7 +3022,7 @@
         [Test]
         public void SvgElementInDivMisclosed()
         {
-            var doc = Html(@"<div><svg></div>a");
+            var doc = (@"<div><svg></div>a").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3069,7 +3063,7 @@
         [Test]
         public void SvgElementWithPathInDivMisclosed()
         {
-            var doc = Html(@"<div><svg><path></div>a");
+            var doc = (@"<div><svg><path></div>a").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3115,7 +3109,7 @@
         [Test]
         public void SvgElementWithMisclosedPathInDiv()
         {
-            var doc = Html(@"<div><svg><path></svg><path>");
+            var doc = (@"<div><svg><path></svg><path>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3163,7 +3157,7 @@
         [Test]
         public void SvgElementWithPathAndMathInDiv()
         {
-            var doc = Html(@"<div><svg><path><foreignObject><math></div>a");
+            var doc = (@"<div><svg><path><foreignObject><math></div>a").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3221,7 +3215,7 @@
         [Test]
         public void SvgElementWithPathAndForeignObjectInDiv()
         {
-            var doc = Html(@"<div><svg><path><foreignObject><p></div>a");
+            var doc = (@"<div><svg><path><foreignObject><p></div>a").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3279,7 +3273,7 @@
         [Test]
         public void SvgElementWithDescDivAndAnotherSvg()
         {
-            var doc = Html(@"<!DOCTYPE html><svg><desc><div><svg><ul>a");
+            var doc = (@"<!DOCTYPE html><svg><desc><div><svg><ul>a").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3342,7 +3336,7 @@
         [Test]
         public void SvgElementWithDescAndAnotherSvgElement()
         {
-            var doc = Html(@"<!DOCTYPE html><svg><desc><svg><ul>a");
+            var doc = (@"<!DOCTYPE html><svg><desc><svg><ul>a").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3399,7 +3393,7 @@
         [Test]
         public void SvgElementInParagraph()
         {
-            var doc = Html(@"<!DOCTYPE html><p><svg><desc><p>");
+            var doc = (@"<!DOCTYPE html><p><svg><desc><p>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3452,7 +3446,7 @@
         [Test]
         public void SvgElementWithTitleInSvgNamespace()
         {
-            var doc = Html(@"<!DOCTYPE html><p><svg><title><p>");
+            var doc = (@"<!DOCTYPE html><p><svg><title><p>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3505,7 +3499,7 @@
         [Test]
         public void SvgElementInDivWithForeignObject()
         {
-            var doc = Html(@"<div><svg><path><foreignObject><p></foreignObject><p>");
+            var doc = (@"<div><svg><path><foreignObject><p></foreignObject><p>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3565,7 +3559,7 @@
         [Test]
         public void SvgWithScriptAndPathElement()
         {
-            var doc = Html(@"<svg><script></script><path>");
+            var doc = (@"<svg><script></script><path>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3607,7 +3601,7 @@
         [Test]
         public void SvgInsideTableWithRow()
         {
-            var doc = Html(@"<table><svg></svg><tr>");
+            var doc = (@"<table><svg></svg><tr>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3655,7 +3649,7 @@
         [Test]
         public void SvgInsideMathMLWithAnnotationXml()
         {
-            var doc = Html(@"<math><annotation-xml><svg></svg></annotation-xml><mi>");
+            var doc = (@"<math><annotation-xml><svg></svg></annotation-xml><mi>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3703,7 +3697,7 @@
         [Test]
         public void SvgInsideMathMLWithAnnotationXmlAndForeignObject()
         {
-            var doc = Html(@"<math><annotation-xml><svg><foreignObject><div><math><mi></mi></math><span></span></div></foreignObject><path></path></svg></annotation-xml><mi>");
+            var doc = (@"<math><annotation-xml><svg><foreignObject><div><math><mi></mi></math><span></span></div></foreignObject><path></path></svg></annotation-xml><mi>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3787,7 +3781,7 @@
         [Test]
         public void SvgInsideMathMLWithAnnotationXmlAndOthers()
         {
-            var doc = Html(@"<math><annotation-xml><svg><foreignObject><math><mi><svg></svg></mi><mo></mo></math><span></span></foreignObject><path></path></svg></annotation-xml><mi>");
+            var doc = (@"<math><annotation-xml><svg><foreignObject><math><mi><svg></svg></mi><mo></mo></math><span></span></foreignObject><path></path></svg></annotation-xml><mi>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

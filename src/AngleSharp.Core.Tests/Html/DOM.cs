@@ -16,11 +16,6 @@
     [TestFixture]
     public class DOMTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public async Task ClosingSpanTagShouldNotResultInAnError()
         {
@@ -34,7 +29,7 @@
         [Test]
         public void AppendMultipleNodesToParentNode()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var children = new[]
             {
                 document.CreateElement("span"),
@@ -625,7 +620,7 @@
         [Test]
         public void TitleRemovalAndAssignment()
         {
-            var document = Html("<title>sample</title>");
+            var document = ("<title>sample</title>").ToHtmlDocument();
             var head = document.DocumentElement.FirstChild;
             head.RemoveChild(head.FirstChild);
             Assert.AreEqual("", document.Title);
@@ -638,7 +633,7 @@
         [Test]
         public void HeadDuplicatedAndInserted()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var head = document.GetElementsByTagName("head")[0];
             Assert.AreEqual(head, document.Head);
             document.DocumentElement.AppendChild(document.CreateElement("head"));

@@ -22,7 +22,10 @@
             { MimeTypeNames.Svg, SvgDocument.LoadAsync },
             { MimeTypeNames.Html, HtmlDocument.LoadAsync },
             { MimeTypeNames.ApplicationXHtml, HtmlDocument.LoadAsync },
-            { MimeTypeNames.Plain, HtmlDocument.LoadTextAsync }
+            { MimeTypeNames.Plain, HtmlDocument.LoadTextAsync },
+            { MimeTypeNames.ApplicationJson, HtmlDocument.LoadTextAsync },
+            { MimeTypeNames.DefaultJavaScript, HtmlDocument.LoadTextAsync },
+            { MimeTypeNames.Css, HtmlDocument.LoadTextAsync }
         };
 
         /// <summary>

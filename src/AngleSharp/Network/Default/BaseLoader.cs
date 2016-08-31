@@ -5,6 +5,8 @@
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -15,10 +17,10 @@
     {
         #region Fields
         
-        readonly IBrowsingContext _context;
-        readonly Predicate<IRequest> _filter;
-        readonly List<IDownload> _downloads;
-
+        private readonly IBrowsingContext _context;
+        private readonly Predicate<IRequest> _filter;
+        private readonly List<IDownload> _downloads;
+        
         #endregion
 
         #region ctor
@@ -33,6 +35,20 @@
             _context = context;
             _filter = filter ?? (_ => true);
             _downloads = new List<IDownload>();
+            MaxRedirects = 50;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the maximum number of redirects. By default this is 50.
+        /// </summary>
+        public Int32 MaxRedirects
+        {
+            get;
+            protected set;
         }
 
         #endregion
@@ -71,6 +87,16 @@
         protected virtual String GetCookie(Url url)
         {
             return _context.Configuration.GetCookie(url.Origin);
+        }
+
+        /// <summary>
+        /// Sets the cookie string for the given URL.
+        /// </summary>
+        /// <param name="url">The requested URL.</param>
+        /// <param name="value">The value of the cookie.</param>
+        protected virtual void SetCookie(Url url, String value)
+        {
+            _context.Configuration.SetCookie(url.Origin, value);
         }
 
         /// <summary>
@@ -118,19 +144,64 @@
         protected async Task<IResponse> LoadAsync(Request request, CancellationToken cancel)
         {
             var requesters = _context.Configuration.GetServices<IRequester>();
+            var response = default(IResponse);
+            var redirectCount = 0;
 
-            foreach (var requester in requesters)
+            do
             {
-                if (requester.SupportsProtocol(request.Address.Scheme))
+                if (response != null)
                 {
-                    _context.Fire(new RequestEvent(request, null));
-                    var response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
-                    _context.Fire(new RequestEvent(request, response));
-                    return response;
+                    redirectCount++;
+                    SetCookie(request.Address, response.Headers[HeaderNames.SetCookie]);
+                    request = CreateNewRequest(request, response);
+                    request.Headers[HeaderNames.Cookie] = GetCookie(request.Address);
+                }
+
+                foreach (var requester in requesters)
+                {
+                    if (requester.SupportsProtocol(request.Address.Scheme))
+                    {
+                        _context.Fire(new RequestEvent(request, null));
+                        response = await requester.RequestAsync(request, cancel).ConfigureAwait(false);
+                        _context.Fire(new RequestEvent(request, response));
+                        break;
+                    }
                 }
             }
+            while (response != null && response.StatusCode.IsRedirected() && redirectCount < MaxRedirects);
 
-            return default(IResponse);
+            return response;
+        }
+
+        /// <summary>
+        /// Creates a new request based on the existing request and given response.
+        /// </summary>
+        /// <param name="request">The previous request.</param>
+        /// <param name="response">The response to the previous request.</param>
+        /// <returns>The new request to issue.</returns>
+        protected static Request CreateNewRequest(IRequest request, IResponse response)
+        {
+            var method = request.Method;
+            var content = request.Content;
+            var location = response.Headers[HeaderNames.Location];
+
+            if (response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.RedirectMethod)
+            {
+                method = HttpMethod.Get;
+                content = Stream.Null;
+            }
+            else if (content.Length > 0)
+            {
+                content.Position = 0;
+            }
+
+            return new Request
+            {
+                Address = new Url(request.Address, location),
+                Method = method,
+                Content = content,
+                Headers = request.Headers
+            };
         }
 
         #endregion

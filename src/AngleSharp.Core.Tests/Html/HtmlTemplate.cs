@@ -1,10 +1,9 @@
-﻿using System;
-using AngleSharp.Dom;
-using AngleSharp.Dom.Html;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests.Html
+﻿namespace AngleSharp.Core.Tests.Html
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Html;
+    using NUnit.Framework;
+
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
     /// encoding/template.dat
@@ -12,15 +11,10 @@ namespace AngleSharp.Core.Tests.Html
     [TestFixture]
     public class HtmlTemplateTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void TemplateNodeInBodyWithTextContent()
         {
-            var doc = Html(@"<body><template>Hello</template>");
+            var doc = (@"<body><template>Hello</template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -58,7 +52,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeStandaloneWithTextContent()
         {
-            var doc = Html(@"<template>Hello</template>");
+            var doc = (@"<template>Hello</template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -96,7 +90,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeEmptyFollowedByEmptyDiv()
         {
-            var doc = Html(@"<template></template><div></div>");
+            var doc = (@"<template></template><div></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -136,7 +130,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateInHtmlWithTextContent()
         {
-            var doc = Html(@"<html><template>Hello</template>");
+            var doc = (@"<html><template>Hello</template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -174,7 +168,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateInHeadWithDivElement()
         {
-            var doc = Html(@"<head><template><div></div></template></head>");
+            var doc = (@"<head><template><div></div></template></head>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -214,7 +208,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInDivWithDivAndSpanMisclosed()
         {
-            var doc = Html(@"<div><template><div><span></template><b>");
+            var doc = (@"<div><template><div><span></template><b>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -272,7 +266,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInDivMisclosed()
         {
-            var doc = Html(@"<div><template></div>Hello");
+            var doc = (@"<div><template></div>Hello").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -316,7 +310,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeClosedInDivElement()
         {
-            var doc = Html(@"<div></template></div>");
+            var doc = (@"<div></template></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -346,7 +340,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInTableElement()
         {
-            var doc = Html(@"<table><template></template></table>");
+            var doc = (@"<table><template></template></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -386,7 +380,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInTableElementMisclosed()
         {
-            var doc = Html(@"<table><template></template></div>");
+            var doc = (@"<table><template></template></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -426,7 +420,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInDivUnderTableElement()
         {
-            var doc = Html(@"<table><div><template></template></div>");
+            var doc = (@"<table><div><template></template></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -472,7 +466,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeFollowedByDivInTable()
         {
-            var doc = Html(@"<table><template></template><div></div>");
+            var doc = (@"<table><template></template><div></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -518,7 +512,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInTableAfterSpaces()
         {
-            var doc = Html(@"<table>   <template></template></table>");
+            var doc = (@"<table>   <template></template></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -562,7 +556,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInTbody()
         {
-            var doc = Html(@"<table><tbody><template></template></tbody>");
+            var doc = (@"<table><tbody><template></template></tbody>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -608,7 +602,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInTbodyMisclosed()
         {
-            var doc = Html(@"<table><tbody><template></tbody></template>");
+            var doc = (@"<table><tbody><template></tbody></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -654,7 +648,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInTbodyInTable()
         {
-            var doc = Html(@"<table><tbody><template></template></tbody></table>");
+            var doc = (@"<table><tbody><template></template></tbody></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -700,7 +694,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInThead()
         {
-            var doc = Html(@"<table><thead><template></template></thead>");
+            var doc = (@"<table><thead><template></template></thead>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -746,7 +740,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInTfoot()
         {
-            var doc = Html(@"<table><tfoot><template></template></tfoot>");
+            var doc = (@"<table><tfoot><template></template></tfoot>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -792,7 +786,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInSelect()
         {
-            var doc = Html(@"<select><template></template></select>");
+            var doc = (@"<select><template></template></select>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -832,7 +826,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithOptionInSelect()
         {
-            var doc = Html(@"<select><template><option></option></template></select>");
+            var doc = (@"<select><template><option></option></template></select>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -878,7 +872,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithOptionsAndMisclosedSelect()
         {
-            var doc = Html(@"<template><option></option></select><option></option></template>");
+            var doc = (@"<template><option></option></select><option></option></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -924,7 +918,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInSelectFollowedByOption()
         {
-            var doc = Html(@"<select><template></template><option></select>");
+            var doc = (@"<select><template></template><option></select>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -970,7 +964,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInOptionOfSelect()
         {
-            var doc = Html(@"<select><option><template></template></select>");
+            var doc = (@"<select><option><template></template></select>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1016,7 +1010,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInImplicitlyClosed()
         {
-            var doc = Html(@"<select><template>");
+            var doc = (@"<select><template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1056,7 +1050,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInInSelectAfterClosedOption()
         {
-            var doc = Html(@"<select><option></option><template>");
+            var doc = (@"<select><option></option><template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1102,7 +1096,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithOpenOptionInSelectAfterClosedOption()
         {
-            var doc = Html(@"<select><option></option><template><option>");
+            var doc = (@"<select><option></option><template><option>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1154,7 +1148,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithOpenTdInThead()
         {
-            var doc = Html(@"<table><thead><template><td></template></table>");
+            var doc = (@"<table><thead><template><td></template></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1206,7 +1200,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithOpenTheadInTable()
         {
-            var doc = Html(@"<table><template><thead></template></table>");
+            var doc = (@"<table><template><thead></template></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1252,7 +1246,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithOpenTdAndMisclosedTrInTable()
         {
-            var doc = Html(@"<body><table><template><td></tr><div></template></table>");
+            var doc = (@"<body><table><template><td></tr><div></template></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1304,7 +1298,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithOpenTheadInTableWithMisclosedThead()
         {
-            var doc = Html(@"<table><template><thead></template></thead></table>");
+            var doc = (@"<table><template><thead></template></thead></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1350,7 +1344,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithOpenTrInTheadInTable()
         {
-            var doc = Html(@"<table><thead><template><tr></template></table>");
+            var doc = (@"<table><thead><template><tr></template></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1402,7 +1396,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithOpenTrInTable()
         {
-            var doc = Html(@"<table><template><tr></template></table>");
+            var doc = (@"<table><template><tr></template></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1448,7 +1442,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithOpenTdInTrInTable()
         {
-            var doc = Html(@"<table><tr><template><td>");
+            var doc = (@"<table><tr><template><td>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1506,7 +1500,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodesNestedWithClosedElementsInTable()
         {
-            var doc = Html(@"<table><template><tr><template><td></template></tr></template></table>");
+            var doc = (@"<table><template><tr><template><td></template></tr></template></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1568,7 +1562,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodesNestedWithOpenElementsInTable()
         {
-            var doc = Html(@"<table><template><tr><template><td></td></template></tr></template></table>");
+            var doc = (@"<table><template><tr><template><td></td></template></tr></template></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1630,7 +1624,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithOpenTdInTable()
         {
-            var doc = Html(@"<table><template><td></template>");
+            var doc = (@"<table><template><td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1676,7 +1670,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithTdInBody()
         {
-            var doc = Html(@"<body><template><td></td></template>");
+            var doc = (@"<body><template><td></td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1716,7 +1710,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodesMisnestedContent()
         {
-            var doc = Html(@"<body><template><template><tr></tr></template><td></td></template>");
+            var doc = (@"<body><template><template><tr></tr></template><td></td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1772,7 +1766,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithColInColgroupInTable()
         {
-            var doc = Html(@"<table><colgroup><template><col>");
+            var doc = (@"<table><colgroup><template><col>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1824,7 +1818,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithFrameInFrameset()
         {
-            var doc = Html(@"<frameset><template><frame></frame></template></frameset>");
+            var doc = (@"<frameset><template><frame></frame></template></frameset>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1848,7 +1842,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateWithFrameAndMisclosedFrameset()
         {
-            var doc = Html(@"<template><frame></frame></frameset><frame></frame></template>");
+            var doc = (@"<template><frame></frame></frameset><frame></frame></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1876,7 +1870,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateWithDivFramesetAndSpan()
         {
-            var doc = Html(@"<template><div><frameset><span></span></div><span></span></template>");
+            var doc = (@"<template><div><frameset><span></span></div><span></span></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1928,7 +1922,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithDivFramesetSpan()
         {
-            var doc = Html(@"<body><template><div><frameset><span></span></div><span></span></template></body>");
+            var doc = (@"<body><template><div><frameset><span></span></div><span></span></template></body>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1980,7 +1974,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithScriptAndTd()
         {
-            var doc = Html(@"<body><template><script>var i = 1;</script><td></td></template>");
+            var doc = (@"<body><template><script>var i = 1;</script><td></td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2030,7 +2024,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithTrDiv()
         {
-            var doc = Html(@"<body><template><tr><div></div></tr></template>");
+            var doc = (@"<body><template><tr><div></div></tr></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2076,7 +2070,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithTrTd()
         {
-            var doc = Html(@"<body><template><tr></tr><td></td></template>");
+            var doc = (@"<body><template><tr></tr><td></td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2128,7 +2122,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithTdMisclosedTrAndTd()
         {
-            var doc = Html(@"<body><template><td></td></tr><td></td></template>");
+            var doc = (@"<body><template><td></td></tr><td></td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2174,7 +2168,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithTdTbodyTd()
         {
-            var doc = Html(@"<body><template><td></td><tbody><td></td></template>");
+            var doc = (@"<body><template><td></td><tbody><td></td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2220,7 +2214,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithTdCaptionTd()
         {
-            var doc = Html(@"<body><template><td></td><caption></caption><td></td></template>");
+            var doc = (@"<body><template><td></td><caption></caption><td></td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2266,7 +2260,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithTdColgroupTd()
         {
-            var doc = Html(@"<body><template><td></td><colgroup></caption><td></td></template>");
+            var doc = (@"<body><template><td></td><colgroup></caption><td></td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2312,7 +2306,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithTdMisclosedTableAndTd()
         {
-            var doc = Html(@"<body><template><td></td></table><td></td></template>");
+            var doc = (@"<body><template><td></td></table><td></td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2358,7 +2352,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithTrTbodyTr()
         {
-            var doc = Html(@"<body><template><tr></tr><tbody><tr></tr></template>");
+            var doc = (@"<body><template><tr></tr><tbody><tr></tr></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2404,7 +2398,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithTrCaptionTr()
         {
-            var doc = Html(@"<body><template><tr></tr><caption><tr></tr></template>");
+            var doc = (@"<body><template><tr></tr><caption><tr></tr></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2450,7 +2444,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithTrMisclosedTableTr()
         {
-            var doc = Html(@"<body><template><tr></tr></table><tr></tr></template>");
+            var doc = (@"<body><template><tr></tr></table><tr></tr></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2496,7 +2490,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithTheadCaptionTbody()
         {
-            var doc = Html(@"<body><template><thead></thead><caption></caption><tbody></tbody></template>");
+            var doc = (@"<body><template><thead></thead><caption></caption><tbody></tbody></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2548,7 +2542,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithTheadMisclosedTableTbody()
         {
-            var doc = Html(@"<body><template><thead></thead></table><tbody></tbody></template></body>");
+            var doc = (@"<body><template><thead></thead></table><tbody></tbody></template></body>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2594,7 +2588,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithDivTr()
         {
-            var doc = Html(@"<body><template><div><tr></tr></div></template>");
+            var doc = (@"<body><template><div><tr></tr></div></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2634,7 +2628,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithEmAndText()
         {
-            var doc = Html(@"<body><template><em>Hello</em></template>");
+            var doc = (@"<body><template><em>Hello</em></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2678,7 +2672,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithComment()
         {
-            var doc = Html(@"<body><template><!--comment--></template>");
+            var doc = (@"<body><template><!--comment--></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2716,7 +2710,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithStyleTd()
         {
-            var doc = Html(@"<body><template><style></style><td></td></template>");
+            var doc = (@"<body><template><style></style><td></td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2762,7 +2756,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithMetaTd()
         {
-            var doc = Html(@"<body><template><meta><td></td></template>");
+            var doc = (@"<body><template><meta><td></td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2808,7 +2802,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithLinkTd()
         {
-            var doc = Html(@"<body><template><link><td></td></template>");
+            var doc = (@"<body><template><link><td></td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2854,7 +2848,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeNestedTemplateWithTr()
         {
-            var doc = Html(@"<body><template><template><tr></tr></template><td></td></template>");
+            var doc = (@"<body><template><template><tr></tr></template><td></td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2910,7 +2904,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInColgroupWithCol()
         {
-            var doc = Html(@"<body><table><colgroup><template><col></col></template></colgroup></table></body>");
+            var doc = (@"<body><table><colgroup><template><col></col></template></colgroup></table></body>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -2962,7 +2956,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithAttrAndDivAndOtherBody()
         {
-            var doc = Html(@"<body a=b><template><div></div><body c=d><div></div></body></template></body>");
+            var doc = (@"<body a=b><template><div></div><body c=d><div></div></body></template></body>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3011,7 +3005,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInHtmlWithAttrWithDivAndOtherHtml()
         {
-            var doc = Html(@"<html a=b><template><div><html b=c><span></template>");
+            var doc = (@"<html a=b><template><div><html b=c><span></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3060,7 +3054,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInHtmlWithAttrWithColAndOtherHtml()
         {
-            var doc = Html(@"<html a=b><template><col></col><html b=c><col></col></template>");
+            var doc = (@"<html a=b><template><col></col><html b=c><col></col></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3109,7 +3103,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInHtmlWithAttrWithFrameAndOtherHtml()
         {
-            var doc = Html(@"<html a=b><template><frame></frame><html b=c><frame></frame></template>");
+            var doc = (@"<html a=b><template><frame></frame><html b=c><frame></frame></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3146,7 +3140,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithTrAndNestedTemplate()
         {
-            var doc = Html(@"<body><template><tr></tr><template></template><td></td></template>");
+            var doc = (@"<body><template><tr></tr><template></template><td></td></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3208,7 +3202,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithTheadTrTfootNestedTemplateWithTr()
         {
-            var doc = Html(@"<body><template><thead></thead><template><tr></tr></template><tr></tr><tfoot></tfoot></template>");
+            var doc = (@"<body><template><thead></thead><template><tr></tr></template><tr></tr><tfoot></tfoot></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3282,7 +3276,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithNestedTemplateBTemplateAndText()
         {
-            var doc = Html(@"<body><template><template><b><template></template></template>text</template>");
+            var doc = (@"<body><template><template><b><template></template></template>text</template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3346,7 +3340,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithColColgroupInBody()
         {
-            var doc = Html(@"<body><template><col><colgroup>");
+            var doc = (@"<body><template><col><colgroup>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3386,7 +3380,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithColMisclosedColgroupInBody()
         {
-            var doc = Html(@"<body><template><col></colgroup>");
+            var doc = (@"<body><template><col></colgroup>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3426,7 +3420,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithColAndColgroup()
         {
-            var doc = Html(@"<body><template><col><colgroup></template></body>");
+            var doc = (@"<body><template><col><colgroup></template></body>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3466,7 +3460,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithColDiv()
         {
-            var doc = Html(@"<body><template><col><div>");
+            var doc = (@"<body><template><col><div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3506,7 +3500,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithColMisclosedDiv()
         {
-            var doc = Html(@"<body><template><col></div>");
+            var doc = (@"<body><template><col></div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3546,7 +3540,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithColAndText()
         {
-            var doc = Html(@"<body><template><col>Hello");
+            var doc = (@"<body><template><col>Hello").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3586,7 +3580,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithItalicAndMenuAndText()
         {
-            var doc = Html(@"<body><template><i><menu>Foo</i>");
+            var doc = (@"<body><template><i><menu>Foo</i>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3642,7 +3636,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithMisclosedDivDivTextAndNestedTemplateInBody()
         {
-            var doc = Html(@"<body><template></div><div>Foo</div><template></template><tr></tr>");
+            var doc = (@"<body><template></div><div>Foo</div><template></template><tr></tr>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3696,7 +3690,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeInBodyWithMisclosedDivTrTdAndText()
         {
-            var doc = Html(@"<body><div><template></div><tr><td>Foo</td></tr></template>");
+            var doc = (@"<body><div><template></div><tr><td>Foo</td></tr></template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3752,7 +3746,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeMisclosedFigcaptionAndSubAndTable()
         {
-            var doc = Html(@"<template></figcaption><sub><table></table>");
+            var doc = (@"<template></figcaption><sub><table></table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3798,7 +3792,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeEmptyNested()
         {
-            var doc = Html(@"<template><template>");
+            var doc = (@"<template><template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3842,7 +3836,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithDivStandalone()
         {
-            var doc = Html(@"<template><div>");
+            var doc = (@"<template><div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3882,7 +3876,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeNestedWithDiv()
         {
-            var doc = Html(@"<template><template><div>");
+            var doc = (@"<template><template><div>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3932,7 +3926,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeNestedWithTable()
         {
-            var doc = Html(@"<template><template><table>");
+            var doc = (@"<template><template><table>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3982,7 +3976,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeNestedWithTbody()
         {
-            var doc = Html(@"<template><template><tbody>");
+            var doc = (@"<template><template><tbody>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4032,7 +4026,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeNestedWithTr()
         {
-            var doc = Html(@"<template><template><tr>");
+            var doc = (@"<template><template><tr>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4082,7 +4076,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeNestedWithTd()
         {
-            var doc = Html(@"<template><template><td>");
+            var doc = (@"<template><template><td>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4132,7 +4126,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeNestedWithCaption()
         {
-            var doc = Html(@"<template><template><caption>");
+            var doc = (@"<template><template><caption>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4182,7 +4176,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeNestedWithColgroup()
         {
-            var doc = Html(@"<template><template><colgroup>");
+            var doc = (@"<template><template><colgroup>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4232,7 +4226,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeNestedWithCol()
         {
-            var doc = Html(@"<template><template><col>");
+            var doc = (@"<template><template><col>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4282,7 +4276,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeNestedWithSelectInTbody()
         {
-            var doc = Html(@"<template><template><tbody><select>");
+            var doc = (@"<template><template><tbody><select>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4338,7 +4332,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeNestedWithTextInTable()
         {
-            var doc = Html(@"<template><template><table>Foo");
+            var doc = (@"<template><template><table>Foo").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4392,7 +4386,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeNestedWithFrame()
         {
-            var doc = Html(@"<template><template><frame>");
+            var doc = (@"<template><template><frame>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4430,7 +4424,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeNestedWithScriptUnclosed()
         {
-            var doc = Html(@"<template><template><script>var i");
+            var doc = (@"<template><template><script>var i").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4484,7 +4478,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeNestedWithStyleUnclosed()
         {
-            var doc = Html(@"<template><template><style>var i");
+            var doc = (@"<template><template><style>var i").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4538,7 +4532,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithTableBeforeBodySpanText()
         {
-            var doc = Html(@"<template><table></template><body><span>Foo");
+            var doc = (@"<template><table></template><body><span>Foo").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4588,7 +4582,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithTdBeforeBodySpanText()
         {
-            var doc = Html(@"<template><td></template><body><span>Foo");
+            var doc = (@"<template><td></template><body><span>Foo").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4638,7 +4632,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithObjectBeforeBodySpanText()
         {
-            var doc = Html(@"<template><object></template><body><span>Foo");
+            var doc = (@"<template><object></template><body><span>Foo").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4688,7 +4682,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
         public void TemplateNodeWithSvgAndNestedTemplate()
         {
-            var doc = Html(@"<template><svg><template>");
+            var doc = (@"<template><svg><template>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

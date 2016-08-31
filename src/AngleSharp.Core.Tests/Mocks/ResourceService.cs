@@ -10,8 +10,8 @@
     sealed class ResourceService<TResource> : IResourceService<TResource>
         where TResource : IResourceInfo
     {
-        readonly String _mimeType;
-        readonly Func<IResponse, TResource> _creator;
+        private readonly String _mimeType;
+        private readonly Func<IResponse, TResource> _creator;
 
         public ResourceService(String mimeType, Func<IResponse, TResource> creator)
         {

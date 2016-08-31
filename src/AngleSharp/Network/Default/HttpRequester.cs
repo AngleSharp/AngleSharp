@@ -135,6 +135,7 @@
         private sealed class RequestState
         {
             private readonly CookieContainer _cookies;
+            private readonly IDictionary<String, String> _headers;
             private readonly HttpWebRequest _http;
             private readonly IRequest _request;
             private readonly Byte[] _buffer;
@@ -143,6 +144,7 @@
             {
                 var cookieHeader = request.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
                 _cookies = new CookieContainer();
+                _headers = headers;
                 _request = request;
                 _http = WebRequest.Create(request.Address) as HttpWebRequest;
                 _http.CookieContainer = _cookies;
@@ -159,13 +161,14 @@
                     AddHeader(header.Key, header.Value);
                 }
 
-                _cookies.SetCookies(_http.RequestUri, cookieHeader);
+                _cookies.SetCookies(_http.RequestUri, cookieHeader.Replace(';', ','));
+                DisableAutoRedirect();
             }
 
             public async Task<IResponse> RequestAsync(CancellationToken cancellationToken)
             {
                 cancellationToken.Register(_http.Abort);
-                
+
                 if (_request.Method == HttpMethod.Post || _request.Method == HttpMethod.Put)
                 {
                     var target = await Task.Factory.FromAsync<Stream>(_http.BeginGetRequestStream, _http.EndGetRequestStream, null).ConfigureAwait(false);
@@ -184,7 +187,6 @@
                 }
 
                 RaiseConnectionLimit(_http);
-
                 return GetResponse(response as HttpWebResponse);
             }
 
@@ -280,6 +282,11 @@
                 {
                     _http.Headers[key] = value;
                 }
+            }
+
+            private void DisableAutoRedirect()
+            {
+                SetProperty("AllowAutoRedirect", false);
             }
 
             /// <summary>

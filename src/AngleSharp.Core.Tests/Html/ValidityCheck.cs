@@ -1,10 +1,8 @@
 namespace AngleSharp.Core.Tests.Html
 {
-    using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using NUnit.Framework;
-    using System;
 
     /// <summary>
     /// Tests generated according to the W3C-Test.org page:
@@ -13,15 +11,10 @@ namespace AngleSharp.Core.Tests.Html
     [TestFixture]
 	public class ValidityCheckTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void GetSubmissionReturnsNullWithInvalidForm()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "text";
@@ -40,7 +33,7 @@ namespace AngleSharp.Core.Tests.Html
         [Test]
 		public void TestCheckvalidityInputText1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -66,7 +59,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputText2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -96,7 +89,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputText3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -124,7 +117,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputText4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "text";
@@ -152,7 +145,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputSearch1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -178,7 +171,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputSearch2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -208,7 +201,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputSearch3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -236,7 +229,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputSearch4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "search";
@@ -264,7 +257,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputTel1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -290,7 +283,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputTel2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -320,7 +313,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputTel3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -348,7 +341,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputTel4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "tel";
@@ -376,7 +369,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputPassword1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -402,7 +395,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputPassword2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -432,7 +425,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputPassword3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -460,7 +453,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputPassword4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "password";
@@ -488,7 +481,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputUrl1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -514,7 +507,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputUrl2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -544,7 +537,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputUrl3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -572,7 +565,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputUrl4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -599,7 +592,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputUrl5()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "url";
@@ -627,7 +620,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputEmail1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -653,7 +646,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputEmail2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -683,7 +676,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputEmail3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -711,7 +704,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputEmail4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -738,7 +731,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputEmail5()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "email";
@@ -766,7 +759,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputDatetime1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -792,7 +785,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputDatetime2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -820,7 +813,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputDatetime3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -848,7 +841,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputDatetime4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -876,7 +869,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputDatetime5()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "datetime";
@@ -904,7 +897,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputDate1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -930,7 +923,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputDate2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -958,7 +951,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputDate3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -986,7 +979,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputDate4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -1014,7 +1007,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputDate5()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "date";
@@ -1042,7 +1035,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputMonth1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -1068,7 +1061,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputMonth2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -1096,7 +1089,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputMonth3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -1124,7 +1117,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputMonth4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -1152,7 +1145,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputMonth5()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "month";
@@ -1180,7 +1173,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputWeek1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -1206,7 +1199,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputWeek2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -1234,7 +1227,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputWeek3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -1262,7 +1255,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputWeek4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -1290,7 +1283,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputWeek5()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "week";
@@ -1318,7 +1311,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputTime1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1344,7 +1337,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputTime2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1372,7 +1365,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputTime3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1400,7 +1393,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputTime4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1428,7 +1421,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputTime5()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "time";
@@ -1456,7 +1449,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputNumber1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -1484,7 +1477,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputNumber2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -1512,7 +1505,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputNumber3()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -1540,7 +1533,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputNumber4()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "number";
@@ -1568,7 +1561,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputCheckbox1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "checkbox";
@@ -1594,7 +1587,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputCheckbox2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "checkbox";
@@ -1623,7 +1616,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputRadio1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "radio";
@@ -1649,7 +1642,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputRadio2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "radio";
@@ -1678,7 +1671,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputFile1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "file";
@@ -1704,7 +1697,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityInputFile2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("input") as HtmlInputElement;
 			Assert.IsNotNull(element);
 			element.Type = "file";
@@ -1732,7 +1725,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvaliditySelect1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("select") as HtmlSelectElement;
 			Assert.IsNotNull(element);
 			var option1 = document.CreateElement<IHtmlOptionElement>();
@@ -1764,7 +1757,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvaliditySelect2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("select") as HtmlSelectElement;
 			Assert.IsNotNull(element);
 			var option1 = document.CreateElement<IHtmlOptionElement>();
@@ -1798,7 +1791,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityTextarea1()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("textarea") as HtmlTextAreaElement;
 			Assert.IsNotNull(element);
 			element.RemoveAttribute("required");
@@ -1822,7 +1815,7 @@ namespace AngleSharp.Core.Tests.Html
 		[Test]
 		public void TestCheckvalidityTextarea2()
 		{
-			var document = Html("");
+			var document = ("").ToHtmlDocument();
 			var element = document.CreateElement("textarea") as HtmlTextAreaElement;
 			Assert.IsNotNull(element);
 			element.RemoveAttribute("required");

@@ -11,18 +11,13 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class NamespaceTests
     {
-        static readonly String HtmlWithNestedSvgElement = @"<!DOCTYPE html>
+        private static readonly String HtmlWithNestedSvgElement = @"<!DOCTYPE html>
 <div><span><svg xmlns=""http://www.w3.org/2000/svg""><svg><circle /></svg></svg></span></div>";
-
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
 
         [Test]
         public void UnknownElementWithUnknownNamespaceInBody()
         {
-            var doc = Html(@"<!DOCTYPE html><html><body><xyz:abc></xyz:abc>");
+            var doc = (@"<!DOCTYPE html><html><body><xyz:abc></xyz:abc>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -57,7 +52,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void UnknownElementWithUnknownNamespaceInBodyBeforeSpan()
         {
-            var doc = Html(@"<!DOCTYPE html><html><body><xyz:abc></xyz:abc><span></span>");
+            var doc = (@"<!DOCTYPE html><html><body><xyz:abc></xyz:abc><span></span>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -98,7 +93,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void UnknownElementWithUnknownNamespaceInHtmlWithUnknownAttribute()
         {
-            var doc = Html(@"<!DOCTYPE html><html><html abc:def=gh><xyz:abc></xyz:abc>");
+            var doc = (@"<!DOCTYPE html><html><html abc:def=gh><xyz:abc></xyz:abc>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -136,7 +131,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DuplicatedHtmlTagWithMultipleXmlLangAttributes()
         {
-            var doc = Html(@"<!DOCTYPE html><html xml:lang=bar><html xml:lang=foo>");
+            var doc = (@"<!DOCTYPE html><html xml:lang=bar><html xml:lang=foo>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -168,7 +163,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NumericAttributeWithNumericValue()
         {
-            var doc = Html(@"<!DOCTYPE html><html 123=456>");
+            var doc = (@"<!DOCTYPE html><html 123=456>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -200,7 +195,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void DuplicatedHtmlTagWithDifferentNumericAttributes()
         {
-            var doc = Html(@"<!DOCTYPE html><html 123=456><html 789=012>");
+            var doc = (@"<!DOCTYPE html><html 123=456><html 789=012>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -235,7 +230,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void BodyTagWithNumericAttribute()
         {
-            var doc = Html(@"<!DOCTYPE html><html><body 789=012>");
+            var doc = (@"<!DOCTYPE html><html><body 789=012>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -267,7 +262,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void HtmlElementsAreUppercaseSvgElementsLowercase()
         {
-            var doc = Html(HtmlWithNestedSvgElement);
+            var doc = (HtmlWithNestedSvgElement).ToHtmlDocument();
             var body = doc.Body;
             var div = body.FirstElementChild;
             var span = div.FirstElementChild;
@@ -281,7 +276,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void NestedSvgElementHasSameNameAsNormalSvgElement()
         {
-            var doc = Html(HtmlWithNestedSvgElement);
+            var doc = (HtmlWithNestedSvgElement).ToHtmlDocument();
             var svg = doc.Body.FirstElementChild.FirstElementChild.FirstElementChild;
             var nestedSvg = svg.FirstElementChild;
             var circle = nestedSvg.FirstElementChild;

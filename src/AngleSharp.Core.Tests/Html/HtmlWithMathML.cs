@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using NUnit.Framework;
-    using System;
 
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
@@ -11,15 +10,10 @@
     [TestFixture]
     public class HtmlWithMathMLTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void MathMLCheckAttributesCaseNormalUnchanged()
         {
-            var doc = Html(@"<!DOCTYPE html><body><math attributeName='' attributeType='' baseFrequency='' baseProfile='' calcMode='' clipPathUnits='' contentScriptType='' contentStyleType='' diffuseConstant='' edgeMode='' externalResourcesRequired='' filterRes='' filterUnits='' glyphRef='' gradientTransform='' gradientUnits='' kernelMatrix='' kernelUnitLength='' keyPoints='' keySplines='' keyTimes='' lengthAdjust='' limitingConeAngle='' markerHeight='' markerUnits='' markerWidth='' maskContentUnits='' maskUnits='' numOctaves='' pathLength='' patternContentUnits='' patternTransform='' patternUnits='' pointsAtX='' pointsAtY='' pointsAtZ='' preserveAlpha='' preserveAspectRatio='' primitiveUnits='' refX='' refY='' repeatCount='' repeatDur='' requiredExtensions='' requiredFeatures='' specularConstant='' specularExponent='' spreadMethod='' startOffset='' stdDeviation='' stitchTiles='' surfaceScale='' systemLanguage='' tableValues='' targetX='' targetY='' textLength='' viewBox='' viewTarget='' xChannelSelector='' yChannelSelector='' zoomAndPan=''></math>");
+            var doc = (@"<!DOCTYPE html><body><math attributeName='' attributeType='' baseFrequency='' baseProfile='' calcMode='' clipPathUnits='' contentScriptType='' contentStyleType='' diffuseConstant='' edgeMode='' externalResourcesRequired='' filterRes='' filterUnits='' glyphRef='' gradientTransform='' gradientUnits='' kernelMatrix='' kernelUnitLength='' keyPoints='' keySplines='' keyTimes='' lengthAdjust='' limitingConeAngle='' markerHeight='' markerUnits='' markerWidth='' maskContentUnits='' maskUnits='' numOctaves='' pathLength='' patternContentUnits='' patternTransform='' patternUnits='' pointsAtX='' pointsAtY='' pointsAtZ='' preserveAlpha='' preserveAspectRatio='' primitiveUnits='' refX='' refY='' repeatCount='' repeatDur='' requiredExtensions='' requiredFeatures='' specularConstant='' specularExponent='' spreadMethod='' startOffset='' stdDeviation='' stitchTiles='' surfaceScale='' systemLanguage='' tableValues='' targetX='' targetY='' textLength='' viewBox='' viewTarget='' xChannelSelector='' yChannelSelector='' zoomAndPan=''></math>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -240,7 +234,7 @@
         [Test]
         public void MathMLCheckTagCaseNormalUnchanged()
         {
-            var doc = Html(@"<!DOCTYPE html><body><math><altGlyph /><altGlyphDef /><altGlyphItem /><animateColor /><animateMotion /><animateTransform /><clipPath /><feBlend /><feColorMatrix /><feComponentTransfer /><feComposite /><feConvolveMatrix /><feDiffuseLighting /><feDisplacementMap /><feDistantLight /><feFlood /><feFuncA /><feFuncB /><feFuncG /><feFuncR /><feGaussianBlur /><feImage /><feMerge /><feMergeNode /><feMorphology /><feOffset /><fePointLight /><feSpecularLighting /><feSpotLight /><feTile /><feTurbulence /><foreignObject /><glyphRef /><linearGradient /><radialGradient /><textPath /></math>");
+            var doc = (@"<!DOCTYPE html><body><math><altGlyph /><altGlyphDef /><altGlyphItem /><animateColor /><animateMotion /><animateTransform /><clipPath /><feBlend /><feColorMatrix /><feComponentTransfer /><feComposite /><feConvolveMatrix /><feDiffuseLighting /><feDisplacementMap /><feDistantLight /><feFlood /><feFuncA /><feFuncB /><feFuncG /><feFuncR /><feGaussianBlur /><feImage /><feMerge /><feMergeNode /><feMorphology /><feOffset /><fePointLight /><feSpecularLighting /><feSpotLight /><feTile /><feTurbulence /><foreignObject /><glyphRef /><linearGradient /><radialGradient /><textPath /></math>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -491,7 +485,7 @@
         [Test]
         public void MathMLSingleElement()
         {
-            var doc = Html(@"<!DOCTYPE html><math></math>");
+            var doc = (@"<!DOCTYPE html><math></math>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -526,7 +520,7 @@
         [Test]
         public void MathMLSingleElementInBody()
         {
-            var doc = Html(@"<!DOCTYPE html><body><math></math>");
+            var doc = (@"<!DOCTYPE html><body><math></math>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -561,7 +555,7 @@
         [Test]
         public void MathMLElementWithDivAndObjectElements()
         {
-            var doc = Html(@"<math><mi><div><object><div><span></span></div></object></div></mi><mi>");
+            var doc = (@"<math><mi><div><object><div><span></span></div></object></div></mi><mi>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -627,7 +621,7 @@
         [Test]
         public void MathMLElementWithSvgChild()
         {
-            var doc = Html(@"<math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>");
+            var doc = (@"<math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -693,7 +687,7 @@
         [Test]
         public void MathMLSingleElementWithChild()
         {
-            var doc = Html(@"<!DOCTYPE html><math><mi>");
+            var doc = (@"<!DOCTYPE html><math><mi>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -734,7 +728,7 @@
         [Test]
         public void MathMLWithMiAndMglyphElements()
         {
-            var doc = Html(@"<math><mi><mglyph>");
+            var doc = (@"<math><mi><mglyph>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -776,7 +770,7 @@
         [Test]
         public void MathMLWithMiAndMalignmarkElements()
         {
-            var doc = Html(@"<math><mi><malignmark>");
+            var doc = (@"<math><mi><malignmark>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -818,7 +812,7 @@
         [Test]
         public void MathMLWithMoAndMglyphElements()
         {
-            var doc = Html(@"<math><mo><mglyph>");
+            var doc = (@"<math><mo><mglyph>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -860,7 +854,7 @@
         [Test]
         public void MathMLWithMoAndMalignmarkElements()
         {
-            var doc = Html(@"<math><mo><malignmark>");
+            var doc = (@"<math><mo><malignmark>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -902,7 +896,7 @@
         [Test]
         public void MathMLWithMnAndMglyphElements()
         {
-            var doc = Html(@"<math><mn><mglyph>");
+            var doc = (@"<math><mn><mglyph>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -944,7 +938,7 @@
         [Test]
         public void MathMLWithMnAndMalignmarkElements()
         {
-            var doc = Html(@"<math><mn><malignmark>");
+            var doc = (@"<math><mn><malignmark>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -986,7 +980,7 @@
         [Test]
         public void MathMLWithMsAndMglyphElements()
         {
-            var doc = Html(@"<math><ms><mglyph>");
+            var doc = (@"<math><ms><mglyph>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1028,7 +1022,7 @@
         [Test]
         public void MathMLWithMsAndMalignmarkElements()
         {
-            var doc = Html(@"<math><ms><malignmark>");
+            var doc = (@"<math><ms><malignmark>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1070,7 +1064,7 @@
         [Test]
         public void MathMLWithMtextAndMglyphElements()
         {
-            var doc = Html(@"<math><mtext><mglyph>");
+            var doc = (@"<math><mtext><mglyph>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1112,7 +1106,7 @@
         [Test]
         public void MathMLWithMtextAndMalignmarkElements()
         {
-            var doc = Html(@"<math><mtext><malignmark>");
+            var doc = (@"<math><mtext><malignmark>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1154,7 +1148,7 @@
         [Test]
         public void MathMLAnnotationXmlWithSvgInside()
         {
-            var doc = Html(@"<!DOCTYPE html><math><annotation-xml><svg><u>");
+            var doc = (@"<!DOCTYPE html><math><annotation-xml><svg><u>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1206,7 +1200,7 @@
         [Test]
         public void MathMLElementInSelect()
         {
-            var doc = Html(@"<!DOCTYPE html><body><select><math></math></select>");
+            var doc = (@"<!DOCTYPE html><body><select><math></math></select>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1241,7 +1235,7 @@
         [Test]
         public void MathMLInOptionOfSelect()
         {
-            var doc = Html(@"<!DOCTYPE html><body><select><option><math></math></option></select>");
+            var doc = (@"<!DOCTYPE html><body><select><option><math></math></option></select>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1282,7 +1276,7 @@
         [Test]
         public void MathMLInTable()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><math></math></table>");
+            var doc = (@"<!DOCTYPE html><body><table><math></math></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1323,7 +1317,7 @@
         [Test]
         public void MathMLWithChildInTable()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><math><mi>foo</mi></math></table>");
+            var doc = (@"<!DOCTYPE html><body><table><math><mi>foo</mi></math></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1374,7 +1368,7 @@
         [Test]
         public void MathMLWithChildrenInTable()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><math><mi>foo</mi><mi>bar</mi></math></table>");
+            var doc = (@"<!DOCTYPE html><body><table><math><mi>foo</mi><mi>bar</mi></math></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1435,7 +1429,7 @@
         [Test]
         public void MathMLInTBodySectionOfTable()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><tbody><math><mi>foo</mi><mi>bar</mi></math></tbody></table>");
+            var doc = (@"<!DOCTYPE html><body><table><tbody><math><mi>foo</mi><mi>bar</mi></math></tbody></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1502,7 +1496,7 @@
         [Test]
         public void MathMLInRowOfTable()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><tbody><tr><math><mi>foo</mi><mi>bar</mi></math></tr></tbody></table>");
+            var doc = (@"<!DOCTYPE html><body><table><tbody><tr><math><mi>foo</mi><mi>bar</mi></math></tr></tbody></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1575,7 +1569,7 @@
         [Test]
         public void MathMLInCellOfTable()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><tbody><tr><td><math><mi>foo</mi><mi>bar</mi></math></td></tr></tbody></table>");
+            var doc = (@"<!DOCTYPE html><body><table><tbody><tr><td><math><mi>foo</mi><mi>bar</mi></math></td></tr></tbody></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1654,7 +1648,7 @@
         [Test]
         public void MathMLCompleteExampleInTable()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><tbody><tr><td><math><mi>foo</mi><mi>bar</mi></math><p>baz</td></tr></tbody></table>");
+            var doc = (@"<!DOCTYPE html><body><table><tbody><tr><td><math><mi>foo</mi><mi>bar</mi></math><p>baz</td></tr></tbody></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1743,7 +1737,7 @@
         [Test]
         public void MathMLInCaptionOfTable()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi></math><p>baz</caption></table>");
+            var doc = (@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi></math><p>baz</caption></table>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1820,7 +1814,7 @@
         [Test]
         public void MathMLImplicitlyClosedInTable()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
+            var doc = (@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1907,7 +1901,7 @@
         [Test]
         public void MathMLInCaptionImplicitlyClosed()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi>baz</table><p>quux");
+            var doc = (@"<!DOCTYPE html><body><table><caption><math><mi>foo</mi><mi>bar</mi>baz</table><p>quux").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1988,7 +1982,7 @@
         [Test]
         public void MathMLInColgroupOfTable()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><colgroup><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
+            var doc = (@"<!DOCTYPE html><body><table><colgroup><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2075,7 +2069,7 @@
         [Test]
         public void MathMLInSelectInTable()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><tr><td><select><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
+            var doc = (@"<!DOCTYPE html><body><table><tr><td><select><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2148,7 +2142,7 @@
         [Test]
         public void MathMLInSelectInTableImplicitlyClosed()
         {
-            var doc = Html(@"<!DOCTYPE html><body><table><select><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux");
+            var doc = (@"<!DOCTYPE html><body><table><select><math><mi>foo</mi><mi>bar</mi><p>baz</table><p>quux").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2203,7 +2197,7 @@
         [Test]
         public void MathMLOutsideDocumentRoot()
         {
-            var doc = Html(@"<!DOCTYPE html><body></body></html><math><mi>foo</mi><mi>bar</mi><p>baz");
+            var doc = (@"<!DOCTYPE html><body></body></html><math><mi>foo</mi><mi>bar</mi><p>baz").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2268,7 +2262,7 @@
         [Test]
         public void MathMLOutsideDocumentImplicitlyClosed()
         {
-            var doc = Html(@"<!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz");
+            var doc = (@"<!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2333,7 +2327,7 @@
         [Test]
         public void MathMLInFrameset()
         {
-            var doc = Html(@"<!DOCTYPE html><frameset><math><mi></mi><mi></mi><p><span>");
+            var doc = (@"<!DOCTYPE html><frameset><math><mi></mi><mi></mi><p><span>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2362,7 +2356,7 @@
         [Test]
         public void MathMLOutsideFrameset()
         {
-            var doc = Html(@"<!DOCTYPE html><frameset></frameset><math><mi></mi><mi></mi><p><span>");
+            var doc = (@"<!DOCTYPE html><frameset></frameset><math><mi></mi><mi></mi><p><span>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2391,7 +2385,7 @@
         [Test]
         public void MathMLWithXLinkAttributes()
         {
-            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo><math xlink:href=foo></math>");
+            var doc = (@"<!DOCTYPE html><body xlink:href=foo><math xlink:href=foo></math>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2433,7 +2427,7 @@
         [Test]
         public void MathMLInBodyWithLangAttribute()
         {
-            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo></mi></math>");
+            var doc = (@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo></mi></math>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2488,7 +2482,7 @@
         [Test]
         public void MathMLWithMiChild()
         {
-            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo /></math>");
+            var doc = (@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo /></math>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2543,7 +2537,7 @@
         [Test]
         public void MathMLWithTextNode()
         {
-            var doc = Html(@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo />bar</math>");
+            var doc = (@"<!DOCTYPE html><body xlink:href=foo xml:lang=en><math><mi xml:lang=en xlink:href=foo />bar</math>").ToHtmlDocument();
 
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);

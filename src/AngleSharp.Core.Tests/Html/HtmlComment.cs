@@ -1,9 +1,9 @@
-﻿using System;
-using AngleSharp.Dom;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom;
+    using NUnit.Framework;
+    using System;
+
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
     /// tree-construction/comments01.dat
@@ -11,15 +11,10 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class HtmlCommentTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void ValidCommentInText()
         {
-            var doc = Html(@"FOO<!-- BAR -->BAZ");
+            var doc = (@"FOO<!-- BAR -->BAZ").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -55,7 +50,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ToleratedComment()
         {
-            var doc = Html(@"FOO<!-- BAR --!>BAZ");
+            var doc = (@"FOO<!-- BAR --!>BAZ").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -91,7 +86,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void InvalidComment()
         {
-            var doc = Html(@"FOO<!-- BAR --   >BAZ");
+            var doc = (@"FOO<!-- BAR --   >BAZ").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -123,7 +118,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ValidCommentWithTagInside()
         {
-            var doc = Html(@"FOO<!-- BAR -- <QUX> -- MUX -->BAZ");
+            var doc = (@"FOO<!-- BAR -- <QUX> -- MUX -->BAZ").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -160,7 +155,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ToleratedCommentWithTagInside()
         {
-            var doc = Html(@"FOO<!-- BAR -- <QUX> -- MUX --!>BAZ");
+            var doc = (@"FOO<!-- BAR -- <QUX> -- MUX --!>BAZ").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -196,7 +191,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void InvalidCommentWithTagInside()
         {
-            var doc = Html(@"FOO<!-- BAR -- <QUX> -- MUX -- >BAZ");
+            var doc = (@"FOO<!-- BAR -- <QUX> -- MUX -- >BAZ").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -228,7 +223,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ToleratedInvalidEmptyComment4Dashes()
         {
-            var doc = Html(@"FOO<!---->BAZ");
+            var doc = (@"FOO<!---->BAZ").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -264,7 +259,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ToleratedInvalidEmptyComment3Dashes()
         {
-            var doc = Html(@"FOO<!--->BAZ");
+            var doc = (@"FOO<!--->BAZ").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -301,7 +296,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ToleratedInvalidEmptyComment2Dashes()
         {
-            var doc = Html(@"FOO<!-->BAZ");
+            var doc = (@"FOO<!-->BAZ").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -339,7 +334,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void XmlPreambleAsBogusCommentFollowedByText()
         {
-            var doc = Html(@"<?xml version=""1.0"">Hi");
+            var doc = (@"<?xml version=""1.0"">Hi").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -371,7 +366,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void XmlPreambleAsBogusCommentStandalone()
         {
-            var doc = Html(@"<?xml version=""1.0"">");
+            var doc = (@"<?xml version=""1.0"">").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -400,7 +395,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void XmlPreambleFragmentWithEOF()
         {
-            var doc = Html(@"<?xml version");
+            var doc = (@"<?xml version").ToHtmlDocument();
 
             var docComment0 = doc.ChildNodes[0];
             Assert.AreEqual(NodeType.Comment, docComment0.NodeType);
@@ -428,7 +423,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ToleratedInvalidEmptyComment5Dashes()
         {
-            var doc = Html(@"FOO<!----->BAZ");
+            var doc = (@"FOO<!----->BAZ").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -465,7 +460,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void ValidCommentInRoot()
         {
-            var doc = Html(@"<html><!-- comment --><title>Comment before head</title>");
+            var doc = (@"<html><!-- comment --><title>Comment before head</title>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(3, dochtml0.ChildNodes.Length);
@@ -506,7 +501,7 @@ namespace AngleSharp.Core.Tests
         {
             try
             {
-                var doc = Html(Assets.nbc);
+                var doc = (Assets.nbc).ToHtmlDocument();
                 Assert.IsNotNull(doc);
                 Assert.AreEqual(1152, doc.QuerySelectorAll("*").Length);
             }
@@ -520,7 +515,7 @@ namespace AngleSharp.Core.Tests
         public void CommentInHtmlCausesException()
         {
             var source = "<!DOCTYPE html><body><!---------------------GA--------------------------- --></body></html>";
-            var doc = Html(source);
+            var doc = (source).ToHtmlDocument();
             Assert.IsNotNull(doc);
         }
     }

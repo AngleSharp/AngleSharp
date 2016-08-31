@@ -8,8 +8,8 @@
 
     sealed class SiteMapping
     {
-        readonly String _fileName;
-        readonly IXmlDocument _xml;
+        private readonly String _fileName;
+        private readonly IXmlDocument _xml;
 
         public SiteMapping(String fileName)
         {

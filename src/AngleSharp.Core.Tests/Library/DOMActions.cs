@@ -13,12 +13,12 @@
     [TestFixture]
     public class DOMActionsTests
     {
-        static IDocument CreateEmpty(String url)
+        private static IDocument CreateEmpty(String url)
         {
             return BrowsingContext.New().OpenNewAsync(url).Result;
         }
 
-        static IDocument Create(String source)
+        private static IDocument Create(String source)
         {
             return source.ToHtmlDocument();
         }

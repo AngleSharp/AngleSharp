@@ -1,10 +1,10 @@
 namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom;
+    using NUnit.Framework;
     using System;
     using System.IO;
     using System.Text;
-    using AngleSharp.Dom;
-    using NUnit.Framework;
 
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests (*)
@@ -15,7 +15,7 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class SimpleEncodingTests
     {
-        static IDocument NewDocument(String source)
+        private static IDocument NewDocument(String source)
         {
             var configuration = Configuration.Default.SetCulture("en-US").WithLocaleBasedEncoding();
             var content = Encoding.UTF8.GetBytes(source);

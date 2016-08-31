@@ -10,11 +10,11 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    class PageRequester : IRequester
+    sealed class PageRequester : IRequester
     {
-        readonly static HttpRequester _default = new HttpRequester();
-        readonly static String _directory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "Resources");
-        readonly static SiteMapping _mapping = new SiteMapping(Path.Combine(_directory, "content.xml"));
+        private readonly static HttpRequester _default = new HttpRequester();
+        private readonly static String _directory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "Resources");
+        private readonly static SiteMapping _mapping = new SiteMapping(Path.Combine(_directory, "content.xml"));
 
         public static IEnumerable<IRequester> All
         {
@@ -40,7 +40,7 @@
             return await ReadResourceAsync(url).ConfigureAwait(false);
         }
 
-        Task<IResponse> ReadResourceAsync(String url)
+        private Task<IResponse> ReadResourceAsync(String url)
         {
             var fileName = _mapping[url];
             var path = Path.Combine(_directory, fileName);
@@ -48,7 +48,7 @@
             return GetResponseAsync(content);
         }
 
-        async Task<String> AddResourceAsync(String url, IResponse response)
+        private async Task<String> AddResourceAsync(String url, IResponse response)
         {
             var counter = 1;
             var file = default(String);
@@ -66,7 +66,7 @@
             return file;
         }
 
-        async Task<Byte[]> GetContentAsync(IResponse response)
+        private async Task<Byte[]> GetContentAsync(IResponse response)
         {
             var code = (int)response.StatusCode;
             var addr = response.Address.Href;
@@ -80,7 +80,7 @@
             return ms.ToArray();
         }
 
-        async Task<IResponse> GetResponseAsync(Byte[] content)
+        private async Task<IResponse> GetResponseAsync(Byte[] content)
         {
             var ms = new MemoryStream(content);
             var code = ms.ReadInt();

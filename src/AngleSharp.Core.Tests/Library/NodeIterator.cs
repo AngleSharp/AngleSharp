@@ -1,15 +1,15 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using System;
-    using System.Collections.Generic;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using NUnit.Framework;
+    using System;
+    using System.Collections.Generic;
 
     [TestFixture]
     public class NodeIteratorTests
     {
-        static IDocument Html(String code)
+        private static IDocument Html(String code)
         {
             return code.ToHtmlDocument();
         }

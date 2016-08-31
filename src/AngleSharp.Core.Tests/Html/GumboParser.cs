@@ -1,10 +1,10 @@
-﻿using AngleSharp.Dom;
-using NUnit.Framework;
-using System;
-using System.Linq;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom;
+    using NUnit.Framework;
+    using System;
+    using System.Linq;
+
     /// <summary>
     /// Tests taken (and ported) from
     /// https://github.com/google/gumbo-parser/blob/master/tests/parser.cc
@@ -12,15 +12,10 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class GumboParserTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void GumboDoubleBody()
         {
-            var document = Html("<body class=first><body class=second id=merged>Text</body></body>");
+            var document = ("<body class=first><body class=second id=merged>Text</body></body>").ToHtmlDocument();
             var root = document.Body;
             Assert.AreEqual(1, root.ChildNodes.Length);
             Assert.AreEqual(2, root.Attributes.Count());
@@ -39,7 +34,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboMisnestedHeading()
         {
-            var document = Html(@"<h1>  <section>    <h2>      <dl><dt>List    </h1>  </section>  Heading1<h3>Heading3</h4>After</h3> text");
+            var document = (@"<h1>  <section>    <h2>      <dl><dt>List    </h1>  </section>  Heading1<h3>Heading3</h4>After</h3> text").ToHtmlDocument();
 
             var root = document.Body;
             Assert.AreEqual(3, root.ChildNodes.Length);
@@ -94,7 +89,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboLinkifiedHeading()
         {
-            var document = Html(@"<li><h3><a href=#foo>Text</a></h3><div>Summary</div>");
+            var document = (@"<li><h3><a href=#foo>Text</a></h3><div>Summary</div>").ToHtmlDocument();
 
             var root = document.Body;
             Assert.AreEqual(1, root.ChildNodes.Length);
@@ -123,7 +118,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboFormattingTagsInHeading()
         {
-            var document = Html(@"<h2>This is <b>old</h2>text");
+            var document = (@"<h2>This is <b>old</h2>text").ToHtmlDocument();
 
             var root = document.Body;
             Assert.AreEqual(2, root.ChildNodes.Length);
@@ -159,10 +154,10 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboImplicitlyCloseLists()
         {
-            var document = Html(@"<ul>
+            var document = (@"<ul>
   <li>First
   <li>Second
-</ul>");
+</ul>").ToHtmlDocument();
 
             var root = document.Body;
             Assert.AreEqual(1, root.ChildNodes.Length);
@@ -193,7 +188,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboAdoptionAgency1()
         {
-            var document = Html(@"<p>1<b>2<i>3</b>4</i>5</p>");
+            var document = (@"<p>1<b>2<i>3</b>4</i>5</p>").ToHtmlDocument();
 
             var root = document.Body;
             Assert.AreEqual(1, root.ChildNodes.Length);
@@ -245,7 +240,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboAdoptionAgency2()
         {
-            var document = Html(@"<b>1<p>2</b>3</p>");
+            var document = (@"<b>1<p>2</b>3</p>").ToHtmlDocument();
 
             var root = document.Body;
             Assert.AreEqual(2, root.ChildNodes.Length);
@@ -281,7 +276,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboMetaBeforeHead()
         {
-            var document = Html(@"<html><meta http-equiv='content-type' content='text/html; charset=UTF-8' /><head></head>");
+            var document = (@"<html><meta http-equiv='content-type' content='text/html; charset=UTF-8' /><head></head>").ToHtmlDocument();
 
             var root = document.Body;
             Assert.IsNotNull(root);
@@ -290,7 +285,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboNoahsArkClause()
         {
-            var document = Html(@"<p><font size=4><font color=red><font size=4><font size=4><font size=4><font size=4><font size=4><font color=red><p>X");
+            var document = (@"<p><font size=4><font color=red><font size=4><font size=4><font size=4><font size=4><font size=4><font color=red><p>X").ToHtmlDocument();
 
             var root = document.Body;
             Assert.AreEqual(2, root.ChildNodes.Length);
@@ -326,7 +321,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboRawtextInBody()
         {
-            var document = Html(@"<body><noembed jsif=false></noembed>");
+            var document = (@"<body><noembed jsif=false></noembed>").ToHtmlDocument();
 
             var root = document.Body;
             Assert.AreEqual(1, root.ChildNodes.Length);
@@ -340,7 +335,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboNestedRawtextTags()
         {
-            var document = Html(@"<noscript><noscript jstag=false><style>div{text-align:center}</style></noscript>");
+            var document = (@"<noscript><noscript jstag=false><style>div{text-align:center}</style></noscript>").ToHtmlDocument();
 
             Assert.AreEqual(2, document.DocumentElement.ChildNodes.Length);
 
@@ -365,7 +360,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboIsIndex()
         {
-            var document = Html(@"<isindex id=form1 action='/action' prompt='Secret Message'>");
+            var document = (@"<isindex id=form1 action='/action' prompt='Secret Message'>").ToHtmlDocument();
 
             var body = document.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
@@ -416,7 +411,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboForm()
         {
-            var document = Html(@"<form><input type=hidden /><isindex /></form>After form");
+            var document = (@"<form><input type=hidden /><isindex /></form>After form").ToHtmlDocument();
 
             var body = document.Body;
             Assert.AreEqual(2, body.ChildNodes.Length);
@@ -439,7 +434,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboNestedForm()
         {
-            var document = Html(@"<form><label>Label</label><form><input id=input2></form>After form");
+            var document = (@"<form><label>Label</label><form><input id=input2></form>After form").ToHtmlDocument();
 
             var body = document.Body;
             Assert.AreEqual(2, body.ChildNodes.Length);
@@ -467,7 +462,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboMisnestedFormInTable()
         {
-            var document = Html(@"<table><tr><td><form><table><tr><td></td></tr></form><form></tr></table></form></td></tr></table>");
+            var document = (@"<table><tr><td><form><table><tr><td></td></tr></form><form></tr></table></form></td></tr></table>").ToHtmlDocument();
 
             var body = document.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
@@ -521,7 +516,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboImplicitColgroup()
         {
-            var document = Html(@"<table><col /><col /></table>");
+            var document = (@"<table><col /><col /></table>").ToHtmlDocument();
 
             var body = document.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
@@ -550,7 +545,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboSelectInTable()
         {
-            var document = Html(@"<table><td><select><option value=1></table>");
+            var document = (@"<table><td><select><option value=1></table>").ToHtmlDocument();
 
             var body = document.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
@@ -589,7 +584,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboComplicatedSelect()
         {
-            var document = Html(@"<select><div class=foo></div><optgroup><option>Option</option><input></optgroup></select>");
+            var document = (@"<select><div class=foo></div><optgroup><option>Option</option><input></optgroup></select>").ToHtmlDocument();
 
             var body = document.Body;
             Assert.AreEqual(2, body.ChildNodes.Length);
@@ -622,7 +617,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboDoubleSelect()
         {
-            var document = Html(@"<select><select><div></div>");
+            var document = (@"<select><select><div></div>").ToHtmlDocument();
 
             var body = document.Body;
             Assert.AreEqual(2, body.ChildNodes.Length);
@@ -641,7 +636,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboInputInSelect()
         {
-            var document = Html(@"<select><input /><div></div>");
+            var document = (@"<select><input /><div></div>").ToHtmlDocument();
 
             var body = document.Body;
             Assert.AreEqual(3, body.ChildNodes.Length);
@@ -665,7 +660,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboNullDocument()
         {
-            var document = Html(@"");
+            var document = (@"").ToHtmlDocument();
             Assert.IsNotNull(document);
             var body = document.Body;
             Assert.IsNotNull(body);
@@ -674,7 +669,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboOneChar()
         {
-            var document = Html(@"T");
+            var document = (@"T").ToHtmlDocument();
             Assert.AreEqual(1, document.ChildNodes.Length);
 
             var root = document.DocumentElement;
@@ -700,7 +695,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboTextOnly()
         {
-            var document = Html(@"Test");
+            var document = (@"Test").ToHtmlDocument();
             Assert.AreEqual(1, document.ChildNodes.Length);
 
             var root = document.DocumentElement;
@@ -726,7 +721,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboUnexpectedEndBreak()
         {
-            var document = Html(@"</br><div></div>");
+            var document = (@"</br><div></div>").ToHtmlDocument();
 
             var body = document.Body;
             Assert.AreEqual(2, body.ChildNodes.Length);
@@ -745,7 +740,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboCaseSensitiveAttributesCamelCase()
         {
-            var document = Html(@"<div class=camelCase>");
+            var document = (@"<div class=camelCase>").ToHtmlDocument();
 
             var body = document.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
@@ -761,7 +756,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboCaseSensitiveAttributesPascalCase()
         {
-            var document = Html(@"<div class=PascalCase>");
+            var document = (@"<div class=PascalCase>").ToHtmlDocument();
 
             var body = document.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
@@ -777,9 +772,9 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboExplicitHtmlStructure()
         {
-            var document = Html(@"<!doctype html>
+            var document = (@"<!doctype html>
 <html><head><title>Foo</title></head>
-<body><div class=bar>Test</div></body></html>");
+<body><div class=bar>Test</div></body></html>").ToHtmlDocument();
 
             Assert.AreEqual(2, document.ChildNodes.Length);
 
@@ -819,7 +814,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboDuplicateAttributes()
         {
-            var document = Html(@"<input checked=""false"" checked id=foo id='bar'>");
+            var document = (@"<input checked=""false"" checked id=foo id='bar'>").ToHtmlDocument();
 
             var body = document.Body;
             Assert.AreEqual(NodeType.Element, body.NodeType);
@@ -842,14 +837,14 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboLinkTagsInHead()
         {
-            var document = Html(@"<html>
+            var document = (@"<html>
   <head>
     <title>Sample title></title>
 
     <link rel=stylesheet>
     <link rel=author>
   </head>
-  <body>Foo</body>");
+  <body>Foo</body>").ToHtmlDocument();
 
             var root = document.DocumentElement;
             Assert.AreEqual(3, root.ChildNodes.Length);
@@ -890,7 +885,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboTextAfterHtml()
         {
-            var document = Html(@"<html>Test</html> after doc");
+            var document = (@"<html>Test</html> after doc").ToHtmlDocument();
 
             var body = document.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
@@ -903,7 +898,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboWhitespaceInHead()
         {
-            var document = Html(@"<html>  Test</html>");
+            var document = (@"<html>  Test</html>").ToHtmlDocument();
 
             var root = document.DocumentElement;
             Assert.AreEqual(2, root.ChildNodes.Length);
@@ -922,7 +917,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboDoctype()
         {
-            var document = Html(@"<!doctype html>Test") as Document;
+            var document = (@"<!doctype html>Test").ToHtmlDocument() as Document;
             Assert.AreEqual(QuirksMode.Off, document.QuirksMode);
             Assert.AreEqual(2, document.ChildNodes.Length);
 
@@ -935,8 +930,8 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboInvalidDoctype()
         {
-            var document = Html(@"Test<!doctype root_element SYSTEM ""DTD_location"">") as Document;
-            Assert.AreEqual(AngleSharp.Dom.QuirksMode.On, document.QuirksMode);
+            var document = (@"Test<!doctype root_element SYSTEM ""DTD_location"">").ToHtmlDocument() as Document;
+            Assert.AreEqual(QuirksMode.On, document.QuirksMode);
             Assert.AreEqual(1, document.ChildNodes.Length);
 
             Assert.IsNull(document.Doctype);
@@ -952,9 +947,9 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboCommentInVerbatimMode()
         {
-            var doc = Html(@"<body> <div id='onegoogle'>Text</div>  </body><!-- comment 
+            var doc = (@"<body> <div id='onegoogle'>Text</div>  </body><!-- comment 
 
--->");
+-->").ToHtmlDocument();
             var document = doc.DocumentElement;
             Assert.AreEqual(NodeType.Element, document.NodeType);
             Assert.AreEqual("html", document.GetTagName());
@@ -973,7 +968,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboCommentInText()
         {
-            var doc = Html(@"Start <!-- comment --> end");
+            var doc = (@"Start <!-- comment --> end").ToHtmlDocument();
             var body = doc.Body;
             Assert.AreEqual(3, body.ChildNodes.Length);
 
@@ -994,7 +989,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboUnknownTag1()
         {
-            var doc = Html(@"<foo>1<p>2</FOO>");
+            var doc = (@"<foo>1<p>2</FOO>").ToHtmlDocument();
             var body = doc.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
 
@@ -1007,7 +1002,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboUnknownTag2()
         {
-            var doc = Html(@"<div><sarcasm><div></div></sarcasm></div>");
+            var doc = (@"<div><sarcasm><div></div></sarcasm></div>").ToHtmlDocument();
             var body = doc.Body;
             Assert.AreEqual(1, body.ChildNodes.Length); 
             
@@ -1023,7 +1018,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboInvalidEndTag()
         {
-            var doc = Html(@"<a><img src=foo.jpg></img></a>");
+            var doc = (@"<a><img src=foo.jpg></img></a>").ToHtmlDocument();
             var body = doc.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
 
@@ -1041,13 +1036,13 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboTables()
         {
-            var doc = Html(@"<html><table>
+            var doc = (@"<html><table>
   <tr><br /></invalid-tag>
     <th>One</th>
     <td>Two</td>
   </tr>
   <iframe></iframe>
-</table><tr></tr><div></div></html>");
+</table><tr></tr><div></div></html>").ToHtmlDocument();
             var body = doc.Body;
             Assert.AreEqual(4, body.ChildNodes.Length);
 
@@ -1115,7 +1110,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboStartParagraphInTable()
         {
-            var doc = Html(@"<table><P></tr></td>foo</table>");
+            var doc = (@"<table><P></tr></td>foo</table>").ToHtmlDocument();
             var body = doc.Body;
             Assert.AreEqual(2, body.ChildNodes.Length);
 
@@ -1139,7 +1134,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboEndParagraphInTable()
         {
-            var doc = Html(@"<table></p></table>");
+            var doc = (@"<table></p></table>").ToHtmlDocument();
             var body = doc.Body;
             Assert.AreEqual(2, body.ChildNodes.Length);
 
@@ -1159,14 +1154,14 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboUnclosedTableTags()
         {
-            var doc = Html(@"<html><table>
+            var doc = (@"<html><table>
   <tr>
     <td>One
     <td>Two
   <tr><td>Row2
   <tr><td>Row3
 </table>
-</html>");
+</html>").ToHtmlDocument();
             var body = doc.Body;
             Assert.AreEqual(2, body.ChildNodes.Length);
 
@@ -1225,7 +1220,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboMisnestedTable1()
         {
-            var doc = Html(@"<table><tr><div><td></div></table>");
+            var doc = (@"<table><tr><div><td></div></table>").ToHtmlDocument();
             var body = doc.Body;
             Assert.AreEqual(2, body.ChildNodes.Length);
 
@@ -1259,7 +1254,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void GumboMisnestedTable2()
         {
-            var doc = Html(@"<table><td>Cell1<table><th>Cell2<tr>Cell3</table>");
+            var doc = (@"<table><td>Cell1<table><th>Cell2<tr>Cell3</table>").ToHtmlDocument();
             var body = doc.Body;
             Assert.AreEqual(1, body.ChildNodes.Length);
 

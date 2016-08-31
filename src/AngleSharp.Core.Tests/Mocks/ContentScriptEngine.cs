@@ -10,8 +10,8 @@
 
     class ContentScriptEngine : IScriptEngine
     {
-        readonly List<Tuple<String, ScriptOptions>> _requests;
-        readonly String _type; 
+        private readonly List<Tuple<String, ScriptOptions>> _requests;
+        private readonly String _type; 
 
         public ContentScriptEngine(String type = null)
         {

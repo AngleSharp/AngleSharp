@@ -1,9 +1,8 @@
-using System;
-using AngleSharp.Dom;
-using NUnit.Framework;
-
 namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom;
+    using NUnit.Framework;
+
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
     /// tree-construction/ruby.dat
@@ -11,15 +10,10 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class RubyElementTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void RubyElementImpliedEndForRbWithRb()
         {
-            var doc = Html(@"<html><ruby>a<rb>b<rb></ruby></html>");
+            var doc = (@"<html><ruby>a<rb>b<rb></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -69,7 +63,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndForRbWithRt()
         {
-            var doc = Html(@"<html><ruby>a<rb>b<rt></ruby></html>");
+            var doc = (@"<html><ruby>a<rb>b<rt></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -119,7 +113,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndForRbWithRtc()
         {
-            var doc = Html(@"<html><ruby>a<rb>b<rtc></ruby></html>");
+            var doc = (@"<html><ruby>a<rb>b<rtc></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -169,7 +163,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndForRbWithRp()
         {
-            var doc = Html(@"<html><ruby>a<rb>b<rp></ruby></html>");
+            var doc = (@"<html><ruby>a<rb>b<rp></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -219,7 +213,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementNoImpliedEndForRbWithSpan()
         {
-            var doc = Html(@"<html><ruby>a<rb>b<span></ruby></html>");
+            var doc = (@"<html><ruby>a<rb>b<span></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -269,7 +263,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndForRtWithRb()
         {
-            var doc = Html(@"<html><ruby>a<rt>b<rb></ruby></html>");
+            var doc = (@"<html><ruby>a<rt>b<rb></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -319,7 +313,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndForRtWithRt()
         {
-            var doc = Html(@"<html><ruby>a<rt>b<rt></ruby></html>");
+            var doc = (@"<html><ruby>a<rt>b<rt></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -369,7 +363,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndForRtWithRtc()
         {
-            var doc = Html(@"<html><ruby>a<rt>b<rtc></ruby></html>");
+            var doc = (@"<html><ruby>a<rt>b<rtc></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -419,7 +413,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndForRtWithRp()
         {
-            var doc = Html(@"<html><ruby>a<rt>b<rp></ruby></html>");
+            var doc = (@"<html><ruby>a<rt>b<rp></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -469,7 +463,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementNoImpliedEndForRtWithSpan()
         {
-            var doc = Html(@"<html><ruby>a<rt>b<span></ruby></html>");
+            var doc = (@"<html><ruby>a<rt>b<span></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -519,7 +513,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndForRtcWithRb()
         {
-            var doc = Html(@"<html><ruby>a<rtc>b<rb></ruby></html>");
+            var doc = (@"<html><ruby>a<rtc>b<rb></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -569,7 +563,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementNoImpliedEndForRtcWithRt()
         {
-            var doc = Html(@"<html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>");
+            var doc = (@"<html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -633,7 +627,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndForRtcWithRtc()
         {
-            var doc = Html(@"<html><ruby>a<rtc>b<rtc></ruby></html>");
+            var doc = (@"<html><ruby>a<rtc>b<rtc></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -683,7 +677,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndForRtcWithRp()
         {
-            var doc = Html(@"<html><ruby>a<rtc>b<rp></ruby></html>");
+            var doc = (@"<html><ruby>a<rtc>b<rp></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -733,7 +727,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementNoImpliedEndForRtcWithSpan()
         {
-            var doc = Html(@"<html><ruby>a<rtc>b<span></ruby></html>");
+            var doc = (@"<html><ruby>a<rtc>b<span></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -783,7 +777,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndForRpWithRb()
         {
-            var doc = Html(@"<html><ruby>a<rp>b<rb></ruby></html>");
+            var doc = (@"<html><ruby>a<rp>b<rb></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -833,7 +827,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndForRpWithRt()
         {
-            var doc = Html(@"<html><ruby>a<rp>b<rt></ruby></html>");
+            var doc = (@"<html><ruby>a<rp>b<rt></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -883,7 +877,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndForRpWithRtc()
         {
-            var doc = Html(@"<html><ruby>a<rp>b<rtc></ruby></html>");
+            var doc = (@"<html><ruby>a<rp>b<rtc></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -933,7 +927,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndForRpWithRp()
         {
-            var doc = Html(@"<html><ruby>a<rp>b<rp></ruby></html>");
+            var doc = (@"<html><ruby>a<rp>b<rp></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -983,7 +977,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementNoImpliedEndForRpWithSpan()
         {
-            var doc = Html(@"<html><ruby>a<rp>b<span></ruby></html>");
+            var doc = (@"<html><ruby>a<rp>b<span></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -1033,7 +1027,7 @@ namespace AngleSharp.Core.Tests
         [Test]
         public void RubyElementImpliedEndWithRuby()
         {
-            var doc = Html(@"<html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>");
+            var doc = (@"<html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>").ToHtmlDocument();
 
             var dochtml0 = doc.ChildNodes[0];
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

@@ -12,16 +12,11 @@
     [TestFixture]
     public class TrickyTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void BoldAndNotBold()
         {
-            var doc = Html(@"<b><p>Bold </b> Not bold</p>
-Also not bold.");
+            var doc = (@"<b><p>Bold </b> Not bold</p>
+Also not bold.").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -75,11 +70,11 @@ Also not bold.");
         [Test]
         public void ItalicAndOrRed()
         {
-            var doc = Html(@"<html>
+            var doc = (@"<html>
 <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
 <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
 <p>Italic and red. </i> Red.</font> I should not be red.</p>
-<b>Bold <i>Bold and italic</b> Only Italic </i> Plain");
+<b>Bold <i>Bold and italic</b> Only Italic </i> Plain").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -229,10 +224,10 @@ Also not bold.");
         [Test]
         public void FormattingParagraphs()
         {
-            var doc = Html(@"<html><body>
+            var doc = (@"<html><body>
 <p><font size=""7"">First paragraph.</p>
 <p>Second paragraph.</p></font>
-<b><p><i>Bold and Italic</b> Italic</p>");
+<b><p><i>Bold and Italic</b> Italic</p>").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -340,12 +335,12 @@ Also not bold.");
         [Test]
         public void DefinitionListWithFormatting()
         {
-            var doc = Html(@"<html>
+            var doc = (@"<html>
 <dl>
 <dt><b>Boo
 <dd>Goo?
 </dl>
-</html>");
+</html>").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -421,9 +416,9 @@ Also not bold.");
         [Test]
         public void HelloWorldWithSomeDivs()
         {
-            var doc = Html(@"<html><body>
+            var doc = (@"<html><body>
 <label><a><div>Hello<div>World</div></a></label>  
-</body></html>");
+</body></html>").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -493,7 +488,7 @@ Also not bold.");
         [Test]
         public void TableFormattingGoneWild()
         {
-            var doc = Html(@"<table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>");
+            var doc = (@"<table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -593,7 +588,7 @@ Also not bold.");
         [Test]
         public void YouShouldSeeThisText()
         {
-            var doc = Html(@"<table><tr><p><a><p>You should see this text.");
+            var doc = (@"<table><tr><p><a><p>You should see this text.").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -664,14 +659,14 @@ Also not bold.");
         [Test]
         public void InsanelyBadlyNestedTagSequence()
         {
-            var doc = Html(@"<TABLE>
+            var doc = (@"<TABLE>
 <TR>
 <CENTER><CENTER><TD></TD></TR><TR>
 <FONT>
 <TABLE><tr></tr></TABLE>
 </P>
 <a></font><font></a>
-This page contains an insanely badly-nested tag sequence.");
+This page contains an insanely badly-nested tag sequence.").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);
@@ -825,12 +820,12 @@ This page contains an insanely badly-nested tag sequence.");
         [Test]
         public void ImplicitlyClosingDivs()
         {
-            var doc = Html(@"<html>
+            var doc = (@"<html>
 <body>
 <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
 nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
 </body>
-</html>");
+</html>").ToHtmlDocument();
 
             var dochtml = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml.ChildNodes.Length);

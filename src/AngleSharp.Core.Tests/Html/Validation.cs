@@ -1,23 +1,16 @@
 ﻿namespace AngleSharp.Core.Tests.Html
 {
-    using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using NUnit.Framework;
-    using System;
 
     [TestFixture]
     public class ValidationTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void BasicInvalidFormValidation()
         {
-            var doc = Html(@"<form id=""fm1"">
+            var doc = (@"<form id=""fm1"">
   <fieldset id=""test0"">
     <input type=""text"" required value="""" id=""test1"">
   </fieldset>
@@ -26,7 +19,7 @@
   <select id=""test4""></select>
   <textarea id=""test5""></textarea>
   <output id=""test6""></output>
-</form>");
+</form>").ToHtmlDocument();
             Assert.AreEqual(1, doc.Forms.Length);
             var form = doc.Forms[0];
             Assert.IsInstanceOf<IHtmlFormElement>(form);
@@ -36,7 +29,7 @@
         [Test]
         public void BasicValidFormValidation()
         {
-            var doc = Html(@"<form id=""fm2"">
+            var doc = (@"<form id=""fm2"">
   <fieldset>
     <input type=""text"" required value=""abc"">
   </fieldset>
@@ -45,7 +38,7 @@
   <select></select>
   <textarea></textarea>
   <output></output>
-</form>");
+</form>").ToHtmlDocument();
             Assert.AreEqual(1, doc.Forms.Length);
             var form = doc.Forms[0];
             Assert.IsInstanceOf<IHtmlFormElement>(form);
@@ -55,12 +48,12 @@
         [Test]
         public void InvalidFormValidationWithChanges()
         {
-            var doc = Html(@"<form id=""fm3"">
+            var doc = (@"<form id=""fm3"">
   <fieldset id=""fs"">
     <legend><input type=""text"" id=""inp1""></legend>
     <input type=""text"" required value="""" id=""inp2"">
   </fieldset>
-</form>");
+</form>").ToHtmlDocument();
             Assert.AreEqual(1, doc.Forms.Length);
             var form = doc.Forms[0];
             Assert.IsInstanceOf<IHtmlFormElement>(form);
@@ -79,7 +72,7 @@
         [Test]
         public void TestCustomErrorInput1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.SetCustomValidity("My custom error");
@@ -90,7 +83,7 @@
         [Test]
         public void TestCustomErrorInput2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.SetCustomValidity("");
@@ -101,7 +94,7 @@
         [Test]
         public void TestCustomErrorButton1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("button") as HtmlButtonElement;
             Assert.IsNotNull(element);
             element.SetCustomValidity("My custom error");
@@ -112,7 +105,7 @@
         [Test]
         public void TestCustomErrorButton2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("button") as HtmlButtonElement;
             Assert.IsNotNull(element);
             element.SetCustomValidity("");
@@ -123,7 +116,7 @@
         [Test]
         public void TestCustomErrorSelect1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("select") as HtmlSelectElement;
             Assert.IsNotNull(element);
             var option1 = document.CreateElement<IHtmlOptionElement>();
@@ -142,7 +135,7 @@
         [Test]
         public void TestCustomErrorSelect2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("select") as HtmlSelectElement;
             Assert.IsNotNull(element);
             var option1 = document.CreateElement<IHtmlOptionElement>();
@@ -161,7 +154,7 @@
         [Test]
         public void TestCustomErrorTextarea1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("textarea") as HtmlTextAreaElement;
             Assert.IsNotNull(element);
             element.SetCustomValidity("My custom error");
@@ -172,7 +165,7 @@
         [Test]
         public void TestCustomErrorTextarea2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("textarea") as HtmlTextAreaElement;
             Assert.IsNotNull(element);
             element.SetCustomValidity("");
@@ -183,7 +176,7 @@
         [Test]
         public void TestTypemismatchInputEmail1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -205,7 +198,7 @@
         [Test]
         public void TestTypemismatchInputEmail2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -227,7 +220,7 @@
         [Test]
         public void TestTypemismatchInputEmail3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -251,7 +244,7 @@
         [Test]
         public void TestTypemismatchInputEmail4()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -273,7 +266,7 @@
         [Test]
         public void TestTypemismatchInputEmail5()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -295,7 +288,7 @@
         [Test]
         public void TestTypemismatchInputEmail6()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -318,7 +311,7 @@
         [Test]
         public void TestTypemismatchInputEmail7()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -341,7 +334,7 @@
         [Test]
         public void TestTypemismatchInputUrl1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
@@ -363,7 +356,7 @@
         [Test]
         public void TestTypemismatchInputUrl2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
@@ -385,7 +378,7 @@
         [Test]
         public void TestTypemismatchInputUrl3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
@@ -409,7 +402,7 @@
         [Test]
         public void TestTypemismatchInputUrl4()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
@@ -431,7 +424,7 @@
         [Test]
         public void TestBadinputInputEmail1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -454,7 +447,7 @@
         [Test]
         public void TestBadinputInputEmail2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -477,7 +470,7 @@
         [Test]
         public void TestBadinputInputEmail3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -500,7 +493,7 @@
         [Test]
         public void TestBadinputInputEmail4()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -523,7 +516,7 @@
         [Test]
         public void TestBadinputInputDatetime1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "datetime";
@@ -545,7 +538,7 @@
         [Test]
         public void TestBadinputInputDatetime2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "datetime";
@@ -567,7 +560,7 @@
         [Test]
         public void TestBadinputInputDatetime3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "datetime";
@@ -589,7 +582,7 @@
         [Test]
         public void TestBadinputInputColor1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "color";
@@ -611,7 +604,7 @@
         [Test]
         public void TestBadinputInputColor2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "color";
@@ -633,7 +626,7 @@
         [Test]
         public void TestBadinputInputColor3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "color";
@@ -655,7 +648,7 @@
         [Test]
         public void TestBadinputInputColor4()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "color";
@@ -677,7 +670,7 @@
         [Test]
         public void TestIsvalidInputText1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "text";
@@ -701,7 +694,7 @@
         [Test]
         public void TestIsvalidInputText2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "text";
@@ -724,7 +717,7 @@
         [Test]
         public void TestIsvalidInputText3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "text";
@@ -747,7 +740,7 @@
         [Test]
         public void TestIsvalidInputSearch1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "search";
@@ -771,7 +764,7 @@
         [Test]
         public void TestIsvalidInputSearch2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "search";
@@ -794,7 +787,7 @@
         [Test]
         public void TestIsvalidInputSearch3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "search";
@@ -817,7 +810,7 @@
         [Test]
         public void TestIsvalidInputTel1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "tel";
@@ -841,7 +834,7 @@
         [Test]
         public void TestIsvalidInputTel2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "tel";
@@ -864,7 +857,7 @@
         [Test]
         public void TestIsvalidInputTel3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "tel";
@@ -887,7 +880,7 @@
         [Test]
         public void TestIsvalidInputPassword1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "password";
@@ -911,7 +904,7 @@
         [Test]
         public void TestIsvalidInputPassword2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "password";
@@ -934,7 +927,7 @@
         [Test]
         public void TestIsvalidInputPassword3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "password";
@@ -957,7 +950,7 @@
         [Test]
         public void TestIsvalidInputUrl1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
@@ -981,7 +974,7 @@
         [Test]
         public void TestIsvalidInputUrl2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
@@ -1004,7 +997,7 @@
         [Test]
         public void TestIsvalidInputUrl3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
@@ -1026,7 +1019,7 @@
         [Test]
         public void TestIsvalidInputUrl4()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "url";
@@ -1049,7 +1042,7 @@
         [Test]
         public void TestIsvalidInputEmail1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -1073,7 +1066,7 @@
         [Test]
         public void TestIsvalidInputEmail2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -1096,7 +1089,7 @@
         [Test]
         public void TestIsvalidInputEmail3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -1118,7 +1111,7 @@
         [Test]
         public void TestIsvalidInputEmail4()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "email";
@@ -1141,7 +1134,7 @@
         [Test]
         public void TestIsvalidInputDatetime1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "datetime";
@@ -1164,7 +1157,7 @@
         [Test]
         public void TestIsvalidInputDatetime2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "datetime";
@@ -1187,7 +1180,7 @@
         [Test]
         public void TestIsvalidInputDatetime3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "datetime";
@@ -1210,7 +1203,7 @@
         [Test]
         public void TestIsvalidInputDatetime4()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "datetime";
@@ -1233,7 +1226,7 @@
         [Test]
         public void TestIsvalidInputDate1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "date";
@@ -1256,7 +1249,7 @@
         [Test]
         public void TestIsvalidInputDate2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "date";
@@ -1279,7 +1272,7 @@
         [Test]
         public void TestIsvalidInputDate3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "date";
@@ -1302,7 +1295,7 @@
         [Test]
         public void TestIsvalidInputDate4()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "date";
@@ -1325,7 +1318,7 @@
         [Test]
         public void TestIsvalidInputMonth1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "month";
@@ -1348,7 +1341,7 @@
         [Test]
         public void TestIsvalidInputMonth2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "month";
@@ -1371,7 +1364,7 @@
         [Test]
         public void TestIsvalidInputMonth3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "month";
@@ -1394,7 +1387,7 @@
         [Test]
         public void TestIsvalidInputMonth4()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "month";
@@ -1417,7 +1410,7 @@
         [Test]
         public void TestIsvalidInputWeek1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "week";
@@ -1440,7 +1433,7 @@
         [Test]
         public void TestIsvalidInputWeek2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "week";
@@ -1463,7 +1456,7 @@
         [Test]
         public void TestIsvalidInputWeek3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "week";
@@ -1486,7 +1479,7 @@
         [Test]
         public void TestIsvalidInputWeek4()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "week";
@@ -1509,7 +1502,7 @@
         [Test]
         public void TestIsvalidInputTime1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "time";
@@ -1532,7 +1525,7 @@
         [Test]
         public void TestIsvalidInputTime2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "time";
@@ -1555,7 +1548,7 @@
         [Test]
         public void TestIsvalidInputTime3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "time";
@@ -1578,7 +1571,7 @@
         [Test]
         public void TestIsvalidInputTime4()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "time";
@@ -1601,7 +1594,7 @@
         [Test]
         public void TestIsvalidInputNumber1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "number";
@@ -1624,7 +1617,7 @@
         [Test]
         public void TestIsvalidInputNumber2()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "number";
@@ -1647,7 +1640,7 @@
         [Test]
         public void TestIsvalidInputNumber3()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "number";
@@ -1670,7 +1663,7 @@
         [Test]
         public void TestIsvalidInputNumber4()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "number";
@@ -1693,7 +1686,7 @@
         [Test]
         public void TestIsvalidInputCheckbox1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "checkbox";
@@ -1717,7 +1710,7 @@
         [Test]
         public void TestIsvalidInputRadio1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "radio";
@@ -1741,7 +1734,7 @@
         [Test]
         public void TestIsvalidInputFile1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("input") as HtmlInputElement;
             Assert.IsNotNull(element);
             element.Type = "file";
@@ -1763,7 +1756,7 @@
         [Test]
         public void TestIsvalidSelect1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("select") as HtmlSelectElement;
             Assert.IsNotNull(element);
             var option1 = document.CreateElement<IHtmlOptionElement>();
@@ -1792,7 +1785,7 @@
         [Test]
         public void TestIsvalidTextarea1()
         {
-            var document = Html("");
+            var document = ("").ToHtmlDocument();
             var element = document.CreateElement("textarea") as HtmlTextAreaElement;
             Assert.IsNotNull(element);
             element.RemoveAttribute("required");

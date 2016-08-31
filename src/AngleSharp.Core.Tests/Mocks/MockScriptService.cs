@@ -7,7 +7,7 @@
     class MockScriptService<T> : IScriptingProvider
         where T : IScriptEngine
     {
-        readonly T _engine;
+        private readonly T _engine;
 
         public MockScriptService(T engine)
         {

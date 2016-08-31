@@ -17,15 +17,15 @@
     [TestFixture]
     public class FormSubmitTests
     {
-        const String BaseUrl = "http://anglesharp.azurewebsites.net/";
+        private const String BaseUrl = "http://anglesharp.azurewebsites.net/";
 
-        static Task<IDocument> LoadDocumentAsync(String url)
+        private static Task<IDocument> LoadDocumentAsync(String url)
         {
             var config = new Configuration().WithDefaultLoader();
             return BrowsingContext.New(config).OpenAsync(Url.Create(url));
         }
 
-        static Task<IDocument> PostDocumentAsync(Dictionary<String, String> fields, String encType = null)
+        private static Task<IDocument> PostDocumentAsync(Dictionary<String, String> fields, String encType = null)
         {
             return PostDocumentAsync((document, form) =>
             {
@@ -41,7 +41,7 @@
             });
         }
 
-        static Task<IDocument> PostDocumentAsync(String content, String encType = null, Boolean fromButton = false)
+        private static Task<IDocument> PostDocumentAsync(String content, String encType = null, Boolean fromButton = false)
         {
             return PostDocumentAsync((document, form) =>
             {
@@ -52,7 +52,7 @@
             }, fromButton);
         }
 
-        static async Task<IDocument> PostDocumentAsync(Action<IDocument, IHtmlFormElement> fill, Boolean fromButton = false)
+        private static async Task<IDocument> PostDocumentAsync(Action<IDocument, IHtmlFormElement> fill, Boolean fromButton = false)
         {
             var config = new Configuration().WithDefaultLoader();
             var document = await BrowsingContext.New(config).OpenNewAsync();
@@ -72,27 +72,27 @@
             return await form.SubmitAsync();
         }
 
-        static Task<IDocument> LoadWithMockAsync(String content, String url, Action<IRequest> onRequest = null)
+        private static Task<IDocument> LoadWithMockAsync(String content, String url, Action<IRequest> onRequest = null)
         {
             var config = Configuration.Default.WithDefaultLoader(requesters: new[] { new MockRequester { OnRequest = onRequest } });
             return BrowsingContext.New(config).OpenAsync(m => m.Content(content).Address(url));
         }
 
-        static FileEntry GenerateFile()
+        private static FileEntry GenerateFile()
         {
             var content = Enumerable.Range(0, 32).Select(m => (Byte)m).ToArray();
             var body = new MemoryStream(content);
             return new FileEntry("Filename.txt", body);
         }
 
-        static FileEntry GenerateFile(Int32 index)
+        private static FileEntry GenerateFile(Int32 index)
         {
             var content = Enumerable.Range(0, index * 5 + 10).Select(m => (Byte)m).ToArray();
             var body = new MemoryStream(content);
             return new FileEntry(String.Format("Filename{0}.txt", index + 1), body);
         }
 
-        static string Utf8StreamToString(Stream s)
+        private static string Utf8StreamToString(Stream s)
         {
             byte[] data = new byte[s.Length];
             s.Read(data, 0, data.Length);

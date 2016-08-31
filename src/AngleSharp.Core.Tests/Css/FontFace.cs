@@ -1,19 +1,11 @@
 ﻿namespace AngleSharp.Core.Tests.Css
 {
     using AngleSharp.Dom.Css;
-    using AngleSharp.Parser.Css;
     using NUnit.Framework;
-    using System;
 
     [TestFixture]
-    public class FontFaceTests
+    public class FontFaceTests : CssConstructionFunctions
     {
-        static ICssStyleSheet ParseStyleSheet(String source)
-        {
-            var parser = new CssParser();
-            return parser.ParseStylesheet(source);
-        }
-
         [Test]
         public void FontFaceOpenSansWithSource()
         {

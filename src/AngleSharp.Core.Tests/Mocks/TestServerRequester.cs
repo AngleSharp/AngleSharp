@@ -12,7 +12,7 @@
 
     sealed class TestServerRequester : IRequester
     {
-        readonly IDictionary<String, String> _mapping;
+        private readonly IDictionary<String, String> _mapping;
 
         public TestServerRequester(IDictionary<String, String> mapping)
         {

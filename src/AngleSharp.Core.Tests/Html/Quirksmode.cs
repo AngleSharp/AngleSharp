@@ -1,9 +1,9 @@
-﻿using AngleSharp.Dom;
-using AngleSharp.Dom.Html;
-using NUnit.Framework;
-
-namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests
 {
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Html;
+    using NUnit.Framework;
+
     /// <summary>
     /// These tests are taken from http://www.quirksmode.org/dom/tests/.
     /// More information: http://www.quirksmode.org/dom/w3c_core.html
@@ -11,7 +11,7 @@ namespace AngleSharp.Core.Tests
     [TestFixture]
     public class QuirksmodeTests
     {
-        IDocument document;
+        private IDocument document;
 
         [SetUp]
         public void Setup()

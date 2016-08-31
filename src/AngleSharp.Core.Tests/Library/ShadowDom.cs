@@ -9,7 +9,7 @@
     [TestFixture]
     public class ShadowDomTests
     {
-        static Task<IDocument> CreateStandardDom()
+        private static Task<IDocument> CreateStandardDom()
         {
             var source = @"<!doctype html>
 <div id=host>

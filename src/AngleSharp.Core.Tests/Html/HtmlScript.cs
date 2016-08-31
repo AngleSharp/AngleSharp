@@ -4,7 +4,6 @@
     using AngleSharp.Dom;
     using AngleSharp.Parser.Html;
     using NUnit.Framework;
-    using System;
 
     /// <summary>
     /// Tests from https://github.com/html5lib/html5lib-tests:
@@ -13,15 +12,10 @@
     [TestFixture]
     public class HtmlScriptTests
     {
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
-        }
-
         [Test]
         public void ScriptElementAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script>");
+            var doc = (@"<!doctype html><script>").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -56,7 +50,7 @@
         [Test]
         public void ScriptWithTextAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script>a");
+            var doc = (@"<!doctype html><script>a").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -95,7 +89,7 @@
         [Test]
         public void ScriptWithOpenBracketAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><");
+            var doc = (@"<!doctype html><script><").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -136,7 +130,7 @@
         [Test]
         public void ScriptWithOpenClosingBracketAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></");
+            var doc = (@"<!doctype html><script></").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -175,7 +169,7 @@
         [Test]
         public void ScriptWithOpenClosingUppercaseLetterAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></S");
+            var doc = (@"<!doctype html><script></S").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -214,7 +208,7 @@
         [Test]
         public void ScriptWithOpenClosingTwoUppercaseLettersAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></SC");
+            var doc = (@"<!doctype html><script></SC").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -253,7 +247,7 @@
         [Test]
         public void ScriptWithOpenClosingThreeUppercaseLettersAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></SCR");
+            var doc = (@"<!doctype html><script></SCR").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -292,7 +286,7 @@
         [Test]
         public void ScriptWithOpenClosingFourUppercaseLettersAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></SCRI");
+            var doc = (@"<!doctype html><script></SCRI").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -331,7 +325,7 @@
         [Test]
         public void ScriptWithOpenClosingFiveUppercaseLettersAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></SCRIP");
+            var doc = (@"<!doctype html><script></SCRIP").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -370,7 +364,7 @@
         [Test]
         public void ScriptWithOpenClosingSixUppercaseLettersAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></SCRIPT");
+            var doc = (@"<!doctype html><script></SCRIPT").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -409,7 +403,7 @@
         [Test]
         public void ScriptWithOpenClosingSevenUppercaseLettersAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></SCRIPT ");
+            var doc = (@"<!doctype html><script></SCRIPT ").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -444,7 +438,7 @@
         [Test]
         public void ScriptWithOpenClosingLowercaseLetterAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></s");
+            var doc = (@"<!doctype html><script></s").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -483,7 +477,7 @@
         [Test]
         public void ScriptWithOpenClosingTwoLowercaseLettersAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></sc");
+            var doc = (@"<!doctype html><script></sc").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -522,7 +516,7 @@
         [Test]
         public void ScriptWithOpenClosingThreeLowercaseLettersAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></scr");
+            var doc = (@"<!doctype html><script></scr").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -561,7 +555,7 @@
         [Test]
         public void ScriptWithOpenClosingFourLowercaseLettersAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></scri");
+            var doc = (@"<!doctype html><script></scri").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -600,7 +594,7 @@
         [Test]
         public void ScriptWithOpenClosingFiveLowercaseLettersAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></scrip");
+            var doc = (@"<!doctype html><script></scrip").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -639,7 +633,7 @@
         [Test]
         public void ScriptWithOpenClosingSixLowercaseLettersAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></script");
+            var doc = (@"<!doctype html><script></script").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -678,7 +672,7 @@
         [Test]
         public void ScriptWithOpenClosingSixLowercaseLettersAndSpaceAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script></script ");
+            var doc = (@"<!doctype html><script></script ").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -713,7 +707,7 @@
         [Test]
         public void ScriptWithOpenBogusCommentAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!");
+            var doc = (@"<!doctype html><script><!").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -752,7 +746,7 @@
         [Test]
         public void ScriptWithOpenBogusCommentAndLetterAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!a");
+            var doc = (@"<!doctype html><script><!a").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -791,7 +785,7 @@
         [Test]
         public void ScriptWithOpenBogusCommentAndDashAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!-");
+            var doc = (@"<!doctype html><script><!-").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -830,7 +824,7 @@
         [Test]
         public void ScriptWithOpenBogusCommentAndDashLetterAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!-a");
+            var doc = (@"<!doctype html><script><!-a").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -869,7 +863,7 @@
         [Test]
         public void ScriptWithOpenCommentAndDashDashAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--");
+            var doc = (@"<!doctype html><script><!--").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -908,7 +902,7 @@
         [Test]
         public void ScriptWithOpenCommentAndDashDashLetterAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--a");
+            var doc = (@"<!doctype html><script><!--a").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -947,7 +941,7 @@
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<");
+            var doc = (@"<!doctype html><script><!--<").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -986,7 +980,7 @@
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenLetterAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<a");
+            var doc = (@"<!doctype html><script><!--<a").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1025,7 +1019,7 @@
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenSlashAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--</");
+            var doc = (@"<!doctype html><script><!--</").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1064,7 +1058,7 @@
         [Test]
         public void ScriptWithOpenCommentAndDashDashClosingScriptUnfinishedAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--</script");
+            var doc = (@"<!doctype html><script><!--</script").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1103,7 +1097,7 @@
         [Test]
         public void ScriptWithOpenCommentAndDashDashClosingScriptUnfinishedSpacesAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--</script ");
+            var doc = (@"<!doctype html><script><!--</script ").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1142,7 +1136,7 @@
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenLetterSAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<s");
+            var doc = (@"<!doctype html><script><!--<s").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1181,7 +1175,7 @@
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenScriptUnfinishedAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script");
+            var doc = (@"<!doctype html><script><!--<script").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1220,7 +1214,7 @@
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenScriptUnfinishedSpacesAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script ");
+            var doc = (@"<!doctype html><script><!--<script ").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1261,7 +1255,7 @@
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenScriptUnfinishedSpacesOpenAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script <");
+            var doc = (@"<!doctype html><script><!--<script <").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1300,7 +1294,7 @@
         [Test]
         public void ScriptWithOpenCommentAndDashDashOpenScriptUnfinishedSpacesOpenLetterAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script <a");
+            var doc = (@"<!doctype html><script><!--<script <a").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1339,7 +1333,7 @@
         [Test]
         public void ScriptWithOpenCommentScriptTagInsideAndClosingAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script </");
+            var doc = (@"<!doctype html><script><!--<script </").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1378,7 +1372,7 @@
         [Test]
         public void ScriptWithOpenCommentAndClosingSTagAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script </s");
+            var doc = (@"<!doctype html><script><!--<script </s").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1417,7 +1411,7 @@
         [Test]
         public void ScriptWithOpenCommentAndClosingScriptTagUnfinishedAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script </script");
+            var doc = (@"<!doctype html><script><!--<script </script").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1456,7 +1450,7 @@
         [Test]
         public void ScriptWithOpenCommentAndClosingScriptMisspelledUnfinishedAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script </scripta");
+            var doc = (@"<!doctype html><script><!--<script </scripta").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1495,7 +1489,7 @@
         [Test]
         public void ScriptWithOpenCommentAndClosingScriptUnfinishedSpacesAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script </script ");
+            var doc = (@"<!doctype html><script><!--<script </script ").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1534,7 +1528,7 @@
         [Test]
         public void ScriptWithOpenCommentAndClosedScriptAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script </script>");
+            var doc = (@"<!doctype html><script><!--<script </script>").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1573,7 +1567,7 @@
         [Test]
         public void ScriptWithOpenScriptTagAndTrailingSlashWhenClosingScriptAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script </script/");
+            var doc = (@"<!doctype html><script><!--<script </script/").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1612,7 +1606,7 @@
         [Test]
         public void ScriptWithOpenScriptTagAndOpenBracketAfterSpaceAfterClosingScriptAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script </script <");
+            var doc = (@"<!doctype html><script><!--<script </script <").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1651,7 +1645,7 @@
         [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndOpenLowercaseAAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script </script <a");
+            var doc = (@"<!doctype html><script><!--<script </script <a").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1690,7 +1684,7 @@
         [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosingTagAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script </script </");
+            var doc = (@"<!doctype html><script><!--<script </script </").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1729,7 +1723,7 @@
         [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosingScriptTagAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script </script </script");
+            var doc = (@"<!doctype html><script><!--<script </script </script").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1768,7 +1762,7 @@
         [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosingScriptTagUnfinishedWithSpacesAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script </script </script ");
+            var doc = (@"<!doctype html><script><!--<script </script </script ").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1807,7 +1801,7 @@
         [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosingScriptTagUnfinishedTrailingSlashAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script </script </script/");
+            var doc = (@"<!doctype html><script><!--<script </script </script/").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1846,7 +1840,7 @@
         [Test]
         public void ScriptWithClosingScriptTagUnfinishedSpaceAndClosedScriptTagAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script </script </script>");
+            var doc = (@"<!doctype html><script><!--<script </script </script>").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1885,7 +1879,7 @@
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndOneFinalDashAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script -");
+            var doc = (@"<!doctype html><script><!--<script -").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1924,7 +1918,7 @@
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndOneFinalDashAndLowercaseAAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script -a");
+            var doc = (@"<!doctype html><script><!--<script -a").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -1963,7 +1957,7 @@
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndOneFinalDashAndOpenBracketAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script -<");
+            var doc = (@"<!doctype html><script><!--<script -<").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2002,7 +1996,7 @@
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndTwoFinalDashesAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script --");
+            var doc = (@"<!doctype html><script><!--<script --").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2041,7 +2035,7 @@
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndTwoFinalDashesLowercaseAAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script --a");
+            var doc = (@"<!doctype html><script><!--<script --a").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2080,7 +2074,7 @@
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptElementAndTwoFinalDashesOpenBracketAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script --<");
+            var doc = (@"<!doctype html><script><!--<script --<").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2119,7 +2113,7 @@
         [Test]
         public void ScriptWithCommentThatHostsScriptElementAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script -->");
+            var doc = (@"<!doctype html><script><!--<script -->").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2158,7 +2152,7 @@
         [Test]
         public void ScriptWithCommentThatHostsScriptElementAndOpenBracketAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script --><");
+            var doc = (@"<!doctype html><script><!--<script --><").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2197,7 +2191,7 @@
         [Test]
         public void ScriptWithCommentThatHostsScriptElementAndOpenClosingBracketAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script --></");
+            var doc = (@"<!doctype html><script><!--<script --></").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2236,7 +2230,7 @@
         [Test]
         public void ScriptWithCommentThatHostsScriptElementUnfinishedClosingBracketAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script --></script");
+            var doc = (@"<!doctype html><script><!--<script --></script").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2275,7 +2269,7 @@
         [Test]
         public void ScriptWithCommentThatHostsScriptElementUnfinishedClosingBracketWithSpacesAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script --></script ");
+            var doc = (@"<!doctype html><script><!--<script --></script ").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2314,7 +2308,7 @@
         [Test]
         public void ScriptWithClosedCommentThatHostsUnfinishedScriptElementAndClosingUnfinishedAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script --></script/");
+            var doc = (@"<!doctype html><script><!--<script --></script/").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2353,7 +2347,7 @@
         [Test]
         public void ScriptWithClosedCommentThatHostsUnfinishedScriptElementClosedAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script --></script>");
+            var doc = (@"<!doctype html><script><!--<script --></script>").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2392,7 +2386,7 @@
         [Test]
         public void ScriptWithClosedCommentThatHostsScriptPairWithMistakeClosedAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script><\/script>--></script>");
+            var doc = (@"<!doctype html><script><!--<script><\/script>--></script>").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2431,7 +2425,7 @@
         [Test]
         public void ScriptWithClosedCommentThatHostsScriptPairWithMistakesClosedAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script></scr'+'ipt>--></script>");
+            var doc = (@"<!doctype html><script><!--<script></scr'+'ipt>--></script>").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2470,7 +2464,7 @@
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptPairAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script></script><script></script></script>");
+            var doc = (@"<!doctype html><script><!--<script></script><script></script></script>").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2509,7 +2503,7 @@
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptPairAndClosingBracketAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script></script><script></script>--><!--</script>");
+            var doc = (@"<!doctype html><script><!--<script></script><script></script>--><!--</script>").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2548,7 +2542,7 @@
         [Test]
         public void ScriptWithOpenCommentThatHostsScriptPairAndHasASpaceBeforeClosingBracketAfterDoctype()
         {
-            var doc = Html(@"<!doctype html><script><!--<script></script><script></script>-- ></script>");
+            var doc = (@"<!doctype html><script><!--<script></script><script></script>-- ></script>").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2587,7 +2581,7 @@
         [Test]
         public void ScriptWithMultipleEscapedCommentsWrongBarelyClosed()
         {
-            var doc = Html(@"<!doctype html><script><!--<script></script><script></script>- -></script>");
+            var doc = (@"<!doctype html><script><!--<script></script><script></script>- -></script>").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2626,7 +2620,7 @@
         [Test]
         public void ScriptWithMultipleEscapedCommentsWrongClearlyClosed()
         {
-            var doc = Html(@"<!doctype html><script><!--<script></script><script></script>- - ></script>");
+            var doc = (@"<!doctype html><script><!--<script></script><script></script>- - ></script>").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2665,7 +2659,7 @@
         [Test]
         public void ScriptWithMultipleEscapedCommentsWrongWronglyClosed()
         {
-            var doc = Html(@"<!doctype html><script><!--<script></script><script></script>-></script>");
+            var doc = (@"<!doctype html><script><!--<script></script><script></script>-></script>").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2704,7 +2698,7 @@
         [Test]
         public void ScriptWithEscapedOpenedScriptTagFollowedByText()
         {
-            var doc = Html(@"<!doctype html><script><!--<script>--!></script>X");
+            var doc = (@"<!doctype html><script><!--<script>--!></script>X").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2743,7 +2737,7 @@
         [Test]
         public void ScriptWithSpecialCharactersInWronglyEscapedScriptTag()
         {
-            var doc = Html(@"<!doctype html><script><!--<scr'+'ipt></script>--></script>");
+            var doc = (@"<!doctype html><script><!--<scr'+'ipt></script>--></script>").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2786,7 +2780,7 @@
         [Test]
         public void ScriptWithEscapedScriptTagClosedWrongWithSpecialCharacters()
         {
-            var doc = Html(@"<!doctype html><script><!--<script></scr'+'ipt></script>X");
+            var doc = (@"<!doctype html><script><!--<script></scr'+'ipt></script>X").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2973,7 +2967,7 @@
         [Test]
         public void ScriptWithinBodyThatisInsideNoframes()
         {
-            var doc = Html(@"<!doctype html><noframes><body><script><!--...</script></body></noframes></html>");
+            var doc = (@"<!doctype html><noframes><body><script><!--...</script></body></noframes></html>").ToHtmlDocument();
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -3012,7 +3006,7 @@
         [Test]
         public void ScriptStandalone()
         {
-            var doc = Html(@"<script>");
+            var doc = (@"<script>").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3042,7 +3036,7 @@
         [Test]
         public void ScriptWithTextLowercaseA()
         {
-            var doc = Html(@"<script>a");
+            var doc = (@"<script>a").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3076,7 +3070,7 @@
         [Test]
         public void ScriptWithTextLt()
         {
-            var doc = Html(@"<script><");
+            var doc = (@"<script><").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3110,7 +3104,7 @@
         [Test]
         public void ScriptWithTextLtSlash()
         {
-            var doc = Html(@"<script></");
+            var doc = (@"<script></").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3144,7 +3138,7 @@
         [Test]
         public void ScriptWithClosingScriptTagSpace()
         {
-            var doc = Html(@"<script></SCRIPT ");
+            var doc = (@"<script></SCRIPT ").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3174,7 +3168,7 @@
         [Test]
         public void ScriptWithClosingScriptTagLowercaseS()
         {
-            var doc = Html(@"<script></s");
+            var doc = (@"<script></s").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3208,7 +3202,7 @@
         [Test]
         public void ScriptWithClosingScriptTagLowercaseSC()
         {
-            var doc = Html(@"<script></sc");
+            var doc = (@"<script></sc").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3242,7 +3236,7 @@
         [Test]
         public void ScriptWithClosingScriptTagLowercaseSCR()
         {
-            var doc = Html(@"<script></scr");
+            var doc = (@"<script></scr").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3276,7 +3270,7 @@
         [Test]
         public void ScriptWithClosingScriptTagLowercaseSCRI()
         {
-            var doc = Html(@"<script></scri");
+            var doc = (@"<script></scri").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3310,7 +3304,7 @@
         [Test]
         public void ScriptWithClosingScriptTagLowercaseSCRIP()
         {
-            var doc = Html(@"<script></scrip");
+            var doc = (@"<script></scrip").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3344,7 +3338,7 @@
         [Test]
         public void ScriptWithClosingScriptTagLowercaseSCRIPT()
         {
-            var doc = Html(@"<script></script");
+            var doc = (@"<script></script").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3378,7 +3372,7 @@
         [Test]
         public void ScriptWithClosingScriptSpaceInsteadOfGt()
         {
-            var doc = Html(@"<script></script ");
+            var doc = (@"<script></script ").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3408,7 +3402,7 @@
         [Test]
         public void ScriptLtEm()
         {
-            var doc = Html(@"<script><!");
+            var doc = (@"<script><!").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3442,7 +3436,7 @@
         [Test]
         public void ScriptLtEmLowercaseA()
         {
-            var doc = Html(@"<script><!a");
+            var doc = (@"<script><!a").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3476,7 +3470,7 @@
         [Test]
         public void ScriptLtEmDash()
         {
-            var doc = Html(@"<script><!-");
+            var doc = (@"<script><!-").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3510,7 +3504,7 @@
         [Test]
         public void ScriptLtEmDashLowercaseA()
         {
-            var doc = Html(@"<script><!-a");
+            var doc = (@"<script><!-a").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3544,7 +3538,7 @@
         [Test]
         public void ScriptLtEmDashDash()
         {
-            var doc = Html(@"<script><!--");
+            var doc = (@"<script><!--").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3578,7 +3572,7 @@
         [Test]
         public void ScriptLtEmDashDashLowercaseA()
         {
-            var doc = Html(@"<script><!--a");
+            var doc = (@"<script><!--a").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3612,7 +3606,7 @@
         [Test]
         public void ScriptLtEmDashDashLt()
         {
-            var doc = Html(@"<script><!--<");
+            var doc = (@"<script><!--<").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3646,7 +3640,7 @@
         [Test]
         public void ScriptLtEmDashDashLtLowercaseA()
         {
-            var doc = Html(@"<script><!--<a");
+            var doc = (@"<script><!--<a").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3680,7 +3674,7 @@
         [Test]
         public void ScriptLtEmDashDashLtSlash()
         {
-            var doc = Html(@"<script><!--</");
+            var doc = (@"<script><!--</").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3714,7 +3708,7 @@
         [Test]
         public void ScriptLtEmDashDashLtSlashLowercaseSCRIPT()
         {
-            var doc = Html(@"<script><!--</script");
+            var doc = (@"<script><!--</script").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3748,7 +3742,7 @@
         [Test]
         public void ScriptWithStartCommentScriptInside()
         {
-            var doc = Html(@"<script><!--<script </s");
+            var doc = (@"<script><!--<script </s").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3782,7 +3776,7 @@
         [Test]
         public void ScriptWithStartCommentAndThreeEscapes()
         {
-            var doc = Html(@"<script><!--<script </script </script ");
+            var doc = (@"<script><!--<script </script </script ").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3816,7 +3810,7 @@
         [Test]
         public void ScriptWithStartCommentAndEffectivelyClosed()
         {
-            var doc = Html(@"<script><!--<script </script </script>");
+            var doc = (@"<script><!--<script </script </script>").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3850,7 +3844,7 @@
         [Test]
         public void ScriptWithOpeningCommentAndDashLowercaseA()
         {
-            var doc = Html(@"<script><!--<script -a");
+            var doc = (@"<script><!--<script -a").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3884,7 +3878,7 @@
         [Test]
         public void ScriptThatTriesToEscapeAnotherScriptTag()
         {
-            var doc = Html(@"<script><!--<script --");
+            var doc = (@"<script><!--<script --").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3918,7 +3912,7 @@
         [Test]
         public void ScriptThatContainsAnotherScriptTagInsideCommentAndIsNotFinished()
         {
-            var doc = Html(@"<script><!--<script --><");
+            var doc = (@"<script><!--<script --><").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3952,7 +3946,7 @@
         [Test]
         public void ScriptThatContainsAnotherScriptTagInsideAComment()
         {
-            var doc = Html(@"<script><!--<script --></script");
+            var doc = (@"<script><!--<script --></script").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -3986,7 +3980,7 @@
         [Test]
         public void ScriptWithCommentThatTriesToOpenCloseButMisspells()
         {
-            var doc = Html(@"<script><!--<script><\/script>--></script>");
+            var doc = (@"<script><!--<script><\/script>--></script>").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4020,7 +4014,7 @@
         [Test]
         public void ScriptWithScriptsInCommentCommentBeforeClosing()
         {
-            var doc = Html(@"<script><!--<script></script><script></script>--><!--</script>");
+            var doc = (@"<script><!--<script></script><script></script>--><!--</script>").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4054,7 +4048,7 @@
         [Test]
         public void ScriptWithScriptsInCommentSpaceBeforeBracket()
         {
-            var doc = Html(@"<script><!--<script></script><script></script>-- ></script>");
+            var doc = (@"<script><!--<script></script><script></script>-- ></script>").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4088,7 +4082,7 @@
         [Test]
         public void ScriptWithScriptsInCommentSpaceBetweenDash()
         {
-            var doc = Html(@"<script><!--<script></script><script></script>- -></script>");
+            var doc = (@"<script><!--<script></script><script></script>- -></script>").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4122,7 +4116,7 @@
         [Test]
         public void ScriptWithScriptsInCommentDashMissing()
         {
-            var doc = Html(@"<script><!--<script></script><script></script>-></script>");
+            var doc = (@"<script><!--<script></script><script></script>-></script>").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4156,7 +4150,7 @@
         [Test]
         public void ScriptWithValidCommentAndTextAfter()
         {
-            var doc = Html(@"<script><!--<script>--!></script>X");
+            var doc = (@"<script><!--<script>--!></script>X").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4190,7 +4184,7 @@
         [Test]
         public void ScriptWithOpenCommentAndClosingMisspelledTextAfter()
         {
-            var doc = Html(@"<script><!--<script></scr'+'ipt></script>X");
+            var doc = (@"<script><!--<script></scr'+'ipt></script>X").ToHtmlDocument();
       
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4226,7 +4220,7 @@
         {
             var bytes = Assets.longscript;
             var content = TextEncoding.Utf8.GetString(bytes);
-            var doc = Html(content);
+            var doc = (content).ToHtmlDocument();
             Assert.IsNotNull(doc);
         }
     }
