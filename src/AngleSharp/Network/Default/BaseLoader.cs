@@ -17,10 +17,10 @@
     {
         #region Fields
         
-        readonly IBrowsingContext _context;
-        readonly Predicate<IRequest> _filter;
-        readonly List<IDownload> _downloads;
-
+        private readonly IBrowsingContext _context;
+        private readonly Predicate<IRequest> _filter;
+        private readonly List<IDownload> _downloads;
+        
         #endregion
 
         #region ctor
@@ -35,6 +35,20 @@
             _context = context;
             _filter = filter ?? (_ => true);
             _downloads = new List<IDownload>();
+            MaxRedirects = 50;
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the maximum number of redirects. By default this is 50.
+        /// </summary>
+        public Int32 MaxRedirects
+        {
+            get;
+            protected set;
         }
 
         #endregion
@@ -131,11 +145,13 @@
         {
             var requesters = _context.Configuration.GetServices<IRequester>();
             var response = default(IResponse);
+            var redirectCount = 0;
 
             do
             {
                 if (response != null)
                 {
+                    redirectCount++;
                     SetCookie(request.Address, response.Headers[HeaderNames.SetCookie]);
                     request = CreateNewRequest(request, response);
                     request.Headers[HeaderNames.Cookie] = GetCookie(request.Address);
@@ -152,7 +168,7 @@
                     }
                 }
             }
-            while (response != null && response.StatusCode.IsRedirected());
+            while (response != null && response.StatusCode.IsRedirected() && redirectCount < MaxRedirects);
 
             return response;
         }
