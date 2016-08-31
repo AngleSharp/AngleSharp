@@ -18,6 +18,18 @@
         #region Methods
 
         /// <summary>
+        /// Checks if the status code corresponds to a redirected response.
+        /// </summary>
+        /// <param name="status">The given status code.</param>
+        /// <returns>True if the status code hints redirection, otherwise false.</returns>
+        public static Boolean IsRedirected(this HttpStatusCode status)
+        {
+            return status == HttpStatusCode.Redirect || status == HttpStatusCode.RedirectKeepVerb ||
+                   status == HttpStatusCode.RedirectMethod || status == HttpStatusCode.TemporaryRedirect ||
+                   status == HttpStatusCode.MovedPermanently || status == HttpStatusCode.MultipleChoices;
+        }
+
+        /// <summary>
         /// Performs a potentially CORS-enabled fetch from the given URI by
         /// using an asynchronous GET request. For more information see:
         /// http://www.w3.org/TR/html5/infrastructure.html#potentially-cors-enabled-fetch
@@ -134,10 +146,7 @@
 
         private static Boolean IsRedirected(this IResponse response)
         {
-            var status = response?.StatusCode ?? HttpStatusCode.NotFound;
-            return status == HttpStatusCode.Redirect || status == HttpStatusCode.RedirectKeepVerb ||
-                   status == HttpStatusCode.RedirectMethod || status == HttpStatusCode.TemporaryRedirect ||
-                   status == HttpStatusCode.MovedPermanently || status == HttpStatusCode.MultipleChoices;
+            return (response?.StatusCode ?? HttpStatusCode.NotFound).IsRedirected();
         }
 
         private static CorsRequest RedirectTo(this CorsRequest cors, Url url)

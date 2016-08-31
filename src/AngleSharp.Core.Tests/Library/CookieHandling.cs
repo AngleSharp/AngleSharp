@@ -175,6 +175,27 @@
             }
         }
 
+        [Test]
+        public async Task SettingCookieIsPreservedViaRedirect()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var cookieUrl = "https://httpbin.org/cookies/set?test=baz";
+                var redirectUrl = "http://httpbin.org/redirect-to?url=http%3A%2F%2Fhttpbin.org%2Fcookies";
+                var config = Configuration.Default.WithCookies().WithDefaultLoader();
+                var context = BrowsingContext.New(config);
+                await context.OpenAsync(cookieUrl);
+                var document = await context.OpenAsync(redirectUrl);
+
+                Assert.AreEqual(@"{
+  ""cookies"": {
+    ""test"": ""baz""
+  }
+}
+".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
+            }
+        }
+
         private static async Task<String> LoadDocumentWithCookie(String cookieValue)
         {
             var config = Configuration.Default.WithCookies();

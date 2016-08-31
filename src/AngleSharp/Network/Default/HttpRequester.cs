@@ -135,6 +135,7 @@
         private sealed class RequestState
         {
             private readonly CookieContainer _cookies;
+            private readonly IDictionary<String, String> _headers;
             private readonly HttpWebRequest _http;
             private readonly IRequest _request;
             private readonly Byte[] _buffer;
@@ -143,6 +144,7 @@
             {
                 var cookieHeader = request.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
                 _cookies = new CookieContainer();
+                _headers = headers;
                 _request = request;
                 _http = WebRequest.Create(request.Address) as HttpWebRequest;
                 _http.CookieContainer = _cookies;
@@ -160,12 +162,47 @@
                 }
 
                 _cookies.SetCookies(_http.RequestUri, cookieHeader.Replace(';', ','));
+                DisableAutoRedirect();
             }
 
             public async Task<IResponse> RequestAsync(CancellationToken cancellationToken)
             {
+                var response = await BareRequestAsync(cancellationToken).ConfigureAwait(false);
+
+                while (response != null && response.StatusCode.IsRedirected())
+                {
+                    var method = _request.Method;
+                    var content = _request.Content;
+                    var location = response.Headers["location"];
+
+                    if (response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.RedirectMethod)
+                    {
+                        method = HttpMethod.Get;
+                        content = Stream.Null;
+                    }
+                    else if (content.Length > 0)
+                    {
+                        content.Position = 0;
+                    }
+
+                    var request = new Request
+                    {
+                        Address = new Url(_request.Address, location),
+                        Method = method,
+                        Content = content,
+                        Headers = _request.Headers
+                    };
+                    var requester = new RequestState(request, _headers);
+                    response = await requester.BareRequestAsync(cancellationToken).ConfigureAwait(false);
+                }
+
+                return GetResponse(response);
+            }
+
+            private async Task<HttpWebResponse> BareRequestAsync(CancellationToken cancellationToken)
+            {
                 cancellationToken.Register(_http.Abort);
-                
+
                 if (_request.Method == HttpMethod.Post || _request.Method == HttpMethod.Put)
                 {
                     var target = await Task.Factory.FromAsync<Stream>(_http.BeginGetRequestStream, _http.EndGetRequestStream, null).ConfigureAwait(false);
@@ -184,8 +221,7 @@
                 }
 
                 RaiseConnectionLimit(_http);
-
-                return GetResponse(response as HttpWebResponse);
+                return response as HttpWebResponse;
             }
 
             private void SendRequest(Stream target)
@@ -280,6 +316,11 @@
                 {
                     _http.Headers[key] = value;
                 }
+            }
+
+            private void DisableAutoRedirect()
+            {
+                SetProperty("AllowAutoRedirect", false);
             }
 
             /// <summary>
