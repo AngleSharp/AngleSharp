@@ -159,7 +159,7 @@
                     AddHeader(header.Key, header.Value);
                 }
 
-                _cookies.SetCookies(_http.RequestUri, cookieHeader);
+                _cookies.SetCookies(_http.RequestUri, cookieHeader.Replace(';', ','));
             }
 
             public async Task<IResponse> RequestAsync(CancellationToken cancellationToken)
