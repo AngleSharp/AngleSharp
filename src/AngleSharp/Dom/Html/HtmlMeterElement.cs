@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        readonly NodeList _labels;
+        private readonly NodeList _labels;
 
         #endregion
 

@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        readonly DocumentFragment _content;
+        private readonly DocumentFragment _content;
 
         #endregion
 

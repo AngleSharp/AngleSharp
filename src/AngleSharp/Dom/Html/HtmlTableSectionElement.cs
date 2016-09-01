@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        HtmlCollection<IHtmlTableRowElement> _rows;
+        private HtmlCollection<IHtmlTableRowElement> _rows;
 
         #endregion
 

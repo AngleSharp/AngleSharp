@@ -14,14 +14,14 @@
     {
         #region Fields
 
-        EventFlags _flags;
-        EventPhase _phase;
-        IEventTarget _current;
-        IEventTarget _target;
-        Boolean _bubbles;
-        Boolean _cancelable;
-        String _type;
-        DateTime _time;
+        private EventFlags _flags;
+        private EventPhase _phase;
+        private IEventTarget _current;
+        private IEventTarget _target;
+        private Boolean _bubbles;
+        private Boolean _cancelable;
+        private String _type;
+        private DateTime _time;
 
         #endregion
 

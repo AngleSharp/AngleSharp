@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        readonly List<IFile> _entries;
+        private readonly List<IFile> _entries;
 
         #endregion
 

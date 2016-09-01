@@ -16,8 +16,8 @@
     {
         #region Fields
 
-        readonly MediaRequestProcessor<TResource> _request;
-        ITextTrackList _texts;
+        private readonly MediaRequestProcessor<TResource> _request;
+        private ITextTrackList _texts;
 
         #endregion
 
@@ -326,7 +326,7 @@
 
         #region Helpers
 
-        void UpdateSource(String value)
+        private void UpdateSource(String value)
         {
             var url = new Url(value);
             this.Process(_request, url);

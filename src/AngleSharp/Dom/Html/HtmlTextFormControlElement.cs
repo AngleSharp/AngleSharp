@@ -11,11 +11,11 @@
     {
         #region Fields
 
-        Boolean _dirty;
-        String _value;
-        SelectionType _direction;
-        Int32 _start;
-        Int32 _end;
+        private Boolean _dirty;
+        private String _value;
+        private SelectionType _direction;
+        private Int32 _start;
+        private Int32 _end;
 
         #endregion
 
@@ -252,7 +252,7 @@
             }
         }
 
-        void SetSelectionRange(Int32 selectionStart, Int32 selectionEnd, SelectionType selectionType)
+        private void SetSelectionRange(Int32 selectionStart, Int32 selectionEnd, SelectionType selectionType)
         {
             var length = (Value ?? String.Empty).Length;
 

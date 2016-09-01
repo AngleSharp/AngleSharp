@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        IVideoTrackList _videos;
+        private IVideoTrackList _videos;
 
         #endregion
 
