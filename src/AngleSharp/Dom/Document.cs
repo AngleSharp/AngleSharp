@@ -1235,13 +1235,50 @@
         }
 
         /// <summary>
+        /// Potentially prompts the user to unload the document.
+        /// </summary>
+        /// <returns>True if unload okay, otherwise false.</returns>
+        internal Boolean PromptToUnload()
+        {
+            var descendants = GetAttachedReferences<IBrowsingContext>();
+
+            if (HasEventListener(EventNames.BeforeUnload))
+            {
+                _salvageable = false;
+                var unloadEvent = new Event(EventNames.BeforeUnload, bubbles: false, cancelable: true);
+                var shouldCancel = _view.Fire(unloadEvent);
+                
+                if (shouldCancel)
+                {
+                    //TODO Prompt User to Confirm Unloading
+                    return false;
+                }
+            }
+             
+            foreach (var descendant in descendants)
+            {
+                var active = descendant.Active as Document;
+
+                if (active != null)
+                {
+                    if (!active.PromptToUnload())
+                    {
+                        return false;
+                    }
+
+                    _salvageable = _salvageable && active._salvageable;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Unloads the document. For more details, see:
         /// http://www.w3.org/html/wg/drafts/html/CR/browsers.html#unload-a-document
         /// </summary>
         /// <param name="recycle">The recycle parameter.</param>
-        /// <param name="cancelToken">Token for cancellation.</param>
-        /// <returns>The task that unloads the document.</returns>
-        internal void Unload(Boolean recycle, CancellationToken cancelToken)
+        internal void Unload(Boolean recycle)
         {
             var descendants = GetAttachedReferences<IBrowsingContext>();
 
@@ -1270,7 +1307,7 @@
 
                 if (active != null)
                 {
-                    active.Unload(false, cancelToken);
+                    active.Unload(false);
                     _salvageable = _salvageable && active._salvageable;
                 }
             }

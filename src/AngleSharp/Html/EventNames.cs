@@ -353,6 +353,11 @@
         public static readonly String BeforePrint = "beforeprint";
 
         /// <summary>
+        /// The beforeunload event.
+        /// </summary>
+        public static readonly String BeforeUnload = "beforeunload";
+
+        /// <summary>
         /// The unloading event.
         /// </summary>
         public static readonly String Unloading = "unloading";
