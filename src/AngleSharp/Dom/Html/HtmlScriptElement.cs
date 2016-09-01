@@ -16,11 +16,11 @@
     {
         #region Fields
 
-        readonly Boolean _parserInserted;
-        readonly ScriptRequestProcessor _request;
+        private readonly Boolean _parserInserted;
+        private readonly ScriptRequestProcessor _request;
 
-        Boolean _started;
-        Boolean _forceAsync;
+        private Boolean _started;
+        private Boolean _forceAsync;
 
         #endregion
 

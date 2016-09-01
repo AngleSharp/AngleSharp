@@ -13,8 +13,8 @@
     {
         #region Fields
 
-        OptionsCollection _options;
-        HtmlCollection<IHtmlOptionElement> _selected;
+        private OptionsCollection _options;
+        private HtmlCollection<IHtmlOptionElement> _selected;
 
         #endregion
 
@@ -205,7 +205,7 @@
 
         #region Helpers
 
-        void UpdateValue(String value)
+        private void UpdateValue(String value)
         {
             var options = Options;
 

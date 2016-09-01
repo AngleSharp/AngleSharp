@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        IAudioTrackList _audios;
+        private IAudioTrackList _audios;
 
         #endregion
 

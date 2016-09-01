@@ -13,8 +13,8 @@
     {
         #region Fields
 
-        IBrowsingContext _context;
-        FrameRequestProcessor _request;
+        private IBrowsingContext _context;
+        private FrameRequestProcessor _request;
 
         #endregion
 

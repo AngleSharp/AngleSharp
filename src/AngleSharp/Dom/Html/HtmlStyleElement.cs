@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        IStyleSheet _sheet;
+        private IStyleSheet _sheet;
 
         #endregion
 
@@ -98,7 +98,7 @@
 
         #region Helpers
 
-        void UpdateMedia(String value)
+        private void UpdateMedia(String value)
         {
             if (_sheet != null)
             {
@@ -106,7 +106,7 @@
             }
         }
 
-        void UpdateSheet()
+        private void UpdateSheet()
         {
             var document = Owner;
 
@@ -125,7 +125,7 @@
             }
         }
 
-        async Task CreateSheetAsync(IStyleEngine engine, IBrowsingContext context)
+        private async Task CreateSheetAsync(IStyleEngine engine, IBrowsingContext context)
         {
             var cancel = CancellationToken.None;
             var response = VirtualResponse.Create(res => res.Content(TextContent).Address(default(Url)));
