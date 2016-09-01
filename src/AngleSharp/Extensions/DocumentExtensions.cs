@@ -25,7 +25,7 @@
         /// <param name="action">The action to apply to the range.</param>
         public static void ForEachRange(this Document document, Predicate<Range> condition, Action<Range> action)
         {
-            foreach (var range in document.Ranges)
+            foreach (var range in document.GetAttachedReferences<Range>())
             {
                 if (condition(range))
                 {
@@ -337,7 +337,9 @@
         {
             var options = document.Options;
             var factory = options.GetFactory<IContextFactory>();
-            return factory.Create(document.Context, name, security);
+            var context = factory.Create(document.Context, name, security);
+            document.AttachReference(context);
+            return context;
         }
 
         /// <summary>
@@ -351,16 +353,6 @@
         {
             //TODO
             return document.NewContext(String.Empty, security);
-        }
-
-        /// <summary>
-        /// Releases the storage mutex. For more information, see:
-        /// http://www.w3.org/html/wg/drafts/html/CR/webappapis.html#storage-mutex
-        /// </summary>
-        /// <param name="document">The responsible document.</param>
-        public static void ReleaseStorageMutex(this Document document)
-        {
-            //TODO
         }
     }
 }

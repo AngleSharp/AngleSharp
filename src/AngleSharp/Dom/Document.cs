@@ -12,6 +12,7 @@
     using System.IO;
     using System.Linq;
     using System.Net;
+    using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -22,38 +23,40 @@
     {
         #region Fields
 
-        readonly Queue<HtmlScriptElement> _loadingScripts;
-        readonly List<WeakReference<Range>> _ranges;
-        readonly MutationHost _mutations;
-        readonly IBrowsingContext _context;
-        readonly IEventLoop _loop;
-        readonly Window _view;
-        readonly IResourceLoader _loader;
-        readonly Location _location;
-        readonly TextSource _source;
-        readonly List<Task> _subtasks;
+        private static readonly ConditionalWeakTable<Document, List<WeakReference>> AttachedReferences = 
+            new ConditionalWeakTable<Document, List<WeakReference>>();
 
-        QuirksMode _quirksMode;
-        Sandboxes _sandbox;
-        Boolean _async;
-        Boolean _designMode;
-        Boolean _shown;
-        Boolean _salvageable;
-        Boolean _firedUnload;
-        DocumentReadyState _ready;
-        IElement _focus;
-        HtmlAllCollection _all;
-        HtmlCollection<IHtmlAnchorElement> _anchors;
-        HtmlCollection<IElement> _children;
-        DomImplementation _implementation;
-        IStringList _styleSheetSets;
-        HtmlCollection<IHtmlImageElement> _images;
-        HtmlCollection<IHtmlScriptElement> _scripts;
-        HtmlCollection<IHtmlEmbedElement> _plugins;
-        HtmlCollection<IElement> _commands;
-        HtmlCollection<IElement> _links;
-        IStyleSheetList _styleSheets;
-        HttpStatusCode _statusCode;
+        private readonly Queue<HtmlScriptElement> _loadingScripts;
+        private readonly MutationHost _mutations;
+        private readonly IBrowsingContext _context;
+        private readonly IEventLoop _loop;
+        private readonly Window _view;
+        private readonly IResourceLoader _loader;
+        private readonly Location _location;
+        private readonly TextSource _source;
+        private readonly List<Task> _subtasks;
+
+        private QuirksMode _quirksMode;
+        private Sandboxes _sandbox;
+        private Boolean _async;
+        private Boolean _designMode;
+        private Boolean _shown;
+        private Boolean _salvageable;
+        private Boolean _firedUnload;
+        private DocumentReadyState _ready;
+        private IElement _focus;
+        private HtmlAllCollection _all;
+        private HtmlCollection<IHtmlAnchorElement> _anchors;
+        private HtmlCollection<IElement> _children;
+        private DomImplementation _implementation;
+        private IStringList _styleSheetSets;
+        private HtmlCollection<IHtmlImageElement> _images;
+        private HtmlCollection<IHtmlScriptElement> _scripts;
+        private HtmlCollection<IHtmlEmbedElement> _plugins;
+        private HtmlCollection<IElement> _commands;
+        private HtmlCollection<IElement> _links;
+        private IStyleSheetList _styleSheets;
+        private HttpStatusCode _statusCode;
 
         #endregion
 
@@ -420,6 +423,9 @@
         internal Document(IBrowsingContext context, TextSource source)
             : base(null, "#document", NodeType.Document)
         {
+            AttachedReferences.Add(this, new List<WeakReference>());
+            Referrer = String.Empty;
+            ContentType = MimeTypeNames.ApplicationXml;
             _async = true;
             _designMode = false;
             _firedUnload = false;
@@ -427,14 +433,11 @@
             _shown = false;
             _context = context;
             _source = source;
-            Referrer = String.Empty;
-            ContentType = MimeTypeNames.ApplicationXml;
             _ready = DocumentReadyState.Loading;
             _sandbox = Sandboxes.None;
             _quirksMode = QuirksMode.Off;
             _loadingScripts = new Queue<HtmlScriptElement>();
             _location = new Location("about:blank");
-            _ranges = new List<WeakReference<Range>>();
             _location.Changed += LocationChanged;
             _view = new Window(this);
             _loader = context.CreateService<IResourceLoader>();
@@ -818,27 +821,14 @@
 
         #region Internal Properties
 
-        internal IEnumerable<Range> Ranges
+        internal TextSource Source
         {
-            get 
-            { 
-                return _ranges.Select(entry => 
-                {
-                    var range = default(Range);
-                    entry.TryGetTarget(out range);
-                    return range;
-                }).Where(range => range != null); 
-            }
+            get { return _source; }
         }
 
         internal MutationHost Mutations
         {
             get { return _mutations; }
-        }
-
-        internal TextSource Source
-        {
-            get { return _source; }
         }
 
         internal IConfiguration Options
@@ -1020,7 +1010,7 @@
         public IRange CreateRange()
         {
             var range = new Range(this);
-            _ranges.Add(new WeakReference<Range>(range));
+            AttachReference(range);
             return range;
         }
 
@@ -1168,6 +1158,30 @@
         #region Internal Methods
 
         /// <summary>
+        /// Gets the specified attached references.
+        /// </summary>
+        /// <typeparam name="T">The type of values to get.</typeparam>
+        /// <returns>Gets the enumeration over all values.</returns>
+        internal IEnumerable<T> GetAttachedReferences<T>()
+            where T : class
+        {
+            var references = default(List<WeakReference>);
+            AttachedReferences.TryGetValue(this, out references);
+            return references.Select(entry => entry.IsAlive ? entry.Target as T : null).Where(m => m != null);
+        }
+
+        /// <summary>
+        /// Attaches another reference to this document.
+        /// </summary>
+        /// <param name="value">The value to attach.</param>
+        internal void AttachReference(Object value)
+        {
+            var references = default(List<WeakReference>);
+            AttachedReferences.TryGetValue(this, out references);
+            references.Add(new WeakReference(value));
+        }
+
+        /// <summary>
         /// Waits for the given task before raising the load event.
         /// </summary>
         /// <param name="task">The task to wait for.</param>
@@ -1229,6 +1243,8 @@
         /// <returns>The task that unloads the document.</returns>
         internal void Unload(Boolean recycle, CancellationToken cancelToken)
         {
+            var descendants = GetAttachedReferences<IBrowsingContext>();
+
             if (_shown)
             {
                 _shown = false;
@@ -1240,15 +1256,29 @@
                 _view.FireSimpleEvent(EventNames.Unload);
             }
 
-            this.ReleaseStorageMutex();
-
             if (_view.HasEventListener(EventNames.Unload))
             {
                 _firedUnload = true;
                 _salvageable = false;
             }
 
-            //TODO cont. at 11.)
+            //TODO Perform Additional Cleanup Steps
+            
+            foreach (var descendant in descendants)
+            {
+                var active = descendant.Active as Document;
+
+                if (active != null)
+                {
+                    active.Unload(false, cancelToken);
+                    _salvageable = _salvageable && active._salvageable;
+                }
+            }
+
+            if (!recycle && !_salvageable)
+            {
+                //TODO Discard Document from Browsing Context
+            }
         }
 
         #endregion
@@ -1295,34 +1325,34 @@
 
         #region Helpers
 
-        static Boolean IsCommand(IElement element)
+        private static Boolean IsCommand(IElement element)
         {
             return element is IHtmlMenuItemElement || element is IHtmlButtonElement || element is IHtmlAnchorElement;
         }
 
-        static Boolean IsLink(IElement element)
+        private static Boolean IsLink(IElement element)
         {
             var isLinkElement = element is IHtmlAnchorElement || element is IHtmlAreaElement;
             return isLinkElement && element.Attributes.Any(m => m.Name.Is(AttributeNames.Href));
         }
 
-        static Boolean IsAnchor(IHtmlAnchorElement element)
+        private static Boolean IsAnchor(IHtmlAnchorElement element)
         {
             return element.Attributes.Any(m => m.Name.Is(AttributeNames.Name));
         }
 
-        void RaiseDomContentLoaded()
+        private void RaiseDomContentLoaded()
         {
             this.FireSimpleEvent(EventNames.DomContentLoaded);
         }
 
-        void RaiseLoadedEvent()
+        private void RaiseLoadedEvent()
         {
             ReadyState = DocumentReadyState.Complete;
             this.FireSimpleEvent(EventNames.Load);
         }
 
-        void EmptyAppCache()
+        private void EmptyAppCache()
         {
             //TODO
             //If the Document has any pending application cache download
@@ -1333,7 +1363,7 @@
             //networking task source.
         }
 
-        void Print()
+        private void Print()
         {
             this.FireSimpleEvent(EventNames.BeforePrint);
 
@@ -1344,7 +1374,7 @@
             this.FireSimpleEvent(EventNames.AfterPrint);
         }
 
-        void ShowPage()
+        private void ShowPage()
         {
             if (!_shown)
             {
@@ -1353,7 +1383,7 @@
             }
         }
 
-        async void LocationChanged(Object sender, Location.LocationChangedEventArgs e)
+        private async void LocationChanged(Object sender, Location.LocationChangedEventArgs e)
         {
             if (e.IsHashChanged)
             {
