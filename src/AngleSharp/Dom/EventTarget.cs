@@ -13,13 +13,13 @@
     {
         #region Fields
 
-        List<RegisteredEventListener> _listeners;
+        private List<RegisteredEventListener> _listeners;
 
         #endregion
 
         #region Properties
 
-        List<RegisteredEventListener> Listeners
+        private List<RegisteredEventListener> Listeners
         {
             get { return _listeners ?? (_listeners = new List<RegisteredEventListener>()); }
         }
@@ -87,6 +87,17 @@
         }
 
         /// <summary>
+        /// Removes all listeners.
+        /// </summary>
+        public void RemoveEventListeners()
+        {
+            if (_listeners != null)
+            {
+                _listeners.Clear();
+            }
+        }
+
+        /// <summary>
         /// Calls the listener registered for the given event.
         /// </summary>
         /// <param name="ev">The event that asks for the listeners.</param>
@@ -124,7 +135,7 @@
         /// <returns>
         /// True if listeners are registered, otherwise false.
         /// </returns>
-        internal Boolean HasEventListener(String type)
+        public Boolean HasEventListener(String type)
         {
             if (_listeners != null)
             {
@@ -161,7 +172,7 @@
 
         #region Event Listener Structure
 
-        struct RegisteredEventListener
+        private struct RegisteredEventListener
         {
             public String Type;
             public DomEventHandler Callback;
