@@ -615,7 +615,8 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static String HtmlEncode(this String value, Encoding encoding)
         {
-            //TODO Decide if the encoding is sufficient (How?)
+            //In the PCL we don't have access to EncoderFallback and cannot
+            //integrate such a logic without much logic overhead.
             return value;
         }
 
