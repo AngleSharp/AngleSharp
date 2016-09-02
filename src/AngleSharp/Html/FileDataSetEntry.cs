@@ -3,6 +3,7 @@
     using AngleSharp.Dom.Io;
     using AngleSharp.Network;
     using System;
+    using System.IO;
     using System.Text;
 
     /// <summary>
@@ -10,7 +11,7 @@
     /// </summary>
     sealed class FileDataSetEntry : FormDataSetEntry
     {
-        readonly IFile _value;
+        private readonly IFile _value;
 
         public FileDataSetEntry(String name, IFile value, String type)
             : base(name, type)
@@ -30,13 +31,29 @@
 
         public override Boolean Contains(String boundary, Encoding encoding)
         {
-            if (_value == null || _value.Body == null)
+            var result = false;
+            var content = _value?.Body;
+
+            if (content != null && content.CanSeek)
             {
-                return false;
+                using (var sr = new StreamReader(content, encoding, false, 4096, true))
+                {
+                    while (sr.Peek() != -1)
+                    {
+                        var line = sr.ReadLine();
+
+                        if (line.Contains(boundary))
+                        {
+                            result = true;
+                            break;
+                        }
+                    }
+                }
+
+                content.Seek(0, SeekOrigin.Begin);
             }
 
-            //TODO boundary check required?
-            return false;
+            return result;
         }
 
         public override void Accept(IFormDataSetVisitor visitor)
