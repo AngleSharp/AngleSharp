@@ -27,9 +27,9 @@
         {
             foreach (var range in document.GetAttachedReferences<Range>())
             {
-                if (condition(range))
+                if (condition.Invoke(range))
                 {
-                    action(range);
+                    action.Invoke(range);
                 }
             }
         }
@@ -69,65 +69,60 @@
         /// <param name="record">The record to enqueue.</param>
         public static void QueueMutation(this Document document, MutationRecord record)
         {
-            if (document != null)
+            var observers = document.Mutations.Observers.ToArray();
+
+            if (observers.Length > 0)
             {
-                var observers = document.Mutations.Observers.ToArray();
+                var nodes = record.Target.GetInclusiveAncestors();
 
-                if (observers.Length > 0)
+                for (var i = 0; i < observers.Length; i++)
                 {
-                    var nodes = record.Target.GetInclusiveAncestors();
+                    var observer = observers[i];
+                    var clearPreviousValue = default(Boolean?);
 
-                    for (var i = 0; i < observers.Length; i++)
+                    foreach (var node in nodes)
                     {
-                        var observer = observers[i];
-                        var clearPreviousValue = default(bool?);
+                        var options = observer.ResolveOptions(node);
 
-                        foreach (var node in nodes)
+                        if (options.IsInvalid)
                         {
-                            var options = observer.ResolveOptions(node);
-
-                            if (options.IsInvalid)
-                            {
-                                continue;
-                            }
-                            else if (node != record.Target && !options.IsObservingSubtree)
-                            {
-                                continue;
-                            }
-                            else if (record.IsAttribute && !options.IsObservingAttributes)
-                            {
-                                continue;
-                            }
-                            else if (record.IsAttribute && options.AttributeFilters != null && (!options.AttributeFilters.Contains(record.AttributeName) || record.AttributeNamespace != null))
-                            {
-                                continue;
-                            }
-                            else if (record.IsCharacterData && !options.IsObservingCharacterData)
-                            {
-                                continue;
-                            }
-                            else if (record.IsChildList && !options.IsObservingChildNodes)
-                            {
-                                continue;
-                            }
-
-                            if (!clearPreviousValue.HasValue || clearPreviousValue.Value)
-                            {
-                                clearPreviousValue = (record.IsAttribute && !options.IsExaminingOldAttributeValue) ||
-                                    (record.IsCharacterData && !options.IsExaminingOldCharacterData);
-                            }
+                            continue;
                         }
-
-                        if (clearPreviousValue == null)
+                        else if (node != record.Target && !options.IsObservingSubtree)
+                        {
+                            continue;
+                        }
+                        else if (record.IsAttribute && !options.IsObservingAttributes)
+                        {
+                            continue;
+                        }
+                        else if (record.IsAttribute && options.AttributeFilters != null && (!options.AttributeFilters.Contains(record.AttributeName) || record.AttributeNamespace != null))
+                        {
+                            continue;
+                        }
+                        else if (record.IsCharacterData && !options.IsObservingCharacterData)
+                        {
+                            continue;
+                        }
+                        else if (record.IsChildList && !options.IsObservingChildNodes)
                         {
                             continue;
                         }
 
-                        observer.Enqueue(record.Copy(clearPreviousValue.Value));
+                        if (!clearPreviousValue.HasValue || clearPreviousValue.Value)
+                        {
+                            clearPreviousValue = (record.IsAttribute && !options.IsExaminingOldAttributeValue) ||
+                                (record.IsCharacterData && !options.IsExaminingOldCharacterData);
+                        }
                     }
 
-                    document.PerformMicrotaskCheckpoint();
+                    if (clearPreviousValue != null)
+                    {
+                        observer.Enqueue(record.Copy(clearPreviousValue.Value));
+                    }
                 }
+
+                document.PerformMicrotaskCheckpoint();
             }
         }
 
@@ -138,11 +133,6 @@
         /// <param name="node">The node to be removed.</param>
         public static void AddTransientObserver(this Document document, INode node)
         {
-            if (document == null)
-            {
-                return;
-            }
-
             var ancestors = node.GetAncestors();
             var observers = document.Mutations.Observers;
 
@@ -161,33 +151,31 @@
         /// <param name="document">The document to modify.</param>
         public static void ApplyManifest(this Document document)
         {
-            if (!document.IsInBrowsingContext)
+            if (document.IsInBrowsingContext)
             {
-                return;
-            }
+                var root = document.DocumentElement as IHtmlHtmlElement;
 
-            var root = document.DocumentElement as IHtmlHtmlElement;
-
-            if (root != null)
-            {
-                var manifest = root.Manifest;
-
-                //TODO
-                // Replace by algorithm to resolve the value of that attribute
-                // to an absolute URL, relative to the newly created element.
-                Predicate<String> CanResolve = str => false;
-
-                if (!String.IsNullOrEmpty(manifest) && CanResolve(manifest))
+                if (root != null)
                 {
-                    // Run the application cache selection algorithm with the
-                    // result of applying the URL serializer algorithm to the
-                    // resulting parsed URL with the exclude fragment flag set.
-                }
-                else
-                {
-                    // Run the application cache selection algorithm with no
-                    // manifest. The algorithm must be passed the Document 
-                    // object.
+                    var manifest = root.Manifest;
+
+                    //TODO
+                    // Replace by algorithm to resolve the value of that attribute
+                    // to an absolute URL, relative to the newly created element.
+                    var CanResolve = new Predicate<String>(str => false);
+
+                    if (!String.IsNullOrEmpty(manifest) && CanResolve(manifest))
+                    {
+                        // Run the application cache selection algorithm with the
+                        // result of applying the URL serializer algorithm to the
+                        // resulting parsed URL with the exclude fragment flag set.
+                    }
+                    else
+                    {
+                        // Run the application cache selection algorithm with no
+                        // manifest. The algorithm must be passed the Document 
+                        // object.
+                    }
                 }
             }
         }
@@ -337,9 +325,7 @@
         {
             var options = document.Options;
             var factory = options.GetFactory<IContextFactory>();
-            var context = factory.Create(document.Context, name, security);
-            document.AttachReference(context);
-            return context;
+            return factory.Create(document.Context, name, security);
         }
 
         /// <summary>
@@ -352,7 +338,9 @@
         public static IBrowsingContext NewChildContext(this Document document, Sandboxes security)
         {
             //TODO
-            return document.NewContext(String.Empty, security);
+            var context = document.NewContext(String.Empty, security);
+            document.AttachReference(context);
+            return context;
         }
     }
 }

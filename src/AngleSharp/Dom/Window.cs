@@ -8,7 +8,7 @@
     using AngleSharp.Html;
     using AngleSharp.Services.Styling;
     using System;
-    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -20,17 +20,16 @@
     {
         #region Fields
 
-        readonly Document _document;
-        readonly List<CancellationTokenSource> _tasks;
+        private readonly Document _document;
 
-        String _name;
-        Int32 _outerHeight;
-        Int32 _outerWidth;
-        Int32 _screenX;
-        Int32 _screenY;
-        String _status;
-        Boolean _closed;
-        INavigator _navigator;
+        private String _name;
+        private Int32 _outerHeight;
+        private Int32 _outerWidth;
+        private Int32 _screenX;
+        private Int32 _screenY;
+        private String _status;
+        private Boolean _closed;
+        private INavigator _navigator;
 
         #endregion
 
@@ -39,7 +38,6 @@
         public Window(Document document)
         {
             _document = document;
-            _tasks = new List<CancellationTokenSource>();
         }
 
         #endregion
@@ -609,8 +607,8 @@
 
         IWindow IWindow.Open(String url, String name, String features, String replace)
         {
-            //TODO Context ?
-            var document = new HtmlDocument();
+            var context = _document.NewContext(name, Sandboxes.None);
+            var document = new HtmlDocument(context);
             document.Location.Href = url;
             return new Window(document) { Name = name };
         }
@@ -673,38 +671,43 @@
 
         #region Helpers
 
-        async Task DoTimeoutAsync(Action<IWindow> callback, Int32 timeout, CancellationToken token)
+        private async Task DoTimeoutAsync(Action<IWindow> callback, Int32 timeout, CancellationTokenSource cts)
         {
-            await token.Delay(timeout).ConfigureAwait(false);
+            var token = cts.Token;
+            await TaskEx.Delay(timeout, token).ConfigureAwait(false);
 
             if (!token.IsCancellationRequested)
             {
-                _document.QueueTask(() => callback(this));
+                _document.QueueTask(() => callback.Invoke(this));
             }
         }
 
-        async Task DoIntervalAsync(Action<IWindow> callback, Int32 timeout, CancellationToken token)
+        private async Task DoIntervalAsync(Action<IWindow> callback, Int32 timeout, CancellationTokenSource cts)
         {
+            var token = cts.Token;
+
             while (!token.IsCancellationRequested)
             {
-                await DoTimeoutAsync(callback, timeout, token).ConfigureAwait(false);
+                await DoTimeoutAsync(callback, timeout, cts).ConfigureAwait(false);
             }
         }
 
-        Int32 QueueTask(Func<Action<IWindow>, Int32, CancellationToken, Task> taskCreator, Action<IWindow> callback, Int32 timeout)
+        private Int32 QueueTask(Func<Action<IWindow>, Int32, CancellationTokenSource, Task> taskCreator, Action<IWindow> callback, Int32 timeout)
         {
-            var id = _tasks.Count;
             var cts = new CancellationTokenSource();
-            taskCreator(callback, timeout, cts.Token);
-            _tasks.Add(cts);
-            return id;
+            taskCreator.Invoke(callback, timeout, cts);
+            _document.AttachReference(cts);
+            return cts.GetHashCode();
         }
 
-        void Clear(Int32 handle)
+        private void Clear(Int32 handle)
         {
-            if (_tasks.Count > handle && !_tasks[handle].IsCancellationRequested)
+            var tasks = _document.GetAttachedReferences<CancellationTokenSource>();
+            var task = tasks.Where(m => m.GetHashCode() == handle).FirstOrDefault();
+
+            if (task != null && !task.IsCancellationRequested)
             {
-                _tasks[handle].Cancel();
+                task.Cancel();
             }
         }
 

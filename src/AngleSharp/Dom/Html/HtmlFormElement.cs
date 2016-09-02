@@ -183,19 +183,16 @@
 
             foreach (var control in controls)
             {
-                if (control.FireSimpleEvent(EventNames.Invalid, false, true))
+                if (!control.FireSimpleEvent(EventNames.Invalid, false, true))
                 {
-                    continue;
-                }
+                    if (!hasfocused)
+                    {
+                        control.DoFocus();
+                        hasfocused = true;
+                    }
 
-                if (!hasfocused)
-                {
-                    //TODO Report Problems (interactively, e.g. via UI specific event)
-                    control.DoFocus();
-                    hasfocused = true;
+                    result = false;
                 }
-
-                result = false;
             }
 
             return result;
@@ -229,18 +226,20 @@
                 var createdBrowsingContext = false;
                 var targetBrowsingContext = owner.Context;
                 var target = Target;
+                var replace = owner.ReadyState != DocumentReadyState.Complete;
 
                 if (!String.IsNullOrEmpty(target))
                 {
                     targetBrowsingContext = owner.GetTarget(target);
-
-                    if (createdBrowsingContext = (targetBrowsingContext == null))
-                    {
-                        targetBrowsingContext = owner.CreateTarget(target);
-                    }
+                    createdBrowsingContext = targetBrowsingContext == null;
                 }
 
-                var replace = createdBrowsingContext || owner.ReadyState != DocumentReadyState.Complete;
+                if (createdBrowsingContext)
+                {
+                    targetBrowsingContext = owner.CreateTarget(target);
+                    replace = true;
+                }
+
                 var scheme = action.Scheme;
                 var method = Method.ToEnum(HttpMethod.Get);
                 return SubmitForm(method, scheme, action, from);

@@ -34,7 +34,6 @@
         private readonly IResourceLoader _loader;
         private readonly Location _location;
         private readonly TextSource _source;
-        private readonly List<Task> _subtasks;
 
         private QuirksMode _quirksMode;
         private Sandboxes _sandbox;
@@ -443,7 +442,6 @@
             _loader = context.CreateService<IResourceLoader>();
             _loop = context.CreateService<IEventLoop>();
             _mutations = new MutationHost(_loop);
-            _subtasks = new List<Task>();
             _statusCode = HttpStatusCode.OK;
         }
 
@@ -1189,7 +1187,7 @@
         {
             if (!IsReady && task != null && !task.IsCompleted)
             {
-                _subtasks.Add(task);
+                AttachReference(task);
             }
         }
 
@@ -1207,6 +1205,7 @@
         /// </summary>
         internal async Task FinishLoadingAsync()
         {
+            var tasks = GetAttachedReferences<Task>().ToArray();
             ReadyState = DocumentReadyState.Interactive;
 
             while (_loadingScripts.Count > 0)
@@ -1217,7 +1216,7 @@
 
             this.QueueTask(RaiseDomContentLoaded);
 
-            await TaskEx.WhenAll(_subtasks.ToArray()).ConfigureAwait(false);
+            await TaskEx.WhenAll(tasks).ConfigureAwait(false);
 
             this.QueueTask(RaiseLoadedEvent);
 
@@ -1230,7 +1229,7 @@
 
             if (IsToBePrinted)
             {
-                Print();
+                await PrintAsync().ConfigureAwait(false);
             }
         }
 
@@ -1238,20 +1237,29 @@
         /// Potentially prompts the user to unload the document.
         /// </summary>
         /// <returns>True if unload okay, otherwise false.</returns>
-        internal Boolean PromptToUnload()
+        internal async Task<Boolean> PromptToUnloadAsync()
         {
             var descendants = GetAttachedReferences<IBrowsingContext>();
 
-            if (HasEventListener(EventNames.BeforeUnload))
+            if (_view.HasEventListener(EventNames.BeforeUnload))
             {
-                _salvageable = false;
                 var unloadEvent = new Event(EventNames.BeforeUnload, bubbles: false, cancelable: true);
                 var shouldCancel = _view.Fire(unloadEvent);
-                
+                _salvageable = false;
+
                 if (shouldCancel)
                 {
-                    //TODO Prompt User to Confirm Unloading
-                    return false;
+                    var data = new
+                    {
+                        Document = this,
+                        IsCancelled = true,
+                    };
+                    await _context.FireAsync(EventNames.ConfirmUnload, data).ConfigureAwait(false);
+
+                    if (data.IsCancelled)
+                    {
+                        return false;
+                    }
                 }
             }
              
@@ -1261,7 +1269,9 @@
 
                 if (active != null)
                 {
-                    if (!active.PromptToUnload())
+                    var result = await active.PromptToUnloadAsync().ConfigureAwait(false);
+
+                    if (!result)
                     {
                         return false;
                     }
@@ -1288,18 +1298,18 @@
                 this.Fire<PageTransitionEvent>(ev => ev.Init(EventNames.PageHide, false, false, _salvageable), _view);
             }
 
-            if (!_firedUnload)
-            {
-                _view.FireSimpleEvent(EventNames.Unload);
-            }
-
             if (_view.HasEventListener(EventNames.Unload))
             {
-                _firedUnload = true;
+                if (!_firedUnload)
+                {
+                    _view.FireSimpleEvent(EventNames.Unload);
+                    _firedUnload = true;
+                }
+
                 _salvageable = false;
             }
 
-            //TODO Perform Additional Cleanup Steps
+            CancelTasks();
             
             foreach (var descendant in descendants)
             {
@@ -1314,7 +1324,10 @@
 
             if (!recycle && !_salvageable)
             {
-                //TODO Discard Document from Browsing Context
+                if (_context.Active == this)
+                {
+                    _context.Active = null;
+                }
             }
         }
 
@@ -1362,6 +1375,17 @@
 
         #region Helpers
 
+        private void CancelTasks()
+        {
+            foreach (var task in GetAttachedReferences<CancellationTokenSource>())
+            {
+                if (!task.IsCancellationRequested)
+                {
+                    task.Cancel();
+                }
+            }
+        }
+
         private static Boolean IsCommand(IElement element)
         {
             return element is IHtmlMenuItemElement || element is IHtmlButtonElement || element is IHtmlAnchorElement;
@@ -1400,14 +1424,11 @@
             //networking task source.
         }
 
-        private void Print()
+        private async Task PrintAsync()
         {
+            var data = new { Document = this };
             this.FireSimpleEvent(EventNames.BeforePrint);
-
-            //TODO
-            //Run the printing steps (such as displaying a save to pdf dialog).
-            //http://www.w3.org/html/wg/drafts/html/master/webappapis.html#printing-steps
-
+            await _context.FireAsync(EventNames.Print, data).ConfigureAwait(false);
             this.FireSimpleEvent(EventNames.AfterPrint);
         }
 
