@@ -39,7 +39,7 @@
         {
             if (_result != null)
             {
-                _result = Task.WhenAll(_result, value);
+                _result = TaskEx.WhenAll(_result, value);
             }
             else
             {
