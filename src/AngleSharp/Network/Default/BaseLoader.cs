@@ -152,9 +152,20 @@
                 if (response != null)
                 {
                     redirectCount++;
-                    SetCookie(request.Address, response.Headers[HeaderNames.SetCookie]);
+                    var oldCookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, null);
+
+                    if (oldCookie != null)
+                    {
+                        SetCookie(request.Address, oldCookie);
+                    }
+
                     request = CreateNewRequest(request, response);
-                    request.Headers[HeaderNames.Cookie] = GetCookie(request.Address);
+                    var newCookie = GetCookie(request.Address);
+
+                    if (newCookie != null)
+                    {
+                        request.Headers[HeaderNames.Cookie] = newCookie;
+                    }
                 }
 
                 foreach (var requester in requesters)
