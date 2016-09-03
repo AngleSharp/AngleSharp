@@ -879,7 +879,7 @@
         {
             //Important to fix #45
             ReplaceAll(null, true);
-            _loop.Shutdown();
+            _loop.CancelAll();
             _loadingScripts.Clear();
             _source.Dispose();
         }
@@ -899,27 +899,66 @@
 
             if (!IsInBrowsingContext || Object.ReferenceEquals(_context.Active, this))
             {
-                var shallReplace = replace.Isi(Keywords.Replace);
+                var responsibleDocument = _context?.Parent.Active;
 
-                if (_loadingScripts.Count == 0)
+                if (responsibleDocument != null && !responsibleDocument.Origin.Is(Origin))
+                    throw new DomException(DomError.Security);
+
+                if (!_firedUnload && _loadingScripts.Count == 0)
                 {
-                    if (shallReplace)
+                    var shallReplace = replace.Isi(Keywords.Replace);
+                    var history = _context.SessionHistory;
+                    var index = type?.IndexOf(Symbols.Semicolon) ?? -1;
+
+                    if (!shallReplace && history != null)
+                    {
+                        shallReplace = history.Length == 1 && history[0].Url.Is("about:blank");
+                    }
+
+                    _salvageable = false;
+
+                    var shouldUnload = PromptToUnloadAsync().Result;
+
+                    if (!shouldUnload)
+                    {
+                        return this;
+                    }
+                
+                    Unload(recycle: true);
+                    Abort();
+                    RemoveEventListeners();
+
+                    foreach (var element in this.Descendents<Element>())
+                    {
+                        element.RemoveEventListeners();
+                    }
+
+                    _loop.CancelAll();
+                    ReplaceAll(null, suppressObservers: true);
+                    _source.CurrentEncoding = TextEncoding.Utf8;
+                    _salvageable = true;
+                    _ready = DocumentReadyState.Loading;
+
+                    if (type.Isi(Keywords.Replace))
                     {
                         type = MimeTypeNames.Html;
                     }
-
-                    var index = type.IndexOf(Symbols.Semicolon);
-
-                    if (index >= 0)
+                    else if (index >= 0)
                     {
                         type = type.Substring(0, index);
                     }
 
                     type = type.StripLeadingTrailingSpaces();
-                    //TODO further steps needed.
-                    //see https://html.spec.whatwg.org/multipage/webappapis.html#dom-document-open
+
+                    if (!type.Isi(MimeTypeNames.Html))
+                    {
+                        //Act as if the tokenizer had emitted a start tag token with the tag name "pre" followed by a single
+                        //U+000A LINE FEED(LF) character, then switch the HTML parser's tokenizer to the PLAINTEXT state.
+                    }
+
                     ContentType = type;
-                    ReplaceAll(null, false);
+                    _firedUnload = false;
+                    _source.Index = _source.Length;
                 }
 
                 return this;
@@ -1374,6 +1413,10 @@
         #endregion
 
         #region Helpers
+
+        private void Abort()
+        {
+        }
 
         private void CancelTasks()
         {
