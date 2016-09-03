@@ -1414,8 +1414,33 @@
 
         #region Helpers
 
-        private void Abort()
+        private void Abort(Boolean fromUser = false)
         {
+            if (fromUser && Object.ReferenceEquals(_context.Active, this))
+            {
+                this.QueueTask(() => _view.FireSimpleEvent(EventNames.Abort));
+            }
+
+            var childContexts = GetAttachedReferences<IBrowsingContext>();
+
+            foreach (var childContext in childContexts)
+            {
+                var active = childContext.Active as Document;
+
+                if (active != null)
+                {
+                    active.Abort(fromUser: false);
+                    _salvageable = _salvageable && active._salvageable;
+                }
+            }
+
+            var downloads = _loader.GetDownloads().Where(m => !m.IsCompleted);
+
+            foreach (var download in downloads)
+            {
+                download.Cancel();
+                _salvageable = false;
+            }
         }
 
         private void CancelTasks()
