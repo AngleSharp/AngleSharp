@@ -23,8 +23,8 @@
         void Spin();
 
         /// <summary>
-        /// Closes the IEventLoop by cancelling all running tasks.
+        /// Cancels all running and remaining tasks.
         /// </summary>
-        void Shutdown();
+        void CancelAll();
     }
 }
