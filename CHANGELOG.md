@@ -1,3 +1,17 @@
+# 0.9.8
+
+- Improved the `HttpRequester` (#387)
+- Extended the `CookieContainer` (#385)
+- Bug fixes for `ToCss()` (#382)
+- Added custom mime-type handling (#381)
+- Transport cookie on page redirect (#368)
+- Submit from Button (#354)
+- Implemented document unloading (#339)
+- Possibility to use strict mode (#336)
+- Included subresource integrity (#308)
+- `IHtmlCollection` helpers and API improvement (#293)
+- General performance improvements (#390)
+
 # 0.9.7
 
 - Fixed some bugs (#343, #325, #341, #347, #355, #358)
