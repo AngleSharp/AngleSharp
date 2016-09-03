@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        HtmlFormControlsCollection _elements;
+        private HtmlFormControlsCollection _elements;
 
         #endregion
 

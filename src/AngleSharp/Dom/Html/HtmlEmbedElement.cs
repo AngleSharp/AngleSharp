@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        readonly ObjectRequestProcessor _request;
+        private readonly ObjectRequestProcessor _request;
 
         #endregion
 
@@ -83,7 +83,7 @@
 
         #region Helpers
 
-        void UpdateSource(String value)
+        private void UpdateSource(String value)
         {
             var url = new Url(Source);
             this.Process(_request, url);

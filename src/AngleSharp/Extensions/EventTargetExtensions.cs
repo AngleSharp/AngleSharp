@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// A set of extensions for EventTarget objects.
@@ -40,6 +41,21 @@
         {
             eventData.IsTrusted = true;
             return eventData.Dispatch(target);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="target"></param>
+        /// <param name="eventName"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static Task FireAsync<T>(this IBrowsingContext target, String eventName, T data)
+        {
+            var ev = new InteractivityEvent<T>(eventName, data);
+            target.Fire(ev);
+            return ev.Result ?? TaskEx.FromResult(false);
         }
 
         /// <summary>

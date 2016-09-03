@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        Boolean? _selected;
+        private Boolean? _selected;
 
         #endregion
 

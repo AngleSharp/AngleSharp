@@ -13,9 +13,9 @@
     {
         #region Fields
 
-        readonly NodeList _labels;
-        readonly ValidityState _vstate;
-        String _error;
+        private readonly NodeList _labels;
+        private readonly ValidityState _vstate;
+        private String _error;
 
         #endregion
 

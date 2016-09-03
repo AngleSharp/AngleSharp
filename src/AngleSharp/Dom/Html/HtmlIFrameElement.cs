@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        SettableTokenList _sandbox;
+        private SettableTokenList _sandbox;
         
         #endregion
 

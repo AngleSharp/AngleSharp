@@ -12,9 +12,9 @@
     {
         #region Fields
 
-        String _defaultValue;
-        String _value;
-        SettableTokenList _for;
+        private String _defaultValue;
+        private String _value;
+        private SettableTokenList _for;
 
         #endregion
 

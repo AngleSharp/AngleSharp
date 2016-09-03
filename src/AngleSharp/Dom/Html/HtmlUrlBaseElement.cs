@@ -12,8 +12,8 @@
     {
         #region Fields
 
-        TokenList _relList;
-        SettableTokenList _ping;
+        private TokenList _relList;
+        private SettableTokenList _ping;
 
         #endregion
 
@@ -183,7 +183,7 @@
 
         #region Helpers
 
-        String GetLocationPart(Func<ILocation, String> getter)
+        private String GetLocationPart(Func<ILocation, String> getter)
         {
             var href = this.GetOwnAttribute(AttributeNames.Href);
             var url = href != null ? new Url(BaseUrl, href) : null;
@@ -197,7 +197,7 @@
             return String.Empty;
         }
 
-        void SetLocationPart(Action<ILocation> setter)
+        private void SetLocationPart(Action<ILocation> setter)
         {
             var href = this.GetOwnAttribute(AttributeNames.Href);
             var url = href != null ? new Url(BaseUrl, href) : null;

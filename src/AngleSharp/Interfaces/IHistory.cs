@@ -17,6 +17,18 @@
         /// </summary>
         [DomName("length")]
         Int32 Length { get; }
+
+        /// <summary>
+        /// Gets the index within the session history.
+        /// </summary>
+        Int32 Index { get; }
+
+        /// <summary>
+        /// Gets the document at the given position of the history.
+        /// </summary>
+        /// <param name="index">The position within the history.</param>
+        /// <returns>The document related to that position.</returns>
+        IDocument this[Int32 index] { get; }
         
         /// <summary>
         /// Gets an any value representing the state at the top of the history

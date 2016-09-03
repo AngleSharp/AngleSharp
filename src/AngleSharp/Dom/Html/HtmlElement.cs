@@ -17,9 +17,9 @@
     {
         #region Fields
 
-        StringMap _dataset;
-        IHtmlMenuElement _menu;
-        SettableTokenList _dropZone;
+        private StringMap _dataset;
+        private IHtmlMenuElement _menu;
+        private SettableTokenList _dropZone;
 
         #endregion
 
@@ -692,13 +692,13 @@
             });
         }
 
-        String GetDefaultLanguage()
+        private String GetDefaultLanguage()
         {
             var parent = ParentElement as IHtmlElement;
             return parent != null ? parent.Language : Owner.Options.GetLanguage();
         }
 
-        static String Combine(String prefix, String localName)
+        private static String Combine(String prefix, String localName)
         {
             return (prefix != null ? String.Concat(prefix, ":", localName) : localName).ToUpperInvariant();
         }

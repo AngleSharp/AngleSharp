@@ -14,7 +14,7 @@
         {
         }
 
-        public void Shutdown()
+        public void CancelAll()
         {
             throw new NotImplementedException();
         }

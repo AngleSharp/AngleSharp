@@ -12,8 +12,8 @@
     {
         #region Fields
 
-        HtmlCollection<IHtmlAreaElement> _areas;
-        HtmlCollection<IHtmlImageElement> _images;
+        private HtmlCollection<IHtmlAreaElement> _areas;
+        private HtmlCollection<IHtmlImageElement> _images;
 
         #endregion
 
@@ -59,7 +59,7 @@
 
         #region Helper
 
-        Boolean IsAssociatedImage(IHtmlImageElement image)
+        private Boolean IsAssociatedImage(IHtmlImageElement image)
         {
             var usemap = image.UseMap;
 

@@ -9,7 +9,7 @@
     {
         #region Fields
 
-        ErrorType _err;
+        private ErrorType _err;
 
         #endregion
 
@@ -137,7 +137,9 @@
         void Set(Boolean oldValue, Boolean newValue, ErrorType err)
         {
             if (newValue != oldValue)
+            {
                 _err ^= err;
+            }
         }
 
         #endregion
@@ -145,7 +147,7 @@
         #region Flags
 
         [Flags]
-        enum ErrorType : ushort
+        private enum ErrorType : ushort
         {
             None = 0,
             ValueMissing = 0x0001,

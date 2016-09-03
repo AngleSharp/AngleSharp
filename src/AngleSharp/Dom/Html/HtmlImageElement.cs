@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        readonly ImageRequestProcessor _request;
+        private readonly ImageRequestProcessor _request;
 
         #endregion
 
@@ -130,7 +130,7 @@
 
         #region Helpers
 
-        void UpdateSource()
+        private void UpdateSource()
         {
             var url = this.GetImageCandidate();
             this.Process(_request, url);

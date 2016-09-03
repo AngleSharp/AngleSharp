@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        TrackReadyState _ready;
+        private TrackReadyState _ready;
 
         #endregion
 

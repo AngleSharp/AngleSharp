@@ -14,8 +14,8 @@
     {
         #region Fields
 
-        HtmlCollection<IHtmlTableSectionElement> _bodies;
-        HtmlCollection<IHtmlTableRowElement> _rows;
+        private HtmlCollection<IHtmlTableSectionElement> _bodies;
+        private HtmlCollection<IHtmlTableRowElement> _rows;
 
         #endregion
 

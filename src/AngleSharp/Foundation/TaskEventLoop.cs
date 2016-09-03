@@ -10,8 +10,8 @@
     /// </summary>
     sealed class TaskEventLoop : IEventLoop
     {
-        readonly Dictionary<TaskPriority, Queue<TaskEventLoopEntry>> _queues;
-        TaskEventLoopEntry _current;
+        private readonly Dictionary<TaskPriority, Queue<TaskEventLoopEntry>> _queues;
+        private TaskEventLoopEntry _current;
 
         public TaskEventLoop()
         {
@@ -65,7 +65,7 @@
             RunCurrent();
         }
 
-        public void Shutdown()
+        public void CancelAll()
         {
             lock (this)
             {
@@ -90,7 +90,7 @@
             }
         }
 
-        void RunCurrent()
+        private void RunCurrent()
         {
             _current?.Run(() =>
             {
@@ -103,7 +103,7 @@
             });
         }
 
-        TaskEventLoopEntry Dequeue(TaskPriority priority)
+        private TaskEventLoopEntry Dequeue(TaskPriority priority)
         {
             if (_queues.ContainsKey(priority) && _queues[priority].Count != 0)
             {
@@ -113,13 +113,13 @@
             return null;
         }
 
-        sealed class TaskEventLoopEntry : IEventLoopEntry
+        private sealed class TaskEventLoopEntry : IEventLoopEntry
         {
-            readonly Task _task;
-            readonly CancellationTokenSource _cts;
+            private readonly Task _task;
+            private readonly CancellationTokenSource _cts;
             
-            Boolean _started;
-            DateTime _created;
+            private Boolean _started;
+            private DateTime _created;
 
             public TaskEventLoopEntry(Action<CancellationToken> action)
             {

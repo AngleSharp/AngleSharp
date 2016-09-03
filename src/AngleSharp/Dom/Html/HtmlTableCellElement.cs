@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        SettableTokenList _headers;
+        private SettableTokenList _headers;
 
         #endregion
 

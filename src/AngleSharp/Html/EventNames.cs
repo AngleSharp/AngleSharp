@@ -348,9 +348,19 @@
         public static readonly String AfterPrint = "afterprint";
 
         /// <summary>
+        /// The print event.
+        /// </summary>
+        public static readonly String Print = "print";
+
+        /// <summary>
         /// The beforeprint event.
         /// </summary>
         public static readonly String BeforePrint = "beforeprint";
+
+        /// <summary>
+        /// The beforeunload event.
+        /// </summary>
+        public static readonly String BeforeUnload = "beforeunload";
 
         /// <summary>
         /// The unloading event.
@@ -386,6 +396,11 @@
         /// The unload event.
         /// </summary>
         public static readonly String Unload = "unload";
+
+        /// <summary>
+        /// The confirmUnload event.
+        /// </summary>
+        public static readonly String ConfirmUnload = "confirmUnload";
 
         /// <summary>
         /// The storage event.

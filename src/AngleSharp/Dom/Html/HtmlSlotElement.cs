@@ -67,7 +67,7 @@
 
         #region Helpers
 
-        static IElement GetAssignedSlot(INode node)
+        private static IElement GetAssignedSlot(INode node)
         {
             switch (node.NodeType)
             {

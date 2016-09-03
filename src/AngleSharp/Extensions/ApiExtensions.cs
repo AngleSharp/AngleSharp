@@ -1,12 +1,12 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
     using AngleSharp.Network;
-    using Dom.Collections;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -80,14 +80,10 @@
             where TEventTarget : IEventTarget
         {
             if (node == null)
-            {
                 throw new ArgumentNullException(nameof(node));
-            }
 
             if (eventName == null)
-            {
                 throw new ArgumentNullException(nameof(eventName));
-            }
 
             var completion = new TaskCompletionSource<Event>();
             DomEventHandler handler = (s, ev) => completion.TrySetResult(ev);
@@ -114,9 +110,7 @@
             where TElement : class, IElement
         {
             if (parent == null)
-            {
                 throw new ArgumentNullException(nameof(parent));
-            }
 
             return parent.AppendChild(element) as TElement;
         }
@@ -135,9 +129,7 @@
             where TElement : class, IElement
         {
             if (parent == null)
-            {
                 throw new ArgumentNullException(nameof(parent));
-            }
 
             return parent.InsertBefore(newElement, referenceElement) as TElement;
         }
@@ -154,9 +146,7 @@
             where TElement : class, IElement
         {
             if (parent == null)
-            {
                 throw new ArgumentNullException(nameof(parent));
-            }
 
             return parent.RemoveChild(element) as TElement;
         }
@@ -173,14 +163,10 @@
             where TElement : class, IElement
         {
             if (parent == null)
-            {
                 throw new ArgumentNullException(nameof(parent));
-            }
 
             if (selectors == null)
-            {
                 throw new ArgumentNullException(nameof(selectors));
-            }
 
             return parent.QuerySelector(selectors) as TElement;
         }
@@ -197,14 +183,10 @@
             where TElement : IElement
         {
             if (parent == null)
-            {
                 throw new ArgumentNullException(nameof(parent));
-            }
 
             if (selectors == null)
-            {
                 throw new ArgumentNullException(nameof(selectors));
-            }
 
             return parent.QuerySelectorAll(selectors).OfType<TElement>();
         }
@@ -228,9 +210,7 @@
         public static IEnumerable<INode> Descendents(this INode parent)
         {
             if (parent == null)
-            {
                 throw new ArgumentNullException(nameof(parent));
-            }
 
             return parent.GetDescendants();
         }
@@ -254,9 +234,7 @@
         public static IEnumerable<INode> Ancestors(this INode child)
         {
             if (child == null)
-            {
                 throw new ArgumentNullException(nameof(child));
-            }
 
             return child.GetAncestors();
         }
@@ -1231,14 +1209,14 @@
 
         #region Helpers
 
-        static IDocumentFragment CreateFragment(this IElement context, String html)
+        private static IDocumentFragment CreateFragment(this IElement context, String html)
         {
             var contextElement = context as Element;
             var content = html ?? String.Empty;
             return new DocumentFragment(contextElement, content);
         }
 
-        static IElement GetInnerMostElement(this IDocumentFragment fragment)
+        private static IElement GetInnerMostElement(this IDocumentFragment fragment)
         {
             if (fragment.ChildElementCount != 1)
                 throw new InvalidOperationException("The provided HTML code did not result in any element.");

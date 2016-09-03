@@ -17,8 +17,8 @@
     {
         #region Fields
 
-        ContextMode _mode;
-        IRenderingContext _current;
+        private ContextMode _mode;
+        private IRenderingContext _current;
 
         #endregion
 

@@ -16,7 +16,7 @@
     {
         #region Fields
 
-        HtmlFormControlsCollection _elements;
+        private HtmlFormControlsCollection _elements;
 
         #endregion
 
@@ -164,7 +164,7 @@
             return result;
         }
 
-        IEnumerable<HtmlFormControlElement> GetInvalidControls()
+        private IEnumerable<HtmlFormControlElement> GetInvalidControls()
         {
             foreach (var element in Elements)
             {
@@ -183,19 +183,16 @@
 
             foreach (var control in controls)
             {
-                if (control.FireSimpleEvent(EventNames.Invalid, false, true))
+                if (!control.FireSimpleEvent(EventNames.Invalid, false, true))
                 {
-                    continue;
-                }
+                    if (!hasfocused)
+                    {
+                        control.DoFocus();
+                        hasfocused = true;
+                    }
 
-                if (!hasfocused)
-                {
-                    //TODO Report Problems (interactively, e.g. via UI specific event)
-                    control.DoFocus();
-                    hasfocused = true;
+                    result = false;
                 }
-
-                result = false;
             }
 
             return result;
@@ -211,7 +208,7 @@
 
         #region Helpers
 
-        DocumentRequest SubmitForm(IHtmlElement from, Boolean submittedFromSubmitMethod)
+        private DocumentRequest SubmitForm(IHtmlElement from, Boolean submittedFromSubmitMethod)
         {
             var owner = Owner;
 
@@ -229,18 +226,20 @@
                 var createdBrowsingContext = false;
                 var targetBrowsingContext = owner.Context;
                 var target = Target;
+                var replace = owner.ReadyState != DocumentReadyState.Complete;
 
                 if (!String.IsNullOrEmpty(target))
                 {
                     targetBrowsingContext = owner.GetTarget(target);
-
-                    if (createdBrowsingContext = (targetBrowsingContext == null))
-                    {
-                        targetBrowsingContext = owner.CreateTarget(target);
-                    }
+                    createdBrowsingContext = targetBrowsingContext == null;
                 }
 
-                var replace = createdBrowsingContext || owner.ReadyState != DocumentReadyState.Complete;
+                if (createdBrowsingContext)
+                {
+                    targetBrowsingContext = owner.CreateTarget(target);
+                    replace = true;
+                }
+
                 var scheme = action.Scheme;
                 var method = Method.ToEnum(HttpMethod.Get);
                 return SubmitForm(method, scheme, action, from);
@@ -249,7 +248,7 @@
             return null;
         }
 
-        DocumentRequest SubmitForm(HttpMethod method, String scheme, Url action, IHtmlElement submitter)
+        private DocumentRequest SubmitForm(HttpMethod method, String scheme, Url action, IHtmlElement submitter)
         {
             if (scheme.IsOneOf(ProtocolNames.Http, ProtocolNames.Https))
             {
@@ -296,7 +295,7 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-data-post
         /// </summary>
-        DocumentRequest PostToData(Url action, IHtmlElement submitter)
+        private DocumentRequest PostToData(Url action, IHtmlElement submitter)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
@@ -327,7 +326,7 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-headers
         /// </summary>
-        DocumentRequest MailWithHeaders(Url action, IHtmlElement submitter)
+        private DocumentRequest MailWithHeaders(Url action, IHtmlElement submitter)
         {
             var formDataSet = ConstructDataSet(submitter);
             var result = formDataSet.AsUrlEncoded(TextEncoding.UsAscii);
@@ -346,7 +345,7 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mailto-body
         /// </summary>
-        DocumentRequest MailAsBody(Url action, IHtmlElement submitter)
+        private DocumentRequest MailAsBody(Url action, IHtmlElement submitter)
         {
             var formDataSet = ConstructDataSet(submitter);
             var enctype = Enctype;
@@ -367,7 +366,7 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-get-action
         /// </summary>
-        DocumentRequest GetActionUrl(Url action)
+        private DocumentRequest GetActionUrl(Url action)
         {
             return DocumentRequest.Get(action, source: this, referer: Owner.DocumentUri);
         }
@@ -376,7 +375,7 @@
         /// Submits the body of the form.
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-body
         /// </summary>
-        DocumentRequest SubmitAsEntityBody(Url target, IHtmlElement submitter)
+        private DocumentRequest SubmitAsEntityBody(Url target, IHtmlElement submitter)
         {
             var encoding = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
@@ -395,7 +394,7 @@
         /// More information can be found at:
         /// http://www.w3.org/html/wg/drafts/html/master/forms.html#submit-mutate-action
         /// </summary>
-        DocumentRequest MutateActionUrl(Url action, IHtmlElement submitter)
+        private DocumentRequest MutateActionUrl(Url action, IHtmlElement submitter)
         {
             var charset = String.IsNullOrEmpty(AcceptCharset) ? Owner.CharacterSet : AcceptCharset;
             var formDataSet = ConstructDataSet(submitter);
@@ -410,7 +409,7 @@
             return GetActionUrl(action);
         }
 
-        FormDataSet ConstructDataSet(IHtmlElement submitter)
+        private FormDataSet ConstructDataSet(IHtmlElement submitter)
         {
             var formDataSet = new FormDataSet();
             var fields = this.GetElements<HtmlFormControlElement>();
