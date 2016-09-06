@@ -152,7 +152,10 @@
                 if (response != null)
                 {
                     redirectCount++;
-                    SetCookie(request.Address, response.Headers[HeaderNames.SetCookie]);
+                    if (response.Headers.ContainsKey(HeaderNames.SetCookie))
+                    {
+                        SetCookie(request.Address, response.Headers[HeaderNames.SetCookie]);
+                    }
                     request = CreateNewRequest(request, response);
                     request.Headers[HeaderNames.Cookie] = GetCookie(request.Address);
                 }
