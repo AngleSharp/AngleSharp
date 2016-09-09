@@ -13,8 +13,8 @@
     {
         #region Fields
 
-        String _intendString;
-        String _newLineString;
+        private String _intendString;
+        private String _newLineString;
 
         #endregion
 
@@ -156,7 +156,7 @@
 
         #region Helpers
 
-        String Intend(String content)
+        private String Intend(String content)
         {
             return _intendString + content.Replace(_newLineString, _newLineString + _intendString);
         }

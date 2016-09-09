@@ -12,10 +12,10 @@
     {
         #region Fields
 
-        readonly String _general;
-        readonly String _media;
-        readonly String _suffix;
-        readonly String _params;
+        private readonly String _general;
+        private readonly String _media;
+        private readonly String _suffix;
+        private readonly String _params;
 
         #endregion
 

@@ -12,15 +12,15 @@
         #region Fields
 
         [FieldOffset(0)]
-        readonly Byte _tags;
+        private readonly Byte _tags;
         [FieldOffset(1)]
-        readonly Byte _classes;
+        private readonly Byte _classes;
         [FieldOffset(2)]
-        readonly Byte _ids;
+        private readonly Byte _ids;
         [FieldOffset(3)]
-        readonly Byte _inlines;
+        private readonly Byte _inlines;
         [FieldOffset(0)]
-        readonly UInt32 _priority;
+        private readonly UInt32 _priority;
 
         #endregion
 

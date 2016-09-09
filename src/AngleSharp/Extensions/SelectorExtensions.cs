@@ -190,7 +190,7 @@
 
         #region Helpers
 
-        static IEnumerable<IElement> GetMany(this IEnumerable<IElement> elements, Func<IElement, IEnumerable<IElement>> getter, ISelector selector)
+        private static IEnumerable<IElement> GetMany(this IEnumerable<IElement> elements, Func<IElement, IEnumerable<IElement>> getter, ISelector selector)
         {
             if (selector == null)
             {
@@ -211,7 +211,7 @@
             }
         }
 
-        static IEnumerable<IElement> GetMany(this IEnumerable<IElement> elements, Func<IElement, IEnumerable<IElement>> getter, String selectorText)
+        private static IEnumerable<IElement> GetMany(this IEnumerable<IElement> elements, Func<IElement, IEnumerable<IElement>> getter, String selectorText)
         {
             if (selectorText != null)
             {
@@ -222,7 +222,7 @@
             return elements.GetMany(getter, SimpleSelector.All);
         }
 
-        static IEnumerable<IElement> Get(this IEnumerable<IElement> elements, Func<IElement, IElement> getter, ISelector selector)
+        private static IEnumerable<IElement> Get(this IEnumerable<IElement> elements, Func<IElement, IElement> getter, ISelector selector)
         {
             if (selector == null)
             {
@@ -246,7 +246,7 @@
             }
         }
 
-        static IEnumerable<IElement> Get(this IEnumerable<IElement> elements, Func<IElement, IElement> getter, String selectorText)
+        private static IEnumerable<IElement> Get(this IEnumerable<IElement> elements, Func<IElement, IElement> getter, String selectorText)
         {
             if (selectorText != null)
             {
@@ -257,7 +257,7 @@
             return elements.Get(getter, SimpleSelector.All);
         }
 
-        static IEnumerable<IElement> Except(this IEnumerable<IElement> elements, IElement excluded)
+        private static IEnumerable<IElement> Except(this IEnumerable<IElement> elements, IElement excluded)
         {
             foreach (var element in elements)
             {
@@ -268,7 +268,7 @@
             }
         }
 
-        static IEnumerable<T> Filter<T>(this IEnumerable<T> elements, ISelector selector, Boolean result)
+        private static IEnumerable<T> Filter<T>(this IEnumerable<T> elements, ISelector selector, Boolean result)
             where T : IElement
         {
             if (selector == null)
@@ -285,7 +285,7 @@
             }
         }
 
-        static IEnumerable<T> Filter<T>(this IEnumerable<T> elements, String selectorText, Boolean result)
+        private static IEnumerable<T> Filter<T>(this IEnumerable<T> elements, String selectorText, Boolean result)
             where T : IElement
         {
             if (selectorText != null)
@@ -297,7 +297,7 @@
             return elements.Filter(SimpleSelector.All, result);
         }
 
-        static ISelector CreateSelector(String selector)
+        private static ISelector CreateSelector(String selector)
         {
             return CssParser.Default.ParseSelector(selector);
         }

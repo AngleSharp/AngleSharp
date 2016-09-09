@@ -11,7 +11,7 @@
     {
         #region Map File extensions to Mime types
 
-        static Dictionary<String, String> extensions = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase)
+        private static Dictionary<String, String> Extensions = new Dictionary<String, String>(StringComparer.OrdinalIgnoreCase)
         {
             { ".3dm", "x-world/x-3dmf" },
             { ".3dmf", "x-world/x-3dmf" },
@@ -468,8 +468,10 @@
         {
             var mime = String.Empty;
 
-            if (extensions.TryGetValue(extension, out mime))
+            if (Extensions.TryGetValue(extension, out mime))
+            {
                 return mime;
+            }
 
             return Binary;
         }

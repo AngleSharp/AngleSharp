@@ -73,14 +73,25 @@
         /// </summary>
         public static readonly String Blob = "blob";
 
-        static readonly String[] relativeProtocols = new[] 
+        private static readonly String[] RelativeProtocols = new[] 
         {
-            Http, Https, Ftp, File, Ws, Wss, Gopher
+            Http,
+            Https,
+            Ftp,
+            File,
+            Ws,
+            Wss,
+            Gopher
         };
 
-        static readonly String[] originalableProtocols = new[] 
+        private static readonly String[] OriginalableProtocols = new[] 
         {
-            Http, Https, Ftp, Ws, Wss, Gopher
+            Http,
+            Https,
+            Ftp,
+            Ws,
+            Wss,
+            Gopher
         };
 
         /// <summary>
@@ -93,7 +104,7 @@
         /// </returns>
         public static Boolean IsRelative(String protocol)
         {
-            return relativeProtocols.Contains(protocol);
+            return RelativeProtocols.Contains(protocol);
         }
 
         /// <summary>
@@ -106,7 +117,7 @@
         /// </returns>
         public static Boolean IsOriginable(String protocol)
         {
-            return originalableProtocols.Contains(protocol);
+            return OriginalableProtocols.Contains(protocol);
         }
     }
 }

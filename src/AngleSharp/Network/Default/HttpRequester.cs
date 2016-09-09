@@ -19,10 +19,10 @@
 
         private const Int32 BufferSize = 4096;
 
-        private static readonly String _version = typeof(HttpRequester).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
-        private static readonly String _agentName = "AngleSharp/" + _version;
-        private static readonly Dictionary<String, PropertyInfo> _propCache = new Dictionary<String, PropertyInfo>();
-        private static readonly List<String> _restricted = new List<String>();
+        private static readonly String Version = typeof(HttpRequester).GetTypeInfo().Assembly.GetCustomAttribute<AssemblyFileVersionAttribute>().Version;
+        private static readonly String AgentName = "AngleSharp/" + Version;
+        private static readonly Dictionary<String, PropertyInfo> PropCache = new Dictionary<String, PropertyInfo>();
+        private static readonly List<String> Restricted = new List<String>();
 
         #endregion
 
@@ -43,7 +43,10 @@
         public HttpRequester(String userAgent = null)
         {
             _timeOut = new TimeSpan(0, 0, 0, 45);
-            _headers = new Dictionary<String, String> { { "User-Agent", userAgent ?? _agentName } };
+            _headers = new Dictionary<String, String>
+            {
+                { HeaderNames.UserAgent, userAgent ?? AgentName }
+            };
         }
 
         #endregion
@@ -304,19 +307,19 @@
             {
                 var property = default(PropertyInfo);
 
-                if (!_propCache.TryGetValue(name, out property))
+                if (!PropCache.TryGetValue(name, out property))
                 {
-                    lock (_propCache)
+                    lock (PropCache)
                     {
-                        if (!_propCache.TryGetValue(name, out property))
+                        if (!PropCache.TryGetValue(name, out property))
                         {
                             property = _http.GetType().GetProperty(name);
-                            _propCache.Add(name, property);
+                            PropCache.Add(name, property);
                         }
                     }
                 }
 
-                if (!_restricted.Contains(name) && property != null && property.CanWrite)
+                if (!Restricted.Contains(name) && property != null && property.CanWrite)
                 {
                     try
                     {
@@ -326,11 +329,11 @@
                     catch
                     {
                         //Catch any failure and do not try again on the same platform
-                        lock (_restricted)
+                        lock (Restricted)
                         {
-                            if (!_restricted.Contains(name))
+                            if (!Restricted.Contains(name))
                             {
-                                _restricted.Add(name);
+                                Restricted.Add(name);
                             }
                         }
                     }

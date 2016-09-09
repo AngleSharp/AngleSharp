@@ -248,9 +248,9 @@
         {
             var sum = 0f;
 
-            for (int i = 0; i < 4; i++)
+            for (var i = 0; i < 4; i++)
             {
-                for (int j = 0; j < 4; j++)
+                for (var j = 0; j < 4; j++)
                 {
                     sum += _matrix[i, j] * (4 * i + j);
                 }

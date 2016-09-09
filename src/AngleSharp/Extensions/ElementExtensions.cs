@@ -905,7 +905,7 @@
         /// </summary>
         /// <param name="img">The image to extend.</param>
         /// <returns>The stack of source elements.</returns>
-        static Stack<IHtmlSourceElement> GetSources(this IHtmlImageElement img)
+        private static Stack<IHtmlSourceElement> GetSources(this IHtmlImageElement img)
         {
             var parent = img.ParentElement;
             var sources = new Stack<IHtmlSourceElement>();

@@ -14,10 +14,10 @@
     {
         #region Fields
 
-        static readonly Stack<StringBuilder> _builder = new Stack<StringBuilder>();
-        static readonly Stack<CssSelectorConstructor> _selector = new Stack<CssSelectorConstructor>();
-        static readonly Stack<CssValueBuilder> _value = new Stack<CssValueBuilder>();
-        static readonly Object _lock = new Object();
+        private static readonly Stack<StringBuilder> _builder = new Stack<StringBuilder>();
+        private static readonly Stack<CssSelectorConstructor> _selector = new Stack<CssSelectorConstructor>();
+        private static readonly Stack<CssValueBuilder> _value = new Stack<CssValueBuilder>();
+        private static readonly Object _lock = new Object();
 
         #endregion
 

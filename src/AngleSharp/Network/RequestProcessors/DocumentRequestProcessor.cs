@@ -10,8 +10,8 @@
     {
         #region Fields
 
-        readonly IDocument _parentDocument;
-        readonly IConfiguration _configuration;
+        private readonly IDocument _parentDocument;
+        private readonly IConfiguration _configuration;
 
         #endregion
 

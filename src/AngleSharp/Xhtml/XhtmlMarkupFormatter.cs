@@ -146,7 +146,7 @@
 
         #region Helpers
 
-        static String XmlNamespaceLocalName(String name)
+        private static String XmlNamespaceLocalName(String name)
         {
             return name != NamespaceNames.XmlNsPrefix ? String.Concat(NamespaceNames.XmlNsPrefix, ":") : name;
         }
