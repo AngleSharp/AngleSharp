@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
+    using AngleSharp.Parser.Html;
+    using AngleSharp.Parser.Xml;
     using AngleSharp.Services;
-    using AngleSharp.Dom;
     using NUnit.Framework;
-    using Parser.Html;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -54,7 +55,7 @@
         }
 
         [Test]
-        public void ObtainElementPositions()
+        public void ObtainElementPositionsFromHtml()
         {
             var positions = new Dictionary<IElement, TextPosition>();
             var source = @"<article class=""grid-item large"">
@@ -71,6 +72,24 @@
             });
             var document = parser.Parse(source);
             Assert.AreEqual(15, positions.Count);
+        }
+
+        [Test]
+        public void ObtainElementPositionsFromXml()
+        {
+            var positions = new Dictionary<IElement, TextPosition>();
+            var source = @"<hello>
+   <foo />
+   <bar>
+      <test></test><test></test><test></test>
+   </bar>
+</hello>";
+            var parser = new XmlParser(new XmlParserOptions
+            {
+                OnCreated = (element, position) => positions[element] = position
+            });
+            var document = parser.Parse(source);
+            Assert.AreEqual(6, positions.Count);
         }
     }
 }

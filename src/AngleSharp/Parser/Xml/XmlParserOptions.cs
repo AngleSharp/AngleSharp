@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Xml
 {
+    using AngleSharp.Dom;
     using System;
 
     /// <summary>
@@ -14,7 +15,16 @@
         public Boolean IsSuppressingErrors 
         { 
             get; 
-            set; 
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the callback once a new element was created.
+        /// </summary>
+        public Action<IElement, TextPosition> OnCreated
+        {
+            get;
+            set;
         }
     }
 }
