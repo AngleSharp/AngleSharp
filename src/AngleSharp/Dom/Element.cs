@@ -21,17 +21,17 @@
     {
         #region Fields
 
-        static readonly ConditionalWeakTable<Element, IShadowRoot> ShadowRoots = new ConditionalWeakTable<Element, IShadowRoot>();
-        static readonly Dictionary<Type, AttrChanged> RegisteredCallbacks = new Dictionary<Type, AttrChanged>();
+        private static readonly ConditionalWeakTable<Element, IShadowRoot> ShadowRoots = new ConditionalWeakTable<Element, IShadowRoot>();
+        private static readonly Dictionary<Type, AttrChangedCallback> RegisteredCallbacks = new Dictionary<Type, AttrChangedCallback>();
 
-        readonly NamedNodeMap _attributes;
-        readonly String _namespace;
-        readonly String _prefix;
-        readonly String _localName;
+        private readonly NamedNodeMap _attributes;
+        private readonly String _namespace;
+        private readonly String _prefix;
+        private readonly String _localName;
 
-        HtmlCollection<IElement> _elements;
-        ICssStyleDeclaration _style;
-        TokenList _classList;
+        private HtmlCollection<IElement> _elements;
+        private ICssStyleDeclaration _style;
+        private TokenList _classList;
 
         #endregion
 
@@ -618,7 +618,7 @@
         {
             var callback = GetOrCreateCallback(GetType());
 
-            if (namespaceUri == null)
+            if (namespaceUri == null && callback != null)
             {
                 callback.Invoke(this, localName, newValue);
             }
@@ -664,33 +664,36 @@
             where TElement : Element
         {
             var type = typeof(TElement);
-            var handler = GetOrCreateCallback(type);
-
-            handler.Invoke += (element, localName, newValue) =>
+            var existing = GetOrCreateCallback(type);
+            var handler = new AttrChangedCallback((element, localName, newValue) =>
             {
                 if (localName.Is(name))
                 {
                     callback.Invoke((TElement)element, newValue);
                 }
-            };
+            });
+
+            if (existing != null)
+            {
+                handler = existing + handler;
+            }
+
+            RegisteredCallbacks[type] = handler;
         }
 
-        static AttrChanged GetOrCreateCallback(Type type)
+        private static AttrChangedCallback GetOrCreateCallback(Type type)
         {
-            var handler = default(AttrChanged);
+            var handler = default(AttrChangedCallback);
 
-            if (!RegisteredCallbacks.TryGetValue(type, out handler))
+            if (!RegisteredCallbacks.TryGetValue(type, out handler) && type != typeof(Element))
             {
-                handler = new AttrChanged();
+                var parent = type.GetTypeInfo().BaseType;
+                var parentHandler = GetOrCreateCallback(parent);
 
-                if (type != typeof(Element))
+                if (parentHandler != null)
                 {
-                    var parent = type.GetTypeInfo().BaseType;
-                    var parentHandler = GetOrCreateCallback(parent);
-                    handler.Invoke = (e, n, v) => parentHandler.Invoke(e, n, v);
+                    RegisteredCallbacks[type] = parentHandler;
                 }
-
-                RegisteredCallbacks[type] = handler;
             }
 
             return handler;
@@ -735,12 +738,7 @@
 
             element.SetupElement();
         }
-
-        sealed class AttrChanged
-        {
-            public AttrChangedCallback Invoke = (element, localName, newValue) => { };
-        }
-
+        
         #endregion
     }
 }

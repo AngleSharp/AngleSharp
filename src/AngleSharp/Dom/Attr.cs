@@ -12,11 +12,10 @@
     {
         #region Fields
 
-        readonly String _localName;
-        readonly String _prefix;
-        readonly String _namespace;
-        String _value;
-        NamedNodeMap _container;
+        private readonly String _localName;
+        private readonly String _prefix;
+        private readonly String _namespace;
+        private String _value;
 
         #endregion
 
@@ -47,8 +46,8 @@
 
         internal NamedNodeMap Container
         {
-            get { return _container; }
-            set { _container = value; }
+            get;
+            set;
         }
 
         #endregion
@@ -82,11 +81,7 @@
             { 
                 var oldValue = _value;
                 _value = value;
-
-                if (_container != null)
-                {
-                    _container.RaiseChangedEvent(this, value, oldValue);
-                }
+                Container?.RaiseChangedEvent(this, value, oldValue);
             }
         }
 
@@ -115,9 +110,9 @@
             var result = 1;
 
             result = result * prime + _localName.GetHashCode();
-            result = result * prime + _value.GetHashCode();
-            result = result * prime + (_namespace ?? "").GetHashCode();
-            result = result * prime + (_prefix ?? "").GetHashCode();
+            result = result * prime + (_value ?? String.Empty).GetHashCode();
+            result = result * prime + (_namespace ?? String.Empty).GetHashCode();
+            result = result * prime + (_prefix ?? String.Empty).GetHashCode();
 
             return result;
         }

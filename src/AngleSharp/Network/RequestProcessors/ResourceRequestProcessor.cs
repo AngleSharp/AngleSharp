@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        readonly IConfiguration _options;
+        private readonly IConfiguration _options;
 
         #endregion
 

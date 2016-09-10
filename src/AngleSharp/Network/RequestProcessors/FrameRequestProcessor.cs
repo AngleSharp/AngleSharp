@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        readonly HtmlFrameElementBase _element;
+        private readonly HtmlFrameElementBase _element;
 
         #endregion
 

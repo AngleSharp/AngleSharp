@@ -13,10 +13,10 @@
     {
         #region Fields
 
-        readonly IResponse _response;
-        readonly MimeType _contentType;
-        readonly TextSource _source;
-        readonly IDocument _ancestor;
+        private readonly IResponse _response;
+        private readonly MimeType _contentType;
+        private readonly TextSource _source;
+        private readonly IDocument _ancestor;
 
         #endregion
 

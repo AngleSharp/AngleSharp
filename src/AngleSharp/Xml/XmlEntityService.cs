@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        readonly Dictionary<String, String> _entities = new Dictionary<String, String>
+        private readonly Dictionary<String, String> _entities = new Dictionary<String, String>
         {
             { "amp", "&" },
             { "lt", "<" },
@@ -48,10 +48,12 @@
         /// <returns>The string with the symbol or null.</returns>
         public String GetSymbol(String name)
         {
-            var symbol = default(String);
+            var symbol = String.Empty;
 
             if (!String.IsNullOrEmpty(name))
+            {
                 _entities.TryGetValue(name, out symbol);
+            }
 
             return symbol;
         }

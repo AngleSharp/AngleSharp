@@ -3,6 +3,8 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
+    using AngleSharp.Dom.Mathml;
+    using AngleSharp.Dom.Svg;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
@@ -449,6 +451,11 @@
 
         #region Properties
 
+        public TextSource Source
+        {
+            get { return _source; }
+        }
+
         public IDocument ImportAncestor
         {
             get;
@@ -819,11 +826,6 @@
 
         #region Internal Properties
 
-        internal TextSource Source
-        {
-            get { return _source; }
-        }
-
         internal MutationHost Mutations
         {
             get { return _mutations; }
@@ -1065,7 +1067,7 @@
         {
             if (localName.IsXmlName())
             {
-                var factory = Options.GetFactory<IHtmlElementFactory>();
+                var factory = Options.GetFactory<IElementFactory<HtmlElement>>();
                 var element = factory.Create(this, localName);
                 element.SetupElement();
                 return element;
@@ -1082,21 +1084,21 @@
 
             if (namespaceUri.Is(NamespaceNames.HtmlUri))
             {
-                var factory = Options.GetFactory<IHtmlElementFactory>();
+                var factory = Options.GetFactory<IElementFactory<HtmlElement>>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.SvgUri))
             {
-                var factory = Options.GetFactory<ISvgElementFactory>();
+                var factory = Options.GetFactory<IElementFactory<SvgElement>>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.MathMlUri))
             {
-                var factory = Options.GetFactory<IMathElementFactory>();
+                var factory = Options.GetFactory<IElementFactory<MathElement>>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;

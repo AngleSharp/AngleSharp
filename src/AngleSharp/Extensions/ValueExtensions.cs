@@ -526,7 +526,7 @@
 
         #region Helpers
 
-        static Boolean IsWeight(Int32 value)
+        private static Boolean IsWeight(Int32 value)
         {
             return value == 100 || value == 200 || value == 300 || value == 400 ||
                    value == 500 || value == 600 || value == 700 || value == 800 ||

@@ -8,7 +8,7 @@
     /// </summary>
     static class PortNumbers
     {
-        static readonly Dictionary<String, String> ports = new Dictionary<String, String>
+        private static readonly Dictionary<String, String> Ports = new Dictionary<String, String>
         {
             { ProtocolNames.Http, "80" },
             { ProtocolNames.Https, "443" },
@@ -33,7 +33,7 @@
         public static String GetDefaultPort(String protocol)
         {
             var value = default(String);
-            ports.TryGetValue(protocol, out value);
+            Ports.TryGetValue(protocol, out value);
             return value;
         }
     }

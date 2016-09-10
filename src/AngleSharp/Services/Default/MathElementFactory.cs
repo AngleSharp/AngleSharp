@@ -9,11 +9,11 @@
     /// <summary>
     /// Provides string to MathElement instance creation mappings.
     /// </summary>
-    sealed class MathElementFactory : IMathElementFactory
+    sealed class MathElementFactory : IElementFactory<MathElement>
     {
-        delegate MathElement Creator(Document owner, String prefix);
+        private delegate MathElement Creator(Document owner, String prefix);
 
-        readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
             { TagNames.Mn, (document, prefix) => new MathNumberElement(document, prefix) },
             { TagNames.Mo, (document, prefix) => new MathOperatorElement(document, prefix) },

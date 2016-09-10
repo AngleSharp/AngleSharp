@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        static readonly String Base64Section = ";base64";
+        private static readonly String Base64Section = ";base64";
 
         #endregion
 

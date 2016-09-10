@@ -452,156 +452,158 @@
             {
                 Back();
                 StringBuffer.Append(Symbols.Ampersand);
-                return;
-            }
-
-            var entity = default(String);
-            
-            if (c == Symbols.Num)
-            {
-                var exp = 10;
-                var basis = 1;
-                var num = 0;
-                var nums = new List<Int32>();
-                c = GetNext();
-                var isHex = c == 'x' || c == 'X';
-
-                if (isHex)
-                {
-                    exp = 16;
-
-                    while ((c = GetNext()).IsHex())
-                    {
-                        nums.Add(c.FromHex());
-                    }
-                }
-                else
-                {
-                    while (c.IsDigit())
-                    {
-                        nums.Add(c.FromHex());
-                        c = GetNext();
-                    }
-                }
-
-                for (var i = nums.Count - 1; i >= 0; i--)
-                {
-                    num += nums[i] * basis;
-                    basis *= exp;
-                }
-
-                if (nums.Count == 0)
-                {
-                    Back(2);
-
-                    if (isHex)
-                    {
-                        Back();
-                    }
-
-                    RaiseErrorOccurred(HtmlParseError.CharacterReferenceWrongNumber);
-                    StringBuffer.Append(Symbols.Ampersand);
-                    return;
-                }
-
-                if (c != Symbols.Semicolon)
-                {
-                    RaiseErrorOccurred(HtmlParseError.CharacterReferenceSemicolonMissing);
-                    Back();
-                }
-
-                if (HtmlEntityService.IsInCharacterTable(num))
-                {
-                    RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidCode);
-                    entity = HtmlEntityService.GetSymbolFromTable(num);
-                }
-                else if (HtmlEntityService.IsInvalidNumber(num))
-                {
-                    RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidNumber);
-                    entity = Symbols.Replacement.ToString();
-                }
-                else 
-                {
-                    if (HtmlEntityService.IsInInvalidRange(num))
-                    {
-                        RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidRange);
-                    }
-
-                    entity = num.ConvertFromUtf32();
-                }
             }
             else
             {
-                var start = InsertionPoint - 1;
-                var reference = new Char[32];
-                var index = 0;
-                var chr = Current;
+                var entity = default(String);
 
-                do
+                if (c == Symbols.Num)
                 {
-                    if (chr == Symbols.Semicolon || !chr.IsName())
-                    {
-                        break;
-                    }
-
-                    reference[index++] = chr;
-                    chr = GetNext();
+                    entity = GetNumericCharacterReference(GetNext());
                 }
-                while (chr != Symbols.EndOfFile && index < 31);
-
-                if (chr == Symbols.Semicolon)
+                else
                 {
-                    reference[index] = Symbols.Semicolon;
-                    var value = new String(reference, 0, index + 1);
-                    entity = _resolver.GetSymbol(value);
-
-                    if (entity != null)
-                    {
-                        index = 0;
-                    }
-                }
-
-                while (index > 0)
-                {
-                    var value = new String(reference, 0, index--);
-                    entity = _resolver.GetSymbol(value);
-
-                    if (entity != null)
-                    {
-                        break;
-                    }
-
-                    Back();
-                }
-
-                chr = Current;
-
-                if (chr != Symbols.Semicolon)
-                {
-                    if (allowedCharacter != Symbols.Null && (chr == Symbols.Equality || chr.IsAlphanumericAscii()))
-                    {
-                        if (chr == Symbols.Equality)
-                        {
-                            RaiseErrorOccurred(HtmlParseError.CharacterReferenceAttributeEqualsFound);
-                        }
-
-                        InsertionPoint = start;
-                        StringBuffer.Append(Symbols.Ampersand);
-                        return;
-                    }
-
-                    Back();
-                    RaiseErrorOccurred(HtmlParseError.CharacterReferenceNotTerminated);
+                    entity = GetLookupCharacterReference(c, allowedCharacter);
                 }
 
                 if (entity == null)
                 {
                     StringBuffer.Append(Symbols.Ampersand);
-                    return;
+                }
+                else
+                {
+                    StringBuffer.Append(entity);
+                }
+            }
+        }
+
+        private String GetNumericCharacterReference(Char c)
+        {
+            var exp = 10;
+            var basis = 1;
+            var num = 0;
+            var nums = new List<Int32>();
+            var isHex = c == 'x' || c == 'X';
+
+            if (isHex)
+            {
+                exp = 16;
+
+                while ((c = GetNext()).IsHex())
+                {
+                    nums.Add(c.FromHex());
+                }
+            }
+            else
+            {
+                while (c.IsDigit())
+                {
+                    nums.Add(c.FromHex());
+                    c = GetNext();
                 }
             }
 
-            StringBuffer.Append(entity);
+            for (var i = nums.Count - 1; i >= 0; i--)
+            {
+                num += nums[i] * basis;
+                basis *= exp;
+            }
+
+            if (nums.Count == 0)
+            {
+                Back(2);
+
+                if (isHex)
+                {
+                    Back();
+                }
+
+                RaiseErrorOccurred(HtmlParseError.CharacterReferenceWrongNumber);
+                return null;
+            }
+
+            if (c != Symbols.Semicolon)
+            {
+                RaiseErrorOccurred(HtmlParseError.CharacterReferenceSemicolonMissing);
+                Back();
+            }
+
+            if (HtmlEntityService.IsInCharacterTable(num))
+            {
+                RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidCode);
+                return HtmlEntityService.GetSymbolFromTable(num);
+            }
+            else if (HtmlEntityService.IsInvalidNumber(num))
+            {
+                RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidNumber);
+                return Symbols.Replacement.ToString();
+            }
+            else if (HtmlEntityService.IsInInvalidRange(num))
+            {
+                RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidRange);
+            }
+
+            return num.ConvertFromUtf32();
+        }
+
+        private String GetLookupCharacterReference(Char c, Char allowedCharacter)
+        {
+            var entity = default(String);
+            var start = InsertionPoint - 1;
+            var reference = new Char[32];
+            var index = 0;
+            var chr = Current;
+
+            do
+            {
+                if (chr == Symbols.Semicolon || !chr.IsName())
+                {
+                    break;
+                }
+
+                reference[index++] = chr;
+                chr = GetNext();
+            }
+            while (chr != Symbols.EndOfFile && index < 31);
+
+            if (chr == Symbols.Semicolon)
+            {
+                reference[index] = Symbols.Semicolon;
+                var value = new String(reference, 0, index + 1);
+                entity = _resolver.GetSymbol(value);
+            }
+
+            while (entity == null && index > 0)
+            {
+                var value = new String(reference, 0, index--);
+                entity = _resolver.GetSymbol(value);
+
+                if (entity == null)
+                {
+                    Back();
+                }
+            }
+
+            chr = Current;
+
+            if (chr != Symbols.Semicolon)
+            {
+                if (allowedCharacter != Symbols.Null && (chr == Symbols.Equality || chr.IsAlphanumericAscii()))
+                {
+                    if (chr == Symbols.Equality)
+                    {
+                        RaiseErrorOccurred(HtmlParseError.CharacterReferenceAttributeEqualsFound);
+                    }
+
+                    InsertionPoint = start;
+                    return null;
+                }
+
+                Back();
+                RaiseErrorOccurred(HtmlParseError.CharacterReferenceNotTerminated);
+            }
+
+            return entity;
         }
 
         #endregion

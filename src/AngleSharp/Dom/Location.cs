@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        readonly Url _url;
+        private readonly Url _url;
 
         #endregion
 
@@ -232,25 +232,19 @@
 
         #region Helpers
 
-        void RaiseChanged(String oldAddress, Boolean hashChanged)
+        private void RaiseChanged(String oldAddress, Boolean hashChanged)
         {
             Changed?.Invoke(this, new LocationChangedEventArgs(hashChanged, oldAddress, _url.Href));
         }
 
-        static String NonEmptyPrefix(String check, String prefix)
+        private static String NonEmptyPrefix(String check, String prefix)
         {
-            if (String.IsNullOrEmpty(check))
-                return String.Empty;
-
-            return String.Concat(prefix, check);
+            return String.IsNullOrEmpty(check) ? String.Empty : String.Concat(prefix, check);
         }
 
-        static String NonEmptyPostfix(String check, String postfix)
+        private static String NonEmptyPostfix(String check, String postfix)
         {
-            if (String.IsNullOrEmpty(check))
-                return String.Empty;
-
-            return String.Concat(check, postfix);
+            return String.IsNullOrEmpty(check) ? String.Empty : String.Concat(check, postfix);
         }
 
         #endregion

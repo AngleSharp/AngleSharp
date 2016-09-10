@@ -12,10 +12,10 @@
     {
         #region Fields
 
-        readonly CancellationTokenSource _cts;
-        readonly Task<IResponse> _task;
-        readonly Url _target;
-        readonly INode _originator;
+        private readonly CancellationTokenSource _cts;
+        private readonly Task<IResponse> _task;
+        private readonly Url _target;
+        private readonly INode _originator;
 
         #endregion
 

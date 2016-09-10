@@ -13,11 +13,11 @@
     {
         #region Fields
 
-        Url _address;
-        HttpStatusCode _status;
-        Dictionary<String, String> _headers;
-        Stream _content;
-        Boolean _dispose;
+        private Url _address;
+        private HttpStatusCode _status;
+        private Dictionary<String, String> _headers;
+        private Stream _content;
+        private Boolean _dispose;
 
         #endregion
 
@@ -192,7 +192,11 @@
             return this;
         }
 
-        void Release()
+        #endregion
+
+        #region Helpers
+
+        private void Release()
         {
             if (_dispose)
             {

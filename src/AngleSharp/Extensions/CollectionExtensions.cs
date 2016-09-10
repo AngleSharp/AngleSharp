@@ -207,7 +207,7 @@
 
         #region Helpers
 
-        static IEnumerable<T> GetAllElements<T>(this INode parent, Predicate<T> predicate)
+        private static IEnumerable<T> GetAllElements<T>(this INode parent, Predicate<T> predicate)
             where T : class, INode
         {
             for (var i = 0; i < parent.ChildNodes.Length; i++)
@@ -226,7 +226,7 @@
             }
         }
 
-        static IEnumerable<T> GetDescendendElements<T>(this INode parent, Predicate<T> predicate)
+        private static IEnumerable<T> GetDescendendElements<T>(this INode parent, Predicate<T> predicate)
             where T : class, INode
         {
             for (var i = 0; i < parent.ChildNodes.Length; i++)

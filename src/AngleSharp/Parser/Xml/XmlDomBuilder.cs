@@ -105,6 +105,7 @@
         public Document Parse(XmlParserOptions options)
         {
             var token = default(XmlToken);
+            _options = options;
 
             do
             {
@@ -272,6 +273,11 @@
                         var name = tagToken.Attributes[i].Key;
                         var value = tagToken.Attributes[i].Value.Trim();
                         element.SetAttribute(name, value);
+                    }
+
+                    if (_options.OnCreated != null)
+                    {
+                        _options.OnCreated.Invoke(element, tagToken.Position);
                     }
 
                     break;

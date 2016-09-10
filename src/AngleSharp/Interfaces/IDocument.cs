@@ -565,5 +565,10 @@
         /// Gets the import ancestor, if any.
         /// </summary>
         IDocument ImportAncestor { get; }
+
+        /// <summary>
+        /// Gets the underlying source.
+        /// </summary>
+        TextSource Source { get; }
     }
 }

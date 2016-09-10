@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, Color> _colors = new Dictionary<String, Color>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<String, Color> TheColors = new Dictionary<String, Color>(StringComparer.OrdinalIgnoreCase)
         {
             // Extended color keywords
             { "aliceblue", new Color(240, 248, 255) },
@@ -205,7 +205,7 @@
         /// </summary>
         public static IEnumerable<String> Names
         {
-            get { return _colors.Keys; }
+            get { return TheColors.Keys; }
         }
 
         #endregion
@@ -221,7 +221,7 @@
         {
             var color = default(Color);
 
-            if (_colors.TryGetValue(name, out color))
+            if (TheColors.TryGetValue(name, out color))
             {
                 return color;
             }
@@ -236,7 +236,7 @@
         /// <returns>The name of the given color or null.</returns>
         public static String GetName(Color color)
         {
-            foreach (var pair in _colors)
+            foreach (var pair in TheColors)
             {
                 if (pair.Value.Equals(color))
                 {

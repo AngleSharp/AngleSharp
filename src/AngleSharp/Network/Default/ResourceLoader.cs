@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Network.Default
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the default resource loader. This class can be inherited.
@@ -31,11 +32,14 @@
         public virtual IDownload DownloadAsync(ResourceRequest request)
         {
             var data = new Request
-                           {
-                               Address = request.Target,
-                               Method = HttpMethod.Get,
-                               Headers = { [HeaderNames.Referer] = request.Source.Owner.DocumentUri }
-                           };
+            {
+                Address = request.Target,
+                Method = HttpMethod.Get,
+                Headers = new Dictionary<String, String>
+                {
+                    { HeaderNames.Referer, request.Source.Owner.DocumentUri }
+                }
+            };
 
             return DownloadAsync(data, request.Source);
         }

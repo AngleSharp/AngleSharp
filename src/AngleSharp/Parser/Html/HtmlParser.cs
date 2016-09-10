@@ -119,7 +119,7 @@
                 if (element == null)
                 {
                     var configuration = document.Options;
-                    var factory = configuration.GetFactory<IHtmlElementFactory>();
+                    var factory = configuration.GetFactory<IElementFactory<HtmlElement>>();
                     element = factory.Create(document, context.LocalName, context.Prefix);
                 }
 

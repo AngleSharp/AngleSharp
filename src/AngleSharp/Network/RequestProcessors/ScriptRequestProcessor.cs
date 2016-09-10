@@ -15,11 +15,11 @@
     {
         #region Fields
 
-        readonly HtmlScriptElement _script;
-        readonly Document _document;
-        readonly IResourceLoader _loader;
-        IResponse _response;
-        IScriptEngine _engine;
+        private readonly HtmlScriptElement _script;
+        private readonly Document _document;
+        private readonly IResourceLoader _loader;
+        private IResponse _response;
+        private IScriptEngine _engine;
 
         #endregion
 
@@ -144,6 +144,10 @@
 
             return null;
         }
+
+        #endregion
+
+        #region Helpers
 
         private ScriptOptions CreateOptions()
         {
