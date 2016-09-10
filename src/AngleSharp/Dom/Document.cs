@@ -449,6 +449,11 @@
 
         #region Properties
 
+        public TextSource Source
+        {
+            get { return _source; }
+        }
+
         public IDocument ImportAncestor
         {
             get;
@@ -818,11 +823,6 @@
         #endregion
 
         #region Internal Properties
-
-        internal TextSource Source
-        {
-            get { return _source; }
-        }
 
         internal MutationHost Mutations
         {
