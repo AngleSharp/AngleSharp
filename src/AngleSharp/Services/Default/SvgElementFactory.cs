@@ -9,11 +9,11 @@
     /// <summary>
     /// Provides string to SVGElement instance creation mappings.
     /// </summary>
-    sealed class SvgElementFactory : ISvgElementFactory
+    sealed class SvgElementFactory : IElementFactory<SvgElement>
     {
-        delegate SvgElement Creator(Document owner, String prefix);
+        private delegate SvgElement Creator(Document owner, String prefix);
 
-        readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
             { TagNames.Svg, (document, prefix) => new SvgSvgElement(document, prefix) },
             { TagNames.Circle, (document, prefix) => new SvgCircleElement(document, prefix) },

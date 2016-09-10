@@ -56,7 +56,7 @@
         {
             var parserOptions = new XmlParserOptions { };
             var document = new SvgDocument(context, options.Source);
-            var factory = context.Configuration.GetFactory<ISvgElementFactory>();
+            var factory = context.Configuration.GetFactory<IElementFactory<SvgElement>>();
             var parser = new XmlDomBuilder(document, factory.Create);
             document.Setup(options);
             context.NavigateTo(document);

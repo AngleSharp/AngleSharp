@@ -9,11 +9,11 @@
     /// <summary>
     /// Provides string to HTMLElement instance creation mappings.
     /// </summary>
-    sealed class HtmlElementFactory : IHtmlElementFactory
+    sealed class HtmlElementFactory : IElementFactory<HtmlElement>
     {
-        delegate HtmlElement Creator(Document owner, String prefix);
+        private delegate HtmlElement Creator(Document owner, String prefix);
 
-        readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
+        private readonly Dictionary<String, Creator> creators = new Dictionary<String, Creator>(StringComparer.OrdinalIgnoreCase)
         {
             { TagNames.Div, (document, prefix) => new HtmlDivElement(document, prefix) },
             { TagNames.A, (document, prefix) => new HtmlAnchorElement(document, prefix) },

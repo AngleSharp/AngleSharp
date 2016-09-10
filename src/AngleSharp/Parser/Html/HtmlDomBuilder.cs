@@ -27,9 +27,9 @@
         private readonly List<Element> _openElements;
         private readonly List<Element> _formattingElements;
         private readonly Stack<HtmlTreeMode> _templateModes;
-        private readonly IHtmlElementFactory _htmlFactory;
-        private readonly IMathElementFactory _mathFactory;
-        private readonly ISvgElementFactory _svgFactory;
+        private readonly IElementFactory<HtmlElement> _htmlFactory;
+        private readonly IElementFactory<MathElement> _mathFactory;
+        private readonly IElementFactory<SvgElement> _svgFactory;
 
         private HtmlFormElement _currentFormElement;
         private HtmlTreeMode _currentMode;
@@ -64,9 +64,9 @@
             _formattingElements = new List<Element>();
             _frameset = true;
             _currentMode = HtmlTreeMode.Initial;
-            _htmlFactory = options.GetFactory<IHtmlElementFactory>();
-            _mathFactory = options.GetFactory<IMathElementFactory>();
-            _svgFactory = options.GetFactory<ISvgElementFactory>();
+            _htmlFactory = options.GetFactory<IElementFactory<HtmlElement>>();
+            _mathFactory = options.GetFactory<IElementFactory<MathElement>>();
+            _svgFactory = options.GetFactory<IElementFactory<SvgElement>>();
         }
 
         #endregion

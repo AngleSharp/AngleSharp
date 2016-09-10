@@ -23,7 +23,7 @@
 
         public override INode Clone(Boolean deep = true)
         {
-            var factory = Owner.Options.GetFactory<IMathElementFactory>();
+            var factory = Owner.Options.GetFactory<IElementFactory<MathElement>>();
             var node = factory.Create(Owner, LocalName, Prefix);
             CloneElement(node, deep);
             return node;
