@@ -1,3 +1,9 @@
+# 0.9.8.1
+
+- Added parsing callback (e.g., to retrieve line number) (#374)
+- Exposed the original `Source` in documents (#396)
+- Fixed a crash during redirects for requesters (#394)
+
 # 0.9.8
 
 - Improved the `HttpRequester` (#387)
