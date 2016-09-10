@@ -3425,14 +3425,16 @@
             if ((AdjustedCurrentNode.Flags & NodeFlags.MathMember) == NodeFlags.MathMember)
             {
                 var tagName = tag.Name;
-                var node = _mathFactory.Create(_document, tagName);
-                return node.Setup(tag);
+                var element = _mathFactory.Create(_document, tagName);
+                AuxiliarySetupSteps(element, tag);
+                return element.Setup(tag);
             }
             else if ((AdjustedCurrentNode.Flags & NodeFlags.SvgMember) == NodeFlags.SvgMember)
             {
                 var tagName = tag.Name.SanatizeSvgTagName();
-                var node = _svgFactory.Create(_document, tagName);
-                return node.Setup(tag);
+                var element = _svgFactory.Create(_document, tagName);
+                AuxiliarySetupSteps(element, tag);
+                return element.Setup(tag);
             }
 
             return null;
@@ -3819,6 +3821,7 @@
                 RaiseErrorOccurred(HtmlParseError.TagCannotBeSelfClosed, tag);
             }
 
+            AuxiliarySetupSteps(element, tag);
             element.SetAttributes(tag.Attributes);
         }
 
@@ -3975,6 +3978,14 @@
             else
             {
                 foster.AppendText(text);
+            }
+        }
+
+        private void AuxiliarySetupSteps(Element element, HtmlTagToken tag)
+        {
+            if (_options.OnCreated != null)
+            {
+                _options.OnCreated.Invoke(element, tag.Position);
             }
         }
 

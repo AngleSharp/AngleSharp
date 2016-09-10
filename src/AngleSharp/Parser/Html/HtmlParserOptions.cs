@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Html
 {
+    using AngleSharp.Dom;
     using System;
 
     /// <summary>
@@ -29,6 +30,15 @@
         /// Gets or sets if errors should be treated as exceptions.
         /// </summary>
         public Boolean IsStrictMode
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the callback once a new element was created.
+        /// </summary>
+        public Action<IElement, TextPosition> OnCreated
         {
             get;
             set;
