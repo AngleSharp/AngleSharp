@@ -11,9 +11,9 @@
     {
         #region Fields
 
-        readonly List<MutationObserver> _observers;
-        readonly IEventLoop _loop;
-        Boolean _queued;
+        private readonly List<MutationObserver> _observers;
+        private readonly IEventLoop _loop;
+        private Boolean _queued;
 
         #endregion
 
@@ -64,7 +64,7 @@
             }
         }
 
-        void DispatchCallback()
+        private void DispatchCallback()
         {
             var observers = _observers.ToArray();
             _queued = false;

@@ -11,7 +11,7 @@
     {
         #region Fields
 
-        String _content;
+        private String _content;
 
         #endregion
 
@@ -70,7 +70,7 @@
                     var n = parent.ChildNodes.Length;
                     var found = false;
 
-                    for (int i = 0; i < n; i++)
+                    for (var i = 0; i < n; i++)
                     {
                         if (Object.ReferenceEquals(parent.ChildNodes[i], this))
                         {
@@ -92,18 +92,19 @@
             get { return _content[index]; }
             set 
             {
-                if (index < 0)
-                    return;
-
-                if (index >= Length)
+                if (index >= 0)
                 {
-                    _content = _content.PadRight(index) + value.ToString();
-                    return;
+                    if (index >= Length)
+                    {
+                        _content = _content.PadRight(index) + value.ToString();
+                    }
+                    else
+                    {
+                        var chrs = _content.ToCharArray();
+                        chrs[index] = value;
+                        _content = new String(chrs);
+                    }
                 }
-
-                var chrs = _content.ToCharArray();
-                chrs[index] = value;
-                _content = new String(chrs);
             }
         }
 
@@ -142,7 +143,9 @@
                 throw new DomException(DomError.IndexSizeError);
 
             if (offset + count > length)
+            {
                 return _content.Substring(offset);
+            }
 
             return _content.Substring(offset, count);
         }
@@ -171,7 +174,9 @@
                 throw new DomException(DomError.IndexSizeError);
 
             if (offset + count > length)
+            {
                 count = length - offset;
+            }
             
             owner.QueueMutation(MutationRecord.CharacterData(target: this, previousValue: _content));
 

@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        HtmlCollection<IElement> _elements;
+        private HtmlCollection<IElement> _elements;
 
         #endregion
 
