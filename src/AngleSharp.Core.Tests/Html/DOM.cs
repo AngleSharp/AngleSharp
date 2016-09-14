@@ -642,5 +642,15 @@
             document.DocumentElement.InsertBefore(head2, head);
             Assert.AreEqual(head2, document.Head);
         }
+
+        [Test]
+        public void CreateMarkElementIsNotUnknown()
+        {
+            var document = ("").ToHtmlDocument();
+            var mark = document.CreateElement("mark");
+            Assert.AreEqual("MARK", mark.TagName);
+            Assert.IsInstanceOf<IHtmlElement>(mark);
+            Assert.IsNotInstanceOf<IHtmlUnknownElement>(mark);
+        }
     }
 }

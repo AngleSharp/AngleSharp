@@ -669,6 +669,11 @@
         /// </summary>
         public static readonly String Picture = "picture";
 
+        /// <summary>
+        /// The mark tag.
+        /// </summary>
+        public static readonly String Mark = "mark";
+
         #endregion
 
         #region MathML Tags

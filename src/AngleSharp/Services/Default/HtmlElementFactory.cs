@@ -141,6 +141,7 @@
             { TagNames.Data, (document, prefix) => new HtmlDataElement(document, prefix) },
             { TagNames.Plaintext, (document, prefix) => new HtmlSemanticElement(document, TagNames.Plaintext, prefix) },
             { TagNames.IsIndex, (document, prefix) => new HtmlIsIndexElement(document, prefix) },
+            { TagNames.Mark, (document, prefix) => new HtmlElement(document, TagNames.Mark) }
         };
 
         /// <summary>
