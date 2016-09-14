@@ -642,5 +642,75 @@
             document.DocumentElement.InsertBefore(head2, head);
             Assert.AreEqual(head2, document.Head);
         }
+
+        [Test]
+        public void CreateMarkElementIsNotUnknown()
+        {
+            var document = ("").ToHtmlDocument();
+            var mark = document.CreateElement("mark");
+            Assert.AreEqual("MARK", mark.TagName);
+            Assert.IsInstanceOf<IHtmlElement>(mark);
+            Assert.IsNotInstanceOf<IHtmlUnknownElement>(mark);
+        }
+
+        [Test]
+        public void CreateDefineElementIsNotUnknown()
+        {
+            var document = ("").ToHtmlDocument();
+            var dfn = document.CreateElement("dfn");
+            Assert.AreEqual("DFN", dfn.TagName);
+            Assert.IsInstanceOf<IHtmlElement>(dfn);
+            Assert.IsNotInstanceOf<IHtmlUnknownElement>(dfn);
+        }
+
+        [Test]
+        public void CreateKeyboardElementIsNotUnknown()
+        {
+            var document = ("").ToHtmlDocument();
+            var kbd = document.CreateElement("kbd");
+            Assert.AreEqual("KBD", kbd.TagName);
+            Assert.IsInstanceOf<IHtmlElement>(kbd);
+            Assert.IsNotInstanceOf<IHtmlUnknownElement>(kbd);
+        }
+
+        [Test]
+        public void CreateBdoElementIsNotUnknown()
+        {
+            var document = ("").ToHtmlDocument();
+            var bdo = document.CreateElement("bdo");
+            Assert.AreEqual("BDO", bdo.TagName);
+            Assert.IsInstanceOf<IHtmlElement>(bdo);
+            Assert.IsNotInstanceOf<IHtmlUnknownElement>(bdo);
+        }
+
+        [Test]
+        public void CreateSpanElementIsNotUnknown()
+        {
+            var document = ("").ToHtmlDocument();
+            var span = document.CreateElement("span");
+            Assert.AreEqual("SPAN", span.TagName);
+            Assert.IsInstanceOf<IHtmlElement>(span);
+            Assert.IsNotInstanceOf<IHtmlUnknownElement>(span);
+        }
+
+        [Test]
+        public void CreateProgressElementIsNotUnknown()
+        {
+            var document = ("").ToHtmlDocument();
+            var progress = document.CreateElement("progress");
+            Assert.AreEqual("PROGRESS", progress.TagName);
+            Assert.IsInstanceOf<IHtmlElement>(progress);
+            Assert.IsNotInstanceOf<IHtmlUnknownElement>(progress);
+        }
+
+        [Test]
+        public void CreateTimeElementIsNotUnknown()
+        {
+            var document = ("").ToHtmlDocument();
+            var time = document.CreateElement("time");
+            Assert.AreEqual("TIME", time.TagName);
+            Assert.IsInstanceOf<IHtmlElement>(time);
+            Assert.IsNotInstanceOf<IHtmlUnknownElement>(time);
+        }
     }
 }

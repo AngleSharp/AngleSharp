@@ -669,6 +669,41 @@
         /// </summary>
         public static readonly String Picture = "picture";
 
+        /// <summary>
+        /// The mark tag.
+        /// </summary>
+        public static readonly String Mark = "mark";
+
+        /// <summary>
+        /// The dfn tag.
+        /// </summary>
+        public static readonly String Dfn = "dfn";
+
+        /// <summary>
+        /// The kbd tag.
+        /// </summary>
+        public static readonly String Kbd = "kbd";
+
+        /// <summary>
+        /// The samp tag.
+        /// </summary>
+        public static readonly String Samp = "samp";
+
+        /// <summary>
+        /// The abbr tag.
+        /// </summary>
+        public static readonly String Abbr = "abbr";
+
+        /// <summary>
+        /// The bdi tag.
+        /// </summary>
+        public static readonly String Bdi = "bdi";
+
+        /// <summary>
+        /// The bdo tag.
+        /// </summary>
+        public static readonly String Bdo = "bdo";
+
         #endregion
 
         #region MathML Tags
