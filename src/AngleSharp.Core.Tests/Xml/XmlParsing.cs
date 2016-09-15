@@ -53,5 +53,29 @@
             var document = parser.Parse(source);
             Assert.AreEqual(1, document.Children.Length);
         }
+
+        [Test]
+        public void ParseValidXmlEntityShouldBeRepresentedCorrectly()
+        {
+            var source = @" <title>&amp;</title>";
+            var parser = new XmlParser(new XmlParserOptions
+            {
+                IsSuppressingErrors = true
+            });
+            var document = parser.Parse(source);
+            Assert.AreEqual("&", document.DocumentElement.TextContent);
+        }
+
+        [Test]
+        public void ParseInvalidXmlEntityShouldBeSerialized()
+        {
+            var source = @" <title>&nbsp;</title>";
+            var parser = new XmlParser(new XmlParserOptions
+            {
+                IsSuppressingErrors = true
+            });
+            var document = parser.Parse(source);
+            Assert.AreEqual("&nbsp;", document.DocumentElement.TextContent);
+        }
     }
 }

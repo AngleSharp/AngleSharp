@@ -33,6 +33,19 @@
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets if some errors should be suppressed.
+        /// </summary>
+        public Boolean IsSuppressingErrors
+        {
+            get;
+            set;
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -201,29 +214,39 @@
             {
                 var length = StringBuffer.Length - start;
                 var content = StringBuffer.ToString(start, length);
-                StringBuffer.Remove(start, length);
 
                 if (numeric)
                 {
                     var number = numeric ? content.FromHex() : content.FromDec();
 
-                    if (!number.IsValidAsCharRef())
-                        throw XmlParseError.CharacterReferenceInvalidNumber.At(_position);
-
-                    return number.ConvertFromUtf32();
+                    if (number.IsValidAsCharRef())
+                    {
+                        StringBuffer.Remove(start, length);
+                        return number.ConvertFromUtf32();
+                    }
                 }
                 else
                 {
                     var entity = _resolver.GetSymbol(content);
 
-                    if (String.IsNullOrEmpty(entity))
-                        throw XmlParseError.CharacterReferenceInvalidCode.At(_position);
-
-                    return entity;
+                    if (!String.IsNullOrEmpty(entity))
+                    {
+                        StringBuffer.Remove(start, length);
+                        return entity;
+                    }
                 }
+
+                if (!IsSuppressingErrors)
+                    throw XmlParseError.CharacterReferenceInvalidCode.At(_position);
+
+                StringBuffer.Append(c);
             }
 
-            throw XmlParseError.CharacterReferenceNotTerminated.At(GetCurrentPosition());
+            if (!IsSuppressingErrors)
+                throw XmlParseError.CharacterReferenceNotTerminated.At(GetCurrentPosition());
+
+            StringBuffer.Insert(start, Symbols.Ampersand);
+            return String.Empty;
         }
 
         #endregion
