@@ -76,6 +76,7 @@
     <Compile Include="Css\CssOutlineProperty.cs" />
     <Compile Include="Css\CssCoordinateProperty.cs" />
     <Compile Include="Css\CssListProperty.cs" />
+    <Compile Include="Css\CssStrokeProperty.cs" />
     <Compile Include="Css\CssSupports.cs" />
     <Compile Include="Css\CssTextProperty.cs" />
     <Compile Include="Css\CssTransformProperty.cs" />
