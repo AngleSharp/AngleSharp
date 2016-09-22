@@ -145,6 +145,7 @@
     <Compile Include="Dom\Css\Properties\Font\CssSrcProperty.cs" />
     <Compile Include="Dom\Css\Properties\Sizing\CssObjectFitProperty.cs" />
     <Compile Include="Dom\Css\Properties\Sizing\CssObjectPositionProperty.cs" />
+    <Compile Include="Dom\Css\Properties\Stroke\CssStrokeProperty.cs" />
     <Compile Include="Dom\Css\Rules\CssDeclarationRule.cs" />
     <Compile Include="Dom\Css\Rules\CssUnknownRule.cs" />
     <Compile Include="Dom\Css\Rules\CssViewportRule.cs" />

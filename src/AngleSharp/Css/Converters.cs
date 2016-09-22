@@ -689,11 +689,16 @@
         /// </summary>
         public static readonly IValueConverter InvertedColorConverter = CurrentColorConverter.Or(Keywords.Invert);
 
-        /// <summary>
-        /// Represents a ratio object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
-        /// </summary>
-        public static readonly IValueConverter RatioConverter = WithOrder(
+		/// <summary>
+		/// Represents a paint object.
+		/// </summary>
+		public static readonly IValueConverter PaintConverter = UrlConverter.Or(CurrentColorConverter.OrNone());
+
+		/// <summary>
+		/// Represents a ratio object.
+		/// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
+		/// </summary>
+		public static readonly IValueConverter RatioConverter = WithOrder(
             IntegerConverter.Required(), 
             IntegerConverter.StartsWithDelimiter().Required());
 
