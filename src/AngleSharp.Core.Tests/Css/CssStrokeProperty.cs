@@ -274,5 +274,59 @@
 			Assert.IsFalse(concrete.IsInherited);
 			Assert.IsFalse(concrete.HasValue);
 		}
+
+		[Test]
+		public void CssStrokeLinejoinMiterLegal()
+		{
+			var snippet = "stroke-linejoin: miter";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-linejoin", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeLinejoinProperty>(property);
+			var concrete = (CssStrokeLinejoinProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsTrue(concrete.HasValue);
+			Assert.AreEqual("miter", concrete.Value);
+		}
+
+		[Test]
+		public void CssStrokeLinejoinRoundLegal()
+		{
+			var snippet = "stroke-linejoin: round";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-linejoin", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeLinejoinProperty>(property);
+			var concrete = (CssStrokeLinejoinProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsTrue(concrete.HasValue);
+			Assert.AreEqual("round", concrete.Value);
+		}
+
+		[Test]
+		public void CssStrokeLinejoinBevelLegal()
+		{
+			var snippet = "stroke-linejoin: bevel";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-linejoin", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeLinejoinProperty>(property);
+			var concrete = (CssStrokeLinejoinProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsTrue(concrete.HasValue);
+			Assert.AreEqual("bevel", concrete.Value);
+		}
+
+		[Test]
+		public void CssStrokeLinejoinNoneIllegal() {
+			var snippet = "stroke-linejoin: none";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-linejoin", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeLinejoinProperty>(property);
+			var concrete = (CssStrokeLinejoinProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsFalse(concrete.HasValue);
+		}
 	}
 }
