@@ -395,5 +395,47 @@
 			Assert.IsFalse(concrete.IsInherited);
 			Assert.IsFalse(concrete.HasValue);
 		}
+		
+		[Test]
+		public void CssStrokeWidthLengthLegal()
+		{
+			var snippet = "stroke-width: 5px";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-width", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeWidthProperty>(property);
+			var concrete = (CssStrokeWidthProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsTrue(concrete.HasValue);
+			Assert.AreEqual("5px", concrete.Value);
+		}
+
+
+		[Test]
+		public void CssStrokeWidthPercentLegal()
+		{
+			var snippet = "stroke-width: 5%";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-width", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeWidthProperty>(property);
+			var concrete = (CssStrokeWidthProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsTrue(concrete.HasValue);
+			Assert.AreEqual("5%", concrete.Value);
+		}
+
+		[Test]
+		public void CssStrokeWidthNoneIllegal()
+		{
+			var snippet = "stroke-width: none";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-width", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeWidthProperty>(property);
+			var concrete = (CssStrokeWidthProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsFalse(concrete.HasValue);
+		}
 	}
 }
