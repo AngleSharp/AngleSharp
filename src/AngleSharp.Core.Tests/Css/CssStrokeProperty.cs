@@ -219,5 +219,60 @@
 			Assert.IsFalse(concrete.IsInherited);
 			Assert.IsFalse(concrete.HasValue);
 		}
+
+		[Test]
+		public void CssStrokeLinecapButtLegal()
+		{
+			var snippet = "stroke-linecap: butt";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-linecap", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeLinecapProperty>(property);
+			var concrete = (CssStrokeLinecapProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsTrue(concrete.HasValue);
+			Assert.AreEqual("butt", concrete.Value);
+		}
+
+		[Test]
+		public void CssStrokeLinecapRoundLegal()
+		{
+			var snippet = "stroke-linecap: round";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-linecap", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeLinecapProperty>(property);
+			var concrete = (CssStrokeLinecapProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsTrue(concrete.HasValue);
+			Assert.AreEqual("round", concrete.Value);
+		}
+
+		[Test]
+		public void CssStrokeLinecapSquareLegal()
+		{
+			var snippet = "stroke-linecap: square";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-linecap", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeLinecapProperty>(property);
+			var concrete = (CssStrokeLinecapProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsTrue(concrete.HasValue);
+			Assert.AreEqual("square", concrete.Value);
+		}
+
+		[Test]
+		public void CssStrokeLinecapNoneIllegal()
+		{
+			var snippet = "stroke-linecap: none";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-linecap", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeLinecapProperty>(property);
+			var concrete = (CssStrokeLinecapProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsFalse(concrete.HasValue);
+		}
 	}
 }
