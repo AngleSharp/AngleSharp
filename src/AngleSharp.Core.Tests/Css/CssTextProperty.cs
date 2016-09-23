@@ -352,7 +352,7 @@
 		}
 
 		[Test]
-		public void CssTextAlignLastAutoLal()
+		public void CssTextAlignLastAutoLegal()
 		{
 			var snippet = "text-align-last: auto";
 			var property = ParseDeclaration(snippet);
@@ -363,6 +363,103 @@
 			var concrete = (CssTextAlignLastProperty)property;
 			Assert.IsTrue(property.HasValue);
 			Assert.AreEqual("auto", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAlignLastStartLegal()
+		{
+			var snippet = "text-align-last: start";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("start", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAlignLastEndLegal()
+		{
+			var snippet = "text-align-last: end";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("end", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAlignLastRightLegal()
+		{
+			var snippet = "text-align-last: right";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("right", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAlignLastLeftLegal()
+		{
+			var snippet = "text-align-last: left";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("left", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAlignLastCenterLegal()
+		{
+			var snippet = "text-align-last: center";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("center", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAlignLastJustifyLegal()
+		{
+			var snippet = "text-align-last: justify";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("justify", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAlignLastNoneIllegal()
+		{
+			var snippet = "text-align-last: none";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsFalse(property.HasValue);
 		}
 	}
 }

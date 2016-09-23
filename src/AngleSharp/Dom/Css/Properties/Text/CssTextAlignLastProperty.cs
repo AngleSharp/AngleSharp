@@ -5,7 +5,7 @@ namespace AngleSharp.Dom.Css
 	/// <summary>
 	/// Information can be found on MDN:
 	/// https://developer.mozilla.org/pl/docs/Web/CSS/text-align-last
-	/// Gets the selected text direction.
+	/// Gets the selected text-align-last.
 	/// </summary>
 	sealed class CssTextAlignLastProperty : CssProperty
 	{
