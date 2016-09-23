@@ -575,14 +575,19 @@
         /// </summary>
         public static readonly IValueConverter SystemFontConverter = Map.SystemFonts.ToConverter();
 
-        #endregion
+		/// <summary>
+		/// Represents a converter for the StrokeLinecap enumeration.
+		/// </summary>
+		public static readonly IValueConverter StrokeLinecapConverter = Map.StrokeLinecaps.ToConverter();
 
-        #region Specific
+		#endregion
 
-        /// <summary>
-        /// Represents an optional integer object.
-        /// </summary>
-        public static readonly IValueConverter OptionalIntegerConverter = IntegerConverter.OrAuto();
+		#region Specific
+
+		/// <summary>
+		/// Represents an optional integer object.
+		/// </summary>
+		public static readonly IValueConverter OptionalIntegerConverter = IntegerConverter.OrAuto();
 
         /// <summary>
         /// Represents a positive or infinite number object.
