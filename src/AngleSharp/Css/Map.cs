@@ -35,10 +35,24 @@
             { Keywords.FullWidth, TextTransform.FullWidth },
         };
 
-        /// <summary>
-        /// Contains the string-HorizontalAlignment mapping.
-        /// </summary>
-        public static readonly Dictionary<String, HorizontalAlignment> HorizontalAlignments = new Dictionary<String, HorizontalAlignment>(StringComparer.OrdinalIgnoreCase)
+		/// <summary>
+		/// Contains the string-TextAlignLast mapping.
+		/// </summary>
+		public static readonly Dictionary<String, TextAlignLast> TextAlignmentsLast = new Dictionary<String, TextAlignLast>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ Keywords.Auto, TextAlignLast.Auto },
+			{ Keywords.Start, TextAlignLast.Start },
+			{ Keywords.End, TextAlignLast.End },
+			{ Keywords.Right, TextAlignLast.Right },
+			{ Keywords.Left, TextAlignLast.Left },
+			{ Keywords.Center, TextAlignLast.Center },
+			{ Keywords.Justify, TextAlignLast.Justify }
+		};
+
+		/// <summary>
+		/// Contains the string-HorizontalAlignment mapping.
+		/// </summary>
+		public static readonly Dictionary<String, HorizontalAlignment> HorizontalAlignments = new Dictionary<String, HorizontalAlignment>(StringComparer.OrdinalIgnoreCase)
         {
             { Keywords.Left, HorizontalAlignment.Left },
             { Keywords.Right, HorizontalAlignment.Right },

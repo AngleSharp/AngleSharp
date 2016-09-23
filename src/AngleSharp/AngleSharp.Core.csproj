@@ -70,6 +70,7 @@
     <Compile Include="Dom\Css\ConditionFunctions\GroupCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\NotCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\OrCondition.cs" />
+    <Compile Include="Dom\Css\Constants\TextAlignLast.cs" />
     <Compile Include="Dom\Css\CssComment.cs" />
     <Compile Include="Dom\Css\CssNode.cs" />
     <Compile Include="Css\CssStyleFormatter.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Dom\Css\Properties\Sizing\CssObjectPositionProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeDasharrayProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeProperty.cs" />
+    <Compile Include="Dom\Css\Properties\Text\CssTextAlignLastProperty.cs" />
     <Compile Include="Dom\Css\Rules\CssDeclarationRule.cs" />
     <Compile Include="Dom\Css\Rules\CssUnknownRule.cs" />
     <Compile Include="Dom\Css\Rules\CssViewportRule.cs" />
