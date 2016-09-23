@@ -96,7 +96,7 @@
 		}
 
 		[Test]
-		public void CssStrokeLinearGradientIlegal()
+		public void CssStrokeUrlLegal()
 		{
 			var snippet = "stroke: url(#linear)";
 			var property = ParseDeclaration(snippet);
