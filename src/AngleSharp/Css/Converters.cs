@@ -695,6 +695,12 @@
 		public static readonly IValueConverter PaintConverter = UrlConverter.Or(CurrentColorConverter.OrNone());
 
 		/// <summary>
+		/// Represents a converter for Stroke Dasharray property
+		/// taking many values or none.
+		/// </summary>
+		public static readonly IValueConverter StrokeDasharrayConverter = LengthOrPercentConverter.Or(NumberConverter).Many().OrNone();
+
+		/// <summary>
 		/// Represents a ratio object.
 		/// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
 		/// </summary>
