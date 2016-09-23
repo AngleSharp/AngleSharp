@@ -1351,5 +1351,20 @@
         /// The even keyword.
         /// </summary>
         public static readonly String Even = "even";
-    }
+
+		/// <summary>
+		/// The Butt keyword.
+		/// </summary>
+		public static readonly String Butt = "butt";
+
+		/// <summary>
+		/// The miter keyword.
+		/// </summary>
+		public static readonly String Miter = "miter";
+
+		/// <summary>
+		/// The bevel keyword.
+		/// </summary>
+		public static readonly String Bevel = "bevel";
+	}
 }
