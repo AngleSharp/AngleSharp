@@ -328,5 +328,45 @@
 			Assert.IsFalse(concrete.IsInherited);
 			Assert.IsFalse(concrete.HasValue);
 		}
+
+		[Test]
+		public void CssStrokeMiterlimitNumberLegal()
+		{
+			var snippet = "stroke-miterlimit: 2";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-miterlimit", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeMiterlimitProperty>(property);
+			var concrete = (CssStrokeMiterlimitProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsTrue(concrete.HasValue);
+			Assert.AreEqual("2", concrete.Value);
+		}
+
+		[Test]
+		public void CssStrokeMiterlimitNumberIlegal()
+		{
+			var snippet = "stroke-miterlimit: 0.5";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-miterlimit", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeMiterlimitProperty>(property);
+			var concrete = (CssStrokeMiterlimitProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsFalse(concrete.HasValue);
+		}
+
+		[Test]
+		public void CssStrokeMiterlimitNumberNumberIlegal()
+		{
+			var snippet = "stroke-miterlimit: 2 0.5";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-miterlimit", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeMiterlimitProperty>(property);
+			var concrete = (CssStrokeMiterlimitProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsFalse(concrete.HasValue);
+		}
 	}
 }
