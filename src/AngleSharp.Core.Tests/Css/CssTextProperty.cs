@@ -349,6 +349,20 @@
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
-        }
-    }
+		}
+
+		[Test]
+		public void CssTextAlignLastAutoLal()
+		{
+			var snippet = "text-align-last: auto";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("auto", concrete.Value);
+		}
+	}
 }

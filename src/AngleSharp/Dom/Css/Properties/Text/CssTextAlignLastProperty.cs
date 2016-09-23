@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AngleSharp.Css;
+﻿using AngleSharp.Css;
 
-namespace AngleSharp.Dom.Css.Properties.Text
+namespace AngleSharp.Dom.Css
 {
 	/// <summary>
 	/// Information can be found on MDN:
@@ -22,7 +17,7 @@ namespace AngleSharp.Dom.Css.Properties.Text
 
 		#region ctor
 
-		public CssTextAlignLastProperty() 
+		public CssTextAlignLastProperty()
 			: base(PropertyNames.TextAlignLast)
 		{
 		}
