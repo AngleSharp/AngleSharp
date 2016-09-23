@@ -19,7 +19,7 @@
 		#region ctor
 
 		internal CssStrokeOpacityProperty()
-			: base(PropertyNames.Opacity, PropertyFlags.Animatable)
+			: base(PropertyNames.StrokeOpacity, PropertyFlags.Animatable)
 		{
 		}
 
