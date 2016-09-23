@@ -1,15 +1,15 @@
 ﻿namespace AngleSharp.Services.Default
 {
-    using AngleSharp.Css;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Extensions;
-    using System;
-    using System.Collections.Generic;
+	using AngleSharp.Css;
+	using AngleSharp.Dom.Css;
+	using AngleSharp.Extensions;
+	using System;
+	using System.Collections.Generic;
 
-    /// <summary>
-    /// Provides string to CSSProperty instance creation mappings.
-    /// </summary>
-    sealed class CssPropertyFactory : ICssPropertyFactory
+	/// <summary>
+	/// Provides string to CSSProperty instance creation mappings.
+	/// </summary>
+	sealed class CssPropertyFactory : ICssPropertyFactory
     {
         #region Delegates
 
@@ -269,6 +269,7 @@
 			AddLonghand(PropertyNames.StrokeDashoffset, () => new CssStrokeDashoffsetProperty(), animatable: true);
 			AddLonghand(PropertyNames.StrokeLinecap, () => new CssStrokeLinecapProperty(), animatable: true);
 			AddLonghand(PropertyNames.StrokeLinejoin, () => new CssStrokeLinejoinProperty(), animatable: true);
+			AddLonghand(PropertyNames.StrokeMiterlimit, () => new CssStrokeMiterlimitProperty(), animatable: true);
 			AddLonghand(PropertyNames.TableLayout, () => new CssTableLayoutProperty(), animatable: false);
             AddLonghand(PropertyNames.TextAlign, () => new CssTextAlignProperty(), animatable: false);
 
