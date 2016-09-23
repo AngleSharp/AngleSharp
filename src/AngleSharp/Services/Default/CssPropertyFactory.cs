@@ -266,6 +266,7 @@
             AddLonghand(PropertyNames.Right, () => new CssRightProperty(), animatable: true);
 			AddLonghand(PropertyNames.Stroke, () => new CssStrokeProperty(), animatable: true);
 			AddLonghand(PropertyNames.StrokeDasharray, () => new CssStrokeDasharrayProperty(), animatable: true);
+			AddLonghand(PropertyNames.StrokeDashoffset, () => new CssStrokeDashoffsetProperty(), animatable: true);
 			AddLonghand(PropertyNames.TableLayout, () => new CssTableLayoutProperty(), animatable: false);
             AddLonghand(PropertyNames.TextAlign, () => new CssTextAlignProperty(), animatable: false);
 
