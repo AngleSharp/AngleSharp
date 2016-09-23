@@ -154,6 +154,7 @@
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeMiterlimitProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeOpacityProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeProperty.cs" />
+    <Compile Include="Dom\Css\Properties\Stroke\CssStrokeWidthProperty.cs" />
     <Compile Include="Dom\Css\Rules\CssDeclarationRule.cs" />
     <Compile Include="Dom\Css\Rules\CssUnknownRule.cs" />
     <Compile Include="Dom\Css\Rules\CssViewportRule.cs" />

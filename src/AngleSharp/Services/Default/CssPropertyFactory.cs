@@ -271,6 +271,7 @@
 			AddLonghand(PropertyNames.StrokeLinejoin, () => new CssStrokeLinejoinProperty(), animatable: true);
 			AddLonghand(PropertyNames.StrokeMiterlimit, () => new CssStrokeMiterlimitProperty(), animatable: true);
 			AddLonghand(PropertyNames.StrokeOpacity, () => new CssStrokeOpacityProperty(), animatable: true);
+			AddLonghand(PropertyNames.StrokeWidth, () => new CssStrokeWidthProperty(), animatable: true);
 			AddLonghand(PropertyNames.TableLayout, () => new CssTableLayoutProperty(), animatable: false);
             AddLonghand(PropertyNames.TextAlign, () => new CssTextAlignProperty(), animatable: false);
 
