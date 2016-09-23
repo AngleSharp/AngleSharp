@@ -165,5 +165,59 @@
 			Assert.IsTrue(concrete.HasValue);
 			Assert.AreEqual("none", concrete.Value);
 		}
+
+		[Test]
+		public void CssStrokeDashoffsetLengthLegal()
+		{
+			var snippet = "stroke-dashoffset: 5px";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-dashoffset", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeDashoffsetProperty>(property);
+			var concrete = (CssStrokeDashoffsetProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsTrue(concrete.HasValue);
+			Assert.AreEqual("5px", concrete.Value);
+		}
+
+		[Test]
+		public void CssStrokeDashoffsetLengthLengthIllegal()
+		{
+			var snippet = "stroke-dashoffset: 5px 5px";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-dashoffset", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeDashoffsetProperty>(property);
+			var concrete = (CssStrokeDashoffsetProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsFalse(concrete.HasValue);
+		}
+
+		[Test]
+		public void CssStrokeDashoffsetPercentLegal()
+		{
+			var snippet = "stroke-dashoffset: 50%";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-dashoffset", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeDashoffsetProperty>(property);
+			var concrete = (CssStrokeDashoffsetProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsTrue(concrete.HasValue);
+			Assert.AreEqual("50%", concrete.Value);
+		}
+
+		[Test]
+		public void CssStrokeDashoffsetPercentPercentIllegal()
+		{
+			var snippet = "stroke-dashoffset: 50% 25%";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-dashoffset", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeDashoffsetProperty>(property);
+			var concrete = (CssStrokeDashoffsetProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsFalse(concrete.HasValue);
+		}
 	}
 }
