@@ -595,5 +595,25 @@
             { Keywords.SmallCaption, SystemFont.SmallCaption },
             { Keywords.StatusBar, SystemFont.StatusBar },
         };
-    }
+
+		/// <summary>
+		/// Contains the string-StrokeLinecap mapping.
+		/// </summary>
+		public static readonly Dictionary<String, StrokeLinecap> StrokeLinecaps = new Dictionary<String, StrokeLinecap>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ Keywords.Butt, StrokeLinecap.Butt },
+			{ Keywords.Round, StrokeLinecap.Round },
+			{ Keywords.Square, StrokeLinecap.Square }
+		};
+
+		/// <summary>
+		/// Contains the string-StrokeLinejoin mapping.
+		/// </summary>
+		public static readonly Dictionary<String, StrokeLinejoin> StrokeLinejoins = new Dictionary<String, StrokeLinejoin>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ Keywords.Miter, StrokeLinejoin.Miter },
+			{ Keywords.Round, StrokeLinejoin.Round },
+			{ Keywords.Bevel, StrokeLinejoin.Bevel }
+		};
+	}
 }

@@ -4,21 +4,21 @@
 
 	/// <summary>
 	/// Information can be found on MDN:
-	/// https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke
+	/// https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width
 	/// Gets the value that should be used for the stroke-width.
 	/// </summary>
-	sealed class CssStrokeProperty : CssProperty
+	sealed class CssStrokeWidthProperty : CssProperty
 	{
 		#region Fields
 
-		static readonly IValueConverter StyleConverter = Converters.PaintConverter;
+		static readonly IValueConverter StyleConverter = Converters.LengthOrPercentConverter;
 
 		#endregion
 
 		#region ctor
 
-		internal CssStrokeProperty()
-			: base(PropertyNames.Stroke, PropertyFlags.Animatable)
+		internal CssStrokeWidthProperty()
+			: base(PropertyNames.StrokeWidth, PropertyFlags.Animatable)
 		{
 		}
 
