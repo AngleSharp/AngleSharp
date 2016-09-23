@@ -461,5 +461,60 @@
 			var concrete = (CssTextAlignLastProperty)property;
 			Assert.IsFalse(property.HasValue);
 		}
+
+		[Test]
+		public void CssTextAnchorStartLegal()
+		{
+			var snippet = "text-anchor: start";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-anchor", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAnchorProperty>(property);
+			var concrete = (CssTextAnchorProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("start", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAnchorMiddleLegal()
+		{
+			var snippet = "text-anchor: middle";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-anchor", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAnchorProperty>(property);
+			var concrete = (CssTextAnchorProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("middle", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAnchorEndLegal()
+		{
+			var snippet = "text-anchor: end";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-anchor", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAnchorProperty>(property);
+			var concrete = (CssTextAnchorProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("end", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAnchorNoenIllegal()
+		{
+			var snippet = "text-anchor: none";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-anchor", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAnchorProperty>(property);
+			var concrete = (CssTextAnchorProperty)property;
+			Assert.IsFalse(property.HasValue);
+		}
 	}
 }

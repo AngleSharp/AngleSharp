@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Css
 {
 	/// <summary>
-	/// An enumeration with all possible text transformations.
+	/// An enumeration with all possible text last alignments.
 	/// </summary>
 	public enum TextAlignLast : byte
 	{

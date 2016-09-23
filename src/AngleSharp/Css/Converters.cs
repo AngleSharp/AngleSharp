@@ -1,15 +1,15 @@
 ﻿namespace AngleSharp.Css
 {
-    using AngleSharp.Css.ValueConverters;
-    using AngleSharp.Css.Values;
-    using AngleSharp.Extensions;
-    using System;
-    using System.Linq;
+	using AngleSharp.Css.ValueConverters;
+	using AngleSharp.Css.Values;
+	using AngleSharp.Extensions;
+	using System;
+	using System.Linq;
 
-    /// <summary>
-    /// A set of already constructed CSS value converters.
-    /// </summary>
-    static class Converters
+	/// <summary>
+	/// A set of already constructed CSS value converters.
+	/// </summary>
+	static class Converters
     {
         #region Elementary
 
@@ -526,9 +526,14 @@
         public static readonly IValueConverter TextTransformConverter = Map.TextTransforms.ToConverter();
 
 		/// <summary>
-		/// Represents a converter for the TextTransform enumeration.
+		/// Represents a converter for the TextTAligLast enumeration.
 		/// </summary>
 		public static readonly IValueConverter TextAlignLastConverter = Map.TextAlignmentsLast.ToConverter();
+		
+		/// <summary>
+		/// Represents a converter for the TextAnchor enumeration.
+		/// </summary>
+		public static readonly IValueConverter TextAnchorConverter = Map.TextAnchors.ToConverter();
 
 		/// <summary>
 		/// Represents a converter for the ObjectFitting enumeration.

@@ -269,6 +269,7 @@
 			AddLonghand(PropertyNames.TableLayout, () => new CssTableLayoutProperty(), animatable: false);
             AddLonghand(PropertyNames.TextAlign, () => new CssTextAlignProperty(), animatable: false);
 			AddLonghand(PropertyNames.TextAlignLast, () => new CssTextAlignLastProperty(), animatable: false);
+			AddLonghand(PropertyNames.TextAnchor, () => new CssTextAnchorProperty(), animatable: false);
 
 			AddShorthand(PropertyNames.TextDecoration, () => new CssTextDecorationProperty(),
                 PropertyNames.TextDecorationLine,

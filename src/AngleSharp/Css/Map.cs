@@ -50,6 +50,16 @@
 		};
 
 		/// <summary>
+		/// Contains the string-TextAnchor mapping.
+		/// </summary>
+		public static readonly Dictionary<String, TextAnchor> TextAnchors = new Dictionary<String, TextAnchor>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ Keywords.Start, TextAnchor.Start },
+			{ Keywords.Middle, TextAnchor.Middle },
+			{ Keywords.End, TextAnchor.End }
+		};
+
+		/// <summary>
 		/// Contains the string-HorizontalAlignment mapping.
 		/// </summary>
 		public static readonly Dictionary<String, HorizontalAlignment> HorizontalAlignments = new Dictionary<String, HorizontalAlignment>(StringComparer.OrdinalIgnoreCase)
