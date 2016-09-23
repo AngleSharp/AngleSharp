@@ -1,12 +1,13 @@
 ﻿namespace AngleSharp.Dom.Css
 {
 	using AngleSharp.Css;
+	using Extensions;
 
 	internal class CssStrokeLinecapProperty : CssProperty
 	{
 		#region Fields
 
-		static readonly IValueConverter StyleConverter = Converters.StrokeLinecapConverter;
+		static readonly IValueConverter StyleConverter = Converters.StrokeLinecapConverter.OrDefault(StrokeLinecap.Butt);
 
 		#endregion
 
