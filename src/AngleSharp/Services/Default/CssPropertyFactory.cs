@@ -280,7 +280,8 @@
             AddLonghand(PropertyNames.TextDecorationColor, () => new CssTextDecorationColorProperty(), animatable: true);
 
             AddLonghand(PropertyNames.TextIndent, () => new CssTextIndentProperty(), animatable: true);
-            AddLonghand(PropertyNames.TextTransform, () => new CssTextTransformProperty(), animatable: false);
+			AddLonghand(PropertyNames.TextJustify, () => new CssTextJustifyProperty(), animatable: false);
+			AddLonghand(PropertyNames.TextTransform, () => new CssTextTransformProperty(), animatable: false);
             AddLonghand(PropertyNames.TextShadow, () => new CssTextShadowProperty(), animatable: true);
             AddLonghand(PropertyNames.Transform, () => new CssTransformProperty(), animatable: true);
             AddLonghand(PropertyNames.TransformOrigin, () => new CssTransformOriginProperty(), animatable: true);

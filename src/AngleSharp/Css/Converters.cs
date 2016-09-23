@@ -536,6 +536,11 @@
 		public static readonly IValueConverter TextAnchorConverter = Map.TextAnchors.ToConverter();
 
 		/// <summary>
+		/// Represents a converter for the TextJustify enumeration.
+		/// </summary>
+		public static readonly IValueConverter TextJustifyConverter = Map.TextJustifyOptions.ToConverter();
+
+		/// <summary>
 		/// Represents a converter for the ObjectFitting enumeration.
 		/// </summary>
 		public static readonly IValueConverter ObjectFittingConverter = Map.ObjectFittings.ToConverter();

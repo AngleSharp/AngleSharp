@@ -60,6 +60,22 @@
 		};
 
 		/// <summary>
+		/// Contains the string-TextJustify mapping.
+		/// </summary>
+		public static readonly Dictionary<String, TextJustify> TextJustifyOptions = new Dictionary<String, TextJustify>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ Keywords.Auto, TextJustify.Auto },
+			{ Keywords.Distribute, TextJustify.Distribute },
+			{ Keywords.DistributeAllLines, TextJustify.DistributeAllLines },
+			{ Keywords.DistributeCenterLast, TextJustify.DistributeCenterLast },
+			{ Keywords.InterCluster, TextJustify.InterCluster },
+			{ Keywords.InterIdeograph, TextJustify.InterIdeograph },
+			{ Keywords.InterWord, TextJustify.InterWord },
+			{ Keywords.Kashida, TextJustify.Kashida },
+			{ Keywords.Newspaper, TextJustify.Newspaper }
+		};
+
+		/// <summary>
 		/// Contains the string-HorizontalAlignment mapping.
 		/// </summary>
 		public static readonly Dictionary<String, HorizontalAlignment> HorizontalAlignments = new Dictionary<String, HorizontalAlignment>(StringComparer.OrdinalIgnoreCase)
