@@ -5,7 +5,7 @@
 	/// <summary>
 	/// Information can be found on MDN:
 	/// https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width
-	/// Gets the value that should be used for the stroke-opacity.
+	/// Gets the value that should be used for the stroke-width.
 	/// </summary>
 	sealed class CssStrokeWidthProperty : CssProperty
 	{

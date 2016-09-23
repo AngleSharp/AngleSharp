@@ -2,7 +2,12 @@
 {
 	using AngleSharp.Css;
 
-	internal class CssStrokeMiterlimitProperty : CssProperty
+	/// <summary>
+	/// Information can be found on MDN:
+	/// https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-miterlimit
+	/// Gets the value that should be used for the stroke-miterlimit.
+	/// </summary>
+	sealed class CssStrokeMiterlimitProperty : CssProperty
 	{
 		#region Fields
 

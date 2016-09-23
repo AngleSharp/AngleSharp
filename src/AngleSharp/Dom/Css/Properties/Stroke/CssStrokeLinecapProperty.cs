@@ -3,7 +3,12 @@
 	using AngleSharp.Css;
 	using Extensions;
 
-	internal class CssStrokeLinecapProperty : CssProperty
+	/// <summary>
+	/// Information can be found on MDN:
+	/// https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linecap
+	/// Gets the value that should be used for the stroke-linecap.
+	/// </summary>
+	sealed class CssStrokeLinecapProperty : CssProperty
 	{
 		#region Fields
 

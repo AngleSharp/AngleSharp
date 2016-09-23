@@ -2,7 +2,12 @@
 {
 	using AngleSharp.Css;
 
-	internal class CssStrokeDashoffsetProperty : CssProperty
+	/// <summary>
+	/// Information can be found on MDN:
+	/// https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dashoffset
+	/// Gets the value that should be used for the stroke-dashoffset.
+	/// </summary>
+	sealed class CssStrokeDashoffsetProperty : CssProperty
 	{
 		#region Fields
 

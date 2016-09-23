@@ -2,7 +2,12 @@
 {
 	using AngleSharp.Css;
 
-	internal class CssStrokeLinejoinProperty : CssProperty
+	/// <summary>
+	/// Information can be found on MDN:
+	/// https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linejoin
+	/// Gets the value that should be used for the stroke-linejoin.
+	/// </summary>
+	sealed class CssStrokeLinejoinProperty : CssProperty
 	{
 		#region Fields
 
