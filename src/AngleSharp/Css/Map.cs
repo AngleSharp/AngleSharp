@@ -605,5 +605,15 @@
 			{ Keywords.Round, StrokeLinecap.Round },
 			{ Keywords.Square, StrokeLinecap.Square }
 		};
+
+		/// <summary>
+		/// Contains the string-StrokeLinejoin mapping.
+		/// </summary>
+		public static readonly Dictionary<String, StrokeLinejoin> StrokeLinejoins = new Dictionary<String, StrokeLinejoin>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ Keywords.Miter, StrokeLinejoin.Miter },
+			{ Keywords.Round, StrokeLinejoin.Round },
+			{ Keywords.Bevel, StrokeLinejoin.Bevel }
+		};
 	}
 }

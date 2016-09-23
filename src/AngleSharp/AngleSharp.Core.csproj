@@ -70,6 +70,7 @@
     <Compile Include="Dom\Css\ConditionFunctions\GroupCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\NotCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\OrCondition.cs" />
+    <Compile Include="Dom\Css\Constants\StrokeLinejoin.cs" />
     <Compile Include="Dom\Css\Constants\StrokeLinecap.cs" />
     <Compile Include="Dom\Css\CssComment.cs" />
     <Compile Include="Dom\Css\CssNode.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeDasharrayProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeDashoffsetProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeLinecapProperty.cs" />
+    <Compile Include="Dom\Css\Properties\Stroke\CssStrokeLinejoinProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeProperty.cs" />
     <Compile Include="Dom\Css\Rules\CssDeclarationRule.cs" />
     <Compile Include="Dom\Css\Rules\CssUnknownRule.cs" />

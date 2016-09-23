@@ -579,6 +579,11 @@
 		/// Represents a converter for the StrokeLinecap enumeration.
 		/// </summary>
 		public static readonly IValueConverter StrokeLinecapConverter = Map.StrokeLinecaps.ToConverter();
+		
+		/// <summary>
+		/// Represents a converter for the StrokeLinejoin enumeration.
+		/// </summary>
+		public static readonly IValueConverter StrokeLinejoinConverter = Map.StrokeLinejoins.ToConverter();
 
 		#endregion
 
