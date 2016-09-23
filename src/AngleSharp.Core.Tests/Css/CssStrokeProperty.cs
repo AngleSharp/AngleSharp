@@ -368,5 +368,32 @@
 			Assert.IsFalse(concrete.IsInherited);
 			Assert.IsFalse(concrete.HasValue);
 		}
+
+		[Test]
+		public void CssStrokeOpacitytNumberLegal()
+		{
+			var snippet = "stroke-opacity: 0.5";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-opacity", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeOpacityProperty>(property);
+			var concrete = (CssStrokeOpacityProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsTrue(concrete.HasValue);
+			Assert.AreEqual("0.5", concrete.Value);
+		}
+
+		[Test]
+		public void CssStrokeOpacityNumberNumberIllegal()
+		{
+			var snippet = "stroke-opacity: 0.5 0.5";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("stroke-opacity", property.Name);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssStrokeOpacityProperty>(property);
+			var concrete = (CssStrokeOpacityProperty)property;
+			Assert.IsFalse(concrete.IsInherited);
+			Assert.IsFalse(concrete.HasValue);
+		}
 	}
 }
