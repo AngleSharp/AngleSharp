@@ -1,15 +1,15 @@
 ﻿namespace AngleSharp.Services.Default
 {
-    using AngleSharp.Css;
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Extensions;
-    using System;
-    using System.Collections.Generic;
+	using AngleSharp.Css;
+	using AngleSharp.Dom.Css;
+	using AngleSharp.Extensions;
+	using System;
+	using System.Collections.Generic;
 
-    /// <summary>
-    /// Provides string to CSSProperty instance creation mappings.
-    /// </summary>
-    sealed class CssPropertyFactory : ICssPropertyFactory
+	/// <summary>
+	/// Provides string to CSSProperty instance creation mappings.
+	/// </summary>
+	sealed class CssPropertyFactory : ICssPropertyFactory
     {
         #region Delegates
 
@@ -264,10 +264,20 @@
             AddLonghand(PropertyNames.Position, () => new CssPositionProperty(), animatable: false);
             AddLonghand(PropertyNames.Quotes, () => new CssQuotesProperty(), animatable: false);
             AddLonghand(PropertyNames.Right, () => new CssRightProperty(), animatable: true);
-            AddLonghand(PropertyNames.TableLayout, () => new CssTableLayoutProperty(), animatable: false);
+			AddLonghand(PropertyNames.Stroke, () => new CssStrokeProperty(), animatable: true);
+			AddLonghand(PropertyNames.StrokeDasharray, () => new CssStrokeDasharrayProperty(), animatable: true);
+			AddLonghand(PropertyNames.StrokeDashoffset, () => new CssStrokeDashoffsetProperty(), animatable: true);
+			AddLonghand(PropertyNames.StrokeLinecap, () => new CssStrokeLinecapProperty(), animatable: true);
+			AddLonghand(PropertyNames.StrokeLinejoin, () => new CssStrokeLinejoinProperty(), animatable: true);
+			AddLonghand(PropertyNames.StrokeMiterlimit, () => new CssStrokeMiterlimitProperty(), animatable: true);
+			AddLonghand(PropertyNames.StrokeOpacity, () => new CssStrokeOpacityProperty(), animatable: true);
+			AddLonghand(PropertyNames.StrokeWidth, () => new CssStrokeWidthProperty(), animatable: true);
+			AddLonghand(PropertyNames.TableLayout, () => new CssTableLayoutProperty(), animatable: false);
             AddLonghand(PropertyNames.TextAlign, () => new CssTextAlignProperty(), animatable: false);
+			AddLonghand(PropertyNames.TextAlignLast, () => new CssTextAlignLastProperty(), animatable: false);
+			AddLonghand(PropertyNames.TextAnchor, () => new CssTextAnchorProperty(), animatable: false);
 
-            AddShorthand(PropertyNames.TextDecoration, () => new CssTextDecorationProperty(),
+			AddShorthand(PropertyNames.TextDecoration, () => new CssTextDecorationProperty(),
                 PropertyNames.TextDecorationLine,
                 PropertyNames.TextDecorationStyle,
                 PropertyNames.TextDecorationColor);
@@ -276,7 +286,8 @@
             AddLonghand(PropertyNames.TextDecorationColor, () => new CssTextDecorationColorProperty(), animatable: true);
 
             AddLonghand(PropertyNames.TextIndent, () => new CssTextIndentProperty(), animatable: true);
-            AddLonghand(PropertyNames.TextTransform, () => new CssTextTransformProperty(), animatable: false);
+			AddLonghand(PropertyNames.TextJustify, () => new CssTextJustifyProperty(), animatable: false);
+			AddLonghand(PropertyNames.TextTransform, () => new CssTextTransformProperty(), animatable: false);
             AddLonghand(PropertyNames.TextShadow, () => new CssTextShadowProperty(), animatable: true);
             AddLonghand(PropertyNames.Transform, () => new CssTransformProperty(), animatable: true);
             AddLonghand(PropertyNames.TransformOrigin, () => new CssTransformOriginProperty(), animatable: true);

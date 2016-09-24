@@ -82,6 +82,7 @@
             var source = _document.Source;
             var token = default(XmlToken);
             _options = options;
+            _tokenizer.IsSuppressingErrors = options.IsSuppressingErrors;
 
             do
             {
@@ -106,6 +107,7 @@
         {
             var token = default(XmlToken);
             _options = options;
+            _tokenizer.IsSuppressingErrors = options.IsSuppressingErrors;
 
             do
             {
