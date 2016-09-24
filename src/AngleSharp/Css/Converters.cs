@@ -120,11 +120,11 @@
         /// </summary>
         public static readonly IValueConverter NaturalNumberConverter = new StructValueConverter<Single>(ValueExtensions.ToNaturalSingle);
 
-        /// <summary>
-        /// Represents a percentage object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/percentage
-        /// </summary>
-        public static readonly IValueConverter PercentConverter = new StructValueConverter<Percent>(ValueExtensions.ToPercent);
+		/// <summary>
+		/// Represents a percentage object.
+		/// https://developer.mozilla.org/en-US/docs/Web/CSS/percentage
+		/// </summary>
+		public static readonly IValueConverter PercentConverter = new StructValueConverter<Percent>(ValueExtensions.ToPercent);
 
         /// <summary>
         /// Represents an integer object reduced to [0, 255] or percent.
@@ -590,14 +590,24 @@
         /// </summary>
         public static readonly IValueConverter SystemFontConverter = Map.SystemFonts.ToConverter();
 
-        #endregion
+		/// <summary>
+		/// Represents a converter for the StrokeLinecap enumeration.
+		/// </summary>
+		public static readonly IValueConverter StrokeLinecapConverter = Map.StrokeLinecaps.ToConverter();
+		
+		/// <summary>
+		/// Represents a converter for the StrokeLinejoin enumeration.
+		/// </summary>
+		public static readonly IValueConverter StrokeLinejoinConverter = Map.StrokeLinejoins.ToConverter();
 
-        #region Specific
+		#endregion
 
-        /// <summary>
-        /// Represents an optional integer object.
-        /// </summary>
-        public static readonly IValueConverter OptionalIntegerConverter = IntegerConverter.OrAuto();
+		#region Specific
+
+		/// <summary>
+		/// Represents an optional integer object.
+		/// </summary>
+		public static readonly IValueConverter OptionalIntegerConverter = IntegerConverter.OrAuto();
 
         /// <summary>
         /// Represents a positive or infinite number object.
@@ -714,6 +724,11 @@
 		/// taking many values or none.
 		/// </summary>
 		public static readonly IValueConverter StrokeDasharrayConverter = LengthOrPercentConverter.Or(NumberConverter).Many().OrNone();
+
+		/// <summary>
+		/// Represents a converter for the StrokeMiterlimit enumeration.
+		/// </summary>
+		public static readonly IValueConverter StrokeMiterlimitConverter = new StructValueConverter<Single>(ValueExtensions.ToGreaterOrEqualOneSingle);
 
 		/// <summary>
 		/// Represents a ratio object.

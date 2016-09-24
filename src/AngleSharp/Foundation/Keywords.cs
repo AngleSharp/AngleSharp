@@ -1391,5 +1391,19 @@
 		/// The newspaper keyword.
 		/// </summary>
 		public static readonly String Newspaper = "newspaper";
+
+		/// The Butt keyword.
+		/// </summary>
+		public static readonly String Butt = "butt";
+
+		/// <summary>
+		/// The miter keyword.
+		/// </summary>
+		public static readonly String Miter = "miter";
+
+		/// <summary>
+		/// The bevel keyword.
+		/// </summary>
+		public static readonly String Bevel = "bevel";
 	}
 }
