@@ -349,6 +349,60 @@
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
-        }
-    }
+		}
+
+		[Test]
+		public void CssWordBreakNormalLegal()
+		{
+			var snippet = "word-break : normal";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("word-break", property.Name);
+			Assert.IsTrue(property.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssWordBreakProperty>(property);
+			var concrete = (CssWordBreakProperty)property;
+			Assert.AreEqual("normal", concrete.Value);
+		}
+
+		[Test]
+		public void CssWordBreakBreakAllLegal()
+		{
+			var snippet = "word-break : break-all";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("word-break", property.Name);
+			Assert.IsTrue(property.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssWordBreakProperty>(property);
+			var concrete = (CssWordBreakProperty)property;
+			Assert.AreEqual("break-all", concrete.Value);
+		}
+
+		[Test]
+		public void CssWordBreakKeepAllLegal()
+		{
+			var snippet = "word-break : keep-all";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("word-break", property.Name);
+			Assert.IsTrue(property.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssWordBreakProperty>(property);
+			var concrete = (CssWordBreakProperty)property;
+			Assert.AreEqual("keep-all", concrete.Value);
+		}
+
+		[Test]
+		public void CssWordBreakNoneIllegal()
+		{
+			var snippet = "word-break : none";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("word-break", property.Name);
+			Assert.IsFalse(property.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssWordBreakProperty>(property);
+		}
+	}
 }

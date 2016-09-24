@@ -585,6 +585,11 @@
 		/// </summary>
 		public static readonly IValueConverter StrokeLinejoinConverter = Map.StrokeLinejoins.ToConverter();
 
+		/// <summary>
+		/// Represents a converter for the WordBreak enumeration.
+		/// </summary>
+		public static readonly IValueConverter WordBreakConverter = Map.WordBreaks.ToConverter();
+
 		#endregion
 
 		#region Specific

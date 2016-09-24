@@ -307,8 +307,9 @@
             AddLonghand(PropertyNames.WhiteSpace, () => new CssWhiteSpaceProperty(), animatable: false);
             AddLonghand(PropertyNames.Widows, () => new CssWidowsProperty(), animatable: false);
             AddLonghand(PropertyNames.Width, () => new CssWidthProperty(), animatable: true);
-            AddLonghand(PropertyNames.WordSpacing, () => new CssWordSpacingProperty(), animatable: true);
-            AddLonghand(PropertyNames.ZIndex, () => new CssZIndexProperty(), animatable: true);
+			AddLonghand(PropertyNames.WordBreak, () => new CssWordBreakProperty(), animatable: true);
+			AddLonghand(PropertyNames.WordSpacing, () => new CssWordSpacingProperty(), animatable: true);
+			AddLonghand(PropertyNames.ZIndex, () => new CssZIndexProperty(), animatable: true);
             AddLonghand(PropertyNames.ObjectFit, () => new CssObjectFitProperty(), animatable: false);
             AddLonghand(PropertyNames.ObjectPosition, () => new CssObjectPositionProperty(), animatable: true);
 

@@ -1366,5 +1366,15 @@
 		/// The bevel keyword.
 		/// </summary>
 		public static readonly String Bevel = "bevel";
+
+		/// <summary>
+		/// The break-all keyword.
+		/// </summary>
+		public static readonly String BreakAll = "break-all";
+
+		/// <summary>
+		/// The keep-all keyword.
+		/// </summary>
+		public static readonly String KeepAll = "keep-all";
 	}
 }

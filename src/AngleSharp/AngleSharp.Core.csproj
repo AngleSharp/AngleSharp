@@ -64,6 +64,7 @@
     <Compile Include="BrowsingContextExtensions.cs" />
     <Compile Include="Css\CombinatorSymbols.cs" />
     <Compile Include="Dom\AttrChangedCallback.cs" />
+    <Compile Include="Dom\Constants\WordBreak.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\AndCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\DeclarationCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\EmptyCondition.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Dom\Css\Properties\Font\CssFontSizeAdjustProperty.cs" />
     <Compile Include="Dom\Css\Properties\Font\CssUnicodeRangeProperty.cs" />
     <Compile Include="Dom\Css\Properties\Font\CssSrcProperty.cs" />
+    <Compile Include="Dom\Css\Properties\Font\CssWordBreakProperty.cs" />
     <Compile Include="Dom\Css\Properties\Sizing\CssObjectFitProperty.cs" />
     <Compile Include="Dom\Css\Properties\Sizing\CssObjectPositionProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeDasharrayProperty.cs" />
