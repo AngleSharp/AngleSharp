@@ -116,6 +116,26 @@
             Assert.AreEqual(TextContent, document.Body.FirstElementChild.TextContent);
         }
 
+        [Test]
+        public void NewDocumentWasAlwaysObtainedWithAStatusCode200()
+        {
+            var document = "".ToHtmlDocument();
+            Assert.AreEqual(200, (int)document.StatusCode);
+        }
+
+        [Test]
+        public async Task DocumentCreatedFrom201ResponseHasStatusCode201()
+        {
+            var config = Configuration.Default.WithDefaultLoader();
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(res =>
+            {
+                res.Content(String.Empty);
+                res.Status(201);
+            });
+            Assert.AreEqual(201, (int)document.StatusCode);
+        }
+
         private static Task<IDocument> GenerateDocument(String content, String contentType)
         {
             var config = Configuration.Default.WithDefaultLoader();
