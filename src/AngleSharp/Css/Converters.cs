@@ -1,15 +1,15 @@
 ﻿namespace AngleSharp.Css
 {
-    using AngleSharp.Css.ValueConverters;
-    using AngleSharp.Css.Values;
-    using AngleSharp.Extensions;
-    using System;
-    using System.Linq;
+	using AngleSharp.Css.ValueConverters;
+	using AngleSharp.Css.Values;
+	using AngleSharp.Extensions;
+	using System;
+	using System.Linq;
 
-    /// <summary>
-    /// A set of already constructed CSS value converters.
-    /// </summary>
-    static class Converters
+	/// <summary>
+	/// A set of already constructed CSS value converters.
+	/// </summary>
+	static class Converters
     {
         #region Elementary
 
@@ -120,11 +120,11 @@
         /// </summary>
         public static readonly IValueConverter NaturalNumberConverter = new StructValueConverter<Single>(ValueExtensions.ToNaturalSingle);
 
-        /// <summary>
-        /// Represents a percentage object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/percentage
-        /// </summary>
-        public static readonly IValueConverter PercentConverter = new StructValueConverter<Percent>(ValueExtensions.ToPercent);
+		/// <summary>
+		/// Represents a percentage object.
+		/// https://developer.mozilla.org/en-US/docs/Web/CSS/percentage
+		/// </summary>
+		public static readonly IValueConverter PercentConverter = new StructValueConverter<Percent>(ValueExtensions.ToPercent);
 
         /// <summary>
         /// Represents an integer object reduced to [0, 255] or percent.
@@ -525,10 +525,25 @@
         /// </summary>
         public static readonly IValueConverter TextTransformConverter = Map.TextTransforms.ToConverter();
 
-        /// <summary>
-        /// Represents a converter for the ObjectFitting enumeration.
-        /// </summary>
-        public static readonly IValueConverter ObjectFittingConverter = Map.ObjectFittings.ToConverter();
+		/// <summary>
+		/// Represents a converter for the TextTAligLast enumeration.
+		/// </summary>
+		public static readonly IValueConverter TextAlignLastConverter = Map.TextAlignmentsLast.ToConverter();
+		
+		/// <summary>
+		/// Represents a converter for the TextAnchor enumeration.
+		/// </summary>
+		public static readonly IValueConverter TextAnchorConverter = Map.TextAnchors.ToConverter();
+
+		/// <summary>
+		/// Represents a converter for the TextJustify enumeration.
+		/// </summary>
+		public static readonly IValueConverter TextJustifyConverter = Map.TextJustifyOptions.ToConverter();
+
+		/// <summary>
+		/// Represents a converter for the ObjectFitting enumeration.
+		/// </summary>
+		public static readonly IValueConverter ObjectFittingConverter = Map.ObjectFittings.ToConverter();
 
         /// <summary>
         /// Represents a converter for the PositionMode enumeration.
@@ -575,14 +590,24 @@
         /// </summary>
         public static readonly IValueConverter SystemFontConverter = Map.SystemFonts.ToConverter();
 
-        #endregion
+		/// <summary>
+		/// Represents a converter for the StrokeLinecap enumeration.
+		/// </summary>
+		public static readonly IValueConverter StrokeLinecapConverter = Map.StrokeLinecaps.ToConverter();
+		
+		/// <summary>
+		/// Represents a converter for the StrokeLinejoin enumeration.
+		/// </summary>
+		public static readonly IValueConverter StrokeLinejoinConverter = Map.StrokeLinejoins.ToConverter();
 
-        #region Specific
+		#endregion
 
-        /// <summary>
-        /// Represents an optional integer object.
-        /// </summary>
-        public static readonly IValueConverter OptionalIntegerConverter = IntegerConverter.OrAuto();
+		#region Specific
+
+		/// <summary>
+		/// Represents an optional integer object.
+		/// </summary>
+		public static readonly IValueConverter OptionalIntegerConverter = IntegerConverter.OrAuto();
 
         /// <summary>
         /// Represents a positive or infinite number object.
@@ -689,11 +714,27 @@
         /// </summary>
         public static readonly IValueConverter InvertedColorConverter = CurrentColorConverter.Or(Keywords.Invert);
 
-        /// <summary>
-        /// Represents a ratio object.
-        /// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
-        /// </summary>
-        public static readonly IValueConverter RatioConverter = WithOrder(
+		/// <summary>
+		/// Represents a paint object.
+		/// </summary>
+		public static readonly IValueConverter PaintConverter = UrlConverter.Or(CurrentColorConverter.OrNone());
+
+		/// <summary>
+		/// Represents a converter for Stroke Dasharray property
+		/// taking many values or none.
+		/// </summary>
+		public static readonly IValueConverter StrokeDasharrayConverter = LengthOrPercentConverter.Or(NumberConverter).Many().OrNone();
+
+		/// <summary>
+		/// Represents a converter for the StrokeMiterlimit enumeration.
+		/// </summary>
+		public static readonly IValueConverter StrokeMiterlimitConverter = new StructValueConverter<Single>(ValueExtensions.ToGreaterOrEqualOneSingle);
+
+		/// <summary>
+		/// Represents a ratio object.
+		/// https://developer.mozilla.org/en-US/docs/Web/CSS/ratio
+		/// </summary>
+		public static readonly IValueConverter RatioConverter = WithOrder(
             IntegerConverter.Required(), 
             IntegerConverter.StartsWithDelimiter().Required());
 

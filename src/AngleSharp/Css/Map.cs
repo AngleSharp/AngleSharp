@@ -35,10 +35,50 @@
             { Keywords.FullWidth, TextTransform.FullWidth },
         };
 
-        /// <summary>
-        /// Contains the string-HorizontalAlignment mapping.
-        /// </summary>
-        public static readonly Dictionary<String, HorizontalAlignment> HorizontalAlignments = new Dictionary<String, HorizontalAlignment>(StringComparer.OrdinalIgnoreCase)
+		/// <summary>
+		/// Contains the string-TextAlignLast mapping.
+		/// </summary>
+		public static readonly Dictionary<String, TextAlignLast> TextAlignmentsLast = new Dictionary<String, TextAlignLast>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ Keywords.Auto, TextAlignLast.Auto },
+			{ Keywords.Start, TextAlignLast.Start },
+			{ Keywords.End, TextAlignLast.End },
+			{ Keywords.Right, TextAlignLast.Right },
+			{ Keywords.Left, TextAlignLast.Left },
+			{ Keywords.Center, TextAlignLast.Center },
+			{ Keywords.Justify, TextAlignLast.Justify }
+		};
+
+		/// <summary>
+		/// Contains the string-TextAnchor mapping.
+		/// </summary>
+		public static readonly Dictionary<String, TextAnchor> TextAnchors = new Dictionary<String, TextAnchor>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ Keywords.Start, TextAnchor.Start },
+			{ Keywords.Middle, TextAnchor.Middle },
+			{ Keywords.End, TextAnchor.End }
+		};
+
+		/// <summary>
+		/// Contains the string-TextJustify mapping.
+		/// </summary>
+		public static readonly Dictionary<String, TextJustify> TextJustifyOptions = new Dictionary<String, TextJustify>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ Keywords.Auto, TextJustify.Auto },
+			{ Keywords.Distribute, TextJustify.Distribute },
+			{ Keywords.DistributeAllLines, TextJustify.DistributeAllLines },
+			{ Keywords.DistributeCenterLast, TextJustify.DistributeCenterLast },
+			{ Keywords.InterCluster, TextJustify.InterCluster },
+			{ Keywords.InterIdeograph, TextJustify.InterIdeograph },
+			{ Keywords.InterWord, TextJustify.InterWord },
+			{ Keywords.Kashida, TextJustify.Kashida },
+			{ Keywords.Newspaper, TextJustify.Newspaper }
+		};
+
+		/// <summary>
+		/// Contains the string-HorizontalAlignment mapping.
+		/// </summary>
+		public static readonly Dictionary<String, HorizontalAlignment> HorizontalAlignments = new Dictionary<String, HorizontalAlignment>(StringComparer.OrdinalIgnoreCase)
         {
             { Keywords.Left, HorizontalAlignment.Left },
             { Keywords.Right, HorizontalAlignment.Right },
@@ -595,5 +635,25 @@
             { Keywords.SmallCaption, SystemFont.SmallCaption },
             { Keywords.StatusBar, SystemFont.StatusBar },
         };
-    }
+
+		/// <summary>
+		/// Contains the string-StrokeLinecap mapping.
+		/// </summary>
+		public static readonly Dictionary<String, StrokeLinecap> StrokeLinecaps = new Dictionary<String, StrokeLinecap>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ Keywords.Butt, StrokeLinecap.Butt },
+			{ Keywords.Round, StrokeLinecap.Round },
+			{ Keywords.Square, StrokeLinecap.Square }
+		};
+
+		/// <summary>
+		/// Contains the string-StrokeLinejoin mapping.
+		/// </summary>
+		public static readonly Dictionary<String, StrokeLinejoin> StrokeLinejoins = new Dictionary<String, StrokeLinejoin>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ Keywords.Miter, StrokeLinejoin.Miter },
+			{ Keywords.Round, StrokeLinejoin.Round },
+			{ Keywords.Bevel, StrokeLinejoin.Bevel }
+		};
+	}
 }
