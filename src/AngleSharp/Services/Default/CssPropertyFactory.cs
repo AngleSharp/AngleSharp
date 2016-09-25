@@ -274,8 +274,10 @@
 			AddLonghand(PropertyNames.StrokeWidth, () => new CssStrokeWidthProperty(), animatable: true);
 			AddLonghand(PropertyNames.TableLayout, () => new CssTableLayoutProperty(), animatable: false);
             AddLonghand(PropertyNames.TextAlign, () => new CssTextAlignProperty(), animatable: false);
+			AddLonghand(PropertyNames.TextAlignLast, () => new CssTextAlignLastProperty(), animatable: false);
+			AddLonghand(PropertyNames.TextAnchor, () => new CssTextAnchorProperty(), animatable: false);
 
-            AddShorthand(PropertyNames.TextDecoration, () => new CssTextDecorationProperty(),
+			AddShorthand(PropertyNames.TextDecoration, () => new CssTextDecorationProperty(),
                 PropertyNames.TextDecorationLine,
                 PropertyNames.TextDecorationStyle,
                 PropertyNames.TextDecorationColor);
@@ -284,7 +286,8 @@
             AddLonghand(PropertyNames.TextDecorationColor, () => new CssTextDecorationColorProperty(), animatable: true);
 
             AddLonghand(PropertyNames.TextIndent, () => new CssTextIndentProperty(), animatable: true);
-            AddLonghand(PropertyNames.TextTransform, () => new CssTextTransformProperty(), animatable: false);
+			AddLonghand(PropertyNames.TextJustify, () => new CssTextJustifyProperty(), animatable: false);
+			AddLonghand(PropertyNames.TextTransform, () => new CssTextTransformProperty(), animatable: false);
             AddLonghand(PropertyNames.TextShadow, () => new CssTextShadowProperty(), animatable: true);
             AddLonghand(PropertyNames.Transform, () => new CssTransformProperty(), animatable: true);
             AddLonghand(PropertyNames.TransformOrigin, () => new CssTransformOriginProperty(), animatable: true);

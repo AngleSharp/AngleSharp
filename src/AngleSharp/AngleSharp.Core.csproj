@@ -70,6 +70,9 @@
     <Compile Include="Dom\Css\ConditionFunctions\GroupCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\NotCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\OrCondition.cs" />
+    <Compile Include="Dom\Css\Constants\TextAlignLast.cs" />
+    <Compile Include="Dom\Css\Constants\TextAnchor.cs" />
+    <Compile Include="Dom\Css\Constants\TextJustify.cs" />
     <Compile Include="Dom\Css\Constants\StrokeLinejoin.cs" />
     <Compile Include="Dom\Css\Constants\StrokeLinecap.cs" />
     <Compile Include="Dom\Css\CssComment.cs" />
@@ -154,6 +157,9 @@
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeMiterlimitProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeOpacityProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeProperty.cs" />
+    <Compile Include="Dom\Css\Properties\Text\CssTextAlignLastProperty.cs" />
+    <Compile Include="Dom\Css\Properties\Text\CssTextAnchorProperty.cs" />
+    <Compile Include="Dom\Css\Properties\Text\CssTextJustifyProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeWidthProperty.cs" />
     <Compile Include="Dom\Css\Rules\CssDeclarationRule.cs" />
     <Compile Include="Dom\Css\Rules\CssUnknownRule.cs" />
