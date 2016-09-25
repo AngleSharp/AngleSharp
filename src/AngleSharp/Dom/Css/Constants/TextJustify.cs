@@ -31,6 +31,7 @@
 		/// <summary>
 		/// Justifies lines of text in the same way as the distribute value, 
 		/// except that it also justifies the last line of the paragraph
+        /// </summary>
 		DistributeAllLines,
 		/// <summary>
 		/// Not implemented
