@@ -688,11 +688,11 @@
             if (!RegisteredCallbacks.TryGetValue(type, out handler) && type != typeof(Element))
             {
                 var parent = type.GetTypeInfo().BaseType;
-                var parentHandler = GetOrCreateCallback(parent);
+                handler = GetOrCreateCallback(parent);
 
-                if (parentHandler != null)
+                if (handler != null)
                 {
-                    RegisteredCallbacks[type] = parentHandler;
+                    RegisteredCallbacks[type] = handler;
                 }
             }
 
