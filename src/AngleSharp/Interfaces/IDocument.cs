@@ -4,6 +4,7 @@
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
+    using System.Net;
 
     /// <summary>
     /// The Document interface serves as an entry point to the web page's
@@ -570,5 +571,10 @@
         /// Gets the underlying source.
         /// </summary>
         TextSource Source { get; }
+
+        /// <summary>
+        /// Gets the status code of the server's response, if any.
+        /// </summary>
+        HttpStatusCode StatusCode { get; }
     }
 }
