@@ -253,7 +253,6 @@
     <Compile Include="Interfaces\Css\ICssRuleCreator.cs" />
     <Compile Include="Interfaces\Css\IDocumentFunction.cs" />
     <Compile Include="Interfaces\Css\IMediaFeature.cs" />
-    <Compile Include="IEventLoopEntry.cs" />
     <Compile Include="Interfaces\Html\IHtmlSlotElement.cs" />
     <Compile Include="Interfaces\Css\IMediaQueryList.cs" />
     <Compile Include="IEventLoop.cs" />

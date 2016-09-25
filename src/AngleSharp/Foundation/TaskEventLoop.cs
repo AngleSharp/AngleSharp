@@ -19,7 +19,7 @@
             _current = null;
         }
 
-        public IEventLoopEntry Enqueue(Action<CancellationToken> task, TaskPriority priority)
+        public ICancellable Enqueue(Action<CancellationToken> task, TaskPriority priority)
         {
             var entry = new TaskEventLoopEntry(task);
 
@@ -35,8 +35,7 @@
 
                 if (_current == null)
                 {
-                    _current = entry;
-                    RunCurrent();
+                    SetCurrent(entry);
                 }
                 else
                 {
@@ -51,18 +50,14 @@
         {
             lock (this)
             {
-                if (_current != null && _current.IsRunning)
+                if (_current?.IsRunning != true)
                 {
-                    return;
+                    SetCurrent(Dequeue(TaskPriority.Critical) ??
+                               Dequeue(TaskPriority.Microtask) ??
+                               Dequeue(TaskPriority.Normal) ??
+                               Dequeue(TaskPriority.None));
                 }
-
-                _current = Dequeue(TaskPriority.Critical) ?? 
-                           Dequeue(TaskPriority.Microtask) ?? 
-                           Dequeue(TaskPriority.Normal) ?? 
-                           Dequeue(TaskPriority.None);
             }
-
-            RunCurrent();
         }
 
         public void CancelAll()
@@ -73,34 +68,31 @@
                 {
                     var entries = queue.Value;
 
-                    foreach (var entry in entries)
+                    while (entries.Count > 0)
                     {
-                        entry.Cancel();
+                        entries.Dequeue().Cancel();
                     }
-
-                    entries.Clear();
                 }
 
                 _queues.Clear();
-
-                if (_current != null)
-                {
-                    _current.Cancel();
-                }
+                _current?.Cancel();
             }
         }
 
-        private void RunCurrent()
+        private void SetCurrent(TaskEventLoopEntry entry)
         {
-            _current?.Run(() =>
-            {
-                lock (this)
-                {
-                    _current = null;
-                }
+            _current = entry;
+            entry?.Run(Continue);
+        }
 
-                Spin();
-            });
+        private void Continue()
+        {
+            lock (this)
+            {
+                _current = null;
+            }
+
+            Spin();
         }
 
         private TaskEventLoopEntry Dequeue(TaskPriority priority)
@@ -113,57 +105,50 @@
             return null;
         }
 
-        private sealed class TaskEventLoopEntry : IEventLoopEntry
+        private sealed class TaskEventLoopEntry : ICancellable
         {
-            private readonly Task _task;
             private readonly CancellationTokenSource _cts;
-            
-            private Boolean _started;
-            private DateTime _created;
+            private readonly Action<CancellationToken> _action;
+            private Task _task;
 
             public TaskEventLoopEntry(Action<CancellationToken> action)
             {
                 _cts = new CancellationTokenSource();
-                _task = new Task(() => action(_cts.Token), _cts.Token);
+                _action = action;
+            }
+
+            public Boolean IsCompleted
+            {
+                get { return _task != null && _task.IsCompleted; }
             }
 
             public Boolean IsRunning
             {
                 get 
                 { 
-                    return _task.Status == TaskStatus.Running || 
+                    return _task != null &&
+                           _task.Status == TaskStatus.Running || 
                            _task.Status == TaskStatus.WaitingForActivation || 
-                           _task.Status == TaskStatus.WaitingToRun; 
+                           _task.Status == TaskStatus.WaitingToRun ||
+                           _task.Status == TaskStatus.WaitingForChildrenToComplete; 
                 }
             }
 
             public void Run(Action callback)
             {
-                if (!_started)
+                if (_task == null)
                 {
-                    _created = DateTime.Now;
-                    _task.Start();
-                    _task.ContinueWith(_ => callback());
-                    _started = true;
+                    _task = Task.Run(() =>
+                    {
+                        _action.Invoke(_cts.Token);
+                        callback.Invoke();
+                    }, _cts.Token);
                 }
             }
 
             public void Cancel()
             {
                 _cts.Cancel();
-            }
-
-            public DateTime? Started
-            {
-                get 
-                {
-                    if (!IsRunning)
-                    {
-                        return null;
-                    }
-
-                    return _created;
-                }
             }
         }
     }
