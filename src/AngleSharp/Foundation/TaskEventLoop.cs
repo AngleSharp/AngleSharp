@@ -138,7 +138,7 @@
             {
                 if (_task == null)
                 {
-                    _task = Task.Run(() =>
+                    _task = TaskEx.Run(() =>
                     {
                         _action.Invoke(_cts.Token);
                         callback.Invoke();

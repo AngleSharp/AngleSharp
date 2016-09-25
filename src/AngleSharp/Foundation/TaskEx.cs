@@ -20,6 +20,15 @@ namespace System.Threading.Tasks
         }
 
         /// <summary>
+        /// Wrapper for Task.Run, but also works with .NET 4 and SL due to
+        /// same naming as TaskEx in BCL.Async.
+        /// </summary>
+        public static Task Run(Action action, CancellationToken cancel)
+        {
+            return Task.Run(action, cancel);
+        }
+
+        /// <summary>
         /// Wrapper for Task.Delay, but also works with .NET 4 and SL due to
         /// same naming as TaskEx in BCL.Async.
         /// </summary>
