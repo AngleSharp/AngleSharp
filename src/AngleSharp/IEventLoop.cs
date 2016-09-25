@@ -15,7 +15,7 @@
         /// <param name="action">The continuation action to enqueue.</param>
         /// <param name="priority">The priority to use.</param>
         /// <returns>The created loop entry.</returns>
-        IEventLoopEntry Enqueue(Action<CancellationToken> action, TaskPriority priority);
+        ICancellable Enqueue(Action<CancellationToken> action, TaskPriority priority);
 
         /// <summary>
         /// Spins the event loop.

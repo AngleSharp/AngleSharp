@@ -31,7 +31,7 @@ var nugetRoot = buildResultDir + Directory("nuget");
 // Initialization
 // ----------------------------------------
 
-Setup(() =>
+Setup(_ =>
 {
     Information("Building version {0} of AngleSharp.", version);
     Information("For the publish target the following environment variables need to be set:");
