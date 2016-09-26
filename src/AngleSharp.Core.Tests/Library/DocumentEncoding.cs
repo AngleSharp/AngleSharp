@@ -163,6 +163,22 @@
         }
 
         [Test]
+        public async Task GzippedEncodingIsHandledCorrectly()
+        {
+            if (Helper.IsNetworkAvailable())
+            {
+                var address = "http://www.empireaerials.net/";
+                var config = Configuration.Default.WithDefaultLoader();
+                var context = BrowsingContext.New(config);
+                var document = await context.OpenAsync(address);
+
+                Assert.IsNotNull(document);
+                Assert.IsNotNull(document.Title);
+                Assert.IsNotEmpty(document.Title);
+            }
+        }
+
+        [Test]
         public async Task EncodingFromHeaderAtAmazonFranceSubpageWithConflictingEofCharacter()
         {
             var content = Helper.StreamFromBytes(Assets.amazonenc);
