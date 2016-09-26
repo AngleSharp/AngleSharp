@@ -605,6 +605,11 @@
 		/// </summary>
 		public static readonly IValueConverter WordBreakConverter = Map.WordBreaks.ToConverter();
 
+		/// <summary>
+		/// Represents a converter for the OverflowWrap enumeration.
+		/// </summary>
+		public static readonly IValueConverter OverflowWrapConverter = Map.OverflowWraps.ToConverter();
+
 		#endregion
 
 		#region Specific

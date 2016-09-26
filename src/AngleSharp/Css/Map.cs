@@ -665,5 +665,14 @@
 			{ Keywords.BreakAll, WordBreak.BreakAll },
 			{ Keywords.KeepAll, WordBreak.KeepAll }
 		};
+
+		/// <summary>
+		/// Contains the string-WordBreak mapping.
+		/// </summary>
+		public static readonly Dictionary<String, OverflowWrap> OverflowWraps = new Dictionary<String, OverflowWrap>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ Keywords.Normal, OverflowWrap.Normal },
+			{ Keywords.BreakWord, OverflowWrap.BreakWord },
+		};
 	}
 }

@@ -71,6 +71,7 @@
     <Compile Include="Dom\Css\ConditionFunctions\GroupCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\NotCondition.cs" />
     <Compile Include="Dom\Css\ConditionFunctions\OrCondition.cs" />
+    <Compile Include="Dom\Css\Constants\OverflowWrap.cs" />
     <Compile Include="Dom\Css\Constants\TextAlignLast.cs" />
     <Compile Include="Dom\Css\Constants\TextAnchor.cs" />
     <Compile Include="Dom\Css\Constants\TextJustify.cs" />
@@ -149,7 +150,6 @@
     <Compile Include="Dom\Css\Properties\Font\CssFontSizeAdjustProperty.cs" />
     <Compile Include="Dom\Css\Properties\Font\CssUnicodeRangeProperty.cs" />
     <Compile Include="Dom\Css\Properties\Font\CssSrcProperty.cs" />
-    <Compile Include="Dom\Css\Properties\Font\CssWordBreakProperty.cs" />
     <Compile Include="Dom\Css\Properties\Sizing\CssObjectFitProperty.cs" />
     <Compile Include="Dom\Css\Properties\Sizing\CssObjectPositionProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeDasharrayProperty.cs" />
@@ -159,10 +159,12 @@
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeMiterlimitProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeOpacityProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeProperty.cs" />
+    <Compile Include="Dom\Css\Properties\Text\CssOverflowWrapProperty.cs" />
     <Compile Include="Dom\Css\Properties\Text\CssTextAlignLastProperty.cs" />
     <Compile Include="Dom\Css\Properties\Text\CssTextAnchorProperty.cs" />
     <Compile Include="Dom\Css\Properties\Text\CssTextJustifyProperty.cs" />
     <Compile Include="Dom\Css\Properties\Stroke\CssStrokeWidthProperty.cs" />
+    <Compile Include="Dom\Css\Properties\Text\CssWordBreakProperty.cs" />
     <Compile Include="Dom\Css\Rules\CssDeclarationRule.cs" />
     <Compile Include="Dom\Css\Rules\CssUnknownRule.cs" />
     <Compile Include="Dom\Css\Rules\CssViewportRule.cs" />

@@ -807,10 +807,15 @@
         /// </summary>
         public static readonly String OverflowY = "overflow-y";
 
-        /// <summary>
-        /// The padding-top declaration.
-        /// </summary>
-        public static readonly String PaddingTop = "padding-top";
+		/// <summary>
+		/// The overflow-wrap declaration.
+		/// </summary>
+		public static readonly String OverflowWrap = "overflow-wrap";
+
+		/// <summary>
+		/// The padding-top declaration.
+		/// </summary>
+		public static readonly String PaddingTop = "padding-top";
 
         /// <summary>
         /// The padding-right declaration.

@@ -708,5 +708,87 @@
 			var concrete = (CssTextJustifyProperty)property;
 			Assert.IsFalse(property.HasValue);
 		}
+
+		[Test]
+		public void CssOverflowWrapNormalLegal()
+		{
+			var snippet = "overflow-wrap: normal";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
+			var concrete = (CssOverflowWrapProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("normal", concrete.Value);
+		}
+
+		[Test]
+		public void CssOverflowWrapAlternateNameNormalLegal()
+		{
+			var snippet = "word-wrap: normal";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
+			var concrete = (CssOverflowWrapProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("normal", concrete.Value);
+		}
+
+		[Test]
+		public void CssOverflowWrapBreakWordLegal()
+		{
+			var snippet = "overflow-wrap: break-word";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
+			var concrete = (CssOverflowWrapProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("break-word", concrete.Value);
+		}
+
+		[Test]
+		public void CssOverflowWrapAlternateNameBreakWordLegal()
+		{
+			var snippet = "word-wrap: break-word";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
+			var concrete = (CssOverflowWrapProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("break-word", concrete.Value);
+		}
+
+		[Test]
+		public void CssOverflowWrapNoneIllegal()
+		{
+			var snippet = "overflow-wrap: none";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
+			var concrete = (CssOverflowWrapProperty)property;
+			Assert.IsFalse(property.HasValue);
+		}
+
+		[Test]
+		public void CssOverflowWrapAlternateNameNoneIllegal()
+		{
+			var snippet = "word-wrap: none";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
+			var concrete = (CssOverflowWrapProperty)property;
+			Assert.IsFalse(property.HasValue);
+		}
 	}
 }

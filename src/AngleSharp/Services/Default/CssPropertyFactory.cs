@@ -245,8 +245,9 @@
             AddLonghand(PropertyNames.OutlineWidth, () => new CssOutlineWidthProperty(), animatable: true);
 
             AddLonghand(PropertyNames.Overflow, () => new CssOverflowProperty(), animatable: false);
+			AddLonghand(PropertyNames.OverflowWrap, () => new CssOverflowWrapProperty(), animatable: false);
 
-            AddShorthand(PropertyNames.Padding, () => new CssPaddingProperty(),
+			AddShorthand(PropertyNames.Padding, () => new CssPaddingProperty(),
                 PropertyNames.PaddingTop,
                 PropertyNames.PaddingRight,
                 PropertyNames.PaddingBottom,
@@ -312,6 +313,7 @@
             AddLonghand(PropertyNames.Width, () => new CssWidthProperty(), animatable: true);
 			AddLonghand(PropertyNames.WordBreak, () => new CssWordBreakProperty(), animatable: true);
 			AddLonghand(PropertyNames.WordSpacing, () => new CssWordSpacingProperty(), animatable: true);
+			AddLonghand(PropertyNames.WordWrap, () => new CssOverflowWrapProperty(), animatable: false);
 			AddLonghand(PropertyNames.ZIndex, () => new CssZIndexProperty(), animatable: true);
             AddLonghand(PropertyNames.ObjectFit, () => new CssObjectFitProperty(), animatable: false);
             AddLonghand(PropertyNames.ObjectPosition, () => new CssObjectPositionProperty(), animatable: true);

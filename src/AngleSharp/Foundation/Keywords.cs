@@ -1416,5 +1416,10 @@
 		/// The keep-all keyword.
 		/// </summary>
 		public static readonly String KeepAll = "keep-all";
+
+		/// <summary>
+		/// The break-all keyword.
+		/// </summary>
+		public static readonly String BreakWord = "break-word";
 	}
 }
