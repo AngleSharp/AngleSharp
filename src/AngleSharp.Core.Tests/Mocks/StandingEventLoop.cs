@@ -5,7 +5,7 @@
 
     sealed class StandingEventLoop : IEventLoop
     {
-        public IEventLoopEntry Enqueue(Action<CancellationToken> action, TaskPriority priority)
+        public ICancellable Enqueue(Action<CancellationToken> action, TaskPriority priority)
         {
             return null;
         }
@@ -16,7 +16,6 @@
 
         public void CancelAll()
         {
-            throw new NotImplementedException();
         }
     }
 }

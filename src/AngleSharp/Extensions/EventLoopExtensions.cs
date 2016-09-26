@@ -17,7 +17,7 @@
         {
             if (loop != null)
             {
-                loop.Enqueue(c => action(), priority);
+                loop.Enqueue(c => action.Invoke(), priority);
             }
             else
             {
