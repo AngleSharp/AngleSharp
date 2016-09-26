@@ -990,10 +990,16 @@
         [DomName("overflowY")]
         String OverflowY { get; set; }
 
-        /// <summary>
-        /// Gets or sets the padding value.
-        /// </summary>
-        [DomName("padding")]
+		/// <summary>
+		/// Gets or sets the overflow-wrap value.
+		/// </summary>
+		[DomName("overflowWrap")]
+		String OverflowWrap { get; set; }
+
+		/// <summary>
+		/// Gets or sets the padding value.
+		/// </summary>
+		[DomName("padding")]
         String Padding { get; set; }
 
         /// <summary>
@@ -1354,12 +1360,6 @@
         /// </summary>
         [DomName("wordSpacing")]
         String WordSpacing { get; set; }
-
-        /// <summary>
-        /// Gets or sets the word-wrap value.
-        /// </summary>
-        [DomName("wordWrap")]
-        String WordWrap { get; set; }
 
         /// <summary>
         /// Gets or sets the writing-mode value.

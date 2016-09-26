@@ -1654,14 +1654,24 @@
         {
             get { return GetPropertyValue(PropertyNames.OverflowY); }
             set { SetProperty(PropertyNames.OverflowY, value); }
-        }
+		}
 
-        /// <summary>
-        /// Gets or sets the amount of space to insert between the object and
-        /// its margin or, if there is a border, between the object and its
-        /// border.
-        /// </summary>
-        String ICssStyleDeclaration.Padding
+		/// <summary>
+		/// Gets or sets whether to break words when the content exceeds the
+		/// boundaries of its container.
+		/// </summary>
+		String ICssStyleDeclaration.OverflowWrap
+		{
+			get { return GetPropertyValue(PropertyNames.WordWrap); }
+			set { SetProperty(PropertyNames.WordWrap, value); }
+		}
+
+		/// <summary>
+		/// Gets or sets the amount of space to insert between the object and
+		/// its margin or, if there is a border, between the object and its
+		/// border.
+		/// </summary>
+		String ICssStyleDeclaration.Padding
         {
             get { return GetPropertyValue(PropertyNames.Padding); }
             set { SetProperty(PropertyNames.Padding, value); }
@@ -2269,16 +2279,6 @@
         {
             get { return GetPropertyValue(PropertyNames.WordSpacing); }
             set { SetProperty(PropertyNames.WordSpacing, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets whether to break words when the content exceeds the
-        /// boundaries of its container.
-        /// </summary>
-        String ICssStyleDeclaration.WordWrap
-        {
-            get { return GetPropertyValue(PropertyNames.WordWrap); }
-            set { SetProperty(PropertyNames.WordWrap, value); }
         }
 
         /// <summary>

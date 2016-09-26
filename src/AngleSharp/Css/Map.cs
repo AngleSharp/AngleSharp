@@ -655,5 +655,24 @@
 			{ Keywords.Round, StrokeLinejoin.Round },
 			{ Keywords.Bevel, StrokeLinejoin.Bevel }
 		};
+
+		/// <summary>
+		/// Contains the string-WordBreak mapping.
+		/// </summary>
+		public static readonly Dictionary<String, WordBreak> WordBreaks = new Dictionary<String, WordBreak>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ Keywords.Normal, WordBreak.Normal },
+			{ Keywords.BreakAll, WordBreak.BreakAll },
+			{ Keywords.KeepAll, WordBreak.KeepAll }
+		};
+
+		/// <summary>
+		/// Contains the string-WordBreak mapping.
+		/// </summary>
+		public static readonly Dictionary<String, OverflowWrap> OverflowWraps = new Dictionary<String, OverflowWrap>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ Keywords.Normal, OverflowWrap.Normal },
+			{ Keywords.BreakWord, OverflowWrap.BreakWord },
+		};
 	}
 }
