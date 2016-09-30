@@ -46,6 +46,49 @@
         }
 
         /// <summary>
+        /// Transforms the given string to lower case by the HTML specification.
+        /// </summary>
+        /// <param name="value">The string to be transformed.</param>
+        /// <returns>The resulting string.</returns>
+        public static String HtmlLower(this String value)
+        {
+            var length = value.Length;
+
+            for (var i = 0; i < length; i++)
+            {
+                var c = value[i];
+
+                if (c.IsUppercaseAscii())
+                {
+                    var result = new Char[length];
+
+                    for (var j = 0; j < i; j++)
+                    {
+                        result[j] = value[j];
+                    }
+
+                    result[i] = Char.ToLowerInvariant(c);
+
+                    for (var j = i + 1; j < length; j++)
+                    {
+                        c = value[j];
+
+                        if (c.IsUppercaseAscii())
+                        {
+                            c = Char.ToLowerInvariant(c);
+                        }
+
+                        result[j] = c;
+                    }
+
+                    return new String(result);
+                }
+            }
+
+            return value;
+        }
+
+        /// <summary>
         /// Converts the given value to a sandbox flag.
         /// </summary>
         /// <param name="value">The value to convert.</param>

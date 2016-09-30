@@ -1,10 +1,11 @@
 ﻿namespace AngleSharp.Services.Default
 {
-    using System;
-    using System.Collections.Generic;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Provides string to HTMLElement instance creation mappings.
@@ -169,7 +170,7 @@
                 return creator(document, prefix);
             }
 
-            return new HtmlUnknownElement(document, localName.ToLowerInvariant(), prefix);
+            return new HtmlUnknownElement(document, localName.HtmlLower(), prefix);
         }
     }
 }

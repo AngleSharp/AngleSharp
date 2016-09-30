@@ -417,7 +417,7 @@
         {
             if (_namespace.Is(NamespaceNames.HtmlUri))
             {
-                name = name.ToLowerInvariant();
+                name = name.HtmlLower();
             }
 
             return _attributes.GetNamedItem(name) != null;
@@ -437,7 +437,7 @@
         {
             if (_namespace.Is(NamespaceNames.HtmlUri))
             {
-                name = name.ToLower();
+                name = name.HtmlLower();
             }
             
             return _attributes.GetNamedItem(name)?.Value;
@@ -464,7 +464,7 @@
 
                 if (_namespace.Is(NamespaceNames.HtmlUri))
                 {
-                    name = name.ToLowerInvariant();
+                    name = name.HtmlLower();
                 }
 
                 this.SetOwnAttribute(name, value);
@@ -494,7 +494,7 @@
         {
             if (_namespace.Is(NamespaceNames.HtmlUri))
             {
-                name = name.ToLower();
+                name = name.HtmlLower();
             }
 
             _attributes.RemoveNamedItemOrDefault(name);
