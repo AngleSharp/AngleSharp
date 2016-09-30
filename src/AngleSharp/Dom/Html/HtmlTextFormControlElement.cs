@@ -158,7 +158,7 @@
         /// </summary>
         public String SelectionDirection
         {
-            get { return _direction.ToString().ToLower(); }
+            get { return _direction.ToString().ToLowerInvariant(); }
         }
 
         #endregion

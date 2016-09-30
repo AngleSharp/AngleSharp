@@ -28,7 +28,7 @@
         /// </summary>
         public String Type
         {
-            get { return (this.GetOwnAttribute(AttributeNames.Type) ?? InputTypeNames.Submit).ToLower(); }
+            get { return (this.GetOwnAttribute(AttributeNames.Type) ?? InputTypeNames.Submit).ToLowerInvariant(); }
             set { this.SetOwnAttribute(AttributeNames.Type, value); }
         }
 
