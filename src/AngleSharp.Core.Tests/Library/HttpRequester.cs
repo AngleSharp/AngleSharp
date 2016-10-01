@@ -21,10 +21,10 @@
             {
                 var http = new HttpRequester();
                 var request = new Request
-                                  {
-                                      Address = new Url("http://httpbin.org/robots.txt"),
-                                      Method = HttpMethod.Get
-                                  };
+                {
+                    Address = new Url("http://httpbin.org/robots.txt"),
+                    Method = HttpMethod.Get
+                };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -46,10 +46,10 @@
             {
                 var http = new HttpRequester();
                 var request = new Request
-                                  {
-                                      Address = new Url("http://httpbin.org/status/500"),
-                                      Method = HttpMethod.Get
-                                  };
+                {
+                    Address = new Url("http://httpbin.org/status/500"),
+                    Method = HttpMethod.Get
+                };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -68,10 +68,10 @@
             {
                 var http = new HttpRequester();
                 var request = new Request
-                                  {
-                                      Address = new Url("http://httpbin.org/status/400"),
-                                      Method = HttpMethod.Get
-                                  };
+                {
+                    Address = new Url("http://httpbin.org/status/400"),
+                    Method = HttpMethod.Get
+                };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -90,10 +90,10 @@
             {
                 var http = new HttpRequester();
                 var request = new Request
-                                  {
-                                      Address = new Url("http://httpbin.org/status/403"),
-                                      Method = HttpMethod.Get
-                                  };
+                {
+                    Address = new Url("http://httpbin.org/status/403"),
+                    Method = HttpMethod.Get
+                };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -112,10 +112,10 @@
             {
                 var http = new HttpRequester();
                 var request = new Request
-                                  {
-                                      Address = new Url("http://httpbin.org/status/404"),
-                                      Method = HttpMethod.Get
-                                  };
+                {
+                    Address = new Url("http://httpbin.org/status/404"),
+                    Method = HttpMethod.Get
+                };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -134,11 +134,11 @@
             {
                 var http = new HttpRequester();
                 var request = new Request
-                                  {
-                                      Address = new Url("http://httpbin.org/post"),
-                                      Method = HttpMethod.Post,
-                                      Content = Helper.StreamFromString("Hello world")
-                                  };
+                {
+                    Address = new Url("http://httpbin.org/post"),
+                    Method = HttpMethod.Post,
+                    Content = Helper.StreamFromString("Hello world")
+                };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -164,11 +164,11 @@
             {
                 var http = new HttpRequester();
                 var request = new Request
-                                  {
-                                      Address = new Url("http://httpbin.org/put"),
-                                      Method = HttpMethod.Put,
-                                      Content = Helper.StreamFromString("PUT THIS THING BACK")
-                                  };
+                {
+                    Address = new Url("http://httpbin.org/put"),
+                    Method = HttpMethod.Put,
+                    Content = Helper.StreamFromString("PUT THIS THING BACK")
+                };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -194,11 +194,11 @@
             {
                 var http = new HttpRequester();
                 var request = new Request
-                                  {
-                                      Address = new Url("http://httpbin.org/delete"),
-                                      Method = HttpMethod.Delete,
-                                      Content = Helper.StreamFromString("Should be ignored")
-                                  };
+                {
+                    Address = new Url("http://httpbin.org/delete"),
+                    Method = HttpMethod.Delete,
+                    Content = Helper.StreamFromString("Should be ignored")
+                };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -217,11 +217,11 @@
             {
                 var http = new HttpRequester();
                 var request = new Request
-                                  {
-                                      Address = new Url("http://httpbin.org/get"),
-                                      Method = HttpMethod.Delete,
-                                      Content = Helper.StreamFromString("Should be ignored")
-                                  };
+                {
+                    Address = new Url("http://httpbin.org/get"),
+                    Method = HttpMethod.Delete,
+                    Content = Helper.StreamFromString("Should be ignored")
+                };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -240,11 +240,11 @@
             {
                 var http = new HttpRequester();
                 var request = new Request
-                                  {
-                                      Address = new Url("http://httpbin.org/get"),
-                                      Method = HttpMethod.Put,
-                                      Content = Helper.StreamFromString("Should be ignored")
-                                  };
+                {
+                    Address = new Url("http://httpbin.org/get"),
+                    Method = HttpMethod.Put,
+                    Content = Helper.StreamFromString("Should be ignored")
+                };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -264,10 +264,10 @@
                 var agent = "MyAgent";
                 var http = new HttpRequester(agent);
                 var request = new Request
-                                  {
-                                      Address = new Url("http://httpbin.org/user-agent"),
-                                      Method = HttpMethod.Get
-                                  };
+                {
+                    Address = new Url("http://httpbin.org/user-agent"),
+                    Method = HttpMethod.Get
+                };
 
                 using (var response = await http.RequestAsync(request, CancellationToken.None))
                 {
@@ -293,10 +293,10 @@
             {
                 var http = new HttpRequester();
                 var request = new Request
-                                  {
-                                      Address = new Url("http://httpbin.org/robots.txt"),
-                                      Method = HttpMethod.Get
-                                  };
+                {
+                    Address = new Url("http://httpbin.org/robots.txt"),
+                    Method = HttpMethod.Get
+                };
 
                 using (var response = http.RequestAsync(request, CancellationToken.None))
                 {
@@ -336,6 +336,7 @@
                     return !request.Address.Href.EndsWith(".jpg");
                 };
             }, new[] { requester });
+
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content(content).Address("http://localhost"));
             Assert.IsNotNull(document);
@@ -353,10 +354,7 @@
                 var address = "https://serverspace.ae";
                 var requesters = new IRequester[] { new DataRequester(), new HttpRequester() };
                 var cts = new CancellationTokenSource();
-                var config = Configuration
-                                .Default
-                                .WithCss()
-                                .WithDefaultLoader(c => c.IsResourceLoadingEnabled = true, requesters);
+                var config = Configuration.Default.WithCss().WithDefaultLoader(c => c.IsResourceLoadingEnabled = true, requesters);
 
                 var context = BrowsingContext.New(config);
                 var url = Url.Create(address);

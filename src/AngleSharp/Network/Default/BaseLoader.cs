@@ -109,7 +109,7 @@
         {
             var cancel = new CancellationTokenSource();
 
-            if (_filter(request))
+            if (_filter.Invoke(request))
             {
                 var task = LoadAsync(request, cancel.Token);
                 var download = new Download(task, cancel, request.Address, originator);
@@ -146,26 +146,16 @@
             var requesters = _context.Configuration.GetServices<IRequester>();
             var response = default(IResponse);
             var redirectCount = 0;
+            AppendCookieTo(request);
 
             do
             {
                 if (response != null)
                 {
                     redirectCount++;
-                    var oldCookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, null);
-
-                    if (oldCookie != null)
-                    {
-                        SetCookie(request.Address, oldCookie);
-                    }
-
+                    ExtractCookieFrom(response);
                     request = CreateNewRequest(request, response);
-                    var newCookie = GetCookie(request.Address);
-
-                    if (newCookie != null)
-                    {
-                        request.Headers[HeaderNames.Cookie] = newCookie;
-                    }
+                    AppendCookieTo(request);
                 }
 
                 foreach (var requester in requesters)
@@ -194,6 +184,7 @@
         {
             var method = request.Method;
             var content = request.Content;
+            var headers = new Dictionary<String, String>(request.Headers);
             var location = response.Headers[HeaderNames.Location];
 
             if (response.StatusCode == HttpStatusCode.Redirect || response.StatusCode == HttpStatusCode.RedirectMethod)
@@ -206,13 +197,39 @@
                 content.Position = 0;
             }
 
+            headers.Remove(HeaderNames.Cookie);
+
             return new Request
             {
                 Address = new Url(request.Address, location),
                 Method = method,
                 Content = content,
-                Headers = request.Headers
+                Headers = headers
             };
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private void AppendCookieTo(Request request)
+        {
+            var cookie = GetCookie(request.Address);
+
+            if (cookie != null)
+            {
+                request.Headers[HeaderNames.Cookie] = cookie;
+            }
+        }
+
+        private void ExtractCookieFrom(IResponse response)
+        {
+            var cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, null);
+
+            if (cookie != null)
+            {
+                SetCookie(response.Address, cookie);
+            }
         }
 
         #endregion
