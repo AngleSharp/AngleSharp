@@ -4,8 +4,10 @@
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using Dom;
+    using Mocks;
     using NUnit.Framework;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -222,6 +224,74 @@
 }
 ".Replace(Environment.NewLine, "\n"), document.Body.TextContent);
             }
+        }
+
+        [Test]
+        public async Task SendingRequestToLocalResourceContainsLocalCookie()
+        {
+            var content = "<!doctype html><img src=foo.png />";
+            var cookieValue = "test=true";
+            var requestCount = 0;
+            var imgCookie = String.Empty;
+            var initial = VirtualResponse.Create(m => m.Content(content).Address("http://www.local.com").Header(HeaderNames.SetCookie, cookieValue));
+            var document = await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
+            {
+                var res = VirtualResponse.Create(m => m.Content(String.Empty).Address(req.Address));
+                imgCookie = req.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
+                requestCount++;
+                return res;
+            });
+
+            Assert.AreEqual(1, requestCount);
+            Assert.AreEqual(cookieValue, imgCookie);
+        }
+
+        [Test]
+        public async Task SendingRequestToOtherResourceOmitsLocalCookie()
+        {
+            var content = "<!doctype html><img src=http://www.other.com/foo.png />";
+            var cookieValue = "test=true";
+            var requestCount = 0;
+            var imgCookie = String.Empty;
+            var initial = VirtualResponse.Create(m => m.Content(content).Address("http://www.local.com").Header(HeaderNames.SetCookie, cookieValue));
+            var document = await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
+            {
+                var res = VirtualResponse.Create(m => m.Content(String.Empty).Address(req.Address));
+                imgCookie = req.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
+                requestCount++;
+                return res;
+            });
+
+            Assert.AreEqual(1, requestCount);
+            Assert.AreEqual(String.Empty, imgCookie);
+        }
+
+        [Test]
+        public async Task SendingRequestToLocalResourceSendsLocalCookie()
+        {
+            var content = "<!doctype html><img src=http://www.local.com/foo.png />";
+            var cookieValue = "test=true";
+            var requestCount = 0;
+            var imgCookie = String.Empty;
+            var initial = VirtualResponse.Create(m => m.Content(content).Address("http://www.local.com").Header(HeaderNames.SetCookie, cookieValue));
+            var document = await LoadDocumentWithFakeRequesterAndCookie(initial, req =>
+            {
+                var res = VirtualResponse.Create(m => m.Content(String.Empty).Address(req.Address));
+                imgCookie = req.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
+                requestCount++;
+                return res;
+            });
+
+            Assert.AreEqual(1, requestCount);
+            Assert.AreEqual(cookieValue, imgCookie);
+        }
+
+        private static Task<IDocument> LoadDocumentWithFakeRequesterAndCookie(IResponse initialResponse, Func<IRequest, IResponse> onRequest)
+        {
+            var requester = new MockRequester();
+            requester.BuildResponse(onRequest);
+            var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { requester }).WithCookies();
+            return BrowsingContext.New(config).OpenAsync(initialResponse, System.Threading.CancellationToken.None);
         }
 
         private static async Task<IDocument> LoadDocumentAloneWithCookie(String cookieValue)
