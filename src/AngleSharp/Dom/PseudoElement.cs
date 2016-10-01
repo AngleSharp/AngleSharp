@@ -299,18 +299,22 @@
 
         public void SetAttribute(String name, String value)
         {
+            _host.SetAttribute(name, value);
         }
 
         public void SetAttribute(String namespaceUri, String name, String value)
         {
+            _host.SetAttribute(namespaceUri, name, value);
         }
 
-        public void RemoveAttribute(String name)
+        public Boolean RemoveAttribute(String name)
         {
+            return _host.RemoveAttribute(name);
         }
 
-        public void RemoveAttribute(String namespaceUri, String localName)
+        public Boolean RemoveAttribute(String namespaceUri, String localName)
         {
+            return _host.RemoveAttribute(namespaceUri, localName);
         }
 
         public IHtmlCollection<IElement> GetElementsByClassName(String classNames)
