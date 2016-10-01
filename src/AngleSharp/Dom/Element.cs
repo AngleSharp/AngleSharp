@@ -490,24 +490,24 @@
             }
         }
 
-        public void RemoveAttribute(String name)
+        public Boolean RemoveAttribute(String name)
         {
             if (_namespace.Is(NamespaceNames.HtmlUri))
             {
                 name = name.HtmlLower();
             }
 
-            _attributes.RemoveNamedItemOrDefault(name);
+            return _attributes.RemoveNamedItemOrDefault(name) != null;
         }
 
-        public void RemoveAttribute(String namespaceUri, String localName)
+        public Boolean RemoveAttribute(String namespaceUri, String localName)
         {
             if (String.IsNullOrEmpty(namespaceUri))
             {
                 namespaceUri = null;
             }
 
-            _attributes.RemoveNamedItemOrDefault(namespaceUri, localName);
+            return _attributes.RemoveNamedItemOrDefault(namespaceUri, localName) != null;
         }
 
         public void Prepend(params INode[] nodes)

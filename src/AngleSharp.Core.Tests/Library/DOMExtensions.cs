@@ -687,5 +687,121 @@
             list.AppendChild(document.CreateElement("li"));
             Assert.AreEqual(4, elements.Length);
         }
+
+        [Test]
+        public void ClearAllAttributesOnSingleElementWorks()
+        {
+            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var element = document.QuerySelector("#first");
+            Assert.AreEqual(2, element.Attributes.Length);
+            element.ClearAttr();
+            Assert.AreEqual(0, element.Attributes.Length);
+        }
+
+        [Test]
+        public void ClearAllAttributesOnMultipleElementsWorks()
+        {
+            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var elements = document.QuerySelectorAll("span");
+
+            foreach (var element in elements)
+            {
+                Assert.AreNotEqual(0, element.Attributes.Length);
+            }
+
+            elements.ClearAttr();
+
+            foreach (var element in elements)
+            {
+                Assert.AreEqual(0, element.Attributes.Length);
+            }
+        }
+
+        [Test]
+        public void RemoveExistingAttributeYieldsTrue()
+        {
+            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var element = document.QuerySelector("#first");
+            Assert.AreEqual(2, element.Attributes.Length);
+            var result = element.RemoveAttribute("foo");
+            Assert.IsTrue(result);
+            Assert.AreEqual(1, element.Attributes.Length);
+        }
+
+        [Test]
+        public void RemoveNonExistingAttributeYieldsFalse()
+        {
+            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var element = document.QuerySelector("#first");
+            Assert.AreEqual(2, element.Attributes.Length);
+            var result = element.RemoveAttribute("bar");
+            Assert.IsFalse(result);
+            Assert.AreEqual(2, element.Attributes.Length);
+        }
+
+        [Test]
+        public void ClearAllAttributesDirectlyWorks()
+        {
+            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var element = document.QuerySelector("#first");
+            Assert.AreEqual(2, element.Attributes.Length);
+            element.Attributes.Clear();
+            Assert.AreEqual(0, element.Attributes.Length);
+        }
+
+        [Test]
+        public void RemoveExistingAttributeWithNamespaceYieldsTrue()
+        {
+            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var element = document.QuerySelector("#second");
+            Assert.AreEqual(1, element.Attributes.Length);
+            element.SetAttribute("http://my-namespace", "foo", "bar");
+            Assert.AreEqual(2, element.Attributes.Length);
+            var result = element.RemoveAttribute("http://my-namespace", "foo");
+            Assert.IsTrue(result);
+            Assert.AreEqual(1, element.Attributes.Length);
+        }
+
+        [Test]
+        public void RemoveNonExistingAttributeWithNamespaceYieldsFalse()
+        {
+            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var element = document.QuerySelector("#second");
+            Assert.AreEqual(1, element.Attributes.Length);
+            element.SetAttribute("http://my-namespace", "foo", "bar");
+            Assert.AreEqual(2, element.Attributes.Length);
+            var result = element.RemoveAttribute("http://your-namespace", "foo");
+            Assert.IsFalse(result);
+            Assert.AreEqual(2, element.Attributes.Length);
+        }
+
+        [Test]
+        public void ClearAllAttributesOnEmptyCollectionThrowsNoError()
+        {
+            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var elements = document.QuerySelectorAll("div");
+            Assert.AreEqual(0, elements.Length);
+            elements.ClearAttr();
+        }
+
+        [Test]
+        public void EmptyOnASingleElementRemovesChildren()
+        {
+            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var element = document.QuerySelector("#first");
+            Assert.AreEqual(1, element.ChildNodes.Length);
+            element.Empty();
+            Assert.AreEqual(0, element.ChildNodes.Length);
+        }
+
+        [Test]
+        public void EmptyOnCollectionWithItselfNestedWorks()
+        {
+            var document = Html("<body><span id=first foo=bar><i>inner</i></span> <span id=second><span class=emphasized>text</span></span>");
+            var elements = document.QuerySelectorAll("span");
+            var count = document.All.Length;
+            elements.Empty();
+            Assert.AreEqual(count - 2, document.All.Length);
+        }
     }
 }

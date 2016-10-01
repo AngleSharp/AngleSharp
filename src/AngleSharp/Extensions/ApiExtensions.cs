@@ -641,6 +641,54 @@
         }
 
         /// <summary>
+        /// Clears the attributes of the given element.
+        /// </summary>
+        /// <param name="element">The element to clear.</param>
+        /// <returns>The element itself.</returns>
+        public static IElement ClearAttr(this IElement element)
+        {
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            element.Attributes.Clear();
+            return element;
+        }
+
+        /// <summary>
+        /// Clears the attributes of all elements.
+        /// </summary>
+        /// <typeparam name="T">The type of element collection.</typeparam>
+        /// <param name="elements">The collection to clear.</param>
+        /// <returns>The collection itself.</returns>
+        public static T ClearAttr<T>(this T elements)
+            where T : IEnumerable<IElement>
+        {
+            if (elements == null)
+                throw new ArgumentNullException(nameof(elements));
+
+            foreach (var element in elements)
+            {
+                element.ClearAttr();
+            }
+
+            return elements;
+        }
+
+        /// <summary>
+        /// Empties the provided element.
+        /// </summary>
+        /// <param name="element">The element to empty.</param>
+        /// <returns>The element itself.</returns>
+        public static IElement Empty(this IElement element)
+        {
+            if (element == null)
+                throw new ArgumentNullException(nameof(element));
+
+            element.InnerHtml = String.Empty;
+            return element;
+        }
+
+        /// <summary>
         /// Empties all provided elements.
         /// </summary>
         /// <typeparam name="T">The type of element collection.</typeparam>
@@ -654,7 +702,7 @@
 
             foreach (var element in elements)
             {
-                element.InnerHtml = String.Empty;
+                element.Empty();
             }
 
             return elements;
@@ -1099,6 +1147,29 @@
             where TElement : class, IElement
         {
             return new HtmlCollection<TElement>(elements);
+        }
+
+        #endregion
+
+        #region NamedNodeMap extensions
+
+        /// <summary>
+        /// Clears the given attribute collection.
+        /// </summary>
+        /// <param name="attributes">The collection to clear.</param>
+        /// <returns>The collection itself.</returns>
+        public static INamedNodeMap Clear(this INamedNodeMap attributes)
+        {
+            if (attributes == null)
+                throw new ArgumentNullException(nameof(attributes));
+
+            while (attributes.Length > 0)
+            {
+                var name = attributes[attributes.Length - 1].Name;
+                attributes.RemoveNamedItem(name);
+            }
+
+            return attributes;
         }
 
         #endregion
