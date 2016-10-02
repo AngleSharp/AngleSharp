@@ -95,8 +95,8 @@
         /// </summary>
         public Boolean IsDisabled
         {
-            get { return this.HasOwnAttribute(AttributeNames.Disabled); }
-            set { this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Disabled); }
+            set { this.SetBoolAttribute(AttributeNames.Disabled, value); }
         }
 
         /// <summary>
@@ -104,8 +104,8 @@
         /// </summary>
         public Boolean IsChecked
         {
-            get { return this.HasOwnAttribute(AttributeNames.Checked); }
-            set { this.SetOwnAttribute(AttributeNames.Checked, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Checked); }
+            set { this.SetBoolAttribute(AttributeNames.Checked, value); }
         }
 
         /// <summary>
@@ -113,8 +113,8 @@
         /// </summary>
         public Boolean IsDefault
         {
-            get { return this.HasOwnAttribute(AttributeNames.Default); }
-            set { this.SetOwnAttribute(AttributeNames.Default, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Default); }
+            set { this.SetBoolAttribute(AttributeNames.Default, value); }
         }
 
         /// <summary>

@@ -45,14 +45,14 @@
 
         public Boolean IsDisabled
         {
-            get { return this.HasOwnAttribute(AttributeNames.Disabled) || IsFieldsetDisabled(); }
-            set { this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Disabled) || IsFieldsetDisabled(); }
+            set { this.SetBoolAttribute(AttributeNames.Disabled, value); }
         }
 
         public Boolean Autofocus
         {
-            get { return this.HasOwnAttribute(AttributeNames.AutoFocus); }
-            set { this.SetOwnAttribute(AttributeNames.AutoFocus, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.AutoFocus); }
+            set { this.SetBoolAttribute(AttributeNames.AutoFocus, value); }
         }
 
         public INodeList Labels

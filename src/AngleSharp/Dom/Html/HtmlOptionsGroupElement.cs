@@ -27,8 +27,8 @@
         }
         public Boolean IsDisabled
         {
-            get { return this.HasOwnAttribute(AttributeNames.Disabled); }
-            set { this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Disabled); }
+            set { this.SetBoolAttribute(AttributeNames.Disabled, value); }
         }
 
         #endregion

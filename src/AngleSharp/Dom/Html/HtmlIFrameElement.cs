@@ -62,14 +62,14 @@
 
         public Boolean IsSeamless
         {
-            get { return this.HasOwnAttribute(AttributeNames.SrcDoc); }
-            set { this.SetOwnAttribute(AttributeNames.SrcDoc, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.SrcDoc); }
+            set { this.SetBoolAttribute(AttributeNames.SrcDoc, value); }
         }
 
         public Boolean IsFullscreenAllowed
         {
-            get { return this.HasOwnAttribute(AttributeNames.AllowFullscreen); }
-            set { this.SetOwnAttribute(AttributeNames.AllowFullscreen, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.AllowFullscreen); }
+            set { this.SetBoolAttribute(AttributeNames.AllowFullscreen, value); }
         }
 
         public IWindow ContentWindow

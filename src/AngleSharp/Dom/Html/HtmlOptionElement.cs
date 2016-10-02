@@ -28,8 +28,8 @@
 
         public Boolean IsDisabled
         {
-            get { return this.HasOwnAttribute(AttributeNames.Disabled); }
-            set { this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Disabled); }
+            set { this.SetBoolAttribute(AttributeNames.Disabled, value); }
         }
 
         public IHtmlFormElement Form
@@ -80,8 +80,8 @@
 
         public Boolean IsDefaultSelected
         {
-            get { return this.HasOwnAttribute(AttributeNames.Selected); }
-            set { this.SetOwnAttribute(AttributeNames.Selected, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Selected); }
+            set { this.SetBoolAttribute(AttributeNames.Selected, value); }
         }
 
         public Boolean IsSelected

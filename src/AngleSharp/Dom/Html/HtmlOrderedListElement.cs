@@ -25,8 +25,8 @@
         /// </summary>
         public Boolean IsReversed
         {
-            get { return this.HasOwnAttribute(AttributeNames.Reversed); }
-            set { this.SetOwnAttribute(AttributeNames.Reversed, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Reversed); }
+            set { this.SetBoolAttribute(AttributeNames.Reversed, value); }
         }
 
         /// <summary>

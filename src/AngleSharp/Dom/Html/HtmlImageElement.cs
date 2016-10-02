@@ -112,8 +112,8 @@
 
         public Boolean IsMap
         {
-            get { return this.HasOwnAttribute(AttributeNames.IsMap); }
-            set { this.SetOwnAttribute(AttributeNames.IsMap, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.IsMap); }
+            set { this.SetBoolAttribute(AttributeNames.IsMap, value); }
         }
 
         #endregion

@@ -53,8 +53,8 @@
 
         public Boolean TypeMustMatch
         {
-            get { return this.HasOwnAttribute(AttributeNames.TypeMustMatch); }
-            set { this.SetOwnAttribute(AttributeNames.TypeMustMatch, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.TypeMustMatch); }
+            set { this.SetBoolAttribute(AttributeNames.TypeMustMatch, value); }
         }
 
         public String UseMap

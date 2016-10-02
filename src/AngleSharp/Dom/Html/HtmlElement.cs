@@ -451,8 +451,8 @@
 
         public Boolean IsHidden
         {
-            get { return this.HasOwnAttribute(AttributeNames.Hidden); }
-            set { this.SetOwnAttribute(AttributeNames.Hidden, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Hidden); }
+            set { this.SetBoolAttribute(AttributeNames.Hidden, value); }
         }
 
         public IHtmlMenuElement ContextMenu

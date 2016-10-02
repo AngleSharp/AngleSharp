@@ -76,14 +76,14 @@
 
         public Boolean IsDeferred
         {
-            get { return this.HasOwnAttribute(AttributeNames.Defer); }
-            set { this.SetOwnAttribute(AttributeNames.Defer, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Defer); }
+            set { this.SetBoolAttribute(AttributeNames.Defer, value); }
         }
 
         public Boolean IsAsync
         {
-            get { return this.HasOwnAttribute(AttributeNames.Async); }
-            set { this.SetOwnAttribute(AttributeNames.Async, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Async); }
+            set { this.SetBoolAttribute(AttributeNames.Async, value); }
         }
 
         public String Integrity
