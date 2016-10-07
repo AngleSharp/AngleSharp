@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
     using System.IO;
@@ -9,24 +8,22 @@
     /// Fore more information about CSS properties see:
     /// http://www.w3.org/TR/CSS21/propidx.html.
     /// </summary>
-    abstract class CssProperty : CssNode, ICssProperty
+    sealed class CssProperty : CssNode, ICssProperty
     {
         #region Fields
-
-        readonly PropertyFlags _flags;
+        
         readonly String _name;
+        CssValue _value;
 
         Boolean _important;
-        IPropertyValue _value;
 
         #endregion
 
         #region ctor
 
-        internal CssProperty(String name, PropertyFlags flags = PropertyFlags.None)
+        internal CssProperty(String name)
         {
             _name = name;
-            _flags = flags;
         }
 
         #endregion
@@ -40,17 +37,12 @@
 
         public Boolean IsInherited
         {
-            get { return (((_flags & PropertyFlags.Inherited) == PropertyFlags.Inherited) && IsInitial) || (_value != null && _value.CssText.Is(Keywords.Inherit)); }
-        }
-
-        public Boolean IsAnimatable
-        {
-            get { return (_flags & PropertyFlags.Animatable) == PropertyFlags.Animatable; }
+            get { return _value != null && _value.CssText.Is(Keywords.Inherit); }
         }
 
         public Boolean IsInitial
         {
-            get { return _value == null || _value.CssText.Is(Keywords.Initial); }
+            get { return _value == null || _value == CssValue.Initial; }
         }
 
         public String Name
@@ -78,52 +70,14 @@
             get { return _value != null; }
         }
 
-        internal Boolean CanBeHashless
-        {
-            get { return (_flags & PropertyFlags.Hashless) == PropertyFlags.Hashless; }
-        }
-
-        internal Boolean CanBeUnitless
-        {
-            get { return (_flags & PropertyFlags.Unitless) == PropertyFlags.Unitless; }
-        }
-
-        internal Boolean CanBeInherited
-        {
-            get { return (_flags & PropertyFlags.Inherited) == PropertyFlags.Inherited; }
-        }
-
-        internal Boolean IsShorthand
-        {
-            get { return (_flags & PropertyFlags.Shorthand) == PropertyFlags.Shorthand; }
-        }
-
-        internal abstract IValueConverter Converter
-        {
-            get;
-        }
-
-        internal IPropertyValue DeclaredValue
-        {
-            get { return _value; }
-            set { _value = value; }
-        }
-
         #endregion
 
         #region Internal Methods
 
-        internal Boolean TrySetValue(CssValue newValue)
+        internal Boolean TrySetValue(CssValue value)
         {
-            var value = Converter.Convert(newValue ?? CssValue.Initial);
-
-            if (value != null)
-            {
-                _value = value;
-                return true;
-            }
-
-            return false;
+            _value = value ?? CssValue.Initial;
+            return true;
         }
 
         #endregion

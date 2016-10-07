@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
@@ -481,7 +480,7 @@
         /// </summary>
         public KeyframeSelector CreateKeyframeSelector(ref CssToken token)
         {
-            var keys = new List<Percent>();
+            var keys = new List<String>();
             var valid = true;
             var start = token.Position;
             CollectTrivia(ref token);
@@ -538,9 +537,9 @@
         /// <summary>
         /// Called when the document functions have to been found.
         /// </summary>
-        public List<DocumentFunction> CreateFunctions(ref CssToken token)
+        public List<IDocumentFunction> CreateFunctions(ref CssToken token)
         {
-            var functions = new List<DocumentFunction>();
+            var functions = new List<IDocumentFunction>();
             CollectTrivia(ref token);
             FillFunctions(function => functions.Add(function), ref token);
             return functions;
@@ -985,7 +984,7 @@
 
         #region Fill Inner
 
-        private void FillFunctions(Action<DocumentFunction> add, ref CssToken token)
+        private void FillFunctions(Action<IDocumentFunction> add, ref CssToken token)
         {
             do
             {
@@ -1182,7 +1181,7 @@
             return name;
         }
 
-        private MediaFeature CreateFeature(ref CssToken token)
+        private IMediaFeature CreateFeature(ref CssToken token)
         {
             if (token.Type == CssTokenType.Ident)
             {

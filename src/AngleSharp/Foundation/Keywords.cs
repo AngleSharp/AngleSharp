@@ -5,7 +5,7 @@
     /// <summary>
     /// The collection of used keywords and strings.
     /// </summary>
-    static class Keywords
+    public static class Keywords
     {
         /// <summary>
         /// The important keyword.
@@ -1351,5 +1351,10 @@
         /// The even keyword.
         /// </summary>
         public static readonly String Even = "even";
+
+        /// <summary>
+        /// The url keyword.
+        /// </summary>
+        public static readonly String Url = "url";
     }
 }

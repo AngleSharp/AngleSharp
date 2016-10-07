@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using System;
@@ -11,7 +10,7 @@
     /// </summary>
     static class CssParserExtensions
     {
-        static readonly Dictionary<String, Func<String, DocumentFunction>> functionTypes = new Dictionary<String, Func<String, DocumentFunction>>(StringComparer.OrdinalIgnoreCase)
+        static readonly Dictionary<String, Func<String, IDocumentFunction>> functionTypes = new Dictionary<String, Func<String, IDocumentFunction>>(StringComparer.OrdinalIgnoreCase)
         {
             { FunctionNames.Url, str => new UrlFunction(str) },
             { FunctionNames.Domain, str => new DomainFunction(str) },
@@ -55,7 +54,7 @@
         /// <returns>The token type for the name.</returns>
         public static CssTokenType GetTypeFromName(this String functionName)
         {
-            var creator = default(Func<String, DocumentFunction>);
+            var creator = default(Func<String, IDocumentFunction>);
             return functionTypes.TryGetValue(functionName, out creator) ? CssTokenType.Url : CssTokenType.Function;
         }
 
@@ -144,11 +143,11 @@
         /// </summary>
         /// <param name="token">The token to examine.</param>
         /// <returns>The created IDocumentFunction or null.</returns>
-        public static DocumentFunction ToDocumentFunction(this CssToken token)
+        public static IDocumentFunction ToDocumentFunction(this CssToken token)
         {
             if (token.Type == CssTokenType.Url)
             {
-                var creator = default(Func<String, DocumentFunction>);
+                var creator = default(Func<String, IDocumentFunction>);
                 var functionName = ((CssUrlToken)token).FunctionName;
                 functionTypes.TryGetValue(functionName, out creator);
                 return creator(token.Data);

@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
     using System;
@@ -39,7 +38,7 @@
 
         public IConditionFunction Condition
         {
-            get { return Children.OfType<IConditionFunction>().FirstOrDefault() ?? new EmptyCondition(); }
+            get { return Children.OfType<IConditionFunction>().FirstOrDefault(); }
             set
             {
                 if (value != null)
@@ -48,15 +47,6 @@
                     AppendChild(value);
                 }
             }
-        }
-
-        #endregion
-
-        #region Internal Methods
-
-        internal override Boolean IsValid(RenderDevice device)
-        {
-            return Condition.Check();
         }
 
         #endregion

@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Html
 {
-    using AngleSharp.Css.Values;
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using System;
@@ -12,10 +11,10 @@
     /// </summary>
     sealed class SourceSet
     {
-        static readonly String FullWidth = "100vw";
-        static readonly Regex SizeParser = CreateRegex();
+        private static readonly String FullWidth = "100vw";
+        private static readonly Regex SizeParser = CreateRegex();
 
-        static Regex CreateRegex()
+        private static Regex CreateRegex()
         {
             var regexString = @"(\([^)]+\))?\s*(.+)";
 
@@ -30,14 +29,14 @@
             }
         }
 
-        readonly IDocument _document;
+        private readonly IDocument _document;
 
         public SourceSet(IDocument document)
         {
             _document = document;
         }
 
-        static IEnumerable<ImageCandidate> ParseSourceSet(String srcset)
+        private static IEnumerable<ImageCandidate> ParseSourceSet(String srcset)
         {
             var sources = srcset.Trim().SplitSpaces();
 
@@ -75,7 +74,7 @@
             }
         }
 
-        static MediaSize ParseSize(String sourceSizeStr)
+        private static MediaSize ParseSize(String sourceSizeStr)
         {
             var match = SizeParser.Match(sourceSizeStr);
 
@@ -86,7 +85,7 @@
             };
         }
 
-        Double ParseDescriptor(String descriptor, String sizesattr = null)
+        private Double ParseDescriptor(String descriptor, String sizesattr = null)
         {
             var sizes = sizesattr ?? FullWidth;
             var sizeDescriptor = descriptor.Trim();
@@ -112,7 +111,7 @@
             return resCandidate;
         }
 
-        Double GetWidthFromLength(String length)
+        private Double GetWidthFromLength(String length)
         {
             var value = default(Length);
 
@@ -124,7 +123,7 @@
             return 0.0;
         }
 
-        Double GetWidthFromSourceSize(String sourceSizes)
+        private Double GetWidthFromSourceSize(String sourceSizes)
         {
             var sizes = sourceSizes.Trim().Split(Symbols.Comma);
 
@@ -159,14 +158,14 @@
             }
         }
 
-        sealed class MediaSize
+        private sealed class MediaSize
         {
             public String Media { get; set; }
 
             public String Length { get; set; }
         }
 
-        sealed class ImageCandidate
+        private sealed class ImageCandidate
         {
             public String Url { get; set; }
 

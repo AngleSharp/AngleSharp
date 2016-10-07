@@ -158,20 +158,6 @@
             return new CssMediaQueryList(this, media);
         }
 
-        /// <summary>
-        /// Gives the values of all the CSS properties of an element after
-        /// applying the active stylesheets and resolving any basic computation
-        /// those values may contain.
-        /// </summary>
-        /// <param name="element">The element to compute the style for.</param>
-        /// <param name="pseudo">The optional pseudo selector to use.</param>
-        /// <returns>The style declaration describing the element.</returns>
-        public ICssStyleDeclaration GetComputedStyle(IElement element, String pseudo = null)
-        {
-            var styleCollection = this.GetStyleCollection();
-            return styleCollection.ComputeDeclarations(element, pseudo);
-        }
-
         #endregion
 
         #region Events

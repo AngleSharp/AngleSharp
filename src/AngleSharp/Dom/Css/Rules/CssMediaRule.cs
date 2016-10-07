@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Parser.Css;
     using System;
@@ -38,15 +37,6 @@
         IMediaList ICssMediaRule.Media
         {
             get { return Media; }
-        }
-
-        #endregion
-
-        #region Internal Methods
-
-        internal override Boolean IsValid(RenderDevice device)
-        {
-            return Media.Validate(device);
         }
 
         #endregion

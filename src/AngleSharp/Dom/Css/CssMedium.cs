@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Css
 {
-    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
@@ -13,30 +12,9 @@
     /// </summary>
     sealed class CssMedium : CssNode, ICssMedium
     {
-        #region Media Types and Features
-
-        readonly static String[] KnownTypes = 
-        {
-            // Intended for non-paged computer screens.
-            Keywords.Screen,
-            // Intended for speech synthesizers.
-            Keywords.Speech,
-            // Intended for paged material and for documents viewed on screen in print preview mode.
-            Keywords.Print,
-            // Suitable for all devices.
-            Keywords.All
-        };
-
-        #endregion
-
         #region Properties
 
-        public IEnumerable<MediaFeature> Features
-        {
-            get { return Children.OfType<MediaFeature>(); }
-        }
-
-        IEnumerable<IMediaFeature> ICssMedium.Features
+        public IEnumerable<IMediaFeature> Features
         {
             get { return Features; }
         }
@@ -72,21 +50,6 @@
 
         #region Methods
 
-        public Boolean Validate(RenderDevice device)
-        {
-            if (!String.IsNullOrEmpty(Type) && KnownTypes.Contains(Type) == IsInverse)
-            {
-                return false;
-            }
-
-            if (IsInvalid(device))
-            {
-                return false;
-            }
-
-            return !Features.Any(m => m.Validate(device) == IsInverse);
-        }
-
         public override Boolean Equals(Object obj)
         {
             var other = obj as CssMedium;
@@ -121,22 +84,6 @@
         public override void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             writer.Write(formatter.Medium(IsExclusive, IsInverse, Type, Features));
-        }
-
-        #endregion
-
-        #region Helpers
-
-        Boolean IsInvalid(RenderDevice device)
-        {
-            return IsInvalid(device, Keywords.Screen, RenderDevice.Kind.Screen) ||
-                IsInvalid(device, Keywords.Speech, RenderDevice.Kind.Speech) ||
-                IsInvalid(device, Keywords.Print, RenderDevice.Kind.Printer);
-        }
-
-        Boolean IsInvalid(RenderDevice device, String keyword, RenderDevice.Kind kind)
-        {
-            return keyword.Is(Type) && (device.DeviceType == kind) == IsInverse;
         }
 
         #endregion

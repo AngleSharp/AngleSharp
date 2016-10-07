@@ -255,7 +255,7 @@
             return Parse(conditionText, (b, t) => Tuple.Create(b.CreateCondition(ref t), t));
         }
 
-        internal List<DocumentFunction> ParseDocumentRules(String documentText)
+        internal List<IDocumentFunction> ParseDocumentRules(String documentText)
         {
             return Parse(documentText, (b, t) => Tuple.Create(b.CreateFunctions(ref t), t));
         }

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Css;
     using System;
     using System.Collections.Generic;
 
@@ -50,12 +49,5 @@
         /// <param name="medium">The medium to delete from the list.</param>
         [DomName("removeMedium")]
         void Remove(String medium);
-
-        /// <summary>
-        /// Validates the list of contained media against the rendering device.
-        /// </summary>
-        /// <param name="device">The rendering device.</param>
-        /// <returns>True if the constraints are satisfied, otherwise false.</returns>
-        Boolean Validate(RenderDevice device);
     }
 }

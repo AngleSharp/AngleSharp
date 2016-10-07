@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Collections
 {
-    using AngleSharp.Css;
     using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Css;
@@ -17,7 +16,7 @@
     {
         #region Fields
 
-        readonly CssParser _parser;
+        private readonly CssParser _parser;
 
         #endregion
 
@@ -86,11 +85,6 @@
                     parts[i].ToCss(writer, formatter);
                 }
             }
-        }
-
-        public Boolean Validate(RenderDevice device)
-        {
-            return !Media.Any(m => !m.Validate(device));
         }
 
         public void Add(String newMedium)

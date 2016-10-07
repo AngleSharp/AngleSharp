@@ -14,19 +14,6 @@
     public interface IWindow : IEventTarget, IGlobalEventHandlers, IWindowEventHandlers, IWindowTimers
     {
         /// <summary>
-        /// Gives the values of all the CSS properties of an element after
-        /// applying the active stylesheets and resolving any basic computation
-        /// those values may contain.
-        /// </summary>
-        /// <param name="element">
-        /// The element to compute the styles for.
-        /// </param>
-        /// <param name="pseudo">The optional pseudo selector to use.</param>
-        /// <returns>The style declaration describing the element.</returns>
-        [DomName("getComputedStyle")]
-        ICssStyleDeclaration GetComputedStyle(IElement element, String pseudo = null);
-
-        /// <summary>
         /// Gets a reference to the document that the window contains.
         /// </summary>
         [DomName("document")]

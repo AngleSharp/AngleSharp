@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        readonly List<CssToken> _tokens;
+        private readonly List<CssToken> _tokens;
 
         public static CssValue Initial = CssValue.FromString(Keywords.Initial);
         public static CssValue Empty = new CssValue(Enumerable.Empty<CssToken>());
