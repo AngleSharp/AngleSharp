@@ -22,8 +22,8 @@
 
         public Boolean IsOpen
         {
-            get { return this.HasOwnAttribute(AttributeNames.Open); }
-            set { this.SetOwnAttribute(AttributeNames.Open, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Open); }
+            set { this.SetBoolAttribute(AttributeNames.Open, value); }
         }
 
         #endregion

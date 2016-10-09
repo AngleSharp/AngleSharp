@@ -72,8 +72,8 @@
         /// </summary>
         public Boolean IsDefault
         {
-            get { return this.HasOwnAttribute(AttributeNames.Default); }
-            set { this.SetOwnAttribute(AttributeNames.Default, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Default); }
+            set { this.SetBoolAttribute(AttributeNames.Default, value); }
         }
 
         /// <summary>

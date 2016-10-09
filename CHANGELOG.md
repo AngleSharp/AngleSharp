@@ -1,3 +1,17 @@
+# 0.9.9
+
+- Attribute API refinements (#422)
+- Cookies are now sent for all requests (#420)
+- Fixed DOM attribute name culture bug (#419)
+- Added CSS `word-wrap` (`overflow-wrap`) and `word-breakword` properties (#417)
+- Added CSS `text-align-last`, `text-anchor`, and `text-justify` properties (#413)
+- Added CSS `stroke-*` properties (#407, #409, #411)
+- Handle compression in HTTP responses (#416)
+- Included `StatusCode` property in `IDocument` (#408)
+- Improved default event loop (#404)
+- Fixed invalid entity errors in XML (#401)
+- Added HTML `mark` element (#399)
+
 # 0.9.8.1
 
 - Added parsing callback (e.g., to retrieve line number) (#374)

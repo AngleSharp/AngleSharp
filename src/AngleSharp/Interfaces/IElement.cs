@@ -140,9 +140,9 @@
         /// <param name="name">
         /// Is a string that names the attribute to be removed.
         /// </param>
-        /// <returns>The current element.</returns>
+        /// <returns>True if an attribute was removed, otherwise false.</returns>
         [DomName("removeAttribute")]
-        void RemoveAttribute(String name);
+        Boolean RemoveAttribute(String name);
 
         /// <summary>
         /// Removes an attribute from the specified element.
@@ -153,9 +153,9 @@
         /// <param name="localName">
         /// Is a string that names the attribute to be removed.
         /// </param>
-        /// <returns>The current element.</returns>
+        /// <returns>True if an attribute was removed, otherwise false.</returns>
         [DomName("removeAttributeNS")]
-        void RemoveAttribute(String namespaceUri, String localName);
+        Boolean RemoveAttribute(String namespaceUri, String localName);
 
         /// <summary>
         /// Returns a set of elements which have all the given class names.

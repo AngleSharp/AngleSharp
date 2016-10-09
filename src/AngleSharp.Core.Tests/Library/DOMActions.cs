@@ -1033,5 +1033,201 @@
             Assert.AreEqual("BeforeTest", div.TextContent);
             Assert.AreEqual(div, span.Parent);
         }
+
+        [Test]
+        public async Task TogglingOptionIsDisabledWorksAsExpected()
+        {
+            var source = "<option></option>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var option = document.QuerySelector<IHtmlOptionElement>("option");
+
+            Assert.IsFalse(option.IsDisabled);
+
+            option.IsDisabled = true;
+
+            Assert.IsTrue(option.IsDisabled);
+
+            option.IsDisabled = false;
+
+            Assert.IsFalse(option.IsDisabled);
+            Assert.AreEqual(0, option.Attributes.Length);
+        }
+
+        [Test]
+        public async Task TogglingOptionIsSelectedWorksAsExpected()
+        {
+            var source = "<option></option>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var option = document.QuerySelector<IHtmlOptionElement>("option");
+
+            Assert.IsFalse(option.IsSelected);
+
+            option.IsSelected = true;
+
+            Assert.IsTrue(option.IsSelected);
+
+            option.IsSelected = false;
+
+            Assert.IsFalse(option.IsSelected);
+            Assert.AreEqual(0, option.Attributes.Length);
+        }
+
+        [Test]
+        public async Task TogglingOptionIsDefaultSelectedWorksAsExpected()
+        {
+            var source = "<option></option>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var option = document.QuerySelector<IHtmlOptionElement>("option");
+
+            Assert.IsFalse(option.IsDefaultSelected);
+
+            option.IsDefaultSelected = true;
+
+            Assert.IsTrue(option.IsDefaultSelected);
+
+            option.IsDefaultSelected = false;
+
+            Assert.IsFalse(option.IsDefaultSelected);
+            Assert.AreEqual(0, option.Attributes.Length);
+        }
+
+        [Test]
+        public async Task TogglingAnchorIsTranslatedWorksAsExpected()
+        {
+            var source = "<a></a>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var a = document.QuerySelector<IHtmlAnchorElement>("a");
+
+            Assert.IsTrue(a.IsTranslated);
+
+            a.IsTranslated = false;
+
+            Assert.IsFalse(a.IsTranslated);
+
+            a.IsTranslated = true;
+
+            Assert.IsTrue(a.IsTranslated);
+        }
+
+        [Test]
+        public async Task TogglingDivIsDraggableWorksAsExpected()
+        {
+            var source = "<div></div>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var div = document.QuerySelector<IHtmlElement>("div");
+
+            Assert.IsFalse(div.IsDraggable);
+
+            div.IsDraggable = true;
+
+            Assert.IsTrue(div.IsDraggable);
+
+            div.IsDraggable = false;
+
+            Assert.IsFalse(div.IsDraggable);
+        }
+
+        [Test]
+        public async Task TogglingDivIsSpellCheckedWorksAsExpected()
+        {
+            var source = "<div></div>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var div = document.QuerySelector<IHtmlElement>("div");
+
+            Assert.IsFalse(div.IsSpellChecked);
+
+            div.IsSpellChecked = true;
+
+            Assert.IsTrue(div.IsSpellChecked);
+
+            div.IsSpellChecked = false;
+
+            Assert.IsFalse(div.IsSpellChecked);
+        }
+
+        [Test]
+        public async Task TogglingSpanIsHiddenCheckedWorksAsExpected()
+        {
+            var source = "<span></span>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var span = document.QuerySelector<IHtmlElement>("span");
+
+            Assert.IsFalse(span.IsHidden);
+
+            span.IsHidden = true;
+
+            Assert.IsTrue(span.IsHidden);
+
+            span.IsHidden = false;
+
+            Assert.IsFalse(span.IsHidden);
+            Assert.AreEqual(0, span.Attributes.Length);
+        }
+
+        [Test]
+        public async Task TogglingDetailsIsOpenCheckedWorksAsExpected()
+        {
+            var source = "<details></details>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var details = document.QuerySelector<IHtmlDetailsElement>("details");
+
+            Assert.IsFalse(details.IsOpen);
+
+            details.IsOpen = true;
+
+            Assert.IsTrue(details.IsOpen);
+
+            details.IsOpen = false;
+
+            Assert.IsFalse(details.IsOpen);
+            Assert.AreEqual(0, details.Attributes.Length);
+        }
+
+        [Test]
+        public async Task TogglingInputAutoFocusWorksAsExpected()
+        {
+            var source = "<input></input>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var input = document.QuerySelector<IHtmlInputElement>("input");
+
+            Assert.IsFalse(input.Autofocus);
+
+            input.Autofocus = true;
+
+            Assert.IsTrue(input.Autofocus);
+
+            input.Autofocus = false;
+
+            Assert.IsFalse(input.Autofocus);
+            Assert.AreEqual(0, input.Attributes.Length);
+        }
+
+        [Test]
+        public async Task TogglingInputFormNoValidateWorksAsExpected()
+        {
+            var source = "<form><input></input></form>";
+            var cfg = Configuration.Default;
+            var document = await BrowsingContext.New(cfg).OpenAsync(res => res.Content(source));
+            var input = document.QuerySelector<IHtmlInputElement>("input");
+
+            Assert.IsFalse(input.FormNoValidate);
+
+            input.FormNoValidate = true;
+
+            Assert.IsTrue(input.FormNoValidate);
+
+            input.FormNoValidate = false;
+
+            Assert.IsFalse(input.FormNoValidate);
+        }
     }
 }

@@ -111,8 +111,8 @@
         /// </summary>
         public Boolean IsRequired
         {
-            get { return this.HasOwnAttribute(AttributeNames.Required); }
-            set { this.SetOwnAttribute(AttributeNames.Required, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Required); }
+            set { this.SetBoolAttribute(AttributeNames.Required, value); }
         }
 
         /// <summary>
@@ -120,8 +120,8 @@
         /// </summary>
         public Boolean IsReadOnly
         {
-            get { return this.HasOwnAttribute(AttributeNames.Readonly); }
-            set { this.SetOwnAttribute(AttributeNames.Readonly, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Readonly); }
+            set { this.SetBoolAttribute(AttributeNames.Readonly, value); }
         }
 
         /// <summary>
@@ -158,7 +158,7 @@
         /// </summary>
         public String SelectionDirection
         {
-            get { return _direction.ToString().ToLower(); }
+            get { return _direction.ToString().ToLowerInvariant(); }
         }
 
         #endregion

@@ -349,6 +349,446 @@
             var result = ParseRule(snippet);
             var actual = result.CssText;
             Assert.AreEqual(expected, actual);
-        }
-    }
+		}
+
+		[Test]
+		public void CssWordBreakNormalLegal()
+		{
+			var snippet = "word-break : normal";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("word-break", property.Name);
+			Assert.IsTrue(property.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssWordBreakProperty>(property);
+			var concrete = (CssWordBreakProperty)property;
+			Assert.AreEqual("normal", concrete.Value);
+		}
+
+		[Test]
+		public void CssWordBreakBreakAllLegal()
+		{
+			var snippet = "word-break : break-all";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("word-break", property.Name);
+			Assert.IsTrue(property.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssWordBreakProperty>(property);
+			var concrete = (CssWordBreakProperty)property;
+			Assert.AreEqual("break-all", concrete.Value);
+		}
+
+		[Test]
+		public void CssWordBreakKeepAllLegal()
+		{
+			var snippet = "word-break : keep-all";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("word-break", property.Name);
+			Assert.IsTrue(property.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssWordBreakProperty>(property);
+			var concrete = (CssWordBreakProperty)property;
+			Assert.AreEqual("keep-all", concrete.Value);
+		}
+
+		[Test]
+		public void CssWordBreakNoneIllegal()
+		{
+			var snippet = "word-break : none";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("word-break", property.Name);
+			Assert.IsFalse(property.HasValue);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssWordBreakProperty>(property);
+		}
+
+		public void CssTextAlignLastAutoLegal()
+		{
+			var snippet = "text-align-last: auto";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("auto", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAlignLastStartLegal()
+		{
+			var snippet = "text-align-last: start";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("start", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAlignLastEndLegal()
+		{
+			var snippet = "text-align-last: end";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("end", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAlignLastRightLegal()
+		{
+			var snippet = "text-align-last: right";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("right", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAlignLastLeftLegal()
+		{
+			var snippet = "text-align-last: left";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("left", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAlignLastCenterLegal()
+		{
+			var snippet = "text-align-last: center";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("center", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAlignLastJustifyLegal()
+		{
+			var snippet = "text-align-last: justify";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("justify", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAlignLastNoneIllegal()
+		{
+			var snippet = "text-align-last: none";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-align-last", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAlignLastProperty>(property);
+			var concrete = (CssTextAlignLastProperty)property;
+			Assert.IsFalse(property.HasValue);
+		}
+
+		[Test]
+		public void CssTextAnchorStartLegal()
+		{
+			var snippet = "text-anchor: start";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-anchor", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAnchorProperty>(property);
+			var concrete = (CssTextAnchorProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("start", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAnchorMiddleLegal()
+		{
+			var snippet = "text-anchor: middle";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-anchor", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAnchorProperty>(property);
+			var concrete = (CssTextAnchorProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("middle", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAnchorEndLegal()
+		{
+			var snippet = "text-anchor: end";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-anchor", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAnchorProperty>(property);
+			var concrete = (CssTextAnchorProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("end", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextAnchorNoneIllegal()
+		{
+			var snippet = "text-anchor: none";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-anchor", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextAnchorProperty>(property);
+			var concrete = (CssTextAnchorProperty)property;
+			Assert.IsFalse(property.HasValue);
+		}
+
+		[Test]
+		public void CssTextJustifyAutoLegal()
+		{
+			var snippet = "text-justify: auto";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-justify", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
+			var concrete = (CssTextJustifyProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("auto", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextJustifyDistributeLegal()
+		{
+			var snippet = "text-justify: distribute";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-justify", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
+			var concrete = (CssTextJustifyProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("distribute", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextJustifyDistributeAllLinesLegal()
+		{
+			var snippet = "text-justify: distribute-all-lines";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-justify", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
+			var concrete = (CssTextJustifyProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("distribute-all-lines", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextJustifyDistributeCenterLastLegal()
+		{
+			var snippet = "text-justify: distribute-center-last";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-justify", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
+			var concrete = (CssTextJustifyProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("distribute-center-last", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextJustifyInterClusterLegal()
+		{
+			var snippet = "text-justify: inter-cluster";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-justify", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
+			var concrete = (CssTextJustifyProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("inter-cluster", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextJustifyInterIdeographLegal()
+		{
+			var snippet = "text-justify: inter-ideograph";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-justify", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
+			var concrete = (CssTextJustifyProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("inter-ideograph", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextJustifyInterWordLegal()
+		{
+			var snippet = "text-justify: inter-word";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-justify", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
+			var concrete = (CssTextJustifyProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("inter-word", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextJustifyKashidaLegal()
+		{
+			var snippet = "text-justify: kashida";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-justify", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
+			var concrete = (CssTextJustifyProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("kashida", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextJustifyNewspaperLegal()
+		{
+			var snippet = "text-justify: newspaper";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-justify", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
+			var concrete = (CssTextJustifyProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("newspaper", concrete.Value);
+		}
+
+		[Test]
+		public void CssTextJustifyNoneIllegal()
+		{
+			var snippet = "text-justify: none";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("text-justify", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssTextJustifyProperty>(property);
+			var concrete = (CssTextJustifyProperty)property;
+			Assert.IsFalse(property.HasValue);
+		}
+
+		[Test]
+		public void CssOverflowWrapNormalLegal()
+		{
+			var snippet = "overflow-wrap: normal";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
+			var concrete = (CssOverflowWrapProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("normal", concrete.Value);
+		}
+
+		[Test]
+		public void CssOverflowWrapAlternateNameNormalLegal()
+		{
+			var snippet = "word-wrap: normal";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
+			var concrete = (CssOverflowWrapProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("normal", concrete.Value);
+		}
+
+		[Test]
+		public void CssOverflowWrapBreakWordLegal()
+		{
+			var snippet = "overflow-wrap: break-word";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
+			var concrete = (CssOverflowWrapProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("break-word", concrete.Value);
+		}
+
+		[Test]
+		public void CssOverflowWrapAlternateNameBreakWordLegal()
+		{
+			var snippet = "word-wrap: break-word";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
+			var concrete = (CssOverflowWrapProperty)property;
+			Assert.IsTrue(property.HasValue);
+			Assert.AreEqual("break-word", concrete.Value);
+		}
+
+		[Test]
+		public void CssOverflowWrapNoneIllegal()
+		{
+			var snippet = "overflow-wrap: none";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
+			var concrete = (CssOverflowWrapProperty)property;
+			Assert.IsFalse(property.HasValue);
+		}
+
+		[Test]
+		public void CssOverflowWrapAlternateNameNoneIllegal()
+		{
+			var snippet = "word-wrap: none";
+			var property = ParseDeclaration(snippet);
+			Assert.AreEqual("overflow-wrap", property.Name);
+			Assert.IsFalse(property.IsInherited);
+			Assert.IsFalse(property.IsImportant);
+			Assert.IsInstanceOf<CssOverflowWrapProperty>(property);
+			var concrete = (CssOverflowWrapProperty)property;
+			Assert.IsFalse(property.HasValue);
+		}
+	}
 }

@@ -11,16 +11,11 @@
     [TestFixture]
     public class DomManipulationTests
     {
-        static IDocument CreateDocument()
+        private static IDocument CreateDocument()
         {
-            var doc = Html("");
+            var doc = String.Empty.ToHtmlDocument();
             doc.RemoveChild(doc.DocumentElement);
             return doc;
-        }
-
-        static IDocument Html(String code)
-        {
-            return code.ToHtmlDocument();
         }
 
         [Test]
@@ -173,14 +168,14 @@
         [Test]
         public void DocumentTitleExactMatch()
         {
-            var doc = Html("<title>document.title with head blown away</title>");
+            var doc = "<title>document.title with head blown away</title>".ToHtmlDocument();
             Assert.AreEqual("document.title with head blown away", doc.Title);
         }
 
         [Test]
         public void DocumentRemoveHeadAndReadOutTitle()
         {
-            var doc = Html("<title>document.title with head blown away</title>");
+            var doc = "<title>document.title with head blown away</title>".ToHtmlDocument();
             var head = doc.GetElementsByTagName("head")[0];
             Assert.IsNotNull(head);
             head.Parent.RemoveChild(head);
@@ -192,7 +187,7 @@
         [Test]
         public void DocumentFreshTitleAppendedAfterHeadRemoved()
         {
-            var doc = Html("<title>document.title with head blown away</title>");
+            var doc = "<title>document.title with head blown away</title>".ToHtmlDocument();
             var head = doc.GetElementsByTagName("head")[0];
             Assert.IsNotNull(head);
             head.Parent.RemoveChild(head);
@@ -205,7 +200,7 @@
         [Test]
         public void DocumentInsertTitleBeforePreviouslyInsertedTitle()
         {
-            var doc = Html("<title>document.title with head blown away</title>");
+            var doc = "<title>document.title with head blown away</title>".ToHtmlDocument();
             var head = doc.GetElementsByTagName("head")[0];
             Assert.IsNotNull(head);
             head.Parent.RemoveChild(head);
@@ -217,6 +212,17 @@
             title3.AppendChild(doc.CreateTextNode("PASS2"));
             doc.DocumentElement.InsertBefore(title3, doc.Body);
             Assert.AreEqual("PASS2", doc.Title);
+        }
+
+        [Test]
+        public void RemoveAttributeWithSpecialCharacterWorks()
+        {
+            var document = "<TAG MÍ=\"\" />".ToHtmlDocument();
+            var element = document.Body.FirstElementChild;
+
+            Assert.AreEqual(1, element.Attributes.Length);
+            element.RemoveAttribute(element.Attributes[0].Name);
+            Assert.AreEqual(0, element.Attributes.Length);
         }
     }
 }

@@ -417,7 +417,7 @@
         {
             if (_namespace.Is(NamespaceNames.HtmlUri))
             {
-                name = name.ToLowerInvariant();
+                name = name.HtmlLower();
             }
 
             return _attributes.GetNamedItem(name) != null;
@@ -437,7 +437,7 @@
         {
             if (_namespace.Is(NamespaceNames.HtmlUri))
             {
-                name = name.ToLower();
+                name = name.HtmlLower();
             }
             
             return _attributes.GetNamedItem(name)?.Value;
@@ -464,7 +464,7 @@
 
                 if (_namespace.Is(NamespaceNames.HtmlUri))
                 {
-                    name = name.ToLowerInvariant();
+                    name = name.HtmlLower();
                 }
 
                 this.SetOwnAttribute(name, value);
@@ -490,24 +490,24 @@
             }
         }
 
-        public void RemoveAttribute(String name)
+        public Boolean RemoveAttribute(String name)
         {
             if (_namespace.Is(NamespaceNames.HtmlUri))
             {
-                name = name.ToLower();
+                name = name.HtmlLower();
             }
 
-            _attributes.RemoveNamedItemOrDefault(name);
+            return _attributes.RemoveNamedItemOrDefault(name) != null;
         }
 
-        public void RemoveAttribute(String namespaceUri, String localName)
+        public Boolean RemoveAttribute(String namespaceUri, String localName)
         {
             if (String.IsNullOrEmpty(namespaceUri))
             {
                 namespaceUri = null;
             }
 
-            _attributes.RemoveNamedItemOrDefault(namespaceUri, localName);
+            return _attributes.RemoveNamedItemOrDefault(namespaceUri, localName) != null;
         }
 
         public void Prepend(params INode[] nodes)
@@ -688,11 +688,11 @@
             if (!RegisteredCallbacks.TryGetValue(type, out handler) && type != typeof(Element))
             {
                 var parent = type.GetTypeInfo().BaseType;
-                var parentHandler = GetOrCreateCallback(parent);
+                handler = GetOrCreateCallback(parent);
 
-                if (parentHandler != null)
+                if (handler != null)
                 {
-                    RegisteredCallbacks[type] = parentHandler;
+                    RegisteredCallbacks[type] = handler;
                 }
             }
 

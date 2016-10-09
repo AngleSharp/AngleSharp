@@ -76,6 +76,7 @@
     <Compile Include="Css\CssOutlineProperty.cs" />
     <Compile Include="Css\CssCoordinateProperty.cs" />
     <Compile Include="Css\CssListProperty.cs" />
+    <Compile Include="Css\CssStrokeProperty.cs" />
     <Compile Include="Css\CssSupports.cs" />
     <Compile Include="Css\CssTextProperty.cs" />
     <Compile Include="Css\CssTransformProperty.cs" />
@@ -208,6 +209,7 @@
     <Compile Include="TestExtensions.cs" />
     <Compile Include="Xhtml\PreserveValidXhtml.cs" />
     <Compile Include="Xhtml\AutoSelectMarkupFormatter.cs" />
+    <Compile Include="Xml\XmlParsing.cs" />
     <Compile Include="Xml\XmlSamples.cs" />
     <Compile Include="Xml\XmlTokenization.cs" />
     <Compile Include="Xml\XmlTree.cs" />

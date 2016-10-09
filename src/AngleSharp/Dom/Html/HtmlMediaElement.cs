@@ -127,26 +127,26 @@
 
         public Boolean IsAutoplay
         {
-            get { return this.HasOwnAttribute(AttributeNames.Autoplay); }
-            set { this.SetOwnAttribute(AttributeNames.Autoplay, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Autoplay); }
+            set { this.SetBoolAttribute(AttributeNames.Autoplay, value); }
         }
 
         public Boolean IsLoop
         {
-            get { return this.HasOwnAttribute(AttributeNames.Loop); }
-            set { this.SetOwnAttribute(AttributeNames.Loop, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Loop); }
+            set { this.SetBoolAttribute(AttributeNames.Loop, value); }
         }
 
         public Boolean IsShowingControls
         {
-            get { return this.HasOwnAttribute(AttributeNames.Controls); }
-            set { this.SetOwnAttribute(AttributeNames.Controls, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Controls); }
+            set { this.SetBoolAttribute(AttributeNames.Controls, value); }
         }
 
         public Boolean IsDefaultMuted
         {
-            get { return this.HasOwnAttribute(AttributeNames.Muted); }
-            set { this.SetOwnAttribute(AttributeNames.Muted, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Muted); }
+            set { this.SetBoolAttribute(AttributeNames.Muted, value); }
         }
 
         public Boolean IsPaused

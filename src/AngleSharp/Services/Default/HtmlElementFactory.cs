@@ -1,10 +1,11 @@
 ﻿namespace AngleSharp.Services.Default
 {
-    using System;
-    using System.Collections.Generic;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
+    using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Provides string to HTMLElement instance creation mappings.
@@ -141,6 +142,16 @@
             { TagNames.Data, (document, prefix) => new HtmlDataElement(document, prefix) },
             { TagNames.Plaintext, (document, prefix) => new HtmlSemanticElement(document, TagNames.Plaintext, prefix) },
             { TagNames.IsIndex, (document, prefix) => new HtmlIsIndexElement(document, prefix) },
+            { TagNames.Mark, (document, prefix) => new HtmlElement(document, TagNames.Mark) },
+            { TagNames.Sub, (document, prefix) => new HtmlElement(document, TagNames.Sub) },//
+            { TagNames.Sup, (document, prefix) => new HtmlElement(document, TagNames.Sup) },
+            { TagNames.Dfn, (document, prefix) => new HtmlElement(document, TagNames.Dfn) },
+            { TagNames.Kbd, (document, prefix) => new HtmlElement(document, TagNames.Kbd) },
+            { TagNames.Var, (document, prefix) => new HtmlElement(document, TagNames.Var) },
+            { TagNames.Samp, (document, prefix) => new HtmlElement(document, TagNames.Samp) },
+            { TagNames.Abbr, (document, prefix) => new HtmlElement(document, TagNames.Abbr) },
+            { TagNames.Bdi, (document, prefix) => new HtmlElement(document, TagNames.Bdi) },
+            { TagNames.Bdo, (document, prefix) => new HtmlElement(document, TagNames.Bdo) },
         };
 
         /// <summary>
@@ -159,7 +170,7 @@
                 return creator(document, prefix);
             }
 
-            return new HtmlUnknownElement(document, localName.ToLowerInvariant(), prefix);
+            return new HtmlUnknownElement(document, localName.HtmlLower(), prefix);
         }
     }
 }

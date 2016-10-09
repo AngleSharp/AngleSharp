@@ -122,8 +122,8 @@
 
         public Boolean IsDisabled
         {
-            get { return this.GetOwnAttribute(AttributeNames.Disabled).ToBoolean(); }
-            set { this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Disabled); }
+            set { this.SetBoolAttribute(AttributeNames.Disabled, value); }
         }
 
         public String Target

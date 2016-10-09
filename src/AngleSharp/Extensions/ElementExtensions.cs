@@ -889,6 +889,36 @@
         }
 
         /// <summary>
+        /// Easy way of getting the current boolean value from attributes.
+        /// </summary>
+        /// <param name="element">The element to host the attribute.</param>
+        /// <param name="name">The name of the attribute.</param>
+        /// <returns>The attribute's boolean value.</returns>
+        public static Boolean GetBoolAttribute(this Element element, String name)
+        {
+            var value = element.GetOwnAttribute(name);
+            return value != null;
+        }
+
+        /// <summary>
+        /// Easy way of setting the current boolean value of an attribute.
+        /// </summary>
+        /// <param name="element">The element to host the attribute.</param>
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="value">The attribute's value.</param>
+        public static void SetBoolAttribute(this Element element, String name, Boolean value)
+        {
+            if (value)
+            {
+                element.SetOwnAttribute(name, String.Empty);
+            }
+            else
+            {
+                element.Attributes.RemoveNamedItemOrDefault(name, true);
+            }
+        }
+
+        /// <summary>
         /// Faster way of setting the (known) attribute.
         /// </summary>
         /// <param name="element">The element to host the attribute.</param>

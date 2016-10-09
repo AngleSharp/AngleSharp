@@ -253,7 +253,7 @@
 
                 if (c.IsUppercaseAscii())
                 {
-                    StringBuffer.Append(Char.ToLower(c));
+                    StringBuffer.Append(Char.ToLowerInvariant(c));
                     return RCDataNameEndTag(GetNext());
                 }
                 else if (c.IsLowercaseAscii())
@@ -290,7 +290,7 @@
                 }
                 else if (c.IsUppercaseAscii())
                 {
-                    StringBuffer.Append(Char.ToLower(c));
+                    StringBuffer.Append(Char.ToLowerInvariant(c));
                 }
                 else if (c.IsLowercaseAscii())
                 {
@@ -356,7 +356,7 @@
 
                 if (c.IsUppercaseAscii())
                 {
-                    StringBuffer.Append(Char.ToLower(c));
+                    StringBuffer.Append(Char.ToLowerInvariant(c));
                     return RawtextNameEndTag(GetNext());
                 }
                 else if (c.IsLowercaseAscii())
@@ -393,7 +393,7 @@
                 }
                 else if (c.IsUppercaseAscii())
                 {
-                    StringBuffer.Append(Char.ToLower(c));
+                    StringBuffer.Append(Char.ToLowerInvariant(c));
                 }
                 else if (c.IsLowercaseAscii())
                 {
@@ -627,7 +627,7 @@
             }
             else if (c.IsUppercaseAscii())
             {
-                StringBuffer.Append(Char.ToLower(c));
+                StringBuffer.Append(Char.ToLowerInvariant(c));
                 return TagName(NewTagOpen());
             }
             else if (c == Symbols.ExclamationMark)
@@ -661,7 +661,7 @@
             }
             else if (c.IsUppercaseAscii())
             {
-                StringBuffer.Append(Char.ToLower(c));
+                StringBuffer.Append(Char.ToLowerInvariant(c));
                 return TagName(NewTagClose());
             }
             else if (c == Symbols.GreaterThan)
@@ -711,7 +711,7 @@
                 }
                 else if (c.IsUppercaseAscii())
                 {
-                    StringBuffer.Append(Char.ToLower(c));
+                    StringBuffer.Append(Char.ToLowerInvariant(c));
                 }
                 else if (c == Symbols.Null)
                 {
@@ -1038,7 +1038,7 @@
             if (c.IsUppercaseAscii())
             {
                 var doctype = NewDoctype(false);
-                StringBuffer.Append(Char.ToLower(c));
+                StringBuffer.Append(Char.ToLowerInvariant(c));
                 return DoctypeName(doctype);
             }
             else if (c == Symbols.Null)
@@ -1092,7 +1092,7 @@
                 }
                 else if (c.IsUppercaseAscii())
                 {
-                    StringBuffer.Append(Char.ToLower(c));
+                    StringBuffer.Append(Char.ToLowerInvariant(c));
                 }
                 else if (c == Symbols.Null)
                 {
@@ -1671,7 +1671,7 @@
                         }
                         else if (c.IsUppercaseAscii())
                         {
-                            StringBuffer.Append(Char.ToLower(c));
+                            StringBuffer.Append(Char.ToLowerInvariant(c));
                             state = AttributeState.Name;
                         }
                         else if (c == Symbols.Null)
@@ -1725,7 +1725,7 @@
                         }
                         else if (c.IsUppercaseAscii())
                         {
-                            StringBuffer.Append(Char.ToLower(c));
+                            StringBuffer.Append(Char.ToLowerInvariant(c));
                         }
                         else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan)
                         {
@@ -1767,7 +1767,7 @@
                         }
                         else if (c.IsUppercaseAscii())
                         {
-                            StringBuffer.Append(Char.ToLower(c));
+                            StringBuffer.Append(Char.ToLowerInvariant(c));
                             state = AttributeState.Name;
                         }
                         else if (c == Symbols.DoubleQuote || c == Symbols.SingleQuote || c == Symbols.LessThan)

@@ -137,7 +137,7 @@
 
         #region Fields
 
-        static readonly Dictionary<String, Encoding> encodings = CreateEncodings();
+        private static readonly Dictionary<String, Encoding> encodings = CreateEncodings();
 
         #endregion
 
@@ -169,11 +169,10 @@
         {
             var encoding = String.Empty;
             var position = 0;
-            content = content.ToLowerInvariant();
 
-            for (int i = position; i < content.Length - 7; i++)
+            for (var i = position; i < content.Length - 7; i++)
             {
-                if (content.Substring(i).StartsWith(AttributeNames.Charset))
+                if (content.Substring(i).StartsWith(AttributeNames.Charset, StringComparison.OrdinalIgnoreCase))
                 {
                     position = i + 7;
                     break;
@@ -182,7 +181,7 @@
 
             if (position > 0 && position < content.Length)
             {
-                for (int i = position; i < content.Length - 1; i++)
+                for (var i = position; i < content.Length - 1; i++)
                 {
                     if (content[i].IsSpaceCharacter())
                     {
@@ -201,7 +200,7 @@
 
                 position++;
 
-                for (int i = position; i < content.Length; i++)
+                for (var i = position; i < content.Length; i++)
                 {
                     if (content[i].IsSpaceCharacter())
                     {
@@ -240,7 +239,7 @@
                         content = content.Substring(position);
                         var index = 0;
 
-                        for (int i = 0; i < content.Length; i++)
+                        for (var i = 0; i < content.Length; i++)
                         {
                             if (content[i].IsSpaceCharacter() || content[i] == Symbols.Semicolon)
                             {
@@ -301,7 +300,7 @@
 
         #region Helper
 
-        static Encoding GetEncoding(String name)
+        private static Encoding GetEncoding(String name)
         {
             try
             {
@@ -315,74 +314,74 @@
             }
         }
 
-        static Dictionary<String, Encoding> CreateEncodings()
+        private static Dictionary<String, Encoding> CreateEncodings()
         {
             var encodings = new Dictionary<String, Encoding>(StringComparer.OrdinalIgnoreCase)
-                                {
-                                    { "unicode-1-1-utf-8", Utf8 },
-                                    { "utf-8", Utf8 },
-                                    { "utf8", Utf8 },
-                                    { "utf-16be", Utf16Be },
-                                    { "utf-16", Utf16Le },
-                                    { "utf-16le", Utf16Le },
-                                    { "dos-874", Windows874 },
-                                    { "iso-8859-11", Windows874 },
-                                    { "iso8859-11", Windows874 },
-                                    { "iso885911", Windows874 },
-                                    { "tis-620", Windows874 },
-                                    { "windows-874", Windows874 },
-                                    { "cp1250", Windows1250 },
-                                    { "windows-1250", Windows1250 },
-                                    { "x-cp1250", Windows1250 },
-                                    { "cp1251", Windows1251 },
-                                    { "windows-1251", Windows1251 },
-                                    { "x-cp1251", Windows1251 },
-                                    { "x-user-defined", Windows1252 },
-                                    { "ansi_x3.4-1968", Windows1252 },
-                                    { "ascii", Windows1252 },
-                                    { "cp1252", Windows1252 },
-                                    { "cp819", Windows1252 },
-                                    { "csisolatin1", Windows1252 },
-                                    { "ibm819", Windows1252 },
-                                    { "iso-8859-1", Windows1252 },
-                                    { "iso-ir-100", Windows1252 },
-                                    { "iso8859-1", Windows1252 },
-                                    { "iso88591", Windows1252 },
-                                    { "iso_8859-1", Windows1252 },
-                                    { "iso_8859-1:1987", Windows1252 },
-                                    { "l1", Windows1252 },
-                                    { "latin1", Windows1252 },
-                                    { "us-ascii", Windows1252 },
-                                    { "windows-1252", Windows1252 },
-                                    { "x-cp1252", Windows1252 },
-                                    { "cp1253", Windows1253 },
-                                    { "windows-1253", Windows1253 },
-                                    { "x-cp1253", Windows1253 },
-                                    { "cp1254", Windows1254 },
-                                    { "csisolatin5", Windows1254 },
-                                    { "iso-8859-9", Windows1254 },
-                                    { "iso-ir-148", Windows1254 },
-                                    { "iso8859-9", Windows1254 },
-                                    { "iso88599", Windows1254 },
-                                    { "iso_8859-9", Windows1254 },
-                                    { "iso_8859-9:1989", Windows1254 },
-                                    { "l5", Windows1254 },
-                                    { "latin5", Windows1254 },
-                                    { "windows-1254", Windows1254 },
-                                    { "x-cp1254", Windows1254 },
-                                    { "cp1255", Windows1255 },
-                                    { "windows-1255", Windows1255 },
-                                    { "x-cp1255", Windows1255 },
-                                    { "cp1256", Windows1256 },
-                                    { "windows-1256", Windows1256 },
-                                    { "x-cp1256", Windows1256 },
-                                    { "cp1257", Windows1257 },
-                                    { "windows-1257", Windows1257 },
-                                    { "x-cp1257", Windows1257 },
-                                    { "cp1258", Windows1258 },
-                                    { "windows-1258", Windows1258 },
-                                    { "x-cp1258", Windows1258 }
-                                };
+            {
+                { "unicode-1-1-utf-8", Utf8 },
+                { "utf-8", Utf8 },
+                { "utf8", Utf8 },
+                { "utf-16be", Utf16Be },
+                { "utf-16", Utf16Le },
+                { "utf-16le", Utf16Le },
+                { "dos-874", Windows874 },
+                { "iso-8859-11", Windows874 },
+                { "iso8859-11", Windows874 },
+                { "iso885911", Windows874 },
+                { "tis-620", Windows874 },
+                { "windows-874", Windows874 },
+                { "cp1250", Windows1250 },
+                { "windows-1250", Windows1250 },
+                { "x-cp1250", Windows1250 },
+                { "cp1251", Windows1251 },
+                { "windows-1251", Windows1251 },
+                { "x-cp1251", Windows1251 },
+                { "x-user-defined", Windows1252 },
+                { "ansi_x3.4-1968", Windows1252 },
+                { "ascii", Windows1252 },
+                { "cp1252", Windows1252 },
+                { "cp819", Windows1252 },
+                { "csisolatin1", Windows1252 },
+                { "ibm819", Windows1252 },
+                { "iso-8859-1", Windows1252 },
+                { "iso-ir-100", Windows1252 },
+                { "iso8859-1", Windows1252 },
+                { "iso88591", Windows1252 },
+                { "iso_8859-1", Windows1252 },
+                { "iso_8859-1:1987", Windows1252 },
+                { "l1", Windows1252 },
+                { "latin1", Windows1252 },
+                { "us-ascii", Windows1252 },
+                { "windows-1252", Windows1252 },
+                { "x-cp1252", Windows1252 },
+                { "cp1253", Windows1253 },
+                { "windows-1253", Windows1253 },
+                { "x-cp1253", Windows1253 },
+                { "cp1254", Windows1254 },
+                { "csisolatin5", Windows1254 },
+                { "iso-8859-9", Windows1254 },
+                { "iso-ir-148", Windows1254 },
+                { "iso8859-9", Windows1254 },
+                { "iso88599", Windows1254 },
+                { "iso_8859-9", Windows1254 },
+                { "iso_8859-9:1989", Windows1254 },
+                { "l5", Windows1254 },
+                { "latin5", Windows1254 },
+                { "windows-1254", Windows1254 },
+                { "x-cp1254", Windows1254 },
+                { "cp1255", Windows1255 },
+                { "windows-1255", Windows1255 },
+                { "x-cp1255", Windows1255 },
+                { "cp1256", Windows1256 },
+                { "windows-1256", Windows1256 },
+                { "x-cp1256", Windows1256 },
+                { "cp1257", Windows1257 },
+                { "windows-1257", Windows1257 },
+                { "x-cp1257", Windows1257 },
+                { "cp1258", Windows1258 },
+                { "windows-1258", Windows1258 },
+                { "x-cp1258", Windows1258 }
+            };
 
             var macintosh = GetEncoding("macintosh");
             encodings.Add("csmacintosh", macintosh);

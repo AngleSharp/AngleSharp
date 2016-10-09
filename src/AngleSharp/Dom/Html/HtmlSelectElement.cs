@@ -52,8 +52,8 @@
 
         public Boolean IsRequired
         {
-            get { return this.HasOwnAttribute(AttributeNames.Required); }
-            set { this.SetOwnAttribute(AttributeNames.Required, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Required); }
+            set { this.SetBoolAttribute(AttributeNames.Required, value); }
         }
 
         public IHtmlCollection<IHtmlOptionElement> SelectedOptions
@@ -95,8 +95,8 @@
 
         public Boolean IsMultiple
         {
-            get { return this.HasOwnAttribute(AttributeNames.Multiple); }
-            set { this.SetOwnAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Multiple); }
+            set { this.SetBoolAttribute(AttributeNames.Multiple, value); }
         }
 
         public IHtmlOptionsCollection Options

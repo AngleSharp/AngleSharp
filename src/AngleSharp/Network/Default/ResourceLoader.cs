@@ -41,6 +41,13 @@
                 }
             };
 
+            var cookie = GetCookie(request.Target);
+
+            if (cookie != null)
+            {
+                data.Headers[HeaderNames.Cookie] = cookie;
+            }
+
             return DownloadAsync(data, request.Source);
         }
 

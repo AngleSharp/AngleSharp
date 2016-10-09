@@ -11,26 +11,38 @@
 
     public class MockRequester : IRequester
     {
+        private Func<IRequest, IResponse> _answer;
+
+        public MockRequester()
+        {
+            BuildResponse(_ => String.Empty);
+        }
+
         public Action<IRequest> OnRequest
         {
             get;
             set;
         }
 
-        public Func<IRequest, String> BuildResponse
+        public void BuildResponse(Func<IRequest, String> answer)
         {
-            get;
-            set;
+            _answer = request =>
+            {
+                var text = answer.Invoke(request);
+                var content = new MemoryStream(Encoding.UTF8.GetBytes(text));
+                return new Response { Address = request.Address, Content = content, StatusCode = System.Net.HttpStatusCode.OK };
+            };
+        }
+
+        public void BuildResponse(Func<IRequest, IResponse> answer)
+        {
+            _answer = answer;
         }
 
         public IResponse Request(IRequest request)
         {
             OnRequest?.Invoke(request);
-
-            var builder = BuildResponse ?? (_ => String.Empty);
-            var text = builder(request);
-            var content = new MemoryStream(Encoding.UTF8.GetBytes(text));
-            return new Response { Address = request.Address, Content = content, StatusCode = System.Net.HttpStatusCode.OK };
+            return _answer.Invoke(request);
         }
 
         public Task<IResponse> RequestAsync(IRequest request)

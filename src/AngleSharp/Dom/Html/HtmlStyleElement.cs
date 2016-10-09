@@ -37,8 +37,8 @@
 
         public Boolean IsScoped
         {
-            get { return this.HasOwnAttribute(AttributeNames.Scoped); }
-            set { this.SetOwnAttribute(AttributeNames.Scoped, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Scoped); }
+            set { this.SetBoolAttribute(AttributeNames.Scoped, value); }
         }
 
         public IStyleSheet Sheet
@@ -48,10 +48,10 @@
 
         public Boolean IsDisabled
         {
-            get { return this.GetOwnAttribute(AttributeNames.Disabled).ToBoolean(); }
+            get { return this.GetBoolAttribute(AttributeNames.Disabled); }
             set 
             {
-                this.SetOwnAttribute(AttributeNames.Disabled, value ? String.Empty : null);
+                this.SetBoolAttribute(AttributeNames.Disabled, value);
 
                 if (_sheet != null)
                 {

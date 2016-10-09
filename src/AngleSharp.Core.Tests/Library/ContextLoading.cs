@@ -227,13 +227,16 @@
         [Test]
         public async Task LoadContextFromStreamLoadedShouldNotFaceBufferTooSmall()
         {
-            var address = "http://kommersant.ru/rss-list";
-            var config = Configuration.Default.WithPageRequester();
-            var context = BrowsingContext.New(config);
-            var document = await context.OpenAsync(address);
+            if (Helper.IsNetworkAvailable())
+            {
+                var address = "http://kommersant.ru/rss-list";
+                var config = Configuration.Default.WithPageRequester();
+                var context = BrowsingContext.New(config);
+                var document = await context.OpenAsync(address);
 
-            Assert.IsNotNull(document);
-            Assert.AreNotEqual(0, document.All.Length);
+                Assert.IsNotNull(document);
+                Assert.AreNotEqual(0, document.All.Length);
+            }
         }
 
         [Test]

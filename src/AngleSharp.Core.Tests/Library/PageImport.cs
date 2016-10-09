@@ -58,7 +58,7 @@
             var requester = new MockRequester();
             var requestCount = 0;
             requester.OnRequest = request => requestCount++;
-            requester.BuildResponse = request => content;
+            requester.BuildResponse(request => content);
             var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { requester });
             var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(content));
             var link = document.QuerySelector<IHtmlLinkElement>("link");
@@ -81,7 +81,7 @@
             var requester = new MockRequester();
             var requestCount = 0;
             requester.OnRequest = request => requestCount++;
-            requester.BuildResponse = request => nested.Dequeue();
+            requester.BuildResponse(request => nested.Dequeue());
             var config = Configuration.Default.WithDefaultLoader(setup => setup.IsResourceLoadingEnabled = true, new[] { requester });
             var document = await BrowsingContext.New(config).OpenAsync(m => m.Content(content));
             var link = document.QuerySelector<IHtmlLinkElement>("link");

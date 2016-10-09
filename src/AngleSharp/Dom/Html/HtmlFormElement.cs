@@ -104,8 +104,8 @@
 
         public Boolean NoValidate
         {
-            get { return this.HasOwnAttribute(AttributeNames.NoValidate); }
-            set { this.SetOwnAttribute(AttributeNames.NoValidate, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.NoValidate); }
+            set { this.SetBoolAttribute(AttributeNames.NoValidate, value); }
         }
 
         public String Target

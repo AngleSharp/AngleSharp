@@ -145,7 +145,6 @@
 
             public RequestState(IRequest request, IDictionary<String, String> headers)
             {
-                var cookieHeader = request.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
                 _cookies = new CookieContainer();
                 _headers = headers;
                 _request = request;
@@ -153,18 +152,9 @@
                 _http.CookieContainer = _cookies;
                 _http.Method = request.Method.ToString().ToUpperInvariant();
                 _buffer = new Byte[BufferSize];
-
-                foreach (var header in headers)
-                {
-                    AddHeader(header.Key, header.Value);
-                }
-
-                foreach (var header in request.Headers)
-                {
-                    AddHeader(header.Key, header.Value);
-                }
-
-                _cookies.SetCookies(_http.RequestUri, cookieHeader.Replace(';', ','));
+                SetHeaders();
+                SetCookies();
+                AllowCompression();
                 DisableAutoRedirect();
             }
 
@@ -285,6 +275,30 @@
                 {
                     _http.Headers[key] = value;
                 }
+            }
+
+            private void SetCookies()
+            {
+                var cookieHeader = _request.Headers.GetOrDefault(HeaderNames.Cookie, String.Empty);
+                _cookies.SetCookies(_http.RequestUri, cookieHeader.Replace(';', ','));
+            }
+
+            private void SetHeaders()
+            {
+                foreach (var header in _headers)
+                {
+                    AddHeader(header.Key, header.Value);
+                }
+
+                foreach (var header in _request.Headers)
+                {
+                    AddHeader(header.Key, header.Value);
+                }
+            }
+
+            private void AllowCompression()
+            {
+                SetProperty("AutomaticDecompression", 3);
             }
 
             private void DisableAutoRedirect()

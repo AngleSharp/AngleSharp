@@ -43,8 +43,8 @@
 
         public Boolean IsDefaultChecked
         {
-            get { return this.HasOwnAttribute(AttributeNames.Checked); }
-            set { this.SetOwnAttribute(AttributeNames.Checked, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Checked); }
+            set { this.SetBoolAttribute(AttributeNames.Checked, value); }
         }
 
         public Boolean IsChecked
@@ -67,8 +67,8 @@
 
         public Boolean IsMultiple
         {
-            get { return this.HasOwnAttribute(AttributeNames.Multiple); }
-            set { this.SetOwnAttribute(AttributeNames.Multiple, value ? String.Empty : null); }
+            get { return this.GetBoolAttribute(AttributeNames.Multiple); }
+            set { this.SetBoolAttribute(AttributeNames.Multiple, value); }
         }
 
         public DateTime? ValueAsDate

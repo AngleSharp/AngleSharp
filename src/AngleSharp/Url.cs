@@ -14,21 +14,23 @@
     {
         #region Fields
 
-        static readonly String currentDirectory = ".";
-        static readonly String upperDirectory = "..";
-        static readonly Url DefaultBase = new Url(String.Empty, String.Empty, String.Empty);
+        private static readonly String currentDirectory = ".";
+        private static readonly String currentDirectoryAlternative = "%2e";
+        private static readonly String upperDirectory = "..";
+        private static readonly String[] upperDirectoryAlternatives = new[] { "%2e%2e", ".%2e", "%2e." };
+        private static readonly Url DefaultBase = new Url(String.Empty, String.Empty, String.Empty);
 
-        String _fragment;
-        String _query;
-        String _path;
-        String _scheme;
-        String _port;
-        String _host;
-        String _username;
-        String _password;
-        Boolean _relative;
-        String _schemeData;
-        Boolean _error;
+        private String _fragment;
+        private String _query;
+        private String _path;
+        private String _scheme;
+        private String _port;
+        private String _host;
+        private String _username;
+        private String _password;
+        private Boolean _relative;
+        private String _schemeData;
+        private Boolean _error;
 
         #endregion
 
@@ -366,7 +368,7 @@
         /// Returns the string representation of the current location.
         /// </summary>
         /// <returns>The string that equals the hyper reference.</returns>
-        String Serialize()
+        private String Serialize()
         {
             var output = Pool.NewStringBuilder();
 
@@ -427,13 +429,13 @@
 
         #region Parsing
 
-        Boolean ParseUrl(String input, Url baseUrl = null)
+        private Boolean ParseUrl(String input, Url baseUrl = null)
         {
             Reset(baseUrl ?? DefaultBase);
             return !ParseScheme(input.Trim());
         }
 
-        void Reset(Url baseUrl)
+        private void Reset(Url baseUrl)
         {
             _schemeData = String.Empty;
             _scheme = baseUrl._scheme;
@@ -443,7 +445,7 @@
             _relative = ProtocolNames.IsRelative(_scheme);
         }
 
-        Boolean ParseScheme(String input, Boolean onlyScheme = false)
+        private Boolean ParseScheme(String input, Boolean onlyScheme = false)
         {
             if (input.Length > 0 && input[0].IsLetter())
             {
@@ -511,7 +513,7 @@
             return !onlyScheme && RelativeState(input, 0);
         }
 
-        Boolean ParseSchemeData(String input, Int32 index)
+        private Boolean ParseSchemeData(String input, Int32 index)
         {
             var buffer = Pool.NewStringBuilder();
 
@@ -551,7 +553,7 @@
             return true;
         }
 
-        Boolean RelativeState(String input, Int32 index)
+        private Boolean RelativeState(String input, Int32 index)
         {
             _relative = true;
 
@@ -607,7 +609,7 @@
             return true;
         }
 
-        Boolean IgnoreSlashesState(String input, Int32 index)
+        private Boolean IgnoreSlashesState(String input, Int32 index)
         {
             while (index < input.Length)
             {
@@ -622,7 +624,7 @@
             return false;
         }
 
-        Boolean ParseAuthority(String input, Int32 index)
+        private Boolean ParseAuthority(String input, Int32 index)
         {
             var start = index;
             var buffer = Pool.NewStringBuilder();
@@ -683,7 +685,7 @@
             return ParseHostName(input, start);
         }
 
-        Boolean ParseFileHost(String input, Int32 index)
+        private Boolean ParseFileHost(String input, Int32 index)
         {
             var start = index;
             _path = String.Empty;
@@ -714,7 +716,7 @@
             return ParsePath(input, index);
         }
 
-        Boolean ParseHostName(String input, Int32 index, Boolean onlyHost = false, Boolean onlyPort = false)
+        private Boolean ParseHostName(String input, Int32 index, Boolean onlyHost = false, Boolean onlyPort = false)
         {
             var inBracket = false;
             var start = index;
@@ -776,7 +778,7 @@
             return true;
         }
 
-        Boolean ParsePort(String input, Int32 index, Boolean onlyPort = false)
+        private Boolean ParsePort(String input, Int32 index, Boolean onlyPort = false)
         {
             var start = index;
 
@@ -814,7 +816,7 @@
             return true;
         }
 
-        Boolean ParsePath(String input, Int32 index, Boolean onlyPath = false)
+        private Boolean ParsePath(String input, Int32 index, Boolean onlyPath = false)
         {
             var init = index;
 
@@ -850,11 +852,13 @@
                     var close = false;
                     buffer.Clear();
 
-                    if (path.Isi("%2e"))
+                    if (path.Isi(currentDirectoryAlternative))
                     {
                         path = currentDirectory;
                     }
-                    else if (path.Isi(".%2e") || path.Isi("%2e.") || path.Isi("%2e%2e"))
+                    else if (path.Isi(upperDirectoryAlternatives[0]) || 
+                             path.Isi(upperDirectoryAlternatives[1]) || 
+                             path.Isi(upperDirectoryAlternatives[2]))
                     {
                         path = upperDirectory;
                     }
@@ -870,7 +874,11 @@
                     }
                     else if (!path.Is(currentDirectory))
                     {
-                        if (_scheme.Is(ProtocolNames.File) && paths.Count == originalCount && path.Length == 2 && path[0].IsLetter() && path[1] == Symbols.Pipe)
+                        if (_scheme.Is(ProtocolNames.File) && 
+                            paths.Count == originalCount && 
+                            path.Length == 2 && 
+                            path[0].IsLetter() && 
+                            path[1] == Symbols.Pipe)
                         {
                             path = path.Replace(Symbols.Pipe, Symbols.Colon);
                             paths.Clear();
@@ -893,7 +901,10 @@
                         break;
                     }
                 }
-                else if (c == Symbols.Percent && index + 2 < input.Length && input[index + 1].IsHex() && input[index + 2].IsHex())
+                else if (c == Symbols.Percent && 
+                         index + 2 < input.Length && 
+                         input[index + 1].IsHex() && 
+                         input[index + 2].IsHex())
                 {
                     buffer.Append(input[index++]);
                     buffer.Append(input[index++]);
@@ -931,7 +942,7 @@
             return true;
         }
 
-        Boolean ParseQuery(String input, Int32 index, Boolean onlyQuery = false)
+        private Boolean ParseQuery(String input, Int32 index, Boolean onlyQuery = false)
         {
             var buffer = Pool.NewStringBuilder();
             var fragment = false;
@@ -962,7 +973,7 @@
             return fragment ? ParseFragment(input, index + 1) : true;
         }
 
-        Boolean ParseFragment(String input, Int32 index)
+        private Boolean ParseFragment(String input, Int32 index)
         {
             var buffer = Pool.NewStringBuilder();
 
@@ -994,7 +1005,7 @@
 
         #region Helpers
 
-        static Int32 Utf8PercentEncode(StringBuilder buffer, String source, Int32 index)
+        private static Int32 Utf8PercentEncode(StringBuilder buffer, String source, Int32 index)
         {
             var length = Char.IsSurrogatePair(source, index) ? 2 : 1;
             var bytes = TextEncoding.Utf8.GetBytes(source.Substring(index, length));
@@ -1007,7 +1018,7 @@
             return length - 1;
         }
 
-        static String SanatizeHost(String hostName, Int32 start, Int32 length)
+        private static String SanatizeHost(String hostName, Int32 start, Int32 length)
         {
             if (length > 1 && hostName[start] == Symbols.SquareBracketOpen && hostName[start + length - 1] == Symbols.SquareBracketClose)
             {
@@ -1093,7 +1104,7 @@
             return TextEncoding.Utf8.GetString(chars, 0, count);
         }
 
-        static String SanatizePort(String port, Int32 start, Int32 length)
+        private static String SanatizePort(String port, Int32 start, Int32 length)
         {
             var chars = new Char[length];
             var count = 0;
