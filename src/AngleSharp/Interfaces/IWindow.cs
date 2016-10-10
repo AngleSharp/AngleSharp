@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Navigator;
     using System;
@@ -152,14 +151,5 @@
         /// </summary>
         [DomName("history")]
         IHistory History { get; }
-
-        /// <summary>
-        /// Creates a new MediaQueryList object representing the parsed results
-        /// of the specified media query string.
-        /// </summary>
-        /// <param name="media">The query string.</param>
-        /// <returns>The MediaQueryList instance.</returns>
-        [DomName("matchMedia")]
-        IMediaQueryList MatchMedia(String media);
     }
 }

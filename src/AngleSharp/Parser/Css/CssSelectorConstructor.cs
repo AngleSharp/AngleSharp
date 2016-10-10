@@ -17,14 +17,14 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, Func<CssSelectorConstructor, FunctionState>> pseudoClassFunctions = new Dictionary<String, Func<CssSelectorConstructor, FunctionState>>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<String, Func<CssSelectorConstructor, FunctionState>> pseudoClassFunctions = new Dictionary<String, Func<CssSelectorConstructor, FunctionState>>(StringComparer.OrdinalIgnoreCase)
         {
-            { PseudoClassNames.NthChild, ctx => new ChildFunctionState<FirstChildSelector>(ctx, withOptionalSelector: true) },
-            { PseudoClassNames.NthLastChild, ctx => new ChildFunctionState<LastChildSelector>(ctx, withOptionalSelector: true) },
-            { PseudoClassNames.NthOfType, ctx => new ChildFunctionState<FirstTypeSelector>(ctx, withOptionalSelector: false) },
-            { PseudoClassNames.NthLastOfType, ctx => new ChildFunctionState<LastTypeSelector>(ctx, withOptionalSelector: false) },
-            { PseudoClassNames.NthColumn, ctx => new ChildFunctionState<FirstColumnSelector>(ctx, withOptionalSelector: false) },
-            { PseudoClassNames.NthLastColumn, ctx => new ChildFunctionState<LastColumnSelector>(ctx, withOptionalSelector: false) },
+            { PseudoClassNames.NthChild, ctx => new ChildFunctionState((step, offset, kind) => new FirstChildSelector(step, offset, kind), ctx, withOptionalSelector: true) },
+            { PseudoClassNames.NthLastChild, ctx => new ChildFunctionState((step, offset, kind) => new LastChildSelector(step, offset, kind), ctx, withOptionalSelector: true) },
+            { PseudoClassNames.NthOfType, ctx => new ChildFunctionState((step, offset, kind) => new FirstTypeSelector(step, offset, kind), ctx, withOptionalSelector: false) },
+            { PseudoClassNames.NthLastOfType, ctx => new ChildFunctionState((step, offset, kind) => new LastTypeSelector(step, offset, kind), ctx, withOptionalSelector: false) },
+            { PseudoClassNames.NthColumn, ctx => new ChildFunctionState((step, offset, kind) => new FirstColumnSelector(step, offset, kind), ctx, withOptionalSelector: false) },
+            { PseudoClassNames.NthLastColumn, ctx => new ChildFunctionState((step, offset, kind) => new LastColumnSelector(step, offset, kind), ctx, withOptionalSelector: false) },
             { PseudoClassNames.Not, ctx => new NotFunctionState(ctx) },
             { PseudoClassNames.Dir, ctx => new DirFunctionState() },
             { PseudoClassNames.Lang, ctx => new LangFunctionState() },
@@ -34,22 +34,22 @@
             { PseudoClassNames.HostContext, ctx => new HostContextFunctionState(ctx) },
         };
 
-        readonly Stack<CssCombinator> _combinators;
+        private readonly Stack<CssCombinator> _combinators;
 
-		State _state;
-        ISelector _temp;
-		ListSelector _group;
-		ComplexSelector _complex;
-		String _attrName;
-		String _attrValue;
-		String _attrOp;
-        String _attrNs;
-        Boolean _valid;
-        Boolean _nested;
-        Boolean _ready;
-        IAttributeSelectorFactory _attributeSelector;
-        IPseudoElementSelectorFactory _pseudoElementSelector;
-        IPseudoClassSelectorFactory _pseudoClassSelector;
+		private State _state;
+        private ISelector _temp;
+		private ListSelector _group;
+		private ComplexSelector _complex;
+		private String _attrName;
+		private String _attrValue;
+		private String _attrOp;
+        private String _attrNs;
+        private Boolean _valid;
+        private Boolean _nested;
+        private Boolean _ready;
+        private IAttributeSelectorFactory _attributeSelector;
+        private IPseudoElementSelectorFactory _pseudoElementSelector;
+        private IPseudoClassSelectorFactory _pseudoClassSelector;
 
         #endregion
 
@@ -615,7 +615,7 @@
 
         #region Function States
 
-        abstract class FunctionState : IDisposable
+        private abstract class FunctionState : IDisposable
         {
             public Boolean Finished(CssToken token)
             {
@@ -631,7 +631,7 @@
             }
         }
 
-        sealed class NotFunctionState : FunctionState
+        private sealed class NotFunctionState : FunctionState
         {
             readonly CssSelectorConstructor _selector;
 
@@ -673,7 +673,7 @@
             }
         }
 
-        sealed class HasFunctionState : FunctionState
+        private sealed class HasFunctionState : FunctionState
         {
             readonly CssSelectorConstructor _nested;
 
@@ -714,7 +714,7 @@
             }
         }
 
-        sealed class MatchesFunctionState : FunctionState
+        private sealed class MatchesFunctionState : FunctionState
         {
             readonly CssSelectorConstructor _selector;
 
@@ -755,7 +755,7 @@
             }
         }
 
-        sealed class DirFunctionState : FunctionState
+        private sealed class DirFunctionState : FunctionState
         {
             Boolean _valid;
             String _value;
@@ -796,7 +796,7 @@
             }
         }
 
-        sealed class LangFunctionState : FunctionState
+        private sealed class LangFunctionState : FunctionState
         {
             Boolean valid;
             String value;
@@ -837,7 +837,7 @@
             }
         }
 
-        sealed class ContainsFunctionState : FunctionState
+        private sealed class ContainsFunctionState : FunctionState
         {
             Boolean _valid;
             String _value;
@@ -878,7 +878,7 @@
             }
         }
 
-        sealed class HostContextFunctionState : FunctionState
+        private sealed class HostContextFunctionState : FunctionState
         {
             readonly CssSelectorConstructor _selector;
 
@@ -935,21 +935,22 @@
             }
         }
 
-        sealed class ChildFunctionState<T> : FunctionState
-            where T : ChildSelector, ISelector, new()
+        private sealed class ChildFunctionState : FunctionState
         {
             readonly CssSelectorConstructor _parent;
 
-            Boolean _valid;
-            Int32 _step;
-            Int32 _offset;
-            Int32 _sign;
-            ParseState _state;
-            CssSelectorConstructor _nested;
-            Boolean _allowOf;
+            private Boolean _valid;
+            private Int32 _step;
+            private Int32 _offset;
+            private Int32 _sign;
+            private ParseState _state;
+            private CssSelectorConstructor _nested;
+            private Boolean _allowOf;
+            private Func<Int32, Int32, ISelector, ISelector> _creator;
 
-            public ChildFunctionState(CssSelectorConstructor parent, Boolean withOptionalSelector = true)
+            public ChildFunctionState(Func<Int32, Int32, ISelector, ISelector> creator, CssSelectorConstructor parent, Boolean withOptionalSelector = true)
             {
+                _creator = creator;
                 _parent = parent;
                 _allowOf = withOptionalSelector;
                 _valid = true;
@@ -967,7 +968,7 @@
                     return null;
                 }
 
-                return new T().With(_step, _offset, sel);
+                return _creator.Invoke(_step, _offset, sel);
             }
 
             protected override Boolean OnToken(CssToken token)
@@ -987,7 +988,7 @@
                 }
             }
 
-            Boolean OnAfterInitialSign(CssToken token)
+            private Boolean OnAfterInitialSign(CssToken token)
             {
                 if (token.Type == CssTokenType.Number)
                 {
@@ -1021,7 +1022,7 @@
                 return token.Type == CssTokenType.RoundBracketClose;
             }
 
-            Boolean OnAfter(CssToken token)
+            private Boolean OnAfter(CssToken token)
             {
                 if (token.Type != CssTokenType.RoundBracketClose || _nested._state != State.Data)
                 {
@@ -1032,7 +1033,7 @@
                 return true;
             }
 
-            Boolean OnBeforeOf(CssToken token)
+            private Boolean OnBeforeOf(CssToken token)
             {
                 if (token.Type == CssTokenType.Whitespace)
                 {
@@ -1055,7 +1056,7 @@
                 return false;
             }
 
-            Boolean OnOffset(CssToken token)
+            private Boolean OnOffset(CssToken token)
             {
                 if (token.Type == CssTokenType.Whitespace)
                 {
@@ -1073,7 +1074,7 @@
                 return OnBeforeOf(token);
             }
 
-            Boolean OnInitial(CssToken token)
+            private Boolean OnInitial(CssToken token)
             {
                 if (token.Type == CssTokenType.Whitespace)
                 {
@@ -1105,7 +1106,7 @@
 
             }
 
-            enum ParseState : byte
+            private enum ParseState : byte
             {
                 Initial,
                 AfterInitialSign,

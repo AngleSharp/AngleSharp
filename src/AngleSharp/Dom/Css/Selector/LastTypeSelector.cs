@@ -9,8 +9,8 @@
     /// </summary>
     sealed class LastTypeSelector : ChildSelector
     {
-        public LastTypeSelector()
-            : base(PseudoClassNames.NthLastOfType)
+        public LastTypeSelector(Int32 step, Int32 offset, ISelector kind)
+            : base(PseudoClassNames.NthLastOfType, step, offset, kind)
         {
         }
 
@@ -20,7 +20,7 @@
 
             if (parent != null)
             {
-                var n = Math.Sign(_step);
+                var n = Math.Sign(Step);
                 var k = 0;
 
                 for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
@@ -33,8 +33,8 @@
 
                         if (child == element)
                         {
-                            var diff = k - _offset;
-                            return diff == 0 || (Math.Sign(diff) == n && diff % _step == 0);
+                            var diff = k - Offset;
+                            return diff == 0 || (Math.Sign(diff) == n && diff % Step == 0);
                         }
                     }
                 }

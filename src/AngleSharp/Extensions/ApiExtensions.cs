@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
-    using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
@@ -536,21 +535,6 @@
         #endregion
 
         #region Element extensions
-
-        /// <summary>
-        /// Gets the computed style of the given element from the current view.
-        /// </summary>
-        /// <param name="element">The element to compute the style for.</param>
-        /// <returns>The computed style declaration if available.</returns>
-        public static ICssStyleDeclaration ComputeCurrentStyle(this IElement element)
-        {
-            if (element == null)
-                throw new ArgumentNullException(nameof(element));
-
-            var document = element.Owner;
-            var window = document?.DefaultView;
-            return window?.GetComputedStyle(element);
-        }
 
         /// <summary>
         /// Sets the specified attribute name to the specified value for all

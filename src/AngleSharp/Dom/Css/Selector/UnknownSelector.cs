@@ -1,14 +1,13 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
     using System.IO;
 
     /// <summary>
     /// Represents an unknown / invalid selector.
     /// </summary>
-    sealed class UnknownSelector : CssNode, ISelector
+    sealed class UnknownSelector : ISelector
     {
         public Priority Specifity
         {
@@ -22,12 +21,13 @@
 
         public String Text
         {
-            get { return this.ToCss(); }
+            get;
+            set;
         }
 
-        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
+        public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            writer.Write(SourceCode?.Text);
+            writer.Write(Text ?? String.Empty);
         }
     }
 }

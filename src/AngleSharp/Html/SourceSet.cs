@@ -113,13 +113,7 @@
 
         private Double GetWidthFromLength(String length)
         {
-            var value = default(Length);
-
-            if (Length.TryParse(length, out value))
-            {
-                //TODO Compute Value from RenderDevice
-            }
-
+            //TODO Compute Value from RenderDevice
             return 0.0;
         }
 
@@ -136,10 +130,11 @@
 
                 if (!String.IsNullOrEmpty(length))
                 {
-                    if (String.IsNullOrEmpty(media) || _document.DefaultView.MatchMedia(media).IsMatched)
+                    //TODO
+                    /*if (String.IsNullOrEmpty(media) || _document.DefaultView.MatchMedia(media).IsMatched)
                     {
                         return GetWidthFromLength(length);
-                    }
+                    }*/
                 }
             }
 

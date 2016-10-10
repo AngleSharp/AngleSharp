@@ -9,13 +9,13 @@
     /// Represents a simple selector (either a type selector, universal
     /// selector, attribute, class, id or pseudo-class selector).
     /// </summary>
-    sealed class SimpleSelector : CssNode, ISelector
+    sealed class SimpleSelector : ISelector
     {
         #region Fields
 
-        readonly Predicate<IElement> _matches;
-        readonly Priority _specifity;
-        readonly String _code;
+        private readonly Predicate<IElement> _matches;
+        private readonly Priority _specifity;
+        private readonly String _code;
 
         #endregion
 
@@ -209,7 +209,7 @@
             return _matches(element);
         }
 
-        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
+        public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             writer.Write(Text);
         }
@@ -218,28 +218,28 @@
 
         #region Helpers
 
-        static Predicate<IElement> Select(String value, Predicate<IElement> predicate)
+        private static Predicate<IElement> Select(String value, Predicate<IElement> predicate)
         {
             return String.IsNullOrEmpty(value) ? (_ => false) : predicate;
         }
 
-        static String FormCode(String content)
+        private static String FormCode(String content)
         {
             return String.Concat("[", content, "]");
         }
 
-        static String FormCode(String name, String op, String value)
+        private static String FormCode(String name, String op, String value)
         {
             var content = String.Concat(name, op, value);
             return FormCode(content);
         }
 
-        static String FormFront(String prefix, String match)
+        private static String FormFront(String prefix, String match)
         {
             return String.Concat(prefix, CombinatorSymbols.Pipe, match);
         }
 
-        static String FormMatch(String prefix, String match)
+        private static String FormMatch(String prefix, String match)
         {
             return prefix.Is(Keywords.Asterisk) ? match : String.Concat(prefix, PseudoClassNames.Separator, match);
         }

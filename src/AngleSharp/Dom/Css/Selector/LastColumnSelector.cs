@@ -9,8 +9,8 @@
     /// </summary>
     sealed class LastColumnSelector : ChildSelector
     {
-        public LastColumnSelector()
-            : base(PseudoClassNames.NthLastColumn)
+        public LastColumnSelector(Int32 step, Int32 offset, ISelector kind)
+            : base(PseudoClassNames.NthLastColumn, step, offset, kind)
         {
         }
 
@@ -20,7 +20,7 @@
 
             if (parent != null)
             {
-                var n = Math.Sign(_step);
+                var n = Math.Sign(Step);
                 var k = 0;
 
                 for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
@@ -34,11 +34,11 @@
 
                         if (child == element)
                         {
-                            var diff = k - _offset;
+                            var diff = k - Offset;
 
                             for (var index = 0; index < span; index++, diff--)
                             {
-                                if (diff == 0 || (Math.Sign(diff) == n && diff % _step == 0))
+                                if (diff == 0 || (Math.Sign(diff) == n && diff % Step == 0))
                                 {
                                     return true;
                                 }

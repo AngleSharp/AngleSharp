@@ -8,7 +8,7 @@
     /// <summary>
     /// Represents the keyframe selector.
     /// </summary>
-    sealed class KeyframeSelector : CssNode, IKeyframeSelector
+    sealed class KeyframeSelector : IKeyframeSelector
     {
         #region Fields
 
@@ -41,7 +41,7 @@
 
         #region Methods
 
-        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
+        public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             if (_stops.Count > 0)
             {

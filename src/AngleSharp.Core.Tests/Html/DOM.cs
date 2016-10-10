@@ -2,12 +2,10 @@
 {
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Parser.Css;
     using NUnit.Framework;
     using System;
     using System.Linq;
@@ -416,26 +414,6 @@
         }
 
         [Test]
-        public void CSSStyleDeclarationEmpty()
-        {
-            var parser = new CssParser();
-            var css = new CssStyleDeclaration(parser);
-            Assert.AreEqual("", css.CssText);
-            Assert.AreEqual(0, css.Length);
-        }
-
-        [Test]
-        public void CSSStyleDeclarationUnbound()
-        {
-            var parser = new CssParser();
-            var css = new CssStyleDeclaration(parser);
-            var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
-            css.CssText = text;
-            Assert.AreEqual(text, css.CssText);
-            Assert.AreEqual(2, css.Length);
-        }
-
-        [Test]
         public void HtmlAnchorToggleProperties()
         {
             var document = new HtmlDocument();
@@ -478,44 +456,6 @@
             Assert.IsTrue(element.IsDisabled);
             Assert.IsTrue(element.IsDraggable);
             Assert.AreEqual("get", element.FormMethod);
-        }
-
-        [Test]
-        public void CSSStyleDeclarationBoundOutboundDirectionIndirect()
-        {
-            var context = BrowsingContext.New(Configuration.Default.WithCss());
-            var document = new HtmlDocument(context);
-            var element = document.CreateElement<IHtmlSpanElement>();
-            var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
-            element.SetAttribute("style", text);
-            Assert.AreEqual(text, element.Style.CssText);
-            Assert.AreEqual(2, element.Style.Length);
-        }
-
-        [Test]
-        public void CSSStyleDeclarationBoundOutboundDirectionDirect()
-        {
-            var context = BrowsingContext.New(Configuration.Default.WithCss());
-            var document = new HtmlDocument(context);
-            var element = document.CreateElement<IHtmlSpanElement>();
-            var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
-            element.SetAttribute("style", String.Empty);
-            Assert.AreEqual(String.Empty, element.Style.CssText);
-            element.SetAttribute("style", text);
-            Assert.AreEqual(text, element.Style.CssText);
-            Assert.AreEqual(2, element.Style.Length);
-        }
-
-        [Test]
-        public void CSSStyleDeclarationBoundInboundDirection()
-        {
-            var context = BrowsingContext.New(Configuration.Default.WithCss());
-            var document = new HtmlDocument(context);
-            var element = document.CreateElement<IHtmlSpanElement>();
-            var text = "background-color: rgb(255, 0, 0); color: rgb(0, 0, 0)";
-            element.Style.CssText = text;
-            Assert.AreEqual(text, element.GetAttribute("style"));
-            Assert.AreEqual(2, element.Style.Length);
         }
 
         [Test]

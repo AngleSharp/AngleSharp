@@ -14,8 +14,8 @@
 	{
 		#region Fields
 
-        Boolean _valueMode;
-        TextPosition _position;
+        private Boolean _valueMode;
+        private TextPosition _position;
 
         #endregion
 
@@ -86,7 +86,7 @@
         /// <summary>
         /// 4.4.1. Data state
         /// </summary>
-        CssToken Data(Char current)
+        private CssToken Data(Char current)
         {
             _position = GetCurrentPosition();
 
@@ -366,7 +366,7 @@
         /// <summary>
         /// 4.4.2. Double quoted string state
         /// </summary>
-        CssToken StringDQ()
+        private CssToken StringDQ()
         {
             while (true)
             {
@@ -414,7 +414,7 @@
         /// <summary>
         /// 4.4.3. Single quoted string state
         /// </summary>
-        CssToken StringSQ()
+        private CssToken StringSQ()
         {
             while (true)
             {
@@ -462,7 +462,7 @@
         /// <summary>
         /// Color literal state.
         /// </summary>
-        CssToken ColorLiteral()
+        private CssToken ColorLiteral()
         {
             var current = GetNext();
 
@@ -479,7 +479,7 @@
         /// <summary>
         /// 4.4.4. Hash state
         /// </summary>
-        CssToken HashStart()
+        private CssToken HashStart()
         {
             var current = GetNext();
 
@@ -510,7 +510,7 @@
         /// <summary>
         /// 4.4.5. Hash-rest state
         /// </summary>
-        CssToken HashRest()
+        private CssToken HashRest()
         {
             while (true)
             {
@@ -542,7 +542,7 @@
         /// <summary>
         /// 4.4.6. Comment state
         /// </summary>
-        CssToken Comment()
+        private CssToken Comment()
         {
             var current = GetNext();
 
@@ -573,7 +573,7 @@
         /// <summary>
         /// 4.4.7. At-keyword state
         /// </summary>
-        CssToken AtKeywordStart()
+        private CssToken AtKeywordStart()
         {
             var current = GetNext();
 
@@ -611,7 +611,7 @@
         /// <summary>
         /// 4.4.8. At-keyword-rest state
         /// </summary>
-        CssToken AtKeywordRest(Char current)
+        private CssToken AtKeywordRest(Char current)
         {
             while (true)
             {
@@ -637,7 +637,7 @@
         /// <summary>
         /// 4.4.9. Ident state
         /// </summary>
-        CssToken IdentStart(Char current)
+        private CssToken IdentStart(Char current)
         {
             if (current == Symbols.Minus)
             {
@@ -670,7 +670,7 @@
         /// <summary>
         /// 4.4.10. Ident-rest state
         /// </summary>
-        CssToken IdentRest(Char current)
+        private CssToken IdentRest(Char current)
         {
             while (true)
             {
@@ -686,8 +686,13 @@
                 else if (current == Symbols.RoundBracketOpen)
                 {
                     var name = FlushBuffer();
-                    var type = name.GetTypeFromName();
-                    return type == CssTokenType.Function ? NewFunction(name) : UrlStart(name);
+
+                    if (name.Isi(Keywords.Url))
+                    {
+                        return UrlStart(name);
+                    }
+                    
+                    return NewFunction(name);
                 }
                 else
                 {
@@ -702,7 +707,7 @@
         /// <summary>
         /// 4.4.11. Transform-function-whitespace state
         /// </summary>
-        CssToken TransformFunctionWhitespace(Char current)
+        private CssToken TransformFunctionWhitespace(Char current)
         {
             while (true)
             {
@@ -724,7 +729,7 @@
         /// <summary>
         /// 4.4.12. Number state
         /// </summary>
-        CssToken NumberStart(Char current)
+        private CssToken NumberStart(Char current)
         {
             while (true)
             {
@@ -762,7 +767,7 @@
         /// <summary>
         /// 4.4.13. Number-rest state
         /// </summary>
-        CssToken NumberRest()
+        private CssToken NumberRest()
         {
             var current = GetNext();
 
@@ -827,7 +832,7 @@
         /// <summary>
         /// 4.4.14. Number-fraction state
         /// </summary>
-        CssToken NumberFraction()
+        private CssToken NumberFraction()
         {
             var current = GetNext();
 
@@ -879,7 +884,7 @@
         /// <summary>
         /// 4.4.15. Dimension state
         /// </summary>
-        CssToken Dimension(String number)
+        private CssToken Dimension(String number)
         {
             while (true)
             {
@@ -905,7 +910,7 @@
         /// <summary>
         /// 4.4.16. SciNotation state
         /// </summary>
-        CssToken SciNotation()
+        private CssToken SciNotation()
         {
             while (true)
             {
@@ -926,7 +931,7 @@
         /// <summary>
         /// 4.4.17. URL state
         /// </summary>
-        CssToken UrlStart(String functionName)
+        private CssToken UrlStart(String functionName)
         {
             var current = SkipSpaces();
 
@@ -953,7 +958,7 @@
         /// <summary>
         /// 4.4.18. URL-double-quoted state
         /// </summary>
-        CssToken UrlDQ(String functionName)
+        private CssToken UrlDQ(String functionName)
         {
             while (true)
             {
@@ -1001,7 +1006,7 @@
         /// <summary>
         /// 4.4.19. URL-single-quoted state
         /// </summary>
-        CssToken UrlSQ(String functionName)
+        private CssToken UrlSQ(String functionName)
         {
             while (true)
             {
@@ -1049,7 +1054,7 @@
         /// <summary>
         /// 4.4.21. URL-unquoted state
         /// </summary>
-        CssToken UrlUQ(Char current, String functionName)
+        private CssToken UrlUQ(Char current, String functionName)
         {
             while (true)
             {
@@ -1088,7 +1093,7 @@
         /// <summary>
         /// 4.4.20. URL-end state
         /// </summary>
-        CssToken UrlEnd(String functionName)
+        private CssToken UrlEnd(String functionName)
         {
             while (true)
             {
@@ -1110,7 +1115,7 @@
         /// <summary>
         /// 4.4.22. Bad URL state
         /// </summary>
-        CssToken UrlBad(String functionName)
+        private CssToken UrlBad(String functionName)
         {
             var current = Current;
             var curly = 0;
@@ -1161,7 +1166,7 @@
         /// <summary>
         /// 4.4.23. Unicode-range State
         /// </summary>
-        CssToken UnicodeRange(Char current)
+        private CssToken UnicodeRange(Char current)
         {
             for (var i = 0; i < 6 && current.IsHex(); i++)
             {
@@ -1225,97 +1230,97 @@
 
         #region Tokens
 
-        CssToken NewMatch(String match)
+        private CssToken NewMatch(String match)
         {
             return new CssToken(CssTokenType.Match, match, _position);
         }
 
-        CssToken NewColumn()
+        private CssToken NewColumn()
         {
             return new CssToken(CssTokenType.Column, CombinatorSymbols.Column, _position);
         }
 
-        CssToken NewCloseCurly()
+        private CssToken NewCloseCurly()
         {
             return new CssToken(CssTokenType.CurlyBracketClose, "}", _position);
         }
 
-        CssToken NewOpenCurly()
+        private CssToken NewOpenCurly()
         {
             return new CssToken(CssTokenType.CurlyBracketOpen, "{", _position);
         }
 
-        CssToken NewCloseSquare()
+        private CssToken NewCloseSquare()
         {
             return new CssToken(CssTokenType.SquareBracketClose, "]", _position);
         }
 
-        CssToken NewOpenSquare()
+        private CssToken NewOpenSquare()
         {
             return new CssToken(CssTokenType.SquareBracketOpen, "[", _position);
         }
 
-        CssToken NewOpenComment()
+        private CssToken NewOpenComment()
         {
             return new CssToken(CssTokenType.Cdo, "<!--", _position);
         }
 
-        CssToken NewSemicolon()
+        private CssToken NewSemicolon()
         {
             return new CssToken(CssTokenType.Semicolon, ";", _position);
         }
 
-        CssToken NewColon()
+        private CssToken NewColon()
         {
             return new CssToken(CssTokenType.Colon, ":", _position);
         }
 
-        CssToken NewCloseComment()
+        private CssToken NewCloseComment()
         {
             return new CssToken(CssTokenType.Cdc, "-->", _position);
         }
 
-        CssToken NewComma()
+        private CssToken NewComma()
         {
             return new CssToken(CssTokenType.Comma, ",", _position);
         }
 
-        CssToken NewCloseRound()
+        private CssToken NewCloseRound()
         {
             return new CssToken(CssTokenType.RoundBracketClose, ")", _position);
         }
 
-        CssToken NewOpenRound()
+        private CssToken NewOpenRound()
         {
             return new CssToken(CssTokenType.RoundBracketOpen, "(", _position);
         }
 
-        CssToken NewString(String value, Char quote, Boolean bad = false)
+        private CssToken NewString(String value, Char quote, Boolean bad = false)
         {
             return new CssStringToken(value, bad, quote, _position);
         }
 
-        CssToken NewHash(String value)
+        private CssToken NewHash(String value)
         {
             return new CssKeywordToken(CssTokenType.Hash, value, _position);
         }
 
-        CssToken NewComment(String value, Boolean bad = false)
+        private CssToken NewComment(String value, Boolean bad = false)
         {
             return new CssCommentToken(value, bad, _position);
         }
 
-        CssToken NewAtKeyword(String value)
+        private CssToken NewAtKeyword(String value)
         {
             return new CssKeywordToken(CssTokenType.AtKeyword, value, _position);
         }
 
-        CssToken NewIdent(String value)
+        private CssToken NewIdent(String value)
         {
             return new CssKeywordToken(CssTokenType.Ident, value, _position);
         }
 
-        CssToken NewFunction(String value)
+        private CssToken NewFunction(String value)
         {
             var function = new CssFunctionToken(value, _position);
             var token = Get();
@@ -1333,52 +1338,52 @@
             return function;
         }
 
-        CssToken NewPercentage(String value)
+        private CssToken NewPercentage(String value)
         {
             return new CssUnitToken(CssTokenType.Percentage, value, "%", _position);
         }
 
-        CssToken NewDimension(String value, String unit)
+        private CssToken NewDimension(String value, String unit)
         {
             return new CssUnitToken(CssTokenType.Dimension, value, unit, _position);
         }
 
-        CssToken NewUrl(String functionName, String data, Boolean bad = false)
+        private CssToken NewUrl(String functionName, String data, Boolean bad = false)
         {
             return new CssUrlToken(functionName, data, bad, _position);
         }
 
-        CssToken NewRange(String range)
+        private CssToken NewRange(String range)
         {
             return new CssRangeToken(range, _position);
         }
 
-        CssToken NewRange(String start, String end)
+        private CssToken NewRange(String start, String end)
         {
             return new CssRangeToken(start, end, _position);
         }
 
-        CssToken NewWhitespace(Char c)
+        private CssToken NewWhitespace(Char c)
         {
             return new CssToken(CssTokenType.Whitespace, c.ToString(), _position);
         }
 
-        CssToken NewNumber(String number)
+        private CssToken NewNumber(String number)
         {
             return new CssNumberToken(number, _position);
         }
 
-        CssToken NewDelimiter(Char c)
+        private CssToken NewDelimiter(Char c)
         {
             return new CssToken(CssTokenType.Delim, c.ToString(), _position);
         }
 
-        CssToken NewColor(String text)
+        private CssToken NewColor(String text)
         {
             return new CssColorToken(text, _position);
         }
 
-        CssToken NewEof()
+        private CssToken NewEof()
         {
             return new CssToken(CssTokenType.EndOfFile, String.Empty, _position);
         }
@@ -1387,7 +1392,7 @@
 
         #region Helpers
 
-        CssToken NumberExponential(Char letter)
+        private CssToken NumberExponential(Char letter)
         {
             var current = GetNext();
 
@@ -1416,7 +1421,7 @@
             return Dimension(number);
         }
 
-        CssToken NumberDash()
+        private CssToken NumberDash()
         {
             var current = GetNext();
 
@@ -1440,7 +1445,7 @@
             }
         }
 
-        String ConsumeEscape(Char current)
+        private String ConsumeEscape(Char current)
         {
             if (current.IsHex())
             {
@@ -1473,7 +1478,7 @@
             return current.ToString();
         }
 
-        Boolean IsValidEscape(Char current)
+        private Boolean IsValidEscape(Char current)
         {
             if (current == Symbols.ReverseSolidus)
             {
@@ -1486,7 +1491,7 @@
             return false;
         }
 
-        void RaiseErrorOccurred(CssParseError code)
+        private void RaiseErrorOccurred(CssParseError code)
         {
             RaiseErrorOccurred(code, GetCurrentPosition());
         }

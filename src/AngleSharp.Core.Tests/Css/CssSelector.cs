@@ -7,26 +7,9 @@
     [TestFixture]
     public class CssSelectorTests
     {
-        IDocument document;
-
-        [SetUp]
-        public void Setup()
+        private static IHtmlCollection<IElement> RunQuery(String query)
         {
-            document = Assets.selectors.ToHtmlDocument();
-        }
-
-        string GetAttributeValue(INode node, String attrName)
-        {
-            var element = node as IElement;
-
-            if (element != null)
-                return element.GetAttribute(attrName);
-
-            return null;
-        }
-
-        IHtmlCollection<IElement> RunQuery(String query)
-        {
+            var document = Assets.selectors.ToHtmlDocument();
             return document.QuerySelectorAll(query);
         }
 
@@ -565,7 +548,8 @@
         {
             var results = RunQuery("p[class!='hiclass']");
             Assert.AreEqual(2, results.Length);
-            Assert.IsNull(GetAttributeValue(results[0], "class"));
+            var value = ((IElement)results[0]).GetAttribute("class");
+            Assert.IsNull(value);
             Assert.AreEqual("eeeee", results[1].TextContent);
         }
 

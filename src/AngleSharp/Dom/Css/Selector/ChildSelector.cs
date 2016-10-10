@@ -8,22 +8,25 @@
     /// <summary>
     /// Base class for all nth-child (or related) selectors.
     /// </summary>
-    abstract class ChildSelector : CssNode, ISelector
+    abstract class ChildSelector : ISelector
     {
         #region Fields
 
-        readonly String _name;
-        protected Int32 _step;
-        protected Int32 _offset;
-        protected ISelector _kind;
+        private readonly String _name;
+        private readonly Int32 _step;
+        private readonly Int32 _offset;
+        private readonly ISelector _kind;
 
         #endregion
 
         #region ctor
 
-        public ChildSelector(String name)
+        public ChildSelector(String name, Int32 step, Int32 offset, ISelector kind)
         {
             _name = name;
+            _step = step;
+            _offset = offset;
+            _kind = kind;
         }
 
         #endregion
@@ -40,17 +43,29 @@
             get { return this.ToCss(); }
         }
 
+        public String Name
+        {
+            get { return _name; }
+        }
+
+        public Int32 Step
+        {
+            get { return _step; }
+        }
+
+        public Int32 Offset
+        {
+            get { return _offset; }
+        }
+
+        public ISelector Kind
+        {
+            get { return _kind; }
+        }
+
         #endregion
 
         #region Methods
-
-        internal ChildSelector With(Int32 step, Int32 offset, ISelector kind)
-        {
-            _step = step;
-            _offset = offset;
-            _kind = kind;
-            return this;
-        }
 
         public abstract Boolean Match(IElement element);
 
@@ -58,7 +73,7 @@
 
         #region String Representation
 
-        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
+        public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             var a = _step.ToString();
             var b = String.Empty;

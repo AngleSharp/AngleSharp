@@ -73,26 +73,6 @@
             get { return _host.ShadowRoot; }
         }
 
-        public ICssStyleDeclaration CascadedStyle
-        {
-            get { return Owner.DefaultView.GetStyleCollection().ComputeCascadedStyle(this); }
-        }
-
-        public ICssStyleDeclaration DefaultStyle
-        {
-            get { return Owner.DefaultView.ComputeDefaultStyle(this); }
-        }
-
-        public ICssStyleDeclaration RawComputedStyle
-        {
-            get { return Owner.DefaultView.ComputeRawStyle(this); }
-        }
-
-        public ICssStyleDeclaration UsedStyle
-        {
-            get { return Owner.DefaultView.ComputeUsedStyle(this); }
-        }
-
         public String Prefix
         {
             get { return _host.Prefix; }

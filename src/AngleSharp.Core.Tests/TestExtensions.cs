@@ -3,9 +3,7 @@
     using AngleSharp.Core.Tests.External;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Css;
     using AngleSharp.Network;
-    using AngleSharp.Parser.Css;
     using AngleSharp.Parser.Html;
     using AngleSharp.Parser.Xml;
     using AngleSharp.Services.Scripting;
@@ -71,12 +69,6 @@
             return xmlParser.Parse(sourceCode);
         }
 
-        public static ICssStyleSheet ToCssStylesheet(this String sourceCode, IConfiguration configuration = null)
-        {
-            var parser = new CssParser(configuration);
-            return parser.ParseStylesheet(sourceCode);
-        }
-
         public static INodeList ToHtmlFragment(this String sourceCode, IElement context = null, IConfiguration configuration = null)
         {
             var parser = new HtmlParser(configuration);
@@ -94,12 +86,6 @@
         {
             var parser = new HtmlParser(configuration);
             return parser.Parse(content);
-        }
-
-        public static ICssStyleSheet ToCssStylesheet(this Stream content, IConfiguration configuration = null)
-        {
-            var parser = new CssParser(configuration);
-            return parser.ParseStylesheet(content);
         }
     }
 }
