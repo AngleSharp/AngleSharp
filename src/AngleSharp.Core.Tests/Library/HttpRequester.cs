@@ -323,7 +323,7 @@
             var filtered = new List<IRequest>();
             requester.OnRequest = request => requests.Add(request);
             var content = "<!doctype><html><link rel=stylesheet type=text/css href=test.css><div><img src=foo.jpg><iframe src=test.html></iframe></div>";
-            var config = Configuration.Default.WithCss().WithDefaultLoader(setup =>
+            var config = Configuration.Default.WithDefaultLoader(setup =>
             {
                 setup.IsResourceLoadingEnabled = true;
                 setup.Filter = request =>
@@ -354,7 +354,7 @@
                 var address = "https://serverspace.ae";
                 var requesters = new IRequester[] { new DataRequester(), new HttpRequester() };
                 var cts = new CancellationTokenSource();
-                var config = Configuration.Default.WithCss().WithDefaultLoader(c => c.IsResourceLoadingEnabled = true, requesters);
+                var config = Configuration.Default.WithDefaultLoader(c => c.IsResourceLoadingEnabled = true, requesters);
 
                 var context = BrowsingContext.New(config);
                 var url = Url.Create(address);

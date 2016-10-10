@@ -118,7 +118,6 @@
     <Compile Include="Css\CssTokenization.cs" />
     <Compile Include="Css\CssSelector.cs" />
     <Compile Include="Css\CssW3CSelector.cs" />
-    <Compile Include="Library\AnalysisWindow.cs" />
     <Compile Include="Html\DOM.cs" />
     <Compile Include="Html\HtmlComment.cs" />
     <Compile Include="Html\ScriptData.cs" />
