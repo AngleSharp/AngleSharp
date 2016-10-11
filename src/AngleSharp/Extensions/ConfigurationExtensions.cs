@@ -98,16 +98,16 @@
 
         #region Cookies
         
-        public static String GetCookie(this IConfiguration configuration, String origin)
+        public static String GetCookie(this IConfiguration configuration, Url url)
         {
             var provider = configuration.GetProvider<ICookieProvider>();
-            return provider?.GetCookie(origin) ?? String.Empty;
+            return provider?.GetCookie(url) ?? String.Empty;
         }
         
-        public static void SetCookie(this IConfiguration configuration, String origin, String value)
+        public static void SetCookie(this IConfiguration configuration, Url url, String value)
         {
             var provider = configuration.GetProvider<ICookieProvider>();
-            provider?.SetCookie(origin, value);
+            provider?.SetCookie(url, value);
         }
 
         #endregion
