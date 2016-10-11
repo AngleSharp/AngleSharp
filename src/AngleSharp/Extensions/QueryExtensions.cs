@@ -3,7 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
-    using Parser.Css;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
 
@@ -78,7 +78,7 @@
         public static HtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String tagName)
         {
             var result = new List<IElement>();
-            elements.GetElementsByTagName(tagName.Is(Keywords.Asterisk) ? null : tagName, result);
+            elements.GetElementsByTagName(tagName.Is("*") ? null : tagName, result);
             return new HtmlCollection<IElement>(result);
         }
 
@@ -93,7 +93,7 @@
         public static HtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String namespaceUri, String localName)
         {
             var result = new List<IElement>();
-            elements.GetElementsByTagName(namespaceUri, localName.Is(Keywords.Asterisk) ? null : localName, result);
+            elements.GetElementsByTagName(namespaceUri, localName.Is("*") ? null : localName, result);
             return new HtmlCollection<IElement>(result);
         }
 

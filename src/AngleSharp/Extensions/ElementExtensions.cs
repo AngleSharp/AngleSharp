@@ -99,7 +99,7 @@
         /// <returns>True if the namespace is matched, else false.</returns>
         public static Boolean MatchesCssNamespace(this IElement el, String prefix)
         {
-            if (prefix.Is(Keywords.Asterisk))
+            if (prefix.Is("*"))
             {
                 return true;
             }

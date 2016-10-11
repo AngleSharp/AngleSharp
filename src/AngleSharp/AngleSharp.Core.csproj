@@ -271,7 +271,7 @@
     <Compile Include="Dom\Events\UiEvent.cs" />
     <Compile Include="Dom\Events\WheelEvent.cs" />
     <Compile Include="Dom\EventTarget.cs" />
-    <Compile Include="Foundation\Keywords.cs" />
+    <Compile Include="Html\Keywords.cs" />
     <Compile Include="Extensions\AttrExtensions.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Dom\Collections\HtmlAllCollection.cs" />

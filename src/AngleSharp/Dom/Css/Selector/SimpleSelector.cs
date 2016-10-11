@@ -22,7 +22,7 @@
         #region ctor
 
         public SimpleSelector()
-            : this(_ => true, Priority.Zero, Keywords.Asterisk)
+            : this(_ => true, Priority.Zero, "*")
         {
         }
 
@@ -241,7 +241,7 @@
 
         private static String FormMatch(String prefix, String match)
         {
-            return prefix.Is(Keywords.Asterisk) ? match : String.Concat(prefix, PseudoClassNames.Separator, match);
+            return prefix.Is("*") ? match : String.Concat(prefix, PseudoClassNames.Separator, match);
         }
 
         #endregion

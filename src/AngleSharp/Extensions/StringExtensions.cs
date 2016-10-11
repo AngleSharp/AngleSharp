@@ -2,7 +2,8 @@
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
-    using Network;
+    using AngleSharp.Html;
+    using AngleSharp.Network;
     using System;
     using System.Collections.Generic;
     using System.Globalization;

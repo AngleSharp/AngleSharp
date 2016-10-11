@@ -5,6 +5,7 @@
     using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
@@ -240,7 +241,7 @@
                     _state = State.Attribute;
                     _attrNs = String.Empty;
                 }
-                else if (token.Type == CssTokenType.Delim && token.Data.Is(Keywords.Asterisk))
+                else if (token.Type == CssTokenType.Delim && token.Data.Is("*"))
                 {
                     _state = State.AttributeOperator;
                     _attrName = token.ToValue();
