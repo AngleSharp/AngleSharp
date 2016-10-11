@@ -5,12 +5,13 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.IO;
 
     /// <summary>
     /// A list of selectors, which is the basis for CompoundSelector and
     /// SelectorGroup.
     /// </summary>
-    abstract class Selectors : CssNode, IEnumerable<ISelector>
+    abstract class Selectors : IEnumerable<ISelector>, IStyleFormattable
     {
         #region Fields
 
@@ -63,6 +64,8 @@
         #endregion
 
         #region Methods
+
+        public abstract void ToCss(TextWriter writer, IStyleFormatter formatter);
 
         public void Add(ISelector selector)
         {

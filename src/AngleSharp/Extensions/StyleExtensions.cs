@@ -3,7 +3,6 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
-    using AngleSharp.Dom.Html;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,44 +12,6 @@
     /// </summary>
     static class StyleExtensions
     {
-        /// <summary>
-        /// Computes the declarations for the given element in the context of
-        /// the specified styling rules.
-        /// </summary>
-        /// <param name="rules">The styles to use.</param>
-        /// <param name="element">The element that is questioned.</param>
-        /// <param name="pseudoSelector">The optional pseudo selector to use.</param>
-        /// <returns>The style declaration containing all the declarations.</returns>
-        public static CssStyleDeclaration ComputeDeclarations(this StyleCollection rules, IElement element, String pseudoSelector = null)
-        {
-            var computedStyle = new CssStyleDeclaration();
-            var pseudoElement = PseudoElement.Create(element, pseudoSelector);
-
-            if (pseudoElement != null)
-            {
-                element = pseudoElement;
-            }
-
-            computedStyle.SetDeclarations(rules.ComputeCascadedStyle(element).Declarations);
-            var htmlElement = element as IHtmlElement;
-
-            if (htmlElement != null)
-            {
-                var declarations = htmlElement.Style.OfType<CssProperty>();
-                computedStyle.SetDeclarations(declarations);
-            }
-
-            var nodes = element.GetAncestors().OfType<IElement>();
-
-            foreach (var node in nodes)
-            {
-                var style = rules.ComputeCascadedStyle(node);
-                computedStyle.UpdateDeclarations(style.Declarations);
-            }
-
-            return computedStyle;
-        }
-
         /// <summary>
         /// Gets all possible style sheet sets from the list of style sheets.
         /// </summary>
@@ -183,18 +144,16 @@
         {
             foreach (var sheet in sheets)
             {
-                var css = sheet as CssStyleSheet;
+                var css = sheet as ICssStyleSheet;
 
-                if (sheet.IsDisabled || css == null)
+                if (!sheet.IsDisabled && css != null)
                 {
-                    continue;
-                }
-
-                foreach (var rule in css.Rules.OfType<CssNamespaceRule>())
-                {
-                    if (rule.Prefix.Is(prefix))
+                    foreach (var rule in css.Rules.OfType<ICssNamespaceRule>())
                     {
-                        return rule.NamespaceUri;
+                        if (rule.Prefix.Is(prefix))
+                        {
+                            return rule.NamespaceUri;
+                        }
                     }
                 }
             }

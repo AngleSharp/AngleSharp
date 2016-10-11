@@ -3,7 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
-    using AngleSharp.Parser.Css;
+    using Parser.Css;
     using System;
     using System.Collections.Generic;
 
@@ -23,8 +23,11 @@
         /// <returns>An element object.</returns>
         public static IElement QuerySelector(this INodeList elements, String selectors)
         {
-            var sg = CssParser.Default.ParseSelector(selectors);
-            Validate(sg);
+            var sg = CreateSelector(selectors);
+
+            if (sg == null || sg is UnknownSelector)
+                throw new DomException(DomError.Syntax);
+
             return elements.QuerySelector(sg);
         }
 
@@ -37,8 +40,11 @@
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
         public static HtmlCollection<IElement> QuerySelectorAll(this INodeList elements, String selectors)
         {
-            var sg = CssParser.Default.ParseSelector(selectors);
-            Validate(sg);
+            var sg = CreateSelector(selectors);
+
+            if (sg == null || sg is UnknownSelector)
+                throw new DomException(DomError.Syntax);
+
             var result = new List<IElement>();
             elements.QuerySelectorAll(sg, result);
             return new HtmlCollection<IElement>(result);
@@ -291,10 +297,9 @@
 
         #region Helpers
 
-        private static void Validate(ISelector selector)
+        private static ISelector CreateSelector(String selector)
         {
-            if (selector == null || selector is UnknownSelector)
-                throw new DomException(DomError.Syntax);
+            return CssSelectorParser.Default.ParseSelector(selector);
         }
 
         #endregion

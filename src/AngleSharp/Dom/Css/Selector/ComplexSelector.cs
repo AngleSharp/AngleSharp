@@ -11,11 +11,11 @@
     /// Represents a complex selector, i.e. one or more compound selectors
     /// separated by combinators.
     /// </summary>
-    sealed class ComplexSelector : CssNode, ISelector
+    sealed class ComplexSelector : ISelector
     {
         #region Fields
 
-        readonly List<CombinatorSelector> _selectors;
+        private readonly List<CombinatorSelector> _selectors;
 
         #endregion
 
@@ -66,7 +66,7 @@
 
         #region Methods
 
-        public override void ToCss(TextWriter writer, IStyleFormatter formatter)
+        public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
             if (_selectors.Count > 0)
             {
@@ -125,7 +125,7 @@
 
         #region Helpers
 
-        Boolean MatchCascade(Int32 pos, IElement element)
+        private Boolean MatchCascade(Int32 pos, IElement element)
         {
             var newElements = _selectors[pos].Transform(element);
 
@@ -147,7 +147,7 @@
 
         #region Nested Structure
 
-        struct CombinatorSelector
+        private struct CombinatorSelector
         {
             public String Delimiter;
             public Func<IElement, IEnumerable<IElement>> Transform;

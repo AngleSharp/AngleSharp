@@ -9,8 +9,8 @@
     /// </summary>
     sealed class FirstColumnSelector : ChildSelector
     {
-        public FirstColumnSelector()
-            : base(PseudoClassNames.NthColumn)
+        public FirstColumnSelector(Int32 step, Int32 offset, ISelector kind)
+            : base(PseudoClassNames.NthColumn, step, offset, kind)
         {
         }
 
@@ -20,7 +20,7 @@
 
             if (parent != null)
             {
-                var n = Math.Sign(_step);
+                var n = Math.Sign(Step);
                 var k = 0;
 
                 for (var i = 0; i < parent.ChildNodes.Length; i++)
@@ -34,11 +34,11 @@
 
                         if (child == element)
                         {
-                            var diff = k - _offset;
+                            var diff = k - Offset;
 
                             for (var index = 0; index < span; index++, diff--)
                             {
-                                if (diff == 0 || (Math.Sign(diff) == n && diff % _step == 0))
+                                if (diff == 0 || (Math.Sign(diff) == n && diff % Step == 0))
                                 {
                                     return true;
                                 }

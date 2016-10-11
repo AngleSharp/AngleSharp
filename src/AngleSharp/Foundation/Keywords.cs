@@ -5,7 +5,7 @@
     /// <summary>
     /// The collection of used keywords and strings.
     /// </summary>
-    static class Keywords
+    public static class Keywords
     {
         /// <summary>
         /// The important keyword.
@@ -1352,74 +1352,9 @@
         /// </summary>
         public static readonly String Even = "even";
 
-		/// <summary>
-		/// The distribute keyword.
-		/// </summary>
-		public static readonly String Distribute = "distribute";
-
-		/// <summary>
-		/// The distribute-all-line keyword.
-		/// </summary>
-		public static readonly String DistributeAllLines = "distribute-all-lines";
-
-		/// <summary>
-		/// The distribute-center-last" keyword.
-		/// </summary>
-		public static readonly String DistributeCenterLast = "distribute-center-last";
-
-		/// <summary>
-		/// The inter-cluster keyword.
-		/// </summary>
-		public static readonly String InterCluster = "inter-cluster";
-
-		/// <summary>
-		/// The inter-ideograph keyword.
-		/// </summary>
-		public static readonly String InterIdeograph = "inter-ideograph";
-
-		/// <summary>
-		/// The inter-word keyword.
-		/// </summary>
-		public static readonly String InterWord = "inter-word";
-
-		/// <summary>
-		/// The kashida keyword.
-		/// </summary>
-		public static readonly String Kashida = "kashida";
-
-		/// <summary>
-		/// The newspaper keyword.
-		/// </summary>
-		public static readonly String Newspaper = "newspaper";
-
         /// <summary>
-		/// The Butt keyword.
-		/// </summary>
-		public static readonly String Butt = "butt";
-
-		/// <summary>
-		/// The miter keyword.
-		/// </summary>
-		public static readonly String Miter = "miter";
-
-		/// <summary>
-		/// The bevel keyword.
-		/// </summary>
-		public static readonly String Bevel = "bevel";
-
-		/// <summary>
-		/// The break-all keyword.
-		/// </summary>
-		public static readonly String BreakAll = "break-all";
-
-		/// <summary>
-		/// The keep-all keyword.
-		/// </summary>
-		public static readonly String KeepAll = "keep-all";
-
-		/// <summary>
-		/// The break-all keyword.
-		/// </summary>
-		public static readonly String BreakWord = "break-word";
-	}
+        /// The url keyword.
+        /// </summary>
+        public static readonly String Url = "url";
+    }
 }

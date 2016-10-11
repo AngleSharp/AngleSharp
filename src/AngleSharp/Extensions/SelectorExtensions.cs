@@ -2,7 +2,7 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Css;
-    using AngleSharp.Parser.Css;
+    using Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -299,7 +299,7 @@
 
         private static ISelector CreateSelector(String selector)
         {
-            return CssParser.Default.ParseSelector(selector);
+            return CssSelectorParser.Default.ParseSelector(selector);
         }
 
         #endregion

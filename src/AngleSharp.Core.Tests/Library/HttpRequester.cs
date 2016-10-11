@@ -322,8 +322,8 @@
             var requests = new List<IRequest>();
             var filtered = new List<IRequest>();
             requester.OnRequest = request => requests.Add(request);
-            var content = "<!doctype><html><link rel=stylesheet type=text/css href=test.css><div><img src=foo.jpg><iframe src=test.html></iframe></div>";
-            var config = Configuration.Default.WithCss().WithDefaultLoader(setup =>
+            var content = "<!doctype><html><div><img src=foo.jpg><iframe src=test.html></iframe></div>";
+            var config = Configuration.Default.WithDefaultLoader(setup =>
             {
                 setup.IsResourceLoadingEnabled = true;
                 setup.Filter = request =>
@@ -340,10 +340,9 @@
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(m => m.Content(content).Address("http://localhost"));
             Assert.IsNotNull(document);
-            Assert.AreEqual(2, requests.Count);
-            Assert.AreEqual(3, filtered.Count);
-            Assert.IsTrue(requests.Any(m => m.Address.Path == "test.css"));
-            Assert.IsTrue(requests.Any(m => m.Address.Path == "test.html"));
+            Assert.AreEqual(1, requests.Count);
+            Assert.AreEqual(2, filtered.Count);
+            Assert.AreEqual("test.html", requests[0].Address.Path);
         }
 
         [Test]
@@ -354,7 +353,7 @@
                 var address = "https://serverspace.ae";
                 var requesters = new IRequester[] { new DataRequester(), new HttpRequester() };
                 var cts = new CancellationTokenSource();
-                var config = Configuration.Default.WithCss().WithDefaultLoader(c => c.IsResourceLoadingEnabled = true, requesters);
+                var config = Configuration.Default.WithDefaultLoader(c => c.IsResourceLoadingEnabled = true, requesters);
 
                 var context = BrowsingContext.New(config);
                 var url = Url.Create(address);

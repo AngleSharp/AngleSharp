@@ -398,7 +398,8 @@
 
         public Boolean Matches(String selectors)
         {
-            return CssParser.Default.ParseSelector(selectors).Match(this);
+            var selector = CssSelectorParser.Default.ParseSelector(selectors);
+            return selector.Match(this);
         }
 
         public override INode Clone(Boolean deep = true)

@@ -24,8 +24,6 @@
             Factory.AttributeSelector,
             Factory.InputTypes,
             Factory.LinkRelations,
-            Factory.MediaFeatures,
-            Factory.Properties,
             Factory.PseudoClassSelector,
             Factory.PseudoElementSelector,
             Factory.Document,

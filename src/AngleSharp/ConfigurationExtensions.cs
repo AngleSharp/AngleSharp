@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Dom.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Network.Default;
@@ -96,34 +95,6 @@
         public static Configuration SetCulture(this IConfiguration configuration, CultureInfo culture)
         {
             return configuration.With(culture);
-        }
-
-        #endregion
-
-        #region Styling
-
-        /// <summary>
-        /// Registers the default styling service with a new CSS style engine
-        /// to retrieve, if no other styling service has been registered yet.
-        /// </summary>
-        /// <param name="configuration">The configuration to extend.</param>
-        /// <param name="setup">Optional setup for the style engine.</param>
-        /// <returns>The new instance with the service.</returns>
-        public static IConfiguration WithCss(this IConfiguration configuration, Action<CssStyleEngine> setup = null)
-        {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
-            
-            if (!configuration.GetServices<IStylingProvider>().Any())
-            {
-                var service = new StylingService();
-                var engine = new CssStyleEngine();
-                setup?.Invoke(engine);
-                service.Register(engine);
-                return configuration.With(service);
-            }
-
-            return configuration;
         }
 
         #endregion

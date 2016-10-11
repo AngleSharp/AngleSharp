@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Dom.Css;
 
     /// <summary>
     /// The PseudoElement interface is used for representing CSS
@@ -9,7 +8,7 @@
     /// </summary>
     [DomName("PseudoElement")]
     [DomNoInterfaceObject]
-    public interface IPseudoElement : IStyleUtilities
+    public interface IPseudoElement : IElement
     {
     }
 }

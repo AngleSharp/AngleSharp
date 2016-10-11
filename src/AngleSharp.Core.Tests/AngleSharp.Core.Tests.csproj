@@ -62,36 +62,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Assets.resx</DependentUpon>
     </Compile>
-    <Compile Include="Css\CssCases.cs" />
-    <Compile Include="Css\CssConstructionFunctions.cs" />
-    <Compile Include="Css\CssContentProperty.cs" />
-    <Compile Include="Css\CssDocumentFunction.cs" />
-    <Compile Include="Css\CssImportRule.cs" />
-    <Compile Include="Css\CssObjectSizing.cs" />
-    <Compile Include="Css\CssOmCreators.cs" />
-    <Compile Include="Css\CssProperty.cs" />
-    <Compile Include="Css\CssFontProperty.cs" />
-    <Compile Include="Css\CssPaddingProperty.cs" />
-    <Compile Include="Css\CssMarginProperty.cs" />
-    <Compile Include="Css\CssOutlineProperty.cs" />
-    <Compile Include="Css\CssCoordinateProperty.cs" />
-    <Compile Include="Css\CssListProperty.cs" />
-    <Compile Include="Css\CssStrokeProperty.cs" />
-    <Compile Include="Css\CssSupports.cs" />
-    <Compile Include="Css\CssTextProperty.cs" />
-    <Compile Include="Css\CssTransformProperty.cs" />
-    <Compile Include="Css\CssBorderRadiusProperty.cs" />
-    <Compile Include="Css\CssColumnsProperty.cs" />
-    <Compile Include="Css\CssBackgroundProperty.cs" />
-    <Compile Include="Css\CssBorderProperty.cs" />
-    <Compile Include="Css\CssBorderImageProperty.cs" />
-    <Compile Include="Css\CssTransitionProperty.cs" />
-    <Compile Include="Css\CssAnimationProperty.cs" />
-    <Compile Include="Css\CssMediaList.cs" />
-    <Compile Include="Css\FontFace.cs" />
-    <Compile Include="Css\CssKeyframeRule.cs" />
-    <Compile Include="Css\Gradient.cs" />
-    <Compile Include="Css\CssMediaFeatures.cs" />
     <Compile Include="Css\Slickspeed.cs" />
     <Compile Include="Css\WebsiteQuery.cs" />
     <Compile Include="External\MemoryStreamExtensions.cs" />
@@ -119,7 +89,6 @@
     <Compile Include="Html\ValidityTooShort.cs" />
     <Compile Include="Html\ValidityValueMissing.cs" />
     <Compile Include="Html\WillValidate.cs" />
-    <Compile Include="Library\BasicStyling.cs" />
     <Compile Include="Library\ContextLoading.cs" />
     <Compile Include="Library\CookieHandling.cs" />
     <Compile Include="Library\DataRequester.cs" />
@@ -139,19 +108,16 @@
     <Compile Include="Library\MutationObserver.cs" />
     <Compile Include="Library\OptionWithLabel.cs" />
     <Compile Include="Library\PageImport.cs" />
-    <Compile Include="Library\QueryExtensions.cs" />
+    <Compile Include="Css\QueryExtensions.cs" />
     <Compile Include="Library\ShadowDom.cs" />
     <Compile Include="Library\SimpleEncoding.cs" />
     <Compile Include="Library\StringMap.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Html\HtmlScript.cs" />
     <Compile Include="Html\HtmlStyle.cs" />
-    <Compile Include="Css\Color.cs" />
-    <Compile Include="Css\CssSheet.cs" />
     <Compile Include="Css\CssTokenization.cs" />
     <Compile Include="Css\CssSelector.cs" />
     <Compile Include="Css\CssW3CSelector.cs" />
-    <Compile Include="Library\AnalysisWindow.cs" />
     <Compile Include="Html\DOM.cs" />
     <Compile Include="Html\HtmlComment.cs" />
     <Compile Include="Html\ScriptData.cs" />
@@ -170,12 +136,11 @@
     <Compile Include="Url\Location.cs" />
     <Compile Include="Library\OptimizationPool.cs" />
     <Compile Include="Library\FormSubmit.cs" />
-    <Compile Include="Library\Priority.cs" />
+    <Compile Include="Css\Priority.cs" />
     <Compile Include="Library\BasicScripting.cs" />
     <Compile Include="Library\TreeWalker.cs" />
     <Compile Include="Library\NodeIterator.cs" />
     <Compile Include="Library\DOMActions.cs" />
-    <Compile Include="Library\UnitConversion.cs" />
     <Compile Include="Url\Url.cs" />
     <Compile Include="Url\UrlValidation.cs" />
     <Compile Include="Mocks\CallbackScriptEngine.cs" />
@@ -189,7 +154,6 @@
     <Compile Include="Mocks\MockEntityResolver.cs" />
     <Compile Include="Mocks\MockImageInfo.cs" />
     <Compile Include="Mocks\MockRequester.cs" />
-    <Compile Include="Css\HtmlCssIntegration.cs" />
     <Compile Include="Mocks\MockScriptService.cs" />
     <Compile Include="Mocks\TestServerRequester.cs" />
     <Compile Include="Mocks\ResourceService.cs" />

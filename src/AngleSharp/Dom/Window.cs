@@ -1,12 +1,10 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Dom.Css;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Dom.Navigator;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Services.Styling;
     using System;
     using System.Linq;
     using System.Threading;
@@ -138,38 +136,6 @@
         public Boolean IsClosed
         {
             get { return _closed; }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Creates a new MediaQueryList object representing the parsed results
-        /// of the specified media query string.
-        /// </summary>
-        /// <param name="mediaText">The query string.</param>
-        /// <returns>The MediaQueryList instance.</returns>
-        public IMediaQueryList MatchMedia(String mediaText)
-        {
-            var config = _document.Options;
-            var options = new StyleOptions(_document.Context);
-            var media = config.GetCssStyleEngine().ParseMedia(mediaText, options);
-            return new CssMediaQueryList(this, media);
-        }
-
-        /// <summary>
-        /// Gives the values of all the CSS properties of an element after
-        /// applying the active stylesheets and resolving any basic computation
-        /// those values may contain.
-        /// </summary>
-        /// <param name="element">The element to compute the style for.</param>
-        /// <param name="pseudo">The optional pseudo selector to use.</param>
-        /// <returns>The style declaration describing the element.</returns>
-        public ICssStyleDeclaration GetComputedStyle(IElement element, String pseudo = null)
-        {
-            var styleCollection = this.GetStyleCollection();
-            return styleCollection.ComputeDeclarations(element, pseudo);
         }
 
         #endregion

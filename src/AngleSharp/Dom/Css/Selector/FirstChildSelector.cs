@@ -8,8 +8,8 @@
     /// </summary>
     sealed class FirstChildSelector : ChildSelector
     {
-        public FirstChildSelector()
-            : base(PseudoClassNames.NthChild)
+        public FirstChildSelector(Int32 step, Int32 offset, ISelector kind)
+            : base(PseudoClassNames.NthChild, step, offset, kind)
         {
         }
 
@@ -19,21 +19,21 @@
 
             if (parent != null)
             {
-                var n = Math.Sign(_step);
+                var n = Math.Sign(Step);
                 var k = 0;
 
                 for (var i = 0; i < parent.ChildNodes.Length; i++)
                 {
                     var child = parent.ChildNodes[i] as IElement;
 
-                    if (child != null && _kind.Match(child))
+                    if (child != null && Kind.Match(child))
                     {
                         k += 1;
 
                         if (child == element)
                         {
-                            var diff = k - _offset;
-                            return diff == 0 || (Math.Sign(diff) == n && diff % _step == 0);
+                            var diff = k - Offset;
+                            return diff == 0 || (Math.Sign(diff) == n && diff % Step == 0);
                         }
                     }
                 }

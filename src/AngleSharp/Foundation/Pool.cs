@@ -16,7 +16,6 @@
 
         private static readonly Stack<StringBuilder> _builder = new Stack<StringBuilder>();
         private static readonly Stack<CssSelectorConstructor> _selector = new Stack<CssSelectorConstructor>();
-        private static readonly Stack<CssValueBuilder> _value = new Stack<CssValueBuilder>();
         private static readonly Object _lock = new Object();
 
         #endregion
@@ -59,23 +58,6 @@
 		}
 
         /// <summary>
-        /// Either creates a fresh value builder or gets a (cleaned) used one.
-        /// </summary>
-        /// <returns>A value builder to use.</returns>
-        public static CssValueBuilder NewValueBuilder()
-        {
-            lock (_lock)
-            {
-                if (_value.Count == 0)
-                {
-                    return new CssValueBuilder();
-                }
-
-                return _value.Pop().Reset();
-            }
-        }
-
-        /// <summary>
         /// Returns the given stringbuilder to the pool and gets the current
         /// string content.
         /// </summary>
@@ -110,24 +92,6 @@
 
             return result;
 		}
-
-        /// <summary>
-        /// Returns the given value builder to the pool and gets the
-        /// constructed value.
-        /// </summary>
-        /// <param name="vb">The builder to recycle.</param>
-        /// <returns>The value that is contained in the builder.</returns>
-        public static CssValue ToPool(this CssValueBuilder vb)
-        {
-            var result = vb.GetResult();
-
-            lock (_lock)
-            {
-                _value.Push(vb);
-            }
-
-            return result;
-        }
 
         #endregion
     }
