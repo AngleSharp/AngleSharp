@@ -45,33 +45,7 @@
         public void SetCookie(Url url, String value)
         {
             var uri = new Uri(url.Origin);
-            var version = value.StartsWith("$Version", StringComparison.OrdinalIgnoreCase);
-
-            if (version)
-            {
-                var index = value.IndexOf(';') + 1;
-
-                if (index > 0)
-                {
-                    value = value.Substring(index).TrimStart();
-                }
-                else
-                {
-                    value = value.Substring(1);
-                }
-            }
-
             _container.SetCookies(uri, value);
-
-            if (version)
-            {
-                var cookies = _container.GetCookies(uri);
-
-                foreach (Cookie cookie in cookies)
-                {
-                    cookie.Version = 1;
-                }
-            }
         }
     }
 }
