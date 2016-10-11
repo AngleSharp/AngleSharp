@@ -240,7 +240,7 @@
             {
                 if (_serverString == null)
                 {
-                    var methods = typeof(Cookie).GetRuntimeMethods();
+                    var methods = typeof(Cookie).GetMethods();
                     var func = methods.FirstOrDefault(m => m.Name.Equals("ToServerString"));
                     _serverString = func ?? methods.FirstOrDefault(m => m.Name.Equals("ToString"));
                 }

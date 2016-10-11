@@ -40,6 +40,11 @@ namespace AngleSharp.Extensions
             return type.GetRuntimeProperties().ToArray();
         }
 
+        public static MethodInfo[] GetMethods(this Type type)
+        {
+            return type.GetRuntimeMethods().ToArray();
+        }
+
         public static ConstructorInfo[] GetConstructors(this Type type)
         {
             return type.GetTypeInfo().DeclaredConstructors.Where(c => c.IsPublic && !c.IsStatic).ToArray();
