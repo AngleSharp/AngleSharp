@@ -426,46 +426,6 @@
         }
 
         [Test]
-        public void ExtensionCssWithMultipleElements()
-        {
-            var document = ("<ul><li>First element<li>Second element<li>third<li style='background-color:blue'>Last").ToHtmlDocument();
-            var elements = document.QuerySelectorAll("li").Css("color", "red");
-            Assert.AreEqual(4, elements.Count());
-
-            var style1 = (elements[0] as IHtmlElement).Style;
-            Assert.AreEqual(1, style1.Count());
-
-            var test1 = style1[0];
-            Assert.AreEqual("color", test1);
-            Assert.AreEqual("rgb(255, 0, 0)", style1.GetPropertyValue(test1));
-
-            var style2 = (elements[1] as IHtmlElement).Style;
-            Assert.AreEqual(1, style2.Count());
-
-            var test2 = style2[0];
-            Assert.AreEqual("color", test2);
-            Assert.AreEqual("rgb(255, 0, 0)", style2.GetPropertyValue(test2));
-
-            var style3 = (elements[2] as IHtmlElement).Style;
-            Assert.AreEqual(1, style3.Count());
-
-            var test3 = style3[0];
-            Assert.AreEqual("color", test3);
-            Assert.AreEqual("rgb(255, 0, 0)", style3.GetPropertyValue(test3));
-
-            var style4 = (elements[3] as IHtmlElement).Style;
-            Assert.AreEqual(2, style4.Count());
-
-            var background = style4[0];
-            Assert.AreEqual("background-color", background);
-            Assert.AreEqual("rgb(0, 0, 255)", style4.GetPropertyValue(background));
-
-            var color = style4[1];
-            Assert.AreEqual("color", color);
-            Assert.AreEqual("rgb(255, 0, 0)", style4.GetPropertyValue(color));
-        }
-
-        [Test]
         public void ExtensionTextWithEmptyList()
         {
             var document = ("").ToHtmlDocument();
