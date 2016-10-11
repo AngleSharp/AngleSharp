@@ -1,13 +1,12 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
-    using Dom;
-    using Mocks;
     using NUnit.Framework;
     using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     [TestFixture]
@@ -18,6 +17,53 @@
         {
             var cookie = await LoadDocumentWithCookie("UserID=Foo");
             Assert.AreEqual("UserID=Foo", cookie);
+        }
+
+        [Test]
+        public async Task PlainVersion1CookieIsCorrectlyTransformed()
+        {
+            var cookie = await LoadDocumentWithCookie("$Version=1; FGTServer=04E2E1A642B2BB49C6FE0115DE3976CB377263F3278BD6C8E2F8A24EE4DF7562F089BFAC5C0102");
+            Assert.AreEqual("$Version=1; FGTServer=04E2E1A642B2BB49C6FE0115DE3976CB377263F3278BD6C8E2F8A24EE4DF7562F089BFAC5C0102", cookie);
+        }
+
+        [Test]
+        public async Task QuotedVersion1CookieIsCorrectlyTransformed()
+        {
+            var cookie = await LoadDocumentWithCookie("$Version=\"1\"; Customer=\"WILE_E_COYOTE\"");
+            Assert.AreEqual("$Version=1; Customer=\"WILE_E_COYOTE\"", cookie);
+        }
+
+        [Test]
+        public async Task Version1CookieIsAlreadyTransformed()
+        {
+            var cookie = await LoadDocumentWithCookie("Customer=\"WILE_E_COYOTE\"; Version=\"1\"");
+            Assert.AreEqual("$Version=\"1\"; Customer=\"WILE_E_COYOTE\"", cookie);
+        }
+
+        [Test]
+        public async Task Version1CookieWithSingleEntryAlreadyTransformedCorrectly()
+        {
+            var cookie = await LoadDocumentWithCookie("Shipping=FedEx; Version=\"1\"");
+            Assert.AreEqual("$Version=\"1\"; Shipping=FedEx", cookie);
+        }
+
+        [Test]
+        public async Task CookieExpiresInFuture()
+        {
+            var year = DateTime.Today.Year + 1;
+            var cookie = "ppkcookie2=another test; expires=Fri, 3 Aug " + year + " 20:47:11 GMT; path=/";
+            var document = await LoadDocumentAloneWithCookie("");
+            document.Cookie = cookie;
+            Assert.AreEqual("ppkcookie2=another test", document.Cookie);
+        }
+
+        [Test]
+        public async Task CookieExpiredAlready()
+        {
+            var year = DateTime.Today.Year - 1;
+            var document = await LoadDocumentAloneWithCookie("");
+            document.Cookie = "ppkcookie2=yet another test; expires=Fri, 3 Aug " + year + " 20:47:11 GMT; path=/";
+            Assert.AreEqual("", document.Cookie);
         }
 
         [Test]
