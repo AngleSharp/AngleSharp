@@ -23,12 +23,33 @@
 
         public Type Library
         {
-            get { return typeof(CssParser); }
+            get { return typeof(BrowsingContext); }
         }
 
         public void Run(String source)
         {
             parser.ParseStylesheet(source);
+        }
+    }
+
+    //TODO:
+    // Remove both after AngleSharp.Css is available
+    static class ConfigurationMockExtensions
+    {
+        public static IConfiguration WithCss(this IConfiguration configuration)
+        {
+            return configuration;
+        }
+    }
+
+    sealed class CssParser
+    {
+        public CssParser(CssParserOptions options, IConfiguration configuration)
+        {
+        }
+
+        public void ParseStylesheet(String source)
+        {
         }
     }
 }
