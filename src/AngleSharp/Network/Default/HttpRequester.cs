@@ -137,6 +137,7 @@
 
         private sealed class RequestState
         {
+            private static MethodInfo _serverString;
             private readonly CookieContainer _cookies;
             private readonly IDictionary<String, String> _headers;
             private readonly HttpWebRequest _http;
@@ -220,7 +221,7 @@
 
                     if (cookies.Count > 0)
                     {
-                        var strings = cookies.OfType<Cookie>().Select(m => m.ToString());
+                        var strings = cookies.OfType<Cookie>().Select(m => Stringify(m));
                         result.Headers[HeaderNames.SetCookie] = String.Join(", ", strings);
                     }
 
@@ -231,12 +232,27 @@
             }
 
             /// <summary>
+            /// Dirty workaround to re-obtain the string representation of the cookie
+            /// for the set-cookie header. Uses the internal ToServerString method and
+            /// falls back to the ordinary ToString.
+            /// </summary>
+            private static String Stringify(Cookie cookie)
+            {
+                if (_serverString == null)
+                {
+                    var methods = typeof(Cookie).GetMethods();
+                    var func = methods.FirstOrDefault(m => m.Name.Equals("ToServerString"));
+                    _serverString = func ?? methods.FirstOrDefault(m => m.Name.Equals("ToString"));
+                }
+
+                return _serverString.Invoke(cookie, null).ToString();
+            }
+
+            /// <summary>
             /// Dirty dirty workaround since the webrequester itself is already
             /// quite stupid, but the one here (for the PCL) is really not the
             /// way things should be programmed ...
             /// </summary>
-            /// <param name="key">The key to add or change.</param>
-            /// <param name="value">The value to be set.</param>
             private void AddHeader(String key, String value)
             {
                 if (key.Is(HeaderNames.Accept))
