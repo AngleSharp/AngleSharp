@@ -22,15 +22,8 @@
         [Test]
         public async Task PlainVersion1CookieIsCorrectlyTransformed()
         {
-            var cookie = await LoadDocumentWithCookie("$Version=1; FGTServer=04E2E1A642B2BB49C6FE0115DE3976CB377263F3278BD6C8E2F8A24EE4DF7562F089BFAC5C0102");
+            var cookie = await LoadDocumentWithCookie("FGTServer=04E2E1A642B2BB49C6FE0115DE3976CB377263F3278BD6C8E2F8A24EE4DF7562F089BFAC5C0102; Version=1");
             Assert.AreEqual("$Version=1; FGTServer=04E2E1A642B2BB49C6FE0115DE3976CB377263F3278BD6C8E2F8A24EE4DF7562F089BFAC5C0102", cookie);
-        }
-
-        [Test]
-        public async Task QuotedVersion1CookieIsCorrectlyTransformed()
-        {
-            var cookie = await LoadDocumentWithCookie("$Version=\"1\"; Customer=\"WILE_E_COYOTE\"");
-            Assert.AreEqual("$Version=1; Customer=\"WILE_E_COYOTE\"", cookie);
         }
 
         [Test]
