@@ -8,7 +8,7 @@
     /// A collection of media queries.
     /// </summary>
     [DomName("MediaList")]
-    public interface IMediaList : ICssNode, IEnumerable<ICssMedium>
+    public interface IMediaList : IEnumerable<ICssMedium>, IStyleFormattable
     {
         /// <summary>
         /// Gets or sets the parsable textual representation of the media list.

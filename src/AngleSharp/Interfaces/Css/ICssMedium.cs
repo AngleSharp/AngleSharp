@@ -6,7 +6,7 @@
     /// <summary>
     /// Represents a CSS medium.
     /// </summary>
-    public interface ICssMedium : ICssNode
+    public interface ICssMedium : IStyleFormattable
     {
         /// <summary>
         /// Gets the type of medium that is represented.

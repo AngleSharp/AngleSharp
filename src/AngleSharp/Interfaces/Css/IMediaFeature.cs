@@ -5,7 +5,7 @@
     /// <summary>
     /// Represents a CSS media feature.
     /// </summary>
-    public interface IMediaFeature : ICssNode
+    public interface IMediaFeature : IStyleFormattable
     {
         /// <summary>
         /// Gets the name of the feature.
