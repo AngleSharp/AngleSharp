@@ -552,6 +552,18 @@
             Assert.IsNull(value);
             Assert.AreEqual("eeeee", results[1].TextContent);
         }
+        
+        [Test]
+        public void ScopeSelectorChild()
+        {
+            var source = @"<p>First paragraph</p><div><p>Hello in a paragraph</p></div>";
+
+            var document = source.ToHtmlDocument();
+            var selector = ":scope > p";
+            var result = document.Body.Children[1].QuerySelectorAll(selector);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual(document.Body.ChildNodes[1].ChildNodes[0], result[0]);
+        }
 
         [Test]
         public void HasSelectorSimple()
@@ -564,6 +576,42 @@
             var result = document.QuerySelectorAll(selector);
             Assert.AreEqual(1, result.Length);
             Assert.AreEqual(document.Body.ChildNodes[0], result[0]);
+        }
+
+        [Test]
+        public void HasSelectorChild()
+        {
+            var source = @"<div><div><p>Hello in a paragraph</p></div></div>";
+
+            var document = source.ToHtmlDocument();
+            var selector = "div:has(> p)";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual(document.Body.ChildNodes[0].ChildNodes[0], result[0]);
+        }
+
+        [Test]
+        public void HasSelectorFollowing()
+        {
+            var source = @"<div><div><p>Hello in a paragraph</p><p>Another paragraph</p></div></div>";
+
+            var document = source.ToHtmlDocument();
+            var selector = "p:has(+ p)";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual(document.Body.ChildNodes[0].ChildNodes[0].ChildNodes[0], result[0]);
+        }
+
+        [Test]
+        public void HasSelectorFollowingWithoutRelative()
+        {
+            var source = @"<div></div><div><p>Hello in a paragraph</p><p>Another paragraph</p></div>";
+
+            var document = source.ToHtmlDocument();
+            var selector = "div:has(p + p)";
+            var result = document.QuerySelectorAll(selector);
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual(document.Body.ChildNodes[1], result[0]);
         }
 
         [Test]

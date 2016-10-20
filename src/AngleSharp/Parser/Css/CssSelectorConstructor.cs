@@ -676,6 +676,8 @@
         private sealed class HasFunctionState : FunctionState
         {
             readonly CssSelectorConstructor _nested;
+            bool _firstToken = true;
+            bool _matchSiblings = false;
 
             public HasFunctionState(CssSelectorConstructor parent)
             {
@@ -686,6 +688,14 @@
             {
                 if (token.Type != CssTokenType.RoundBracketClose || _nested._state != State.Data)
                 {
+                    if (_firstToken && token.Type == CssTokenType.Delim)
+                    {
+                        // Roughly equivalent to inserting an implicit :scope
+                        _nested.Insert(SimpleSelector.PseudoClass((el, scope) => el == scope, string.Empty));
+                        _nested.Apply(CssToken.Whitespace);
+                        _matchSiblings = true;
+                    }
+                    _firstToken = false;
                     _nested.Apply(token);
                     return false;
                 }
@@ -697,11 +707,17 @@
             {
                 var valid = _nested.IsValid;
                 var sel = _nested.GetResult();
+                var selText = sel.Text;
+                var matchSiblings = _matchSiblings || selText.Contains(":" + PseudoClassNames.Scope);
 
                 if (valid)
                 {
-                    var code = PseudoClassNames.Has.CssFunction(sel.Text);
-                    return SimpleSelector.PseudoClass(el => el.ChildNodes.QuerySelector(sel) != null, code);
+                    var code = PseudoClassNames.Has.CssFunction(selText);
+                    return SimpleSelector.PseudoClass(el => 
+                        (matchSiblings 
+                            ? el.Parent.ChildNodes.QuerySelector(sel, el) 
+                            : el.ChildNodes.QuerySelector(sel, el)) != null, 
+                        code);
                 }
 
                 return null;

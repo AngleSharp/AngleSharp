@@ -13,7 +13,7 @@
         {
         }
 
-        public override Boolean Match(IElement element)
+        public override bool Match(IElement element, IElement scope)
         {
             var parent = element.ParentElement;
 
@@ -26,7 +26,7 @@
                 {
                     var child = parent.ChildNodes[i] as IElement;
 
-                    if (child != null && Kind.Match(child))
+                    if (child != null && Kind.Match(child, scope))
                     {
                         k += 1;
 

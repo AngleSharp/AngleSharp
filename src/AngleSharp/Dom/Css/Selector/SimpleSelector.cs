@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        private readonly Predicate<IElement> _matches;
+        private readonly Func<IElement, IElement, bool> _matches;
         private readonly Priority _specifity;
         private readonly String _code;
 
@@ -32,6 +32,11 @@
         }
 
         public SimpleSelector(Predicate<IElement> matches, Priority specifify, String code)
+            : this((e, _) => matches(e), specifify, code)
+        {
+        }
+
+        public SimpleSelector(Func<IElement, IElement, bool> matches, Priority specifify, String code)
         {
             _matches = matches;
             _specifity = specifify;
@@ -64,6 +69,11 @@
         }
 
         public static SimpleSelector PseudoClass(Predicate<IElement> action, String pseudoClass)
+        {
+            return new SimpleSelector(action, Priority.OneClass, PseudoClassNames.Separator + pseudoClass);
+        }
+
+        public static SimpleSelector PseudoClass(Func<IElement, IElement, bool> action, String pseudoClass)
         {
             return new SimpleSelector(action, Priority.OneClass, PseudoClassNames.Separator + pseudoClass);
         }
@@ -204,9 +214,9 @@
 
         #region Methods
 
-        public Boolean Match(IElement element)
+        public bool Match(IElement element, IElement scope)
         {
-            return _matches(element);
+            return _matches(element, scope);
         }
 
         public void ToCss(TextWriter writer, IStyleFormatter formatter)

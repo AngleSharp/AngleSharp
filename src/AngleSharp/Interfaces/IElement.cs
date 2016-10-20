@@ -204,12 +204,13 @@
         /// Checks if the element is matched by the given selector.
         /// </summary>
         /// <param name="selectors">Represents the selector to test.</param>
+        /// <param name="scope"></param>
         /// <returns>
         /// True if the element would be selected by the specified selector,
         /// otherwise false.
         /// </returns>
         [DomName("matches")]
-        Boolean Matches(String selectors);
+        bool Matches(string selectors, IElement scope);
 
         /// <summary>
         /// Gets or sets the inner HTML (excluding the current element) of the

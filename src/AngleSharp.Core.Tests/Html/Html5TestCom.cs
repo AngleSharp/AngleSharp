@@ -585,7 +585,7 @@
                 ""2"" cellpadding=""2"" width=""100%""><span" + (Char)10 + "id=test></span></table>";
             var dom = test.ToHtmlFragment();
 
-            var body = dom.QuerySelector("body");
+            var body = dom.QuerySelector("body", null);
             Assert.IsNotNull(body);
 
             var output = body.InnerHtml;

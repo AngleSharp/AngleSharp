@@ -20,15 +20,16 @@
         /// </summary>
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
+        /// <param name="scope">The scope for the query.</param>
         /// <returns>An element object.</returns>
-        public static IElement QuerySelector(this INodeList elements, String selectors)
+        public static IElement QuerySelector(this INodeList elements, String selectors, IElement scope)
         {
             var sg = CreateSelector(selectors);
 
             if (sg == null || sg is UnknownSelector)
                 throw new DomException(DomError.Syntax);
 
-            return elements.QuerySelector(sg);
+            return elements.QuerySelector(sg, scope);
         }
 
         /// <summary>
@@ -37,8 +38,9 @@
         /// </summary>
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
+        /// <param name="scope">The scope for the query.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static HtmlCollection<IElement> QuerySelectorAll(this INodeList elements, String selectors)
+        public static HtmlCollection<IElement> QuerySelectorAll(this INodeList elements, String selectors, IElement scope)
         {
             var sg = CreateSelector(selectors);
 
@@ -46,7 +48,7 @@
                 throw new DomException(DomError.Syntax);
 
             var result = new List<IElement>();
-            elements.QuerySelectorAll(sg, result);
+            elements.QuerySelectorAll(sg, scope, result);
             return new HtmlCollection<IElement>(result);
         }
 
@@ -100,28 +102,30 @@
         #endregion
 
         #region Object Selector
-
+        
         /// <summary>
         /// Returns the first element within the document (using depth-first pre-order traversal
         /// of the document's nodes) that matches the given selector.
         /// </summary>
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selectors">A selector object.</param>
+        /// <param name="scope">The scope for the query.</param>
         /// <returns>An element object.</returns>
-        public static T QuerySelector<T>(this INodeList elements, ISelector selectors)
+        public static T QuerySelector<T>(this INodeList elements, ISelector selectors, IElement scope)
             where T : class, IElement
         {
-            return elements.QuerySelector(selectors) as T;
+            return elements.QuerySelector(selectors, scope) as T;
         }
-
+        
         /// <summary>
         /// Returns the first element within the document (using depth-first pre-order traversal
         /// of the document's nodes) that matches the specified group of selectors.
         /// </summary>
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selector">A selector object.</param>
+        /// <param name="scope">The scope for the query.</param>
         /// <returns>An element object.</returns>
-        public static IElement QuerySelector(this INodeList elements, ISelector selector)
+        public static IElement QuerySelector(this INodeList elements, ISelector selector, IElement scope)
         {
             for (var i = 0; i < elements.Length; i++)
             {
@@ -129,14 +133,14 @@
 
                 if (element != null)
                 {
-                    if (selector.Match(element))
+                    if (selector.Match(element, scope))
                     {
                         return element;
                     }
 
                     if (element.HasChildNodes)
                     {
-                        element = QuerySelector(element.ChildNodes, selector);
+                        element = QuerySelector(element.ChildNodes, selector, scope);
 
                         if (element != null)
                         {
@@ -148,29 +152,31 @@
 
             return null;
         }
-
+        
         /// <summary>
         /// Returns a list of the elements within the document (using depth-first pre-order traversal
         /// of the document's nodes) that matches the selector.
         /// </summary>
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selector">A selector object.</param>
+        /// <param name="scope">The scope for the query.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static HtmlCollection<IElement> QuerySelectorAll(this INodeList elements, ISelector selector)
+        public static HtmlCollection<IElement> QuerySelectorAll(this INodeList elements, ISelector selector, IElement scope)
         {
             var result = new List<IElement>();
-            elements.QuerySelectorAll(selector, result);
+            elements.QuerySelectorAll(selector, scope, result);
             return new HtmlCollection<IElement>(result);
         }
-
+        
         /// <summary>
         /// Returns a list of the elements within the document (using depth-first pre-order traversal
         /// of the document's nodes) that match the specified group of selectors.
         /// </summary>
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selector">A selector object.</param>
+        /// <param name="scope">The scope for the query.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        public static void QuerySelectorAll(this INodeList elements, ISelector selector, List<IElement> result)
+        public static void QuerySelectorAll(this INodeList elements, ISelector selector, IElement scope, List<IElement> result)
         {
             for (var i = 0; i < elements.Length; i++)
             {
@@ -178,14 +184,14 @@
 
                 if (element != null)
                 {
-                    if (selector.Match(element))
+                    if (selector.Match(element, scope))
                     {
                         result.Add(element);
                     }
 
                     if (element.HasChildNodes)
                     {
-                        QuerySelectorAll(element.ChildNodes, selector, result);
+                        QuerySelectorAll(element.ChildNodes, selector, scope, result);
                     }
                 }
             }

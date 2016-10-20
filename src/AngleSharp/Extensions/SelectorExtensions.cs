@@ -186,6 +186,11 @@
             return elements.Get(m => m.PreviousElementSibling, selector);
         }
 
+        public static bool Match(this ISelector selector, IElement element)
+        {
+            return selector.Match(element, element.Owner.DocumentElement);
+        }
+
         #endregion
 
         #region Helpers

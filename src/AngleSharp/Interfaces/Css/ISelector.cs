@@ -18,10 +18,11 @@
         /// Determines if the given object is matched by this selector.
         /// </summary>
         /// <param name="element">The element to be matched.</param>
+        /// <param name="scope">The selector scope.</param>
         /// <returns>
         /// True if the selector matches the given element, otherwise false.
         /// </returns>
-        Boolean Match(IElement element);
+        bool Match(IElement element, IElement scope);
 
         /// <summary>
         /// Gets the string representation of the selector.
