@@ -8,11 +8,11 @@
     /// <summary>
     /// Represents the list of all Html entities.
     /// </summary>
-    public sealed class HtmlEntityService : IEntityProvider
+    public sealed class HtmlEntityProvider : IEntityProvider
     {
         #region Fields
 
-        readonly Dictionary<Char, Dictionary<String, String>> _entities;
+        private readonly Dictionary<Char, Dictionary<String, String>> _entities;
 
         #endregion
 
@@ -21,13 +21,13 @@
         /// <summary>
         /// Gets the instance to resolve entities.
         /// </summary>
-        public static readonly IEntityProvider Resolver = new HtmlEntityService();
+        public static readonly IEntityProvider Resolver = new HtmlEntityProvider();
 
         #endregion
 
         #region ctor
 
-        private HtmlEntityService()
+        private HtmlEntityProvider()
         {
             _entities = new Dictionary<Char, Dictionary<String, String>>
                             {
@@ -116,7 +116,7 @@
 
         #region Symbol Methods
 
-        Dictionary<String, String> GetSymbolLittleA()
+        private Dictionary<String, String> GetSymbolLittleA()
         {
             var symbols = new Dictionary<String, String>();
             AddBoth(symbols, "aacute;", Convert(0x00E1));
@@ -182,7 +182,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigA()
+        private Dictionary<String, String> GetSymbolBigA()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Aogon;", Convert(0x0104));
@@ -207,7 +207,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleB()
+        private Dictionary<String, String> GetSymbolLittleB()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "backcong;", Convert(0x224C));
@@ -328,7 +328,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigB()
+        private Dictionary<String, String> GetSymbolBigB()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Backslash;", Convert(0x2216));
@@ -346,7 +346,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleC()
+        private Dictionary<String, String> GetSymbolLittleC()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "cacute;", Convert(0x0107));
@@ -446,7 +446,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigC()
+        private Dictionary<String, String> GetSymbolBigC()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Cacute;", Convert(0x0106));
@@ -486,7 +486,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleD()
+        private Dictionary<String, String> GetSymbolLittleD()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "dagger;", Convert(0x2020));
@@ -556,7 +556,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigD()
+        private Dictionary<String, String> GetSymbolBigD()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Dagger;", Convert(0x2021));
@@ -616,7 +616,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleE()
+        private Dictionary<String, String> GetSymbolLittleE()
         {
             var symbols = new Dictionary<String, String>();
             AddBoth(symbols, "eacute;", Convert(0x00E9));
@@ -684,7 +684,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigE()
+        private Dictionary<String, String> GetSymbolBigE()
         {
             var symbols = new Dictionary<String, String>();
             AddBoth(symbols, "Eacute;", Convert(0x00C9));
@@ -715,7 +715,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleF()
+        private Dictionary<String, String> GetSymbolLittleF()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "fallingdotseq;", Convert(0x2252));
@@ -757,7 +757,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigF()
+        private Dictionary<String, String> GetSymbolBigF()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Fcy;", Convert(0x0424));
@@ -771,7 +771,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleG()
+        private Dictionary<String, String> GetSymbolLittleG()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "gacute;", Convert(0x01F5));
@@ -836,7 +836,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigG()
+        private Dictionary<String, String> GetSymbolBigG()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Gamma;", Convert(0x0393));
@@ -863,7 +863,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleH()
+        private Dictionary<String, String> GetSymbolLittleH()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "hairsp;", Convert(0x200A));
@@ -897,7 +897,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigH()
+        private Dictionary<String, String> GetSymbolBigH()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Hacek;", Convert(0x02C7));
@@ -915,7 +915,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleI()
+        private Dictionary<String, String> GetSymbolLittleI()
         {
             var symbols = new Dictionary<String, String>();
             AddBoth(symbols, "iacute;", Convert(0x00ED));
@@ -971,7 +971,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigI()
+        private Dictionary<String, String> GetSymbolBigI()
         {
             var symbols = new Dictionary<String, String>();
             AddBoth(symbols, "Iacute;", Convert(0x00CD));
@@ -1002,7 +1002,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleJ()
+        private Dictionary<String, String> GetSymbolLittleJ()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "jcirc;", Convert(0x0135));
@@ -1016,7 +1016,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigJ()
+        private Dictionary<String, String> GetSymbolBigJ()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Jcirc;", Convert(0x0134));
@@ -1029,7 +1029,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleK()
+        private Dictionary<String, String> GetSymbolLittleK()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "kappa;", Convert(0x03BA));
@@ -1045,7 +1045,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigK()
+        private Dictionary<String, String> GetSymbolBigK()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Kappa;", Convert(0x039A));
@@ -1059,7 +1059,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleL()
+        private Dictionary<String, String> GetSymbolLittleL()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "lAarr;", Convert(0x21DA));
@@ -1217,7 +1217,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigL()
+        private Dictionary<String, String> GetSymbolBigL()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Lacute;", Convert(0x0139));
@@ -1282,7 +1282,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleM()
+        private Dictionary<String, String> GetSymbolLittleM()
         {
             var symbols = new Dictionary<String, String>();
             AddBoth(symbols, "macr;", Convert(0x00AF));
@@ -1325,7 +1325,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigM()
+        private Dictionary<String, String> GetSymbolBigM()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Map;", Convert(0x2905));
@@ -1340,7 +1340,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleN()
+        private Dictionary<String, String> GetSymbolLittleN()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "nabla;", Convert(0x2207));
@@ -1511,7 +1511,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigN()
+        private Dictionary<String, String> GetSymbolBigN()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Nacute;", Convert(0x0143));
@@ -1588,7 +1588,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleO()
+        private Dictionary<String, String> GetSymbolLittleO()
         {
             var symbols = new Dictionary<String, String>();
             AddBoth(symbols, "oacute;", Convert(0x00F3));
@@ -1647,7 +1647,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigO()
+        private Dictionary<String, String> GetSymbolBigO()
         {
             var symbols = new Dictionary<String, String>();
             AddBoth(symbols, "Oacute;", Convert(0x00D3));
@@ -1676,7 +1676,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleP()
+        private Dictionary<String, String> GetSymbolLittleP()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "pfr;", Convert(0x1D52D));
@@ -1748,7 +1748,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigP()
+        private Dictionary<String, String> GetSymbolBigP()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "PartialD;", Convert(0x2202));
@@ -1773,7 +1773,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleQ()
+        private Dictionary<String, String> GetSymbolLittleQ()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "qfr;", Convert(0x1D52E));
@@ -1789,7 +1789,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigQ()
+        private Dictionary<String, String> GetSymbolBigQ()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Qfr;", Convert(0x1D514));
@@ -1799,7 +1799,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleR()
+        private Dictionary<String, String> GetSymbolLittleR()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "rAarr;", Convert(0x21DB));
@@ -1907,7 +1907,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigR()
+        private Dictionary<String, String> GetSymbolBigR()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Racute;", Convert(0x0154));
@@ -1957,7 +1957,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleS()
+        private Dictionary<String, String> GetSymbolLittleS()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "sacute;", Convert(0x015B));
@@ -2115,7 +2115,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigS()
+        private Dictionary<String, String> GetSymbolBigS()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Sacute;", Convert(0x015A));
@@ -2161,7 +2161,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleT()
+        private Dictionary<String, String> GetSymbolLittleT()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "target;", Convert(0x2316));
@@ -2223,7 +2223,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigT()
+        private Dictionary<String, String> GetSymbolBigT()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Tab;", Convert(0x0009));
@@ -2251,7 +2251,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleU()
+        private Dictionary<String, String> GetSymbolLittleU()
         {
             var symbols = new Dictionary<String, String>();
             AddBoth(symbols, "uacute;", Convert(0x00FA));
@@ -2304,7 +2304,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigU()
+        private Dictionary<String, String> GetSymbolBigU()
         {
             var symbols = new Dictionary<String, String>();
             AddBoth(symbols, "Uacute;", Convert(0x00DA));
@@ -2346,7 +2346,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleV()
+        private Dictionary<String, String> GetSymbolLittleV()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "vangrt;", Convert(0x299C));
@@ -2394,7 +2394,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigV()
+        private Dictionary<String, String> GetSymbolBigV()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Vbar;", Convert(0x2AEB));
@@ -2417,7 +2417,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleW()
+        private Dictionary<String, String> GetSymbolLittleW()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "wcirc;", Convert(0x0175));
@@ -2434,7 +2434,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigW()
+        private Dictionary<String, String> GetSymbolBigW()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Wcirc;", Convert(0x0174));
@@ -2445,7 +2445,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleX()
+        private Dictionary<String, String> GetSymbolLittleX()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "xcap;", Convert(0x22C2));
@@ -2475,7 +2475,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigX()
+        private Dictionary<String, String> GetSymbolBigX()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Xfr;", Convert(0x1D51B));
@@ -2485,7 +2485,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleY()
+        private Dictionary<String, String> GetSymbolLittleY()
         {
             var symbols = new Dictionary<String, String>();
             AddBoth(symbols, "yacute;", Convert(0x00FD));
@@ -2502,7 +2502,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigY()
+        private Dictionary<String, String> GetSymbolBigY()
         {
             var symbols = new Dictionary<String, String>();
             AddBoth(symbols, "Yacute;", Convert(0x00DD));
@@ -2518,7 +2518,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolLittleZ()
+        private Dictionary<String, String> GetSymbolLittleZ()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "zacute;", Convert(0x017A));
@@ -2537,7 +2537,7 @@
             return symbols;
         }
 
-        Dictionary<String, String> GetSymbolBigZ()
+        private Dictionary<String, String> GetSymbolBigZ()
         {
             var symbols = new Dictionary<String, String>();
             AddSingle(symbols, "Zacute;", Convert(0x0179));
@@ -2571,7 +2571,9 @@
             var symbols = default(Dictionary<String, String>);
 
             if (!String.IsNullOrEmpty(name) && _entities.TryGetValue(name[0], out symbols))
+            {
                 symbols.TryGetValue(name, out symbol);
+            }
 
             return symbol;
         }
@@ -2581,7 +2583,7 @@
         /// </summary>
         /// <param name="code">The code to convert.</param>
         /// <returns>The array containing the character.</returns>
-        static String Convert(Int32 code)
+        private static String Convert(Int32 code)
         {
             return code.ConvertFromUtf32();
         }
@@ -2592,7 +2594,7 @@
         /// <param name="leading">The first (leading) character code.</param>
         /// <param name="trailing">The second (trailing) character code.</param>
         /// <returns>The array containing the two characters.</returns>
-        static String Convert(Int32 leading, Int32 trailing)
+        private static String Convert(Int32 leading, Int32 trailing)
         {
             return leading.ConvertFromUtf32() + trailing.ConvertFromUtf32();
         }
@@ -2770,12 +2772,12 @@
 
         #region Helper
 
-        static void AddSingle(Dictionary<String, String> symbols, String key, String value)
+        private static void AddSingle(Dictionary<String, String> symbols, String key, String value)
         {
             symbols.Add(key, value);
         }
 
-        static void AddBoth(Dictionary<String, String> symbols, String key, String value)
+        private static void AddBoth(Dictionary<String, String> symbols, String key, String value)
         {
             symbols.Add(key, value);
             symbols.Add(key.Remove(key.Length - 1), value);

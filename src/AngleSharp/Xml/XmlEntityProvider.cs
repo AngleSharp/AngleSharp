@@ -7,17 +7,17 @@
     /// <summary>
     /// Represents the list of all Xml entities.
     /// </summary>
-    public sealed class XmlEntityService : IEntityProvider
+    public sealed class XmlEntityProvider : IEntityProvider
     {
         #region Fields
 
         private readonly Dictionary<String, String> _entities = new Dictionary<String, String>
         {
-            { "amp", "&" },
-            { "lt", "<" },
-            { "gt", ">" },
-            { "apos", "'" },
-            { "quot", "\"" }
+            { "amp;", "&" },
+            { "lt;", "<" },
+            { "gt;", ">" },
+            { "apos;", "'" },
+            { "quot;", "\"" }
         };
 
         #endregion
@@ -27,13 +27,13 @@
         /// <summary>
         /// Gets the instance to resolve entities.
         /// </summary>
-        public static readonly IEntityProvider Resolver = new XmlEntityService();
+        public static readonly IEntityProvider Resolver = new XmlEntityProvider();
 
         #endregion
 
         #region ctor
 
-        private XmlEntityService()
+        private XmlEntityProvider()
         {
         }
 

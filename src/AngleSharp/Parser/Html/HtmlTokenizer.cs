@@ -528,17 +528,17 @@
                 Back();
             }
 
-            if (HtmlEntityService.IsInCharacterTable(num))
+            if (HtmlEntityProvider.IsInCharacterTable(num))
             {
                 RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidCode);
-                return HtmlEntityService.GetSymbolFromTable(num);
+                return HtmlEntityProvider.GetSymbolFromTable(num);
             }
-            else if (HtmlEntityService.IsInvalidNumber(num))
+            else if (HtmlEntityProvider.IsInvalidNumber(num))
             {
                 RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidNumber);
                 return Symbols.Replacement.ToString();
             }
-            else if (HtmlEntityService.IsInInvalidRange(num))
+            else if (HtmlEntityProvider.IsInInvalidRange(num))
             {
                 RaiseErrorOccurred(HtmlParseError.CharacterReferenceInvalidRange);
             }
