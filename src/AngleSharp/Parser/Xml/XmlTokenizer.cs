@@ -210,13 +210,13 @@
                 while (c.IsXmlName());
             }
 
-            if (c == Symbols.Semicolon && StringBuffer.Length > start)
-            {
-                var length = StringBuffer.Length - start;
-                var content = StringBuffer.ToString(start, length);
+            var length = StringBuffer.Length - start;
 
+            if (c == Symbols.Semicolon && length > 0)
+            {
                 if (numeric)
                 {
+                    var content = StringBuffer.ToString(start, length);
                     var number = numeric ? content.FromHex() : content.FromDec();
 
                     if (number.IsValidAsCharRef())
@@ -224,9 +224,12 @@
                         StringBuffer.Remove(start, length);
                         return number.ConvertFromUtf32();
                     }
+                    
+                    StringBuffer.Append(c);
                 }
                 else
                 {
+                    var content = StringBuffer.Append(c).ToString(start, ++length);
                     var entity = _resolver.GetSymbol(content);
 
                     if (!String.IsNullOrEmpty(entity))
@@ -238,8 +241,6 @@
 
                 if (!IsSuppressingErrors)
                     throw XmlParseError.CharacterReferenceInvalidCode.At(_position);
-
-                StringBuffer.Append(c);
             }
 
             if (!IsSuppressingErrors)

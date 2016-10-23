@@ -13,11 +13,11 @@
 
         private readonly Dictionary<String, String> _entities = new Dictionary<String, String>
         {
-            { "amp", "&" },
-            { "lt", "<" },
-            { "gt", ">" },
-            { "apos", "'" },
-            { "quot", "\"" }
+            { "amp;", "&" },
+            { "lt;", "<" },
+            { "gt;", ">" },
+            { "apos;", "'" },
+            { "quot;", "\"" }
         };
 
         #endregion

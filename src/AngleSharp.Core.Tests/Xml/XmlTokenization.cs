@@ -110,7 +110,7 @@
         [Test]
         public void XmlTokenizerStringAndCustomEntityToken()
         {
-            var resolver = new MockEntityResolver(str => str.Equals("bar") ? "foo" : null);
+            var resolver = new MockEntityResolver(str => str.Equals("bar;") ? "foo" : null);
             var s = new TextSource("test&bar;");
             var t = new XmlTokenizer(s, resolver);
             var test = t.Get();
