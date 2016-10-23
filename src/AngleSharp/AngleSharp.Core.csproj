@@ -593,7 +593,7 @@
     <Compile Include="Html\TagNames.cs" />
     <Compile Include="Parser\Html\HtmlParseMode.cs" />
     <Compile Include="Dom\Constants\CssRuleType.cs" />
-    <Compile Include="Html\HtmlEntityService.cs" />
+    <Compile Include="Html\HtmlEntityProvider.cs" />
     <Compile Include="Dom\Constants\DocumentPositions.cs" />
     <Compile Include="Dom\Constants\NodeType.cs" />
     <Compile Include="Dom\Constants\QuirksMode.cs" />
@@ -707,7 +707,7 @@
     <Compile Include="Parser\Xml\Tokens\XmlPIToken.cs" />
     <Compile Include="Parser\Xml\Tokens\XmlTagToken.cs" />
     <Compile Include="Parser\Xml\Tokens\XmlToken.cs" />
-    <Compile Include="Xml\XmlEntityService.cs" />
+    <Compile Include="Xml\XmlEntityProvider.cs" />
     <Compile Include="Xhtml\XhtmlMarkupFormatter.cs" />
     <Compile Include="Xml\XmlMarkupFormatter.cs" />
     <Compile Include="Parser\Xml\XmlDomBuilder.cs" />
