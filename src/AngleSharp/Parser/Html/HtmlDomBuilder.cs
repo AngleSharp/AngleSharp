@@ -55,7 +55,7 @@
         {
             var options = document.Options;
             var context = document.Context;
-            var resolver = options.GetProvider<IEntityProvider>() ?? HtmlEntityService.Resolver;
+            var resolver = options.GetProvider<IEntityProvider>() ?? HtmlEntityProvider.Resolver;
             _tokenizer = new HtmlTokenizer(document.Source, resolver);
             _tokenizer.Error += (_, error) => context.Fire(error);
             _document = document;

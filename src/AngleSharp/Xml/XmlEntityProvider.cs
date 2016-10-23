@@ -7,7 +7,7 @@
     /// <summary>
     /// Represents the list of all Xml entities.
     /// </summary>
-    public sealed class XmlEntityService : IEntityProvider
+    public sealed class XmlEntityProvider : IEntityProvider
     {
         #region Fields
 
@@ -27,13 +27,13 @@
         /// <summary>
         /// Gets the instance to resolve entities.
         /// </summary>
-        public static readonly IEntityProvider Resolver = new XmlEntityService();
+        public static readonly IEntityProvider Resolver = new XmlEntityProvider();
 
         #endregion
 
         #region ctor
 
-        private XmlEntityService()
+        private XmlEntityProvider()
         {
         }
 
