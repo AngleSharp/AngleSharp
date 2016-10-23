@@ -10,7 +10,7 @@
     /// <summary>
     /// A set of extension methods for style / related methods.
     /// </summary>
-    static class StyleExtensions
+    public static class StyleExtensions
     {
         /// <summary>
         /// Gets all possible style sheet sets from the list of style sheets.

@@ -254,7 +254,7 @@
     <Compile Include="Html\InputTypes\ButtonInputType.cs" />
     <Compile Include="Interfaces\Css\IKeyframeSelector.cs" />
     <Compile Include="Interfaces\IPseudoElement.cs" />
-    <Compile Include="Extensions\StyleSheetExtensions.cs" />
+    <Compile Include="Extensions\HtmlLinkElementExtensions.cs" />
     <Compile Include="Services\ICommandProvider.cs" />
     <Compile Include="Services\IContextFactory.cs" />
     <Compile Include="Services\ISpellCheckService.cs" />

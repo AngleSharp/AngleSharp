@@ -713,17 +713,6 @@
         }
 
         /// <summary>
-        /// Serializes the string to a CSS url.
-        /// </summary>
-        /// <param name="value">The value to serialize.</param>
-        /// <returns>The CSS url representation.</returns>
-        public static String CssUrl(this String value)
-        {
-            var argument = value.CssString();
-            return Keywords.Url.CssFunction(argument);
-        }
-
-        /// <summary>
         /// Replaces characters in names and values that should not be in URL
         /// values. Replaces the bytes 0x20 (U+0020 SPACE if interpreted as
         /// ASCII) with a single 0x2B byte ("+" (U+002B) character if

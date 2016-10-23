@@ -5,9 +5,9 @@
     using System;
 
     /// <summary>
-    /// Defines a set of extension methods for style sheets.
+    /// Defines a set of extension methods for link elements.
     /// </summary>
-    public static class StyleSheetExtensions
+    public static class HtmlLinkElementExtensions
     {
         #region Linked Stylesheet States
 
