@@ -21,11 +21,11 @@
 
         #region Methods
 
-        public Boolean Match(IElement element)
+        public bool Match(IElement element, IElement scope)
         {
             for (var i = 0; i < _selectors.Count; i++)
             {
-                if (_selectors[i].Match(element))
+                if (_selectors[i].Match(element, scope))
                 {
                     return true;
                 }

@@ -14,7 +14,7 @@
         private readonly Dictionary<String, ISelector> _selectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase)
         {
             { PseudoClassNames.Root, SimpleSelector.PseudoClass(el => el.Owner.DocumentElement == el, PseudoClassNames.Root) },
-            { PseudoClassNames.Scope, SimpleSelector.PseudoClass(el => el.Owner.DocumentElement == el, PseudoClassNames.Scope) },
+            { PseudoClassNames.Scope, SimpleSelector.PseudoClass((el, scope) => (scope ?? el.Owner.DocumentElement) == el, PseudoClassNames.Scope) },
             { PseudoClassNames.OnlyType, SimpleSelector.PseudoClass(el => el.IsOnlyOfType(), PseudoClassNames.OnlyType) },
             { PseudoClassNames.FirstOfType, SimpleSelector.PseudoClass(el => el.IsFirstOfType(), PseudoClassNames.FirstOfType) },
             { PseudoClassNames.LastOfType, SimpleSelector.PseudoClass(el => el.IsLastOfType(), PseudoClassNames.LastOfType) },

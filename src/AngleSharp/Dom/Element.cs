@@ -373,12 +373,12 @@
 
         public IElement QuerySelector(String selectors)
         {
-            return ChildNodes.QuerySelector(selectors);
+            return ((INode)this).QuerySelector(selectors);
         }
 
         public IHtmlCollection<IElement> QuerySelectorAll(String selectors)
         {
-            return ChildNodes.QuerySelectorAll(selectors);
+            return ((INode)this).QuerySelectorAll(selectors);
         }
 
         public IHtmlCollection<IElement> GetElementsByClassName(String classNames)
@@ -398,8 +398,8 @@
 
         public Boolean Matches(String selectors)
         {
-            var selector = CssSelectorParser.Default.ParseSelector(selectors);
-            return selector.Match(this);
+            var selector = new ScopedSelector(this, CssSelectorParser.Default.ParseSelector(selectors));
+            return selector.Match(this, this);
         }
 
         public override INode Clone(Boolean deep = true)

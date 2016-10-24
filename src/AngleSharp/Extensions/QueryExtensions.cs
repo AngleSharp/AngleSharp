@@ -18,12 +18,48 @@
         /// Returns the first element within the document (using depth-first pre-order traversal
         /// of the document's nodes) that matches the specified group of selectors.
         /// </summary>
+        /// <param name="node">The node to take as source.</param>
+        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
+        /// <returns>An element object.</returns>
+        public static IElement QuerySelector(this INode node, String selectors)
+        {
+            var sg = CreateSelector(selectors, node);
+
+            if (sg == null || sg is UnknownSelector)
+                throw new DomException(DomError.Syntax);
+
+            return node.ChildNodes.QuerySelector(sg);
+        }
+
+        /// <summary>
+        /// Returns a list of the elements within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that match the specified group of selectors.
+        /// </summary>
+        /// <param name="node">The node to take as source.</param>
+        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
+        /// <returns>A HTMLCollection with all elements that match the selection.</returns>
+        public static HtmlCollection<IElement> QuerySelectorAll(this INode node, String selectors)
+        {
+            var sg = CreateSelector(selectors, node);
+
+            if (sg == null || sg is UnknownSelector)
+                throw new DomException(DomError.Syntax);
+
+            var result = new List<IElement>();
+            node.ChildNodes.QuerySelectorAll(sg, result);
+            return new HtmlCollection<IElement>(result);
+        }
+
+        /// <summary>
+        /// Returns the first element within the document (using depth-first pre-order traversal
+        /// of the document's nodes) that matches the specified group of selectors.
+        /// </summary>
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
         /// <returns>An element object.</returns>
         public static IElement QuerySelector(this INodeList elements, String selectors)
         {
-            var sg = CreateSelector(selectors);
+            var sg = CreateSelector(selectors, null);
 
             if (sg == null || sg is UnknownSelector)
                 throw new DomException(DomError.Syntax);
@@ -40,7 +76,7 @@
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
         public static HtmlCollection<IElement> QuerySelectorAll(this INodeList elements, String selectors)
         {
-            var sg = CreateSelector(selectors);
+            var sg = CreateSelector(selectors, null);
 
             if (sg == null || sg is UnknownSelector)
                 throw new DomException(DomError.Syntax);
@@ -297,9 +333,20 @@
 
         #region Helpers
 
-        private static ISelector CreateSelector(String selector)
+        private static ISelector CreateSelector(String selector, INode scopeNode)
         {
-            return CssSelectorParser.Default.ParseSelector(selector);
+            var sel = CssSelectorParser.Default.ParseSelector(selector);
+            if(sel != null)
+            {
+                var scope = scopeNode as IElement 
+                    ?? (scopeNode as IDocument)?.DocumentElement
+                    ?? (scopeNode as IShadowRoot)?.Host;
+                if (scope != null)
+                {
+                    sel = new ScopedSelector(scope, sel);
+                }
+}
+            return sel;
         }
 
         #endregion

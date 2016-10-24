@@ -82,13 +82,13 @@
             }
         }
 
-        public Boolean Match(IElement element)
+        public bool Match(IElement element, IElement scope)
         {
             var last = _selectors.Count - 1;
 
-            if (_selectors[last].Selector.Match(element))
+            if (_selectors[last].Selector.Match(element, scope))
             {
-                return last > 0 ? MatchCascade(last - 1, element) : true;
+                return last > 0 ? MatchCascade(last - 1, element, scope) : true;
             }
 
             return false;
@@ -125,15 +125,15 @@
 
         #region Helpers
 
-        private Boolean MatchCascade(Int32 pos, IElement element)
+        private Boolean MatchCascade(Int32 pos, IElement element, IElement scope)
         {
             var newElements = _selectors[pos].Transform(element);
 
             foreach (var newElement in newElements)
             {
-                if (_selectors[pos].Selector.Match(newElement))
+                if (_selectors[pos].Selector.Match(newElement, scope))
                 {
-                    if (pos == 0 || MatchCascade(pos - 1, newElement))
+                    if (pos == 0 || MatchCascade(pos - 1, newElement, scope))
                     {
                         return true;
                     }

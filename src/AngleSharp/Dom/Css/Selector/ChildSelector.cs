@@ -67,7 +67,7 @@
 
         #region Methods
 
-        public abstract Boolean Match(IElement element);
+        public abstract bool Match(IElement element, IElement scope);
 
         #endregion
 

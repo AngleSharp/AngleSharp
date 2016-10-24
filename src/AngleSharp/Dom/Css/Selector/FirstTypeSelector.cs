@@ -14,7 +14,7 @@
         {
         }
 
-        public override Boolean Match(IElement element)
+        public override bool Match(IElement element, IElement scope)
         {
             var parent = element.ParentElement;
 
