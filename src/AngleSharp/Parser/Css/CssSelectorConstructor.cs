@@ -713,10 +713,14 @@
                 if (valid)
                 {
                     var code = PseudoClassNames.Has.CssFunction(selText);
-                    return SimpleSelector.PseudoClass(el => 
-                        (matchSiblings 
-                            ? el.Parent.ChildNodes.QuerySelector(sel, el) 
-                            : el.ChildNodes.QuerySelector(sel, el)) != null, 
+                    return SimpleSelector.PseudoClass(
+                        el =>
+                        {
+                            var scoped = new ScopedSelector(el, sel);
+                            return (matchSiblings
+                                ? el.Parent.ChildNodes.QuerySelector(scoped)
+                                : el.ChildNodes.QuerySelector(scoped)) != null;
+                        },
                         code);
                 }
 

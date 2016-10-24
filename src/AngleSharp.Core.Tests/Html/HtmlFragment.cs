@@ -481,7 +481,7 @@
         public void FragmentButtonWithText()
         {
             var doc = ("<button>Boo!</button>").ToHtmlFragment();
-            var buttonElement = doc.QuerySelector("button", null) as IHtmlButtonElement;
+            var buttonElement = doc.QuerySelector("button") as IHtmlButtonElement;
 
             Assert.IsNotNull(buttonElement);
             Assert.AreEqual("Boo!", buttonElement.TextContent);
@@ -491,7 +491,7 @@
         public void FragmentButtonWithTextAndAttribute()
         {
             var doc = ("<button type=SEARCH>Boo!</button>").ToHtmlFragment();
-            var buttonElement = doc.QuerySelector("button", null) as IHtmlButtonElement;
+            var buttonElement = doc.QuerySelector("button") as IHtmlButtonElement;
 
             Assert.IsNotNull(buttonElement);
             Assert.AreEqual("Boo!", buttonElement.TextContent);
@@ -503,7 +503,7 @@
         public void FragmentButtonDefaultSubmitType()
         {
             var doc = ("<button>Boo!</button>").ToHtmlFragment();
-            var buttonElement = doc.QuerySelector("button", null) as IHtmlButtonElement;
+            var buttonElement = doc.QuerySelector("button") as IHtmlButtonElement;
 
             Assert.IsNotNull(buttonElement);
             Assert.AreEqual("Boo!", buttonElement.TextContent);
@@ -515,22 +515,22 @@
         public void FragmentClassNameCaseNumbered()
         {
             var dom = ("<div class=\"class1 CLASS2 claSS3\" x=\"y\" />").ToHtmlFragment();
-            var el = dom.QuerySelector("div", null);
+            var el = dom.QuerySelector("div");
 
             Assert.IsNotNull(el);
             Assert.AreEqual(3, el.ClassList.Length);
 
             CollectionAssert.AreEqual(new List<String>(new [] { "class1", "CLASS2", "claSS3" }), new List<String>(el.ClassList));
 
-            Assert.AreEqual(0, dom.QuerySelectorAll(".class2", null).Length);
-            Assert.AreEqual(1, dom.QuerySelectorAll(".CLASS2", null).Length);
+            Assert.AreEqual(0, dom.QuerySelectorAll(".class2").Length);
+            Assert.AreEqual(1, dom.QuerySelectorAll(".CLASS2").Length);
         }
 
         [Test]
         public void FragmentClassNameOnlyCase()
         {
             var dom = ("<div class=\"class CLASS\" />").ToHtmlFragment();
-            var el = dom.QuerySelector("div", null);
+            var el = dom.QuerySelector("div");
 
             Assert.IsNotNull(el);
             Assert.AreEqual(2, el.ClassList.Length);
@@ -542,7 +542,7 @@
         public void FragmentUnquotedAttributeHandling()
         {
             var doc = ("<div custattribute=10/23/2012 id=\"tableSample\"><span>sample text</span></div>").ToHtmlFragment();
-            var obj = doc.QuerySelector("#tableSample", null);
+            var obj = doc.QuerySelector("#tableSample");
 
             Assert.AreEqual("10/23/2012", obj.GetAttribute("custattribute"));
         }
@@ -551,7 +551,7 @@
         public void FragmentCaretsInAttributes()
         {
             var doc = ("<div><img src=\"test.png\" alt=\">\" /></div>").ToHtmlFragment();
-            var div = doc.QuerySelector("div", null);
+            var div = doc.QuerySelector("div");
 
             Assert.IsNotNull(div);
             Assert.AreEqual("<div><img src=\"test.png\" alt=\">\"></div>", div.OuterHtml);
@@ -562,7 +562,7 @@
         {
             var s = "This is <b> a big</b> text";
             var f = s.ToHtmlFragment();
-            var t = f.QuerySelector("b", null);
+            var t = f.QuerySelector("b");
 
             Assert.AreEqual("<b> a big</b>", t.OuterHtml);
         }
@@ -573,7 +573,7 @@
             var html = "<span>Test &nbsp; nbsp</span>";
             var dom = (html).ToHtmlFragment();
 
-            var body = dom.QuerySelector("body", null);
+            var body = dom.QuerySelector("body");
             Assert.IsNotNull(body);
 
             var output = body.InnerHtml.Replace("" + (Char)160, "&nbsp;");
@@ -586,7 +586,7 @@
             var html = @"<span class="""" style="""">Test </span><div class style><br /></div>";
             var dom = (html).ToHtmlFragment();
 
-            var body = dom.QuerySelector("body", null);
+            var body = dom.QuerySelector("body");
             Assert.IsNotNull(body);
 
             var output = body.InnerHtml.Replace("" + (char)160, "&nbsp;");
@@ -598,7 +598,7 @@
         {
             var html = @"<span>&#55449;&#56580;</span>";
             var dom = (html).ToHtmlFragment();
-            var span = dom.QuerySelector("span", null);
+            var span = dom.QuerySelector("span");
 
             Assert.IsNotNull(span);
             Assert.AreEqual("\uFFFD\uFFFD", span.InnerHtml);

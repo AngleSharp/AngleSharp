@@ -312,9 +312,9 @@
             return _host.GetElementsByTagNameNS(namespaceUri, tagName);
         }
 
-        public bool Matches(string selectors, IElement scope)
+        public Boolean Matches(String selectors)
         {
-            return _host.Matches(selectors, scope);
+            return _host.Matches(selectors);
         }
 
         public INode Clone(Boolean deep = true)
