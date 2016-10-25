@@ -4,16 +4,16 @@
     using System;
 
     /// <summary>
-    /// The nth-lastchild selector.
+    /// The nth-child selector.
     /// </summary>
-    sealed class LastChildSelector : ChildSelector
+    sealed class FirstChildSelector : ChildSelector
     {
-        public LastChildSelector(Int32 step, Int32 offset, ISelector kind)
-            : base(PseudoClassNames.NthLastChild, step, offset, kind)
+        public FirstChildSelector(Int32 step, Int32 offset, ISelector kind)
+            : base(PseudoClassNames.NthChild, step, offset, kind)
         {
         }
 
-        public override Boolean Match(IElement element)
+        public override Boolean Match(IElement element, IElement scope)
         {
             var parent = element.ParentElement;
 
@@ -22,11 +22,11 @@
                 var n = Math.Sign(Step);
                 var k = 0;
 
-                for (var i = parent.ChildNodes.Length - 1; i >= 0; i--)
+                for (var i = 0; i < parent.ChildNodes.Length; i++)
                 {
                     var child = parent.ChildNodes[i] as IElement;
 
-                    if (child != null && Kind.Match(child))
+                    if (child != null && Kind.Match(child, scope))
                     {
                         k += 1;
 

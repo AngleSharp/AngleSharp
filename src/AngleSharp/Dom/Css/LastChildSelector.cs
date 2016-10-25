@@ -1,20 +1,19 @@
 ﻿namespace AngleSharp.Dom.Css
 {
     using AngleSharp.Css;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
-    /// The nth-last-of-type selector.
+    /// The nth-lastchild selector.
     /// </summary>
-    sealed class LastTypeSelector : ChildSelector
+    sealed class LastChildSelector : ChildSelector
     {
-        public LastTypeSelector(Int32 step, Int32 offset, ISelector kind)
-            : base(PseudoClassNames.NthLastOfType, step, offset, kind)
+        public LastChildSelector(Int32 step, Int32 offset, ISelector kind)
+            : base(PseudoClassNames.NthLastChild, step, offset, kind)
         {
         }
 
-        public override Boolean Match(IElement element)
+        public override Boolean Match(IElement element, IElement scope)
         {
             var parent = element.ParentElement;
 
@@ -27,7 +26,7 @@
                 {
                     var child = parent.ChildNodes[i] as IElement;
 
-                    if (child != null && child.NodeName.Is(element.NodeName))
+                    if (child != null && Kind.Match(child, scope))
                     {
                         k += 1;
 

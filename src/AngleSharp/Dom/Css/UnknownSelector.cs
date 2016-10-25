@@ -14,7 +14,7 @@
             get { return Priority.Zero; }
         }
 
-        public Boolean Match(IElement element)
+        public Boolean Match(IElement element, IElement scope)
         {
             return false;
         }

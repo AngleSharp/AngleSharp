@@ -1048,6 +1048,8 @@
                     case Symbols.SquareBracketClose:
                     case Symbols.ReverseSolidus:
                         break;
+                    case Symbols.Minus:
+                    case Symbols.Underscore:
                     case Symbols.Dot:
                         chars[count++] = (Byte)hostName[i];
                         break;
@@ -1075,7 +1077,7 @@
                         {
                             var l = i + 1 < n && Char.IsSurrogatePair(hostName, i) ? 2 : 1;
 
-                            if (l == 1 && hostName[i] != Symbols.Minus && !Char.IsLetterOrDigit(hostName[i]))
+                            if (l == 1 && !Char.IsLetterOrDigit(hostName[i]))
                             {
                                 break;
                             }

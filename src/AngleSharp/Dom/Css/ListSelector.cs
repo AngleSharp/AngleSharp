@@ -9,23 +9,13 @@
     /// </summary>
     sealed class ListSelector : Selectors, ISelector
     {
-        #region Properties
-
-        public Boolean IsInvalid 
-        { 
-            get; 
-            internal set; 
-        }
-
-        #endregion
-
         #region Methods
 
-        public Boolean Match(IElement element)
+        public Boolean Match(IElement element, IElement scope)
         {
             for (var i = 0; i < _selectors.Count; i++)
             {
-                if (_selectors[i].Match(element))
+                if (_selectors[i].Match(element, scope))
                 {
                     return true;
                 }

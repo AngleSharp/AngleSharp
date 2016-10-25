@@ -9,6 +9,7 @@
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Class for construction for CSS selectors as specified in
@@ -677,6 +678,8 @@
         private sealed class HasFunctionState : FunctionState
         {
             readonly CssSelectorConstructor _nested;
+            bool _firstToken = true;
+            bool _matchSiblings = false;
 
             public HasFunctionState(CssSelectorConstructor parent)
             {
@@ -687,6 +690,14 @@
             {
                 if (token.Type != CssTokenType.RoundBracketClose || _nested._state != State.Data)
                 {
+                    if (_firstToken && token.Type == CssTokenType.Delim)
+                    {
+                        // Roughly equivalent to inserting an implicit :scope
+                        _nested.Insert(SimpleSelector.PseudoClass((el, scope) => el == scope, string.Empty));
+                        _nested.Apply(CssToken.Whitespace);
+                        _matchSiblings = true;
+                    }
+                    _firstToken = false;
                     _nested.Apply(token);
                     return false;
                 }
@@ -698,11 +709,32 @@
             {
                 var valid = _nested.IsValid;
                 var sel = _nested.GetResult();
+                var selText = sel.Text;
+                var matchSiblings = _matchSiblings || selText.Contains(":" + PseudoClassNames.Scope);
 
                 if (valid)
                 {
-                    var code = PseudoClassNames.Has.CssFunction(sel.Text);
-                    return SimpleSelector.PseudoClass(el => el.ChildNodes.QuerySelector(sel) != null, code);
+                    var code = PseudoClassNames.Has.CssFunction(selText);
+                    return SimpleSelector.PseudoClass(el =>
+                    {
+                        var elements = default(IEnumerable<IElement>);
+
+                        if (matchSiblings)
+                        {
+                            elements = el.ParentElement?.Children;
+                        }
+                        else
+                        {
+                            elements = el.Children;
+                        }
+
+                        if (elements == null)
+                        {
+                            elements = Enumerable.Empty<IElement>();
+                        }
+
+                        return sel.MatchAny(elements, el) != null;
+                    }, code);
                 }
 
                 return null;

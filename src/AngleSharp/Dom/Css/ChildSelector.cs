@@ -67,7 +67,7 @@
 
         #region Methods
 
-        public abstract Boolean Match(IElement element);
+        public abstract Boolean Match(IElement element, IElement scope);
 
         #endregion
 
@@ -77,17 +77,20 @@
         {
             var a = _step.ToString();
             var b = String.Empty;
+            var c = String.Empty;
 
             if (_offset > 0)
             {
-                b = "+" + _offset.ToString();
+                b = "+";
+                c = (+_offset).ToString();
             }
             else if (_offset < 0)
             {
-                b = _offset.ToString();
+                b = "-";
+                c = (-_offset).ToString();
             }
 
-            writer.Write(":{0}({1}n{2})", _name, a, b);
+            writer.Write(":{0}({1}n{2}{3})", _name, a, b, c);
         }
 
         #endregion

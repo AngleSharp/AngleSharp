@@ -1141,12 +1141,12 @@
 
         public IElement QuerySelector(String selectors)
         {
-            return ChildNodes.QuerySelector(selectors);
+            return ChildNodes.QuerySelector(selectors, DocumentElement);
         }
 
         public IHtmlCollection<IElement> QuerySelectorAll(String selectors)
         {
-            return ChildNodes.QuerySelectorAll(selectors);
+            return ChildNodes.QuerySelectorAll(selectors, DocumentElement);
         }
 
         public IHtmlCollection<IElement> GetElementsByClassName(String classNames)
