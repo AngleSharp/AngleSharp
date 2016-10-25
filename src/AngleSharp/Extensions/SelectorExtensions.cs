@@ -1,8 +1,9 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
-    using Parser.Css;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -191,6 +192,52 @@
         #region Selector Extensions
 
         /// <summary>
+        /// Returns the first element within the given elements (using depth-first
+        /// pre-order traversal) that match the selectors with the given scope.
+        /// </summary>
+        /// <param name="selector">A selector object.</param>
+        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="scope">The element to take as scope.</param>
+        /// <returns>The resulting element or null.</returns>
+        public static IElement MatchAny(this ISelector selector, IEnumerable<IElement> elements, IElement scope)
+        {
+            foreach (var element in elements)
+            {
+                if (selector.Match(element, scope))
+                {
+                    return element;
+                }
+
+                if (element.HasChildNodes)
+                {
+                    var child = selector.MatchAny(element.Children, scope);
+
+                    if (child != null)
+                    {
+                        return child;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the elements within the given elements (using depth-first
+        /// pre-order traversal) that match the selectors with the given scope.
+        /// </summary>
+        /// <param name="selector">A selector object.</param>
+        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="scope">The element to take as scope.</param>
+        /// <returns>The collection containing the resulting elements.</returns>
+        public static IHtmlCollection<IElement> MatchAll(this ISelector selector, IEnumerable<IElement> elements, IElement scope)
+        {
+            var result = new List<IElement>();
+            selector.MatchAll(elements, scope, result);
+            return new HtmlCollection<IElement>(result);
+        }
+
+        /// <summary>
         /// Provides an alternate to <see cref="ISelector.Match(IElement, IElement)" /> that sets the
         /// scope to the owning document element (if there is one).
         /// </summary>
@@ -205,6 +252,22 @@
         #endregion
 
         #region Helpers
+        
+        private static void MatchAll(this ISelector selector, IEnumerable<IElement> elements, IElement scope, List<IElement> result)
+        {
+            foreach (var element in elements)
+            {
+                if (selector.Match(element, scope))
+                {
+                    result.Add(element);
+                }
+
+                if (element.HasChildNodes)
+                {
+                    selector.MatchAll(element.Children, scope, result);
+                }
+            }
+        }
 
         private static IEnumerable<IElement> GetMany(this IEnumerable<IElement> elements, Func<IElement, IEnumerable<IElement>> getter, ISelector selector)
         {

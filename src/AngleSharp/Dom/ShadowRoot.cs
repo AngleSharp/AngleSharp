@@ -151,12 +151,12 @@
 
         public IElement QuerySelector(String selectors)
         {
-            return ((INode)this).QuerySelector(selectors);
+            return ChildNodes.QuerySelector(selectors, _host);
         }
 
         public IHtmlCollection<IElement> QuerySelectorAll(String selectors)
         {
-            return ((INode)this).QuerySelectorAll(selectors);
+            return ChildNodes.QuerySelectorAll(selectors, _host);
         }
 
         public IHtmlCollection<IElement> GetElementsByClassName(String classNames)

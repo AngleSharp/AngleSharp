@@ -3,14 +3,15 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Css;
-    using Parser.Css;
+    using AngleSharp.Parser.Css;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Extensions for performing QuerySelector operations.
     /// </summary>
-    static class QueryExtensions
+    public static class QueryExtensions
     {
         #region Text Selector
 
@@ -18,53 +19,15 @@
         /// Returns the first element within the document (using depth-first pre-order traversal
         /// of the document's nodes) that matches the specified group of selectors.
         /// </summary>
-        /// <param name="node">The node to take as source.</param>
-        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
-        /// <returns>An element object.</returns>
-        public static IElement QuerySelector(this INode node, String selectors)
-        {
-            var sg = CreateSelector(selectors, node);
-
-            if (sg == null || sg is UnknownSelector)
-                throw new DomException(DomError.Syntax);
-
-            return node.ChildNodes.QuerySelector(sg);
-        }
-
-        /// <summary>
-        /// Returns a list of the elements within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that match the specified group of selectors.
-        /// </summary>
-        /// <param name="node">The node to take as source.</param>
-        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
-        /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static HtmlCollection<IElement> QuerySelectorAll(this INode node, String selectors)
-        {
-            var sg = CreateSelector(selectors, node);
-
-            if (sg == null || sg is UnknownSelector)
-                throw new DomException(DomError.Syntax);
-
-            var result = new List<IElement>();
-            node.ChildNodes.QuerySelectorAll(sg, result);
-            return new HtmlCollection<IElement>(result);
-        }
-
-        /// <summary>
-        /// Returns the first element within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that matches the specified group of selectors.
-        /// </summary>
         /// <param name="elements">The elements to take as source.</param>
-        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
+        /// <param name="selectorText">A string containing one or more CSS selectors separated by commas.</param>
+        /// <param name="scopeNode">The optional node to take as scope.</param>
         /// <returns>An element object.</returns>
-        public static IElement QuerySelector(this INodeList elements, String selectors)
+        public static IElement QuerySelector(this INodeList elements, String selectorText, INode scopeNode = null)
         {
-            var sg = CreateSelector(selectors, null);
-
-            if (sg == null || sg is UnknownSelector)
-                throw new DomException(DomError.Syntax);
-
-            return elements.QuerySelector(sg);
+            var sg = CreateSelector(selectorText);
+            var scope = GetScope(scopeNode);
+            return sg.MatchAny(elements.OfType<IElement>(), scope);
         }
 
         /// <summary>
@@ -72,18 +35,14 @@
         /// of the document's nodes) that match the specified group of selectors.
         /// </summary>
         /// <param name="elements">The elements to take as source.</param>
-        /// <param name="selectors">A string containing one or more CSS selectors separated by commas.</param>
+        /// <param name="selectorText">A string containing one or more CSS selectors separated by commas.</param>
+        /// <param name="scopeNode">The optional node to take as scope.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static HtmlCollection<IElement> QuerySelectorAll(this INodeList elements, String selectors)
+        public static IHtmlCollection<IElement> QuerySelectorAll(this INodeList elements, String selectorText, INode scopeNode = null)
         {
-            var sg = CreateSelector(selectors, null);
-
-            if (sg == null || sg is UnknownSelector)
-                throw new DomException(DomError.Syntax);
-
-            var result = new List<IElement>();
-            elements.QuerySelectorAll(sg, result);
-            return new HtmlCollection<IElement>(result);
+            var sg = CreateSelector(selectorText);
+            var scope = GetScope(scopeNode);
+            return sg.MatchAll(elements.OfType<IElement>(), scope);
         }
 
         /// <summary>
@@ -92,7 +51,7 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="classNames">A string representing the list of class names to match; class names are separated by whitespace.</param>
         /// <returns>A collection of HTML elements.</returns>
-        public static HtmlCollection<IElement> GetElementsByClassName(this INodeList elements, String classNames)
+        public static IHtmlCollection<IElement> GetElementsByClassName(this INodeList elements, String classNames)
         {
             var result = new List<IElement>();
             var names = classNames.SplitSpaces();
@@ -111,7 +70,7 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public static HtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String tagName)
+        public static IHtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String tagName)
         {
             var result = new List<IElement>();
             elements.GetElementsByTagName(tagName.Is(Keywords.Asterisk) ? null : tagName, result);
@@ -126,7 +85,7 @@
         /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
         /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <returns>A NodeList of found elements in the order they appear in the tree.</returns>
-        public static HtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String namespaceUri, String localName)
+        public static IHtmlCollection<IElement> GetElementsByTagName(this INodeList elements, String namespaceUri, String localName)
         {
             var result = new List<IElement>();
             elements.GetElementsByTagName(namespaceUri, localName.Is(Keywords.Asterisk) ? null : localName, result);
@@ -135,97 +94,7 @@
 
         #endregion
 
-        #region Object Selector
-
-        /// <summary>
-        /// Returns the first element within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that matches the given selector.
-        /// </summary>
-        /// <param name="elements">The elements to take as source.</param>
-        /// <param name="selectors">A selector object.</param>
-        /// <returns>An element object.</returns>
-        public static T QuerySelector<T>(this INodeList elements, ISelector selectors)
-            where T : class, IElement
-        {
-            return elements.QuerySelector(selectors) as T;
-        }
-
-        /// <summary>
-        /// Returns the first element within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that matches the specified group of selectors.
-        /// </summary>
-        /// <param name="elements">The elements to take as source.</param>
-        /// <param name="selector">A selector object.</param>
-        /// <returns>An element object.</returns>
-        public static IElement QuerySelector(this INodeList elements, ISelector selector)
-        {
-            for (var i = 0; i < elements.Length; i++)
-            {
-                var element = elements[i] as IElement;
-
-                if (element != null)
-                {
-                    if (selector.Match(element))
-                    {
-                        return element;
-                    }
-
-                    if (element.HasChildNodes)
-                    {
-                        element = QuerySelector(element.ChildNodes, selector);
-
-                        if (element != null)
-                        {
-                            return element;
-                        }
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Returns a list of the elements within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that matches the selector.
-        /// </summary>
-        /// <param name="elements">The elements to take as source.</param>
-        /// <param name="selector">A selector object.</param>
-        /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static HtmlCollection<IElement> QuerySelectorAll(this INodeList elements, ISelector selector)
-        {
-            var result = new List<IElement>();
-            elements.QuerySelectorAll(selector, result);
-            return new HtmlCollection<IElement>(result);
-        }
-
-        /// <summary>
-        /// Returns a list of the elements within the document (using depth-first pre-order traversal
-        /// of the document's nodes) that match the specified group of selectors.
-        /// </summary>
-        /// <param name="elements">The elements to take as source.</param>
-        /// <param name="selector">A selector object.</param>
-        /// <param name="result">A reference to the list where to store the results.</param>
-        public static void QuerySelectorAll(this INodeList elements, ISelector selector, List<IElement> result)
-        {
-            for (var i = 0; i < elements.Length; i++)
-            {
-                var element = elements[i] as IElement;
-
-                if (element != null)
-                {
-                    if (selector.Match(element))
-                    {
-                        result.Add(element);
-                    }
-
-                    if (element.HasChildNodes)
-                    {
-                        QuerySelectorAll(element.ChildNodes, selector, result);
-                    }
-                }
-            }
-        }
+        #region Other Queries
 
         /// <summary>
         /// Returns true if the underlying string contains all of the tokens, otherwise false.
@@ -246,13 +115,17 @@
             return true;
         }
 
+        #endregion
+
+        #region Helpers
+
         /// <summary>
         /// Returns a set of elements which have all the given class names.
         /// </summary>
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="classNames">An array with class names to consider.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        public static void GetElementsByClassName(this INodeList elements, String[] classNames, List<IElement> result)
+        private static void GetElementsByClassName(this INodeList elements, String[] classNames, List<IElement> result)
         {
             for (var i = 0; i < elements.Length; i++)
             {
@@ -279,7 +152,7 @@
         /// <param name="elements">The elements to take as source.</param>
         /// <param name="tagName">A string representing the name of the elements. The special string "*" represents all elements.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        public static void GetElementsByTagName(this INodeList elements, String tagName, List<IElement> result)
+        private static void GetElementsByTagName(this INodeList elements, String tagName, List<IElement> result)
         {
             for (var i = 0; i < elements.Length; i++)
             {
@@ -308,7 +181,7 @@
         /// <param name="namespaceUri">The namespace URI of elements to look for.</param>
         /// <param name="localName">Either the local name of elements to look for or the special value "*", which matches all elements.</param>
         /// <param name="result">A reference to the list where to store the results.</param>
-        public static void GetElementsByTagName(this INodeList elements, String namespaceUri, String localName, List<IElement> result)
+        private static void GetElementsByTagName(this INodeList elements, String namespaceUri, String localName, List<IElement> result)
         {
             for (var i = 0; i < elements.Length; i++)
             {
@@ -329,24 +202,21 @@
             }
         }
 
-        #endregion
-
-        #region Helpers
-
-        private static ISelector CreateSelector(String selector, INode scopeNode)
+        private static IElement GetScope(INode scopeNode)
         {
-            var sel = CssSelectorParser.Default.ParseSelector(selector);
-            if(sel != null)
-            {
-                var scope = scopeNode as IElement 
-                    ?? (scopeNode as IDocument)?.DocumentElement
-                    ?? (scopeNode as IShadowRoot)?.Host;
-                if (scope != null)
-                {
-                    sel = new ScopedSelector(scope, sel);
-                }
-}
-            return sel;
+            return scopeNode as IElement ??
+                (scopeNode as IDocument)?.DocumentElement ??
+                (scopeNode as IShadowRoot)?.Host;
+        }
+
+        private static ISelector CreateSelector(String selectorText)
+        {
+            var sg = CssSelectorParser.Default.ParseSelector(selectorText);
+
+            if (sg == null || sg is UnknownSelector)
+                throw new DomException(DomError.Syntax);
+
+            return sg;
         }
 
         #endregion

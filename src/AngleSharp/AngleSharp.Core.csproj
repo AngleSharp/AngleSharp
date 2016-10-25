@@ -83,7 +83,6 @@
     <Compile Include="Dom\Css\LastChildSelector.cs" />
     <Compile Include="Dom\Css\LastColumnSelector.cs" />
     <Compile Include="Dom\Css\LastTypeSelector.cs" />
-    <Compile Include="Dom\Css\ScopedSelector.cs" />
     <Compile Include="Dom\Css\UnknownSelector.cs" />
     <Compile Include="Dom\Events\ErrorEvent.cs" />
     <Compile Include="Dom\Events\FocusEvent.cs" />

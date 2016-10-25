@@ -8,6 +8,7 @@
     using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Class for construction for CSS selectors as specified in
@@ -713,15 +714,26 @@
                 if (valid)
                 {
                     var code = PseudoClassNames.Has.CssFunction(selText);
-                    return SimpleSelector.PseudoClass(
-                        el =>
+                    return SimpleSelector.PseudoClass(el =>
+                    {
+                        var elements = default(IEnumerable<IElement>);
+
+                        if (matchSiblings)
                         {
-                            var scoped = new ScopedSelector(el, sel);
-                            return (matchSiblings
-                                ? el.Parent.ChildNodes.QuerySelector(scoped)
-                                : el.ChildNodes.QuerySelector(scoped)) != null;
-                        },
-                        code);
+                            elements = el.ParentElement?.Children;
+                        }
+                        else
+                        {
+                            elements = el.Children;
+                        }
+
+                        if (elements == null)
+                        {
+                            elements = Enumerable.Empty<IElement>();
+                        }
+
+                        return sel.MatchAny(elements, el) != null;
+                    }, code);
                 }
 
                 return null;
