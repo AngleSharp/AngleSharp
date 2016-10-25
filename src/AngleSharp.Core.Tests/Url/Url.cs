@@ -38,7 +38,6 @@
             Assert.That(String.IsNullOrEmpty(result.Query), Is.True);
         }
 
-
         [Test]
         public void ValidityOfValidGoogleHostnameAddress()
         {
@@ -114,6 +113,26 @@
             Assert.IsFalse(result.IsInvalid);
             Assert.AreEqual("http://test/?hi%E2%80%94there", result.Href);
             Assert.AreEqual("hi%E2%80%94there", result.Query);
+        }
+
+        [Test]
+        public void UrlWithSpecialCharacterUnderscoreDomain()
+        {
+            var address = "http://example_domain.com/image.jpg";
+            var result = new Url(address);
+            Assert.IsFalse(result.IsInvalid);
+            Assert.AreEqual(address, result.Href);
+            Assert.AreEqual("example_domain.com", result.HostName);
+        }
+
+        [Test]
+        public void UrlWithSpecialCharacterUnderscoreSubDomain()
+        {
+            var address = "https://loony_picture.dirty.ru/";
+            var result = new Url(address);
+            Assert.IsFalse(result.IsInvalid);
+            Assert.AreEqual(address, result.Href);
+            Assert.AreEqual("loony_picture.dirty.ru", result.HostName);
         }
     }
 }
