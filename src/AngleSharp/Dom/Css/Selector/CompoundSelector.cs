@@ -11,7 +11,7 @@
     {
         #region Methods
 
-        public bool Match(IElement element, IElement scope)
+        public Boolean Match(IElement element, IElement scope)
         {
             for (var i = 0; i < _selectors.Count; i++)
             {

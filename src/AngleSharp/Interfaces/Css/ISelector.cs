@@ -22,7 +22,7 @@
         /// <returns>
         /// True if the selector matches the given element, otherwise false.
         /// </returns>
-        bool Match(IElement element, IElement scope);
+        Boolean Match(IElement element, IElement scope);
 
         /// <summary>
         /// Gets the string representation of the selector.

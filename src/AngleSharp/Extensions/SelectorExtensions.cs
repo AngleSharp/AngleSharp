@@ -186,6 +186,10 @@
             return elements.Get(m => m.PreviousElementSibling, selector);
         }
 
+        #endregion
+
+        #region Selector Extensions
+
         /// <summary>
         /// Provides an alternate to <see cref="ISelector.Match(IElement, IElement)" /> that sets the
         /// scope to the owning document element (if there is one).
@@ -193,9 +197,9 @@
         /// <param name="selector">The selector.</param>
         /// <param name="element">The element to match against.</param>
         /// <returns>The result of the match.</returns>
-        public static bool Match(this ISelector selector, IElement element)
+        public static Boolean Match(this ISelector selector, IElement element)
         {
-            return selector.Match(element, element.Owner.DocumentElement);
+            return selector.Match(element, element?.Owner.DocumentElement);
         }
 
         #endregion

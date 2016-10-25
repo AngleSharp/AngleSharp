@@ -35,7 +35,7 @@
             get { return _selector.Specifity; }
         }
 
-        public string Text
+        public String Text
         {
             get { return _selector.Text; }
         }
@@ -49,7 +49,7 @@
             _selector.ToCss(writer, formatter);
         }
 
-        public bool Match(IElement element, IElement scope)
+        public Boolean Match(IElement element, IElement scope)
         {
             return _selector.Match(element, _scope);
         }

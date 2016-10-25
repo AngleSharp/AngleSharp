@@ -13,7 +13,7 @@
         {
         }
 
-        public override bool Match(IElement element, IElement scope)
+        public override Boolean Match(IElement element, IElement scope)
         {
             var parent = element.ParentElement;
 

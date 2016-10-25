@@ -9,19 +9,9 @@
     /// </summary>
     sealed class ListSelector : Selectors, ISelector
     {
-        #region Properties
-
-        public Boolean IsInvalid 
-        { 
-            get; 
-            internal set; 
-        }
-
-        #endregion
-
         #region Methods
 
-        public bool Match(IElement element, IElement scope)
+        public Boolean Match(IElement element, IElement scope)
         {
             for (var i = 0; i < _selectors.Count; i++)
             {

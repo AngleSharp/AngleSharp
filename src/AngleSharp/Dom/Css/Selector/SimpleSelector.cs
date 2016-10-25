@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        private readonly Func<IElement, IElement, bool> _matches;
+        private readonly Func<IElement, IElement, Boolean> _matches;
         private readonly Priority _specifity;
         private readonly String _code;
 
@@ -36,7 +36,7 @@
         {
         }
 
-        public SimpleSelector(Func<IElement, IElement, bool> matches, Priority specifify, String code)
+        public SimpleSelector(Func<IElement, IElement, Boolean> matches, Priority specifify, String code)
         {
             _matches = matches;
             _specifity = specifify;
@@ -73,7 +73,7 @@
             return new SimpleSelector(action, Priority.OneClass, PseudoClassNames.Separator + pseudoClass);
         }
 
-        public static SimpleSelector PseudoClass(Func<IElement, IElement, bool> action, String pseudoClass)
+        public static SimpleSelector PseudoClass(Func<IElement, IElement, Boolean> action, String pseudoClass)
         {
             return new SimpleSelector(action, Priority.OneClass, PseudoClassNames.Separator + pseudoClass);
         }
@@ -214,7 +214,7 @@
 
         #region Methods
 
-        public bool Match(IElement element, IElement scope)
+        public Boolean Match(IElement element, IElement scope)
         {
             return _matches(element, scope);
         }

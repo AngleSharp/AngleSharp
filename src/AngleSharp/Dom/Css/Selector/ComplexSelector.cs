@@ -82,7 +82,7 @@
             }
         }
 
-        public bool Match(IElement element, IElement scope)
+        public Boolean Match(IElement element, IElement scope)
         {
             var last = _selectors.Count - 1;
 
