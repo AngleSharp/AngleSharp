@@ -104,7 +104,7 @@
     <Compile Include="Mocks\MarkdownDocument.cs" />
     <Compile Include="Mocks\MockIntegrityProvider.cs" />
     <Compile Include="Mocks\VirtualRequester.cs" />
-    <Compile Include="Url\MimeType.cs" />
+    <Compile Include="Urls\MimeType.cs" />
     <Compile Include="Library\MutationObserver.cs" />
     <Compile Include="Library\OptionWithLabel.cs" />
     <Compile Include="Library\PageImport.cs" />
@@ -133,7 +133,7 @@
     <Compile Include="Library\DOMExtensions.cs" />
     <Compile Include="Library\HttpRequester.cs" />
     <Compile Include="Library\AsyncParsing.cs" />
-    <Compile Include="Url\Location.cs" />
+    <Compile Include="Urls\Location.cs" />
     <Compile Include="Library\OptimizationPool.cs" />
     <Compile Include="Library\FormSubmit.cs" />
     <Compile Include="Css\Priority.cs" />
@@ -141,8 +141,8 @@
     <Compile Include="Library\TreeWalker.cs" />
     <Compile Include="Library\NodeIterator.cs" />
     <Compile Include="Library\DOMActions.cs" />
-    <Compile Include="Url\Url.cs" />
-    <Compile Include="Url\UrlValidation.cs" />
+    <Compile Include="Urls\Url.cs" />
+    <Compile Include="Urls\UrlValidation.cs" />
     <Compile Include="Mocks\CallbackScriptEngine.cs" />
     <Compile Include="Mocks\ContentScriptEngine.cs" />
     <Compile Include="Mocks\DelayedStream.cs" />
@@ -173,6 +173,7 @@
     <Compile Include="TestExtensions.cs" />
     <Compile Include="Xhtml\PreserveValidXhtml.cs" />
     <Compile Include="Xhtml\AutoSelectMarkupFormatter.cs" />
+    <Compile Include="Xml\XmlNamespace.cs" />
     <Compile Include="Xml\XmlParsing.cs" />
     <Compile Include="Xml\XmlSamples.cs" />
     <Compile Include="Xml\XmlTokenization.cs" />
