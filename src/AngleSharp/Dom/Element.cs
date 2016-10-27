@@ -561,9 +561,13 @@
 
         public void Insert(AdjacentPosition position, String html)
         {
-            var useThis = position == AdjacentPosition.BeforeBegin || position == AdjacentPosition.AfterEnd;
-            var nodeParent = useThis ? this : Parent as Element;
-            var nodes = new DocumentFragment(nodeParent, html);
+            var useThis = position == AdjacentPosition.AfterBegin || position == AdjacentPosition.BeforeEnd;
+            var context = useThis ? this : Parent as Element;
+
+            if (context == null)
+                throw new DomException("The element has no parent.");
+
+            var nodes = new DocumentFragment(context, html);
 
             switch (position)
             {

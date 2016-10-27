@@ -1214,5 +1214,36 @@
 
             Assert.IsFalse(input.FormNoValidate);
         }
+
+        [Test]
+        public void InsertAdjacentHtmlRequiresParentForBeforeBegin()
+        {
+            var document = CreateEmpty(String.Empty);
+            var div = document.CreateElement("div") as IElement;
+            Assert.Catch<DomException>(() =>
+            {
+                div.Insert(AdjacentPosition.BeforeBegin, "<span></span>");
+            });
+        }
+
+        [Test]
+        public void InsertAdjacentHtmlWorksWithSpanElement()
+        {
+            var document = CreateEmpty(String.Empty);
+            var div = document.CreateElement("div");
+            var x = div.AppendChild(document.CreateElement("span")) as IElement;
+            x.Insert(AdjacentPosition.AfterEnd, "<p class=\"cls\">Text</p>");
+            Assert.AreEqual("<span></span><p class=\"cls\">Text</p>", div.InnerHtml);
+        }
+
+        [Test]
+        public void InsertAdjacentHtmlWorksWithSelectElement()
+        {
+            var document = CreateEmpty(String.Empty);
+            var div = document.CreateElement("div");
+            var x = div.AppendChild(document.CreateElement("select")) as IElement;
+            x.Insert(AdjacentPosition.AfterEnd, "<p class=\"cls\">Text</p>");
+            Assert.AreEqual("<select></select><p class=\"cls\">Text</p>", div.InnerHtml);
+        }
     }
 }
