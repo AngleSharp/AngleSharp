@@ -118,7 +118,7 @@
 
         public String NamespaceUri
         {
-            get { return _namespace; }
+            get { return _namespace ?? this.GetNamespaceUri(); }
         }
 
         public override String TextContent

@@ -51,18 +51,68 @@
             var ns = element.NamespaceUri;
             var px = element.Prefix;
 
-            if (!String.IsNullOrEmpty(ns) && px.Is(prefix))
+            if (String.IsNullOrEmpty(ns) || !px.Is(prefix))
             {
-                return ns;
+                var success = false;
+
+                if (prefix == null)
+                {
+                    success = element.TryLocateStandardNamespace(out ns);
+                }
+                else
+                {
+                    success = element.TryLocateCustomNamespace(prefix, out ns);
+                }
+
+                if (!success)
+                {
+                    ns = element.ParentElement?.LocateNamespaceFor(prefix);
+                }
             }
 
-            var predicate = prefix == null ? (Predicate<IAttr>)
-                (attr => (attr.NamespaceUri.Is(NamespaceNames.XmlNsUri) && attr.Prefix == null && attr.LocalName.Is(NamespaceNames.XmlNsPrefix))) :
-                (attr => (attr.NamespaceUri.Is(NamespaceNames.XmlNsUri) && attr.Prefix.Is(NamespaceNames.XmlNsPrefix) && attr.LocalName.Is(prefix)));
+            return ns;
+        }
 
+        /// <summary>
+        /// Gets the non-fixed namespace of the element.
+        /// </summary>
+        /// <param name="element">The element.</param>
+        /// <returns>The url of the namespace.</returns>
+        public static String GetNamespaceUri(this IElement element)
+        {
+            var prefix = element.Prefix;
+            var success = false;
+            var ns = String.Empty;
+
+            if (prefix == null)
+            {
+                success = element.TryLocateStandardNamespace(out ns);
+            }
+            else
+            {
+                success = element.TryLocateCustomNamespace(prefix, out ns);
+            }
+
+            if (!success)
+            {
+                ns = element.ParentElement?.NamespaceUri;
+            }
+
+            return ns;
+        }
+
+        /// <summary>
+        /// Tries to locate a custom namespace URI.
+        /// </summary>
+        /// <param name="element">The element to locate the namespace URI for.</param>
+        /// <param name="prefix">The prefix of the custom namespace.</param>
+        /// <param name="namespaceUri">The located namespace URI.</param>
+        /// <returns>True if the namespace URI could be located, otherwise false.</returns>
+        public static Boolean TryLocateCustomNamespace(this IElement element, String prefix, out String namespaceUri)
+        {
             foreach (var attr in element.Attributes)
             {
-                if (predicate(attr))
+                if (attr.NamespaceUri.Is(NamespaceNames.XmlNsUri) && attr.Prefix.Is(NamespaceNames.XmlNsPrefix) && attr.LocalName.Is(prefix))
                 {
                     var value = attr.Value;
 
@@ -71,11 +121,41 @@
                         value = null;
                     }
 
-                    return value;
+                    namespaceUri = value;
+                    return true;
                 }
             }
 
-            return element.ParentElement?.LocateNamespaceFor(prefix);
+            namespaceUri = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Tries to locate the standard namespace URI.
+        /// </summary>
+        /// <param name="element">The element to locate the namespace URI for.</param>
+        /// <param name="namespaceUri">The located namespace URI.</param>
+        /// <returns>True if the namespace URI could be located, otherwise false.</returns>
+        public static Boolean TryLocateStandardNamespace(this IElement element, out String namespaceUri)
+        {
+            foreach (var attr in element.Attributes)
+            {
+                if (attr.Prefix == null && attr.LocalName.Is(NamespaceNames.XmlNsPrefix))
+                {
+                    var value = attr.Value;
+
+                    if (String.IsNullOrEmpty(value))
+                    {
+                        value = null;
+                    }
+
+                    namespaceUri = value;
+                    return true;
+                }
+            }
+
+            namespaceUri = null;
+            return false;
         }
 
         /// <summary>
