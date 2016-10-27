@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Xml;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
     using AngleSharp.Services;
     using AngleSharp.Xml;
     using System;
@@ -19,14 +20,14 @@
     {
         #region Fields
 
-        readonly XmlTokenizer _tokenizer;
-        readonly Document _document;
-        readonly List<Element> _openElements;
-        readonly Func<Document, String, String, Element> _creator;
+        private readonly XmlTokenizer _tokenizer;
+        private readonly Document _document;
+        private readonly List<Element> _openElements;
+        private readonly Func<Document, String, String, Element> _creator;
 
-        XmlParserOptions _options;
-        XmlTreeMode _currentMode;
-        Boolean _standalone;
+        private XmlParserOptions _options;
+        private XmlTreeMode _currentMode;
+        private Boolean _standalone;
 
         #endregion
 
@@ -127,7 +128,7 @@
         /// Consumes a token and processes it.
         /// </summary>
         /// <param name="token">The token to consume.</param>
-        void Consume(XmlToken token)
+        private void Consume(XmlToken token)
         {
             switch (_currentMode)
             {
@@ -153,7 +154,7 @@
         /// The initial state. Expects an XML declaration.
         /// </summary>
         /// <param name="token">The consumed token.</param>
-        void Initial(XmlToken token)
+        private void Initial(XmlToken token)
         {
             if (token.Type == XmlTokenType.Declaration)
             {
@@ -182,7 +183,7 @@
         /// allowed.
         /// </summary>
         /// <param name="token">The consumed token.</param>
-        void BeforeDoctype(XmlToken token)
+        private void BeforeDoctype(XmlToken token)
         {
             switch (token.Type)
             {
@@ -211,7 +212,7 @@
         /// In the body state - no doctypes and declarations allowed.
         /// </summary>
         /// <param name="token">The consumed token.</param>
-        void InMisc(XmlToken token)
+        private void InMisc(XmlToken token)
         {
             switch (token.Type)
             {
@@ -251,15 +252,22 @@
         /// In the body state - no doctypes and declarations allowed.
         /// </summary>
         /// <param name="token">The consumed token.</param>
-        void InBody(XmlToken token)
+        private void InBody(XmlToken token)
         {
             switch (token.Type)
             {
                 case XmlTokenType.StartTag:
                 {
                     var tagToken = (XmlTagToken)token;
-                    var element = _creator.Invoke(_document, tagToken.Name, null);
+                    var element = CreateElement(tagToken.Name);
                     CurrentNode.AppendChild(element);
+
+                    for (var i = 0; i < tagToken.Attributes.Count; i++)
+                    {
+                        var attr = tagToken.Attributes[i];
+                        var item = CreateAttribute(attr.Key, attr.Value.Trim());
+                        element.Attributes.FastAddItem(item);
+                    }
 
                     if (!tagToken.IsSelfClosing)
                     {
@@ -268,13 +276,6 @@
                     else if (_openElements.Count == 0)
                     {
                         _currentMode = XmlTreeMode.After;
-                    }
-
-                    for (var i = 0; i < tagToken.Attributes.Count; i++)
-                    {
-                        var name = tagToken.Attributes[i].Key;
-                        var value = tagToken.Attributes[i].Value.Trim();
-                        element.SetAttribute(name, value);
                     }
 
                     if (_options.OnCreated != null)
@@ -359,7 +360,7 @@
         /// After the body state - nothing except Comment PI S allowed.
         /// </summary>
         /// <param name="token">The consumed token.</param>
-        void AfterBody(XmlToken token)
+        private void AfterBody(XmlToken token)
         {
             switch (token.Type)
             {
@@ -389,18 +390,52 @@
 
         #region Helpers
 
-        static Element CreateElement(Document document, String name, String prefix)
+        private static Element CreateElement(Document document, String name, String prefix)
         {
             return new XmlElement(document, name, prefix);
         }
-        
-        Boolean CheckVersion(String ver)
+
+        private Element CreateElement(String name)
+        {
+            var prefix = default(String);
+            var colon = name.IndexOf(Symbols.Colon);
+
+            if (colon > 0 && colon < name.Length - 1)
+            {
+                prefix = name.Substring(0, colon);
+                name = name.Substring(colon + 1);
+            }
+
+            return _creator.Invoke(_document, name, prefix);
+        }
+
+        private Attr CreateAttribute(String name, String value)
+        {
+            var colon = name.IndexOf(Symbols.Colon);
+
+            if (colon > 0 && colon < name.Length - 1)
+            {
+                var prefix = name.Substring(0, colon);
+                var ns = NamespaceNames.XmlNsUri;
+
+                if (!prefix.Is(NamespaceNames.XmlNsPrefix))
+                {
+                    ns = CurrentNode.LookupNamespaceUri(prefix);
+                }
+                
+                return new Attr(prefix, name.Substring(colon + 1), value, ns);
+            }
+
+            return new Attr(name, value);
+        }
+
+        private static Boolean CheckVersion(String ver)
         {
             var t = ver.ToDouble(0.0);
             return t >= 1.0 && t < 2.0;
         }
-        
-        void SetEncoding(String charSet)
+
+        private void SetEncoding(String charSet)
         {
             if (TextEncoding.IsSupported(charSet))
             {
