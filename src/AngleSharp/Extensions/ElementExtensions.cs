@@ -95,7 +95,7 @@
 
             if (!success)
             {
-                ns = element.ParentElement?.NamespaceUri;
+                ns = element.ParentElement?.LocateNamespaceFor(prefix);
             }
 
             return ns;
