@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests.Urls
 {
     using NUnit.Framework;
     using System;
