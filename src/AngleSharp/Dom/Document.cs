@@ -3,11 +3,12 @@
     using AngleSharp.Browser;
     using AngleSharp.Common;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Html.Dom;
+    using AngleSharp.Dom.Services;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Mathml.Dom;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Io;
+    using AngleSharp.Mathml.Dom;
     using AngleSharp.Svg.Dom;
     using AngleSharp.Text;
     using System;

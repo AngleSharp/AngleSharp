@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom
+﻿namespace AngleSharp.Dom.Services
 {
     using System.Threading;
     using System.Threading.Tasks;

@@ -2,6 +2,7 @@
 {
     using AngleSharp.Browser;
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Services;
     using AngleSharp.Extensions;
     using System.Threading;
     using System.Threading.Tasks;

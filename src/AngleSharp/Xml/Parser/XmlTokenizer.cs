@@ -2,8 +2,8 @@
 {
     using AngleSharp.Common;
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Services;
     using AngleSharp.Extensions;
-    using AngleSharp.Services;
     using AngleSharp.Text;
     using AngleSharp.Xml.Parser.Tokens;
     using System;

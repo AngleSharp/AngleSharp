@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Services
+﻿namespace AngleSharp.Io.Services
 {
     using System;
 

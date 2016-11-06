@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Services
+﻿namespace AngleSharp.Browser.Services
 {
     using System;
     using System.Collections.Generic;

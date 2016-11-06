@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Html.InputTypes;
+    using AngleSharp.Html.Services;
     using AngleSharp.Io.Dom;
     using System;
 

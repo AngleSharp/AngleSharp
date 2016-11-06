@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Mathml.Dom
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Services;
     using AngleSharp.Extensions;
     using System;
 

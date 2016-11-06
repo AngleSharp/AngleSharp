@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Svg
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Services;
     using AngleSharp.Svg.Dom;
     using System;
     using System.Collections.Generic;

@@ -1,10 +1,11 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.Browser;
+    using AngleSharp.Browser.Services;
     using AngleSharp.Common;
     using AngleSharp.Extensions;
     using AngleSharp.Io;
-    using AngleSharp.Services;
-    using AngleSharp.Services.Default;
+    using AngleSharp.Io.Services;
     using System;
     using System.Collections.Generic;
     using System.Globalization;

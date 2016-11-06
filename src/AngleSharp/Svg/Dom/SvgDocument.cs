@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
+    using AngleSharp.Dom.Services;
     using AngleSharp.Extensions;
     using AngleSharp.Io;
     using AngleSharp.Text;

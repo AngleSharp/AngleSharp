@@ -392,7 +392,7 @@
         {
             var documentFactory = new DocumentFactory();
             documentFactory.Register("text/markdown", (ctx, options, cancel) => Task.FromResult<IDocument>(new MarkdownDocument(ctx, options.Source)));
-            var config = new Configuration(new Object[] { documentFactory, new ContextFactory(), new ServiceFactory() });
+            var config = new Configuration(new Object[] { documentFactory, new DefaultContextFactory(), new ServiceFactory() });
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, "text/markdown"));
             Assert.IsInstanceOf<MarkdownDocument>(document);
@@ -405,7 +405,7 @@
             var documentFactory = new DocumentFactory();
             documentFactory.Register(type, (ctx, options, cancel) => Task.FromResult<IDocument>(new MarkdownDocument(ctx, options.Source)));
             var handler = documentFactory.Unregister(type);
-            var config = new Configuration(new Object[] { documentFactory, new ContextFactory(), new ServiceFactory(), new HtmlElementFactory(), new SvgElementFactory(), new MathElementFactory(), new EventFactory() });
+            var config = new Configuration(new Object[] { documentFactory, new DefaultContextFactory(), new ServiceFactory(), new HtmlElementFactory(), new SvgElementFactory(), new MathElementFactory(), new EventFactory() });
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, type));
             Assert.IsNotNull(handler);

@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Services;
+    using AngleSharp.Dom.Services;
     using System;
 
     sealed class MockEntityProvider : IEntityProvider

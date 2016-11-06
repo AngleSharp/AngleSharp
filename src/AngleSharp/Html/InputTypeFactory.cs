@@ -2,6 +2,7 @@
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.InputTypes;
+    using AngleSharp.Html.Services;
     using System;
     using System.Collections.Generic;
 

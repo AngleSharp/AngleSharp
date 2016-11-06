@@ -66,7 +66,7 @@
         /// <summary>
         /// The browsing context factory.
         /// </summary>
-        public static readonly ContextFactory BrowsingContext = new ContextFactory();
+        public static readonly DefaultContextFactory BrowsingContext = new DefaultContextFactory();
 
         /// <summary>
         /// The service factory.

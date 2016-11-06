@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Services.Default
+﻿namespace AngleSharp.Io
 {
+    using AngleSharp.Io.Services;
     using System;
     using System.Net;
 

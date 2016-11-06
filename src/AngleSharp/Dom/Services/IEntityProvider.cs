@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Services
+﻿namespace AngleSharp.Dom.Services
 {
     using System;
 

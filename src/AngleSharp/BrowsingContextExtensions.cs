@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Services;
     using AngleSharp.Extensions;
     using AngleSharp.Io;
     using System;

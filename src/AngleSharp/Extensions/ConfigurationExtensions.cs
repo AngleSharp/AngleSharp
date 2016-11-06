@@ -1,11 +1,13 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Browser;
+    using AngleSharp.Browser.Services;
     using AngleSharp.Css;
-    using AngleSharp.Media;
+    using AngleSharp.Css.Services;
     using AngleSharp.Io;
+    using AngleSharp.Io.Services;
+    using AngleSharp.Media;
     using AngleSharp.Scripting;
-    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.Globalization;

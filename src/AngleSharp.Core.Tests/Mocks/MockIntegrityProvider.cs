@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Services;
+    using AngleSharp.Io.Services;
     using System;
 
     sealed class MockIntegrityProvider : IIntegrityProvider

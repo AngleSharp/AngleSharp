@@ -2,8 +2,8 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Html.LinkRels;
+    using AngleSharp.Html.Services;
     using AngleSharp.Io;
     using System;
 

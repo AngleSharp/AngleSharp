@@ -3,10 +3,10 @@
     using AngleSharp.Common;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
+    using AngleSharp.Dom.Services;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Html.Parser.Tokens;
-    using AngleSharp.Services;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;

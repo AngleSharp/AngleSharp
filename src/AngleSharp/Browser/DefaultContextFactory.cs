@@ -1,14 +1,15 @@
 ﻿namespace AngleSharp.Browser
 {
+    using AngleSharp.Browser.Services;
     using System;
     using System.Collections.Generic;
 
     /// <summary>
     /// THe default browsing context factory.
     /// </summary>
-    public class ContextFactory : IContextFactory
+    public class DefaultContextFactory : IContextFactory
     {
-        readonly Dictionary<String, WeakReference<IBrowsingContext>> _cache = new Dictionary<String, WeakReference<IBrowsingContext>>();
+        private readonly Dictionary<String, WeakReference<IBrowsingContext>> _cache = new Dictionary<String, WeakReference<IBrowsingContext>>();
 
         /// <summary>
         /// Creates a new browsing context from the given configuration.

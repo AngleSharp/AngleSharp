@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Xml
 {
-    using AngleSharp.Services;
+    using AngleSharp.Dom.Services;
     using System;
     using System.Collections.Generic;
 

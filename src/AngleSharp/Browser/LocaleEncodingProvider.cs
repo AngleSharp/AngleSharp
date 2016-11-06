@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Services.Default
+﻿namespace AngleSharp.Browser
 {
+    using AngleSharp.Browser.Services;
     using AngleSharp.Extensions;
     using AngleSharp.Text;
     using System;
