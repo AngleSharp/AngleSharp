@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Xml
 {
-    using AngleSharp.Html;
     using System;
 
     /// <summary>
@@ -11,7 +10,7 @@
         #region ctor
 
         public XmlElement(Document owner, String name, String prefix = null)
-            : base(owner, name, prefix, NamespaceNames.XmlUri)
+            : base(owner, name, prefix, null)
         {
         }
 
