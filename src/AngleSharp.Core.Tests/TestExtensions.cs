@@ -3,10 +3,10 @@
     using AngleSharp.Core.Tests.External;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
+    using AngleSharp.Html.Parser;
     using AngleSharp.Network;
-    using AngleSharp.Parser.Html;
-    using AngleSharp.Parser.Xml;
     using AngleSharp.Scripting;
+    using AngleSharp.Xml.Parser;
     using NUnit.Framework;
     using System;
     using System.IO;

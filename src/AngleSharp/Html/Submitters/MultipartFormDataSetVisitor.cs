@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Html.Submitters
 {
-    using AngleSharp.Dom.Io;
     using AngleSharp.Extensions;
+    using AngleSharp.Io.Dom;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -11,11 +11,11 @@
     {
         #region Fields
 
-        static readonly String DashDash = "--";
+        private static readonly String DashDash = "--";
 
-        readonly Encoding _encoding;
-        readonly List<Action<StreamWriter>> _writers;
-        readonly String _boundary;
+        private readonly Encoding _encoding;
+        private readonly List<Action<StreamWriter>> _writers;
+        private readonly String _boundary;
 
         #endregion
 

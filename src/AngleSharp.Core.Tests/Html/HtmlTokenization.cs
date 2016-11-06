@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Core.Tests
 {
     using AngleSharp.Html;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Parser;
+    using AngleSharp.Html.Parser.Tokens;
     using AngleSharp.Text;
     using NUnit.Framework;
     using System;

@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Core.Tests.External
 {
     using AngleSharp.Dom.Xml;
-    using AngleSharp.Parser.Xml;
     using AngleSharp.Xml;
+    using AngleSharp.Xml.Parser;
     using System;
     using System.IO;
 

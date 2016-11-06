@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Html
 {
-    using AngleSharp.Dom.Io;
     using AngleSharp.Extensions;
     using AngleSharp.Html.Submitters;
+    using AngleSharp.Io.Dom;
     using AngleSharp.Text;
     using System;
     using System.Collections;

@@ -3,7 +3,7 @@
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Parser;
     using AngleSharp.Text;
     using System;
     using System.IO;

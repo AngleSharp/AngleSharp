@@ -3,8 +3,8 @@
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
-    using AngleSharp.Parser.Xml;
     using AngleSharp.Text;
+    using AngleSharp.Xml.Parser;
     using Services;
     using System;
     using System.Threading;

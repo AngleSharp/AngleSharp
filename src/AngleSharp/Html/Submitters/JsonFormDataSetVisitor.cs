@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Html.Submitters
 {
-    using AngleSharp.Dom.Io;
     using AngleSharp.Extensions;
     using AngleSharp.Html.Submitters.Json;
+    using AngleSharp.Io.Dom;
     using System;
     using System.IO;
 
@@ -10,7 +10,7 @@
     {
         #region Fields
 
-        readonly JsonObject _context;
+        private readonly JsonObject _context;
 
         #endregion
 
@@ -69,12 +69,16 @@
 
         #region Helpers
 
-        static JsonValue CreateValue(String type, String value)
+        private static JsonValue CreateValue(String type, String value)
         {
             if (type.Is(InputTypeNames.Checkbox))
+            {
                 return new JsonValue(value.Is(Keywords.On));
+            }
             else if (type.Is(InputTypeNames.Number))
+            {
                 return new JsonValue(value.ToDouble());
+            }
 
             return new JsonValue(value);
         }

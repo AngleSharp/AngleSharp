@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Performance.Selector
 {
     using AngleSharp;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Parser;
     using System;
 
     class AngleSharpParser : ITestee

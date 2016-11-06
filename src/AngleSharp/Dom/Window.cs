@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom
 {
+    using AngleSharp.Browser.Dom;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Dom.Navigator;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using System;

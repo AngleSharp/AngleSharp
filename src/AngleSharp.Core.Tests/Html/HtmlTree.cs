@@ -3,7 +3,7 @@
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Parser;
     using NUnit.Framework;
     using System.Linq;
 

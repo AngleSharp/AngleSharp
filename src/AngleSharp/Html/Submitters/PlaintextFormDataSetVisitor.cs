@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Html.Submitters
 {
-    using AngleSharp.Dom.Io;
+    using AngleSharp.Io.Dom;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -9,7 +9,7 @@
     {
         #region Fields
 
-        readonly List<String> _lines;
+        private readonly List<String> _lines;
 
         #endregion
 
@@ -50,7 +50,7 @@
 
         #region Helpers
 
-        void Add(String name, String value)
+        private void Add(String name, String value)
         {
             _lines.Add(String.Concat(name, "=", value));
         }

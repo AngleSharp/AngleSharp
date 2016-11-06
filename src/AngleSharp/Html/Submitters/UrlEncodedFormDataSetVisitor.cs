@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Html.Submitters
 {
-    using AngleSharp.Dom.Io;
     using AngleSharp.Extensions;
+    using AngleSharp.Io.Dom;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -11,10 +11,10 @@
     {
         #region Fields
 
-        readonly Encoding _encoding;
-        readonly List<String> _lines;
-        Boolean _first;
-        String _index;
+        private readonly Encoding _encoding;
+        private readonly List<String> _lines;
+        private Boolean _first;
+        private String _index;
 
         #endregion
 
@@ -71,7 +71,7 @@
 
         #region Helpers
 
-        void Add(Byte[] name, Byte[] value)
+        private void Add(Byte[] name, Byte[] value)
         {
             _lines.Add(String.Concat(name.UrlEncode(), "=", value.UrlEncode()));
         }

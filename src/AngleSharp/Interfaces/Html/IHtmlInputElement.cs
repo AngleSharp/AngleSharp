@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Dom.Io;
+    using AngleSharp.Io.Dom;
     using System;
 
     /// <summary>

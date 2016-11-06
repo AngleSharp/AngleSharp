@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Performance.Html
 {
     using AngleSharp;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Parser;
     using System;
     using System.Collections.Generic;
     using System.Linq;

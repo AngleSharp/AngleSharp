@@ -3,8 +3,8 @@
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Dom.Io;
     using AngleSharp.Extensions;
+    using AngleSharp.Io.Dom;
     using AngleSharp.Network;
     using NUnit.Framework;
     using System;

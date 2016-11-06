@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Browser.Dom;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Dom.Navigator;
     using System;
 
     /// <summary>

@@ -2,7 +2,7 @@
 {
     using AngleSharp;
     using AngleSharp.Dom;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Parser;
     using System;
 
     class AngleSharpSelector : ITestee

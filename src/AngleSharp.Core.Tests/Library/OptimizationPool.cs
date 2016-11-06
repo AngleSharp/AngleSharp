@@ -2,7 +2,8 @@
 {
     using AngleSharp;
     using AngleSharp.Css.Dom;
-    using AngleSharp.Parser.Css;
+    using AngleSharp.Css.Parser;
+    using AngleSharp.Css.Parser.Tokens;
     using AngleSharp.Text;
     using NUnit.Framework;
     using System;

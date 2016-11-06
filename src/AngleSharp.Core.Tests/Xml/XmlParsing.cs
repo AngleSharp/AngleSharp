@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests.Xml
 {
+    using AngleSharp.Xml.Parser;
     using NUnit.Framework;
-    using AngleSharp.Parser.Xml;
 
     [TestFixture]
     public class XmlParsing

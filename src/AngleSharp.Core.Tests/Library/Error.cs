@@ -4,7 +4,7 @@
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Parser;
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.Threading.Tasks;
