@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Xml
 {
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -9,9 +10,9 @@
     {
         #region Fields
 
-        String _version;
-        String _encoding;
-        Boolean _standalone;
+        private String _version;
+        private String _encoding;
+        private Boolean _standalone;
 
         #endregion
 

@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
     using AngleSharp.Dom;
+    using AngleSharp.Text;
     using System;
 
     sealed class MarkdownDocument : Document

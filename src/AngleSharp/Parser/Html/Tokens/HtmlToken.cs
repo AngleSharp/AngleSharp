@@ -2,6 +2,7 @@
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -11,9 +12,9 @@
     {
         #region Fields
 
-        readonly HtmlTokenType _type;
-        readonly TextPosition _position;
-        String _name;
+        private readonly HtmlTokenType _type;
+        private readonly TextPosition _position;
+        private String _name;
 
         #endregion
 

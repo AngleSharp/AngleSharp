@@ -9,6 +9,7 @@
     using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Services;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.IO;

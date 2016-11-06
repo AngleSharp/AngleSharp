@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.IO;

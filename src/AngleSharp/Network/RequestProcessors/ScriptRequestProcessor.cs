@@ -4,8 +4,9 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Scripting;
     using AngleSharp.Services;
-    using AngleSharp.Services.Scripting;
+    using AngleSharp.Text;
     using System;
     using System.Diagnostics;
     using System.Threading;

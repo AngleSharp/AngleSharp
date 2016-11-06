@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Parser.Xml;
+    using AngleSharp.Text;
     using System;
     using System.Threading;
     using System.Threading.Tasks;

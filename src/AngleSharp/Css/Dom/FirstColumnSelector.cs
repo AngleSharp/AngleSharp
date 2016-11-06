@@ -1,0 +1,56 @@
+﻿namespace AngleSharp.Css.Dom
+{
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Html;
+    using System;
+
+    /// <summary>
+    /// The nth-column selector.
+    /// </summary>
+    sealed class FirstColumnSelector : ChildSelector
+    {
+        public FirstColumnSelector(Int32 step, Int32 offset, ISelector kind)
+            : base(PseudoClassNames.NthColumn, step, offset, kind)
+        {
+        }
+
+        public override Boolean Match(IElement element, IElement scope)
+        {
+            var parent = element.ParentElement;
+
+            if (parent != null)
+            {
+                var n = Math.Sign(Step);
+                var k = 0;
+
+                for (var i = 0; i < parent.ChildNodes.Length; i++)
+                {
+                    var child = parent.ChildNodes[i] as IHtmlTableCellElement;
+
+                    if (child != null)
+                    {
+                        var span = child.ColumnSpan;
+                        k += span;
+
+                        if (child == element)
+                        {
+                            var diff = k - Offset;
+
+                            for (var index = 0; index < span; index++, diff--)
+                            {
+                                if (diff == 0 || (Math.Sign(diff) == n && diff % Step == 0))
+                                {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+    }
+}

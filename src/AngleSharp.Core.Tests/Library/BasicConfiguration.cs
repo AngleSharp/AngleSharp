@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Parser.Html;
     using AngleSharp.Parser.Xml;
+    using AngleSharp.Text;
     using NUnit.Framework;
     using System.Collections.Generic;
     using System.Linq;

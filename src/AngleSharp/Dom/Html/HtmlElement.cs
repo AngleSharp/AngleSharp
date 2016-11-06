@@ -5,8 +5,8 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Scripting;
     using AngleSharp.Services;
-    using AngleSharp.Services.Scripting;
     using System;
     using System.Threading;
 

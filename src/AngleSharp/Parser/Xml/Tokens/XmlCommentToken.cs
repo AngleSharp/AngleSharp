@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Xml
 {
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -9,7 +10,7 @@
     {
         #region Fields
 
-        readonly String _data;
+        private readonly String _data;
 
         #endregion
 

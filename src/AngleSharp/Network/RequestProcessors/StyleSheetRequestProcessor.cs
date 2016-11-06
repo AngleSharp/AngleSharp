@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Network.RequestProcessors
 {
+    using AngleSharp.Css;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Services;
-    using AngleSharp.Services.Styling;
     using System;
     using System.Threading;
     using System.Threading.Tasks;

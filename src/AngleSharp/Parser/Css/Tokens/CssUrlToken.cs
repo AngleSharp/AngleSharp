@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Parser.Css
 {
     using AngleSharp.Extensions;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -10,8 +11,8 @@
     {
         #region Fields
 
-        readonly Boolean _bad;
-        readonly String _functionName;
+        private readonly Boolean _bad;
+        private readonly String _functionName;
 
         #endregion
 

@@ -3,6 +3,7 @@
     using AngleSharp.Dom.Io;
     using AngleSharp.Extensions;
     using AngleSharp.Html.Submitters;
+    using AngleSharp.Text;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -17,8 +18,8 @@
     {
         #region Fields
 
-        readonly List<FormDataSetEntry> _entries;
-        String _boundary;
+        private readonly List<FormDataSetEntry> _entries;
+        private String _boundary;
 
         #endregion
 
@@ -140,7 +141,7 @@
 
         #region Helpers
 
-        Stream BuildRequestContent(Encoding encoding, Action<StreamWriter> process)
+        private Stream BuildRequestContent(Encoding encoding, Action<StreamWriter> process)
         {
             encoding = encoding ?? TextEncoding.Utf8;
             var ms = new MemoryStream();
@@ -153,7 +154,7 @@
             return ms;
         }
 
-        void Connect(IFormSubmitter submitter, StreamWriter stream)
+        private void Connect(IFormSubmitter submitter, StreamWriter stream)
         {
             foreach (var entry in _entries)
             {
@@ -163,9 +164,9 @@
             submitter.Serialize(stream);
         }
 
-        void ReplaceCharset(Encoding encoding)
+        private void ReplaceCharset(Encoding encoding)
         {
-            for (int i = 0; i < _entries.Count; i++ )
+            for (var i = 0; i < _entries.Count; i++ )
             {
                 var entry = _entries[i];
 
@@ -176,13 +177,13 @@
             }
         }
 
-        void FixPotentialBoundaryCollisions(Encoding encoding)
+        private void FixPotentialBoundaryCollisions(Encoding encoding)
         {
             var found = false;
 
             do
             {
-                for (int i = 0; i < _entries.Count; i++)
+                for (var i = 0; i < _entries.Count; i++)
                 {
                     if (found = _entries[i].Contains(_boundary, encoding))
                     {
@@ -190,7 +191,8 @@
                         break;
                     }
                 }
-            } while (found);
+            }
+            while (found);
         }
 
         #endregion

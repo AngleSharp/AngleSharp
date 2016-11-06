@@ -1,8 +1,9 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp;
-    using AngleSharp.Dom.Css;
+    using AngleSharp.Css.Dom;
     using AngleSharp.Parser.Css;
+    using AngleSharp.Text;
     using NUnit.Framework;
     using System;
 

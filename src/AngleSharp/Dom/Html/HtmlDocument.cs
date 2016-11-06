@@ -5,6 +5,7 @@
     using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Parser.Html;
+    using AngleSharp.Text;
     using System;
     using System.Threading;
     using System.Threading.Tasks;

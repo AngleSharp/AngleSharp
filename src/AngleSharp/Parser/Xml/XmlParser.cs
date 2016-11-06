@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom.Xml;
     using AngleSharp.Extensions;
+    using AngleSharp.Text;
     using System;
     using System.IO;
     using System.Threading;
@@ -14,8 +15,8 @@
     {
         #region Fields
 
-        readonly XmlParserOptions _options;
-        readonly IBrowsingContext _context;
+        private readonly XmlParserOptions _options;
+        private readonly IBrowsingContext _context;
 
         #endregion
 
@@ -156,19 +157,19 @@
 
         #region Helpers
 
-        XmlDocument CreateDocument(String source)
+        private XmlDocument CreateDocument(String source)
         {
             var textSource = new TextSource(source);
             return CreateDocument(textSource);
         }
 
-        XmlDocument CreateDocument(Stream source)
+        private XmlDocument CreateDocument(Stream source)
         {
             var textSource = new TextSource(source, _context.Configuration.DefaultEncoding());
             return CreateDocument(textSource);
         }
 
-        XmlDocument CreateDocument(TextSource textSource)
+        private XmlDocument CreateDocument(TextSource textSource)
         {
             var document = new XmlDocument(_context, textSource);
             return document;

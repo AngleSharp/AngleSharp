@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.Parser.Xml
 {
+    using AngleSharp.Text;
+
     /// <summary>
     /// Represents the final token to mark the EOF.
     /// </summary>

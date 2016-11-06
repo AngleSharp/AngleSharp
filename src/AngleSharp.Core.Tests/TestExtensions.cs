@@ -6,7 +6,7 @@
     using AngleSharp.Network;
     using AngleSharp.Parser.Html;
     using AngleSharp.Parser.Xml;
-    using AngleSharp.Services.Scripting;
+    using AngleSharp.Scripting;
     using NUnit.Framework;
     using System;
     using System.IO;

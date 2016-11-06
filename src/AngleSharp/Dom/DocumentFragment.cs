@@ -4,6 +4,7 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Parser.Html;
+    using AngleSharp.Text;
     using System;
     using System.IO;
     using System.Linq;

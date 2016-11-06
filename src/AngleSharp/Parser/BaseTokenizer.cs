@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Parser
 {
     using AngleSharp.Extensions;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -12,12 +13,12 @@
     {
         #region Fields
 
-        readonly Stack<UInt16> _columns;
-        readonly TextSource _source;
+        private readonly Stack<UInt16> _columns;
+        private readonly TextSource _source;
 
-        UInt16 _column;
-        UInt16 _row;
-        Char _current;
+        private UInt16 _column;
+        private UInt16 _row;
+        private Char _current;
 
         #endregion
 
@@ -203,7 +204,7 @@
 
         #region Helpers
 
-        void AdvanceUnsafe()
+        private void AdvanceUnsafe()
         {
             if (_current == Symbols.LineFeed)
             {
@@ -219,7 +220,7 @@
             _current = NormalizeForward(_source.ReadCharacter());
         }
 
-        void BackUnsafe()
+        private void BackUnsafe()
         {
             _source.Index -= 1;
 
@@ -245,7 +246,7 @@
             }
         }
 
-        Char NormalizeForward(Char p)
+        private Char NormalizeForward(Char p)
         {
             if (p != Symbols.CarriageReturn)
             {
@@ -259,7 +260,7 @@
             return Symbols.LineFeed;
         }
 
-        Char NormalizeBackward(Char p)
+        private Char NormalizeBackward(Char p)
         {
             if (p != Symbols.CarriageReturn)
             {

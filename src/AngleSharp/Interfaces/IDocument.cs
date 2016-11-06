@@ -1,9 +1,10 @@
 ﻿namespace AngleSharp.Dom
 {
-    using System;
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
+    using AngleSharp.Text;
+    using System;
     using System.Net;
 
     /// <summary>

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Text;
     using System;
     using System.Globalization;
 
@@ -10,7 +11,7 @@
     {
         #region Fields
 
-        static readonly Char[] floatIndicators = new[] { '.', 'e', 'E' };
+        private static readonly Char[] floatIndicators = new[] { '.', 'e', 'E' };
 
         #endregion
 

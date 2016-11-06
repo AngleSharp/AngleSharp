@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Network.RequestProcessors
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Media;
-    using AngleSharp.Services.Media;
+    using AngleSharp.Media;
+    using AngleSharp.Media.Dom;
     using System.Threading;
     using System.Threading.Tasks;
 

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -9,9 +10,9 @@
     {
         #region Fields
 
-        readonly CssTokenType _type;
-        readonly String _data;
-        readonly TextPosition _position;
+        private readonly CssTokenType _type;
+        private readonly String _data;
+        private readonly TextPosition _position;
 
         public static readonly CssToken Whitespace = new CssToken(CssTokenType.Whitespace, " ", TextPosition.Empty);
         public static readonly CssToken Comma = new CssToken(CssTokenType.Comma, ",", TextPosition.Empty);

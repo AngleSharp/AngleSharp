@@ -2,6 +2,7 @@
 {
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Parser.Xml;
+    using AngleSharp.Text;
     using AngleSharp.Xml;
     using NUnit.Framework;
 

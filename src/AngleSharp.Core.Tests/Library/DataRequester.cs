@@ -3,6 +3,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Network.Default;
+    using AngleSharp.Text;
     using NUnit.Framework;
     using System;
     using System.IO;

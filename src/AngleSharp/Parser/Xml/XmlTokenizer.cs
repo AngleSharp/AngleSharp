@@ -3,6 +3,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Services;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>

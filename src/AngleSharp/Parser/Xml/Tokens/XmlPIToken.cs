@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Xml
 {
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -9,8 +10,8 @@
     {
         #region Fields
 
-        String _target;
-        String _content;
+        private String _target;
+        private String _content;
 
         #endregion
 

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Html
 {
+    using AngleSharp.Text;
     using System;
 
     /// <summary>

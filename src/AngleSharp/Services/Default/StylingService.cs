@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Services.Default
 {
+    using AngleSharp.Css;
     using AngleSharp.Extensions;
-    using AngleSharp.Services.Styling;
     using System;
     using System.Collections.Generic;
 

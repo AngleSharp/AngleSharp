@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Services.Default
 {
     using AngleSharp.Extensions;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -10,7 +11,7 @@
     /// </summary>
     public class LocaleEncodingProvider : IEncodingProvider
     {
-        static readonly Dictionary<String, Encoding> suggestions = new Dictionary<String, Encoding>(StringComparer.OrdinalIgnoreCase)
+        private static readonly Dictionary<String, Encoding> suggestions = new Dictionary<String, Encoding>(StringComparer.OrdinalIgnoreCase)
         {
             { "ar", TextEncoding.Utf8 },
             { "cy", TextEncoding.Utf8 },

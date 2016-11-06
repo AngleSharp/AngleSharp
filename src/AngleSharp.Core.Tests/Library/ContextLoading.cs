@@ -5,9 +5,9 @@
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
+    using AngleSharp.Media;
     using AngleSharp.Network;
     using AngleSharp.Services.Default;
-    using AngleSharp.Services.Media;
     using NUnit.Framework;
     using System;
     using System.Linq;

@@ -1,9 +1,8 @@
 ﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Css;
-    using AngleSharp.Dom.Css;
+    using AngleSharp.Css.Dom;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.IO;

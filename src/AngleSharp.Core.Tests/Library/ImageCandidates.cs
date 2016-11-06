@@ -3,7 +3,7 @@
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Services.Media;
+    using AngleSharp.Media;
     using NUnit.Framework;
     using System;
 

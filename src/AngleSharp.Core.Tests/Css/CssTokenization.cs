@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests
 {
     using AngleSharp.Parser.Css;
+    using AngleSharp.Text;
     using NUnit.Framework;
 
     [TestFixture]

@@ -3,7 +3,8 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using Services;
+    using AngleSharp.Services;
+    using AngleSharp.Text;
     using System;
     using System.IO;
     using System.Threading;
@@ -16,8 +17,8 @@
     {
         #region Fields
 
-        readonly HtmlParserOptions _options;
-        readonly IBrowsingContext _context;
+        private readonly HtmlParserOptions _options;
+        private readonly IBrowsingContext _context;
 
         #endregion
 
@@ -179,19 +180,19 @@
 
         #region Helpers
 
-        HtmlDocument CreateDocument(String source)
+        private HtmlDocument CreateDocument(String source)
         {
             var textSource = new TextSource(source);
             return CreateDocument(textSource);
         }
 
-        HtmlDocument CreateDocument(Stream source)
+        private HtmlDocument CreateDocument(Stream source)
         {
             var textSource = new TextSource(source, _context.Configuration.DefaultEncoding());
             return CreateDocument(textSource);
         }
 
-        HtmlDocument CreateDocument(TextSource textSource)
+        private HtmlDocument CreateDocument(TextSource textSource)
         {
             var document = new HtmlDocument(_context, textSource);
             return document;

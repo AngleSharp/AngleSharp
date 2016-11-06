@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Dom.Html
 {
+    using AngleSharp.Css;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Network;
-    using AngleSharp.Services.Styling;
     using System;
     using System.Threading;
     using System.Threading.Tasks;

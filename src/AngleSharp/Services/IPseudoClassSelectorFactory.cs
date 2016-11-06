@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Services
 {
-    using AngleSharp.Dom.Css;
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>

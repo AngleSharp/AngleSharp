@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Parser.Css
 {
-    using AngleSharp.Extensions;
+    using AngleSharp.Text;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        readonly List<CssToken> _arguments;
+        private readonly List<CssToken> _arguments;
 
         #endregion
 

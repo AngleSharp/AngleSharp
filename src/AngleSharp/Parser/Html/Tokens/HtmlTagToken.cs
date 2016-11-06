@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Parser.Html
 {
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
 
@@ -10,9 +11,9 @@
     {
         #region Fields
 
-        readonly List<KeyValuePair<String, String>> _attributes;
+        private readonly List<KeyValuePair<String, String>> _attributes;
 
-        Boolean _selfClosing;
+        private Boolean _selfClosing;
 
         #endregion
 

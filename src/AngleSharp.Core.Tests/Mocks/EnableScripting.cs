@@ -1,8 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
+    using AngleSharp.Scripting;
     using System;
-    using AngleSharp.Services;
-    using AngleSharp.Services.Scripting;
 
     class EnableScripting : IScriptingProvider
     {

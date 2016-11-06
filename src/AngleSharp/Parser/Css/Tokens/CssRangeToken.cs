@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Parser.Css
 {
     using AngleSharp.Extensions;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -12,9 +13,9 @@
     {
         #region Fields
 
-        readonly String[] _range;
-        readonly String _start;
-        readonly String _end;
+        private readonly String[] _range;
+        private readonly String _start;
+        private readonly String _end;
 
         #endregion
 

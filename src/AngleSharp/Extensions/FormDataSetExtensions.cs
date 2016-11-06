@@ -2,6 +2,7 @@
 {
     using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Text;
     using System;
     using System.IO;
     using System.Text;

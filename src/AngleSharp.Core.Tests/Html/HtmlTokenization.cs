@@ -2,6 +2,7 @@
 {
     using AngleSharp.Html;
     using AngleSharp.Parser.Html;
+    using AngleSharp.Text;
     using NUnit.Framework;
     using System;
     using System.IO;

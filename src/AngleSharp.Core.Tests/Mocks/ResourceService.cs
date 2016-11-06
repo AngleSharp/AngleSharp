@@ -1,8 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
+    using AngleSharp.Media;
     using AngleSharp.Network;
-    using AngleSharp.Services;
-    using AngleSharp.Services.Media;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
