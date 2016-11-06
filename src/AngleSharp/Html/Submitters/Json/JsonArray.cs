@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.Html.Submitters.Json
 {
+    using AngleSharp.Common;
+    using AngleSharp.Text;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -7,7 +9,7 @@
 
     sealed class JsonArray : JsonElement, IEnumerable<JsonElement>
     {
-        readonly List<JsonElement> _elements;
+        private readonly List<JsonElement> _elements;
 
         public JsonArray()
         {

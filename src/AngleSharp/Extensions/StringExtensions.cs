@@ -1,9 +1,10 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Common;
     using AngleSharp.Dom;
-    using AngleSharp.Html;
     using AngleSharp.Network;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Globalization;

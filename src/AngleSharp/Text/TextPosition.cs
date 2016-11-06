@@ -178,9 +178,9 @@
         /// </returns>
         public Boolean Equals(TextPosition other)
         {
-            return this._position == other._position && 
-                   this._column == other._column && 
-                   this._line == other._line;
+            return _position == other._position && 
+                   _column == other._column && 
+                   _line == other._line;
         }
 
         /// <summary>
@@ -223,7 +223,7 @@
         /// </returns>
         public Int32 CompareTo(TextPosition other)
         {
-            return this.Equals(other) ? 0 : (this > other ? 1 : -1);
+            return Equals(other) ? 0 : (this > other ? 1 : -1);
         }
 
         #endregion

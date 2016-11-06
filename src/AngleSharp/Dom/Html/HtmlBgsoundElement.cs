@@ -2,7 +2,6 @@
 {
     using System;
     using AngleSharp.Attributes;
-    using AngleSharp.Html;
 
     /// <summary>
     /// Represents the HTML bgsound element.

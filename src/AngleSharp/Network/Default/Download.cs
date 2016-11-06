@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Network
 {
-    using AngleSharp.Dom;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -15,27 +14,27 @@
         private readonly CancellationTokenSource _cts;
         private readonly Task<IResponse> _task;
         private readonly Url _target;
-        private readonly INode _originator;
+        private readonly Object _source;
 
         #endregion
 
         #region ctor
 
-        public Download(Task<IResponse> task, CancellationTokenSource cts, Url target, INode originator)
+        public Download(Task<IResponse> task, CancellationTokenSource cts, Url target, Object source)
         {
             _task = task;
             _cts = cts;
             _target = target;
-            _originator = originator;
+            _source = source;
         }
 
         #endregion
 
         #region Properties
 
-        public INode Originator
+        public Object Source
         {
-            get { return _originator; }
+            get { return _source; }
         }
 
         public Url Target

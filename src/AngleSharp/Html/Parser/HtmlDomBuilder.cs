@@ -2,13 +2,14 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Dom.Mathml;
-    using AngleSharp.Dom.Svg;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Html.Parser.Tokens;
+    using AngleSharp.Mathml.Dom;
     using AngleSharp.Network;
     using AngleSharp.Services;
+    using AngleSharp.Svg.Dom;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Threading;

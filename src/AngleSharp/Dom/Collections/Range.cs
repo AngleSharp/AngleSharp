@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Dom.Collections
 {
+    using AngleSharp.Common;
     using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
@@ -12,8 +13,8 @@
     {
         #region Fields
 
-        Boundary _start;
-        Boundary _end;
+        private Boundary _start;
+        private Boundary _end;
 
         #endregion
 
@@ -221,163 +222,162 @@
 
         public void ClearContent()
         {
-            if (_start.Equals(_end))
+            if (!_start.Equals(_end))
             {
-                return;
-            }
+                var newBoundary = new Boundary();
+                var originalStart = _start;
+                var originalEnd = _end;
 
-            var newBoundary = new Boundary();
-            var originalStart = _start;
-            var originalEnd = _end;
-
-            if (originalEnd.Node == originalStart.Node && originalStart.Node is ICharacterData)
-            {
-                var strt = originalStart.Offset;
-                var text = (ICharacterData)originalStart.Node;
-                var span = originalEnd.Offset - originalStart.Offset;
-                text.Replace(strt, span, String.Empty);
-                return;
-            }
-
-            var nodesToRemove = Nodes.Where(m => !Intersects(m.Parent)).ToArray();
-
-            if (!originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node))
-            {
-                var referenceNode = originalStart.Node;
-
-                while (referenceNode.Parent != null && referenceNode.Parent.IsInclusiveAncestorOf(originalEnd.Node))
+                if (originalEnd.Node == originalStart.Node && originalStart.Node is ICharacterData)
                 {
-                    referenceNode = referenceNode.Parent;
+                    var strt = originalStart.Offset;
+                    var text = (ICharacterData)originalStart.Node;
+                    var span = originalEnd.Offset - originalStart.Offset;
+                    text.Replace(strt, span, String.Empty);
                 }
+                else
+                {
+                    var nodesToRemove = Nodes.Where(m => !Intersects(m.Parent)).ToArray();
 
-                newBoundary = new Boundary { Node = referenceNode.Parent, Offset = referenceNode.Parent.ChildNodes.Index(referenceNode) + 1 };
-            }
-            else
-            {
-                newBoundary = originalStart;
-            }
+                    if (!originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node))
+                    {
+                        var referenceNode = originalStart.Node;
 
-            if (originalStart.Node is ICharacterData)
-            {
-                var strt = originalStart.Offset;
-                var text = (ICharacterData)originalStart.Node;
-                var span = originalEnd.Offset - originalStart.Offset;
-                text.Replace(strt, span, String.Empty);
-            }
+                        while (referenceNode.Parent != null && referenceNode.Parent.IsInclusiveAncestorOf(originalEnd.Node))
+                        {
+                            referenceNode = referenceNode.Parent;
+                        }
 
-            foreach (var node in nodesToRemove)
-            {
-                node.Parent.RemoveChild(node);
-            }
+                        newBoundary = new Boundary { Node = referenceNode.Parent, Offset = referenceNode.Parent.ChildNodes.Index(referenceNode) + 1 };
+                    }
+                    else
+                    {
+                        newBoundary = originalStart;
+                    }
 
-            if (originalEnd.Node is ICharacterData)
-            {
-                var strt = 0;
-                var text = (ICharacterData)originalEnd.Node;
-                var span = originalEnd.Offset;
-                text.Replace(strt, span, String.Empty);
-            }
+                    if (originalStart.Node is ICharacterData)
+                    {
+                        var strt = originalStart.Offset;
+                        var text = (ICharacterData)originalStart.Node;
+                        var span = originalEnd.Offset - originalStart.Offset;
+                        text.Replace(strt, span, String.Empty);
+                    }
 
-            _start = newBoundary;
-            _end = newBoundary;
+                    foreach (var node in nodesToRemove)
+                    {
+                        node.Parent.RemoveChild(node);
+                    }
+
+                    if (originalEnd.Node is ICharacterData)
+                    {
+                        var strt = 0;
+                        var text = (ICharacterData)originalEnd.Node;
+                        var span = originalEnd.Offset;
+                        text.Replace(strt, span, String.Empty);
+                    }
+
+                    _start = newBoundary;
+                    _end = newBoundary;
+                }
+            }
         }
 
         public IDocumentFragment ExtractContent()
         {
             var fragment = _start.Node.Owner.CreateDocumentFragment();
 
-            if (_start.Equals(_end))
+            if (!_start.Equals(_end))
             {
-                return fragment;
-            }
+                var newBoundary = _start;
+                var originalStart = _start;
+                var originalEnd = _end;
 
-            var newBoundary = _start;
-            var originalStart = _start;
-            var originalEnd = _end;
-
-            if (originalStart.Node == originalEnd.Node && _start.Node is ICharacterData)
-            {
-                var text = (ICharacterData)originalStart.Node;
-                var strt = originalStart.Offset;
-                var span = originalEnd.Offset - originalStart.Offset;
-                var clone = (ICharacterData)text.Clone();
-                clone.Data = text.Substring(strt, span);
-                fragment.AppendChild(clone);
-                text.Replace(strt, span, String.Empty);
-                return fragment;
-            }
-
-            var commonAncestor = originalStart.Node;
-
-            while (!commonAncestor.IsInclusiveAncestorOf(originalEnd.Node))
-            {
-                commonAncestor = commonAncestor.Parent;
-            }
-
-            var firstPartiallyContainedChild = !originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node) ? 
-                commonAncestor.GetElements<INode>(predicate: IsPartiallyContained).FirstOrDefault() : null;
-            var lastPartiallyContainedchild = !originalEnd.Node.IsInclusiveAncestorOf(originalStart.Node) ? 
-                commonAncestor.GetElements<INode>(predicate: IsPartiallyContained).LastOrDefault() : null;
-            var containedChildren = commonAncestor.GetElements<INode>(predicate: Intersects).ToList();
-
-            if (containedChildren.OfType<IDocumentType>().Any())
-                throw new DomException(DomError.HierarchyRequest);
-
-            if (!originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node))
-            {
-                var referenceNode = originalStart.Node;
-
-                while (referenceNode.Parent != null && !referenceNode.IsInclusiveAncestorOf(originalEnd.Node))
+                if (originalStart.Node == originalEnd.Node && _start.Node is ICharacterData)
                 {
-                    referenceNode = referenceNode.Parent;
+                    var text = (ICharacterData)originalStart.Node;
+                    var strt = originalStart.Offset;
+                    var span = originalEnd.Offset - originalStart.Offset;
+                    var clone = (ICharacterData)text.Clone();
+                    clone.Data = text.Substring(strt, span);
+                    fragment.AppendChild(clone);
+                    text.Replace(strt, span, String.Empty);
                 }
+                else
+                {
+                    var commonAncestor = originalStart.Node;
 
-                newBoundary = new Boundary { Node = referenceNode, Offset = referenceNode.Parent.ChildNodes.Index(referenceNode) + 1 };
+                    while (!commonAncestor.IsInclusiveAncestorOf(originalEnd.Node))
+                    {
+                        commonAncestor = commonAncestor.Parent;
+                    }
+
+                    var firstPartiallyContainedChild = !originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node) ?
+                        commonAncestor.GetElements<INode>(predicate: IsPartiallyContained).FirstOrDefault() : null;
+                    var lastPartiallyContainedchild = !originalEnd.Node.IsInclusiveAncestorOf(originalStart.Node) ?
+                        commonAncestor.GetElements<INode>(predicate: IsPartiallyContained).LastOrDefault() : null;
+                    var containedChildren = commonAncestor.GetElements<INode>(predicate: Intersects).ToList();
+
+                    if (containedChildren.OfType<IDocumentType>().Any())
+                        throw new DomException(DomError.HierarchyRequest);
+
+                    if (!originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node))
+                    {
+                        var referenceNode = originalStart.Node;
+
+                        while (referenceNode.Parent != null && !referenceNode.IsInclusiveAncestorOf(originalEnd.Node))
+                        {
+                            referenceNode = referenceNode.Parent;
+                        }
+
+                        newBoundary = new Boundary { Node = referenceNode, Offset = referenceNode.Parent.ChildNodes.Index(referenceNode) + 1 };
+                    }
+
+                    if (firstPartiallyContainedChild is ICharacterData)
+                    {
+                        var text = (ICharacterData)originalStart.Node;
+                        var strt = originalStart.Offset;
+                        var span = text.Length - originalStart.Offset;
+                        var clone = (ICharacterData)text.Clone();
+                        clone.Data = text.Substring(strt, span);
+                        fragment.AppendChild(clone);
+                        text.Replace(strt, span, String.Empty);
+                    }
+                    else if (firstPartiallyContainedChild != null)
+                    {
+                        var clone = firstPartiallyContainedChild.Clone();
+                        fragment.AppendChild(clone);
+                        var subrange = new Range(originalStart, new Boundary { Node = firstPartiallyContainedChild, Offset = firstPartiallyContainedChild.ChildNodes.Length });
+                        var subfragment = subrange.ExtractContent();
+                        fragment.AppendChild(subfragment);
+                    }
+
+                    foreach (var child in containedChildren)
+                    {
+                        fragment.AppendChild(child);
+                    }
+
+                    if (lastPartiallyContainedchild is ICharacterData)
+                    {
+                        var text = (ICharacterData)originalEnd.Node;
+                        var clone = (ICharacterData)text.Clone();
+                        clone.Data = text.Substring(0, originalEnd.Offset);
+                        fragment.AppendChild(clone);
+                        text.Replace(0, originalEnd.Offset, String.Empty);
+                    }
+                    else if (lastPartiallyContainedchild != null)
+                    {
+                        var clone = lastPartiallyContainedchild.Clone();
+                        fragment.AppendChild(clone);
+                        var subrange = new Range(new Boundary { Node = lastPartiallyContainedchild, Offset = 0 }, originalEnd);
+                        var subfragment = subrange.ExtractContent();
+                        fragment.AppendChild(subfragment);
+                    }
+
+                    _start = newBoundary;
+                    _end = newBoundary;
+                }
             }
 
-            if (firstPartiallyContainedChild is ICharacterData)
-            {
-                var text = (ICharacterData)originalStart.Node;
-                var strt = originalStart.Offset;
-                var span = text.Length - originalStart.Offset;
-                var clone = (ICharacterData)text.Clone();
-                clone.Data = text.Substring(strt, span);
-                fragment.AppendChild(clone);
-                text.Replace(strt, span, String.Empty);
-            }
-            else if (firstPartiallyContainedChild != null)
-            {
-                var clone = firstPartiallyContainedChild.Clone();
-                fragment.AppendChild(clone);
-                var subrange = new Range(originalStart, new Boundary { Node = firstPartiallyContainedChild, Offset = firstPartiallyContainedChild.ChildNodes.Length });
-                var subfragment = subrange.ExtractContent();
-                fragment.AppendChild(subfragment); 
-            }
-
-            foreach (var child in containedChildren)
-            {
-                fragment.AppendChild(child);
-            }
-
-            if (lastPartiallyContainedchild is ICharacterData)
-            {
-                var text = (ICharacterData)originalEnd.Node;
-                var clone = (ICharacterData)text.Clone();
-                clone.Data = text.Substring(0, originalEnd.Offset);
-                fragment.AppendChild(clone);
-                text.Replace(0, originalEnd.Offset, String.Empty);
-            }
-            else if (lastPartiallyContainedchild != null)
-            {
-                var clone = lastPartiallyContainedchild.Clone();
-                fragment.AppendChild(clone);
-                var subrange = new Range(new Boundary { Node = lastPartiallyContainedchild, Offset = 0 }, originalEnd);
-                var subfragment = subrange.ExtractContent();
-                fragment.AppendChild(subfragment);
-            }
-
-            _start = newBoundary;
-            _end = newBoundary;
             return fragment;
         }
 
@@ -385,78 +385,78 @@
         {
             var fragment = _start.Node.Owner.CreateDocumentFragment();
 
-            if (_start.Equals(_end))
+            if (!_start.Equals(_end))
             {
-                return fragment;
-            }
 
-            var originalStart = _start;
-            var originalEnd = _end;
+                var originalStart = _start;
+                var originalEnd = _end;
 
-            if (originalStart.Node == originalEnd.Node && _start.Node is ICharacterData)
-            {
-                var text = (ICharacterData)originalStart.Node;
-                var strt = originalStart.Offset;
-                var span = originalEnd.Offset - originalStart.Offset;
-                var clone = (ICharacterData)text.Clone();
-                clone.Data = text.Substring(strt, span);
-                fragment.AppendChild(clone);
-                return fragment;
-            }
+                if (originalStart.Node == originalEnd.Node && _start.Node is ICharacterData)
+                {
+                    var text = (ICharacterData)originalStart.Node;
+                    var strt = originalStart.Offset;
+                    var span = originalEnd.Offset - originalStart.Offset;
+                    var clone = (ICharacterData)text.Clone();
+                    clone.Data = text.Substring(strt, span);
+                    fragment.AppendChild(clone);
+                }
+                else
+                {
+                    var commonAncestor = originalStart.Node;
 
-            var commonAncestor = originalStart.Node;
+                    while (!commonAncestor.IsInclusiveAncestorOf(originalEnd.Node))
+                    {
+                        commonAncestor = commonAncestor.Parent;
+                    }
 
-            while (!commonAncestor.IsInclusiveAncestorOf(originalEnd.Node))
-            {
-                commonAncestor = commonAncestor.Parent;
-            }
+                    var firstPartiallyContainedChild = !originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node) ?
+                        commonAncestor.GetElements<INode>(predicate: IsPartiallyContained).FirstOrDefault() : null;
+                    var lastPartiallyContainedchild = !originalEnd.Node.IsInclusiveAncestorOf(originalStart.Node) ?
+                        commonAncestor.GetElements<INode>(predicate: IsPartiallyContained).LastOrDefault() : null;
+                    var containedChildren = commonAncestor.GetElements<INode>(predicate: Intersects).ToList();
 
-            var firstPartiallyContainedChild = !originalStart.Node.IsInclusiveAncestorOf(originalEnd.Node) ?
-                commonAncestor.GetElements<INode>(predicate: IsPartiallyContained).FirstOrDefault() : null;
-            var lastPartiallyContainedchild = !originalEnd.Node.IsInclusiveAncestorOf(originalStart.Node) ?
-                commonAncestor.GetElements<INode>(predicate: IsPartiallyContained).LastOrDefault() : null;
-            var containedChildren = commonAncestor.GetElements<INode>(predicate: Intersects).ToList();
+                    if (containedChildren.OfType<IDocumentType>().Any())
+                        throw new DomException(DomError.HierarchyRequest);
 
-            if (containedChildren.OfType<IDocumentType>().Any())
-                throw new DomException(DomError.HierarchyRequest);
+                    if (firstPartiallyContainedChild is ICharacterData)
+                    {
+                        var text = (ICharacterData)originalStart.Node;
+                        var strt = originalStart.Offset;
+                        var span = text.Length - originalStart.Offset;
+                        var clone = (ICharacterData)text.Clone();
+                        clone.Data = text.Substring(strt, span);
+                        fragment.AppendChild(clone);
+                    }
+                    else if (firstPartiallyContainedChild != null)
+                    {
+                        var clone = firstPartiallyContainedChild.Clone();
+                        fragment.AppendChild(clone);
+                        var subrange = new Range(originalStart, new Boundary { Node = firstPartiallyContainedChild, Offset = firstPartiallyContainedChild.ChildNodes.Length });
+                        var subfragment = subrange.CopyContent();
+                        fragment.AppendChild(subfragment);
+                    }
 
-            if (firstPartiallyContainedChild is ICharacterData)
-            {
-                var text = (ICharacterData)originalStart.Node;
-                var strt = originalStart.Offset;
-                var span = text.Length - originalStart.Offset;
-                var clone = (ICharacterData)text.Clone();
-                clone.Data = text.Substring(strt, span);
-                fragment.AppendChild(clone);
-            }
-            else if (firstPartiallyContainedChild != null)
-            {
-                var clone = firstPartiallyContainedChild.Clone();
-                fragment.AppendChild(clone);
-                var subrange = new Range(originalStart, new Boundary { Node = firstPartiallyContainedChild, Offset = firstPartiallyContainedChild.ChildNodes.Length });
-                var subfragment = subrange.CopyContent();
-                fragment.AppendChild(subfragment);
-            }
+                    foreach (var child in containedChildren)
+                    {
+                        fragment.AppendChild(child.Clone());
+                    }
 
-            foreach (var child in containedChildren)
-            {
-                fragment.AppendChild(child.Clone());
-            }
-
-            if (lastPartiallyContainedchild is ICharacterData)
-            {
-                var text = (ICharacterData)originalEnd.Node;
-                var clone = (ICharacterData)text.Clone();
-                clone.Data = text.Substring(0, originalEnd.Offset);
-                fragment.AppendChild(clone);
-            }
-            else if (lastPartiallyContainedchild != null)
-            {
-                var clone = lastPartiallyContainedchild.Clone();
-                fragment.AppendChild(clone);
-                var subrange = new Range(new Boundary { Node = lastPartiallyContainedchild, Offset = 0 }, originalEnd);
-                var subfragment = subrange.CopyContent();
-                fragment.AppendChild(subfragment);
+                    if (lastPartiallyContainedchild is ICharacterData)
+                    {
+                        var text = (ICharacterData)originalEnd.Node;
+                        var clone = (ICharacterData)text.Clone();
+                        clone.Data = text.Substring(0, originalEnd.Offset);
+                        fragment.AppendChild(clone);
+                    }
+                    else if (lastPartiallyContainedchild != null)
+                    {
+                        var clone = lastPartiallyContainedchild.Clone();
+                        fragment.AppendChild(clone);
+                        var subrange = new Range(new Boundary { Node = lastPartiallyContainedchild, Offset = 0 }, originalEnd);
+                        var subfragment = subrange.CopyContent();
+                        fragment.AppendChild(subfragment);
+                    }
+                }
             }
 
             return fragment;
@@ -680,27 +680,27 @@
 
         #region Helpers
 
-        Boolean IsStartBefore(INode node, Int32 offset)
+        private Boolean IsStartBefore(INode node, Int32 offset)
         {
             return _start < new Boundary { Node = node, Offset = offset };
         }
 
-        Boolean IsStartAfter(INode node, Int32 offset)
+        private Boolean IsStartAfter(INode node, Int32 offset)
         {
             return _start > new Boundary { Node = node, Offset = offset };
         }
 
-        Boolean IsEndBefore(INode node, Int32 offset)
+        private Boolean IsEndBefore(INode node, Int32 offset)
         {
             return _end < new Boundary { Node = node, Offset = offset };
         }
 
-        Boolean IsEndAfter(INode node, Int32 offset)
+        private Boolean IsEndAfter(INode node, Int32 offset)
         {
             return _end > new Boundary { Node = node, Offset = offset };
         }
 
-        Boolean IsPartiallyContained(INode node)
+        private Boolean IsPartiallyContained(INode node)
         {
             var startAncestor = node.IsInclusiveAncestorOf(_start.Node);
             var endAncestor = node.IsInclusiveAncestorOf(_end.Node);
@@ -712,7 +712,7 @@
 
         #region Boundary
 
-        struct Boundary : IEquatable<Boundary>
+        private struct Boundary : IEquatable<Boundary>
         {
             public INode Node;
             public Int32 Offset;

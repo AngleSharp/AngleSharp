@@ -1,11 +1,10 @@
 ﻿namespace AngleSharp.Xml.Parser
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Xml;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Services;
     using AngleSharp.Text;
+    using AngleSharp.Xml.Dom;
     using AngleSharp.Xml.Parser.Tokens;
     using System;
     using System.Collections.Generic;

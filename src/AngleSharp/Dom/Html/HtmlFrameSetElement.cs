@@ -3,7 +3,6 @@
     using System;
     using AngleSharp.Attributes;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
 
     /// <summary>
     /// Represents the HTML frameset element.

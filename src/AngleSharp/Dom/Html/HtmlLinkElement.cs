@@ -5,7 +5,6 @@
     using AngleSharp.Html;
     using AngleSharp.Html.LinkRels;
     using AngleSharp.Network;
-    using AngleSharp.Services;
     using System;
 
     /// <summary>

@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Html.Parser.Tokens
 {
+    using AngleSharp.Dom;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Text;
     using System;
 

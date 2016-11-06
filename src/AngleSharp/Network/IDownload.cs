@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Network
 {
-    using AngleSharp.Dom;
+    using AngleSharp.Common;
+    using System;
 
     /// <summary>
     /// Basic contract for a currently active download.
@@ -15,6 +16,6 @@
         /// <summary>
         /// Gets the originator of the download, if any.
         /// </summary>
-        INode Originator { get; }
+        Object Source { get; }
     }
 }

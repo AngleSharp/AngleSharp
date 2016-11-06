@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Html
 {
     using AngleSharp.Dom;
+    using AngleSharp.Text;
     using System;
     using System.Linq;
 
@@ -11,9 +12,9 @@
     {
         #region Fields
 
-        String _intendString;
-        String _newLineString;
-        Int32 _intendCount;
+        private String _intendString;
+        private String _newLineString;
+        private Int32 _intendCount;
 
         #endregion
 
@@ -114,7 +115,7 @@
 
         #region Helpers
 
-        String NewLineAfter(INode node)
+        private String NewLineAfter(INode node)
         {
             if (node != null && node.NodeType != NodeType.Text)
             {
@@ -124,7 +125,7 @@
             return String.Empty;
         }
 
-        String IntendBefore(INode node)
+        private String IntendBefore(INode node)
         {
             if (node != null && node.NodeType != NodeType.Text)
             {

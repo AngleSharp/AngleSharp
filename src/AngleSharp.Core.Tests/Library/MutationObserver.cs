@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Browser;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;

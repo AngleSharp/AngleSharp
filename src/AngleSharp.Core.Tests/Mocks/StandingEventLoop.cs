@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
+    using AngleSharp.Browser;
+    using AngleSharp.Common;
     using System;
     using System.Threading;
 

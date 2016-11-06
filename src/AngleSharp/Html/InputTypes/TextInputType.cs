@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
+    using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using System;
 

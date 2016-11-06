@@ -1,10 +1,8 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Media.Dom;
     using AngleSharp.Network;
-    using AngleSharp.Services;
     using System;
     using System.IO;
 

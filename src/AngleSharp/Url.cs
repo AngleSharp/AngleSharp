@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.Common;
     using AngleSharp.Extensions;
     using AngleSharp.Network;
     using AngleSharp.Text;
@@ -1070,7 +1071,7 @@
                     default:
                         var chr = Symbols.Null;
 
-                        if (Symbols.Punycode.TryGetValue(hostName[i], out chr))
+                        if (Punycode.Symbols.TryGetValue(hostName[i], out chr))
                         {
                             chars[count++] = (Byte)chr;
                         }

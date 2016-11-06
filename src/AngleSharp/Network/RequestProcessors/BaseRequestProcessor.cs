@@ -54,7 +54,7 @@
         {
             var download = Download;
             var response = await download.Task.ConfigureAwait(false);
-            var eventTarget = download.Originator as EventTarget;
+            var eventTarget = download.Source as EventTarget;
             var eventName = EventNames.Error;
 
             if (response != null)

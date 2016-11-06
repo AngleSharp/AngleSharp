@@ -1,8 +1,9 @@
 ﻿namespace AngleSharp.Dom
 {
+    using AngleSharp.Common;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
+    using AngleSharp.Text;
     using System;
     using System.IO;
     using System.Runtime.CompilerServices;
@@ -14,15 +15,15 @@
     {
         #region Fields
 
-        static readonly ConditionalWeakTable<Node, Document> Owners = new ConditionalWeakTable<Node, Document>();
+        private static readonly ConditionalWeakTable<Node, Document> Owners = new ConditionalWeakTable<Node, Document>();
 
-        readonly NodeType _type;
-        readonly String _name;
-        readonly NodeFlags _flags;
+        private readonly NodeType _type;
+        private readonly String _name;
+        private readonly NodeFlags _flags;
         
-        Url _baseUri;
-        Node _parent;
-        NodeList _children;
+        private Url _baseUri;
+        private Node _parent;
+        private NodeList _children;
 
         #endregion
 

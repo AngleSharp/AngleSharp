@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Css
 {
+    using AngleSharp.Common;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -123,7 +124,7 @@
 
         #region Helpers
 
-        void WriteJoined(StringBuilder sb, IEnumerable<IStyleFormattable> elements, String separator, Boolean first = true)
+        private void WriteJoined(StringBuilder sb, IEnumerable<IStyleFormattable> elements, String separator, Boolean first = true)
         {
             using (var writer = new StringWriter(sb))
             {

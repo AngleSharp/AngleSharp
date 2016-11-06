@@ -1,6 +1,8 @@
 ﻿namespace AngleSharp.Xml
 {
+    using AngleSharp.Common;
     using AngleSharp.Dom;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>

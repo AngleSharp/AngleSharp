@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom.Html
 {
-    using AngleSharp.Html;
     using AngleSharp.Media;
     using AngleSharp.Media.Dom;
     using System;

@@ -1,11 +1,13 @@
 ﻿namespace AngleSharp.Html.Submitters.Json
 {
+    using AngleSharp.Common;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
 
     sealed class JsonObject : JsonElement
     {
-        readonly Dictionary<String, JsonElement> _properties;
+        private readonly Dictionary<String, JsonElement> _properties;
 
         public JsonObject()
         {
@@ -34,7 +36,9 @@
             foreach (var property in _properties)
             {
                 if (needsComma)
+                {
                     sb.Append(Symbols.Comma);
+                }
 
                 sb.Append(Symbols.DoubleQuote).Append(property.Key).Append(Symbols.DoubleQuote);
                 sb.Append(Symbols.Colon).Append(property.Value.ToString());

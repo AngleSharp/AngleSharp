@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using AngleSharp;
+    using AngleSharp.Common;
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
     using AngleSharp.Css.Parser.Tokens;

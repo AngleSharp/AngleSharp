@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom
 {
+    using AngleSharp.Common;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using System;
     using System.IO;
 
@@ -30,7 +30,7 @@
         {
             get
             {
-                for (int i = 0; i < Length; i++)
+                for (var i = 0; i < Length; i++)
                 {
                     if (!this[i].IsSpaceCharacter())
                     {

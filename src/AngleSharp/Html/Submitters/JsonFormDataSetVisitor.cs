@@ -1,5 +1,7 @@
 ﻿namespace AngleSharp.Html.Submitters
 {
+    using AngleSharp.Common;
+    using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Html.Submitters.Json;
     using AngleSharp.Io.Dom;
@@ -40,19 +42,18 @@
         public void File(FormDataSetEntry entry, String fileName, String contentType, IFile file)
         {
             var context = (JsonElement)_context;
-            var stream = file != null && file.Body != null && file.Type != null ? file.Body : Stream.Null;
+            var stream = file?.Body != null && file.Type != null ? file.Body : Stream.Null;
             var content = new MemoryStream();
             stream.CopyTo(content);
             var data = content.ToArray();
             var steps = JsonStep.Parse(entry.Name);
             var value = new JsonObject
-                            {
-                                [AttributeNames.Type] = new JsonValue(contentType),
-                                [AttributeNames.Name] = new JsonValue(fileName),
-                                [AttributeNames.Body] = new JsonValue(Convert.ToBase64String(data))
-                            };
-
-
+            {
+                [AttributeNames.Type] = new JsonValue(contentType),
+                [AttributeNames.Name] = new JsonValue(fileName),
+                [AttributeNames.Body] = new JsonValue(Convert.ToBase64String(data))
+            };
+            
             foreach (var step in steps)
             {
                 context = step.Run(context, value, file: true);

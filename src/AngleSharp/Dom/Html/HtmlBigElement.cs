@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Html
 {
     using System;
-    using AngleSharp.Html;
 
     /// <summary>
     /// The big HTML element.

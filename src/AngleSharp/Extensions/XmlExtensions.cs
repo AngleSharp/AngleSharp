@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -59,10 +60,12 @@
         {
             if (str.Length > 0 && str[0].IsXmlNameStart())
             {
-                for (int i = 1; i < str.Length; i++)
+                for (var i = 1; i < str.Length; i++)
                 {
                     if (!str[i].IsXmlName())
+                    {
                         return false;
+                    }
                 }
 
                 return true;
@@ -85,10 +88,12 @@
 
             if (colon > 0 && str[0].IsXmlNameStart())
             {
-                for (int i = 1; i < colon; i++)
+                for (var i = 1; i < colon; i++)
                 {
                     if (!str[i].IsXmlName())
+                    {
                         return false;
+                    }
                 }
 
                 colon++;
@@ -96,10 +101,12 @@
 
             if (str.Length > colon && str[colon++].IsXmlNameStart())
             {
-                for (int i = colon; i < str.Length; i++)
+                for (var i = colon; i < str.Length; i++)
                 {
                     if (str[i] == Symbols.Colon || !str[i].IsXmlName())
+                    {
                         return false;
+                    }
                 }
 
                 return true;

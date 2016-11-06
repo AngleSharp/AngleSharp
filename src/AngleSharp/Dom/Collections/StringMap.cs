@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Dom.Collections
 {
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
+    using AngleSharp.Text;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -13,8 +13,8 @@
     {
         #region Fields
 
-        readonly String _prefix;
-        readonly Element _parent;
+        private readonly String _prefix;
+        private readonly Element _parent;
 
         #endregion
 
@@ -57,7 +57,7 @@
 
         #region Helper
 
-        static String Check(String name)
+        private static String Check(String name)
         {
             if (name.StartsWith(TagNames.Xml, StringComparison.OrdinalIgnoreCase))
                 throw new DomException(DomError.Syntax);

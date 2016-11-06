@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
+    using AngleSharp.Text;
     using System;
     using System.IO;
 

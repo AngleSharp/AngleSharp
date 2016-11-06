@@ -1,13 +1,17 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Browser;
+    using AngleSharp.Common;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
+    using AngleSharp.Html;
+    using AngleSharp.Mathml;
     using AngleSharp.Media;
     using AngleSharp.Network;
-    using AngleSharp.Services.Default;
+    using AngleSharp.Svg;
     using NUnit.Framework;
     using System;
     using System.Linq;
@@ -304,11 +308,11 @@
             foreach (var download in downloads)
             {
                 Assert.IsTrue(download.IsCompleted);
-                Assert.IsNotNull(download.Originator);
+                Assert.IsNotNull(download.Source);
             }
 
-            Assert.AreEqual(document.QuerySelector("img"), downloads[0].Originator);
-            Assert.AreEqual(document.QuerySelector("iframe"), downloads[1].Originator);
+            Assert.AreEqual(document.QuerySelector("img"), downloads[0].Source);
+            Assert.AreEqual(document.QuerySelector("iframe"), downloads[1].Source);
         }
 
         [Test]

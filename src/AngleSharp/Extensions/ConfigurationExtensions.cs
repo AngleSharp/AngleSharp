@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Extensions
 {
-    using AngleSharp.Commands;
+    using AngleSharp.Browser;
     using AngleSharp.Css;
     using AngleSharp.Dom;
     using AngleSharp.Media;

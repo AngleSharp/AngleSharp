@@ -2,7 +2,6 @@
 {
     using System;
     using AngleSharp.Dom.Collections;
-    using AngleSharp.Html;
 
     /// <summary>
     /// Represents the HTML datalist element.

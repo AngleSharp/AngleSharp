@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.Text;
     using System;
 #if !NET40
     using System.Runtime.CompilerServices;

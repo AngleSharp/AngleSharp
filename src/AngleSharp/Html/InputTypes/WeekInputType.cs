@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
+    using AngleSharp.Text;
     using System;
     using System.Globalization;
 
@@ -146,7 +147,7 @@
             return null;
         }
 
-        static Boolean IsLegalPosition(String value, Int32 position)
+        private static Boolean IsLegalPosition(String value, Int32 position)
         {
             return position >= 4 && position == value.Length - 4 &&
                     value[position + 0] == Symbols.Minus &&

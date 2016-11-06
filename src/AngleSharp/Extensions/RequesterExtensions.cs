@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
-    using AngleSharp.Html;
     using AngleSharp.Network;
     using AngleSharp.Network.Default;
     using System;
@@ -127,14 +126,14 @@
         {
             var cts = new CancellationTokenSource();
             var task = download.Task.Wrap(callback);
-            return new Download(task, cts, download.Target, download.Originator);
+            return new Download(task, cts, download.Target, download.Source);
         }
 
         private static IDownload Wrap(this IDownload download, IResponse response)
         {
             var cts = new CancellationTokenSource();
             var task = TaskEx.FromResult(response);
-            return new Download(task, cts, download.Target, download.Originator);
+            return new Download(task, cts, download.Target, download.Source);
         }
 
         private static async Task<IResponse> Wrap(this Task<IResponse> task, Func<IResponse, IDownload> callback)

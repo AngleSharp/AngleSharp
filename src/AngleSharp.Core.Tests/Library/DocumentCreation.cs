@@ -2,9 +2,9 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Dom.Svg;
-    using AngleSharp.Dom.Xml;
     using AngleSharp.Network;
+    using AngleSharp.Svg.Dom;
+    using AngleSharp.Xml.Dom;
     using NUnit.Framework;
     using System;
     using System.Threading.Tasks;

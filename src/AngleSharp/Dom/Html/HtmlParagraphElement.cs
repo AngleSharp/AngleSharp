@@ -2,7 +2,6 @@
 {
     using System;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
 
     /// <summary>
     /// Represents the HTML paragraph element.

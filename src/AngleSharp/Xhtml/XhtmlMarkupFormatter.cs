@@ -1,8 +1,9 @@
 ﻿namespace AngleSharp.XHtml
 {
+    using AngleSharp.Common;
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>

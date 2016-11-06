@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Network.RequestProcessors
 {
+    using AngleSharp.Common;
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using Services;

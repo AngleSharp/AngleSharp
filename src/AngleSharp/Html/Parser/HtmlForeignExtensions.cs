@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Mathml;
-    using AngleSharp.Dom.Svg;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Html.Parser.Tokens;
+    using AngleSharp.Mathml.Dom;
+    using AngleSharp.Svg.Dom;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
 
@@ -16,7 +16,7 @@
     {
         #region Fields
 
-        static readonly Dictionary<String, String> svgAttributeNames = new Dictionary<String, String>(StringComparer.Ordinal)
+        private static readonly Dictionary<String, String> svgAttributeNames = new Dictionary<String, String>(StringComparer.Ordinal)
         {
             { "attributename", "attributeName" },
             { "attributetype", "attributeType" },
@@ -82,7 +82,7 @@
             { "zoomandpan", "zoomAndPan" },
         };
 
-        static readonly Dictionary<String, String> svgAdjustedTagNames = new Dictionary<String, String>(StringComparer.Ordinal)
+        private static readonly Dictionary<String, String> svgAdjustedTagNames = new Dictionary<String, String>(StringComparer.Ordinal)
         {
              { "altglyph", "altGlyph" },
              { "altglyphdef", "altGlyphDef" },
@@ -245,19 +245,19 @@
 
         #region Helpers
 
-        static Boolean IsXmlNamespaceAttribute(String name)
+        private static Boolean IsXmlNamespaceAttribute(String name)
         {
             return name.Length > 4 && (name.Is(NamespaceNames.XmlNsPrefix) || name.Is("xmlns:xlink"));
         }
 
-        static Boolean IsXmlAttribute(String name)
+        private static Boolean IsXmlAttribute(String name)
         {
             return (name.Length > 7 && "xml:".EqualsSubset(name, 0, 4)) &&
                 (TagNames.Base.EqualsSubset(name, 4, 4) || AttributeNames.Lang.EqualsSubset(name, 4, 4) ||
                  AttributeNames.Space.EqualsSubset(name, 4, 5));
         }
 
-        static Boolean IsXLinkAttribute(String name)
+        private static Boolean IsXLinkAttribute(String name)
         {
             return (name.Length > 9 && "xlink:".EqualsSubset(name, 0, 6)) &&
                 (AttributeNames.Actuate.EqualsSubset(name, 6, 7) || AttributeNames.Arcrole.EqualsSubset(name, 6, 7) ||
@@ -266,7 +266,7 @@
                  AttributeNames.Title.EqualsSubset(name, 6, 5));
         }
 
-        static Boolean EqualsSubset(this String a, String b, Int32 index, Int32 length)
+        private static Boolean EqualsSubset(this String a, String b, Int32 index, Int32 length)
         {
             return String.Compare(a, 0, b, index, length, StringComparison.Ordinal) == 0;
         }

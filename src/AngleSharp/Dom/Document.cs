@@ -1,14 +1,16 @@
 ﻿namespace AngleSharp.Dom
 {
+    using AngleSharp.Browser;
+    using AngleSharp.Common;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Dom.Mathml;
-    using AngleSharp.Dom.Svg;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Mathml.Dom;
     using AngleSharp.Network;
     using AngleSharp.Services;
+    using AngleSharp.Svg.Dom;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;

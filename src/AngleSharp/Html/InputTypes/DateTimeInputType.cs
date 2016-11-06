@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
+    using AngleSharp.Text;
     using System;
     using System.Globalization;
 
@@ -191,7 +192,7 @@
             return null;
         }
 
-        static Boolean IsLegalPosition(String value, Int32 position)
+        private static Boolean IsLegalPosition(String value, Int32 position)
         {
             return position == value.Length - 6 &&
                     value[position + 1].IsDigit() &&

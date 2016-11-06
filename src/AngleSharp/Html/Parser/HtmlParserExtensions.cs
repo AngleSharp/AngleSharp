@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Html.Parser.Tokens;
     using System;
     using System.Collections.Generic;

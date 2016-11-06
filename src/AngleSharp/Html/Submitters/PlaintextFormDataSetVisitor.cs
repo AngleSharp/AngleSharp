@@ -42,7 +42,7 @@
 
         public void Serialize(StreamWriter stream)
         {
-            var content = String.Join(Symbols.NewLines[0], _lines);
+            var content = String.Join("\r\n", _lines);
             stream.Write(content);
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Extensions
 {
-    using AngleSharp.Services;
+    using AngleSharp.Common;
 
     /// <summary>
     /// Useful methods for browsing contexts.

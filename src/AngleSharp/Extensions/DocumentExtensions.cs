@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.Browser;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Services;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -217,7 +217,7 @@
                 return Enumerable.Empty<Task>();
             }
 
-            return loader.GetDownloads().Where(m => m.Originator is T).Select(m => m.Task);
+            return loader.GetDownloads().Where(m => m.Source is T).Select(m => m.Task);
         }
 
         /// <summary>

@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Xml.Parser
 {
-    using AngleSharp.Dom.Xml;
     using AngleSharp.Extensions;
     using AngleSharp.Text;
+    using AngleSharp.Xml.Dom;
     using System;
     using System.IO;
     using System.Threading;
