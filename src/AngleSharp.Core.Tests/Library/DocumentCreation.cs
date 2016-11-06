@@ -2,7 +2,7 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using AngleSharp.Svg.Dom;
     using AngleSharp.Xml.Dom;
     using NUnit.Framework;

@@ -5,7 +5,7 @@
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using System;
     using System.Collections.Generic;
     using System.Linq;

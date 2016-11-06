@@ -1,8 +1,7 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
-    using AngleSharp.Network;
-    using AngleSharp.Network.Default;
+    using AngleSharp.Io;
     using System;
     using System.IO;
     using System.Net;
@@ -183,7 +182,7 @@
                     throw new DomException(DomError.Security);
                 }
 
-                return download.Wrap(new Response
+                return download.Wrap(new DefaultResponse
                 {
                     Address = response.Address,
                     Content = content,

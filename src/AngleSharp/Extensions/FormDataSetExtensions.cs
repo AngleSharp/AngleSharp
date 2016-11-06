@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Html;
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using AngleSharp.Text;
     using System;
     using System.IO;

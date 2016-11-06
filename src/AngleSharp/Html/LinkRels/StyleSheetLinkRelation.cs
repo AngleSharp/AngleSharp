@@ -3,7 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Network.RequestProcessors;
+    using AngleSharp.Io.Processors;
     using System.Threading.Tasks;
 
     class StyleSheetLinkRelation : BaseLinkRelation

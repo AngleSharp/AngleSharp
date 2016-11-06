@@ -3,7 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using System;
 
     /// <summary>

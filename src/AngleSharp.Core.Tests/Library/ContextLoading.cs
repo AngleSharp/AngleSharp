@@ -8,9 +8,9 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Io;
     using AngleSharp.Mathml;
     using AngleSharp.Media;
-    using AngleSharp.Network;
     using AngleSharp.Svg;
     using NUnit.Framework;
     using System;
@@ -323,7 +323,7 @@
             var scripting = new CallbackScriptEngine(_ => 
             {
                 hasBeenParsed = true;
-            }, Network.MimeTypeNames.DefaultJavaScript);
+            }, MimeTypeNames.DefaultJavaScript);
             var provider = new MockIntegrityProvider((raw, integrity) =>
             {
                 hasBeenChecked = true;
@@ -347,7 +347,7 @@
             var scripting = new CallbackScriptEngine(_ =>
             {
                 hasBeenParsed = true;
-            }, Network.MimeTypeNames.DefaultJavaScript);
+            }, MimeTypeNames.DefaultJavaScript);
             var provider = new MockIntegrityProvider((raw, integrity) =>
             {
                 hasBeenChecked = true;
@@ -371,7 +371,7 @@
             var scripting = new CallbackScriptEngine(_ =>
             {
                 hasBeenParsed = true;
-            }, Network.MimeTypeNames.DefaultJavaScript);
+            }, MimeTypeNames.DefaultJavaScript);
             var provider = new MockIntegrityProvider((raw, integrity) =>
             {
                 hasBeenChecked = true;

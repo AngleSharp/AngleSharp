@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Urls
 {
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using NUnit.Framework;
     using System.Linq;
 

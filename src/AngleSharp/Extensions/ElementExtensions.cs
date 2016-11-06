@@ -4,8 +4,8 @@
     using AngleSharp.Dom.Html;
     using AngleSharp.Html;
     using AngleSharp.Media;
-    using AngleSharp.Network;
-    using AngleSharp.Network.RequestProcessors;
+    using AngleSharp.Io;
+    using AngleSharp.Io.Processors;
     using System;
     using System.Collections.Generic;
     using System.Threading;

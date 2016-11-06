@@ -4,7 +4,7 @@
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Html.Parser;
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using AngleSharp.Scripting;
     using AngleSharp.Xml.Parser;
     using NUnit.Framework;
@@ -40,13 +40,13 @@
             }, PageRequester.All);
         }
 
-        public static IConfiguration WithMockRequester(this IConfiguration config, Action<IRequest> onRequest = null)
+        public static IConfiguration WithMockRequester(this IConfiguration config, Action<Request> onRequest = null)
         {
             var mockRequester = new MockRequester { OnRequest = onRequest };
             return config.WithMockRequester(mockRequester);
         }
 
-        public static IConfiguration WithVirtualRequester(this IConfiguration config, Func<IRequest, IResponse> onRequest = null)
+        public static IConfiguration WithVirtualRequester(this IConfiguration config, Func<Request, IResponse> onRequest = null)
         {
             var mockRequester = new VirtualRequester(onRequest);
             return config.WithMockRequester(mockRequester);

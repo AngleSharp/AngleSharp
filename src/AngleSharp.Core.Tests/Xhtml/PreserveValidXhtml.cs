@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Xhtml
 {
-    using AngleSharp.XHtml;
+    using AngleSharp.Xhtml;
     using NUnit.Framework;
     using System.IO;
 

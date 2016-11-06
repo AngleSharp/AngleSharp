@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Network;
-    using AngleSharp.Network.Default;
+    using AngleSharp.Io;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -24,7 +23,7 @@
             return true;
         }
 
-        public async Task<IResponse> RequestAsync(IRequest request, CancellationToken cancel)
+        public async Task<IResponse> RequestAsync(Request request, CancellationToken cancel)
         {
             var value = default(String);
             var status = HttpStatusCode.NotFound;
@@ -38,7 +37,7 @@
 
             await Task.Delay(1);
 
-            return new Response
+            return new DefaultResponse
             {
                 Address = request.Address,
                 Content = content,

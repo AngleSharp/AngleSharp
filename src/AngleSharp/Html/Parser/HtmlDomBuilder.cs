@@ -6,7 +6,7 @@
     using AngleSharp.Html;
     using AngleSharp.Html.Parser.Tokens;
     using AngleSharp.Mathml.Dom;
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using AngleSharp.Services;
     using AngleSharp.Svg.Dom;
     using AngleSharp.Text;

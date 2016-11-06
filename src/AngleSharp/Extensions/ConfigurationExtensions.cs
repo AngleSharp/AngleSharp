@@ -4,7 +4,7 @@
     using AngleSharp.Css;
     using AngleSharp.Dom;
     using AngleSharp.Media;
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using AngleSharp.Scripting;
     using AngleSharp.Services;
     using System;

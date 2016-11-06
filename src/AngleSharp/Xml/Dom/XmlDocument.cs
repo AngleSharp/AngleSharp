@@ -1,10 +1,9 @@
 ﻿namespace AngleSharp.Xml.Dom
 {
-    using AngleSharp.Common;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using AngleSharp.Text;
     using AngleSharp.Xml.Parser;
     using System;

@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Html.LinkRels
 {
     using AngleSharp.Dom.Html;
-    using AngleSharp.Network.RequestProcessors;
+    using AngleSharp.Io.Processors;
     using System.Threading.Tasks;
 
     /// <summary>

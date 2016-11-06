@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using AngleSharp.Scripting;
     using System;
     using System.Threading;

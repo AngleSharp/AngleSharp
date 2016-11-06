@@ -3,7 +3,7 @@
     using AngleSharp.Attributes;
     using AngleSharp.Common;
     using AngleSharp.Dom;
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;

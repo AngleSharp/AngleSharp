@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.External
 {
-    using AngleSharp.Network;
-    using AngleSharp.Network.Default;
+    using AngleSharp.Io;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -12,7 +11,7 @@
 
     sealed class PageRequester : IRequester
     {
-        private readonly static HttpRequester _default = new HttpRequester();
+        private readonly static DefaultHttpRequester _default = new DefaultHttpRequester();
         private readonly static String _directory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "Resources");
         private readonly static SiteMapping _mapping = new SiteMapping(Path.Combine(_directory, "content.xml"));
 
@@ -26,7 +25,7 @@
             return _default.SupportsProtocol(protocol);
         }
 
-        public async Task<IResponse> RequestAsync(IRequest request, CancellationToken cancel)
+        public async Task<IResponse> RequestAsync(Request request, CancellationToken cancel)
         {
             var url = request.Address.Href;
 
@@ -89,7 +88,7 @@
             var ctnt = new MemoryStream();
             await ms.CopyToAsync(ctnt).ConfigureAwait(false);
             ctnt.Position = 0;
-            return new Response
+            return new DefaultResponse
             {
                 StatusCode = (HttpStatusCode)code,
                 Address = new Url(addr),

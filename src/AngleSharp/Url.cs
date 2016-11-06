@@ -2,7 +2,7 @@
 {
     using AngleSharp.Common;
     using AngleSharp.Extensions;
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;

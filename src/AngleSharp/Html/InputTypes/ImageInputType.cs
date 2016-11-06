@@ -2,14 +2,14 @@
 {
     using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
-    using AngleSharp.Network.RequestProcessors;
+    using AngleSharp.Io.Processors;
     using System;
 
     class ImageInputType : BaseInputType
     {
         #region Fields
 
-        readonly ImageRequestProcessor _request;
+        private readonly ImageRequestProcessor _request;
 
         #endregion
 
@@ -36,12 +36,12 @@
 
         public Int32 Width
         {
-            get { return _request != null ? _request.Width : 0; }
+            get { return _request?.Width ?? 0; }
         }
 
         public Int32 Height
         {
-            get { return  _request != null ? _request.Height : 0; }
+            get { return  _request?.Height ?? 0; }
         }
 
         #endregion

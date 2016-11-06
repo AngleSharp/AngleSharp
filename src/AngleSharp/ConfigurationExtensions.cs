@@ -2,8 +2,7 @@
 {
     using AngleSharp.Common;
     using AngleSharp.Extensions;
-    using AngleSharp.Network;
-    using AngleSharp.Network.Default;
+    using AngleSharp.Io;
     using AngleSharp.Services;
     using AngleSharp.Services.Default;
     using System;
@@ -115,7 +114,7 @@
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
 
-            configuration = configuration.With(requesters ?? new IRequester[] { new HttpRequester(), new DataRequester() });
+            configuration = configuration.With(requesters ?? new IRequester[] { new DefaultHttpRequester(), new DataRequester() });
 
             var config = new LoaderSetup
             {
@@ -128,12 +127,12 @@
 
             if (config.IsNavigationEnabled)
             {
-                configuration = configuration.With<IDocumentLoader>(ctx => new DocumentLoader(ctx, config.Filter));
+                configuration = configuration.With<IDocumentLoader>(ctx => new DefaultDocumentLoader(ctx, config.Filter));
             }
 
             if (config.IsResourceLoadingEnabled)
             {
-                configuration = configuration.With<IResourceLoader>(ctx => new ResourceLoader(ctx, config.Filter));
+                configuration = configuration.With<IResourceLoader>(ctx => new DefaultResourceLoader(ctx, config.Filter));
             }
 
             return configuration;
@@ -157,7 +156,7 @@
             /// <summary>
             /// Gets or sets the filter, if any.
             /// </summary>
-            public Predicate<IRequest> Filter { get; set; }
+            public Predicate<Request> Filter { get; set; }
         }
 
         #endregion

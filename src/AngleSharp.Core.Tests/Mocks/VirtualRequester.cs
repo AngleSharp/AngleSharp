@@ -1,20 +1,20 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
 
     sealed class VirtualRequester : IRequester
     {
-        private readonly Func<IRequest, IResponse> _onRequest;
+        private readonly Func<Request, IResponse> _onRequest;
 
-        public VirtualRequester(Func<IRequest, IResponse> onRequest)
+        public VirtualRequester(Func<Request, IResponse> onRequest)
         {
             _onRequest = onRequest;
         }
 
-        public Task<IResponse> RequestAsync(IRequest request, CancellationToken cancel)
+        public Task<IResponse> RequestAsync(Request request, CancellationToken cancel)
         {
             var response = _onRequest.Invoke(request);
             return Task.FromResult(response);

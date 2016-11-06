@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Dom;
-    using AngleSharp.Network;
+    using AngleSharp.Io;
 
     /// <summary>
     /// Represents the browsing context interface.

@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Media
 {
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using System;
     using System.Threading;
     using System.Threading.Tasks;

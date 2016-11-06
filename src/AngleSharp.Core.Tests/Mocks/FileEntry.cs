@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
     using AngleSharp.Io.Dom;
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using System;
     using System.IO;
 

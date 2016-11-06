@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.XHtml
+﻿namespace AngleSharp.Xhtml
 {
     using AngleSharp.Common;
     using AngleSharp.Dom;

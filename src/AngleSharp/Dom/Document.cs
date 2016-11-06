@@ -8,8 +8,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Mathml.Dom;
-    using AngleSharp.Network;
-    using AngleSharp.Services;
+    using AngleSharp.Io;
     using AngleSharp.Svg.Dom;
     using AngleSharp.Text;
     using System;

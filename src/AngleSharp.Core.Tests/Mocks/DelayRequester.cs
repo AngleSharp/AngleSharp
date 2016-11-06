@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
-    using AngleSharp.Network;
-    using AngleSharp.Network.Default;
+    using AngleSharp.Io;
     using System;
     using System.IO;
     using System.Net;
@@ -29,11 +28,11 @@
             return true;
         }
 
-        public async Task<IResponse> RequestAsync(IRequest request, CancellationToken cancel)
+        public async Task<IResponse> RequestAsync(Request request, CancellationToken cancel)
         {
             await Task.Delay(_timeout, cancel);
             _count++;
-            return new Response
+            return new DefaultResponse
             {
                 Address  = request.Address,
                 Content = MemoryStream.Null,

@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Extensions
 {
-    using AngleSharp.Network;
+    using AngleSharp.Io;
     using System;
 
     /// <summary>
