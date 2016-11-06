@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Collections
+﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Html.Dom;
     using AngleSharp.Extensions;
@@ -14,8 +14,8 @@
     {
         #region Fields
 
-        readonly IElement _parent;
-        readonly IEnumerable<IHtmlOptionElement> _options;
+        private readonly IElement _parent;
+        private readonly IEnumerable<IHtmlOptionElement> _options;
 
         #endregion
 
@@ -141,7 +141,7 @@
 
         #region Enumerator
 
-        IEnumerable<IHtmlOptionElement> GetOptions()
+        private IEnumerable<IHtmlOptionElement> GetOptions()
         {
             foreach (var child in _parent.ChildNodes)
             {

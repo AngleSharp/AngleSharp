@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Collections
+﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Extensions;
 
@@ -9,10 +9,10 @@
     {
         #region Fields
 
-        readonly INode _root;
-        readonly FilterSettings _settings;
-        readonly NodeFilter _filter;
-        INode _current;
+        private readonly INode _root;
+        private readonly FilterSettings _settings;
+        private readonly NodeFilter _filter;
+        private INode _current;
 
         #endregion
 
@@ -354,7 +354,7 @@
 
         #region Helpers
 
-        FilterResult Check(INode node)
+        private FilterResult Check(INode node)
         {
             if (!_settings.Accepts(node))
             {

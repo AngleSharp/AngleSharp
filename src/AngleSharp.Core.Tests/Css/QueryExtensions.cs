@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests.Library
+﻿namespace AngleSharp.Core.Tests.Css
 {
     using AngleSharp.Dom;
     using AngleSharp.Extensions;

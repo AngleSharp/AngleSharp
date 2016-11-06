@@ -1,9 +1,8 @@
 ﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Common;
-    using AngleSharp.Dom.Collections;
-    using AngleSharp.Html.Dom;
     using AngleSharp.Extensions;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Html.Parser;
     using AngleSharp.Text;
     using System;

@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Dom.Collections.Tests
+﻿namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using NUnit.Framework;
 

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Collections
+﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Extensions;
     using AngleSharp.Html;
@@ -15,7 +15,7 @@
     {
         #region Fields
 
-        readonly IEnumerable<HtmlFormControlElement> _elements;
+        private readonly IEnumerable<HtmlFormControlElement> _elements;
 
         #endregion
 
@@ -30,7 +30,7 @@
 
             _elements = root.GetElements<HtmlFormControlElement>().Where(m =>
             {
-                if (m.Form == form)
+                if (Object.ReferenceEquals(m.Form, form))
                 {
                     var input = m as IHtmlInputElement;
 
@@ -55,7 +55,7 @@
 
         #endregion
 
-        #region HTMLFormControlElement Implementation
+        #region HtmlFormControlElement Implementation
 
         public HtmlFormControlElement this[Int32 index]
         {

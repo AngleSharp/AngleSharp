@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Collections
+﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Extensions;
     using System;
@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        readonly IEnumerable<String> _list;
+        private readonly IEnumerable<String> _list;
 
         #endregion
 

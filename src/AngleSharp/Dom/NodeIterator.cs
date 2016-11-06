@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Collections
+﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Extensions;
     using System;
@@ -12,12 +12,12 @@
     {
         #region Fields
 
-        readonly INode _root;
-        readonly FilterSettings _settings;
-        readonly NodeFilter _filter;
-        readonly IEnumerable<INode> _iterator;
-        INode _reference;
-        Boolean _beforeNode;
+        private readonly INode _root;
+        private readonly FilterSettings _settings;
+        private readonly NodeFilter _filter;
+        private readonly IEnumerable<INode> _iterator;
+        private INode _reference;
+        private Boolean _beforeNode;
 
         #endregion
 

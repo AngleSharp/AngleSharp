@@ -3,7 +3,6 @@
     using AngleSharp.Browser;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Collections;
     using NUnit.Framework;
     using System;
     using System.Linq;

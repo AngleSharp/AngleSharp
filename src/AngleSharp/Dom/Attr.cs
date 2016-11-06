@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Dom.Collections;
     using AngleSharp.Extensions;
     using System;
 

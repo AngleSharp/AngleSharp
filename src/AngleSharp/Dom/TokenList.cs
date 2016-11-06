@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Collections
+﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Extensions;
     using System;
@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        readonly List<String> _tokens;
+        private readonly List<String> _tokens;
 
         #endregion
 
@@ -139,7 +139,7 @@
 
         #region Helper
 
-        void RaiseChanged()
+        private void RaiseChanged()
         {
             Changed?.Invoke(ToString());
         }

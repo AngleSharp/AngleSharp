@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Collections
+﻿namespace AngleSharp.Dom
 {
     using AngleSharp.Extensions;
     using System;
@@ -13,8 +13,8 @@
     {
         #region Fields
         
-        readonly List<Attr> _items;
-        readonly WeakReference<Element> _owner;
+        private readonly List<Attr> _items;
+        private readonly WeakReference<Element> _owner;
 
         #endregion
 
@@ -253,7 +253,7 @@
 
         #region Helpers
 
-        Attr Prepare(IAttr item)
+        private Attr Prepare(IAttr item)
         {
             var attr = item as Attr;
 
@@ -263,10 +263,9 @@
                 {
                     return null;
                 }
-                else if (attr.Container != null)
-                {
+
+                if (attr.Container != null)
                     throw new DomException(DomError.InUse);
-                }
 
                 attr.Container = this;
             }

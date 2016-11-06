@@ -1,6 +1,7 @@
-﻿namespace AngleSharp.Dom
+﻿namespace AngleSharp.Browser.Dom
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Dom;
 
     /// <summary>
     /// Provides a way to cache web resources to improve performance, reduce

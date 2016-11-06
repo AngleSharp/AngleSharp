@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.Browser;
     using AngleSharp.Dom;
     using AngleSharp.Io;
 

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Io.Processors
 {
+    using AngleSharp.Browser;
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using System.Threading;

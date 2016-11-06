@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Collections
+﻿namespace AngleSharp.Dom
 {
     using System;
     using System.Collections;
@@ -12,7 +12,7 @@
     {
         #region Fields
 
-        readonly List<Node> _entries;
+        private readonly List<Node> _entries;
 
         /// <summary>
         /// Gets an empty node-list. Shouldn't be modified.

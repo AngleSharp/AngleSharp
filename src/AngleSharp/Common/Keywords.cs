@@ -81,5 +81,15 @@
         /// The even keyword.
         /// </summary>
         public static readonly String Even = "even";
+
+        /// <summary>
+        /// The 2d keyword.
+        /// </summary>
+        public static readonly String TwoD = "2d";
+
+        /// <summary>
+        /// The webgl keyword.
+        /// </summary>
+        public static readonly String WebGl = "webgl";
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Core.Tests
+﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp;
     using AngleSharp.Core.Tests.Mocks;

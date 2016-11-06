@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Browser
 {
-    using AngleSharp.Dom;
     using System;
 
     /// <summary>

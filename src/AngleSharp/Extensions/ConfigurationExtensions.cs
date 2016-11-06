@@ -2,7 +2,6 @@
 {
     using AngleSharp.Browser;
     using AngleSharp.Css;
-    using AngleSharp.Dom;
     using AngleSharp.Media;
     using AngleSharp.Io;
     using AngleSharp.Scripting;

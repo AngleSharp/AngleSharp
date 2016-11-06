@@ -2,7 +2,6 @@
 {
     using AngleSharp.Browser;
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Collections;
     using AngleSharp.Html.Dom;
     using System;
     using System.Collections.Generic;

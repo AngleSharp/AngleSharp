@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Html.Dom
 {
+    using AngleSharp.Common;
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Io;
@@ -166,11 +167,11 @@
 
         private static ContextMode GetModeFrom(String contextId)
         {
-            if (contextId.Isi("2d"))
+            if (contextId.Isi(Keywords.TwoD))
             {
                 return ContextMode.Direct2d;
             }
-            else if (contextId.Isi("webgl"))
+            else if (contextId.Isi(Keywords.WebGl))
             {
                 return ContextMode.DirectWebGl;
             }
