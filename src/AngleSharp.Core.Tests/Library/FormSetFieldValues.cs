@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using AngleSharp.Dom.Html;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Html.Parser;
     using NUnit.Framework;

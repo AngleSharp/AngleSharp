@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Io.Processors
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Scripting;

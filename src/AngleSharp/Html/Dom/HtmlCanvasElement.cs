@@ -1,8 +1,9 @@
-﻿namespace AngleSharp.Dom.Html
+﻿namespace AngleSharp.Html.Dom
 {
+    using AngleSharp.Dom;
     using AngleSharp.Extensions;
-    using AngleSharp.Media.Dom;
     using AngleSharp.Io;
+    using AngleSharp.Media.Dom;
     using System;
     using System.IO;
 
@@ -158,12 +159,12 @@
 
         #region Helpers
 
-        Byte[] GetImageData(String type)
+        private Byte[] GetImageData(String type)
         {
             return _current?.ToImage(type ?? MimeTypeNames.Plain) ?? new Byte[0];
         }
 
-        static ContextMode GetModeFrom(String contextId)
+        private static ContextMode GetModeFrom(String contextId)
         {
             if (contextId.Isi("2d"))
             {
@@ -181,7 +182,7 @@
 
         #region Context Mode
 
-        enum ContextMode : byte
+        private enum ContextMode : byte
         {
             None,
             Direct2d, 

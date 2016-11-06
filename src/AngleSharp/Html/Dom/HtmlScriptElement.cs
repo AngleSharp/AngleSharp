@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Dom.Html
+﻿namespace AngleSharp.Html.Dom
 {
+    using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Io;
@@ -202,7 +203,7 @@
 
         #region Helpers
 
-        Boolean InvokeLoadingScript(Document document, Url url)
+        private Boolean InvokeLoadingScript(Document document, Url url)
         {
             var executeDirectly = true;
 
@@ -217,7 +218,7 @@
             return executeDirectly;
         }
 
-        void FireErrorEvent()
+        private void FireErrorEvent()
         {
             this.FireSimpleEvent(EventNames.Error);
         }

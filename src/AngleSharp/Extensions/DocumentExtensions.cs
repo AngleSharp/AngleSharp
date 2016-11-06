@@ -3,7 +3,7 @@
     using AngleSharp.Browser;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
-    using AngleSharp.Dom.Html;
+    using AngleSharp.Html.Dom;
     using System;
     using System.Collections.Generic;
     using System.Linq;

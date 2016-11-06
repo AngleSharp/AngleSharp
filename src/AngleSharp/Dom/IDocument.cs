@@ -2,7 +2,7 @@
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Dom.Html;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Text;
     using System;
     using System.Net;

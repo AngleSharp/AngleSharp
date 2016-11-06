@@ -4,7 +4,7 @@
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser.Tokens;
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Text;
     using System;

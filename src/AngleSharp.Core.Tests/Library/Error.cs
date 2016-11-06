@@ -2,7 +2,7 @@
 {
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Dom.Html;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Html.Parser;
     using NUnit.Framework;

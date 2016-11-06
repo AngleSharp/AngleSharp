@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Dom.Html
+﻿namespace AngleSharp.Html.Dom
 {
+    using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using System;
 
@@ -33,7 +34,9 @@
                     var control = Owner.GetElementById(controlId) as IHtmlElement;
 
                     if (control is ILabelabelElement)
+                    {
                         return control;
+                    }
                 }
                 
                 return null;

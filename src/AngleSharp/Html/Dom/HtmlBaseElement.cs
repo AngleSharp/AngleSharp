@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Dom.Html
+﻿namespace AngleSharp.Html.Dom
 {
+    using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using System;
 
@@ -40,7 +41,7 @@
 
         #region Methods
 
-        void UpdateUrl(String url)
+        private void UpdateUrl(String url)
         {
             Owner.BaseUrl = new Url(Owner.DocumentUrl, url ?? String.Empty);
         }

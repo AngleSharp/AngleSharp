@@ -1,8 +1,9 @@
-﻿namespace AngleSharp.Dom.Html
+﻿namespace AngleSharp.Html.Dom
 {
-    using System;
     using AngleSharp.Attributes;
+    using AngleSharp.Dom;
     using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// Represents the HTML frameset element.

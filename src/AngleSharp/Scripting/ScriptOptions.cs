@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Scripting
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
+    using AngleSharp.Html.Dom;
     using System.Text;
 
     /// <summary>

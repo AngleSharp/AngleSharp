@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Dom.Html
+﻿namespace AngleSharp.Html.Dom
 {
+    using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Html.InputTypes;
@@ -13,8 +14,8 @@
     {
         #region Fields
 
-        BaseInputType _type;
-        Boolean? _checked;
+        private BaseInputType _type;
+        private Boolean? _checked;
 
         #endregion
 

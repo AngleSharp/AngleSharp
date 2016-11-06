@@ -1,7 +1,8 @@
-﻿namespace AngleSharp.Dom.Html
+﻿namespace AngleSharp.Html.Dom
 {
-    using System;
+    using AngleSharp.Dom;
     using AngleSharp.Extensions;
+    using System;
 
     /// <summary>
     /// Represents the base class for frame owned elements.

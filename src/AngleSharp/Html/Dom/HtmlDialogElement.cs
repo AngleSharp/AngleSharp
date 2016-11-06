@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Dom.Html
+﻿namespace AngleSharp.Html.Dom
 {
+    using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using System;
 
@@ -10,7 +11,7 @@
     {
         #region Fields
 
-        String _returnValue;
+        private String _returnValue;
 
         #endregion
 

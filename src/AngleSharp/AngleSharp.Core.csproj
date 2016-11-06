@@ -72,8 +72,8 @@
     <Compile Include="Dom\Constants\DomError.cs" />
     <Compile Include="Dom\Constants\Sandboxes.cs" />
     <Compile Include="Dom\Constants\ShadowRootMode.cs" />
-    <Compile Include="Dom\Constants\TableFrames.cs" />
-    <Compile Include="Dom\Constants\TableRules.cs" />
+    <Compile Include="Html\Dom\TableFrames.cs" />
+    <Compile Include="Html\Dom\TableRules.cs" />
     <Compile Include="Dom\Constants\CacheStatus.cs" />
     <Compile Include="Css\Dom\ChildSelector.cs" />
     <Compile Include="Css\Dom\FirstChildSelector.cs" />
@@ -299,7 +299,7 @@
     <Compile Include="Media\Dom\MediaReadyState.cs" />
     <Compile Include="Dom\Constants\SimpleChoice.cs" />
     <Compile Include="Media\Dom\TextTrackMode.cs" />
-    <Compile Include="Dom\Constants\TrackReadyState.cs" />
+    <Compile Include="Html\Dom\TrackReadyState.cs" />
     <Compile Include="Dom\Constants\Visibility.cs" />
     <Compile Include="Html\Dom\HtmlTimeElement.cs" />
     <Compile Include="Html\Dom\HtmlTableDataCellElement.cs" />
@@ -513,7 +513,7 @@
     <Compile Include="Dom\Constants\ContentEditableMode.cs" />
     <Compile Include="Css\Dom\Selectors.cs" />
     <Compile Include="Dom\Constants\DirectionMode.cs" />
-    <Compile Include="Dom\Constants\Alignment.cs" />
+    <Compile Include="Html\Dom\Alignment.cs" />
     <Compile Include="Dom\Constants\HorizontalAlignment.cs" />
     <Compile Include="Dom\Constants\VerticalAlignment.cs" />
     <Compile Include="Html\Dom\HtmlBigElement.cs" />

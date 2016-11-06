@@ -1,7 +1,8 @@
-﻿namespace AngleSharp.Dom.Html
+﻿namespace AngleSharp.Html.Dom
 {
-    using System;
     using AngleSharp.Attributes;
+    using AngleSharp.Dom;
+    using System;
 
     /// <summary>
     /// Represents the HTML applet element.

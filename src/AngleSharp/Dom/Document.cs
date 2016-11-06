@@ -4,7 +4,7 @@
     using AngleSharp.Common;
     using AngleSharp.Dom.Collections;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Dom.Html;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Mathml.Dom;

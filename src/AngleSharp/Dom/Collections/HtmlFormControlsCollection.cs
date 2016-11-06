@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Dom.Collections
 {
-    using AngleSharp.Dom.Html;
     using AngleSharp.Extensions;
     using AngleSharp.Html;
+    using AngleSharp.Html.Dom;
     using System;
     using System.Collections;
     using System.Collections.Generic;

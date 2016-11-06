@@ -1,7 +1,8 @@
-﻿namespace AngleSharp.Dom.Html
+﻿namespace AngleSharp.Html.Dom
 {
-    using System;
+    using AngleSharp.Dom;
     using AngleSharp.Dom.Collections;
+    using System;
 
     /// <summary>
     /// Represents the HTML datalist element.
@@ -10,7 +11,7 @@
     {
         #region Fields
 
-        HtmlCollection<IHtmlOptionElement> _options;
+        private HtmlCollection<IHtmlOptionElement> _options;
 
         #endregion
 

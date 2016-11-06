@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
     using AngleSharp.Common;
-    using AngleSharp.Dom.Html;
+    using AngleSharp.Html.Dom;
     using System;
 
     class CheckedInputType : BaseInputType
