@@ -13,7 +13,7 @@
     /// <summary>
     /// Provides the default content-type to document creation mapping.
     /// </summary>
-    public class DocumentFactory : IDocumentFactory
+    public class DefaultDocumentFactory : IDocumentFactory
     {
         private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>
         {

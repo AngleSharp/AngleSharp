@@ -8,14 +8,14 @@
     /// <summary>
     /// Provides the basic set of functionality for retrieving style engines.
     /// </summary>
-    public class StylingService : IStylingProvider
+    public class DefaultStylingProvider : IStylingProvider
     {
         private readonly List<IStyleEngine> _engines;
 
         /// <summary>
         /// Creates a new styling service.
         /// </summary>
-        public StylingService()
+        public DefaultStylingProvider()
         {
             _engines = new List<IStyleEngine>();
         }

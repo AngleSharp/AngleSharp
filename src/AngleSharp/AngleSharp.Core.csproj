@@ -118,7 +118,7 @@
     <Compile Include="Html\Parser\HtmlParseException.cs" />
     <Compile Include="Css\AttributeSelectorFactory.cs" />
     <Compile Include="Browser\DefaultContextFactory.cs" />
-    <Compile Include="Dom\DocumentFactory.cs" />
+    <Compile Include="Dom\DefaultDocumentFactory.cs" />
     <Compile Include="Common\ServiceFactory.cs" />
     <Compile Include="Dom\Services\IDocumentFactory.cs" />
     <Compile Include="Dom\Services\IElementFactory.cs" />
@@ -225,11 +225,11 @@
     <Compile Include="Xml\Parser\XmlParserOptions.cs" />
     <Compile Include="Browser\LocaleEncodingProvider.cs" />
     <Compile Include="Io\MemoryCookieProvider.cs" />
-    <Compile Include="Css\StylingService.cs" />
+    <Compile Include="Css\DefaultStylingProvider.cs" />
     <Compile Include="Browser\TaskEventLoop.cs" />
     <Compile Include="Browser\Services\IEncodingProvider.cs" />
     <Compile Include="Dom\Services\IEntityProvider.cs" />
-    <Compile Include="Scripting\IScriptingProvider.cs" />
+    <Compile Include="Scripting\Services\IScriptingProvider.cs" />
     <Compile Include="Css\Services\IStylingProvider.cs" />
     <Compile Include="Css\ICssStyleEngine.cs" />
     <Compile Include="Text\TextRange.cs" />
@@ -317,7 +317,7 @@
     <Compile Include="Text\TextSource.cs" />
     <Compile Include="IConfiguration.cs" />
     <Compile Include="Io\Services\ICookieProvider.cs" />
-    <Compile Include="Media\IResourceService.cs" />
+    <Compile Include="Media\Services\IResourceService.cs" />
     <Compile Include="Scripting\IScriptEngine.cs" />
     <Compile Include="Css\IStyleEngine.cs" />
     <Compile Include="Scripting\ScriptOptions.cs" />

@@ -61,7 +61,7 @@
         /// <summary>
         /// The document factory.
         /// </summary>
-        public static readonly DocumentFactory Document = new DocumentFactory();
+        public static readonly DefaultDocumentFactory Document = new DefaultDocumentFactory();
 
         /// <summary>
         /// The browsing context factory.

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Scripting
+﻿namespace AngleSharp.Scripting.Services
 {
     using System;
 

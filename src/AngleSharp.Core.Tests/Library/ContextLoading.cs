@@ -390,7 +390,7 @@
         [Test]
         public async Task LoadCustomDocumentWithRegisteredHandler()
         {
-            var documentFactory = new DocumentFactory();
+            var documentFactory = new DefaultDocumentFactory();
             documentFactory.Register("text/markdown", (ctx, options, cancel) => Task.FromResult<IDocument>(new MarkdownDocument(ctx, options.Source)));
             var config = new Configuration(new Object[] { documentFactory, new DefaultContextFactory(), new ServiceFactory() });
             var context = BrowsingContext.New(config);
@@ -402,7 +402,7 @@
         public async Task LoadCustomDocumentWithoutUnregisteredHandler()
         {
             var type = "text/markdown";
-            var documentFactory = new DocumentFactory();
+            var documentFactory = new DefaultDocumentFactory();
             documentFactory.Register(type, (ctx, options, cancel) => Task.FromResult<IDocument>(new MarkdownDocument(ctx, options.Source)));
             var handler = documentFactory.Unregister(type);
             var config = new Configuration(new Object[] { documentFactory, new DefaultContextFactory(), new ServiceFactory(), new HtmlElementFactory(), new SvgElementFactory(), new MathElementFactory(), new EventFactory() });

@@ -7,7 +7,9 @@
     using AngleSharp.Io;
     using AngleSharp.Io.Services;
     using AngleSharp.Media;
+    using AngleSharp.Media.Services;
     using AngleSharp.Scripting;
+    using AngleSharp.Scripting.Services;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
