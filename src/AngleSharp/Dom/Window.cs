@@ -4,7 +4,6 @@
     using AngleSharp.Browser.Dom;
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Html.Dom;
     using System;
     using System.Linq;
@@ -56,7 +55,7 @@
         /// </summary>
         public INavigator Navigator
         {
-            get { return _navigator ?? (_navigator = _document.Context.CreateService<INavigator>()); }
+            get { return _navigator ?? (_navigator = _document.Context.GetService<INavigator>()); }
         }
 
         /// <summary>
@@ -574,7 +573,7 @@
 
         IWindow IWindow.Open(String url, String name, String features, String replace)
         {
-            var context = _document.NewContext(name, Sandboxes.None);
+            var context = _document.Context.CreateChild(name, Sandboxes.None);
             var document = new HtmlDocument(context);
             document.Location.Href = url;
             return new Window(document) { Name = name };

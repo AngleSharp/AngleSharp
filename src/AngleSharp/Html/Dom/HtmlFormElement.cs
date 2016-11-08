@@ -226,19 +226,20 @@
             {
                 var action = String.IsNullOrEmpty(Action) ? new Url(owner.DocumentUri) : this.HyperReference(Action);
                 var createdBrowsingContext = false;
-                var targetBrowsingContext = owner.Context;
+                var context = Context;
+                var targetBrowsingContext = context;
                 var target = Target;
                 var replace = owner.ReadyState != DocumentReadyState.Complete;
 
                 if (!String.IsNullOrEmpty(target))
                 {
-                    targetBrowsingContext = owner.GetTarget(target);
+                    targetBrowsingContext = context.FindChildFor(target);
                     createdBrowsingContext = targetBrowsingContext == null;
                 }
 
                 if (createdBrowsingContext)
                 {
-                    targetBrowsingContext = owner.CreateTarget(target);
+                    targetBrowsingContext = context.CreateChildFor(target);
                     replace = true;
                 }
 

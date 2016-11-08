@@ -2,6 +2,7 @@
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Events;
+    using AngleSharp.Dom.Services;
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
     using System;
@@ -577,5 +578,10 @@
         /// Gets the status code of the server's response, if any.
         /// </summary>
         HttpStatusCode StatusCode { get; }
+
+        /// <summary>
+        /// Gets the associated entity provider.
+        /// </summary>
+        IEntityProvider Entities { get; }
     }
 }

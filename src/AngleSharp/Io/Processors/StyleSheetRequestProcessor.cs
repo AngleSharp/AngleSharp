@@ -14,29 +14,19 @@
     {
         #region Fields
 
-        private readonly HtmlLinkElement _link;
-        private readonly Document _document;
-        private readonly IResourceLoader _loader;
+        private readonly IHtmlLinkElement _link;
+        private readonly IBrowsingContext _context;
         private IStyleEngine _engine;
 
         #endregion
 
         #region ctor
 
-        private StyleSheetRequestProcessor(HtmlLinkElement link, Document document, IResourceLoader loader)
-            : base(loader)
+        public StyleSheetRequestProcessor(IBrowsingContext context, IHtmlLinkElement link)
+            : base(context.GetService<IResourceLoader>())
         {
+            _context = context;
             _link = link;
-            _document = document;
-            _loader = loader;
-        }
-
-        internal static StyleSheetRequestProcessor Create(HtmlLinkElement element)
-        {
-            var document = element.Owner;
-            var loader = document.Loader;
-
-            return loader != null ? new StyleSheetRequestProcessor(element, document, loader) : null;
         }
 
         #endregion
@@ -51,7 +41,7 @@
 
         public IStyleEngine Engine
         {
-            get { return _engine ?? (_engine = _document.Options.GetStyleEngine(LinkType)); }
+            get { return _engine ?? (_engine = _context.GetStyleEngine(LinkType)); }
         }
 
         public String LinkType
@@ -68,7 +58,12 @@
             if (Engine != null && IsDifferentToCurrentDownloadUrl(request.Target))
             {
                 CancelDownload();
-                Download = DownloadWithCors(request);
+                Download = DownloadWithCors(new CorsRequest(request)
+                {
+                    Setting = _link.CrossOrigin.ToEnum(CorsSetting.None),
+                    Behavior = OriginBehavior.Taint,
+                    Integrity = _context.GetProvider<IIntegrityProvider>()
+                });
                 return FinishDownloadAsync();
             }
 
@@ -78,7 +73,7 @@
         protected override async Task ProcessResponseAsync(IResponse response)
         {
             var cancel = CancellationToken.None;
-            var options = new StyleOptions(_document.Context)
+            var options = new StyleOptions(_context)
             {
                 Element = _link,
                 IsDisabled = _link.IsDisabled,
@@ -89,20 +84,6 @@
             var sheet = await task.ConfigureAwait(false);
             sheet.Media.MediaText = _link.Media ?? String.Empty;
             Sheet = sheet;
-        }
-
-        #endregion
-
-        #region Helpers
-
-        private IDownload DownloadWithCors(ResourceRequest request)
-        {
-            return _loader.FetchWithCors(new CorsRequest(request)
-            {
-                Setting = _link.CrossOrigin.ToEnum(CorsSetting.None),
-                Behavior = OriginBehavior.Taint,
-                Integrity = _document.Options.GetProvider<IIntegrityProvider>()
-            });
         }
 
         #endregion

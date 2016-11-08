@@ -3,7 +3,6 @@
     using AngleSharp.Browser;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Services;
-    using AngleSharp.Extensions;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -12,27 +11,17 @@
         #region Fields
 
         private readonly IDocument _parentDocument;
-        private readonly IConfiguration _configuration;
+        private readonly IBrowsingContext _context;
 
         #endregion
 
         #region ctor
 
-        private DocumentRequestProcessor(IDocument document, IConfiguration configuration, IResourceLoader loader)
-            : base(loader)
+        public DocumentRequestProcessor(IBrowsingContext context)
+            : base(context.GetService<IResourceLoader>())
         {
-            _parentDocument = document;
-            _configuration = configuration;
-        }
-
-        internal static DocumentRequestProcessor Create(Element element)
-        {
-            var document = element.Owner;
-            var configuration = document.Options;
-            var loader = document.Loader;
-
-            return configuration != null && loader != null ?
-                new DocumentRequestProcessor(document, configuration, loader) : null;
+            _parentDocument = context.Active;
+            _context = context;
         }
 
         #endregion
@@ -51,9 +40,10 @@
 
         protected override async Task ProcessResponseAsync(IResponse response)
         {
-            var context = new BrowsingContext(_parentDocument.Context, Sandboxes.None);
-            var options = new CreateDocumentOptions(response, _configuration, _parentDocument);
-            var factory = _configuration.GetFactory<IDocumentFactory>();
+            var context = new BrowsingContext(_context, Sandboxes.None);
+            var encoding = _context.GetDefaultEncoding();
+            var options = new CreateDocumentOptions(response, encoding, _parentDocument);
+            var factory = _context.GetFactory<IDocumentFactory>();
             ChildDocument = await factory.CreateAsync(context, options, CancellationToken.None).ConfigureAwait(false);
         }
 

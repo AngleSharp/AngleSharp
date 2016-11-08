@@ -6,7 +6,6 @@
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -60,6 +59,11 @@
         #endregion
 
         #region Internal Properties
+
+        internal IBrowsingContext Context
+        {
+            get { return Owner?.Context; }
+        }
 
         internal NamedNodeMap Attributes
         {
@@ -646,10 +650,8 @@
 
             if ((Flags & TargetFlags) != NodeFlags.None)
             {
-                var document = Owner;
-                var config = document.Options;
-                var context = document.Context;
-                var engine = config.GetCssStyleEngine();
+                var context = Context;
+                var engine = context.GetCssStyleEngine();
 
                 if (engine != null)
                 {

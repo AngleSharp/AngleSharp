@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Common
 {
-    using AngleSharp.Browser;
     using AngleSharp.Css;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
@@ -62,15 +61,5 @@
         /// The document factory.
         /// </summary>
         public static readonly DefaultDocumentFactory Document = new DefaultDocumentFactory();
-
-        /// <summary>
-        /// The browsing context factory.
-        /// </summary>
-        public static readonly DefaultContextFactory BrowsingContext = new DefaultContextFactory();
-
-        /// <summary>
-        /// The service factory.
-        /// </summary>
-        public static readonly ServiceFactory Service = new ServiceFactory();
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using AngleSharp;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Html.Parser;
     using NUnit.Framework;
@@ -15,7 +14,7 @@
         {
             var text = "<html><head><title>My test</title></head><body><p>Some text</p></body></html>";
             var source = new DelayedStream(Encoding.UTF8.GetBytes(text));
-            var parser = new HtmlParser(Configuration.Default);
+            var parser = new HtmlParser();
 
             using (var task = parser.ParseAsync(source))
             {
@@ -33,7 +32,7 @@
         public async Task TestAsyncHtmlParsingFromString()
         {
             var source = "<html><head><title>My test</title></head><body><p>Some text</p></body></html>";
-            var parser = new HtmlParser(Configuration.Default);
+            var parser = new HtmlParser();
 
             using (var task = parser.ParseAsync(source))
             {

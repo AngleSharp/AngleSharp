@@ -29,7 +29,7 @@
         public HtmlFrameElementBase(Document owner, String name, String prefix, NodeFlags flags = NodeFlags.None)
             : base(owner, name, prefix, flags | NodeFlags.Special)
         {
-            _request = FrameRequestProcessor.Create(this);
+            _request = new FrameRequestProcessor(owner.Context, this);
         }
 
         #endregion
@@ -78,7 +78,7 @@
 
         public IBrowsingContext NestedContext
         {
-            get { return _context ?? (_context = Owner.NewChildContext(Sandboxes.None)); }
+            get { return _context ?? (_context = NewChildContext()); }
         }
 
         #endregion
@@ -114,6 +114,18 @@
             {
                 UpdateSource();
             }
+        }
+
+        #endregion
+
+        #region Helpers
+        
+        private IBrowsingContext NewChildContext()
+        {
+            //TODO
+            var childContext = Context.CreateChild(null, Sandboxes.None);
+            Owner.AttachReference(childContext);
+            return childContext;
         }
 
         #endregion

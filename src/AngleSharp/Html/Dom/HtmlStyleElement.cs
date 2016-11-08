@@ -112,10 +112,9 @@
 
             if (document != null)
             {
-                var config = document.Options;
-                var context = document.Context;
+                var context = Context;
                 var type = Type ?? MimeTypeNames.Css;
-                var engine = config.GetStyleEngine(type);
+                var engine = context.GetStyleEngine(type);
 
                 if (engine != null)
                 {

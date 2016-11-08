@@ -27,7 +27,7 @@
         public HtmlObjectElement(Document owner, String prefix = null)
             : base(owner, TagNames.Object, prefix, NodeFlags.Scoped)
         {
-            _request = ObjectRequestProcessor.Create(this);
+            _request = new ObjectRequestProcessor(owner.Context);
         }
 
         #endregion

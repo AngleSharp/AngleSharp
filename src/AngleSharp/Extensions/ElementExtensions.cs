@@ -1,11 +1,11 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
-    using AngleSharp.Html.Dom;
     using AngleSharp.Html;
-    using AngleSharp.Media;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Io;
     using AngleSharp.Io.Processors;
+    using AngleSharp.Media;
     using System;
     using System.Collections.Generic;
     using System.Threading;
@@ -892,7 +892,7 @@
         {
             var owner = img.Owner;
             var srcset = new SourceSet(owner);
-            var options = owner.Options;
+            var context = owner.Context;
             var sources = img.GetSources();
 
             while (sources.Count > 0)
@@ -900,7 +900,7 @@
                 var source = sources.Pop();
                 var type = source.Type;
 
-                if (String.IsNullOrEmpty(type) || options.GetResourceService<IImageInfo>(type) != null)
+                if (String.IsNullOrEmpty(type) || context.GetResourceService<IImageInfo>(type) != null)
                 {
                     foreach (var candidate in srcset.GetCandidates(source.SourceSet, source.Sizes))
                     {
@@ -927,10 +927,16 @@
         /// <returns>A task that will eventually result in a new document.</returns>
         public static async Task<IDocument> NavigateToAsync(this Element element, DocumentRequest request)
         {
-            var download = element.Owner.Context.Loader.DownloadAsync(request);
-            var response = await download.Task.ConfigureAwait(false);
-            var cancel = CancellationToken.None;
-            return await element.Owner.Context.OpenAsync(response, cancel).ConfigureAwait(false);
+            var download = element.Context.GetService<IDocumentLoader>()?.DownloadAsync(request);
+
+            if (download != null)
+            {
+                var response = await download.Task.ConfigureAwait(false);
+                var cancel = CancellationToken.None;
+                return await element.Owner.Context.OpenAsync(response, cancel).ConfigureAwait(false);
+            }
+
+            return null;
         }
 
         /// <summary>

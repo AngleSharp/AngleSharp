@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Xml.Parser
 {
-    using AngleSharp.Extensions;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Text;
     using AngleSharp.Xml.Dom;
     using System;
@@ -11,7 +12,7 @@
     /// <summary>
     /// Creates an instance of the XML parser front-end.
     /// </summary>
-    public class XmlParser
+    public class XmlParser : EventTarget, IXmlParser
     {
         #region Fields
 
@@ -20,13 +21,44 @@
 
         #endregion
 
-        #region ctor
-        
+        #region Events
+
         /// <summary>
-        /// Creates a new parser with the default options and configuration.
+        /// Fired when the XML parser is starting.
+        /// </summary>
+        public event DomEventHandler Parsing
+        {
+            add { AddEventListener(EventNames.ParseStart, value); }
+            remove { RemoveEventListener(EventNames.ParseStart, value); }
+        }
+
+        /// <summary>
+        /// Fired when the XML parser is finished.
+        /// </summary>
+        public event DomEventHandler Parsed
+        {
+            add { AddEventListener(EventNames.ParseEnd, value); }
+            remove { RemoveEventListener(EventNames.ParseEnd, value); }
+        }
+
+        /// <summary>
+        /// Fired when a XML parse error is encountered.
+        /// </summary>
+        public event DomEventHandler Error
+        {
+            add { AddEventListener(EventNames.ParseError, value); }
+            remove { RemoveEventListener(EventNames.ParseError, value); }
+        }
+
+        #endregion
+
+        #region ctor
+
+        /// <summary>
+        /// Creates a new parser with the default options and context.
         /// </summary>
         public XmlParser()
-            : this(Configuration.Default)
+            : this(BrowsingContext.New())
         {
         }
 
@@ -35,26 +67,16 @@
         /// </summary>
         /// <param name="options">The options to use.</param>
         public XmlParser(XmlParserOptions options)
-            : this(options, Configuration.Default)
+            : this(options, BrowsingContext.New())
         {
         }
 
         /// <summary>
         /// Creates a new parser with the custom configuration.
         /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        public XmlParser(IConfiguration configuration)
-            : this(default(XmlParserOptions), configuration)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new parser with the custom options and configuration.
-        /// </summary>
-        /// <param name="options">The options to use.</param>
-        /// <param name="configuration">The configuration to use.</param>
-        public XmlParser(XmlParserOptions options, IConfiguration configuration)
-            : this(options, BrowsingContext.New(configuration))
+        /// <param name="context">The context to use.</param>
+        public XmlParser(IBrowsingContext context)
+            : this(default(XmlParserOptions), context)
         {
         }
 
@@ -99,9 +121,7 @@
         public IXmlDocument Parse(String source)
         {
             var document = CreateDocument(source);
-            var parser = new XmlDomBuilder(document);
-            parser.Parse(_options);
-            return document;
+            return Parse(document);
         }
 
         /// <summary>
@@ -110,9 +130,7 @@
         public IXmlDocument Parse(Stream source)
         {
             var document = CreateDocument(source);
-            var parser = new XmlDomBuilder(document);
-            parser.Parse(_options);
-            return document;
+            return Parse(document);
         }
 
         /// <summary>
@@ -134,22 +152,27 @@
         /// <summary>
         /// Parses the string asynchronously with option to cancel.
         /// </summary>
-        public async Task<IXmlDocument> ParseAsync(String source, CancellationToken cancel)
+        public Task<IXmlDocument> ParseAsync(String source, CancellationToken cancel)
         {
             var document = CreateDocument(source);
-            var parser = new XmlDomBuilder(document);
-            await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
-            return document;
+            return ParseAsync(document, cancel);
         }
 
         /// <summary>
         /// Parses the stream asynchronously with option to cancel.
         /// </summary>
-        public async Task<IXmlDocument> ParseAsync(Stream source, CancellationToken cancel)
+        public Task<IXmlDocument> ParseAsync(Stream source, CancellationToken cancel)
         {
             var document = CreateDocument(source);
-            var parser = new XmlDomBuilder(document);
+            return ParseAsync(document, cancel);
+        }
+
+        async Task<IDocument> IXmlParser.ParseAsync(IDocument document, CancellationToken cancel)
+        {
+            var parser = CreateBuilder((Document)document);
+            InvokeEventListener(new HtmlParseEvent(document, completed: false));
             await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
+            InvokeEventListener(new HtmlParseEvent(document, completed: true));
             return document;
         }
 
@@ -165,13 +188,38 @@
 
         private XmlDocument CreateDocument(Stream source)
         {
-            var textSource = new TextSource(source, _context.Configuration.DefaultEncoding());
+            var textSource = new TextSource(source, _context.GetDefaultEncoding());
             return CreateDocument(textSource);
         }
 
         private XmlDocument CreateDocument(TextSource textSource)
         {
             var document = new XmlDocument(_context, textSource);
+            return document;
+        }
+
+        private XmlDomBuilder CreateBuilder(Document document)
+        {
+            var parser = new XmlDomBuilder(document);
+            return parser;
+        }
+
+
+        private IXmlDocument Parse(XmlDocument document)
+        {
+            var parser = CreateBuilder(document);
+            InvokeEventListener(new HtmlParseEvent(document, completed: false));
+            parser.Parse(_options);
+            InvokeEventListener(new HtmlParseEvent(document, completed: true));
+            return document;
+        }
+
+        private async Task<IXmlDocument> ParseAsync(XmlDocument document, CancellationToken cancel)
+        {
+            var parser = CreateBuilder(document);
+            InvokeEventListener(new HtmlParseEvent(document, completed: false));
+            await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
+            InvokeEventListener(new HtmlParseEvent(document, completed: true));
             return document;
         }
 

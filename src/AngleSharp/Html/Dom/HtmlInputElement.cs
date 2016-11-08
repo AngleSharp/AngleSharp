@@ -342,7 +342,7 @@
 
         void UpdateType(String type)
         {
-            var factory = Owner.Options.GetFactory<IInputTypeFactory>();
+            var factory = Context.GetFactory<IInputTypeFactory>();
             _type = factory.Create(this, type);
         }
 

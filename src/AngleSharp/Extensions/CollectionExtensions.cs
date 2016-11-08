@@ -21,12 +21,12 @@
         /// <returns>The new enumerable.</returns>
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> items, T element)
         {
+            yield return element;
+
             foreach (var item in items)
             {
                 yield return item;
             }
-
-            yield return element;
         }
 
         /// <summary>

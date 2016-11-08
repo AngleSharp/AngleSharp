@@ -1,11 +1,8 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Browser;
-    using AngleSharp.Browser.Services;
-    using AngleSharp.Common;
     using AngleSharp.Extensions;
     using AngleSharp.Io;
-    using AngleSharp.Io.Services;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -24,7 +21,7 @@
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="service">The service to register.</param>
         /// <returns>The new instance with the service.</returns>
-        public static Configuration With(this IConfiguration configuration, Object service)
+        public static IConfiguration With(this IConfiguration configuration, Object service)
         {
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
@@ -41,7 +38,7 @@
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="services">The services to register.</param>
         /// <returns>The new instance with the services.</returns>
-        public static Configuration With(this IConfiguration configuration, IEnumerable<Object> services)
+        public static IConfiguration With(this IConfiguration configuration, IEnumerable<Object> services)
         {
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
@@ -49,7 +46,7 @@
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            return new Configuration(configuration.Services.Concat(services));
+            return new Configuration(services.Concat(configuration.Services));
         }
 
         /// <summary>
@@ -61,16 +58,7 @@
         /// <returns>The new instance with the services.</returns>
         public static IConfiguration With<TService>(this IConfiguration configuration, Func<IBrowsingContext, TService> creator)
         {
-            var original = configuration.Services;
-            var available = configuration.Services.OfType<Func<IBrowsingContext, TService>>();
-
-            if (available.Any())
-            {
-                original = original.Except(available);
-            }
-
-            var services = original.Concat(creator);
-            return new Configuration(services);
+            return configuration.With((Object)creator);
         }
 
         /// <summary>
@@ -80,7 +68,7 @@
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="name">The name of the culture to set.</param>
         /// <returns>The new instance with the culture being set.</returns>
-        public static Configuration SetCulture(this IConfiguration configuration, String name)
+        public static IConfiguration SetCulture(this IConfiguration configuration, String name)
         {
             var culture = new CultureInfo(name);
             return configuration.SetCulture(culture);
@@ -93,7 +81,7 @@
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="culture">The culture to set.</param>
         /// <returns>The new instance with the culture being set.</returns>
-        public static Configuration SetCulture(this IConfiguration configuration, CultureInfo culture)
+        public static IConfiguration SetCulture(this IConfiguration configuration, CultureInfo culture)
         {
             return configuration.With(culture);
         }
@@ -123,7 +111,6 @@
                 IsNavigationEnabled = true,
                 IsResourceLoadingEnabled = false
             };
-            var factory = configuration.GetFactory<IServiceFactory>();
             setup?.Invoke(config);
 
             if (config.IsNavigationEnabled)
@@ -175,13 +162,8 @@
             if (configuration == null)
                 throw new ArgumentException(nameof(configuration));
 
-            if (!configuration.GetServices<IEncodingProvider>().Any())
-            {
-                var service = new LocaleEncodingProvider();
-                return configuration.With(service);
-            }
-
-            return configuration;
+            var service = new LocaleEncodingProvider();
+            return configuration.With(service);
         }
 
         #endregion
@@ -199,13 +181,8 @@
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
 
-            if (!configuration.GetServices<ICookieProvider>().Any())
-            {
-                var service = new MemoryCookieProvider();
-                return configuration.With(service);
-            }
-
-            return configuration;
+            var service = new MemoryCookieProvider();
+            return configuration.With(service);
         }
 
         #endregion

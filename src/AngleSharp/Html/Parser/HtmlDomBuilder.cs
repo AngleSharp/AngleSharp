@@ -1,9 +1,8 @@
 ﻿namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Services;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.Parser.Tokens;
     using AngleSharp.Io;
@@ -29,9 +28,6 @@
         private readonly List<Element> _openElements;
         private readonly List<Element> _formattingElements;
         private readonly Stack<HtmlTreeMode> _templateModes;
-        private readonly IElementFactory<HtmlElement> _htmlFactory;
-        private readonly IElementFactory<MathElement> _mathFactory;
-        private readonly IElementFactory<SvgElement> _svgFactory;
 
         private HtmlFormElement _currentFormElement;
         private HtmlTreeMode _currentMode;
@@ -41,6 +37,16 @@
         private Boolean _foster;
         private Boolean _frameset;
         private Task _waiting;
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler<HtmlErrorEvent> Error
+        {
+            add { _tokenizer.Error += value; }
+            remove { _tokenizer.Error -= value; }
+        }
 
         #endregion
 
@@ -55,20 +61,14 @@
         /// </param>
         public HtmlDomBuilder(HtmlDocument document)
         {
-            var options = document.Options;
             var context = document.Context;
-            var resolver = options.GetProvider<IEntityProvider>() ?? HtmlEntityProvider.Resolver;
-            _tokenizer = new HtmlTokenizer(document.Source, resolver);
-            _tokenizer.Error += (_, error) => context.Fire(error);
+            _tokenizer = new HtmlTokenizer(document.Source, document.Entities);
             _document = document;
             _openElements = new List<Element>();
             _templateModes = new Stack<HtmlTreeMode>();
             _formattingElements = new List<Element>();
             _frameset = true;
             _currentMode = HtmlTreeMode.Initial;
-            _htmlFactory = options.GetFactory<IElementFactory<HtmlElement>>();
-            _mathFactory = options.GetFactory<IElementFactory<MathElement>>();
-            _svgFactory = options.GetFactory<IElementFactory<SvgElement>>();
         }
 
         #endregion
@@ -3427,14 +3427,14 @@
             if ((AdjustedCurrentNode.Flags & NodeFlags.MathMember) == NodeFlags.MathMember)
             {
                 var tagName = tag.Name;
-                var element = _mathFactory.Create(_document, tagName);
+                var element = _document.CreateMathElement(tagName);
                 AuxiliarySetupSteps(element, tag);
                 return element.Setup(tag);
             }
             else if ((AdjustedCurrentNode.Flags & NodeFlags.SvgMember) == NodeFlags.SvgMember)
             {
                 var tagName = tag.Name.SanatizeSvgTagName();
-                var element = _svgFactory.Create(_document, tagName);
+                var element = _document.CreateSvgElement(tagName);
                 AuxiliarySetupSteps(element, tag);
                 return element.Setup(tag);
             }
@@ -3836,7 +3836,7 @@
         /// <param name="acknowledgeSelfClosing">Should the self-closing be acknowledged?</param>
         private Element AddElement(HtmlTagToken tag, Boolean acknowledgeSelfClosing = false)
         {
-            var element = _htmlFactory.Create(_document, tag.Name);
+            var element = _document.CreateHtmlElement(tag.Name);
             SetupElement(element, tag, acknowledgeSelfClosing);
             AddElement(element);
             return element;

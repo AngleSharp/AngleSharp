@@ -8,7 +8,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class MockRequester : IRequester
+    public class MockRequester : BaseRequester
     {
         private Func<Request, IResponse> _answer;
 
@@ -49,7 +49,7 @@
             return RequestAsync(request, CancellationToken.None);
         }
 
-        public async Task<IResponse> RequestAsync(Request request, CancellationToken cancellationToken)
+        protected override async Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancellationToken)
         {
             await Task.Delay(0);
             return Request(request);
@@ -67,7 +67,7 @@
             set;
         }
 
-        public Boolean SupportsProtocol(String protocol)
+        public override Boolean SupportsProtocol(String protocol)
         {
             return true;
         }

@@ -1,14 +1,11 @@
 ﻿namespace AngleSharp.Xml.Dom
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Events;
+    using AngleSharp.Dom.Services;
     using AngleSharp.Extensions;
     using AngleSharp.Io;
     using AngleSharp.Text;
-    using AngleSharp.Xml.Parser;
     using System;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a document node that contains only XML nodes.
@@ -37,6 +34,11 @@
             get { return this.FindChild<IElement>(); }
         }
 
+        public override IEntityProvider Entities
+        {
+            get { return Context.GetProvider<IEntityProvider>() ?? XmlEntityProvider.Resolver; }
+        }
+
         #endregion
 
         #region Methods
@@ -48,17 +50,9 @@
             return node;
         }
 
-        internal async static Task<IDocument> LoadAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancelToken)
+        internal override Element CreateElementFrom(String name, String prefix)
         {
-            var parserOptions = new XmlParserOptions { };
-            var document = new XmlDocument(context, options.Source);
-            var parser = new XmlDomBuilder(document);
-            document.Setup(options);
-            context.NavigateTo(document);
-            context.Fire(new HtmlParseEvent(document, completed: false));
-            await parser.ParseAsync(default(XmlParserOptions), cancelToken).ConfigureAwait(false);
-            context.Fire(new HtmlParseEvent(document, completed: true));
-            return document;
+            return new XmlElement(this, name, prefix);
         }
 
         #endregion

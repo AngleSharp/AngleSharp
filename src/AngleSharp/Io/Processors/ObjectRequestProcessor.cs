@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Io.Processors
 {
-    using AngleSharp.Dom;
     using AngleSharp.Media;
     using System;
     using System.Threading;
@@ -10,19 +9,9 @@
     {
         #region ctor
 
-        private ObjectRequestProcessor(IConfiguration options, IResourceLoader loader)
-            : base(options, loader)
+        public ObjectRequestProcessor(IBrowsingContext context)
+            : base(context)
         {
-        }
-
-        internal static ObjectRequestProcessor Create(Element element)
-        {
-            var document = element.Owner;
-            var options = document.Options;
-            var loader = document.Loader;
-
-            return options != null && loader != null ?
-                new ObjectRequestProcessor(options, loader) : null;
         }
 
         #endregion

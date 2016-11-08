@@ -5,7 +5,6 @@
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Services;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Io;
     using AngleSharp.Scripting;
     using System;
@@ -581,7 +580,7 @@
 
         public void DoSpellCheck()
         {
-            var spellcheck = Owner.Options.GetSpellCheck(Language);
+            var spellcheck = Context.GetSpellCheck(Language);
 
             if (spellcheck != null)
             {
@@ -611,7 +610,7 @@
 
         public override INode Clone(Boolean deep = true)
         {
-            var factory = Owner.Options.GetFactory<IElementFactory<HtmlElement>>();
+            var factory = Context.GetFactory<IElementFactory<HtmlElement>>();
             var node = factory.Create(Owner, LocalName, Prefix);
             CloneElement(node, deep);
             return node;
@@ -674,8 +673,8 @@
             RegisterCallback<TElement>(name, (element, value) =>
             {
                 var document = element.Owner;
-                var configuration = document.Options;
-                var engine = configuration.GetScriptEngine(MimeTypeNames.DefaultJavaScript);
+                var context = document.Context;
+                var engine = context.GetScriptEngine(MimeTypeNames.DefaultJavaScript);
 
                 if (engine != null)
                 {
@@ -696,7 +695,7 @@
         private String GetDefaultLanguage()
         {
             var parent = ParentElement as IHtmlElement;
-            return parent != null ? parent.Language : Owner.Options.GetLanguage();
+            return parent != null ? parent.Language : Context.GetLanguage();
         }
 
         private static String Combine(String prefix, String localName)

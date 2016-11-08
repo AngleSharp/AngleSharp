@@ -10,7 +10,7 @@
     /// <summary>
     /// The default (ready-to-use) data scheme requester.
     /// </summary>
-    public sealed class DataRequester : IRequester
+    public sealed class DataRequester : BaseRequester
     {
         #region Fields
 
@@ -23,7 +23,7 @@
         /// <summary>Checks if the data protocol is given.</summary>
         /// <param name="protocol">The protocol to check for data.</param>
         /// <returns>True if data is matched, otherwise false..</returns>
-        public Boolean SupportsProtocol(String protocol)
+        public override Boolean SupportsProtocol(String protocol)
         {
             return protocol.Is(ProtocolNames.Data);
         }
@@ -36,7 +36,7 @@
         /// <returns>
         /// The task that will eventually give the response data.
         /// </returns>
-        public Task<IResponse> RequestAsync(Request request, CancellationToken cancel)
+        protected override Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancel)
         {
             var content = new MemoryStream();
             var data = request.Address.Data;

@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Html.Dom;
     using AngleSharp.Io.Services;
     using AngleSharp.Scripting;
@@ -16,8 +15,9 @@
     {
         #region Fields
 
-        private readonly HtmlScriptElement _script;
+        private readonly IBrowsingContext _context;
         private readonly Document _document;
+        private readonly HtmlScriptElement _script;
         private readonly IResourceLoader _loader;
         private IResponse _response;
         private IScriptEngine _engine;
@@ -26,18 +26,12 @@
 
         #region ctor
 
-        private ScriptRequestProcessor(HtmlScriptElement script, Document document, IResourceLoader loader)
+        public ScriptRequestProcessor(IBrowsingContext context, HtmlScriptElement script)
         {
+            _context = context;
+            _document = script.Owner;
             _script = script;
-            _document = document;
-            _loader = loader;
-        }
-
-        internal static ScriptRequestProcessor Create(HtmlScriptElement script)
-        {
-            var document = script.Owner;
-            var loader = document.Loader;
-            return new ScriptRequestProcessor(script, document, loader);
+            _loader = context.GetService<IResourceLoader>();
         }
 
         #endregion
@@ -52,7 +46,7 @@
 
         public IScriptEngine Engine
         {
-            get { return _engine ?? (_engine = _document.Options.GetScriptEngine(ScriptLanguage)); }
+            get { return _engine ?? (_engine = _context.GetScriptEngine(ScriptLanguage)); }
         }
 
         public String AlternativeLanguage
@@ -138,7 +132,7 @@
                 {
                     Behavior = OriginBehavior.Taint,
                     Setting = _script.CrossOrigin.ToEnum(CorsSetting.None),
-                    Integrity = _document.Options.GetProvider<IIntegrityProvider>()
+                    Integrity = _context.GetProvider<IIntegrityProvider>()
                 });
                 return Download.Task;
             }

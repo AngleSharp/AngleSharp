@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Services;
-    using AngleSharp.Extensions;
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
     using System;
@@ -13,7 +13,7 @@
     /// <summary>
     /// Creates an instance of the HTML parser front-end.
     /// </summary>
-    public class HtmlParser
+    public class HtmlParser : EventTarget, IHtmlParser
     {
         #region Fields
 
@@ -22,13 +22,44 @@
 
         #endregion
 
-        #region ctor
-        
+        #region Events
+
         /// <summary>
-        /// Creates a new parser with the default options and configuration.
+        /// Fired when the HTML parser is starting.
+        /// </summary>
+        public event DomEventHandler Parsing
+        {
+            add { AddEventListener(EventNames.ParseStart, value); }
+            remove { RemoveEventListener(EventNames.ParseStart, value); }
+        }
+
+        /// <summary>
+        /// Fired when the HTML parser is finished.
+        /// </summary>
+        public event DomEventHandler Parsed
+        {
+            add { AddEventListener(EventNames.ParseEnd, value); }
+            remove { RemoveEventListener(EventNames.ParseEnd, value); }
+        }
+
+        /// <summary>
+        /// Fired when a HTML parse error is encountered.
+        /// </summary>
+        public event DomEventHandler Error
+        {
+            add { AddEventListener(EventNames.ParseError, value); }
+            remove { RemoveEventListener(EventNames.ParseError, value); }
+        }
+
+        #endregion
+
+        #region ctor
+
+        /// <summary>
+        /// Creates a new parser with the default options and context.
         /// </summary>
         public HtmlParser()
-            : this(Configuration.Default)
+            : this(BrowsingContext.New())
         {
         }
 
@@ -37,26 +68,16 @@
         /// </summary>
         /// <param name="options">The options to use.</param>
         public HtmlParser(HtmlParserOptions options)
-            : this(options, Configuration.Default)
+            : this(options, BrowsingContext.New())
         {
         }
 
         /// <summary>
-        /// Creates a new parser with the custom configuration.
+        /// Creates a new parser with the custom context.
         /// </summary>
-        /// <param name="configuration">The configuration to use.</param>
-        public HtmlParser(IConfiguration configuration)
-            : this(new HtmlParserOptions { IsScripting = configuration.IsScripting() }, configuration)
-        {
-        }
-
-        /// <summary>
-        /// Creates a new parser with the custom options and configuration.
-        /// </summary>
-        /// <param name="options">The options to use.</param>
-        /// <param name="configuration">The configuration to use.</param>
-        public HtmlParser(HtmlParserOptions options, IConfiguration configuration)
-            : this(options, BrowsingContext.New(configuration))
+        /// <param name="context">The context to use.</param>
+        public HtmlParser(IBrowsingContext context)
+            : this(new HtmlParserOptions { IsScripting = context.IsScripting() }, context)
         {
         }
 
@@ -83,14 +104,6 @@
             get { return _options; }
         }
 
-        /// <summary>
-        /// Gets the specified context.
-        /// </summary>
-        public IBrowsingContext Context
-        {
-            get { return _context; }
-        }
-
         #endregion
 
         #region Methods
@@ -101,29 +114,23 @@
         public IHtmlDocument Parse(String source)
         {
             var document = CreateDocument(source);
-            var parser = new HtmlDomBuilder(document);
-            return parser.Parse(_options);
+            return Parse(document);
         }
 
         /// <summary>
         /// Parses the string and returns the result.
         /// </summary>
-        public INodeList ParseFragment(String source, IElement context)
+        public INodeList ParseFragment(String source, IElement contextElement)
         {
             var document = CreateDocument(source);
             var parser = new HtmlDomBuilder(document);
+            var element = contextElement as Element;
 
-            if (context != null)
+            if (element != null)
             {
-                var element = context as Element;
-
-                if (element == null)
-                {
-                    var configuration = document.Options;
-                    var factory = configuration.GetFactory<IElementFactory<HtmlElement>>();
-                    element = factory.Create(document, context.LocalName, context.Prefix);
-                }
-
+                var context = document.Context;
+                var factory = context.GetFactory<IElementFactory<HtmlElement>>();
+                element = factory.Create(document, contextElement.LocalName, contextElement.Prefix);
                 return parser.ParseFragment(_options, element).DocumentElement.ChildNodes;
             }
 
@@ -136,8 +143,7 @@
         public IHtmlDocument Parse(Stream source)
         {
             var document = CreateDocument(source);
-            var parser = new HtmlDomBuilder(document);
-            return parser.Parse(_options);
+            return Parse(document);
         }
 
         /// <summary>
@@ -159,21 +165,28 @@
         /// <summary>
         /// Parses the string asynchronously with option to cancel.
         /// </summary>
-        public async Task<IHtmlDocument> ParseAsync(String source, CancellationToken cancel)
+        public Task<IHtmlDocument> ParseAsync(String source, CancellationToken cancel)
         {
             var document = CreateDocument(source);
-            var parser = new HtmlDomBuilder(document);
-            return await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
+            return ParseAsync(document, cancel);
         }
 
         /// <summary>
         /// Parses the stream asynchronously with option to cancel.
         /// </summary>
-        public async Task<IHtmlDocument> ParseAsync(Stream source, CancellationToken cancel)
+        public Task<IHtmlDocument> ParseAsync(Stream source, CancellationToken cancel)
         {
             var document = CreateDocument(source);
-            var parser = new HtmlDomBuilder(document);
-            return await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
+            return ParseAsync(document, cancel);
+        }
+
+        async Task<IDocument> IHtmlParser.ParseAsync(IDocument document, CancellationToken cancel)
+        {
+            var parser = CreateBuilder((HtmlDocument)document);
+            InvokeEventListener(new HtmlParseEvent(document, completed: false));
+            await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
+            InvokeEventListener(new HtmlParseEvent(document, completed: true));
+            return document;
         }
 
         #endregion
@@ -188,13 +201,44 @@
 
         private HtmlDocument CreateDocument(Stream source)
         {
-            var textSource = new TextSource(source, _context.Configuration.DefaultEncoding());
+            var encoding = _context.GetDefaultEncoding();
+            var textSource = new TextSource(source, encoding);
             return CreateDocument(textSource);
         }
 
         private HtmlDocument CreateDocument(TextSource textSource)
         {
             var document = new HtmlDocument(_context, textSource);
+            return document;
+        }
+
+        private HtmlDomBuilder CreateBuilder(HtmlDocument document)
+        {
+            var parser = new HtmlDomBuilder((HtmlDocument)document);
+
+            if (HasEventListener(EventNames.ParseError))
+            {
+                parser.Error += (s, ev) => InvokeEventListener(ev);
+            }
+
+            return parser;
+        }
+
+        private IHtmlDocument Parse(HtmlDocument document)
+        {
+            var parser = CreateBuilder(document);
+            InvokeEventListener(new HtmlParseEvent(document, completed: false));
+            parser.Parse(_options);
+            InvokeEventListener(new HtmlParseEvent(document, completed: true));
+            return document;
+        }
+
+        private async Task<IHtmlDocument> ParseAsync(HtmlDocument document, CancellationToken cancel)
+        {
+            var parser = CreateBuilder(document);
+            InvokeEventListener(new HtmlParseEvent(document, completed: false));
+            await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
+            InvokeEventListener(new HtmlParseEvent(document, completed: true));
             return document;
         }
 

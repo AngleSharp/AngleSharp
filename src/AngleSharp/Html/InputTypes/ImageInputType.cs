@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
-    using AngleSharp.Html.Dom;
     using AngleSharp.Extensions;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Io.Processors;
     using System;
 
@@ -25,7 +25,7 @@
             if (src != null && inp != null)
             {
                 var url = inp.HyperReference(src);
-                _request = ImageRequestProcessor.Create(inp);
+                _request = new ImageRequestProcessor(inp.Context);
                 inp.Process(_request, url);
             }
         }

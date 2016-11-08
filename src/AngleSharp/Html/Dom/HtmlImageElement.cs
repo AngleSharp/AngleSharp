@@ -30,7 +30,7 @@
         public HtmlImageElement(Document owner, String prefix = null)
             : base(owner, TagNames.Img, prefix, NodeFlags.Special | NodeFlags.SelfClosing)
         {
-            _request = ImageRequestProcessor.Create(this);
+            _request = new ImageRequestProcessor(owner.Context);
         }
 
         #endregion

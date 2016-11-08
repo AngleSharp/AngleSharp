@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Services;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>
@@ -23,7 +22,7 @@
 
         public override INode Clone(Boolean deep = true)
         {
-            var factory = Owner.Options.GetFactory<IElementFactory<MathElement>>();
+            var factory = Context.GetFactory<IElementFactory<MathElement>>();
             var node = factory.Create(Owner, LocalName, Prefix);
             CloneElement(node, deep);
             return node;

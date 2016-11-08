@@ -58,6 +58,9 @@
     <Compile Include="Attributes\DomLiteralsAttribute.cs" />
     <Compile Include="Attributes\DomNoInterfaceObjectAttribute.cs" />
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
+    <Compile Include="Common\IParser.cs" />
+    <Compile Include="Html\Parser\IHtmlParser.cs" />
+    <Compile Include="Io\BaseRequester.cs" />
     <Compile Include="Xhtml\AutoSelectedMarkupFormatter.cs" />
     <Compile Include="Browser\ICommand.cs" />
     <Compile Include="Configuration.cs" />
@@ -108,7 +111,6 @@
     <Compile Include="Dom\Events\HtmlErrorEvent.cs" />
     <Compile Include="Dom\Events\HtmlParseEvent.cs" />
     <Compile Include="Dom\Events\RequestEvent.cs" />
-    <Compile Include="Extensions\ContextExtensions.cs" />
     <Compile Include="Extensions\EventLoopExtensions.cs" />
     <Compile Include="Extensions\FormDataSetExtensions.cs" />
     <Compile Include="Extensions\ResponseExtensions.cs" />
@@ -117,9 +119,7 @@
     <Compile Include="Css\Parser\CssSelectorParser.cs" />
     <Compile Include="Html\Parser\HtmlParseException.cs" />
     <Compile Include="Css\AttributeSelectorFactory.cs" />
-    <Compile Include="Browser\DefaultContextFactory.cs" />
     <Compile Include="Dom\DefaultDocumentFactory.cs" />
-    <Compile Include="Common\ServiceFactory.cs" />
     <Compile Include="Dom\Services\IDocumentFactory.cs" />
     <Compile Include="Dom\Services\IElementFactory.cs" />
     <Compile Include="Io\Services\IIntegrityProvider.cs" />
@@ -127,7 +127,6 @@
     <Compile Include="Css\Services\IPseudoElementSelectorFactory.cs" />
     <Compile Include="Html\Services\IInputTypeFactory.cs" />
     <Compile Include="Css\Services\IPseudoClassSelectorFactory.cs" />
-    <Compile Include="Common\IServiceFactory.cs" />
     <Compile Include="Dom\Events\IEventFactory.cs" />
     <Compile Include="Css\Services\IAttributeSelectorFactory.cs" />
     <Compile Include="Html\InputTypeFactory.cs" />
@@ -199,6 +198,7 @@
     <Compile Include="Css\Parser\Tokens\CssUrlToken.cs" />
     <Compile Include="Html\Parser\HtmlParser.cs" />
     <Compile Include="Html\Parser\HtmlParserOptions.cs" />
+    <Compile Include="Xml\Parser\IXmlParser.cs" />
     <Compile Include="Xml\Parser\XmlParseError.cs" />
     <Compile Include="Common\Factory.cs" />
     <Compile Include="Dom\MutationHost.cs" />
@@ -256,7 +256,6 @@
     <Compile Include="Dom\IPseudoElement.cs" />
     <Compile Include="Extensions\HtmlLinkElementExtensions.cs" />
     <Compile Include="Browser\Services\ICommandProvider.cs" />
-    <Compile Include="Browser\Services\IContextFactory.cs" />
     <Compile Include="Browser\Services\ISpellCheckService.cs" />
     <Compile Include="Media\Dom\IRenderingService.cs" />
     <Compile Include="Dom\Events\ITouchPoint.cs" />
@@ -498,7 +497,7 @@
     <Compile Include="Html\Parser\HtmlParserExtensions.cs" />
     <Compile Include="Extensions\ApiExtensions.cs" />
     <Compile Include="Dom\AttributeNames.cs" />
-    <Compile Include="Html\EventNames.cs" />
+    <Compile Include="Dom\EventNames.cs" />
     <Compile Include="Io\HeaderNames.cs" />
     <Compile Include="Extensions\XmlExtensions.cs" />
     <Compile Include="Html\FormDataSet.cs" />
@@ -566,7 +565,6 @@
     <Compile Include="Dom\Events\EventPhase.cs" />
     <Compile Include="Dom\RangePosition.cs" />
     <Compile Include="Dom\RangeType.cs" />
-    <Compile Include="Extensions\ConfigurationExtensions.cs" />
     <Compile Include="Io\MimeTypeNames.cs" />
     <Compile Include="Dom\MutationCallback.cs" />
     <Compile Include="Dom\MutationObserver.cs" />

@@ -6,6 +6,7 @@
     using AngleSharp.Io;
     using AngleSharp.Media.Dom;
     using System;
+    using System.Collections.Generic;
     using System.IO;
 
     /// <summary>
@@ -17,6 +18,7 @@
     {
         #region Fields
 
+        private readonly IEnumerable<IRenderingService> _renderServices;
         private ContextMode _mode;
         private IRenderingContext _current;
 
@@ -30,6 +32,7 @@
         public HtmlCanvasElement(Document owner, String prefix = null)
             : base(owner, TagNames.Canvas, prefix)
         {
+            _renderServices = owner.Context.GetServices<IRenderingService>();
             _mode = ContextMode.None;
         }
 
@@ -68,9 +71,7 @@
         {
             if (_current == null || contextId.Isi(_current.ContextId))
             {
-                var renderServices = Owner.Options.GetServices<IRenderingService>();
-
-                foreach (var renderService in renderServices)
+                foreach (var renderService in _renderServices)
                 {
                     if (renderService.IsSupportingContext(contextId))
                     {
@@ -100,9 +101,7 @@
         /// <returns>True if the context is supported, otherwise false.</returns>
         public Boolean IsSupportingContext(String contextId)
         {
-            var renderServices = Owner.Options.GetServices<IRenderingService>();
-
-            foreach (var renderService in renderServices)
+            foreach (var renderService in _renderServices)
             {
                 if (renderService.IsSupportingContext(contextId))
                 {

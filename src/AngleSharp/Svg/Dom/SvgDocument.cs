@@ -1,27 +1,31 @@
 ﻿namespace AngleSharp.Svg.Dom
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Services;
     using AngleSharp.Extensions;
     using AngleSharp.Io;
     using AngleSharp.Text;
-    using AngleSharp.Xml.Parser;
+    using AngleSharp.Xml;
     using System;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a document node that contains only SVG nodes.
     /// </summary>
     sealed class SvgDocument : Document, ISvgDocument
     {
+        #region Fields
+
+        private readonly IElementFactory<SvgElement> _factory;
+
+        #endregion
+
         #region ctor
 
         internal SvgDocument(IBrowsingContext context, TextSource source)
             : base(context ?? BrowsingContext.New(), source)
         {
             ContentType = MimeTypeNames.Svg;
+            _factory = Context.GetFactory<IElementFactory<SvgElement>>();
         }
 
         internal SvgDocument(IBrowsingContext context = null)
@@ -43,6 +47,11 @@
             get { return this.FindChild<ISvgSvgElement>(); }
         }
 
+        public override IEntityProvider Entities
+        {
+            get { return Context.GetProvider<IEntityProvider>() ?? XmlEntityProvider.Resolver; }
+        }
+
         #endregion
 
         #region Methods
@@ -54,18 +63,9 @@
             return node;
         }
 
-        internal async static Task<IDocument> LoadAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancelToken)
+        internal override Element CreateElementFrom(String name, String prefix)
         {
-            var parserOptions = new XmlParserOptions { };
-            var document = new SvgDocument(context, options.Source);
-            var factory = context.Configuration.GetFactory<IElementFactory<SvgElement>>();
-            var parser = new XmlDomBuilder(document, factory.Create);
-            document.Setup(options);
-            context.NavigateTo(document);
-            context.Fire(new HtmlParseEvent(document, completed: false));
-            await parser.ParseAsync(parserOptions, cancelToken).ConfigureAwait(false);
-            context.Fire(new HtmlParseEvent(document, completed: true));
-            return document;
+            return _factory.Create(this, name, prefix);
         }
 
         #endregion

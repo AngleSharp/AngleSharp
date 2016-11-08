@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Html.LinkRels
 {
     using AngleSharp.Dom;
-    using AngleSharp.Html.Dom;
     using AngleSharp.Extensions;
+    using AngleSharp.Html.Dom;
     using AngleSharp.Io.Processors;
     using System.Threading.Tasks;
 
@@ -11,7 +11,7 @@
         #region ctor
 
         public StyleSheetLinkRelation(HtmlLinkElement link)
-            : base(link, StyleSheetRequestProcessor.Create(link))
+            : base(link, new StyleSheetRequestProcessor(link.Context, link))
         {
         }
 

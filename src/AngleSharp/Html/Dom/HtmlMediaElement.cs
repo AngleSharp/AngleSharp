@@ -31,7 +31,7 @@
         public HtmlMediaElement(Document owner, String name, String prefix)
             : base(owner, name, prefix)
         {
-            _request = MediaRequestProcessor<TResource>.Create(this);
+            _request = new MediaRequestProcessor<TResource>(owner.Context);
         }
 
         #endregion
@@ -295,7 +295,7 @@
 
         public String CanPlayType(String type)
         {
-            var service = Owner?.Options.GetResourceService<TResource>(type);
+            var service = Context?.GetResourceService<TResource>(type);
             //Other option would be probably.
             return service != null ? "maybe" : String.Empty;
         }

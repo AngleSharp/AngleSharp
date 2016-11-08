@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
@@ -38,7 +37,7 @@
 
         public virtual Task ProcessAsync(ResourceRequest request)
         {
-            if (IsDifferentToCurrentDownloadUrl(request.Target))
+            if (_loader != null && IsDifferentToCurrentDownloadUrl(request.Target))
             {
                 CancelDownload();
                 Download = _loader.DownloadAsync(request);
@@ -80,6 +79,11 @@
         #endregion
 
         #region Helpers
+
+        protected IDownload DownloadWithCors(CorsRequest request)
+        {
+            return _loader.FetchWithCors(request);
+        }
 
         protected void CancelDownload()
         {

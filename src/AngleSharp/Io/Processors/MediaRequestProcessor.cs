@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Io.Processors
 {
-    using AngleSharp.Dom;
     using AngleSharp.Media;
     using AngleSharp.Media.Dom;
     using System.Threading;
@@ -15,19 +14,9 @@
     {
         #region ctor
 
-        private MediaRequestProcessor(IConfiguration options, IResourceLoader loader)
-            : base(options, loader)
+        public MediaRequestProcessor(IBrowsingContext context)
+            : base(context)
         {
-        }
-
-        internal static MediaRequestProcessor<TMediaInfo> Create(Element element)
-        {
-            var document = element.Owner;
-            var options = document.Options;
-            var loader = document.Loader;
-
-            return options != null && loader != null ?
-                new MediaRequestProcessor<TMediaInfo>(options, loader) : null;
         }
 
         #endregion

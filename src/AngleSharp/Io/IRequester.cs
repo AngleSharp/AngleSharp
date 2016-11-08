@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Io
 {
+    using AngleSharp.Dom;
     using System;
     using System.Threading;
     using System.Threading.Tasks;
@@ -7,7 +8,7 @@
     /// <summary>
     /// Defines the required methods any requester object must have.
     /// </summary>
-    public interface IRequester
+    public interface IRequester : IEventTarget
     {
         /// <summary>
         /// Checks if the given protocol is supported.
@@ -29,5 +30,15 @@
         /// The task that will eventually give the response data.
         /// </returns>
         Task<IResponse> RequestAsync(Request request, CancellationToken cancel);
+
+        /// <summary>
+        /// Fired when a request is starting.
+        /// </summary>
+        event DomEventHandler Requesting;
+
+        /// <summary>
+        /// Fired when a request is finished.
+        /// </summary>
+        event DomEventHandler Requested;
     }
 }

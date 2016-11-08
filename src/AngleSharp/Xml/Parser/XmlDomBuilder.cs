@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Xml.Parser
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Services;
     using AngleSharp.Extensions;
     using AngleSharp.Text;
     using AngleSharp.Xml.Dom;
@@ -23,7 +22,6 @@
         private readonly XmlTokenizer _tokenizer;
         private readonly Document _document;
         private readonly List<Element> _openElements;
-        private readonly Func<Document, String, String, Element> _creator;
 
         private XmlParserOptions _options;
         private XmlTreeMode _currentMode;
@@ -38,15 +36,13 @@
         /// </summary>
         /// <param name="document">The document instance to be filled.</param>
         /// <param name="creator">The optional non-standard creator to use.</param>
-        internal XmlDomBuilder(Document document, Func<Document, String, String, Element> creator = null)
+        internal XmlDomBuilder(Document document)
         {
-            var resolver = document.Options.GetProvider<IEntityProvider>() ?? XmlEntityProvider.Resolver;
-            _tokenizer = new XmlTokenizer(document.Source, resolver);
+            _tokenizer = new XmlTokenizer(document.Source, document.Entities);
             _document = document;
             _standalone = false;
             _openElements = new List<Element>();
             _currentMode = XmlTreeMode.Initial;
-            _creator = creator ?? CreateElement;
         }
 
         #endregion
@@ -406,7 +402,7 @@
                 name = name.Substring(colon + 1);
             }
 
-            return _creator.Invoke(_document, name, prefix);
+            return _document.CreateElementFrom(name, prefix);
         }
 
         private Attr CreateAttribute(String name, String value)

@@ -8,10 +8,10 @@
 
     class StatisticParser : ITestee
     {
-        static readonly IConfiguration configuration = new Configuration();
-        static readonly HtmlParser parser = new HtmlParser(configuration);
+        private static readonly IConfiguration configuration = new Configuration();
+        private static readonly HtmlParser parser = new HtmlParser(BrowsingContext.New(configuration));
 
-        readonly Dictionary<String, Int32> _bins = new Dictionary<String, Int32>();
+        private readonly Dictionary<String, Int32> _bins = new Dictionary<String, Int32>();
 
         public String Name
         {
@@ -44,7 +44,9 @@
             Console.WriteLine("---------------");
 
             foreach (var element in _bins.OrderByDescending(m => m.Value))
+            {
                 Console.WriteLine("{0}. {1} ( {2} )", index++, element.Key, element.Value);
+            }
         }
     }
 }

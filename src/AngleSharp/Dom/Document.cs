@@ -5,7 +5,6 @@
     using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Services;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Html.Dom;
     using AngleSharp.Io;
     using AngleSharp.Mathml.Dom;
@@ -443,8 +442,8 @@
             _location = new Location("about:blank");
             _location.Changed += LocationChanged;
             _view = new Window(this);
-            _loader = context.CreateService<IResourceLoader>();
-            _loop = context.CreateService<IEventLoop>();
+            _loader = context.GetService<IResourceLoader>();
+            _loop = context.GetService<IEventLoop>();
             _mutations = new MutationHost(_loop);
             _statusCode = HttpStatusCode.OK;
         }
@@ -456,6 +455,11 @@
         public TextSource Source
         {
             get { return _source; }
+        }
+
+        public abstract IEntityProvider Entities
+        {
+            get;
         }
 
         public IDocument ImportAncestor
@@ -759,8 +763,8 @@
 
         public String Cookie
         {
-            get { return Options.GetCookie(_location.Original); }
-            set { Options.SetCookie(_location.Original, value); }
+            get { return _context.GetCookie(_location.Original); }
+            set { _context.SetCookie(_location.Original, value); }
         }
 
         public String Domain
@@ -833,11 +837,6 @@
             get { return _mutations; }
         }
 
-        internal IConfiguration Options
-        {
-            get { return _context.Configuration; }
-        }
-
         internal QuirksMode QuirksMode
         {
             get { return _quirksMode; }
@@ -868,11 +867,6 @@
         internal IElement FocusElement
         {
             get { return _focus; }
-        }
-
-        internal IResourceLoader Loader
-        {
-            get { return _loader; }
         }
 
         #endregion
@@ -1029,7 +1023,7 @@
 
         public Event CreateEvent(String type)
         {
-            var factory = Options.GetFactory<IEventFactory>();
+            var factory = _context.GetFactory<IEventFactory>();
             var ev = factory.Create(type);
 
             if (ev == null)
@@ -1069,7 +1063,7 @@
         {
             if (localName.IsXmlName())
             {
-                var factory = Options.GetFactory<IElementFactory<HtmlElement>>();
+                var factory = _context.GetFactory<IElementFactory<HtmlElement>>();
                 var element = factory.Create(this, localName);
                 element.SetupElement();
                 return element;
@@ -1086,21 +1080,21 @@
 
             if (namespaceUri.Is(NamespaceNames.HtmlUri))
             {
-                var factory = Options.GetFactory<IElementFactory<HtmlElement>>();
+                var factory = _context.GetFactory<IElementFactory<HtmlElement>>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.SvgUri))
             {
-                var factory = Options.GetFactory<IElementFactory<SvgElement>>();
+                var factory = _context.GetFactory<IElementFactory<SvgElement>>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.MathMlUri))
             {
-                var factory = Options.GetFactory<IElementFactory<MathElement>>();
+                var factory = _context.GetFactory<IElementFactory<MathElement>>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
@@ -1374,43 +1368,68 @@
             }
         }
 
+        /// <summary>
+        /// Sets the document up with the given parameters.
+        /// </summary>
+        /// <param name="response">The received response.</param>
+        /// <param name="contentType">The content-type.</param>
+        /// <param name="importAncestor">The ancestor, if any.</param>
+        internal void Setup(IResponse response, MimeType contentType, IDocument importAncestor)
+        {
+            ContentType = contentType.Content;
+            StatusCode = response.StatusCode;
+            Referrer = response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
+            DocumentUri = response.Address.Href;
+            Cookie = response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
+            ImportAncestor = importAncestor;
+            ReadyState = DocumentReadyState.Loading;
+        }
+
+        /// <summary>
+        /// Creates a new element in the current namespace from the infos.
+        /// </summary>
+        /// <param name="name">The name of the new element.</param>
+        /// <param name="prefix">The optional prefix to use.</param>
+        /// <returns>The created element.</returns>
+        internal abstract Element CreateElementFrom(String name, String prefix);
+
         #endregion
 
         #region Commands
 
         Boolean IDocument.ExecuteCommand(String commandId, Boolean showUserInterface, String value)
         {
-            var command = Options.GetCommand(commandId);
+            var command = _context.GetCommand(commandId);
             return command?.Execute(this, showUserInterface, value) ?? false;
         }
 
         Boolean IDocument.IsCommandEnabled(String commandId)
         {
-            var command = Options.GetCommand(commandId);
+            var command = _context.GetCommand(commandId);
             return command?.IsEnabled(this) ?? false;
         }
 
         Boolean IDocument.IsCommandIndeterminate(String commandId)
         {
-            var command = Options.GetCommand(commandId);
+            var command = _context.GetCommand(commandId);
             return command?.IsIndeterminate(this) ?? false;
         }
 
         Boolean IDocument.IsCommandExecuted(String commandId)
         {
-            var command = Options.GetCommand(commandId);
+            var command = _context.GetCommand(commandId);
             return command?.IsExecuted(this) ?? false;
         }
 
         Boolean IDocument.IsCommandSupported(String commandId)
         {
-            var command = Options.GetCommand(commandId);
+            var command = _context.GetCommand(commandId);
             return command?.IsSupported(this) ?? false;
         }
 
         String IDocument.GetCommandValue(String commandId)
         {
-            var command = Options.GetCommand(commandId);
+            var command = _context.GetCommand(commandId);
             return command?.GetValue(this);
         }
 
@@ -1528,17 +1547,6 @@
                 var request = DocumentRequest.Get(url, source: this, referer: DocumentUri);
                 await _context.OpenAsync(request, CancellationToken.None);
             }
-        }
-
-        protected void Setup(CreateDocumentOptions options)
-        {
-            ContentType = options.ContentType.Content;
-            StatusCode = options.Response.StatusCode;
-            Referrer = options.Response.Headers.GetOrDefault(HeaderNames.Referer, String.Empty);
-            DocumentUri = options.Response.Address.Href;
-            Cookie = options.Response.Headers.GetOrDefault(HeaderNames.SetCookie, String.Empty);
-            ImportAncestor = options.ImportAncestor;
-            ReadyState = DocumentReadyState.Loading;
         }
 
         protected sealed override String LocateNamespace(String prefix)

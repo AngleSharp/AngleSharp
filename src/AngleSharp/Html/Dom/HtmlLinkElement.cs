@@ -229,7 +229,7 @@
         private BaseLinkRelation CreateFirstLegalRelation()
         {
             var relations = RelationList;
-            var factory = Owner?.Options.GetFactory<ILinkRelationFactory>();
+            var factory = Context?.GetFactory<ILinkRelationFactory>();
 
             foreach (var relation in relations)
             {

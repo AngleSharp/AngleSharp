@@ -1,26 +1,36 @@
 ﻿namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Events;
+    using AngleSharp.Dom.Services;
     using AngleSharp.Extensions;
-    using AngleSharp.Html.Parser;
     using AngleSharp.Io;
+    using AngleSharp.Mathml.Dom;
+    using AngleSharp.Svg.Dom;
     using AngleSharp.Text;
     using System;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Represents a document node that contains only HTML nodes.
     /// </summary>
     sealed class HtmlDocument : Document, IHtmlDocument
     {
+        #region Fields
+
+        private readonly IElementFactory<HtmlElement> _htmlFactory;
+        private readonly IElementFactory<MathElement> _mathFactory;
+        private readonly IElementFactory<SvgElement> _svgFactory;
+
+        #endregion
+
         #region ctor
 
         internal HtmlDocument(IBrowsingContext context, TextSource source)
             : base(context ?? BrowsingContext.New(), source)
         {
             ContentType = MimeTypeNames.Html;
+            _htmlFactory = Context.GetFactory<IElementFactory<HtmlElement>>();
+            _mathFactory = Context.GetFactory<IElementFactory<MathElement>>();
+            _svgFactory = Context.GetFactory<IElementFactory<SvgElement>>();
         }
 
         internal HtmlDocument(IBrowsingContext context = null)
@@ -37,6 +47,11 @@
             get { return this.FindChild<HtmlHtmlElement>(); }
         }
 
+        public override IEntityProvider Entities
+        {
+            get { return Context.GetProvider<IEntityProvider>() ?? HtmlEntityProvider.Resolver; }
+        }
+
         #endregion
 
         #region Methods
@@ -49,39 +64,24 @@
             return node;
         }
 
-        internal async static Task<IDocument> LoadAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancelToken)
+        public HtmlElement CreateHtmlElement(String name, String prefix = null)
         {
-            var scripting = context.Configuration.IsScripting();
-            var parserOptions = new HtmlParserOptions { IsScripting = scripting };
-            var document = new HtmlDocument(context, options.Source);
-            var parser = new HtmlDomBuilder(document);
-            document.Setup(options);
-            context.NavigateTo(document);
-            context.Fire(new HtmlParseEvent(document, completed: false));
-            await parser.ParseAsync(parserOptions, cancelToken).ConfigureAwait(false);
-            context.Fire(new HtmlParseEvent(document, completed: true));
-            return document;
+            return _htmlFactory.Create(this, name, prefix);
         }
 
-        internal async static Task<IDocument> LoadTextAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancelToken)
+        public MathElement CreateMathElement(String name, String prefix = null)
         {
-            var scripting = context.Configuration.IsScripting();
-            var parserOptions = new HtmlParserOptions { IsScripting = scripting };
-            var document = new HtmlDocument(context, options.Source);
-            document.Setup(options);
-            context.NavigateTo(document);
-            var root = document.CreateElement(TagNames.Html);
-            var head = document.CreateElement(TagNames.Head);
-            var body = document.CreateElement(TagNames.Body);
-            var pre = document.CreateElement(TagNames.Pre);
-            document.AppendChild(root);
-            root.AppendChild(head);
-            root.AppendChild(body);
-            body.AppendChild(pre);
-            pre.SetAttribute(AttributeNames.Style, "word-wrap: break-word; white-space: pre-wrap;");
-            await options.Source.PrefetchAllAsync(cancelToken).ConfigureAwait(false);
-            pre.TextContent = options.Source.Text;
-            return document;
+            return _mathFactory.Create(this, name, prefix);
+        }
+
+        public SvgElement CreateSvgElement(String name, String prefix = null)
+        {
+            return _svgFactory.Create(this, name, prefix);
+        }
+
+        internal override Element CreateElementFrom(String name, String prefix)
+        {
+            return CreateHtmlElement(name, prefix);
         }
 
         #endregion

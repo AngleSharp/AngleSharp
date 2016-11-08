@@ -3,8 +3,9 @@
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Html.Dom;
     using AngleSharp.Extensions;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Parser;
     using NUnit.Framework;
     using System;
     using System.Linq;
@@ -17,7 +18,7 @@
         public async Task ClosingSpanTagShouldNotResultInAnError()
         {
             var context = BrowsingContext.New();
-            var events = new EventReceiver<HtmlErrorEvent>(callback => context.ParseError += callback);
+            var events = new EventReceiver<HtmlErrorEvent>(callback => context.GetService<IHtmlParser>().Error += callback);
             var source = @"<!DOCTYPE html><html><head></head><body><span>test</span></body></html>";
             var document = await context.OpenAsync(res => res.Content(source));
             Assert.AreEqual(0, events.Received.Count);
@@ -26,7 +27,7 @@
         [Test]
         public void AppendMultipleNodesToParentNode()
         {
-            var document = ("").ToHtmlDocument();
+            var document = String.Empty.ToHtmlDocument();
             var children = new[]
             {
                 document.CreateElement("span"),

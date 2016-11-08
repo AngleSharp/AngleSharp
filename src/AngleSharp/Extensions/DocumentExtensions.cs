@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.Extensions
 {
-    using AngleSharp.Browser;
-    using AngleSharp.Browser.Services;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using System;
@@ -202,32 +200,13 @@
         }
 
         /// <summary>
-        /// Checks if the document is waiting for tasks from originator of type
-        /// T to finish downloading.
-        /// </summary>
-        /// <param name="document">The document to use.</param>
-        /// <returns>Enumerable of awaitable tasks.</returns>
-        public static IEnumerable<Task> GetDownloads<T>(this Document document)
-            where T : INode
-        {
-            var loader = document.Loader;
-
-            if (loader == null)
-            {
-                return Enumerable.Empty<Task>();
-            }
-
-            return loader.GetDownloads().Where(m => m.Source is T).Select(m => m.Task);
-        }
-
-        /// <summary>
         /// Checks if the document is waiting for a script to finish preparing.
         /// </summary>
         /// <param name="document">The document to use.</param>
         /// <returns>Enumerable of awaitable tasks.</returns>
         public static IEnumerable<Task> GetScriptDownloads(this Document document)
         {
-            return document.GetDownloads<HtmlScriptElement>();
+            return document.Context.GetDownloads<HtmlScriptElement>();
         }
 
         /// <summary>
@@ -245,7 +224,7 @@
         /// <returns>Enumerable of awaitable tasks.</returns>
         public static IEnumerable<Task> GetStyleSheetDownloads(this Document document)
         {
-            return document.GetDownloads<HtmlLinkElement>();
+            return document.Context.GetDownloads<HtmlLinkElement>();
         }
 
         /// <summary>
@@ -262,85 +241,6 @@
             await TaskEx.WhenAll(scripts).ConfigureAwait(false);
             var styles = document.GetStyleSheetDownloads().ToArray();
             await TaskEx.WhenAll(styles).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Gets the specified target browsing context.
-        /// </summary>
-        /// <param name="document">
-        /// The document that originates the request.
-        /// </param>
-        /// <param name="target">The specified target name.</param>
-        /// <returns>
-        /// The available context, or null, if the context does not exist yet.
-        /// </returns>
-        public static IBrowsingContext GetTarget(this Document document, String target)
-        {
-            if (String.IsNullOrEmpty(target) || target.Is("_self"))
-            {
-                return document.Context;
-            }
-            else if (target.Is("_parent"))
-            {
-                return document.Context.Parent ?? document.Context;
-            }
-            else if (target.Is("_top"))
-            {
-                return document.Context;
-            }
-            else
-            {
-                return document.Options.FindContext(target);
-            }
-        }
-
-        /// <summary>
-        /// Creates the specified target browsing context.
-        /// </summary>
-        /// <param name="document">
-        /// The document that originates the request.
-        /// </param>
-        /// <param name="target">The specified target name.</param>
-        /// <returns>The new context.</returns>
-        public static IBrowsingContext CreateTarget(this Document document, String target)
-        {
-            var security = Sandboxes.None;
-
-            if (target.Is("_blank"))
-            {
-                return document.Options.NewContext(security);
-            }
-
-            return document.NewContext(target, security);
-        }
-
-        /// <summary>
-        /// Creates a new browsing context with the given name and creator.
-        /// </summary>
-        /// <param name="document">The creator of the context.</param>
-        /// <param name="name">The name of the new context.</param>
-        /// <param name="security">The sandbox flag of the context.</param>
-        /// <returns>The new context.</returns>
-        public static IBrowsingContext NewContext(this Document document, String name, Sandboxes security)
-        {
-            var options = document.Options;
-            var factory = options.GetFactory<IContextFactory>();
-            return factory.Create(document.Context, name, security);
-        }
-
-        /// <summary>
-        /// Creates a new nested browsing context with the given name and 
-        /// creator.
-        /// </summary>
-        /// <param name="document">The creator of the context.</param>
-        /// <param name="security">The sandbox flag of the context.</param>
-        /// <returns>The new nesteted context.</returns>
-        public static IBrowsingContext NewChildContext(this Document document, Sandboxes security)
-        {
-            //TODO
-            var context = document.NewContext(String.Empty, security);
-            document.AttachReference(context);
-            return context;
         }
     }
 }

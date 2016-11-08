@@ -86,7 +86,7 @@
         /// <returns>The associated cookie string, if any.</returns>
         protected virtual String GetCookie(Url url)
         {
-            return _context.Configuration.GetCookie(url);
+            return _context.GetCookie(url);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@
         /// <param name="value">The value of the cookie.</param>
         protected virtual void SetCookie(Url url, String value)
         {
-            _context.Configuration.SetCookie(url, value);
+            _context.SetCookie(url, value);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@
         /// </returns>
         protected async Task<IResponse> LoadAsync(Request request, CancellationToken cancel)
         {
-            var requesters = _context.Configuration.GetServices<IRequester>();
+            var requesters = _context.GetServices<IRequester>();
             var response = default(IResponse);
             var redirectCount = 0;
             AppendCookieTo(request);

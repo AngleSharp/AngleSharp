@@ -9,7 +9,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    sealed class PageRequester : IRequester
+    sealed class PageRequester : BaseRequester
     {
         private readonly static DefaultHttpRequester _default = new DefaultHttpRequester();
         private readonly static String _directory = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "..", "..", "Resources");
@@ -20,12 +20,12 @@
             get { yield return new PageRequester(); }
         }
 
-        public Boolean SupportsProtocol(String protocol)
+        public override Boolean SupportsProtocol(String protocol)
         {
             return _default.SupportsProtocol(protocol);
         }
 
-        public async Task<IResponse> RequestAsync(Request request, CancellationToken cancel)
+        protected override async Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancel)
         {
             var url = request.Address.Href;
 

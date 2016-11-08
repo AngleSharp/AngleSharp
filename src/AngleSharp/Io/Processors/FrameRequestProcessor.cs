@@ -10,24 +10,18 @@
     {
         #region Fields
 
+        private readonly IBrowsingContext _context;
         private readonly HtmlFrameElementBase _element;
 
         #endregion
 
         #region ctor
 
-        private FrameRequestProcessor(HtmlFrameElementBase element, IResourceLoader loader)
-            : base(loader)
+        public FrameRequestProcessor(IBrowsingContext context, HtmlFrameElementBase element)
+            : base(context.GetService<IResourceLoader>())
         {
+            _context = context;
             _element = element;
-        }
-
-        internal static FrameRequestProcessor Create(HtmlFrameElementBase element)
-        {
-            var document = element.Owner;
-            var loader = document.Loader;
-
-            return loader != null ? new FrameRequestProcessor(element, loader) : null;
         }
 
         #endregion

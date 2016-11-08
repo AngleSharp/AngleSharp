@@ -13,7 +13,7 @@
     /// <summary>
     /// The default (ready-to-use) HTTP requester.
     /// </summary>
-    public sealed class DefaultHttpRequester : IRequester
+    public sealed class DefaultHttpRequester : BaseRequester
     {
         #region Constants
 
@@ -83,7 +83,7 @@
         /// <returns>
         /// True if the protocol is supported, otherwise false.
         /// </returns>
-        public Boolean SupportsProtocol(String protocol)
+        public override Boolean SupportsProtocol(String protocol)
         {
             return protocol.IsOneOf(ProtocolNames.Http, ProtocolNames.Https);
         }
@@ -98,7 +98,7 @@
         /// <returns>
         /// The task that will eventually give the response data.
         /// </returns>
-        public async Task<IResponse> RequestAsync(Request request, CancellationToken cancellationToken)
+        protected override async Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancellationToken)
         {
             var cts = CreateTimeoutToken(_timeOut);
             var cache = new RequestState(request, _headers);

@@ -59,20 +59,23 @@
 
         public static IDocument ToHtmlDocument(this String sourceCode, IConfiguration configuration = null)
         {
-            var parser = new HtmlParser(configuration ?? Configuration.Default);
+            var context = BrowsingContext.New(configuration ?? Configuration.Default);
+            var parser = new HtmlParser(context);
             return parser.Parse(sourceCode);
         }
 
         public static IDocument ToXmlDocument(this String sourceCode, IConfiguration configuration = null)
         {
-            var xmlParser = new XmlParser(configuration);
+            var context = BrowsingContext.New(configuration);
+            var xmlParser = new XmlParser(context);
             return xmlParser.Parse(sourceCode);
         }
 
-        public static INodeList ToHtmlFragment(this String sourceCode, IElement context = null, IConfiguration configuration = null)
+        public static INodeList ToHtmlFragment(this String sourceCode, IElement contextElement = null, IConfiguration configuration = null)
         {
-            var parser = new HtmlParser(configuration);
-            return parser.ParseFragment(sourceCode, context);
+            var context = BrowsingContext.New(configuration);
+            var parser = new HtmlParser(context);
+            return parser.ParseFragment(sourceCode, contextElement);
         }
 
         public static INodeList ToHtmlFragment(this String sourceCode, String contextElement, IConfiguration configuration = null)
@@ -84,7 +87,8 @@
 
         public static IDocument ToHtmlDocument(this Stream content, IConfiguration configuration = null)
         {
-            var parser = new HtmlParser(configuration);
+            var context = BrowsingContext.New(configuration);
+            var parser = new HtmlParser(context);
             return parser.Parse(content);
         }
     }

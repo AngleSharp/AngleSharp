@@ -10,7 +10,7 @@
     /// <summary>
     /// Requests a DTD file from an embedded resource.
     /// </summary>
-    public class DtdRequester : IRequester
+    public class DtdRequester : BaseRequester
     {
         public IResponse Request(Request request)
         {
@@ -28,7 +28,7 @@
             return RequestAsync(request, CancellationToken.None);
         }
 
-        public Task<IResponse> RequestAsync(Request request, CancellationToken cancellationToken)
+        protected override Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancellationToken)
         {
             return Task.Run(() => Request(request));
         }
@@ -45,7 +45,7 @@
             set;
         }
 
-        public Boolean SupportsProtocol(String protocol)
+        public override Boolean SupportsProtocol(String protocol)
         {
             return true;
         }

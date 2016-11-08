@@ -11,16 +11,16 @@
     {
         #region Fields
 
-        private readonly IConfiguration _options;
+        private readonly IBrowsingContext _context;
 
         #endregion
 
         #region ctor
 
-        public ResourceRequestProcessor(IConfiguration options, IResourceLoader loader)
-            : base(loader)
+        public ResourceRequestProcessor(IBrowsingContext context)
+            : base(context.GetService<IResourceLoader>())
         {
-            _options = options;
+            _context = context;
         }
 
         #endregion
@@ -64,7 +64,7 @@
         protected IResourceService<TResource> GetService(IResponse response)
         {
             var type = response.GetContentType();
-            return _options.GetResourceService<TResource>(type.Content);
+            return _context.GetResourceService<TResource>(type.Content);
         }
 
         private Boolean IsDifferentToCurrentResourceUrl(Url target)

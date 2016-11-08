@@ -27,19 +27,20 @@
         {
         }
 
-        internal DocumentFragment(Element context, String html)
-            : this(context.Owner)
+        internal DocumentFragment(Element contextElement, String html)
+            : this(contextElement.Owner)
         {
             var source = new TextSource(html);
-            var document = new HtmlDocument(Owner.Context, source);
+            var context = Owner.Context;
+            var document = new HtmlDocument(context, source);
             var parser = new HtmlDomBuilder(document);
             var options = new HtmlParserOptions
             {
                 IsEmbedded = false,
                 IsStrictMode = false,
-                IsScripting = Owner.Options.IsScripting()
+                IsScripting = context.IsScripting()
             };
-            var root = parser.ParseFragment(options, context).DocumentElement;
+            var root = parser.ParseFragment(options, contextElement).DocumentElement;
 
             while (root.HasChildNodes)
             {

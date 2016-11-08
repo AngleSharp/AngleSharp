@@ -2824,7 +2824,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var source = @"<p id=""status""><noscript><strong>A</strong></noscript><span>B</span></p>";
             var config = new Configuration().With(new EnableScripting());
-            var parser = new HtmlParser(config);
+            var context = BrowsingContext.New(config);
+            var parser = new HtmlParser(context);
             var doc = parser.Parse(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
@@ -4922,7 +4923,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var source = @"<noscript><!--<noscript></noscript>--></noscript>";
             var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(config);
+            var context = BrowsingContext.New(config);
+            var parser = new HtmlParser(context);
             var doc = parser.Parse(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
@@ -4963,7 +4965,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var source = @"<noscript><!--</noscript>X<noscript>--></noscript>";
             var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(config);
+            var context = BrowsingContext.New(config);
+            var parser = new HtmlParser(context);
             var doc = parser.Parse(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
@@ -5014,7 +5017,8 @@ console.log(""FOO<span>BAR</span>BAZ"");
         {
             var source = @"<noscript><iframe></noscript>X";
             var config = Configuration.Default.With(new EnableScripting());
-            var parser = new HtmlParser(config);
+            var context = BrowsingContext.New(config);
+            var parser = new HtmlParser(context);
             var doc = parser.Parse(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;

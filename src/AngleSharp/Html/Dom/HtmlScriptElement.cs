@@ -2,7 +2,6 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Io;
     using AngleSharp.Io.Processors;
     using System;
@@ -33,7 +32,7 @@
             _forceAsync = false;
             _started = started;
             _parserInserted = parserInserted;
-            _request = ScriptRequestProcessor.Create(this);
+            _request = new ScriptRequestProcessor(owner.Context, this);
         }
 
         #endregion
@@ -118,7 +117,6 @@
         /// </summary>
         internal Boolean Prepare(Document document)
         {
-            var options = document.Options;
             var eventAttr = this.GetOwnAttribute(AttributeNames.Event);
             var forAttr = this.GetOwnAttribute(AttributeNames.For);
             var src = Source;

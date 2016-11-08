@@ -9,7 +9,7 @@
     /// <summary>
     /// Common methods and variables of all tokenizers.
     /// </summary>
-    abstract class BaseTokenizer : IDisposable
+    public abstract class BaseTokenizer : IDisposable
     {
         #region Fields
 
@@ -24,6 +24,10 @@
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new instance of the base tokenizer.
+        /// </summary>
+        /// <param name="source">The source to tokenize.</param>
         public BaseTokenizer(TextSource source)
         {
             StringBuffer = Pool.NewStringBuilder();
@@ -38,17 +42,9 @@
 
         #region Properties
 
-        protected StringBuilder StringBuffer 
-        { 
-            get; 
-            private set; 
-        }
-
-        public TextSource Source
-        {
-            get { return _source; }
-        }
-
+        /// <summary>
+        /// Gets the current insertion point.
+        /// </summary>
         public Int32 InsertionPoint
         {
             get { return _source.Index; }
@@ -70,21 +66,26 @@
             }
         }
 
-        public UInt16 Line
-        {
-            get { return _row; }
-        }
-
-        public UInt16 Column
-        {
-            get { return _column; }
-        }
-
+        /// <summary>
+        /// Gets the current source index.
+        /// </summary>
         public Int32 Position
         {
             get { return _source.Index; }
         }
 
+        /// <summary>
+        /// Gets the allocated string buffer.
+        /// </summary>
+        protected StringBuilder StringBuffer
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the current character.
+        /// </summary>
         protected Char Current
         {
             get { return _current; }
@@ -94,6 +95,10 @@
 
         #region Methods
 
+        /// <summary>
+        /// Flushes the buffer.
+        /// </summary>
+        /// <returns>The content of the buffer.</returns>
         public String FlushBuffer()
         {
             var content = StringBuffer.ToString();
@@ -101,6 +106,9 @@
             return content;
         }
 
+        /// <summary>
+        /// Disposes the tokenizer by releasing the buffer.
+        /// </summary>
         public void Dispose()
         {
             var isDisposed = StringBuffer == null;
@@ -114,23 +122,44 @@
             }
         }
 
+        /// <summary>
+        /// Gets the current text position in the source.
+        /// </summary>
+        /// <returns>The (row, col) position.</returns>
         public TextPosition GetCurrentPosition()
         {
             return new TextPosition(_row, _column, Position);
         }
 
+        /// <summary>
+        /// Checks if the source continues with the given string.
+        /// The comparison is case-insensitive.
+        /// </summary>
+        /// <param name="s">The string to compare to.</param>
+        /// <returns>True if the source continues with the given string.</returns>
         protected Boolean ContinuesWithInsensitive(String s)
         {
             var content = PeekString(s.Length);
             return content.Length == s.Length && content.Isi(s);
         }
 
+        /// <summary>
+        /// Checks if the source continues with the given string.
+        /// The comparison is case-sensitive.
+        /// </summary>
+        /// <param name="s">The string to compare to.</param>
+        /// <returns>True if the source continues with the given string.</returns>
         protected Boolean ContinuesWithSensitive(String s)
         {
             var content = PeekString(s.Length);
-            return content.Length == s.Length && content.Isi(s);
+            return content.Length == s.Length && content.Is(s);
         }
 
+        /// <summary>
+        /// Gets the string formed by the next characters.
+        /// </summary>
+        /// <param name="length">The length of the string.</param>
+        /// <returns>The upcoming string.</returns>
         protected String PeekString(Int32 length)
         {
             var mark = _source.Index;
@@ -140,6 +169,10 @@
             return content;
         }
 
+        /// <summary>
+        /// Skips the next space character(s).
+        /// </summary>
+        /// <returns>The upcoming first non-space.</returns>
         protected Char SkipSpaces()
         {
             var c = GetNext();
@@ -156,18 +189,29 @@
 
         #region Source Management
 
+        /// <summary>
+        /// Gets the next character in the source by advancing.
+        /// </summary>
+        /// <returns>The next char.</returns>
         protected Char GetNext()
         {
             Advance();
             return _current;
         }
 
+        /// <summary>
+        /// Gets the previous character in the source by going back.
+        /// </summary>
+        /// <returns>The previous char.</returns>
         protected Char GetPrevious()
         {
             Back();
             return _current;
         }
 
+        /// <summary>
+        /// Advances in the source by 1 character if possible.
+        /// </summary>
         protected void Advance()
         {
             if (_current != Symbols.EndOfFile)
@@ -176,6 +220,10 @@
             }
         }
 
+        /// <summary>
+        /// Advances in the source by n characters or less if possible.
+        /// </summary>
+        /// <param name="n">The positive number of characters.</param>
         protected void Advance(Int32 n)
         {
             while (n-- > 0 && _current != Symbols.EndOfFile)
@@ -184,6 +232,9 @@
             }
         }
 
+        /// <summary>
+        /// Goes back in the source by 1 character if possible.
+        /// </summary>
         protected void Back()
         {
             if (InsertionPoint > 0)
@@ -192,6 +243,10 @@
             }
         }
 
+        /// <summary>
+        /// Goes back in the source by n characters or less if possible.
+        /// </summary>
+        /// <param name="n">The positive number of characters.</param>
         protected void Back(Int32 n)
         {
             while (n-- > 0 && InsertionPoint > 0)

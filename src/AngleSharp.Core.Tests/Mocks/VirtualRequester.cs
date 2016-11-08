@@ -5,7 +5,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    sealed class VirtualRequester : IRequester
+    sealed class VirtualRequester : BaseRequester
     {
         private readonly Func<Request, IResponse> _onRequest;
 
@@ -14,13 +14,13 @@
             _onRequest = onRequest;
         }
 
-        public Task<IResponse> RequestAsync(Request request, CancellationToken cancel)
+        protected override Task<IResponse> PerformRequestAsync(Request request, CancellationToken cancel)
         {
             var response = _onRequest.Invoke(request);
             return Task.FromResult(response);
         }
 
-        public Boolean SupportsProtocol(String protocol)
+        public override Boolean SupportsProtocol(String protocol)
         {
             return true;
         }

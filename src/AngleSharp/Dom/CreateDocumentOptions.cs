@@ -4,6 +4,7 @@
     using AngleSharp.Io;
     using AngleSharp.Text;
     using System;
+    using System.Text;
 
     /// <summary>
     /// Data transport class to abstract common options in document creation.
@@ -26,13 +27,14 @@
         /// the provided configuration.
         /// </summary>
         /// <param name="response">The response to pass on.</param>
-        /// <param name="configuration">The configuration to use.</param>
+        /// <param name="encoding">The optional default encoding.</param>
         /// <param name="ancestor">The optional import ancestor.</param>
-        public CreateDocumentOptions(IResponse response, IConfiguration configuration, IDocument ancestor = null)
+        public CreateDocumentOptions(IResponse response, Encoding encoding = null, IDocument ancestor = null)
         {
             var contentType = response.GetContentType(MimeTypeNames.Html);
             var charset = contentType.GetParameter(AttributeNames.Charset);
-            var source = new TextSource(response.Content, configuration.DefaultEncoding());
+            var defaultEncoding = encoding ?? Encoding.UTF8;
+            var source = new TextSource(response.Content, defaultEncoding);
 
             if (!String.IsNullOrEmpty(charset) && TextEncoding.IsSupported(charset))
             {

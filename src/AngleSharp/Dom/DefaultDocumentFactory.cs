@@ -2,9 +2,11 @@
 {
     using AngleSharp.Dom.Services;
     using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Parser;
     using AngleSharp.Io;
     using AngleSharp.Svg.Dom;
     using AngleSharp.Xml.Dom;
+    using AngleSharp.Xml.Parser;
     using System;
     using System.Collections.Generic;
     using System.Threading;
@@ -17,15 +19,15 @@
     {
         private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>
         {
-            { MimeTypeNames.Xml, XmlDocument.LoadAsync },
-            { MimeTypeNames.ApplicationXml, XmlDocument.LoadAsync },
-            { MimeTypeNames.Svg, SvgDocument.LoadAsync },
-            { MimeTypeNames.Html, HtmlDocument.LoadAsync },
-            { MimeTypeNames.ApplicationXHtml, HtmlDocument.LoadAsync },
-            { MimeTypeNames.Plain, HtmlDocument.LoadTextAsync },
-            { MimeTypeNames.ApplicationJson, HtmlDocument.LoadTextAsync },
-            { MimeTypeNames.DefaultJavaScript, HtmlDocument.LoadTextAsync },
-            { MimeTypeNames.Css, HtmlDocument.LoadTextAsync }
+            { MimeTypeNames.Xml, LoadXmlAsync },
+            { MimeTypeNames.ApplicationXml, LoadXmlAsync },
+            { MimeTypeNames.Svg, LoadSvgAsync },
+            { MimeTypeNames.Html, LoadHtmlAsync },
+            { MimeTypeNames.ApplicationXHtml, LoadHtmlAsync },
+            { MimeTypeNames.Plain, LoadTextAsync },
+            { MimeTypeNames.ApplicationJson, LoadTextAsync },
+            { MimeTypeNames.DefaultJavaScript, LoadTextAsync },
+            { MimeTypeNames.Css, LoadTextAsync }
         };
 
         /// <summary>
@@ -75,7 +77,7 @@
         /// <returns>The task creating the document from the response.</returns>
         protected virtual Task<IDocument> CreateDefaultAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
         {
-            return HtmlDocument.LoadAsync(context, options, cancellationToken);
+            return LoadHtmlAsync(context, options, cancellationToken);
         }
 
         /// <summary>
@@ -99,6 +101,53 @@
             }
 
             return CreateDefaultAsync(context, options, cancellationToken);
+        }
+
+        private static Task<IDocument> LoadHtmlAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
+        {
+            var parser = context.GetService<IHtmlParser>();
+            var document = new HtmlDocument(context, options.Source);
+            document.Setup(options.Response, options.ContentType, options.ImportAncestor);
+            context.NavigateTo(document);
+            return parser.ParseAsync(document, cancellationToken);
+        }
+
+        private static async Task<IDocument> LoadTextAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
+        {
+            var parser = context.GetService<IHtmlParser>();
+            var document = new HtmlDocument(context, options.Source);
+            document.Setup(options.Response, options.ContentType, options.ImportAncestor);
+            context.NavigateTo(document);
+            var root = document.CreateElement(TagNames.Html);
+            var head = document.CreateElement(TagNames.Head);
+            var body = document.CreateElement(TagNames.Body);
+            var pre = document.CreateElement(TagNames.Pre);
+            document.AppendChild(root);
+            root.AppendChild(head);
+            root.AppendChild(body);
+            body.AppendChild(pre);
+            pre.SetAttribute(AttributeNames.Style, "word-wrap: break-word; white-space: pre-wrap;");
+            await options.Source.PrefetchAllAsync(cancellationToken).ConfigureAwait(false);
+            pre.TextContent = options.Source.Text;
+            return document;
+        }
+
+        private static Task<IDocument> LoadXmlAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
+        {
+            var parser = context.GetService<IXmlParser>();
+            var document = new XmlDocument(context, options.Source);
+            document.Setup(options.Response, options.ContentType, options.ImportAncestor);
+            context.NavigateTo(document);
+            return parser.ParseAsync(document, cancellationToken);
+        }
+
+        private static Task<IDocument> LoadSvgAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
+        {
+            var parser = context.GetService<IXmlParser>();
+            var document = new SvgDocument(context, options.Source);
+            document.Setup(options.Response, options.ContentType, options.ImportAncestor);
+            context.NavigateTo(document);
+            return parser.ParseAsync(document, cancellationToken);
         }
     }
 }
