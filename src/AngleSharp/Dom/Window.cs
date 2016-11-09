@@ -3,7 +3,6 @@
     using AngleSharp.Browser;
     using AngleSharp.Browser.Dom;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Extensions;
     using AngleSharp.Html.Dom;
     using System;
     using System.Linq;

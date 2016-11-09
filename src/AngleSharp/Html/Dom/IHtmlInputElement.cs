@@ -271,6 +271,15 @@
         Int32 MaxLength { get; set; }
 
         /// <summary>
+        /// Gets or sets the minlength HTML attribute, indicating the minimum
+        /// number of characters the user can enter. This constraint is 
+        /// evaluated only when the value changes.
+        /// </summary>
+        [DomName("minLength")]
+        Int32 MinLength { get; set; }
+
+
+        /// <summary>
         /// Gets or sets the placeholder HTML attribute, containing a hint to
         /// the user about what to enter in the control.
         /// </summary>

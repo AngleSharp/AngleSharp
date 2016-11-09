@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Core.Tests.Html
 {
+    using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
-    using AngleSharp.Extensions;
     using NUnit.Framework;
 
     [TestFixture]

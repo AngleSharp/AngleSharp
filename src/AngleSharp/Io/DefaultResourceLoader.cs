@@ -29,7 +29,7 @@
         /// </summary>
         /// <param name="request">The issued request.</param>
         /// <returns>The active download.</returns>
-        public virtual IDownload DownloadAsync(ResourceRequest request)
+        public virtual IDownload FetchAsync(ResourceRequest request)
         {
             var data = new Request
             {

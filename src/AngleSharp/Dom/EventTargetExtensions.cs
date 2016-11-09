@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom.Events;
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// A set of extensions for EventTarget objects.
@@ -61,6 +62,36 @@
             var eventData = new T { IsTrusted = true };
             initializer(eventData);
             return eventData.Dispatch(targetOverride ?? target);
+        }
+
+        /// <summary>
+        /// Returns a task that is completed once the event is fired.
+        /// </summary>
+        /// <typeparam name="TEventTarget">The event target type.</typeparam>
+        /// <param name="node">The node that fires the event.</param>
+        /// <param name="eventName">The name of the event to be awaited.</param>
+        /// <returns>The awaitable task returning the event arguments.</returns>
+        public static async Task<Event> AwaitEventAsync<TEventTarget>(this TEventTarget node, String eventName)
+            where TEventTarget : IEventTarget
+        {
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+
+            if (eventName == null)
+                throw new ArgumentNullException(nameof(eventName));
+
+            var completion = new TaskCompletionSource<Event>();
+            DomEventHandler handler = (s, ev) => completion.TrySetResult(ev);
+            node.AddEventListener(eventName, handler);
+
+            try
+            {
+                return await completion.Task.ConfigureAwait(false);
+            }
+            finally
+            {
+                node.RemoveEventListener(eventName, handler);
+            }
         }
     }
 }

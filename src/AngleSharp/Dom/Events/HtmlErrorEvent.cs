@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Dom.Events
 {
-    using AngleSharp.Extensions;
+    using AngleSharp.Common;
     using AngleSharp.Html.Parser;
     using AngleSharp.Text;
     using System;

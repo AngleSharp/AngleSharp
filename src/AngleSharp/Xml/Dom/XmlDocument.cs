@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Xml.Dom
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Services;
-    using AngleSharp.Extensions;
     using AngleSharp.Io;
     using AngleSharp.Text;
     using System;

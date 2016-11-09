@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Browser
 {
-    using AngleSharp.Browser.Services;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;

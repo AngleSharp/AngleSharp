@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Core.Tests.Mocks
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Services;
     using AngleSharp.Html;
     using AngleSharp.Text;
     using System;

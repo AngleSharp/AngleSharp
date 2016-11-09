@@ -40,5 +40,24 @@
 
             return false;
         }
+
+        /// <summary>
+        /// Clears the given attribute collection.
+        /// </summary>
+        /// <param name="attributes">The collection to clear.</param>
+        /// <returns>The collection itself.</returns>
+        public static INamedNodeMap Clear(this INamedNodeMap attributes)
+        {
+            if (attributes == null)
+                throw new ArgumentNullException(nameof(attributes));
+
+            while (attributes.Length > 0)
+            {
+                var name = attributes[attributes.Length - 1].Name;
+                attributes.RemoveNamedItem(name);
+            }
+
+            return attributes;
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
-    using AngleSharp.Extensions;
     using System;
     using System.Linq;
 
@@ -71,11 +70,7 @@
 
         public IValidityState Validity
         {
-            get
-            {
-                Check(_vstate);
-                return _vstate;
-            }
+            get { Check(_vstate); return _vstate; }
         }
 
         #endregion
@@ -96,8 +91,8 @@
 
         public void SetCustomValidity(String error)
         {
-            _vstate.IsCustomError = !String.IsNullOrEmpty(error);
             _error = error;
+            ResetValidity(_vstate);
         }
 
         #endregion
@@ -127,7 +122,14 @@
         { }
 
         protected virtual void Check(ValidityState state)
-        { }
+        {
+            ResetValidity(state);
+        }
+
+        protected void ResetValidity(ValidityState state)
+        {
+            state.IsCustomError = !String.IsNullOrEmpty(_error);
+        }
 
         protected abstract Boolean CanBeValidated();
 

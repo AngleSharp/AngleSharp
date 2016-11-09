@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Dom.Services;
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.Parser;
     using AngleSharp.Io;

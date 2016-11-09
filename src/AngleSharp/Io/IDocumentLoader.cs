@@ -11,6 +11,6 @@
         /// </summary>
         /// <param name="request">The options to consider.</param>
         /// <returns>The download instance to track.</returns>
-        IDownload DownloadAsync(DocumentRequest request);
+        IDownload FetchAsync(DocumentRequest request);
     }
 }

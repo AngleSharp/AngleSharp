@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Parser.Tokens
 {
-    using AngleSharp.Extensions;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;

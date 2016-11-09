@@ -22,8 +22,7 @@
         /// Parses the stream and returns the result.
         /// </summary>
         IXmlDocument Parse(Stream source);
-
-
+        
         /// <summary>
         /// Parses the string asynchronously with option to cancel.
         /// </summary>

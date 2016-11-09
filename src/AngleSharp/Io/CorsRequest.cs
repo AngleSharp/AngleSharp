@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.Io
 {
-    using AngleSharp.Io.Services;
-
     /// <summary>
     /// Represents the arguments to perform a fetch with CORS.
     /// </summary>

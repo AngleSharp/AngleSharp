@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Extensions;
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
     using System;
@@ -616,6 +615,69 @@
         public static IElement GetAssignedSlot(this IShadowRoot root, String name)
         {
             return root.GetDescendants().OfType<IHtmlSlotElement>().FirstOrDefault(m => m.Name.Is(name));
+        }
+
+        /// <summary>
+        /// Gets the content text of the given DOM node.
+        /// </summary>
+        /// <param name="node">The node to stringify.</param>
+        /// <returns>The text of the node and its children.</returns>
+        public static String Text(this INode node)
+        {
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+
+            return node.TextContent;
+        }
+
+        /// <summary>
+        /// Sets the text content of the given elements.
+        /// </summary>
+        /// <typeparam name="T">The type of collection.</typeparam>
+        /// <param name="nodes">The collection.</param>
+        /// <param name="text">The text that should be set.</param>
+        /// <returns>The collection itself.</returns>
+        public static T Text<T>(this T nodes, String text)
+            where T : IEnumerable<INode>
+        {
+            if (nodes == null)
+                throw new ArgumentNullException(nameof(nodes));
+
+            foreach (var element in nodes)
+            {
+                element.TextContent = text;
+            }
+
+            return nodes;
+        }
+
+        /// <summary>
+        /// Gets the index of the given item in the list of nodes.
+        /// </summary>
+        /// <param name="nodes">The source list of nodes.</param>
+        /// <param name="item">The item to search for.</param>
+        /// <returns>The index of the item or -1 if not found.</returns>
+        public static Int32 Index(this IEnumerable<INode> nodes, INode item)
+        {
+            if (nodes == null)
+                throw new ArgumentNullException(nameof(nodes));
+
+            if (item != null)
+            {
+                var i = 0;
+
+                foreach (var node in nodes)
+                {
+                    if (Object.ReferenceEquals(node, item))
+                    {
+                        return i;
+                    }
+
+                    i++;
+                }
+            }
+
+            return -1;
         }
 
         private static Boolean IsCurrentlySame(Queue<INode> after, Queue<INode> before)

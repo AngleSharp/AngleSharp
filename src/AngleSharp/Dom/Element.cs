@@ -5,7 +5,6 @@
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Extensions;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;

@@ -1,19 +1,12 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Browser;
-    using AngleSharp.Browser.Services;
     using AngleSharp.Css;
-    using AngleSharp.Css.Services;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Dom.Services;
-    using AngleSharp.Extensions;
     using AngleSharp.Io;
-    using AngleSharp.Io.Services;
     using AngleSharp.Media;
-    using AngleSharp.Media.Services;
     using AngleSharp.Scripting;
-    using AngleSharp.Scripting.Services;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -82,7 +75,7 @@
 
             if (loader != null)
             {
-                var download = loader.DownloadAsync(request);
+                var download = loader.FetchAsync(request);
                 cancel.Register(download.Cancel);
 
                 using (var response = await download.Task.ConfigureAwait(false))

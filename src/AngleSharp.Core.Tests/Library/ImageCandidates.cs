@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
-    using AngleSharp.Extensions;
     using AngleSharp.Media;
     using NUnit.Framework;
     using System;

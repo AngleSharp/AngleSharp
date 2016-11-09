@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
-    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Text;
     using System;
@@ -224,8 +223,8 @@
 
         protected override void Check(ValidityState state)
         {
-            var value = Value;
-            state.IsValueMissing = IsRequired && String.IsNullOrEmpty(value);
+            base.Check(state);
+            state.IsValueMissing = IsRequired && String.IsNullOrEmpty(Value);
         }
 
         #endregion

@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css
 {
-    using AngleSharp.Css.Services;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;

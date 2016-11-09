@@ -16,16 +16,22 @@
 
         #region Methods
 
-        public override void Check(ValidityState state)
+        public override ValidationErrors Check(IValidityState current)
         {
             var value = Input.Value ?? String.Empty;
-            state.IsPatternMismatch = IsInvalidPattern(Input.Pattern, value);
+            var result = GetErrorsFrom(current);
 
-            if (IsInvalidUrl(value))
+            if (IsInvalidPattern(Input.Pattern, value))
             {
-                state.IsTypeMismatch = !String.IsNullOrEmpty(value);
-                state.IsBadInput = state.IsTypeMismatch;
+                result ^= ValidationErrors.PatternMismatch;
             }
+
+            if (IsInvalidUrl(value) && !String.IsNullOrEmpty(value))
+            {
+                result ^= ValidationErrors.TypeMismatch | ValidationErrors.BadInput;
+            }
+
+            return result;
         }
 
         static Boolean IsInvalidUrl(String value)

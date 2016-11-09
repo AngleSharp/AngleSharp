@@ -28,7 +28,7 @@
         /// </summary>
         /// <param name="request">The issued request.</param>
         /// <returns>The active download.</returns>
-        public virtual IDownload DownloadAsync(DocumentRequest request)
+        public virtual IDownload FetchAsync(DocumentRequest request)
         {
             var data = new Request
             {

@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.Io.Processors
 {
     using AngleSharp.Dom;
-    using AngleSharp.Extensions;
     using AngleSharp.Html.Dom;
-    using AngleSharp.Io.Services;
     using AngleSharp.Scripting;
     using AngleSharp.Text;
     using System;
@@ -128,7 +126,7 @@
         {
             if (_loader != null && Engine != null)
             {
-                Download = _loader.FetchWithCors(new CorsRequest(request)
+                Download = _loader.FetchWithCorsAsync(new CorsRequest(request)
                 {
                     Behavior = OriginBehavior.Taint,
                     Setting = _script.CrossOrigin.ToEnum(CorsSetting.None),

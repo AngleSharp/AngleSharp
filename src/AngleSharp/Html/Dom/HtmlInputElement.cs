@@ -1,10 +1,8 @@
 ﻿namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
-    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Html.InputTypes;
-    using AngleSharp.Html.Services;
     using AngleSharp.Io.Dom;
     using AngleSharp.Text;
     using System;
@@ -341,7 +339,7 @@
             UpdateType(type);
         }
 
-        void UpdateType(String type)
+        private void UpdateType(String type)
         {
             var factory = Context.GetFactory<IInputTypeFactory>();
             _type = factory.Create(this, type);
@@ -369,7 +367,8 @@
         protected override void Check(ValidityState state)
         {
             base.Check(state);
-            _type.Check(state);
+            var result = _type.Check(state);
+            state.Reset(result);
         }
 
         protected override Boolean CanBeValidated()

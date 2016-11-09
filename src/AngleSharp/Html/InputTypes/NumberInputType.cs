@@ -27,29 +27,43 @@
             return value.ToString(CultureInfo.InvariantCulture);
         }
 
-        public override void Check(ValidityState state)
+        public override ValidationErrors Check(IValidityState current)
         {
             var value = Input.Value;
             var num = ConvertToNumber(value);
-            state.Reset();
+            var result = current.IsCustomError ?
+                ValidationErrors.Custom :
+                ValidationErrors.None;
 
             if (num.HasValue)
             {
                 var min = ConvertToNumber(Input.Minimum);
                 var max = ConvertToNumber(Input.Maximum);
 
-                state.IsRangeUnderflow = min.HasValue && num < min.Value;
-                state.IsRangeOverflow = max.HasValue && num > max.Value;
-                state.IsValueMissing = false;
-                state.IsStepMismatch = IsStepMismatch();
+                if (min.HasValue && num < min.Value)
+                {
+                    result ^= ValidationErrors.RangeUnderflow;
+                }
+
+                if (max.HasValue && num > max.Value)
+                {
+                    result ^= ValidationErrors.RangeOverflow;
+                }
+
+                if (IsStepMismatch())
+                {
+                    result ^= ValidationErrors.StepMismatch;
+                }
             }
             else
             {
-                state.IsRangeUnderflow = false;
-                state.IsRangeOverflow = false;
-                state.IsValueMissing = Input.IsRequired;
-                state.IsStepMismatch = false;
+                if (Input.IsRequired)
+                {
+                    result ^= ValidationErrors.ValueMissing;
+                }
             }
+
+            return result;
         }
 
         public override void DoStep(Int32 n)

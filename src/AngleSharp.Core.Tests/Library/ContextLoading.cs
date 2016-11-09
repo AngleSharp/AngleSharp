@@ -3,8 +3,6 @@
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Dom.Services;
-    using AngleSharp.Extensions;
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.Parser;
     using AngleSharp.Io;

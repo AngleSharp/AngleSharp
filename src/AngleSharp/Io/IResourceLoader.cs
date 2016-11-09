@@ -14,6 +14,6 @@
         /// <returns>
         /// The task that will eventually give the resource's response data.
         /// </returns>
-        IDownload DownloadAsync(ResourceRequest request);
+        IDownload FetchAsync(ResourceRequest request);
     }
 }

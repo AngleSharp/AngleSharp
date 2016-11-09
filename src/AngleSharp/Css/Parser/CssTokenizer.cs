@@ -3,7 +3,6 @@
     using AngleSharp.Common;
     using AngleSharp.Css.Parser.Tokens;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Extensions;
     using AngleSharp.Text;
     using System;
     using System.Globalization;

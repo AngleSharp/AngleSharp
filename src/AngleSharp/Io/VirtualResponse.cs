@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Io
 {
-    using AngleSharp.Extensions;
+    using AngleSharp.Common;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;

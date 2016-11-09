@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
-    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using AngleSharp.Text;
     using System;
@@ -236,6 +235,7 @@
             state.IsValueMissing = IsRequired && length == 0;
             state.IsTooLong = _dirty && maxlength > -1 && length > maxlength;
             state.IsTooShort = _dirty && length > 0 && length < minlength;
+            base.Check(state);
         }
 
         protected override Boolean CanBeValidated()

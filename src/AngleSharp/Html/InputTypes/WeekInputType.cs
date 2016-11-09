@@ -18,30 +18,13 @@
 
         #region Methods
 
-        public override void Check(ValidityState state)
+        public override ValidationErrors Check(IValidityState current)
         {
             var value = Input.Value;
             var date = ConvertFromWeek(value);
-
-            if (date.HasValue)
-            {
-                var min = ConvertFromWeek(Input.Minimum);
-                var max = ConvertFromWeek(Input.Maximum);
-
-                state.IsRangeUnderflow = min.HasValue && date < min.Value;
-                state.IsRangeOverflow = max.HasValue && date > max.Value;
-                state.IsValueMissing = false;
-                state.IsBadInput = false;
-                state.IsStepMismatch = IsStepMismatch();
-            }
-            else
-            {
-                state.IsRangeUnderflow = false;
-                state.IsRangeOverflow = false;
-                state.IsStepMismatch = false;
-                state.IsValueMissing = Input.IsRequired;
-                state.IsBadInput = !String.IsNullOrEmpty(value);
-            }
+            var min = ConvertFromWeek(Input.Minimum);
+            var max = ConvertFromWeek(Input.Maximum);
+            return CheckTime(current, value, date, min, max);
         }
 
         public override Double? ConvertToNumber(String value)

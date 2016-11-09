@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Text
 {
-    using AngleSharp.Extensions;
     using System;
     using System.Collections.Generic;
     using System.Text;

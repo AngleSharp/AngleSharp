@@ -12,7 +12,7 @@
     /// Base type for the all input field types. Primarely from:
     /// http://www.w3.org/TR/html5/forms.html#range-state-(type=range)
     /// </summary>
-    abstract class BaseInputType
+    public abstract class BaseInputType
     {
         #region Fields
 
@@ -62,8 +62,9 @@
             return true;
         }
 
-        public virtual void Check(ValidityState state)
+        public virtual ValidationErrors Check(IValidityState current)
         {
+            return GetErrorsFrom(current);
         }
 
         public virtual Double? ConvertToNumber(String value)
@@ -168,6 +169,77 @@
         #endregion
 
         #region Helper
+
+        protected static ValidationErrors GetErrorsFrom(IValidityState state)
+        {
+            var result = ValidationErrors.None;
+
+            if (state.IsBadInput)
+            {
+                result ^= ValidationErrors.BadInput;
+            }
+
+            if (state.IsTooShort)
+            {
+                result ^= ValidationErrors.TooShort;
+            }
+
+            if (state.IsTooLong)
+            {
+                result ^= ValidationErrors.TooLong;
+            }
+
+            if (state.IsValueMissing)
+            {
+                result ^= ValidationErrors.ValueMissing;
+            }
+
+            if (state.IsCustomError)
+            {
+                result ^= ValidationErrors.Custom;
+            }
+
+            return result;
+        }
+
+        protected ValidationErrors CheckTime(IValidityState state, String value, DateTime? date, DateTime? min, DateTime? max)
+        {
+            var result = state.IsCustomError ?
+                ValidationErrors.Custom :
+                ValidationErrors.None;
+
+            if (date.HasValue)
+            {
+                if (min.HasValue && date < min.Value)
+                {
+                    result ^= ValidationErrors.RangeUnderflow;
+                }
+
+                if (max.HasValue && date > max.Value)
+                {
+                    result ^= ValidationErrors.RangeOverflow;
+                }
+
+                if (IsStepMismatch())
+                {
+                    result ^= ValidationErrors.StepMismatch;
+                }
+            }
+            else
+            {
+                if (Input.IsRequired)
+                {
+                    result ^= ValidationErrors.ValueMissing;
+                }
+
+                if (!String.IsNullOrEmpty(value))
+                {
+                    result ^= ValidationErrors.BadInput;
+                }
+            }
+
+            return result;
+        }
 
         protected static Boolean IsInvalidPattern(String pattern, String value)
         {

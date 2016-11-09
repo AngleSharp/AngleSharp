@@ -2,8 +2,7 @@
 {
     using AngleSharp.Common;
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Services;
-    using AngleSharp.Extensions;
+    using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;

@@ -2,7 +2,6 @@
 {
     using AngleSharp.Common;
     using AngleSharp.Dom;
-    using AngleSharp.Extensions;
     using System;
 
     /// <summary>

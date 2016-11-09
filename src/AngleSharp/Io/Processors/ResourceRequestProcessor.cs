@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Io.Processors
 {
-    using AngleSharp.Extensions;
     using AngleSharp.Media;
-    using AngleSharp.Media.Services;
     using System;
     using System.Threading.Tasks;
 

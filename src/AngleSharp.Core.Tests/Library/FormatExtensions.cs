@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
-    using AngleSharp.Extensions;
     using AngleSharp.Html;
     using NUnit.Framework;
     using System.IO;

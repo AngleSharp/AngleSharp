@@ -1,9 +1,7 @@
 ﻿namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Dom;
-    using AngleSharp.Extensions;
     using AngleSharp.Html.LinkRels;
-    using AngleSharp.Html.Services;
     using AngleSharp.Io;
     using System;
 

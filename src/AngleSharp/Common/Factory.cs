@@ -35,7 +35,7 @@
         /// <summary>
         /// The HTML input type provider factory.
         /// </summary>
-        public static readonly InputTypeFactory InputTypes = new InputTypeFactory();
+        public static readonly DefaultInputTypeFactory InputTypes = new DefaultInputTypeFactory();
 
         /// <summary>
         /// The CSS attribute selector factory.

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Io.Processors
 {
     using AngleSharp.Dom;
-    using AngleSharp.Extensions;
     using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
@@ -40,7 +39,7 @@
             if (_loader != null && IsDifferentToCurrentDownloadUrl(request.Target))
             {
                 CancelDownload();
-                Download = _loader.DownloadAsync(request);
+                Download = _loader.FetchAsync(request);
                 return FinishDownloadAsync();
             }
 
@@ -82,7 +81,7 @@
 
         protected IDownload DownloadWithCors(CorsRequest request)
         {
-            return _loader.FetchWithCors(request);
+            return _loader.FetchWithCorsAsync(request);
         }
 
         protected void CancelDownload()

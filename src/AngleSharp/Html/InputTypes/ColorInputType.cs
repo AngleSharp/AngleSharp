@@ -23,11 +23,23 @@
 
         #region Methods
 
-        public override void Check(ValidityState state)
+        public override ValidationErrors Check(IValidityState current)
         {
-            var value = Input.Value ?? String.Empty;
-            state.IsBadInput = !color.IsMatch(value);
-            state.IsValueMissing = Input.IsRequired && state.IsBadInput;
+            var result = GetErrorsFrom(current);
+
+            if (!color.IsMatch(Input.Value ?? String.Empty))
+            {
+                result ^= ValidationErrors.BadInput;
+
+                if (Input.IsRequired)
+                {
+                    result ^= ValidationErrors.ValueMissing;
+                }
+
+                return result;
+            }
+
+            return ValidationErrors.None;
         }
 
         #endregion

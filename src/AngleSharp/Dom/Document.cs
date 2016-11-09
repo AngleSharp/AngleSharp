@@ -4,8 +4,6 @@
     using AngleSharp.Common;
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Dom.Services;
-    using AngleSharp.Extensions;
     using AngleSharp.Html.Dom;
     using AngleSharp.Io;
     using AngleSharp.Mathml.Dom;

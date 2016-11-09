@@ -9,7 +9,7 @@
     {
         #region Fields
 
-        private ErrorType _err;
+        private ValidationErrors _err;
 
         #endregion
 
@@ -20,7 +20,7 @@
         /// </summary>
         internal ValidityState()
         {
-            _err = ErrorType.None;
+            _err = ValidationErrors.None;
         }
 
         #endregion
@@ -32,8 +32,8 @@
         /// </summary>
         public Boolean IsValueMissing
         {
-            get { return (_err & ErrorType.ValueMissing) == ErrorType.ValueMissing; }
-            set { Set(IsValueMissing, value, ErrorType.ValueMissing); }
+            get { return _err.HasFlag(ValidationErrors.ValueMissing); }
+            set { Set(IsValueMissing, value, ValidationErrors.ValueMissing); }
         }
 
         /// <summary>
@@ -41,8 +41,8 @@
         /// </summary>
         public Boolean IsTypeMismatch
         {
-            get { return (_err & ErrorType.TypeMismatch) == ErrorType.TypeMismatch; }
-            set { Set(IsTypeMismatch, value, ErrorType.TypeMismatch); }
+            get { return _err.HasFlag(ValidationErrors.TypeMismatch); }
+            set { Set(IsTypeMismatch, value, ValidationErrors.TypeMismatch); }
         }
 
         /// <summary>
@@ -50,8 +50,8 @@
         /// </summary>
         public Boolean IsPatternMismatch
         {
-            get { return (_err & ErrorType.PatternMismatch) == ErrorType.PatternMismatch; }
-            set { Set(IsPatternMismatch, value, ErrorType.PatternMismatch); }
+            get { return _err.HasFlag(ValidationErrors.PatternMismatch); }
+            set { Set(IsPatternMismatch, value, ValidationErrors.PatternMismatch); }
         }
 
         /// <summary>
@@ -59,8 +59,8 @@
         /// </summary>
         public Boolean IsBadInput
         {
-            get { return (_err & ErrorType.BadInput) == ErrorType.BadInput; }
-            set { Set(IsBadInput, value, ErrorType.BadInput); }
+            get { return _err.HasFlag(ValidationErrors.BadInput); }
+            set { Set(IsBadInput, value, ValidationErrors.BadInput); }
         }
 
         /// <summary>
@@ -68,8 +68,8 @@
         /// </summary>
         public Boolean IsTooLong
         {
-            get { return (_err & ErrorType.TooLong) == ErrorType.TooLong; }
-            set { Set(IsTooLong, value, ErrorType.TooLong); }
+            get { return _err.HasFlag(ValidationErrors.TooLong); }
+            set { Set(IsTooLong, value, ValidationErrors.TooLong); }
         }
 
         /// <summary>
@@ -77,8 +77,8 @@
         /// </summary>
         public Boolean IsTooShort
         {
-            get { return (_err & ErrorType.TooShort) == ErrorType.TooShort; }
-            set { Set(IsTooShort, value, ErrorType.TooShort); }
+            get { return _err.HasFlag(ValidationErrors.TooShort); }
+            set { Set(IsTooShort, value, ValidationErrors.TooShort); }
         }
 
         /// <summary>
@@ -86,8 +86,8 @@
         /// </summary>
         public Boolean IsRangeUnderflow
         {
-            get { return (_err & ErrorType.RangeUnderflow) == ErrorType.RangeUnderflow; }
-            set { Set(IsRangeUnderflow, value, ErrorType.RangeUnderflow); }
+            get { return _err.HasFlag(ValidationErrors.RangeUnderflow); }
+            set { Set(IsRangeUnderflow, value, ValidationErrors.RangeUnderflow); }
         }
 
         /// <summary>
@@ -95,8 +95,8 @@
         /// </summary>
         public Boolean IsRangeOverflow
         {
-            get { return (_err & ErrorType.RangeOverflow) == ErrorType.RangeOverflow; }
-            set { Set(IsRangeOverflow, value, ErrorType.RangeOverflow); }
+            get { return _err.HasFlag(ValidationErrors.RangeOverflow); }
+            set { Set(IsRangeOverflow, value, ValidationErrors.RangeOverflow); }
         }
 
         /// <summary>
@@ -104,8 +104,8 @@
         /// </summary>
         public Boolean IsStepMismatch
         {
-            get { return (_err & ErrorType.StepMismatch) == ErrorType.StepMismatch; }
-            set { Set(IsStepMismatch, value, ErrorType.StepMismatch); }
+            get { return _err.HasFlag(ValidationErrors.StepMismatch); }
+            set { Set(IsStepMismatch, value, ValidationErrors.StepMismatch); }
         }
 
         /// <summary>
@@ -113,8 +113,8 @@
         /// </summary>
         public Boolean IsCustomError
         {
-            get { return (_err & ErrorType.Custom) == ErrorType.Custom; }
-            set { Set(IsCustomError, value, ErrorType.Custom); }
+            get { return _err.HasFlag(ValidationErrors.Custom); }
+            set { Set(IsCustomError, value, ValidationErrors.Custom); }
         }
 
         /// <summary>
@@ -122,44 +122,24 @@
         /// </summary>
         public Boolean IsValid
         {
-            get { return _err == ErrorType.None; }
+            get { return _err == ValidationErrors.None; }
         }
 
         #endregion
 
         #region Methods
 
-        public void Reset()
+        public void Reset(ValidationErrors err = ValidationErrors.None)
         {
-            _err = ErrorType.None;
+            _err = err;
         }
 
-        void Set(Boolean oldValue, Boolean newValue, ErrorType err)
+        private void Set(Boolean oldValue, Boolean newValue, ValidationErrors err)
         {
             if (newValue != oldValue)
             {
                 _err ^= err;
             }
-        }
-
-        #endregion
-
-        #region Flags
-
-        [Flags]
-        private enum ErrorType : ushort
-        {
-            None = 0,
-            ValueMissing = 0x0001,
-            TypeMismatch = 0x0002,
-            PatternMismatch = 0x0004,
-            TooLong = 0x0008,
-            TooShort = 0x0010,
-            RangeUnderflow = 0x0020,
-            RangeOverflow = 0x0040,
-            StepMismatch = 0x0080,
-            BadInput = 0x0100,
-            Custom = 0x0200
         }
 
         #endregion

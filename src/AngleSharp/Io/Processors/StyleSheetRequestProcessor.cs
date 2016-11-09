@@ -4,7 +4,6 @@
     using AngleSharp.Css;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
-    using AngleSharp.Io.Services;
     using AngleSharp.Text;
     using System;
     using System.Threading;

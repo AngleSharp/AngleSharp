@@ -1,7 +1,5 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Extensions;
-
     /// <summary>
     /// The treewalker for walking through the DOM tree.
     /// </summary>

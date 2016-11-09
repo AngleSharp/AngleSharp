@@ -2,7 +2,6 @@
 {
     using AngleSharp.Common;
     using AngleSharp.Dom;
-    using AngleSharp.Extensions;
     using AngleSharp.Html.Submitters.Json;
     using AngleSharp.Io.Dom;
     using AngleSharp.Text;
