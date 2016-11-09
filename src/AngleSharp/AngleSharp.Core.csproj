@@ -64,6 +64,9 @@
     <Compile Include="Html\ValidationErrors.cs" />
     <Compile Include="Html\Parser\IHtmlParser.cs" />
     <Compile Include="Io\BaseRequester.cs" />
+    <Compile Include="LegacyExtensions.cs" />
+    <Compile Include="SilverlightExtensions.cs" />
+    <Compile Include="WeakReference.cs" />
     <Compile Include="Xhtml\AutoSelectedMarkupFormatter.cs" />
     <Compile Include="Browser\ICommand.cs" />
     <Compile Include="Configuration.cs" />
