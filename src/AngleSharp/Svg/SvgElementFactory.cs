@@ -8,7 +8,7 @@
     /// <summary>
     /// Provides string to SVGElement instance creation mappings.
     /// </summary>
-    sealed class SvgElementFactory : IElementFactory<SvgElement>
+    sealed class SvgElementFactory : IElementFactory<Document, SvgElement>
     {
         private delegate SvgElement Creator(Document owner, String prefix);
 

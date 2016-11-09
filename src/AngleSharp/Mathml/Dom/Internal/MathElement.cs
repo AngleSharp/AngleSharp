@@ -21,7 +21,7 @@
 
         public override INode Clone(Boolean deep = true)
         {
-            var factory = Context.GetFactory<IElementFactory<MathElement>>();
+            var factory = Context.GetFactory<IElementFactory<Document, MathElement>>();
             var node = factory.Create(Owner, LocalName, Prefix);
             CloneElement(node, deep);
             return node;

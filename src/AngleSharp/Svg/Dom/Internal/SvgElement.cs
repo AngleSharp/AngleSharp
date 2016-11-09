@@ -26,7 +26,7 @@
 
         public override INode Clone(Boolean deep = true)
         {
-            var factory = Context.GetFactory<IElementFactory<SvgElement>>();
+            var factory = Context.GetFactory<IElementFactory<Document, SvgElement>>();
             var node = factory.Create(Owner, LocalName, Prefix);
             CloneElement(node, deep);
             return node;

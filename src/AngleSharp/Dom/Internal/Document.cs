@@ -1062,7 +1062,7 @@
         {
             if (localName.IsXmlName())
             {
-                var factory = _context.GetFactory<IElementFactory<HtmlElement>>();
+                var factory = _context.GetFactory<IElementFactory<Document, HtmlElement>>();
                 var element = factory.Create(this, localName);
                 element.SetupElement();
                 return element;
@@ -1079,21 +1079,21 @@
 
             if (namespaceUri.Is(NamespaceNames.HtmlUri))
             {
-                var factory = _context.GetFactory<IElementFactory<HtmlElement>>();
+                var factory = _context.GetFactory<IElementFactory<Document, HtmlElement>>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.SvgUri))
             {
-                var factory = _context.GetFactory<IElementFactory<SvgElement>>();
+                var factory = _context.GetFactory<IElementFactory<Document, SvgElement>>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;
             }
             else if (namespaceUri.Is(NamespaceNames.MathMlUri))
             {
-                var factory = _context.GetFactory<IElementFactory<MathElement>>();
+                var factory = _context.GetFactory<IElementFactory<Document, MathElement>>();
                 var element = factory.Create(this, localName, prefix);
                 element.SetupElement();
                 return element;

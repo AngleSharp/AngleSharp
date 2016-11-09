@@ -9,7 +9,7 @@
     /// <summary>
     /// Provides string to HTMLElement instance creation mappings.
     /// </summary>
-    sealed class HtmlElementFactory : IElementFactory<HtmlElement>
+    sealed class HtmlElementFactory : IElementFactory<Document, HtmlElement>
     {
         private delegate HtmlElement Creator(Document owner, String prefix);
 

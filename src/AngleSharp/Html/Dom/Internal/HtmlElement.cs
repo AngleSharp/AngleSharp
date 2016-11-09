@@ -609,7 +609,7 @@
 
         public override INode Clone(Boolean deep = true)
         {
-            var factory = Context.GetFactory<IElementFactory<HtmlElement>>();
+            var factory = Context.GetFactory<IElementFactory<Document, HtmlElement>>();
             var node = factory.Create(Owner, LocalName, Prefix);
             CloneElement(node, deep);
             return node;

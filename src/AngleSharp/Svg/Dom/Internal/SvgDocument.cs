@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        private readonly IElementFactory<SvgElement> _factory;
+        private readonly IElementFactory<Document, SvgElement> _factory;
 
         #endregion
 
@@ -23,7 +23,7 @@
             : base(context ?? BrowsingContext.New(), source)
         {
             ContentType = MimeTypeNames.Svg;
-            _factory = Context.GetFactory<IElementFactory<SvgElement>>();
+            _factory = Context.GetFactory<IElementFactory<Document, SvgElement>>();
         }
 
         internal SvgDocument(IBrowsingContext context = null)

@@ -14,9 +14,9 @@
     {
         #region Fields
 
-        private readonly IElementFactory<HtmlElement> _htmlFactory;
-        private readonly IElementFactory<MathElement> _mathFactory;
-        private readonly IElementFactory<SvgElement> _svgFactory;
+        private readonly IElementFactory<Document, HtmlElement> _htmlFactory;
+        private readonly IElementFactory<Document, MathElement> _mathFactory;
+        private readonly IElementFactory<Document, SvgElement> _svgFactory;
 
         #endregion
 
@@ -26,9 +26,9 @@
             : base(context ?? BrowsingContext.New(), source)
         {
             ContentType = MimeTypeNames.Html;
-            _htmlFactory = Context.GetFactory<IElementFactory<HtmlElement>>();
-            _mathFactory = Context.GetFactory<IElementFactory<MathElement>>();
-            _svgFactory = Context.GetFactory<IElementFactory<SvgElement>>();
+            _htmlFactory = Context.GetFactory<IElementFactory<Document, HtmlElement>>();
+            _mathFactory = Context.GetFactory<IElementFactory<Document, MathElement>>();
+            _svgFactory = Context.GetFactory<IElementFactory<Document, SvgElement>>();
         }
 
         internal HtmlDocument(IBrowsingContext context = null)

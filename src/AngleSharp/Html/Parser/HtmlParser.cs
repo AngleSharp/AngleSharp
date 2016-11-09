@@ -128,8 +128,7 @@
             if (element != null)
             {
                 var context = document.Context;
-                var factory = context.GetFactory<IElementFactory<HtmlElement>>();
-                element = factory.Create(document, contextElement.LocalName, contextElement.Prefix);
+                element = document.CreateElementFrom(contextElement.LocalName, contextElement.Prefix);
                 return parser.ParseFragment(_options, element).DocumentElement.ChildNodes;
             }
 

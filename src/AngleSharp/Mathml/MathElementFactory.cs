@@ -8,7 +8,7 @@
     /// <summary>
     /// Provides string to MathElement instance creation mappings.
     /// </summary>
-    sealed class MathElementFactory : IElementFactory<MathElement>
+    sealed class MathElementFactory : IElementFactory<Document, MathElement>
     {
         private delegate MathElement Creator(Document owner, String prefix);
 
