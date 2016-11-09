@@ -1,8 +1,8 @@
-﻿namespace AngleSharp.Html.Submitters
+﻿namespace AngleSharp.Html.Forms.Submitters
 {
     using AngleSharp.Common;
     using AngleSharp.Dom;
-    using AngleSharp.Html.Submitters.Json;
+    using AngleSharp.Html.Forms.Submitters.Json;
     using AngleSharp.Io.Dom;
     using AngleSharp.Text;
     using System;

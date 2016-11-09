@@ -16,7 +16,7 @@
         #region ctor
 
         public ResourceRequestProcessor(IBrowsingContext context)
-            : base(context.GetService<IResourceLoader>())
+            : base(context?.GetService<IResourceLoader>())
         {
             _context = context;
         }

@@ -1,7 +1,7 @@
-﻿namespace AngleSharp.Html
+﻿namespace AngleSharp.Html.Forms
 {
-    using AngleSharp.Io.Dom;
     using AngleSharp.Io;
+    using AngleSharp.Io.Dom;
     using System;
     using System.IO;
     using System.Text;

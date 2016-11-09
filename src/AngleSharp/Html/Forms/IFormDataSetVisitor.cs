@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html
+﻿namespace AngleSharp.Html.Forms
 {
     using AngleSharp.Io.Dom;
     using System;

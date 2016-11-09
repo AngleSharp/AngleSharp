@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Submitters.Json
+﻿namespace AngleSharp.Html.Forms.Submitters.Json
 {
     using AngleSharp.Text;
     using System;
@@ -6,7 +6,7 @@
 
     sealed class JsonValue : JsonElement
     {
-        readonly String _value;
+        private readonly String _value;
 
         public JsonValue(String value)
         {

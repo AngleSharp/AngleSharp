@@ -9,8 +9,8 @@
     {
         #region ctor
 
-        public StyleSheetLinkRelation(HtmlLinkElement link)
-            : base(link, new StyleSheetRequestProcessor(link.Context, link))
+        public StyleSheetLinkRelation(IHtmlLinkElement link)
+            : base(link, new StyleSheetRequestProcessor(link?.Owner.Context, link))
         {
         }
 

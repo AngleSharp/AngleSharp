@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp.Html
 {
     using AngleSharp.Dom;
-    using AngleSharp.Html.Submitters;
+    using AngleSharp.Html.Forms;
+    using AngleSharp.Html.Forms.Submitters;
     using AngleSharp.Io.Dom;
     using AngleSharp.Text;
     using System;

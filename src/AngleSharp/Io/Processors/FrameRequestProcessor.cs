@@ -18,7 +18,7 @@
         #region ctor
 
         public FrameRequestProcessor(IBrowsingContext context, HtmlFrameElementBase element)
-            : base(context.GetService<IResourceLoader>())
+            : base(context?.GetService<IResourceLoader>())
         {
             _context = context;
             _element = element;

@@ -17,7 +17,7 @@
         #region ctor
 
         public DocumentRequestProcessor(IBrowsingContext context)
-            : base(context.GetService<IResourceLoader>())
+            : base(context?.GetService<IResourceLoader>())
         {
             _parentDocument = context.Active;
             _context = context;

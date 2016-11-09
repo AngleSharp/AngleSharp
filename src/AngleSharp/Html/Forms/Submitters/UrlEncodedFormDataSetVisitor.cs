@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Submitters
+﻿namespace AngleSharp.Html.Forms.Submitters
 {
     using AngleSharp.Dom;
     using AngleSharp.Io.Dom;

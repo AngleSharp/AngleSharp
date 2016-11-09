@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html
+﻿namespace AngleSharp.Html.Forms
 {
     using System;
     using System.Text;
@@ -8,7 +8,7 @@
     /// </summary>
     sealed class TextDataSetEntry : FormDataSetEntry
     {
-        readonly String _value;
+        private readonly String _value;
 
         public TextDataSetEntry(String name, String value, String type)
             : base(name, type)

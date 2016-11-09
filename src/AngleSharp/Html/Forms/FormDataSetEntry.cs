@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html
+﻿namespace AngleSharp.Html.Forms
 {
     using System;
     using System.Text;
@@ -10,8 +10,8 @@
     {
         #region Fields
 
-        readonly String _name;
-        readonly String _type;
+        private readonly String _name;
+        private readonly String _type;
 
         #endregion
 

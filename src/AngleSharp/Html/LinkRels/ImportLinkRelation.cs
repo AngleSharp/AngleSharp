@@ -19,8 +19,8 @@
 
         #region ctor
 
-        public ImportLinkRelation(HtmlLinkElement link)
-            : base(link, new DocumentRequestProcessor(link.Context))
+        public ImportLinkRelation(IHtmlLinkElement link)
+            : base(link, new DocumentRequestProcessor(link?.Owner.Context))
         {
         }
 

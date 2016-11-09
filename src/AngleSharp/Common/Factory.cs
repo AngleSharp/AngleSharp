@@ -55,7 +55,7 @@
         /// <summary>
         /// The link rel type factory.
         /// </summary>
-        public static readonly LinkRelationFactory LinkRelations = new LinkRelationFactory();
+        public static readonly DefaultLinkRelationFactory LinkRelations = new DefaultLinkRelationFactory();
 
         /// <summary>
         /// The document factory.

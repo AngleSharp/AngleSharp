@@ -22,7 +22,7 @@
         #region ctor
 
         public StyleSheetRequestProcessor(IBrowsingContext context, IHtmlLinkElement link)
-            : base(context.GetService<IResourceLoader>())
+            : base(context?.GetService<IResourceLoader>())
         {
             _context = context;
             _link = link;

@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Html.Submitters.Json
+﻿namespace AngleSharp.Html.Forms.Submitters.Json
 {
     using AngleSharp.Text;
     using System;
@@ -76,7 +76,9 @@
                 }
             }
 
-            for (int i = 0, n = steps.Count - 1; i < n; i++)
+            var n = steps.Count - 1;
+
+            for (var i = 0; i < n; i++)
             {
                 steps[i].Next = steps[i + 1];
             }
@@ -109,7 +111,7 @@
             }
         }
 
-        JsonElement JsonEncodeValue(JsonElement context, JsonElement value, Boolean file)
+        private JsonElement JsonEncodeValue(JsonElement context, JsonElement value, Boolean file)
         {
             var currentValue = GetValue(context);
 
@@ -133,7 +135,7 @@
             }
         }
 
-        JsonElement JsonEncodeLastValue(JsonElement context, JsonElement value, Boolean file)
+        private JsonElement JsonEncodeLastValue(JsonElement context, JsonElement value, Boolean file)
         {
             var currentValue = GetValue(context);
 
@@ -169,7 +171,7 @@
             return context;
         }
 
-        sealed class ObjectStep : JsonStep
+        private sealed class ObjectStep : JsonStep
         {
             public ObjectStep(String key)
             {
@@ -212,7 +214,7 @@
             }
         }
 
-        sealed class ArrayStep : JsonStep
+        private sealed class ArrayStep : JsonStep
         {
             public ArrayStep(Int32 key)
             {
