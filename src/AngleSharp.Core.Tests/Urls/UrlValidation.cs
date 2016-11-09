@@ -1,8 +1,7 @@
 namespace AngleSharp.Core.Tests.Urls
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Extensions;
+    using AngleSharp.Html.Dom;
     using NUnit.Framework;
     using System;
 

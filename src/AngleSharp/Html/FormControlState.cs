@@ -9,9 +9,9 @@
     {
         #region Fields
 
-        readonly String _name;
-        readonly String _type;
-        readonly String _value;
+        private readonly String _name;
+        private readonly String _type;
+        private readonly String _value;
 
         #endregion
 

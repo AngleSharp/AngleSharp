@@ -2,10 +2,9 @@
 {
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Dom.Io;
-    using AngleSharp.Extensions;
-    using AngleSharp.Network;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Io;
+    using AngleSharp.Io.Dom;
     using NUnit.Framework;
     using System;
     using System.Collections.Generic;
@@ -72,7 +71,7 @@
             return await form.SubmitAsync();
         }
 
-        private static Task<IDocument> LoadWithMockAsync(String content, String url, Action<IRequest> onRequest = null)
+        private static Task<IDocument> LoadWithMockAsync(String content, String url, Action<Request> onRequest = null)
         {
             var config = Configuration.Default.WithDefaultLoader(requesters: new[] { new MockRequester { OnRequest = onRequest } });
             return BrowsingContext.New(config).OpenAsync(m => m.Content(content).Address(url));
@@ -913,8 +912,8 @@
         [Test]
         public async Task AsJsonExample1BasicKeys()
         {
-            IRequest request = null;
-            Action<IRequest> onRequest = r => request = r;
+            var request = default(Request);
+            var onRequest = new Action<Request>(r => request = r);
             var url = "http://localhost/";
 
             var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
@@ -936,8 +935,8 @@
         [Test]
         public async Task AsJsonExample2MultipleValues()
         {
-            IRequest request = null;
-            Action<IRequest> onRequest = r => request = r;
+            var request = default(Request);
+            var onRequest = new Action<Request>(r => request = r);
             var url = "http://localhost/";
 
             var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
@@ -956,8 +955,8 @@
         [Test]
         public async Task AsJsonExample3DeeperStructure()
         {
-            IRequest request = null;
-            Action<IRequest> onRequest = r => request = r;
+            var request = default(Request);
+            var onRequest = new Action<Request>(r => request = r);
             var url = "http://localhost/";
 
             var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
@@ -977,8 +976,8 @@
         [Test]
         public async Task AsJsonExample4SparseArrays()
         {
-            IRequest request = null;
-            Action<IRequest> onRequest = r => request = r;
+            var request = default(Request);
+            var onRequest = new Action<Request>(r => request = r);
             var url = "http://localhost/";
 
             var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
@@ -996,8 +995,8 @@
         [Test]
         public async Task AsJsonExample5EvenDeeper()
         {
-            IRequest request = null;
-            Action<IRequest> onRequest = r => request = r;
+            var request = default(Request);
+            var onRequest = new Action<Request>(r => request = r);
             var url = "http://localhost/";
 
             var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
@@ -1017,8 +1016,8 @@
         [Test]
         public async Task AsJsonExample6SuchDeep()
         {
-            IRequest request = null;
-            Action<IRequest> onRequest = r => request = r;
+            var request = default(Request);
+            var onRequest = new Action<Request>(r => request = r);
             var url = "http://localhost/";
 
             var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
@@ -1035,8 +1034,8 @@
         [Test]
         public async Task AsJsonExample7MergeBehaviour()
         {
-            IRequest request = null;
-            Action<IRequest> onRequest = r => request = r;
+            var request = default(Request);
+            var onRequest = new Action<Request>(r => request = r);
             var url = "http://localhost/";
 
             var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
@@ -1057,8 +1056,8 @@
         [Test]
         public async Task AsJsonExample8Append()
         {
-            IRequest request = null;
-            Action<IRequest> onRequest = r => request = r;
+            var request = default(Request);
+            var onRequest = new Action<Request>(r => request = r);
             var url = "http://localhost/";
 
             var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
@@ -1075,8 +1074,8 @@
         [Test]
         public async Task AsJsonExample9Files()
         {
-            IRequest request = null;
-            Action<IRequest> onRequest = r => request = r;
+            var request = default(Request);
+            var onRequest = new Action<Request>(r => request = r);
             var url = "http://localhost/";
 
             var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>
@@ -1101,8 +1100,8 @@
         [Test]
         public async Task AsJsonExample10BadInput()
         {
-            IRequest request = null;
-            Action<IRequest> onRequest = r => request = r;
+            var request = default(Request);
+            var onRequest = new Action<Request>(r => request = r);
             var url = "http://localhost/";
 
             var document = await LoadWithMockAsync(@"<form enctype='application/json' method='post'>

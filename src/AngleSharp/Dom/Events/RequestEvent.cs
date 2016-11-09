@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Events
 {
-    using AngleSharp.Html;
-    using AngleSharp.Network;
+    using AngleSharp.Io;
 
     /// <summary>
     /// The event that is published in case of new request.
@@ -13,7 +12,7 @@
         /// </summary>
         /// <param name="request">The data of the request.</param>
         /// <param name="response">The received response.</param>
-        public RequestEvent(IRequest request, IResponse response)
+        public RequestEvent(Request request, IResponse response)
             : base(response != null ? EventNames.RequestEnd : EventNames.RequestStart)
         {
             Response = response;
@@ -23,7 +22,7 @@
         /// <summary>
         /// Gets the transmitted request.
         /// </summary>
-        public IRequest Request
+        public Request Request
         {
             get;
             private set;

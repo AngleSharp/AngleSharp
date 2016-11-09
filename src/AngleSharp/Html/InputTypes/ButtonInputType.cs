@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Extensions;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Text;
     using System;
 
     class ButtonInputType : BaseInputType

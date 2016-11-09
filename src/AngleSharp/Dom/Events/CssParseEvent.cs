@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Dom.Events
 {
-    using AngleSharp.Dom.Css;
-    using AngleSharp.Html;
+    using AngleSharp.Css.Dom;
     using System;
 
     /// <summary>

@@ -1,5 +1,9 @@
 ﻿namespace AngleSharp
 {
+    using AngleSharp.Browser;
+    using AngleSharp.Common;
+    using AngleSharp.Html.Parser;
+    using AngleSharp.Xml.Parser;
     using System;
     using System.Collections.Generic;
 
@@ -27,8 +31,8 @@
             Factory.PseudoClassSelector,
             Factory.PseudoElementSelector,
             Factory.Document,
-            Factory.BrowsingContext,
-            Factory.Service,
+            new Func<IBrowsingContext, IHtmlParser>(ctx => new HtmlParser()),
+            new Func<IBrowsingContext, IXmlParser>(ctx => new XmlParser()),
             new Func<IBrowsingContext, IEventLoop>(ctx => new TaskEventLoop()),
         };
 

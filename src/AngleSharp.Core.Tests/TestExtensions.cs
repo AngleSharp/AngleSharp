@@ -3,10 +3,10 @@
     using AngleSharp.Core.Tests.External;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
-    using AngleSharp.Network;
-    using AngleSharp.Parser.Html;
-    using AngleSharp.Parser.Xml;
-    using AngleSharp.Services.Scripting;
+    using AngleSharp.Html.Parser;
+    using AngleSharp.Io;
+    using AngleSharp.Scripting;
+    using AngleSharp.Xml.Parser;
     using NUnit.Framework;
     using System;
     using System.IO;
@@ -40,13 +40,13 @@
             }, PageRequester.All);
         }
 
-        public static IConfiguration WithMockRequester(this IConfiguration config, Action<IRequest> onRequest = null)
+        public static IConfiguration WithMockRequester(this IConfiguration config, Action<Request> onRequest = null)
         {
             var mockRequester = new MockRequester { OnRequest = onRequest };
             return config.WithMockRequester(mockRequester);
         }
 
-        public static IConfiguration WithVirtualRequester(this IConfiguration config, Func<IRequest, IResponse> onRequest = null)
+        public static IConfiguration WithVirtualRequester(this IConfiguration config, Func<Request, IResponse> onRequest = null)
         {
             var mockRequester = new VirtualRequester(onRequest);
             return config.WithMockRequester(mockRequester);
@@ -59,20 +59,23 @@
 
         public static IDocument ToHtmlDocument(this String sourceCode, IConfiguration configuration = null)
         {
-            var parser = new HtmlParser(configuration ?? Configuration.Default);
+            var context = BrowsingContext.New(configuration ?? Configuration.Default);
+            var parser = new HtmlParser(context);
             return parser.Parse(sourceCode);
         }
 
         public static IDocument ToXmlDocument(this String sourceCode, IConfiguration configuration = null)
         {
-            var xmlParser = new XmlParser(configuration);
+            var context = BrowsingContext.New(configuration);
+            var xmlParser = new XmlParser(context);
             return xmlParser.Parse(sourceCode);
         }
 
-        public static INodeList ToHtmlFragment(this String sourceCode, IElement context = null, IConfiguration configuration = null)
+        public static INodeList ToHtmlFragment(this String sourceCode, IElement contextElement = null, IConfiguration configuration = null)
         {
-            var parser = new HtmlParser(configuration);
-            return parser.ParseFragment(sourceCode, context);
+            var context = BrowsingContext.New(configuration);
+            var parser = new HtmlParser(context);
+            return parser.ParseFragment(sourceCode, contextElement);
         }
 
         public static INodeList ToHtmlFragment(this String sourceCode, String contextElement, IConfiguration configuration = null)
@@ -84,7 +87,8 @@
 
         public static IDocument ToHtmlDocument(this Stream content, IConfiguration configuration = null)
         {
-            var parser = new HtmlParser(configuration);
+            var context = BrowsingContext.New(configuration);
+            var parser = new HtmlParser(context);
             return parser.Parse(content);
         }
     }

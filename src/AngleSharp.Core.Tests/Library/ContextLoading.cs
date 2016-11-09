@@ -3,11 +3,10 @@
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Extensions;
-    using AngleSharp.Network;
-    using AngleSharp.Services.Default;
-    using AngleSharp.Services.Media;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Parser;
+    using AngleSharp.Io;
+    using AngleSharp.Media;
     using NUnit.Framework;
     using System;
     using System.Linq;
@@ -220,7 +219,7 @@
                 var address = "http://anglesharp.azurewebsites.net/Chunked";
                 var config = Configuration.Default.WithDefaultLoader();
                 var context = BrowsingContext.New(config);
-                var events = new EventReceiver<HtmlParseEvent>(handler => context.Parsing += handler);
+                var events = new EventReceiver<HtmlParseEvent>(handler => context.GetService<IHtmlParser>().Parsing += handler);
                 var start = DateTime.Now;
                 events.OnReceived = rec => start = DateTime.Now;
                 var document = await context.OpenAsync(address);
@@ -304,11 +303,11 @@
             foreach (var download in downloads)
             {
                 Assert.IsTrue(download.IsCompleted);
-                Assert.IsNotNull(download.Originator);
+                Assert.IsNotNull(download.Source);
             }
 
-            Assert.AreEqual(document.QuerySelector("img"), downloads[0].Originator);
-            Assert.AreEqual(document.QuerySelector("iframe"), downloads[1].Originator);
+            Assert.AreEqual(document.QuerySelector("img"), downloads[0].Source);
+            Assert.AreEqual(document.QuerySelector("iframe"), downloads[1].Source);
         }
 
         [Test]
@@ -319,7 +318,7 @@
             var scripting = new CallbackScriptEngine(_ => 
             {
                 hasBeenParsed = true;
-            }, Network.MimeTypeNames.DefaultJavaScript);
+            }, MimeTypeNames.DefaultJavaScript);
             var provider = new MockIntegrityProvider((raw, integrity) =>
             {
                 hasBeenChecked = true;
@@ -343,7 +342,7 @@
             var scripting = new CallbackScriptEngine(_ =>
             {
                 hasBeenParsed = true;
-            }, Network.MimeTypeNames.DefaultJavaScript);
+            }, MimeTypeNames.DefaultJavaScript);
             var provider = new MockIntegrityProvider((raw, integrity) =>
             {
                 hasBeenChecked = true;
@@ -367,7 +366,7 @@
             var scripting = new CallbackScriptEngine(_ =>
             {
                 hasBeenParsed = true;
-            }, Network.MimeTypeNames.DefaultJavaScript);
+            }, MimeTypeNames.DefaultJavaScript);
             var provider = new MockIntegrityProvider((raw, integrity) =>
             {
                 hasBeenChecked = true;
@@ -386,11 +385,11 @@
         [Test]
         public async Task LoadCustomDocumentWithRegisteredHandler()
         {
-            var documentFactory = new DocumentFactory();
-            documentFactory.Register("text/markdown", (ctx, options, cancel) => Task.FromResult<IDocument>(new MarkdownDocument(ctx, options.Source)));
-            var config = new Configuration(new Object[] { documentFactory, new ContextFactory(), new ServiceFactory() });
-            var context = BrowsingContext.New(config);
-            var document = await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, "text/markdown"));
+            var type = "text/markdown";
+            var context = BrowsingContext.New();
+            var documentFactory = context.GetFactory<IDocumentFactory>() as DefaultDocumentFactory;
+            documentFactory.Register(type, (ctx, options, cancel) => Task.FromResult<IDocument>(new MarkdownDocument(ctx, options.Source)));
+            var document = await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, type));
             Assert.IsInstanceOf<MarkdownDocument>(document);
         }
 
@@ -398,11 +397,10 @@
         public async Task LoadCustomDocumentWithoutUnregisteredHandler()
         {
             var type = "text/markdown";
-            var documentFactory = new DocumentFactory();
+            var context = BrowsingContext.New();
+            var documentFactory = context.GetFactory<IDocumentFactory>() as DefaultDocumentFactory;
             documentFactory.Register(type, (ctx, options, cancel) => Task.FromResult<IDocument>(new MarkdownDocument(ctx, options.Source)));
             var handler = documentFactory.Unregister(type);
-            var config = new Configuration(new Object[] { documentFactory, new ContextFactory(), new ServiceFactory(), new HtmlElementFactory(), new SvgElementFactory(), new MathElementFactory(), new EventFactory() });
-            var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(res => res.Content("").Header(HeaderNames.ContentType, type));
             Assert.IsNotNull(handler);
             Assert.IsInstanceOf<HtmlDocument>(document);

@@ -1,9 +1,8 @@
 ﻿namespace AngleSharp.Html.LinkRels
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Extensions;
-    using AngleSharp.Network.RequestProcessors;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Io.Processors;
     using System;
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
@@ -13,15 +12,15 @@
     {
         #region Fields
 
-        static readonly ConditionalWeakTable<IDocument, ImportList> ImportLists = new ConditionalWeakTable<IDocument, ImportList>();
-        Boolean _isasync;
+        private static readonly ConditionalWeakTable<IDocument, ImportList> ImportLists = new ConditionalWeakTable<IDocument, ImportList>();
+        private Boolean _isasync;
 
         #endregion
 
         #region ctor
 
-        public ImportLinkRelation(HtmlLinkElement link)
-            : base(link, DocumentRequestProcessor.Create(link))
+        public ImportLinkRelation(IHtmlLinkElement link)
+            : base(link, new DocumentRequestProcessor(link?.Owner.Context))
         {
         }
 
@@ -78,7 +77,7 @@
 
         #region Helpers
 
-        static Boolean CheckCycle(IDocument document, Url location)
+        private static Boolean CheckCycle(IDocument document, Url location)
         {
             var ancestor = document.ImportAncestor;
             var list = default(ImportList);
@@ -100,9 +99,9 @@
 
         #region Import List
 
-        sealed class ImportList
+        private sealed class ImportList
         {
-            readonly List<ImportEntry> _list;
+            private readonly List<ImportEntry> _list;
 
             public ImportList()
             {
@@ -133,7 +132,7 @@
             }
         }
 
-        struct ImportEntry
+        private struct ImportEntry
         {
             public ImportLinkRelation Relation;
             public Boolean IsCycle;

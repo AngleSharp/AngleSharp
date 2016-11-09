@@ -1,8 +1,9 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
+    using AngleSharp.Common;
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Extensions;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Text;
     using System;
     using System.Globalization;
     using System.Text.RegularExpressions;
@@ -11,11 +12,18 @@
     /// Base type for the all input field types. Primarely from:
     /// http://www.w3.org/TR/html5/forms.html#range-state-(type=range)
     /// </summary>
-    abstract class BaseInputType
+    public abstract class BaseInputType
     {
         #region Fields
 
+        /// <summary>
+        /// The start of the unix epoch (1st of January 1970).
+        /// </summary>
         protected static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        /// <summary>
+        /// Simple regular expression for floating point numbers.
+        /// </summary>
         protected static readonly Regex Number = new Regex("^\\-?\\d+(\\.\\d+)?([eE][\\-\\+]?\\d+)?$");
 
         private readonly IHtmlInputElement _input;
@@ -26,6 +34,9 @@
 
         #region ctor
 
+        /// <summary>
+        /// Creates a new base input type.
+        /// </summary>
         public BaseInputType(IHtmlInputElement input, String name, Boolean validate)
         {
             _input = input;
@@ -37,16 +48,25 @@
 
         #region Properties
 
+        /// <summary>
+        /// Gets the name of the input type.
+        /// </summary>
         public String Name
         {
             get { return _name; }
         }
 
+        /// <summary>
+        /// Gets if the input type can be validated.
+        /// </summary>
         public Boolean CanBeValidated
         {
             get { return _validate; }
         }
 
+        /// <summary>
+        /// Gets the associated input element.
+        /// </summary>
         public IHtmlInputElement Input
         {
             get { return _input; }
@@ -56,40 +76,65 @@
 
         #region Methods
 
+        /// <summary>
+        /// Checks if the given type wants to append data.
+        /// </summary>
         public virtual Boolean IsAppendingData(IHtmlElement submitter)
         {
             return true;
         }
 
-        public virtual void Check(ValidityState state)
+        /// <summary>
+        /// Checks the current input for its validity.
+        /// </summary>
+        public virtual ValidationErrors Check(IValidityState current)
         {
+            return GetErrorsFrom(current);
         }
 
+        /// <summary>
+        /// Tries to convert the given string to a number.
+        /// </summary>
         public virtual Double? ConvertToNumber(String value)
         {
             return null;
         }
 
+        /// <summary>
+        /// Tries to convert the given number to a string.
+        /// </summary>
         public virtual String ConvertFromNumber(Double value)
         {
             throw new DomException(DomError.InvalidState);
         }
 
+        /// <summary>
+        /// Tries to convert the given string to a date time.
+        /// </summary>
         public virtual DateTime? ConvertToDate(String value)
         {
             return null;
         }
 
+        /// <summary>
+        /// Tries to convert the given date time to a string.
+        /// </summary>
         public virtual String ConvertFromDate(DateTime value)
         {
             throw new DomException(DomError.InvalidState);
         }
 
+        /// <summary>
+        /// Populates the form data set with the current input.
+        /// </summary>
         public virtual void ConstructDataSet(FormDataSet dataSet)
         {
             dataSet.Append(_input.Name, _input.Value, _input.Type);
         }
 
+        /// <summary>
+        /// Changes the value by n steps.
+        /// </summary>
         public virtual void DoStep(Int32 n)
         {
             throw new DomException(DomError.InvalidState);
@@ -99,6 +144,9 @@
 
         #region Step
 
+        /// <summary>
+        /// Checks if the current value does not match the steps.
+        /// </summary>
         protected Boolean IsStepMismatch()
         {
             var step = GetStep();
@@ -107,6 +155,9 @@
             return step != 0.0 && (value - offset) % step != 0.0;
         }
 
+        /// <summary>
+        /// Gets the current step size.
+        /// </summary>
         protected Double GetStep()
         {
             var step = _input.Step;
@@ -149,16 +200,25 @@
             return GetDefaultStepBase();
         }
 
+        /// <summary>
+        /// Gets the default step offset.
+        /// </summary>
         protected virtual Double GetDefaultStepBase()
         {
             return 0.0;
         }
 
+        /// <summary>
+        /// Gets the default step size.
+        /// </summary>
         protected virtual Double GetDefaultStep()
         {
             return 1.0;
         }
 
+        /// <summary>
+        /// Gets the step scaling factor.
+        /// </summary>
         protected virtual Double GetStepScaleFactor()
         {
             return 1.0;
@@ -168,6 +228,86 @@
 
         #region Helper
 
+        /// <summary>
+        /// Converts the given validity state to a validation error enum.
+        /// </summary>
+        protected static ValidationErrors GetErrorsFrom(IValidityState state)
+        {
+            var result = ValidationErrors.None;
+
+            if (state.IsBadInput)
+            {
+                result ^= ValidationErrors.BadInput;
+            }
+
+            if (state.IsTooShort)
+            {
+                result ^= ValidationErrors.TooShort;
+            }
+
+            if (state.IsTooLong)
+            {
+                result ^= ValidationErrors.TooLong;
+            }
+
+            if (state.IsValueMissing)
+            {
+                result ^= ValidationErrors.ValueMissing;
+            }
+
+            if (state.IsCustomError)
+            {
+                result ^= ValidationErrors.Custom;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Validates the time using the given parameters.
+        /// </summary>
+        protected ValidationErrors CheckTime(IValidityState state, String value, DateTime? date, DateTime? min, DateTime? max)
+        {
+            var result = state.IsCustomError ?
+                ValidationErrors.Custom :
+                ValidationErrors.None;
+
+            if (date.HasValue)
+            {
+                if (min.HasValue && date < min.Value)
+                {
+                    result ^= ValidationErrors.RangeUnderflow;
+                }
+
+                if (max.HasValue && date > max.Value)
+                {
+                    result ^= ValidationErrors.RangeOverflow;
+                }
+
+                if (IsStepMismatch())
+                {
+                    result ^= ValidationErrors.StepMismatch;
+                }
+            }
+            else
+            {
+                if (Input.IsRequired)
+                {
+                    result ^= ValidationErrors.ValueMissing;
+                }
+
+                if (!String.IsNullOrEmpty(value))
+                {
+                    result ^= ValidationErrors.BadInput;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Checks if the string does not follow the pattern.
+        /// </summary>
         protected static Boolean IsInvalidPattern(String pattern, String value)
         {
             if (!String.IsNullOrEmpty(pattern) && !String.IsNullOrEmpty(value))
@@ -183,6 +323,9 @@
             return false;
         }
 
+        /// <summary>
+        /// Tries to convert the value to a number using the default expression.
+        /// </summary>
         protected static Double? ToNumber(String value)
         {
             if (!String.IsNullOrEmpty(value) && Number.IsMatch(value))
@@ -193,6 +336,9 @@
             return null;
         }
 
+        /// <summary>
+        /// Tries to convert the value to a time starting at the given position.
+        /// </summary>
         protected static TimeSpan? ToTime(String value, ref Int32 position)
         {
             var offset = position;
@@ -255,36 +401,57 @@
             return null;
         }
 
+        /// <summary>
+        /// Tries to convert the value to a week.
+        /// </summary>
         protected static Int32 GetWeekOfYear(DateTime value)
         {
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(value, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
         }
 
+        /// <summary>
+        /// Checks if the given value is a legal hour.
+        /// </summary>
         protected static Boolean IsLegalHour(Int32 value)
         {
             return value >= 0 && value <= 23;
         }
 
+        /// <summary>
+        /// Checks if the given value is a legal second.
+        /// </summary>
         protected static Boolean IsLegalSecond(Int32 value)
         {
             return value >= 0 && value <= 59;
         }
 
+        /// <summary>
+        /// Checks if the given value is a legal minute.
+        /// </summary>
         protected static Boolean IsLegalMinute(Int32 value)
         {
             return value >= 0 && value <= 59;
         }
-        
+
+        /// <summary>
+        /// Checks if the given value is a legal month.
+        /// </summary>
         protected static Boolean IsLegalMonth(Int32 value)
         {
             return value >= 1 && value <= 12;
         }
 
+        /// <summary>
+        /// Checks if the given value is a legal year.
+        /// </summary>
         protected static Boolean IsLegalYear(Int32 value)
         {
             return value >= 0 && value <= 9999;
         }
 
+        /// <summary>
+        /// Checks if the given values form a legal date.
+        /// </summary>
         protected static Boolean IsLegalDay(Int32 day, Int32 month, Int32 year)
         {
             if (IsLegalYear(year) && IsLegalMonth(month))
@@ -296,6 +463,9 @@
             return false;
         }
 
+        /// <summary>
+        /// Checks if the given values form a legal week.
+        /// </summary>
         protected static Boolean IsLegalWeek(Int32 week, Int32 year)
         {
             if (IsLegalYear(year))
@@ -308,11 +478,17 @@
             return false;
         }
 
+        /// <summary>
+        /// Checks if the given character is a valid time separator.
+        /// </summary>
         protected static Boolean IsTimeSeparator(Char chr)
         {
             return chr == ' ' || chr == 'T';
         }
 
+        /// <summary>
+        /// Skips all legit digits while returning the final position.
+        /// </summary>
         protected static Int32 FetchDigits(String value)
         {
             var position = 0;
@@ -325,6 +501,9 @@
             return position;
         }
 
+        /// <summary>
+        /// Checks the assumption that the string continues with a date time.
+        /// </summary>
         protected static Boolean PositionIsValidForDateTime(String value, Int32 position)
         {
             return position >= 4 && position <= value.Length - 13 &&

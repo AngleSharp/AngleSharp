@@ -1,11 +1,12 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
     using AngleSharp.Core.Tests.Mocks;
+    using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Extensions;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Parser;
     using NUnit.Framework;
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -40,11 +41,11 @@
 </div>
     </article>";
             var context = BrowsingContext.New();
-            var parseErrors = new EventReceiver<HtmlErrorEvent>(handler => context.ParseError += handler);
+            var parseErrors = new EventReceiver<HtmlErrorEvent>(handler => context.GetService<IHtmlParser>().Error += handler);
             var document = await context.OpenAsync(m => m.Content(source));
 
             Assert.AreEqual(1, parseErrors.Received.Count);
-            Assert.AreEqual((int)HtmlParseError.DoctypeMissing, parseErrors.Received[0].Code);
+            Assert.AreEqual((Int32)HtmlParseError.DoctypeMissing, parseErrors.Received[0].Code);
             Assert.AreEqual(1, parseErrors.Received[0].Position.Column);
             Assert.AreEqual(1, parseErrors.Received[0].Position.Line);
         }
@@ -71,8 +72,8 @@
             var errors = new List<HtmlErrorEvent>();
             var options = new HtmlParserOptions { IsStrictMode = false };
             var context = BrowsingContext.New(Configuration.Default);
-            context.ParseError += (s, ev) => errors.Add((HtmlErrorEvent)ev);
             var parser = new HtmlParser(options, context);
+            parser.Error += (s, ev) => errors.Add((HtmlErrorEvent)ev);
             parser.Parse(html);
             Assert.AreEqual(1, errors.Count);
         }

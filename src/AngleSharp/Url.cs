@@ -1,7 +1,8 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Extensions;
-    using AngleSharp.Network;
+    using AngleSharp.Common;
+    using AngleSharp.Io;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -14,10 +15,10 @@
     {
         #region Fields
 
-        private static readonly String currentDirectory = ".";
-        private static readonly String currentDirectoryAlternative = "%2e";
-        private static readonly String upperDirectory = "..";
-        private static readonly String[] upperDirectoryAlternatives = new[] { "%2e%2e", ".%2e", "%2e." };
+        private static readonly String CurrentDirectory = ".";
+        private static readonly String CurrentDirectoryAlternative = "%2e";
+        private static readonly String UpperDirectory = "..";
+        private static readonly String[] UpperDirectoryAlternatives = new[] { "%2e%2e", ".%2e", "%2e." };
         private static readonly Url DefaultBase = new Url(String.Empty, String.Empty, String.Empty);
 
         private String _fragment;
@@ -852,18 +853,18 @@
                     var close = false;
                     buffer.Clear();
 
-                    if (path.Isi(currentDirectoryAlternative))
+                    if (path.Isi(CurrentDirectoryAlternative))
                     {
-                        path = currentDirectory;
+                        path = CurrentDirectory;
                     }
-                    else if (path.Isi(upperDirectoryAlternatives[0]) || 
-                             path.Isi(upperDirectoryAlternatives[1]) || 
-                             path.Isi(upperDirectoryAlternatives[2]))
+                    else if (path.Isi(UpperDirectoryAlternatives[0]) || 
+                             path.Isi(UpperDirectoryAlternatives[1]) || 
+                             path.Isi(UpperDirectoryAlternatives[2]))
                     {
-                        path = upperDirectory;
+                        path = UpperDirectory;
                     }
 
-                    if (path.Is(upperDirectory))
+                    if (path.Is(UpperDirectory))
                     {
                         if (paths.Count > 0)
                         {
@@ -872,7 +873,7 @@
 
                         close = true;
                     }
-                    else if (!path.Is(currentDirectory))
+                    else if (!path.Is(CurrentDirectory))
                     {
                         if (_scheme.Is(ProtocolNames.File) && 
                             paths.Count == originalCount && 
@@ -1069,7 +1070,7 @@
                     default:
                         var chr = Symbols.Null;
 
-                        if (Symbols.Punycode.TryGetValue(hostName[i], out chr))
+                        if (Punycode.Symbols.TryGetValue(hostName[i], out chr))
                         {
                             chars[count++] = (Byte)chr;
                         }

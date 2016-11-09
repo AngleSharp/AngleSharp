@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Html.InputTypes
 {
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Extensions;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Text;
     using System;
     using System.Globalization;
 
@@ -18,30 +18,13 @@
         
         #region Methods
 
-        public override void Check(ValidityState state)
+        public override ValidationErrors Check(IValidityState current)
         {
             var value = Input.Value;
             var date = ConvertFromDateTime(value);
-
-            if (date.HasValue)
-            {
-                var min = ConvertFromDateTime(Input.Minimum);
-                var max = ConvertFromDateTime(Input.Maximum);
-
-                state.IsRangeUnderflow = min.HasValue && date < min.Value;
-                state.IsRangeOverflow = max.HasValue && date > max.Value;
-                state.IsValueMissing = false;
-                state.IsBadInput = false;
-                state.IsStepMismatch = IsStepMismatch();
-            }
-            else
-            {
-                state.IsRangeUnderflow = false;
-                state.IsRangeOverflow = false;
-                state.IsStepMismatch = false;
-                state.IsValueMissing = Input.IsRequired;
-                state.IsBadInput = !String.IsNullOrEmpty(value);
-            }
+            var min = ConvertFromDateTime(Input.Minimum);
+            var max = ConvertFromDateTime(Input.Maximum);
+            return CheckTime(current, value, date, min, max);
         }
 
         public override Double? ConvertToNumber(String value)
@@ -191,7 +174,7 @@
             return null;
         }
 
-        static Boolean IsLegalPosition(String value, Int32 position)
+        private static Boolean IsLegalPosition(String value, Int32 position)
         {
             return position == value.Length - 6 &&
                     value[position + 1].IsDigit() &&

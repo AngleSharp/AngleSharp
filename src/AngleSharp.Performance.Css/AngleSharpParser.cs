@@ -1,7 +1,7 @@
 ﻿namespace AngleSharp.Performance.Css
 {
     using AngleSharp;
-    using AngleSharp.Parser.Css;
+    using AngleSharp.Css.Parser;
     using System;
 
     class AngleSharpParser : ITestee

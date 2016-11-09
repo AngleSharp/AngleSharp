@@ -2,15 +2,15 @@
 {
     using AngleSharp;
     using AngleSharp.Dom;
-    using AngleSharp.Parser.Html;
+    using AngleSharp.Html.Parser;
     using System;
 
     class AngleSharpSelector : ITestee
     {
-        static readonly IConfiguration configuration = new Configuration();
-        static readonly HtmlParser parser = new HtmlParser(configuration);
+        private static readonly IConfiguration configuration = new Configuration();
+        private static readonly HtmlParser parser = new HtmlParser(BrowsingContext.New(configuration));
 
-        IDocument document;
+        private IDocument document;
 
         public AngleSharpSelector(String source)
         {

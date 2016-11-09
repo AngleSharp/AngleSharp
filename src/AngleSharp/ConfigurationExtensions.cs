@@ -1,10 +1,8 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Extensions;
-    using AngleSharp.Network;
-    using AngleSharp.Network.Default;
-    using AngleSharp.Services;
-    using AngleSharp.Services.Default;
+    using AngleSharp.Browser;
+    using AngleSharp.Common;
+    using AngleSharp.Io;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -23,7 +21,7 @@
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="service">The service to register.</param>
         /// <returns>The new instance with the service.</returns>
-        public static Configuration With(this IConfiguration configuration, Object service)
+        public static IConfiguration With(this IConfiguration configuration, Object service)
         {
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
@@ -40,7 +38,7 @@
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="services">The services to register.</param>
         /// <returns>The new instance with the services.</returns>
-        public static Configuration With(this IConfiguration configuration, IEnumerable<Object> services)
+        public static IConfiguration With(this IConfiguration configuration, IEnumerable<Object> services)
         {
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
@@ -48,7 +46,7 @@
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            return new Configuration(configuration.Services.Concat(services));
+            return new Configuration(services.Concat(configuration.Services));
         }
 
         /// <summary>
@@ -60,16 +58,7 @@
         /// <returns>The new instance with the services.</returns>
         public static IConfiguration With<TService>(this IConfiguration configuration, Func<IBrowsingContext, TService> creator)
         {
-            var original = configuration.Services;
-            var available = configuration.Services.OfType<Func<IBrowsingContext, TService>>();
-
-            if (available.Any())
-            {
-                original = original.Except(available);
-            }
-
-            var services = original.Concat(creator);
-            return new Configuration(services);
+            return configuration.With((Object)creator);
         }
 
         /// <summary>
@@ -79,7 +68,7 @@
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="name">The name of the culture to set.</param>
         /// <returns>The new instance with the culture being set.</returns>
-        public static Configuration SetCulture(this IConfiguration configuration, String name)
+        public static IConfiguration SetCulture(this IConfiguration configuration, String name)
         {
             var culture = new CultureInfo(name);
             return configuration.SetCulture(culture);
@@ -92,7 +81,7 @@
         /// <param name="configuration">The configuration to extend.</param>
         /// <param name="culture">The culture to set.</param>
         /// <returns>The new instance with the culture being set.</returns>
-        public static Configuration SetCulture(this IConfiguration configuration, CultureInfo culture)
+        public static IConfiguration SetCulture(this IConfiguration configuration, CultureInfo culture)
         {
             return configuration.With(culture);
         }
@@ -114,7 +103,7 @@
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
 
-            configuration = configuration.With(requesters ?? new IRequester[] { new HttpRequester(), new DataRequester() });
+            configuration = configuration.With(requesters ?? new IRequester[] { new DefaultHttpRequester(), new DataRequester() });
 
             var config = new LoaderSetup
             {
@@ -122,17 +111,16 @@
                 IsNavigationEnabled = true,
                 IsResourceLoadingEnabled = false
             };
-            var factory = configuration.GetFactory<IServiceFactory>();
             setup?.Invoke(config);
 
             if (config.IsNavigationEnabled)
             {
-                configuration = configuration.With<IDocumentLoader>(ctx => new DocumentLoader(ctx, config.Filter));
+                configuration = configuration.With<IDocumentLoader>(ctx => new DefaultDocumentLoader(ctx, config.Filter));
             }
 
             if (config.IsResourceLoadingEnabled)
             {
-                configuration = configuration.With<IResourceLoader>(ctx => new ResourceLoader(ctx, config.Filter));
+                configuration = configuration.With<IResourceLoader>(ctx => new DefaultResourceLoader(ctx, config.Filter));
             }
 
             return configuration;
@@ -156,7 +144,7 @@
             /// <summary>
             /// Gets or sets the filter, if any.
             /// </summary>
-            public Predicate<IRequest> Filter { get; set; }
+            public Predicate<Request> Filter { get; set; }
         }
 
         #endregion
@@ -174,13 +162,8 @@
             if (configuration == null)
                 throw new ArgumentException(nameof(configuration));
 
-            if (!configuration.GetServices<IEncodingProvider>().Any())
-            {
-                var service = new LocaleEncodingProvider();
-                return configuration.With(service);
-            }
-
-            return configuration;
+            var service = new LocaleEncodingProvider();
+            return configuration.With(service);
         }
 
         #endregion
@@ -198,13 +181,8 @@
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
 
-            if (!configuration.GetServices<ICookieProvider>().Any())
-            {
-                var service = new MemoryCookieProvider();
-                return configuration.With(service);
-            }
-
-            return configuration;
+            var service = new MemoryCookieProvider();
+            return configuration.With(service);
         }
 
         #endregion

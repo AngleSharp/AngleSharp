@@ -1,10 +1,10 @@
 ﻿namespace AngleSharp.Core.Tests.Library
 {
+    using AngleSharp.Common;
     using AngleSharp.Core.Tests.Mocks;
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Html;
-    using AngleSharp.Extensions;
-    using AngleSharp.Network;
+    using AngleSharp.Html.Dom;
+    using AngleSharp.Io;
     using NUnit.Framework;
     using System;
     using System.Threading.Tasks;
@@ -124,7 +124,7 @@
         [Test]
         public async Task SettingSingleCookieInDocumentAppearsInRequest()
         {
-            var request = default(IRequest);
+            var request = default(Request);
             var config = Configuration.Default.WithCookies().WithMockRequester(req => request = req);
             var context = BrowsingContext.New(config);
             var document = await context.OpenAsync(res =>
@@ -325,7 +325,7 @@
             Assert.AreEqual(cookieValue, imgCookie);
         }
 
-        private static Task<IDocument> LoadDocumentWithFakeRequesterAndCookie(IResponse initialResponse, Func<IRequest, IResponse> onRequest)
+        private static Task<IDocument> LoadDocumentWithFakeRequesterAndCookie(IResponse initialResponse, Func<Request, IResponse> onRequest)
         {
             var requester = new MockRequester();
             requester.BuildResponse(onRequest);
