@@ -121,7 +121,7 @@
         /// <param name="elements">The elements to be filtered.</param>
         /// <param name="selectorText">The CSS selector to use.</param>
         /// <returns>The filtered list of elements.</returns>
-        public static IEnumerable<T> Is<T>(this IEnumerable<T> elements, String selectorText)
+        public static IEnumerable<T> Filter<T>(this IEnumerable<T> elements, String selectorText)
             where T : IElement
         {
             return elements.Filter(selectorText, true);

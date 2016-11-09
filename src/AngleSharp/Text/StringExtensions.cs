@@ -10,7 +10,9 @@
     using System.Globalization;
     using System.IO;
     using System.Reflection;
+#if !NET40
     using System.Runtime.CompilerServices;
+#endif
     using System.Text;
 
     /// <summary>
@@ -18,6 +20,7 @@
     /// </summary>
     public static class StringExtensions
     {
+
         /// <summary>
         /// Checks if the given string has a certain character at a specific
         /// index. The index is optional (default is 0).
