@@ -501,7 +501,7 @@
     <Compile Include="Io\HeaderNames.cs" />
     <Compile Include="Extensions\XmlExtensions.cs" />
     <Compile Include="Html\FormDataSet.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Text\StringExtensions.cs" />
     <Compile Include="Common\Pool.cs" />
     <Compile Include="Io\Request.cs" />
     <Compile Include="Io\DefaultHttpRequester.cs" />
@@ -603,7 +603,7 @@
     <Compile Include="Css\Parser\Tokens\CssStringToken.cs" />
     <Compile Include="Css\Parser\Tokens\CssUnitToken.cs" />
     <Compile Include="Html\Parser\HtmlTokenType.cs" />
-    <Compile Include="Extensions\CharExtensions.cs" />
+    <Compile Include="Text\CharExtensions.cs" />
     <Compile Include="Html\Parser\HtmlForeignExtensions.cs" />
     <Compile Include="Html\Parser\HtmlTreeMode.cs" />
     <Compile Include="Text\TextEncoding.cs" />

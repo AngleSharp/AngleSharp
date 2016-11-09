@@ -7,6 +7,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Io;
     using AngleSharp.Scripting;
+    using AngleSharp.Text;
     using System;
     using System.Threading;
 

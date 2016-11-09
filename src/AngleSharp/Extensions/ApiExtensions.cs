@@ -5,6 +5,7 @@
     using AngleSharp.Html.Dom;
     using AngleSharp.Html;
     using AngleSharp.Io;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Linq;

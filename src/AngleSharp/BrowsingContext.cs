@@ -177,7 +177,6 @@
         /// <summary>
         /// Creates a new named browsing context as child of the given parent.
         /// </summary>
-        /// <param name="parent">The parent context.</param>
         /// <param name="name">The name of the child context, if any.</param>
         /// <param name="security">The security flags to apply.</param>
         /// <returns></returns>

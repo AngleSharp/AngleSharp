@@ -2,7 +2,6 @@
 {
     using AngleSharp.Css.Parser;
     using AngleSharp.Extensions;
-    using AngleSharp.Html;
     using AngleSharp.Text;
     using System;
 

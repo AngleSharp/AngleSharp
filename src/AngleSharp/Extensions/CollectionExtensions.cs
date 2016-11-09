@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Extensions
 {
     using AngleSharp.Dom;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
 

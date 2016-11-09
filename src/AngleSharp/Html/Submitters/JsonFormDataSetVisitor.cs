@@ -5,6 +5,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Html.Submitters.Json;
     using AngleSharp.Io.Dom;
+    using AngleSharp.Text;
     using System;
     using System.IO;
 

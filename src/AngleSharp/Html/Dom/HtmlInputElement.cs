@@ -6,6 +6,7 @@
     using AngleSharp.Html.InputTypes;
     using AngleSharp.Html.Services;
     using AngleSharp.Io.Dom;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>

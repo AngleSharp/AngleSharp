@@ -1,6 +1,5 @@
-﻿namespace AngleSharp.Extensions
+﻿namespace AngleSharp.Text
 {
-    using AngleSharp.Text;
     using System;
 #if !NET40
     using System.Runtime.CompilerServices;
@@ -9,7 +8,7 @@
     /// <summary>
     /// Useful methods for chars.
     /// </summary>
-    static class CharExtensions
+    public static class CharExtensions
     {
         /// <summary>
         /// Converts a given character from the hex representation (0-9A-Fa-f)

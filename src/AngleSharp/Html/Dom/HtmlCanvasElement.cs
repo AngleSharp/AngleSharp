@@ -5,6 +5,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Io;
     using AngleSharp.Media.Dom;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.IO;

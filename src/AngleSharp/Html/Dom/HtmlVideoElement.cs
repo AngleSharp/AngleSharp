@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Media;
     using AngleSharp.Media.Dom;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>

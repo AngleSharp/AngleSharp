@@ -3,9 +3,9 @@
     using AngleSharp.Common;
     using AngleSharp.Css;
     using AngleSharp.Dom;
-    using AngleSharp.Extensions;
     using AngleSharp.Html.Dom;
     using AngleSharp.Io.Services;
+    using AngleSharp.Text;
     using System;
     using System.Threading;
     using System.Threading.Tasks;

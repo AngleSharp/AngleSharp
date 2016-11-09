@@ -3,6 +3,7 @@
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
     using AngleSharp.Html.Parser.Tokens;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
 #if !NET40

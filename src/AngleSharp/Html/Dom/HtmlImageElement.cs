@@ -4,6 +4,7 @@
     using AngleSharp.Extensions;
     using AngleSharp.Io;
     using AngleSharp.Io.Processors;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>

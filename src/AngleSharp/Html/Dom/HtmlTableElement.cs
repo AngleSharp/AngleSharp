@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Extensions;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Linq;

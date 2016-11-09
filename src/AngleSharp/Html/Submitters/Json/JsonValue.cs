@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Html.Submitters.Json
 {
-    using AngleSharp.Extensions;
+    using AngleSharp.Text;
     using System;
     using System.Globalization;
 

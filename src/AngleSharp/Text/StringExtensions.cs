@@ -1,11 +1,10 @@
-﻿namespace AngleSharp.Extensions
+﻿namespace AngleSharp.Text
 {
     using AngleSharp.Attributes;
     using AngleSharp.Browser;
     using AngleSharp.Common;
     using AngleSharp.Dom;
     using AngleSharp.Io;
-    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -17,7 +16,7 @@
     /// <summary>
     /// Useful methods for string objects.
     /// </summary>
-    static class StringExtensions
+    public static class StringExtensions
     {
         /// <summary>
         /// Checks if the given string has a certain character at a specific
@@ -38,7 +37,7 @@
         /// </summary>
         /// <param name="mode">A specific quriks mode.</param>
         /// <returns>The compatibility string.</returns>
-        public static String GetCompatiblity(this QuirksMode mode)
+        internal static String GetCompatiblity(this QuirksMode mode)
         {
             var type = typeof(QuirksMode).GetTypeInfo();
             var field = type.GetDeclaredField(mode.ToString());
@@ -681,10 +680,9 @@
                     var character = value[i];
 
                     if (character == Symbols.Null)
-                    {
                         throw new DomException(DomError.InvalidCharacter);
-                    }
-                    else if (character == Symbols.DoubleQuote || character == Symbols.ReverseSolidus)
+
+                    if (character == Symbols.DoubleQuote || character == Symbols.ReverseSolidus)
                     {
                         builder.Append(Symbols.ReverseSolidus).Append(character);
                     }
@@ -772,9 +770,7 @@
                 else if (chr == Symbols.Percent)
                 {
                     if (i + 2 >= value.Length)
-                    {
                         throw new FormatException();
-                    }
 
                     var code = 16 * value[++i].FromHex() + value[++i].FromHex();
                     var b = (Byte)code;
@@ -835,6 +831,13 @@
             return value;
         }
 
+        /// <summary>
+        /// Converts the current string to one of the encoding types.
+        /// </summary>
+        /// <param name="encType">The string to convert.</param>
+        /// <returns>
+        /// The encoding type with fallback application/x-www-form-urlencoded.
+        /// </returns>
         public static String ToEncodingType(this String encType)
         {
             return encType.Isi(MimeTypeNames.Plain) || encType.Isi(MimeTypeNames.MultipartForm) || encType.Isi(MimeTypeNames.ApplicationJson) ?

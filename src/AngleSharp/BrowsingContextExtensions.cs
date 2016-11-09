@@ -13,6 +13,7 @@
     using AngleSharp.Media.Services;
     using AngleSharp.Scripting;
     using AngleSharp.Scripting.Services;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -196,6 +197,11 @@
         
         #region Encoding
 
+        /// <summary>
+        /// Gets the default encoding to use as initial guess.
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <returns>The encoding from the provider or UTF-8.</returns>
         public static Encoding GetDefaultEncoding(this IBrowsingContext context)
         {
             var provider = context.GetProvider<IEncodingProvider>();
@@ -207,11 +213,24 @@
 
         #region Languages
 
+        /// <summary>
+        /// Gets the culture info associated with the current context.
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <returns>The culture info assigned to the context.</returns>
         public static CultureInfo GetCulture(this IBrowsingContext context)
         {
             return context.GetService<CultureInfo>() ?? CultureInfo.CurrentUICulture;
         }
 
+        /// <summary>
+        /// Gets the culture from the language string (or the current culture).
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <param name="language">The ISO culture name.</param>
+        /// <returns>
+        /// The culture info representing the language or the current culture.
+        /// </returns>
         public static CultureInfo GetCultureFrom(this IBrowsingContext context, String language)
         {
             try
@@ -224,6 +243,11 @@
             }
         }
 
+        /// <summary>
+        /// Gets the language of the current context.
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <returns>The ISO name of the culture.</returns>
         public static String GetLanguage(this IBrowsingContext context)
         {
             return context.GetCulture().Name;
@@ -233,18 +257,38 @@
 
         #region Services
 
+        /// <summary>
+        /// Gets a factory service instance. Exactly one has to be available.
+        /// </summary>
+        /// <typeparam name="TFactory">The type of the factory service.</typeparam>
+        /// <param name="context">The current context.</param>
+        /// <returns>The factory instance.</returns>
         public static TFactory GetFactory<TFactory>(this IBrowsingContext context)
             where TFactory : class
         {
             return context.GetServices<TFactory>().Single();
         }
 
+        /// <summary>
+        /// Gets a provider service instance. At most one has to be available.
+        /// </summary>
+        /// <typeparam name="TProvider">The type of the provider service.</typeparam>
+        /// <param name="context">The current context.</param>
+        /// <returns>The provider instance or null.</returns>
         public static TProvider GetProvider<TProvider>(this IBrowsingContext context)
             where TProvider : class
         {
             return context.GetServices<TProvider>().SingleOrDefault();
         }
 
+        /// <summary>
+        /// Gets a resource service. Multiple resource services may be registered, so
+        /// the one that matches the given mime-type will be returned, if any.
+        /// </summary>
+        /// <typeparam name="TResource">The type of the resource service.</typeparam>
+        /// <param name="context">The current context.</param>
+        /// <param name="type">The mime-type of the resource.</param>
+        /// <returns>The service instance or null.</returns>
         public static IResourceService<TResource> GetResourceService<TResource>(this IBrowsingContext context, String type)
             where TResource : IResourceInfo
         {
@@ -265,12 +309,24 @@
 
         #region Cookies
 
+        /// <summary>
+        /// Gets the cookie for the given URL, if any.
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <param name="url">The URL of the cookie.</param>
+        /// <returns>The cookie or the empty string.</returns>
         public static String GetCookie(this IBrowsingContext context, Url url)
         {
             var provider = context.GetProvider<ICookieProvider>();
             return provider?.GetCookie(url) ?? String.Empty;
         }
 
+        /// <summary>
+        /// Sets the cookie for the given URL.
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <param name="url">The URL of the cookie.</param>
+        /// <param name="value">The cookie value to set.</param>
         public static void SetCookie(this IBrowsingContext context, Url url, String value)
         {
             var provider = context.GetProvider<ICookieProvider>();
@@ -281,6 +337,12 @@
 
         #region Spell Check
 
+        /// <summary>
+        /// Gets the spell check service for the given language, if any.
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <param name="language">The language of the spellchecker.</param>
+        /// <returns>The spell check service, if any.</returns>
         public static ISpellCheckService GetSpellCheck(this IBrowsingContext context, String language)
         {
             var substitute = default(ISpellCheckService);
@@ -361,9 +423,7 @@
         /// <summary>
         /// Creates the specified target browsing context.
         /// </summary>
-        /// <param name="document">
-        /// The document that originates the request.
-        /// </param>
+        /// <param name="context">The current context.</param>
         /// <param name="target">The specified target name.</param>
         /// <returns>The new context.</returns>
         public static IBrowsingContext CreateChildFor(this IBrowsingContext context, String target)
@@ -381,9 +441,7 @@
         /// <summary>
         /// Gets the specified target browsing context.
         /// </summary>
-        /// <param name="document">
-        /// The document that originates the request.
-        /// </param>
+        /// <param name="context">The current context.</param>
         /// <param name="target">The specified target name.</param>
         /// <returns>
         /// The available context, or null, if the context does not exist yet.

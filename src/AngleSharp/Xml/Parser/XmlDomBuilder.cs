@@ -35,7 +35,6 @@
         /// Creates a new instance of the XML parser.
         /// </summary>
         /// <param name="document">The document instance to be filled.</param>
-        /// <param name="creator">The optional non-standard creator to use.</param>
         internal XmlDomBuilder(Document document)
         {
             _tokenizer = new XmlTokenizer(document.Source, document.Entities);
