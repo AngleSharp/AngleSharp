@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Browser;
+    using AngleSharp.Browser.Dom;
     using AngleSharp.Dom;
     using System;
     using System.Collections.Generic;

@@ -1,6 +1,7 @@
-﻿namespace AngleSharp.Dom
+﻿namespace AngleSharp.Browser.Dom
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Dom;
     using System;
 
     /// <summary>

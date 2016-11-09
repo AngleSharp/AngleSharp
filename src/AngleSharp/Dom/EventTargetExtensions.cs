@@ -7,7 +7,7 @@
     /// <summary>
     /// A set of extensions for EventTarget objects.
     /// </summary>
-    static class EventTargetExtensions
+    public static class EventTargetExtensions
     {
         /// <summary>
         /// Firing a simple event means that a trusted event with a name, which

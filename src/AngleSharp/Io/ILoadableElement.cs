@@ -1,7 +1,6 @@
-﻿namespace AngleSharp.Dom
+﻿namespace AngleSharp.Io
 {
     using AngleSharp.Attributes;
-    using AngleSharp.Io;
 
     /// <summary>
     /// The interface implemented by elements that may load resources.
