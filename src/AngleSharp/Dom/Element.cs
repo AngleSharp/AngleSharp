@@ -537,7 +537,7 @@
             if (otherElement != null)
             {
                 return NamespaceUri.Is(otherElement.NamespaceUri) &&
-                    _attributes.AreEqual(otherElement.Attributes) && 
+                    _attributes.SameAs(otherElement.Attributes) && 
                     base.Equals(otherNode);
             }
 

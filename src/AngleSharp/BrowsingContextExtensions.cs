@@ -5,6 +5,7 @@
     using AngleSharp.Css;
     using AngleSharp.Css.Services;
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using AngleSharp.Dom.Services;
     using AngleSharp.Extensions;
     using AngleSharp.Io;
@@ -375,11 +376,22 @@
 
         #region Parsing Styles
 
+        /// <summary>
+        /// Tries to get the CSS style engine, if available.
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <returns>The CSS style engine if any.</returns>
         public static ICssStyleEngine GetCssStyleEngine(this IBrowsingContext context)
         {
             return context.GetStyleEngine(MimeTypeNames.Css) as ICssStyleEngine;
         }
 
+        /// <summary>
+        /// Tries to get the style engine for the given mime-type.
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <param name="type">The type of the style engine.</param>
+        /// <returns>The style engine if any.</returns>
         public static IStyleEngine GetStyleEngine(this IBrowsingContext context, String type)
         {
             var provider = context.GetProvider<IStylingProvider>();
@@ -390,16 +402,32 @@
 
         #region Parsing Scripts
 
+        /// <summary>
+        /// Gets if the context allows scripting or not.
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <returns>True if a scripting provider is available, otherwise false.</returns>
         public static Boolean IsScripting(this IBrowsingContext context)
         {
             return context?.GetProvider<IScriptingProvider>() != null;
         }
 
+        /// <summary>
+        /// Tries to get the JavaScript engine, if available.
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <returns>The JavaScript engine if any.</returns>
         public static IScriptEngine GetJsScriptEngine(this IBrowsingContext context)
         {
             return context.GetScriptEngine(MimeTypeNames.DefaultJavaScript);
         }
 
+        /// <summary>
+        /// Tries to get the script engine for the given mime-type.
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <param name="type"></param>
+        /// <returns>The script engine if any.</returns>
         public static IScriptEngine GetScriptEngine(this IBrowsingContext context, String type)
         {
             var provider = context.GetProvider<IScriptingProvider>();
@@ -410,10 +438,35 @@
 
         #region Commands
 
+        /// <summary>
+        /// Tries to get the command with the given name.
+        /// </summary>
+        /// <param name="context">The current context.</param>
+        /// <param name="commandId">The command to get.</param>
+        /// <returns>The command if any.</returns>
         public static ICommand GetCommand(this IBrowsingContext context, String commandId)
         {
             var provider = context.GetProvider<ICommandProvider>();
             return provider?.GetCommand(commandId);
+        }
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Fires an interactive event at the context.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="context">The current context.</param>
+        /// <param name="eventName">The name of the event to fire.</param>
+        /// <param name="data">The data to transport.</param>
+        /// <returns>The task with the response to the event.</returns>
+        public static Task FireAsync<T>(this IBrowsingContext context, String eventName, T data)
+        {
+            var ev = new InteractivityEvent<T>(eventName, data);
+            context.Fire(ev);
+            return ev.Result ?? TaskEx.FromResult(false);
         }
 
         #endregion

@@ -1,5 +1,6 @@
 ﻿namespace AngleSharp.Extensions
 {
+    using AngleSharp.Browser;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using System;

@@ -120,7 +120,7 @@
 
                 if (format.NodeName.Is(element.NodeName) && 
                     format.NamespaceUri.Is(element.NamespaceUri) && 
-                    format.Attributes.AreEqual(element.Attributes) && ++count == 3)
+                    format.Attributes.SameAs(element.Attributes) && ++count == 3)
                 {
                     formatting.RemoveAt(i);
                     break;

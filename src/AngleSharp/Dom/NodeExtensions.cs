@@ -1,6 +1,6 @@
-﻿namespace AngleSharp.Extensions
+﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Dom;
+    using AngleSharp.Extensions;
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
     using System;
@@ -10,7 +10,7 @@
     /// <summary>
     /// Useful methods for node objects.
     /// </summary>
-    static class NodeExtensions
+    public static class NodeExtensions
     {
         /// <summary>
         /// Gets the root of the given node, which is the node itself, if it has
@@ -26,16 +26,6 @@
             }
 
             return node.Parent.GetRoot();
-        }
-
-        /// <summary>
-        /// Creates a new node list or returns a static list for the given node.
-        /// </summary>
-        /// <param name="node">The node to host the list.</param>
-        /// <returns>The new or existing list.</returns>
-        public static NodeList CreateChildren(this INode node)
-        {
-            return node.IsEndPoint() ? NodeList.Empty : new NodeList();
         }
 
         /// <summary>

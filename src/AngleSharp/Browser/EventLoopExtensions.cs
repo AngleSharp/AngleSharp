@@ -1,6 +1,5 @@
-﻿namespace AngleSharp.Extensions
+﻿namespace AngleSharp.Browser
 {
-    using AngleSharp.Browser;
     using System;
 
     /// <summary>

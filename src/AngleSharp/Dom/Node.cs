@@ -33,7 +33,7 @@
             Owners.Add(this, owner);
             _name = name ?? String.Empty;
             _type = type;
-            _children = this.CreateChildren();
+            _children = this.IsEndPoint() ? NodeList.Empty : new NodeList();
             _flags = flags;
         }
 

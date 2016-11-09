@@ -111,7 +111,7 @@
     <Compile Include="Dom\Events\HtmlErrorEvent.cs" />
     <Compile Include="Dom\Events\HtmlParseEvent.cs" />
     <Compile Include="Dom\Events\RequestEvent.cs" />
-    <Compile Include="Extensions\EventLoopExtensions.cs" />
+    <Compile Include="Browser\EventLoopExtensions.cs" />
     <Compile Include="Extensions\FormDataSetExtensions.cs" />
     <Compile Include="Extensions\ResponseExtensions.cs" />
     <Compile Include="Io\CorsRequest.cs" />
@@ -133,7 +133,7 @@
     <Compile Include="Html\LinkRelationFactory.cs" />
     <Compile Include="Dom\PseudoElement.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
-    <Compile Include="Extensions\EventTargetExtensions.cs" />
+    <Compile Include="Dom\EventTargetExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Css\PseudoClassSelectorFactory.cs" />
     <Compile Include="Css\PseudoElementSelectorFactory.cs" />
@@ -254,7 +254,7 @@
     <Compile Include="Html\InputTypes\ButtonInputType.cs" />
     <Compile Include="Css\Dom\IKeyframeSelector.cs" />
     <Compile Include="Dom\IPseudoElement.cs" />
-    <Compile Include="Extensions\HtmlLinkElementExtensions.cs" />
+    <Compile Include="Html\Dom\HtmlLinkElementExtensions.cs" />
     <Compile Include="Browser\Services\ICommandProvider.cs" />
     <Compile Include="Browser\Services\ISpellCheckService.cs" />
     <Compile Include="Media\Dom\IRenderingService.cs" />
@@ -263,7 +263,7 @@
     <Compile Include="Dom\Events\WheelEvent.cs" />
     <Compile Include="Dom\EventTarget.cs" />
     <Compile Include="Common\Keywords.cs" />
-    <Compile Include="Extensions\AttrExtensions.cs" />
+    <Compile Include="Dom\AttrExtensions.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Dom\HtmlAllCollection.cs" />
     <Compile Include="Dom\HtmlFormControlsCollection.cs" />
@@ -312,7 +312,7 @@
     <Compile Include="Text\TextPosition.cs" />
     <Compile Include="Text\TextView.cs" />
     <Compile Include="Url.cs" />
-    <Compile Include="Extensions\StyleExtensions.cs" />
+    <Compile Include="Css\Dom\StyleExtensions.cs" />
     <Compile Include="Text\TextSource.cs" />
     <Compile Include="IConfiguration.cs" />
     <Compile Include="Io\Services\ICookieProvider.cs" />
@@ -486,7 +486,7 @@
     <Compile Include="Io\CorsSetting.cs" />
     <Compile Include="Io\PortNumbers.cs" />
     <Compile Include="Io\ProtocolNames.cs" />
-    <Compile Include="Extensions\NodeExtensions.cs" />
+    <Compile Include="Dom\NodeExtensions.cs" />
     <Compile Include="Io\OriginBehavior.cs" />
     <Compile Include="Extensions\RequesterExtensions.cs" />
     <Compile Include="Css\Parser\CssTokenizer.cs" />
@@ -499,7 +499,7 @@
     <Compile Include="Dom\AttributeNames.cs" />
     <Compile Include="Dom\EventNames.cs" />
     <Compile Include="Io\HeaderNames.cs" />
-    <Compile Include="Extensions\XmlExtensions.cs" />
+    <Compile Include="Text\XmlExtensions.cs" />
     <Compile Include="Html\FormDataSet.cs" />
     <Compile Include="Text\StringExtensions.cs" />
     <Compile Include="Common\Pool.cs" />
@@ -686,7 +686,7 @@
     <Compile Include="Dom\TextNode.cs" />
     <Compile Include="Html\Parser\HtmlDomBuilder.cs" />
     <Compile Include="Io\IResponse.cs" />
-    <Compile Include="Extensions\PortableExtensions.cs" />
+    <Compile Include="PortableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Text\Symbols.cs" />
     <Compile Include="Html\Parser\HtmlTokenizer.cs" />

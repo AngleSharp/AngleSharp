@@ -1,7 +1,6 @@
-﻿namespace AngleSharp.Extensions
+﻿namespace AngleSharp.Html.Dom
 {
     using AngleSharp.Html;
-    using AngleSharp.Html.Dom;
     using AngleSharp.Text;
     using System;
 

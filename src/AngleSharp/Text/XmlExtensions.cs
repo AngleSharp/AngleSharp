@@ -1,12 +1,11 @@
-﻿namespace AngleSharp.Extensions
+﻿namespace AngleSharp.Text
 {
-    using AngleSharp.Text;
     using System;
 
     /// <summary>
     /// Useful helpers for the XML parser.
     /// </summary>
-    static class XmlExtensions
+    public static class XmlExtensions
     {
         /// <summary>
         /// Determines if the given character is a legal character for the public id field:

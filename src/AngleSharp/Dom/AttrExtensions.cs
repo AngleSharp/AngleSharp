@@ -1,12 +1,11 @@
-﻿namespace AngleSharp.Extensions
+﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Dom;
     using System;
 
     /// <summary>
     /// Extensions for the list of attributes.
     /// </summary>
-    static class AttrExtensions
+    public static class AttrExtensions
     {
         /// <summary>
         /// Compares another attribute container to the current container.
@@ -14,7 +13,7 @@
         /// <param name="sourceAttributes">The original attribute list.</param>
         /// <param name="targetAttributes">The list to compare to.</param>
         /// <returns>True if both objects are equal, otherwise false.</returns>
-        public static Boolean AreEqual(this INamedNodeMap sourceAttributes, INamedNodeMap targetAttributes)
+        public static Boolean SameAs(this INamedNodeMap sourceAttributes, INamedNodeMap targetAttributes)
         {
             if (sourceAttributes.Length == targetAttributes.Length)
             {
