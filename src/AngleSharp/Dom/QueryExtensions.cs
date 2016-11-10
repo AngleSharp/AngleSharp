@@ -18,30 +18,30 @@
         /// Returns the first element within the document (using depth-first pre-order traversal
         /// of the document's nodes) that matches the specified group of selectors.
         /// </summary>
-        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="nodes">The nodes to take as source.</param>
         /// <param name="selectorText">A string containing one or more CSS selectors separated by commas.</param>
         /// <param name="scopeNode">The optional node to take as scope.</param>
         /// <returns>An element object.</returns>
-        public static IElement QuerySelector(this INodeList elements, String selectorText, INode scopeNode = null)
+        public static IElement QuerySelector(this INodeList nodes, String selectorText, INode scopeNode = null)
         {
-            var sg = CreateSelector(selectorText);
+            var sg = CreateSelector(nodes, selectorText);
             var scope = GetScope(scopeNode);
-            return sg.MatchAny(elements.OfType<IElement>(), scope);
+            return sg.MatchAny(nodes.OfType<IElement>(), scope);
         }
 
         /// <summary>
         /// Returns a list of the elements within the document (using depth-first pre-order traversal
         /// of the document's nodes) that match the specified group of selectors.
         /// </summary>
-        /// <param name="elements">The elements to take as source.</param>
+        /// <param name="nodes">The nodes to take as source.</param>
         /// <param name="selectorText">A string containing one or more CSS selectors separated by commas.</param>
         /// <param name="scopeNode">The optional node to take as scope.</param>
         /// <returns>A HTMLCollection with all elements that match the selection.</returns>
-        public static IHtmlCollection<IElement> QuerySelectorAll(this INodeList elements, String selectorText, INode scopeNode = null)
+        public static IHtmlCollection<IElement> QuerySelectorAll(this INodeList nodes, String selectorText, INode scopeNode = null)
         {
-            var sg = CreateSelector(selectorText);
+            var sg = CreateSelector(nodes, selectorText);
             var scope = GetScope(scopeNode);
-            return sg.MatchAll(elements.OfType<IElement>(), scope);
+            return sg.MatchAll(nodes.OfType<IElement>(), scope);
         }
 
         /// <summary>
@@ -208,9 +208,16 @@
                 (scopeNode as IShadowRoot)?.Host;
         }
 
-        private static ISelector CreateSelector(String selectorText)
+        private static ISelector CreateSelector(INodeList nodes, String selectorText)
         {
-            var sg = CssSelectorParser.Default.ParseSelector(selectorText);
+            var sg = default(ISelector);
+
+            if (nodes.Length > 0)
+            {
+                var node = nodes[0];
+                var parser = node.Owner.Context.GetService<ICssSelectorParser>();
+                sg = parser.ParseSelector(selectorText);
+            }
 
             if (sg == null || sg is UnknownSelector)
                 throw new DomException(DomError.Syntax);

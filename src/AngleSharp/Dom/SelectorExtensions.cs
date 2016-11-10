@@ -314,13 +314,8 @@
 
         private static IEnumerable<IElement> GetMany(this IEnumerable<IElement> elements, Func<IElement, IEnumerable<IElement>> getter, String selectorText)
         {
-            if (selectorText != null)
-            {
-                var selector = CreateSelector(selectorText);
-                return elements.GetMany(getter, selector);
-            }
-
-            return elements.GetMany(getter, SimpleSelector.All);
+            var selector = CreateSelector(elements, selectorText);
+            return elements.GetMany(getter, selector);
         }
 
         private static IEnumerable<IElement> Get(this IEnumerable<IElement> elements, Func<IElement, IElement> getter, ISelector selector)
@@ -349,13 +344,8 @@
 
         private static IEnumerable<IElement> Get(this IEnumerable<IElement> elements, Func<IElement, IElement> getter, String selectorText)
         {
-            if (selectorText != null)
-            {
-                var selector = CreateSelector(selectorText);
-                return elements.Get(getter, selector);
-            }
-
-            return elements.Get(getter, SimpleSelector.All);
+            var selector = CreateSelector(elements, selectorText);
+            return elements.Get(getter, selector);
         }
 
         private static IEnumerable<IElement> Except(this IEnumerable<IElement> elements, IElement excluded)
@@ -389,18 +379,25 @@
         private static IEnumerable<T> Filter<T>(this IEnumerable<T> elements, String selectorText, Boolean result)
             where T : IElement
         {
-            if (selectorText != null)
-            {
-                var selector = CreateSelector(selectorText);
-                return elements.Filter(selector, result);
-            }
-
-            return elements.Filter(SimpleSelector.All, result);
+            var selector = CreateSelector(elements, selectorText);
+            return elements.Filter(selectorText, result);
         }
 
-        private static ISelector CreateSelector(String selector)
+        private static ISelector CreateSelector<T>(IEnumerable<T> elements, String selector)
+            where T : IElement
         {
-            return CssSelectorParser.Default.ParseSelector(selector);
+            if (selector != null)
+            {
+                var element = elements.FirstOrDefault();
+
+                if (element != null)
+                {
+                    var parser = element.Owner.Context.GetService<ICssSelectorParser>();
+                    return parser.ParseSelector(selector);
+                }
+            }
+
+            return SimpleSelector.All;
         }
 
         #endregion

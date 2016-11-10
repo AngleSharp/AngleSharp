@@ -14,7 +14,7 @@
         private readonly Dictionary<TaskPriority, Queue<TaskEventLoopEntry>> _queues;
         private TaskEventLoopEntry _current;
 
-        public TaskEventLoop()
+        public TaskEventLoop(IBrowsingContext context)
         {
             _queues = new Dictionary<TaskPriority, Queue<TaskEventLoopEntry>>();
             _current = null;

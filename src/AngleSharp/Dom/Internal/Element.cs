@@ -402,7 +402,7 @@
 
         public Boolean Matches(String selectorText)
         {
-            var sg = CssSelectorParser.Default.ParseSelector(selectorText);
+            var sg = Context.GetService<ICssSelectorParser>().ParseSelector(selectorText);
 
             if (sg == null || sg is UnknownSelector)
                 throw new DomException(DomError.Syntax);

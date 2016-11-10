@@ -170,11 +170,11 @@
 			return this;
 		}
 
-		#endregion
+        #endregion
 
-		#region States
+        #region States
 
-		void OnData(CssToken token)
+        private void OnData(CssToken token)
 		{
 			switch (token.Type)
 			{
@@ -227,7 +227,7 @@
             }
 		}
 
-		void OnAttribute(CssToken token)
+        private void OnAttribute(CssToken token)
 		{
 			if (token.Type != CssTokenType.Whitespace)
             {
@@ -254,7 +254,7 @@
             }
 		}
 
-		void OnAttributeOperator(CssToken token)
+        private void OnAttributeOperator(CssToken token)
 		{
             if (token.Type != CssTokenType.Whitespace)
             {
@@ -284,7 +284,7 @@
             }
 		}
 
-		void OnAttributeValue(CssToken token)
+        private void OnAttributeValue(CssToken token)
 		{
             if (token.Type != CssTokenType.Whitespace)
             {
@@ -301,7 +301,7 @@
             }
 		}
 
-		void OnAttributeEnd(CssToken token)
+        private void OnAttributeEnd(CssToken token)
 		{
             if (token.Type != CssTokenType.Whitespace)
             {
@@ -320,7 +320,7 @@
             }
         }
 
-		void OnPseudoClass(CssToken token)
+        private void OnPseudoClass(CssToken token)
 		{
 			_state = State.Data;
             _ready = true;
@@ -354,7 +354,7 @@
             _valid = false;
 		}
 
-		void OnPseudoElement(CssToken token)
+        private void OnPseudoElement(CssToken token)
         {
             _state = State.Data;
             _ready = true;
@@ -374,7 +374,7 @@
             _valid = false;
 		}
 
-		void OnClass(CssToken token)
+        private void OnClass(CssToken token)
 		{
 			_state = State.Data;
             _ready = true;
@@ -393,7 +393,7 @@
 
 		#region Insertations
 
-        void InsertOr()
+        private void InsertOr()
         {
             if (_temp != null)
             {
@@ -417,7 +417,7 @@
             }
         }
 
-        void Insert(ISelector selector)
+        private void Insert(ISelector selector)
         {
             if (_temp != null)
             {
@@ -452,7 +452,7 @@
             }
         }
 
-        CssCombinator GetCombinator()
+        private CssCombinator GetCombinator()
         {
             //Remove all trailing whitespaces
             while (_combinators.Count > 1 && _combinators.Peek() == CssCombinator.Descendent)
@@ -498,7 +498,7 @@
             return _combinators.Pop();
         }
 
-        void Insert(CssCombinator cssCombinator)
+        private void Insert(CssCombinator cssCombinator)
         {
             _combinators.Push(cssCombinator);
         }
@@ -507,7 +507,7 @@
 
 		#region Substates
 
-		void OnDelim(CssToken token)
+		private void OnDelim(CssToken token)
 		{
 			switch (token.Data[0])
 			{
@@ -557,30 +557,28 @@
             }
 		}
 
-        ISelector GetPseudoFunction(CssFunctionToken arguments)
+        private ISelector GetPseudoFunction(CssFunctionToken arguments)
         {
             var creator = default(Func<CssSelectorConstructor, FunctionState>);
 
             if (pseudoClassFunctions.TryGetValue(arguments.Data, out creator))
             {
-                using (var function = creator(this))
+                var function = creator.Invoke(this);
+                _ready = false;
+
+                foreach (var token in arguments)
                 {
-                    _ready = false;
-
-                    foreach (var token in arguments)
+                    if (function.Finished(token))
                     {
-                        if (function.Finished(token))
+                        var sel = function.Produce();
+
+                        if (_nested && function is NotFunctionState)
                         {
-                            var sel = function.Produce();
-
-                            if (_nested && function is NotFunctionState)
-                            {
-                                sel = null;
-                            }
-
-                            _ready = true;
-                            return sel;
+                            sel = null;
                         }
+
+                        _ready = true;
+                        return sel;
                     }
                 }
             }
@@ -588,19 +586,19 @@
             return null;
         }
 
-        CssSelectorConstructor CreateChild()
+        private CssSelectorConstructor CreateChild()
         {
-            return Pool.NewSelectorConstructor(_attributeSelector, _pseudoClassSelector, _pseudoElementSelector);
+            return new CssSelectorConstructor(_attributeSelector, _pseudoClassSelector, _pseudoElementSelector);
         }
 
         #endregion
 
-		#region State-Machine
+        #region State-Machine
 
-		/// <summary>
-		/// The various parsing states.
-		/// </summary>
-		enum State : byte
+        /// <summary>
+        /// The various parsing states.
+        /// </summary>
+        private enum State : byte
 		{
 			Data,
 			Attribute,
@@ -616,7 +614,7 @@
 
         #region Function States
 
-        private abstract class FunctionState : IDisposable
+        private abstract class FunctionState
         {
             public Boolean Finished(CssToken token)
             {
@@ -626,15 +624,11 @@
             public abstract ISelector Produce();
 
             protected abstract Boolean OnToken(CssToken token);
-
-            public virtual void Dispose()
-            {
-            }
         }
 
         private sealed class NotFunctionState : FunctionState
         {
-            readonly CssSelectorConstructor _selector;
+            private readonly CssSelectorConstructor _selector;
 
             public NotFunctionState(CssSelectorConstructor parent)
             {
@@ -666,19 +660,13 @@
 
                 return null;
             }
-
-            public override void Dispose()
-            {
-                base.Dispose();
-                _selector.ToPool();
-            }
         }
 
         private sealed class HasFunctionState : FunctionState
         {
-            readonly CssSelectorConstructor _nested;
-            bool _firstToken = true;
-            bool _matchSiblings = false;
+            private readonly CssSelectorConstructor _nested;
+            private Boolean _firstToken = true;
+            private Boolean _matchSiblings = false;
 
             public HasFunctionState(CssSelectorConstructor parent)
             {
@@ -738,17 +726,11 @@
 
                 return null;
             }
-
-            public override void Dispose()
-            {
-                base.Dispose();
-                _nested.ToPool();
-            }
         }
 
         private sealed class MatchesFunctionState : FunctionState
         {
-            readonly CssSelectorConstructor _selector;
+            private readonly CssSelectorConstructor _selector;
 
             public MatchesFunctionState(CssSelectorConstructor parent)
             {
@@ -779,18 +761,12 @@
 
                 return null;
             }
-
-            public override void Dispose()
-            {
-                base.Dispose();
-                _selector.ToPool();
-            }
         }
 
         private sealed class DirFunctionState : FunctionState
         {
-            Boolean _valid;
-            String _value;
+            private Boolean _valid;
+            private String _value;
 
             public DirFunctionState()
             {
@@ -830,8 +806,8 @@
 
         private sealed class LangFunctionState : FunctionState
         {
-            Boolean valid;
-            String value;
+            private Boolean valid;
+            private String value;
 
             public LangFunctionState()
             {
@@ -871,8 +847,8 @@
 
         private sealed class ContainsFunctionState : FunctionState
         {
-            Boolean _valid;
-            String _value;
+            private Boolean _valid;
+            private String _value;
 
             public ContainsFunctionState()
             {
@@ -912,7 +888,7 @@
 
         private sealed class HostContextFunctionState : FunctionState
         {
-            readonly CssSelectorConstructor _selector;
+            private readonly CssSelectorConstructor _selector;
 
             public HostContextFunctionState(CssSelectorConstructor parent)
             {
@@ -959,17 +935,11 @@
 
                 return null;
             }
-
-            public override void Dispose()
-            {
-                base.Dispose();
-                _selector.ToPool();
-            }
         }
 
         private sealed class ChildFunctionState : FunctionState
         {
-            readonly CssSelectorConstructor _parent;
+            private readonly CssSelectorConstructor _parent;
 
             private Boolean _valid;
             private Int32 _step;
@@ -993,14 +963,14 @@
             public override ISelector Produce()
             {
                 var invalid = !_valid || (_nested != null && !_nested.IsValid);
-                var sel = _nested?.ToPool() ?? SimpleSelector.All;
 
-                if (invalid)
+                if (!invalid)
                 {
-                    return null;
+                    var sel = _nested?.GetResult() ?? SimpleSelector.All;
+                    return _creator.Invoke(_step, _offset, sel);
                 }
 
-                return _creator.Invoke(_step, _offset, sel);
+                return null;
             }
 
             protected override Boolean OnToken(CssToken token)
