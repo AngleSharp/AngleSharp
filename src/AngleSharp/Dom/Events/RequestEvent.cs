@@ -13,7 +13,7 @@
         /// <param name="request">The data of the request.</param>
         /// <param name="response">The received response.</param>
         public RequestEvent(Request request, IResponse response)
-            : base(response != null ? EventNames.RequestEnd : EventNames.RequestStart)
+            : base(response != null ? EventNames.Requested : EventNames.Requesting)
         {
             Response = response;
             Request = request;

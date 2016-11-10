@@ -408,28 +408,23 @@
         public static readonly String Storage = "storage";
 
         /// <summary>
-        /// The parseStart event.
+        /// The parsing event.
         /// </summary>
-        public static readonly String ParseStart = "parseStart";
+        public static readonly String Parsing = "parsing";
 
         /// <summary>
-        /// The parseEnd event.
+        /// The parsed event.
         /// </summary>
-        public static readonly String ParseEnd = "parseEnd";
+        public static readonly String Parsed = "parsed";
 
         /// <summary>
-        /// The parseError event.
+        /// The requesting event.
         /// </summary>
-        public static readonly String ParseError = "parseError";
+        public static readonly String Requesting = "requesting";
 
         /// <summary>
-        /// The requestStart event.
+        /// The requested event.
         /// </summary>
-        public static readonly String RequestStart = "requestStart";
-
-        /// <summary>
-        /// The requestEnd event.
-        /// </summary>
-        public static readonly String RequestEnd = "requestEnd";
+        public static readonly String Requested = "requested";
     }
 }

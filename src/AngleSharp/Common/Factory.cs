@@ -30,7 +30,7 @@
         /// <summary>
         /// The DOM events factory.
         /// </summary>
-        public static readonly EventFactory Events = new EventFactory();
+        public static readonly DefaultEventFactory Events = new DefaultEventFactory();
 
         /// <summary>
         /// The HTML input type provider factory.

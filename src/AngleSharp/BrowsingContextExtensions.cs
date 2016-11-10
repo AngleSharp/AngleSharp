@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp
 {
     using AngleSharp.Browser;
+    using AngleSharp.Browser.Dom.Events;
     using AngleSharp.Css;
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Events;
     using AngleSharp.Io;
     using AngleSharp.Media;
     using AngleSharp.Scripting;
@@ -448,14 +448,14 @@
         #region Events
 
         /// <summary>
-        /// Fires an interactive event at the context.
+        /// Fires an interactive event at the given context.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">The type of interactivity payload.</typeparam>
         /// <param name="context">The current context.</param>
         /// <param name="eventName">The name of the event to fire.</param>
         /// <param name="data">The data to transport.</param>
         /// <returns>The task with the response to the event.</returns>
-        public static Task FireAsync<T>(this IBrowsingContext context, String eventName, T data)
+        public static Task InteractAsync<T>(this IBrowsingContext context, String eventName, T data)
         {
             var ev = new InteractivityEvent<T>(eventName, data);
             context.Fire(ev);

@@ -1,9 +1,9 @@
 ﻿namespace AngleSharp.Xml.Parser
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Events;
     using AngleSharp.Text;
     using AngleSharp.Xml.Dom;
+    using AngleSharp.Xml.Dom.Events;
     using System;
     using System.IO;
     using System.Threading;
@@ -28,8 +28,8 @@
         /// </summary>
         public event DomEventHandler Parsing
         {
-            add { AddEventListener(EventNames.ParseStart, value); }
-            remove { RemoveEventListener(EventNames.ParseStart, value); }
+            add { AddEventListener(EventNames.Parsing, value); }
+            remove { RemoveEventListener(EventNames.Parsing, value); }
         }
 
         /// <summary>
@@ -37,8 +37,8 @@
         /// </summary>
         public event DomEventHandler Parsed
         {
-            add { AddEventListener(EventNames.ParseEnd, value); }
-            remove { RemoveEventListener(EventNames.ParseEnd, value); }
+            add { AddEventListener(EventNames.Parsed, value); }
+            remove { RemoveEventListener(EventNames.Parsed, value); }
         }
 
         /// <summary>
@@ -46,8 +46,8 @@
         /// </summary>
         public event DomEventHandler Error
         {
-            add { AddEventListener(EventNames.ParseError, value); }
-            remove { RemoveEventListener(EventNames.ParseError, value); }
+            add { AddEventListener(EventNames.Error, value); }
+            remove { RemoveEventListener(EventNames.Error, value); }
         }
 
         #endregion
@@ -170,9 +170,9 @@
         async Task<IDocument> IXmlParser.ParseAsync(IDocument document, CancellationToken cancel)
         {
             var parser = CreateBuilder((Document)document);
-            InvokeEventListener(new HtmlParseEvent(document, completed: false));
+            InvokeEventListener(new XmlParseEvent(document, completed: false));
             await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
-            InvokeEventListener(new HtmlParseEvent(document, completed: true));
+            InvokeEventListener(new XmlParseEvent(document, completed: true));
             return document;
         }
 
@@ -208,18 +208,18 @@
         private IXmlDocument Parse(XmlDocument document)
         {
             var parser = CreateBuilder(document);
-            InvokeEventListener(new HtmlParseEvent(document, completed: false));
+            InvokeEventListener(new XmlParseEvent(document, completed: false));
             parser.Parse(_options);
-            InvokeEventListener(new HtmlParseEvent(document, completed: true));
+            InvokeEventListener(new XmlParseEvent(document, completed: true));
             return document;
         }
 
         private async Task<IXmlDocument> ParseAsync(XmlDocument document, CancellationToken cancel)
         {
             var parser = CreateBuilder(document);
-            InvokeEventListener(new HtmlParseEvent(document, completed: false));
+            InvokeEventListener(new XmlParseEvent(document, completed: false));
             await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
-            InvokeEventListener(new HtmlParseEvent(document, completed: true));
+            InvokeEventListener(new XmlParseEvent(document, completed: true));
             return document;
         }
 

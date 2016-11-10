@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Events;
     using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Dom.Events;
     using AngleSharp.Html.Parser.Tokens;
     using AngleSharp.Io;
     using AngleSharp.Mathml.Dom;

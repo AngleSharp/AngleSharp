@@ -1,5 +1,6 @@
-﻿namespace AngleSharp.Dom.Events
+﻿namespace AngleSharp.Browser.Dom.Events
 {
+    using AngleSharp.Dom.Events;
     using System;
     using System.Threading.Tasks;
 

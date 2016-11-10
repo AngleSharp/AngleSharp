@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Events
+﻿namespace AngleSharp.Html.Dom.Events
 {
     /// <summary>
     /// All possible mouse button values that may appear in UI events.

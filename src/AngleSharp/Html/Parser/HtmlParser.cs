@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
-    using AngleSharp.Dom.Events;
     using AngleSharp.Html.Dom;
+    using AngleSharp.Html.Dom.Events;
     using AngleSharp.Text;
     using System;
     using System.IO;
@@ -28,8 +28,8 @@
         /// </summary>
         public event DomEventHandler Parsing
         {
-            add { AddEventListener(EventNames.ParseStart, value); }
-            remove { RemoveEventListener(EventNames.ParseStart, value); }
+            add { AddEventListener(EventNames.Parsing, value); }
+            remove { RemoveEventListener(EventNames.Parsing, value); }
         }
 
         /// <summary>
@@ -37,8 +37,8 @@
         /// </summary>
         public event DomEventHandler Parsed
         {
-            add { AddEventListener(EventNames.ParseEnd, value); }
-            remove { RemoveEventListener(EventNames.ParseEnd, value); }
+            add { AddEventListener(EventNames.Parsed, value); }
+            remove { RemoveEventListener(EventNames.Parsed, value); }
         }
 
         /// <summary>
@@ -46,8 +46,8 @@
         /// </summary>
         public event DomEventHandler Error
         {
-            add { AddEventListener(EventNames.ParseError, value); }
-            remove { RemoveEventListener(EventNames.ParseError, value); }
+            add { AddEventListener(EventNames.Error, value); }
+            remove { RemoveEventListener(EventNames.Error, value); }
         }
 
         #endregion
@@ -180,11 +180,8 @@
 
         async Task<IDocument> IHtmlParser.ParseAsync(IDocument document, CancellationToken cancel)
         {
-            var parser = CreateBuilder((HtmlDocument)document);
-            InvokeEventListener(new HtmlParseEvent(document, completed: false));
-            await parser.ParseAsync(_options, cancel).ConfigureAwait(false);
-            InvokeEventListener(new HtmlParseEvent(document, completed: true));
-            return document;
+            var doc = (HtmlDocument)document;
+            return await ParseAsync(doc, cancel).ConfigureAwait(false);
         }
 
         #endregion
@@ -212,9 +209,9 @@
 
         private HtmlDomBuilder CreateBuilder(HtmlDocument document)
         {
-            var parser = new HtmlDomBuilder((HtmlDocument)document);
+            var parser = new HtmlDomBuilder(document);
 
-            if (HasEventListener(EventNames.ParseError))
+            if (HasEventListener(EventNames.Error))
             {
                 parser.Error += (s, ev) => InvokeEventListener(ev);
             }

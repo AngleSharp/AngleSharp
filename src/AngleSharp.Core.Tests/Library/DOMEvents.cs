@@ -2,6 +2,7 @@
 {
     using AngleSharp.Dom;
     using AngleSharp.Dom.Events;
+    using AngleSharp.Html.Dom.Events;
     using NUnit.Framework;
 
     [TestFixture]
@@ -177,7 +178,7 @@
         [Test]
         public void EventsFactory()
         {
-            var factory = new EventFactory();
+            var factory = new DefaultEventFactory();
             var invalid = factory.Create("invalid");
             var @event = factory.Create("event");
             var events = factory.Create("events");

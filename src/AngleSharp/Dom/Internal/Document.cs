@@ -1290,7 +1290,7 @@
                         Document = this,
                         IsCancelled = true,
                     };
-                    await _context.FireAsync(EventNames.ConfirmUnload, data).ConfigureAwait(false);
+                    await _context.InteractAsync(EventNames.ConfirmUnload, data).ConfigureAwait(false);
 
                     if (data.IsCancelled)
                     {
@@ -1518,7 +1518,7 @@
         {
             var data = new { Document = this };
             this.FireSimpleEvent(EventNames.BeforePrint);
-            await _context.FireAsync(EventNames.Print, data).ConfigureAwait(false);
+            await _context.InteractAsync(EventNames.Print, data).ConfigureAwait(false);
             this.FireSimpleEvent(EventNames.AfterPrint);
         }
 

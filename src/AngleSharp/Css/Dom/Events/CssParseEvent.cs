@@ -1,6 +1,7 @@
-﻿namespace AngleSharp.Dom.Events
+﻿namespace AngleSharp.Css.Dom.Events
 {
-    using AngleSharp.Css.Dom;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using System;
 
     /// <summary>
@@ -14,7 +15,7 @@
         /// <param name="styleSheet">The sheet to be filled.</param>
         /// <param name="completed">Determines if parsing is done.</param>
         public CssParseEvent(ICssStyleSheet styleSheet, Boolean completed)
-            : base(completed ? EventNames.ParseEnd : EventNames.ParseStart)
+            : base(completed ? EventNames.Parsed : EventNames.Parsing)
         {
             StyleSheet = styleSheet;
         }

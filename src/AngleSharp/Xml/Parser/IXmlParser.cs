@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Xml.Parser
 {
-    using AngleSharp.Common;
+    using AngleSharp.Browser;
     using AngleSharp.Dom;
     using AngleSharp.Xml.Dom;
     using System;

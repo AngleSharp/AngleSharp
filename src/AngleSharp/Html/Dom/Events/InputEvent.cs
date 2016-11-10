@@ -1,20 +1,21 @@
-﻿namespace AngleSharp.Dom.Events
+﻿namespace AngleSharp.Html.Dom.Events
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Dom.Events;
     using System;
 
     /// <summary>
-    /// Represents a track that provides an additional track information.
+    /// Represents the event arguments for an input event.
     /// </summary>
-    [DomName("TrackEvent")]
-    public class TrackEvent : Event
+    [DomName("InputEvent")]
+    public class InputEvent : Event
     {
         #region ctor
 
         /// <summary>
         /// Creates a new event.
         /// </summary>
-        public TrackEvent()
+        public InputEvent()
         {
         }
 
@@ -24,12 +25,12 @@
         /// <param name="type">The type of the event.</param>
         /// <param name="bubbles">If the event is bubbling.</param>
         /// <param name="cancelable">If the event is cancelable.</param>
-        /// <param name="track">The track object.</param>
+        /// <param name="data">Sets the data for the input event.</param>
         [DomConstructor]
         [DomInitDict(offset: 1, optional: true)]
-        public TrackEvent(String type, Boolean bubbles = false, Boolean cancelable = false, Object track = null)
+        public InputEvent(String type, Boolean bubbles = false, Boolean cancelable = false, String data = null)
         {
-            Init(type, bubbles, cancelable, track);
+            Init(type, bubbles, cancelable, data ?? String.Empty);
         }
 
         #endregion
@@ -37,10 +38,10 @@
         #region Properties
 
         /// <summary>
-        /// Gets the assigned track object, if any.
+        /// Gets the data that has been entered.
         /// </summary>
-        [DomName("track")]
-        public Object Track
+        [DomName("data")]
+        public String Data
         {
             get;
             private set;
@@ -51,17 +52,17 @@
         #region Methods
 
         /// <summary>
-        /// Initializes the mouse event.
+        /// Initializes the input event.
         /// </summary>
         /// <param name="type">The type of event.</param>
         /// <param name="bubbles">Determines if the event bubbles.</param>
         /// <param name="cancelable">Determines if the event is cancelable.</param>
-        /// <param name="track">The track object.</param>
-        [DomName("initTrackEvent")]
-        public void Init(String type, Boolean bubbles, Boolean cancelable, Object track)
+        /// <param name="data">Sets the data for the input event.</param>
+        [DomName("initInputEvent")]
+        public void Init(String type, Boolean bubbles, Boolean cancelable, String data)
         {
             Init(type, bubbles, cancelable);
-            Track = track;
+            Data = data;
         }
 
         #endregion

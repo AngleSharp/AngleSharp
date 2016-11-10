@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Common;
+    using AngleSharp.Css.Dom.Events;
     using AngleSharp.Css.Parser.Tokens;
-    using AngleSharp.Dom.Events;
     using AngleSharp.Text;
     using System;
     using System.Globalization;

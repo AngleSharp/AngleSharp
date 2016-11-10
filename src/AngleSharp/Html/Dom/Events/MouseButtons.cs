@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Dom.Events
+﻿namespace AngleSharp.Html.Dom.Events
 {
     using System;
 

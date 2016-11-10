@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Common
+﻿namespace AngleSharp.Browser
 {
     using AngleSharp.Dom;
 

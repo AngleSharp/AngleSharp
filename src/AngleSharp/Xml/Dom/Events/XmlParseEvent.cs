@@ -1,21 +1,21 @@
-﻿namespace AngleSharp.Dom.Events
+﻿namespace AngleSharp.Xml.Dom.Events
 {
     using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using System;
 
     /// <summary>
-    /// The event that is published in case of starting HTML parsing.
-    /// This is also the same event for SVG or XML documents.
+    /// The event that is published in case of starting XML parsing.
     /// </summary>
-    public class HtmlParseEvent : Event
+    public class XmlParseEvent : Event
     {
         /// <summary>
-        /// Creates a new event for starting HTML parsing.
+        /// Creates a new event for starting XML parsing.
         /// </summary>
         /// <param name="document">The document to be filled.</param>
         /// <param name="completed">Determines if parsing is done.</param>
-        public HtmlParseEvent(IDocument document, Boolean completed)
-            : base(completed ? EventNames.ParseEnd : EventNames.ParseStart)
+        public XmlParseEvent(IDocument document, Boolean completed)
+            : base(completed ? EventNames.Parsed : EventNames.Parsing)
         {
             Document = document;
         }

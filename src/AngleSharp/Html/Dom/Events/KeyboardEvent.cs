@@ -1,6 +1,8 @@
-﻿namespace AngleSharp.Dom.Events
+﻿namespace AngleSharp.Html.Dom.Events
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Dom;
+    using AngleSharp.Dom.Events;
     using System;
 
     /// <summary>
@@ -11,7 +13,7 @@
     {
         #region Fields
 
-        String _modifiers;
+        private String _modifiers;
 
         #endregion
 
