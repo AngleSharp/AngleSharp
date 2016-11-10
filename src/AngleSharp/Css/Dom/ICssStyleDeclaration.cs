@@ -1,6 +1,7 @@
 ﻿namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Attributes;
+    using AngleSharp.Common;
     using System;
 
     /// <summary>
@@ -8,7 +9,7 @@
     /// this underlying state depends upon the source of the CSSStyleDeclaration instance.
     /// </summary>
     [DomName("CSSStyleDeclaration")]
-    public interface ICssStyleDeclaration : ICssProperties, IStyleFormattable
+    public interface ICssStyleDeclaration : ICssProperties, IStyleFormattable, IBindable
     {
         /// <summary>
         /// Gets the name of the property with the specified index.

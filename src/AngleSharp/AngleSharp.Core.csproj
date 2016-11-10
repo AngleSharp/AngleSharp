@@ -60,7 +60,9 @@
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Browser\IParser.cs" />
     <Compile Include="Css\Dom\SelectorExtensions.cs" />
+    <Compile Include="Css\ICssStyleEngine.cs" />
     <Compile Include="Css\Parser\ICssSelectorParser.cs" />
+    <Compile Include="Dom\IPseudoElement.cs" />
     <Compile Include="Html\Dom\ImageExtensions.cs" />
     <Compile Include="Html\ValidationErrors.cs" />
     <Compile Include="Html\Parser\IHtmlParser.cs" />
@@ -89,7 +91,6 @@
     <Compile Include="Css\Dom\Internal\FirstChildSelector.cs" />
     <Compile Include="Css\Dom\Internal\FirstColumnSelector.cs" />
     <Compile Include="Css\Dom\Internal\FirstTypeSelector.cs" />
-    <Compile Include="Css\Dom\Internal\KeyframeSelector.cs" />
     <Compile Include="Css\Dom\Internal\LastChildSelector.cs" />
     <Compile Include="Css\Dom\Internal\LastColumnSelector.cs" />
     <Compile Include="Css\Dom\Internal\LastTypeSelector.cs" />
@@ -138,7 +139,6 @@
     <Compile Include="Css\IAttributeSelectorFactory.cs" />
     <Compile Include="Html\DefaultInputTypeFactory.cs" />
     <Compile Include="Html\DefaultLinkRelationFactory.cs" />
-    <Compile Include="Dom\Internal\PseudoElement.cs" />
     <Compile Include="Dom\DocumentExtensions.cs" />
     <Compile Include="Dom\EventTargetExtensions.cs" />
     <Compile Include="Common\ObjectExtensions.cs" />
@@ -239,7 +239,6 @@
     <Compile Include="Dom\IEntityProvider.cs" />
     <Compile Include="Scripting\IScriptingProvider.cs" />
     <Compile Include="Css\IStylingProvider.cs" />
-    <Compile Include="Css\ICssStyleEngine.cs" />
     <Compile Include="Text\TextRange.cs" />
     <Compile Include="Html\InputTypeNames.cs" />
     <Compile Include="Html\InputTypes\BaseInputType.cs" />
@@ -260,8 +259,6 @@
     <Compile Include="Html\InputTypes\TextInputType.cs" />
     <Compile Include="Html\InputTypes\DateInputType.cs" />
     <Compile Include="Html\InputTypes\ButtonInputType.cs" />
-    <Compile Include="Css\Dom\IKeyframeSelector.cs" />
-    <Compile Include="Dom\IPseudoElement.cs" />
     <Compile Include="Html\Dom\Internal\HtmlLinkElementExtensions.cs" />
     <Compile Include="Browser\ICommandProvider.cs" />
     <Compile Include="Browser\ISpellCheckService.cs" />

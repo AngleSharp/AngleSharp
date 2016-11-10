@@ -417,11 +417,6 @@
             return node;
         }
 
-        public IPseudoElement Pseudo(String pseudoElement)
-        {
-            return PseudoElement.Create(this, pseudoElement);
-        }
-
         public Boolean HasAttribute(String name)
         {
             if (_namespace.Is(NamespaceNames.HtmlUri))
@@ -657,13 +652,7 @@
                     var source = this.GetOwnAttribute(AttributeNames.Style);
                     var options = new StyleOptions(context) { Element = this };
                     var style = engine.ParseDeclaration(source, options);
-                    var bindable = style as IBindable;
-
-                    if (bindable != null)
-                    {
-                        bindable.Changed += value => UpdateAttribute(AttributeNames.Style, value);
-                    }
-
+                    style.Changed += value => UpdateAttribute(AttributeNames.Style, value);
                     return style;
                 }
             }

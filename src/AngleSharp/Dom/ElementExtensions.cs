@@ -434,8 +434,8 @@
         /// <returns>True if the element is a pseudo element, otherwise false.</returns>
         public static Boolean IsPseudo(this IElement element, String name)
         {
-            var pseudoElement = element as PseudoElement;
-            return pseudoElement != null && pseudoElement.PseudoName.Is(name);
+            var pseudoElement = element as IPseudoElement;
+            return pseudoElement?.PseudoName.Is(name) ?? false;
         }
 
         /// <summary>
