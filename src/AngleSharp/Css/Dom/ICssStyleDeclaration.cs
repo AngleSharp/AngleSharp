@@ -26,9 +26,15 @@
         String CssText { get; set; }
 
         /// <summary>
-        /// Gets the containing rule.
+        /// Gets the containing rule, if any.
         /// </summary>
         [DomName("parentRule")]
         ICssRule Parent { get; }
+
+        /// <summary>
+        /// Sets the parent rule.
+        /// </summary>
+        /// <param name="rule">The rule to use as parent.</param>
+        void SetParent(ICssRule rule);
     }
 }
