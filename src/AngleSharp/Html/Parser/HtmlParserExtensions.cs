@@ -151,9 +151,15 @@
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddComment(this Node parent, HtmlToken token)
+        public static void AddComment(this Element parent, HtmlToken token)
         {
             parent.AddNode(new Comment(parent.Owner, token.Data));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void AddComment(this Document parent, HtmlToken token)
+        {
+            parent.AddNode(new Comment(parent, token.Data));
         }
 
         public static QuirksMode GetQuirksMode(this HtmlDoctypeToken doctype)
