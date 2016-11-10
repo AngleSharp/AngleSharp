@@ -2,6 +2,7 @@
 {
     using AngleSharp.Attributes;
     using AngleSharp.Css.Dom;
+    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -54,5 +55,21 @@
         /// </summary>
         [DomName("disabled")]
         Boolean IsDisabled { get; set; }
+
+        /// <summary>
+        /// Gets the browsing context to use.
+        /// </summary>
+        IBrowsingContext Context { get; }
+
+        /// <summary>
+        /// Gets the underlying source.
+        /// </summary>
+        TextSource Source { get; }
+
+        /// <summary>
+        /// Sets the owner of the sheet.
+        /// </summary>
+        /// <param name="element">The owning element.</param>
+        void SetOwner(IElement element);
     }
 }

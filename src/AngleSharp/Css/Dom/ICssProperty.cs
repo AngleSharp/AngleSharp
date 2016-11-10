@@ -17,15 +17,30 @@
         String Name { get; }
 
         /// <summary>
-        /// Gets the value of the property.
+        /// Gets or sets the value of the property.
         /// </summary>
         [DomName("value")]
-        String Value { get; }
+        String Value { get; set; }
 
         /// <summary>
-        /// Gets if the !important flag has been set.
+        /// Gets or sets if the !important flag has been set.
         /// </summary>
         [DomName("important")]
-        Boolean IsImportant { get; }
+        Boolean IsImportant { get; set; }
+
+        /// <summary>
+        /// Gets if the property is declared as being inherited.
+        /// </summary>
+        Boolean IsInherited { get; }
+
+        /// <summary>
+        /// Gets if the property is in its initial value.
+        /// </summary>
+        Boolean IsInitial { get; }
+
+        /// <summary>
+        /// Gets if the property can be inherited.
+        /// </summary>
+        Boolean CanBeInherited { get; }
     }
 }

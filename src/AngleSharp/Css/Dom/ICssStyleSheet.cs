@@ -2,7 +2,6 @@
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom;
-    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -53,13 +52,15 @@
         void RemoveAt(Int32 index);
 
         /// <summary>
-        /// Gets the browsing context to use.
+        /// Sets the owner of the sheet.
         /// </summary>
-        IBrowsingContext Context { get; }
+        /// <param name="rule">The owning rule.</param>
+        void SetOwner(ICssRule rule);
 
         /// <summary>
-        /// Gets the underlying source.
+        /// Sets the parent of the sheet.
         /// </summary>
-        TextSource Source { get; }
+        /// <param name="parent">The parent sheet.</param>
+        void SetParent(ICssStyleSheet parent);
     }
 }

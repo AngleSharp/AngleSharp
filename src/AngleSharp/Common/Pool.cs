@@ -7,7 +7,7 @@
     /// <summary>
     /// Provides a pool of used / recycled resources.
     /// </summary>
-    static class Pool
+    public static class Pool
     {
         private static readonly Stack<StringBuilder> _builder = new Stack<StringBuilder>();
         private static readonly Object _lock = new Object();

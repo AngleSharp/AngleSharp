@@ -5,7 +5,7 @@
     /// <summary>
     /// The collection of known CSS selector combinator symbols.
     /// </summary>
-    static class CombinatorSymbols
+    public static class CombinatorSymbols
     {
         /// <summary>
         /// The "=" attribute combinator.

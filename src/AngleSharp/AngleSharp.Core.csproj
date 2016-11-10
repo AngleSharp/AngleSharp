@@ -100,7 +100,6 @@
     <Compile Include="Dom\Events\HashChangedEvent.cs" />
     <Compile Include="Browser\Dom\Events\InteractivityEvent.cs" />
     <Compile Include="Html\Dom\Events\KeyboardEvent.cs" />
-    <Compile Include="Html\Dom\Events\MediaQueryListEvent.cs" />
     <Compile Include="Html\Dom\Events\ModifierExtensions.cs" />
     <Compile Include="Html\Dom\Events\MouseEvent.cs" />
     <Compile Include="Dom\Events\PageTransitionEvent.cs" />
