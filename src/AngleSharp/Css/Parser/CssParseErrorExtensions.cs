@@ -8,7 +8,7 @@
     /// <summary>
     /// Extensions to be used exclusively by the parser or the tokenizer.
     /// </summary>
-    static class CssParserExtensions
+    static class CssParseErrorExtensions
     {
         public static Int32 GetCode(this CssParseError code)
         {

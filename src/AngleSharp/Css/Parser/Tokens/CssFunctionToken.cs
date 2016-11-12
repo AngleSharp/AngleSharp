@@ -1,10 +1,8 @@
 ﻿namespace AngleSharp.Css.Parser.Tokens
 {
-    using AngleSharp.Text;
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Represents a CSS function token.
@@ -19,29 +17,10 @@
 
         #region ctor
 
-        public CssFunctionToken(String data, TextPosition position)
-            : base(CssTokenType.Function, data, position)
+        public CssFunctionToken(String data)
+            : base(CssTokenType.Function, data)
         {
             _arguments = new List<CssToken>();
-        }
-
-        #endregion
-
-        #region Properties
-
-        public IEnumerable<CssToken> ArgumentTokens
-        {
-            get
-            {
-                var final = _arguments.Count - 1;
-
-                if (final >= 0 && _arguments[final].Type == CssTokenType.RoundBracketClose)
-                {
-                    final--;
-                }
-
-                return _arguments.Take(1 + final);
-            }
         }
 
         #endregion

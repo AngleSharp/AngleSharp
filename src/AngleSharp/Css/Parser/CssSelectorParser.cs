@@ -38,9 +38,8 @@
                 constructor.Apply(token);
                 token = tokenizer.Get();
             }
-
-            var valid = constructor.IsValid;
-            return valid ? constructor.GetResult() : null;
+            
+            return constructor.IsValid ? constructor.GetResult() : null;
         }
     }
 }

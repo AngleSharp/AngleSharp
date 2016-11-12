@@ -115,38 +115,35 @@
 
         public void Apply(CssToken token)
         {
-            if (token.Type != CssTokenType.Comment)
+            switch (_state)
             {
-                switch (_state)
-                {
-                    case State.Data:
-                        OnData(token);
-                        break;
-                    case State.Class:
-                        OnClass(token);
-                        break;
-                    case State.Attribute:
-                        OnAttribute(token);
-                        break;
-                    case State.AttributeOperator:
-                        OnAttributeOperator(token);
-                        break;
-                    case State.AttributeValue:
-                        OnAttributeValue(token);
-                        break;
-                    case State.AttributeEnd:
-                        OnAttributeEnd(token);
-                        break;
-                    case State.PseudoClass:
-                        OnPseudoClass(token);
-                        break;
-                    case State.PseudoElement:
-                        OnPseudoElement(token);
-                        break;
-                    default:
-                        _valid = false;
-                        break;
-                }
+                case State.Data:
+                    OnData(token);
+                    break;
+                case State.Class:
+                    OnClass(token);
+                    break;
+                case State.Attribute:
+                    OnAttribute(token);
+                    break;
+                case State.AttributeOperator:
+                    OnAttributeOperator(token);
+                    break;
+                case State.AttributeValue:
+                    OnAttributeValue(token);
+                    break;
+                case State.AttributeEnd:
+                    OnAttributeEnd(token);
+                    break;
+                case State.PseudoClass:
+                    OnPseudoClass(token);
+                    break;
+                case State.PseudoElement:
+                    OnPseudoElement(token);
+                    break;
+                default:
+                    _valid = false;
+                    break;
             }
         }
 

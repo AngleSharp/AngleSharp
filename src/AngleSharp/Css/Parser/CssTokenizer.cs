@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Common;
-    using AngleSharp.Css.Dom.Events;
     using AngleSharp.Css.Parser.Tokens;
     using AngleSharp.Text;
     using System;
@@ -14,18 +13,8 @@
     sealed class CssTokenizer : BaseTokenizer
 	{
 		#region Fields
-
-        private Boolean _valueMode;
+        
         private TextPosition _position;
-
-        #endregion
-
-        #region Events
-
-        /// <summary>
-        /// Fired in case of a parse error.
-        /// </summary>
-        public event EventHandler<CssErrorEvent> Error;
 
         #endregion
 
@@ -38,20 +27,6 @@
         public CssTokenizer(TextSource source)
             : base(source)
         {
-            _valueMode = false;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets if we are currently in value mode.
-        /// </summary>
-        public Boolean IsInValue
-        {
-            get { return _valueMode; }
-            set { _valueMode = value; }
         }
 
         #endregion
@@ -67,17 +42,6 @@
             var current = GetNext();
             _position = GetCurrentPosition();
             return Data(current);
-        }
-
-        internal void RaiseErrorOccurred(CssParseError error, TextPosition position)
-        {
-            var handler = Error;
-
-            if (handler != null)
-            {
-                var errorEvent = new CssErrorEvent(error, position);
-                handler.Invoke(this, errorEvent);
-            }
         }
 
         #endregion
@@ -104,7 +68,7 @@
                     return StringDQ();
 
                 case Symbols.Num:
-                    return _valueMode ? ColorLiteral() : HashStart();
+                    return HashStart();
 
                 case Symbols.Dollar:
                     current = GetNext();
@@ -120,7 +84,7 @@
                     return StringSQ();
 
                 case Symbols.RoundBracketOpen:
-                    return NewOpenRound();
+                    return NewInvalid("(");
 
                 case Symbols.RoundBracketClose:
                     return NewCloseRound();
@@ -196,7 +160,7 @@
                         else if (c1 == Symbols.Minus && c2 == Symbols.GreaterThan)
                         {
                             Advance(2);
-                            return NewCloseComment();
+                            return NewInvalid("-->");
                         }
                     }
                     else
@@ -212,7 +176,8 @@
 
                     if (current == Symbols.Asterisk)
                     {
-                        return Comment();
+                        SkipComment();
+                        return Get();
                     }
 
                     return NewDelimiter(GetPrevious());
@@ -220,14 +185,8 @@
                 case Symbols.ReverseSolidus:
                     current = GetNext();
 
-                    if (current.IsLineBreak())
+                    if (current.IsLineBreak() || current == Symbols.EndOfFile)
                     {
-                        RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
-                        return NewDelimiter(GetPrevious());
-                    }
-                    else if (current == Symbols.EndOfFile)
-                    {
-                        RaiseErrorOccurred(CssParseError.EOF);
                         return NewDelimiter(GetPrevious());
                     }
 
@@ -236,7 +195,7 @@
                     return NewColon();
 
                 case Symbols.Semicolon:
-                    return NewSemicolon();
+                    return NewInvalid(";");
 
                 case Symbols.LessThan:
                     current = GetNext();
@@ -251,7 +210,7 @@
 
                             if (current == Symbols.Minus)
                             {
-                                return NewOpenComment();
+                                return NewInvalid("<!--");
                             }
 
                             current = GetPrevious();
@@ -282,10 +241,10 @@
                     return NewDelimiter(GetPrevious());
 
                 case Symbols.CurlyBracketOpen:
-                    return NewOpenCurly();
+                    return NewInvalid("{");
 
                 case Symbols.CurlyBracketClose:
-                    return NewCloseCurly();
+                    return NewInvalid("}");
 
                 case '0':
                 case '1':
@@ -377,13 +336,12 @@
                 {
                     case Symbols.DoubleQuote:
                     case Symbols.EndOfFile:
-                        return NewString(FlushBuffer(), Symbols.DoubleQuote);
+                        return NewString(FlushBuffer());
 
                     case Symbols.FormFeed:
                     case Symbols.LineFeed:
-                        RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                         Back();
-                        return NewString(FlushBuffer(), Symbols.DoubleQuote, bad: true);
+                        return NewString(FlushBuffer());
 
                     case Symbols.ReverseSolidus:
                         current = GetNext();
@@ -398,9 +356,8 @@
                         }
                         else
                         {
-                            RaiseErrorOccurred(CssParseError.EOF);
                             Back();
-                            return NewString(FlushBuffer(), Symbols.DoubleQuote, bad: true);
+                            return NewString(FlushBuffer());
                         }
 
                         break;
@@ -425,13 +382,12 @@
                 {
                     case Symbols.SingleQuote:
                     case Symbols.EndOfFile:
-                        return NewString(FlushBuffer(), Symbols.SingleQuote);
+                        return NewString(FlushBuffer());
 
                     case Symbols.FormFeed:
                     case Symbols.LineFeed:
-                        RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                         Back();
-                        return NewString(FlushBuffer(), Symbols.SingleQuote, bad: true);
+                        return NewString(FlushBuffer());
 
                     case Symbols.ReverseSolidus:
                         current = GetNext();
@@ -446,9 +402,8 @@
                         }
                         else
                         {
-                            RaiseErrorOccurred(CssParseError.EOF);
                             Back();
-                            return NewString(FlushBuffer(), Symbols.SingleQuote, bad: true);
+                            return NewString(FlushBuffer());
                         }
 
                         break;
@@ -458,23 +413,6 @@
                         break;
                 }
             }
-        }
-
-        /// <summary>
-        /// Color literal state.
-        /// </summary>
-        private CssToken ColorLiteral()
-        {
-            var current = GetNext();
-
-            while (current.IsHex())
-            {
-                StringBuffer.Append(current);
-                current = GetNext();
-            }
-
-            Back();
-            return NewColor(FlushBuffer());
         }
 
         /// <summary>
@@ -497,7 +435,6 @@
             }
             else if (current == Symbols.ReverseSolidus)
             {
-                RaiseErrorOccurred(CssParseError.InvalidCharacter);
                 Back();
                 return NewDelimiter(Symbols.Num);
             }
@@ -528,7 +465,6 @@
                 }
                 else if (current == Symbols.ReverseSolidus)
                 {
-                    RaiseErrorOccurred(CssParseError.InvalidCharacter);
                     Back();
                     return NewHash(FlushBuffer());
                 }
@@ -543,7 +479,7 @@
         /// <summary>
         /// 4.4.6. Comment state
         /// </summary>
-        private CssToken Comment()
+        private void SkipComment()
         {
             var current = GetNext();
 
@@ -555,20 +491,14 @@
 
                     if (current == Symbols.Solidus)
                     {
-                        return NewComment(FlushBuffer());
+                        return;
                     }
-
-                    StringBuffer.Append(Symbols.Asterisk);
                 }
                 else
                 {
-                    StringBuffer.Append(current);
                     current = GetNext();
                 }
             }
-
-            RaiseErrorOccurred(CssParseError.EOF);
-            return NewComment(FlushBuffer(), bad: true);
         }
 
         /// <summary>
@@ -628,7 +558,7 @@
                 else
                 {
                     Back();
-                    return NewAtKeyword(FlushBuffer());
+                    return NewInvalid(FlushBuffer());
                 }
 
                 current = GetNext();
@@ -815,7 +745,7 @@
                     return NewNumber(FlushBuffer());
 
                 case '%':
-                    return NewPercentage(FlushBuffer());
+                    return NewDimension(FlushBuffer(), "%");
 
                 case 'e':
                 case 'E':
@@ -871,7 +801,7 @@
                     return NumberExponential(current);
 
                 case '%':
-                    return NewPercentage(FlushBuffer());
+                    return NewDimension(FlushBuffer(), "%");
 
                 case Symbols.Minus:
                     return NumberDash();
@@ -939,8 +869,7 @@
             switch (current)
             {
                 case Symbols.EndOfFile:
-                    RaiseErrorOccurred(CssParseError.EOF);
-                    return NewUrl(functionName, String.Empty, bad: true);
+                    return NewUrl(functionName, String.Empty);
 
                 case Symbols.DoubleQuote:
                     return UrlDQ(functionName);
@@ -949,7 +878,7 @@
                     return UrlSQ(functionName);
 
                 case Symbols.RoundBracketClose:
-                    return NewUrl(functionName, String.Empty, bad: false);
+                    return NewUrl(functionName, String.Empty);
 
                 default:
                     return UrlUQ(current, functionName);
@@ -967,7 +896,6 @@
 
                 if (current.IsLineBreak())
                 {
-                    RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                     return UrlBad(functionName);
                 }
                 else if (Symbols.EndOfFile == current)
@@ -989,8 +917,7 @@
                     if (current == Symbols.EndOfFile)
                     {
                         Back(2);
-                        RaiseErrorOccurred(CssParseError.EOF);
-                        return NewUrl(functionName, FlushBuffer(), bad: true);
+                        return NewUrl(functionName, FlushBuffer());
                     }
                     else if (current.IsLineBreak())
                     {
@@ -1015,7 +942,6 @@
 
                 if (current.IsLineBreak())
                 {
-                    RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
                     return UrlBad(functionName);
                 }
                 else if (current == Symbols.EndOfFile)
@@ -1037,8 +963,7 @@
                     if (current == Symbols.EndOfFile)
                     {
                         Back(2);
-                        RaiseErrorOccurred(CssParseError.EOF);
-                        return NewUrl(functionName, FlushBuffer(), bad: true);
+                        return NewUrl(functionName, FlushBuffer());
                     }
                     else if (current.IsLineBreak())
                     {
@@ -1069,7 +994,6 @@
                 }
                 else if (current.IsOneOf(Symbols.DoubleQuote, Symbols.SingleQuote, Symbols.RoundBracketOpen) || current.IsNonPrintable())
                 {
-                    RaiseErrorOccurred(CssParseError.InvalidCharacter);
                     return UrlBad(functionName);
                 }
                 else if (current != Symbols.ReverseSolidus)
@@ -1083,7 +1007,6 @@
                 }
                 else
                 {
-                    RaiseErrorOccurred(CssParseError.InvalidCharacter);
                     return UrlBad(functionName);
                 }
 
@@ -1106,7 +1029,6 @@
                 }
                 else if (!current.IsSpaceCharacter())
                 {
-                    RaiseErrorOccurred(CssParseError.InvalidCharacter);
                     Back();
                     return UrlBad(functionName);
                 }
@@ -1127,16 +1049,16 @@
                 if (current == Symbols.Semicolon)
                 {
                     Back();
-                    return NewUrl(functionName, FlushBuffer(), true);
+                    return NewUrl(functionName, FlushBuffer());
                 }
                 else if (current == Symbols.CurlyBracketClose && --curly == -1)
                 {
                     Back();
-                    return NewUrl(functionName, FlushBuffer(), true);
+                    return NewUrl(functionName, FlushBuffer());
                 }
                 else if (current == Symbols.RoundBracketClose && --round == 0)
                 {
-                    return NewUrl(functionName, FlushBuffer(), true);
+                    return NewUrl(functionName, FlushBuffer());
                 }
                 else if (IsValidEscape(current))
                 {
@@ -1160,8 +1082,7 @@
                 current = GetNext();
             }
 
-            RaiseErrorOccurred(CssParseError.EOF);
-            return NewUrl(functionName, FlushBuffer(), bad: true);
+            return NewUrl(functionName, FlushBuffer());
         }
 
         /// <summary>
@@ -1233,97 +1154,62 @@
 
         private CssToken NewMatch(String match)
         {
-            return new CssToken(CssTokenType.Match, match, _position);
+            return new CssToken(CssTokenType.Match, match);
         }
 
         private CssToken NewColumn()
         {
-            return new CssToken(CssTokenType.Column, CombinatorSymbols.Column, _position);
+            return new CssToken(CssTokenType.Column, CombinatorSymbols.Column);
         }
 
-        private CssToken NewCloseCurly()
+        private CssToken NewInvalid(String payload)
         {
-            return new CssToken(CssTokenType.CurlyBracketClose, "}", _position);
-        }
-
-        private CssToken NewOpenCurly()
-        {
-            return new CssToken(CssTokenType.CurlyBracketOpen, "{", _position);
+            return new CssToken(CssTokenType.Invalid, payload);
         }
 
         private CssToken NewCloseSquare()
         {
-            return new CssToken(CssTokenType.SquareBracketClose, "]", _position);
+            return new CssToken(CssTokenType.SquareBracketClose, "]");
         }
 
         private CssToken NewOpenSquare()
         {
-            return new CssToken(CssTokenType.SquareBracketOpen, "[", _position);
-        }
-
-        private CssToken NewOpenComment()
-        {
-            return new CssToken(CssTokenType.Cdo, "<!--", _position);
-        }
-
-        private CssToken NewSemicolon()
-        {
-            return new CssToken(CssTokenType.Semicolon, ";", _position);
+            return new CssToken(CssTokenType.SquareBracketOpen, "[");
         }
 
         private CssToken NewColon()
         {
-            return new CssToken(CssTokenType.Colon, ":", _position);
-        }
-
-        private CssToken NewCloseComment()
-        {
-            return new CssToken(CssTokenType.Cdc, "-->", _position);
+            return new CssToken(CssTokenType.Colon, ":");
         }
 
         private CssToken NewComma()
         {
-            return new CssToken(CssTokenType.Comma, ",", _position);
+            return new CssToken(CssTokenType.Comma, ",");
         }
 
         private CssToken NewCloseRound()
         {
-            return new CssToken(CssTokenType.RoundBracketClose, ")", _position);
+            return new CssToken(CssTokenType.RoundBracketClose, ")");
         }
 
-        private CssToken NewOpenRound()
+        private CssToken NewString(String value)
         {
-            return new CssToken(CssTokenType.RoundBracketOpen, "(", _position);
-        }
-
-        private CssToken NewString(String value, Char quote, Boolean bad = false)
-        {
-            return new CssStringToken(value, bad, quote, _position);
+            return new CssStringToken(value);
         }
 
         private CssToken NewHash(String value)
         {
-            return new CssKeywordToken(CssTokenType.Hash, value, _position);
-        }
-
-        private CssToken NewComment(String value, Boolean bad = false)
-        {
-            return new CssCommentToken(value, bad, _position);
-        }
-
-        private CssToken NewAtKeyword(String value)
-        {
-            return new CssKeywordToken(CssTokenType.AtKeyword, value, _position);
+            return new CssKeywordToken(CssTokenType.Hash, value);
         }
 
         private CssToken NewIdent(String value)
         {
-            return new CssKeywordToken(CssTokenType.Ident, value, _position);
+            return new CssKeywordToken(CssTokenType.Ident, value);
         }
 
         private CssToken NewFunction(String value)
         {
-            var function = new CssFunctionToken(value, _position);
+            var function = new CssFunctionToken(value);
             var token = Get();
 
             while (token.Type != CssTokenType.EndOfFile)
@@ -1339,54 +1225,44 @@
             return function;
         }
 
-        private CssToken NewPercentage(String value)
-        {
-            return new CssUnitToken(CssTokenType.Percentage, value, "%", _position);
-        }
-
         private CssToken NewDimension(String value, String unit)
         {
-            return new CssUnitToken(CssTokenType.Dimension, value, unit, _position);
+            return new CssUnitToken(CssTokenType.Dimension, value, unit);
         }
 
-        private CssToken NewUrl(String functionName, String data, Boolean bad = false)
+        private CssToken NewUrl(String functionName, String data)
         {
-            return new CssUrlToken(functionName, data, bad, _position);
+            return new CssToken(CssTokenType.Invalid, String.Concat(functionName, "(", data));
         }
 
         private CssToken NewRange(String range)
         {
-            return new CssRangeToken(range, _position);
+            return new CssToken(CssTokenType.Invalid, range);
         }
 
         private CssToken NewRange(String start, String end)
         {
-            return new CssRangeToken(start, end, _position);
+            return new CssToken(CssTokenType.Invalid, start + end);
         }
 
         private CssToken NewWhitespace(Char c)
         {
-            return new CssToken(CssTokenType.Whitespace, c.ToString(), _position);
+            return new CssToken(CssTokenType.Whitespace, c.ToString());
         }
 
         private CssToken NewNumber(String number)
         {
-            return new CssNumberToken(number, _position);
+            return new CssNumberToken(number);
         }
 
         private CssToken NewDelimiter(Char c)
         {
-            return new CssToken(CssTokenType.Delim, c.ToString(), _position);
-        }
-
-        private CssToken NewColor(String text)
-        {
-            return new CssColorToken(text, _position);
+            return new CssToken(CssTokenType.Delim, c.ToString());
         }
 
         private CssToken NewEof()
         {
-            return new CssToken(CssTokenType.EndOfFile, String.Empty, _position);
+            return new CssToken(CssTokenType.EndOfFile, String.Empty);
         }
 
         #endregion
@@ -1490,11 +1366,6 @@
             }
                 
             return false;
-        }
-
-        private void RaiseErrorOccurred(CssParseError code)
-        {
-            RaiseErrorOccurred(code, GetCurrentPosition());
         }
 
         #endregion

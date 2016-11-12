@@ -123,7 +123,7 @@
     <Compile Include="Html\Forms\FormDataSetExtensions.cs" />
     <Compile Include="Io\ResponseExtensions.cs" />
     <Compile Include="Io\CorsRequest.cs" />
-    <Compile Include="Css\Parser\CssParserExtensions.cs" />
+    <Compile Include="Css\Parser\CssParseErrorExtensions.cs" />
     <Compile Include="Css\Parser\CssSelectorParser.cs" />
     <Compile Include="Html\Parser\HtmlParseException.cs" />
     <Compile Include="Css\AttributeSelectorFactory.cs" />
@@ -198,11 +198,7 @@
     <Compile Include="Io\Processors\ScriptRequestProcessor.cs" />
     <Compile Include="Io\Processors\StyleSheetRequestProcessor.cs" />
     <Compile Include="Io\VirtualResponse.cs" />
-    <Compile Include="Css\Parser\CssParserOptions.cs" />
-    <Compile Include="Css\Parser\Tokens\CssColorToken.cs" />
-    <Compile Include="Css\Parser\Tokens\CssCommentToken.cs" />
     <Compile Include="Css\Parser\Tokens\CssFunctionToken.cs" />
-    <Compile Include="Css\Parser\Tokens\CssUrlToken.cs" />
     <Compile Include="Html\Parser\HtmlParser.cs" />
     <Compile Include="Html\Parser\HtmlParserOptions.cs" />
     <Compile Include="Xml\Dom\Events\XmlParseEvent.cs" />
@@ -605,7 +601,6 @@
     <Compile Include="Css\Parser\CssSelectorConstructor.cs" />
     <Compile Include="Css\Parser\Tokens\CssKeywordToken.cs" />
     <Compile Include="Css\Parser\Tokens\CssNumberToken.cs" />
-    <Compile Include="Css\Parser\Tokens\CssRangeToken.cs" />
     <Compile Include="Css\Parser\Tokens\CssStringToken.cs" />
     <Compile Include="Css\Parser\Tokens\CssUnitToken.cs" />
     <Compile Include="Html\Parser\HtmlTokenType.cs" />

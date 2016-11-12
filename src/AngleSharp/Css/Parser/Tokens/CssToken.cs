@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Parser.Tokens
 {
-    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -12,30 +11,22 @@
 
         private readonly CssTokenType _type;
         private readonly String _data;
-        private readonly TextPosition _position;
 
-        public static readonly CssToken Whitespace = new CssToken(CssTokenType.Whitespace, " ", TextPosition.Empty);
-        public static readonly CssToken Comma = new CssToken(CssTokenType.Comma, ",", TextPosition.Empty);
+        public static readonly CssToken Whitespace = new CssToken(CssTokenType.Whitespace, " ");
 
         #endregion
 
         #region ctor
 
-        public CssToken(CssTokenType type, String data, TextPosition position)
+        public CssToken(CssTokenType type, String data)
         {
             _type = type;
             _data = data;
-            _position = position;
         }
 
         #endregion
 
         #region Properties
-
-        public TextPosition Position
-        {
-            get { return _position; }
-        }
 
         public CssTokenType Type
         {

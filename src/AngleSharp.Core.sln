@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Core.Tests", "An
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Performance.Selector", "AngleSharp.Performance.Selector\AngleSharp.Performance.Selector.csproj", "{B35FC486-0C5B-4A71-9AA4-E1D53680486C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Performance.Css", "AngleSharp.Performance.Css\AngleSharp.Performance.Css.csproj", "{37F366DB-78D6-485F-9D8C-7C65A4B0186D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Performance.Utilities", "AngleSharp.Performance.Utilities\AngleSharp.Performance.Utilities.csproj", "{1FF31B98-B7D2-4694-A430-09DD112BBE33}"
 EndProject
 Global
@@ -43,10 +41,6 @@ Global
 		{B35FC486-0C5B-4A71-9AA4-E1D53680486C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B35FC486-0C5B-4A71-9AA4-E1D53680486C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B35FC486-0C5B-4A71-9AA4-E1D53680486C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37F366DB-78D6-485F-9D8C-7C65A4B0186D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37F366DB-78D6-485F-9D8C-7C65A4B0186D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37F366DB-78D6-485F-9D8C-7C65A4B0186D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37F366DB-78D6-485F-9D8C-7C65A4B0186D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1FF31B98-B7D2-4694-A430-09DD112BBE33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1FF31B98-B7D2-4694-A430-09DD112BBE33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FF31B98-B7D2-4694-A430-09DD112BBE33}.Release|Any CPU.ActiveCfg = Release|Any CPU

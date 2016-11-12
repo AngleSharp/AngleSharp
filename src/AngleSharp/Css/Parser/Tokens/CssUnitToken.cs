@@ -1,8 +1,6 @@
 ﻿namespace AngleSharp.Css.Parser.Tokens
 {
-    using AngleSharp.Text;
     using System;
-    using System.Globalization;
 
     /// <summary>
     /// Represents a CSS unit token.
@@ -17,8 +15,8 @@
 
         #region ctor
 
-        public CssUnitToken(CssTokenType type, String value, String dimension, TextPosition position)
-            : base(type, value, position)
+        public CssUnitToken(CssTokenType type, String value, String dimension)
+            : base(type, value)
         {
             _unit = dimension;
         }
@@ -26,11 +24,6 @@
         #endregion
 
         #region Properties
-
-        public Single Value
-        {
-            get { return Single.Parse(Data, CultureInfo.InvariantCulture); }
-        }
 
         public String Unit
         {

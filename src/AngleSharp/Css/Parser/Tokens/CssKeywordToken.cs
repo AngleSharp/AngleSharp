@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css.Parser.Tokens
 {
-    using AngleSharp.Text;
     using System;
 
     /// <summary>
@@ -10,8 +9,8 @@
     {
         #region ctor
 
-        public CssKeywordToken(CssTokenType type, String data, TextPosition position)
-            : base(type, data, position)
+        public CssKeywordToken(CssTokenType type, String data)
+            : base(type, data)
         {
         }
 
@@ -25,10 +24,6 @@
             {
                 case CssTokenType.Hash:
                     return "#" + Data;
-                case CssTokenType.AtKeyword:
-                    return "@" + Data;
-                case CssTokenType.Function:
-                    return Data + "(";
                 default:
                     return Data;
             }
