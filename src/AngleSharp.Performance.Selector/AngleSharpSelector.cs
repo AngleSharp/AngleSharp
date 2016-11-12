@@ -14,7 +14,7 @@
 
         public AngleSharpSelector(String source)
         {
-            document = parser.Parse(source);
+            document = parser.ParseDocument(source);
         }
 
         public String Name

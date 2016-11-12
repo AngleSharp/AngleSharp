@@ -1,179 +1,39 @@
 ﻿namespace AngleSharp.Html.Parser
 {
     using AngleSharp.Dom;
-    using AngleSharp.Html.Parser.Tokens;
-    using AngleSharp.Text;
+    using AngleSharp.Html.Dom;
     using System;
-    using System.Collections.Generic;
-#if !NET40
-    using System.Runtime.CompilerServices;
-#endif
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
-    /// Extensions to be used exclusively by the parser or the tokenizer.
+    /// Extensions for the IHtmlParser instances.
     /// </summary>
-    static class HtmlParserExtensions
+    public static class HtmlParserExtensions
     {
-        public static void SetAttributes(this Element element, List<KeyValuePair<String, String>> attributes)
+        /// <summary>
+        /// Parses the string asynchronously.
+        /// </summary>
+        public static Task<IHtmlDocument> ParseDocumentAsync(this IHtmlParser parser, String source)
         {
-            var container = element.Attributes;
-
-            for (var i = 0; i < attributes.Count; i++)
-            {
-                var attribute = attributes[i];
-                var item = new Attr(attribute.Key, attribute.Value);
-                container.FastAddItem(item);
-            }
+            return parser.ParseDocumentAsync(source, CancellationToken.None);
         }
 
-        public static HtmlTreeMode? SelectMode(this Element element, Boolean isLast, Stack<HtmlTreeMode> templateModes)
+        /// <summary>
+        /// Parses the stream asynchronously.
+        /// </summary>
+        public static Task<IHtmlDocument> ParseDocumentAsync(this IHtmlParser parser, Stream source)
         {
-            var tagName = element.LocalName;
-
-            if (tagName.Is(TagNames.Select))
-            {
-                return HtmlTreeMode.InSelect;
-            }
-            else if (TagNames.AllTableCells.Contains(tagName))
-            {
-                return isLast ? HtmlTreeMode.InBody : HtmlTreeMode.InCell;
-            }
-            else if (tagName.Is(TagNames.Tr))
-            {
-                return HtmlTreeMode.InRow;
-            }
-            else if (TagNames.AllTableSections.Contains(tagName))
-            {
-                return HtmlTreeMode.InTableBody;
-            }
-            else if (tagName.Is(TagNames.Body))
-            {
-                return HtmlTreeMode.InBody;
-            }
-            else if (tagName.Is(TagNames.Table))
-            {
-                return HtmlTreeMode.InTable;
-            }
-            else if (tagName.Is(TagNames.Caption))
-            {
-                return HtmlTreeMode.InCaption;
-            }
-            else if (tagName.Is(TagNames.Colgroup))
-            {
-                return HtmlTreeMode.InColumnGroup;
-            }
-            else if (tagName.Is(TagNames.Template))
-            {
-                return templateModes.Peek();
-            }
-            else if (tagName.Is(TagNames.Html))
-            {
-                return HtmlTreeMode.BeforeHead;
-            }
-            else if (tagName.Is(TagNames.Head))
-            {
-                return isLast ? HtmlTreeMode.InBody : HtmlTreeMode.InHead;
-            }
-            else if (tagName.Is(TagNames.Frameset))
-            {
-                return HtmlTreeMode.InFrameset;
-            }
-            else if (isLast)
-            {
-                return HtmlTreeMode.InBody;
-            }
-
-            return null;
+            return parser.ParseDocumentAsync(source, CancellationToken.None);
         }
 
-        public static Int32 GetCode(this HtmlParseError code)
+        /// <summary>
+        /// Populates the given document asynchronously.
+        /// </summary>
+        public static Task<IDocument> ParseDocumentAsync(this IHtmlParser parser, IDocument document)
         {
-            return (Int32)code;
-        }
-
-        public static void SetUniqueAttributes(this Element element, List<KeyValuePair<String, String>> attributes)
-        {
-            for (var i = attributes.Count - 1; i >= 0; i--)
-            {
-                if (element.HasAttribute(attributes[i].Key))
-                {
-                    attributes.RemoveAt(i);
-                }
-            }
-
-            element.SetAttributes(attributes);
-        }
-
-        public static void AddFormatting(this List<Element> formatting, Element element)
-        {
-            var count = 0;
-
-            for (var i = formatting.Count - 1; i >= 0; i--)
-            {
-                var format = formatting[i];
-
-                if (format == null)
-                {
-                    break;
-                }
-
-                if (format.NodeName.Is(element.NodeName) && 
-                    format.NamespaceUri.Is(element.NamespaceUri) && 
-                    format.Attributes.SameAs(element.Attributes) && ++count == 3)
-                {
-                    formatting.RemoveAt(i);
-                    break;
-                }
-            }
-
-            formatting.Add(element);
-        }
-
-        public static void ClearFormatting(this List<Element> formatting)
-        {
-            while (formatting.Count != 0)
-            {
-                var index = formatting.Count - 1;
-                var entry = formatting[index];
-                formatting.RemoveAt(index);
-
-                if (entry == null)
-                {
-                    break;
-                }
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddScopeMarker(this List<Element> formatting)
-        {
-            formatting.Add(null);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddComment(this Element parent, HtmlToken token)
-        {
-            parent.AddNode(new Comment(parent.Owner, token.Data));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddComment(this Document parent, HtmlToken token)
-        {
-            parent.AddNode(new Comment(parent, token.Data));
-        }
-
-        public static QuirksMode GetQuirksMode(this HtmlDoctypeToken doctype)
-        {
-            if (doctype.IsFullQuirks)
-            {
-                return QuirksMode.On;
-            }
-            else if (doctype.IsLimitedQuirks)
-            {
-                return QuirksMode.Limited;
-            }
-
-            return QuirksMode.Off;
+            return parser.ParseDocumentAsync(document, CancellationToken.None);
         }
     }
 }

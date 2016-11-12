@@ -1,33 +1,39 @@
 ﻿namespace AngleSharp.Xml.Parser
 {
-    using AngleSharp.Text;
+    using AngleSharp.Dom;
+    using AngleSharp.Xml.Dom;
     using System;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     /// <summary>
-    /// Extensions to be used exclusively by the parser or the tokenizer.
+    /// Extensions for the IXmlParser instances.
     /// </summary>
-    static class XmlParserExtensions
+    public static class XmlParserExtensions
     {
         /// <summary>
-        /// Creates the XmlParseException at the given position.
+        /// Parses the string asynchronously.
         /// </summary>
-        /// <param name="code">The code for the exception.</param>
-        /// <param name="position">The position of the error.</param>
-        /// <returns>The new exception object.</returns>
-        public static XmlParseException At(this XmlParseError code, TextPosition position)
+        public static Task<IXmlDocument> ParseDocumentAsync(this IXmlParser parser, String source)
         {
-            var message = "Error while parsing the provided XML document.";
-            return new XmlParseException(code.GetCode(), message, position);
+            return parser.ParseDocumentAsync(source, CancellationToken.None);
         }
 
         /// <summary>
-        /// Retrieves a number describing the error of a given error code.
+        /// Parses the stream asynchronously.
         /// </summary>
-        /// <param name="code">A specific error code.</param>
-        /// <returns>The code of the error.</returns>
-        public static Int32 GetCode(this XmlParseError code)
+        public static Task<IXmlDocument> ParseDocumentAsync(this IXmlParser parser, Stream source)
         {
-            return (Int32)code;
+            return parser.ParseDocumentAsync(source, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Populates the given document asynchronously.
+        /// </summary>
+        public static Task<IDocument> ParseDocumentAsync(this IXmlParser parser, IDocument document)
+        {
+            return parser.ParseDocumentAsync(document, CancellationToken.None);
         }
     }
 }

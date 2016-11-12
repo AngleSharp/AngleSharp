@@ -16,12 +16,12 @@
         /// <summary>
         /// Parses the string and returns the result.
         /// </summary>
-        IHtmlDocument Parse(String source);
+        IHtmlDocument ParseDocument(String source);
 
         /// <summary>
         /// Parses the stream and returns the result.
         /// </summary>
-        IHtmlDocument Parse(Stream source);
+        IHtmlDocument ParseDocument(Stream source);
 
         /// <summary>
         /// Parses the string and returns the result.
@@ -31,16 +31,16 @@
         /// <summary>
         /// Parses the string asynchronously.
         /// </summary>
-        Task<IHtmlDocument> ParseAsync(String source, CancellationToken cancel);
+        Task<IHtmlDocument> ParseDocumentAsync(String source, CancellationToken cancel);
 
         /// <summary>
         /// Parses the stream asynchronously.
         /// </summary>
-        Task<IHtmlDocument> ParseAsync(Stream source, CancellationToken cancel);
+        Task<IHtmlDocument> ParseDocumentAsync(Stream source, CancellationToken cancel);
 
         /// <summary>
         /// Populates the given HTML document asynchronously.
         /// </summary>
-        Task<IDocument> ParseAsync(IDocument document, CancellationToken cancel);
+        Task<IDocument> ParseDocumentAsync(IDocument document, CancellationToken cancel);
     }
 }

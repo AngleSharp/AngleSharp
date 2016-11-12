@@ -55,7 +55,7 @@
         {
             var html = "<!doctype html><div>a\r\r\r\n\rb</div>";
             var parser = new HtmlParser();
-            var document = parser.Parse(html);
+            var document = parser.ParseDocument(html);
             var div = document.QuerySelector<IHtmlElement>("div");
             var content = div.TextContent;
             Assert.AreEqual("a\n\n\n\nb", content);
@@ -74,7 +74,7 @@
             var context = BrowsingContext.New(Configuration.Default);
             var parser = new HtmlParser(options, context);
             parser.Error += (s, ev) => errors.Add((HtmlErrorEvent)ev);
-            parser.Parse(html);
+            parser.ParseDocument(html);
             Assert.AreEqual(1, errors.Count);
         }
 
@@ -88,7 +88,7 @@
 </body>";
             var options = new HtmlParserOptions { IsStrictMode = true };
             var parser = new HtmlParser(options);
-            Assert.Catch<HtmlParseException>(() => parser.Parse(html));
+            Assert.Catch<HtmlParseException>(() => parser.ParseDocument(html));
         }
     }
 }

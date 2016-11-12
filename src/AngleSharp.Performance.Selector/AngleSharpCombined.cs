@@ -21,7 +21,7 @@
 
         public void Run(String source)
         {
-            var document = parser.Parse(source);
+            var document = parser.ParseDocument(source);
             // Even using two kinds of selectors -- measure perf.
             document.QuerySelectorAll("a[href]");
             document.QuerySelectorAll("div > p > a");

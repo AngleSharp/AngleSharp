@@ -21,7 +21,7 @@
 
         public void Run(String source)
         {
-            parser.Parse(source);
+            parser.ParseDocument(source);
         }
     }
 }

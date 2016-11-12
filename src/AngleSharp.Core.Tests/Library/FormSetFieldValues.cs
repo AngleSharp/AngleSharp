@@ -35,7 +35,7 @@
 </body>
 </html>";
             var parser = new HtmlParser();
-            var document = parser.Parse(formHtml);
+            var document = parser.ParseDocument(formHtml);
             return document;
         }
 

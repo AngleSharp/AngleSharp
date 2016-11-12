@@ -25,7 +25,7 @@
 
         public void Run(String source)
         {
-            var document = parser.Parse(source);
+            var document = parser.ParseDocument(source);
 
             foreach (var element in document.All)
             {

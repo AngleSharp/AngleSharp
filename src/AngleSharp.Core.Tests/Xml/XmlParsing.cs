@@ -14,7 +14,7 @@
             var parser = new XmlParser();
             Assert.Catch<XmlParseException>(() =>
             {
-                var document = parser.Parse(source);
+                var document = parser.ParseDocument(source);
             });
         }
 
@@ -27,7 +27,7 @@
             {
                 IsSuppressingErrors = true
             });
-            var document = parser.Parse(source);
+            var document = parser.ParseDocument(source);
             Assert.AreEqual(1, document.Children.Length);
         }
 
@@ -38,7 +38,7 @@
             var parser = new XmlParser();
             Assert.Catch<XmlParseException>(() =>
             {
-                var document = parser.Parse(source);
+                var document = parser.ParseDocument(source);
             });
         }
 
@@ -50,7 +50,7 @@
             {
                 IsSuppressingErrors = true
             });
-            var document = parser.Parse(source);
+            var document = parser.ParseDocument(source);
             Assert.AreEqual(1, document.Children.Length);
         }
 
@@ -62,7 +62,7 @@
             {
                 IsSuppressingErrors = true
             });
-            var document = parser.Parse(source);
+            var document = parser.ParseDocument(source);
             Assert.AreEqual("&", document.DocumentElement.TextContent);
         }
 
@@ -74,7 +74,7 @@
             {
                 IsSuppressingErrors = true
             });
-            var document = parser.Parse(source);
+            var document = parser.ParseDocument(source);
             Assert.AreEqual("&nbsp;", document.DocumentElement.TextContent);
         }
     }

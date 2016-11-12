@@ -108,7 +108,7 @@
             var document = new HtmlDocument(context, options.Source);
             document.Setup(options.Response, options.ContentType, options.ImportAncestor);
             context.NavigateTo(document);
-            return parser.ParseAsync(document, cancellationToken);
+            return parser.ParseDocumentAsync(document, cancellationToken);
         }
 
         private static async Task<IDocument> LoadTextAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
@@ -137,7 +137,7 @@
             var document = new XmlDocument(context, options.Source);
             document.Setup(options.Response, options.ContentType, options.ImportAncestor);
             context.NavigateTo(document);
-            return parser.ParseAsync(document, cancellationToken);
+            return parser.ParseDocumentAsync(document, cancellationToken);
         }
 
         private static Task<IDocument> LoadSvgAsync(IBrowsingContext context, CreateDocumentOptions options, CancellationToken cancellationToken)
@@ -146,7 +146,7 @@
             var document = new SvgDocument(context, options.Source);
             document.Setup(options.Response, options.ContentType, options.ImportAncestor);
             context.NavigateTo(document);
-            return parser.ParseAsync(document, cancellationToken);
+            return parser.ParseDocumentAsync(document, cancellationToken);
         }
     }
 }
