@@ -39,14 +39,5 @@
         }
 
         #endregion
-
-        #region Methods
-
-        public virtual String ToValue()
-        {
-            return _data;
-        }
-
-        #endregion
     }
 }

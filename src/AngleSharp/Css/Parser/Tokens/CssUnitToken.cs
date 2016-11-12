@@ -31,14 +31,5 @@
         }
 
         #endregion
-
-        #region String representation
-
-        public override String ToValue()
-        {
-            return Data + _unit;
-        }
-
-        #endregion
     }
 }

@@ -599,9 +599,7 @@
     <Compile Include="Dom\DocumentReadyState.cs" />
     <Compile Include="Css\Parser\CssTokenType.cs" />
     <Compile Include="Css\Parser\CssSelectorConstructor.cs" />
-    <Compile Include="Css\Parser\Tokens\CssKeywordToken.cs" />
     <Compile Include="Css\Parser\Tokens\CssNumberToken.cs" />
-    <Compile Include="Css\Parser\Tokens\CssStringToken.cs" />
     <Compile Include="Css\Parser\Tokens\CssUnitToken.cs" />
     <Compile Include="Html\Parser\HtmlTokenType.cs" />
     <Compile Include="Text\CharExtensions.cs" />

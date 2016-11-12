@@ -62,7 +62,9 @@
                 case Symbols.CarriageReturn:
                 case Symbols.Tab:
                 case Symbols.Space:
-                    return NewWhitespace(current);
+                    SkipSpaces();
+                    Back();
+                    return NewWhitespace();
 
                 case Symbols.DoubleQuote:
                     return StringDQ();
@@ -1194,17 +1196,17 @@
 
         private CssToken NewString(String value)
         {
-            return new CssStringToken(value);
+            return new CssToken(CssTokenType.String, value);
         }
 
         private CssToken NewHash(String value)
         {
-            return new CssKeywordToken(CssTokenType.Hash, value);
+            return new CssToken(CssTokenType.Hash, value);
         }
 
         private CssToken NewIdent(String value)
         {
-            return new CssKeywordToken(CssTokenType.Ident, value);
+            return new CssToken(CssTokenType.Ident, value);
         }
 
         private CssToken NewFunction(String value)
@@ -1245,9 +1247,9 @@
             return new CssToken(CssTokenType.Invalid, start + end);
         }
 
-        private CssToken NewWhitespace(Char c)
+        private CssToken NewWhitespace()
         {
-            return new CssToken(CssTokenType.Whitespace, c.ToString());
+            return new CssToken(CssTokenType.Whitespace, " ");
         }
 
         private CssToken NewNumber(String number)

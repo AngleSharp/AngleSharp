@@ -36,8 +36,11 @@
         };
 
         private readonly Stack<CssCombinator> _combinators;
+        private readonly IAttributeSelectorFactory _attributeSelector;
+        private readonly IPseudoElementSelectorFactory _pseudoElementSelector;
+        private readonly IPseudoClassSelectorFactory _pseudoClassSelector;
 
-		private State _state;
+        private State _state;
         private ISelector _temp;
 		private ListSelector _group;
 		private ComplexSelector _complex;
@@ -48,9 +51,6 @@
         private Boolean _valid;
         private Boolean _nested;
         private Boolean _ready;
-        private IAttributeSelectorFactory _attributeSelector;
-        private IPseudoElementSelectorFactory _pseudoElementSelector;
-        private IPseudoClassSelectorFactory _pseudoClassSelector;
 
         #endregion
 
@@ -59,7 +59,13 @@
         public CssSelectorConstructor(IAttributeSelectorFactory attributeSelector, IPseudoClassSelectorFactory pseudoClassSelector, IPseudoElementSelectorFactory pseudoElementSelector)
         {
             _combinators = new Stack<CssCombinator>();
-			Reset(attributeSelector, pseudoClassSelector, pseudoElementSelector);
+            _attributeSelector = attributeSelector;
+            _pseudoClassSelector = pseudoClassSelector;
+            _pseudoElementSelector = pseudoElementSelector;
+            _attrOp = String.Empty;
+            _state = State.Data;
+            _valid = true;
+            _ready = true;
         }
 
         #endregion
@@ -147,26 +153,6 @@
             }
         }
 
-        public CssSelectorConstructor Reset(IAttributeSelectorFactory attributeSelector, IPseudoClassSelectorFactory pseudoClassSelector, IPseudoElementSelectorFactory pseudoElementSelector)
-		{
-			_attrName = null;
-			_attrValue = null;
-            _attrNs = null;
-			_attrOp = String.Empty;
-			_state = State.Data;
-			_combinators.Clear();
-			_temp = null;
-			_group = null;
-			_complex = null;
-            _valid = true;
-            _nested = false;
-            _ready = true;
-            _attributeSelector = attributeSelector;
-            _pseudoClassSelector = pseudoClassSelector;
-            _pseudoElementSelector = pseudoElementSelector;
-			return this;
-		}
-
         #endregion
 
         #region States
@@ -241,7 +227,7 @@
                 else if (token.Type == CssTokenType.Delim && token.Data.Is("*"))
                 {
                     _state = State.AttributeOperator;
-                    _attrName = token.ToValue();
+                    _attrName = "*";
                 }
                 else
                 {
@@ -263,7 +249,7 @@
                 else if (token.Type == CssTokenType.Match || token.Type == CssTokenType.Delim)
                 {
                     _state = State.AttributeValue;
-                    _attrOp = token.ToValue();
+                    _attrOp = token.Data;
 
                     if (_attrOp == CombinatorSymbols.Pipe)
                     {
