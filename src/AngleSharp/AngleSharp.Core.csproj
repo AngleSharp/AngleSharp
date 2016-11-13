@@ -62,6 +62,7 @@
     <Compile Include="Css\Dom\SelectorExtensions.cs" />
     <Compile Include="Css\ICssStyleEngine.cs" />
     <Compile Include="Css\Parser\ICssSelectorParser.cs" />
+    <Compile Include="Css\Parser\CssStringSourceExtensions.cs" />
     <Compile Include="Dom\IPseudoElement.cs" />
     <Compile Include="Html\Dom\ImageExtensions.cs" />
     <Compile Include="Html\Parser\HtmlDomBuilderExtensions.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="LegacyExtensions.cs" />
     <Compile Include="SilverlightExtensions.cs" />
     <Compile Include="Text\StringSource.cs" />
+    <Compile Include="Text\StringSourceExtensions.cs" />
     <Compile Include="WeakReference.cs" />
     <Compile Include="Xhtml\AutoSelectedMarkupFormatter.cs" />
     <Compile Include="Browser\ICommand.cs" />
@@ -199,7 +201,6 @@
     <Compile Include="Io\Processors\ScriptRequestProcessor.cs" />
     <Compile Include="Io\Processors\StyleSheetRequestProcessor.cs" />
     <Compile Include="Io\VirtualResponse.cs" />
-    <Compile Include="Css\Parser\Tokens\CssFunctionToken.cs" />
     <Compile Include="Html\Parser\HtmlParser.cs" />
     <Compile Include="Html\Parser\HtmlParserOptions.cs" />
     <Compile Include="Xml\Dom\Events\XmlParseEvent.cs" />
