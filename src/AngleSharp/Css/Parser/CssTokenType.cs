@@ -34,6 +34,14 @@
         /// </summary>
         Column,
         /// <summary>
+        /// The descendent ( >> ) token.
+        /// </summary>
+        Descendent,
+        /// <summary>
+        /// The deep ( >>> ) token.
+        /// </summary>
+        Deep,
+        /// <summary>
         /// The delimiter token to delimiter character.
         /// </summary>
         Delim,

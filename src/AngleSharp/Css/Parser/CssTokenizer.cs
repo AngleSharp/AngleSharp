@@ -199,6 +199,24 @@
                 case Symbols.Semicolon:
                     return NewInvalid(";");
 
+                case Symbols.GreaterThan:
+                    current = GetNext();
+
+                    if (current == Symbols.GreaterThan)
+                    {
+                        current = GetNext();
+
+                        if (current == Symbols.GreaterThan)
+                        {
+                            return new CssToken(CssTokenType.Deep, ">>>");
+                        }
+
+                        current = GetPrevious();
+                        return new CssToken(CssTokenType.Descendent, ">>");
+                    }
+
+                    return NewDelimiter(GetPrevious());
+
                 case Symbols.LessThan:
                     current = GetNext();
 
@@ -1254,7 +1272,7 @@
 
         private CssToken NewNumber(String number)
         {
-            return new CssNumberToken(number);
+            return new CssToken(CssTokenType.Number, number);
         }
 
         private CssToken NewDelimiter(Char c)

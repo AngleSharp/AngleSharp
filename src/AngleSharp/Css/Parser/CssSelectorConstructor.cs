@@ -204,6 +204,21 @@
                     _ready = false;
                     break;
 
+                case CssTokenType.Column:
+                    Insert(CssCombinator.Column);
+                    _ready = false;
+                    break;
+
+                case CssTokenType.Descendent:
+                    Insert(CssCombinator.Descendent);
+                    _ready = false;
+                    break;
+
+                case CssTokenType.Deep:
+                    Insert(CssCombinator.Deep);
+                    _ready = false;
+                    break;
+
                 default:
                     _valid = false;
                     break;
@@ -446,28 +461,6 @@
             if (_combinators.Count > 1)
             {
                 var last = _combinators.Pop();
-                var previous = _combinators.Pop();
-
-                //Care about combinator combinations, such as >>, >>> and ||
-                if (last == CssCombinator.Child && previous == CssCombinator.Child)
-                {
-                    if (_combinators.Count == 0 || _combinators.Peek() != CssCombinator.Child)
-                    {
-                        last = CssCombinator.Descendent;
-                    }
-                    else if (_combinators.Pop() == CssCombinator.Child)
-                    {
-                        last = CssCombinator.Deep;
-                    }
-                }
-                else if (last == CssCombinator.Namespace && previous == CssCombinator.Namespace)
-                {
-                    last = CssCombinator.Column;
-                }
-                else
-                {
-                    _combinators.Push(previous);
-                }
 
                 //Remove all leading whitespaces, invalid if mixed
                 while (_combinators.Count > 0)
@@ -1050,7 +1043,7 @@
 
                 if (token.Type == CssTokenType.Number)
                 {
-                    _valid = _valid && ((CssNumberToken)token).IsInteger && Int32.TryParse(token.Data, out _offset);
+                    _valid = _valid && Int32.TryParse(token.Data, out _offset);
                     _offset *= _sign;
                     _state = ParseState.BeforeOf;
                     return false;
