@@ -100,7 +100,7 @@
 
         #region Classes
 
-        sealed class ChildCombinator : CssCombinator
+        private sealed class ChildCombinator : CssCombinator
         {
             public ChildCombinator()
             {
@@ -109,7 +109,7 @@
             }
         }
 
-        sealed class DeepCombinator : CssCombinator
+        private sealed class DeepCombinator : CssCombinator
         {
             public DeepCombinator()
             {
@@ -118,7 +118,7 @@
             }
         }
 
-        sealed class DescendentCombinator : CssCombinator
+        private sealed class DescendentCombinator : CssCombinator
         {
             public DescendentCombinator()
             {
@@ -139,7 +139,7 @@
             }
         }
 
-        sealed class AdjacentSiblingCombinator : CssCombinator
+        private sealed class AdjacentSiblingCombinator : CssCombinator
         {
             public AdjacentSiblingCombinator()
             {
@@ -148,7 +148,7 @@
             }
         }
 
-        sealed class SiblingCombinator : CssCombinator
+        private sealed class SiblingCombinator : CssCombinator
         {
             public SiblingCombinator()
             {
@@ -184,7 +184,7 @@
             }
         }
 
-        sealed class NamespaceCombinator : CssCombinator
+        private sealed class NamespaceCombinator : CssCombinator
         {
             public NamespaceCombinator()
             {
@@ -199,7 +199,7 @@
             }
         }
 
-        sealed class ColumnCombinator : CssCombinator
+        private sealed class ColumnCombinator : CssCombinator
         {
             public ColumnCombinator()
             {
