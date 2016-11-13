@@ -19,7 +19,6 @@
         /// Creates a new CSS number token.
         /// </summary>
         /// <param name="number">The number to contain.</param>
-        /// <param name="position">The token's position.</param>
         public CssNumberToken(String number)
             : base(CssTokenType.Number, number)
         {

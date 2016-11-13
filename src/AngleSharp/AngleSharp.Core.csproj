@@ -126,7 +126,7 @@
     <Compile Include="Css\Parser\CssParseErrorExtensions.cs" />
     <Compile Include="Css\Parser\CssSelectorParser.cs" />
     <Compile Include="Html\Parser\HtmlParseException.cs" />
-    <Compile Include="Css\AttributeSelectorFactory.cs" />
+    <Compile Include="Css\DefaultAttributeSelectorFactory.cs" />
     <Compile Include="Dom\DefaultDocumentFactory.cs" />
     <Compile Include="Dom\IDocumentFactory.cs" />
     <Compile Include="Dom\IElementFactory.cs" />
@@ -142,8 +142,8 @@
     <Compile Include="Dom\DocumentExtensions.cs" />
     <Compile Include="Dom\EventTargetExtensions.cs" />
     <Compile Include="Common\ObjectExtensions.cs" />
-    <Compile Include="Css\PseudoClassSelectorFactory.cs" />
-    <Compile Include="Css\PseudoElementSelectorFactory.cs" />
+    <Compile Include="Css\DefaultPseudoClassSelectorFactory.cs" />
+    <Compile Include="Css\DefaultPseudoElementSelectorFactory.cs" />
     <Compile Include="FormatExtensions.cs" />
     <Compile Include="Dom\CreateDocumentOptions.cs" />
     <Compile Include="Text\Punycode.cs" />

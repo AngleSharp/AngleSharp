@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Css
 {
-    using AngleSharp.Common;
     using AngleSharp.Css.Dom;
     using AngleSharp.Dom;
     using AngleSharp.Text;
@@ -10,7 +9,7 @@
     /// <summary>
     /// Provides string to CSS pseudo class selector instance mappings.
     /// </summary>
-    public class PseudoClassSelectorFactory : IPseudoClassSelectorFactory
+    public class DefaultPseudoClassSelectorFactory : IPseudoClassSelectorFactory
     {
         private readonly Dictionary<String, ISelector> _selectors = new Dictionary<String, ISelector>(StringComparer.OrdinalIgnoreCase)
         {
@@ -46,11 +45,10 @@
             { PseudoClassNames.OutOfRange, SimpleSelector.PseudoClass(el => el.IsOutOfRange(), PseudoClassNames.OutOfRange) },
             { PseudoClassNames.Optional, SimpleSelector.PseudoClass(el => el.IsOptional(), PseudoClassNames.Optional) },
             { PseudoClassNames.Shadow, SimpleSelector.PseudoClass(el => el.IsShadow(), PseudoClassNames.Shadow) },
-            // LEGACY STYLE OF DEFINING PSEUDO ELEMENTS - AS PSEUDO CLASS!
-            { PseudoElementNames.Before, Factory.PseudoElementSelector.Create(PseudoElementNames.Before) },
-            { PseudoElementNames.After, Factory.PseudoElementSelector.Create(PseudoElementNames.After) },
-            { PseudoElementNames.FirstLine, Factory.PseudoElementSelector.Create(PseudoElementNames.FirstLine) },
-            { PseudoElementNames.FirstLetter, Factory.PseudoElementSelector.Create(PseudoElementNames.FirstLetter) },
+            { PseudoElementNames.Before, SimpleSelector.PseudoClass(el => el.IsPseudo(PseudoElementNames.Before), PseudoElementNames.Before) },
+            { PseudoElementNames.After, SimpleSelector.PseudoClass(el => el.IsPseudo(PseudoElementNames.After), PseudoElementNames.After) },
+            { PseudoElementNames.FirstLine, SimpleSelector.PseudoClass(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text, PseudoElementNames.FirstLine) },
+            { PseudoElementNames.FirstLetter, SimpleSelector.PseudoClass(el => el.HasChildNodes && el.ChildNodes[0].NodeType == NodeType.Text && el.ChildNodes[0].TextContent.Length > 0, PseudoElementNames.FirstLetter) },
         };
 
         /// <summary>

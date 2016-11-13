@@ -40,17 +40,17 @@
         /// <summary>
         /// The CSS attribute selector factory.
         /// </summary>
-        public static readonly AttributeSelectorFactory AttributeSelector = new AttributeSelectorFactory();
+        public static readonly DefaultAttributeSelectorFactory AttributeSelector = new DefaultAttributeSelectorFactory();
 
         /// <summary>
         /// The CSS pseudo element selector factory.
         /// </summary>
-        public static readonly PseudoElementSelectorFactory PseudoElementSelector = new PseudoElementSelectorFactory();
+        public static readonly DefaultPseudoElementSelectorFactory PseudoElementSelector = new DefaultPseudoElementSelectorFactory();
 
         /// <summary>
         /// The CSS pseudo class selector factory.
         /// </summary>
-        public static readonly PseudoClassSelectorFactory PseudoClassSelector = new PseudoClassSelectorFactory();
+        public static readonly DefaultPseudoClassSelectorFactory PseudoClassSelector = new DefaultPseudoClassSelectorFactory();
 
         /// <summary>
         /// The link rel type factory.
