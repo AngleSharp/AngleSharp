@@ -28,7 +28,7 @@
         /// </summary>
         public ISelector ParseSelector(String selectorText)
         {
-            var source = new TextSource(selectorText);
+            var source = new StringSource(selectorText);
             var tokenizer = new CssTokenizer(source);
             var token = tokenizer.Get();
             var constructor = new CssSelectorConstructor(_attribute, _pseudoClass, _pseudoElement);

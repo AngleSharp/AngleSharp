@@ -51,6 +51,7 @@
         private Boolean _valid;
         private Boolean _nested;
         private Boolean _ready;
+        private FunctionState _function;
 
         #endregion
 
@@ -143,6 +144,9 @@
                     break;
                 case State.PseudoElement:
                     OnPseudoElement(token);
+                    break;
+                case State.Function:
+                    OnFunctionState(token);
                     break;
                 default:
                     _valid = false;
@@ -333,11 +337,13 @@
             }
             else if (token.Type == CssTokenType.Function)
             {
-                var sel = GetPseudoFunction(token as CssFunctionToken);
-
-                if (sel != null)
+                var creator = default(Func<CssSelectorConstructor, FunctionState>);
+                
+                if (pseudoClassFunctions.TryGetValue(token.Data, out creator))
                 {
-                    Insert(sel);
+                    _state = State.Function;
+                    _function = creator.Invoke(this);
+                    _ready = false;
                     return;
                 }
             }
@@ -516,33 +522,29 @@
             }
 		}
 
-        private ISelector GetPseudoFunction(CssFunctionToken arguments)
+        private void OnFunctionState(CssToken token)
         {
-            var creator = default(Func<CssSelectorConstructor, FunctionState>);
-
-            if (pseudoClassFunctions.TryGetValue(arguments.Data, out creator))
+            if (_function.Finished(token))
             {
-                var function = creator.Invoke(this);
-                _ready = false;
+                var sel = _function.Produce();
 
-                foreach (var token in arguments)
+                if (_nested && _function is NotFunctionState)
                 {
-                    if (function.Finished(token))
-                    {
-                        var sel = function.Produce();
-
-                        if (_nested && function is NotFunctionState)
-                        {
-                            sel = null;
-                        }
-
-                        _ready = true;
-                        return sel;
-                    }
+                    sel = null;
                 }
-            }
 
-            return null;
+                _function = null;
+                _state = State.Data;
+                _ready = true;
+
+                if (sel != null)
+                {
+                    Insert(sel);
+                    return;
+                }
+
+                _valid = false;
+            }
         }
 
         private CssSelectorConstructor CreateChild()
@@ -560,6 +562,7 @@
         private enum State : byte
 		{
 			Data,
+            Function,
 			Attribute,
 			AttributeOperator,
 			AttributeValue,
@@ -638,10 +641,11 @@
                     if (_firstToken && token.Type == CssTokenType.Delim)
                     {
                         // Roughly equivalent to inserting an implicit :scope
-                        _nested.Insert(SimpleSelector.PseudoClass((el, scope) => el == scope, string.Empty));
+                        _nested.Insert(SimpleSelector.PseudoClass((el, scope) => el == scope, String.Empty));
                         _nested.Apply(CssToken.Whitespace);
                         _matchSiblings = true;
                     }
+
                     _firstToken = false;
                     _nested.Apply(token);
                     return false;
