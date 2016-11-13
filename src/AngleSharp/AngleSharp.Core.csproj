@@ -70,6 +70,7 @@
     <Compile Include="Io\BaseRequester.cs" />
     <Compile Include="LegacyExtensions.cs" />
     <Compile Include="SilverlightExtensions.cs" />
+    <Compile Include="Text\StringSource.cs" />
     <Compile Include="WeakReference.cs" />
     <Compile Include="Xhtml\AutoSelectedMarkupFormatter.cs" />
     <Compile Include="Browser\ICommand.cs" />
