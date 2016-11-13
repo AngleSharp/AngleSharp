@@ -98,7 +98,6 @@
     <Compile Include="Css\Dom\Internal\LastChildSelector.cs" />
     <Compile Include="Css\Dom\Internal\LastColumnSelector.cs" />
     <Compile Include="Css\Dom\Internal\LastTypeSelector.cs" />
-    <Compile Include="Css\Dom\Internal\UnknownSelector.cs" />
     <Compile Include="Dom\Events\ErrorEvent.cs" />
     <Compile Include="Dom\Events\FocusEvent.cs" />
     <Compile Include="Dom\Events\HashChangedEvent.cs" />

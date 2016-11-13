@@ -98,39 +98,39 @@
                 token = _tokenizer.Get();
             }
 
-            return IsValid ? GetResult() : null;
+            return GetResult();
         }
 
         private ISelector GetResult()
         {
-            if (!IsValid)
+            if (IsValid)
             {
-                return new UnknownSelector();
+                if (_complex != null)
+                {
+                    _complex.ConcludeSelector(_temp);
+                    _temp = _complex;
+                    _complex = null;
+                }
+
+                if (_group == null || _group.Length == 0)
+                {
+                    return _temp ?? SimpleSelector.All;
+                }
+                else if (_temp == null && _group.Length == 1)
+                {
+                    return _group[0];
+                }
+
+                if (_temp != null)
+                {
+                    _group.Add(_temp);
+                    _temp = null;
+                }
+
+                return _group;
             }
 
-            if (_complex != null)
-            {
-                _complex.ConcludeSelector(_temp);
-                _temp = _complex;
-                _complex = null;
-            }
-
-            if (_group == null || _group.Length == 0)
-            {
-                return _temp ?? SimpleSelector.All;
-            }
-            else if (_temp == null && _group.Length == 1)
-            {
-                return _group[0];
-            }
-
-            if (_temp != null)
-            {
-                _group.Add(_temp);
-                _temp = null;
-            }
-
-            return _group;
+            return null;
         }
 
         private void Apply(CssSelectorToken token)

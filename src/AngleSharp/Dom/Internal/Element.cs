@@ -404,7 +404,7 @@
         {
             var sg = Context.GetService<ICssSelectorParser>().ParseSelector(selectorText);
 
-            if (sg == null || sg is UnknownSelector)
+            if (sg == null)
                 throw new DomException(DomError.Syntax);
 
             return sg.Match(this, this);
