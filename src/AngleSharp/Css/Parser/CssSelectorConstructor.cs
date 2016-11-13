@@ -2,7 +2,6 @@
 {
     using AngleSharp.Common;
     using AngleSharp.Css.Dom;
-    using AngleSharp.Css.Parser.Tokens;
     using AngleSharp.Dom;
     using AngleSharp.Html.Dom;
     using AngleSharp.Text;
@@ -35,6 +34,7 @@
             { PseudoClassNames.HostContext, ctx => new HostContextFunctionState(ctx) },
         };
 
+        private readonly CssTokenizer _tokenizer;
         private readonly Stack<CssCombinator> _combinators;
         private readonly IAttributeSelectorFactory _attributeSelector;
         private readonly IPseudoElementSelectorFactory _pseudoElementSelector;
@@ -57,8 +57,9 @@
 
         #region ctor
 
-        public CssSelectorConstructor(IAttributeSelectorFactory attributeSelector, IPseudoClassSelectorFactory pseudoClassSelector, IPseudoElementSelectorFactory pseudoElementSelector)
+        public CssSelectorConstructor(CssTokenizer tokenizer, IAttributeSelectorFactory attributeSelector, IPseudoClassSelectorFactory pseudoClassSelector, IPseudoElementSelectorFactory pseudoElementSelector)
         {
+            _tokenizer = tokenizer;
             _combinators = new Stack<CssCombinator>();
             _attributeSelector = attributeSelector;
             _pseudoClassSelector = pseudoClassSelector;
@@ -87,12 +88,24 @@
 
         #region Methods
 
-        public ISelector GetResult()
+        public ISelector Parse()
+        {
+            var token = _tokenizer.Get();
+
+            while (token.Type != CssTokenType.EndOfFile)
+            {
+                Apply(token);
+                token = _tokenizer.Get();
+            }
+
+            return IsValid ? GetResult() : null;
+        }
+
+        private ISelector GetResult()
         {
             if (!IsValid)
             {
-                var selector = new UnknownSelector();
-                return selector;
+                return new UnknownSelector();
             }
 
             if (_complex != null)
@@ -120,7 +133,7 @@
             return _group;
         }
 
-        public void Apply(CssToken token)
+        private void Apply(CssSelectorToken token)
         {
             switch (_state)
             {
@@ -158,7 +171,7 @@
 
         #region States
 
-        private void OnData(CssToken token)
+        private void OnData(CssSelectorToken token)
 		{
 			switch (token.Type)
 			{
@@ -232,7 +245,7 @@
             }
 		}
 
-        private void OnAttribute(CssToken token)
+        private void OnAttribute(CssSelectorToken token)
 		{
 			if (token.Type != CssTokenType.Whitespace)
             {
@@ -259,7 +272,7 @@
             }
 		}
 
-        private void OnAttributeOperator(CssToken token)
+        private void OnAttributeOperator(CssSelectorToken token)
 		{
             if (token.Type != CssTokenType.Whitespace)
             {
@@ -289,7 +302,7 @@
             }
 		}
 
-        private void OnAttributeValue(CssToken token)
+        private void OnAttributeValue(CssSelectorToken token)
 		{
             if (token.Type != CssTokenType.Whitespace)
             {
@@ -306,7 +319,7 @@
             }
 		}
 
-        private void OnAttributeEnd(CssToken token)
+        private void OnAttributeEnd(CssSelectorToken token)
 		{
             if (token.Type != CssTokenType.Whitespace)
             {
@@ -325,7 +338,7 @@
             }
         }
 
-        private void OnPseudoClass(CssToken token)
+        private void OnPseudoClass(CssSelectorToken token)
 		{
 			_state = State.Data;
             _ready = true;
@@ -361,7 +374,7 @@
             _valid = false;
 		}
 
-        private void OnPseudoElement(CssToken token)
+        private void OnPseudoElement(CssSelectorToken token)
         {
             _state = State.Data;
             _ready = true;
@@ -477,7 +490,7 @@
 
 		#region Substates
 
-		private void OnDelim(CssToken token)
+		private void OnDelim(CssSelectorToken token)
 		{
 			switch (token.Data[0])
 			{
@@ -522,7 +535,7 @@
             }
 		}
 
-        private void OnFunctionState(CssToken token)
+        private void OnFunctionState(CssSelectorToken token)
         {
             if (_function.Finished(token))
             {
@@ -549,7 +562,7 @@
 
         private CssSelectorConstructor CreateChild()
         {
-            return new CssSelectorConstructor(_attributeSelector, _pseudoClassSelector, _pseudoElementSelector);
+            return new CssSelectorConstructor(_tokenizer, _attributeSelector, _pseudoClassSelector, _pseudoElementSelector);
         }
 
         #endregion
@@ -577,14 +590,14 @@
 
         private abstract class FunctionState
         {
-            public Boolean Finished(CssToken token)
+            public Boolean Finished(CssSelectorToken token)
             {
                 return OnToken(token);
             }
 
             public abstract ISelector Produce();
 
-            protected abstract Boolean OnToken(CssToken token);
+            protected abstract Boolean OnToken(CssSelectorToken token);
         }
 
         private sealed class NotFunctionState : FunctionState
@@ -597,7 +610,7 @@
                 _selector._nested = true;
             }
 
-            protected override Boolean OnToken(CssToken token)
+            protected override Boolean OnToken(CssSelectorToken token)
             {
                 if (token.Type != CssTokenType.RoundBracketClose || _selector._state != State.Data)
                 {
@@ -634,7 +647,7 @@
                 _nested = parent.CreateChild();
             }
 
-            protected override Boolean OnToken(CssToken token)
+            protected override Boolean OnToken(CssSelectorToken token)
             {
                 if (token.Type != CssTokenType.RoundBracketClose || _nested._state != State.Data)
                 {
@@ -642,7 +655,7 @@
                     {
                         // Roughly equivalent to inserting an implicit :scope
                         _nested.Insert(SimpleSelector.PseudoClass((el, scope) => el == scope, String.Empty));
-                        _nested.Apply(CssToken.Whitespace);
+                        _nested.Apply(CssSelectorToken.Whitespace);
                         _matchSiblings = true;
                     }
 
@@ -699,7 +712,7 @@
                 _selector = parent.CreateChild();
             }
 
-            protected override Boolean OnToken(CssToken token)
+            protected override Boolean OnToken(CssSelectorToken token)
             {
                 if (token.Type != CssTokenType.RoundBracketClose || _selector._state != State.Data)
                 {
@@ -736,7 +749,7 @@
                 _value = null;
             }
 
-            protected override Boolean OnToken(CssToken token)
+            protected override Boolean OnToken(CssSelectorToken token)
             {
                 if (token.Type == CssTokenType.Ident)
                 {
@@ -777,7 +790,7 @@
                 value = null;
             }
 
-            protected override Boolean OnToken(CssToken token)
+            protected override Boolean OnToken(CssSelectorToken token)
             {
                 if (token.Type == CssTokenType.Ident)
                 {
@@ -818,7 +831,7 @@
                 _value = null;
             }
 
-            protected override Boolean OnToken(CssToken token)
+            protected override Boolean OnToken(CssSelectorToken token)
             {
                 if (token.Type == CssTokenType.Ident || token.Type == CssTokenType.String)
                 {
@@ -857,7 +870,7 @@
                 _selector = parent.CreateChild();
             }
 
-            protected override Boolean OnToken(CssToken token)
+            protected override Boolean OnToken(CssSelectorToken token)
             {
                 if (token.Type != CssTokenType.RoundBracketClose || _selector._state != State.Data)
                 {
@@ -935,7 +948,7 @@
                 return null;
             }
 
-            protected override Boolean OnToken(CssToken token)
+            protected override Boolean OnToken(CssSelectorToken token)
             {
                 switch (_state)
                 {
@@ -952,7 +965,7 @@
                 }
             }
 
-            private Boolean OnAfterInitialSign(CssToken token)
+            private Boolean OnAfterInitialSign(CssSelectorToken token)
             {
                 if (token.Type == CssTokenType.Number)
                 {
@@ -961,8 +974,8 @@
 
                 if (token.Type == CssTokenType.Dimension)
                 {
-                    var dim = (CssUnitToken)token;
-                    _valid = _valid && dim.Unit.Isi("n") && Int32.TryParse(token.Data, out _step);
+                    var integral = token.Data.Remove(token.Data.Length - 1);
+                    _valid = _valid && token.Data.EndsWith("n", StringComparison.OrdinalIgnoreCase) && Int32.TryParse(integral, out _step);
                     _step *= _sign;
                     _sign = 1;
                     _state = ParseState.Offset;
@@ -986,7 +999,7 @@
                 return token.Type == CssTokenType.RoundBracketClose;
             }
 
-            private Boolean OnAfter(CssToken token)
+            private Boolean OnAfter(CssSelectorToken token)
             {
                 if (token.Type != CssTokenType.RoundBracketClose || _nested._state != State.Data)
                 {
@@ -997,7 +1010,7 @@
                 return true;
             }
 
-            private Boolean OnBeforeOf(CssToken token)
+            private Boolean OnBeforeOf(CssSelectorToken token)
             {
                 if (token.Type == CssTokenType.Whitespace)
                 {
@@ -1020,7 +1033,7 @@
                 return false;
             }
 
-            private Boolean OnOffset(CssToken token)
+            private Boolean OnOffset(CssSelectorToken token)
             {
                 if (token.Type == CssTokenType.Whitespace)
                 {
@@ -1038,7 +1051,7 @@
                 return OnBeforeOf(token);
             }
 
-            private Boolean OnInitial(CssToken token)
+            private Boolean OnInitial(CssSelectorToken token)
             {
                 if (token.Type == CssTokenType.Whitespace)
                 {

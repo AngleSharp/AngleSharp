@@ -601,7 +601,6 @@
     <Compile Include="Dom\DocumentReadyState.cs" />
     <Compile Include="Css\Parser\CssTokenType.cs" />
     <Compile Include="Css\Parser\CssSelectorConstructor.cs" />
-    <Compile Include="Css\Parser\Tokens\CssUnitToken.cs" />
     <Compile Include="Html\Parser\HtmlTokenType.cs" />
     <Compile Include="Text\CharExtensions.cs" />
     <Compile Include="Html\Parser\HtmlForeignExtensions.cs" />
@@ -690,7 +689,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Text\Symbols.cs" />
     <Compile Include="Html\Parser\HtmlTokenizer.cs" />
-    <Compile Include="Css\Parser\Tokens\CssToken.cs" />
+    <Compile Include="Css\Parser\CssSelectorToken.cs" />
     <Compile Include="Html\Parser\Tokens\HtmlToken.cs" />
     <Compile Include="Html\Parser\Tokens\HtmlDoctypeToken.cs" />
     <Compile Include="Html\Parser\Tokens\HtmlTagToken.cs" />

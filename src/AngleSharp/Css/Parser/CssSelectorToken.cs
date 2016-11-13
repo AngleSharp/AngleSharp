@@ -1,24 +1,24 @@
-﻿namespace AngleSharp.Css.Parser.Tokens
+﻿namespace AngleSharp.Css.Parser
 {
     using System;
 
     /// <summary>
-    /// The base class token for the CSS parser.
+    /// The CSS selector token.
     /// </summary>
-    class CssToken
+    struct CssSelectorToken
     {
         #region Fields
 
         private readonly CssTokenType _type;
         private readonly String _data;
 
-        public static readonly CssToken Whitespace = new CssToken(CssTokenType.Whitespace, " ");
+        public static readonly CssSelectorToken Whitespace = new CssSelectorToken(CssTokenType.Whitespace, " ");
 
         #endregion
 
         #region ctor
 
-        public CssToken(CssTokenType type, String data)
+        public CssSelectorToken(CssTokenType type, String data)
         {
             _type = type;
             _data = data;

@@ -1,7 +1,6 @@
 ﻿namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Common;
-    using AngleSharp.Css.Parser.Tokens;
     using AngleSharp.Text;
     using System;
     using System.Globalization;
@@ -33,7 +32,7 @@
         /// <summary>
         /// Gets the next available token.
         /// </summary>
-        public CssToken Get()
+        public CssSelectorToken Get()
         {
             return Data(_source.Current);
         }
@@ -45,7 +44,7 @@
         /// <summary>
         /// 4.4.1. Data state
         /// </summary>
-        private CssToken Data(Char current)
+        private CssSelectorToken Data(Char current)
         {
             switch (current)
             {
@@ -55,7 +54,7 @@
                 case Symbols.Tab:
                 case Symbols.Space:
                     _source.SkipSpaces();
-                    return new CssToken(CssTokenType.Whitespace, " ");
+                    return new CssSelectorToken(CssTokenType.Whitespace, " ");
 
                 case Symbols.Num:
                     return HashStart();
@@ -73,7 +72,7 @@
 
                         if (token.Type == CssTokenType.Ident)
                         {
-                            return new CssToken(CssTokenType.Class, token.Data);
+                            return new CssSelectorToken(CssTokenType.Class, token.Data);
                         }
                     }
 
@@ -92,7 +91,7 @@
 
                 case Symbols.Comma:
                     _source.Next();
-                    return new CssToken(CssTokenType.Comma, ",");
+                    return new CssSelectorToken(CssTokenType.Comma, ",");
 
                 case Symbols.GreaterThan:
                     current = _source.Next();
@@ -104,10 +103,10 @@
                         if (current == Symbols.GreaterThan)
                         {
                             _source.Next();
-                            return new CssToken(CssTokenType.Deep, ">>>");
+                            return new CssSelectorToken(CssTokenType.Deep, ">>>");
                         }
                         
-                        return new CssToken(CssTokenType.Descendent, ">>");
+                        return new CssSelectorToken(CssTokenType.Descendent, ">>");
                     }
 
                     return NewDelimiter(Symbols.GreaterThan);
@@ -166,7 +165,7 @@
 
                 case Symbols.Colon:
                     _source.Next();
-                    return new CssToken(CssTokenType.Colon, ":");
+                    return new CssSelectorToken(CssTokenType.Colon, ":");
 
                 case '0':
                 case '1':
@@ -206,15 +205,15 @@
 
                 case Symbols.SquareBracketOpen:
                     _source.Next();
-                    return new CssToken(CssTokenType.SquareBracketOpen, "[");
+                    return new CssSelectorToken(CssTokenType.SquareBracketOpen, "[");
 
                 case Symbols.SquareBracketClose:
                     _source.Next();
-                    return new CssToken(CssTokenType.SquareBracketClose, "]");
+                    return new CssSelectorToken(CssTokenType.SquareBracketClose, "]");
 
                 case Symbols.RoundBracketClose:
                     _source.Next();
-                    return new CssToken(CssTokenType.RoundBracketClose, ")");
+                    return new CssSelectorToken(CssTokenType.RoundBracketClose, ")");
 
                 case Symbols.Solidus:
                     current = _source.Next();
@@ -273,7 +272,7 @@
                     return NewDelimiter(Symbols.Accent);
 
                 case Symbols.EndOfFile:
-                    return new CssToken(CssTokenType.EndOfFile, String.Empty);
+                    return new CssSelectorToken(CssTokenType.EndOfFile, String.Empty);
 
                 case Symbols.Pipe:
                     current = _source.Next();
@@ -286,7 +285,7 @@
                     else if (current == Symbols.Pipe)
                     {
                         _source.Next();
-                        return new CssToken(CssTokenType.Column, CombinatorSymbols.Column);
+                        return new CssSelectorToken(CssTokenType.Column, CombinatorSymbols.Column);
                     }
 
                     return NewDelimiter(Symbols.Pipe);
@@ -348,7 +347,7 @@
         /// <summary>
         /// 4.4.2. Double quoted string state
         /// </summary>
-        private CssToken StringDQ()
+        private CssSelectorToken StringDQ()
         {
             var buffer = StringBuilderPool.Obtain();
 
@@ -395,7 +394,7 @@
         /// <summary>
         /// 4.4.3. Single quoted string state
         /// </summary>
-        private CssToken StringSQ()
+        private CssSelectorToken StringSQ()
         {
             var buffer = StringBuilderPool.Obtain();
 
@@ -442,7 +441,7 @@
         /// <summary>
         /// 4.4.4. Hash state
         /// </summary>
-        private CssToken HashStart()
+        private CssSelectorToken HashStart()
         {
             var current = _source.Next();
 
@@ -468,7 +467,7 @@
         /// <summary>
         /// 4.4.5. Hash-rest state
         /// </summary>
-        private CssToken HashRest(StringBuilder buffer)
+        private CssSelectorToken HashRest(StringBuilder buffer)
         {
             while (true)
             {
@@ -485,7 +484,7 @@
                 }
                 else
                 {
-                    return new CssToken(CssTokenType.Hash, buffer.ToPool());
+                    return new CssSelectorToken(CssTokenType.Hash, buffer.ToPool());
                 }
             }
         }
@@ -493,7 +492,7 @@
         /// <summary>
         /// 4.4.7. At-keyword state
         /// </summary>
-        private CssToken AtKeywordStart()
+        private CssSelectorToken AtKeywordStart()
         {
             var current = _source.Next();
 
@@ -528,7 +527,7 @@
         /// <summary>
         /// 4.4.8. At-keyword-rest state
         /// </summary>
-        private CssToken AtKeywordRest(Char current)
+        private CssSelectorToken AtKeywordRest(Char current)
         {
             while (true)
             {
@@ -552,7 +551,7 @@
         /// <summary>
         /// 4.4.9. Ident state
         /// </summary>
-        private CssToken IdentStart(Char current)
+        private CssSelectorToken IdentStart(Char current)
         {
             if (current == Symbols.Minus)
             {
@@ -587,7 +586,7 @@
         /// <summary>
         /// 4.4.10. Ident-rest state
         /// </summary>
-        private CssToken IdentRest(Char current, StringBuilder buffer)
+        private CssSelectorToken IdentRest(Char current, StringBuilder buffer)
         {
             while (true)
             {
@@ -610,11 +609,11 @@
                     }
 
                     _source.Next();
-                    return new CssToken(CssTokenType.Function, name);
+                    return new CssSelectorToken(CssTokenType.Function, name);
                 }
                 else
                 {
-                    return new CssToken(CssTokenType.Ident, buffer.ToPool());
+                    return new CssSelectorToken(CssTokenType.Ident, buffer.ToPool());
                 }
 
                 current = _source.Next();
@@ -624,7 +623,7 @@
         /// <summary>
         /// 4.4.12. Number state
         /// </summary>
-        private CssToken NumberStart(Char current)
+        private CssSelectorToken NumberStart(Char current)
         {
             while (true)
             {
@@ -636,8 +635,7 @@
 
                     if (current == Symbols.Dot)
                     {
-                        buffer.Append(current);
-                        buffer.Append(_source.Next());
+                        buffer.Append(current).Append(_source.Next());
                         return NumberFraction(buffer);
                     }
 
@@ -647,8 +645,7 @@
                 else if (current == Symbols.Dot)
                 {
                     var buffer = StringBuilderPool.Obtain();
-                    buffer.Append(current);
-                    buffer.Append(_source.Next());
+                    buffer.Append(current).Append(_source.Next());
                     return NumberFraction(buffer);
                 }
                 else if (current.IsDigit())
@@ -665,7 +662,7 @@
         /// <summary>
         /// 4.4.13. Number-rest state
         /// </summary>
-        private CssToken NumberRest(StringBuilder buffer)
+        private CssSelectorToken NumberRest(StringBuilder buffer)
         {
             var current = _source.Next();
 
@@ -677,16 +674,13 @@
                 }
                 else if (current.IsNameStart())
                 {
-                    var number = buffer.ToString();
-                    buffer.Clear().Append(current);
-                    return Dimension(number, buffer);
+                    buffer.Append(current);
+                    return Dimension(buffer);
                 }
                 else if (IsValidEscape(current))
                 {
-                    current = _source.Next();
-                    var number = buffer.ToString();
-                    buffer.Clear().Append(ConsumeEscape(current));
-                    return Dimension(number, buffer);
+                    buffer.Append(ConsumeEscape(_source.Next()));
+                    return Dimension(buffer);
                 }
                 else
                 {
@@ -711,7 +705,7 @@
 
                 case '%':
                     _source.Next();
-                    return NewDimension(buffer.ToPool(), "%");
+                    return NewDimension(buffer.Append('%').ToPool());
 
                 case 'e':
                 case 'E':
@@ -728,7 +722,7 @@
         /// <summary>
         /// 4.4.14. Number-fraction state
         /// </summary>
-        private CssToken NumberFraction(StringBuilder buffer)
+        private CssSelectorToken NumberFraction(StringBuilder buffer)
         {
             var current = _source.Next();
 
@@ -740,16 +734,13 @@
                 }
                 else if (current.IsNameStart())
                 {
-                    var number = buffer.ToString();
-                    buffer.Clear().Append(current);
-                    return Dimension(number, buffer);
+                    buffer.Append(current);
+                    return Dimension(buffer);
                 }
                 else if (IsValidEscape(current))
                 {
-                    current = _source.Next();
-                    var number = buffer.ToString();
-                    buffer.Clear().Append(ConsumeEscape(current));
-                    return Dimension(number, buffer);
+                    buffer.Append(ConsumeEscape(_source.Next()));
+                    return Dimension(buffer);
                 }
                 else
                 {
@@ -767,7 +758,7 @@
 
                 case '%':
                     _source.Next();
-                    return NewDimension(buffer.ToPool(), "%");
+                    return NewDimension(buffer.Append('%').ToPool());
 
                 case Symbols.Minus:
                     return NumberDash(buffer);
@@ -780,7 +771,7 @@
         /// <summary>
         /// 4.4.15. Dimension state
         /// </summary>
-        private CssToken Dimension(String number, StringBuilder buffer)
+        private CssSelectorToken Dimension(StringBuilder buffer)
         {
             while (true)
             {
@@ -797,7 +788,7 @@
                 }
                 else
                 {
-                    return NewDimension(number, buffer.ToPool());
+                    return NewDimension(buffer.ToPool());
                 }
             }
         }
@@ -805,7 +796,7 @@
         /// <summary>
         /// 4.4.16. SciNotation state
         /// </summary>
-        private CssToken SciNotation(StringBuilder buffer)
+        private CssSelectorToken SciNotation(StringBuilder buffer)
         {
             while (true)
             {
@@ -825,7 +816,7 @@
         /// <summary>
         /// 4.4.17. URL state
         /// </summary>
-        private CssToken UrlStart()
+        private CssSelectorToken UrlStart()
         {
             var current = _source.SkipSpaces();
 
@@ -852,7 +843,7 @@
         /// <summary>
         /// 4.4.18. URL-double-quoted state
         /// </summary>
-        private CssToken UrlDQ()
+        private CssSelectorToken UrlDQ()
         {
             while (true)
             {
@@ -889,7 +880,7 @@
         /// <summary>
         /// 4.4.19. URL-single-quoted state
         /// </summary>
-        private CssToken UrlSQ()
+        private CssSelectorToken UrlSQ()
         {
             while (true)
             {
@@ -926,7 +917,7 @@
         /// <summary>
         /// 4.4.21. URL-unquoted state
         /// </summary>
-        private CssToken UrlUQ(Char current)
+        private CssSelectorToken UrlUQ(Char current)
         {
             while (true)
             {
@@ -960,7 +951,7 @@
         /// <summary>
         /// 4.4.20. URL-end state
         /// </summary>
-        private CssToken UrlEnd()
+        private CssSelectorToken UrlEnd()
         {
             while (true)
             {
@@ -982,7 +973,7 @@
         /// <summary>
         /// 4.4.22. Bad URL state
         /// </summary>
-        private CssToken UrlBad()
+        private CssSelectorToken UrlBad()
         {
             var current = _source.Current;
             var curly = 0;
@@ -1028,7 +1019,7 @@
         /// <summary>
         /// 4.4.23. Unicode-range State
         /// </summary>
-        private CssToken UnicodeRange(Char current)
+        private CssSelectorToken UnicodeRange(Char current)
         {
             var count = 0;
 
@@ -1070,7 +1061,7 @@
                         current = _source.Next();
                     }
                     
-                    return new CssToken(CssTokenType.Invalid, String.Empty);
+                    return new CssSelectorToken(CssTokenType.Invalid, String.Empty);
                 }
                 else
                 {
@@ -1086,41 +1077,41 @@
 
         #region Tokens
 
-        private CssToken NewMatch(String match)
+        private CssSelectorToken NewMatch(String match)
         {
-            return new CssToken(CssTokenType.Match, match);
+            return new CssSelectorToken(CssTokenType.Match, match);
         }
 
-        private CssToken NewInvalid()
+        private CssSelectorToken NewInvalid()
         {
-            return new CssToken(CssTokenType.Invalid, String.Empty);
+            return new CssSelectorToken(CssTokenType.Invalid, String.Empty);
         }
 
-        private CssToken NewString(String value)
+        private CssSelectorToken NewString(String value)
         {
-            return new CssToken(CssTokenType.String, value);
+            return new CssSelectorToken(CssTokenType.String, value);
         }
 
-        private CssToken NewDimension(String value, String unit)
+        private CssSelectorToken NewDimension(String value)
         {
-            return new CssUnitToken(CssTokenType.Dimension, value, unit);
+            return new CssSelectorToken(CssTokenType.Dimension, value);
         }
 
-        private CssToken NewNumber(String number)
+        private CssSelectorToken NewNumber(String number)
         {
-            return new CssToken(CssTokenType.Number, number);
+            return new CssSelectorToken(CssTokenType.Number, number);
         }
 
-        private CssToken NewDelimiter(Char c)
+        private CssSelectorToken NewDelimiter(Char c)
         {
-            return new CssToken(CssTokenType.Delim, c.ToString());
+            return new CssSelectorToken(CssTokenType.Delim, c.ToString());
         }
 
         #endregion
 
         #region Helpers
 
-        private CssToken NumberExponential(Char letter, StringBuilder buffer)
+        private CssSelectorToken NumberExponential(Char letter, StringBuilder buffer)
         {
             var current = _source.Next();
 
@@ -1143,28 +1134,25 @@
                 _source.Back();
             }
 
-            var number = buffer.ToString();
-            buffer.Clear().Append(letter);
+            buffer.Append(letter);
             _source.Back();
-            return Dimension(number, buffer);
+            return Dimension(buffer);
         }
 
-        private CssToken NumberDash(StringBuilder buffer)
+        private CssSelectorToken NumberDash(StringBuilder buffer)
         {
             var current = _source.Next();
 
             if (current.IsNameStart())
             {
-                var number = buffer.ToString();
-                buffer.Clear().Append(Symbols.Minus).Append(current);
-                return Dimension(number, buffer);
+                buffer.Append(Symbols.Minus).Append(current);
+                return Dimension(buffer);
             }
             else if (IsValidEscape(current))
             {
                 _source.Next();
-                var number = buffer.ToString();
-                buffer.Clear().Append(Symbols.Minus).Append(ConsumeEscape(current));
-                return Dimension(number, buffer);
+                buffer.Append(Symbols.Minus).Append(ConsumeEscape(current));
+                return Dimension(buffer);
             }
             else
             {

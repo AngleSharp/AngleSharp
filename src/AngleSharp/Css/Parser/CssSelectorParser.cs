@@ -30,16 +30,8 @@
         {
             var source = new StringSource(selectorText);
             var tokenizer = new CssTokenizer(source);
-            var token = tokenizer.Get();
-            var constructor = new CssSelectorConstructor(_attribute, _pseudoClass, _pseudoElement);
-
-            while (token.Type != CssTokenType.EndOfFile)
-            {
-                constructor.Apply(token);
-                token = tokenizer.Get();
-            }
-            
-            return constructor.IsValid ? constructor.GetResult() : null;
+            var constructor = new CssSelectorConstructor(tokenizer, _attribute, _pseudoClass, _pseudoElement);
+            return constructor.Parse();
         }
     }
 }
