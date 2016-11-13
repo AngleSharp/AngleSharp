@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Text
 {
-    using AngleSharp.Common;
     using System;
     using System.IO;
     using System.Text;
@@ -69,7 +68,7 @@
             : this(encoding)
         {
             _baseStream = baseStream;
-            _content = Pool.NewStringBuilder();
+            _content = StringBuilderPool.Obtain();
             _confidence = EncodingConfidence.Tentative;
         }
 

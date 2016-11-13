@@ -14,6 +14,10 @@
         /// </summary>
         Hash,
         /// <summary>
+        /// A class token (starts with .).
+        /// </summary>
+        Class,
+        /// <summary>
         /// An identifier token.
         /// </summary>
         Ident,

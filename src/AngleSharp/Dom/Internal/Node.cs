@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Common;
     using AngleSharp.Text;
     using System;
     using System.IO;
@@ -375,7 +374,7 @@
                     }
                     else
                     {
-                        var sb = Pool.NewStringBuilder();
+                        var sb = StringBuilderPool.Obtain();
                         var sibling = text;
                         var end = i;
                         var owner = Owner;

@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Common;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -642,7 +642,7 @@
 
         public override String ToString()
         {
-            var s = Pool.NewStringBuilder();
+            var s = StringBuilderPool.Obtain();
             var offset = Start;
             var dest = End;
             var startText = Head as IText;

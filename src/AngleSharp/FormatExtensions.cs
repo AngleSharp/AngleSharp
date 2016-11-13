@@ -1,8 +1,8 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Common;
     using AngleSharp.Css;
     using AngleSharp.Html;
+    using AngleSharp.Text;
     using System;
     using System.IO;
 
@@ -29,7 +29,7 @@
         /// <returns>The source code snippet.</returns>
         public static String ToCss(this IStyleFormattable style, IStyleFormatter formatter)
         {
-            var sb = Pool.NewStringBuilder();
+            var sb = StringBuilderPool.Obtain();
 
             using (var writer = new StringWriter(sb))
             {
@@ -67,7 +67,7 @@
         /// <returns>The source code snippet.</returns>
         public static String ToHtml(this IMarkupFormattable markup, IMarkupFormatter formatter)
         {
-            var sb = Pool.NewStringBuilder();
+            var sb = StringBuilderPool.Obtain();
 
             using (var writer = new StringWriter(sb))
             {

@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp
 {
-    using AngleSharp.Common;
     using AngleSharp.Io;
     using AngleSharp.Text;
     using System;
@@ -133,7 +132,7 @@
                 }
                 else if (ProtocolNames.IsOriginable(_scheme))
                 {
-                    var output = Pool.NewStringBuilder();
+                    var output = StringBuilderPool.Obtain();
 
                     if (!String.IsNullOrEmpty(_host))
                     {
@@ -371,7 +370,7 @@
         /// <returns>The string that equals the hyper reference.</returns>
         private String Serialize()
         {
-            var output = Pool.NewStringBuilder();
+            var output = StringBuilderPool.Obtain();
 
             if (!String.IsNullOrEmpty(_scheme))
             {
@@ -516,7 +515,7 @@
 
         private Boolean ParseSchemeData(String input, Int32 index)
         {
-            var buffer = Pool.NewStringBuilder();
+            var buffer = StringBuilderPool.Obtain();
 
             while (index < input.Length)
             {
@@ -628,7 +627,7 @@
         private Boolean ParseAuthority(String input, Int32 index)
         {
             var start = index;
-            var buffer = Pool.NewStringBuilder();
+            var buffer = StringBuilderPool.Obtain();
             var user = default(String);
             var pass = default(String);
 
@@ -840,7 +839,7 @@
             }
 
             var originalCount = paths.Count;
-            var buffer = Pool.NewStringBuilder();
+            var buffer = StringBuilderPool.Obtain();
 
             while (index <= input.Length)
             {
@@ -945,7 +944,7 @@
 
         private Boolean ParseQuery(String input, Int32 index, Boolean onlyQuery = false)
         {
-            var buffer = Pool.NewStringBuilder();
+            var buffer = StringBuilderPool.Obtain();
             var fragment = false;
 
             while (index < input.Length)
@@ -976,7 +975,7 @@
 
         private Boolean ParseFragment(String input, Int32 index)
         {
-            var buffer = Pool.NewStringBuilder();
+            var buffer = StringBuilderPool.Obtain();
 
             while (index < input.Length)
             {

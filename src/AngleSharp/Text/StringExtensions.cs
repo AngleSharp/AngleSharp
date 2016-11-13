@@ -2,7 +2,6 @@
 {
     using AngleSharp.Attributes;
     using AngleSharp.Browser;
-    using AngleSharp.Common;
     using AngleSharp.Dom;
     using AngleSharp.Io;
     using System;
@@ -673,7 +672,7 @@
         /// <returns>The CSS string representation.</returns>
         public static String CssString(this String value)
         {
-            var builder = Pool.NewStringBuilder();
+            var builder = StringBuilderPool.Obtain();
             builder.Append(Symbols.DoubleQuote);
 
             if (!String.IsNullOrEmpty(value))
@@ -728,7 +727,7 @@
         /// <returns>The encoded value.</returns>
         public static String UrlEncode(this Byte[] content)
         {
-            var builder = Pool.NewStringBuilder();
+            var builder = StringBuilderPool.Obtain();
 
             for (var i = 0; i < content.Length; i++)
             {
@@ -802,7 +801,7 @@
         {
             if (!String.IsNullOrEmpty(value))
             {
-                var builder = Pool.NewStringBuilder();
+                var builder = StringBuilderPool.Obtain();
                 var isCR = false;
 
                 for (var i = 0; i < value.Length; i++)

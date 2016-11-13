@@ -14,7 +14,7 @@
     {
         #region Fields
 
-        private readonly List<CombinatorSelector> _selectors;
+        private readonly List<CombinatorSelector> _combinators;
 
         #endregion
 
@@ -22,7 +22,7 @@
 
         public ComplexSelector()
         {
-            _selectors = new List<CombinatorSelector>();
+            _combinators = new List<CombinatorSelector>();
         }
 
         #endregion
@@ -34,11 +34,11 @@
             get
             {
                 var sum = new Priority();
-                var n = _selectors.Count;
+                var n = _combinators.Count;
 
                 for (var i = 0; i < n; i++)
                 {
-                    sum += _selectors[i].Selector.Specifity;
+                    sum += _combinators[i].Selector.Specifity;
                 }
 
                 return sum;
@@ -52,7 +52,7 @@
 
         public Int32 Length
         {
-            get { return _selectors.Count; }
+            get { return _combinators.Count; }
         }
 
         public Boolean IsReady
@@ -67,25 +67,25 @@
 
         public void ToCss(TextWriter writer, IStyleFormatter formatter)
         {
-            if (_selectors.Count > 0)
+            if (_combinators.Count > 0)
             {
-                var n = _selectors.Count - 1;
+                var n = _combinators.Count - 1;
 
                 for (var i = 0; i < n; i++)
                 {
-                    writer.Write(_selectors[i].Selector.Text);
-                    writer.Write(_selectors[i].Delimiter);
+                    writer.Write(_combinators[i].Selector.Text);
+                    writer.Write(_combinators[i].Delimiter);
                 }
 
-                writer.Write(_selectors[n].Selector.Text);
+                writer.Write(_combinators[n].Selector.Text);
             }
         }
 
         public Boolean Match(IElement element, IElement scope)
         {
-            var last = _selectors.Count - 1;
+            var last = _combinators.Count - 1;
 
-            if (_selectors[last].Selector.Match(element, scope))
+            if (_combinators[last].Selector.Match(element, scope))
             {
                 return last > 0 ? MatchCascade(last - 1, element, scope) : true;
             }
@@ -97,7 +97,7 @@
         {
             if (!IsReady)
             {
-                _selectors.Add(new CombinatorSelector
+                _combinators.Add(new CombinatorSelector
                 {
                     Selector = selector,
                     Transform = null,
@@ -111,7 +111,7 @@
         {
             if (!IsReady)
             {
-                _selectors.Add(new CombinatorSelector
+                _combinators.Add(new CombinatorSelector
                 {
                     Selector = combinator.Change(selector),
                     Transform = combinator.Transform,
@@ -126,11 +126,11 @@
 
         private Boolean MatchCascade(Int32 pos, IElement element, IElement scope)
         {
-            var newElements = _selectors[pos].Transform(element);
+            var newElements = _combinators[pos].Transform(element);
 
             foreach (var newElement in newElements)
             {
-                if (_selectors[pos].Selector.Match(newElement, scope))
+                if (_combinators[pos].Selector.Match(newElement, scope))
                 {
                     if (pos == 0 || MatchCascade(pos - 1, newElement, scope))
                     {

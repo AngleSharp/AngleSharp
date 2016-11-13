@@ -504,7 +504,7 @@
     <Compile Include="Text\XmlExtensions.cs" />
     <Compile Include="Html\FormDataSet.cs" />
     <Compile Include="Text\StringExtensions.cs" />
-    <Compile Include="Common\Pool.cs" />
+    <Compile Include="Text\StringBuilderPool.cs" />
     <Compile Include="Io\Request.cs" />
     <Compile Include="Io\DefaultHttpRequester.cs" />
     <Compile Include="Io\DefaultResponse.cs" />

@@ -126,9 +126,6 @@
                 case State.Data:
                     OnData(token);
                     break;
-                case State.Class:
-                    OnClass(token);
-                    break;
                 case State.Attribute:
                     OnAttribute(token);
                     break;
@@ -180,6 +177,12 @@
                 //Begin of ID #I
                 case CssTokenType.Hash:
 					Insert(SimpleSelector.Id(token.Data));
+                    _ready = true;
+                    break;
+
+                //Begin of Class .c
+                case CssTokenType.Class:
+                    Insert(SimpleSelector.Class(token.Data));
                     _ready = true;
                     break;
 
@@ -372,21 +375,6 @@
             _valid = false;
 		}
 
-        private void OnClass(CssToken token)
-		{
-			_state = State.Data;
-            _ready = true;
-
-            if (token.Type == CssTokenType.Ident)
-            {
-                Insert(SimpleSelector.Class(token.Data));
-            }
-            else
-            {
-                _valid = false;
-            }
-		}
-
 		#endregion
 
 		#region Insertations
@@ -512,11 +500,6 @@
                     _ready = true;
                     break;
 
-                case Symbols.Dot:
-					_state = State.Class;
-                    _ready = false;
-                    break;
-
                 case Symbols.Pipe:
                     if (_combinators.Count > 0 && _combinators.Peek() == CssCombinator.Descendent)
                     {
@@ -581,7 +564,6 @@
 			AttributeOperator,
 			AttributeValue,
 			AttributeEnd,
-			Class,
 			PseudoClass,
 			PseudoElement
 		}

@@ -66,8 +66,17 @@
                     {
                         return NumberStart(GetPrevious());
                     }
+                    else
+                    {
+                        var token = Data(current);
 
-                    return NewDelimiter(GetPrevious());
+                        if (token.Type == CssTokenType.Ident)
+                        {
+                            return new CssToken(CssTokenType.Class, token.Data);
+                        }
+                    }
+
+                    return NewInvalid();
 
                 case Symbols.Asterisk:
                     current = GetNext();

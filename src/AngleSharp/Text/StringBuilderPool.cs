@@ -1,4 +1,4 @@
-﻿namespace AngleSharp.Common
+﻿namespace AngleSharp.Text
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,7 @@
     /// <summary>
     /// Provides a pool of used / recycled resources.
     /// </summary>
-    public static class Pool
+    public static class StringBuilderPool
     {
         private static readonly Stack<StringBuilder> _builder = new Stack<StringBuilder>();
         private static readonly Object _lock = new Object();
@@ -16,7 +16,7 @@
         /// Either creates a fresh stringbuilder or gets a (cleaned) used one.
         /// </summary>
         /// <returns>A stringbuilder to use.</returns>
-        public static StringBuilder NewStringBuilder()
+        public static StringBuilder Obtain()
         {
             lock (_lock)
             {

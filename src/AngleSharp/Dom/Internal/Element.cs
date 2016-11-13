@@ -129,7 +129,7 @@
         {
             get
             {
-                var sb = Pool.NewStringBuilder();
+                var sb = StringBuilderPool.Obtain();
 
                 foreach (var child in this.GetDescendants().OfType<IText>())
                 {
