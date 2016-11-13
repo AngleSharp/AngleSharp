@@ -8,7 +8,7 @@
     /// <summary>
     /// Provides string to Relation instance mappings.
     /// </summary>
-    public sealed class DefaultLinkRelationFactory : ILinkRelationFactory
+    public class DefaultLinkRelationFactory : ILinkRelationFactory
     {
         /// <summary>
         /// Represents a creator delegate for creating link relation providers.
@@ -53,6 +53,18 @@
         }
 
         /// <summary>
+        /// Creates the default LinkRel provider for the given link element
+        /// and relation. By default this is null.
+        /// </summary>
+        /// <param name="link">The link element.</param>
+        /// <param name="rel">The current value of the rel attribute.</param>
+        /// <returns>The LinkRel provider instance or null.</returns>
+        protected virtual BaseLinkRelation CreateDefault(IHtmlLinkElement link, String rel)
+        {
+            return default(BaseLinkRelation);
+        }
+
+        /// <summary>
         /// Creates an LinkRel provider for the provided element.
         /// </summary>
         /// <param name="link">The link element.</param>
@@ -67,7 +79,7 @@
                 return creator.Invoke(link);
             }
 
-            return default(BaseLinkRelation);
+            return CreateDefault(link, rel);
         }
     }
 }

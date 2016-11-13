@@ -118,7 +118,7 @@
         /// <summary>
         /// Parses the string and returns the result.
         /// </summary>
-        public IXmlDocument Parse(String source)
+        public IXmlDocument ParseDocument(String source)
         {
             var document = CreateDocument(source);
             return Parse(document);
@@ -127,32 +127,16 @@
         /// <summary>
         /// Parses the stream and returns the result.
         /// </summary>
-        public IXmlDocument Parse(Stream source)
+        public IXmlDocument ParseDocument(Stream source)
         {
             var document = CreateDocument(source);
             return Parse(document);
         }
 
         /// <summary>
-        /// Parses the string asynchronously.
-        /// </summary>
-        public Task<IXmlDocument> ParseAsync(String source)
-        {
-            return ParseAsync(source, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Parses the stream asynchronously.
-        /// </summary>
-        public Task<IXmlDocument> ParseAsync(Stream source)
-        {
-            return ParseAsync(source, CancellationToken.None);
-        }
-
-        /// <summary>
         /// Parses the string asynchronously with option to cancel.
         /// </summary>
-        public Task<IXmlDocument> ParseAsync(String source, CancellationToken cancel)
+        public Task<IXmlDocument> ParseDocumentAsync(String source, CancellationToken cancel)
         {
             var document = CreateDocument(source);
             return ParseAsync(document, cancel);
@@ -161,13 +145,13 @@
         /// <summary>
         /// Parses the stream asynchronously with option to cancel.
         /// </summary>
-        public Task<IXmlDocument> ParseAsync(Stream source, CancellationToken cancel)
+        public Task<IXmlDocument> ParseDocumentAsync(Stream source, CancellationToken cancel)
         {
             var document = CreateDocument(source);
             return ParseAsync(document, cancel);
         }
 
-        async Task<IDocument> IXmlParser.ParseAsync(IDocument document, CancellationToken cancel)
+        async Task<IDocument> IXmlParser.ParseDocumentAsync(IDocument document, CancellationToken cancel)
         {
             var parser = CreateBuilder((Document)document);
             InvokeEventListener(new XmlParseEvent(document, completed: false));

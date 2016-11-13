@@ -29,7 +29,7 @@
         /// <param name="source">The source to tokenize.</param>
         public BaseTokenizer(TextSource source)
         {
-            StringBuffer = Pool.NewStringBuilder();
+            StringBuffer = StringBuilderPool.Obtain();
             _columns = new Stack<UInt16>();
             _source = source;
             _current = Symbols.Null;

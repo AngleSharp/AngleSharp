@@ -16,26 +16,26 @@
         /// <summary>
         /// Parses the string and returns the result.
         /// </summary>
-        IXmlDocument Parse(String source);
+        IXmlDocument ParseDocument(String source);
 
         /// <summary>
         /// Parses the stream and returns the result.
         /// </summary>
-        IXmlDocument Parse(Stream source);
+        IXmlDocument ParseDocument(Stream source);
         
         /// <summary>
         /// Parses the string asynchronously with option to cancel.
         /// </summary>
-        Task<IXmlDocument> ParseAsync(String source, CancellationToken cancel);
+        Task<IXmlDocument> ParseDocumentAsync(String source, CancellationToken cancel);
 
         /// <summary>
         /// Parses the stream asynchronously with option to cancel.
         /// </summary>
-        Task<IXmlDocument> ParseAsync(Stream source, CancellationToken cancel);
+        Task<IXmlDocument> ParseDocumentAsync(Stream source, CancellationToken cancel);
 
         /// <summary>
         /// Populates the given document asynchronously.
         /// </summary>
-        Task<IDocument> ParseAsync(IDocument document, CancellationToken cancel);
+        Task<IDocument> ParseDocumentAsync(IDocument document, CancellationToken cancel);
     }
 }

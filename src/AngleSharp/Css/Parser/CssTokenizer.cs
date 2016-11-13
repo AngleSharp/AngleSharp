@@ -1,57 +1,28 @@
 ﻿namespace AngleSharp.Css.Parser
 {
     using AngleSharp.Common;
-    using AngleSharp.Css.Dom.Events;
-    using AngleSharp.Css.Parser.Tokens;
     using AngleSharp.Text;
     using System;
     using System.Globalization;
+    using System.Text;
 
     /// <summary>
     /// The CSS tokenizer.
     /// See http://dev.w3.org/csswg/css-syntax/#tokenization for more details.
     /// </summary>
-    sealed class CssTokenizer : BaseTokenizer
+    sealed class CssTokenizer
 	{
-		#region Fields
+        #region Fields
 
-        private Boolean _valueMode;
-        private TextPosition _position;
-
-        #endregion
-
-        #region Events
-
-        /// <summary>
-        /// Fired in case of a parse error.
-        /// </summary>
-        public event EventHandler<CssErrorEvent> Error;
+        private readonly StringSource _source;
 
         #endregion
 
         #region ctor
 
-        /// <summary>
-        /// CSS Tokenization
-        /// </summary>
-        /// <param name="source">The source code manager.</param>
-        public CssTokenizer(TextSource source)
-            : base(source)
+        public CssTokenizer(StringSource source)
         {
-            _valueMode = false;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets if we are currently in value mode.
-        /// </summary>
-        public Boolean IsInValue
-        {
-            get { return _valueMode; }
-            set { _valueMode = value; }
+            _source = source;
         }
 
         #endregion
@@ -61,23 +32,9 @@
         /// <summary>
         /// Gets the next available token.
         /// </summary>
-        /// <returns>The next available token.</returns>
-        public CssToken Get()
+        public CssSelectorToken Get()
         {
-            var current = GetNext();
-            _position = GetCurrentPosition();
-            return Data(current);
-        }
-
-        internal void RaiseErrorOccurred(CssParseError error, TextPosition position)
-        {
-            var handler = Error;
-
-            if (handler != null)
-            {
-                var errorEvent = new CssErrorEvent(error, position);
-                handler.Invoke(this, errorEvent);
-            }
+            return Data(_source.Current);
         }
 
         #endregion
@@ -87,10 +44,8 @@
         /// <summary>
         /// 4.4.1. Data state
         /// </summary>
-        private CssToken Data(Char current)
+        private CssSelectorToken Data(Char current)
         {
-            _position = GetCurrentPosition();
-
             switch (current)
             {
                 case Symbols.FormFeed:
@@ -98,88 +53,72 @@
                 case Symbols.CarriageReturn:
                 case Symbols.Tab:
                 case Symbols.Space:
-                    return NewWhitespace(current);
-
-                case Symbols.DoubleQuote:
-                    return StringDQ();
+                    _source.SkipSpaces();
+                    return new CssSelectorToken(CssTokenType.Whitespace, " ");
 
                 case Symbols.Num:
-                    return _valueMode ? ColorLiteral() : HashStart();
+                    return HashStart();
 
-                case Symbols.Dollar:
-                    current = GetNext();
+                case Symbols.Dot:
+                    current = _source.Next();
 
-                    if (current == Symbols.Equality)
+                    if (current.IsDigit())
                     {
-                        return NewMatch(CombinatorSymbols.Ends);
-                    }
-
-                    return NewDelimiter(GetPrevious());
-
-                case Symbols.SingleQuote:
-                    return StringSQ();
-
-                case Symbols.RoundBracketOpen:
-                    return NewOpenRound();
-
-                case Symbols.RoundBracketClose:
-                    return NewCloseRound();
-
-                case Symbols.Asterisk:
-                    current = GetNext();
-
-                    if (current == Symbols.Equality)
-                    {
-                        return NewMatch(CombinatorSymbols.InText);
-                    }
-
-                    return NewDelimiter(GetPrevious());
-
-                case Symbols.Plus:
-                {
-                    var c1 = GetNext();
-
-                    if (c1 != Symbols.EndOfFile)
-                    {
-                        var c2 = GetNext();
-                        Back(2);
-
-                        if (c1.IsDigit() || (c1 == Symbols.Dot && c2.IsDigit()))
-                        {
-                            return NumberStart(current);
-                        }
+                        return NumberStart(_source.Back());
                     }
                     else
                     {
-                        Back();
+                        var token = Data(current);
+
+                        if (token.Type == CssTokenType.Ident)
+                        {
+                            return new CssSelectorToken(CssTokenType.Class, token.Data);
+                        }
                     }
 
-                    return NewDelimiter(current);
-                }
+                    return NewInvalid();
+
+                case Symbols.Asterisk:
+                    current = _source.Next();
+
+                    if (current == Symbols.Equality)
+                    {
+                        _source.Next();
+                        return NewMatch(CombinatorSymbols.InText);
+                    }
+
+                    return NewDelimiter(Symbols.Asterisk);
 
                 case Symbols.Comma:
-                    return NewComma();
+                    _source.Next();
+                    return new CssSelectorToken(CssTokenType.Comma, ",");
 
-                case Symbols.Dot:
-                {
-                    var c = GetNext();
+                case Symbols.GreaterThan:
+                    current = _source.Next();
 
-                    if (c.IsDigit())
+                    if (current == Symbols.GreaterThan)
                     {
-                        return NumberStart(GetPrevious());
+                        current = _source.Next();
+
+                        if (current == Symbols.GreaterThan)
+                        {
+                            _source.Next();
+                            return new CssSelectorToken(CssTokenType.Deep, ">>>");
+                        }
+                        
+                        return new CssSelectorToken(CssTokenType.Descendent, ">>");
                     }
 
-                    return NewDelimiter(GetPrevious());
-                }
+                    return NewDelimiter(Symbols.GreaterThan);
 
                 case Symbols.Minus:
                 {
-                    var c1 = GetNext();
+                    var c1 = _source.Next();
 
                     if (c1 != Symbols.EndOfFile)
                     {
-                        var c2 = GetNext();
-                        Back(2);
+                        var c2 = _source.Next();
+                        _source.Back(2);
 
                         if (c1.IsDigit() || (c1 == Symbols.Dot && c2.IsDigit()))
                         {
@@ -195,97 +134,38 @@
                         }
                         else if (c1 == Symbols.Minus && c2 == Symbols.GreaterThan)
                         {
-                            Advance(2);
-                            return NewCloseComment();
+                            _source.Next(2);
+                            return NewInvalid();
                         }
-                    }
-                    else
-                    {
-                        Back();
+
+                        _source.Next();
                     }
 
-                    return NewDelimiter(current);
+                    return NewDelimiter(Symbols.Minus);
                 }
 
-                case Symbols.Solidus:
-                    current = GetNext();
+                case Symbols.Plus:
+                {
+                    var c1 = _source.Next();
 
-                    if (current == Symbols.Asterisk)
+                    if (c1 != Symbols.EndOfFile)
                     {
-                        return Comment();
-                    }
+                        var c2 = _source.Next();
+                        _source.Back();
 
-                    return NewDelimiter(GetPrevious());
-
-                case Symbols.ReverseSolidus:
-                    current = GetNext();
-
-                    if (current.IsLineBreak())
-                    {
-                        RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
-                        return NewDelimiter(GetPrevious());
-                    }
-                    else if (current == Symbols.EndOfFile)
-                    {
-                        RaiseErrorOccurred(CssParseError.EOF);
-                        return NewDelimiter(GetPrevious());
-                    }
-
-                    return IdentStart(GetPrevious());
-                case Symbols.Colon:
-                    return NewColon();
-
-                case Symbols.Semicolon:
-                    return NewSemicolon();
-
-                case Symbols.LessThan:
-                    current = GetNext();
-
-                    if (current == Symbols.ExclamationMark)
-                    {
-                        current = GetNext();
-
-                        if (current == Symbols.Minus)
+                        if (c1.IsDigit() || (c1 == Symbols.Dot && c2.IsDigit()))
                         {
-                            current = GetNext();
-
-                            if (current == Symbols.Minus)
-                            {
-                                return NewOpenComment();
-                            }
-
-                            current = GetPrevious();
+                            _source.Back();
+                            return NumberStart(current);
                         }
-
-                        current = GetPrevious();
                     }
 
-                    return NewDelimiter(GetPrevious());
+                    return NewDelimiter(Symbols.Plus);
+                }
 
-                case Symbols.At:
-                    return AtKeywordStart();
-
-                case Symbols.SquareBracketOpen:
-                    return NewOpenSquare();
-
-                case Symbols.SquareBracketClose:
-                    return NewCloseSquare();
-
-                case Symbols.Accent:
-                    current = GetNext();
-
-                    if (current == Symbols.Equality)
-                    {
-                        return NewMatch(CombinatorSymbols.Begins);
-                    }
-
-                    return NewDelimiter(GetPrevious());
-
-                case Symbols.CurlyBracketOpen:
-                    return NewOpenCurly();
-
-                case Symbols.CurlyBracketClose:
-                    return NewCloseCurly();
+                case Symbols.Colon:
+                    _source.Next();
+                    return new CssSelectorToken(CssTokenType.Colon, ":");
 
                 case '0':
                 case '1':
@@ -299,60 +179,159 @@
                 case '9':
                     return NumberStart(current);
 
+                case Symbols.DoubleQuote:
+                    return StringDQ();
+
+                case Symbols.SingleQuote:
+                    return StringSQ();
+
                 case 'U':
                 case 'u':
-                    current = GetNext();
+                    current = _source.Next();
 
                     if (current == Symbols.Plus)
                     {
-                        current = GetNext();
+                        current = _source.Next();
 
                         if (current.IsHex() || current == Symbols.QuestionMark)
                         {
                             return UnicodeRange(current);
                         }
 
-                        current = GetPrevious();
+                        current = _source.Back();
                     }
 
-                    return IdentStart(GetPrevious());
+                    return IdentStart(_source.Back());
 
-                case Symbols.Pipe:
-                    current = GetNext();
+                case Symbols.SquareBracketOpen:
+                    _source.Next();
+                    return new CssSelectorToken(CssTokenType.SquareBracketOpen, "[");
+
+                case Symbols.SquareBracketClose:
+                    _source.Next();
+                    return new CssSelectorToken(CssTokenType.SquareBracketClose, "]");
+
+                case Symbols.RoundBracketClose:
+                    _source.Next();
+                    return new CssSelectorToken(CssTokenType.RoundBracketClose, ")");
+
+                case Symbols.Solidus:
+                    current = _source.Next();
+
+                    if (current == Symbols.Asterisk)
+                    {
+                        return Data(_source.SkipCssComment());
+                    }
+
+                    return NewDelimiter(Symbols.Solidus);
+
+                case Symbols.ReverseSolidus:
+                    current = _source.Next();
+
+                    if (current.IsLineBreak() || current == Symbols.EndOfFile)
+                    {
+                        return NewDelimiter(Symbols.ReverseSolidus);
+                    }
+
+                    return IdentStart(_source.Back());
+
+                case Symbols.LessThan:
+                    current = _source.Next();
+
+                    if (current == Symbols.ExclamationMark)
+                    {
+                        current = _source.Next();
+
+                        if (current == Symbols.Minus)
+                        {
+                            current = _source.Next();
+
+                            if (current == Symbols.Minus)
+                            {
+                                _source.Next();
+                                return NewInvalid();
+                            }
+
+                            current = _source.Back();
+                        }
+
+                        current = _source.Back();
+                    }
+
+                    return NewDelimiter(Symbols.LessThan);
+
+                case Symbols.Accent:
+                    current = _source.Next();
 
                     if (current == Symbols.Equality)
                     {
+                        _source.Next();
+                        return NewMatch(CombinatorSymbols.Begins);
+                    }
+
+                    return NewDelimiter(Symbols.Accent);
+
+                case Symbols.EndOfFile:
+                    return new CssSelectorToken(CssTokenType.EndOfFile, String.Empty);
+
+                case Symbols.Pipe:
+                    current = _source.Next();
+
+                    if (current == Symbols.Equality)
+                    {
+                        _source.Next();
                         return NewMatch(CombinatorSymbols.InToken);
                     }
                     else if (current == Symbols.Pipe)
                     {
-                        return NewColumn();
+                        _source.Next();
+                        return new CssSelectorToken(CssTokenType.Column, CombinatorSymbols.Column);
                     }
 
-                    return NewDelimiter(GetPrevious());
+                    return NewDelimiter(Symbols.Pipe);
 
-                case Symbols.Tilde:
-                    current = GetNext();
+                case Symbols.Dollar:
+                    current = _source.Next();
 
                     if (current == Symbols.Equality)
                     {
+                        _source.Next();
+                        return NewMatch(CombinatorSymbols.Ends);
+                    }
+
+                    return NewDelimiter(Symbols.Dollar);
+
+                case Symbols.Tilde:
+                    current = _source.Next();
+
+                    if (current == Symbols.Equality)
+                    {
+                        _source.Next();
                         return NewMatch(CombinatorSymbols.InList);
                     }
 
-                    return NewDelimiter(GetPrevious());
-
-                case Symbols.EndOfFile:
-                    return NewEof();
+                    return NewDelimiter(Symbols.Tilde);
 
                 case Symbols.ExclamationMark:
-                    current = GetNext();
+                    current = _source.Next();
 
                     if (current == Symbols.Equality)
                     {
+                        _source.Next();
                         return NewMatch(CombinatorSymbols.Unlike);
                     }
 
-                    return NewDelimiter(GetPrevious());
+                    return NewDelimiter(Symbols.ExclamationMark);
+
+                case Symbols.At:
+                    return AtKeywordStart();
+
+                case Symbols.RoundBracketOpen:
+                case Symbols.CurlyBracketOpen:
+                case Symbols.CurlyBracketClose:
+                case Symbols.Semicolon:
+                    _source.Next();
+                    return NewInvalid();
 
                 default:
                     if (current.IsNameStart())
@@ -360,6 +339,7 @@
                         return IdentStart(current);
                     }
 
+                    _source.Next();
                     return NewDelimiter(current);
             }
         }
@@ -367,46 +347,45 @@
         /// <summary>
         /// 4.4.2. Double quoted string state
         /// </summary>
-        private CssToken StringDQ()
+        private CssSelectorToken StringDQ()
         {
+            var buffer = StringBuilderPool.Obtain();
+
             while (true)
             {
-                var current = GetNext();
+                var current = _source.Next();
 
                 switch (current)
                 {
                     case Symbols.DoubleQuote:
                     case Symbols.EndOfFile:
-                        return NewString(FlushBuffer(), Symbols.DoubleQuote);
+                        _source.Next();
+                        return NewString(buffer.ToPool());
 
                     case Symbols.FormFeed:
                     case Symbols.LineFeed:
-                        RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
-                        Back();
-                        return NewString(FlushBuffer(), Symbols.DoubleQuote, bad: true);
+                        return NewString(buffer.ToPool());
 
                     case Symbols.ReverseSolidus:
-                        current = GetNext();
+                        current = _source.Next();
 
                         if (current.IsLineBreak())
                         {
-                            StringBuffer.AppendLine();
+                            buffer.AppendLine();
                         }
                         else if (current != Symbols.EndOfFile)
                         {
-                            StringBuffer.Append(ConsumeEscape(current));
+                            buffer.Append(ConsumeEscape(current));
                         }
                         else
                         {
-                            RaiseErrorOccurred(CssParseError.EOF);
-                            Back();
-                            return NewString(FlushBuffer(), Symbols.DoubleQuote, bad: true);
+                            return NewString(buffer.ToPool());
                         }
 
                         break;
 
                     default:
-                        StringBuffer.Append(current);
+                        buffer.Append(current);
                         break;
                 }
             }
@@ -415,95 +394,72 @@
         /// <summary>
         /// 4.4.3. Single quoted string state
         /// </summary>
-        private CssToken StringSQ()
+        private CssSelectorToken StringSQ()
         {
+            var buffer = StringBuilderPool.Obtain();
+
             while (true)
             {
-                var current = GetNext();
+                var current = _source.Next();
 
                 switch (current)
                 {
                     case Symbols.SingleQuote:
                     case Symbols.EndOfFile:
-                        return NewString(FlushBuffer(), Symbols.SingleQuote);
+                        _source.Next();
+                        return NewString(buffer.ToPool());
 
                     case Symbols.FormFeed:
                     case Symbols.LineFeed:
-                        RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
-                        Back();
-                        return NewString(FlushBuffer(), Symbols.SingleQuote, bad: true);
+                        return NewString(buffer.ToPool());
 
                     case Symbols.ReverseSolidus:
-                        current = GetNext();
+                        current = _source.Next();
 
                         if (current.IsLineBreak())
                         {
-                            StringBuffer.AppendLine();
+                            buffer.AppendLine();
                         }
                         else if (current != Symbols.EndOfFile)
                         {
-                            StringBuffer.Append(ConsumeEscape(current));
+                            buffer.Append(ConsumeEscape(current));
                         }
                         else
                         {
-                            RaiseErrorOccurred(CssParseError.EOF);
-                            Back();
-                            return NewString(FlushBuffer(), Symbols.SingleQuote, bad: true);
+                            return NewString(buffer.ToPool());
                         }
 
                         break;
 
                     default:
-                        StringBuffer.Append(current);
+                        buffer.Append(current);
                         break;
                 }
             }
         }
 
         /// <summary>
-        /// Color literal state.
-        /// </summary>
-        private CssToken ColorLiteral()
-        {
-            var current = GetNext();
-
-            while (current.IsHex())
-            {
-                StringBuffer.Append(current);
-                current = GetNext();
-            }
-
-            Back();
-            return NewColor(FlushBuffer());
-        }
-
-        /// <summary>
         /// 4.4.4. Hash state
         /// </summary>
-        private CssToken HashStart()
+        private CssSelectorToken HashStart()
         {
-            var current = GetNext();
+            var current = _source.Next();
 
             if (current.IsNameStart())
             {
-                StringBuffer.Append(current);
-                return HashRest();
+                var buffer = StringBuilderPool.Obtain();
+                buffer.Append(current);
+                return HashRest(buffer);
             }
             else if (IsValidEscape(current))
             {
-                current = GetNext();
-                StringBuffer.Append(ConsumeEscape(current));
-                return HashRest();
-            }
-            else if (current == Symbols.ReverseSolidus)
-            {
-                RaiseErrorOccurred(CssParseError.InvalidCharacter);
-                Back();
-                return NewDelimiter(Symbols.Num);
+                var buffer = StringBuilderPool.Obtain();
+                current = _source.Next();
+                buffer.Append(ConsumeEscape(current));
+                return HashRest(buffer);
             }
             else
             {
-                Back();
                 return NewDelimiter(Symbols.Num);
             }
         }
@@ -511,100 +467,59 @@
         /// <summary>
         /// 4.4.5. Hash-rest state
         /// </summary>
-        private CssToken HashRest()
+        private CssSelectorToken HashRest(StringBuilder buffer)
         {
             while (true)
             {
-                var current = GetNext();
+                var current = _source.Next();
 
                 if (current.IsName())
                 {
-                    StringBuffer.Append(current);
+                    buffer.Append(current);
                 }
                 else if (IsValidEscape(current))
                 {
-                    current = GetNext();
-                    StringBuffer.Append(ConsumeEscape(current));
-                }
-                else if (current == Symbols.ReverseSolidus)
-                {
-                    RaiseErrorOccurred(CssParseError.InvalidCharacter);
-                    Back();
-                    return NewHash(FlushBuffer());
+                    current = _source.Next();
+                    buffer.Append(ConsumeEscape(current));
                 }
                 else
                 {
-                    Back();
-                    return NewHash(FlushBuffer());
+                    return new CssSelectorToken(CssTokenType.Hash, buffer.ToPool());
                 }
             }
-        }
-
-        /// <summary>
-        /// 4.4.6. Comment state
-        /// </summary>
-        private CssToken Comment()
-        {
-            var current = GetNext();
-
-            while (current != Symbols.EndOfFile)
-            {
-                if (current == Symbols.Asterisk)
-                {
-                    current = GetNext();
-
-                    if (current == Symbols.Solidus)
-                    {
-                        return NewComment(FlushBuffer());
-                    }
-
-                    StringBuffer.Append(Symbols.Asterisk);
-                }
-                else
-                {
-                    StringBuffer.Append(current);
-                    current = GetNext();
-                }
-            }
-
-            RaiseErrorOccurred(CssParseError.EOF);
-            return NewComment(FlushBuffer(), bad: true);
         }
 
         /// <summary>
         /// 4.4.7. At-keyword state
         /// </summary>
-        private CssToken AtKeywordStart()
+        private CssSelectorToken AtKeywordStart()
         {
-            var current = GetNext();
+            var current = _source.Next();
 
             if (current == Symbols.Minus)
             {
-                current = GetNext();
+                current = _source.Next();
 
                 if (current.IsNameStart() || IsValidEscape(current))
                 {
-                    StringBuffer.Append(Symbols.Minus);
                     return AtKeywordRest(current);
                 }
 
-                Back(2);
+                _source.Back();
                 return NewDelimiter(Symbols.At);
             }
             else if (current.IsNameStart())
             {
-                StringBuffer.Append(current);
-                return AtKeywordRest(GetNext());
+                return AtKeywordRest(_source.Next());
             }
             else if (IsValidEscape(current))
             {
-                current = GetNext();
-                StringBuffer.Append(ConsumeEscape(current));
-                return AtKeywordRest(GetNext());
+                current = _source.Next();
+                ConsumeEscape(current);
+                return AtKeywordRest(_source.Next());
             }
             else
             {
-                Back();
                 return NewDelimiter(Symbols.At);
             }
         }
@@ -612,57 +527,57 @@
         /// <summary>
         /// 4.4.8. At-keyword-rest state
         /// </summary>
-        private CssToken AtKeywordRest(Char current)
+        private CssSelectorToken AtKeywordRest(Char current)
         {
             while (true)
             {
                 if (current.IsName())
                 {
-                    StringBuffer.Append(current);
                 }
                 else if (IsValidEscape(current))
                 {
-                    current = GetNext();
-                    StringBuffer.Append(ConsumeEscape(current));
+                    current = _source.Next();
+                    ConsumeEscape(current);
                 }
                 else
                 {
-                    Back();
-                    return NewAtKeyword(FlushBuffer());
+                    return NewInvalid();
                 }
 
-                current = GetNext();
+                current = _source.Next();
             }
         }
 
         /// <summary>
         /// 4.4.9. Ident state
         /// </summary>
-        private CssToken IdentStart(Char current)
+        private CssSelectorToken IdentStart(Char current)
         {
             if (current == Symbols.Minus)
             {
-                current = GetNext();
+                current = _source.Next();
 
                 if (current.IsNameStart() || IsValidEscape(current))
                 {
-                    StringBuffer.Append(Symbols.Minus);
-                    return IdentRest(current);
+                    var buffer = StringBuilderPool.Obtain();
+                    buffer.Append(Symbols.Minus);
+                    return IdentRest(current, buffer);
                 }
-
-                Back();
+                
                 return NewDelimiter(Symbols.Minus);
             }
             else if (current.IsNameStart())
             {
-                StringBuffer.Append(current);
-                return IdentRest(GetNext());
+                var buffer = StringBuilderPool.Obtain();
+                buffer.Append(current);
+                return IdentRest(_source.Next(), buffer);
             }
             else if (current == Symbols.ReverseSolidus && IsValidEscape(current))
             {
-                current = GetNext();
-                StringBuffer.Append(ConsumeEscape(current));
-                return IdentRest(GetNext());
+                var buffer = StringBuilderPool.Obtain();
+                current = _source.Next();
+                buffer.Append(ConsumeEscape(current));
+                return IdentRest(_source.Next(), buffer);
             }
 
             return Data(current);
@@ -671,239 +586,209 @@
         /// <summary>
         /// 4.4.10. Ident-rest state
         /// </summary>
-        private CssToken IdentRest(Char current)
+        private CssSelectorToken IdentRest(Char current, StringBuilder buffer)
         {
             while (true)
             {
                 if (current.IsName())
                 {
-                    StringBuffer.Append(current);
+                    buffer.Append(current);
                 }
                 else if (IsValidEscape(current))
                 {
-                    current = GetNext();
-                    StringBuffer.Append(ConsumeEscape(current));
+                    current = _source.Next();
+                    buffer.Append(ConsumeEscape(current));
                 }
                 else if (current == Symbols.RoundBracketOpen)
                 {
-                    var name = FlushBuffer();
+                    var name = buffer.ToPool();
 
                     if (name.Isi(Keywords.Url))
                     {
-                        return UrlStart(name);
+                        return UrlStart();
                     }
-                    
-                    return NewFunction(name);
+
+                    _source.Next();
+                    return new CssSelectorToken(CssTokenType.Function, name);
                 }
                 else
                 {
-                    Back();
-                    return NewIdent(FlushBuffer());
+                    return new CssSelectorToken(CssTokenType.Ident, buffer.ToPool());
                 }
 
-                current = GetNext();
-            }
-        }
-
-        /// <summary>
-        /// 4.4.11. Transform-function-whitespace state
-        /// </summary>
-        private CssToken TransformFunctionWhitespace(Char current)
-        {
-            while (true)
-            {
-                current = GetNext();
-
-                if (current == Symbols.RoundBracketOpen)
-                {
-                    Back();
-                    return NewFunction(FlushBuffer());
-                }
-                else if (!current.IsSpaceCharacter())
-                {
-                    Back(2);
-                    return NewIdent(FlushBuffer());
-                }
+                current = _source.Next();
             }
         }
 
         /// <summary>
         /// 4.4.12. Number state
         /// </summary>
-        private CssToken NumberStart(Char current)
+        private CssSelectorToken NumberStart(Char current)
         {
             while (true)
             {
                 if (current.IsOneOf(Symbols.Plus, Symbols.Minus))
                 {
-                    StringBuffer.Append(current);
-                    current = GetNext();
+                    var buffer = StringBuilderPool.Obtain();
+                    buffer.Append(current);
+                    current = _source.Next();
 
                     if (current == Symbols.Dot)
                     {
-                        StringBuffer.Append(current);
-                        StringBuffer.Append(GetNext());
-                        return NumberFraction();
+                        buffer.Append(current).Append(_source.Next());
+                        return NumberFraction(buffer);
                     }
 
-                    StringBuffer.Append(current);
-                    return NumberRest();
+                    buffer.Append(current);
+                    return NumberRest(buffer);
                 }
                 else if (current == Symbols.Dot)
                 {
-                    StringBuffer.Append(current);
-                    StringBuffer.Append(GetNext());
-                    return NumberFraction();
+                    var buffer = StringBuilderPool.Obtain();
+                    buffer.Append(current).Append(_source.Next());
+                    return NumberFraction(buffer);
                 }
                 else if (current.IsDigit())
                 {
-                    StringBuffer.Append(current);
-                    return NumberRest();
+                    var buffer = StringBuilderPool.Obtain();
+                    buffer.Append(current);
+                    return NumberRest(buffer);
                 }
 
-                current = GetNext();
+                current = _source.Next();
             }
         }
 
         /// <summary>
         /// 4.4.13. Number-rest state
         /// </summary>
-        private CssToken NumberRest()
+        private CssSelectorToken NumberRest(StringBuilder buffer)
         {
-            var current = GetNext();
+            var current = _source.Next();
 
             while (true)
             {
-
                 if (current.IsDigit())
                 {
-                    StringBuffer.Append(current);
+                    buffer.Append(current);
                 }
                 else if (current.IsNameStart())
                 {
-                    var number = FlushBuffer();
-                    StringBuffer.Append(current);
-                    return Dimension(number);
+                    buffer.Append(current);
+                    return Dimension(buffer);
                 }
                 else if (IsValidEscape(current))
                 {
-                    current = GetNext();
-                    var number = FlushBuffer();
-                    StringBuffer.Append(ConsumeEscape(current));
-                    return Dimension(number);
+                    buffer.Append(ConsumeEscape(_source.Next()));
+                    return Dimension(buffer);
                 }
                 else
                 {
                     break;
                 }
 
-                current = GetNext();
+                current = _source.Next();
             }
 
             switch (current)
             {
                 case Symbols.Dot:
-                    current = GetNext();
+                    current = _source.Next();
 
                     if (current.IsDigit())
                     {
-                        StringBuffer.Append(Symbols.Dot).Append(current);
-                        return NumberFraction();
+                        buffer.Append(Symbols.Dot).Append(current);
+                        return NumberFraction(buffer);
                     }
 
-                    Back();
-                    return NewNumber(FlushBuffer());
+                    return NewNumber(buffer.ToPool());
 
                 case '%':
-                    return NewPercentage(FlushBuffer());
+                    _source.Next();
+                    return NewDimension(buffer.Append('%').ToPool());
 
                 case 'e':
                 case 'E':
-                    return NumberExponential(current);
+                    return NumberExponential(current, buffer);
 
                 case Symbols.Minus:
-                    return NumberDash();
+                    return NumberDash(buffer);
 
                 default:
-                    Back();
-                    return NewNumber(FlushBuffer());
+                    return NewNumber(buffer.ToPool());
             }
         }
 
         /// <summary>
         /// 4.4.14. Number-fraction state
         /// </summary>
-        private CssToken NumberFraction()
+        private CssSelectorToken NumberFraction(StringBuilder buffer)
         {
-            var current = GetNext();
+            var current = _source.Next();
 
             while (true)
             {
                 if (current.IsDigit())
                 {
-                    StringBuffer.Append(current);
+                    buffer.Append(current);
                 }
                 else if (current.IsNameStart())
                 {
-                    var number = FlushBuffer();
-                    StringBuffer.Append(current);
-                    return Dimension(number);
+                    buffer.Append(current);
+                    return Dimension(buffer);
                 }
                 else if (IsValidEscape(current))
                 {
-                    current = GetNext();
-                    var number = FlushBuffer();
-                    StringBuffer.Append(ConsumeEscape(current));
-                    return Dimension(number);
+                    buffer.Append(ConsumeEscape(_source.Next()));
+                    return Dimension(buffer);
                 }
                 else
                 {
                     break;
                 }
 
-                current = GetNext();
+                current = _source.Next();
             }
 
             switch (current)
             {
                 case 'e':
                 case 'E':
-                    return NumberExponential(current);
+                    return NumberExponential(current, buffer);
 
                 case '%':
-                    return NewPercentage(FlushBuffer());
+                    _source.Next();
+                    return NewDimension(buffer.Append('%').ToPool());
 
                 case Symbols.Minus:
-                    return NumberDash();
+                    return NumberDash(buffer);
 
                 default:
-                    Back();
-                    return NewNumber(FlushBuffer());
+                    return NewNumber(buffer.ToPool());
             }
         }
 
         /// <summary>
         /// 4.4.15. Dimension state
         /// </summary>
-        private CssToken Dimension(String number)
+        private CssSelectorToken Dimension(StringBuilder buffer)
         {
             while (true)
             {
-                var current = GetNext();
+                var current = _source.Next();
 
                 if (current.IsLetter())
                 {
-                    StringBuffer.Append(current);
+                    buffer.Append(current);
                 }
                 else if (IsValidEscape(current))
                 {
-                    current = GetNext();
-                    StringBuffer.Append(ConsumeEscape(current));
+                    current = _source.Next();
+                    buffer.Append(ConsumeEscape(current));
                 }
                 else
                 {
-                    Back();
-                    return NewDimension(number, FlushBuffer());
+                    return NewDimension(buffer.ToPool());
                 }
             }
         }
@@ -911,20 +796,19 @@
         /// <summary>
         /// 4.4.16. SciNotation state
         /// </summary>
-        private CssToken SciNotation()
+        private CssSelectorToken SciNotation(StringBuilder buffer)
         {
             while (true)
             {
-                var current = GetNext();
+                var current = _source.Next();
 
                 if (current.IsDigit())
                 {
-                    StringBuffer.Append(current);
+                    buffer.Append(current);
                 }
                 else
                 {
-                    Back();
-                    return NewNumber(FlushBuffer());
+                    return NewNumber(buffer.ToPool());
                 }
             }
         }
@@ -932,73 +816,62 @@
         /// <summary>
         /// 4.4.17. URL state
         /// </summary>
-        private CssToken UrlStart(String functionName)
+        private CssSelectorToken UrlStart()
         {
-            var current = SkipSpaces();
+            var current = _source.SkipSpaces();
 
             switch (current)
             {
                 case Symbols.EndOfFile:
-                    RaiseErrorOccurred(CssParseError.EOF);
-                    return NewUrl(functionName, String.Empty, bad: true);
+                    return NewInvalid();
 
                 case Symbols.DoubleQuote:
-                    return UrlDQ(functionName);
+                    return UrlDQ();
 
                 case Symbols.SingleQuote:
-                    return UrlSQ(functionName);
+                    return UrlSQ();
 
                 case Symbols.RoundBracketClose:
-                    return NewUrl(functionName, String.Empty, bad: false);
+                    _source.Next();
+                    return NewInvalid();
 
                 default:
-                    return UrlUQ(current, functionName);
+                    return UrlUQ(current);
             }
         }
 
         /// <summary>
         /// 4.4.18. URL-double-quoted state
         /// </summary>
-        private CssToken UrlDQ(String functionName)
+        private CssSelectorToken UrlDQ()
         {
             while (true)
             {
-                var current = GetNext();
+                var current = _source.Next();
 
                 if (current.IsLineBreak())
                 {
-                    RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
-                    return UrlBad(functionName);
+                    return UrlBad();
                 }
                 else if (Symbols.EndOfFile == current)
                 {
-                    return NewUrl(functionName, FlushBuffer());
+                    return NewInvalid();
                 }
                 else if (current == Symbols.DoubleQuote)
                 {
-                    return UrlEnd(functionName);
+                    return UrlEnd();
                 }
-                else if (current != Symbols.ReverseSolidus)
+                else if (current == Symbols.ReverseSolidus)
                 {
-                    StringBuffer.Append(current);
-                }
-                else
-                {
-                    current = GetNext();
+                    current = _source.Next();
 
                     if (current == Symbols.EndOfFile)
                     {
-                        Back(2);
-                        RaiseErrorOccurred(CssParseError.EOF);
-                        return NewUrl(functionName, FlushBuffer(), bad: true);
+                        return NewInvalid();
                     }
-                    else if (current.IsLineBreak())
+                    else if (!current.IsLineBreak())
                     {
-                        StringBuffer.AppendLine();
-                    }
-                    else
-                    {
-                        StringBuffer.Append(ConsumeEscape(current));
+                        ConsumeEscape(current);
                     }
                 }
             }
@@ -1007,46 +880,35 @@
         /// <summary>
         /// 4.4.19. URL-single-quoted state
         /// </summary>
-        private CssToken UrlSQ(String functionName)
+        private CssSelectorToken UrlSQ()
         {
             while (true)
             {
-                var current = GetNext();
+                var current = _source.Next();
 
                 if (current.IsLineBreak())
                 {
-                    RaiseErrorOccurred(CssParseError.LineBreakUnexpected);
-                    return UrlBad(functionName);
+                    return UrlBad();
                 }
                 else if (current == Symbols.EndOfFile)
                 {
-                    return NewUrl(functionName, FlushBuffer());
+                    return NewInvalid();
                 }
                 else if (current == Symbols.SingleQuote)
                 {
-                    return UrlEnd(functionName);
+                    return UrlEnd();
                 }
-                else if (current != Symbols.ReverseSolidus)
+                else if (current == Symbols.ReverseSolidus)
                 {
-                    StringBuffer.Append(current);
-                }
-                else
-                {
-                    current = GetNext();
+                    current = _source.Next();
 
                     if (current == Symbols.EndOfFile)
                     {
-                        Back(2);
-                        RaiseErrorOccurred(CssParseError.EOF);
-                        return NewUrl(functionName, FlushBuffer(), bad: true);
+                        return NewInvalid();
                     }
-                    else if (current.IsLineBreak())
+                    else if (!current.IsLineBreak())
                     {
-                        StringBuffer.AppendLine();
-                    }
-                    else
-                    {
-                        StringBuffer.Append(ConsumeEscape(current));
+                        ConsumeEscape(current);
                     }
                 }
             }
@@ -1055,60 +917,55 @@
         /// <summary>
         /// 4.4.21. URL-unquoted state
         /// </summary>
-        private CssToken UrlUQ(Char current, String functionName)
+        private CssSelectorToken UrlUQ(Char current)
         {
             while (true)
             {
                 if (current.IsSpaceCharacter())
                 {
-                    return UrlEnd(functionName);
+                    return UrlEnd();
                 }
                 else if (current.IsOneOf(Symbols.RoundBracketClose, Symbols.EndOfFile))
                 {
-                    return NewUrl(functionName, FlushBuffer());
+                    _source.Next();
+                    return NewInvalid();
                 }
                 else if (current.IsOneOf(Symbols.DoubleQuote, Symbols.SingleQuote, Symbols.RoundBracketOpen) || current.IsNonPrintable())
                 {
-                    RaiseErrorOccurred(CssParseError.InvalidCharacter);
-                    return UrlBad(functionName);
+                    return UrlBad();
                 }
-                else if (current != Symbols.ReverseSolidus)
+                else if (current == Symbols.ReverseSolidus && IsValidEscape(current))
                 {
-                    StringBuffer.Append(current);
-                }
-                else if (IsValidEscape(current))
-                {
-                    current = GetNext();
-                    StringBuffer.Append(ConsumeEscape(current));
+                    current = _source.Next();
+                    ConsumeEscape(current);
                 }
                 else
                 {
-                    RaiseErrorOccurred(CssParseError.InvalidCharacter);
-                    return UrlBad(functionName);
+                    return UrlBad();
                 }
 
-                current = GetNext();
+                current = _source.Next();
             }
         }
 
         /// <summary>
         /// 4.4.20. URL-end state
         /// </summary>
-        private CssToken UrlEnd(String functionName)
+        private CssSelectorToken UrlEnd()
         {
             while (true)
             {
-                var current = GetNext();
+                var current = _source.Next();
 
                 if (current == Symbols.RoundBracketClose)
                 {
-                    return NewUrl(functionName, FlushBuffer());
+                    _source.Next();
+                    return NewInvalid();
                 }
                 else if (!current.IsSpaceCharacter())
                 {
-                    RaiseErrorOccurred(CssParseError.InvalidCharacter);
-                    Back();
-                    return UrlBad(functionName);
+                    _source.Back();
+                    return UrlBad();
                 }
             }
         }
@@ -1116,9 +973,9 @@
         /// <summary>
         /// 4.4.22. Bad URL state
         /// </summary>
-        private CssToken UrlBad(String functionName)
+        private CssSelectorToken UrlBad()
         {
-            var current = Current;
+            var current = _source.Current;
             var curly = 0;
             var round = 1;
 
@@ -1126,22 +983,20 @@
             {
                 if (current == Symbols.Semicolon)
                 {
-                    Back();
-                    return NewUrl(functionName, FlushBuffer(), true);
+                    return NewInvalid();
                 }
                 else if (current == Symbols.CurlyBracketClose && --curly == -1)
                 {
-                    Back();
-                    return NewUrl(functionName, FlushBuffer(), true);
+                    return NewInvalid();
                 }
                 else if (current == Symbols.RoundBracketClose && --round == 0)
                 {
-                    return NewUrl(functionName, FlushBuffer(), true);
+                    return NewInvalid();
                 }
                 else if (IsValidEscape(current))
                 {
-                    current = GetNext();
-                    StringBuffer.Append(ConsumeEscape(current));
+                    current = _source.Next();
+                    ConsumeEscape(current);
                 }
                 else
                 {
@@ -1153,296 +1008,156 @@
                     {
                         ++curly;
                     }
-
-                    StringBuffer.Append(current);
                 }
 
-                current = GetNext();
+                current = _source.Next();
             }
 
-            RaiseErrorOccurred(CssParseError.EOF);
-            return NewUrl(functionName, FlushBuffer(), bad: true);
+            return NewInvalid();
         }
 
         /// <summary>
         /// 4.4.23. Unicode-range State
         /// </summary>
-        private CssToken UnicodeRange(Char current)
+        private CssSelectorToken UnicodeRange(Char current)
         {
+            var count = 0;
+
             for (var i = 0; i < 6 && current.IsHex(); i++)
             {
-                StringBuffer.Append(current);
-                current = GetNext();
+                ++count;
+                current = _source.Next();
             }
 
-            if (StringBuffer.Length != 6)
+            if (count != 6)
             {
-                for (var i = 0; i < 6 - StringBuffer.Length; i++)
+                for (var i = 0; i < 6 - count; i++)
                 {
                     if (current != Symbols.QuestionMark)
                     {
-                        current = GetPrevious();
+                        current = _source.Back();
                         break;
                     }
-
-                    StringBuffer.Append(current);
-                    current = GetNext();
+                    
+                    current = _source.Next();
                 }
 
-                return NewRange(FlushBuffer());
+                return NewInvalid();
             }
             else if (current == Symbols.Minus)
             {
-                current = GetNext();
+                current = _source.Next();
 
                 if (current.IsHex())
                 {
-                    var start = FlushBuffer();
-
                     for (var i = 0; i < 6; i++)
                     {
                         if (!current.IsHex())
                         {
-                            current = GetPrevious();
+                            current = _source.Back();
                             break;
                         }
-
-                        StringBuffer.Append(current);
-                        current = GetNext();
+                        
+                        current = _source.Next();
                     }
-
-                    var end = FlushBuffer();
-                    return NewRange(start, end);
+                    
+                    return new CssSelectorToken(CssTokenType.Invalid, String.Empty);
                 }
                 else
                 {
-                    Back(2);
-                    return NewRange(FlushBuffer());
+                    _source.Back();
+                    return NewInvalid();
                 }
             }
-            else
-            {
-                Back();
-                return NewRange(FlushBuffer());
-            }
+
+            return NewInvalid();
         }
 
         #endregion
 
         #region Tokens
 
-        private CssToken NewMatch(String match)
+        private CssSelectorToken NewMatch(String match)
         {
-            return new CssToken(CssTokenType.Match, match, _position);
+            return new CssSelectorToken(CssTokenType.Match, match);
         }
 
-        private CssToken NewColumn()
+        private CssSelectorToken NewInvalid()
         {
-            return new CssToken(CssTokenType.Column, CombinatorSymbols.Column, _position);
+            return new CssSelectorToken(CssTokenType.Invalid, String.Empty);
         }
 
-        private CssToken NewCloseCurly()
+        private CssSelectorToken NewString(String value)
         {
-            return new CssToken(CssTokenType.CurlyBracketClose, "}", _position);
+            return new CssSelectorToken(CssTokenType.String, value);
         }
 
-        private CssToken NewOpenCurly()
+        private CssSelectorToken NewDimension(String value)
         {
-            return new CssToken(CssTokenType.CurlyBracketOpen, "{", _position);
+            return new CssSelectorToken(CssTokenType.Dimension, value);
         }
 
-        private CssToken NewCloseSquare()
+        private CssSelectorToken NewNumber(String number)
         {
-            return new CssToken(CssTokenType.SquareBracketClose, "]", _position);
+            return new CssSelectorToken(CssTokenType.Number, number);
         }
 
-        private CssToken NewOpenSquare()
+        private CssSelectorToken NewDelimiter(Char c)
         {
-            return new CssToken(CssTokenType.SquareBracketOpen, "[", _position);
-        }
-
-        private CssToken NewOpenComment()
-        {
-            return new CssToken(CssTokenType.Cdo, "<!--", _position);
-        }
-
-        private CssToken NewSemicolon()
-        {
-            return new CssToken(CssTokenType.Semicolon, ";", _position);
-        }
-
-        private CssToken NewColon()
-        {
-            return new CssToken(CssTokenType.Colon, ":", _position);
-        }
-
-        private CssToken NewCloseComment()
-        {
-            return new CssToken(CssTokenType.Cdc, "-->", _position);
-        }
-
-        private CssToken NewComma()
-        {
-            return new CssToken(CssTokenType.Comma, ",", _position);
-        }
-
-        private CssToken NewCloseRound()
-        {
-            return new CssToken(CssTokenType.RoundBracketClose, ")", _position);
-        }
-
-        private CssToken NewOpenRound()
-        {
-            return new CssToken(CssTokenType.RoundBracketOpen, "(", _position);
-        }
-
-        private CssToken NewString(String value, Char quote, Boolean bad = false)
-        {
-            return new CssStringToken(value, bad, quote, _position);
-        }
-
-        private CssToken NewHash(String value)
-        {
-            return new CssKeywordToken(CssTokenType.Hash, value, _position);
-        }
-
-        private CssToken NewComment(String value, Boolean bad = false)
-        {
-            return new CssCommentToken(value, bad, _position);
-        }
-
-        private CssToken NewAtKeyword(String value)
-        {
-            return new CssKeywordToken(CssTokenType.AtKeyword, value, _position);
-        }
-
-        private CssToken NewIdent(String value)
-        {
-            return new CssKeywordToken(CssTokenType.Ident, value, _position);
-        }
-
-        private CssToken NewFunction(String value)
-        {
-            var function = new CssFunctionToken(value, _position);
-            var token = Get();
-
-            while (token.Type != CssTokenType.EndOfFile)
-            {
-                function.AddArgumentToken(token);
-
-                if (token.Type == CssTokenType.RoundBracketClose)
-                    break;
-
-                token = Get();
-            }
-
-            return function;
-        }
-
-        private CssToken NewPercentage(String value)
-        {
-            return new CssUnitToken(CssTokenType.Percentage, value, "%", _position);
-        }
-
-        private CssToken NewDimension(String value, String unit)
-        {
-            return new CssUnitToken(CssTokenType.Dimension, value, unit, _position);
-        }
-
-        private CssToken NewUrl(String functionName, String data, Boolean bad = false)
-        {
-            return new CssUrlToken(functionName, data, bad, _position);
-        }
-
-        private CssToken NewRange(String range)
-        {
-            return new CssRangeToken(range, _position);
-        }
-
-        private CssToken NewRange(String start, String end)
-        {
-            return new CssRangeToken(start, end, _position);
-        }
-
-        private CssToken NewWhitespace(Char c)
-        {
-            return new CssToken(CssTokenType.Whitespace, c.ToString(), _position);
-        }
-
-        private CssToken NewNumber(String number)
-        {
-            return new CssNumberToken(number, _position);
-        }
-
-        private CssToken NewDelimiter(Char c)
-        {
-            return new CssToken(CssTokenType.Delim, c.ToString(), _position);
-        }
-
-        private CssToken NewColor(String text)
-        {
-            return new CssColorToken(text, _position);
-        }
-
-        private CssToken NewEof()
-        {
-            return new CssToken(CssTokenType.EndOfFile, String.Empty, _position);
+            return new CssSelectorToken(CssTokenType.Delim, c.ToString());
         }
 
         #endregion
 
         #region Helpers
 
-        private CssToken NumberExponential(Char letter)
+        private CssSelectorToken NumberExponential(Char letter, StringBuilder buffer)
         {
-            var current = GetNext();
+            var current = _source.Next();
 
             if (current.IsDigit())
             {
-                StringBuffer.Append(letter).Append(current);
-                return SciNotation();
+                buffer.Append(letter).Append(current);
+                return SciNotation(buffer);
             }
             else if (current == Symbols.Plus || current == Symbols.Minus)
             {
                 var op = current;
-                current = GetNext();
+                current = _source.Next();
 
                 if (current.IsDigit())
                 {
-                    StringBuffer.Append(letter).Append(op).Append(current);
-                    return SciNotation();
+                    buffer.Append(letter).Append(op).Append(current);
+                    return SciNotation(buffer);
                 }
 
-                Back();
+                _source.Back();
             }
 
-            var number = FlushBuffer();
-            StringBuffer.Append(letter);
-            Back();
-            return Dimension(number);
+            buffer.Append(letter);
+            _source.Back();
+            return Dimension(buffer);
         }
 
-        private CssToken NumberDash()
+        private CssSelectorToken NumberDash(StringBuilder buffer)
         {
-            var current = GetNext();
+            var current = _source.Next();
 
             if (current.IsNameStart())
             {
-                var number = FlushBuffer();
-                StringBuffer.Append(Symbols.Minus).Append(current);
-                return Dimension(number);
+                buffer.Append(Symbols.Minus).Append(current);
+                return Dimension(buffer);
             }
             else if (IsValidEscape(current))
             {
-                current = GetNext();
-                var number = FlushBuffer();
-                StringBuffer.Append(Symbols.Minus).Append(ConsumeEscape(current));
-                return Dimension(number);
+                _source.Next();
+                buffer.Append(Symbols.Minus).Append(ConsumeEscape(current));
+                return Dimension(buffer);
             }
             else
             {
-                Back(2);
-                return NewNumber(FlushBuffer());
+                _source.Back();
+                return NewNumber(buffer.ToPool());
             }
         }
 
@@ -1457,13 +1172,13 @@
                 while (isHex && length < escape.Length)
                 {
                     escape[length++] = current;
-                    current = GetNext();
+                    current = _source.Next();
                     isHex = current.IsHex();
                 }
 
                 if (!current.IsSpaceCharacter())
                 {
-                    Back();
+                    _source.Back();
                 }
 
                 var code = Int32.Parse(new String(escape, 0, length), NumberStyles.HexNumber);
@@ -1483,18 +1198,13 @@
         {
             if (current == Symbols.ReverseSolidus)
             {
-                current = GetNext();
-                Back();
+                current = _source.Next();
+                _source.Back();
 
                 return current != Symbols.EndOfFile && !current.IsLineBreak();
             }
                 
             return false;
-        }
-
-        private void RaiseErrorOccurred(CssParseError code)
-        {
-            RaiseErrorOccurred(code, GetCurrentPosition());
         }
 
         #endregion

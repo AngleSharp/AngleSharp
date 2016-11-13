@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Common;
     using AngleSharp.Html.Dom;
     using AngleSharp.Html.Parser;
     using AngleSharp.Text;
@@ -108,7 +107,7 @@
         {
             get
             {
-                var sb = Pool.NewStringBuilder();
+                var sb = StringBuilderPool.Obtain();
 
                 foreach (var child in this.GetDescendants().OfType<IText>())
                 {

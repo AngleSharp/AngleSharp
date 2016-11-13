@@ -110,7 +110,7 @@
         /// <summary>
         /// Parses the string and returns the result.
         /// </summary>
-        public IHtmlDocument Parse(String source)
+        public IHtmlDocument ParseDocument(String source)
         {
             var document = CreateDocument(source);
             return Parse(document);
@@ -138,32 +138,16 @@
         /// <summary>
         /// Parses the stream and returns the result.
         /// </summary>
-        public IHtmlDocument Parse(Stream source)
+        public IHtmlDocument ParseDocument(Stream source)
         {
             var document = CreateDocument(source);
             return Parse(document);
         }
 
         /// <summary>
-        /// Parses the string asynchronously.
-        /// </summary>
-        public Task<IHtmlDocument> ParseAsync(String source)
-        {
-            return ParseAsync(source, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// Parses the stream asynchronously.
-        /// </summary>
-        public Task<IHtmlDocument> ParseAsync(Stream source)
-        {
-            return ParseAsync(source, CancellationToken.None);
-        }
-
-        /// <summary>
         /// Parses the string asynchronously with option to cancel.
         /// </summary>
-        public Task<IHtmlDocument> ParseAsync(String source, CancellationToken cancel)
+        public Task<IHtmlDocument> ParseDocumentAsync(String source, CancellationToken cancel)
         {
             var document = CreateDocument(source);
             return ParseAsync(document, cancel);
@@ -172,13 +156,13 @@
         /// <summary>
         /// Parses the stream asynchronously with option to cancel.
         /// </summary>
-        public Task<IHtmlDocument> ParseAsync(Stream source, CancellationToken cancel)
+        public Task<IHtmlDocument> ParseDocumentAsync(Stream source, CancellationToken cancel)
         {
             var document = CreateDocument(source);
             return ParseAsync(document, cancel);
         }
 
-        async Task<IDocument> IHtmlParser.ParseAsync(IDocument document, CancellationToken cancel)
+        async Task<IDocument> IHtmlParser.ParseDocumentAsync(IDocument document, CancellationToken cancel)
         {
             var doc = (HtmlDocument)document;
             return await ParseAsync(doc, cancel).ConfigureAwait(false);

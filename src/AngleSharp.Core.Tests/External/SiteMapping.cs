@@ -16,7 +16,7 @@
             _fileName = fileName;
             var parser = new XmlParser();
             var content = File.Exists(fileName) ? File.ReadAllText(_fileName) : "<entries></entries>";
-            _xml = parser.Parse(content);
+            _xml = parser.ParseDocument(content);
         }
 
         public String this[String url]

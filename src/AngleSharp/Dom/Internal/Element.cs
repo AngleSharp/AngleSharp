@@ -129,7 +129,7 @@
         {
             get
             {
-                var sb = Pool.NewStringBuilder();
+                var sb = StringBuilderPool.Obtain();
 
                 foreach (var child in this.GetDescendants().OfType<IText>())
                 {
@@ -404,7 +404,7 @@
         {
             var sg = Context.GetService<ICssSelectorParser>().ParseSelector(selectorText);
 
-            if (sg == null || sg is UnknownSelector)
+            if (sg == null)
                 throw new DomException(DomError.Syntax);
 
             return sg.Match(this, this);
@@ -415,11 +415,6 @@
             var node = new Element(Owner, LocalName, _prefix, _namespace, Flags);
             CloneElement(node, deep);
             return node;
-        }
-
-        public IPseudoElement Pseudo(String pseudoElement)
-        {
-            return PseudoElement.Create(this, pseudoElement);
         }
 
         public Boolean HasAttribute(String name)
@@ -657,13 +652,7 @@
                     var source = this.GetOwnAttribute(AttributeNames.Style);
                     var options = new StyleOptions(context) { Element = this };
                     var style = engine.ParseDeclaration(source, options);
-                    var bindable = style as IBindable;
-
-                    if (bindable != null)
-                    {
-                        bindable.Changed += value => UpdateAttribute(AttributeNames.Style, value);
-                    }
-
+                    style.Changed += value => UpdateAttribute(AttributeNames.Style, value);
                     return style;
                 }
             }

@@ -18,6 +18,11 @@
         public static readonly String After = "after";
 
         /// <summary>
+        /// The slotted pseudo element.
+        /// </summary>
+        public static readonly String Slotted = "slotted";
+
+        /// <summary>
         /// The selection pseudo element.
         /// </summary>
         public static readonly String Selection = "selection";

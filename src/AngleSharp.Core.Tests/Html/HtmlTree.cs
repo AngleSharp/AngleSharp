@@ -2825,7 +2825,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             var config = new Configuration().With(new EnableScripting());
             var context = BrowsingContext.New(config);
             var parser = new HtmlParser(context);
-            var doc = parser.Parse(source);
+            var doc = parser.ParseDocument(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4924,7 +4924,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             var config = Configuration.Default.With(new EnableScripting());
             var context = BrowsingContext.New(config);
             var parser = new HtmlParser(context);
-            var doc = parser.Parse(source);
+            var doc = parser.ParseDocument(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -4966,7 +4966,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             var config = Configuration.Default.With(new EnableScripting());
             var context = BrowsingContext.New(config);
             var parser = new HtmlParser(context);
-            var doc = parser.Parse(source);
+            var doc = parser.ParseDocument(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);
@@ -5018,7 +5018,7 @@ console.log(""FOO<span>BAR</span>BAZ"");
             var config = Configuration.Default.With(new EnableScripting());
             var context = BrowsingContext.New(config);
             var parser = new HtmlParser(context);
-            var doc = parser.Parse(source);
+            var doc = parser.ParseDocument(source);
 
             var dochtml0 = doc.ChildNodes[0] as Element;
             Assert.AreEqual(2, dochtml0.ChildNodes.Length);

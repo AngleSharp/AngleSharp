@@ -7,7 +7,7 @@
     /// <summary>
     /// Provides string to CSS attribute selector instance mappings.
     /// </summary>
-    public class AttributeSelectorFactory : IAttributeSelectorFactory
+    public class DefaultAttributeSelectorFactory : IAttributeSelectorFactory
     {
         private readonly Dictionary<String, Creator> _creators = new Dictionary<String, Creator>
         {

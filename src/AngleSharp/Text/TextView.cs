@@ -9,17 +9,20 @@
     {
         #region Fields
 
-        private readonly TextRange _range;
         private readonly TextSource _source;
+        private readonly TextRange _range;
 
         #endregion
 
         #region ctor
 
-        internal TextView(TextRange range, TextSource source)
+        /// <summary>
+        /// Creates a new text view for the given range.
+        /// </summary>
+        public TextView(TextSource source, TextRange range)
         {
-            _range = range;
             _source = source;
+            _range = range;
         }
 
         #endregion

@@ -61,14 +61,14 @@
         {
             var context = BrowsingContext.New(configuration ?? Configuration.Default);
             var parser = new HtmlParser(context);
-            return parser.Parse(sourceCode);
+            return parser.ParseDocument(sourceCode);
         }
 
         public static IDocument ToXmlDocument(this String sourceCode, IConfiguration configuration = null)
         {
             var context = BrowsingContext.New(configuration);
             var xmlParser = new XmlParser(context);
-            return xmlParser.Parse(sourceCode);
+            return xmlParser.ParseDocument(sourceCode);
         }
 
         public static INodeList ToHtmlFragment(this String sourceCode, IElement contextElement = null, IConfiguration configuration = null)
@@ -89,7 +89,7 @@
         {
             var context = BrowsingContext.New(configuration);
             var parser = new HtmlParser(context);
-            return parser.Parse(content);
+            return parser.ParseDocument(content);
         }
     }
 }

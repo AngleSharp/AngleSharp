@@ -8,7 +8,7 @@
     /// <summary>
     /// Provides string to InputType instance mappings.
     /// </summary>
-    public sealed class DefaultInputTypeFactory : IInputTypeFactory
+    public class DefaultInputTypeFactory : IInputTypeFactory
     {
         /// <summary>
         /// Represents a creator delegate for creating input type providers.
@@ -74,6 +74,19 @@
         }
 
         /// <summary>
+        /// Creates the default InputType provider for the given input element
+        /// and input type. By default this is the text input type.
+        /// </summary>
+        /// <param name="input">The input element.</param>
+        /// <param name="type">The current value of the type attribute.</param>
+        /// <returns>The InputType provider instance.</returns>
+        protected virtual BaseInputType CreateDefault(IHtmlInputElement input, String type)
+        {
+            var creator = _creators[InputTypeNames.Text];
+            return creator.Invoke(input);
+        }
+
+        /// <summary>
         /// Creates an InputType provider for the provided element.
         /// </summary>
         /// <param name="input">The input element.</param>
@@ -83,17 +96,12 @@
         {
             var creator = default(Creator);
 
-            if (String.IsNullOrEmpty(type))
+            if (!String.IsNullOrEmpty(type) && _creators.TryGetValue(type, out creator))
             {
-                type = InputTypeNames.Text;
+                return creator.Invoke(input);
             }
 
-            if (!_creators.TryGetValue(type, out creator))
-            {
-                creator = _creators[InputTypeNames.Text];
-            }
-
-            return creator.Invoke(input);
+            return CreateDefault(input, type);
         }
     }
 }

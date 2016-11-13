@@ -24,15 +24,5 @@
         /// </param>
         /// <returns>The created style declaration.</returns>
         ICssStyleDeclaration ParseDeclaration(String source, StyleOptions options);
-
-        /// <summary>
-        /// Creates a media list for the given source.
-        /// </summary>
-        /// <param name="source">The media source.</param>
-        /// <param name="options">
-        /// The options with the parameters for evaluating the style.
-        /// </param>
-        /// <returns>The created media list.</returns>
-        IMediaList ParseMedia(String source, StyleOptions options);
     }
 }

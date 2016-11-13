@@ -7,7 +7,7 @@
     /// <summary>
     /// Provides string to Event instance creation mappings.
     /// </summary>
-    public sealed class DefaultEventFactory : IEventFactory
+    public class DefaultEventFactory : IEventFactory
     {
         /// <summary>
         /// Represents a creator delegate for creating a new event.
@@ -69,6 +69,17 @@
         }
 
         /// <summary>
+        /// Creates the default event for the given name. By default
+        /// this returns null.
+        /// </summary>
+        /// <param name="name">The name of the event.</param>
+        /// <returns>The created event.</returns>
+        protected virtual Event CreateDefault(String name)
+        {
+            return default(Event);
+        }
+
+        /// <summary>
         /// Creates a new event.
         /// </summary>
         /// <param name="name">The name of the event.</param>
@@ -82,7 +93,7 @@
                 return creator.Invoke();
             }
 
-            return default(Event);
+            return CreateDefault(name);
         }
 
         private void AddEventAlias(String aliasName, String aliasFor)

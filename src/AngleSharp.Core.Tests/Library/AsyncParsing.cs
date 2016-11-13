@@ -16,7 +16,7 @@
             var source = new DelayedStream(Encoding.UTF8.GetBytes(text));
             var parser = new HtmlParser();
 
-            using (var task = parser.ParseAsync(source))
+            using (var task = parser.ParseDocumentAsync(source))
             {
                 Assert.IsFalse(task.IsCompleted);
                 var result = await task;
@@ -34,7 +34,7 @@
             var source = "<html><head><title>My test</title></head><body><p>Some text</p></body></html>";
             var parser = new HtmlParser();
 
-            using (var task = parser.ParseAsync(source))
+            using (var task = parser.ParseDocumentAsync(source))
             {
                 Assert.IsTrue(task.IsCompleted);
                 var result = await task;

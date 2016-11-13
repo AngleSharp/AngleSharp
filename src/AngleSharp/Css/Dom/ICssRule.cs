@@ -32,5 +32,18 @@
         /// </summary>
         [DomName("parentStyleSheet")]
         ICssStyleSheet Owner { get; }
+
+        /// <summary>
+        /// Sets the parent rule. This implies using the
+        /// owner from the given rule.
+        /// </summary>
+        /// <param name="rule">The rule to use as parent.</param>
+        void SetParent(ICssRule rule);
+
+        /// <summary>
+        /// Sets the owning sheet. This implies using no parent.
+        /// </summary>
+        /// <param name="sheet">The owning sheet.</param>
+        void SetOwner(ICssStyleSheet sheet);
     }
 }

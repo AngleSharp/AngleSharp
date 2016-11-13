@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Html.Forms.Submitters.Json
 {
-    using AngleSharp.Common;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -30,7 +29,7 @@
 
         public override String ToString()
         {
-            var sb = Pool.NewStringBuilder().Append(Symbols.CurlyBracketOpen);
+            var sb = StringBuilderPool.Obtain().Append(Symbols.CurlyBracketOpen);
             var needsComma = false;
 
             foreach (var property in _properties)

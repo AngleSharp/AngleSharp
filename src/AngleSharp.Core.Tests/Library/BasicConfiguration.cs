@@ -36,7 +36,7 @@
             {
                 OnCreated = (element, position) => positions[element] = position
             });
-            var document = parser.Parse(source);
+            var document = parser.ParseDocument(source);
             Assert.AreEqual(15, positions.Count);
         }
 
@@ -54,7 +54,7 @@
             {
                 OnCreated = (element, position) => positions[element] = position
             });
-            var document = parser.Parse(source);
+            var document = parser.ParseDocument(source);
             Assert.AreEqual(6, positions.Count);
         }
     }

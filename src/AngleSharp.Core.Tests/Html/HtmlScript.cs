@@ -2824,7 +2824,7 @@
             var config = Configuration.Default.With(new EnableScripting());
             var context = BrowsingContext.New(config);
             var parser = new HtmlParser(context); 
-            var doc = parser.Parse(source);
+            var doc = parser.ParseDocument(source);
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2871,7 +2871,7 @@
             var config = Configuration.Default.With(new EnableScripting());
             var context = BrowsingContext.New(config);
             var parser = new HtmlParser(context);
-            var doc = parser.Parse(source);
+            var doc = parser.ParseDocument(source);
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);
@@ -2928,7 +2928,7 @@
             var config = Configuration.Default.With(new EnableScripting());
             var context = BrowsingContext.New(config);
             var parser = new HtmlParser(context);
-            var doc = parser.Parse(source);
+            var doc = parser.ParseDocument(source);
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
             Assert.IsNotNull(docType0);

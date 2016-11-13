@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Common;
     using AngleSharp.Text;
     using System;
     using System.IO;
@@ -48,7 +47,7 @@
             {
                 var previous = PreviousSibling;
                 var start = this;
-                var sb = Pool.NewStringBuilder();
+                var sb = StringBuilderPool.Obtain();
 
                 while (previous is TextNode)
                 {

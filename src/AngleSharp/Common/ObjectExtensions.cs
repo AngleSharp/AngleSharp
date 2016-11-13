@@ -61,10 +61,10 @@
 
         /// <summary>
         /// Returns the concatenation of the provided enumerable with the
-        /// specified element.
+        /// specified element. The item is added to the beginning.
         /// </summary>
         /// <typeparam name="T">The type of the enumeration.</typeparam>
-        /// <param name="items">The items to lead.</param>
+        /// <param name="items">The items.</param>
         /// <param name="element">The item to concat.</param>
         /// <returns>The new enumerable.</returns>
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> items, T element)
@@ -74,6 +74,25 @@
             foreach (var item in items)
             {
                 yield return item;
+            }
+        }
+
+        /// <summary>
+        /// Returns the removal of the specified element from the provided
+        /// enumerable.
+        /// </summary>
+        /// <typeparam name="T">The type of the enumeration.</typeparam>
+        /// <param name="items">The items.</param>
+        /// <param name="element">The item to remove.</param>
+        /// <returns>The new enumerable.</returns>
+        public static IEnumerable<T> Except<T>(this IEnumerable<T> items, T element)
+        {
+            foreach (var item in items)
+            {
+                if (!Object.ReferenceEquals(item, element))
+                {
+                    yield return item;
+                }
             }
         }
 

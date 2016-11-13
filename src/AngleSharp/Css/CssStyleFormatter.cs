@@ -1,6 +1,6 @@
 ﻿namespace AngleSharp.Css
 {
-    using AngleSharp.Common;
+    using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -24,14 +24,14 @@
 
         String IStyleFormatter.Sheet(IEnumerable<IStyleFormattable> rules)
         {
-            var sb = Pool.NewStringBuilder();
+            var sb = StringBuilderPool.Obtain();
             WriteJoined(sb, rules, Environment.NewLine);
             return sb.ToPool();
         }
 
         String IStyleFormatter.Block(IEnumerable<IStyleFormattable> rules)
         {
-            var sb = Pool.NewStringBuilder().Append('{');
+            var sb = StringBuilderPool.Obtain().Append('{');
 
             using (var writer = new StringWriter(sb))
             {
@@ -58,7 +58,7 @@
 
         String IStyleFormatter.Medium(Boolean exclusive, Boolean inverse, String type, IEnumerable<IStyleFormattable> constraints)
         {
-            var sb = Pool.NewStringBuilder();
+            var sb = StringBuilderPool.Obtain();
             var first = true;
 
             if (exclusive)
@@ -99,7 +99,7 @@
 
         String IStyleFormatter.Style(String selector, IStyleFormattable rules)
         {
-            var sb = Pool.NewStringBuilder().Append(selector).Append(" { ");
+            var sb = StringBuilderPool.Obtain().Append(selector).Append(" { ");
             var length = sb.Length;
 
             using (var writer = new StringWriter(sb))

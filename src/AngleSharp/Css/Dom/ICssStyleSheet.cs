@@ -50,5 +50,17 @@
         /// </param>
         [DomName("deleteRule")]
         void RemoveAt(Int32 index);
+
+        /// <summary>
+        /// Sets the owner of the sheet.
+        /// </summary>
+        /// <param name="rule">The owning rule.</param>
+        void SetOwner(ICssRule rule);
+
+        /// <summary>
+        /// Sets the parent of the sheet.
+        /// </summary>
+        /// <param name="parent">The parent sheet.</param>
+        void SetParent(ICssStyleSheet parent);
     }
 }
