@@ -54,7 +54,7 @@
 
         public override Task ProcessAsync(ResourceRequest request)
         {
-            if (Engine != null && IsDifferentToCurrentDownloadUrl(request.Target))
+            if (IsAvailable && Engine != null && IsDifferentToCurrentDownloadUrl(request.Target))
             {
                 CancelDownload();
                 Download = DownloadWithCors(new CorsRequest(request)
