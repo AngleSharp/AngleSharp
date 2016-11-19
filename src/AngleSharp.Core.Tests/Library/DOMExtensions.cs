@@ -408,22 +408,6 @@
         }
 
         [Test]
-        public void ExtensionCssWithEmptyListAndEmptyDeclaration()
-        {
-            var document = ("").ToHtmlDocument();
-            var elements = document.QuerySelectorAll("li").Css(new { });
-            Assert.AreEqual(0, elements.Count());
-        }
-
-        [Test]
-        public void ExtensionCssWithEmptyListOnly()
-        {
-            var document = ("").ToHtmlDocument();
-            var elements = document.QuerySelectorAll("li").Css("color", "red");
-            Assert.AreEqual(0, elements.Count());
-        }
-
-        [Test]
         public void ExtensionTextWithEmptyList()
         {
             var document = ("").ToHtmlDocument();
