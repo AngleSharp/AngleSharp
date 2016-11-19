@@ -60,22 +60,22 @@
         public static IDocument ToHtmlDocument(this String sourceCode, IConfiguration configuration = null)
         {
             var context = BrowsingContext.New(configuration ?? Configuration.Default);
-            var parser = new HtmlParser(context);
-            return parser.ParseDocument(sourceCode);
+            var htmlParser = context.GetService<IHtmlParser>();
+            return htmlParser.ParseDocument(sourceCode);
         }
 
         public static IDocument ToXmlDocument(this String sourceCode, IConfiguration configuration = null)
         {
             var context = BrowsingContext.New(configuration);
-            var xmlParser = new XmlParser(context);
+            var xmlParser = context.GetService<IXmlParser>();
             return xmlParser.ParseDocument(sourceCode);
         }
 
         public static INodeList ToHtmlFragment(this String sourceCode, IElement contextElement = null, IConfiguration configuration = null)
         {
             var context = BrowsingContext.New(configuration);
-            var parser = new HtmlParser(context);
-            return parser.ParseFragment(sourceCode, contextElement);
+            var htmlParser = context.GetService<IHtmlParser>();
+            return htmlParser.ParseFragment(sourceCode, contextElement);
         }
 
         public static INodeList ToHtmlFragment(this String sourceCode, String contextElement, IConfiguration configuration = null)
@@ -88,8 +88,8 @@
         public static IDocument ToHtmlDocument(this Stream content, IConfiguration configuration = null)
         {
             var context = BrowsingContext.New(configuration);
-            var parser = new HtmlParser(context);
-            return parser.ParseDocument(content);
+            var htmlParser = context.GetService<IHtmlParser>();
+            return htmlParser.ParseDocument(content);
         }
     }
 }

@@ -227,6 +227,17 @@
             return new BrowsingContext(configuration.Services, Sandboxes.None);
         }
 
+        /// <summary>
+        /// Creates a new browsing context from the given service.
+        /// </summary>
+        /// <param name="instance">The service instance.</param>
+        /// <returns>The browsing context to use.</returns>
+        public static IBrowsingContext NewFrom<TService>(TService instance)
+        {
+            var configuration = Configuration.Default.WithOnly<TService>(instance);
+            return new BrowsingContext(configuration.Services, Sandboxes.None);
+        }
+
         void IDisposable.Dispose()
         {
             Active?.Dispose();

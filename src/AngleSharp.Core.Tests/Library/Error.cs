@@ -71,8 +71,7 @@
 </body>";
             var errors = new List<HtmlErrorEvent>();
             var options = new HtmlParserOptions { IsStrictMode = false };
-            var context = BrowsingContext.New(Configuration.Default);
-            var parser = new HtmlParser(options, context);
+            var parser = new HtmlParser(options);
             parser.Error += (s, ev) => errors.Add((HtmlErrorEvent)ev);
             parser.ParseDocument(html);
             Assert.AreEqual(1, errors.Count);

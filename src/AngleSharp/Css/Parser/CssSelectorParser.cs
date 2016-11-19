@@ -14,10 +14,23 @@
         private readonly IPseudoElementSelectorFactory _pseudoElement;
 
         /// <summary>
+        /// Creates a new selector parser.
+        /// </summary>
+        public CssSelectorParser()
+            : this(default(IBrowsingContext))
+        {
+        }
+
+        /// <summary>
         /// Creates a new selector parser using the different factories.
         /// </summary>
-        public CssSelectorParser(IBrowsingContext context)
+        internal CssSelectorParser(IBrowsingContext context)
         {
+            if (context == null)
+            {
+                context = BrowsingContext.NewFrom<ICssSelectorParser>(this);
+            }
+
             _attribute = context.GetFactory<IAttributeSelectorFactory>();
             _pseudoClass = context.GetFactory<IPseudoClassSelectorFactory>();
             _pseudoElement = context.GetFactory<IPseudoElementSelectorFactory>();

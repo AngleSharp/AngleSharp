@@ -2823,7 +2823,7 @@
             var source = "<!doctype html><noscript><!--<noscript></noscript>--></noscript>";
             var config = Configuration.Default.With(new EnableScripting());
             var context = BrowsingContext.New(config);
-            var parser = new HtmlParser(context); 
+            var parser = context.GetService<IHtmlParser>();
             var doc = parser.ParseDocument(source);
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
@@ -2870,7 +2870,7 @@
             var source = "<!doctype html><noscript><!--</noscript>X<noscript>--></noscript>";
             var config = Configuration.Default.With(new EnableScripting());
             var context = BrowsingContext.New(config);
-            var parser = new HtmlParser(context);
+            var parser = context.GetService<IHtmlParser>();
             var doc = parser.ParseDocument(source);
       
             var docType0 = doc.ChildNodes[0] as DocumentType;
@@ -2927,7 +2927,7 @@
             var source = "<!doctype html><noscript><iframe></noscript>X";
             var config = Configuration.Default.With(new EnableScripting());
             var context = BrowsingContext.New(config);
-            var parser = new HtmlParser(context);
+            var parser = context.GetService<IHtmlParser>();
             var doc = parser.ParseDocument(source);
       
             var docType0 = doc.ChildNodes[0] as DocumentType;

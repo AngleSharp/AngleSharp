@@ -33,6 +33,39 @@
         }
 
         /// <summary>
+        /// Returns a new configuration that includes only the given service,
+        /// excluding other instances or instance creators for the same service.
+        /// </summary>
+        /// <typeparam name="TService">The service to include exclusively.</typeparam>
+        /// <param name="configuration">The configuration to extend.</param>
+        /// <param name="service">The service to include.</param>
+        /// <returns>The new instance with only the given service.</returns>
+        public static IConfiguration WithOnly<TService>(this IConfiguration configuration, TService service)
+        {
+            if (service == null)
+                throw new ArgumentNullException(nameof(service));
+
+            return configuration.Without<TService>().With(service);
+        }
+
+        /// <summary>
+        /// Returns a new configuration that includes only the given service
+        /// creator, excluding other instances or instance creators for the same
+        /// service.
+        /// </summary>
+        /// <typeparam name="TService">The service to include exclusively.</typeparam>
+        /// <param name="configuration">The configuration to extend.</param>
+        /// <param name="creator">The service creator to include.</param>
+        /// <returns>The new instance with only the given service.</returns>
+        public static IConfiguration WithOnly<TService>(this IConfiguration configuration, Func<IBrowsingContext, TService> creator)
+        {
+            if (creator == null)
+                throw new ArgumentNullException(nameof(creator));
+
+            return configuration.Without<TService>().With(creator);
+        }
+
+        /// <summary>
         /// Returns a new configuration that excludes the given service.
         /// </summary>
         /// <param name="configuration">The configuration to extend.</param>
@@ -92,6 +125,9 @@
         /// <returns>The new instance with the services.</returns>
         public static IConfiguration With<TService>(this IConfiguration configuration, Func<IBrowsingContext, TService> creator)
         {
+            if (creator == null)
+                throw new ArgumentNullException(nameof(creator));
+
             return configuration.With((Object)creator);
         }
 
