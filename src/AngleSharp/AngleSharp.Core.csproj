@@ -60,7 +60,7 @@
     <Compile Include="Attributes\DomPutForwardsAttribute.cs" />
     <Compile Include="Browser\IParser.cs" />
     <Compile Include="Css\Dom\SelectorExtensions.cs" />
-    <Compile Include="Css\ICssStyleEngine.cs" />
+    <Compile Include="Css\ICssStylingService.cs" />
     <Compile Include="Css\Parser\ICssSelectorParser.cs" />
     <Compile Include="Css\Parser\CssStringSourceExtensions.cs" />
     <Compile Include="Dom\IPseudoElement.cs" />
