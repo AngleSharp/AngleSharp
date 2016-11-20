@@ -24,11 +24,16 @@
             return element.LocalName;
         }
 
-        public static IConfiguration WithScripts<T>(this IConfiguration config, T scripting)
-            where T : IScriptEngine
+        public static IConfiguration WithScripting(this IConfiguration config)
         {
-            var service = new MockScriptService<T>(scripting);
+            var service = new CallbackScriptEngine(options => { }, MimeTypeNames.DefaultJavaScript);
             return config.With(service);
+        }
+
+        public static IConfiguration WithScripts<T>(this IConfiguration config, T scripting)
+            where T : IScriptingService
+        {
+            return config.With(scripting);
         }
 
         public static IConfiguration WithPageRequester(this IConfiguration config, Boolean enableNavigation = true, Boolean enableResourceLoading = false)

@@ -645,7 +645,7 @@
             if ((Flags & TargetFlags) != NodeFlags.None)
             {
                 var context = Context;
-                var engine = context.GetCssStyleEngine();
+                var engine = context.GetCssStyling();
 
                 if (engine != null)
                 {

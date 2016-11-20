@@ -9,12 +9,14 @@
     /// <summary>
     /// Defines the API of an available engine for computing the stylesheet.
     /// </summary>
-    public interface IStyleEngine
+    public interface IStylingService
     {
         /// <summary>
-        /// The type of the styling set.
+        /// Checks if the given type is supported.
         /// </summary>
-        String Type { get; }
+        /// <param name="mimeType">The type of the style.</param>
+        /// <returns>True if the type is supported, otherwise false.</returns>
+        Boolean SupportsType(String mimeType);
 
         /// <summary>
         /// Parses a style sheet for the given response asynchronously.

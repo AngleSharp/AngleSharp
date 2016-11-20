@@ -370,25 +370,34 @@
         #region Parsing Styles
 
         /// <summary>
-        /// Tries to get the CSS style engine, if available.
+        /// Tries to get the CSS styling service, if available.
         /// </summary>
         /// <param name="context">The current context.</param>
-        /// <returns>The CSS style engine if any.</returns>
-        public static ICssStyleEngine GetCssStyleEngine(this IBrowsingContext context)
+        /// <returns>The CSS styling service if any.</returns>
+        public static ICssStyleEngine GetCssStyling(this IBrowsingContext context)
         {
-            return context.GetStyleEngine(MimeTypeNames.Css) as ICssStyleEngine;
+            return context.GetStyling(MimeTypeNames.Css) as ICssStyleEngine;
         }
 
         /// <summary>
-        /// Tries to get the style engine for the given mime-type.
+        /// Tries to get the styling service for the given mime-type.
         /// </summary>
         /// <param name="context">The current context.</param>
         /// <param name="type">The type of the style engine.</param>
-        /// <returns>The style engine if any.</returns>
-        public static IStyleEngine GetStyleEngine(this IBrowsingContext context, String type)
+        /// <returns>The styling service if any.</returns>
+        public static IStylingService GetStyling(this IBrowsingContext context, String type)
         {
-            var provider = context.GetProvider<IStylingProvider>();
-            return provider?.GetEngine(type);
+            var services = context.GetServices<IStylingService>();
+
+            foreach (var service in services)
+            {
+                if (service.SupportsType(type))
+                {
+                    return service;
+                }
+            }
+
+            return default(IStylingService);
         }
 
         #endregion
@@ -402,29 +411,38 @@
         /// <returns>True if a scripting provider is available, otherwise false.</returns>
         public static Boolean IsScripting(this IBrowsingContext context)
         {
-            return context?.GetProvider<IScriptingProvider>() != null;
+            return context.GetServices<IScriptingService>().Any();
         }
 
         /// <summary>
-        /// Tries to get the JavaScript engine, if available.
+        /// Tries to get the JavaScript service, if available.
         /// </summary>
         /// <param name="context">The current context.</param>
-        /// <returns>The JavaScript engine if any.</returns>
-        public static IScriptEngine GetJsScriptEngine(this IBrowsingContext context)
+        /// <returns>The JavaScript scripting service, if any.</returns>
+        public static IScriptingService GetJsScripting(this IBrowsingContext context)
         {
-            return context.GetScriptEngine(MimeTypeNames.DefaultJavaScript);
+            return context.GetScripting(MimeTypeNames.DefaultJavaScript);
         }
 
         /// <summary>
-        /// Tries to get the script engine for the given mime-type.
+        /// Tries to get the scripting service for the given mime-type.
         /// </summary>
         /// <param name="context">The current context.</param>
-        /// <param name="type"></param>
-        /// <returns>The script engine if any.</returns>
-        public static IScriptEngine GetScriptEngine(this IBrowsingContext context, String type)
+        /// <param name="type">The type of the scripting language.</param>
+        /// <returns>The scripting service, if any.</returns>
+        public static IScriptingService GetScripting(this IBrowsingContext context, String type)
         {
-            var provider = context.GetProvider<IScriptingProvider>();
-            return provider?.GetEngine(type);
+            var services = context.GetServices<IScriptingService>();
+
+            foreach (var service in services)
+            {
+                if (service.SupportsType(type))
+                {
+                    return service;
+                }
+            }
+
+            return default(IScriptingService);
         }
 
         #endregion

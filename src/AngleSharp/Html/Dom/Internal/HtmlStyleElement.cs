@@ -113,7 +113,7 @@
             {
                 var context = Context;
                 var type = Type ?? MimeTypeNames.Css;
-                var engine = context.GetStyleEngine(type);
+                var engine = context.GetStyling(type);
 
                 if (engine != null)
                 {
@@ -123,7 +123,7 @@
             }
         }
 
-        private async Task CreateSheetAsync(IStyleEngine engine, IBrowsingContext context)
+        private async Task CreateSheetAsync(IStylingService engine, IBrowsingContext context)
         {
             var cancel = CancellationToken.None;
             var response = VirtualResponse.Create(res => res.Content(TextContent).Address(default(Url)));

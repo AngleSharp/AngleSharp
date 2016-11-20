@@ -76,7 +76,7 @@
         /// </summary>
         /// <param name="context">The context to use.</param>
         internal HtmlParser(IBrowsingContext context)
-            : this(new HtmlParserOptions { IsScripting = context.IsScripting() }, context)
+            : this(new HtmlParserOptions { IsScripting = context?.IsScripting() ?? false }, context)
         {
         }
 

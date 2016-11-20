@@ -231,12 +231,9 @@
     <Compile Include="Xml\Parser\XmlParserOptions.cs" />
     <Compile Include="Browser\LocaleEncodingProvider.cs" />
     <Compile Include="Io\MemoryCookieProvider.cs" />
-    <Compile Include="Css\DefaultStylingProvider.cs" />
     <Compile Include="Browser\TaskEventLoop.cs" />
     <Compile Include="Browser\IEncodingProvider.cs" />
     <Compile Include="Dom\IEntityProvider.cs" />
-    <Compile Include="Scripting\IScriptingProvider.cs" />
-    <Compile Include="Css\IStylingProvider.cs" />
     <Compile Include="Text\TextRange.cs" />
     <Compile Include="Html\InputTypeNames.cs" />
     <Compile Include="Html\InputTypes\BaseInputType.cs" />
@@ -320,8 +317,8 @@
     <Compile Include="IConfiguration.cs" />
     <Compile Include="Io\ICookieProvider.cs" />
     <Compile Include="Media\IResourceService.cs" />
-    <Compile Include="Scripting\IScriptEngine.cs" />
-    <Compile Include="Css\IStyleEngine.cs" />
+    <Compile Include="Scripting\IScriptingService.cs" />
+    <Compile Include="Css\IStylingService.cs" />
     <Compile Include="Scripting\ScriptOptions.cs" />
     <Compile Include="Css\StyleOptions.cs" />
     <Compile Include="Css\Dom\ICssNamespaceRule.cs" />

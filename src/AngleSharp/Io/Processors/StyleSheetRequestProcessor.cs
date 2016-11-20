@@ -15,7 +15,7 @@
 
         private readonly IHtmlLinkElement _link;
         private readonly IBrowsingContext _context;
-        private IStyleEngine _engine;
+        private IStylingService _engine;
 
         #endregion
 
@@ -38,9 +38,9 @@
             private set;
         }
 
-        public IStyleEngine Engine
+        public IStylingService Engine
         {
-            get { return _engine ?? (_engine = _context.GetStyleEngine(LinkType)); }
+            get { return _engine ?? (_engine = _context.GetStyling(LinkType)); }
         }
 
         public String LinkType

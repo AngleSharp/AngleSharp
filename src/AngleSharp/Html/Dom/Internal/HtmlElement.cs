@@ -673,7 +673,7 @@
             {
                 var document = element.Owner;
                 var context = document.Context;
-                var engine = context.GetScriptEngine(MimeTypeNames.DefaultJavaScript);
+                var engine = context.GetScripting(MimeTypeNames.DefaultJavaScript);
 
                 if (engine != null)
                 {

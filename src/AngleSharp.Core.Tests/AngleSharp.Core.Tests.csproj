@@ -147,13 +147,11 @@
     <Compile Include="Mocks\DelayedStream.cs" />
     <Compile Include="Mocks\DelayRequester.cs" />
     <Compile Include="Mocks\DtdRequester.cs" />
-    <Compile Include="Mocks\EnableScripting.cs" />
     <Compile Include="Mocks\EventReceiver.cs" />
     <Compile Include="Mocks\FileEntry.cs" />
     <Compile Include="Mocks\MockEntityProvider.cs" />
     <Compile Include="Mocks\MockImageInfo.cs" />
     <Compile Include="Mocks\MockRequester.cs" />
-    <Compile Include="Mocks\MockScriptService.cs" />
     <Compile Include="Mocks\TestServerRequester.cs" />
     <Compile Include="Mocks\ResourceService.cs" />
     <Compile Include="Mocks\StandingEventLoop.cs" />

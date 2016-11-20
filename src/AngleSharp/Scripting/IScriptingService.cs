@@ -9,12 +9,14 @@
     /// Defines the API of an available engine for running scripts provided in
     /// the code.
     /// </summary>
-    public interface IScriptEngine
+    public interface IScriptingService
     {
         /// <summary>
-        /// The type of the scripting language.
+        /// Checks if the given type is supported.
         /// </summary>
-        String Type { get; }
+        /// <param name="mimeType">The type of the script.</param>
+        /// <returns>True if the type is supported, otherwise false.</returns>
+        Boolean SupportsType(String mimeType);
 
         /// <summary>
         /// Evaluates a script for the given response asynchronously.
