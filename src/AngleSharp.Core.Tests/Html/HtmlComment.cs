@@ -518,5 +518,18 @@
             var doc = (source).ToHtmlDocument();
             Assert.IsNotNull(doc);
         }
+
+        [Test]
+        public void CommentAtTheEndOfXHtmlDocumentShouldNotCauseException()
+        {
+            var source = @"<html xmlns=""http://www.w3.org/1999/xhtml"">
+<head></head>
+<body></body>
+</html>
+<!-- Comment -->";
+            var document = source.ToHtmlDocument();
+            Assert.IsNotNull(document);
+            Assert.IsNotNull(document.ToHtml());
+        }
     }
 }
