@@ -1,8 +1,10 @@
 ﻿namespace AngleSharp.Core.Tests.Xhtml
 {
+    using AngleSharp.Dom;
     using AngleSharp.Xhtml;
     using NUnit.Framework;
     using System.IO;
+    using System.Linq;
 
     [TestFixture]
     public class AutoSelectMarkupFormatter
@@ -105,6 +107,27 @@
 </html>
 <!-- Comment -->";
             var document = source.ToHtmlDocument();
+            document.ToHtml(swResult, new AutoSelectedMarkupFormatter(document.Doctype));
+            Assert.IsNotNull(swResult.ToString());
+        }
+
+        [Test]
+        public void TestRemovingComment()
+        {
+            var swResult = new StringWriter();
+            var source = @"<html xmlns=""http://www.w3.org/1999/xhtml"">
+<head></head>
+<body></body>
+</html>
+<!-- Comment -->";
+            var document = source.ToHtmlDocument();
+            var comments = document.Descendents<IComment>().ToList();
+
+            foreach (var comment in comments)
+            {
+                comment.Remove();
+            }
+
             document.ToHtml(swResult, new AutoSelectedMarkupFormatter(document.Doctype));
             Assert.IsNotNull(swResult.ToString());
         }
