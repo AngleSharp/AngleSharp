@@ -80,5 +80,33 @@
             Assert.AreEqual(2, c);
             Assert.AreEqual(-1, result.IndexOf("img>"));
         }
+
+        [Test]
+        public void TestSomeComment()
+        {
+            var swResult = new StringWriter();
+            var source = @"<html xmlns=""http://www.w3.org/1999/xhtml"">
+<head></head>
+<!-- Comment -->
+<body></body>
+</html>";
+            var document = source.ToHtmlDocument();
+            document.ToHtml(swResult, new AutoSelectedMarkupFormatter(document.Doctype));
+            Assert.IsNotNull(swResult.ToString());
+        }
+
+        [Test]
+        public void TestTrailingComment()
+        {
+            var swResult = new StringWriter();
+            var source = @"<html xmlns=""http://www.w3.org/1999/xhtml"">
+<head></head>
+<body></body>
+</html>
+<!-- Comment -->";
+            var document = source.ToHtmlDocument();
+            document.ToHtml(swResult, new AutoSelectedMarkupFormatter(document.Doctype));
+            Assert.IsNotNull(swResult.ToString());
+        }
     }
 }
