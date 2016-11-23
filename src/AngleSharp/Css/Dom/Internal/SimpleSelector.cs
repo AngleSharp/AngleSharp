@@ -14,7 +14,7 @@
         #region Fields
 
         private readonly Func<IElement, IElement, Boolean> _matches;
-        private readonly Priority _specifity;
+        private readonly Priority _specificity;
         private readonly String _code;
 
         #endregion
@@ -39,7 +39,7 @@
         public SimpleSelector(Func<IElement, IElement, Boolean> matches, Priority specifify, String code)
         {
             _matches = matches;
-            _specifity = specifify;
+            _specificity = specifify;
             _code = code;
         }
 
@@ -49,9 +49,9 @@
 
         public static readonly SimpleSelector All = new SimpleSelector();
 
-        public Priority Specifity
+        public Priority Specificity
         {
-            get { return _specifity; }
+            get { return _specificity; }
         }
 
         public String Text
