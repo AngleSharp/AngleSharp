@@ -10,9 +10,9 @@
     public interface ISelector : IStyleFormattable
     {
         /// <summary>
-        /// Gets the specifity of the given selector.
+        /// Gets the specificity of the given selector.
         /// </summary>
-        Priority Specifity { get; }
+        Priority Specificity { get; }
 
         /// <summary>
         /// Determines if the given object is matched by this selector.
