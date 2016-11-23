@@ -14,7 +14,7 @@
         #region Fields
 
         readonly Predicate<IElement> _matches;
-        readonly Priority _specifity;
+        readonly Priority _specificity;
         readonly String _code;
 
         #endregion
@@ -34,7 +34,7 @@
         public SimpleSelector(Predicate<IElement> matches, Priority specifify, String code)
         {
             _matches = matches;
-            _specifity = specifify;
+            _specificity = specifify;
             _code = code;
         }
 
@@ -44,9 +44,9 @@
 
         public static readonly SimpleSelector All = new SimpleSelector();
 
-        public Priority Specifity
+        public Priority Specificity
         {
-            get { return _specifity; }
+            get { return _specificity; }
         }
 
         public String Text
@@ -189,7 +189,7 @@
                 front = FormFront(prefix, match);
                 match = FormMatch(prefix, match);
             }
-            
+
             var code = FormCode(front, "|=", value.CssString());
             var matches = Select(value, _ => (_.GetAttribute(match) ?? String.Empty).HasHyphen(value));
             return new SimpleSelector(matches, Priority.OneClass, code);
