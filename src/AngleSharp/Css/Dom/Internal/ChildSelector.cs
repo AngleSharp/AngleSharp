@@ -32,7 +32,7 @@
 
         #region Properties
 
-        public Priority Specifity
+        public Priority Specificity
         {
             get { return Priority.OneClass; }
         }
