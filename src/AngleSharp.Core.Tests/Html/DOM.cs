@@ -19,7 +19,7 @@
             var context = BrowsingContext.New();
             var events = new EventReceiver<HtmlErrorEvent>(callback => context.GetService<IHtmlParser>().Error += callback);
             var source = @"<!DOCTYPE html><html><head></head><body><span>test</span></body></html>";
-            var document = await context.OpenAsync(res => res.Content(source));
+            await context.OpenAsync(res => res.Content(source));
             Assert.AreEqual(0, events.Received.Count);
         }
 

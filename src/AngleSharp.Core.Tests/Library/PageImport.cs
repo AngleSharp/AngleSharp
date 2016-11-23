@@ -44,7 +44,7 @@
 
             var document = await BrowsingContext.New(config).OpenAsync(m => m.Content("<!doctype html><link rel=import href='data:text/html,<div>foo</div>'>"));
             var link = document.QuerySelector<IHtmlLinkElement>("link");
-            var finished = await receivedRequest.Task;
+            await receivedRequest.Task;
 
             Assert.AreEqual("import", link.Relation);
             Assert.IsNotNull(link.Import);

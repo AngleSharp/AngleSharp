@@ -24,7 +24,7 @@
 
             using (var stream = source.ToStream())
             {
-                var document = factory.Parse(stream, Encoding.UTF8);
+                factory.Parse(stream, Encoding.UTF8);
             }
         }
     }

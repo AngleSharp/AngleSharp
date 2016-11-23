@@ -887,7 +887,7 @@
             var document = Html("");
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = testDiv.AppendChild(document.CreateElement("div"));
-            var a = div.AppendChild(document.CreateTextNode("a"));
+            div.AppendChild(document.CreateTextNode("a"));
 
             var observer = new MutationObserver((obs, mut) => { });
             observer.Connect(div, childList: true);
@@ -948,7 +948,7 @@
             var testDiv = document.Body.AppendChild(document.CreateElement("div"));
             var div = document.CreateElement("div");
             testDiv.AppendChild(div);
-            var a = div.AppendChild(document.CreateTextNode("a"));
+            div.AppendChild(document.CreateTextNode("a"));
             var b = div.AppendChild(document.CreateTextNode("b"));
 
             var observer = new MutationObserver((obs, mut) => { });
@@ -1034,7 +1034,7 @@
         {
             var document = Html("");
             var div = document.CreateElement("div");
-            var text = div.AppendChild(document.CreateTextNode("text"));
+            div.AppendChild(document.CreateTextNode("text"));
             var observer = new MutationObserver((obs, mut) => { });
             observer.Connect(div, attributes: true, subtree: true, characterData: true);
 

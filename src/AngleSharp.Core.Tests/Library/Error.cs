@@ -42,7 +42,7 @@
     </article>";
             var context = BrowsingContext.New();
             var parseErrors = new EventReceiver<HtmlErrorEvent>(handler => context.GetService<IHtmlParser>().Error += handler);
-            var document = await context.OpenAsync(m => m.Content(source));
+            await context.OpenAsync(m => m.Content(source));
 
             Assert.AreEqual(1, parseErrors.Received.Count);
             Assert.AreEqual((Int32)HtmlParseError.DoctypeMissing, parseErrors.Received[0].Code);

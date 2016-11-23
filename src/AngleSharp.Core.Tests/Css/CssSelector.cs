@@ -746,10 +746,7 @@ nav h1, nav h2, nav h3, nav h4, nav h5, nav h6";
             var document = source.ToHtmlDocument();
             var selector = "span:nth-child(10n+-1) ";
 
-            Assert.Catch<DomException>(() =>
-            {
-                var result = document.QuerySelectorAll(selector);
-            });
+            Assert.Catch<DomException>(() => document.QuerySelectorAll(selector));
         }
 
         [Test]

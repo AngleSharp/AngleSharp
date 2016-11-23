@@ -222,7 +222,7 @@
                 var events = new EventReceiver<HtmlParseEvent>(handler => context.GetService<IHtmlParser>().Parsing += handler);
                 var start = DateTime.Now;
                 events.OnReceived = rec => start = DateTime.Now;
-                var document = await context.OpenAsync(address);
+                await context.OpenAsync(address);
                 var end = DateTime.Now;
                 Assert.Greater(end - start, TimeSpan.FromSeconds(1));
             }
@@ -235,7 +235,7 @@
             var scripting = new CallbackScriptEngine(options => windowIsNotNull = options.Document.DefaultView.Proxy != null);
             var config = Configuration.Default.WithScripts(scripting).WithMockRequester();
             var source = "<title>Some title</title><body><script type='c-sharp' src='foo.cs'></script>";
-            var document = await BrowsingContext.New(config).OpenAsync(m => 
+            await BrowsingContext.New(config).OpenAsync(m => 
                 m.Content(source).Address("http://www.example.com"));
             Assert.IsTrue(windowIsNotNull);
         }
@@ -328,7 +328,7 @@
             var content = @"<body>
 <script src=""https://code.jquery.com/jquery-2.2.4.js"" integrity=""sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="" crossorigin=""anonymous""></script>
 </body>";
-            var document = await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
+            await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
 
             Assert.IsTrue(hasBeenChecked);
             Assert.IsFalse(hasBeenParsed);
@@ -352,7 +352,7 @@
             var content = @"<body>
 <script src=""https://code.jquery.com/jquery-2.2.4.js"" integrity=""sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="" crossorigin=""anonymous""></script>
 </body>";
-            var document = await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
+            await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
 
             Assert.IsTrue(hasBeenChecked);
             Assert.IsTrue(hasBeenParsed);
@@ -376,7 +376,7 @@
             var content = @"<body>
 <script src=""https://code.jquery.com/jquery-2.2.4.js"" integrity=""sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=""></script>
 </body>";
-            var document = await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
+            await BrowsingContext.New(config).OpenAsync(res => res.Content(content).Address("http://localhost"));
 
             Assert.IsFalse(hasBeenChecked);
             Assert.IsTrue(hasBeenParsed);
