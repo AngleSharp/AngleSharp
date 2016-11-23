@@ -229,7 +229,7 @@
                 var context = Context;
                 var targetBrowsingContext = context;
                 var target = Target;
-                var replace = owner.ReadyState != DocumentReadyState.Complete;
+                //var replace = owner.ReadyState != DocumentReadyState.Complete;
 
                 if (!String.IsNullOrEmpty(target))
                 {
@@ -240,7 +240,7 @@
                 if (createdBrowsingContext)
                 {
                     targetBrowsingContext = context.CreateChildFor(target);
-                    replace = true;
+                    //replace = true;
                 }
 
                 var scheme = action.Scheme;

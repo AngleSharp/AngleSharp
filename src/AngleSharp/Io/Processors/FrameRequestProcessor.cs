@@ -9,8 +9,7 @@
     sealed class FrameRequestProcessor : BaseRequestProcessor
     {
         #region Fields
-
-        private readonly IBrowsingContext _context;
+        
         private readonly HtmlFrameElementBase _element;
 
         #endregion
@@ -20,7 +19,6 @@
         public FrameRequestProcessor(IBrowsingContext context, HtmlFrameElementBase element)
             : base(context?.GetService<IResourceLoader>())
         {
-            _context = context;
             _element = element;
         }
 

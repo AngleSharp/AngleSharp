@@ -48,6 +48,14 @@
         #region Properties
 
         /// <summary>
+        /// Gets if the document was detected to be standalone.
+        /// </summary>
+        public Boolean IsStandalone
+        {
+            get { return _standalone; }
+        }
+
+        /// <summary>
         /// Gets the current node.
         /// </summary>
         public Node CurrentNode

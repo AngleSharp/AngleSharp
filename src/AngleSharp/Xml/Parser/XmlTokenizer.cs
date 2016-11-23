@@ -387,7 +387,8 @@
         /// </summary>
         private XmlToken MarkupDeclaration()
         {
-            var c = GetNext();
+            var pos = GetCurrentPosition();
+            Advance();
 
             if (ContinuesWithSensitive("--"))
             {
@@ -405,7 +406,7 @@
                 return CData();
             }
 
-            throw XmlParseError.UndefinedMarkupDeclaration.At(GetCurrentPosition());
+            throw XmlParseError.UndefinedMarkupDeclaration.At(pos);
         }
 
         #endregion

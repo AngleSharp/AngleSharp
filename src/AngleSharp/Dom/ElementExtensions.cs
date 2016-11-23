@@ -1521,9 +1521,8 @@
         /// <returns>The possibly valid URL to the right candidate.</returns>
         internal static Url GetImageCandidate(this HtmlImageElement img)
         {
-            var owner = img.Owner;
-            var srcset = new SourceSet(owner);
-            var context = owner.Context;
+            var srcset = new SourceSet();
+            var context = img.Context;
             var sources = img.GetSources();
 
             while (sources.Count > 0)

@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Html
 {
-    using AngleSharp.Dom;
     using AngleSharp.Text;
     using System;
     using System.Collections.Generic;
@@ -27,13 +26,6 @@
                 // See issue #256
                 return new Regex(regexString, RegexOptions.ECMAScript);
             }
-        }
-
-        private readonly IDocument _document;
-
-        public SourceSet(IDocument document)
-        {
-            _document = document;
         }
 
         private static IEnumerable<ImageCandidate> ParseSourceSet(String srcset)
