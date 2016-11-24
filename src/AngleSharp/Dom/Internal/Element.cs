@@ -1,6 +1,5 @@
 ﻿namespace AngleSharp.Dom
 {
-    using AngleSharp.Common;
     using AngleSharp.Css;
     using AngleSharp.Css.Dom;
     using AngleSharp.Css.Parser;
@@ -701,14 +700,12 @@
 
         protected void UpdateStyle(String value)
         {
-            var bindable = _style as IBindable;
-
             if (String.IsNullOrEmpty(value))
             {
                 _attributes.RemoveNamedItemOrDefault(AttributeNames.Style, suppressMutationObservers: true);
             }
 
-            bindable?.Update(value);
+            _style?.Update(value);
         }
 
         protected void UpdateAttribute(String name, String value)
