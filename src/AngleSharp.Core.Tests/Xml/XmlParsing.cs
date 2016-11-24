@@ -12,10 +12,7 @@
             var source = @" <title>My Title</title>
  <p>My paragraph</p>";
             var parser = new XmlParser();
-            Assert.Catch<XmlParseException>(() =>
-            {
-                var document = parser.ParseDocument(source);
-            });
+            Assert.Catch<XmlParseException>(() => parser.ParseDocument(source));
         }
 
         [Test]
@@ -36,10 +33,7 @@
         {
             var source = @" <title>&nbsp;</title>";
             var parser = new XmlParser();
-            Assert.Catch<XmlParseException>(() =>
-            {
-                var document = parser.ParseDocument(source);
-            });
+            Assert.Catch<XmlParseException>(() => parser.ParseDocument(source));
         }
 
         [Test]

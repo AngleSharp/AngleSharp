@@ -46,7 +46,7 @@
         public void EventsAwaitedTriggered()
         {
             var evName = "click";
-            var element = document.QuerySelector("img");
+            document.QuerySelector("img");
             var ev = document.CreateEvent("event");
             ev.Init(evName, true, true);
             var task = document.AwaitEventAsync(evName);

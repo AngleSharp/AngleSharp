@@ -380,7 +380,7 @@
             where T : IElement
         {
             var selector = CreateSelector(elements, selectorText);
-            return elements.Filter(selectorText, result);
+            return elements.Filter(selector, result);
         }
 
         private static ISelector CreateSelector<T>(IEnumerable<T> elements, String selector)

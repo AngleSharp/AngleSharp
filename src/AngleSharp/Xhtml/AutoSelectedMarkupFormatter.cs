@@ -35,7 +35,7 @@
 
         #region Properties
 
-        IMarkupFormatter ChildFormatter
+        private IMarkupFormatter ChildFormatter
         {
             get
             {
@@ -152,7 +152,7 @@
 
         #region Helpers
 
-        void Confirm(IDocumentType docType)
+        private void Confirm(IDocumentType docType)
         {
             if (_docType == null)
             {
